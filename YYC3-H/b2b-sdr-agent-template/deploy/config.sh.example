@@ -1,0 +1,94 @@
+#!/bin/bash
+# ═══════════════════════════════════════════════════════════
+#  B2B SDR Agent — Configuration
+#  Copy this file to config.sh and fill in your values
+#  Usage: cp config.sh.example config.sh && vim config.sh
+# ═══════════════════════════════════════════════════════════
+
+# ─── Server ───────────────────────────────────────────────
+SERVER_HOST=""              # Target server IP
+SERVER_USER="root"          # SSH user
+SERVER_PORT=22              # SSH port
+SSH_KEY=""                  # SSH key path (leave empty for default)
+SSH_PASS=""                 # SSH password (key preferred, password as fallback)
+
+# ─── OpenClaw Gateway ────────────────────────────────────
+GATEWAY_PORT=18789          # Gateway port
+GATEWAY_TOKEN=""            # Auth token (auto-generated if empty)
+GATEWAY_BIND="lan"          # "lan" = accessible from network (dashboard visible)
+                            # "loopback" = localhost only (more secure, no remote dashboard)
+
+# ─── AI Model (Primary) ──────────────────────────────────
+PRIMARY_PROVIDER="openai"
+PRIMARY_MODEL_ID="gpt-4o"
+PRIMARY_MODEL_NAME="GPT-4o"
+PRIMARY_BASE_URL="https://api.openai.com/v1"
+PRIMARY_API_KEY=""          # Your API key
+PRIMARY_API_TYPE="openai"
+PRIMARY_CONTEXT_WINDOW=128000
+PRIMARY_MAX_TOKENS=16384
+
+# ─── AI Model (Fallback) ─────────────────────────────────
+FALLBACK_PROVIDER="google"
+FALLBACK_MODEL_ID="gemini-2.5-flash"
+FALLBACK_MODEL_NAME="Gemini 2.5 Flash"
+FALLBACK_BASE_URL="https://generativelanguage.googleapis.com/v1beta"
+FALLBACK_API_KEY=""         # Google API key
+FALLBACK_API_TYPE="google-genai"
+
+# ─── Channel: WhatsApp ───────────────────────────────────
+WHATSAPP_ENABLED=true
+WHATSAPP_DM_POLICY="open"
+WHATSAPP_GROUP_POLICY="allowlist"
+WHATSAPP_DEBOUNCE_MS=5000
+
+# ─── Channel: Telegram ───────────────────────────────────
+TELEGRAM_ENABLED=false
+TELEGRAM_BOT_TOKEN=""       # Get from @BotFather
+TELEGRAM_DM_POLICY="open"
+TELEGRAM_GROUP_POLICY="open"
+
+# ─── Admin Whitelist (comma-separated) ───────────────────
+ADMIN_PHONES=""             # e.g. +1234567890,+0987654321
+
+# ─── Plugin: Memos Cloud ─────────────────────────────────
+MEMOS_ENABLED=false
+MEMOS_API_KEY=""
+
+# ─── Plugin: Memory LanceDB ──────────────────────────────
+LANCEDB_ENABLED=false
+OLLAMA_BASE_URL="http://localhost:11434/v1"
+EMBEDDING_MODEL="nomic-embed-text"
+
+# ─── Plugin: ChromaDB (L3 + L4 Memory) ──────────────────
+CHROMADB_ENABLED=false         # Enable per-turn conversation storage + CRM snapshots
+CHROMA_COLLECTION="conversation_history"
+
+# ─── Jina AI (Web Search + Content Extraction) ──────────
+JINA_API_KEY=""             # Get free key at https://jina.ai/
+
+# ─── Supermemory (Research Storage) ─────────────────────
+SUPERMEMORY_API_KEY=""      # Get at https://supermemory.ai/
+SUPERMEMORY_SPACE=""        # Your space name
+
+# ─── CRM: Google Sheets ──────────────────────────────────
+SHEETS_SPREADSHEET_ID=""
+SHEETS_NAME="leads"
+SHEETS_COLUMNS="name|company|whatsapp|country|language|email|status|source|icp_score|lead_tier|product_interest|quantity_signal|created_at|last_contact|next_action|notes|assigned_to"
+
+# ─── IP Isolation (WhatsApp) ─────────────────────────────
+# Each tenant gets a unique Cloudflare WARP exit IP via wireproxy (~4MB RAM)
+# Run: ./ip-isolate.sh <client-name> [socks-port]
+IP_ISOLATE=false            # Set true to auto-run ip-isolate after deploy
+IP_SOCKS_PORT=""            # SOCKS5 port (auto-assigned from 40001 if empty)
+
+# ─── AI Model (Compaction) — v2026.4.8+ ─────────────────
+# Offload session compaction to a cheaper model (saves cost on high-volume deployments)
+# Leave empty to use PRIMARY_MODEL for compaction (default behavior)
+COMPACTION_PROVIDER=""      # e.g. "claude/claude-haiku-4-5" or "google/gemini-2.5-flash"
+
+# ─── Deploy Options ──────────────────────────────────────
+INSTALL_OPENCLAW=true
+AUTO_START=true
+SKILL_PROFILE="b2b_trade"
+EXTRA_SKILLS=""

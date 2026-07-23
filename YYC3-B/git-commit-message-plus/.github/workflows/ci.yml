@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+# Ref:
+# https://code.visualstudio.com/api/working-with-extensions/continuous-integration#github-actions
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - run: npm ci
+      - run: npm run compile
+      - run: npm run lint
+      - run: xvfb-run -a npm test

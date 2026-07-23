@@ -1,0 +1,16 @@
+gem:
+  typed_overrides:
+    "psych": "false"
+  # Add your `gem` command parameters here:
+  #
+  # rdoc causes a failure 'webrick is not found.' when running `tapioca gem`.
+  exclude:
+  - rdoc
+  # doc: true
+  # workers: 5
+dsl:
+  # Add your `dsl` command parameters here:
+  #
+  # exclude:
+  # - SomeGeneratorName
+  # workers: 5

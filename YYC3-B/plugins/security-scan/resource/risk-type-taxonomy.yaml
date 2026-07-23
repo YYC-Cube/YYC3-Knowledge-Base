@@ -1,0 +1,176 @@
+# ============================================================================
+# 标准风险类型分类表 (Risk Type Taxonomy)
+# ============================================================================
+#
+# 引用方：references/contracts/output-schemas.md、agents/deep-scan.md（按需 Read）
+#
+# 此表并非穷举——agent 应基于实际代码发现风险，而非仅匹配此表中的类别。
+# 对于未列出的风险类型，agent 应自行创建 slug（小写、连字符分隔）并附上中文分类注释。
+# 不得因类型不在表中而忽略真实风险。
+
+risk_types:
+
+  injection:
+    label: "注入类"
+    types:
+      - slug: "sql-injection"
+        name: "SQL 注入"
+        scenarios: "字符串拼接 SQL、未参数化查询、MyBatis ${}"
+      - slug: "command-injection"
+        name: "命令注入"
+        scenarios: "os.system、exec、Runtime.exec、ProcessBuilder"
+      - slug: "xss"
+        name: "XSS"
+        scenarios: "未转义的用户输入渲染到 HTML、innerHTML、v-html"
+      - slug: "xxe"
+        name: "XXE"
+        scenarios: "XML 解析未禁用外部实体"
+      - slug: "ssti"
+        name: "模板注入"
+        scenarios: "render_template_string、Velocity.evaluate、Freemarker"
+      - slug: "csv-injection"
+        name: "CSV 注入"
+        scenarios: "导出 CSV 时未中和 =、+、-、@ 等公式前缀"
+      - slug: "expression-injection"
+        name: "表达式注入"
+        scenarios: "SpEL、OGNL、EL 注入"
+      - slug: "jndi-injection"
+        name: "JNDI 注入"
+        scenarios: "InitialContext.lookup、Log4Shell"
+      - slug: "code-execution"
+        name: "代码执行"
+        scenarios: "eval()、exec()、new Function()"
+
+  frontend_security:
+    label: "前端安全类"
+    types:
+      - slug: "open-redirect"
+        name: "开放重定向"
+        scenarios: "未验证的 redirect URL、用户可控的 returnUrl/next 参数"
+      - slug: "clickjacking"
+        name: "点击劫持"
+        scenarios: "缺少 X-Frame-Options、缺少 CSP frame-ancestors"
+      - slug: "missing-security-headers"
+        name: "安全头缺失"
+        scenarios: "缺少 CSP、X-Content-Type-Options、Strict-Transport-Security"
+
+  auth_and_access:
+    label: "认证与授权类"
+    types:
+      - slug: "access-control"
+        name: "访问控制缺失"
+        scenarios: "@PermitAll、缺少鉴权检查、CRUD 权限不一致"
+      - slug: "idor"
+        name: "越权访问"
+        scenarios: "findById 无用户归属校验、水平/垂直越权"
+      - slug: "auth-bypass"
+        name: "认证绕过"
+        scenarios: "可信来源伪造、认证逻辑短路、TOCTOU"
+      - slug: "csrf"
+        name: "CSRF"
+        scenarios: "缺少 CSRF Token、状态变更接口无防护"
+
+  data_and_config:
+    label: "数据与配置类"
+    types:
+      - slug: "information-leak"
+        name: "敏感信息泄露"
+        scenarios: "日志或错误信息中包含敏感数据、堆栈跟踪泄露"
+      - slug: "hardcoded-secret"
+        name: "硬编码凭证"
+        scenarios: "源码中的 Token、密码、密钥、AK/SK"
+      - slug: "weak-crypto"
+        name: "弱加密算法"
+        scenarios: "使用 MD5、DES、SHA1、ECB 模式、硬编码密钥"
+      - slug: "endpoint-exposure"
+        name: "敏感端点暴露"
+        scenarios: "生产环境暴露 Actuator/Swagger/GraphQL Playground"
+      - slug: "insecure-config"
+        name: "不安全配置"
+        scenarios: "DEBUG=True、CORS *、autoindex on"
+
+  server_request_and_data:
+    label: "服务端请求与数据处理类"
+    types:
+      - slug: "ssrf"
+        name: "SSRF"
+        scenarios: "未验证的外部 URL 请求、IMDS 访问"
+      - slug: "path-traversal"
+        name: "路径遍历"
+        scenarios: "未验证的文件路径拼接、文件上传路径可控"
+      - slug: "insecure-deserialization"
+        name: "不安全反序列化"
+        scenarios: "ObjectInputStream、Fastjson、pickle、yaml.load"
+      - slug: "file-upload"
+        name: "不安全文件上传"
+        scenarios: "文件类型/大小未校验、上传路径可控"
+      - slug: "denial-of-service"
+        name: "拒绝服务"
+        scenarios: "正则回溯、图片放大、资源消耗型请求"
+
+  dependency:
+    label: "依赖与供应链类"
+    types:
+      - slug: "vulnerable-dependency"
+        name: "高危组件漏洞"
+        scenarios: "第三方组件中存在已知 CVE"
+
+  business_logic:
+    label: "业务逻辑类"
+    types:
+      - slug: "race-condition"
+        name: "竞态条件"
+        scenarios: "双重支付、超卖、TOCTOU"
+      - slug: "business-logic"
+        name: "业务逻辑缺陷"
+        scenarios: "流程绕过、非法状态转换、负数金额"
+      - slug: "payment-logic"
+        name: "支付逻辑缺陷"
+        scenarios: "价格篡改、优惠券叠加、退款滥用"
+      - slug: "potential-0day"
+        name: "潜在 0day"
+        scenarios: "自定义序列化、自定义加密、复杂状态机"
+      - slug: "missing-idempotency"
+        name: "幂等性缺失"
+        scenarios: "关键操作（支付/转账/发放）无幂等控制，重复请求导致重复执行"
+      - slug: "data-isolation-failure"
+        name: "数据隔离失效"
+        scenarios: "多租户查询未携带租户/用户条件，可越权访问其他租户数据"
+      - slug: "missing-audit-log"
+        name: "审计日志缺失"
+        scenarios: "敏感操作（删除/权限变更/数据导出）无审计记录"
+      - slug: "callback-trust"
+        name: "回调信任缺失"
+        scenarios: "支付回调/WebHook 缺少签名验证，可伪造通知"
+      - slug: "transaction-integrity"
+        name: "事务完整性缺陷"
+        scenarios: "多步写操作未在事务内，部分失败无补偿导致数据不一致"
+      - slug: "input-boundary"
+        name: "输入边界缺失"
+        scenarios: "数值参数无范围校验（0/负数/极大值），字符串参数无长度限制"
+      - slug: "rate-limit-missing"
+        name: "频率限制缺失"
+        scenarios: "批量/导出/注册/验证码接口无速率限制，可被滥用"
+      - slug: "state-machine-violation"
+        name: "状态机违规"
+        scenarios: "已完成订单可回退到待支付，状态更新无前置状态校验"
+
+  cloud_security:
+    label: "云安全类"
+    types:
+      - slug: "cloud-imds"
+        name: "IMDS 无限制访问"
+        scenarios: "SSRF 可达 169.254.169.254"
+      - slug: "iam-overprivilege"
+        name: "IAM 过度授权"
+        scenarios: "Action: \"*\"、Resource: \"*\""
+      - slug: "public-bucket"
+        name: "公开存储桶"
+        scenarios: "存储 ACL/Policy 允许公开访问"
+
+# ============================================================================
+# 扩展规则
+# ============================================================================
+# 发现新类型时，agent 自行创建 {中文简称} + {slug} 并写入对应
+# finding-{slug}.json。不得因类型未预定义而丢弃真实风险。
+# 同一 finding-{slug}.json 中的所有条目 RiskType 必须一致。

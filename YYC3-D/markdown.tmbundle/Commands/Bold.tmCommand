@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18
+$: &lt;&lt; ENV['TM_SUPPORT_PATH'] + '/lib'
+require 'escape'
+def esc(str)
+  e_sn(str).gsub(/\}/, '\\}') # escaping inside a placeholder
+end
+
+s = STDIN.read
+if s.empty? then
+  print "**$1**"
+elsif s =~ /^\*{2}(.*)\*{2}$/ then
+  print "${1:#{esc $1}}"
+elsif ENV.has_key? 'TM_SELECTED_TEXT'
+  print "${1:**#{esc s}**}"
+else
+  print "**#{e_sn s}**"
+end</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>@b</string>
+	<key>name</key>
+	<string>Bold</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>snippet</string>
+	<key>outputLocation</key>
+	<string>replaceInput</string>
+	<key>scope</key>
+	<string>text.html.markdown -meta.disable-markdown</string>
+	<key>semanticClass</key>
+	<string>style.strong.markdown</string>
+	<key>uuid</key>
+	<string>31614C02-1FED-4644-9518-2C2DEF0D7A2C</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Anthropic palette mapped to shadcn semantic tokens */
+    --background: 48 33% 97%; /* cream #FAF9F5 */
+    --foreground: 60 2% 8%; /* ink #141413 */
+    --card: 0 0% 100%;
+    --card-foreground: 60 2% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 60 2% 8%;
+    --primary: 14 62% 60%; /* clay #D97757 */
+    --primary-foreground: 48 33% 97%;
+    --secondary: 48 25% 92%; /* sand #F0EEE6 */
+    --secondary-foreground: 60 2% 8%;
+    --muted: 48 25% 92%;
+    --muted-foreground: 49 7% 46%; /* darkened for projector legibility */
+    --accent: 92 20% 46%; /* sage #788C5D */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 14 62% 60%;
+    --border: 48 17% 85%; /* line #DEDCD1 */
+    --input: 48 17% 85%;
+    --ring: 14 62% 60%;
+    --radius: 0.625rem;
+
+    --teal: 158 22% 49%;
+    --violet: 245 32% 62%;
+    --lavender: 244 19% 83%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  /* paper grain - subtle noise texture over cream */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  ::selection {
+    @apply bg-primary/20;
+  }
+}
+
+@layer utilities {
+  .ledger-line {
+    background-image: linear-gradient(to right, hsl(var(--border)) 50%, transparent 50%);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+    background-position: bottom;
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 hsl(var(--accent) / 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 6px hsl(var(--accent) / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 hsl(var(--accent) / 0);
+    }
+  }
+  .animate-pulse-ring {
+    animation: pulse-ring 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  .animate-shimmer {
+    background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+}

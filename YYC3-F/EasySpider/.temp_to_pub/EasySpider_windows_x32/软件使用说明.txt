@@ -1,0 +1,15 @@
+欢迎将软件宣传给更多需要的朋友和Star我们的Github仓库！
+
+官方网址: https://www.easyspider.cn
+
+支持Windows 7及以上版本，包括32位系统和64位系统。注意此版本的Chrome浏览器永远都是109，不会随着Chrome更新而更新（为了兼容Win 7系统），因此如果想用最新版Chrome浏览器采集数据，请在Windows 10 x64及以上系统上运行x64版本的EasySpider。无任何版本支持Windows Server 2012及以下版本系统，这些系统下需要自行编译运行。
+
+软件开源代码Github库地址：https://github.com/NaiboWang/EasySpider
+
+官方文档地址：https://github.com/NaiboWang/EasySpider/wiki
+
+视频教程：https://www.bilibili.com/video/BV1th411A7ey/
+
+这个软件绝对不是特洛伊木马/病毒！如果被像Windows Defender这样的杀毒软件误认为是病毒，请进行恢复，或者打开“EasySpider.bat”来运行我们的软件。
+
+可以从其他机器导入任务，只需要把其他机器的tasks文件夹里的.json文件放入此目录的tasks文件夹里即可。同理执行号文件可以通过复制execution_instances文件夹中的.json文件来导入。注意，两个文件夹里的.json文件只支持命名为大于0的数字。

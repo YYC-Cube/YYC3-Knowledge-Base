@@ -1,0 +1,57 @@
+{
+  "name": "emmet",
+  "version": "2.4.11",
+  "description": "Emmet — the essential toolkit for web-developers",
+  "main": "./dist/emmet.cjs",
+  "module": "./dist/emmet.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    "import": "./dist/emmet.js",
+    "require": "./dist/emmet.cjs"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "build:packages": "npm run build --if-present --workspaces",
+    "build:full": "npm run build:packages && npm run build",
+    "watch": "rollup -wc",
+    "test": "tsx --test ./test/*.ts",
+    "test:all": "npm run test --workspaces && npm run test",
+    "clean": "rimraf ./dist",
+    "prepublishOnly": "npm run clean && npm run build:full"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmetio/emmet.git"
+  },
+  "keywords": [
+    "emmet",
+    "html",
+    "css",
+    "snippets",
+    "coding"
+  ],
+  "author": "Sergey Chikuyonok <serge.che@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emmetio/emmet/issues"
+  },
+  "homepage": "https://github.com/emmetio/emmet#readme",
+  "devDependencies": {
+    "@emmetio/abbreviation": "workspace:",
+    "@emmetio/css-abbreviation": "workspace:",
+    "@rollup/plugin-node-resolve": "16.0.3",
+    "@rollup/plugin-typescript": "12.2.0",
+    "@types/node": "22.10.1",
+    "lerna": "9.0.0",
+    "rimraf": "6.0.1",
+    "rollup": "4.52.5",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  },
+  "workspaces": [
+    "./packages/scanner",
+    "./packages/abbreviation",
+    "./packages/css-abbreviation"
+  ]
+}

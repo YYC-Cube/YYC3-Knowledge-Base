@@ -1,0 +1,202 @@
+#!/bin/bash
+# Copyright 2019-2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#  * Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#  * Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#  * Neither the name of NVIDIA CORPORATION nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+# OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+REPO_VERSION=${NVIDIA_TRITON_SERVER_VERSION}
+if [ "$#" -ge 1 ]; then
+    REPO_VERSION=$1
+fi
+if [ -z "$REPO_VERSION" ]; then
+    echo -e "Repository version must be specified"
+    echo -e "\n***\n*** Test Failed\n***"
+    exit 1
+fi
+if [ ! -z "$TEST_REPO_ARCH" ]; then
+    REPO_VERSION=${REPO_VERSION}_${TEST_REPO_ARCH}
+fi
+
+rm -f *.log  *.csv *.tjson *.json
+
+PROTOCOLS="grpc http triton_c_api"
+
+TRT_MODEL_NAME="resnet50_fp32_plan"
+PYT_MODEL_NAME="resnet50_fp32_libtorch"
+ONNX_MODEL_NAME="resnet50_fp32_onnx"
+
+# The base model name should be the prefix to the
+# respective optimized model name.
+ONNXTRT_MODEL_NAME="resnet50_fp32_onnx_trt"
+
+ARCH=${ARCH:="x86_64"}
+REPODIR=${REPODIR:="/data/inferenceserver/${REPO_VERSION}"}
+TRITON_DIR=${TRITON_DIR:="/opt/tritonserver"}
+TRTEXEC=/usr/src/tensorrt/bin/trtexec
+CACHE_PATH=`pwd`/trt_cache
+
+
+#
+# Test minimum latency
+#
+STATIC_BATCH=1
+INSTANCE_CNT=1
+CONCURRENCY=1
+
+MODEL_NAMES="${TRT_MODEL_NAME} ${ONNX_MODEL_NAME} ${PYT_MODEL_NAME}"
+
+OPTIMIZED_MODEL_NAMES="${ONNXTRT_MODEL_NAME}"
+
+
+# Create optimized models
+rm -fr optimized_model_store && mkdir optimized_model_store
+for MODEL_NAME in $OPTIMIZED_MODEL_NAMES; do
+    BASE_MODEL=$(echo ${MODEL_NAME} | cut -d '_' -f 1,2,3)
+    cp -r $REPODIR/perf_model_store/${BASE_MODEL} optimized_model_store/${MODEL_NAME}
+    CONFIG_PATH="optimized_model_store/${MODEL_NAME}/config.pbtxt"
+    sed -i "s/^name: \"${BASE_MODEL}\"/name: \"${MODEL_NAME}\"/" ${CONFIG_PATH}
+    echo "optimization { execution_accelerators {" >> ${CONFIG_PATH}
+    echo "gpu_execution_accelerator : [ {" >> ${CONFIG_PATH}
+    echo "name : \"tensorrt\" " >> ${CONFIG_PATH}
+
+    if [ "${MODEL_NAME}" = "${ONNXTRT_MODEL_NAME}" ] ; then
+        echo "parameters { key: \"precision_mode\" value: \"FP16\" }" >> ${CONFIG_PATH}
+        echo "parameters { key: \"max_workspace_size_bytes\" value: \"1073741824\" }" >> ${CONFIG_PATH}
+        echo "parameters { key: \"trt_engine_cache_enable\" value: \"1\" }" >> ${CONFIG_PATH}
+        echo "parameters { key: \"trt_engine_cache_path\" value: \"${CACHE_PATH}\" } " >> ${CONFIG_PATH}
+    fi
+
+    echo "} ]" >> ${CONFIG_PATH}
+    echo "}}" >> ${CONFIG_PATH}
+done
+
+# Create the TensorRT plan from ONNX model
+rm -fr tensorrt_models && mkdir -p tensorrt_models/$TRT_MODEL_NAME/1 && \
+cp $REPODIR/qa_dynamic_batch_image_model_repository/resnet50_onnx/1/model.onnx tensorrt_models/$TRT_MODEL_NAME/ && \
+cp $REPODIR/qa_dynamic_batch_image_model_repository/resnet50_onnx/labels.txt tensorrt_models/$TRT_MODEL_NAME/ && \
+cp $REPODIR/qa_dynamic_batch_image_model_repository/resnet50_onnx/config.pbtxt tensorrt_models/$TRT_MODEL_NAME/
+
+# Build TRT engine
+$TRTEXEC --onnx=tensorrt_models/$TRT_MODEL_NAME/model.onnx --saveEngine=tensorrt_models/$TRT_MODEL_NAME/1/model.plan \
+         --minShapes=input:1x3x224x224 --optShapes=input:${STATIC_BATCH}x3x224x224 \
+         --maxShapes=input:${STATIC_BATCH}x3x224x224
+
+rm tensorrt_models/$TRT_MODEL_NAME/model.onnx
+sed -i "s/^name: .*/name: \"$TRT_MODEL_NAME\"/g" tensorrt_models/$TRT_MODEL_NAME/config.pbtxt && \
+sed -i 's/^platform: .*/platform: "tensorrt_plan"/g' tensorrt_models/$TRT_MODEL_NAME/config.pbtxt
+
+# Tests with each "non-optimized" model
+for MODEL_NAME in $MODEL_NAMES; do
+    for PROTOCOL in $PROTOCOLS; do
+        REPO=`pwd`/tensorrt_models && [ "$MODEL_NAME" != "$TRT_MODEL_NAME" ] && \
+            REPO=$REPODIR/perf_model_store
+        FRAMEWORK=$(echo ${MODEL_NAME} | cut -d '_' -f 3)
+        MODEL_NAME=${MODEL_NAME} \
+                MODEL_FRAMEWORK=${FRAMEWORK} \
+                MODEL_PATH="$REPO/${MODEL_NAME}" \
+                STATIC_BATCH=${STATIC_BATCH} \
+                PERF_CLIENT_PROTOCOL=${PROTOCOL} \
+                INSTANCE_CNT=${INSTANCE_CNT} \
+                CONCURRENCY=${CONCURRENCY} \
+                ARCH=${ARCH} \
+                bash -x run_test.sh
+    done
+done
+
+# Tests with optimization enabled models
+for MODEL_NAME in $OPTIMIZED_MODEL_NAMES; do
+    for PROTOCOL in $PROTOCOLS; do
+        REPO=`pwd`/optimized_model_store
+        FRAMEWORK=$(echo ${MODEL_NAME} | cut -d '_' -f 3,4)
+        MODEL_NAME=${MODEL_NAME} \
+                MODEL_FRAMEWORK=${FRAMEWORK} \
+                MODEL_PATH="$REPO/${MODEL_NAME}" \
+                STATIC_BATCH=${STATIC_BATCH} \
+                PERF_CLIENT_PROTOCOL=${PROTOCOL} \
+                INSTANCE_CNT=${INSTANCE_CNT} \
+                CONCURRENCY=${CONCURRENCY} \
+                ARCH=${ARCH} \
+                bash -x run_test.sh
+    done
+done
+
+#
+# Test large static batch = 128 w/ 2 instances (Use batch size 64 on Jetson Xavier)
+#
+if [ "$ARCH" == "aarch64" ]; then
+    STATIC_BATCH=64
+else
+    STATIC_BATCH=128
+fi
+
+INSTANCE_CNT=2
+CONCURRENCY=4
+
+# Create the TensorRT plan from ONNX model
+rm -fr tensorrt_models && mkdir -p tensorrt_models/$TRT_MODEL_NAME/1 && \
+cp $REPODIR/qa_dynamic_batch_image_model_repository/resnet50_onnx/1/model.onnx tensorrt_models/$TRT_MODEL_NAME/ && \
+cp $REPODIR/qa_dynamic_batch_image_model_repository/resnet50_onnx/labels.txt tensorrt_models/$TRT_MODEL_NAME/ && \
+cp $REPODIR/qa_dynamic_batch_image_model_repository/resnet50_onnx/config.pbtxt tensorrt_models/$TRT_MODEL_NAME/
+
+# Build TRT engine
+$TRTEXEC --onnx=tensorrt_models/$TRT_MODEL_NAME/model.onnx --saveEngine=tensorrt_models/$TRT_MODEL_NAME/1/model.plan \
+         --minShapes=input:1x3x224x224 --optShapes=input:${STATIC_BATCH}x3x224x224 \
+         --maxShapes=input:${STATIC_BATCH}x3x224x224
+
+rm tensorrt_models/$TRT_MODEL_NAME/model.onnx
+sed -i "s/^name: .*/name: \"$TRT_MODEL_NAME\"/g" tensorrt_models/$TRT_MODEL_NAME/config.pbtxt && \
+sed -i 's/^platform: .*/platform: "tensorrt_plan"/g' tensorrt_models/$TRT_MODEL_NAME/config.pbtxt
+
+for MODEL_NAME in $MODEL_NAMES; do
+    for PROTOCOL in $PROTOCOLS; do
+        REPO=`pwd`/tensorrt_models && [ "$MODEL_NAME" != "$TRT_MODEL_NAME" ] && \
+            REPO=$REPODIR/perf_model_store
+        FRAMEWORK=$(echo ${MODEL_NAME} | cut -d '_' -f 3)
+        MODEL_NAME=${MODEL_NAME} \
+                MODEL_FRAMEWORK=${FRAMEWORK} \
+                MODEL_PATH="$REPO/${MODEL_NAME}" \
+                STATIC_BATCH=${STATIC_BATCH} \
+                PERF_CLIENT_PROTOCOL=${PROTOCOL} \
+                INSTANCE_CNT=${INSTANCE_CNT} \
+                CONCURRENCY=${CONCURRENCY} \
+                ARCH=${ARCH} \
+                bash -x run_test.sh
+    done
+done
+
+for MODEL_NAME in $OPTIMIZED_MODEL_NAMES; do
+    for PROTOCOL in $PROTOCOLS; do
+        REPO=`pwd`/optimized_model_store
+        FRAMEWORK=$(echo ${MODEL_NAME} | cut -d '_' -f 3,4)
+        MODEL_NAME=${MODEL_NAME} \
+                MODEL_FRAMEWORK=${FRAMEWORK} \
+                MODEL_PATH="$REPO/${MODEL_NAME}" \
+                STATIC_BATCH=${STATIC_BATCH} \
+                PERF_CLIENT_PROTOCOL=${PROTOCOL} \
+                INSTANCE_CNT=${INSTANCE_CNT} \
+                CONCURRENCY=${CONCURRENCY} \
+                ARCH=${ARCH} \
+                bash -x run_test.sh
+    done
+done

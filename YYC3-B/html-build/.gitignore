@@ -1,0 +1,13 @@
+.cache/
+.temp/
+html/
+output/
+mdn/.id-list
+mdn/developer.mozilla.org/
+node_modules/
+highlighter/
+
+
+# Added by cargo
+
+/target

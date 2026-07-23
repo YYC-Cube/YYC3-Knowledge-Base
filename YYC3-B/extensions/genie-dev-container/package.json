@@ -1,0 +1,283 @@
+{
+  "name": "codebuddy-dev-containers",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "version": "0.1.0",
+  "publisher": "CodeBuddy",
+  "repository": {
+    "type": "git",
+    "url": "https://cnb.woa.com/genie/genie-dev-container"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "license": "UNLICENSED",
+  "activationEvents": [
+    "onStartupFinished",
+    "onResolveRemoteAuthority:dev-container"
+  ],
+  "main": "./dist/extension.js",
+  "l10n": "./l10n",
+  "enabledApiProposals": [
+    "contribViewsRemote",
+    "resolvers",
+    "tunnels"
+  ],
+  "keywords": [
+    "remote development",
+    "remote",
+    "container"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "viewsContainers": {
+      "panel": [
+        {
+          "id": "codebuddyRemoteContainer",
+          "title": "CodeBuddy Remote",
+          "icon": "$(remote)"
+        }
+      ]
+    },
+    "views": {
+      "remote": [
+        {
+          "id": "codebuddyDevContainers",
+          "name": "Dev Containers (CodeBuddy)",
+          "group": "targets@1",
+          "remoteName": "dev-container"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "codebuddyDevContainers",
+        "contents": "No dev containers found.\n[Open Folder in Container](command:codebuddy-dev-containers.openFolderInContainer)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "codebuddy-dev-containers.explorer.refresh",
+        "title": "%command.explorer.refresh%",
+        "category": "Dev Containers",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "codebuddy-dev-containers.openFolderInContainer",
+        "title": "%command.openFolderInContainer%",
+        "category": "Dev Containers",
+        "when": "!remoteName || remoteName =~ /^codebuddy-remote-ssh$/ || remoteName =~ /^wsl$/"
+      },
+      {
+        "command": "codebuddy-dev-containers.explorer.deleteContainer",
+        "title": "%command.explorer.deleteContainer%",
+        "category": "Dev Containers",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "codebuddy-dev-containers.openFromHistory",
+        "title": "%command.openFromHistory%",
+        "category": "Dev Containers",
+        "icon": "$(arrow-right)"
+      },
+      {
+        "command": "codebuddy-dev-containers.reopenInContainer",
+        "title": "%command.reopenInContainer%",
+        "category": "Dev Containers",
+        "when": "!remoteName || remoteName =~ /^codebuddy-remote-ssh$/ || remoteName =~ /^dev-container$/ || remoteName =~ /^wsl$/"
+      },
+      {
+        "command": "codebuddy-dev-containers.rebuildAndReopenInContainer",
+        "title": "%command.rebuildAndReopenInContainer%",
+        "category": "Dev Containers",
+        "when": "!remoteName || remoteName =~ /^codebuddy-remote-ssh$/ || remoteName =~ /^dev-container$/ || remoteName =~ /^wsl$/"
+      },
+      {
+        "command": "codebuddy-dev-containers.attachToRunningContainer",
+        "title": "%command.attachToRunningContainer%",
+        "category": "Dev Containers"
+      },
+      {
+        "command": "codebuddy-dev-containers.attachToRunningContainerCurrentWindow",
+        "title": "%command.attachToRunningContainerCurrentWindow%",
+        "category": "Dev Containers",
+        "icon": "$(arrow-right)"
+      },
+      {
+        "command": "codebuddy-dev-containers.attachToRunningContainerNewWindow",
+        "title": "%command.attachToRunningContainerNewWindow%",
+        "category": "Dev Containers",
+        "icon": "$(empty-window)"
+      },
+      {
+        "command": "codebuddy-dev-containers.reopenFolderLocally",
+        "title": "%command.reopenFolderLocally%",
+        "category": "Dev Containers",
+        "when": "remoteName =~ /^dev-container$/"
+      },
+      {
+        "command": "codebuddy-dev-containers.showLog",
+        "title": "%command.showLog%",
+        "category": "Dev Containers"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "codebuddy-dev-containers.explorer.refresh",
+          "when": "view == codebuddyDevContainers",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "codebuddy-dev-containers.explorer.deleteContainer",
+          "when": "view == codebuddyDevContainers && viewItem == codebuddy-dev-containers.container",
+          "group": "inline@1"
+        },
+        {
+          "command": "codebuddy-dev-containers.openFromHistory",
+          "when": "view == codebuddyDevContainers && viewItem == codebuddy-dev-containers.container",
+          "group": "inline@2"
+        },
+        {
+          "command": "codebuddy-dev-containers.attachToRunningContainerCurrentWindow",
+          "when": "view == codebuddyDevContainers && viewItem == codebuddy-dev-containers.running-container",
+          "group": "inline@1"
+        },
+        {
+          "command": "codebuddy-dev-containers.attachToRunningContainerNewWindow",
+          "when": "view == codebuddyDevContainers && viewItem == codebuddy-dev-containers.running-container",
+          "group": "inline@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "codebuddy-dev-containers.reopenInContainer",
+          "when": "(!remoteName || remoteName =~ /^codebuddy-remote-ssh$/ || remoteName =~ /^wsl$/) && workspaceFolderCount > 0"
+        },
+        {
+          "command": "codebuddy-dev-containers.openFolderInContainer",
+          "when": "!remoteName || remoteName =~ /^codebuddy-remote-ssh$/ || remoteName =~ /^wsl$/"
+        },
+        {
+          "command": "codebuddy-dev-containers.reopenFolderLocally",
+          "when": "remoteName =~ /^dev-container$/ && workspaceFolderCount > 0 && !codebuddy.isNestedContainer"
+        },
+        {
+          "command": "codebuddy-dev-containers.attachToRunningContainer",
+          "when": "!remoteName || remoteName =~ /^codebuddy-remote-ssh$/ || remoteName =~ /^wsl$/ || remoteName =~ /^dev-container$/"
+        },
+        {
+          "command": "codebuddy-dev-containers.explorer.deleteContainer",
+          "when": "false"
+        },
+        {
+          "command": "codebuddy-dev-containers.openFromHistory",
+          "when": "false"
+        },
+        {
+          "command": "codebuddy-dev-containers.explorer.refresh",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Dev Containers",
+      "properties": {
+        "remote.codebuddyDevContainers.serverDownloadUrlTemplate": {
+          "type": "string",
+          "description": "Custom URL template for downloading the CodeBuddy server. Use ${quality}, ${version}, ${commit}, ${os}, ${arch} as placeholders.",
+          "default": ""
+        },
+        "remote.codebuddyDevContainers.enableSSHAgentForwarding": {
+          "type": "boolean",
+          "description": "Enable SSH agent forwarding in dev containers",
+          "default": true
+        },
+        "remote.codebuddyDevContainers.showReopenInContainerPrompt": {
+          "type": "boolean",
+          "description": "Show a notification when a devcontainer.json file is detected",
+          "default": true,
+          "scope": "window"
+        },
+        "remote.codebuddyDevContainers.skipPostCreate": {
+          "type": "boolean",
+          "description": "Skip postCreateCommand and postStartCommand when starting dev containers. When enabled, only postAttachCommand will be executed after VS Code Server installation. This provides faster container startup but requires postCreateCommand to be run manually or moved to postAttachCommand.",
+          "default": true,
+          "scope": "window"
+        }
+      }
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": [
+          "devcontainer-feature.json"
+        ],
+        "url": "./resources/schemas/devContainerFeature.schema.json"
+      },
+      {
+        "fileMatch": [
+          "devcontainer.json",
+          ".devcontainer.json"
+        ],
+        "url": "./resources/schemas/devContainer.schema.json"
+      },
+      {
+        "fileMatch": "%APP_SETTINGS_HOME%/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/*.json",
+        "url": "./resources/schemas/attachContainer.schema.json"
+      },
+      {
+        "fileMatch": "%APP_SETTINGS_HOME%/globalStorage/ms-vscode-remote.remote-containers/imageConfigs/*.json",
+        "url": "./resources/schemas/attachContainer.schema.json"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run build",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "build": "webpack --mode production --devtool hidden-source-map",
+    "package": "yarn build && vsce package --yarn",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "eslint src --fix",
+    "format:check": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.18.1",
+    "@types/vscode": "^1.75.0",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@typescript-eslint/parser": "^8.45.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "copy-webpack-plugin": "^13.0.1",
+    "eslint": "^9.36.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "prettier": "^3.6.2",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.102.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "@devcontainers/cli": "^0.80.3"
+  }
+}

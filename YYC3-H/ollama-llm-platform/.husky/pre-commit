@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# 提交前运行类型检查，保障静态类型正确
+npm run typecheck
+
+# 仅校验改动文件，提升提交效率
+npx lint-staged

@@ -1,0 +1,22 @@
+{
+  "props": {},
+  "name": "ChartsToolbarPro",
+  "imports": [
+    "import { ChartsToolbarPro } from '@mui/x-charts-pro/ChartsToolbarPro';",
+    "import { ChartsToolbarPro } from '@mui/x-charts-pro';"
+  ],
+  "slots": [
+    {
+      "name": "toolbar",
+      "description": "Custom component for the toolbar.",
+      "default": "ChartsToolbar",
+      "class": null
+    }
+  ],
+  "classes": [],
+  "muiName": "MuiChartsToolbarPro",
+  "filename": "/packages/x-charts-pro/src/ChartsToolbarPro/ChartsToolbarPro.tsx",
+  "inheritance": null,
+  "demos": "<ul><li><a href=\"/x/react-charts/toolbar/\">Charts - Toolbar</a></li></ul>",
+  "cssComponent": false
+}

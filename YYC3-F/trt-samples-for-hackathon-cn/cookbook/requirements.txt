@@ -1,0 +1,40 @@
+build
+colored
+cuda-python
+cupy                    # Several examples need this
+mypy                    # For API inspection
+nccl4py                 # Multi-device examples need this
+numpy==1.26.4           # Workaround for a bug in TensorRT-10.14, remove version constraint if fixed
+nvtx
+onnx
+onnx_graphsurgeon
+onnxruntime-gpu
+opencv-python-headless
+polygraphy
+pyarrow                 # For HuggingFace .parquet files
+pybind11-stubgen        # For API inspection
+scipy
+torchinfo
+tripy
+triton
+
+# Old CUDA python API (not recommended), replaced by cuda-python
+# pycuda
+
+# TREX related
+# dtale==2.2.0
+# graphviz
+# ipyfilechooser
+# ipywidgets
+# jupyter
+# jupyter-dash
+# jupyterlab
+# netron
+# openpyxl               # for excel reporting
+# pandas==1.5
+# plotly
+# protobuf==3.20.3
+# qgrid
+# pytest
+# setuptools             # for qgrid
+# wheel                  # for qgrid

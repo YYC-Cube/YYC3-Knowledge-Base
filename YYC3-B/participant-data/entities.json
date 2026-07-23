@@ -1,0 +1,2031 @@
+[
+    {
+        "id": "8d451233-054f-44df-9509-f2ac85536525",
+        "verified": true,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Google LLC",
+            "address": "1600 Amphitheatre Parkway, Mountain View CA 94043",
+            "url": "https://www.google.com/",
+            "gitHubOrganization": "googlers",
+            "contact1": {
+                "name": "Domenic Denicola",
+                "email": "domenic@google.com",
+                "gitHubID": "domenic"
+            },
+            "contact2": {
+                "name": "Chris Wilson",
+                "email": "cwilso@google.com",
+                "gitHubID": "cwilso"
+            }
+        },
+        "signature": {
+            "signedBy": "Shruthi Sreekanta",
+            "signedByTitle": "Technical Program Manager",
+            "signedAt": "2017-12-06T23:24:08.947Z"
+        }
+    },
+    {
+        "id": "9bf75ea9-f79b-4ce2-a9a2-bee69b2055ea",
+        "verified": true,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Mozilla Corporation",
+            "address": "2 Harrison Street, Suite 175, San Francisco, CA 94105, USA",
+            "url": "https://www.mozilla.org/",
+            "gitHubOrganization": "mozilla-standards",
+            "contact1": {
+                "name": "Tantek Çelik",
+                "email": "tantek@mozilla.com",
+                "gitHubID": "tantek"
+            },
+            "contact2": {
+                "name": "Henri Sivonen",
+                "email": "hsivonen@mozilla.com",
+                "gitHubID": "hsivonen"
+            }
+        },
+        "signature": {
+            "signedBy": "L. David Baron",
+            "signedByTitle": "Distinguished Engineer",
+            "signedAt": "2017-12-08T00:11:20.696Z"
+        }
+    },
+    {
+        "id": "9dd17017-cdfe-42eb-b97a-331e23a2390d",
+        "verified": true,
+        "workstreams": [
+            "dom",
+            "fetch",
+            "fullscreen",
+            "html",
+            "storage",
+            "streams"
+        ],
+        "info": {
+            "name": "Microsoft Corporation",
+            "address": "1 Microsoft Way, Redmond WA 98252",
+            "url": "https://www.microsoft.com/",
+            "gitHubOrganization": "MicrosoftWHATWGContributors",
+            "contact1": {
+                "name": "Diego González",
+                "email": "luigonza@microsoft.com",
+                "gitHubID": "diekus"
+            },
+            "contact2": {
+                "name": "Andrew Nolan",
+                "email": "annolan@microsoft.com",
+                "gitHubID": "anolan4"
+            }
+        },
+        "signature": {
+            "signedBy": "Michael Champion",
+            "signedByTitle": "Sr. Program Manager",
+            "signedAt": "2017-12-11T19:41:19.345Z"
+        }
+    },
+    {
+        "id": "5fb52144-9e7e-418d-940c-14f7eb82b51e",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Codespeaks LLC",
+            "address": "Laconnex, GE, Switzerland",
+            "url": "http://www.codespeaks.com/",
+            "gitHubOrganization": "codespeaks",
+            "contact1": {
+                "name": "Tobie Langel",
+                "email": "tobie@codespeaks.com",
+                "gitHubID": "tobie"
+            }
+        },
+        "signature": {
+            "signedBy": "Tobie Langel",
+            "signedByTitle": "Founder",
+            "signedAt": "2017-12-12T08:58:17.541Z"
+        }
+    },
+    {
+        "id": "847150c7-3ed3-4151-9a1c-be24f1918398",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Innovimax",
+            "address": "9 impasse des Orteaux",
+            "url": "http://innovimax.fr/",
+            "gitHubOrganization": "innovimax-SARL",
+            "contact1": {
+                "name": "Mohamed ZERGAOUI",
+                "email": "innovimax+whatwg@gmail.com",
+                "gitHubID": "innovimax"
+            }
+        },
+        "signature": {
+            "signedBy": "Mohamed ZERGAOUI",
+            "signedByTitle": "CEO",
+            "signedAt": "2017-12-17T23:22:08.283Z"
+        }
+    },
+    {
+        "id": "1213fe08-0bf4-4c31-b768-2876d9ee8d5a",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Shreya",
+            "address": "shreyateeza@gmail.com",
+            "url": "https://github.com/shreyateeza",
+            "gitHubOrganization": "I am a member at coala",
+            "contact1": {
+                "name": "Shreya",
+                "email": "shreyateeza@gmail.com",
+                "gitHubID": "shreyateeza"
+            }
+        },
+        "signature": {
+            "signedBy": "Shreya",
+            "signedByTitle": ".",
+            "signedAt": "2017-12-18T16:57:53.957Z"
+        }
+    },
+    {
+        "id": "8daa96e5-054e-4b95-8496-0b5aafc7d89a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Bocoup LLC",
+            "address": "Bocoup LLC, PO Box 961436, Boston MA 02196, US",
+            "url": "https://bocoup.com/",
+            "gitHubOrganization": "bocoup",
+            "contact1": {
+                "name": "Boaz Sender",
+                "email": "boaz@bocoup.com",
+                "gitHubID": "boazsender"
+            },
+            "contact2": {
+                "name": "Chris Cuellar",
+                "email": "chris@bocoup.com",
+                "gitHubID": "ChrisC"
+            }
+        },
+        "signature": {
+            "signedBy": "Boaz Sender",
+            "signedByTitle": "Principal",
+            "signedAt": "2022-12-06T22:57:28.791Z"
+        }
+    },
+    {
+        "id": "704967d5-5d57-4931-9560-08d6fc58f6f1",
+        "verified": true,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Apple Inc.",
+            "address": "One Apple Park Way, Cupertino, CA 95014",
+            "url": "https://apple.com/",
+            "gitHubOrganization": "apple-whatwg",
+            "contact1": {
+                "name": "Anne van Kesteren",
+                "email": "annevk@apple.com",
+                "gitHubID": "annevk"
+            },
+            "contact2": {
+                "name": "Theresa O’Connor",
+                "email": "eoconnor@apple.com",
+                "gitHubID": "hober"
+            }
+        },
+        "signature": {
+            "signedBy": "David Singer",
+            "signedByTitle": "Manager, Software Standards",
+            "signedAt": "2018-01-11T23:09:27.949Z"
+        }
+    },
+    {
+        "id": "bda981ab-e798-470b-aa32-0f4e8d5fa19b",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Cloudflare",
+            "address": "101 Townsend St, San Francisco, CA 94107",
+            "url": "https://www.cloudflare.com/",
+            "gitHubOrganization": "cloudflare-whatwg",
+            "contact1": {
+                "name": "Terin Stock",
+                "email": "terin@cloudflare.com",
+                "gitHubID": "terinjokes"
+            },
+            "contact2": {
+                "name": "Dane Knecht",
+                "email": "dane@cloudflare.com",
+                "gitHubID": "dknecht"
+            }
+        },
+        "signature": {
+            "signedBy": "Terin Stock",
+            "signedByTitle": "Systems Engineer",
+            "signedAt": "2018-01-29T18:44:52.269Z"
+        }
+    },
+    {
+        "id": "5e9a7c97-40d4-48c5-817b-121fed0b476d",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "dom",
+            "encoding",
+            "html",
+            "notifications",
+            "url"
+        ],
+        "info": {
+            "name": "Buske IT",
+            "address": "Caracas, Venezuela",
+            "url": "http://www.buske-it.com.ve/",
+            "gitHubOrganization": "orgs",
+            "contact1": {
+                "name": "Benjamin Buske",
+                "email": "benjamin.buske@gmail.com",
+                "gitHubID": "buskeit"
+            },
+            "contact2": {
+                "name": "Benjamin Buske",
+                "email": "benjamin.buske@gmail.com",
+                "gitHubID": "buske-it"
+            }
+        },
+        "signature": {
+            "signedBy": "Benjamín Buske",
+            "signedByTitle": "Owner / General Manager ",
+            "signedAt": "2018-02-11T19:41:50.826Z"
+        }
+    },
+    {
+        "id": "cb222b97-99ee-4ffe-81b1-6d57e43e4088",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Igalia, S.L.",
+            "address": "C/ Bugallal Marchesi, 22, 1º",
+            "url": "https://www.igalia.com/",
+            "gitHubOrganization": "Igalia",
+            "contact1": {
+                "name": "Brian Kardell",
+                "email": "bkardell@igalia.com",
+                "gitHubID": "bkardell"
+            },
+            "contact2": {
+                "name": "Manuel Rego Casasnovas",
+                "email": "mrego@igalia.com",
+                "gitHubID": "mrego"
+            }
+        },
+        "signature": {
+            "signedBy": "Xavier Castaño Garcia",
+            "signedByTitle": "Partner with power of attorney",
+            "signedAt": "2018-02-22T10:44:06.002Z"
+        }
+    },
+    {
+        "id": "421a220b-33a6-49ec-8201-ba45f6c4bf25",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Anthum, Inc",
+            "address": "PO Box 13, Arvada, CO 80001-0013",
+            "url": "https://www.anthum.com/",
+            "gitHubOrganization": "Anthum",
+            "contact1": {
+                "name": "Chris McGowan",
+                "email": "chris@anthum.com",
+                "gitHubID": "AnthumChris"
+            }
+        },
+        "signature": {
+            "signedBy": "Chris McGowan",
+            "signedByTitle": "President",
+            "signedAt": "2018-03-05T14:26:57.716Z"
+        }
+    },
+    {
+        "id": "c86b8991-70ed-4458-93bd-c299bf8d4499",
+        "verified": true,
+        "workstreams": [
+            "fetch",
+            "html"
+        ],
+        "info": {
+            "name": "Akamai Technologies, Inc.",
+            "address": "150 Broadway Cambridge, MA 02142",
+            "url": "https://www.akamai.com/",
+            "gitHubOrganization": "akamai-whatwg",
+            "contact1": {
+                "name": "Nic Jansma",
+                "email": "njansma@akamai.com",
+                "gitHubID": "nicjansma"
+            }
+        },
+        "signature": {
+            "signedBy": "Yoav Weiss",
+            "signedByTitle": "Principal Architect",
+            "signedAt": "2018-03-09T11:25:33.858Z"
+        }
+    },
+    {
+        "id": "75691a71-6abd-4a57-8bda-3de602e64fcf",
+        "verified": true,
+        "workstreams": [
+            "fetch",
+            "infra"
+        ],
+        "info": {
+            "name": "PayPal Inc.",
+            "address": "2211 North First Street",
+            "url": "https://www.paypal.com/",
+            "gitHubOrganization": "paypal2",
+            "contact1": {
+                "name": "Jeff Hodges",
+                "email": "jeff.hodges@paypal.com",
+                "gitHubID": "equalsjeffh"
+            },
+            "contact2": {
+                "name": "Hubert Le Van Gong",
+                "email": "hlevangong@paypal.com",
+                "gitHubID": "levangongPayPal"
+            }
+        },
+        "signature": {
+            "signedBy": "Mark Yuan",
+            "signedByTitle": "Sr. Director, Associate General Counsel, Patents",
+            "signedAt": "2018-03-20T18:58:42.679Z"
+        }
+    },
+    {
+        "id": "19e0a349-9f28-423a-bb74-dd913e120e0f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Haywirez",
+            "address": "Manteuffelstraße 77, 10999 Berlin",
+            "url": "https://haywirez.com/",
+            "gitHubOrganization": "haywirez-org",
+            "contact1": {
+                "name": "Attila Haraszti",
+                "email": "hello@haywirez.com",
+                "gitHubID": "haywirez"
+            }
+        },
+        "signature": {
+            "signedBy": "Attila Haraszti",
+            "signedByTitle": "Main Wizard",
+            "signedAt": "2018-07-09T08:47:26.070Z"
+        }
+    },
+    {
+        "id": "45db70f4-8f92-4229-960c-8c89540b5259",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Cloudinary",
+            "address": "20 Aharon Bart St., Building C, 2nd floor  Petah Tikva, 4951448",
+            "url": "https://cloudinary.com/",
+            "gitHubOrganization": "CloudinaryLtd",
+            "contact1": {
+                "name": "Tal Lev-Ami",
+                "email": "tal@cloudinary.com",
+                "gitHubID": "TalLevAmi"
+            },
+            "contact2": {
+                "name": "Colin Bendell",
+                "email": "colin@cloudinary.com",
+                "gitHubID": "colinbendell"
+            }
+        },
+        "signature": {
+            "signedBy": "Colin Bendell",
+            "signedByTitle": "CTO Office",
+            "signedAt": "2018-08-14T19:45:08.473Z"
+        }
+    },
+    {
+        "id": "83087a1e-cb4b-47e7-935f-5aaae602f24b",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Government Digital Service (on behalf of Cabinet Office)",
+            "address": "7th Floor, The White Chapel Building,, 10 Whitechapel High Street,",
+            "url": "https://www.gov.uk/government/organisations/government-digital-service",
+            "gitHubOrganization": "alphagov",
+            "contact1": {
+                "name": "James O'Neill",
+                "email": "james.oneill@digital.cabinet-office.gov.uk",
+                "gitHubID": "jameseoneill"
+            },
+            "contact2": {
+                "name": "Matt Hobbs",
+                "email": "matthew.hobbs@digital.cabinet-office.gov.uk",
+                "gitHubID": "Nooshu"
+            }
+        },
+        "signature": {
+            "signedBy": "Peter Arnould",
+            "signedByTitle": "Head of Commissioning",
+            "signedAt": "2018-10-29T13:49:44.057Z"
+        }
+    },
+    {
+        "id": "6c4ef136-eb6a-4581-98ea-581af399af63",
+        "verified": true,
+        "workstreams": [
+            "fetch",
+            "html",
+            "webidl"
+        ],
+        "info": {
+            "name": "Intel Corporation",
+            "address": "2200 Mission College Blvd., Santa Clara, CA  95052",
+            "url": "https://intel.com/",
+            "gitHubOrganization": "intel-whatwg",
+            "contact1": {
+                "name": "Anssi Kostiainen",
+                "email": "anssi.kostiainen@intel.com",
+                "gitHubID": "anssiko"
+            }
+        },
+        "signature": {
+            "signedBy": "Anssi Kostiainen",
+            "signedByTitle": "Web Standards Tech Lead",
+            "signedAt": "2018-11-06T09:25:37.436Z"
+        }
+    },
+    {
+        "id": "25d5f0e2-5cd0-4062-a036-54c0cfcc57ea",
+        "verified": true,
+        "workstreams": [
+            "fetch",
+            "html"
+        ],
+        "info": {
+            "name": "Fastly, Inc.",
+            "address": "475 Brannan St, Suite 300",
+            "url": "https://www.fastly.com/",
+            "gitHubOrganization": "Fastly",
+            "contact1": {
+                "name": "Jake Champion",
+                "email": "jchampion@fastly.com",
+                "gitHubID": "jakechampion"
+            }
+        },
+        "signature": {
+            "signedBy": "Paul Luongo",
+            "signedByTitle": "SVP & General Counsel",
+            "signedAt": "2019-01-25T01:08:33.780Z"
+        }
+    },
+    {
+        "id": "a9bb4b6a-d339-4cc1-9cfa-d5004f53ab0f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Baidu",
+            "address": "Beijing, China",
+            "url": "http://www.baidu.com/",
+            "gitHubOrganization": "baidu",
+            "contact1": {
+                "name": "Jun Yang",
+                "email": "yangjvn@126.com",
+                "gitHubID": "harttle"
+            },
+            "contact2": {
+                "name": "Erik",
+                "email": "erik@baidu.com",
+                "gitHubID": "errorrik"
+            }
+        },
+        "signature": {
+            "signedBy": "Jun Yang",
+            "signedByTitle": "Senior Engineer",
+            "signedAt": "2019-03-08T08:03:43.579Z"
+        }
+    },
+    {
+        "id": "1d85abfe-a983-405f-9c6c-fcec8dd643b6",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Tawesoft Ltd",
+            "address": "22 Wimblewood Close, West Cross, Swansea, SA3 5LQ",
+            "url": "https://www.tawesoft.co.uk/",
+            "gitHubOrganization": "tawesoft",
+            "contact1": {
+                "name": "Ben Golightly",
+                "email": "ben@tawesoft.co.uk",
+                "gitHubID": "golightlyb"
+            },
+            "contact2": {
+                "name": "Ben Golightly",
+                "email": "golightly.ben@googlemail.com",
+                "gitHubID": "golightlyb"
+            }
+        },
+        "signature": {
+            "signedBy": "Ben Golightly",
+            "signedByTitle": "Director",
+            "signedAt": "2019-04-19T15:49:24.189Z"
+        }
+    },
+    {
+        "id": "2ee46e73-91a9-49a3-90ca-31bbd14869b2",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Pesto Tech, Inc.",
+            "address": "Gurugram, Haryana 122016, India",
+            "url": "http://pesto.tech/",
+            "gitHubOrganization": "PestoTech",
+            "contact1": {
+                "name": "Arfat Salman",
+                "email": "giney.paradise@gmail.com",
+                "gitHubID": "ArfatSalman"
+            }
+        },
+        "signature": {
+            "signedBy": "Arfat Salman",
+            "signedByTitle": "Director of Education",
+            "signedAt": "2019-05-03T03:05:55.088Z"
+        }
+    },
+    {
+        "id": "4018ab30-af7a-4cd5-9910-08fc55b33c18",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "myles-systems",
+            "address": "Friedrich Ebert Straße 157 42117 Wuppertal",
+            "url": "https://myles.systems/",
+            "gitHubOrganization": "myles-systems",
+            "contact1": {
+                "name": "Paul Vollmer",
+                "email": "mail@paulvollmer.net",
+                "gitHubID": "paulvollmer"
+            }
+        },
+        "signature": {
+            "signedBy": "Paul Vollmer",
+            "signedByTitle": "Software Engineer",
+            "signedAt": "2019-06-05T13:21:04.701Z"
+        }
+    },
+    {
+        "id": "052b29a4-e07d-4dca-bcfc-8f15695f49e9",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "CreatorAge, Inc.",
+            "address": "2418 N. Graham Dr.",
+            "url": "http://www.creatorage.com/",
+            "gitHubOrganization": "SpringSt",
+            "contact1": {
+                "name": "Jon-Erik Prichard",
+                "email": "jp@creatorage.com",
+                "gitHubID": "jpcre8or"
+            }
+        },
+        "signature": {
+            "signedBy": "Jon-Erik Prichard",
+            "signedByTitle": "CEO",
+            "signedAt": "2019-08-06T19:54:06.795Z"
+        }
+    },
+    {
+        "id": "23ffbfcd-b9fc-4e14-b45a-a73ea24cb743",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Akriya Technologies LLP",
+            "address": "C-2, Sector 1, Noida, Uttar Pradesh 201301, India",
+            "url": "https://akriya.cp.om/",
+            "gitHubOrganization": "akriyatech",
+            "contact1": {
+                "name": "Kartik Arora",
+                "email": "kartik.arora1214@gmail.com",
+                "gitHubID": "karx"
+            },
+            "contact2": {
+                "name": "Rahul Agarwal",
+                "email": "rahul@artiosys.com",
+                "gitHubID": "rahul1996"
+            }
+        },
+        "signature": {
+            "signedBy": "Kartik Arora",
+            "signedByTitle": "Director",
+            "signedAt": "2019-08-08T15:48:52.076Z"
+        }
+    },
+    {
+        "id": "32420992-6c87-4e74-bd13-4cba02d7bd9f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "The Paciello Group",
+            "address": "17757 US 19 North Suite 560  Clearwater, FL 33764",
+            "url": "https://www.paciellogroup.com/",
+            "gitHubOrganization": "ThePacielloGroup",
+            "contact1": {
+                "name": "Steve Faulkner",
+                "email": "sfaulkner@paciellogroup.com",
+                "gitHubID": "stevefaulkner"
+            }
+        },
+        "signature": {
+            "signedBy": "Scott O'Hara",
+            "signedByTitle": "Sr. Accessibility Engineer",
+            "signedAt": "2019-08-20T14:56:19.123Z"
+        }
+    },
+    {
+        "id": "f50f6272-da6e-43b3-b868-274d9626b2ba",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Videsk",
+            "address": "Santiago, Chile",
+            "url": "https://videsk.io/",
+            "gitHubOrganization": "videsk",
+            "contact1": {
+                "name": "Matias Lopez",
+                "email": "mlopez@videsk.io",
+                "gitHubID": "matiaslopezd"
+            }
+        },
+        "signature": {
+            "signedBy": "Matias Lopez Diaz",
+            "signedByTitle": "CTO",
+            "signedAt": "2019-09-18T21:13:48.357Z"
+        }
+    },
+    {
+        "id": "6a32e173-2feb-455e-ba65-e7cfda60b208",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "salesforce.com, inc.",
+            "address": "415 Mission Street, Suite 300, San Francisco, CA 94105",
+            "url": "http://www.salesforce.com/",
+            "gitHubOrganization": "salesforce",
+            "contact1": {
+                "name": "Diego Ferreiro Val",
+                "email": "dval@salesforce.com",
+                "gitHubID": "diervo"
+            },
+            "contact2": {
+                "name": "Caridy Patino ",
+                "email": "cpatino@salesforce.com",
+                "gitHubID": "caridy"
+            }
+        },
+        "signature": {
+            "signedBy": "Jacquelyn Galbreth ",
+            "signedByTitle": "Sr. Manager, Sourcing ",
+            "signedAt": "2019-10-28T19:24:55.327Z"
+        }
+    },
+    {
+        "id": "f6e7a672-2a6f-4cf3-9ab1-9d1c4dce2fb0",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ekioh Ltd",
+            "address": "17B Sturton Street, Cambridge, CB1 2SN",
+            "url": "http://www.ekioh.com/",
+            "gitHubOrganization": "ekioh",
+            "contact1": {
+                "name": "Piers Wombwell",
+                "email": "piers@ekioh.com",
+                "gitHubID": "pwombwell"
+            }
+        },
+        "signature": {
+            "signedBy": "Piers Wombwell",
+            "signedByTitle": "Mr",
+            "signedAt": "2019-11-08T15:32:32.135Z"
+        }
+    },
+    {
+        "id": "87aeac5e-74ed-452c-982d-950e7f8f1789",
+        "verified": true,
+        "workstreams": [
+            "fullscreen",
+            "html"
+        ],
+        "info": {
+            "name": "IBM",
+            "address": "1 North Castle Drive, Armonk, NY 10504",
+            "url": "http://www.ibm.com/",
+            "gitHubOrganization": "ibm",
+            "contact1": {
+                "name": "Arnaud Le Hors",
+                "email": "lehors@us.ibm.com",
+                "gitHubID": "lehors"
+            }
+        },
+        "signature": {
+            "signedBy": "Arnaud Le Hors",
+            "signedByTitle": "Senior Technical Staff Member, Blockchain & Web Open Technologies",
+            "signedAt": "2019-11-27T15:29:59.293Z"
+        }
+    },
+    {
+        "id": "1ce9f123-b86c-428e-9f51-b0d490762379",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "W3Techy",
+            "address": "Ita Egbe Road, Ita Atan, Ita Egbe, Ogun State, Nigeria ",
+            "url": "https://w3techy.com.ng/",
+            "gitHubOrganization": "w3techyopensource",
+            "contact1": {
+                "name": "Joseph Seyi Taiwo",
+                "email": "josegood@yandex.com",
+                "gitHubID": "w3techy"
+            }
+        },
+        "signature": {
+            "signedBy": "Joseph Seyi Taiwo",
+            "signedByTitle": "CEO",
+            "signedAt": "2019-12-17T18:02:22.308Z"
+        }
+    },
+    {
+        "id": "c8c05170-09f6-40cb-9a39-5290c20b97fa",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Blur Busters / Rejhon Technologies Inc.",
+            "address": "34 PROCTOR BLVD",
+            "url": "https://www.blurbusters.com/adding-variable-refresh-rate-support-to-html-5-2/",
+            "gitHubOrganization": "blurbusters",
+            "contact1": {
+                "name": "Mark Rejhon",
+                "email": "mark@blurbusters.com",
+                "gitHubID": "mdrejhon"
+            }
+        },
+        "signature": {
+            "signedBy": "Mark Rejhon",
+            "signedByTitle": "Founder",
+            "signedAt": "2020-01-16T22:39:27.429Z"
+        }
+    },
+    {
+        "id": "38f3c52d-70b2-4af5-9223-f96df2f25b82",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Grafton Studio",
+            "address": "119 Mt Auburn St, Suite 230, 02138 Cambridge MA USA",
+            "url": "https://graftonstudio.com/",
+            "gitHubOrganization": "graftonstudio",
+            "contact1": {
+                "name": "Matteo Cargnelutti",
+                "email": "matteo@graftonstudio.com",
+                "gitHubID": "matteocargnelutti"
+            }
+        },
+        "signature": {
+            "signedBy": "Matteo Cargnelutti",
+            "signedByTitle": "CTO",
+            "signedAt": "2020-01-27T15:01:05.388Z"
+        }
+    },
+    {
+        "id": "5d764930-3dd6-4523-82b5-413fbdfbe316",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Amazon.com Services LLC",
+            "address": "410 Terry Avenue North, Seattle, WA 98109-5210 ",
+            "url": "https://www.amazon.com/",
+            "gitHubOrganization": "Amazon-WHATWG",
+            "contact1": {
+                "name": "Addison Phillips ",
+                "email": "addison@lab126.com",
+                "gitHubID": "aphillips"
+            },
+            "contact2": {
+                "name": "James Peddicord",
+                "email": "peddicor@amazon.com",
+                "gitHubID": "jpeddicord"
+            }
+        },
+        "signature": {
+            "signedBy": "Michael Deal",
+            "signedByTitle": "President",
+            "signedAt": "2020-05-02T16:54:56.819Z"
+        }
+    },
+    {
+        "id": "9c6d7c10-5329-4d03-bc99-b3fc7e66af91",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "WHARFWEBSITE PTY LTD",
+            "address": "PO BOX 299, CRAIGIEBURN, STATE OF VICTORIA 3064, BRITISH COMMONWEALTH OF AUSTRALIA",
+            "url": "https://wharf.website/",
+            "gitHubOrganization": "Iniftar",
+            "contact1": {
+                "name": "Adib Murshed",
+                "email": "adib@flatfur.com",
+                "gitHubID": "AdibMurshed"
+            }
+        },
+        "signature": {
+            "signedBy": "ADIB MURSHED",
+            "signedByTitle": "CHAIRPERSON",
+            "signedAt": "2020-05-30T12:27:58.339Z"
+        }
+    },
+    {
+        "id": "a43ee698-ebc5-4d02-b089-1b775e5168e2",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Powermapper Software Limited",
+            "address": "9-10 St. Andrew Square, Edinburgh, UK",
+            "url": "https://www.powermapper.com/",
+            "gitHubOrganization": "powermapper",
+            "contact1": {
+                "name": "Mark Rogers",
+                "email": "mark.rogers@powermapper.com",
+                "gitHubID": "dd8"
+            }
+        },
+        "signature": {
+            "signedBy": "Mark Rogers",
+            "signedByTitle": "CEO",
+            "signedAt": "2020-07-07T14:14:06.402Z"
+        }
+    },
+    {
+        "id": "90f096e2-460d-4dd9-8338-8910d23b68ab",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "British Broadcasting Corporation",
+            "address": "BBC Broadcasting House, Portland Place, London, W1A 1AA, United Kingdom",
+            "url": "https://www.bbc.co.uk/",
+            "gitHubOrganization": "bbc",
+            "contact1": {
+                "name": "Chris Needham",
+                "email": "chris.needham@bbc.co.uk",
+                "gitHubID": "chrisn"
+            }
+        },
+        "signature": {
+            "signedBy": "Chris Needham",
+            "signedByTitle": "Principal Software Engineer",
+            "signedAt": "2020-07-09T13:39:16.383Z"
+        }
+    },
+    {
+        "id": "31da1ea7-6da8-4bd4-b3a0-4054c5d1fd6f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Keio University",
+            "address": " 2-15-45, Mita, Minato-ku, Tokyo, Japan 108-8345",
+            "url": "https://www.keio.ac.jp/en/",
+            "gitHubOrganization": "w3ckeio",
+            "contact1": {
+                "name": "Michael Smith",
+                "email": "mike@w3.org",
+                "gitHubID": "sideshowbarker"
+            }
+        },
+        "signature": {
+            "signedBy": "Akira Haseyama",
+            "signedByTitle": "President",
+            "signedAt": "2020-08-18T01:41:23.447Z"
+        }
+    },
+    {
+        "id": "0d8c677e-a7b5-404b-b0eb-3eb88c362b30",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "F5 Networks (Shape Security)",
+            "address": "2755 Augustine Dr 8th floor, Santa Clara, CA 95054",
+            "url": "https://www.shapesecurity.com/",
+            "gitHubOrganization": "shapesecurity",
+            "contact1": {
+                "name": "Andrew Rottier",
+                "email": "a.rottier@f5.com",
+                "gitHubID": "andrewrot"
+            },
+            "contact2": {
+                "name": "Tim Disney",
+                "email": "t.disney@f5.com",
+                "gitHubID": "disnet"
+            }
+        },
+        "signature": {
+            "signedBy": "Andrew Rottier",
+            "signedByTitle": "Software Engineer III",
+            "signedAt": "2020-08-27T16:55:07.042Z"
+        }
+    },
+    {
+        "id": "04d9aedf-11de-4f7b-be5c-bc8a04d69378",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "eyeo GmbH",
+            "address": "Lichtstr. 25 . 50825 Cologne . Germany",
+            "url": "https://eyeo.com/",
+            "gitHubOrganization": "eyeo-gmbh",
+            "contact1": {
+                "name": "Andrea Giammarchi",
+                "email": "a.giammarchi@eyeo.com",
+                "gitHubID": "WebReflection"
+            },
+            "contact2": {
+                "name": "Shwetank Dixit",
+                "email": "s.dixit@eyeo.com",
+                "gitHubID": "shwetank"
+            }
+        },
+        "signature": {
+            "signedBy": "Andrea Giammarchi",
+            "signedByTitle": "Core Tech Developer",
+            "signedAt": "2020-09-04T13:45:49.286Z"
+        }
+    },
+    {
+        "id": "eb495bbc-7173-4405-a112-7fc5f011d74b",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Away Team Software Ltd",
+            "address": "Beechey House, 87 Church St, Crowthorne, Berks, RG45 7AW, UK",
+            "url": "https://www.awayteam.co.uk/",
+            "gitHubOrganization": "away-team-software",
+            "contact1": {
+                "name": "Rob Smith",
+                "email": "rob.smith@awayteam.co.uk",
+                "gitHubID": "rjksmith"
+            }
+        },
+        "signature": {
+            "signedBy": "Rob Smith",
+            "signedByTitle": "Director",
+            "signedAt": "2020-09-09T13:18:34.110Z"
+        }
+    },
+    {
+        "id": "bd840d61-6b54-42ae-8463-dd61e32335f1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Transcend Inc.",
+            "address": "832 Sansome St, San Francisco, CA 94111",
+            "url": "https://transcend.io/",
+            "gitHubOrganization": "transcend-io",
+            "contact1": {
+                "name": "Elijah Grey",
+                "email": "eli@transcend.io",
+                "gitHubID": "eligrey"
+            },
+            "contact2": {
+                "name": "Benjamin Brook",
+                "email": "ben@transcend.io",
+                "gitHubID": "bencmbrook"
+            }
+        },
+        "signature": {
+            "signedBy": "Elijah Grey",
+            "signedByTitle": "Senior Software Engineer",
+            "signedAt": "2020-09-10T02:00:33.385Z"
+        }
+    },
+    {
+        "id": "b21c463e-0f35-46e1-b29a-5e17071d6d99",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "blind man",
+            "address": "6853s Florentine way",
+            "url": "https://blindmanyo22/",
+            "gitHubOrganization": "workstream",
+            "contact1": {
+                "name": "blind man",
+                "email": "blindmanyo@gmail.com",
+                "gitHubID": "blindmanyo"
+            }
+        },
+        "signature": {
+            "signedBy": "blind man",
+            "signedByTitle": "thing",
+            "signedAt": "2020-11-02T11:26:13.562Z"
+        }
+    },
+    {
+        "id": "8dba4b3e-6e45-473e-8553-75e86751c682",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Mitsue-Links Co., Ltd.",
+            "address": "Sumitomo Fudosan Shinjuku Grand Tower 33F, 8-17-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo JAPAN",
+            "url": "https://www.mitsue.co.jp/",
+            "gitHubOrganization": "mitsue-links",
+            "contact1": {
+                "name": "Naoki Nakamura",
+                "email": "nakamura-naoki@mitsue.co.jp",
+                "gitHubID": "momdo"
+            },
+            "contact2": {
+                "name": "Kiyochika Nakamura",
+                "email": "nakamura-kiyochika@mitsue.co.jp",
+                "gitHubID": "kiyochika"
+            }
+        },
+        "signature": {
+            "signedBy": "Kazuhito Kidachi",
+            "signedByTitle": "CTO",
+            "signedAt": "2020-12-03T09:01:53.203Z"
+        }
+    },
+    {
+        "id": "ae4c945a-67dc-4dc1-90ab-957565e912c7",
+        "verified": true,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Rivoal Technology",
+            "address": "24 Bocho, Fukakusa, Fushimiku, Kyoto, Japan",
+            "url": "https://tech.rivoal.net/",
+            "gitHubOrganization": "Rivoal-Technology",
+            "contact1": {
+                "name": "Florian Rivoal",
+                "email": "whatwg@florian.rivoal.net",
+                "gitHubID": "frivoal"
+            }
+        },
+        "signature": {
+            "signedBy": "Florian Rivoal",
+            "signedByTitle": "General Manager",
+            "signedAt": "2021-03-04T09:13:19.777Z"
+        }
+    },
+    {
+        "id": "a9886846-f970-4103-8cab-42bcef4a4026",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Birchill, Inc.",
+            "address": "Tokyo Sankei Building 27F, Otemachi 1-7-2, Chiyoda-ku Tokyo 100-0004, Japan",
+            "url": "https://birchill.co.jp/",
+            "gitHubOrganization": "birchill",
+            "contact1": {
+                "name": "Brian Birtles",
+                "email": "brian@birchill.co.jp",
+                "gitHubID": "birtles"
+            }
+        },
+        "signature": {
+            "signedBy": "Brian Birtles",
+            "signedByTitle": "Chief Executive Office",
+            "signedAt": "2021-03-26T04:38:07.816Z"
+        }
+    },
+    {
+        "id": "c2356cf6-c3ca-429c-a537-a0311022272f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Deno Land Inc",
+            "address": "251 LITTLE FALLS DR, WILMINGTON DE 19808-1674, USA",
+            "url": "https://deno.com/",
+            "gitHubOrganization": "denoland",
+            "contact1": {
+                "name": "Ryan Dahl",
+                "email": "ry@deno.com",
+                "gitHubID": "ry"
+            },
+            "contact2": {
+                "name": "Bert Belder",
+                "email": "bert@deno.com",
+                "gitHubID": "piscisaureus"
+            }
+        },
+        "signature": {
+            "signedBy": "Ryan Dahl",
+            "signedByTitle": "CEO",
+            "signedAt": "2021-04-27T17:29:27.412Z"
+        }
+    },
+    {
+        "id": "78e5bf44-b988-479b-84bc-20e6865ebdf7",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sietehr",
+            "address": "na",
+            "url": "https://www.wikipexiah.org/",
+            "gitHubOrganization": "FieldberryGruppe",
+            "contact1": {
+                "name": "Lic. Kai Olaf K e t e l h u t sīc",
+                "email": "kaiolafketelhut187@gmail.com",
+                "gitHubID": "SCpSCp"
+            }
+        },
+        "signature": {
+            "signedBy": "Kai Olaf K e t e l h u t",
+            "signedByTitle": "Dipl.-Ing. (Univ. FU Berlin)",
+            "signedAt": "2021-08-13T08:08:31.011Z"
+        }
+    },
+    {
+        "id": "493bb66b-7250-481d-965f-443058bda33c",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Boffins Technologies",
+            "address": "Russgatan 5",
+            "url": "https://www.boffins.se/",
+            "gitHubOrganization": "nxtedition",
+            "contact1": {
+                "name": "Robert Nagy",
+                "email": "robert@boffins.se",
+                "gitHubID": "ronag"
+            }
+        },
+        "signature": {
+            "signedBy": "Robert Nagy",
+            "signedByTitle": "Lead Developer",
+            "signedAt": "2021-08-30T17:11:04.919Z"
+        }
+    },
+    {
+        "id": "55540d3f-ffd2-410f-952a-ad9dae5e8ed1",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "DAISY Consortium",
+            "address": "Head Office: DAISY Consortium, c/o Swiss Library for the Blind and Visually Impaired (SBS), Grubenstrasse 12, 8045 Zurich, Switzerland.",
+            "url": "https://daisy.org/",
+            "gitHubOrganization": "daisy",
+            "contact1": {
+                "name": "Avneesh Singh",
+                "email": "avneesh.sg@gmail.com",
+                "gitHubID": "avneeshsingh"
+            },
+            "contact2": {
+                "name": "George Kerscher",
+                "email": "kerscher@montana.com",
+                "gitHubID": "georgekerscher"
+            }
+        },
+        "signature": {
+            "signedBy": "Avneesh Singh",
+            "signedByTitle": "Chief Operating Officer",
+            "signedAt": "2021-12-23T13:52:02.348Z"
+        }
+    },
+    {
+        "id": "4bb42e0f-7d48-4812-b8ff-38fa77e96280",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "OddBird",
+            "address": "20711 County Rd 38, Goshen IN 46526 USA",
+            "url": "https://www.oddbird.net/",
+            "gitHubOrganization": "oddbird",
+            "contact1": {
+                "name": "Miriam Suzanne",
+                "email": "miriam@oddbird.net",
+                "gitHubID": "mirisuzanne"
+            },
+            "contact2": {
+                "name": "Jonny Gerig Meyer",
+                "email": "jonny@oddbird.net",
+                "gitHubID": "jgerigmeyer"
+            }
+        },
+        "signature": {
+            "signedBy": "Jonny Gerig Meyer",
+            "signedByTitle": "Member & Authorized Signatory",
+            "signedAt": "2022-01-17T20:14:52.804Z"
+        }
+    },
+    {
+        "id": "b110017b-15b1-4ef2-b4fa-aaf9e7d6b8cc",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "HCL America",
+            "address": "330 Potrero Ave, Sunnyvale, CA 94085",
+            "url": "https://www.hcl.com/",
+            "gitHubOrganization": "HCL-TECH-SOFTWARE",
+            "contact1": {
+                "name": "Doug Conmy",
+                "email": "dconmy@pnp-hcl.com",
+                "gitHubID": "dconmy"
+            }
+        },
+        "signature": {
+            "signedBy": "Robert McDowell",
+            "signedByTitle": "Authorized Signatory",
+            "signedAt": "2022-03-03T18:03:03.949Z"
+        }
+    },
+    {
+        "id": "cf666cc1-ab25-481e-bcb5-3f7f2072bef5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Humble Tech Ltd",
+            "address": "69 Wilson St",
+            "url": "https://pagerframe.work/",
+            "gitHubOrganization": "pagerworks",
+            "contact1": {
+                "name": "Felix Boehm",
+                "email": "felix@pager.works",
+                "gitHubID": "fb55"
+            }
+        },
+        "signature": {
+            "signedBy": "Felix Boehm",
+            "signedByTitle": "CEO",
+            "signedAt": "2022-04-21T10:35:56.824Z"
+        }
+    },
+    {
+        "id": "76b89e47-235a-4e50-89d3-989be30f18a7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Bloomberg LP",
+            "address": "731 Lexington Ave, New York, NY",
+            "url": "http://bloomberg.com/",
+            "gitHubOrganization": "Bloomberg",
+            "contact1": {
+                "name": "Robert Palmer",
+                "email": "rpalmer57@bloomberg.net",
+                "gitHubID": "robpalme"
+            },
+            "contact2": {
+                "name": "Daniel Eherenberg",
+                "email": "deherenberg@bloomberg.net",
+                "gitHubID": "littledan"
+            }
+        },
+        "signature": {
+            "signedBy": "Shawn Edwards",
+            "signedByTitle": "Chief Technology Officer",
+            "signedAt": "2022-06-28T21:27:16.647Z"
+        }
+    },
+    {
+        "id": "5b1d6967-3e25-4e7c-a496-824eaeccac58",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Shopify",
+            "address": "33 New Montgomery St #750, San Francisco, CA 94105, USA",
+            "url": "https://www.shopify.com/",
+            "gitHubOrganization": "Shopify",
+            "contact1": {
+                "name": "Ilya Grigorik",
+                "email": "ilya.grigorik@shopify.com",
+                "gitHubID": "igrigorik"
+            }
+        },
+        "signature": {
+            "signedBy": "Ilya Grigorik",
+            "signedByTitle": "Principal Engineer",
+            "signedAt": "2022-06-29T16:05:18.386Z"
+        }
+    },
+    {
+        "id": "0c0220fc-78b6-49d9-a88d-aca6ffd45d03",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Agoric Systems Operating Company",
+            "address": "1025 Alameda de las Pulgas Suite 120 Belmont, CA 94002",
+            "url": "https://agoric.com/",
+            "gitHubOrganization": "Agoric",
+            "contact1": {
+                "name": "Richard Gibson",
+                "email": "gibson@agoric.com",
+                "gitHubID": "gibson042"
+            },
+            "contact2": {
+                "name": "Mathieu Hofman",
+                "email": "mathieu@agoric.com",
+                "gitHubID": "mhofman"
+            }
+        },
+        "signature": {
+            "signedBy": "Richard Gibson",
+            "signedByTitle": "Software Engineer",
+            "signedAt": "2022-08-19T21:14:23.951Z"
+        }
+    },
+    {
+        "id": "713393e7-9220-4a8e-a2b4-460705b3979d",
+        "verified": true,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Alibaba (China) Co., Ltd",
+            "address": "969 West Wen Yi Road Yu Hang District Hangzhou 311121 Zhejiang Province China",
+            "url": "http://www.alibabagroup.com/",
+            "gitHubOrganization": "alibaba",
+            "contact1": {
+                "name": "Wenliang Shu",
+                "email": "wenliang.shuwl@alibaba-inc.com",
+                "gitHubID": "Evance"
+            }
+        },
+        "signature": {
+            "signedBy": "Wenliang Shu",
+            "signedByTitle": "Director",
+            "signedAt": "2022-08-25T12:39:47.073Z"
+        }
+    },
+    {
+        "id": "d993b2c9-9b4c-4de1-9601-f347dcfe0a26",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Hypothesis",
+            "address": "2261 Market St #632",
+            "url": "https://hypothes.is/",
+            "gitHubOrganization": "hypothesis",
+            "contact1": {
+                "name": "Dan Whaley",
+                "email": "dwhaley@hypothes.is",
+                "gitHubID": "dwhly"
+            }
+        },
+        "signature": {
+            "signedBy": "Dan Whaley",
+            "signedByTitle": "CEO",
+            "signedAt": "2022-10-23T01:39:36.835Z"
+        }
+    },
+    {
+        "id": "4a4c5d6f-5aeb-44bd-b703-59342bd73364",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Netflix, Inc.",
+            "address": "121 Albright Way, Los Gatos, CA 95032, USA",
+            "url": "https://www.netflix.com/",
+            "gitHubOrganization": "Netflix",
+            "contact1": {
+                "name": "Jon Jensen",
+                "email": "jonj@netflix.com",
+                "gitHubID": "jenseng"
+            }
+        },
+        "signature": {
+            "signedBy": "Jon Jensen",
+            "signedByTitle": "Senior Software Engineer",
+            "signedAt": "2023-01-12T01:40:15.135Z"
+        }
+    },
+    {
+        "id": "8552bf5b-8f04-4bff-96a0-6d20b309b78b",
+        "verified": false,
+        "workstreams": [
+            "console",
+            "encoding",
+            "fetch",
+            "streams",
+            "url"
+        ],
+        "info": {
+            "name": "Suborbital Software Systems Inc.",
+            "address": "2900 –550 Burrard Street, Vancouver BC V6C 0A3, Canada",
+            "url": "https://suborbital.dev/",
+            "gitHubOrganization": "suborbital",
+            "contact1": {
+                "name": "István Szmozsánszky",
+                "email": "flaki@suborbital.dev",
+                "gitHubID": "flaki"
+            },
+            "contact2": {
+                "name": "Connor Hicks",
+                "email": "connor@suborbital.dev",
+                "gitHubID": "cohix"
+            }
+        },
+        "signature": {
+            "signedBy": "István Szmozsánszky",
+            "signedByTitle": "Developer Experience Engineer",
+            "signedAt": "2023-02-06T20:38:44.557Z"
+        }
+    },
+    {
+        "id": "22fcdee1-3a8a-4c63-9b4c-b3a202f2cfbc",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Transloadit",
+            "address": "Waßmannsdorfer Chaussee 39 A, 12355 Berlin, Germany",
+            "url": "https://transloadit.com/",
+            "gitHubOrganization": "transloadit",
+            "contact1": {
+                "name": "Marius Kleidl",
+                "email": "marius@transloadit.com",
+                "gitHubID": "Acconut"
+            },
+            "contact2": {
+                "name": "Kevin van Zonneveld",
+                "email": "kevin@transloadit.com",
+                "gitHubID": "kvz"
+            }
+        },
+        "signature": {
+            "signedBy": "Marius Kleidl",
+            "signedByTitle": "Software Engineer",
+            "signedAt": "2023-04-03T11:40:37.378Z"
+        }
+    },
+    {
+        "id": "f2470f23-8f2a-4802-8153-ae1b80e226d6",
+        "verified": true,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Automattic Inc.",
+            "address": "60 29th St, San Francisco, CA 94110 USA",
+            "url": "http://www.automattic.com/",
+            "gitHubOrganization": "Automattic",
+            "contact1": {
+                "name": "Jarda Snajdr",
+                "email": "jarda.snajdr@automattic.com",
+                "gitHubID": "jsnajdr"
+            },
+            "contact2": {
+                "name": "Dennis Snell",
+                "email": "dennis.snell@automattic.com",
+                "gitHubID": "dmsnell"
+            }
+        },
+        "signature": {
+            "signedBy": "Neil Peretz",
+            "signedByTitle": "AGC",
+            "signedAt": "2023-05-25T03:55:01.487Z"
+        }
+    },
+    {
+        "id": "32fb8518-38d2-4201-8462-89e30db35381",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Southwood IT-Systems Ltd.",
+            "address": "5 South Charlotte Street",
+            "url": "https://www.southwoodsystems.com/",
+            "gitHubOrganization": "sorskog",
+            "contact1": {
+                "name": "Eric C. Westgren",
+                "email": "support@southwoodsystems.com",
+                "gitHubID": "switsys"
+            }
+        },
+        "signature": {
+            "signedBy": "Eric C. Westgren",
+            "signedByTitle": "CTO",
+            "signedAt": "2023-06-02T17:44:27.617Z"
+        }
+    },
+    {
+        "id": "4886efe3-2285-4981-978a-7f10f24664c5",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Cerphus Software AB",
+            "address": "Släntstigen 14, 43253 Varberg, Sweden",
+            "url": "https://github.com/Cerphus",
+            "gitHubOrganization": "Cerphus",
+            "contact1": {
+                "name": "Andreas Kling",
+                "email": "awesomekling@gmail.com",
+                "gitHubID": "awesomekling"
+            }
+        },
+        "signature": {
+            "signedBy": "Andreas Kling",
+            "signedByTitle": "CEO",
+            "signedAt": "2023-08-23T17:25:51.709Z"
+        }
+    },
+    {
+        "id": "4c819884-dc07-40bc-bbdb-d5509d6139a5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Yocto",
+            "address": "Voorberghlaan 1",
+            "url": "https://yocto.com/",
+            "gitHubOrganization": "yocto",
+            "contact1": {
+                "name": "Ben van Hartingsveldt",
+                "email": "ben@yocto.com",
+                "gitHubID": "ben221199"
+            }
+        },
+        "signature": {
+            "signedBy": "Ben van Hartingsveldt",
+            "signedByTitle": "CEO",
+            "signedAt": "2023-12-26T12:12:44.785Z"
+        }
+    },
+    {
+        "id": "573831b5-86ac-458d-a88e-1f132a8772eb",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Farsight Software Limited",
+            "address": "20-22 Wenlock Road, London N1 7GU, United Kingdom",
+            "url": "https://farsightsoftware.com/",
+            "gitHubOrganization": "farsightorg",
+            "contact1": {
+                "name": "T.J. Crowder",
+                "email": "tj.crowder@farsightsoftware.com",
+                "gitHubID": "farsightsoftware"
+            },
+            "contact2": {
+                "name": "T.J. Crowder",
+                "email": "tj@crowdersoftware.com",
+                "gitHubID": "tjcrowder"
+            }
+        },
+        "signature": {
+            "signedBy": "T.J. Crowder",
+            "signedByTitle": "Managing Director",
+            "signedAt": "2024-01-10T07:08:17.415Z"
+        }
+    },
+    {
+        "id": "8e78ccea-3160-44ca-8635-e673307c8327",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Blue Spire",
+            "address": "7901 4th St N STE 300, St. Petersburg, FL 33702",
+            "url": "https://www.bluespire.com/",
+            "gitHubOrganization": "bluespire",
+            "contact1": {
+                "name": "Rob Eisenberg",
+                "email": "rob@bluespire.com",
+                "gitHubID": "EisenbergEffect"
+            }
+        },
+        "signature": {
+            "signedBy": "Robert H. Eisenberg",
+            "signedByTitle": "Owner",
+            "signedAt": "2024-04-29T20:29:53.465Z"
+        }
+    },
+    {
+        "id": "5269e6e6-c6c7-4ecc-bf26-964d25c5e7de",
+        "verified": false,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Atlassian US, Inc.",
+            "address": "350 Bush St, Floor 13, San Francisco, CA 94104",
+            "url": "https://www.atlassian.com/",
+            "gitHubOrganization": "atlassian-whatwg",
+            "contact1": {
+                "name": "Alex Reardon",
+                "email": "areardon@atlassian.com",
+                "gitHubID": "alexreardon"
+            },
+            "contact2": {
+                "name": "Jonathan Keslin",
+                "email": "jkeslin@atlassian.com",
+                "gitHubID": "decompil3d"
+            }
+        },
+        "signature": {
+            "signedBy": " Hari Lingamagunta",
+            "signedByTitle": "Head of Engineering, UI Platform",
+            "signedAt": "2024-06-07T06:11:09.263Z"
+        }
+    },
+    {
+        "id": "0e7c1880-69d7-4d3a-a665-37d5f2338315",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "FOSS (Shanghai) Information Technology consulting Co., LTD.",
+            "address": "No. 575, Yuyao road, Jingan District, Shanghai, PRC",
+            "url": "https://github.com/gterzian",
+            "gitHubOrganization": "FOSS-Shanghai-Information-Technology",
+            "contact1": {
+                "name": "Gregory Terzian",
+                "email": "gregory.terzian@gmail.com",
+                "gitHubID": "gterzian"
+            }
+        },
+        "signature": {
+            "signedBy": "Gregory Terzian",
+            "signedByTitle": "legal representative",
+            "signedAt": "2024-06-11T19:46:40.813Z"
+        }
+    },
+    {
+        "id": "c03101cc-79c7-4bb4-a3c5-3968db1de159",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Incendi AS",
+            "address": "Snipemyrveien 16",
+            "url": "https://incendi.no/",
+            "gitHubOrganization": "incendilabs",
+            "contact1": {
+                "name": "Kenneth Myhra",
+                "email": "kenneth@incendi.no",
+                "gitHubID": "kennethmyhra"
+            }
+        },
+        "signature": {
+            "signedBy": "Kenneth Myhra",
+            "signedByTitle": "CEO",
+            "signedAt": "2024-08-20T20:20:55.629Z"
+        }
+    },
+    {
+        "id": "f3213f46-9378-452e-8636-a9158cfccf6a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ladybird Browser Initiative",
+            "address": "2261 Market Street STE 10029, San Francisco, CA 94114-1612",
+            "url": "https://ladybird.org/",
+            "gitHubOrganization": "LadybirdBrowser",
+            "contact1": {
+                "name": "Andreas Kling",
+                "email": "andreas@ladybird.org",
+                "gitHubID": "awesomekling"
+            },
+            "contact2": {
+                "name": "Jelle Raaijmakers",
+                "email": "jelle@ladybird.org",
+                "gitHubID": "gmta"
+            }
+        },
+        "signature": {
+            "signedBy": "Andreas Kling",
+            "signedByTitle": "President",
+            "signedAt": "2024-09-18T13:57:53.043Z"
+        }
+    },
+    {
+        "id": "12451c13-01ec-4d34-8b88-5bc927cab043",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Nexirius",
+            "address": "Dornacherstrasse 101",
+            "url": "https://www.nexirius.com/",
+            "gitHubOrganization": "Nexirius",
+            "contact1": {
+                "name": "Marcel Baumann",
+                "email": "marcel.baumann@nexirius.com",
+                "gitHubID": "nexirius"
+            }
+        },
+        "signature": {
+            "signedBy": "Marcel Baumann",
+            "signedByTitle": "Director",
+            "signedAt": "2024-10-29T11:06:10.816Z"
+        }
+    },
+    {
+        "id": "f8495403-6dad-4aea-9076-14d1a0817e4e",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Codeblog Corp",
+            "address": "111 New Montgomery Street, San Francisco, CA 94105",
+            "url": "https://bun.sh/",
+            "gitHubOrganization": "oven-sh",
+            "contact1": {
+                "name": "Meghan Denny",
+                "email": "meghan@bun.sh",
+                "gitHubID": "nektro"
+            },
+            "contact2": {
+                "name": "Jarred Sumner",
+                "email": "jarred@bun.sh",
+                "gitHubID": "Jarred-Sumner"
+            }
+        },
+        "signature": {
+            "signedBy": "Jarred Sumner",
+            "signedByTitle": "Founder, CEO",
+            "signedAt": "2025-03-13T21:40:49.183Z"
+        }
+    },
+    {
+        "id": "551d7b60-f097-45ac-a343-3e59289dd531",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Client-side development, Inc.",
+            "address": "1111B S Governors Ave STE 7601, Dover, DE, 19904, US",
+            "url": "https://cside.dev/",
+            "gitHubOrganization": "client-side-dev",
+            "contact1": {
+                "name": "Simon Wijckmans",
+                "email": "simon@cside.dev",
+                "gitHubID": "swijckmans"
+            },
+            "contact2": {
+                "name": "Conrad Crawford",
+                "email": "conrad@cside.dev",
+                "gitHubID": "cnrad"
+            }
+        },
+        "signature": {
+            "signedBy": "Simon Wijckmans",
+            "signedByTitle": "CEO",
+            "signedAt": "2025-06-13T18:31:16.231Z"
+        }
+    },
+    {
+        "id": "7212a8f7-d839-4975-af82-3c8b643c312e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Nibert Investments LLC",
+            "address": "2632 E BROOKFIELD CIR N",
+            "url": "https://github.com/nibertinvestmentsllc",
+            "gitHubOrganization": "nibertinvestmentsllc",
+            "contact1": {
+                "name": "JOSHUA R NIBERT",
+                "email": "josh@nibertinvestments.com",
+                "gitHubID": "nibertinvestments"
+            }
+        },
+        "signature": {
+            "signedBy": "JOSHUA R NIBERT",
+            "signedByTitle": "FOUNDER",
+            "signedAt": "2025-08-22T01:19:47.651Z"
+        }
+    },
+    {
+        "id": "5d8b6ccb-796e-4895-810e-6a92fed4afb2",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Kayla Michelle Blanco",
+            "address": "12312 sherman way APT 174 north hollywood, CA 91605",
+            "url": "http://www.google.com/",
+            "gitHubOrganization": "GODbody",
+            "contact1": {
+                "name": "Duquan White",
+                "email": "maclamboyant1@gmail.com",
+                "gitHubID": "GODbody"
+            },
+            "contact2": {
+                "name": "Dena Mendes ",
+                "email": "denab1222@yahoo.com",
+                "gitHubID": "GODbody"
+            }
+        },
+        "signature": {
+            "signedBy": "Kayla Michelle Blanco",
+            "signedByTitle": "GOD",
+            "signedAt": "2025-09-03T12:56:27.524Z"
+        }
+    },
+    {
+        "id": "912eb9e5-d24e-46f8-909d-52fa89dab859",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Elide Technologies, Inc.",
+            "address": "188 South Park, Unit 10, San Francisco, CA 94107",
+            "url": "https://elide.dev/",
+            "gitHubOrganization": "elide-dev",
+            "contact1": {
+                "name": "Sam Gammon",
+                "email": "sam@elide.dev",
+                "gitHubID": "sgammon"
+            }
+        },
+        "signature": {
+            "signedBy": "Sam Gammon",
+            "signedByTitle": "Founder",
+            "signedAt": "2025-10-13T18:39:11.647Z"
+        }
+    },
+    {
+        "id": "9df04dea-a526-4af4-b2e6-51e8e2f03760",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Harper",
+            "address": "2420 17th St, Suite 270, Denver, CO 80202",
+            "url": "https://www.harper.fast/",
+            "gitHubOrganization": "HarperFast",
+            "contact1": {
+                "name": "Ethan Arrowood",
+                "email": "ethan@arrowood.dev",
+                "gitHubID": "Ethan-Arrowood"
+            },
+            "contact2": {
+                "name": "Kristopher Zyp",
+                "email": "kris@harperdb.io",
+                "gitHubID": "kriszyp"
+            }
+        },
+        "signature": {
+            "signedBy": "Kristopher Zyp",
+            "signedByTitle": "SVP of Engineering",
+            "signedAt": "2025-10-21T17:17:21.336Z"
+        }
+    },
+    {
+        "id": "f7ec89ee-41b2-4c0f-b223-b93fe82c7758",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Squarespace, Inc.",
+            "address": "225 Varick Street, 12th Floor, New York, NY 10014",
+            "url": "http://squarespace.com/",
+            "gitHubOrganization": "Squarespace",
+            "contact1": {
+                "name": "Scott Jehl",
+                "email": "sjehl@squarespace.com",
+                "gitHubID": "scottjehl"
+            },
+            "contact2": {
+                "name": "Brent Kimmel",
+                "email": "bkimmel@squarespace.com",
+                "gitHubID": "bkimmelSQSP"
+            }
+        },
+        "signature": {
+            "signedBy": "Eric M. Leventhal",
+            "signedByTitle": "Assistant General Counsel",
+            "signedAt": "2025-12-03T16:29:05.879Z"
+        }
+    },
+    {
+        "id": "1b3e3bd7-7416-4270-8630-fa4d9a900844",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "OM Innovation AI Inc.",
+            "address": "5 Lincoln Ave, New York, New York, USA 10454",
+            "url": "https://usejunior.com/",
+            "gitHubOrganization": "UseJunior",
+            "contact1": {
+                "name": "Steven Obiajulu",
+                "email": "steven@usejunior.com",
+                "gitHubID": "stevenobiajulu"
+            }
+        },
+        "signature": {
+            "signedBy": "Steven Obiajulu",
+            "signedByTitle": "Chief Executive Officer",
+            "signedAt": "2026-02-24T03:43:19.748Z"
+        }
+    },
+    {
+        "id": "3b93d00a-2cc0-4e2c-b635-64fecaf3ba72",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "林冠成",
+            "address": "taichung",
+            "url": "https://github.com/cps92429",
+            "gitHubOrganization": "cps92429",
+            "contact1": {
+                "name": "cps92429",
+                "email": "cps92429@gmail.com",
+                "gitHubID": "cps92429"
+            }
+        },
+        "signature": {
+            "signedBy": "林冠成",
+            "signedByTitle": " Agreement o",
+            "signedAt": "2026-03-17T07:17:19.303Z"
+        }
+    }
+]

@@ -1,0 +1,21 @@
+{
+  "name": "agent-battle-bot",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "description": "Mineflayer bot + HTTP seam for a Claude tool-use loop to play Minecraft",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "postinstall": "node patch-viewer.cjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "canvas": "^3.2.3",
+    "express": "^4.19.2",
+    "mineflayer": "^4.20.1",
+    "mineflayer-collectblock": "^1.6.0",
+    "mineflayer-pathfinder": "^2.4.5",
+    "prismarine-viewer": "^1.33.0"
+  }
+}

@@ -1,0 +1,266 @@
+[
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.preamble.latex keyword.control.preamble.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "documentclass",
+		"t": "text.tex.latex meta.preamble.latex keyword.control.preamble.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.preamble.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "article",
+		"t": "text.tex.latex meta.preamble.latex support.class.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.preamble.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.begin-document.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.begin-document.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.begin-document.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "document",
+		"t": "text.tex.latex meta.function.begin-document.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.begin-document.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "[",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.begin.latex"
+	},
+	{
+		"c": "linenos",
+		"t": "text.tex.latex meta.parameter.optional.latex"
+	},
+	{
+		"c": "]",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.end.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "css",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.css"
+	},
+	{
+		"c": "h1",
+		"t": "text.tex.latex source.css meta.selector.css entity.name.tag.css"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.css"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.section.property-list.begin.bracket.curly.css"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.css meta.property-list.css"
+	},
+	{
+		"c": "font-size",
+		"t": "text.tex.latex source.css meta.property-list.css meta.property-name.css support.type.property-name.css"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.separator.key-value.css"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.css meta.property-list.css"
+	},
+	{
+		"c": "60",
+		"t": "text.tex.latex source.css meta.property-list.css meta.property-value.css constant.numeric.css"
+	},
+	{
+		"c": "px",
+		"t": "text.tex.latex source.css meta.property-list.css meta.property-value.css constant.numeric.css keyword.other.unit.px.css"
+	},
+	{
+		"c": ";",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.terminator.rule.css"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.css meta.property-list.css"
+	},
+	{
+		"c": "text-align",
+		"t": "text.tex.latex source.css meta.property-list.css meta.property-name.css support.type.property-name.css"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.separator.key-value.css"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.css meta.property-list.css"
+	},
+	{
+		"c": "center",
+		"t": "text.tex.latex source.css meta.property-list.css meta.property-value.css support.constant.property-value.css"
+	},
+	{
+		"c": ";",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.terminator.rule.css"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.css meta.property-list.css"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.section.property-list.end.bracket.curly.css"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.css"
+	},
+	{
+		"c": "p",
+		"t": "text.tex.latex source.css meta.selector.css entity.name.tag.css"
+	},
+	{
+		"c": ",",
+		"t": "text.tex.latex source.css meta.selector.css punctuation.separator.list.comma.css"
+	},
+	{
+		"c": "li",
+		"t": "text.tex.latex source.css meta.selector.css entity.name.tag.css"
+	},
+	{
+		"c": ",",
+		"t": "text.tex.latex source.css meta.selector.css punctuation.separator.list.comma.css"
+	},
+	{
+		"c": "h1",
+		"t": "text.tex.latex source.css meta.selector.css entity.name.tag.css"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.css"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.section.property-list.begin.bracket.curly.css"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.css meta.property-list.css"
+	},
+	{
+		"c": "color",
+		"t": "text.tex.latex source.css meta.property-list.css meta.property-name.css support.type.property-name.css"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.separator.key-value.css"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.css meta.property-list.css"
+	},
+	{
+		"c": "red",
+		"t": "text.tex.latex source.css meta.property-list.css meta.property-value.css support.constant.color.w3c-standard-color-name.css"
+	},
+	{
+		"c": ";",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.terminator.rule.css"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.css meta.property-list.css"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex source.css meta.property-list.css punctuation.section.property-list.end.bracket.curly.css"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.end-document.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.end-document.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.end-document.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "document",
+		"t": "text.tex.latex meta.function.end-document.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.end-document.latex punctuation.definition.arguments.end.latex"
+	}
+]

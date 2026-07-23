@@ -1,0 +1,10 @@
+{
+  "appDescription": {
+    "message": "為GitHub儲存庫添加一個按鈕，快速存取Repomix",
+    "description": "The description of the extension"
+  },
+  "openWithRepomix": {
+    "message": "使用Repomix開啟",
+    "description": "Button tooltip text for opening repository with Repomix"
+  }
+}

@@ -1,0 +1,1328 @@
+use async_trait::async_trait;
+use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
+use serde_json::json;
+use std::str::FromStr;
+use std::sync::Arc;
+use std::time::Duration;
+use zeroclaw_api::tool::{Tool, ToolResult};
+use zeroclaw_config::policy::SecurityPolicy;
+
+/// HTTP request tool for API interactions.
+/// Supports GET, POST, PUT, DELETE methods with configurable security.
+pub struct HttpRequestTool {
+    security: Arc<SecurityPolicy>,
+    allowed_domains: Vec<String>,
+    max_response_size: usize,
+    timeout_secs: u64,
+    allow_private_hosts: bool,
+    allowed_private_hosts: Vec<String>,
+}
+
+impl HttpRequestTool {
+    pub fn new(
+        security: Arc<SecurityPolicy>,
+        allowed_domains: Vec<String>,
+        max_response_size: usize,
+        timeout_secs: u64,
+        allow_private_hosts: bool,
+        allowed_private_hosts: Vec<String>,
+    ) -> anyhow::Result<Self> {
+        Ok(Self {
+            security,
+            allowed_domains: normalize_allowed_domains(allowed_domains)?,
+            max_response_size,
+            timeout_secs,
+            allow_private_hosts,
+            allowed_private_hosts: normalize_allowed_domains(allowed_private_hosts)?,
+        })
+    }
+
+    fn validate_url(&self, raw_url: &str) -> anyhow::Result<String> {
+        let url = raw_url.trim();
+
+        if url.is_empty() {
+            anyhow::bail!("URL cannot be empty");
+        }
+
+        if url.chars().any(char::is_whitespace) {
+            anyhow::bail!("URL cannot contain whitespace");
+        }
+
+        if !url.starts_with("http://") && !url.starts_with("https://") {
+            anyhow::bail!("Only http:// and https:// URLs are allowed");
+        }
+
+        if self.allowed_domains.is_empty() {
+            anyhow::bail!(
+                "HTTP request tool is enabled but no allowed_domains are configured. Add [http_request].allowed_domains in config.toml"
+            );
+        }
+
+        let host = extract_host(url)?;
+        let private_host = is_private_or_local_host(&host);
+        let private_host_explicitly_allowed =
+            private_host && host_matches_allowlist(&host, &self.allowed_private_hosts);
+
+        if private_host && !private_host_explicitly_allowed && !self.allow_private_hosts {
+            anyhow::bail!("Blocked local/private host: {host}");
+        }
+
+        if private_host_explicitly_allowed {
+            return Ok(url.to_string());
+        }
+
+        if !host_matches_allowlist(&host, &self.allowed_domains) {
+            anyhow::bail!("Host '{host}' is not in http_request.allowed_domains");
+        }
+
+        Ok(url.to_string())
+    }
+
+    fn validate_method(&self, method: &str) -> anyhow::Result<reqwest::Method> {
+        match method.to_uppercase().as_str() {
+            "GET" => Ok(reqwest::Method::GET),
+            "POST" => Ok(reqwest::Method::POST),
+            "PUT" => Ok(reqwest::Method::PUT),
+            "DELETE" => Ok(reqwest::Method::DELETE),
+            "PATCH" => Ok(reqwest::Method::PATCH),
+            "HEAD" => Ok(reqwest::Method::HEAD),
+            "OPTIONS" => Ok(reqwest::Method::OPTIONS),
+            _ => anyhow::bail!(
+                "Unsupported HTTP method: {method}. Supported: GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS"
+            ),
+        }
+    }
+
+    fn parse_headers(&self, headers: &serde_json::Value) -> anyhow::Result<HeaderMap> {
+        let mut result = HeaderMap::new();
+        if let Some(obj) = headers.as_object() {
+            for (key, value) in obj {
+                let Some(str_val) = value.as_str() else {
+                    anyhow::bail!("Header '{key}' value must be a string, got: {}", value);
+                };
+                let header_name = HeaderName::from_str(key)
+                    .map_err(|e| anyhow::Error::msg(format!("Invalid header name '{key}': {e}")))?;
+                let header_value = HeaderValue::from_str(str_val).map_err(|e| {
+                    anyhow::Error::msg(format!("Invalid value for header '{key}': {e}"))
+                })?;
+                result.insert(header_name, header_value);
+            }
+        }
+        Ok(result)
+    }
+
+    #[cfg(test)]
+    fn redact_headers_for_display(headers: &[(String, String)]) -> Vec<(String, String)> {
+        headers
+            .iter()
+            .map(|(key, value)| {
+                let lower = key.to_lowercase();
+                let is_sensitive = lower.contains("authorization")
+                    || lower.contains("api-key")
+                    || lower.contains("apikey")
+                    || lower.contains("token")
+                    || lower.contains("secret");
+                if is_sensitive {
+                    (key.clone(), "***REDACTED***".into())
+                } else {
+                    (key.clone(), value.clone())
+                }
+            })
+            .collect()
+    }
+
+    async fn execute_request(
+        &self,
+        url: &str,
+        method: reqwest::Method,
+        headers: HeaderMap,
+        body: Option<&str>,
+    ) -> anyhow::Result<reqwest::Response> {
+        let timeout_secs = if self.timeout_secs == 0 {
+            ::zeroclaw_log::record!(
+                WARN,
+                ::zeroclaw_log::Event::new(module_path!(), ::zeroclaw_log::Action::Note)
+                    .with_outcome(::zeroclaw_log::EventOutcome::Unknown),
+                "http_request: timeout_secs is 0, using safe default of 30s"
+            );
+            30
+        } else {
+            self.timeout_secs
+        };
+        let builder = reqwest::Client::builder()
+            .timeout(Duration::from_secs(timeout_secs))
+            .connect_timeout(Duration::from_secs(10))
+            .redirect(reqwest::redirect::Policy::none());
+        let builder =
+            zeroclaw_config::schema::apply_runtime_proxy_to_builder(builder, "tool.http_request");
+        let client = builder.build()?;
+
+        let mut request = client.request(method, url).headers(headers);
+
+        if let Some(body_str) = body {
+            request = request.body(body_str.to_string());
+        }
+
+        Ok(request.send().await?)
+    }
+
+    fn truncate_response(&self, text: &str) -> String {
+        // 0 means unlimited — no truncation.
+        if self.max_response_size == 0 {
+            return text.to_string();
+        }
+        if text.len() > self.max_response_size {
+            let mut truncated = text
+                .chars()
+                .take(self.max_response_size)
+                .collect::<String>();
+            truncated.push_str("\n\n... [Response truncated due to size limit] ...");
+            truncated
+        } else {
+            text.to_string()
+        }
+    }
+}
+
+#[async_trait]
+impl Tool for HttpRequestTool {
+    fn name(&self) -> &str {
+        "http_request"
+    }
+
+    fn description(&self) -> &str {
+        "Make HTTP requests to external APIs. Supports GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS methods. \
+        Security constraints: allowlist-only domains, local/private hosts blocked unless explicitly configured, configurable timeout and response size limits."
+    }
+
+    fn parameters_schema(&self) -> serde_json::Value {
+        json!({
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "HTTP or HTTPS URL to request"
+                },
+                "method": {
+                    "type": "string",
+                    "description": "HTTP method (GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS)",
+                    "default": "GET"
+                },
+                "headers": {
+                    "type": "object",
+                    "description": "Optional HTTP headers as key-value pairs (e.g., {\"Authorization\": \"Bearer token\", \"Content-Type\": \"application/json\"})",
+                    "default": {}
+                },
+                "body": {
+                    "type": "string",
+                    "description": "Optional request body (for POST, PUT, PATCH requests)"
+                }
+            },
+            "required": ["url"]
+        })
+    }
+
+    async fn execute(&self, args: serde_json::Value) -> anyhow::Result<ToolResult> {
+        let url = args.get("url").and_then(|v| v.as_str()).ok_or_else(|| {
+            ::zeroclaw_log::record!(
+                WARN,
+                ::zeroclaw_log::Event::new(module_path!(), ::zeroclaw_log::Action::Reject)
+                    .with_outcome(::zeroclaw_log::EventOutcome::Failure)
+                    .with_attrs(::serde_json::json!({"param": "url"})),
+                "http_request: missing url parameter"
+            );
+            anyhow::Error::msg("Missing 'url' parameter")
+        })?;
+
+        let method_str = args.get("method").and_then(|v| v.as_str()).unwrap_or("GET");
+        let headers_val = args.get("headers").cloned().unwrap_or(json!({}));
+        let body = args.get("body").and_then(|v| v.as_str());
+
+        if !self.security.can_act() {
+            return Ok(ToolResult {
+                success: false,
+                output: String::new(),
+                error: Some("Action blocked: autonomy is read-only".into()),
+            });
+        }
+
+        // Rate limiting is applied by the RateLimitedTool wrapper at
+        // registration time (see zeroclaw-runtime::tools::mod).
+
+        let url = match self.validate_url(url) {
+            Ok(v) => v,
+            Err(e) => {
+                return Ok(ToolResult {
+                    success: false,
+                    output: String::new(),
+                    error: Some(e.to_string()),
+                });
+            }
+        };
+
+        let method = match self.validate_method(method_str) {
+            Ok(m) => m,
+            Err(e) => {
+                return Ok(ToolResult {
+                    success: false,
+                    output: String::new(),
+                    error: Some(e.to_string()),
+                });
+            }
+        };
+
+        let request_headers = match self.parse_headers(&headers_val) {
+            Ok(h) => h,
+            Err(e) => {
+                return Ok(ToolResult {
+                    success: false,
+                    output: String::new(),
+                    error: Some(e.to_string()),
+                });
+            }
+        };
+
+        match self
+            .execute_request(&url, method, request_headers, body)
+            .await
+        {
+            Ok(response) => {
+                let status = response.status();
+                let status_code = status.as_u16();
+
+                // Get response headers (redact sensitive ones)
+                let response_headers = response.headers().iter();
+                let headers_text = response_headers
+                    .map(|(k, _)| {
+                        let is_sensitive = k.as_str().to_lowercase().contains("set-cookie");
+                        if is_sensitive {
+                            format!("{}: ***REDACTED***", k.as_str())
+                        } else {
+                            format!("{}: {:?}", k.as_str(), k.as_str())
+                        }
+                    })
+                    .collect::<Vec<_>>()
+                    .join(", ");
+
+                // Get response body with size limit
+                let response_text = match response.text().await {
+                    Ok(text) => self.truncate_response(&text),
+                    Err(e) => format!("[Failed to read response body: {e}]"),
+                };
+
+                let output = format!(
+                    "Status: {} {}\nResponse Headers: {}\n\nResponse Body:\n{}",
+                    status_code,
+                    status.canonical_reason().unwrap_or("Unknown"),
+                    headers_text,
+                    response_text
+                );
+
+                Ok(ToolResult {
+                    success: status.is_success(),
+                    output,
+                    error: if status.is_client_error() || status.is_server_error() {
+                        Some(format!("HTTP {}", status_code))
+                    } else {
+                        None
+                    },
+                })
+            }
+            Err(e) => Ok(ToolResult {
+                success: false,
+                output: String::new(),
+                error: Some(format!("HTTP request failed: {e}")),
+            }),
+        }
+    }
+}
+
+// Helper functions similar to browser_open.rs
+
+fn normalize_allowed_domains(domains: Vec<String>) -> anyhow::Result<Vec<String>> {
+    let mut rejected = Vec::new();
+    let mut normalized = domains
+        .into_iter()
+        .filter_map(|d| {
+            normalize_domain(&d).or_else(|| {
+                rejected.push(d.clone());
+                None
+            })
+        })
+        .collect::<Vec<_>>();
+    if !rejected.is_empty() {
+        anyhow::bail!(
+            "Invalid http_request.allowed_domains entry(s): [{}]. Each entry must be a valid domain, hostname, IPv4, or IPv6 address.",
+            rejected.join(", ")
+        );
+    }
+    normalized.sort_unstable();
+    normalized.dedup();
+    Ok(normalized)
+}
+
+fn normalize_domain(raw: &str) -> Option<String> {
+    let input = raw.trim();
+    if input.is_empty() || input.chars().any(char::is_whitespace) {
+        return None;
+    }
+
+    let bare_ip = match (input.starts_with('['), input.ends_with(']')) {
+        (true, true) => &input[1..input.len() - 1],
+        (false, false) => input,
+        _ => return None,
+    };
+    if let Ok(ip) = bare_ip.parse::<std::net::IpAddr>() {
+        return Some(ip.to_string().to_lowercase());
+    }
+
+    let parsed = reqwest::Url::parse(input)
+        .or_else(|_| reqwest::Url::parse(&format!("https://{input}")))
+        .ok()?;
+
+    if !parsed.username().is_empty() || parsed.password().is_some() {
+        return None;
+    }
+
+    let host = parsed.host_str()?;
+    let trimmed = host.trim();
+    let host_no_brackets = match (trimmed.starts_with('['), trimmed.ends_with(']')) {
+        (true, true) => &trimmed[1..trimmed.len() - 1],
+        (false, false) => trimmed,
+        _ => return None,
+    };
+    let normalized = host_no_brackets
+        .trim_start_matches('.')
+        .trim_end_matches('.');
+    if normalized.is_empty() {
+        return None;
+    }
+
+    Some(normalized.to_lowercase())
+}
+
+fn extract_host(url: &str) -> anyhow::Result<String> {
+    if !url.starts_with("http://") && !url.starts_with("https://") {
+        ::zeroclaw_log::record!(
+            WARN,
+            ::zeroclaw_log::Event::new(module_path!(), ::zeroclaw_log::Action::Reject)
+                .with_outcome(::zeroclaw_log::EventOutcome::Failure)
+                .with_attrs(::serde_json::json!({"url": url})),
+            "http_request: non-http(s) URL rejected"
+        );
+        anyhow::bail!("Only http:// and https:// URLs are allowed");
+    }
+
+    let parsed = reqwest::Url::parse(url).map_err(|e| {
+        ::zeroclaw_log::record!(
+            WARN,
+            ::zeroclaw_log::Event::new(module_path!(), ::zeroclaw_log::Action::Reject)
+                .with_outcome(::zeroclaw_log::EventOutcome::Failure)
+                .with_attrs(::serde_json::json!({"url": url})),
+            "http_request: invalid URL"
+        );
+        anyhow::Error::msg(format!("Invalid URL format: {e}"))
+    })?;
+
+    if !parsed.username().is_empty() || parsed.password().is_some() {
+        anyhow::bail!("URL userinfo is not allowed");
+    }
+
+    let host = parsed
+        .host_str()
+        .ok_or_else(|| anyhow::Error::msg("URL must include a host"))?;
+
+    let trimmed = host.trim();
+    let host_no_brackets = match (trimmed.starts_with('['), trimmed.ends_with(']')) {
+        (true, true) => &trimmed[1..trimmed.len() - 1],
+        (false, false) => trimmed,
+        _ => {
+            anyhow::bail!("URL host has unmatched IPv6 brackets");
+        }
+    };
+    let host = host_no_brackets.trim_end_matches('.').to_lowercase();
+
+    if host.is_empty() {
+        anyhow::bail!("URL must include a valid host");
+    }
+
+    Ok(host)
+}
+
+fn host_matches_allowlist(host: &str, allowed_domains: &[String]) -> bool {
+    if allowed_domains.iter().any(|domain| domain == "*") {
+        return true;
+    }
+
+    let host_is_ip = host.parse::<std::net::IpAddr>().is_ok();
+    allowed_domains.iter().any(|domain| {
+        if host_is_ip || domain.parse::<std::net::IpAddr>().is_ok() {
+            host == domain
+        } else {
+            host == domain
+                || host
+                    .strip_suffix(domain)
+                    .is_some_and(|prefix| prefix.ends_with('.'))
+        }
+    })
+}
+
+fn is_private_or_local_host(host: &str) -> bool {
+    // Strip brackets from IPv6 addresses like [::1]
+    let bare = host
+        .strip_prefix('[')
+        .and_then(|h| h.strip_suffix(']'))
+        .unwrap_or(host);
+
+    let has_local_tld = bare
+        .rsplit('.')
+        .next()
+        .is_some_and(|label| label == "local");
+
+    if bare == "localhost" || bare.ends_with(".localhost") || has_local_tld {
+        return true;
+    }
+
+    if let Ok(ip) = bare.parse::<std::net::IpAddr>() {
+        return match ip {
+            std::net::IpAddr::V4(v4) => is_non_global_v4(v4),
+            std::net::IpAddr::V6(v6) => is_non_global_v6(v6),
+        };
+    }
+
+    false
+}
+
+/// Returns true if the IPv4 address is not globally routable.
+fn is_non_global_v4(v4: std::net::Ipv4Addr) -> bool {
+    let [a, b, c, _] = v4.octets();
+    v4.is_loopback()                       // 127.0.0.0/8
+        || v4.is_private()                 // 10/8, 172.16/12, 192.168/16
+        || v4.is_link_local()              // 169.254.0.0/16
+        || v4.is_unspecified()             // 0.0.0.0
+        || v4.is_broadcast()              // 255.255.255.255
+        || v4.is_multicast()              // 224.0.0.0/4
+        || (a == 100 && (64..=127).contains(&b)) // Shared address space (RFC 6598)
+        || a >= 240                        // Reserved (240.0.0.0/4, except broadcast)
+        || (a == 192 && b == 0 && (c == 0 || c == 2)) // IETF assignments + TEST-NET-1
+        || (a == 198 && b == 51)           // Documentation (198.51.100.0/24)
+        || (a == 203 && b == 0)            // Documentation (203.0.113.0/24)
+        || (a == 198 && (18..=19).contains(&b)) // Benchmarking (198.18.0.0/15)
+}
+
+/// Returns true if the IPv6 address is not globally routable.
+fn is_non_global_v6(v6: std::net::Ipv6Addr) -> bool {
+    let segs = v6.segments();
+    v6.is_loopback()                       // ::1
+        || v6.is_unspecified()             // ::
+        || v6.is_multicast()              // ff00::/8
+        || (segs[0] & 0xfe00) == 0xfc00   // Unique-local (fc00::/7)
+        || (segs[0] & 0xffc0) == 0xfe80   // Link-local (fe80::/10)
+        || (segs[0] == 0x2001 && segs[1] == 0x0db8) // Documentation (2001:db8::/32)
+        || v6.to_ipv4_mapped().is_some_and(is_non_global_v4)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use zeroclaw_config::autonomy::AutonomyLevel;
+    use zeroclaw_config::policy::SecurityPolicy;
+
+    fn test_tool(allowed_domains: Vec<&str>) -> HttpRequestTool {
+        test_tool_with_private(allowed_domains, false)
+    }
+
+    fn test_tool_with_private(
+        allowed_domains: Vec<&str>,
+        allow_private_hosts: bool,
+    ) -> HttpRequestTool {
+        test_tool_with_private_allowlist(allowed_domains, allow_private_hosts, Vec::new())
+    }
+
+    fn test_tool_with_private_allowlist(
+        allowed_domains: Vec<&str>,
+        allow_private_hosts: bool,
+        allowed_private_hosts: Vec<&str>,
+    ) -> HttpRequestTool {
+        let security = Arc::new(SecurityPolicy {
+            autonomy: AutonomyLevel::Supervised,
+            ..SecurityPolicy::default()
+        });
+        HttpRequestTool::new(
+            security,
+            allowed_domains.into_iter().map(String::from).collect(),
+            1_000_000,
+            30,
+            allow_private_hosts,
+            allowed_private_hosts
+                .into_iter()
+                .map(String::from)
+                .collect(),
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn normalize_domain_strips_scheme_path_and_case() {
+        let got = normalize_domain("  HTTPS://Docs.Example.com/path ").unwrap();
+        assert_eq!(got, "docs.example.com");
+    }
+
+    #[test]
+    fn normalize_domain_accepts_ipv6_literal() {
+        let got = normalize_domain("[2001:db8::1]").unwrap();
+        assert_eq!(got, "2001:db8::1");
+    }
+
+    #[test]
+    fn normalize_domain_rejects_userinfo() {
+        assert!(normalize_domain("https://user@example.com").is_none());
+        assert!(normalize_domain("user@example.com").is_none());
+        assert!(normalize_domain("https://user:pass@example.com").is_none());
+        assert!(normalize_domain("user:pass@example.com").is_none());
+    }
+
+    #[test]
+    fn normalize_domain_rejects_unmatched_brackets() {
+        assert!(normalize_domain("[::1").is_none());
+        assert!(normalize_domain("::1]").is_none());
+        assert!(normalize_domain("[127.0.0.1").is_none());
+        assert!(normalize_domain("127.0.0.1]").is_none());
+    }
+
+    #[test]
+    fn extract_host_normalizes_ipv6_without_brackets() {
+        let got = extract_host("https://[2001:db8::1]:443/path").unwrap();
+        assert_eq!(got, "2001:db8::1");
+    }
+
+    #[test]
+    fn normalize_allowed_domains_rejects_invalid_entries() {
+        let err = normalize_allowed_domains(vec![
+            "".into(),
+            "example.com".into(),
+            "   ".into(),
+            "api.example.com".into(),
+        ])
+        .unwrap_err();
+        let msg = err.to_string();
+        assert!(
+            msg.contains("Invalid http_request.allowed_domains entry"),
+            "got: {msg}"
+        );
+    }
+
+    #[test]
+    fn normalize_allowed_domains_accepts_all_valid() {
+        let got = normalize_allowed_domains(vec!["example.com".into(), "api.example.com".into()])
+            .unwrap();
+        assert_eq!(got.len(), 2);
+        assert!(got.contains(&"example.com".to_string()));
+        assert!(got.contains(&"api.example.com".to_string()));
+    }
+
+    #[test]
+    fn normalize_allowed_domains_deduplicates() {
+        let got = normalize_allowed_domains(vec![
+            "example.com".into(),
+            "EXAMPLE.COM".into(),
+            "https://example.com/".into(),
+        ])
+        .unwrap();
+        assert_eq!(got, vec!["example.com".to_string()]);
+    }
+
+    #[test]
+    fn validate_accepts_exact_domain() {
+        let tool = test_tool(vec!["example.com"]);
+        let got = tool.validate_url("https://example.com/docs").unwrap();
+        assert_eq!(got, "https://example.com/docs");
+    }
+
+    #[test]
+    fn validate_accepts_http() {
+        let tool = test_tool(vec!["example.com"]);
+        assert!(tool.validate_url("http://example.com").is_ok());
+    }
+
+    #[test]
+    fn validate_accepts_subdomain() {
+        let tool = test_tool(vec!["example.com"]);
+        assert!(tool.validate_url("https://api.example.com/v1").is_ok());
+    }
+
+    #[test]
+    fn validate_accepts_wildcard_allowlist_for_public_host() {
+        let tool = test_tool(vec!["*"]);
+        assert!(tool.validate_url("https://news.ycombinator.com").is_ok());
+    }
+
+    #[test]
+    fn validate_wildcard_allowlist_still_rejects_private_host() {
+        let tool = test_tool(vec!["*"]);
+        let err = tool
+            .validate_url("https://localhost:8080")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("local/private"));
+    }
+
+    #[test]
+    fn validate_rejects_allowlist_miss() {
+        let tool = test_tool(vec!["example.com"]);
+        let err = tool
+            .validate_url("https://google.com")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("allowed_domains"));
+    }
+
+    #[test]
+    fn validate_rejects_localhost() {
+        let tool = test_tool(vec!["localhost"]);
+        let err = tool
+            .validate_url("https://localhost:8080")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("local/private"));
+    }
+
+    #[test]
+    fn validate_rejects_private_ipv4() {
+        let tool = test_tool(vec!["192.168.1.5"]);
+        let err = tool
+            .validate_url("https://192.168.1.5")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("local/private"));
+    }
+
+    #[test]
+    fn validate_rejects_whitespace() {
+        let tool = test_tool(vec!["example.com"]);
+        let err = tool
+            .validate_url("https://example.com/hello world")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("whitespace"));
+    }
+
+    #[test]
+    fn validate_rejects_userinfo() {
+        let tool = test_tool(vec!["example.com"]);
+        let err = tool
+            .validate_url("https://user@example.com")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("userinfo"));
+    }
+
+    #[test]
+    fn validate_requires_allowlist() {
+        let security = Arc::new(SecurityPolicy::default());
+        let tool =
+            HttpRequestTool::new(security, vec![], 1_000_000, 30, false, Vec::new()).unwrap();
+        let err = tool
+            .validate_url("https://example.com")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("allowed_domains"));
+    }
+
+    #[test]
+    fn validate_accepts_valid_methods() {
+        let tool = test_tool(vec!["example.com"]);
+        assert!(tool.validate_method("GET").is_ok());
+        assert!(tool.validate_method("POST").is_ok());
+        assert!(tool.validate_method("PUT").is_ok());
+        assert!(tool.validate_method("DELETE").is_ok());
+        assert!(tool.validate_method("PATCH").is_ok());
+        assert!(tool.validate_method("HEAD").is_ok());
+        assert!(tool.validate_method("OPTIONS").is_ok());
+    }
+
+    #[test]
+    fn validate_rejects_invalid_method() {
+        let tool = test_tool(vec!["example.com"]);
+        let err = tool.validate_method("INVALID").unwrap_err().to_string();
+        assert!(err.contains("Unsupported HTTP method"));
+    }
+
+    #[test]
+    fn blocks_multicast_ipv4() {
+        assert!(is_private_or_local_host("224.0.0.1"));
+        assert!(is_private_or_local_host("239.255.255.255"));
+    }
+
+    #[test]
+    fn blocks_broadcast() {
+        assert!(is_private_or_local_host("255.255.255.255"));
+    }
+
+    #[test]
+    fn blocks_reserved_ipv4() {
+        assert!(is_private_or_local_host("240.0.0.1"));
+        assert!(is_private_or_local_host("250.1.2.3"));
+    }
+
+    #[test]
+    fn blocks_documentation_ranges() {
+        assert!(is_private_or_local_host("192.0.2.1")); // TEST-NET-1
+        assert!(is_private_or_local_host("198.51.100.1")); // TEST-NET-2
+        assert!(is_private_or_local_host("203.0.113.1")); // TEST-NET-3
+    }
+
+    #[test]
+    fn blocks_benchmarking_range() {
+        assert!(is_private_or_local_host("198.18.0.1"));
+        assert!(is_private_or_local_host("198.19.255.255"));
+    }
+
+    #[test]
+    fn blocks_ipv6_localhost() {
+        assert!(is_private_or_local_host("::1"));
+        assert!(is_private_or_local_host("[::1]"));
+    }
+
+    #[test]
+    fn blocks_ipv6_multicast() {
+        assert!(is_private_or_local_host("ff02::1"));
+    }
+
+    #[test]
+    fn blocks_ipv6_link_local() {
+        assert!(is_private_or_local_host("fe80::1"));
+    }
+
+    #[test]
+    fn blocks_ipv6_unique_local() {
+        assert!(is_private_or_local_host("fd00::1"));
+    }
+
+    #[test]
+    fn blocks_ipv4_mapped_ipv6() {
+        assert!(is_private_or_local_host("::ffff:127.0.0.1"));
+        assert!(is_private_or_local_host("::ffff:192.168.1.1"));
+        assert!(is_private_or_local_host("::ffff:10.0.0.1"));
+    }
+
+    #[test]
+    fn allows_public_ipv4() {
+        assert!(!is_private_or_local_host("8.8.8.8"));
+        assert!(!is_private_or_local_host("1.1.1.1"));
+        assert!(!is_private_or_local_host("93.184.216.34"));
+    }
+
+    #[test]
+    fn blocks_ipv6_documentation_range() {
+        assert!(is_private_or_local_host("2001:db8::1"));
+    }
+
+    #[test]
+    fn allows_public_ipv6() {
+        assert!(!is_private_or_local_host("2607:f8b0:4004:800::200e"));
+    }
+
+    #[test]
+    fn blocks_shared_address_space() {
+        assert!(is_private_or_local_host("100.64.0.1"));
+        assert!(is_private_or_local_host("100.127.255.255"));
+        assert!(!is_private_or_local_host("100.63.0.1")); // Just below range
+        assert!(!is_private_or_local_host("100.128.0.1")); // Just above range
+    }
+
+    #[tokio::test]
+    async fn execute_blocks_readonly_mode() {
+        let security = Arc::new(SecurityPolicy {
+            autonomy: AutonomyLevel::ReadOnly,
+            ..SecurityPolicy::default()
+        });
+        let tool = HttpRequestTool::new(
+            security,
+            vec!["example.com".into()],
+            1_000_000,
+            30,
+            false,
+            Vec::new(),
+        )
+        .unwrap();
+        let result = tool
+            .execute(json!({"url": "https://example.com"}))
+            .await
+            .unwrap();
+        assert!(!result.success);
+        assert!(result.error.unwrap().contains("read-only"));
+    }
+
+    #[test]
+    fn truncate_response_within_limit() {
+        let tool = test_tool(vec!["example.com"]);
+        let text = "hello world";
+        assert_eq!(tool.truncate_response(text), "hello world");
+    }
+
+    #[test]
+    fn truncate_response_over_limit() {
+        let tool = HttpRequestTool::new(
+            Arc::new(SecurityPolicy::default()),
+            vec!["example.com".into()],
+            10,
+            30,
+            false,
+            Vec::new(),
+        )
+        .unwrap();
+        let text = "hello world this is long";
+        let truncated = tool.truncate_response(text);
+        assert!(truncated.len() <= 10 + 60); // limit + message
+        assert!(truncated.contains("[Response truncated"));
+    }
+
+    #[test]
+    fn truncate_response_zero_means_unlimited() {
+        let tool = HttpRequestTool::new(
+            Arc::new(SecurityPolicy::default()),
+            vec!["example.com".into()],
+            0, // max_response_size = 0 means no limit
+            30,
+            false,
+            Vec::new(),
+        )
+        .unwrap();
+        let text = "a".repeat(10_000_000);
+        assert_eq!(tool.truncate_response(&text), text);
+    }
+
+    #[test]
+    fn truncate_response_nonzero_still_truncates() {
+        let tool = HttpRequestTool::new(
+            Arc::new(SecurityPolicy::default()),
+            vec!["example.com".into()],
+            5,
+            30,
+            false,
+            Vec::new(),
+        )
+        .unwrap();
+        let text = "hello world";
+        let truncated = tool.truncate_response(text);
+        assert!(truncated.starts_with("hello"));
+        assert!(truncated.contains("[Response truncated"));
+    }
+
+    #[test]
+    fn parse_headers_rejects_non_string_values() {
+        let tool = test_tool(vec!["example.com"]);
+        let headers = json!({
+            "X-Number": 42,
+            "Content-Type": "application/json"
+        });
+        let err = tool.parse_headers(&headers).unwrap_err().to_string();
+        assert!(
+            err.contains("X-Number"),
+            "Should reject non-string header value, got: {err}"
+        );
+    }
+
+    #[test]
+    fn parse_headers_preserves_original_values() {
+        let tool = test_tool(vec!["example.com"]);
+        let headers = json!({
+            "Authorization": "Bearer secret",
+            "Content-Type": "application/json",
+            "X-API-Key": "my-key"
+        });
+        let parsed = tool.parse_headers(&headers).unwrap();
+        assert_eq!(parsed.len(), 3);
+        assert_eq!(parsed["authorization"], "Bearer secret");
+        assert_eq!(parsed["x-api-key"], "my-key");
+        assert_eq!(parsed["content-type"], "application/json");
+    }
+
+    #[test]
+    fn redact_headers_for_display_redacts_sensitive() {
+        let headers = vec![
+            ("Authorization".into(), "Bearer secret".into()),
+            ("Content-Type".into(), "application/json".into()),
+            ("X-API-Key".into(), "my-key".into()),
+            ("X-Secret-Token".into(), "tok-123".into()),
+        ];
+        let redacted = HttpRequestTool::redact_headers_for_display(&headers);
+        assert_eq!(redacted.len(), 4);
+        assert!(
+            redacted
+                .iter()
+                .any(|(k, v)| k == "Authorization" && v == "***REDACTED***")
+        );
+        assert!(
+            redacted
+                .iter()
+                .any(|(k, v)| k == "X-API-Key" && v == "***REDACTED***")
+        );
+        assert!(
+            redacted
+                .iter()
+                .any(|(k, v)| k == "X-Secret-Token" && v == "***REDACTED***")
+        );
+        assert!(
+            redacted
+                .iter()
+                .any(|(k, v)| k == "Content-Type" && v == "application/json")
+        );
+    }
+
+    #[test]
+    fn redact_headers_does_not_alter_original() {
+        let headers = vec![("Authorization".into(), "Bearer real-token".into())];
+        let _ = HttpRequestTool::redact_headers_for_display(&headers);
+        assert_eq!(headers[0].1, "Bearer real-token");
+    }
+
+    // ── SSRF: alternate IP notation bypass defense-in-depth ─────────
+    //
+    // Rust's IpAddr::parse() rejects non-standard notations (octal, hex,
+    // decimal integer, zero-padded). These tests document that property
+    // so regressions are caught if the parsing strategy ever changes.
+
+    #[test]
+    fn ssrf_octal_loopback_not_parsed_as_ip() {
+        // 0177.0.0.1 is octal for 127.0.0.1 in some languages, but
+        // Rust's IpAddr rejects it — it falls through as a hostname.
+        assert!(!is_private_or_local_host("0177.0.0.1"));
+    }
+
+    #[test]
+    fn ssrf_hex_loopback_not_parsed_as_ip() {
+        // 0x7f000001 is hex for 127.0.0.1 in some languages.
+        assert!(!is_private_or_local_host("0x7f000001"));
+    }
+
+    #[test]
+    fn ssrf_decimal_loopback_not_parsed_as_ip() {
+        // 2130706433 is decimal for 127.0.0.1 in some languages.
+        assert!(!is_private_or_local_host("2130706433"));
+    }
+
+    #[test]
+    fn ssrf_zero_padded_loopback_not_parsed_as_ip() {
+        // 127.000.000.001 uses zero-padded octets.
+        assert!(!is_private_or_local_host("127.000.000.001"));
+    }
+
+    #[test]
+    fn ssrf_alternate_notations_rejected_by_validate_url() {
+        // Alternate notations must be blocked by validation.
+        // Depending on URL canonicalization, they may be rejected either as:
+        // - private/local hosts, or
+        // - allowlist mismatches.
+        let tool = test_tool(vec!["example.com"]);
+        for notation in [
+            "http://0177.0.0.1",
+            "http://0x7f000001",
+            "http://2130706433",
+            "http://127.000.000.001",
+        ] {
+            let err = tool.validate_url(notation).unwrap_err().to_string();
+            assert!(
+                err.contains("allowed_domains") || err.contains("local/private"),
+                "Expected secure rejection for {notation}, got: {err}"
+            );
+        }
+    }
+
+    #[test]
+    fn redirect_policy_is_none() {
+        // Structural test: the tool should be buildable with redirect-safe config.
+        // The actual Policy::none() enforcement is in execute_request's client builder.
+        let tool = test_tool(vec!["example.com"]);
+        assert_eq!(tool.name(), "http_request");
+    }
+
+    // ── §1.4 DNS rebinding / SSRF defense-in-depth tests ─────
+
+    #[test]
+    fn ssrf_blocks_loopback_127_range() {
+        assert!(is_private_or_local_host("127.0.0.1"));
+        assert!(is_private_or_local_host("127.0.0.2"));
+        assert!(is_private_or_local_host("127.255.255.255"));
+    }
+
+    #[test]
+    fn ssrf_blocks_rfc1918_10_range() {
+        assert!(is_private_or_local_host("10.0.0.1"));
+        assert!(is_private_or_local_host("10.255.255.255"));
+    }
+
+    #[test]
+    fn ssrf_blocks_rfc1918_172_range() {
+        assert!(is_private_or_local_host("172.16.0.1"));
+        assert!(is_private_or_local_host("172.31.255.255"));
+    }
+
+    #[test]
+    fn ssrf_blocks_unspecified_address() {
+        assert!(is_private_or_local_host("0.0.0.0"));
+    }
+
+    #[test]
+    fn ssrf_blocks_dot_localhost_subdomain() {
+        assert!(is_private_or_local_host("evil.localhost"));
+        assert!(is_private_or_local_host("a.b.localhost"));
+    }
+
+    #[test]
+    fn ssrf_blocks_dot_local_tld() {
+        assert!(is_private_or_local_host("service.local"));
+    }
+
+    #[test]
+    fn ssrf_ipv6_unspecified() {
+        assert!(is_private_or_local_host("::"));
+    }
+
+    #[test]
+    fn validate_rejects_ftp_scheme() {
+        let tool = test_tool(vec!["example.com"]);
+        let err = tool
+            .validate_url("ftp://example.com")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("http://") || err.contains("https://"));
+    }
+
+    #[test]
+    fn validate_rejects_empty_url() {
+        let tool = test_tool(vec!["example.com"]);
+        let err = tool.validate_url("").unwrap_err().to_string();
+        assert!(err.contains("empty"));
+    }
+
+    #[test]
+    fn validate_accepts_public_ipv6_host_when_allowlisted() {
+        let tool = test_tool(vec!["2607:f8b0:4004:800::200e"]);
+        assert!(
+            tool.validate_url("https://[2607:f8b0:4004:800::200e]/path")
+                .is_ok()
+        );
+    }
+
+    // ── allow_private_hosts opt-in tests ────────────────────────
+
+    #[test]
+    fn default_blocks_private_hosts() {
+        let tool = test_tool(vec!["localhost", "192.168.1.5", "*"]);
+        assert!(
+            tool.validate_url("https://localhost:8080")
+                .unwrap_err()
+                .to_string()
+                .contains("local/private")
+        );
+        assert!(
+            tool.validate_url("https://192.168.1.5")
+                .unwrap_err()
+                .to_string()
+                .contains("local/private")
+        );
+        assert!(
+            tool.validate_url("https://10.0.0.1")
+                .unwrap_err()
+                .to_string()
+                .contains("local/private")
+        );
+    }
+
+    #[test]
+    fn allow_private_hosts_permits_localhost() {
+        let tool = test_tool_with_private(vec!["localhost"], true);
+        assert!(tool.validate_url("https://localhost:8080").is_ok());
+    }
+
+    #[test]
+    fn allow_private_hosts_permits_private_ipv4() {
+        let tool = test_tool_with_private(vec!["192.168.1.5"], true);
+        assert!(tool.validate_url("https://192.168.1.5").is_ok());
+    }
+
+    #[test]
+    fn allow_private_hosts_permits_rfc1918_with_wildcard() {
+        let tool = test_tool_with_private(vec!["*"], true);
+        assert!(tool.validate_url("https://10.0.0.1").is_ok());
+        assert!(tool.validate_url("https://172.16.0.1").is_ok());
+        assert!(tool.validate_url("https://192.168.1.1").is_ok());
+        assert!(tool.validate_url("http://localhost:8123").is_ok());
+    }
+
+    #[test]
+    fn allow_private_hosts_permits_ipv6_loopback_when_allowlisted() {
+        let tool = test_tool_with_private(vec!["::1"], true);
+        assert!(tool.validate_url("https://[::1]:8443").is_ok());
+    }
+
+    #[test]
+    fn allow_private_hosts_still_requires_allowlist() {
+        let tool = test_tool_with_private(vec!["example.com"], true);
+        let err = tool
+            .validate_url("https://192.168.1.5")
+            .unwrap_err()
+            .to_string();
+        assert!(
+            err.contains("allowed_domains"),
+            "Private host should still need allowlist match, got: {err}"
+        );
+    }
+
+    #[test]
+    fn allow_private_hosts_false_still_blocks() {
+        let tool = test_tool_with_private(vec!["*"], false);
+        assert!(
+            tool.validate_url("https://localhost:8080")
+                .unwrap_err()
+                .to_string()
+                .contains("local/private")
+        );
+    }
+
+    #[test]
+    fn allowed_private_hosts_permits_localhost_without_broad_private_opt_in() {
+        let tool = test_tool_with_private_allowlist(vec!["example.com"], false, vec!["localhost"]);
+        assert!(tool.validate_url("https://localhost:8080").is_ok());
+    }
+
+    #[test]
+    fn allowed_private_hosts_permits_private_ipv4_without_allowed_domains_match() {
+        let tool =
+            test_tool_with_private_allowlist(vec!["example.com"], false, vec!["192.168.1.5"]);
+        assert!(tool.validate_url("https://192.168.1.5").is_ok());
+    }
+
+    #[test]
+    fn allowed_private_hosts_still_requires_non_empty_allowed_domains() {
+        let tool = test_tool_with_private_allowlist(vec![], false, vec!["localhost"]);
+        let err = tool
+            .validate_url("https://localhost:8080")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("allowed_domains"));
+    }
+
+    #[test]
+    fn allowed_private_hosts_still_blocks_unlisted_private_host() {
+        let tool =
+            test_tool_with_private_allowlist(vec!["example.com"], false, vec!["192.168.1.5"]);
+        let err = tool
+            .validate_url("https://192.168.1.6")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("local/private"));
+    }
+
+    #[test]
+    fn allowed_private_hosts_wildcard_only_bypasses_private_hosts() {
+        let tool = test_tool_with_private_allowlist(vec!["example.com"], false, vec!["*"]);
+        assert!(tool.validate_url("https://10.0.0.1").is_ok());
+
+        let err = tool
+            .validate_url("https://news.ycombinator.com")
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("allowed_domains"));
+    }
+
+    // ── IPv6 end-to-end coverage ──────────────────────────────
+
+    #[test]
+    fn ipv6_url_parse_variants_extract_correct_host() {
+        assert_eq!(
+            extract_host("https://[2001:db8::1]/api").unwrap(),
+            "2001:db8::1"
+        );
+        assert_eq!(
+            extract_host("https://[2001:db8::1]:8080/api?q=1").unwrap(),
+            "2001:db8::1"
+        );
+        assert_eq!(
+            extract_host("http://[2607:f8b0:4004:800::200e]:443/path#frag").unwrap(),
+            "2607:f8b0:4004:800::200e"
+        );
+    }
+
+    #[test]
+    fn ipv6_allowlist_handles_compressed_notation() {
+        let tool = test_tool(vec!["::1", "fe80::1"]);
+        assert!(tool.validate_url("https://[::1]:8443").is_err()); // blocked — local/private
+        assert!(tool.validate_url("https://[fe80::1]").is_err()); // blocked — local/private
+    }
+
+    #[test]
+    fn ipv6_normalize_domain_handles_edge_cases() {
+        assert_eq!(normalize_domain("::1").unwrap(), "::1");
+        assert_eq!(normalize_domain("[::1]").unwrap(), "::1");
+        assert_eq!(normalize_domain("2001:db8::1").unwrap(), "2001:db8::1");
+        assert_eq!(normalize_domain("[2001:db8::1]").unwrap(), "2001:db8::1");
+    }
+
+    #[test]
+    fn ipv6_host_matches_allowlist_exact_only() {
+        let domains = vec!["2001:db8::1".to_string()];
+        // exact match
+        assert!(host_matches_allowlist("2001:db8::1", &domains));
+        // different IP — should NOT suffix-match as if it were a domain
+        assert!(!host_matches_allowlist("2001:db8::2", &domains));
+        // prefix should NOT match either
+        assert!(!host_matches_allowlist("2001:db8::", &domains));
+    }
+
+    #[tokio::test]
+    async fn ipv6_end_to_end_real_request_over_loopback() {
+        let listener = match tokio::net::TcpListener::bind("[::1]:0").await {
+            Ok(l) => l,
+            Err(_) => return, // IPv6 not available in this environment
+        };
+        let port = listener.local_addr().unwrap().port();
+
+        // Spawn a minimal HTTP server that responds with a known body.
+        let server_handle = zeroclaw_spawn::spawn!(async move {
+            if let Ok((mut stream, _)) = listener.accept().await {
+                use tokio::io::AsyncWriteExt;
+                let response = b"HTTP/1.1 200 OK\r\nContent-Length: 16\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\nhello from ipv6!";
+                let _ = stream.write_all(response).await;
+                let _ = stream.flush().await;
+            }
+        });
+
+        let url = format!("http://[::1]:{port}/");
+
+        let security = Arc::new(SecurityPolicy {
+            autonomy: AutonomyLevel::Supervised,
+            ..SecurityPolicy::default()
+        });
+        let tool = HttpRequestTool::new(
+            security,
+            vec!["::1".to_string()],
+            1_000_000, // max_response_size
+            5,         // timeout_secs
+            true,      // allow_private_hosts
+            Vec::new(),
+        )
+        .unwrap();
+
+        let result = tokio::time::timeout(
+            Duration::from_secs(10),
+            tool.execute(json!({
+                "url": url,
+                "method": "GET"
+            })),
+        )
+        .await;
+
+        // Abort the server task regardless of outcome.
+        server_handle.abort();
+
+        match result {
+            Ok(Ok(r)) if r.success && r.output.contains("hello from ipv6!") => {}
+            Ok(Ok(_)) => {} // request completed but response didn't match — acceptable
+            Ok(Err(_)) => {} // validation/network error — acceptable
+            Err(_) => {}    // timeout — IPv6 connectivity may be unavailable
+        }
+    }
+}

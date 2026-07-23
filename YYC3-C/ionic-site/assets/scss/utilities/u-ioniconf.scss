@@ -1,0 +1,136 @@
+.u-flex {
+  display: flex;
+}
+.u-flex-c {
+  display:flex;
+  flex-direction:column;
+}
+.u-grow {
+  flex-grow: 1;
+}
+.u-fill {
+  height: 100%;
+  width: 100%;
+}
+.u-wrap {
+  flex-wrap:wrap;
+}
+.u-align-items-c {
+  align-items: center;
+}
+.u-align-items-s {
+  align-items: start;
+}
+.u-align-self-c {
+  align-self:center;
+}
+.u-center-text {
+  text-align: center;
+}
+.u-marg-x-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.u-inline {
+  display:inline;
+}
+.u-w100 {
+  width: 100%;
+}
+.u-h100 {
+  height: 100%;
+}
+.u-ml-auto {
+  margin-left: auto;
+}
+.u-just-cont-c {
+  justify-content: center;
+}
+.u-just-cont-sa {
+  justify-content: space-around;
+}
+.u-just-cont-se {
+  justify-content: space-evenly;
+}
+.u-just-cont-sb {
+  justify-content: space-between;
+}
+
+@mixin box($element:'&', $pY:null, $pX:null, $back:null, $color:null, $fB: null, $mTop:null, $mBot:null, $mLeft:null,
+           $mRight:null, $fG: null, $w: null, $h: null, $mxW: null, $mnW: null, $mxH:null, $mnH:null, $br: null, $pos: null,
+           $t:null, $r:null, $b:null, $l:null, $z:null, $bord:null, $bTop:null, $bRight:null, $bBot:null, $bLeft:null,
+           $pTop:null, $pBot:null, $pLeft:null, $pRight:null, $d:null, $gtc:null, $gg:null, $jc:null, $js:null, $ai:null, $as:null,
+           $p: null, $o:null, $order:null, $bf:null, $over:null) {
+  #{$element}.u-box {
+    display:#{$d};
+    padding: #{$p};
+    padding-left: #{$pX};
+    padding-right: #{$pX};
+    padding-top: #{$pY};
+    padding-bottom: #{$pY};
+    margin-left: #{$mLeft};
+    margin-right: #{$mRight};
+    margin-top: #{$mTop};
+    margin-bottom: #{$mBot};
+    background: #{$back};
+    color: #{$color};
+    flex-basis: #{$fB};   
+    flex-grow: #{$fG};
+    width: #{$w};
+    height: #{$h};
+    max-width: #{$mxW};
+    min-width: #{$mnW};
+    max-height: #{$mxH};
+    min-height: #{$mnH};
+    border-radius: #{$br};
+    position: #{$pos};
+    top: #{$t};
+    right: #{$r};
+    bottom: #{$b};
+    left: #{$l};
+    z-index: #{$z};
+    border: #{$bord};
+    padding-top: #{$pTop};
+    padding-right: #{$pRight};
+    padding-bottom: #{$pBot};
+    padding-left: #{$pLeft};
+    grid-template-columns: #{$gtc};
+    grid-gap: #{$gg};
+    justify-content:#{$jc};
+    justify-self:#{$js};
+    align-items:#{$ai};
+    align-self:#{$as};
+    order: #{$order};
+    opacity:#{$o};
+    backdrop-filter:#{bf};
+    overflow:#{$over};
+  }
+}
+
+@mixin font($element:'&', $ff: null, $fw: null, $fs: null, $lh: null, $ls: null, $tt: null, $ws: null, $color:null, $o:null) {
+  #{$element}.u-font {
+    font-family: #{$ff};
+    font-weight: #{$fw};
+    font-size: #{$fs};
+    line-height: #{$lh};
+    letter-spacing: #{$ls};
+    text-transform: #{$tt};
+    white-space: #{$ws};
+    color: #{$color};
+    opacity: #{$o};
+  }  
+}
+@mixin spacer($el:'& ', $mnW:null, $mnH:null, $fB:null, $fG:null, $mxW: null, $mxH:null, $w:null, $h:null, $d:null) {
+  #{$el}.u-spacer {
+    display: #{$d};
+    min-width: #{$mnW};
+    min-height: #{$mnH};
+    flex-basis: #{$fB};
+    flex-grow: #{$fG};
+    max-width: #{$mxW};
+    max-height: #{$mxH};
+    width: #{$w};
+    height: #{$h};
+
+  }
+}

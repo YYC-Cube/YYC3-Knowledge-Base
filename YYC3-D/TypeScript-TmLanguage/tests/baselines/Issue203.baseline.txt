@@ -1,0 +1,152 @@
+original file
+-----------------------------------
+var [] = 'fafa'.replace('blah');
+console.log('hello');
+
+var [] = 'fafa'.replace('<blah>');
+console.log('hello');
+while { while() {} }
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>var [] = 'fafa'.replace('blah');
+ ^^^
+ source.ts meta.var.expr.ts storage.type.ts
+    ^
+    source.ts meta.var.expr.ts
+     ^
+     source.ts meta.var.expr.ts meta.array-binding-pattern-variable.ts punctuation.definition.binding-pattern.array.ts
+      ^
+      source.ts meta.var.expr.ts meta.array-binding-pattern-variable.ts punctuation.definition.binding-pattern.array.ts
+       ^
+       source.ts meta.var.expr.ts meta.array-binding-pattern-variable.ts
+        ^
+        source.ts meta.var.expr.ts keyword.operator.assignment.ts
+         ^
+         source.ts meta.var.expr.ts
+          ^
+          source.ts meta.var.expr.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+           ^^^^
+           source.ts meta.var.expr.ts string.quoted.single.ts
+               ^
+               source.ts meta.var.expr.ts string.quoted.single.ts punctuation.definition.string.end.ts
+                ^
+                source.ts meta.var.expr.ts meta.function-call.ts punctuation.accessor.ts
+                 ^^^^^^^
+                 source.ts meta.var.expr.ts meta.function-call.ts support.function.ts
+                        ^
+                        source.ts meta.var.expr.ts meta.brace.round.ts
+                         ^
+                         source.ts meta.var.expr.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+                          ^^^^
+                          source.ts meta.var.expr.ts string.quoted.single.ts
+                              ^
+                              source.ts meta.var.expr.ts string.quoted.single.ts punctuation.definition.string.end.ts
+                               ^
+                               source.ts meta.var.expr.ts meta.brace.round.ts
+                                ^
+                                source.ts punctuation.terminator.statement.ts
+>console.log('hello');
+ ^^^^^^^
+ source.ts meta.function-call.ts support.class.console.ts
+        ^
+        source.ts meta.function-call.ts punctuation.accessor.ts
+         ^^^
+         source.ts meta.function-call.ts support.function.console.ts
+            ^
+            source.ts meta.brace.round.ts
+             ^
+             source.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+              ^^^^^
+              source.ts string.quoted.single.ts
+                   ^
+                   source.ts string.quoted.single.ts punctuation.definition.string.end.ts
+                    ^
+                    source.ts meta.brace.round.ts
+                     ^
+                     source.ts punctuation.terminator.statement.ts
+>
+ ^
+ source.ts
+>var [] = 'fafa'.replace('<blah>');
+ ^^^
+ source.ts meta.var.expr.ts storage.type.ts
+    ^
+    source.ts meta.var.expr.ts
+     ^
+     source.ts meta.var.expr.ts meta.array-binding-pattern-variable.ts punctuation.definition.binding-pattern.array.ts
+      ^
+      source.ts meta.var.expr.ts meta.array-binding-pattern-variable.ts punctuation.definition.binding-pattern.array.ts
+       ^
+       source.ts meta.var.expr.ts meta.array-binding-pattern-variable.ts
+        ^
+        source.ts meta.var.expr.ts keyword.operator.assignment.ts
+         ^
+         source.ts meta.var.expr.ts
+          ^
+          source.ts meta.var.expr.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+           ^^^^
+           source.ts meta.var.expr.ts string.quoted.single.ts
+               ^
+               source.ts meta.var.expr.ts string.quoted.single.ts punctuation.definition.string.end.ts
+                ^
+                source.ts meta.var.expr.ts meta.function-call.ts punctuation.accessor.ts
+                 ^^^^^^^
+                 source.ts meta.var.expr.ts meta.function-call.ts support.function.ts
+                        ^
+                        source.ts meta.var.expr.ts meta.brace.round.ts
+                         ^
+                         source.ts meta.var.expr.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+                          ^^^^^^
+                          source.ts meta.var.expr.ts string.quoted.single.ts
+                                ^
+                                source.ts meta.var.expr.ts string.quoted.single.ts punctuation.definition.string.end.ts
+                                 ^
+                                 source.ts meta.var.expr.ts meta.brace.round.ts
+                                  ^
+                                  source.ts punctuation.terminator.statement.ts
+>console.log('hello');
+ ^^^^^^^
+ source.ts meta.function-call.ts support.class.console.ts
+        ^
+        source.ts meta.function-call.ts punctuation.accessor.ts
+         ^^^
+         source.ts meta.function-call.ts support.function.console.ts
+            ^
+            source.ts meta.brace.round.ts
+             ^
+             source.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+              ^^^^^
+              source.ts string.quoted.single.ts
+                   ^
+                   source.ts string.quoted.single.ts punctuation.definition.string.end.ts
+                    ^
+                    source.ts meta.brace.round.ts
+                     ^
+                     source.ts punctuation.terminator.statement.ts
+>while { while() {} }
+ ^^^^^
+ source.ts keyword.control.loop.ts
+      ^
+      source.ts
+       ^
+       source.ts meta.block.ts punctuation.definition.block.ts
+        ^
+        source.ts meta.block.ts
+         ^^^^^
+         source.ts meta.block.ts keyword.control.loop.ts
+              ^
+              source.ts meta.block.ts meta.brace.round.ts
+               ^
+               source.ts meta.block.ts meta.brace.round.ts
+                ^
+                source.ts meta.block.ts
+                 ^
+                 source.ts meta.block.ts meta.block.ts punctuation.definition.block.ts
+                  ^
+                  source.ts meta.block.ts meta.block.ts punctuation.definition.block.ts
+                   ^
+                   source.ts meta.block.ts
+                    ^
+                    source.ts meta.block.ts punctuation.definition.block.ts

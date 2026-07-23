@@ -1,0 +1,249 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  changes:
+    name: Check for changes
+    runs-on: ubuntu-latest
+    outputs:
+      src: ${{ steps.filter.outputs.src }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # actions/checkout@v4
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 #dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            src:
+              - '.github/**'
+              - 'src/**'
+              - 'test/**'
+              - '.github/**/*.yaml'
+              - 'tsup.config.ts'
+              - 'yarn.lock'
+
+  build:
+    needs: changes
+    if: ${{ needs.changes.outputs.src == 'true' }}
+
+    name: Lint, Test, Build & Pack on Node ${{ matrix.node }}
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['22.x']
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # actions/checkout@v4
+
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - name: Install deps
+        run: yarn install
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Run test suite
+        run: yarn test
+
+      - name: Build
+        run: yarn build
+
+      - name: Pack
+        run: yarn pack
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 #actions/upload-artifact@v4
+        with:
+          name: package
+          path: ./package.tgz
+
+  test-dist:
+    name: Test against dist
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.x']
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # actions/checkout@v4
+
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - name: Install deps
+        run: yarn install
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 #actions/download-artifact@v4
+        with:
+          name: package
+          path: .
+
+      - run: ls -lah
+
+      - name: Install build artifact
+        run: yarn  add ./package.tgz
+
+      - name: Erase path aliases
+        run: sed -i -e /@remap-prod-remove-line/d tsconfig.base.json
+
+      - name: Run tests, against dist
+        env:
+          TEST_DIST: true
+        run: yarn test
+
+  test-types:
+    name: Test Types with TypeScript ${{ matrix.ts }}
+
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.x']
+        ts: ['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # actions/checkout@v4
+
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - name: Install deps
+        run: yarn install
+
+      - name: Install TypeScript ${{ matrix.ts }}
+        run: yarn add typescript@${{ matrix.ts }}
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 #actions/download-artifact@v4
+        with:
+          name: package
+          path: .
+
+      - name: Install build artifact
+        run: yarn add ./package.tgz
+
+      - name: Erase path aliases
+        run: sed -i -e /@remap-prod-remove-line/d tsconfig.base.json
+
+      - name: Test types
+        env:
+          TEST_DIST: true
+        run: |
+          yarn tsc --version
+          yarn type-tests
+
+  are-the-types-wrong:
+    name: Check package config with are-the-types-wrong
+
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.x']
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # actions/checkout@v4
+
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 #actions/download-artifact@v4
+        with:
+          name: package
+          path: .
+
+      # Note: We currently expect "FalseESM" failures for Node16 + `moduleResolution: "node16"
+      - name: Run are-the-types-wrong
+        run: npx @arethetypeswrong/cli ./package.tgz --format table --ignore-rules false-esm
+
+  test-published-artifact:
+    name: Test Published Artifact ${{ matrix.example }}
+
+    needs: [build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.x']
+        example:
+          [
+            'cra4',
+            'cra5',
+            'next',
+            'vite',
+            'node-standard',
+            'node-esm',
+            'react-native',
+            'expo'
+          ]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # actions/checkout@v4
+
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - name: Clone RTK repo
+        run: git clone https://github.com/reduxjs/redux-toolkit.git ./redux-toolkit
+
+      - name: Cache example deps
+        uses: actions/cache@v5
+        with:
+          path: ./redux-toolkit/examples/publish-ci/${{ matrix.example }}/node_modules
+          key: test-published-artifact-${{ matrix.example }}-node_modules
+
+      - name: Check folder contents
+        run: ls -l .
+
+      - name: Install deps
+        working-directory: ./redux-toolkit/examples/publish-ci/${{ matrix.example }}
+        env:
+          YARN_ENABLE_IMMUTABLE_INSTALLS: false
+        run: yarn install
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 #actions/download-artifact@v4
+        with:
+          name: package
+          path: ./redux-toolkit/examples/publish-ci/${{ matrix.example }}
+
+      - name: Check folder contents
+        working-directory: ./redux-toolkit/examples/publish-ci/${{ matrix.example }}
+        run: ls -l .
+
+      - name: Install build artifact
+        working-directory: ./redux-toolkit/examples/publish-ci/${{ matrix.example }}
+        run: yarn add ./package.tgz
+
+      - name: Show installed package versions
+        working-directory: ./redux-toolkit/examples/publish-ci/${{ matrix.example }}
+        run: yarn info redux && yarn why redux
+
+      - name: Build example
+        working-directory: ./redux-toolkit/examples/publish-ci/${{ matrix.example }}
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+        run: yarn build
+
+      - name: Run test step
+        working-directory: ./redux-toolkit/examples/publish-ci/${{ matrix.example }}
+        run: yarn test

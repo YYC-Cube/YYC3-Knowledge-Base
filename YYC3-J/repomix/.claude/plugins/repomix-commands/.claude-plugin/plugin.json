@@ -1,0 +1,12 @@
+{
+  "name": "repomix-commands",
+  "description": "Slash commands for quick Repomix operations. Pack local and remote repositories with simple commands like /pack-local and /pack-remote.",
+  "version": "1.0.2",
+  "author": {
+    "name": "yamadashy"
+  },
+  "homepage": "https://repomix.com/docs/guide/claude-code-plugins",
+  "repository": "https://github.com/yamadashy/repomix",
+  "keywords": ["repomix", "commands", "pack", "productivity"],
+  "license": "MIT"
+}

@@ -1,0 +1,68 @@
+# SPDX-FileCopyrightText: Copyright (c) 2023-2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools >= 64", "setuptools-scm>=8"]
+
+[project]
+name = "signal_discovery_workflow"
+dynamic = ["version"]
+dependencies = [
+  # Pin both NAT packages to the same compatible release line. Mixing different
+  # minor versions of nvidia-nat-* causes ImportErrors like
+  # "cannot import name 'register_dataset_loader' from 'nat.cli.register_workflow'".
+  "nvidia-nat[langchain]==1.6.*",
+  "nvidia-nat-phoenix==1.6.*",
+  "pandas",
+  "numpy",
+  "scipy",
+  "yfinance",
+  "arize-phoenix",
+  "arize-phoenix-otel",
+  "openinference-instrumentation-langchain",
+  "jupyter",
+]
+requires-python = ">=3.11,<3.14"
+description = "Signal Discovery Workflow - Example for NeMo Agent Toolkit"
+classifiers = ["Programming Language :: Python"]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[project.entry-points.'nat.components']
+signal_discovery_workflow = "signal_discovery_workflow.register"
+
+[tool.uv]
+managed = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+# Pyflakes (F) catches real bugs; pycodestyle errors (E) are basic syntax issues.
+# `extend-select` would add more, but we keep the surface narrow for CI noise control.
+select = ["E", "F", "W", "I"]
+ignore = [
+  "E501",  # line too long — formatter's job, not lint
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests can use module-level fixtures and re-import freely.
+"tests/*" = ["F401"]

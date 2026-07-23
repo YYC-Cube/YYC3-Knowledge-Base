@@ -1,0 +1,134 @@
+name: 🐛 Bug 报告
+description: 报告一个 bug 来帮助我们改进 genai-starter-kit
+labels: ["bug", "需要分类"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您花时间填写这个 bug 报告！这将帮助我们改进 genai-starter-kit。
+
+        在提交之前，请确保您已经：
+        - 搜索过现有的 issues，确认这不是重复问题
+        - 使用的是最新版本的 genai-starter-kit
+        - 查看过项目文档和 README
+
+  - type: input
+    id: version
+    attributes:
+      label: 版本信息
+      description: 您使用的 genai-starter-kit 版本？
+      placeholder: "例如: 0.2.0"
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python 版本
+      description: 您使用的 Python 版本？
+      placeholder: "例如: 3.11.5"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: 操作系统
+      description: 您的操作系统和版本？
+      placeholder: "例如: macOS 14.0, Ubuntu 22.04, Windows 11"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug 描述
+      description: 清楚和简洁地描述 bug 的情况
+      placeholder: 告诉我们发生了什么...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 重现步骤
+      description: 描述重现此行为的步骤
+      placeholder: |
+        1. 导入 '...'
+        2. 运行 '...'
+        3. 输入 '...'
+        4. 发现错误
+      value: |
+        1.
+        2.
+        3.
+        4.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+      description: 清楚和简洁地描述您期望发生的事情
+      placeholder: 我期望...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      description: 清楚和简洁地描述实际发生的事情
+      placeholder: 实际上...
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: 错误日志
+      description: 如果有错误信息，请粘贴完整的错误堆栈
+      placeholder: |
+        Traceback (most recent call last):
+          File "...", line ..., in ...
+            ...
+        Error: ...
+      render: python
+
+  - type: textarea
+    id: code-sample
+    attributes:
+      label: 最小可重现代码
+      description: 提供最小的代码示例来重现问题
+      placeholder: |
+        import genai_starter_kit
+        # 你的代码...
+      render: python
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 其他信息
+      description: 添加任何其他有关问题的上下文信息
+      placeholder: |
+        - 是否在虚拟环境中？
+        - 是否有特殊的环境配置？
+        - 其他相关信息...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      description: 请确认您已经完成以下检查
+      options:
+        - label: 我已经搜索过现有的 issues，确认这不是重复问题
+          required: true
+        - label: 我使用的是 genai-starter-kit 的最新版本
+          required: true
+        - label: 我已经阅读过项目文档和 README
+          required: true
+        - label: 我愿意协助测试修复方案（可选）
+          required: false

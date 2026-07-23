@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YYC3-E 工作区 · 五维度深度分析报告 | 2026.06 高可用实战</title>
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-hover: #243044;
+            --text-primary: #e8edf5;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border-color: #2d3748;
+            --shadow-glow: 0 0 30px rgba(59,130,246,0.15);
+            --gradient-main: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-tech: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        .hero {
+            position: relative; padding: 80px 40px 60px; text-align: center;
+            background: linear-gradient(180deg, rgba(102,126,234,0.12) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border-color); overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(99,102,241,0.08) 0%, transparent 60%);
+            animation: pulse-bg 15s ease-in-out infinite;
+        }
+        @keyframes pulse-bg { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-2%,-2%)} }
+        .hero-badge {
+            display: inline-block; padding: 6px 20px; border-radius: 20px; font-size: 12px;
+            font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            background: rgba(99,102,241,0.15); color: var(--accent-purple);
+            border: 1px solid rgba(139,92,246,0.3); margin-bottom: 24px; position: relative; z-index: 1;
+        }
+        .hero h1 {
+            font-size: clamp(28px, 4vw, 52px); font-weight: 800;
+            background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 16px; position: relative; z-index: 1; letter-spacing: -1px;
+        }
+        .hero-subtitle { font-size: clamp(14px, 1.5vw, 18px); color: var(--text-secondary); max-width: 700px; margin: 0 auto 32px; position: relative; z-index: 1; }
+        .hero-meta { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; position: relative; z-index: 1; }
+        .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); }
+        .meta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-emerald); animation: blink 2s ease-in-out infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+        section { padding: 64px 0; border-bottom: 1px solid rgba(45,55,72,0.5); }
+        section:last-child { border-bottom: none; }
+        .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; }
+        .section-num {
+            width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
+            border-radius: 12px; font-size: 16px; font-weight: 800; background: var(--gradient-main);
+            color: white; flex-shrink: 0;
+        }
+        .section-title { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+        .section-desc { color: var(--text-secondary); font-size: 14px; margin-top: 4px; }
+
+        /* Architecture Grid */
+        .arch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; }
+        .layer-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 28px; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
+        }
+        .layer-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.3s; }
+        .layer-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-glow); border-color: rgba(99,102,241,0.3); }
+        .layer-card:hover::before { opacity: 1; }
+        .layer-card[data-tier="core"]::before { background: var(--gradient-main); }
+        .layer-card[data-tier="tooling"]::before { background: var(--gradient-tech); }
+        .layer-card[data-tier="infra"]::before { background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan)); }
+        .layer-card[data-tier="ref"]::before { background: linear-gradient(90deg, var(--accent-amber), var(--accent-red)); }
+        .layer-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+        .layer-id { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+        .tier-core { background: rgba(139,92,246,0.15); color: var(--accent-purple); }
+        .tier-tooling { background: rgba(6,182,212,0.15); color: var(--accent-cyan); }
+        .tier-infra { background: rgba(16,185,129,0.15); color: var(--accent-emerald); }
+        .tier-ref { background: rgba(245,158,11,0.15); color: var(--accent-amber); }
+        .star-rating { font-size: 13px; color: var(--accent-amber); letter-spacing: 2px; }
+        .layer-name { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+        .layer-name-en { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-bottom: 16px; }
+        .layer-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+        .tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: rgba(255,255,255,0.05); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.06); }
+        .layer-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 18px; }
+        .layer-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .spec-item { display: flex; flex-direction: column; gap: 2px; }
+        .spec-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+        .spec-value { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+        .port-value { font-family: 'SF Mono', Monaco, monospace; color: var(--accent-cyan); }
+        .sub-projects { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .sub-project { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 13px; color: var(--text-secondary); cursor: pointer; transition: color 0.2s; }
+        .sub-project:hover { color: var(--text-primary); }
+        .sub-bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-blue); flex-shrink: 0; }
+
+        /* Five Dimensions */
+        .dim-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-top: 32px; }
+        .dim-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; text-align: center; transition: all 0.3s; }
+        .dim-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        .dim-icon { width: 56px; height: 56px; margin: 0 auto 16px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .dim-time .dim-icon { background: rgba(59,130,246,0.12); color: var(--accent-blue); }
+        .dim-space .dim-icon { background: rgba(16,185,129,0.12); color: var(--accent-emerald); }
+        .dim-attr .dim-icon { background: rgba(245,158,11,0.12); color: var(--accent-amber); }
+        .dim-event .dim-icon { background: rgba(239,68,68,0.12); color: var(--accent-red); }
+        .dim-rel .dim-icon { background: rgba(139,92,246,0.12); color: var(--accent-purple); }
+        .dim-name { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+        .dim-name-en { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        .dim-score { font-size: 36px; font-weight: 800; background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .dim-bar-container { margin-top: 12px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+        .dim-bar { height: 100%; border-radius: 2px; transition: width 1s ease-out; }
+        .dim-time .dim-bar { background: var(--accent-blue); width: 82%; }
+        .dim-space .dim-bar { background: var(--accent-emerald); width: 75%; }
+        .dim-attr .dim-bar { background: var(--accent-amber); width: 88%; }
+        .dim-event .dim-bar { background: var(--accent-red); width: 79%; }
+        .dim-rel .dim-bar { background: var(--accent-purple); width: 85%; }
+
+        /* Detail Table */
+        .detail-table-wrap { margin-top: 36px; overflow-x: auto; }
+        .detail-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .detail-table th { background: rgba(99,102,241,0.08); padding: 12px 16px; text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+        .detail-table td { padding: 12px 16px; border-bottom: 1px solid rgba(45,55,72,0.4); vertical-align: top; }
+        .detail-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .status-badge { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+        .status-grow { background: rgba(16,185,129,0.15); color: var(--accent-emerald); }
+        .status-mature { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+        .status-stable { background: rgba(107,114,128,0.15); color: var(--text-secondary); }
+
+        /* Five High */
+        .high-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+        .high-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 22px; position: relative; overflow: hidden; }
+        .high-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; }
+        .high-ha::after { background: var(--accent-blue); } .high-hp::after { background: var(--accent-emerald); }
+        .high-hs::after { background: var(--accent-red); } .high-hscl::after { background: var(--accent-purple); } .high-hi::after { background: var(--accent-amber); }
+        .high-abbr { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 4px; }
+        .high-name { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+        .stars { color: var(--accent-amber); font-size: 14px; letter-spacing: 2px; margin-bottom: 10px; }
+        .high-current { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.6; }
+        .high-action { font-size: 11px; color: var(--accent-cyan); padding: 6px 12px; background: rgba(6,182,212,0.08); border-radius: 8px; display: inline-block; }
+
+        /* Trend Timeline */
+        .trend-timeline { position: relative; padding-left: 40px; margin-top: 32px; }
+        .trend-line { position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--accent-blue), var(--accent-purple), var(--accent-pink)); }
+        .trend-item { position: relative; margin-bottom: 36px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; transition: all 0.3s; }
+        .trend-item:hover { transform: translateX(4px); box-shadow: 0 4px 24px rgba(0,0,0,0.25); }
+        .trend-item::before { content: ''; position: absolute; left: -33px; top: 28px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--accent-blue); background: var(--bg-primary); }
+        .trend-year { font-size: 11px; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+        .trend-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        .trend-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+        .trend-techs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+        .tech-pill { font-size: 11px; padding: 4px 12px; border-radius: 20px; background: rgba(99,102,241,0.1); color: var(--accent-purple); border: 1px solid rgba(99,102,241,0.2); }
+
+        /* Recommendations */
+        .rec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 28px; }
+        .rec-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 24px; border-left: 3px solid; transition: all 0.3s; }
+        .rec-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.2); }
+        .rec-p0 { border-left-color: var(--accent-red); } .rec-p1 { border-left-color: var(--accent-amber); }
+        .rec-p2 { border-left-color: var(--accent-blue); } .rec-p3 { border-left-color: var(--accent-emerald); }
+        .rec-priority { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .rec-p0 .rec-priority { color: var(--accent-red); } .rec-p1 .rec-priority { color: var(--accent-amber); }
+        .rec-p2 .rec-priority { color: var(--accent-blue); } .rec-p3 .rec-priority { color: var(--accent-emerald); }
+        .rec-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+        .rec-body { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+        .rec-target { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
+        .rec-target strong { color: var(--text-primary); }
+
+        /* Ecosystem Diagram */
+        .eco-container { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 40px; margin-top: 24px; overflow-x: auto; }
+        .eco-diagram { min-width: 900px; font-family: 'SF Mono', Monaco, monospace; font-size: 12px; line-height: 1.6; white-space: pre; color: var(--text-secondary); }
+        .eco-diagram .hl-core { color: var(--accent-purple); font-weight: 700; }
+        .eco-diagram .hl-tool { color: var(--accent-cyan); }
+        .eco-diagram .hl-infra { color: var(--accent-emerald); }
+        .eco-diagram .hl-ref { color: var(--accent-amber); }
+        .eco-diagram .hl-arrow { color: var(--text-muted); }
+        .eco-diagram .hl-box { color: var(--accent-blue); }
+
+        footer { text-align: center; padding: 48px 32px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border-color); }
+
+        @media (max-width: 1024px) { .dim-grid, .high-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .container { padding: 0 20px; } .hero { padding: 50px 20px 40px; } .dim-grid, .high-grid { grid-template-columns: 1fr 1fr; } .arch-grid { grid-template-columns: 1fr; } section { padding: 40px 0; } }
+        @media (max-width: 480px) { .dim-grid, .high-grid { grid-template-columns: 1fr; } .hero-meta { flex-direction: column; gap: 12px; align-items: center; } }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <div class="hero-badge">Five-Dimension Deep Analysis Report</div>
+    <h1>YYC3-E 工作区智能架构分析</h1>
+    <p class="hero-subtitle">基于「五维度驱动五高五标准五转型」框架，对AI智能核心层、语言服务层、基础设施层等8大分类进行深度评估，结合2026年行业大数据趋势提供高可用实战建议</p>
+    <div class="hero-meta">
+        <div class="meta-item"><span class="meta-dot"></span>分析日期 2026.06.07</div>
+        <div class="meta-item"><span class="meta-dot" style="background:var(--accent-cyan)"></span>工作区路径 /YYC3-ABCDEF/YYC3-E</div>
+        <div class="meta-item"><span class="meta-dot" style="background:var(--accent-purple)"></span>覆盖项目 16+</div>
+        <div class="meta-item"><span class="meta-dot" style="background:var(--accent-amber)"></span>技术栈 Next.js/Rust/Python/Swift</div>
+    </div>
+</header>
+
+<!-- SECTION 1 -->
+<section id="architecture">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-num">01</div>
+            <div><h2 class="section-title">架构分层全景</h2><p class="section-desc">8大层级 · 按业务价值与依赖关系精准分类</p></div>
+        </div>
+        <div class="arch-grid">
+            <div class="layer-card" data-tier="core">
+                <div class="layer-header"><span class="layer-id tier-core">A — 核心业务</span><span class="star-rating">&#9733;&#9733;&#9733;</span></div>
+                <div class="layer-name">AI智能核心层</div><div class="layer-name-en">AI Intelligence Core Layer</div>
+                <div class="layer-tags"><span class="tag">Multi-Agent</span><span class="tag">Workflow</span><span class="tag">Prompt Engineering</span><span class="tag">Browser Automation</span></div>
+                <div class="layer-desc">工作区的灵魂层级。包含可视化AI工作流构建器(ai-agent)、三省六部多Agent协作框架(edict)、无头浏览器自动化引擎(agent-browser)、提示词MCP服务器(claude-prompts-mcp)。四大项目共同构成完整的AI Agent能力闭环。</div>
+                <div class="layer-specs">
+                    <div class="spec-item"><span class="spec-label">核心技术栈</span><span class="spec-value">Next.js 15 / Rust / Python / TS</span></div>
+                    <div class="spec-item"><span class="spec-label">端口区间</span><span class="spec-value port-value">3411 / 7891 / 9222</span></div>
+                    <div class="spec-item"><span class="spec-label">智能化程度</span><span class="spec-value">极高 ★★★★★</span></div>
+                    <div class="spec-item"><span class="spec-label">行业对标</span><span class="spec-value">LangChain / CrewAI / AutoGPT</span></div>
+                </div>
+                <div class="sub-projects">
+                    <div class="sub-project"><span class="sub-bullet"></span>ai-agent — 可视化AI工作流编排平台</div>
+                    <div class="sub-project"><span class="sub-bullet"></span>edict — 三省六部多Agent协作系统</div>
+                    <div class="sub-project"><span class="sub-bullet"></span>agent-browser — AI无头浏览器自动化CLI</div>
+                    <div class="sub-project"><span class="sub-bullet"></span>claude-prompts-mcp — 提示词MCP服务器</div>
+                </div>
+            </div>
+            <div class="layer-card" data-tier="tooling">
+                <div class="layer-header"><span class="layer-id tier-tooling">B — 开发工具链</span><span class="star-rating">&#9733;&#9733;&#9734;</span></div>
+                <div class="layer-name">语言服务层</div><div class="layer-name-en">Language Server Protocol Layer</div>
+                <div class="layer-tags"><span class="tag">LSP</span><span class="tag">Code Intelligence</span><span class="tag">Rust</span><span class="tag">Swift</span><span class="tag">Python</span><span class="tag">Ruby</span></div>
+                <div class="layer-desc">IDE级代码智能基础设施。rust-analyzer(Rust官方LSP)采用salsa增量计算框架实现极致性能；sourcekit-lsp(Apple官方)支持Swift/C跨语言索引；lsp子目录补充Python/Ruby/Swift辅助实现。</div>
+                <div class="layer-specs">
+                    <div class="spec-item"><span class="spec-label">协议标准</span><span class="spec-value">LSP / JSON-RPC</span></div>
+                    <div class="spec-item"><span class="spec-label">通信方式</span><span class="spec-value">stdio / TCP</span></div>
+                    <div class="spec-item"><span class="spec-label">活跃度</span><span class="spec-value">极高 (每周changelog)</span></div>
+                    <div class="spec-item"><span class="spec-label">资源占用</span><span class="spec-value">高 (rust-analyzer 30+crates)</span></div>
+                </div>
+                <div class="sub-projects">
+                    <div class="sub-project"><span class="sub-bullet"></span>rust-analyzer — Rust LSP (salsa增量编译)</div>
+                    <div class="sub-project"><span class="sub-bullet"></span>sourcekit-lsp — Swift/C LSP (Apple官方)</div>
+                    <div class="sub-project"><span class="sub-bullet"></span>lsp/* — 多语言LSP辅助实现集</div>
+                </div>
+            </div>
+            <div class="layer-card" data-tier="tooling">
+                <div class="layer-header"><span class="layer-id tier-tooling">C — 基础设施</span><span class="star-rating">&#9733;&#9733;&#9734;</span></div>
+                <div class="layer-name">Shell & 终端层</div><div class="layer-name-en">Shell & Terminal Layer</div>
+                <div class="layer-tags"><span class="tag">fish shell</span><span class="tag">Rust</span><span class="tag">Interactive CLI</span><span class="tag">Go Tools</span></div>
+                <div class="layer-desc">用户交互体验提升工具链。fish shell以Rust原生编写，开箱即用的语法高亮、自动建议、智能Tab补全；go-tools提供Go语言生态工具库支撑。</div>
+                <div class="layer-specs">
+                    <div class="spec-item"><span class="spec-label">构建系统</span><span class="spec-value">CMake (fish) / Go Modules</span></div>
+                    <div class="spec-item"><span class="spec-label">兼容性</span><span class="spec-value">POSIX (有差异)</span></div>
+                    <div class="spec-item"><span class="spec-label">部署形态</span><span class="spec-value">系统包管理器</span></div>
+                    <div class="spec-item"><span class="spec-label">实用价值</span><span class="spec-value">中 — 终端体验优化</span></div>
+                </div>
+                <div class="sub-projects">
+                    <div class="sub-project"><span class="sub-bullet"></span>shell/fish — 友好交互式Shell (Rust)</div>
+                    <div class="sub-project"><span class="sub-bullet"></span>shell/go-tools — Go工具库</div>
+                </div>
+            </div>
+            <div class="layer-card" data-tier="ref">
+                <div class="layer-header"><span class="layer-id tier-ref">D — 规范参考</span><span class="star-rating">&#9733;&#9734;&#9734;</span></div>
+                <div class="layer-name">Web标准参考层</div><div class="layer-name-en">Web Standards Reference Layer</div>
+                <div class="layer-tags"><span class="tag">W3C Living Standard</span><span class="tag">DOM</span><span class="tag">Fetch API</span><span class="tag">Streams</span><span class="tag">Storage</span></div>
+                <div class="layer-desc">W3C Web标准的完整本地镜像与参考库。涵盖DOM/HTML/Fetch/Console/URL/XHR/Streams/Storage/Notifications/Compression/CookieStore/BackgroundSync等12项Living Standard规范。</div>
+                <div class="layer-specs">
+                    <div class="spec-item"><span class="spec-label">规范来源</span><span class="spec-value">W3C / WHATWG</span></div>
+                    <div class="spec-item"><span class="spec-label">更新频率</span><span class="spec-value">持续跟随上游</span></div>
+                    <div class="spec-item"><span class="spec-label">用途定位</span><span class="spec-value">学习参考 / 规范校验</span></div>
+                    <div class="spec-item"><span class="spec-label">覆盖范围</span><span class="spec-value">12项Web API标准</span></div>
+                </div>
+            </div>
+            <div class="layer-card" data-tier="ref">
+                <div class="layer-header"><span class="layer-id tier-ref">E — 第三方引用</span><span class="star-rating">&#9733;&#9734;&#9734;</span></div>
+                <div class="layer-name">内容库层</div><div class="layer-name-en">Content Libraries Layer</div>
+                <div class="layer-tags"><span class="tag">Emmet</span><span class="tag">Marked.js</span><span class="tag">Ionic</span></div>
+                <div class="layer-desc">第三方开源组件的本地引用与学习仓库。Emmet用于HTML/CSS缩写扩展引擎学习；Marked.js为高性能Markdown解析器；Ionic为移动端跨平台框架参考。</div>
+                <div class="layer-specs">
+                    <div class="spec-item"><span class="spec-label">维护状态</span><span class="spec-value">稳定期 (按需更新)</span></div>
+                    <div class="spec-item"><span class="spec-label">主要用途</span><span class="spec-value">源码学习 / 复用参考</span></div>
+                </div>
+            </div>
+            <div class="layer-card" data-tier="ref">
+                <div class="layer-header"><span class="layer-id tier-ref">F — 开发效率</span><span class="star-rating">&#9733;&#9734;&#9734;</span></div>
+                <div class="layer-name">自动补全工具层</div><div class="layer-name-en">Autocomplete Tooling Layer</div>
+                <div class="layer-tags"><span class="tag">Fig Autocomplete</span><span class="tag">Monorepo</span><span class="tag">ESLint</span><span class="tag">Spec Generation</span></div>
+                <div class="layer-desc">Fig Autocomplete Monorepo完整源码。包含CLI工具规范生成器、补全生成器、钩子系统、框架集成(CLI框架)、ESLint配置插件、类型定义等模块化结构。</div>
+                <div class="layer-specs">
+                    <div class="spec-item"><span class="spec-label">活跃度</span><span class="spec-value">低活跃 (按需发布)</span></div>
+                    <div class="spec-item"><span class="spec-label">生命周期</span><span class="spec-value">维护期</span></div>
+                </div>
+            </div>
+            <div class="layer-card" data-tier="infra">
+                <div class="layer-header"><span class="layer-id tier-infra">G — 底层支撑</span><span class="star-rating">&#9733;&#9734;&#9734;</span></div>
+                <div class="layer-name">基础设施 & 运行时</div><div class="layer-name-en">Infrastructure & Runtime Layer</div>
+                <div class="layer-tags"><span class="tag">Assert Library</span><span class="tag">Docker SDK</span><span class="tag">ICU i18n</span><span class="tag">Razor Engine</span><span class="tag">Syntax Highlight</span></div>
+                <div class="layer-desc">底层运行时与基础组件集合。断言库(assert)、Docker Go SDK容器编排、ICU国际化组件、ASP.NET Razor模板引擎、Git/Go语法高亮定义。</div>
+                <div class="layer-specs">
+                    <div class="spec-item"><span class="spec-label">语言分布</span><span class="spec-value">Go / C# / C++ / Rust</span></div>
+                    <div class="spec-item"><span class="spec-label">定位</span><span class="spec-value">底层运行时支撑</span></div>
+                </div>
+            </div>
+            <div class="layer-card" data-tier="infra">
+                <div class="layer-header"><span class="layer-id tier-infra">H — 示例文档</span><span class="star-rating">&#9733;&#9734;&#9734;</span></div>
+                <div class="layer-name">示例 & 配置</div><div class="layer-name-en">Examples & Configuration Layer</div>
+                <div class="layer-tags"><span class="tag">TypeScript</span><span class="tag">Usage Examples</span></div>
+                <div class="layer-desc">TypeScript使用示例集合。为各层级项目提供最佳实践参考和快速上手指南。</div>
+                <div class="layer-specs">
+                    <div class="spec-item"><span class="spec-label">主要内容</span><span class="spec-value">TS使用模式与范例</span></div>
+                    <div class="spec-item"><span class="spec-label">目标受众</span><span class="spec-value">开发者入门参考</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2 -->
+<section id="dimensions">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-num">02</div>
+            <div><h2 class="section-title">五维度评估矩阵</h2><p class="section-desc">时间 · 空间 · 属性 · 事件 · 关联 — 全景量化评估</p></div>
+        </div>
+        <div class="dim-grid">
+            <div class="dim-card dim-time"><div class="dim-icon">&#9201;</div><div class="dim-name">时间维度</div><div class="dim-name-en">Time Dimension</div><div class="dim-score">82</div><div class="dim-bar-container"><div class="dim-bar"></div></div></div>
+            <div class="dim-card dim-space"><div class="dim-icon">&#9634;</div><div class="dim-name">空间维度</div><div class="dim-name-en">Space Dimension</div><div class="dim-score">75</div><div class="dim-bar-container"><div class="dim-bar"></div></div></div>
+            <div class="dim-card dim-attr"><div class="dim-icon">&#9830;</div><div class="dim-name">属性维度</div><div class="dim-name-en">Attribute Dimension</div><div class="dim-score">88</div><div class="dim-bar-container"><div class="dim-bar"></div></div></div>
+            <div class="dim-card dim-event"><div class="dim-icon">&#9654;</div><div class="dim-name">事件维度</div><div class="dim-name-en">Event Dimension</div><div class="dim-score">79</div><div class="dim-bar-container"><div class="dim-bar"></div></div></div>
+            <div class="dim-card dim-rel"><div class="dim-icon">&#8734;</div><div class="dim-name">关联维度</div><div class="dim-name-en">Relevance Dimension</div><div class="dim-score">85</div><div class="dim-bar-container"><div class="dim-bar"></div></div></div>
+        </div>
+        <div class="detail-table-wrap">
+            <table class="detail-table">
+                <thead><tr><th>项目</th><th>成熟度</th><th>版本</th><th>活跃度</th><th>生命周期</th><th>代码规模</th><th>安全等级</th><th>可扩展性</th><th>智能化</th><th>通信协议</th></tr></thead>
+                <tbody>
+                    <tr><td><strong style="color:var(--accent-purple)">ai-agent</strong></td><td><span class="status-badge status-grow">成长期</span></td><td>v0.1.0</td><td>开发中·快速迭代</td><td>成长期</td><td>~中等</td><td>中(API Key)</td><td style="color:var(--accent-emerald)">高(节点扩展)</td><td style="color:var(--accent-purple)">★★★★★</td><td>SSE/HTTP</td></tr>
+                    <tr><td><strong style="color:var(--accent-purple)">edict</strong></td><td><span class="status-badge status-mature">成熟期</span></td><td>v1.x</td><td>高活跃·持续演进</td><td>成熟期</td><td>~大(2300+行)</td><td>中(Auth Vault)</td><td style="color:var(--accent-emerald)">高(12 Agent)</td><td style="color:var(--accent-purple)">★★★★★</td><td>Redis Streams</td></tr>
+                    <tr><td><strong style="color:var(--accent-purple)">agent-browser</strong></td><td><span class="status-badge status-grow">成长期</span></td><td>v0.21.4</td><td>高活跃·Changeset</td><td>成长期</td><td>~大(Rust crates)</td><td style="color:var(--accent-emerald)">高(安全策略)</td><td>高(Skills扩展)</td><td style="color:var(--accent-amber)">★★★★</td><td>CDP/WebSocket</td></tr>
+                    <tr><td><strong style="color:var(--accent-purple)">claude-prompts-mcp</strong></td><td><span class="status-badge status-grow">成长期</span></td><td>v1.3.0</td><td>活跃·稳定迭代</td><td>成长期</td><td>~中等</td><td>低(本地文件)</td><td style="color:var(--accent-emerald)">高(自定义Framework)</td><td style="color:var(--accent-amber)">★★★★</td><td>MCP/stdio</td></tr>
+                    <tr><td><strong style="color:var(--accent-cyan)">rust-analyzer</strong></td><td><span class="status-badge status-mature">成熟期</span></td><td>latest</td><td style="color:var(--accent-emerald)">极高(周更)</td><td>成熟期</td><td style="color:var(--accent-amber)">极大(30+crates)</td><td style="color:var(--accent-emerald)">高(沙盒执行)</td><td>中(LSP限制)</td><td style="color:var(--accent-amber)">★★★★</td><td>LSP/JSON-RPC</td></tr>
+                    <tr><td><strong style="color:var(--accent-cyan)">sourcekit-lsp</strong></td><td><span class="status-badge status-mature">成熟期</span></td><td>跟随Swift</td><td>高活跃</td><td>成熟期</td><td>大</td><td>-</td><td>-</td><td>-</td><td>LSP</td></tr>
+                    <tr><td><strong style="color:var(--accent-emerald)">fish-shell</strong></td><td><span class="status-badge status-mature">成熟期</span></td><td>最新</td><td>高活跃·稳定发布</td><td>成熟期</td><td>大(Rust)</td><td>-</td><td>-</td><td>-</td><td>POSIX signals</td></tr>
+                    <tr><td><strong style="color:var(--accent-amber)">autocomplete-tools</strong></td><td><span class="status-badge status-stable">维护期</span></td><td>稳定</td><td>低活跃</td><td>维护期</td><td>中等(Monorepo)</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 3 -->
+<section id="five-high">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-num">03</div>
+            <div><h2 class="section-title">五高架构评估</h2><p class="section-desc">高可用 · 高性能 · 高安全 · 高可扩展 · 高智能</p></div>
+        </div>
+        <div class="high-grid">
+            <div class="high-card high-ha"><div class="high-abbr">HA</div><div class="high-name">高可用性</div><div class="stars">&#9733;&#9733;&#9733;</div><div class="high-current">ai-agent/edict均为单实例部署，缺乏故障转移与自动恢复机制。agent-browser有CDP重连但无服务级HA保障。</div><div class="high-action">→ K8s Deployment + Health Check + 多AZ部署</div></div>
+            <div class="high-card high-hp"><div class="high-abbr">HP</div><div class="high-name">高性能</div><div class="stars">&#9733;&#9733;&#9733;&#9733;</div><div class="high-current">agent-browser采用Rust原生CDP客户端，性能优异；rust-analyzer基于salsa增量计算框架实现极致响应速度。</div><div class="high-action">→ 引入WASM边缘计算 + 流式处理优化</div></div>
+            <div class="high-card high-hs"><div class="high-abbr">HS</div><div class="high-name">高安全</div><div class="stars">&#9733;&#9733;&#9733;&#9733;</div><div class="high-current">edict集成Auth Vault+AES加密；agent-browser具备域白名单+动作策略+内容边界三重防护；但缺乏统一密钥管理体系。</div><div class="high-action">→ 统一Secret Management + 零信任网络策略</div></div>
+            <div class="high-card high-hscl"><div class="high-abbr">HScl</div><div class="high-name">高可扩展</div><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="high-current">edict的12-Agent三省六部架构天然支持水平扩展；ai-agent的节点式编排支持无限自定义节点类型接入。</div><div class="high-action">→ 微服务化拆分 + Plugin Marketplace</div></div>
+            <div class="high-card high-hi"><div class="high-abbr">HI</div><div class="high-name">高智能</div><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="high-current">AI核心层4个项目均具备强智能化特征：edict的多Agent自主协作、ai-agent的可视化推理链、mcp的Judge自选机制。</div><div class="high-action">→ Multi-Agent自主进化 + 知识图谱增强</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 4 -->
+<section id="ecosystem">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-num">04</div>
+            <div><h2 class="section-title">协同生态系统</h2><p class="section-desc">各层级间的数据流向、调用关系与耦合强度</p></div>
+        </div>
+        <div class="eco-container">
+            <pre class="eco-diagram"><span class="hl-arrow">╔════════════════════════════════════════════════════════════════════╗</span>
+<span class="hl-arrow">║                  YYC3-E 协同生态系统拓扑图                          ║</span>
+<span class="hl-arrow">╚════════════════════════════════════════════════════════════════════╝</span>
+
+                         <span class="hl-core">┌─────────────────────────┐</span>
+                         <span class="hl-core">│     用户 / 开发者       │</span>  ← 统一入口
+                         <span class="hl-core">│   Feishu / TG / Browser │</span>
+                         <span class="hl-core">└───────────┬─────────────┘</span>
+                                     <span class="hl-arrow">│</span>
+                   <span class="hl-arrow">─────────────────▼─────────────────</span>
+                                     <span class="hl-arrow">│</span>
+<span class="hl-core">   ╔═══════════════[ A ] AI智能核心层 ════════════════╗</span>
+<span class="hl-core">   ║                                                   ║</span>
+<span class="hl-core">   ║  ┌──────────┐  ┌──────────┐  ┌──────────┐         ║</span>
+<span class="hl-core">   ║  │ ai-agent │◄─┤  edict   │◄─│ mcp-prompts│         ║</span>
+<span class="hl-core">   ║  │ 工作流   │  │ 多Agent  │  │ 提示词引擎 │         ║</span>
+<span class="hl-core">   ║  │ 编排器   │  │ 编排器   │  │           │         ║</span>
+<span class="hl-core">   ║  └─────┬────┘  └────┬─────┘  └─────┬─────┘         ║</span>
+<span class="hl-core">   ║        │             │              │               ║</span>
+<span class="hl-core">   ║        ▼             ▼              │               ║</span>
+<span class="hl-core">   ║  ┌──────────────────────────────┐    │               ║</span>
+<span class="hl-core">   ║  │    agent-browser (Rust)      │◄───┘  被调用       ║</span>
+<span class="hl-core">   ║  │    无头浏览器自动化引擎      │       浏览器操作    ║</span>
+<span class="hl-core">   ║  └──────────────┬───────────────┘                    ║</span>
+<span class="hl-core">   ╚═════════════════╪═══════════════════════════════════╝</span>
+                      <span class="hl-arrow">│</span> CDP/WebSocket
+                      <span class="hl-arrow">▼</span>
+                 <span class="hl-box">┌──────────────────┐</span>
+                 <span class="hl-box">│ Chrome for Testing│</span>  ← 外部依赖
+                 <span class="hl-box">│ Google Gemini API │</span>
+                 <span class="hl-box">└──────────────────┘</span>
+
+
+<span class="hl-tool">   ╔═══════════════[ B ] 语言服务层 ════════════════════════╗</span>
+<span class="hl-tool">   ║                                                       ║</span>
+<span class="hl-tool">   ║  rust-analyzer ◄── LSP协议 ──► sourcekit-lsp          ║</span>
+<span class="hl-tool">   ║       (Rust)                    (Swift/C)             ║</span>
+<span class="hl-tool">   ║           ↑                                           ║</span>
+<span class="hl-tool">   ║           │ lsp/* 辅助(Python/Ruby/Swift)              ║</span>
+<span class="hl-tool">   ║           ▼                                           ║</span>
+<span class="hl-tool">   ║     IDE / 编辑器 (VS Code / Cursor / Trae)            ║</span>
+<span class="hl-tool">   ╚═════════════════════════════════════════════════════╝</span>
+
+
+<span class="hl-infra">   ╔════════════ [ C/G/H ] 基础设施层 ══════════════════════╗</span>
+<span class="hl-infra">   ║                                                       ║</span>
+<span class="hl-infra">   ║  fish shell ──► Docker SDK(Go) ──► Assert/Core       ║</span>
+<span class="hl-infra">   ║  (终端体验)    (容器编排)        (运行时支撑)         ║</span>
+<span class="hl-infra">   ╚═════════════════════════════════════════════════════╝</span>
+
+
+<span class="hl-ref">   ╔════════════ [ D/E/F ] 参考与效率层 ══════════════════════╗</span>
+<span class="hl-ref">   ║                                                       ║</span>
+<span class="hl-ref">   ║  W3C Standards ──► Content Libs ──► Autocomplete     ║</span>
+<span class="hl-ref">   ║  (12项Web规范)  (Emmet/Marked)   (Fig/Monorepo)     ║</span>
+<span class="hl-ref">   ╚═════════════════════════════════════════════════════╝</span>
+
+
+<span class="hl-arrow">━━━━━━━━━━━━━━━━ 数据流说明 ━━━━━━━━━━━━━━━━</span>
+<span class="hl-arrow">  ──► 强耦合直接调用     ──▷ 弱耦合可选集成</span>
+<span class="hl-arrow">  ═══ 层级边界            ⇅ 双向数据交换</span></pre>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 5 -->
+<section id="trends">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-num">05</div>
+            <div><h2 class="section-title">2026 技术趋势预测与对齐</h2><p class="section-desc">基于行业大数据的高可用实战技术演进路线图</p></div>
+        </div>
+        <div class="trend-timeline">
+            <div class="trend-line"></div>
+            <div class="trend-item">
+                <div class="trend-year">Q2 2026 · 当前阶段</div>
+                <div class="trend-title">Agentic AI 全面爆发 — 从单Agent到多Agent协作</div>
+                <div class="trend-desc">行业数据显示，2026年Q2多Agent协作框架成为企业AI落地的核心范式。YYC3-E的edict(三省六部架构)和ai-agent(可视化编排)已提前布局此赛道。关键趋势：Agent间的<strong>自主协商协议</strong>标准化、<strong>工具调用链</strong>可观测性增强、<strong>记忆持久化</strong>从向量DB向知识图谱演进。</div>
+                <div class="trend-techs"><span class="tech-pill">MCP Protocol v2</span><span class="tech-pill">LangGraph</span><span class="tech-pill">CrewAI Enterprise</span><span class="tech-pill">AutoGen v0.4</span><span class="tech-pill">GraphRAG</span></div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-year">Q3-Q4 2026 · 近期演进</div>
+                <div class="trend-title">Edge AI + WASM Runtime 边缘智能下沉</div>
+                <div class="trend-desc">AI推理从云端向边缘迁移加速。agent-browser的Rust原生架构天然契合WASM编译部署场景。预计Q3起：<strong>浏览器侧AI推理</strong>(WebGPU/WASM)、<strong>端侧小模型</strong>(&lt; 3B参数)普及、<strong>离线Agent</strong>成为标配需求。YYC3-E应推进agent-browser的WASM编译适配，以及ai-agent节点的Edge Runtime支持。</div>
+                <div class="trend-techs"><span class="tech-pill">WASM4AI</span><span class="tech-pill">WebGPU Inference</span><span class="tech-pill">ONNX Runtime Web</span><span class="tech-pill">Edge Functions</span><span class="tech-pill">TinyLlama / Phi-4</span></div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-year">H2 2026 · 中期方向</div>
+                <div class="trend-title">AI-Native DevTool 重构 — LSP向ALSP演进</div>
+                <div class="trend-desc">传统LSP正在被AI增强的语言服务协议(ALSP)取代。rust-analyzer等工具将集成<strong>AI Code Review</strong>、<strong>智能重构建议</strong>、<strong>自然语言查询代码</strong>能力。YYC3-E的LSP层(B)应考虑与AI核心层(A)打通，形成「编辑器 → LSP → AI Agent」的智能编码闭环。</div>
+                <div class="trend-techs"><span class="tech-pill">ALSP Protocol</span><span class="tech-pill">Cursor-like IDE</span><span class="tech-pill">Aider / Continue</span><span class="tech-pill">Devin-style Agent</span><span class="tech-pill">Semantic Kernel</span></div>
+            </div>
+            <div class="trend-item">
+                <div class="trend-year">2027 · 远期愿景</div>
+                <div class="trend-title">Self-Evolving Agent Ecosystem — 自主进化生态</div>
+                <div class="trend-desc">终极方向：Agent具备<strong>自我优化</strong>、<strong>自我复制</strong>、<strong>跨域迁移</strong>能力。edict的三省六部制衡机制可作为自治Agent社会的治理原型。关键技术：<strong>Agent DNA基因编码</strong>(技能组合模板)、<strong>进化选择算法</strong>(基于任务成功率)、<strong>联邦学习</strong>(多实例经验共享且隐私保护)。</div>
+                <div class="trend-techs"><span class="tech-pill">Evolvable Agents</span><span class="tech-pill">Federated RL</span><span class="tech-pill">Agent Marketplace</span><span class="tech-pill">Swarm Intelligence</span><span class="tech-pill">Digital Twin Agents</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 6 -->
+<section id="recommendations">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-num">06</div>
+            <div><h2 class="section-title">优先行动建议</h2><p class="section-desc">基于五维度评估与技术趋势的落地指导</p></div>
+        </div>
+        <div class="rec-grid">
+            <div class="rec-card rec-p0">
+                <div class="rec-priority">P0 — 立即执行</div>
+                <div class="rec-title">建立统一 Observability 可观测性体系</div>
+                <div class="rec-body">当前AI核心层(A)各项目缺乏统一的日志、指标、追踪标准。建议引入 OpenTelemetry + Prometheus + Grafana 全链路监控，覆盖 edict 的 Redis Stream 事件、ai-agent 的 SSE 流式响应、agent-browser 的 CDP 调用链。这是实现高可用(HA)的前提条件。</div>
+                <div class="rec-target"><strong>影响项目:</strong> ai-agent / edict / agent-browser / claude-prompts-mcp</div>
+            </div>
+            <div class="rec-card rec-p0">
+                <div class="rec-priority">P0 — 立即执行</div>
+                <div class="rec-title">统一密钥管理与零信任安全基线</div>
+                <div class="rec-body">edict已有Auth Vault但各项目独立运作。建议建设统一 Secret Manager (HashiCorp Vault 或云原生 Secrets Manager)，实施 mTLS 双向认证、API Key 轮换自动化、审计日志不可篡改。agent-browser的安全策略(域白名单)应推广至所有对外接口。</div>
+                <div class="rec-target"><strong>影响项目:</strong> 全局基础设施层</div>
+            </div>
+            <div class="rec-card rec-p1">
+                <div class="rec-priority">P1 — 本季度</div>
+                <div class="rec-title">edict 多实例高可用部署方案</div>
+                <div class="rec-body">edict作为核心多Agent编排器目前为单点部署。建议采用 Kubernetes StatefulSet + Redis Sentinel 哨兵模式实现主备切换，配合 PodDisruptionBudget 保证最小可用副本数。Dashboard(:7891)需增加健康检查端点与优雅关闭逻辑。</div>
+                <div class="rec-target"><strong>端口规划:</strong> 后端 25791 / Dashboard 21791 (遵循哈希偏移)</div>
+            </div>
+            <div class="rec-card rec-p1">
+                <div class="rec-priority">P1 — 本季度</div>
+                <div class="rec-title">ai-agent Edge Runtime 适配与 WASM 节点支持</div>
+                <div class="rec-body">紧跟Edge AI趋势，将ai-agent的部分轻量节点(如文本处理、条件判断)编译为WASM模块，支持Vercel Edge Runtime / Cloudflare Workers部署。同时为agent-browser探索WASM-WASI编译路径，使其可在非Chrome环境(如Serverless函数)中运行。</div>
+                <div class="rec-target"><strong>技术栈:</strong> Wasmtime / JCO / Component Model</div>
+            </div>
+            <div class="rec-card rec-p2">
+                <div class="rec-priority">P2 — 下半年</div>
+                <div class="rec-title">LSP-AI Bridge 桥接层建设</div>
+                <div class="rec-body">在语言服务层(B)与AI核心层(A)之间搭建Bridge，让rust-analyzer/sourcekit-lsp的诊断结果可直接喂给edict进行代码修复Agent调度。形成「编辑器输入 → LSP诊断 → Agent修复 → LSP验证」的闭环流水线。</div>
+                <div class="rec-target"><strong>创新点:</strong> ALSP (AI-enhanced Language Server Protocol) 原型</div>
+            </div>
+            <div class="rec-card rec-p2">
+                <div class="rec-priority">P2 — 下半年</div>
+                <div class="rec-title">claude-prompts-mcp Prompt 版本化与 A/B 测试框架</div>
+                <div class="rec-body">在现有热重载基础上增加Prompt语义版本控制(SemVer)，并内置A/B测试能力——同一prompt_id可挂载多个变体，按流量比例分配并通过Gate门禁自动评分优选。这对提示词工程的工程化至关重要。</div>
+                <div class="rec-target"><strong>增值:</strong> Prompt Registry + 效果归因分析</div>
+            </div>
+            <div class="rec-card rec-p3">
+                <div class="rec-priority">P3 — 长期规划</div>
+                <div class="rec-title">Agent Skill Marketplace 技能市场原型</div>
+                <div class="rec-body">基于edict的技能管理系统和ai-agent的节点扩展机制，设计去中心化的Agent技能注册、发现、交易协议。每个Skill封装为独立Docker镜像或WASM组件，通过声明式Manifest描述输入输出Schema，实现「即插即用」的Agent能力扩展生态。</div>
+                <div class="rec-target"><strong>对标:</strong> MCP Server Directory / ChatGPT Plugins v2</div>
+            </div>
+            <div class="rec-card rec-p3">
+                <div class="rec-priority">P3 — 长期规划</div>
+                <div class="rec-title">Knowledge Graph 增强型 Agent 记忆系统</div>
+                <div class="rec-body">超越当前的向量检索(RAG)，构建领域知识图谱作为Agent长期记忆层。利用Neo4j/NebulaGraph存储实体关系，配合LLM做图谱推理。特别适合edict的「三省六部」政务场景——政策文件、历史决策、官员履历均可结构化为图谱数据。</div>
+                <div class="rec-target"><strong>技术选型:</strong> Neo4j + GraphRAG + LLM Graph Reasoning</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>YYC3-E WorkSpace Five-Dimension Analysis Report &copy; 2026 | Generated by Intelligent Implementation Expert</p>
+    <p style="margin-top:8px;opacity:0.6">Framework: 五维度驱动五高五标准五转型 | Date: 2026-06-07 | Path: /Users/my/Documents/YYC3-ABCDEF/YYC3-E</p>
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    document.querySelectorAll('.sub-project').forEach(item => {
+        item.addEventListener('click', function() {
+            this.style.color = '#8b5cf6';
+            setTimeout(() => { this.style.color = ''; }, 300);
+        });
+    });
+</script>
+</body>
+</html>

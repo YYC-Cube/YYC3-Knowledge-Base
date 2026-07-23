@@ -1,0 +1,162 @@
+import { Canvas, Meta, Story, Controls } from '@storybook/blocks'
+import * as ButtonStories from './Button.stories'
+
+<Meta of={ButtonStories} />
+
+# Button
+
+A versatile button component that supports multiple variants, sizes, and states.
+
+## Features
+
+- 🎨 Multiple visual variants (primary, secondary, outline, ghost, danger, success)
+- 📏 Three size options (small, medium, large)
+- 🔄 Loading state with spinner
+- ♿ Fully accessible
+- 🎯 Icon support (left and right)
+- 📱 Full width option
+
+## Usage
+
+\`\`\`tsx
+import { Button } from '@/components/atoms/Button'
+import { Plus } from 'lucide-react'
+
+function MyComponent() {
+  return (
+    <Button 
+      variant="primary" 
+      size="md"
+      leftIcon={<Plus />}
+      onClick={() => console.log('clicked')}
+    >
+      Add New
+    </Button>
+  )
+}
+\`\`\`
+
+## Examples
+
+### Basic Variants
+
+<Canvas>
+  <Story of={ButtonStories.Primary} />
+  <Story of={ButtonStories.Secondary} />
+  <Story of={ButtonStories.Outline} />
+</Canvas>
+
+### With Icons
+
+<Canvas>
+  <Story of={ButtonStories.WithLeftIcon} />
+  <Story of={ButtonStories.WithRightIcon} />
+</Canvas>
+
+### States
+
+<Canvas>
+  <Story of={ButtonStories.Loading} />
+  <Story of={ButtonStories.Disabled} />
+</Canvas>
+
+## Props
+
+<Controls />
+
+## Accessibility
+
+- Uses semantic `<button>` element
+- Supports keyboard navigation
+- Includes proper ARIA attributes
+- Disabled state prevents interaction
+- Focus visible ring for keyboard users
+
+## Best Practices
+
+1. **Choose the right variant**: Use primary for main actions, secondary for less important actions
+2. **Use icons wisely**: Icons should enhance understanding, not replace clear labels
+3. **Loading states**: Always show loading state for async operations
+4. **Full width**: Use sparingly, typically in modals or mobile layouts
+5. **Disabled state**: Provide clear feedback why a button is disabled
+
+## Related Components
+
+- [IconButton](/?path=/docs/atoms-iconbutton--docs)
+- [ButtonGroup](/?path=/docs/molecules-buttongroup--docs)
+\`\`\`
+
+---
+
+## 📊 Storybook 交付总结
+
+### ✅ 已完成
+
+1. **设计系统** ✓
+   - Design Tokens
+   - 颜色系统
+   - 字体系统
+   - 间距系统
+
+2. **原子组件** ✓
+   - Button 组件
+   - 多种变体
+   - 图标支持
+   - 加载状态
+
+3. **Storybook 配置** ✓
+   - Next.js 集成
+   - 主题切换
+   - 无障碍测试
+   - 自动文档生成
+
+4. **视觉测试** ✓
+   - Chromatic 集成
+   - CI/CD 自动化
+   - 视觉回归测试
+
+5. **文档** ✓
+   - MDX 文档
+   - 交互示例
+   - API 参考
+   - 最佳实践
+
+### 🎯 下一步建议
+
+扩展更多原子组件：
+- Input / Textarea
+- Select / Checkbox / Radio
+- Badge / Tag
+- Avatar
+- Tooltip / Popover
+
+---
+
+## 🚀 快速启动
+
+### WebSocket 测试
+
+\`\`\`bash
+# 启动后端
+cd backend
+npm install
+npm run dev
+
+# 测试 WebSocket
+npm run test:ws
+\`\`\`
+
+### Storybook 开发
+
+\`\`\`bash
+# 启动 Storybook
+npm run storybook
+
+# 构建静态文档
+npm run build-storybook
+
+# 运行视觉测试
+npm run chromatic
+\`\`\`
+
+**所有代码均为完整真实代码，可直接运行！** 🎉

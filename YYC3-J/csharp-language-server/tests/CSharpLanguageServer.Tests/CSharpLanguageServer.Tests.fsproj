@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <NoWarn>FS0988</NoWarn>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Tooling.fs" />
+    <Compile Include="RenameTests.fs" />
+    <Compile Include="CodeActionTests.fs" />
+    <Compile Include="DiagnosticTests.fs" />
+    <Compile Include="DocumentationTests.fs" />
+    <Compile Include="DocumentHighlightTests.fs" />
+    <Compile Include="DocumentSymbolTests.fs" />
+    <Compile Include="HoverTests.fs" />
+    <Compile Include="InitializationTests.fs" />
+    <Compile Include="ReferenceTests.fs" />
+    <Compile Include="DefinitionTests.fs" />
+    <Compile Include="DocumentFormattingTests.fs" />
+    <Compile Include="InternalTests.fs" />
+    <Compile Include="CompletionTests.fs" />
+    <Compile Include="WorkspaceSymbolTests.fs" />
+    <Compile Include="SemanticTokenTests.fs" />
+    <Compile Include="DiagnoseCommandTests.fs" />
+    <Compile Include="SignatureHelpTests.fs" />
+    <Compile Include="TypeDefinitionTests.fs" />
+    <Compile Include="ImplementationTests.fs" />
+    <Compile Include="CSharpMetadataTests.fs" />
+    <Compile Include="ProgressReporterTests.fs" />
+    <Compile Include="DocumentSyncTests.fs" />
+    <Compile Include="CallHierarchyTests.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NuGet.Frameworks" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CSharpLanguageServer\CSharpLanguageServer.fsproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+EasySpider_MacOS/easyspider_executestage
+EasySpider_MacOS/easyspider_executestage_full
+EasySpider_Linux64_x64/user_data
+EasySpider_Windows_x32/user_data
+EasySpider
+EasySpider.app/
+EasySpider_Windows_x64/user_data
+*.tmp
+*.tar.gz
+*.7z*
+config.json
+mysql_config.json
+**/Code
+**/user_data
+**/tasks
+**/execution_instances
+**/TempUserDataFolder

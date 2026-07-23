@@ -1,0 +1,21 @@
+{
+  "name": "yyc3-ai-integration",
+  "displayName": "AI能力集成专家",
+  "description": "GLM-4.7模型集成、OpenAI API调用、RAG检索增强生成、Prompt工程、流式响应处理",
+  "version": "1.0.0",
+  "author": "YYC3 AI Team",
+  "tags": ["ai", "glm", "openai", "rag", "prompt-engineering"],
+  "capabilities": [
+    "GLM-4.7模型集成",
+    "OpenAI API调用",
+    "RAG系统实现",
+    "Prompt优化",
+    "流式响应处理"
+  ],
+  "metadata": {
+    "createdAt": "2026-01-29",
+    "updatedAt": "2026-01-29",
+    "category": "ai",
+    "priority": "high"
+  }
+}

@@ -1,0 +1,24 @@
+This browser extension adds a convenient "Repomix" button to GitHub repository pages, allowing you to quickly package and analyze repositories with Repomix - a powerful tool that transforms software repositories into AI-friendly single files.
+
+🛠️ Features:
+- One-click access to Repomix for any GitHub repository
+- More exciting features coming soon - stay tuned for enhanced functionality!
+
+🚀 How to Use:
+1. Install the extension
+2. Navigate to any GitHub repository
+3. Click the "Repomix" button in the repository header
+4. You'll be redirected to Repomix web interface
+5. Generate a packaged version of the repository for AI analysis
+
+✨ What is Repomix?
+Repomix is an innovative tool that packages your entire codebase into a single, comprehensive file optimized for AI analysis. It supports multiple output formats (XML, Markdown, Plain text), includes security checks to exclude sensitive information, and provides detailed metrics about your code.
+
+💻 Open Source:
+Both this extension and Repomix itself are open source projects. You can view the source code, contribute, or build the extension yourself.
+For more details, please visit:
+https://github.com/yamadashy/repomix
+
+🌐 Learn More:
+- Official Website: https://repomix.com
+- GitHub Repository: https://github.com/yamadashy/repomix

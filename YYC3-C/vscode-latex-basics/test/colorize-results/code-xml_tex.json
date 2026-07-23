@@ -1,0 +1,282 @@
+[
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.preamble.latex keyword.control.preamble.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "documentclass",
+		"t": "text.tex.latex meta.preamble.latex keyword.control.preamble.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.preamble.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "article",
+		"t": "text.tex.latex meta.preamble.latex support.class.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.preamble.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.begin-document.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.begin-document.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.begin-document.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "document",
+		"t": "text.tex.latex meta.function.begin-document.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.begin-document.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "[",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.begin.latex"
+	},
+	{
+		"c": "linenos",
+		"t": "text.tex.latex meta.parameter.optional.latex"
+	},
+	{
+		"c": "]",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.end.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "xml",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "<",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "article",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.name.tag.localname.xml"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex text.xml meta.tag.xml"
+	},
+	{
+		"c": "xmlns",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.other.attribute-name.localname.xml"
+	},
+	{
+		"c": "=",
+		"t": "text.tex.latex text.xml meta.tag.xml"
+	},
+	{
+		"c": "\"",
+		"t": "text.tex.latex text.xml meta.tag.xml string.quoted.double.xml punctuation.definition.string.begin.xml"
+	},
+	{
+		"c": "http://docbook.org/ns/docbook",
+		"t": "text.tex.latex text.xml meta.tag.xml string.quoted.double.xml"
+	},
+	{
+		"c": "\"",
+		"t": "text.tex.latex text.xml meta.tag.xml string.quoted.double.xml punctuation.definition.string.end.xml"
+	},
+	{
+		"c": ">",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "<",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "title",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.name.tag.localname.xml"
+	},
+	{
+		"c": ">",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "Extensible Markup Language",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "</",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "title",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.name.tag.localname.xml"
+	},
+	{
+		"c": ">",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "<",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "para",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.name.tag.localname.xml"
+	},
+	{
+		"c": ">",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "      ",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "<",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "acronym",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.name.tag.localname.xml"
+	},
+	{
+		"c": ">",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "XML",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "</",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "acronym",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.name.tag.localname.xml"
+	},
+	{
+		"c": ">",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": " (Extensible Markup Language, « langage de balisage extensible »)...",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "</",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "para",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.name.tag.localname.xml"
+	},
+	{
+		"c": ">",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex text.xml"
+	},
+	{
+		"c": "</",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "article",
+		"t": "text.tex.latex text.xml meta.tag.xml entity.name.tag.localname.xml"
+	},
+	{
+		"c": ">",
+		"t": "text.tex.latex text.xml meta.tag.xml punctuation.definition.tag.xml"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.end-document.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.end-document.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.end-document.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "document",
+		"t": "text.tex.latex meta.function.end-document.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.end-document.latex punctuation.definition.arguments.end.latex"
+	}
+]

@@ -1,0 +1,127 @@
+- source: '#!'
+  scopesBegin:
+    - comment.line.number-sign
+    - meta.shebang
+  scopes:
+    - punctuation.definition.comment.shebang
+- source: /bin/bash
+  scopesEnd:
+    - comment.line.number-sign
+    - meta.shebang
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: Start
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: array_not_ok
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: (
+  scopes:
+    - punctuation.definition.array
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: Lorem ipsum
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: dolor sit
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: amet
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: )
+  scopes:
+    - punctuation.definition.array
+- source: array_ok
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: (
+  scopes:
+    - punctuation.definition.array
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: Lorem ipsum
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: dolor sit
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: amet
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: )
+  scopes:
+    - punctuation.definition.array
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: End
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end

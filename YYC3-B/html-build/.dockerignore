@@ -1,0 +1,8 @@
+*
+!entities/out
+!quotes/out
+!build.sh
+!lint.sh
+!Cargo.lock
+!Cargo.toml
+!src

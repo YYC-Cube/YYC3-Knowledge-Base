@@ -1,0 +1,19 @@
+# env / secrets
+.env
+.env.local
+
+# build output
+node_modules
+.next
+dist
+*.tsbuildinfo
+
+# don't pin the lockfile while the SDK is still moving
+bun.lock
+
+
+# misc
+.DS_Store
+*.log
+test-results/
+.claude/settings.local.json

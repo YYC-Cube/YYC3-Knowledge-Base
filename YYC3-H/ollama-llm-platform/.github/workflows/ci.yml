@@ -1,0 +1,246 @@
+#
+# @file GitHub Actions CI 工作流
+# @description push/PR 时运行类型检查、格式检查、代码检查与构建；包含基于改动文件的快速检查（并行：Diff 生产者 + 两个消费者），并启用缓存与增量 TS 检查
+# @author YYC
+# @created 2024-10-31
+# @updated 2024-10-31
+#
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-check:
+    name: Build & Check (Node ${{ matrix.node }} / ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: [20, 22]
+    concurrency:
+      group: build-and-check-${{ github.workflow }}-${{ github.ref }}-${{ matrix.os }}-${{ matrix.node }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      # 缓存 TS 增量编译信息，以便在 Type Check 中复用
+      - name: Cache TS build info
+        uses: actions/cache@v3
+        with:
+          path: tsconfig.tsbuildinfo
+          key: ${{ runner.os }}-node-${{ matrix.node }}-tsbuild-${{ hashFiles('tsconfig.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node }}-tsbuild-
+            ${{ runner.os }}-tsbuild-
+
+      # 缓存 node_modules（在无锁文件时受益明显；提交锁文件后以 npm ci 为主）
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node }}-modules-${{ hashFiles('package-lock.json') }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node }}-modules-
+            ${{ runner.os }}-modules-
+
+      - name: Install dependencies (prefer npm ci)
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "Found package-lock.json, using npm ci"
+            npm ci
+          else
+            echo "No package-lock.json, using npm install"
+            npm install
+          fi
+
+      - name: Prettier Check
+        run: npm run format:check
+
+      - name: Type Check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  # 并行快检：Diff 生产者，输出改动文件供下游 Job 使用
+  diff:
+    name: Diff (produce changed files)
+    runs-on: ubuntu-latest
+    outputs:
+      prettier_files: ${{ steps.files.outputs.prettier_files }}
+      eslint_files:   ${{ steps.files.outputs.eslint_files }}
+      ts_files:       ${{ steps.files.outputs.ts_files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute changed files
+        id: files
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="${{ github.event.pull_request.base.ref }}"
+            git fetch origin "$BASE_REF" --depth=1
+            BASE_SHA=$(git rev-parse "origin/$BASE_REF")
+            CHANGED_FILES=$(git diff --name-only "$BASE_SHA" HEAD)
+          else
+            BEFORE="${{ github.event.before }}"
+            AFTER="${{ github.sha }}"
+            CHANGED_FILES=$(git diff --name-only "$BEFORE" "$AFTER")
+          fi
+
+          echo "Changed files:\n$CHANGED_FILES"
+          PRETTIER_FILES=$(echo "$CHANGED_FILES" | grep -E '\\.(js|jsx|ts|tsx|json|md|yaml|yml|css|scss)$' || true)
+          ESLINT_FILES=$(echo "$CHANGED_FILES" | grep -E '\\.(js|jsx|ts|tsx)$' || true)
+          TS_FILES=$(echo "$CHANGED_FILES" | grep -E '\\.(ts|tsx)$' || true)
+
+          echo "prettier_files=$PRETTIER_FILES" >> "$GITHUB_OUTPUT"
+          echo "eslint_files=$ESLINT_FILES"   >> "$GITHUB_OUTPUT"
+          echo "ts_files=$TS_FILES"           >> "$GITHUB_OUTPUT"
+
+  # 消费者 1：Prettier/ESLint 改动文件快检
+  diff-lint-prettier:
+    name: Diff Lint/Prettier (changed files only)
+    runs-on: ${{ matrix.os }}
+    needs: diff
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    concurrency:
+      group: diff-lint-prettier-${{ github.workflow }}-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-20-modules-${{ hashFiles('package-lock.json') }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-20-modules-
+            ${{ runner.os }}-modules-
+
+      - name: Install dependencies (prefer npm ci)
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "Found package-lock.json, using npm ci"
+            npm ci
+          else
+            echo "No package-lock.json, using npm install"
+            npm install
+          fi
+
+      - name: Prettier Check (changed only)
+        if: needs.diff.outputs.prettier_files != ''
+        run: |
+          npx prettier --check ${{ needs.diff.outputs.prettier_files }}
+
+      - name: ESLint Check (changed only)
+        if: needs.diff.outputs.eslint_files != ''
+        run: |
+          npx eslint --max-warnings=0 ${{ needs.diff.outputs.eslint_files }}
+
+      - name: Skip (no relevant changes)
+        if: needs.diff.outputs.prettier_files == '' && needs.diff.outputs.eslint_files == ''
+        run: echo "No relevant changed files for lint/prettier, skipping."
+
+  # 消费者 2：TS 改动文件快检 + 项目级增量类型检查
+  diff-ts-check:
+    name: Diff TS Check (changed files only)
+    runs-on: ${{ matrix.os }}
+    needs: diff
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    concurrency:
+      group: diff-ts-check-${{ github.workflow }}-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-20-modules-${{ hashFiles('package-lock.json') }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-20-modules-
+            ${{ runner.os }}-modules-
+
+      - name: Cache TS build info
+        uses: actions/cache@v3
+        with:
+          path: tsconfig.tsbuildinfo
+          key: ${{ runner.os }}-node-20-tsbuild-${{ hashFiles('tsconfig.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-20-tsbuild-
+
+      - name: Install dependencies (prefer npm ci)
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "Found package-lock.json, using npm ci"
+            npm ci
+          else
+            echo "No package-lock.json, using npm install"
+            npm install
+          fi
+
+      # 改动文件级别 TS 快速类型检查：极快，适合快速反馈；不覆盖跨文件依赖
+      - name: TS File Quick Check (changed only)
+        if: needs.diff.outputs.ts_files != ''
+        run: |
+          npx tsc --noEmit ${{ needs.diff.outputs.ts_files }}
+
+      # 项目级增量类型检查：更严谨，考虑跨文件依赖；仅在 TS 文件有改动时运行
+      - name: TS Project Incremental Type Check (changed only)
+        if: needs.diff.outputs.ts_files != ''
+        run: |
+          npx tsc -p tsconfig.json --noEmit --incremental
+
+      - name: Skip (no relevant changes)
+        if: needs.diff.outputs.ts_files == ''
+        run: echo "No TS changed files for quick check, skipping."

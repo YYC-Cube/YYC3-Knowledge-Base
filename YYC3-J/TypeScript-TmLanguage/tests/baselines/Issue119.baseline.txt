@@ -1,0 +1,104 @@
+original file
+-----------------------------------
+class x {
+    public SomeMethod() {
+    }
+    public OtherMethod() { }
+
+    public SomeMethod = () => { }
+}
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>class x {
+ ^^^^^
+ source.ts meta.class.ts storage.type.class.ts
+      ^
+      source.ts meta.class.ts
+       ^
+       source.ts meta.class.ts entity.name.type.class.ts
+        ^
+        source.ts meta.class.ts
+         ^
+         source.ts meta.class.ts punctuation.definition.block.ts
+>    public SomeMethod() {
+ ^^^^
+ source.ts meta.class.ts
+     ^^^^^^
+     source.ts meta.class.ts meta.method.declaration.ts storage.modifier.ts
+           ^
+           source.ts meta.class.ts meta.method.declaration.ts
+            ^^^^^^^^^^
+            source.ts meta.class.ts meta.method.declaration.ts meta.definition.method.ts entity.name.function.ts
+                      ^
+                      source.ts meta.class.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.begin.ts
+                       ^
+                       source.ts meta.class.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.end.ts
+                        ^
+                        source.ts meta.class.ts meta.method.declaration.ts
+                         ^
+                         source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.definition.block.ts
+>    }
+ ^^^^
+ source.ts meta.class.ts meta.method.declaration.ts meta.block.ts
+     ^
+     source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.definition.block.ts
+>    public OtherMethod() { }
+ ^^^^
+ source.ts meta.class.ts
+     ^^^^^^
+     source.ts meta.class.ts meta.method.declaration.ts storage.modifier.ts
+           ^
+           source.ts meta.class.ts meta.method.declaration.ts
+            ^^^^^^^^^^^
+            source.ts meta.class.ts meta.method.declaration.ts meta.definition.method.ts entity.name.function.ts
+                       ^
+                       source.ts meta.class.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.begin.ts
+                        ^
+                        source.ts meta.class.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.end.ts
+                         ^
+                         source.ts meta.class.ts meta.method.declaration.ts
+                          ^
+                          source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.definition.block.ts
+                           ^
+                           source.ts meta.class.ts meta.method.declaration.ts meta.block.ts
+                            ^
+                            source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.definition.block.ts
+>
+ ^
+ source.ts meta.class.ts
+>    public SomeMethod = () => { }
+ ^^^^
+ source.ts meta.class.ts
+     ^^^^^^
+     source.ts meta.class.ts storage.modifier.ts
+           ^
+           source.ts meta.class.ts meta.field.declaration.ts
+            ^^^^^^^^^^
+            source.ts meta.class.ts meta.field.declaration.ts meta.definition.property.ts entity.name.function.ts
+                      ^
+                      source.ts meta.class.ts meta.field.declaration.ts
+                       ^
+                       source.ts meta.class.ts meta.field.declaration.ts keyword.operator.assignment.ts
+                        ^
+                        source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts
+                         ^
+                         source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts meta.parameters.ts punctuation.definition.parameters.begin.ts
+                          ^
+                          source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts meta.parameters.ts punctuation.definition.parameters.end.ts
+                           ^
+                           source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts
+                            ^^
+                            source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts storage.type.function.arrow.ts
+                              ^
+                              source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts
+                               ^
+                               source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts meta.block.ts punctuation.definition.block.ts
+                                ^
+                                source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts meta.block.ts
+                                 ^
+                                 source.ts meta.class.ts meta.field.declaration.ts meta.arrow.ts meta.block.ts punctuation.definition.block.ts
+>}
+ ^
+ source.ts meta.class.ts punctuation.definition.block.ts

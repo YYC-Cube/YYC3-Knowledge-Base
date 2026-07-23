@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env bash
+[[ -f "${TM_SUPPORT_PATH}/lib/bash_init.sh" ]] &amp;&amp; . "${TM_SUPPORT_PATH}/lib/bash_init.sh"
+
+file=$(osascript &lt;&lt;"APPLESCRIPT"
+tell app "TextMate"
+  try
+    set theFile to choose file
+    set the result to POSIX path of theFile
+  on error
+    set the result to ""
+  end try
+end tell
+APPLESCRIPT)
+
+if [[ "$file" == "" ]]; then exit_discard; fi
+
+if diff --strip-trailing-cr --label "$file" --label "${TM_DISPLAYNAME}" -u "$file" -; then
+  exit_show_tool_tip "There are no differences."
+fi
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>^@D</string>
+	<key>name</key>
+	<string>Document With Arbitrary File…</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
+	<key>semanticClass</key>
+	<string>diff.document</string>
+	<key>uuid</key>
+	<string>4050A252-C604-4D0C-8545-E50B22E2715B</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

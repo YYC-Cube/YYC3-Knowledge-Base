@@ -1,0 +1,18 @@
+User-Agent: *
+
+Disallow: /dist/
+Disallow: /docs//demos
+Disallow: /docs/es/
+Disallow: /docs/fr/
+Disallow: /docs/pages/theming/color-generator
+Disallow: /docs/pt/
+Disallow: /docs/v1
+Disallow: /docs/v2
+Disallow: /docs/v3
+Disallow: /docs/v4
+Disallow: /docs/v5
+Disallow: /docs/zh/
+Disallow: /present-ionic/slides/
+
+Sitemap: https://ionicframework.com/sitemap.xml
+Sitemap: https://ionicframework.com/docs/sitemap.xml

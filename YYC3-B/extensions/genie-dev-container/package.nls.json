@@ -1,0 +1,15 @@
+{
+  "displayName": "CodeBuddy Remote - Dev Containers",
+  "description": "Connect to dev containers from the command palette and the explorer",
+  "command.explorer.refresh": "Refresh Dev Containers",
+  "command.openFolderInContainer": "Open Folder in Container",
+  "command.reopenInContainer": "Reopen in Container",
+  "command.rebuildAndReopenInContainer": "Rebuild and Reopen in Container",
+  "command.attachToRunningContainer": "Attach to Running Container",
+  "command.attachToRunningContainerCurrentWindow": "Attach in Current Window",
+  "command.attachToRunningContainerNewWindow": "Attach in New Window",
+  "command.reopenFolderLocally": "Reopen Folder Locally",
+  "command.showLog": "Show Log",
+  "command.openFromHistory": "Open Container",
+  "command.explorer.deleteContainer": "Remove Container from History"
+}

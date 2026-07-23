@@ -1,0 +1,54 @@
+name: pre-release
+
+# creates/updates a pre-release with the .vsix 
+
+on:
+  push:
+    branches: ["master"]
+
+env:
+  FILE_OUT: r-latest.vsix
+  SCRIPT_DIR: ./.github/scripts
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install
+      - uses: lannonbr/vsce-action@4.0.0
+        with:
+          args: "package -o $FILE_OUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: "${{ env.FILE_OUT }}"
+          path: "${{ env.FILE_OUT }}"
+
+  pre-release:
+    name: Pre-Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update tag
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Download artifacts
+        uses: actions/download-artifact@v4.1.7
+        with:
+          path: "artifacts/"
+      - name: Upload artifacts
+        uses: meeDamian/github-release@2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: latest
+          commitish: master
+          name: Development Build
+          body: Contains the vsix-file from the latest push to master.
+          prerelease: true
+          files: "artifacts/*/*"
+          gzip: false
+          allow_override: true

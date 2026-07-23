@@ -1,0 +1,86 @@
+name: pypi
+
+on:
+  push:
+    tags:
+      - "*"
+    branches:
+      - 'master'
+      - 'release/1.x'
+    paths:
+      - src/khoj/**
+      - src/interface/web/**
+      - pyproject.toml
+      - .github/workflows/pypi.yml
+  pull_request:
+    branches:
+      - 'master'
+      - 'release/1.x'
+    paths:
+      - src/khoj/**
+      - src/interface/web/**
+      - pyproject.toml
+      - .github/workflows/pypi.yml
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish Python Package to PyPI
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Set up Python 3.11
+        run: uv python install 3.11.12
+
+      - name: ⬇️ Install Server
+        run: uv sync --all-extras
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: ⬇️ Install Web Client
+        run: |
+          bun install
+          bun pypiciexport
+        working-directory: src/interface/web
+
+      - name: ⚙️ Build Python Package
+        run: |
+          # Setup Environment for Reproducible Builds
+          export PYTHONHASHSEED=42
+          export SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)
+          rm -rf dist
+
+          # Build PyPI Package
+          uv build
+
+      - name: 🌡️ Validate Python Package
+        run: |
+          # Validate PyPi Package
+          uv tool run check-wheel-contents dist/*.whl --ignore W002,W004
+          uv tool run twine check dist/*
+
+      - name: ⏫ Upload Python Package Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: khoj
+          path: dist/khoj-*.whl
+
+      - name: 📦 Publish Python Package to PyPI
+        if: startsWith(github.ref, 'refs/tags') || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/release/1.x'
+        uses: pypa/gh-action-pypi-publish@release/v1.12
+        with:
+          skip-existing: true
+          print-hash: true

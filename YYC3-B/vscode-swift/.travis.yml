@@ -1,0 +1,21 @@
+lang: node_js
+node_js:
+  - node
+
+os:
+  - osx
+
+before_install:
+  - if [ $TRAVIS_OS_NAME == "linux" ]; then
+      export CXX="g++-4.9" CC="gcc-4.9" DISPLAY=:99.0;
+      sh -e /etc/init.d/xvfb start;
+      sleep 3;
+    fi
+  - echo "--- Environment ---" && env | sort && echo "--- End of Environment ---"
+
+install:
+  - npm install
+  - npm run vscode:prepublish
+
+script:
+  - npm test --silent

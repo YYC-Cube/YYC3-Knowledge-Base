@@ -1,0 +1,12 @@
+{
+  "llama3:7b": {
+    "name": "Llama 3 (7B)",
+    "description": "轻量级通用模型，适合日常对话",
+    "defaultParams": { "temperature": 0.7, "max_tokens": 512 }
+  },
+  "mixtral:latest": {
+    "name": "Mixtral",
+    "description": "多专家混合模型，擅长复杂逻辑推理",
+    "defaultParams": { "temperature": 0.6, "max_tokens": 1024 }
+  }
+}

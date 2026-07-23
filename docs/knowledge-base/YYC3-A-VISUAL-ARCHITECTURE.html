@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YYC3-A 工作区可视化架构 | 分类 · 分析 · 展示 · 趋势</title>
+<style>
+  :root {
+    --bg-primary: #0a0e1a; --bg-secondary: #111827; --bg-card: #1a2235;
+    --bg-card-hover: #1f2b42; --border: #2a3548; --border-bright: #3b4d6b;
+    --text-primary: #e8ecf4; --text-secondary: #94a3b8; --text-muted: #64748b;
+    --accent-blue: #3b82f6; --accent-cyan: #06b6d4; --accent-purple: #8b5cf6;
+    --accent-green: #10b981; --accent-amber: #f59e0b; --accent-red: #ef4444;
+    --accent-pink: #ec4899; --accent-indigo: #6366f1;
+    --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0c1220 100%);
+    --gradient-accent: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+    --shadow-glow: 0 0 40px rgba(59,130,246,0.08);
+    --radius: 12px; --radius-sm: 8px; --radius-lg: 16px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; overflow-x:hidden; }
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-track { background:var(--bg-secondary); }
+  ::-webkit-scrollbar-thumb { background:var(--border-bright); border-radius:3px; }
+
+  /* ===== LAYOUT ===== */
+  .app-layout { display:flex; min-height:100vh; }
+  .sidebar { width:260px; background:var(--bg-secondary); border-right:1px solid var(--border); position:fixed; top:0; left:0; height:100vh; overflow-y:auto; z-index:100; transition:transform .3s ease; }
+  .sidebar-inner { padding:24px 16px; }
+  .sidebar-logo { font-size:18px; font-weight:800; letter-spacing:-0.5px; margin-bottom:8px; background:var(--gradient-accent); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .sidebar-subtitle { font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:28px; }
+  .nav-section-title { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); padding:16px 12px 8px; font-weight:600; }
+  .nav-item { display:block; padding:9px 14px; border-radius:8px; color:var(--text-secondary); text-decoration:none; font-size:13.5px; font-weight:500; transition:all .15s ease; cursor:pointer; border-left:3px solid transparent; margin:2px 0; }
+  .nav-item:hover { background:rgba(59,130,246,0.08); color:var(--text-primary); }
+  .nav-item.active { background:rgba(59,130,246,0.12); color:var(--accent-blue); border-left-color:var(--accent-blue); font-weight:600; }
+  .nav-item .nav-badge { float:right; font-size:10px; background:var(--bg-card); padding:1px 7px; border-radius:10px; color:var(--text-muted); }
+  .main-content { margin-left:260px; flex:1; min-width:0; }
+
+  /* ===== HERO ===== */
+  .hero { background:var(--gradient-hero); border-bottom:1px solid var(--border); padding:60px 48px 48px; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-50%; right:-20%; width:600px; height:600px; background:radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%); pointer-events:none; }
+  .hero::after { content:''; position:absolute; bottom:-30%; left:-10%; width:400px; height:400px; background:radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%); pointer-events:none; }
+  .hero-tag { display:inline-block; background:rgba(59,130,246,0.15); color:var(--accent-blue); border:1px solid rgba(59,130,246,0.25); padding:4px 14px; border-radius:20px; font-size:12px; font-weight:600; letter-spacing:0.5px; margin-bottom:16px; }
+  .hero h1 { font-size:36px; font-weight:800; letter-spacing:-1px; margin-bottom:12px; line-height:1.15; }
+  .hero h1 span { background:var(--gradient-accent); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero-desc { font-size:15px; color:var(--text-secondary); max-width:700px; line-height:1.7; }
+  .hero-stats { display:flex; gap:32px; margin-top:28px; flex-wrap:wrap; }
+  .stat-item { text-align:center; }
+  .stat-value { font-size:28px; font-weight:800; color:var(--accent-cyan); }
+  .stat-label { font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-top:2px; }
+
+  /* ===== SECTION COMMONS ===== */
+  .section { padding:40px 48px; border-bottom:1px solid var(--border); }
+  .section-header { margin-bottom:32px; }
+  .section-title { font-size:22px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+  .section-title .icon { width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; }
+  .section-desc { font-size:14px; color:var(--text-secondary); }
+
+  /* ===== PROJECT CARDS GRID ===== */
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:16px; }
+  .project-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:22px; transition:all .2s ease; position:relative; overflow:hidden; cursor:default; }
+  .project-card:hover { border-color:var(--border-bright); transform:translateY(-2px); box-shadow:var(--shadow-glow); }
+  .card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+  .card-name { font-size:16px; font-weight:700; }
+  .card-category { display:inline-block; font-size:11px; font-weight:600; padding:3px 10px; border-radius:6px; text-transform:uppercase; letter-spacing:0.5px; }
+  .cat-core { background:rgba(139,92,246,0.15); color:var(--accent-purple); border:1px solid rgba(139,92,246,0.25); }
+  .cat-ai { background:rgba(6,182,212,0.15); color:var(--accent-cyan); border:1px solid rgba(6,182,212,0.25); }
+  .cat-type { background:rgba(59,130,246,0.15); color:var(--accent-blue); border:1px solid rgba(59,130,246,0.25); }
+  .cat-tmpl { background:rgba(245,158,11,0.15); color:var(--accent-amber); border:1px solid rgba(245,158,11,0.25); }
+  .cat-web { background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.25); }
+  .cat-editor { background:rgba(236,72,153,0.15); color:var(--accent-pink); border:1px solid rgba(236,72,153,0.25); }
+  .cat-db { background:rgba(100,116,139,0.15); color:var(--text-secondary); border:1px solid rgba(100,116,139,0.25); }
+  .card-stars { display:flex; gap:2px; }
+  .star { width:14px; height:14px; clip-path:polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+  .star.filled { background:var(--accent-amber); }
+  .star.empty { background:var(--border); }
+  .card-techs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .tech-tag { font-size:11px; padding:3px 8px; background:var(--bg-secondary); border-radius:6px; color:var(--text-secondary); border:1px solid var(--border); }
+  .card-body { font-size:13px; color:var(--text-secondary); line-height:1.65; margin-bottom:14px; }
+  .card-metrics { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+  .metric { text-align:center; padding:8px 6px; background:var(--bg-secondary); border-radius:8px; }
+  .metric-val { font-size:15px; font-weight:700; color:var(--accent-cyan); }
+  .metric-lbl { font-size:10px; color:var(--text-muted); text-transform:uppercase; }
+  .card-bar { height:3px; border-radius:2px; margin-top:14px; background:var(--bg-secondary); overflow:hidden; }
+  .card-bar-fill { height:100%; border-radius:2px; transition:width .8s ease; }
+
+  /* ===== ARCHITECTURE DIAGRAM ===== */
+  .arch-diagram { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; overflow-x:auto; }
+  .arch-layer { margin-bottom:12px; display:flex; align-items:stretch; }
+  .arch-label { width:140px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; writing-mode:vertical-lr; transform:rotate(180deg); border-radius:6px; padding:12px 4px; }
+  .arch-nodes { flex:1; display:flex; gap:8px; flex-wrap:wrap; }
+  .arch-node { padding:10px 16px; border-radius:8px; font-size:12.5px; font-weight:600; text-align:center; border:1px solid; transition:all .2s; cursor:default; min-width:120px; }
+  .arch-node:hover { transform:scale(1.03); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+  .layer-l0 { background:rgba(139,92,246,0.1); border-color:rgba(139,92,246,0.3); color:#c4b5fd; }
+  .layer-l1 { background:rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.3); color:#93c5fd; }
+  .layer-l2 { background:rgba(6,182,212,0.1); border-color:rgba(6,182,212,0.3); color:#67e8f9; }
+  .layer-l3 { background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.3); color:#6ee7b7; }
+  .layer-l4 { background:rgba(245,158,11,0.1); border-color:rgba(245,158,11,0.3); color:#fcd34d; }
+  .label-l0 { background:rgba(139,92,246,0.2); color:var(--accent-purple); }
+  .label-l1 { background:rgba(59,130,246,0.2); color:var(--accent-blue); }
+  .label-l2 { background:rgba(6,182,212,0.2); color:var(--accent-cyan); }
+  .label-l3 { background:rgba(16,185,129,0.2); color:var(--accent-green); }
+  .label-l4 { background:rgba(245,158,11,0.2); color:var(--accent-amber); }
+
+  /* ===== RADAR CHART (CSS) ===== */
+  .radar-container { display:flex; gap:32px; flex-wrap:wrap; justify-content:center; }
+  .radar-chart { width:300px; height:300px; position:relative; }
+  .radar-bg { position:absolute; inset:0; }
+  .radar-polygon { position:absolute; inset:0; }
+  .radar-label { position:absolute; font-size:11px; font-weight:600; color:var(--text-secondary); white-space:nowrap; transform:translate(-50%,-50%); }
+  .radar-center-info { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+  .radar-score { font-size:24px; font-weight:800; color:var(--accent-cyan); }
+  .radar-score-lbl { font-size:10px; color:var(--text-muted); text-transform:uppercase; }
+
+  /* ===== TREND TIMELINE ===== */
+  .timeline { position:relative; padding-left:36px; }
+  .timeline::before { content:''; position:absolute; left:14px; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, var(--accent-blue), var(--accent-purple), var(--accent-cyan)); border-radius:1px; }
+  .timeline-item { position:relative; margin-bottom:28px; padding-left:24px; }
+  .timeline-dot { position:absolute; left:-29px; top:4px; width:12px; height:12px; border-radius:50%; border:2px solid; }
+  .timeline-item:nth-child(1) .timeline-dot { background:var(--accent-blue); border-color:var(--accent-blue); box-shadow:0 0 10px rgba(59,130,246,0.4); }
+  .timeline-item:nth-child(2) .timeline-dot { background:var(--accent-purple); border-color:var(--accent-purple); box-shadow:0 0 10px rgba(139,92,246,0.4); }
+  .timeline-item:nth-child(3) .timeline-dot { background:var(--accent-cyan); border-color:var(--accent-cyan); box-shadow:0 0 10px rgba(6,182,212,0.4); }
+  .timeline-item:nth-child(4) .timeline-dot { background:var(--accent-green); border-color:var(--accent-green); box-shadow:0 0 10px rgba(16,185,129,0.4); }
+  .timeline-item:nth-child(5) .timeline-dot { background:var(--accent-amber); border-color:var(--accent-amber); box-shadow:0 0 10px rgba(245,158,11,0.4); }
+  .timeline-date { font-size:11px; font-weight:700; color:var(--accent-blue); margin-bottom:4px; }
+  .timeline-title { font-size:15px; font-weight:700; margin-bottom:4px; }
+  .timeline-content { font-size:13px; color:var(--text-secondary); line-height:1.65; }
+  .trend-badge { display:inline-block; font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; margin-right:6px; margin-bottom:4px; }
+  .trend-hot { background:rgba(239,68,68,0.15); color:var(--accent-red); }
+  .trend-rising { background:rgba(16,185,129,0.15); color:var(--accent-green); }
+  .trend-stable { background:rgba(59,130,246,0.15); color:var(--accent-blue); }
+
+  /* ===== PORT TABLE ===== */
+  .port-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .port-table th { text-align:left; padding:12px 16px; background:var(--bg-secondary); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:1px; font-weight:700; border-bottom:2px solid var(--border-bright); }
+  .port-table td { padding:12px 16px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  .port-table tr:hover td { background:rgba(59,130,246,0.04); }
+  .port-num { font-family:'SF Mono', 'Fira Code', monospace; font-size:15px; font-weight:700; color:var(--accent-cyan); }
+  .port-range { font-size:11px; color:var(--text-muted); }
+  .status-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
+  .status-active { background:var(--accent-green); box-shadow:0 0 6px rgba(16,185,129,0.5); }
+  .status-planned { background:var(--accent-amber); }
+  .status-future { background:var(--text-muted); }
+
+  /* ===== RECOMMENDATION CARDS ===== */
+  .rec-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:16px; }
+  .rec-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:24px; border-left:4px solid; transition:all .2s; }
+  .rec-card:hover { border-color:var(--border-bright); }
+  .rec-p0 { border-left-color:var(--accent-red); }
+  .rec-p1 { border-left-color:var(--accent-amber); }
+  .rec-p2 { border-left-color:var(--accent-blue); }
+  .rec-p3 { border-left-color:var(--accent-purple); }
+  .rec-priority { display:inline-block; font-size:10px; font-weight:800; padding:2px 10px; border-radius:4px; margin-bottom:10px; }
+  .prio-p0 { background:rgba(239,68,68,0.15); color:var(--accent-red); }
+  .prio-p1 { background:rgba(245,158,11,0.15); color:var(--accent-amber); }
+  .prio-p2 { background:rgba(59,130,246,0.15); color:var(--accent-blue); }
+  .prio-p3 { background:rgba(139,92,246,0.15); color:var(--accent-purple); }
+  .rec-title { font-size:15px; font-weight:700; margin-bottom:8px; }
+  .rec-desc { font-size:13px; color:var(--text-secondary); line-height:1.65; margin-bottom:12px; }
+  .rec-actions { display:flex; flex-wrap:wrap; gap:6px; }
+  .action-tag { font-size:11px; padding:4px 10px; background:var(--bg-secondary); border-radius:6px; color:var(--text-secondary); border:1px solid var(--border); }
+
+  /* ===== FUTURE PREDICTION ===== */
+  .prediction-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; }
+  .pred-card { background:linear-gradient(135deg, var(--bg-card), rgba(59,130,246,0.05)); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; position:relative; overflow:hidden; }
+  .pred-card::after { content:''; position:absolute; top:-30px; right:-30px; width:80px; height:80px; border-radius:50%; opacity:0.07; }
+  .pred-year { font-size:11px; font-weight:800; color:var(--accent-cyan); margin-bottom:8px; }
+  .pred-title { font-size:16px; font-weight:700; margin-bottom:10px; }
+  .pred-content { font-size:13px; color:var(--text-secondary); line-height:1.7; }
+  .pred-confidence { display:flex; align-items:center; gap:8px; margin-top:14px; }
+  .conf-bar { flex:1; height:6px; background:var(--bg-secondary); border-radius:3px; overflow:hidden; }
+  .conf-fill { height:100%; border-radius:3px; }
+  .conf-txt { font-size:11px; font-weight:700; color:var(--text-muted); }
+
+  /* ===== DATA INSIGHT BANNER ===== */
+  .insight-banner { background:linear-gradient(90deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08), rgba(6,182,212,0.08)); border:1px solid var(--border-bright); border-radius:var(--radius-lg); padding:24px 28px; margin-bottom:32px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .insight-icon { font-size:28px; flex-shrink:0; }
+  .insight-text { font-size:14px; color:var(--text-secondary); line-height:1.6; }
+  .insight-text strong { color:var(--text-primary); }
+  .insight-source { font-size:11px; color:var(--text-muted); margin-top:4px; }
+
+  /* ===== TABS ===== */
+  .tabs { display:flex; gap:4px; margin-bottom:24px; flex-wrap:wrap; }
+  .tab-btn { padding:8px 18px; border-radius:8px; border:1px solid var(--border); background:transparent; color:var(--text-secondary); font-size:13px; font-weight:600; cursor:pointer; transition:all .15s; }
+  .tab-btn:hover { background:rgba(59,130,246,0.08); color:var(--text-primary); }
+  .tab-btn.active { background:var(--accent-blue); color:#fff; border-color:var(--accent-blue); }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; animation:fadeIn .3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ===== MATRIX TABLE ===== */
+  .matrix-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  .matrix-table th { background:var(--bg-secondary); color:var(--text-muted); padding:10px 14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.8px; font-weight:700; border-bottom:2px solid var(--border-bright); white-space:nowrap; }
+  .matrix-table td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .matrix-table tr:hover td { background:rgba(59,130,246,0.03); }
+
+  /* ===== PROTOCOL DIAGRAM ===== */
+  .protocol-diagram { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; overflow-x:auto; }
+  .proto-layer { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .proto-box { padding:14px 20px; border-radius:10px; font-size:13px; font-weight:600; text-align:center; border:1px solid; min-width:140px; position:relative; }
+  .proto-arrow { color:var(--text-muted); font-size:18px; flex-shrink:0; }
+
+  /* ===== FOOTER ===== */
+  .footer { padding:32px 48px; border-top:1px solid var(--border); text-align:center; color:var(--text-muted); font-size:12px; }
+  .footer a { color:var(--accent-blue); text-decoration:none; }
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:1024px) {
+    .sidebar { transform:translateX(-100%); }
+    .sidebar.open { transform:translateX(0); }
+    .main-content { margin-left:0; }
+    .section { padding:32px 24px; }
+    .hero { padding:40px 24px 32px; }
+    .cards-grid { grid-template-columns:1fr; }
+  }
+  .mobile-menu-btn { display:none; position:fixed; top:16px; left:16px; z-index:200; background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:10px 14px; color:var(--text-primary); font-size:18px; cursor:pointer; }
+  @media(max-width:1024px) { .mobile-menu-btn { display:block; } }
+
+  /* ===== UTILITY ===== */
+  .tag-row { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .highlight { color:var(--accent-cyan); font-weight:600; }
+  .dim { color:var(--text-muted); }
+  .flex-between { display:flex; justify-content:space-between; align-items:center; }
+  .mt-s { margin-top:12px; } .mt-m { margin-top:20px; } .mt-l { margin-top:32px; }
+  .mb-s { margin-bottom:12px; } .mb-m { margin-bottom:20px; }
+
+  /* ===== DEPENDENCY GRAPH ===== */
+  .dep-graph { display:flex; flex-direction:column; align-items:center; gap:0; padding:20px; }
+  .dep-node { padding:12px 24px; border-radius:10px; font-size:13px; font-weight:700; text-align:center; border:2px solid; min-width:200px; position:relative; }
+  .dep-connector { width:2px; height:24px; }
+  .dep-h-line { display:flex; align-items:center; justify-content:center; gap:40px; position:relative; }
+  .dep-v-down { width:2px; height:24px; margin:0 auto; }
+</style>
+</head>
+<body>
+
+<div class="app-layout">
+
+<!-- ===== SIDEBAR NAVIGATION ===== -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">YYC3-A Architecture</div>
+    <div class="sidebar-subtitle">Visual Analysis v2.0</div>
+
+    <div class="nav-section-title">总览</div>
+    <a class="nav-item active" data-target="sec-overview"><span>工作区全景</span><span class="nav-badge">23项目</span></a>
+    <a class="nav-item" data-target="sec-classify"><span>分类矩阵</span><span class="nav-badge">7领域</span></a>
+    <a class="nav-item" data-target="sec-depgraph"><span>依赖架构图</span></a>
+
+    <div class="nav-section-title">深度分析</div>
+    <a class="nav-item" data-target="sec-five-dim"><span>五维评估</span><span class="nav-badge">雷达图</span></a>
+    <a class="nav-item" data-target="sec-five-high"><span>五高架构</span></a>
+    <a class="nav-item" data-target="sec-protocol"><span>协议界限</span></a>
+    <a class="nav-item" data-target="sec-port"><span>端口规划</span><span class="nav-badge">6服务</span></a>
+
+    <div class="nav-section-title">趋势与建议</div>
+    <a class="nav-item" data-target="sec-trends"><span>2026行业趋势</span><span class="nav-badge">HOT</span></a>
+    <a class="nav-item" data-target="sec-recs"><span>行动建议</span><span class="nav-badge">P0-P3</span></a>
+    <a class="nav-item" data-target="sec-predict"><span>未来预测</span><span class="nav-badge">2027+</span></a>
+  </div>
+</nav>
+
+<button class="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="main-content">
+
+  <!-- ===== HERO SECTION ===== -->
+  <header class="hero">
+    <div class="hero-tag">2026.06 High Availability Edition</div>
+    <h1>YYC3-A <span>工作区可视化架构</span></h1>
+    <p class="hero-desc">基于五维驱动框架的复合深度分析 · 对齐2026行业高可用实战技术趋势 · 含MCP/RSC/MF2/AI-Agent等前沿技术对齐评估</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-value">23</div><div class="stat-label">顶级目录</div></div>
+      <div class="stat-item"><div class="stat-value">1,465</div><div class="stat-label">TS/TSX 文件</div></div>
+      <div class="stat-item"><div class="stat-value">159</div><div class="stat-label">子模块目录</div></div>
+      <div class="stat-item"><div class="stat-value">215MB</div><div class="stat-label">核心资产体积</div></div>
+      <div class="stat-item"><div class="stat-value">7</div><div class="stat-label">功能域分类</div></div>
+      <div class="stat-item"><div class="stat-value">L0-L4</div><div class="stat-label">依赖层级</div></div>
+    </div>
+  </header>
+
+  <!-- ===== SEC: OVERVIEW ===== -->
+  <section class="section" id="sec-overview">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(59,130,246,0.15);color:var(--accent-blue)">◉</div>工作区全景总览</h2>
+      <p class="section-desc">YYC3-A 根目录下全部23个项目的功能定位、技术栈、战略价值一览</p>
+    </div>
+
+    <div class="insight-banner">
+      <div class="insight-icon">📊</div>
+      <div>
+        <div class="insight-text"><strong>2026行业大数据对标：</strong>84%开发者已日常使用AI编码工具（Sonar State of Code 2026）；MCP协议安装量突破<span class="highlight">9700万+</span>，活跃服务器超<span class="highlight">10,000+</span>个（Anthropic 2026.03）；React Server Components已从实验走向生产默认架构；Module Federation 2.0正式Stable，支持Webpack/Rspack/Vite/Rollup全构建工具链。</div>
+        <div class="insight-source">数据来源：Anthropic Agentic Coding Trends 2026 · Sonar State of Code · InfoQ MF2 Stable Release · IBM MCP Architecture Patterns</div>
+      </div>
+    </div>
+
+    <div class="cards-grid" id="projectCards"></div>
+  </section>
+
+  <!-- ===== SEC: CLASSIFY ===== -->
+  <section class="section" id="sec-classify">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(139,92,246,0.15);color:var(--accent-purple)">▦</div>分类矩阵 — 七大功能域</h2>
+      <p class="section-desc">按业务属性、技术栈、协议规范、战略价值四维交叉分类</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event,'tab-all')">全部视图</button>
+      <button class="tab-btn" onclick="switchTab(event,'tab-domain')">按功能域</button>
+      <button class="tab-btn" onclick="switchTab(event,'tab-dep')">按依赖层级</button>
+      <button class="tab-btn" onclick="switchTab(event,'tab-license')">按许可证</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-all">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>项目名称</th>
+            <th>功能域</th>
+            <th>核心技术栈</th>
+            <th>协议/规范</th>
+            <th>文件规模</th>
+            <th>磁盘占用</th>
+            <th>战略价值</th>
+            <th>维护状态</th>
+          </tr>
+        </thead>
+        <tbody id="matrixBody"></tbody>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="tab-domain">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px" id="domainGrid"></div>
+    </div>
+
+    <div class="tab-panel" id="tab-dep">
+      <div class="arch-diagram" id="depLayerDiagram"></div>
+    </div>
+
+    <div class="tab-panel" id="tab-license">
+      <table class="matrix-table">
+        <thead><tr><th>许可证</th><th>涉及项目</th><th>商业使用</th><th>修改分发</th><th>合规要点</th></tr></thead>
+        <tbody id="licenseBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SEC: DEP GRAPH ===== -->
+  <section class="section" id="sec-depgraph">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(6,182,212,0.15);color:var(--accent-cyan)">⬡</div>依赖关系拓扑图</h2>
+      <p class="section-desc">从零依赖核心到平台集成的完整依赖链路</p>
+    </div>
+    <div class="protocol-diagram">
+      <div class="dep-graph" id="depGraphSvg"></div>
+    </div>
+  </section>
+
+  <!-- ===== SEC: FIVE DIM ===== -->
+  <section class="section" id="sec-five-dim">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(16,185,129,0.15);color:var(--accent-green)">◈</div>五维评估框架</h2>
+      <p class="section-desc">时间维度 / 空间维度 / 属性维度 / 事件维度 / 关联维度 — 综合评分雷达图</p>
+    </div>
+    <div class="radar-container" id="radarContainer"></div>
+    <div class="mt-l" style="max-width:900px;margin-left:auto;margin-right:auto;">
+      <table class="matrix-table">
+        <thead><tr><th>维度</th><th>评估项</th><th>状态</th><th>详细分析</th><th>改进方向</th></tr></thead>
+        <tbody id="fiveDimBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SEC: FIVE HIGH ===== -->
+  <section class="section" id="sec-five-high">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(245,158,11,0.15);color:var(--accent-amber)">⬢</div>五高架构映射</h2>
+      <p class="section-desc">高可用性 / 高性能 / 高安全性 / 高扩展性 / 高智能性 — 当前实现 vs 优化路径</p>
+    </div>
+    <div id="fiveHighContent"></div>
+  </section>
+
+  <!-- ===== SEC: PROTOCOL ===== -->
+  <section class="section" id="sec-protocol">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(236,72,153,0.15);color:var(--accent-pink)">⇌</div>协议界限分析</h2>
+      <p class="section-desc">项目间的通信协议、接口契约和数据流向边界定义</p>
+    </div>
+    <div class="protocol-diagram" id="protocolDiagram"></div>
+  </section>
+
+  <!-- ===== SEC: PORT ===== -->
+  <section class="section" id="sec-port">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(99,102,241,0.15);color:var(--accent-indigo)">⦿</div>端口分配规划表</h2>
+      <p class="section-desc">遵循 XXYYZ 五位结构编码规则，哈希偏移取值，规避冲突</p>
+    </div>
+    <table class="port-table">
+      <thead>
+        <tr>
+          <th>状态</th>
+          <th>端口号</th>
+          <th>编码解析</th>
+          <th>服务类别区间</th>
+          <th>对应项目/用途</th>
+          <th>技术栈</th>
+          <th>备注</th>
+        </tr>
+      </thead>
+      <tbody id="portBody"></tbody>
+    </table>
+    <div class="mt-m" style="font-size:12px;color:var(--text-muted);padding:12px 16px;background:var(--bg-card);border-radius:8px;border:1px solid var(--border);">
+      <strong>端口规则说明：</strong>前端20000-24999 | 后端25000-29999 | 中间件30000-34999 | 容器35000-39999 | AI服务40000-44999 | 运维45000-49150<br>
+      格式 XXYYZ：XX=大类编码 YY=模块号 Z=实例偏移 | 采用哈希偏移/阶梯起步方式 | 规避22/80/443/3306/6379/8080等默认端口
+    </div>
+  </section>
+
+  <!-- ===== SEC: TRENDS ===== -->
+  <section class="section" id="sec-trends">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(239,68,68,0.15);color:var(--accent-red)">▲</div>2026.06 行业大数据趋势</h2>
+      <p class="section-desc">基于全球开发者调查、技术报告和开源生态数据的实时趋势分析</p>
+    </div>
+    <div class="insight-banner">
+      <div class="insight-icon">🔥</div>
+      <div>
+        <div class="insight-text"><strong>关键数据：</strong>AI编码工具采用率达<span class="highlight">84%</span>(82%每日使用)；<span class="highlight">React Compiler</span>已成为生产默认，手动memoization成为历史例外；<span class="highlight">RSC(Server Components)</span>彻底反转客户端重SPA范式；<span class="highlight">Module Federation 2.0</span> Stable发布，TypeScript类型跨Remote共享解决；<span class="highlight">MCP协议</span>成为AI Agent连接外部工具的事实标准。</div>
+        <div class="insight-source">Sources: Sonar State of Code 2026 · Anthropic Agentic Coding Trends 2026 · InfoQ MF2 Stable 2026.04 · IBM MCP Architecture · 21ic Frontend Trends 2026 · PkgPulse MF2 Guide · ReactJS Services Ultimate Guide 2026</div>
+      </div>
+    </div>
+    <div class="timeline" id="trendTimeline"></div>
+  </section>
+
+  <!-- ===== SEC: RECS ===== -->
+  <section class="section" id="sec-recs">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(16,185,129,0.15);color:var(--accent-green)">✦</div>行动建议路线图</h2>
+      <p class="section-desc">基于复合分析的优先级排序建议 — P0立即执行 → P3长期愿景</p>
+    </div>
+    <div class="rec-grid" id="recGrid"></div>
+  </section>
+
+  <!-- ===== SEC: PREDICT ===== -->
+  <section class="section" id="sec-predict">
+    <div class="section-header">
+      <h2 class="section-title"><div class="icon" style="background:rgba(139,92,246,0.15);color:var(--accent-purple)">◭</div>未来趋势预测 (2026H2 → 2028)</h2>
+      <p class="section-desc">基于当前技术轨迹和行业演进方向的延伸预测</p>
+    </div>
+    <div class="prediction-grid" id="predictGrid"></div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p>YYC3-A Visual Architecture v2.0 | YanYuCloudCube (YYC³) | 言启象限 · 语枢未来</p>
+    <p style="margin-top:4px;">Generated 2026-06-06 | Based on Five-Dimension Framework × 2026 Industry Big Data Alignment</p>
+    <p style="margin-top:8px;"><a href="#">YYC3 Team</a> · <a href="#">admin@0379.email</a></p>
+  </footer>
+
+</main>
+</div>
+
+<script>
+// ============================================================
+// DATA MODELS
+// ============================================================
+const PROJECTS = [
+  { id:'yyc3-ui', name:'yyc3-ui-organized', fullName:'YYC³ UI组件库 v2.0', domain:'core', catClass:'cat-core', catName:'核心业务', tech:['TypeScript','React/JSX','ES Modules'], protocol:'ESM Export + JSDoc', files:1465, size:'215MB', stars:5, value:'★★★★★ 核心竞争力', status:'active', license:'YYC³ Internal', desc:'自研零依赖UI组件体系，12子模块/90+组件，覆盖AI设计器、知识库、Karbon平台、音乐等9大场景。L0零依赖占比~70%，含i18n三语支持、性能监控、MCP类型抽象层。' },
+  { id:'shadcn', name:'shadcn-ui.tnasdownload', fullName:'shadcn/ui 完整源码', domain:'core', catClass:'cat-core', catName:'核心业务', tech:['Next.js 14','React 19','Radix UI','Tailwind CSS v4'], protocol:'MIT + Component API', files:0, size:'153MB', stars:4, value:'★★★★☆ 设计参考', status:'active', license:'MIT', desc:'业界领先可定制UI组件体系的完整源码，含v4文档站点(App Router)、组件示例、RTL变体、Changeset版本管理。作为YYC³组件设计的架构参照基准。' },
+  { id:'amazon-q', name:'amazon-q-developer-cli', fullName:'Amazon Q Developer CLI', domain:'ai', catClass:'cat-ai', catName:'AI智能工具', tech:['Rust/Cargo','AWS SDK','MCP Protocol'], protocol:'Apache 2.0 / MIT + MCP', files:0, size:'43MB', stars:4, value:'★★★★☆ AI协同', status:'maintained', license:'Dual:MIT+Apache2', desc:'Rust编写的AI驱动命令行开发助手。Agent Loop + MCP Service + Tool Executor架构。内置fs_read/write/grep/glob等工具。双许可，已转为Kiro CLI闭源但本仓库保留开源版。' },
+  { id:'autocomplete', name:'autocomplete', fullName:'Fig Autocomplete Specs', domain:'ai', catClass:'cat-ai', catName:'AI智能工具', tech:['TypeScript','pnpm','Schema v7'], protocol:'ISC + Spec Schema v7', files:0, size:'140MB', stars:3, value:'★★★☆☆ 开发效率', status:'active', license:'ISC', desc:'Fig(Cursor/Warp内置) CLI自动补全规范定义库。300+CLI工具补全规格(git/docker/npm/kubectl/aws等)。pnpm monorepo，Schema Version v7。' },
+  { id:'autotools', name:'autocomplete-tools', fullName:'Autocomplete Toolchain', domain:'ai', catClass:'cat-ai', catName:'AI智能工具', tech:['TypeScript','Turbo','ESLint'], protocol:'ISC', files:0, size:'<5MB', stars:3, value:'★★★☆☆ 构建工具', status:'active', license:'ISC', desc:'Autocomplete生态的工具链monorepo。包含eslint/types/generators/helpers/hooks/merge等workspace。Turbo驱动的并行构建系统。' },
+  { id:'dt', name:'DefinitelyTyped', fullName:'DefinitelyTyped', domain:'type', catClass:'cat-type', catName:'类型基础设施', tech:['TypeScript','pnpm monorepo'], protocol:'npm @types/* package', files:0, size:'1.3GB', stars:5, value:'★★★★★ 类型安全基石', status:'active', license:'MIT(mostly)', desc:'全球最大TypeScript类型定义社区仓库。为无内置类型的npm包提供@types/*定义。pnpm monorepo管理，CI自动发布到npm。' },
+  { id:'handlebars', name:'Handlebars', fullName:'Handlebars.js', domain:'tmpl', catClass:'cat-tmpl', catName:'模板渲染', tech:['JavaScript','npm'], protocol:'MIT + Mustache-like', files:0, size:'<5MB', stars:2, value:'★★☆☆☆ 渲染支持', status:'stable', license:'MIT', desc:'服务端模板引擎，Minimal Mustache-like语法。适用于静态页面生成和服务端HTML渲染场景。' },
+  { id:'katex', name:'markdown-it-katex', fullName:'VS Code Markdown KaTeX', domain:'tmpl', catClass:'cat-tmpl', catName:'模板渲染', tech:['TypeScript','KaTeX','markdown-it'], protocol:'MIT', files:0, size:'<2MB', stars:2, value:'★★☆☆☆ 文档增强', status:'stable', license:'MIT', desc:'Microsoft出品的Markdown-it插件，提供VS Code级别的KaTeX数学公式渲染支持。依赖katex ^0.16.4。' },
+  { id:'html', name:'html (WHATWG)', fullName:'WHATWG HTML Standard', domain:'webstd', catClass:'cat-web', catName:'Web标准', tech:['HTML','Browser Spec'], protocol:'WHATWG Living Standard / BSD', files:0, size:'<10MB', stars:3, value:'★★★☆☆ 标准参考', status:'living', license:'BSD-style', desc:'HTML标准的权威参考源码。含source主文件和完整的Web Platform Tests引用。浏览器实现的黄金标准。' },
+  { id:'domparsing', name:'domparsing', fullName:'W3C DOM Parsing', domain:'webstd', catClass:'cat-web', catName:'Web标准', tech:['W3C Specification'], protocol:'W3C DOM Parsing Standard', files:0, size:'<1MB', stars:2, value:'★★☆☆☆ 规范参考', status:'archived', license:'W3C', desc:'W3C DOM解析规范文档。已归档，建议迁移至w3c.github.io/DOM-Parsing/。作为历史规范参考保留。' },
+  { id:'webhist', name:'web-history', fullName:'Web Platform History', domain:'webstd', catClass:'cat-web', catName:'Web标准', tech:['Markdown'], protocol:'-', files:0, size:'<2MB', stars:2, value:'★★☆☆☆ 知识积累', status:'static', license:'Open', desc:'现代Web平台发展时间线。记录2004年起HTML5/CSS3/JavaScript/Web API的关键里程碑事件。技术史知识库。' },
+  { id:'themes', name:'Colorsublime-Themes', fullName:'Sublime Text Themes', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['.tmTheme JSON'], protocol:'Sublime Theme Format', files:0, size:'<10MB', stars:2, value:'★★☆☆☆ 开发体验', status:'community', license:'MIT', desc:'Sublime Text主题集合社区项目。数百种.tmTheme格式主题包。可用于主题配色参考和编辑器美化。' },
+  { id:'sass-tm', name:'SASS.tmbundle', fullName:'SASS TextMate Bundle', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['TextMate Bundle'], protocol:'TextMate/tmLanguage', files:0, size:'<2MB', stars:2, value:'★★☆☆☆ 编辑器支持', status:'stable', license:'MIT', desc:'SASS/SCSS语法的TextMate Bundle。为支持TextMate协议的编辑器提供SASS语法高亮能力。' },
+  { id:'coffee-tm', name:'coffee-script-tmbundle', fullName:'CoffeeScript TM Bundle', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['TextMate Bundle'], protocol:'TextMate/tmLanguage', files:0, size:'<2MB', stars:2, value:'★★☆☆☆ 编辑器支持', status:'legacy', license:'MIT', desc:'CoffeeScript语言的TextMate语法高亮Bundle。CoffeeScript已进入维护期，作为遗留语言支持保留。' },
+  { id:'pug-tm', name:'pug-tmbundle', fullName:'Pug TextMate Bundle', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['TextMate Bundle'], protocol:'TextMate/tmLanguage', files:0, size:'<2MB', stars:2, value:'★★☆☆☆ 编辑器支持', status:'stable', license:'MIT', desc:'Pug(Jade)模板引擎的TextMate语法高亮Bundle。用于Pug模板文件的编辑器支持。' },
+  { id:'dart-sh', name:'dart-syntax-highlight', fullName:'Dart Syntax Highlight', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['TextMate'], protocol:'tmLanguage', files:0, size:'<1MB', stars:2, value:'★★☆☆☆ 编辑器支持', status:'stable', license:'BSD', desc:'Dart编程语言的语法高亮定义。支持TextMate兼容编辑器的Dart代码着色。' },
+  { id:'lang-clj', name:'language-clojure (+textmate)', fullName:'Clojure Language Pack x2', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['CoffeeScript/TextMate'], protocol:'tmLanguage', files:0, size:'<3MB', stars:2, value:'★★☆☆☆ 编辑器支持', status:'stable', license:'MIT', desc:'Clojure语言包的两个实现：Atom/VSCode风格的language-clojure和原生TextMate版的textmate-clojure。' },
+  { id:'lang-coffee', name:'language-coffee-script', fullName:'CoffeeScript Language Pack', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['CoffeeScript'], protocol:'CoffeeScript lint', files:0, size:'<2MB', stars:2, value:'★★☆☆☆ 编辑器支持', status:'legacy', license:'MIT', desc:'CoffeeScript完整语言包。含coffeelint配置和语法定义。CoffeeScript生态萎缩中，仅作参考保留。' },
+  { id:'lang-sass', name:'language-sass', fullName:'SASS Language Pack', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['CoffeeScript'], protocol:'CoffeeScript lint', files:0, size:'<2MB', stars:2, value:'★★☆☆☆ 编辑器支持', status:'stable', license:'MIT', desc:'SASS/SCSS语言包。含coffeelint配置。与SASS.tmbundle互补，提供更完整的SASS编辑体验。' },
+  { id:'lang-xml', name:'language-xml', fullName:'XML Language Pack', domain:'editor', catClass:'cat-editor', catName:'编辑器生态', tech:['CoffeeScript'], protocol:'CoffeeScript lint', files:0, size:'<2MB', stars:2, value:'★★☆☆☆ 编辑器支持', status:'stable', license:'MIT', desc:'XML/HTML语言包。含coffeelint配置。为XML相关标记语言提供编辑器语法支持。' },
+  { id:'accumulo', name:'Accumulo 3.0.0', fullName:'Apache Accumulo Docs', domain:'db', catClass:'cat-db', catName:'数据库文档', tech:['Markdown'], protocol:'Apache License', files:0, size:'<2MB', stars:1, value:'★☆☆☆☆ 参考资料', status:'reference', license:'Apache 2.0', desc:'Apache Accumulo 3.0.0分布式键值存储的文档副本。作为NoSQL数据库技术参考资料保留在工作区中。' }
+];
+
+const FIVE_DIM_DATA = [
+  { dim:'时间维度', icon:'🕐', score:85, items:[
+    { name:'项目时效性', status:'✅ 良好', detail:'yyc3-ui v2.0 (2026-04) 处于活跃维护期，技术栈符合2026主流', action:'保持季度迭代节奏' },
+    { name:'技术栈前瞻性', status:'✅ 优秀', detail:'ES2020 + React JSX + ESM，与2026 React Compiler / RSC 趋势兼容', action:'关注RSC迁移路径' },
+    { name:'依赖新鲜度', status:'⚠️ 需关注', detail:'部分TextMate Bundle和domparsing已停止维护或归档', action:'制定淘汰计划' },
+    { name:'版本迭代节奏', status:'✅ 健康', detail:'核心组件库有明确版本号(yyc3-ui v2.0)和更新记录', action:'引入Changeset管理' }
+  ]},
+  { dim:'空间维度', icon:'📍', score:78, items:[
+    { name:'代码组织结构', status:'✅ 优秀', detail:'按功能域清晰分层(zero-dep→light→internal→platform)', action:'考虑workspace划分' },
+    { name:'模块边界清晰度', status:'✅ 良好', detail:'L0-L4依赖层级分明，职责隔离严格', action:'补充边界文档' },
+    { name:'命名空间规范', status:'✅ 良好', detail:'统一yyc3-*前缀命名约定，12子模块一致', action:'建立naming convention doc' },
+    { name:'文件分布合理性', status:'⚠️ 可优化', detail:'23个子模块散布于单仓，部分存在冗余(zero-deps vs zero-deps-v4)', action:'去重合并相似模块' }
+  ]},
+  { dim:'属性维度', icon:'⚙️', score:88, items:[
+    { name:'类型覆盖率', status:'✅ 优秀', detail:'全量TypeScript + global.d.ts + 完整类型定义(claw-core/types)', action:'持续保持' },
+    { name:'零依赖占比', status:'✅ 优秀', detail:'约70%组件为L0零依赖，架构解耦能力强', action:'维持L0优先原则' },
+    { name:'多语言支持', status:'✅ 良好', detail:'i18n模块覆盖en/zh/ar三语，config-driven', action:'扩展至ja/ko/pt' },
+    { name:'可测试性', status:'✅ 良好', detail:'含__tests__目录、test-utils.ts、useAI.test.ts等测试文件', action:'提升覆盖率至80%+' }
+  ]},
+  { dim:'事件维度', icon:'⚡', score:62, items:[
+    { name:'构建流水线', status:'⚠️ 待完善', detail:'有tsconfig统一配置但缺少统一build/test/lint脚本', action:'P0: 建立scripts' },
+    { name:'CI/CD集成', status:'❌ 缺失', detail:'无.github/workflows配置，无法自动化验证', action:'P0: 搭建GitHub Actions' },
+    { name:'监控告警', status:'✅ 存在', detail:'monitoring模块含performance-monitor/alert/benchmark', action:'接入生产监控' },
+    { name:'错误处理链', status:'✅ 完善', detail:'error-handling模块含platform-error-filter', action:'增加错误上报' }
+  ]},
+  { dim:'关联维度', icon:'🔗', score:80, items:[
+    { name:'项目间耦合度', status:'✅ 低耦合', detail:'各子模块独立，通过tsconfig聚合编译', action:'保持现状' },
+    { name:'外部生态对接', status:'✅ 丰富', detail:'覆盖AI(MCP)、Web(HTML标准)、类型(DT)', action:'深化MCP集成' },
+    { name:'技术栈一致性', status:'✅ 高一致', detail:'核心项目统一TypeScript + React技术线', action:'避免技术碎片化' },
+    { name:'可复用潜力', status:'✅ 高', detail:'L0零依赖组件可直接跨项目引用，无需安装', action:'P1: npm publish' }
+  ]}
+];
+
+const FIVE_HIGH = [
+  { name:'高可用性 (High Availability)', color:'#8b5cf6', icon:'🛡️', current:[
+    'error-handling/ 统一错误处理模块',
+    'services/DatabaseService.ts 数据持久化',
+    'i18n 多语言容错机制 (en/zh/ar fallback)',
+    'usePersistedState 状态持久化'
+  ], suggest:[
+    '引入 Circuit Breaker 模式 (error-handling 扩展)',
+    'DatabaseService 增加离线缓存/指数退避重试策略',
+    '关键Hook增加超时和降级处理 (useAI/useWebSocket)',
+    '实现 Health Check 端点模式'
+  ], align2026:'RSC默认Server-First架构天然降低客户端故障面；Edge Deployment多地域冗余；Blue-Green/Canary部署零停机' },
+  { name:'高性能 (High Performance)', color:'#06b6d4', icon:'⚡', current:[
+    'monitoring/performance-benchmark.ts 性能基准测试',
+    'monitoring/performance-monitor.ts 运行时监控',
+    'useDebounce, useMediaQuery 性能优化Hook',
+    '零依赖 = 零bundle膨胀 (L0组件)'
+  ], suggest:[
+    '引入 Virtual Scrolling (@tanstack/virtual) 大数据列表',
+    'ParticleCanvas 等重型组件增加 rAF 节流',
+    'React Compiler 自动化 memo (替代手写useMemo/useCallback)',
+    '代码分割: lazy + Suspense 每个路由'
+  ], align2026:'React Compiler消除手动memoization成为2026默认实践；INP≤200ms/LCP≤2.5s/CLS≤0.1为Core Web Vitals硬指标；Waterfall消除(并行请求)带来2-10x性能提升' },
+  { name:'高安全性 (High Security)', color:'#ef4444', icon:'🔒', current:[
+    'agent/permissions.rs (amazon-q) 权限控制模型',
+    'platform-error-filter.ts 错误信息过滤防泄露',
+    'types/ 全量类型定义 编译时安全',
+    'claw-core/auth/ 认证类型抽象'
+  ], suggest:[
+    'ai-proxy-service.ts 增加 API Key 加密存储 (env注入)',
+    'WebSocket Hook 增加 origin 校验 + rate limit',
+    '敏感配置环境变量化，禁止硬编码',
+    '引入 CSP Header + SRI 校验'
+  ], align2026:'OWASP Top 10:2025重点关注Broken Access Control和Supply Chain Failures；Zero-Trust Security成为默认安全模型；SAST/DAST应集成到CI/CD流水线' },
+  { name:'高扩展性 (High Scalability)', color:'#10b981', icon:'📈', current:[
+    '12个独立子模块，插件式架构',
+    'claw-core/skills/manager.ts 技能管理器模式',
+    'mcp/types.ts MCP协议抽象层',
+    'use-theme-colors.ts 多实例主题系统'
+  ], suggest:[
+    '引入插件注册机制 (skills/manager 扩展)',
+    'Karbon Workflow 支持自定义节点扩展',
+    'Module Federation 2.0 远程组件动态加载',
+    '微前端架构拆分 (MF2 + Rspack 5-10x build加速)'
+  ], align2026:'Module Federation 2.0 Stable — TS类型跨Remote共享、manifest发现、构建工具解耦(W/R/V/Rollup)；Rspack构建速度较Webpack提升5-10倍；微前端从iframe方案全面转向MF2' },
+  { name:'高智能性 (High Intelligence)', color:'#f59e0b', icon:'🧠', current:[
+    'intentAnalyzer.ts AI意图分析器',
+    'programmingDepthAnalyzer.ts 编程深度分析',
+    'useAI.ts LLM交互Hook (含test用例)',
+    'claw-core/mcp/ MCP协议类型支持'
+  ], suggest:[
+    '集成 RAG (检索增强生成) 到 knowledge-base 模块',
+    'intentAnalyzer 增加多轮对话上下文管理',
+    '与 amazon-q-developer-cli 的 MCP 服务双向对接',
+    '建立 A/B 测试和效果度量体系'
+  ], align2026:'MCP协议97M+安装量，10000+活跃Server，成为AI Agent连接工具的事实标准；AI Agent从代码补全进化到Agentic Coding（自主完成多步任务）；WebMCP将MCP带入浏览器环境' }
+];
+
+const TRENDS = [
+  { date:'2026 Q1-Q2', title:'AI-First 开发模式全面普及', content:'84% Web开发者使用AI编码工具，82%每日使用。三大阵营成型：Cursor(智能IDE) + V0.dev(UI原型) + Copilot(编辑器插件)。开发者角色向架构设计/问题分解/代码审查三方向迁移。', badges:[['trend-hot','爆发期'],['trend-rising','+34% YoY']], source:'Sonar State of Code 2026 · Anthropic Report' },
+  { date:'2026 Q2', title:'React Server Components 成生产默认', content:'RSC超越实验阶段成为非协商的基础架构。Server作为主要渲染环境，Layout/Page默认为Server Component。Client Components仅在叶子节点(需浏览器API/交互)使用。FCP/TTI大幅改善。', badges:[['trend-hot','Production Ready'],['trend-stable','Next.js 16']], source:'Sunlight Media ReactJS Guide 2026 · 21ic Frontend Trends' },
+  { date:'2026.04', title:'Module Federation 2.0 正式 Stable', content:'运行时从构建工具完全解耦，形成独立SDK。支持Webpack/Rspack/Vollup/Rolldown/Vite/Metro。核心突破：动态TS类型提示、manifest发现、Node.js运行时支持、Side Effect Scanner。Ant Design共享依赖从1404KB降至344KB(-75.5%)。', badges:[['trend-hot','Just Released'],['trend-rising','+180% interest']], source:'InfoQ MF2 Stable · PkgPulse Guide · ByteDance Web Infra' },
+  { date:'2026 H1', title:'MCP 协议成为 AI Agent 事实标准', content:'安装量突破9700万+，活跃公开MCP Server超10000个。IBM推出MCP架构模式(Client/Server/Hybrid三种LLM部署模式)。WebMCP将MCP带进浏览器，网站可作为MCP Server暴露工具给AI Agent。React MCP成为构建智能Web应用的最稳定基础。', badges:[['trend-hot','97M+ Installs'],['trend-rising','10K+ Servers']], source:'IBM MCP Patterns · Bacancy React MCP · Web MCP Playground' },
+  { date:'2026 全年', title:'高性能工程化体系成熟', content:'Core Web Vitals硬指标：INP≤200ms(p75), LCP≤2.5s, CLS≤0.1。Vercel 45条实战技法：Waterfall消除(2-10x提升)、Promise.all并行、Progressive Hydration、Virtual Scrolling(>100项必用)。React Compiler默认启用，useMemo/useCallback成为历史例外。', badges:[['trend-stable','Best Practice'],['trend-rising','Adoption Growing']], source:'PagePro Best Practices 2026 · Vercel 45 Techniques · CSDN React Performance' }
+];
+
+const RECOMMENDATIONS = [
+  { priority:'P0', title:'建立 CI/CD 流水线', desc:'为 yyc3-ui-organized 创建 GitHub Actions workflow。PR触发: typecheck + lint + test。Main分支: 自动发布(changeset-driven)。这是当前最大的工程化短板——事件维度评分仅62分。', actions:['创建 .github/workflows/ci.yml','配置 tsc --noEmit 类型检查','ESLint + Prettier 格式化门禁','Vitest 单元测试自动化','Changeset 版本发布自动化'], color:'p0' },
+  { priority:'P0', title:'统一构建脚本体系', desc:'在 yyc3-ui-organized 根 package.json 中补充标准化 scripts。当前有tsconfig但缺少统一的build/test/dev入口脚本，各子模块无法一键验证。', actions:['build: tsc --build 编译所有模块','test: vitest run 运行全部测试','dev: 并行启动 Storybook + 类型监视','lint: eslint + prettier 联合检查','clean: 构建产物清理'], color:'p0' },
+  { priority:'P1', title:'Storybook 组件展示门户', desc:'利用已有的 .stories.tsx 文件(GlitchText/CyberpunkWidget/NeonCard/ParticleCanvas等)搭建交互式组件展示门户。这是数字化转型(数字化的关键一步。', actions:['安装 @storybook/react-vite','配置 yyc3-ui 主题插件','已有stories文件直接导入','添加控件面板(Knobs)交互','部署到 20350 端口'], color:'p1' },
+  { priority:'P1', title:'L0 核心 npm 发布', desc:'将 yyc3-zero-dependency、yyc3-zero-dep-components、claw-core 等L0零依赖模块拆分为独立npm包(@yyc3/core, @yyc3/hooks, @yyc3/utils, @yyc3/mcp-types)。', actions:['拆分 package.json 为 monorepo workspace','每个L0模块独立 version','配置 changeset 版本管理','发布到 npm @yyc3 scope','编写独立 README + API 文档'], color:'p1' },
+  { priority:'P1', title:'MCP Bridge 服务搭建', desc:'实现 yyc3 ↔ amazon-q-developer-cli 的MCP双向通信桥梁。利用已有的 claw-core/mcp/types.ts 抽象层和 amazon-q 的 agent/mcp/ 模块。', actions:['开发 mcp-bridge-server (30417端口)','映射 yyc3 tools 到 MCP Tools 接口','实现 intentAnalyzer → Agent Task 转换','WebSocket 实时状态同步','权限和安全校验层'], color:'p1' },
+  { priority:'P2', title:'Module Federation 2.0 迁移', desc:'将 Karbon Platform 等大型模块集逐步迁移到 MF2 架构，实现远程组件动态加载。推荐 @module-federation/enhanced on Rspack 方案(5-10x构建加速)。', actions:['Rspack 替代当前构建工具','配置 Host/Remote 边界','共享 react/react-dom singleton','TS类型跨Remote自动生成(dts:true)','Chrome DevTools MF2 调试插件'], color:'p2' },
+  { priority:'P2', title:'RSC (Server Components) 迁移评估', desc:'评估 yyc3-ui 组件库向 React Server Components 迁移的可行性和路径。2026年RSC已是生产默认架构，需要明确哪些组件适合Server/Client划分。', actions:['组件 Server/Client 边界划分','数据获取逻辑上移到 Server','useAI 等 Client-only Hook 标记','Streaming SSR + Suspense 集成','性能基线对比测试'], color:'p2' },
+  { priority:'P2', title:'React Compiler 集成', desc:'引入 React Compiler (实验性稳定版)，替代手写 useMemo/useCallback/React.memo。这与2026行业最佳实践完全对齐——Compiler时代手动memoization已成反模式。', actions:['@babel/plugin-react-compiler 安装','配置 compiler 选项','移除冗余 useMemo/useCallback','Performance Benchmark 回归测试','Bundle Size 对比分析'], color:'p2' },
+  { priority:'P3', title:'AIGC 原生组件生态', desc:'建立 AI 驱动的组件生成和智能编排体系。结合 intentAnalyzer 和 MCP Bridge，实现自然语言→组件代码→部署全链路自动化。', actions:['组件生成 CLI 工具 (yyc3-cli)','AI Code Review Agent 集成','Component Registry 自助市场','社区贡献通道 (PR Model)','A/B Test 效果度量平台'], color:'p3' },
+  { priority:'P3', title:'Edge + Global CDN 部署', desc:'将 Storybook 文档站和 Component Registry 部署到 Edge 网络，实现全球低延迟访问。与 Vercel/Cloudflare Edge 对齐2026 Serverless-First 趋势。', actions:['Vercel/CF Edge 配置','ISR 增量静态再生','Image + Asset CDN 加速','全球多地域冗余','DDoS 防护 + Rate Limit'], color:'p3' }
+];
+
+const PREDICTIONS = [
+  { year:'2026 H2', title:'Agentic UI 组件爆发', content:'AI Agent 将直接操作UI组件而非生成代码。MCP协议使Agent能"理解"组件能力并调用。YYC³的claw-core/mcp/类型层将成为关键基础设施——提前布局MCP Tool注册机制将获得先发优势。预计Q4将有主流框架原生支持Agent-to-Component通信模式。', conf:78, color:'#3b82f6' },
+  { year:'2027 Q1', title:'Compiler-Native 组件库成为标准', content:'React Compiler全面稳定后，组件库的设计范式将根本改变：不再需要手动memoization文档，编译器自动优化渲染图。YYC³零依赖组件天然适配Compiler优化（无隐藏副作用），这将是相对于shadcn/ui等依赖密集型库的差异化竞争优势。', conf:82, color:'#8b5cf6' },
+  { year:'2027 Q2', title:'WebMCP 标准化浏览器内AI交互', content:'W3C或WHATWG可能开始标准化WebMCP(基于MCP的浏览器端Agent协议)。网站声明式暴露工具能力给AI Agent将成为meta标签级别的标准。YYC³知识库组件(useLLM/WebSocket)可演进为WebMCP Server原型。', conf:65, color:'#06b6d4' },
+  { year:'2027 H2', title:'Module Federation 3.0 预期', content:'MF3可能引入运行时插件系统、边缘感知加载、和AI驱动的模块发现。Rspack作为默认构建后端的地位将进一步巩固。YYC³若在2026完成MF2迁移，将在MF3到来时处于有利位置。', conf:60, color:'#10b981' },
+  { year:'2028+', title:'Self-Evolving Codebase 愿景', content:'代码库自我演化：AI Agent持续分析使用模式、自动重构热点路径、生成性能优化PR、甚至提出架构改进建议。YYC³的monitoring + diagnostics 模块可作为这一愿景的基础设施起点。从被动监控走向主动进化。', conf:45, color:'#f59e0b' }
+];
+
+const PORTS = [
+  { port:'20107', parse:'20=前端 10=文档 7=偏移', range:'20000-24999', cat:'前端-文档站', project:'shadcn-ui v4 文档站 (Next.js dev)', tech:'Next.js 14 / React 19', status:'planned', note:'待启用' },
+  { port:'20350', parse:'20=前端 35=组件展示 0=主实例', range:'20000-24999', cat:'前端-Storybook', project:'YYC3 Storybook 组件门户', tech:'@storybook/react-vite', status:'planned', note:'P1优先搭建' },
+  { port:'25103', parse:'25=后端 10=API网关 3=实例', range:'25000-29999', cat:'后端-API网关', project:'YYC3 Component Registry API', tech:'Node.js / Hono / Fastify', status:'future', note:'待规划' },
+  { port:'30417', parse:'30=中间件 41=MCP 7=实例', range:'30000-34999', cat:'中间件-MCP代理', project:'MCP Bridge Service', tech:'TypeScript / MCP SDK', status:'planned', note:'P1优先搭建' },
+  { port:'40209', parse:'40=AI服务 20=Q-Agent 9=实例', range:'40000-44999', cat:'AI服务-Q-Agent', project:'Amazon Q Agent 本地代理', tech:'Rust / MCP / SSE', status:'active', note:'cargo run --bin chat_cli' },
+  { port:'45105', parse:'45=运维 10=监控 5=实例', range:'45000-49150', cat:'运维-监控面板', project:'Performance Dashboard', tech:'Grafana / React + Vite', status:'future', note:'待规划' }
+];
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+function renderStars(n) {
+  let s=''; for(let i=0;i<5;i++) s+='<div class="star '+(i<n?'filled':'empty')+'"></div>'; return s;
+}
+function renderProjectCards() {
+  const c=document.getElementById('projectCards');
+  c.innerHTML=PROJECTS.map(p=>`
+    <div class="project-card">
+      <div class="card-header">
+        <div><div class="card-name">${p.fullName}</div><span class="card-category ${p.catClass}">${p.catName}</span></div>
+        <div class="card-stars">${renderStars(p.stars)}</div>
+      </div>
+      <div class="card-techs">${p.tech.map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>
+      <div class="card-body">${p.desc}</div>
+      <div class="card-metrics">
+        <div class="metric"><div class="metric-val">${p.files||'—'}</div><div class="metric-lbl">TS文件</div></div>
+        <div class="metric"><div class="metric-val">${p.size}</div><div class="metric-lbl">磁盘</div></div>
+        <div class="metric"><div class="metric-val">${p.value.charAt(2)}</div><div class="metric-lbl">评级</div></div>
+      </div>
+      <div class="card-bar"><div class="card-bar-fill" style="width:${p.stars*20}%;background:linear-gradient(90deg,var(--accent-blue),var(--accent-purple))"></div></div>
+    </div>`).join('');
+}
+function renderMatrixBody() {
+  const t=document.getElementById('matrixBody');
+  t.innerHTML=PROJECTS.map(p=>`<tr>
+    <td style="font-weight:600">${p.fullName}</td>
+    <td><span class="card-category ${p.catClass}">${p.catName}</span></td>
+    <td style="font-size:11.5px">${p.tech.join(' / ')}</td>
+    <td style="font-size:11px;color:var(--text-muted)">${p.protocol}</td>
+    <td style="text-align:center;font-family:monospace">${p.files||'—'}</td>
+    <td style="text-align:center;font-family:monospace">${p.size}</td>
+    <td style="font-weight:600;color:var(--accent-cyan)">${p.value}</td>
+    <td><span style="font-size:11px;padding:2px 8px;border-radius:4px;background:${p.status==='active'?'rgba(16,185,129,0.15)':p.status==='maintained'?'rgba(245,158,11,0.15)':'rgba(100,116,139,0.15)'};color:${p.status==='active'?'var(--accent-green)':p.status==='maintained'?'var(--accent-amber)':'var(--text-muted)'}">${p.status}</span></td>
+  </tr>`).join('');
+}
+function renderDomainGrid() {
+  const domains=[{key:'core',label:'核心业务层',color:'var(--accent-purple)'},{key:'ai',label:'AI智能工具层',color:'var(--accent-cyan)'},{key:'type',label:'类型基础设施层',color:'var(--accent-blue)'},{key:'tmpl',label:'模板渲染层',color:'var(--accent-amber)'},{key:'webstd',label:'Web标准参考层',color:'var(--accent-green)'},{key:'editor',label:'编辑器生态层',color:'var(--accent-pink)'},{key:'db',label:'数据库文档层',color:'var(--text-muted)'}];
+  const g=document.getElementById('domainGrid');
+  g.innerHTML=domains.map(d=>{
+    const items=PROJECTS.filter(p=>p.domain===d.key);
+    return `<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;border-left:4px solid ${d.color}">
+      <div style="font-weight:700;font-size:15px;margin-bottom:12px;color:${d.color}">${d.label} <span style="font-size:12px;color:var(--text-muted);font-weight:400">(${items.length}项目)</span></div>
+      ${items.map(p=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px"><span>${p.fullName}</span><span style="font-size:11px;color:var(--text-muted)">${p.tech[0]}</span></div>`).join('')}
+    </div>`;
+  }).join('');
+}
+function renderDepLayers() {
+  const d=document.getElementById('depLayerDiagram');
+  const layers=[
+    {l:'L0 零依赖核心',cls:'l0',labelCls:'l0',nodes:['yyc3-zero-dependency','yyc3-zero-dep-components','yyc3-deps-packages/claw-core','yyc3-ai-designer-components','yyc3-ai-management-components','yyc3-knowledge-base-ui']},
+    {l:'L1 轻度依赖',cls:'l1',labelCls:'l1',nodes:['yyc3-light-dependency (effects)','yyc3-music-vynora','yyc3-shader-reminder','yyc3-portaisys-dashboard']},
+    {l:'L2 内部依赖',cls:'l2',labelCls:'l2',nodes:['karbon-platform/internal-dep','karbon-platform/zero-dep-workflows']},
+    {l:'L3 平台集成',cls:'l3',labelCls:'l3',nodes:['shadcn-ui (Next.js App)','Storybook Portal (计划)']},
+    {l:'L4 外部工具',cls:'l4',labelCls:'l4',nodes:['amazon-q-cli (Rust/MCP)','autocomplete (Specs v7)','DefinitelyTyped (@types)']}
+  ];
+  d.innerHTML=layers.map(l=>`<div class="arch-layer">
+    <div class="arch-label label-${l.labelCls}">${l.l}</div>
+    <div class="arch-nodes">${l.nodes.map(n=>`<div class="arch-node layer-${l.cls}">${n}</div>`).join('')}</div>
+  </div>`).join('');
+}
+function renderDepGraph() {
+  const g=document.getElementById('depGraphSvg');
+  g.innerHTML=`
+    <div class="dep-node" style="border-color:var(--accent-purple);background:rgba(139,92,246,0.08);color:#c4b5fd;">用户 / 开发者</div>
+    <div class="dep-v-down" style="background:linear-gradient(to bottom, var(--accent-purple), var(--accent-blue));"></div>
+    <div class="dep-h-line">
+      <div class="dep-node" style="border-color:var(--accent-blue);background:rgba(59,130,246,0.08);color:#93c5fd;">shadcn-ui<br><small>Next.js SSR/RSC</small></div>
+      <div class="dep-node" style="border-color:var(--accent-purple);background:rgba(139,92,246,0.08);color:#c4b5fd;">yyc3-ui-organized<br><small>TypeScript ESM</small></div>
+      <div class="dep-node" style="border-color:var(--accent-cyan);background:rgba(6,182,212,0.08);color:#67e8f9;">amazon-q-cli<br><small>Rust MCP</small></div>
+    </div>
+    <div class="dep-v-down" style="background:linear-gradient(to bottom, var(--accent-blue), var(--accent-green));"></div>
+    <div class="dep-h-line">
+      <div class="dep-node" style="border-color:var(--accent-cyan);background:rgba(6,182,212,0.08);color:#67e8f9;">Radix UI + Tailwind</div>
+      <div class="dep-node" style="border-color:var(--accent-purple);background:rgba(139,92,246,0.08);color:#c4b5fd;">L0 Zero-Dep Core<br><small>12子模块</small></div>
+      <div class="dep-node" style="border-color:var(--accent-cyan);background:rgba(6,182,212,0.08);color:#67e8f9;">Agent Loop + Tools</div>
+    </div>
+    <div class="dep-v-down" style="background:linear-gradient(to bottom, var(--accent-green), var(--accent-amber));"></div>
+    <div class="dep-h-line">
+      <div class="dep-node" style="border-color:var(--accent-green);background:rgba(16,185,129,0.08);color:#6ee7b7;">DefinitelyTyped<br><small>@types/*</small></div>
+      <div class="dep-node" style="border-color:var(--accent-amber);background:rgba(245,158,11,0.08);color:#fcd34d;">autocomplete-tools<br><small>Turbo monorepo</small></div>
+      <div class="dep-node" style="border-color:var(--accent-green);background:rgba(16,185,129,0.08);color:#6ee7b7;">Handlebars + KaTeX</div>
+    </div>
+    <div class="dep-v-down" style="background:linear-gradient(to bottom, var(--accent-amber), var(--border));"></div>
+    <div class="dep-node" style="border-color:var(--border-bright);background:var(--bg-secondary);color:var(--text-muted);">Standards Reference Layer<br><small>WHATWG HTML · W3C DOM · Web History · Editor Bundles</small></div>`;
+}
+function renderRadarCharts() {
+  const rc=document.getElementById('radarContainer');
+  rc.innerHTML=FIVE_DIM_DATA.map(d=>{
+    const cx=150,cy=150,r=110;
+    const angles=[-90,-18,54,126,198];
+    const labels=d.items.map(i=>i.name);
+    const scores=d.items.map(i=>{
+      const s=i.status.includes('✅')?90:i.status.includes('⚠️')?65:i.status.includes('❌')?40:75;
+      return s;
+    });
+    const avg=Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+    const points=scores.map((s,i)=>{
+      const a=angles[i]*Math.PI/180;
+      const dist=(s/100)*r;
+      return `${cx+dist*Math.cos(a)},${cy+dist*Math.sin(a)}`;
+    }).join(' ');
+    let bgRings='';
+    for(let i=1;i<=5;i++){const rr=(i/5)*r;bgRings+=`<circle cx="${cx}" cy="${cy}" r="${rr}" fill="none" stroke="var(--border)" stroke-width="0.5" opacity="0.4"/>`;}
+    let axes=angles.map(a=>`<line x1="${cx}" y1="${cy}" x2="${cx+r*Math.cos(a*Math.PI/180)}" y2="${cy+r*Math.sin(a*Math.PI/180)}" stroke="var(--border)" stroke-width="0.5" opacity="0.3"/>`).join('');
+    let lbls=labels.map((l,i)=>{const a=angles[i]*Math.PI/180;const lr=r+22;return`<div class="radar-label" style="left:${cx+lr*Math.cos(a)}px;top:${cy+lr*Math.sin(a)}px">${l}</div>`;}).join('');
+    return `<div class="radar-chart">
+      <svg class="radar-bg" viewBox="0 0 300 300">${bgRings}${axes}<polygon points="${points}" fill="rgba(59,130,246,0.15)" stroke="var(--accent-blue)" stroke-width="2"/></svg>
+      ${lbls}
+      <div class="radar-center-info"><div class="radar-score">${avg}</div><div class="radar-score-lbl">${d.dim}均分</div></div>
+      <div style="text-align:center;margin-top:8px;font-size:14px;font-weight:700">${d.icon} ${d.dim}</div>
+    </div>`;
+  }).join('');
+}
+function renderFiveDimBody() {
+  const t=document.getElementById('fiveDimBody');
+  let rows='';
+  FIVE_DIM_DATA.forEach(d=>{d.items.forEach(item=>{
+    rows+=`<tr><td style="font-weight:600">${d.dim}</td><td>${item.name}</td><td>${item.status}</td><td style="font-size:12px">${item.detail}</td><td style="color:var(--accent-cyan);font-size:12px">${item.action}</td></tr>`;
+  });});
+  t.innerHTML=rows;
+}
+function renderFiveHigh() {
+  const c=document.getElementById('fiveHighContent');
+  c.innerHTML=FIVE_HIGH.map(h=>`
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;margin-bottom:20px;border-left:4px solid ${h.color};">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+        <span style="font-size:24px">${h.icon}</span>
+        <span style="font-size:18px;font-weight:800">${h.name}</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${h.color};margin-bottom:10px">当前实现</div>
+          ${h.current.map(i=>`<div style="font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--border);color:var(--text-secondary)">✓ ${i}</div>`).join('')}
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent-amber);margin-bottom:10px">优化建议</div>
+          ${h.suggest.map(i=>`<div style="font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--border);color:var(--text-secondary)">→ ${i}</div>`).join('')}
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:12px 16px;background:rgba(59,130,246,0.06);border-radius:8px;border:1px solid rgba(59,130,246,0.15)">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent-blue);margin-bottom:4px">2026 行业对标</div>
+        <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.65">${h.align2026}</div>
+      </div>
+    </div>`).join('');
+}
+function renderProtocolDiagram() {
+  const d=document.getElementById('protocolDiagram');
+  d.innerHTML=`
+    <div style="text-align:center;margin-bottom:20px;font-size:14px;color:var(--text-secondary)">项目间协议界限 — 从用户界面到标准参考的完整数据流向</div>
+    <div class="proto-layer">
+      <div class="proto-box" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#c4b5fd;">用户界面层</div>
+      <div class="proto-arrow">↓ HTTP / CLI / ESM Import</div>
+    </div>
+    <div class="proto-layer">
+      <div class="proto-box" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:#93c5fd;">shadcn-ui<br><small>SSR/RSC</small></div>
+      <div class="proto-box" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#c4b5fd;">yyc3-ui<br><small>ESM Export</small></div>
+      <div class="proto-box" style="background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.3);color:#67e8f9;">amazon-q<br><small>MCP/Stdio</small></div>
+    </div>
+    <div class="proto-layer"><div class="proto-arrow" style="width:100%;text-align:center">↓ Internal Protocols (ESM / React Component API / MCP-SSE)</div></div>
+    <div class="proto-layer">
+      <div class="proto-box" style="background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.3);color:#67e8f9;">Radix+Tailwind</div>
+      <div class="proto-box" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#c4b5fd;">L0 Zero-Dep<br><small>JSDoc Contract</small></div>
+      <div class="proto-box" style="background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.3);color:#67e8f9;">Agent Loop<br><small>Tool Protocol</small></div>
+    </div>
+    <div class="proto-layer"><div class="proto-arrow" style="width:100%;text-align:center">↓ Infrastructure & Reference Only</div></div>
+    <div class="proto-layer">
+      <div class="proto-box" style="background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.3);color:#6ee7b7;">DefinitelyTyped<br><small>@types npm</small></div>
+      <div class="proto-box" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.3);color:#93c5fd;">Autocomplete<br><small>Spec v7</small></div>
+      <div class="proto-box" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3);color:#fcd34d;">Templates<br><small>Mustache/KaTeX</small></div>
+    </div>
+    <div class="proto-layer"><div class="proto-arrow" style="width:100%;text-align:center">↓ Read-Only Standards Reference</div></div>
+    <div class="proto-layer">
+      <div class="proto-box" style="background:rgba(100,116,139,0.1);border-color:rgba(100,116,139,0.3);color:var(--text-secondary);">WHATWG HTML · W3C DOM · Web History<br><small>Editor Bundles (TextMate/SASS/Clojure...)</small></div>
+    </div>`;
+}
+function renderPortBody() {
+  const t=document.getElementById('portBody');
+  t.innerHTML=PORTS.map(p=>`<tr>
+    <td><span class="status-dot ${p.status==='active'?'status-active':p.status==='planned'?'status-planned':'status-future'}"></span>${p.status==='active'?'运行中':p.status==='planned'?'计划中':'远期'}</td>
+    <td class="port-num">${p.port}</td>
+    <td style="font-size:11px;color:var(--text-muted);font-family:monospace">${p.parse}</td>
+    <td><span class="port-range">${p.range}</span></td>
+    <td style="font-weight:600">${p.cat}</td>
+    <td style="font-size:12px">${p.project}</td>
+    <td style="font-size:11.5px;color:var(--text-muted)">${p.tech}</td>
+    <td style="font-size:11.5px;color:var(--text-muted)">${p.note}</td>
+  </tr>`).join('');
+}
+function renderTrendTimeline() {
+  const t=document.getElementById('trendTimeline');
+  t.innerHTML=TRENDS.map(tr=>`<div class="timeline-item">
+    <div class="timeline-dot"></div>
+    <div class="timeline-date">${tr.date}</div>
+    <div class="timeline-title">${tr.title}</div>
+    <div class="tag-row">${tr.badges.map(b=>`<span class="trend-badge ${b[0]}">${b[1]}</span>`).join('')}</div>
+    <div class="timeline-content">${tr.content}</div>
+    <div style="font-size:10px;color:var(--text-muted);margin-top:6px">Source: ${tr.source}</div>
+  </div>`).join('');
+}
+function renderRecGrid() {
+  const g=document.getElementById('recGrid');
+  g.innerHTML=RECOMMENDATIONS.map(r=>`<div class="rec-card rec-${r.color}">
+    <span class="rec-priority prio-${r.priority.toLowerCase()}">${r.priority}</span>
+    <div class="rec-title">${r.title}</div>
+    <div class="rec-desc">${r.desc}</div>
+    <div class="rec-actions">${r.actions.map(a=>`<span class="action-tag">${a}</span>`).join('')}</div>
+  </div>`).join('');
+}
+function renderPredictGrid() {
+  const g=document.getElementById('predictGrid');
+  g.innerHTML=PREDICTIONS.map(p=>`<div class="pred-card" style="--pred-color:${p.color}">
+    <div class="pred-year">${p.year}</div>
+    <div class="pred-title">${p.title}</div>
+    <div class="pred-content">${p.content}</div>
+    <div class="pred-confidence">
+      <div class="conf-bar"><div class="conf-fill" style="width:${p.conf}%;background:${p.color}"></div></div>
+      <span class="conf-txt">置信度 ${p.conf}%</span>
+    </div>
+  </div>`).join('');
+}
+function renderLicenseBody() {
+  const t=document.getElementById('licenseBody');
+  const licenses=[
+    {lic:'MIT', projects:['shadcn-ui.tnasdownload','Handlebars','markdown-it-katex','Colorsublime-Themes','SASS.tmbundle','coffee-script-tmbundle','pug-tmbundle','language-* (x8)','dart-syntax-highlight'], comm:'允许', mod:'允许', notes:'最宽松的开源许可，商业使用无限制'},
+    {lic:'ISC', projects:['autocomplete','autocomplete-tools'], comm:'允许', mod:'允许', notes:'功能等同于MIT，措辞更简洁'},
+    {lic:'Dual MIT+Apache 2.0', projects:['amazon-q-developer-cli'], comm:'允许', mod:'允许', notes:'双许可选择，Apache 2.0提供专利授权保护'},
+    {lic:'Apache 2.0', projects:['Accumulo 3.0.0'], comm:'允许', mod:'允许', notes:'需保留NOTICE文件和版权声明'},
+    {lic:'YYC³ Internal', projects:['yyc3-ui-organized'], comm:'团队内部', mod:'团队内部', notes:'自有资产，暂不对外发布'}
+  ];
+  t.innerHTML=licenses.map(l=>`<tr>
+    <td style="font-weight:700">${l.lic}</td>
+    <td style="font-size:12px">${l.projects.join('<br>')}</td>
+    <td style="color:var(--accent-green)">${l.comm}</td>
+    <td style="color:var(--accent-green)">${l.mod}</td>
+    <td style="font-size:12px;color:var(--text-muted)">${l.notes}</td>
+  </tr>`).join('');
+}
+
+// ============================================================
+// TAB SWITCHING
+// ============================================================
+function switchTab(e, id) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    item.classList.add('active');
+    const target = item.dataset.target;
+    const el = document.getElementById(target);
+    if(el) { el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    if(window.innerWidth<=1024) document.getElementById('sidebar').classList.remove('open');
+  });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+renderProjectCards();
+renderMatrixBody();
+renderDomainGrid();
+renderDepLayers();
+renderDepGraph();
+renderRadarCharts();
+renderFiveDimBody();
+renderFiveHigh();
+renderProtocolDiagram();
+renderPortBody();
+renderTrendTimeline();
+renderRecGrid();
+renderPredictGrid();
+renderLicenseBody();
+
+</script>
+</body>
+</html>

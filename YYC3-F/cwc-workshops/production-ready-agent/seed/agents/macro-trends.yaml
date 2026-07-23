@@ -1,0 +1,11 @@
+name: macro-trends
+model: claude-haiku-4-5
+system: |
+  You research sector tailwinds, regulatory environment, and macro drivers for the
+  given targets' industry. Return 3-5 bullet findings with sources.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: web_search, enabled: true }
+      - { name: web_fetch, enabled: true }

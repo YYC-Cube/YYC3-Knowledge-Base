@@ -1,0 +1,60 @@
+name: Wattsi CI
+on:
+  pull_request:
+    branches: ['main']
+  push:
+    branches: ['main']
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v3
+      with:
+        platforms: linux/amd64,linux/arm64
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Create version file
+      run: |
+        git rev-list --count HEAD > src/version.inc
+    - name: Build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        load: true
+        tags: ${{ env.IMAGE_NAME }}:test
+    - name: Test
+      # This minimal test also saves the version for us to use as a tag.
+      run: |
+        WATTSI_VERSION=$(docker run "$IMAGE_NAME:test" --version | cut -d' ' -f2)
+        echo "WATTSI_VERSION=$WATTSI_VERSION" >> $GITHUB_ENV
+    - name: Login
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build and push
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        platforms: linux/amd64,linux/arm64
+        tags: |
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.WATTSI_VERSION }}
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest

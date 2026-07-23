@@ -1,0 +1,144 @@
+name: build
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - master
+      - 'v*.*.*'
+    tags:
+      - "*"
+  pull_request:
+    branches:
+      - master
+
+env:
+  PROJECT: lua-language-server
+  BIN_DIR: bin
+
+jobs:
+  compile:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-22.04,     target: linux,   platform: linux-x64    }
+          - { os: ubuntu-24.04-arm, target: linux,   platform: linux-arm64  }
+          - { os: macos-latest,     target: darwin,  platform: darwin-x64   }
+          - { os: macos-latest,     target: darwin,  platform: darwin-arm64 }
+          - { os: windows-latest,   target: windows, platform: win32-ia32   }
+          - { os: windows-latest,   target: windows, platform: win32-x64    }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actboy168/setup-luamake@master
+
+      - name: Install zig
+        if: matrix.target == 'linux'
+        run:
+          sudo snap install zig --classic --beta
+
+      - name: Prepare zig wrapper
+        if: matrix.target == 'linux'
+        run: chmod +x zig-cc-wrapper.sh
+
+      - name: Build
+        env:
+          USE_ZIG: ${{ matrix.target == 'linux' && '1' || '0' }}
+        run: luamake -platform ${{ matrix.platform }}
+
+      - name: Setting up workflow variables
+        id: vars
+        shell: bash
+        run: |
+          # Package version
+          if [[ $GITHUB_REF = refs/tags/* ]]; then
+            PKG_VERSION=${GITHUB_REF##*/}
+          else
+            PKG_VERSION=${GITHUB_SHA:0:7}
+          fi
+
+          # Package suffix relative to the platform
+          if [[ "${{ matrix.target }}" = windows ]]; then
+            PKG_SUFFIX="zip"
+          else
+            PKG_SUFFIX="tar.gz"
+          fi
+
+          # Package name w/ version
+          PKG_BASENAME="${{ env.PROJECT }}-${PKG_VERSION}-${{ matrix.platform }}"
+
+          # Full name of the tarball asset
+          PKG_NAME="${PKG_BASENAME}.${PKG_SUFFIX}"
+
+          # Staging area for tarballs
+          PKG_STAGING="ci_staging/$PKG_BASENAME"
+
+          echo PKG_VERSION=${PKG_VERSION}             >> $GITHUB_OUTPUT
+          echo PKG_BASENAME=${PKG_BASENAME}           >> $GITHUB_OUTPUT
+          echo PKG_NAME=${PKG_NAME}                   >> $GITHUB_OUTPUT
+          echo PKG_PATH="${PKG_STAGING}/${PKG_NAME}"  >> $GITHUB_OUTPUT
+          echo PKG_STAGING=${PKG_STAGING}             >> $GITHUB_OUTPUT
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.vars.outputs.PKG_BASENAME }}
+          path: |
+            ${{ env.BIN_DIR }}
+            main.lua
+            debugger.lua
+            LICENSE
+            changelog.md
+            locale
+            doc
+            meta
+            script
+
+      - name: Package tarballs
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          STAGING=${{ steps.vars.outputs.PKG_STAGING }}
+          NAME=${{ steps.vars.outputs.PKG_NAME }}
+
+          # Making the staging area
+          mkdir -p ${STAGING}
+
+          # Copying binary and runtime files to staging area
+          cp -r main.lua debugger.lua LICENSE changelog.md locale meta script ${{ env.BIN_DIR }} ${STAGING}
+
+          # Creating release assets
+          pushd "${STAGING}/" >/dev/null
+          if [[ "${{ matrix.target }}" = windows ]]; then
+            7z -y a ${NAME} * | tail -2
+          else
+            tar czf ${NAME} *
+          fi
+          popd >/dev/null
+
+      # Packaging submodules for homebrew distribution
+      - name: Package submodules
+        id: submodules
+        if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.platform == 'darwin-x64' }}
+        run: |
+          STAGING=${{ steps.vars.outputs.PKG_STAGING }}
+          PKG_SUBMOD_NAME="${{ env.PROJECT }}-${{ steps.vars.outputs.PKG_VERSION }}-submodules.zip"
+          PKG_SUBMOD_PATH="${STAGING}/$PKG_SUBMOD_NAME"
+
+          zip -r $PKG_SUBMOD_PATH ./ -x "*.git*" -x "*.vscode*" -x "build*" -x "${{ env.BIN_DIR }}*" -x "${STAGING}*" -x "3rd/json.lua*" -x "log*" -x "ci_staging*"
+
+          echo PKG_SUBMOD_PATH=${PKG_SUBMOD_PATH} >> $GITHUB_OUTPUT
+
+      - name: Publish release assets
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          generate_release_notes: true
+          files: |
+            ${{ steps.vars.outputs.PKG_PATH }}
+            ${{ steps.submodules.outputs.PKG_SUBMOD_PATH }}

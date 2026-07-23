@@ -1,0 +1,81 @@
+# 🤖 Dependabot 自动依赖更新配置
+# 
+# 此配置启用 GitHub Dependabot 来自动检测和创建 PR 
+# 来更新项目依赖，帮助保持项目安全性
+#
+# 详细信息: https://docs.github.com/en/code-security/dependabot
+
+version: 2
+updates:
+  # Python 依赖更新配置
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"        # 每周检查更新
+      day: "monday"            # 周一执行
+      time: "09:00"            # 上午9点
+      timezone: "Asia/Shanghai" # 使用中国时区
+    
+    # 自动合并设置
+    open-pull-requests-limit: 10  # 同时最多打开10个PR
+    
+    # 更新策略
+    versioning-strategy: "increase"  # 允许版本增加
+    
+    # PR 设置
+    commit-message:
+      prefix: "⬆️ deps"
+      prefix-development: "⬆️ dev-deps"
+      include: "scope"
+    
+    # 标签设置
+    labels:
+      - "dependencies"
+      - "automated"
+      - "security"
+    
+    # 忽略特定依赖（如果需要的话）
+    ignore:
+      # 示例：忽略主要版本更新
+      - dependency-name: "torch"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "transformers"  
+        update-types: ["version-update:semver-major"]
+    
+    # 允许的更新类型
+    allow:
+      - dependency-type: "direct"      # 直接依赖
+      - dependency-type: "indirect"    # 间接依赖
+
+  # GitHub Actions 工作流更新
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"       # 每月检查
+      time: "09:00"
+      timezone: "Asia/Shanghai"
+    
+    commit-message:
+      prefix: "⬆️ actions"
+      include: "scope"
+    
+    labels:
+      - "github-actions"
+      - "automated"
+
+  # Docker 镜像更新（如果使用 Docker）
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+      time: "14:00"
+      timezone: "Asia/Shanghai"
+    
+    commit-message:
+      prefix: "⬆️ docker"
+      include: "scope"
+    
+    labels:
+      - "docker"
+      - "automated"

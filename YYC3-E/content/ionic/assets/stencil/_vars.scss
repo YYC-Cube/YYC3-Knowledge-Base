@@ -1,0 +1,25 @@
+// Colors
+$blue: #488aff;
+$lightblue: #b8ceff;
+$green: #2cd865;
+$yellow: #ffcb2c;
+$red: #f45454;
+
+$dark: #24282e;
+$darkgrey: #727a87;
+$grey: #a8b0be;
+$lightgrey: #e8ebf1;
+$light: #f8f9fb;
+
+//fonts
+$font-family-avenir: "Avenir Next", "Helvetica Neue", Helvetica, sans-serif;
+$font-family-inter: "Inter", "Helvetica Neue", Helvetica, sans-serif;
+$font-family-mono: "SFMono-Regular", "Roboto Mono", Consolas, "Liberation Mono",
+  Menlo, Courier, monospace;
+$font-family-default: $font-family-inter;
+
+// Breakpoints
+$screen-md-max: 1104px;
+$screen-sm-max: 991px;
+$screen-xs-max: 767px;
+$screen-xxs-max: 480px;

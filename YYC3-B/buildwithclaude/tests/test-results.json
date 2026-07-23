@@ -1,0 +1,75 @@
+{
+  "tests": [
+    {
+      "name": "plugin_directory",
+      "status": "passed",
+      "message": "Plugin directory exists"
+    },
+    {
+      "name": "plugin_manifest_exists",
+      "status": "passed",
+      "message": "Manifest file exists (marketplace.json)"
+    },
+    {
+      "name": "plugin_manifest_valid",
+      "status": "passed",
+      "message": "Valid JSON syntax"
+    },
+    {
+      "name": "plugin_name",
+      "status": "passed",
+      "message": "Name: buildwithclaude"
+    },
+    {
+      "name": "plugin_version",
+      "status": "passed",
+      "message": "Version: 1.0.0"
+    },
+    {
+      "name": "agents_dir",
+      "status": "passed",
+      "message": "117 agent files"
+    },
+    {
+      "name": "commands_dir",
+      "status": "passed",
+      "message": "182 command files"
+    },
+    {
+      "name": "hooks_dir",
+      "status": "passed",
+      "message": "28 hook files"
+    },
+    {
+      "name": "schema_validation",
+      "status": "passed",
+      "message": "All components valid"
+    },
+    {
+      "name": "claude_cli",
+      "status": "passed",
+      "message": "Version: 2.1.1 (Claude Code)"
+    },
+    {
+      "name": "claude_plugin_load",
+      "status": "passed",
+      "message": "Plugin loads without errors"
+    },
+    {
+      "name": "claude_commands_registered",
+      "status": "passed",
+      "message": "Commands visible"
+    },
+    {
+      "name": "claude_agents_registered",
+      "status": "warning",
+      "message": "Agents not detected"
+    }
+  ],
+  "timestamp": "2026-01-08T08:29:20Z",
+  "summary": {
+    "passed": 12,
+    "failed": 0,
+    "warnings": 1
+  }
+}

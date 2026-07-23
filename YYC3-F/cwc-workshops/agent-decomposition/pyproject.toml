@@ -1,0 +1,31 @@
+# Copyright 2026 Anthropic PBC
+# SPDX-License-Identifier: Apache-2.0
+[project]
+name = "stockpilot-workshop"
+version = "0.1.0"
+description = "Code w/ Claude 2026 W5 — Compose multi-agent systems with Skills and MCP"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.45.0",
+    "rich>=13.0.0",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+]
+
+[project.scripts]
+stockpilot = "agents.cli:main"
+evals = "evals.run:main"
+seed = "data.seed:main"
+deploy = "agents.deploy_cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["agents", "evals", "data"]

@@ -1,0 +1,135 @@
+>// Copyright 2022 The Chromium Authors. All rights reserved.                    // Line 1
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.dart
+>// Use of this source code is governed by a BSD-style license that can be       // Line 2
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.dart
+>// found in the LICENSE file.                                                   // Line 3
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.dart
+>
+>library foo;                                                                    // Line 5
+#^^^^^^^ meta.declaration.dart keyword.other.import.dart
+#       ^^^^ meta.declaration.dart
+#           ^ meta.declaration.dart punctuation.terminator.dart
+>
+>external int get externalInt;                                                   // Line 7
+#^^^^^^^^ keyword.declaration.dart
+#         ^^^ support.class.dart
+#             ^^^ keyword.declaration.dart
+#                            ^ punctuation.terminator.dart
+>
+>typedef StringAlias = String;                                                   // Line 9
+#^^^^^^^ keyword.declaration.dart
+#        ^^^^^^^^^^^ support.class.dart
+#                    ^ keyword.operator.assignment.dart
+#                      ^^^^^^ support.class.dart
+#                            ^ punctuation.terminator.dart
+>typedef void FunctionAlias1(String a, String b);                                // Line 10
+#^^^^^^^ keyword.declaration.dart
+#        ^^^^ storage.type.primitive.dart
+#             ^^^^^^^^^^^^^^ support.class.dart
+#                            ^^^^^^ support.class.dart
+#                                    ^ punctuation.comma.dart
+#                                      ^^^^^^ support.class.dart
+#                                               ^ punctuation.terminator.dart
+>typedef FunctionAlias2 = void Function(String a, String b);                     // Line 11
+#^^^^^^^ keyword.declaration.dart
+#        ^^^^^^^^^^^^^^ support.class.dart
+#                       ^ keyword.operator.assignment.dart
+#                         ^^^^ storage.type.primitive.dart
+#                              ^^^^^^^^ support.class.dart
+#                                       ^^^^^^ support.class.dart
+#                                               ^ punctuation.comma.dart
+#                                                 ^^^^^^ support.class.dart
+#                                                          ^ punctuation.terminator.dart
+>
+>Map<List<String>, List<List<String>>>? nestedTypeArguments;                     // Line 13
+#^^^ support.class.dart
+#   ^ other.source.dart
+#    ^^^^ support.class.dart
+#        ^ other.source.dart
+#         ^^^^^^ support.class.dart
+#               ^ other.source.dart
+#                  ^^^^ support.class.dart
+#                      ^ other.source.dart
+#                       ^^^^ support.class.dart
+#                           ^ other.source.dart
+#                            ^^^^^^ support.class.dart
+#                                  ^^^ other.source.dart
+#                                     ^ keyword.operator.ternary.dart
+#                                                          ^ punctuation.terminator.dart
+>
+>void misc(int a, {required int b}) {                                            // Line 15
+#^^^^ storage.type.primitive.dart
+#     ^^^^ entity.name.function.dart
+#          ^^^ support.class.dart
+#               ^ punctuation.comma.dart
+#                  ^^^^^^^^ storage.modifier.dart
+#                           ^^^ support.class.dart
+>  assert(true);                                                                 // Line 16
+#  ^^^^^^ keyword.control.dart
+#         ^^^^ constant.language.dart
+#              ^ punctuation.terminator.dart
+>  assert(1 == 1, 'fail');                                                       // Line 17
+#  ^^^^^^ keyword.control.dart
+#         ^ constant.numeric.dart
+#           ^^ keyword.operator.comparison.dart
+#              ^ constant.numeric.dart
+#               ^ punctuation.comma.dart
+#                 ^^^^^^ string.interpolated.single.dart
+#                        ^ punctuation.terminator.dart
+>
+>  var a = new String.fromCharCode(1);                                           // Line 19
+#  ^^^ storage.type.primitive.dart
+#        ^ keyword.operator.assignment.dart
+#          ^^^ keyword.new.dart
+#              ^^^^^^ support.class.dart
+#                    ^ punctuation.dot.dart
+#                     ^^^^^^^^^^^^ entity.name.function.dart
+#                                  ^ constant.numeric.dart
+#                                    ^ punctuation.terminator.dart
+>  const b = int.fromEnvironment('');                                            // Line 20
+#  ^^^^^ storage.modifier.dart
+#          ^ keyword.operator.assignment.dart
+#            ^^^ support.class.dart
+#               ^ punctuation.dot.dart
+#                ^^^^^^^^^^^^^^^ entity.name.function.dart
+#                                ^^ string.interpolated.single.dart
+#                                   ^ punctuation.terminator.dart
+>  final c = '';                                                                 // Line 21
+#  ^^^^^ storage.modifier.dart
+#          ^ keyword.operator.assignment.dart
+#            ^^ string.interpolated.single.dart
+#              ^ punctuation.terminator.dart
+>  late final d = '';                                                            // Line 22
+#  ^^^^ storage.modifier.dart
+#       ^^^^^ storage.modifier.dart
+#               ^ keyword.operator.assignment.dart
+#                 ^^ string.interpolated.single.dart
+#                   ^ punctuation.terminator.dart
+>  print(d is String);                                                           // Line 23
+#  ^^^^^ entity.name.function.dart
+#          ^^ keyword.operator.dart
+#             ^^^^^^ support.class.dart
+#                    ^ punctuation.terminator.dart
+>  print(d is! String);                                                          // Line 24
+#  ^^^^^ entity.name.function.dart
+#          ^^ keyword.operator.dart
+#            ^ keyword.operator.logical.dart
+#              ^^^^^^ support.class.dart
+#                     ^ punctuation.terminator.dart
+>}                                                                               // Line 25
+>
+>class Covariance<T> {                                                           // Line 27
+#^^^^^ keyword.declaration.dart
+#      ^^^^^^^^^^ support.class.dart
+#                ^ other.source.dart
+#                 ^ support.class.dart
+#                  ^ other.source.dart
+>  void covariance(covariant List<T> items) {}                                   // Line 28
+#  ^^^^ storage.type.primitive.dart
+#       ^^^^^^^^^^ entity.name.function.dart
+#                  ^^^^^^^^^ keyword.declaration.dart
+#                            ^^^^ support.class.dart
+#                                ^ other.source.dart
+#                                 ^ support.class.dart
+#                                  ^ other.source.dart
+>}                                                                               // Line 29

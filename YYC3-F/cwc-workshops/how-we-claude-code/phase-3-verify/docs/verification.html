@@ -1,0 +1,764 @@
+<!doctype html>
+<!-- Copyright 2026 Anthropic PBC -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Verifiable React — How Verification Works</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --panel: #171a23;
+    --panel2: #1e2230;
+    --border: #2b3044;
+    --text: #e6e8f0;
+    --dim: #8e94ab;
+    --accent: #7aa2ff;
+    --pass: #3fbf7f;
+    --fail: #ef5c70;
+    --warn: #e9b84b;
+    --blocked: #9a6cff;
+    --probe: #62c6e8;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    padding-bottom: 120px;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 56px 28px 0; }
+  .wide { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+
+  /* Typography */
+  h1 { font-size: 38px; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.01em; }
+  h2 {
+    font-size: 26px; margin: 56px 0 14px; padding-top: 18px;
+    border-top: 1px solid var(--border); letter-spacing: -0.01em;
+  }
+  h2 .num {
+    display: inline-block; min-width: 1.6em; color: var(--accent);
+    font-variant-numeric: tabular-nums; opacity: 0.8;
+  }
+  h3 { font-size: 19px; margin: 32px 0 8px; color: var(--text); }
+  h4 { font-size: 15px; margin: 24px 0 6px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; }
+  p { margin: 0 0 14px; }
+  .lead { font-size: 19px; color: var(--dim); margin: 6px 0 28px; max-width: 60ch; }
+  .sub { color: var(--dim); font-size: 15px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { color: #fff; }
+  em.term { color: var(--accent); font-style: normal; font-weight: 600; }
+
+  code, pre, .mono { font-family: var(--mono); }
+  code {
+    background: var(--panel2); padding: 2px 6px; border-radius: 5px;
+    font-size: 0.88em; border: 1px solid var(--border);
+  }
+  pre {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; overflow-x: auto; font-size: 13.5px; line-height: 1.6;
+    margin: 14px 0 20px;
+  }
+  pre code { background: none; border: none; padding: 0; font-size: inherit; }
+  pre .c { color: #6b7491; font-style: italic; }
+  pre .k { color: #c792ea; }
+  pre .s { color: #c3e88d; }
+  pre .n { color: #f78c6c; }
+  pre .t { color: #82aaff; }
+  pre .p { color: #89ddff; }
+  pre .a { color: #ffcb6b; }
+  pre .hl { background: rgba(122,162,255,0.12); display: block; margin: 0 -18px; padding: 0 18px; }
+
+  /* Panels */
+  .callout {
+    background: var(--panel); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 14px 18px; margin: 18px 0;
+  }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout.pass { border-left-color: var(--pass); }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout-title { font-weight: 600; margin-bottom: 6px; font-size: 14px; letter-spacing: 0.02em; }
+
+  /* TOC */
+  nav.toc {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 22px; margin: 28px 0 8px;
+  }
+  nav.toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 36px; }
+  nav.toc li { margin: 4px 0; break-inside: avoid; }
+  nav.toc a { color: var(--text); }
+  nav.toc a:hover { color: var(--accent); }
+  @media (max-width: 720px) { nav.toc ol { columns: 1; } }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--dim); font-weight: 500; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td:first-child, th:first-child { padding-left: 0; }
+  td code:first-child { white-space: nowrap; }
+
+  /* Chips */
+  .chip {
+    display: inline-block; font: 600 11.5px/1 var(--mono);
+    padding: 4px 9px; border-radius: 5px; letter-spacing: 0.04em;
+    border: 1px solid var(--border); margin: 0 4px 4px 0;
+  }
+  .chip.pass { color: var(--pass); border-color: color-mix(in srgb, var(--pass) 40%, var(--border)); background: color-mix(in srgb, var(--pass) 12%, transparent); }
+  .chip.fail { color: var(--fail); border-color: color-mix(in srgb, var(--fail) 40%, var(--border)); background: color-mix(in srgb, var(--fail) 12%, transparent); }
+  .chip.blocked { color: var(--blocked); border-color: color-mix(in srgb, var(--blocked) 40%, var(--border)); background: color-mix(in srgb, var(--blocked) 12%, transparent); }
+  .chip.skip { color: var(--dim); }
+  .chip.ok { color: var(--pass); }
+  .chip.warn { color: var(--warn); }
+  .chip.probe { color: var(--probe); }
+
+  /* Diagram */
+  .diagram {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 28px; margin: 24px 0;
+  }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .diagram .box { fill: var(--panel2); stroke: var(--border); stroke-width: 1.5; rx: 8; }
+  .diagram .box.accent { stroke: var(--accent); }
+  .diagram .box.pass { stroke: var(--pass); }
+  .diagram .label { fill: var(--text); font: 600 13px var(--mono); }
+  .diagram .sublabel { fill: var(--dim); font: 12px var(--mono); }
+  .diagram .arrow { stroke: var(--dim); stroke-width: 1.5; fill: none; marker-end: url(#ah); }
+  .diagram .arrow.hot { stroke: var(--accent); marker-end: url(#ahA); }
+
+  /* Flow steps */
+  .flow { counter-reset: step; margin: 18px 0; }
+  .flow-step {
+    position: relative; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 18px 14px 58px; margin: 10px 0;
+  }
+  .flow-step::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 16px; top: 14px;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--panel2); border: 1px solid var(--accent); color: var(--accent);
+    display: grid; place-items: center; font: 600 13px var(--mono);
+  }
+  .flow-step b { display: block; margin-bottom: 2px; }
+  .flow-step .sub { font-size: 14px; }
+
+  /* File tree */
+  .tree {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px 20px; font: 13px/1.8 var(--mono); white-space: pre; overflow-x: auto;
+    margin: 14px 0 20px;
+  }
+  .tree .d { color: var(--accent); }
+  .tree .c { color: var(--dim); }
+
+  /* Two-col */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 820px) { .two { grid-template-columns: 1fr; } }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+  .footer { color: var(--dim); font-size: 13.5px; margin-top: 60px; border-top: 1px solid var(--border); padding-top: 20px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<h1>How Verification Works</h1>
+<p class="lead">
+  An in-depth tour of the <code>verifiable-react</code> architecture: a React app
+  structured so that <strong>every piece can be observed, driven, and verified at
+  runtime by an AI agent</strong> — with the same code path serving humans, CI,
+  and machines.
+</p>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#philosophy">Philosophy: verification ≠ testing</a></li>
+    <li><a href="#anatomy">Anatomy of the system</a></li>
+    <li><a href="#contract">The DOM contract (<code>data-verify-*</code>)</a></li>
+    <li><a href="#units">Verifiable units, fixtures &amp; invariants</a></li>
+    <li><a href="#verifiers">Pluggable verifiers</a></li>
+    <li><a href="#runner">The runner &amp; verdict taxonomy</a></li>
+    <li><a href="#routes">Isolated routes &amp; the dashboard</a></li>
+    <li><a href="#handle"><code>window.__verify</code> — the agent handle</a></li>
+    <li><a href="#consumers">One pipeline, three consumers</a></li>
+    <li><a href="#walkthrough">End-to-end walkthrough</a></li>
+    <li><a href="#extending">Extending: new units &amp; verifiers</a></li>
+    <li><a href="#principles">Design principles, restated</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================== -->
+<h2 id="philosophy"><span class="num">1</span> Philosophy: verification ≠ testing</h2>
+
+<p>
+  This architecture is built on a single mental model:
+</p>
+
+<div class="callout">
+  <p class="callout-title">Verification is runtime observation at the surface.</p>
+  <p>
+    You build the app, run it, drive it to where the changed code executes, and
+    capture what you see. That capture is your evidence. Tests and typechecks
+    are CI's job. A verifier's job is to confirm the <strong>real artifact</strong>
+    behaves — at the boundary where a user (human or programmatic) meets it.
+  </p>
+</div>
+
+<p>
+  For a CLI, the surface is the terminal. For a server, it's the socket. For a
+  React app, the surface is the <strong>rendered DOM</strong>. So this system makes
+  the DOM itself machine-readable, gives every component a way to be mounted in
+  isolation in a known state, and exposes a structured API for reading verdicts.
+</p>
+
+<table>
+  <thead><tr><th>Concern</th><th>Unit testing</th><th>Verification (this system)</th></tr></thead>
+  <tbody>
+    <tr><td>What runs</td><td>A function, in Node, with mocks</td><td>The component, in a real DOM, with real state</td></tr>
+    <tr><td>What's checked</td><td>Return values / mock calls</td><td>What's actually rendered &amp; how it responds</td></tr>
+    <tr><td>Who consumes it</td><td>CI</td><td>CI <em>and</em> dashboard <em>and</em> AI agent — same code path</td></tr>
+    <tr><td>Failure mode caught</td><td>Logic bug</td><td>Logic bug, integration bug, contract drift, a11y regression</td></tr>
+    <tr><td>Verdict shape</td><td>pass / fail</td><td><span class="chip pass">PASS</span><span class="chip fail">FAIL</span><span class="chip blocked">BLOCKED</span><span class="chip skip">SKIP</span></td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================== -->
+<h2 id="anatomy"><span class="num">2</span> Anatomy of the system</h2>
+
+</div>
+<div class="wide">
+<div class="diagram">
+<svg viewBox="0 0 1040 460">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8e94ab"/>
+    </marker>
+    <marker id="ahA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#7aa2ff"/>
+    </marker>
+  </defs>
+
+  <!-- Left column: app -->
+  <rect class="box" x="20" y="30" width="220" height="120"/>
+  <text class="label" x="36" y="56">features/todos/</text>
+  <text class="sublabel" x="36" y="78">TodoItem, TodoList,</text>
+  <text class="sublabel" x="36" y="96">TodoInput, TodoStats,</text>
+  <text class="sublabel" x="36" y="114">TodoApp, useTodos</text>
+  <text class="sublabel" x="36" y="138" fill="#7aa2ff">emit data-verify-*</text>
+
+  <!-- Specs -->
+  <rect class="box accent" x="20" y="200" width="220" height="120"/>
+  <text class="label" x="36" y="226">verify/specs/</text>
+  <text class="sublabel" x="36" y="248">*.verify.ts</text>
+  <text class="sublabel" x="36" y="268">Zod schema · fixtures</text>
+  <text class="sublabel" x="36" y="286">invariants · probes 🔍</text>
+
+  <!-- Verifiers -->
+  <rect class="box accent" x="20" y="350" width="220" height="90"/>
+  <text class="label" x="36" y="376">verify/verifiers/</text>
+  <text class="sublabel" x="36" y="398">schema · invariants</text>
+  <text class="sublabel" x="36" y="416">dom-contract · a11y</text>
+
+  <!-- Registry -->
+  <rect class="box" x="320" y="200" width="180" height="80"/>
+  <text class="label" x="336" y="228">registry.ts</text>
+  <text class="sublabel" x="336" y="250">units + verifiers</text>
+  <text class="sublabel" x="336" y="268">buildManifest()</text>
+
+  <!-- Runner -->
+  <rect class="box pass" x="560" y="180" width="200" height="120"/>
+  <text class="label" x="576" y="208">runner.ts</text>
+  <text class="sublabel" x="576" y="230">mount → act →</text>
+  <text class="sublabel" x="576" y="248">run verifiers →</text>
+  <text class="sublabel" x="576" y="266">verdict + checks</text>
+  <text class="sublabel" x="576" y="286" fill="#3fbf7f">VerifyResult</text>
+
+  <!-- Consumers -->
+  <rect class="box" x="830" y="40" width="190" height="70"/>
+  <text class="label" x="846" y="66">Dashboard</text>
+  <text class="sublabel" x="846" y="86">/verify · "Run all"</text>
+
+  <rect class="box" x="830" y="130" width="190" height="70"/>
+  <text class="label" x="846" y="156">UnitPage</text>
+  <text class="sublabel" x="846" y="176">/verify/:unit/:fixture</text>
+
+  <rect class="box accent" x="830" y="220" width="190" height="70"/>
+  <text class="label" x="846" y="246">window.__verify</text>
+  <text class="sublabel" x="846" y="266">manifest · current · runAll</text>
+
+  <rect class="box" x="830" y="310" width="190" height="70"/>
+  <text class="label" x="846" y="336">matrix.test.ts</text>
+  <text class="sublabel" x="846" y="356">vitest + jsdom (CI)</text>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M130 150 L130 200"/>
+  <path class="arrow hot" d="M240 250 L320 240"/>
+  <path class="arrow hot" d="M240 390 L300 390 Q320 390 320 370 L320 270"/>
+  <path class="arrow hot" d="M500 240 L560 240"/>
+  <path class="arrow" d="M760 210 Q800 210 800 75 L830 75"/>
+  <path class="arrow" d="M760 225 Q800 225 800 165 L830 165"/>
+  <path class="arrow hot" d="M760 240 L830 255"/>
+  <path class="arrow" d="M760 270 Q800 270 800 345 L830 345"/>
+</svg>
+</div>
+</div>
+<div class="wrap">
+
+<p class="sub">
+  <strong>Reading the diagram:</strong> components emit DOM contracts; specs and
+  verifiers register into a shared registry; the runner is the single execution
+  path that mounts a fixture, runs verifiers, and produces a structured
+  <code>VerifyResult</code>. Four consumers all call the runner — they differ
+  only in how they <em>display</em> or <em>assert on</em> the result.
+</p>
+
+<h4>File layout</h4>
+<div class="tree"><span class="d">src/</span>
+├─ <span class="d">features/todos/</span>          <span class="c">the actual app — emits data-verify-* contracts</span>
+├─ <span class="d">verify/</span>
+│  ├─ <span class="d">core/</span>
+│  │  ├─ types.ts             <span class="c">VerifiableUnit, Fixture, Invariant, Verifier, Verdict</span>
+│  │  ├─ contract.ts          <span class="c">data-verify-* helpers</span>
+│  │  ├─ registry.ts          <span class="c">central unit &amp; verifier registry + manifest</span>
+│  │  └─ runner.ts            <span class="c">mount → act → verify → verdict</span>
+│  ├─ <span class="d">verifiers/</span>             <span class="c">pluggable: schema, invariants, dom-contract, a11y</span>
+│  ├─ <span class="d">specs/</span>                 <span class="c">one *.verify.ts per unit (central /verify dir)</span>
+│  ├─ <span class="d">harness/</span>
+│  │  ├─ handle.ts            <span class="c">window.__verify</span>
+│  │  ├─ Dashboard.tsx        <span class="c">/verify</span>
+│  │  ├─ UnitPage.tsx         <span class="c">/verify/:unit/:fixture</span>
+│  │  └─ Report.tsx, Badge.tsx
+│  └─ matrix.test.ts          <span class="c">CI: run every unit×fixture, assert verdicts</span>
+└─ main.tsx                   <span class="c">imports verifiers + specs, installs handle, routes</span></div>
+
+<!-- ============================================================== -->
+<h2 id="contract"><span class="num">3</span> The DOM contract (<code>data-verify-*</code>)</h2>
+
+<p>
+  The lowest layer. Every component spreads <code>verifyAttrs({...})</code> onto
+  its root element, emitting a set of <code>data-verify-*</code> attributes that
+  describe its <em>semantic</em> state — not its styling, not its internals.
+</p>
+
+<pre><code><span class="c">// features/todos/TodoApp.tsx</span>
+&lt;<span class="t">section</span>
+  <span class="a">className</span>=<span class="s">"todo-app"</span>
+<span class="hl">  {...<span class="t">verifyAttrs</span>({</span>
+<span class="hl">    <span class="a">unit</span>: <span class="s">"TodoApp"</span>,</span>
+<span class="hl">    <span class="a">total</span>: t.stats.total,   <span class="a">done</span>: t.stats.done,   <span class="a">active</span>: t.stats.active,</span>
+<span class="hl">    <span class="a">filter</span>: t.filter,      <span class="a">visible</span>: t.visible.length,</span>
+<span class="hl">  })}</span>
+&gt;</code></pre>
+
+<p>Which renders as:</p>
+
+<pre><code>&lt;<span class="t">section</span> <span class="a">class</span>=<span class="s">"todo-app"</span>
+  <span class="a">data-verify-unit</span>=<span class="s">"TodoApp"</span> <span class="a">data-verify-total</span>=<span class="s">"3"</span> <span class="a">data-verify-done</span>=<span class="s">"1"</span>
+  <span class="a">data-verify-active</span>=<span class="s">"2"</span> <span class="a">data-verify-filter</span>=<span class="s">"all"</span> <span class="a">data-verify-visible</span>=<span class="s">"3"</span>&gt;</code></pre>
+
+<div class="callout pass">
+  <p class="callout-title">Why this matters</p>
+  <p>
+    The DOM <em>is</em> the surface. Agents and verifiers read
+    <code>readContract(root)</code> → <code>{unit, total, done, active, filter, visible}</code>
+    instead of reaching into React fibers or guessing from CSS classes. You can
+    rewrite the entire component internals — switch state libs, restyle, refactor
+    — and as long as the contract holds, every verifier still passes.
+  </p>
+</div>
+
+<p>
+  The helper lives in <code>src/verify/core/contract.ts</code> and provides
+  <code>verifyAttrs()</code> (write), <code>readContract()</code> (read the root
+  contract), and <code>readAllContracts()</code> (read every contract-bearing
+  descendant — useful for lists/features).
+</p>
+
+<!-- ============================================================== -->
+<h2 id="units"><span class="num">4</span> Verifiable units, fixtures &amp; invariants</h2>
+
+<p>
+  A <em class="term">VerifiableUnit</em> is the unit of modularity: a single
+  component (<code>kind: "component"</code>) or a whole feature slice with its
+  own state (<code>kind: "feature"</code>). Each spec file in
+  <code>src/verify/specs/</code> registers exactly one.
+</p>
+
+<pre><code><span class="c">// src/verify/specs/TodoItem.verify.ts (abridged)</span>
+<span class="t">registerUnit</span>&lt;TodoItemProps&gt;({
+  <span class="a">id</span>: <span class="s">"TodoItem"</span>,
+  <span class="a">title</span>: <span class="s">"TodoItem"</span>,
+  <span class="a">kind</span>: <span class="s">"component"</span>,
+  <span class="a">render</span>: (props) =&gt; <span class="t">createElement</span>(TodoItem, props),
+  <span class="a">propsSchema</span>: z.object({ todo: TodoSchema, onToggle: z.function(), onRemove: z.function() }),
+
+  <span class="a">fixtures</span>: [
+    { <span class="a">id</span>: <span class="s">"active"</span>,     <span class="a">props</span>: { todo: { text: <span class="s">"Buy milk"</span>, done: <span class="k">false</span>, ... } } },
+    { <span class="a">id</span>: <span class="s">"done"</span>,       <span class="a">props</span>: { todo: { text: <span class="s">"Ship it"</span>,  done: <span class="k">true</span>,  ... } } },
+<span class="hl">    { <span class="a">id</span>: <span class="s">"empty-text"</span>, <span class="a">probe</span>: <span class="k">true</span>, <span class="a">props</span>: { todo: { text: <span class="s">""</span>, ... } } },</span>
+<span class="hl">    { <span class="a">id</span>: <span class="s">"long-text"</span>,  <span class="a">probe</span>: <span class="k">true</span>, <span class="a">props</span>: { todo: { text: <span class="s">"x"</span>.repeat(<span class="n">500</span>), ... } } },</span>
+  ],
+
+  <span class="a">invariants</span>: [
+    { <span class="a">id</span>: <span class="s">"done-attr-matches-prop"</span>,
+      <span class="a">check</span>: ({ contract, props }) =&gt; contract.done === <span class="t">String</span>(props.todo.done) },
+    { <span class="a">id</span>: <span class="s">"checkbox-state-matches"</span>,
+      <span class="a">check</span>: ({ root, props }) =&gt; root.querySelector(<span class="s">"input[type=checkbox]"</span>).checked === props.todo.done },
+    { <span class="a">id</span>: <span class="s">"visible-text-never-empty"</span>,
+      <span class="a">check</span>: ({ root }) =&gt; root.querySelector(<span class="s">".todo-text"</span>).textContent.trim().length &gt; <span class="n">0</span> },
+  ],
+})</code></pre>
+
+<h3>Fixtures</h3>
+<p>
+  A <em class="term">Fixture</em> is a named, reproducible rendering
+  configuration. It has <code>props</code> and an optional imperative
+  <code>act(ctx)</code> step that runs after mount and before verification —
+  letting a fixture express "render, then click X, then verify."
+</p>
+
+<pre><code><span class="c">// from todos.feature.verify.ts — a behavioral fixture</span>
+{
+  <span class="a">id</span>: <span class="s">"add-then-toggle"</span>,
+  <span class="a">props</span>: {},
+  <span class="a">act</span>: <span class="k">async</span> (ctx) =&gt; {
+    ctx.<span class="t">type</span>(<span class="s">"input[type=text]"</span>, <span class="s">"Ship it"</span>);
+    ctx.<span class="t">click</span>(<span class="s">"button[type=submit]"</span>);
+    <span class="k">await</span> ctx.<span class="t">wait</span>(<span class="n">16</span>);
+    ctx.<span class="t">click</span>(<span class="s">"li.todo-item input[type=checkbox]"</span>);
+  },
+}</code></pre>
+
+<div class="callout warn">
+  <p class="callout-title">🔍 Probes are required</p>
+  <p>
+    Fixtures marked <code>probe: true</code> are adversarial / off-happy-path
+    cases — empty text, 500-char text, whitespace-only submit, inconsistent
+    counts. The rule of thumb: <em>"a check list that's all ✅ and no
+    🔍 is a happy-path replay."</em> The CI matrix test
+    (<code>matrix.test.ts</code>) <strong>fails any unit that declares zero probe
+    fixtures</strong> — you cannot ship a unit that only tests the happy path.
+  </p>
+</div>
+
+<h3>Invariants</h3>
+<p>
+  An <em class="term">Invariant</em> is a named predicate over the mounted DOM:
+  <code>(ctx) =&gt; boolean | string</code>. <code>true</code> holds;
+  <code>false</code> or a string violates (string becomes the diagnosis).
+  Invariants receive:
+</p>
+<table>
+  <tr><td><code>root</code></td><td>the live <code>HTMLElement</code> the unit is mounted in</td></tr>
+  <tr><td><code>props</code></td><td>the fixture's props</td></tr>
+  <tr><td><code>contract</code></td><td>the parsed <code>data-verify-*</code> map — usually all you need</td></tr>
+  <tr><td><code>fixture</code></td><td>the fixture object (for conditional logic)</td></tr>
+</table>
+<p>
+  Use <code>onlyFixtures: ["id", ...]</code> to scope an invariant to specific
+  fixtures (e.g. "after adding, total is 1" only makes sense for the
+  <code>add-then-verify</code> fixture).
+</p>
+
+<h3>Component vs feature units</h3>
+<div class="two">
+  <div>
+    <h4>Component unit</h4>
+    <p class="sub">
+      <code>TodoItem</code>, <code>TodoInput</code>, <code>TodoList</code>,
+      <code>TodoStats</code>. Stateless from the spec's perspective — fixtures
+      pass props, invariants check the contract reflects them. Tests one piece
+      in true isolation.
+    </p>
+  </div>
+  <div>
+    <h4>Feature unit</h4>
+    <p class="sub">
+      <code>todos.feature</code> = the whole <code>TodoApp</code>. Has real
+      state. Fixtures lean on <code>act()</code> to drive interactions.
+      Invariants check <strong>coordination</strong>: "TodoStats's contract agrees
+      with TodoApp's contract", "visible count matches filter", "adding a todo
+      updates list AND stats".
+    </p>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<h2 id="verifiers"><span class="num">5</span> Pluggable verifiers</h2>
+
+<p>
+  A <em class="term">Verifier</em> is a kind of check. It's independent of any
+  component — it inspects whatever unit×fixture is mounted and returns
+  structured <code>Check[]</code>. Four ship in this demo:
+</p>
+
+<table>
+  <thead><tr><th>Verifier</th><th>What it checks</th><th>Fail means</th></tr></thead>
+  <tbody>
+    <tr><td><code>schema</code></td><td>Fixture props parse against the unit's Zod <code>propsSchema</code> (incl. <code>.refine()</code> rules)</td><td>The fixture is lying about valid input, or a prop type drifted</td></tr>
+    <tr><td><code>invariants</code></td><td>Runs every declared invariant predicate against the live DOM</td><td>A contract claim doesn't hold</td></tr>
+    <tr><td><code>dom-contract</code></td><td>A <code>data-verify-*</code> contract is present and self-identifies (<code>data-verify-unit</code>)</td><td>The surface isn't machine-readable — agents would have to guess</td></tr>
+    <tr><td><code>a11y</code></td><td>Buttons named, inputs labeled, images have alt</td><td>Accessibility regression</td></tr>
+  </tbody>
+</table>
+
+<p>
+  The interface is tiny:
+</p>
+<pre><code><span class="k">interface</span> <span class="t">Verifier</span> {
+  <span class="a">id</span>: <span class="t">string</span>
+  <span class="a">description</span>: <span class="t">string</span>
+  <span class="a">run</span>: (ctx: { unit, fixture, root, contract }) =&gt; <span class="t">Check</span>[] | <span class="t">Promise</span>&lt;<span class="t">Check</span>[]&gt;
+}</code></pre>
+
+<div class="callout">
+  <p class="callout-title">Pluggability is the point</p>
+  <p>
+    Verifiers and units are orthogonal. To add a new <em>kind</em> of
+    verification — visual snapshot diff, performance budget, i18n string
+    coverage, dark-mode contrast — you write one file in
+    <code>src/verify/verifiers/</code>, import it in <code>index.ts</code>, and it
+    immediately runs against every existing unit×fixture. Zero component
+    changes. A unit can opt into a subset via <code>verifiers: ["schema",
+    "invariants"]</code>; omit to get all.
+  </p>
+</div>
+
+<!-- ============================================================== -->
+<h2 id="runner"><span class="num">6</span> The runner &amp; verdict taxonomy</h2>
+
+<p>
+  <code>src/verify/core/runner.ts</code> is the single execution path. Everything
+  else just calls it. <code>runFixture(unit, fixture, opts?)</code> does:
+</p>
+
+<div class="flow">
+  <div class="flow-step"><b>Mount</b><span class="sub">Create an off-screen container (or use the visible one passed in by <code>UnitPage</code>), <code>createRoot</code>, <code>flushSync(render)</code>.</span></div>
+  <div class="flow-step"><b>Act</b><span class="sub">If the fixture has <code>act()</code>, run it with a small driver (<code>click</code>, <code>type</code>, <code>wait</code>). The <code>type</code> helper uses the native value setter so React's <code>onChange</code> fires.</span></div>
+  <div class="flow-step"><b>Read contract</b><span class="sub"><code>readContract(container)</code> → flat <code>{unit, total, done, ...}</code> map.</span></div>
+  <div class="flow-step"><b>Run verifiers</b><span class="sub">Every applicable verifier runs against <code>{unit, fixture, root, contract}</code>. Exceptions become a <span class="chip fail">fail</span> check with the stack as evidence — never swallowed.</span></div>
+  <div class="flow-step"><b>Compute verdict</b><span class="sub">Any <span class="chip fail">fail</span> check → <span class="chip fail">FAIL</span>. Mount/setup threw → <span class="chip blocked">BLOCKED</span>. Zero fixtures → <span class="chip skip">SKIP</span>. Otherwise <span class="chip pass">PASS</span>.</span></div>
+  <div class="flow-step"><b>Return <code>VerifyResult</code></b><span class="sub"><code>{unitId, fixtureId, verdict, checks[], domSnapshot, durationMs, timestamp, blockedReason?}</code> — fully serializable JSON.</span></div>
+</div>
+
+<h3>Verdicts</h3>
+<table>
+  <tr><td><span class="chip pass">PASS</span></td><td>Mounted, drove it, every check held. <em>Not</em> "tests pass" or "code looks right" — the surface did what it should.</td></tr>
+  <tr><td><span class="chip fail">FAIL</span></td><td>Mounted, drove it, at least one check is <code>fail</code>. The <code>checks[]</code> array tells you exactly which and why.</td></tr>
+  <tr><td><span class="chip blocked">BLOCKED</span></td><td>Couldn't reach a state where the change is observable — mount threw, no verifiers registered, no container. <strong>Not a verdict on the unit.</strong> <code>blockedReason</code> says exactly where it stopped.</td></tr>
+  <tr><td><span class="chip skip">SKIP</span></td><td>No runtime surface — the unit declares zero fixtures. Nothing went wrong; there's just nothing to observe.</td></tr>
+</table>
+
+<h3>Check statuses</h3>
+<p>
+  <span class="chip ok">ok ✅</span> confirmed &nbsp;
+  <span class="chip fail">fail ❌</span> observed and wrong &nbsp;
+  <span class="chip warn">warn ⚠️</span> concerning but didn't fail &nbsp;
+  <span class="chip probe">probe 🔍</span> off-happy-path case that held
+</p>
+
+<div class="callout warn">
+  <p class="callout-title">When in doubt, FAIL</p>
+  <p>
+    A false PASS ships broken code; a false FAIL costs one more human look. So:
+    verifier exceptions become fail checks, ambiguous output is FAIL with raw
+    evidence attached, and <code>warn</code>/<code>probe</code> never upgrade a
+    FAIL to PASS.
+  </p>
+</div>
+
+<!-- ============================================================== -->
+<h2 id="routes"><span class="num">7</span> Isolated routes &amp; the dashboard</h2>
+
+<h3><code>/verify/:unitId/:fixtureId</code> — the isolated mount</h3>
+<p>
+  Mounts exactly one unit in exactly one fixture, visibly, on a checkerboard
+  stage. Runs all verifiers against <em>that visible mount</em> and renders a
+  structured report below it. Appending <code>?chrome=0</code> hides the harness
+  header/report so an agent can take a clean screenshot of just the component.
+</p>
+<p class="sub">
+  This is the "isolated render target" you asked for. No app shell, no
+  providers, no noise. The page also writes the JSON result into
+  <code>&lt;script id="verify-result-json" type="application/json"&gt;</code> so an
+  agent that can only read DOM (no JS eval) still gets structured output.
+</p>
+
+<h3><code>/verify</code> — the dashboard</h3>
+<p>
+  Lists every registered unit, its fixtures (with 🔍 markers), its invariants,
+  and which verifiers apply. <strong>"Run all"</strong> executes the full matrix
+  off-screen and renders a verdict grid. The summary bar
+  (<code>✅ n ❌ n ⛔ n / total</code>) is also emitted as
+  <code>data-verify-summary</code> JSON. There's a "Raw manifest" expander
+  showing exactly what an agent sees from <code>__verify.manifest()</code>.
+</p>
+
+<!-- ============================================================== -->
+<h2 id="handle"><span class="num">8</span> <code>window.__verify</code> — the agent handle</h2>
+
+<p>
+  Installed at boot by <code>installVerifyHandle()</code>. This is the
+  <strong>programmatic surface for the verifier itself</strong> — an AI agent,
+  Playwright, or you in devtools.
+</p>
+
+<table>
+  <thead><tr><th>Method</th><th>Returns</th><th>Use it to…</th></tr></thead>
+  <tbody>
+    <tr><td><code>manifest()</code></td><td><code>VerifyManifestEntry[]</code></td><td>Discover every unit, its fixtures (with probe flags), invariants, applicable verifiers, and a <code>route(fixtureId)</code> function for the isolated URL.</td></tr>
+    <tr><td><code>current()</code></td><td><code>VerifyResult | null</code></td><td>Read the structured result for whatever <code>/verify/:unit/:fixture</code> is currently mounted. <code>null</code> elsewhere.</td></tr>
+    <tr><td><code>runAll()</code></td><td><code>Promise&lt;VerifyResult[]&gt;</code></td><td>Execute the entire matrix headlessly (off-screen mounts) without leaving the page. Same code path as the dashboard button and CI.</td></tr>
+    <tr><td><code>version</code></td><td><code>"1.0"</code></td><td>Let the agent confirm protocol shape before parsing.</td></tr>
+  </tbody>
+</table>
+
+<pre><code><span class="c">// What an AI agent does — no DOM scraping, no selector guessing</span>
+<span class="k">const</span> manifest = window.__verify.<span class="t">manifest</span>()
+<span class="c">// pick the feature slice</span>
+<span class="k">const</span> app = manifest.find(m =&gt; m.unitId === <span class="s">"todos.feature"</span>)
+location.href = app.<span class="t">route</span>(<span class="s">"add-then-toggle"</span>)   <span class="c">// → /verify/todos.feature/add-then-toggle</span>
+<span class="c">// ... after navigation ...</span>
+<span class="k">const</span> r = window.__verify.<span class="t">current</span>()
+r.verdict        <span class="c">// "PASS"</span>
+r.checks         <span class="c">// [{verifier:"invariants", status:"ok", label:"after add+toggle, done=1"}, ...]</span>
+r.domSnapshot    <span class="c">// {unit:"TodoApp", total:"1", done:"1", active:"0", filter:"all", visible:"1"}</span></code></pre>
+
+<!-- ============================================================== -->
+<h2 id="consumers"><span class="num">9</span> One pipeline, three consumers</h2>
+
+<p>
+  The most important structural property: <strong>there is exactly one way to
+  produce a <code>VerifyResult</code></strong> — <code>runFixture()</code>. The
+  three consumers differ only in how they obtain and present it.
+</p>
+
+<table>
+  <thead><tr><th>Consumer</th><th>Entry</th><th>Mounts</th><th>Presents</th></tr></thead>
+  <tbody>
+    <tr><td>Human (dashboard)</td><td><code>/verify</code> → "Run all"</td><td>Off-screen, in browser</td><td>Verdict grid + per-unit tables</td></tr>
+    <tr><td>Human (focused)</td><td><code>/verify/:unit/:fixture</code></td><td>Visibly, on stage</td><td>Live render + report card + JSON sink</td></tr>
+    <tr><td>AI agent / Playwright</td><td><code>window.__verify</code></td><td>Off-screen (<code>runAll</code>) or visible (navigate + <code>current</code>)</td><td>Raw <code>VerifyResult</code> JSON</td></tr>
+    <tr><td>CI</td><td><code>bun run verify</code> → <code>matrix.test.ts</code></td><td>jsdom, headless</td><td>vitest pass/fail per unit×fixture</td></tr>
+  </tbody>
+</table>
+
+<p>
+  Because it's one pipeline, a regression shows up identically everywhere. You
+  cannot have "passes in CI but the agent sees FAIL" — they're the same
+  function call.
+</p>
+
+<!-- ============================================================== -->
+<h2 id="walkthrough"><span class="num">10</span> End-to-end walkthrough</h2>
+
+<p>
+  Trace what happens for <code>todos.feature</code> /
+  <code>whitespace-submit</code> — a 🔍 probe that types only whitespace,
+  force-submits, and asserts no todo was created.
+</p>
+
+<div class="flow">
+  <div class="flow-step"><b>Spec registers</b><span class="sub"><code>todos.feature.verify.ts</code> calls <code>registerUnit</code> with the fixture <code>{id:"whitespace-submit", probe:true, props:{}, act: type "&nbsp;&nbsp;&nbsp;" then submit}</code> and invariant <code>whitespace-blocked: contract.total === "0"</code>.</span></div>
+  <div class="flow-step"><b>Consumer calls runner</b><span class="sub">Dashboard "Run all" / <code>__verify.runAll()</code> / vitest each call <code>runFixture(unit, fixture)</code>.</span></div>
+  <div class="flow-step"><b>Mount + act</b><span class="sub"><code>TodoApp</code> renders with empty initial. <code>act</code> types <code>"   "</code> into the input (native setter → React <code>onChange</code> fires), then dispatches a <code>submit</code> event on the form.</span></div>
+  <div class="flow-step"><b>Read contract</b><span class="sub">DOM now shows <code>data-verify-total="0"</code> because <code>useTodos.add()</code> trims and rejects empty.</span></div>
+  <div class="flow-step"><b>Verifiers run</b><span class="sub"><code>schema</code> ✅ props valid · <code>dom-contract</code> ✅ contract present · <code>a11y</code> ✅ input labeled · <code>invariants</code> runs 6 predicates incl. <code>whitespace-blocked</code> → <span class="chip probe">probe 🔍</span>.</span></div>
+  <div class="flow-step"><b>Verdict</b><span class="sub">No fail checks → <span class="chip pass">PASS</span>. Result: <code>{verdict:"PASS", checks:[...11], domSnapshot:{unit:"TodoApp", total:"0", ...}}</code>.</span></div>
+</div>
+
+<h3>The intentional failure: <code>TodoStats / inconsistent-counts</code></h3>
+<p>
+  This probe passes <code>{total:10, done:3, active:4}</code>. The Zod
+  <code>.refine(d =&gt; d.total === d.done + d.active)</code> fails →
+  <code>schema</code> verifier emits a <span class="chip fail">fail</span> check →
+  verdict <span class="chip fail">FAIL</span>. The matrix test then <em>asserts
+  this is FAIL</em> — proving the framework catches lies, not just confirms
+  truths. If you "fix" the schema to be lax, CI breaks.
+</p>
+
+<!-- ============================================================== -->
+<h2 id="extending"><span class="num">11</span> Extending: new units &amp; verifiers</h2>
+
+<div class="two">
+<div>
+<h4>Add a verifiable unit</h4>
+<pre><code><span class="c">// src/verify/specs/MyThing.verify.ts</span>
+<span class="k">import</span> { registerUnit } <span class="k">from</span> <span class="s">"../core/registry"</span>
+<span class="k">import</span> { MyThing } <span class="k">from</span> <span class="s">"../../features/.../MyThing"</span>
+
+<span class="t">registerUnit</span>({
+  <span class="a">id</span>: <span class="s">"MyThing"</span>, <span class="a">kind</span>: <span class="s">"component"</span>,
+  <span class="a">render</span>: (p) =&gt; &lt;MyThing {...p}/&gt;,
+  <span class="a">propsSchema</span>: z.object({...}),
+  <span class="a">fixtures</span>: [
+    { <span class="a">id</span>: <span class="s">"default"</span>, <span class="a">props</span>: {...} },
+    { <span class="a">id</span>: <span class="s">"edge"</span>, <span class="a">probe</span>: <span class="k">true</span>, <span class="a">props</span>: {...} },
+  ],
+  <span class="a">invariants</span>: [{ <span class="a">id</span>: <span class="s">"..."</span>, <span class="a">check</span>: ctx =&gt; ... }],
+})
+<span class="c">// then add: import "./MyThing.verify" in specs/index.ts</span></code></pre>
+</div>
+<div>
+<h4>Add a verifier kind</h4>
+<pre><code><span class="c">// src/verify/verifiers/perf.ts</span>
+<span class="k">import</span> { registerVerifier } <span class="k">from</span> <span class="s">"../core/registry"</span>
+
+<span class="t">registerVerifier</span>({
+  <span class="a">id</span>: <span class="s">"perf"</span>,
+  <span class="a">description</span>: <span class="s">"Render under 16ms budget"</span>,
+  <span class="a">run</span>({ root }) {
+    <span class="k">const</span> n = root.querySelectorAll(<span class="s">"*"</span>).length
+    <span class="k">return</span> [n &lt; <span class="n">500</span>
+      ? { <span class="a">verifier</span>:<span class="s">"perf"</span>, <span class="a">status</span>:<span class="s">"ok"</span>,   <span class="a">label</span>:<span class="s">`DOM size ${n}`</span> }
+      : { <span class="a">verifier</span>:<span class="s">"perf"</span>, <span class="a">status</span>:<span class="s">"warn"</span>, <span class="a">label</span>:<span class="s">`DOM size ${n} &gt; 500`</span> }]
+  },
+})
+<span class="c">// then add: import "./perf" in verifiers/index.ts</span>
+<span class="c">// — instantly runs against every existing unit×fixture</span></code></pre>
+</div>
+</div>
+
+<p class="sub">
+  Neither requires touching any component. That's the modularity claim made
+  concrete.
+</p>
+
+<!-- ============================================================== -->
+<h2 id="principles"><span class="num">12</span> Design principles, restated</h2>
+
+<ol>
+  <li><strong>Surface, not internals.</strong> Verify what's rendered. The DOM
+  contract is the ABI between component and verifier.</li>
+  <li><strong>One pipeline.</strong> <code>runFixture()</code> is the only way to
+  produce a verdict. Dashboard, agent, CI are views on it.</li>
+  <li><strong>Structured everything.</strong> Manifest, results, checks, snapshots
+  — all JSON. An AI agent never has to scrape or guess.</li>
+  <li><strong>Probes are mandatory.</strong> Happy-path-only specs are rejected by
+  CI. At least one 🔍 per unit.</li>
+  <li><strong>BLOCKED ≠ FAIL.</strong> "Couldn't observe" and "observed and wrong"
+  are different facts; conflating them wastes everyone's time.</li>
+  <li><strong>When in doubt, FAIL.</strong> Asymmetric cost. Exceptions become
+  fail checks with evidence, never swallowed.</li>
+  <li><strong>Orthogonal extension.</strong> New units and new verifier kinds are
+  each one file + one import line. They compose without coordination.</li>
+</ol>
+
+<div class="footer">
+  <p>
+    Generated for <code>verifiable-react</code>. Dev server:
+    <code>http://localhost:5199</code> · Dashboard:
+    <code>http://localhost:5199/verify</code> · CI:
+    <code>bun run verify</code> (27/27 passing).
+  </p>
+</div>
+
+</div>
+</body>
+</html>

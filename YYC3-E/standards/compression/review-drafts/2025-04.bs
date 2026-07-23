@@ -1,0 +1,217 @@
+<pre class="metadata">
+Group: WHATWG
+Status: RD
+Date: 2025-04-22
+H1: Compression
+Shortname: compression
+Text Macro: TWITTER compressionapi
+Text Macro: LATESTRD 2025-04
+Abstract: This document defines a set of JavaScript APIs to compress and decompress streams of binary data.
+Indent: 2
+Markup Shorthands: markdown yes
+</pre>
+
+# Introduction #    {#introduction}
+
+*This section is non-normative.*
+
+The APIs specified in this specification are used to compress and decompress streams of data. They support "deflate", "deflate-raw" and "gzip" as compression algorithms. They are widely used by web developers.
+
+# Infrastructure #  {#infrastructure}
+
+This specification depends on <cite>Infra</cite>. [[!INFRA]]
+
+A chunk is a piece of data. In the case of CompressionStream and DecompressionStream, the output chunk type is Uint8Array. They accept any {{BufferSource}} type as input.
+
+A stream represents an ordered sequence of chunks. The terms {{ReadableStream}} and {{WritableStream}} are defined in <cite>Streams</cite>. [[!STREAMS]]
+
+A <dfn>compression context</dfn> is the internal state maintained by a compression or decompression algorithm. The contents of a <a>compression context</a> depend on the format, algorithm and implementation in use. From the point of view of this specification, it is an opaque object. A <a>compression context</a> is initially in a start state such that it anticipates the first byte of input.
+
+# Supported formats # {#supported-formats}
+
+: {{CompressionFormat/deflate}}
+:: "ZLIB Compressed Data Format" [[!RFC1950]]
+
+   Note: This format is referred to as "deflate" for consistency with HTTP Content-Encodings. See [[RFC7230 obsolete]] section 4.2.2.
+
+   * Implementations must be "compliant" as described in [[!RFC1950]] section 2.3.
+   * Field values described as invalid in [[!RFC1950]] must not be created by CompressionStream, and are errors for DecompressionStream.
+   * The only valid value of the `CM` (Compression method) part of the `CMF` field is 8.
+   * The `FDICT` flag is not supported by these APIs, and will error the stream if set.
+   * The `FLEVEL` flag is ignored by DecompressionStream.
+   * It is an error for DecompressionStream if the `ADLER32` checksum is not correct.
+   * It is an error if there is additional input data after the `ADLER32` checksum.
+
+: {{CompressionFormat/deflate-raw}}
+:: "The DEFLATE algorithm" [[!RFC1951]]
+
+   * Implementations must be "compliant" as described in [[!RFC1951]] section 1.4.
+   * Non-[[!RFC1951]]-conforming blocks must not be created by CompressionStream, and are errors for DecompressionStream.
+   * It is an error if there is additional input data after the final block indicated by the `BFINAL` flag.
+
+: {{CompressionFormat/gzip}}
+:: "GZIP file format" [[!RFC1952]]
+
+   * Implementations must be "compliant" as described in [[!RFC1952]] section 2.3.1.2.
+   * Field values described as invalid in [[!RFC1952]] must not be created by CompressionStream, and are errors for DecompressionStream.
+   * The only valid value of the `CM` (Compression Method) field is 8.
+   * The `FTEXT` flag must be ignored by DecompressionStream.
+   * If the `FHCRC` field is present, it is an error for it to be incorrect.
+   * The contents of any `FEXTRA`, `FNAME` and `FCOMMENT` fields must be ignored by DecompressionStream, except to verify that they are terminated correctly.
+   * The contents of the `MTIME`, `XFL` and `OS` fields must be ignored by DecompressionStream.
+   * It is an error if `CRC32` or `ISIZE` do not match the decompressed data.
+   * A `gzip` stream may only contain one "member".
+   * It is an error if there is additional input data after the end of the "member".
+
+# Interface `CompressionStream` #  {#compression-stream}
+
+<pre class="idl">
+enum CompressionFormat {
+  "deflate",
+  "deflate-raw",
+  "gzip",
+};
+
+[Exposed=*]
+interface CompressionStream {
+  constructor(CompressionFormat format);
+};
+CompressionStream includes GenericTransformStream;
+</pre>
+
+A {{CompressionStream}} has an associated <dfn for=CompressionStream>format</dfn> and <a>compression context</a> <dfn for=CompressionStream>context</dfn>.
+
+<div algorithm>
+The <dfn constructor for=CompressionStream lt="CompressionStream(format)"><code>new CompressionStream(|format|)</code></dfn> steps are:
+    1. If |format| is unsupported in {{CompressionStream}}, then throw a {{TypeError}}.
+    1. Set [=this=]'s <a for=CompressionStream>format</a> to |format|.
+    1. Let |transformAlgorithm| be an algorithm which takes a |chunk| argument and runs the <a>compress and enqueue a chunk</a> algorithm with [=this=] and |chunk|.
+    1. Let |flushAlgorithm| be an algorithm which takes no argument and runs the <a>compress flush and enqueue</a> algorithm with [=this=].
+    1. Set [=this=]'s [=GenericTransformStream/transform=] to a [=new=] {{TransformStream}}.
+    1. [=TransformStream/Set up=] [=this=]'s [=GenericTransformStream/transform=]  with <i>[=TransformStream/set up/transformAlgorithm=]</i> set to |transformAlgorithm| and <i>[=TransformStream/set up/flushAlgorithm=]</i> set to |flushAlgorithm|.
+</div>
+
+<div algorithm>
+The <dfn>compress and enqueue a chunk</dfn> algorithm, given a {{CompressionStream}} object |cs| and a |chunk|, runs these steps:
+    1. If |chunk| is not a {{BufferSource}} type, then throw a {{TypeError}}.
+    1. Let |buffer| be the result of compressing |chunk| with |cs|'s <a for=CompressionStream>format</a> and <a for=CompressionStream>context</a>.
+    1. If |buffer| is empty, return.
+    1. Let |arrays| be the result of splitting |buffer| into one or more non-empty pieces and converting them into {{Uint8Array}}s.
+    1. [=list/For each=] {{Uint8Array}} |array| of |arrays|, [=TransformStream/enqueue=] |array| in |cs|'s [=GenericTransformStream/transform=].
+</div>
+
+<div algorithm>
+The <dfn>compress flush and enqueue</dfn> algorithm, which handles the end of data from the input {{ReadableStream}} object, given a {{CompressionStream}} object |cs|, runs these steps:
+    1. Let |buffer| be the result of compressing an empty input with |cs|'s <a for=CompressionStream>format</a> and <a for=CompressionStream>context</a>, with the finish flag.
+    1. If |buffer| is empty, return.
+    1. Let |arrays| be the result of splitting |buffer| into one or more non-empty pieces and converting them into {{Uint8Array}}s.
+    1. [=list/For each=] {{Uint8Array}} |array| of |arrays|, [=TransformStream/enqueue=] |array| in |cs|'s [=GenericTransformStream/transform=].
+</div>
+
+
+# Interface `DecompressionStream` #  {#decompression-stream}
+
+<pre class="idl">
+[Exposed=*]
+interface DecompressionStream {
+  constructor(CompressionFormat format);
+};
+DecompressionStream includes GenericTransformStream;
+</pre>
+
+A {{DecompressionStream}} has an associated <dfn for=DecompressionStream>format</dfn> and <a>compression context</a> <dfn for=DecompressionStream>context</dfn>.
+
+<div algorithm>
+The <dfn constructor for=DecompressionStream lt="DecompressionStream(format)"><code>new DecompressionStream(|format|)</code></dfn> steps are:
+    1. If |format| is unsupported in {{DecompressionStream}}, then throw a {{TypeError}}.
+    1. Set [=this=]'s <a for=DecompressionStream>format</a> to |format|.
+    1. Let |transformAlgorithm| be an algorithm which takes a |chunk| argument and runs the <a>decompress and enqueue a chunk</a> algorithm with [=this=] and |chunk|.
+    1. Let |flushAlgorithm| be an algorithm which takes no argument and runs the <a>decompress flush and enqueue</a> algorithm with [=this=].
+    1. Set [=this=]'s [=GenericTransformStream/transform=] to a [=new=] {{TransformStream}}.
+    1. [=TransformStream/Set up=] [=this=]'s [=GenericTransformStream/transform=]  with <i>[=TransformStream/set up/transformAlgorithm=]</i> set to |transformAlgorithm| and <i>[=TransformStream/set up/flushAlgorithm=]</i> set to |flushAlgorithm|.
+</div>
+
+<div algorithm>
+The <dfn>decompress and enqueue a chunk</dfn> algorithm, given a {{DecompressionStream}} object |ds| and a |chunk|, runs these steps:
+    1. If |chunk| is not a {{BufferSource}} type, then throw a {{TypeError}}.
+    1. Let |buffer| be the result of decompressing |chunk| with |ds|'s <a for=DecompressionStream>format</a> and <a for=DecompressionStream>context</a>. If this results in an error, then throw a {{TypeError}}.
+    1. If |buffer| is empty, return.
+    1. Let |arrays| be the result of splitting |buffer| into one or more non-empty pieces and converting them into {{Uint8Array}}s.
+    1. [=list/For each=] {{Uint8Array}} |array| of |arrays|, [=TransformStream/enqueue=] |array| in |ds|'s [=GenericTransformStream/transform=].
+</div>
+
+<div algorithm>
+The <dfn>decompress flush and enqueue</dfn> algorithm, which handles the end of data from the input {{ReadableStream}} object, given a {{DecompressionStream}} object |ds|, runs these steps:
+    1. Let |buffer| be the result of decompressing an empty input with |ds|'s <a for=DecompressionStream>format</a> and <a for=DecompressionStream>context</a>, with the finish flag.
+    1. If the end of the compressed input has not been reached, then throw a {{TypeError}}.
+    1. If |buffer| is empty, return.
+    1. Let |arrays| be the result of splitting |buffer| into one or more non-empty pieces and converting them into {{Uint8Array}}s.
+    1. [=list/For each=] {{Uint8Array}} |array| of |arrays|, [=TransformStream/enqueue=] |array| in |ds|'s [=GenericTransformStream/transform=].
+</div>
+
+
+# Privacy and security considerations #  {#privacy-security}
+
+The API doesn't add any new privileges to the web platform.
+
+However, web developers have to pay attention to the situation when attackers can get the length of the data. If so, they may be able to guess the contents of the data.
+
+# Examples #  {#examples}
+
+## Gzip-compress a stream ##  {#example-gzip-compress-stream}
+
+<div class="example" id="example-gzip-compress-stream-code">
+<pre highlight="js">
+const compressedReadableStream
+    = inputReadableStream.pipeThrough(new CompressionStream('gzip'));
+</pre>
+</div>
+
+## Deflate-compress an ArrayBuffer to a Uint8Array ##  {#example-deflate-compress}
+
+<div class="example" id="example-deflate-compress-code">
+<pre highlight="js">
+async function compressArrayBuffer(input) {
+  const cs = new CompressionStream('deflate');
+
+  const writer = cs.writable.getWriter();
+  writer.write(input);
+  writer.close();
+
+  const output = [];
+  let totalSize = 0;
+  for (const chunk of cs.readable) {
+    output.push(value);
+    totalSize += value.byteLength;
+  }
+
+  const concatenated = new Uint8Array(totalSize);
+  let offset = 0;
+  for (const array of output) {
+    concatenated.set(array, offset);
+    offset += array.byteLength;
+  }
+
+  return concatenated;
+}
+</pre>
+</div>
+
+## Gzip-decompress a Blob to Blob ##  {#example-gzip-decompress}
+
+<div class="example" id="example-gzip-decompress-code">
+<pre highlight="js">
+function decompressBlob(blob) {
+  const ds = new DecompressionStream('gzip');
+  const decompressionStream = blob.stream().pipeThrough(ds);
+  return new Response(decompressionStream).blob();
+}
+</pre>
+</div>
+
+<h2 class="no-num" id="acknowledgments">Acknowledgments</h2>
+Thanks to Canon Mukai, Domenic Denicola, and Yutaka Hirano, for their support.
+
+This standard is written by Adam Rice (<a href="https://google.com">Google</a>, <a href="mailto:ricea@chromium.org">ricea@chromium.org</a>).
+
+<p boilerplate=ipr>This Living Standard was originally developed in the W3C WICG, where it was available under the [W3C Software and Document License](https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document).

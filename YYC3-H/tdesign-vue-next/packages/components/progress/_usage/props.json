@@ -1,0 +1,46 @@
+[
+  {
+    "name": "label",
+    "type": "Boolean",
+    "defaultValue": true,
+    "options": []
+  },
+  {
+    "name": "size",
+    "type": "enum",
+    "defaultValue": "medium",
+    "options": [
+      {
+        "label": "small",
+        "value": "small"
+      },
+      {
+        "label": "medium",
+        "value": "medium"
+      },
+      {
+        "label": "large",
+        "value": "large"
+      }
+    ]
+  },
+  {
+    "name": "theme",
+    "type": "enum",
+    "defaultValue": "line",
+    "options": [
+      {
+        "label": "line",
+        "value": "line"
+      },
+      {
+        "label": "plump",
+        "value": "plump"
+      },
+      {
+        "label": "circle",
+        "value": "circle"
+      }
+    ]
+  }
+]

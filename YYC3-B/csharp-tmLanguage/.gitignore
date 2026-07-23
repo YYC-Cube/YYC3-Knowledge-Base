@@ -1,0 +1,6 @@
+node_modules/
+out/
+.vscode/
+grammars/*.json
+npm-debug.log*
+copy.sh

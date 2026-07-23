@@ -1,0 +1,12 @@
+{
+  "name": "foresight-intelligence",
+  "description": "Strategic foresight intelligence using IFTF methodology. Two prediction modes: Soft Predict Future (Claude-native skill, instant, claude.ai + Claude Code) and Hard Predict Future (deterministic 12-step pipeline, Python-computed — Claude Code only). Both output four independent futures (Probable/Plausible/Possible/Preferable) with per-stakeholder conditional analysis. Try: Will India become the global AI leader? Will OpenAI or Anthropic win?",
+  "version": "2.2.0",
+  "author": {
+    "name": "Santhosh Gandhi",
+    "url": "https://github.com/isanthoshgandhi"
+  },
+  "homepage": "https://github.com/isanthoshgandhi/foresight-intelligence",
+  "repository": "https://github.com/isanthoshgandhi/foresight-intelligence",
+  "license": "MIT"
+}

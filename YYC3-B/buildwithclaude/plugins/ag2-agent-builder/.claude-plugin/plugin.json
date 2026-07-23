@@ -1,0 +1,12 @@
+{
+  "name": "ag2-agent-builder",
+  "version": "1.0.0",
+  "description": "Build AG2 (AutoGen) multi-agent systems with slash commands: scaffold agents, wire workflows, create tools, and review code",
+  "author": {
+    "name": "AG2 AI",
+    "url": "https://github.com/ag2ai"
+  },
+  "repository": "https://github.com/ag2ai/ag2-claude-plugins",
+  "license": "Apache-2.0",
+  "keywords": ["ag2", "autogen", "multi-agent", "agent", "workflow", "orchestration", "a2a", "tools"]
+}

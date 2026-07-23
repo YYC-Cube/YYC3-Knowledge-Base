@@ -1,0 +1,18 @@
+name: deal-research
+config:
+  type: cloud
+  networking:
+    type: limited
+    allow_package_managers: true
+    allow_mcp_servers: true
+    allowed_hosts:
+      - sec.gov
+      - "*.edgar-online.com"
+      - "*.googleapis.com"
+      - finance.yahoo.com
+  packages:
+    type: packages
+    pip:
+      - pandas
+      - numpy
+      - yfinance

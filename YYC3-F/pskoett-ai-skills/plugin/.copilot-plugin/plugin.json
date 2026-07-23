@@ -1,0 +1,27 @@
+{
+  "name": "pskoett-ai-skills",
+  "version": "2.0.0",
+  "description": "Two-loop skill pipeline for GitHub Copilot CLI. Inner loop (plan-interview, intent-framed-agent, context-surfing, verify-gate, simplify-and-harden) catches failures in-session. Outer loop (learning-aggregator, harness-updater, eval-creator, pre-flight-check) captures recurring patterns, promotes them to AGENTS.md as permanent rules, and turns failures into regression tests.",
+  "author": {
+    "name": "Peter Skøtt Pedersen",
+    "url": "https://github.com/pskoett"
+  },
+  "repository": "https://github.com/pskoett/pskoett-skills",
+  "license": "MIT",
+  "keywords": [
+    "skill-pipeline",
+    "two-loop",
+    "verify-gate",
+    "learning-aggregator",
+    "eval-creator",
+    "pre-flight-check",
+    "context-management",
+    "self-improvement",
+    "code-quality",
+    "security",
+    "agent-teams"
+  ],
+  "agents": "agents/",
+  "skills": "skills/",
+  "hooks": "hooks/hooks.json"
+}

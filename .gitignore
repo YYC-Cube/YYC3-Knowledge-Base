@@ -1,0 +1,56 @@
+# === macOS ===
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# === Dependencies ===
+node_modules/
+.pnp
+.pnp.js
+
+# === Environment & Secrets ===
+.env
+.env.*
+.env.local
+.env.production
+*.pem
+*.key
+*.p12
+*.pfx
+secrets*
+credentials*
+
+# === Build Artifacts ===
+dist/
+build/
+.next/
+out/
+target/
+*.pyc
+__pycache__/
+*.class
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib

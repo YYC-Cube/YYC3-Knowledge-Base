@@ -1,0 +1,179 @@
+namespace CSharpLanguageServer.Handlers
+
+open System
+open System.IO
+open System.Reflection
+
+open Ionide.LanguageServerProtocol
+open Ionide.LanguageServerProtocol.Types
+open Ionide.LanguageServerProtocol.Server
+open Ionide.LanguageServerProtocol.JsonRpc
+open Microsoft.Extensions.Logging
+
+open CSharpLanguageServer.Runtime
+open CSharpLanguageServer.Types
+open CSharpLanguageServer.Logging
+open CSharpLanguageServer.Roslyn.Solution
+open CSharpLanguageServer.Util
+
+[<RequireQualifiedAccess>]
+module LifeCycle =
+    let private logger = Logging.getLoggerByName "LifeCycle"
+
+    let handleInitialize
+        (lspClient: ILspClient)
+        (getServerCapabilities: ServerSettings -> InitializeParams -> ServerCapabilities)
+        (context: ServerRequestContext)
+        (p: InitializeParams)
+        : Async<LspResult<InitializeResult>> =
+        async {
+            context.Emit(ClientInitialize lspClient)
+
+            // context.State.LspClient has not been initialized yet thus context.WindowShowMessage will not work
+            let windowShowMessage m =
+                lspClient.WindowLogMessage({ Type = MessageType.Info; Message = m })
+
+            let serverName = "csharp-ls"
+            let serverVersion = Assembly.GetExecutingAssembly().GetName().Version |> string
+            logger.LogInformation("initializing, {name} version {version}", serverName, serverVersion)
+            logger.LogInformation("initial server settings: {settings}", context.Settings |> string)
+
+            do! windowShowMessage (sprintf "csharp-ls: initializing, version %s" serverVersion)
+
+            logger.LogInformation(
+                "{serverName} is released under MIT license and is not affiliated with Microsoft Corp.; see https://github.com/razzmatazz/csharp-language-server",
+                serverName
+            )
+
+            do!
+                windowShowMessage (
+                    sprintf
+                        "csharp-ls: %s is released under MIT license and is not affiliated with Microsoft Corp.; see https://github.com/razzmatazz/csharp-language-server"
+                        serverName
+                )
+
+            initializeMSBuild ()
+
+            logger.LogDebug("handleInitialize: p.ClientInfo: {clientInfo}", p.ClientInfo |> Option.map serialize)
+
+            logger.LogDebug("handleInitialize: p.Capabilities: {caps}", serialize p.Capabilities)
+            context.Emit(ClientCapabilityChange p.Capabilities)
+
+            logger.LogDebug(
+                "handleInitialize: p.RootPath={rootPath}, p.RootUri={rootUri}, p.WorkspaceFolders={wf}",
+                p.RootPath,
+                p.RootUri,
+                p.WorkspaceFolders
+            )
+
+            let workspaceFoldersFallbackUri: DocumentUri =
+                p.RootUri
+                |> Option.orElseWith (fun () -> p.RootPath |> Option.map (Uri >> string))
+                |> Option.defaultWith (fun () -> Directory.GetCurrentDirectory() |> (Uri >> string))
+
+            let workspaceFolders =
+                match p.WorkspaceFolders with
+                | Some wfs -> wfs |> List.ofArray
+                | None ->
+                    [ { Uri = workspaceFoldersFallbackUri
+                        Name = "root" } ]
+
+            logger.LogInformation("handleInitialize: using workspaceFolders: {folders}", serialize workspaceFolders)
+
+            context.Emit(WorkspaceConfigurationChanged workspaceFolders)
+
+            let initializeResult =
+                let serverCapabilities = getServerCapabilities context.Settings p
+
+                let assemblyVersion =
+                    Assembly.GetExecutingAssembly().GetName().Version
+                    |> Option.ofObj
+                    |> Option.map string
+
+                { InitializeResult.Default with
+                    Capabilities = serverCapabilities
+                    ServerInfo =
+                        Some
+                            { Name = "csharp-ls"
+                              Version = assemblyVersion } }
+
+            return initializeResult |> LspResult.success
+        }
+
+    let handleInitialized
+        (lspClient: ILspClient)
+        (serverActor: MailboxProcessor<ServerEvent>)
+        (getDynamicRegistrations: ServerSettings -> ClientCapabilities -> Registration list)
+        (context: ServerRequestContext)
+        (_p: unit)
+        : Async<LspResult<unit>> =
+        async {
+            logger.LogDebug("handleInitialized: \"initialized\" notification received from client")
+
+            logger.LogDebug("handleInitialized: registrationParams..")
+
+            let registrationParams =
+                { Registrations =
+                    getDynamicRegistrations context.Settings context.ClientCapabilities
+                    |> List.toArray }
+
+            logger.LogDebug("handleInitialized: ClientRegisterCapability..")
+            // TODO: Retry on error?
+            try
+                match! lspClient.ClientRegisterCapability registrationParams with
+                | Ok _ -> ()
+                | Error error ->
+                    logger.LogWarning("handleInitialized: dynamic cap registration has failed with {error}", error)
+            with ex ->
+                logger.LogWarning("handleInitialized: dynamic cap registration has failed with {error}", string ex)
+
+            logger.LogDebug("handleInitialized: retrieve csharp settings..")
+
+            //
+            // retrieve csharp settings
+            //
+            try
+                let! workspaceCSharpConfig =
+                    lspClient.WorkspaceConfiguration(
+                        { Items =
+                            [| { Section = Some "csharp"
+                                 ScopeUri = None } |] }
+                    )
+
+                let csharpConfig =
+                    workspaceCSharpConfig
+                    |> Option.fromResult
+                    |> Option.bind Seq.tryHead
+                    |> Option.bind deserialize<CSharpSectionConfiguration option>
+
+                match csharpConfig with
+                | None -> ()
+                | Some csharpConfig ->
+                    let prevSettings = context.Settings
+
+                    let newSettings =
+                        applyCSharpSectionConfigurationOnSettings prevSettings csharpConfig
+
+                    context.Emit(SettingsChange newSettings)
+
+            with ex ->
+                logger.LogWarning(
+                    "handleInitialized: could not retrieve `csharp` workspace configuration section: {error}",
+                    ex |> string
+                )
+
+            //
+            // start loading workspace
+            //
+            serverActor.Post(WorkspaceReloadRequested(TimeSpan.FromMilliseconds(int64 100)))
+
+            logger.LogDebug("handleInitialized: Ok")
+
+            return Ok()
+        }
+
+    let handleShutdown (context: ServerRequestContext) (_: unit) : Async<LspResult<unit>> = async {
+        context.Emit(ClientCapabilityChange emptyClientCapabilities)
+        context.Emit(ClientShutdown)
+        return Ok()
+    }

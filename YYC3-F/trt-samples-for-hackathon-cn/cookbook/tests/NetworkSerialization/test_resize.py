@@ -1,0 +1,125 @@
+# Copyright (c) 2024 NVIDIA CORPORATION & AFFILIATES.
+# All rights reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import numpy as np
+import tensorrt as trt
+from tensorrt_cookbook import TRTWrapperV2, datatype_cast
+
+class TestResizeLayer:
+
+    def test_case_simple(self, trt_cookbook_tester):
+
+        def build_network(tw: TRTWrapperV2):
+            shape_input = 1, 3, 4, 5
+            shape_output = 2, 3, 6, 10
+            data = {"tensor": np.arange(np.prod(shape_input), dtype=np.float32).reshape(shape_input)}
+
+            tensor = tw.network.add_input("tensor", datatype_cast(data["tensor"].dtype, "trt"), data["tensor"].shape)
+            layer = tw.network.add_resize(tensor)
+            layer.shape = shape_output
+            #layer.scales = np.array(shape_output) / np.array(shape_input)  # Use either `shape` or `scales` is enough
+
+            return [layer.get_output(0)], data
+
+        assert trt_cookbook_tester(build_network)
+
+    def test_case_set_input(self, trt_cookbook_tester):
+
+        def build_network(tw: TRTWrapperV2):
+            shape_input = 1, 3, 4, 5
+            shape_output = 2, 3, 6, 10
+            data = {"tensor": np.arange(np.prod(shape_input), dtype=np.float32).reshape(shape_input)}
+
+            tensor = tw.network.add_input("tensor", datatype_cast(data["tensor"].dtype, "trt"), data["tensor"].shape)
+            constant_layer = tw.network.add_constant([4], np.array(shape_output, dtype=np.int32))
+            layer = tw.network.add_resize(tensor)
+            layer.set_input(1, constant_layer.get_output(0))
+
+            return [layer.get_output(0)], data
+
+        assert trt_cookbook_tester(build_network)
+
+    def test_case_cubic_mode(self, trt_cookbook_tester):
+
+        def build_network(tw: TRTWrapperV2):
+            shape_input = 1, 3, 4, 5
+            data = {"tensor": np.arange(np.prod(shape_input), dtype=np.float32).reshape(shape_input)}
+
+            tensor = tw.network.add_input("tensor", datatype_cast(data["tensor"].dtype, "trt"), data["tensor"].shape)
+            layer = tw.network.add_resize(tensor)
+            layer.resize_mode = trt.InterpolationMode.CUBIC
+            layer.cubic_coeff = 0.5
+
+            return [layer.get_output(0)], data
+
+        assert trt_cookbook_tester(build_network)
+
+    def test_case_linear(self, trt_cookbook_tester):
+
+        def build_network(tw: TRTWrapperV2):
+            shape_input = 1, 3, 4, 5
+            shape_output = 2, 3, 6, 10
+            data = {"tensor": np.arange(np.prod(shape_input), dtype=np.float32).reshape(shape_input)}
+
+            tensor = tw.network.add_input("tensor", datatype_cast(data["tensor"].dtype, "trt"), data["tensor"].shape)
+            layer = tw.network.add_resize(tensor)
+            layer.shape = [shape_input[0], shape_output[1], 1, 1]
+            layer.resize_mode = trt.InterpolationMode.LINEAR
+            layer.selector_for_single_pixel = trt.ResizeSelector.UPPER
+            layer.nearest_rounding = trt.ResizeRoundMode.CEIL
+            layer.coordinate_transformation = trt.ResizeCoordinateTransformation.ALIGN_CORNERS
+
+            return [layer.get_output(0)], data
+
+        assert trt_cookbook_tester(build_network)
+
+    def test_case_shape_input(self, trt_cookbook_tester):
+
+        def build_network(tw: TRTWrapperV2):
+            shape_input = 1, 3, 4, 5
+            shape_output = 2, 3, 6, 10
+            data = {
+                "tensor": np.arange(np.prod(shape_input), dtype=np.float32).reshape(shape_input),
+                "tensor1": np.array(shape_output, dtype=np.int32),
+            }
+
+            tensor0 = tw.network.add_input("tensor", datatype_cast(data["tensor"].dtype, "trt"), data["tensor"].shape)
+            tensor1 = tw.network.add_input("tensor1", datatype_cast(data["tensor1"].dtype, "trt"), data["tensor1"].shape)
+            tw.profile.set_shape_input(tensor1.name, [1 for _ in shape_input], shape_output, shape_output)
+
+            layer = tw.network.add_resize(tensor0)
+            layer.set_input(1, tensor1)
+
+            return [layer.get_output(0)], data
+
+        assert trt_cookbook_tester(build_network)
+
+    def test_case_exclude_outside(self, trt_cookbook_tester):
+
+        def build_network(tw: TRTWrapperV2):
+            shape_input = 1, 3, 4, 5
+            shape_output = 2, 3, 6, 10
+            data = {"tensor": np.arange(np.prod(shape_input), dtype=np.float32).reshape(shape_input)}
+
+            tensor = tw.network.add_input("tensor", datatype_cast(data["tensor"].dtype, "trt"), data["tensor"].shape)
+            layer = tw.network.add_resize(tensor)
+            layer.shape = shape_output
+            layer.exclude_outside = 1
+
+            return [layer.get_output(0)], data
+
+        assert trt_cookbook_tester(build_network)

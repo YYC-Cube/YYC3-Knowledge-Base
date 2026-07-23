@@ -1,0 +1,3383 @@
+{
+  "$schema": "https://anthropic.com/claude-code/mcp-servers.schema.json",
+  "_comment": "Docker MCP servers from the official Docker MCP registry. Install with: docker mcp server enable <server-name>",
+  "mcpServers": {
+    "302-sandbox": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/302-sandbox"
+      ],
+      "_metadata": {
+        "displayName": "302 Sandbox",
+        "category": "utilities",
+        "description": "302 Sandbox MCP",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/302_sandbox",
+        "repository": "https://github.com/302ai"
+      }
+    },
+    "3d-printer": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/3d-printer"
+      ],
+      "_metadata": {
+        "displayName": "3d Printer",
+        "category": "utilities",
+        "description": "Connects MCP to major 3D printer APIs (Orca, Bambu, OctoPrint, Klipper, Duet, Repetier, Prusa, Cr...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/3d-printer",
+        "repository": "https://github.com/DMontgomery40"
+      }
+    },
+    "airtable-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/airtable-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Airtable Mcp Server",
+        "category": "ai-task-management",
+        "description": "Provides AI assistants with direct access to Airtable bases, allowing them to read schemas, query...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/airtable-mcp-server",
+        "repository": "https://github.com/domdomegg"
+      }
+    },
+    "aks": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/aks"
+      ],
+      "_metadata": {
+        "displayName": "Aks",
+        "category": "cloud-infrastructure",
+        "description": "Azure Kubernetes Service (AKS) official MCP server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/aks",
+        "repository": "https://github.com/Azure"
+      }
+    },
+    "api-gateway": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/api-gateway"
+      ],
+      "_metadata": {
+        "displayName": "Api Gateway",
+        "category": "ai-task-management",
+        "description": "A universal MCP (Model Context Protocol) server to integrate any API with Claude Desktop using on...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/api-gateway",
+        "repository": "https://github.com/rflpazini"
+      }
+    },
+    "api-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/api-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Api Mcp Server",
+        "category": "api-development",
+        "description": "Interact with Hostinger services over the Hostinger API.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/api-mcp-server",
+        "repository": "https://github.com/hostinger"
+      }
+    },
+    "apify-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/apify-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Apify Mcp Server",
+        "category": "browser-automation",
+        "description": "Apify is the world's largest marketplace of tools for web scraping, data extraction, and web auto...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/apify-mcp-server",
+        "repository": "https://github.com/apify"
+      }
+    },
+    "arxiv-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/arxiv-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Arxiv Mcp Server",
+        "category": "ai-task-management",
+        "description": "The ArXiv MCP Server provides a comprehensive bridge between AI assistants and arXiv's research r...",
+        "vendor": "arXiv",
+        "dockerHub": "https://hub.docker.com/r/mcp/arxiv-mcp-server",
+        "repository": "https://github.com/jasonleinart"
+      }
+    },
+    "ast-grep": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/ast-grep"
+      ],
+      "_metadata": {
+        "displayName": "Ast Grep",
+        "category": "web-search",
+        "description": "ast-grep is a fast and polyglot tool for code structural search, lint, rewriting at large scale.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/ast-grep",
+        "repository": "https://github.com/dgageot"
+      }
+    },
+    "astra-db": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/astra-db"
+      ],
+      "_metadata": {
+        "displayName": "Astra Db",
+        "category": "database",
+        "description": "An MCP server for Astra DB workloads",
+        "vendor": "DataStax",
+        "dockerHub": "https://hub.docker.com/r/mcp/astra-db",
+        "repository": "https://github.com/datastax"
+      }
+    },
+    "atlan": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/atlan"
+      ],
+      "_metadata": {
+        "displayName": "Atlan",
+        "category": "web-search",
+        "description": "MCP server for interacting with Atlan services including asset search, updates, and lineage trave...",
+        "vendor": "Atlan",
+        "dockerHub": "https://hub.docker.com/r/mcp/atlan",
+        "repository": "https://github.com/atlanhq"
+      }
+    },
+    "atlan-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/atlan-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Atlan Mcp Server",
+        "category": "web-search",
+        "description": "MCP server for interacting with Atlan services including asset search, updates, and lineage trave...",
+        "vendor": "Atlan",
+        "dockerHub": "https://hub.docker.com/r/mcp/atlan-mcp-server",
+        "repository": "https://github.com/atlanhq"
+      }
+    },
+    "atlas-docs": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/atlas-docs"
+      ],
+      "_metadata": {
+        "displayName": "Atlas Docs",
+        "category": "productivity",
+        "description": "Provide LLMs hosted, clean markdown documentation of libraries and frameworks",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/atlas-docs",
+        "repository": "https://github.com/CartographAI"
+      }
+    },
+    "atlassian": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/atlassian"
+      ],
+      "_metadata": {
+        "displayName": "Atlassian",
+        "category": "api-development",
+        "description": "Tools for Atlassian products (Confluence and Jira). This integration supports both Atlassian Clou...",
+        "vendor": "Atlassian",
+        "dockerHub": "https://hub.docker.com/r/mcp/atlassian",
+        "repository": "https://github.com/sooperset"
+      }
+    },
+    "audiense-insights": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/audiense-insights"
+      ],
+      "_metadata": {
+        "displayName": "Audiense Insights",
+        "category": "ai-task-management",
+        "description": "Audiense Insights MCP Server is a server based on the Model Context Protocol (MCP) that allows Cl...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/audiense-insights",
+        "repository": "https://github.com/AudienseCo"
+      }
+    },
+    "aws-cdk-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/aws-cdk-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Aws Cdk Mcp Server",
+        "category": "cloud-infrastructure",
+        "description": "AWS Cloud Development Kit (CDK) best practices, infrastructure as code patterns, and security com...",
+        "vendor": "AWS",
+        "dockerHub": "https://hub.docker.com/r/mcp/aws-cdk-mcp-server",
+        "repository": "https://github.com/awslabs"
+      }
+    },
+    "aws-core-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/aws-core-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Aws Core Mcp Server",
+        "category": "cloud-infrastructure",
+        "description": "Starting point for using the awslabs MCP servers.",
+        "vendor": "AWS",
+        "dockerHub": "https://hub.docker.com/r/mcp/aws-core-mcp-server",
+        "repository": "https://github.com/awslabs"
+      }
+    },
+    "aws-diagram": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/aws-diagram"
+      ],
+      "_metadata": {
+        "displayName": "Aws Diagram",
+        "category": "cloud-infrastructure",
+        "description": "Seamlessly create diagrams using the Python diagrams package DSL. This server allows you to gener...",
+        "vendor": "AWS",
+        "dockerHub": "https://hub.docker.com/r/mcp/aws-diagram",
+        "repository": "https://github.com/awslabs"
+      }
+    },
+    "aws-documentation": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/aws-documentation"
+      ],
+      "_metadata": {
+        "displayName": "Aws Documentation",
+        "category": "cloud-infrastructure",
+        "description": "Tools to access AWS documentation, search for content, and get recommendations.",
+        "vendor": "AWS",
+        "dockerHub": "https://hub.docker.com/r/mcp/aws-documentation",
+        "repository": "https://github.com/awslabs"
+      }
+    },
+    "aws-kb-retrieval-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/aws-kb-retrieval-server"
+      ],
+      "_metadata": {
+        "displayName": "Aws Kb Retrieval Server",
+        "category": "cloud-infrastructure",
+        "description": "An MCP server implementation for retrieving information from the AWS Knowledge Base using the Bed...",
+        "vendor": "AWS",
+        "dockerHub": "https://hub.docker.com/r/mcp/aws-kb-retrieval-server",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "aws-terraform": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/aws-terraform"
+      ],
+      "_metadata": {
+        "displayName": "Aws Terraform",
+        "category": "cloud-infrastructure",
+        "description": "Terraform on AWS best practices, infrastructure as code patterns, and security compliance with Ch...",
+        "vendor": "AWS",
+        "dockerHub": "https://hub.docker.com/r/mcp/aws-terraform",
+        "repository": "https://github.com/awslabs"
+      }
+    },
+    "azure": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/azure"
+      ],
+      "_metadata": {
+        "displayName": "Azure",
+        "category": "cloud-infrastructure",
+        "description": "The Azure MCP Server, bringing the power of Azure to your agents.",
+        "vendor": "Microsoft",
+        "dockerHub": "https://hub.docker.com/r/mcp/azure",
+        "repository": "https://github.com/Azure"
+      }
+    },
+    "basic-memory": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/basic-memory"
+      ],
+      "_metadata": {
+        "displayName": "Basic Memory",
+        "category": "ai-task-management",
+        "description": "Basic Memory is a knowledge management system that allows you to build a persistent semantic grap...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/basic-memory",
+        "repository": "https://github.com/basicmachines-co"
+      }
+    },
+    "beagle-security-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/beagle-security-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Beagle Security Mcp Server",
+        "category": "utilities",
+        "description": "Connects with the Beagle Security backend using a user token to manage applications, run automate...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/beagle-security-mcp-server",
+        "repository": "https://github.com/beaglesecurity"
+      }
+    },
+    "bitrefill": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/bitrefill"
+      ],
+      "_metadata": {
+        "displayName": "Bitrefill",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol Server connector for Bitrefill public API, to enable AI agents to search...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/bitrefill",
+        "repository": "https://github.com/bitrefill"
+      }
+    },
+    "box": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/box"
+      ],
+      "_metadata": {
+        "displayName": "Box",
+        "category": "api-development",
+        "description": "An MCP server capable of interacting with the Box API",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/box",
+        "repository": "https://github.com/dgageot"
+      }
+    },
+    "brave-search": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/brave-search"
+      ],
+      "_metadata": {
+        "displayName": "Brave Search",
+        "category": "api-development",
+        "description": "Search the Web for pages, images, news, videos, and more using the Brave Search API.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/brave-search",
+        "repository": "https://github.com/brave"
+      }
+    },
+    "browserbase": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/browserbase"
+      ],
+      "_metadata": {
+        "displayName": "Browserbase",
+        "category": "ai-task-management",
+        "description": "Allow LLMs to control a browser with Browserbase and Stagehand for AI-powered web automation, int...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/browserbase",
+        "repository": "https://github.com/browserbase"
+      }
+    },
+    "buildkite": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/buildkite"
+      ],
+      "_metadata": {
+        "displayName": "Buildkite",
+        "category": "developer-tools",
+        "description": "Buildkite MCP lets agents interact with Buildkite Builds, Jobs, Logs, Packages and Test Suites",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/buildkite",
+        "repository": "https://github.com/buildkite"
+      }
+    },
+    "buildkite-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/buildkite-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Buildkite Mcp Server",
+        "category": "developer-tools",
+        "description": "Buildkite MCP lets agents interact with Buildkite Builds, Jobs, Logs, Packages and Test Suites",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/buildkite-mcp-server",
+        "repository": "https://github.com/buildkite"
+      }
+    },
+    "camunda": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/camunda"
+      ],
+      "_metadata": {
+        "displayName": "Camunda",
+        "category": "ai-task-management",
+        "description": "Tools to interact with the Camunda 7 Community Edition Engine using the Model Context Protocol (M...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/camunda",
+        "repository": "https://github.com/lepoco"
+      }
+    },
+    "catalog": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/catalog"
+      ],
+      "_metadata": {
+        "displayName": "Catalog",
+        "category": "utilities",
+        "description": "MCP server for catalog",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/catalog"
+      }
+    },
+    "cdata-connectcloud": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/cdata-connectcloud"
+      ],
+      "_metadata": {
+        "displayName": "Cdata Connectcloud",
+        "category": "cloud-infrastructure",
+        "description": "This fully functional MCP Server allows you to connect to any data source in Connect Cloud from C...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/cdata-connectcloud",
+        "repository": "https://github.com/CDataSoftware"
+      }
+    },
+    "charmhealth-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/charmhealth-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Charmhealth Mcp Server",
+        "category": "utilities",
+        "description": "An MCP server for CharmHealth EHR that allows LLMs and MCP clients to interact with patient recor...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/charmhealth-mcp-server",
+        "repository": "https://github.com/CharmHealth"
+      }
+    },
+    "chroma": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/chroma"
+      ],
+      "_metadata": {
+        "displayName": "Chroma",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server implementation that provides database capabilities for Chroma",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/chroma",
+        "repository": "https://github.com/chroma-core"
+      }
+    },
+    "circleci": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/circleci"
+      ],
+      "_metadata": {
+        "displayName": "Circleci",
+        "category": "ai-task-management",
+        "description": "A specialized server implementation for the Model Context Protocol (MCP) designed to integrate wi...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/circleci",
+        "repository": "https://github.com/CircleCI-Public"
+      }
+    },
+    "clickhouse": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/clickhouse"
+      ],
+      "_metadata": {
+        "displayName": "Clickhouse",
+        "category": "database",
+        "description": "Official ClickHouse MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/clickhouse",
+        "repository": "https://github.com/ClickHouse"
+      }
+    },
+    "cloud-run-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/cloud-run-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Cloud Run Mcp",
+        "category": "cloud-infrastructure",
+        "description": "MCP server to deploy apps to Cloud Run",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/cloud-run-mcp",
+        "repository": "https://github.com/GoogleCloudPlatform"
+      }
+    },
+    "cockroachdb": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/cockroachdb"
+      ],
+      "_metadata": {
+        "displayName": "Cockroachdb",
+        "category": "ai-task-management",
+        "description": "Enable AI agents to manage, monitor, and query CockroachDB using natural language. Perform comple...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/cockroachdb",
+        "repository": "https://github.com/amineelkouhen"
+      }
+    },
+    "context7": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/context7"
+      ],
+      "_metadata": {
+        "displayName": "Context7",
+        "category": "ai-task-management",
+        "description": "Context7 MCP Server -- Up-to-date code documentation for LLMs and AI code editors",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/context7",
+        "repository": "https://github.com/upstash"
+      }
+    },
+    "couchbase": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/couchbase"
+      ],
+      "_metadata": {
+        "displayName": "Couchbase",
+        "category": "database",
+        "description": "Couchbase is a distributed document database with a powerful search engine and in-built operation...",
+        "vendor": "Couchbase",
+        "dockerHub": "https://hub.docker.com/r/mcp/couchbase",
+        "repository": "https://github.com/Couchbase-Ecosystem"
+      }
+    },
+    "cylera-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/cylera-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Cylera Mcp Server",
+        "category": "utilities",
+        "description": "Brings context about device inventory, threats, risks and utilization powered by the Cylera Partn...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/cylera-mcp-server",
+        "repository": "https://github.com/Cylera"
+      }
+    },
+    "cyreslab-ai-shodan": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/cyreslab-ai-shodan"
+      ],
+      "_metadata": {
+        "displayName": "Cyreslab Ai Shodan",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol server that provides access to Shodan API functionality",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/cyreslab-ai-shodan",
+        "repository": "https://github.com/Cyreslab-AI"
+      }
+    },
+    "dappier": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/dappier"
+      ],
+      "_metadata": {
+        "displayName": "Dappier",
+        "category": "web-search",
+        "description": "Enable fast, free real-time web search and access premium data from trusted media brands—news, ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/dappier",
+        "repository": "https://github.com/DappierAI"
+      }
+    },
+    "dart": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/dart"
+      ],
+      "_metadata": {
+        "displayName": "Dart",
+        "category": "ai-task-management",
+        "description": "Dart AI Model Context Protocol (MCP) server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/dart",
+        "repository": "https://github.com/its-dart"
+      }
+    },
+    "databutton": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/databutton"
+      ],
+      "_metadata": {
+        "displayName": "Databutton",
+        "category": "utilities",
+        "description": "Databutton MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/databutton",
+        "repository": "https://github.com/databutton"
+      }
+    },
+    "descope": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/descope"
+      ],
+      "_metadata": {
+        "displayName": "Descope",
+        "category": "ai-task-management",
+        "description": "The Descope Model Context Protocol (MCP) server provides an interface to interact with Descope's ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/descope",
+        "repository": "https://github.com/descope-sample-apps"
+      }
+    },
+    "desktop-commander": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/desktop-commander"
+      ],
+      "_metadata": {
+        "displayName": "Desktop Commander",
+        "category": "ai-task-management",
+        "description": "Search, update, manage files and run terminal commands with AI",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/desktop-commander",
+        "repository": "https://github.com/wonderwhy-er"
+      }
+    },
+    "devhub-cms": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/devhub-cms"
+      ],
+      "_metadata": {
+        "displayName": "Devhub Cms",
+        "category": "ai-task-management",
+        "description": "DevHub CMS LLM integration through the Model Context Protocol",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/devhub-cms",
+        "repository": "https://github.com/devhub"
+      }
+    },
+    "df-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/df-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Df Mcp",
+        "category": "api-development",
+        "description": "DreamFactory is a REST API generation platform with support for hundreds of data sources, includi...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/df-mcp",
+        "repository": "https://github.com/dreamfactorysoftware"
+      }
+    },
+    "docker": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/docker"
+      ],
+      "_metadata": {
+        "displayName": "Docker",
+        "category": "ai-task-management",
+        "description": "MCP smart gateway used by the AI Tool Catalog",
+        "vendor": "Docker",
+        "dockerHub": "https://hub.docker.com/r/mcp/docker"
+      }
+    },
+    "dockerhub": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/dockerhub"
+      ],
+      "_metadata": {
+        "displayName": "Dockerhub",
+        "category": "cloud-infrastructure",
+        "description": "Docker Hub official MCP server",
+        "vendor": "Docker",
+        "dockerHub": "https://hub.docker.com/r/mcp/dockerhub",
+        "repository": "https://github.com/docker"
+      }
+    },
+    "doit": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/doit"
+      ],
+      "_metadata": {
+        "displayName": "Doit",
+        "category": "utilities",
+        "description": "DoiT official MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/doit",
+        "repository": "https://github.com/doitintl"
+      }
+    },
+    "duckduckgo": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/duckduckgo"
+      ],
+      "_metadata": {
+        "displayName": "Duckduckgo",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server that provides web search capabilities through DuckDuckGo, w...",
+        "vendor": "DuckDuckGo",
+        "dockerHub": "https://hub.docker.com/r/mcp/duckduckgo",
+        "repository": "https://github.com/nickclyde"
+      }
+    },
+    "dynatrace-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/dynatrace-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Dynatrace Mcp Server",
+        "category": "developer-tools",
+        "description": "This MCP Server allows interaction with the Dynatrace observability platform, brining real-time o...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/dynatrace-mcp-server",
+        "repository": "https://github.com/dynatrace-oss"
+      }
+    },
+    "e2b": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/e2b"
+      ],
+      "_metadata": {
+        "displayName": "E2b",
+        "category": "ai-task-management",
+        "description": "Giving Claude ability to run code with E2B via MCP (Model Context Protocol)",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/e2b",
+        "repository": "https://github.com/e2b-dev"
+      }
+    },
+    "edubase": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/edubase"
+      ],
+      "_metadata": {
+        "displayName": "Edubase",
+        "category": "ai-task-management",
+        "description": "The EduBase MCP server enables Claude and other LLMs to interact with EduBase's comprehensive e-l...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/edubase",
+        "repository": "https://github.com/EduBase"
+      }
+    },
+    "effect-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/effect-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Effect Mcp",
+        "category": "utilities",
+        "description": "Tools and resources for writing Effect code in Typescript.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/effect-mcp",
+        "repository": "https://github.com/tim-smart"
+      }
+    },
+    "elasticsearch": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/elasticsearch"
+      ],
+      "_metadata": {
+        "displayName": "Elasticsearch",
+        "category": "ai-task-management",
+        "description": "Interact with your Elasticsearch indices through natural language conversations.",
+        "vendor": "Elastic",
+        "dockerHub": "https://hub.docker.com/r/mcp/elasticsearch",
+        "repository": "https://github.com/elastic"
+      }
+    },
+    "elevenlabs": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/elevenlabs"
+      ],
+      "_metadata": {
+        "displayName": "Elevenlabs",
+        "category": "ai-task-management",
+        "description": "Official ElevenLabs Model Context Protocol (MCP) server that enables interaction with powerful Te...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/elevenlabs",
+        "repository": "https://github.com/elevenlabs"
+      }
+    },
+    "everart": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/everart"
+      ],
+      "_metadata": {
+        "displayName": "Everart",
+        "category": "api-development",
+        "description": "Image generation server using EverArt's API.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/everart",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "everything": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/everything"
+      ],
+      "_metadata": {
+        "displayName": "Everything",
+        "category": "utilities",
+        "description": "Reference / test server with prompts, resources, and tools",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/everything",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "exa": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/exa"
+      ],
+      "_metadata": {
+        "displayName": "Exa",
+        "category": "web-search",
+        "description": "Exa MCP for web search and web crawling!",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/exa",
+        "repository": "https://github.com/exa-labs"
+      }
+    },
+    "explorium": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/explorium"
+      ],
+      "_metadata": {
+        "displayName": "Explorium",
+        "category": "web-search",
+        "description": "Discover companies, contacts, and business insights—powered by dozens of trusted external data ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/explorium",
+        "repository": "https://github.com/explorium-ai"
+      }
+    },
+    "fetch": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/fetch"
+      ],
+      "_metadata": {
+        "displayName": "Fetch",
+        "category": "productivity",
+        "description": "Fetches a URL from the internet and extracts its contents as markdown",
+        "vendor": "Fetch",
+        "dockerHub": "https://hub.docker.com/r/mcp/fetch",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "fibery": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/fibery"
+      ],
+      "_metadata": {
+        "displayName": "Fibery",
+        "category": "utilities",
+        "description": "Interact with your Fibery workspace.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/fibery",
+        "repository": "https://github.com/Fibery-inc"
+      }
+    },
+    "filesystem": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/filesystem"
+      ],
+      "_metadata": {
+        "displayName": "Filesystem",
+        "category": "file-system",
+        "description": "Local filesystem access with configurable allowed paths",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/filesystem",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "firecrawl": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/firecrawl"
+      ],
+      "_metadata": {
+        "displayName": "Firecrawl",
+        "category": "ai-task-management",
+        "description": "🔥 Official Firecrawl MCP Server - Adds powerful web scraping and search to Cursor, Claude and ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/firecrawl",
+        "repository": "https://github.com/firecrawl"
+      }
+    },
+    "firewalla-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/firewalla-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Firewalla Mcp Server",
+        "category": "developer-tools",
+        "description": "Real-time network monitoring, security analysis, and firewall management through 28 specialized t...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/firewalla-mcp-server",
+        "repository": "https://github.com/amittell"
+      }
+    },
+    "flexprice": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/flexprice"
+      ],
+      "_metadata": {
+        "displayName": "Flexprice",
+        "category": "utilities",
+        "description": "Official flexprice MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/flexprice",
+        "repository": "https://github.com/flexprice"
+      }
+    },
+    "gdrive": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/gdrive"
+      ],
+      "_metadata": {
+        "displayName": "Gdrive",
+        "category": "file-system",
+        "description": "This MCP server integrates with Google Drive to allow listing, reading, and searching over files.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/gdrive"
+      }
+    },
+    "git": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/git"
+      ],
+      "_metadata": {
+        "displayName": "Git",
+        "category": "developer-tools",
+        "description": "Git repository interaction and automation.",
+        "vendor": "Git",
+        "dockerHub": "https://hub.docker.com/r/mcp/git",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/github"
+      ],
+      "_metadata": {
+        "displayName": "Github",
+        "category": "developer-tools",
+        "description": "Tools for interacting with the GitHub API, enabling file operations, repository management, searc...",
+        "vendor": "GitHub",
+        "dockerHub": "https://hub.docker.com/r/mcp/github",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "github-chat": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/github-chat"
+      ],
+      "_metadata": {
+        "displayName": "Github Chat",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) for analyzing and querying GitHub repositories using the GitHub Ch...",
+        "vendor": "GitHub",
+        "dockerHub": "https://hub.docker.com/r/mcp/github-chat",
+        "repository": "https://github.com/AsyncFuncAI"
+      }
+    },
+    "gitlab": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/gitlab"
+      ],
+      "_metadata": {
+        "displayName": "Gitlab",
+        "category": "developer-tools",
+        "description": "MCP Server for the GitLab API, enabling project management, file operations, and more.",
+        "vendor": "Git",
+        "dockerHub": "https://hub.docker.com/r/mcp/gitlab",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "glif": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/glif"
+      ],
+      "_metadata": {
+        "displayName": "Glif",
+        "category": "ai-task-management",
+        "description": "Easily run glif.app AI workflows inside your LLM: image generators, memes, selfies, and more. Gli...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/glif",
+        "repository": "https://github.com/glifxyz"
+      }
+    },
+    "google-maps": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/google-maps"
+      ],
+      "_metadata": {
+        "displayName": "Google Maps",
+        "category": "api-development",
+        "description": "Tools for interacting with the Google Maps API.",
+        "vendor": "Google",
+        "dockerHub": "https://hub.docker.com/r/mcp/google-maps",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "google-maps-comprehensive": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/google-maps-comprehensive"
+      ],
+      "_metadata": {
+        "displayName": "Google Maps Comprehensive",
+        "category": "api-development",
+        "description": "Complete Google Maps integration with 8 tools including geocoding, places search, directions, ele...",
+        "vendor": "Google",
+        "dockerHub": "https://hub.docker.com/r/mcp/google-maps-comprehensive",
+        "repository": "https://github.com/vicpeacock"
+      }
+    },
+    "grafana": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/grafana"
+      ],
+      "_metadata": {
+        "displayName": "Grafana",
+        "category": "developer-tools",
+        "description": "MCP server for Grafana",
+        "vendor": "Grafana",
+        "dockerHub": "https://hub.docker.com/r/mcp/grafana",
+        "repository": "https://github.com/grafana"
+      }
+    },
+    "gyazo": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/gyazo"
+      ],
+      "_metadata": {
+        "displayName": "Gyazo",
+        "category": "ai-task-management",
+        "description": "Official Model Context Protocol server for Gyazo",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/gyazo",
+        "repository": "https://github.com/nota"
+      }
+    },
+    "hackernews-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/hackernews-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Hackernews Mcp",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server that provides access to Hacker News stories, comments, and ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/hackernews-mcp",
+        "repository": "https://github.com/AayushBahukhandi"
+      }
+    },
+    "hackle": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/hackle"
+      ],
+      "_metadata": {
+        "displayName": "Hackle",
+        "category": "ai-task-management",
+        "description": "Model Context Protocol server for Hackle",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/hackle",
+        "repository": "https://github.com/hackle-io"
+      }
+    },
+    "handwriting-ocr": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/handwriting-ocr"
+      ],
+      "_metadata": {
+        "displayName": "Handwriting Ocr",
+        "category": "ai-task-management",
+        "description": "Model Context Protocol (MCP) Server for Handwriting OCR ",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/handwriting-ocr",
+        "repository": "https://github.com/Handwriting-OCR"
+      }
+    },
+    "hdx": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/hdx"
+      ],
+      "_metadata": {
+        "displayName": "Hdx",
+        "category": "utilities",
+        "description": "HDX MCP Server provides access to humanitarian data through the Humanitarian Data Exchange (HDX) ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/hdx",
+        "repository": "https://github.com/dividor"
+      }
+    },
+    "heroku": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/heroku"
+      ],
+      "_metadata": {
+        "displayName": "Heroku",
+        "category": "utilities",
+        "description": "Heroku Platform MCP Server using the Heroku CLI",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/heroku",
+        "repository": "https://github.com/heroku"
+      }
+    },
+    "husqvarna-automower": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/husqvarna-automower"
+      ],
+      "_metadata": {
+        "displayName": "Husqvarna Automower",
+        "category": "utilities",
+        "description": "MCP Server for huqsvarna automower",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/husqvarna-automower",
+        "repository": "https://github.com/jeanlaurent"
+      }
+    },
+    "hyperbrowser": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/hyperbrowser"
+      ],
+      "_metadata": {
+        "displayName": "Hyperbrowser",
+        "category": "utilities",
+        "description": "A MCP server implementation for hyperbrowser",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/hyperbrowser",
+        "repository": "https://github.com/hyperbrowserai"
+      }
+    },
+    "hyperspell": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/hyperspell"
+      ],
+      "_metadata": {
+        "displayName": "Hyperspell",
+        "category": "utilities",
+        "description": "Hyperspell MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/hyperspell",
+        "repository": "https://github.com/hyperspell"
+      }
+    },
+    "iaptic": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/iaptic"
+      ],
+      "_metadata": {
+        "displayName": "Iaptic",
+        "category": "ai-task-management",
+        "description": " Model Context Protocol server for interacting with iaptic",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/iaptic",
+        "repository": "https://github.com/iaptic"
+      }
+    },
+    "inspector": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/inspector"
+      ],
+      "_metadata": {
+        "displayName": "Inspector",
+        "category": "utilities",
+        "description": "MCP server for inspector",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/inspector"
+      }
+    },
+    "inspektor-gadget": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/inspektor-gadget"
+      ],
+      "_metadata": {
+        "displayName": "Inspektor Gadget",
+        "category": "ai-task-management",
+        "description": "AI interface to troubleshoot and observe Kubernetes/Container workloads",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/inspektor-gadget",
+        "repository": "https://github.com/inspektor-gadget"
+      }
+    },
+    "jetbrains": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/jetbrains"
+      ],
+      "_metadata": {
+        "displayName": "Jetbrains",
+        "category": "ai-task-management",
+        "description": "A model context protocol server to work with JetBrains IDEs: IntelliJ, PyCharm, WebStorm, etc. Al...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/jetbrains",
+        "repository": "https://github.com/GannaChernyshova"
+      }
+    },
+    "kagisearch": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/kagisearch"
+      ],
+      "_metadata": {
+        "displayName": "Kagisearch",
+        "category": "ai-task-management",
+        "description": "The Official Model Context Protocol (MCP) server for Kagi search & other tools.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/kagisearch",
+        "repository": "https://github.com/kagisearch"
+      }
+    },
+    "keboola-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/keboola-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Keboola Mcp",
+        "category": "ai-task-management",
+        "description": "Keboola MCP Server is an open-source bridge between your Keboola project and modern AI tools.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/keboola-mcp",
+        "repository": "https://github.com/keboola"
+      }
+    },
+    "kong": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/kong"
+      ],
+      "_metadata": {
+        "displayName": "Kong",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server for interacting with Kong Konnect APIs, allowing AI assista...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/kong",
+        "repository": "https://github.com/Kong"
+      }
+    },
+    "kubectl-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/kubectl-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Kubectl Mcp Server",
+        "category": "ai-task-management",
+        "description": "MCP Server that enables AI assistants to interact with Kubernetes clusters via kubectl operations.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/kubectl-mcp-server",
+        "repository": "https://github.com/rohitg00"
+      }
+    },
+    "kubernetes": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/kubernetes"
+      ],
+      "_metadata": {
+        "displayName": "Kubernetes",
+        "category": "cloud-infrastructure",
+        "description": "Connect to a Kubernetes cluster and manage it",
+        "vendor": "Kubernetes",
+        "dockerHub": "https://hub.docker.com/r/mcp/kubernetes",
+        "repository": "https://github.com/Flux159"
+      }
+    },
+    "lara": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/lara"
+      ],
+      "_metadata": {
+        "displayName": "Lara",
+        "category": "api-development",
+        "description": "Connect to Lara Translate API, enabling powerful translation capabilities with support for langua...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/lara",
+        "repository": "https://github.com/translated"
+      }
+    },
+    "line": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/line"
+      ],
+      "_metadata": {
+        "displayName": "Line",
+        "category": "ai-task-management",
+        "description": "MCP server that integrates the LINE Messaging API to connect an AI Agent to the LINE Official Acc...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/line",
+        "repository": "https://github.com/line"
+      }
+    },
+    "maestro-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/maestro-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Maestro Mcp Server",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server exposing Bitcoin blockchain data through the Maestro API pl...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/maestro-mcp-server",
+        "repository": "https://github.com/maestro-org"
+      }
+    },
+    "mapbox": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/mapbox"
+      ],
+      "_metadata": {
+        "displayName": "Mapbox",
+        "category": "ai-task-management",
+        "description": "Transform any AI agent into a geospatially-aware system with Mapbox APIs. Provides geocoding, POI...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/mapbox",
+        "repository": "https://github.com/mapbox"
+      }
+    },
+    "mapbox-devkit": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/mapbox-devkit"
+      ],
+      "_metadata": {
+        "displayName": "Mapbox Devkit",
+        "category": "ai-task-management",
+        "description": "Direct access to Mapbox developer APIs for AI assistants. Enables style management, token managem...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/mapbox-devkit",
+        "repository": "https://github.com/mapbox"
+      }
+    },
+    "markdownify": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/markdownify"
+      ],
+      "_metadata": {
+        "displayName": "Markdownify",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol server for converting almost anything to Markdown.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/markdownify",
+        "repository": "https://github.com/zcaceres"
+      }
+    },
+    "markitdown": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/markitdown"
+      ],
+      "_metadata": {
+        "displayName": "Markitdown",
+        "category": "utilities",
+        "description": "A lightweight MCP server for calling MarkItDown.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/markitdown",
+        "repository": "https://github.com/microsoft"
+      }
+    },
+    "mcp-code-interpreter": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/mcp-code-interpreter"
+      ],
+      "_metadata": {
+        "displayName": "Mcp Code Interpreter",
+        "category": "productivity",
+        "description": "A Python-based execution tool that mimics a Jupyter notebook environment. It accepts code snippet...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/mcp-code-interpreter",
+        "repository": "https://github.com/akuadane"
+      }
+    },
+    "mcp-discord": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/mcp-discord"
+      ],
+      "_metadata": {
+        "displayName": "Mcp Discord",
+        "category": "email-integration",
+        "description": "Interact with the Discord platform.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/mcp-discord",
+        "repository": "https://github.com/slimslenderslacks"
+      }
+    },
+    "mcp-playwright": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/mcp-playwright"
+      ],
+      "_metadata": {
+        "displayName": "Mcp Playwright",
+        "category": "ai-task-management",
+        "description": "Playwright Model Context Protocol Server - Tool to automate Browsers and APIs in Claude Desktop, ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/mcp-playwright",
+        "repository": "https://github.com/executeautomation"
+      }
+    },
+    "mcp-python-refactoring": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/mcp-python-refactoring"
+      ],
+      "_metadata": {
+        "displayName": "Mcp Python Refactoring",
+        "category": "ai-task-management",
+        "description": "Educational Python refactoring assistant that provides guided suggestions for AI assistants.\n\nFea...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/mcp-python-refactoring",
+        "repository": "https://github.com/slamer59"
+      }
+    },
+    "memory": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/memory"
+      ],
+      "_metadata": {
+        "displayName": "Memory",
+        "category": "productivity",
+        "description": "Knowledge graph-based persistent memory system.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/memory",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "metabase": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/metabase"
+      ],
+      "_metadata": {
+        "displayName": "Metabase",
+        "category": "utilities",
+        "description": "A comprehensive MCP server for Metabase with 70+ tools.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/metabase",
+        "repository": "https://github.com/easecloudio"
+      }
+    },
+    "minecraft-wiki": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/minecraft-wiki"
+      ],
+      "_metadata": {
+        "displayName": "Minecraft Wiki",
+        "category": "productivity",
+        "description": "A MCP Server for browsing the official Minecraft Wiki!",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/minecraft-wiki",
+        "repository": "https://github.com/L3-N0X"
+      }
+    },
+    "mongodb": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/mongodb"
+      ],
+      "_metadata": {
+        "displayName": "Mongodb",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol server to connect to MongoDB databases and MongoDB Atlas Clusters.",
+        "vendor": "MongoDB",
+        "dockerHub": "https://hub.docker.com/r/mcp/mongodb",
+        "repository": "https://github.com/mongodb-js"
+      }
+    },
+    "multiversx-mx": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/multiversx-mx"
+      ],
+      "_metadata": {
+        "displayName": "Multiversx Mx",
+        "category": "utilities",
+        "description": "MCP Server for MultiversX",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/multiversx-mx",
+        "repository": "https://github.com/multiversx"
+      }
+    },
+    "nasdaq-data-link": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/nasdaq-data-link"
+      ],
+      "_metadata": {
+        "displayName": "Nasdaq Data Link",
+        "category": "utilities",
+        "description": "MCP server to interact with the data feeds provided by the Nasdaq Data Link. Developed by the com...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/nasdaq-data-link",
+        "repository": "https://github.com/stefanoamorelli"
+      }
+    },
+    "needle-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/needle-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Needle Mcp",
+        "category": "web-search",
+        "description": "Production-ready RAG service to search and retrieve data from your documents.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/needle-mcp",
+        "repository": "https://github.com/needle-ai"
+      }
+    },
+    "neo4j-cloud-aura-api": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/neo4j-cloud-aura-api"
+      ],
+      "_metadata": {
+        "displayName": "Neo4j Cloud Aura Api",
+        "category": "database",
+        "description": "Manage Neo4j Aura database instances through the Neo4j Aura API.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/neo4j-cloud-aura-api",
+        "repository": "https://github.com/neo4j-contrib"
+      }
+    },
+    "neo4j-cypher": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/neo4j-cypher"
+      ],
+      "_metadata": {
+        "displayName": "Neo4j Cypher",
+        "category": "utilities",
+        "description": "Interact with Neo4j using Cypher graph queries.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/neo4j-cypher",
+        "repository": "https://github.com/neo4j-contrib"
+      }
+    },
+    "neo4j-data-modeling": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/neo4j-data-modeling"
+      ],
+      "_metadata": {
+        "displayName": "Neo4j Data Modeling",
+        "category": "utilities",
+        "description": "MCP server that assists in creating, validating and visualizing graph data models.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/neo4j-data-modeling",
+        "repository": "https://github.com/neo4j-contrib"
+      }
+    },
+    "neo4j-memory": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/neo4j-memory"
+      ],
+      "_metadata": {
+        "displayName": "Neo4j Memory",
+        "category": "database",
+        "description": "Provide persistent memory capabilities through Neo4j graph database integration.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/neo4j-memory",
+        "repository": "https://github.com/neo4j-contrib"
+      }
+    },
+    "neo4j-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/neo4j-server"
+      ],
+      "_metadata": {
+        "displayName": "Neo4j Server",
+        "category": "utilities",
+        "description": "MCP server for neo4j-server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/neo4j-server"
+      }
+    },
+    "neon": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/neon"
+      ],
+      "_metadata": {
+        "displayName": "Neon",
+        "category": "api-development",
+        "description": "MCP server for interacting with Neon Management API and databases",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/neon",
+        "repository": "https://github.com/neondatabase"
+      }
+    },
+    "next-devtools-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/next-devtools-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Next Devtools Mcp",
+        "category": "ai-task-management",
+        "description": "next-devtools-mcp is a Model Context Protocol (MCP) server that provides Next.js development tool...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/next-devtools-mcp",
+        "repository": "https://github.com/kgprs"
+      }
+    },
+    "node-code-sandbox": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/node-code-sandbox"
+      ],
+      "_metadata": {
+        "displayName": "Node Code Sandbox",
+        "category": "ai-task-management",
+        "description": "A Node.js–based Model Context Protocol server that spins up disposable Docker containers to exe...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/node-code-sandbox",
+        "repository": "https://github.com/alfonsograziano"
+      }
+    },
+    "notion": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/notion"
+      ],
+      "_metadata": {
+        "displayName": "Notion",
+        "category": "productivity",
+        "description": "Official Notion MCP Server",
+        "vendor": "Notion",
+        "dockerHub": "https://hub.docker.com/r/mcp/notion",
+        "repository": "https://github.com/makenotion"
+      }
+    },
+    "novita": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/novita"
+      ],
+      "_metadata": {
+        "displayName": "Novita",
+        "category": "ai-task-management",
+        "description": "Seamless interaction with Novita AI platform resources.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/novita",
+        "repository": "https://github.com/novitalabs"
+      }
+    },
+    "npm-sentinel": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/npm-sentinel"
+      ],
+      "_metadata": {
+        "displayName": "Npm Sentinel",
+        "category": "ai-task-management",
+        "description": "MCP server that enables intelligent NPM package analysis powered by AI.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/npm-sentinel",
+        "repository": "https://github.com/Nekzus"
+      }
+    },
+    "obsidian": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/obsidian"
+      ],
+      "_metadata": {
+        "displayName": "Obsidian",
+        "category": "productivity",
+        "description": "MCP server that interacts with Obsidian via the Obsidian rest API community plugin",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/obsidian",
+        "repository": "https://github.com/MarkusPfundstein"
+      }
+    },
+    "octomind": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/octomind"
+      ],
+      "_metadata": {
+        "displayName": "Octomind",
+        "category": "utilities",
+        "description": "An MCP server for octomind tools, resources and prompts",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/octomind",
+        "repository": "https://github.com/OctoMind-dev"
+      }
+    },
+    "okta-mcp-fctr": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/okta-mcp-fctr"
+      ],
+      "_metadata": {
+        "displayName": "Okta Mcp Fctr",
+        "category": "ai-task-management",
+        "description": "Secure Okta identity and access management via Model Context Protocol (MCP). Access Okta users, g...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/okta-mcp-fctr",
+        "repository": "https://github.com/fctr-id/okta-mcp-server/tree/feature/oauth-proxy-implementation\"><strong>→"
+      }
+    },
+    "omi": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/omi"
+      ],
+      "_metadata": {
+        "displayName": "Omi",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol server for Omi interaction and automation. This server provides tools to...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/omi",
+        "repository": "https://github.com/BasedHardware"
+      }
+    },
+    "onlyoffice-docspace": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/onlyoffice-docspace"
+      ],
+      "_metadata": {
+        "displayName": "Onlyoffice Docspace",
+        "category": "file-system",
+        "description": "ONLYOFFICE DocSpace is a room-based collaborative platform which allows organizing a clear file s...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/onlyoffice-docspace",
+        "repository": "https://github.com/ONLYOFFICE"
+      }
+    },
+    "openapi": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/openapi"
+      ],
+      "_metadata": {
+        "displayName": "Openapi",
+        "category": "api-development",
+        "description": "Fetch, validate, and generate code or curl from any OpenAPI or Swagger spec - all from a single URL.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/openapi",
+        "repository": "https://github.com/lepoco"
+      }
+    },
+    "openapi-schema": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/openapi-schema"
+      ],
+      "_metadata": {
+        "displayName": "Openapi Schema",
+        "category": "ai-task-management",
+        "description": "OpenAPI Schema Model Context Protocol Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/openapi-schema",
+        "repository": "https://github.com/hannesj"
+      }
+    },
+    "openbnb-airbnb": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/openbnb-airbnb"
+      ],
+      "_metadata": {
+        "displayName": "Openbnb Airbnb",
+        "category": "utilities",
+        "description": "MCP Server for searching Airbnb and get listing details.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/openbnb-airbnb",
+        "repository": "https://github.com/openbnb-org"
+      }
+    },
+    "openweather": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/openweather"
+      ],
+      "_metadata": {
+        "displayName": "Openweather",
+        "category": "utilities",
+        "description": "A simple MCP service that provides current weather and 5-day forecast using the free OpenWeatherM...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/openweather",
+        "repository": "https://github.com/mschneider82"
+      }
+    },
+    "opik": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/opik"
+      ],
+      "_metadata": {
+        "displayName": "Opik",
+        "category": "ai-task-management",
+        "description": "Model Context Protocol (MCP) implementation for Opik enabling seamless IDE integration and unifie...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/opik",
+        "repository": "https://github.com/comet-ml"
+      }
+    },
+    "oracle": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/oracle"
+      ],
+      "_metadata": {
+        "displayName": "Oracle",
+        "category": "utilities",
+        "description": "Connect to Oracle databases via MCP, providing secure read-only access with support for schema ex...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/oracle",
+        "repository": "https://github.com/samscarrow"
+      }
+    },
+    "osp-marketing-tools": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/osp-marketing-tools"
+      ],
+      "_metadata": {
+        "displayName": "Osp Marketing Tools",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server that empowers LLMs to use some of Open Srategy Partners' co...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/osp_marketing_tools",
+        "repository": "https://github.com/open-strategy-partners"
+      }
+    },
+    "oxylabs": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/oxylabs"
+      ],
+      "_metadata": {
+        "displayName": "Oxylabs",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server that enables AI assistants like Claude to seamlessly access...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/oxylabs",
+        "repository": "https://github.com/oxylabs"
+      }
+    },
+    "paper-search": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/paper-search"
+      ],
+      "_metadata": {
+        "displayName": "Paper Search",
+        "category": "ai-task-management",
+        "description": "A MCP for searching and downloading academic papers from multiple sources like arXiv, PubMed, bio...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/paper-search",
+        "repository": "https://github.com/openags"
+      }
+    },
+    "perplexity-ask": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/perplexity-ask"
+      ],
+      "_metadata": {
+        "displayName": "Perplexity Ask",
+        "category": "ai-task-management",
+        "description": "Connector for Perplexity API, to enable real-time, web-wide research.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/perplexity-ask",
+        "repository": "https://github.com/perplexityai"
+      }
+    },
+    "pia": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/pia"
+      ],
+      "_metadata": {
+        "displayName": "Pia",
+        "category": "ai-task-management",
+        "description": "An MCP server to help make U.S. Government open datasets AI-friendly. ",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/pia",
+        "repository": "https://github.com/Program-Integrity-Alliance"
+      }
+    },
+    "pinecone": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/pinecone"
+      ],
+      "_metadata": {
+        "displayName": "Pinecone",
+        "category": "ai-task-management",
+        "description": "Pinecone Assistant MCP server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/pinecone",
+        "repository": "https://github.com/pinecone-io"
+      }
+    },
+    "playwright": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/playwright"
+      ],
+      "_metadata": {
+        "displayName": "Playwright",
+        "category": "browser-automation",
+        "description": "Playwright MCP server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/playwright",
+        "repository": "https://github.com/microsoft"
+      }
+    },
+    "pluggedin-mcp-proxy": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/pluggedin-mcp-proxy"
+      ],
+      "_metadata": {
+        "displayName": "Pluggedin Mcp Proxy",
+        "category": "api-development",
+        "description": "A unified MCP proxy that aggregates multiple MCP servers into one interface, enabling seamless to...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/pluggedin-mcp-proxy",
+        "repository": "https://github.com/VeriTeknik"
+      }
+    },
+    "pomodash": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/pomodash"
+      ],
+      "_metadata": {
+        "displayName": "Pomodash",
+        "category": "ai-task-management",
+        "description": "Connect your AI assistant to PomoDash for seamless task and project management",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/pomodash",
+        "repository": "https://github.com/DannyyTv"
+      }
+    },
+    "postgres": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/postgres"
+      ],
+      "_metadata": {
+        "displayName": "Postgres",
+        "category": "database",
+        "description": "Connect with read-only access to PostgreSQL databases. This server enables LLMs to inspect databa...",
+        "vendor": "PostgreSQL",
+        "dockerHub": "https://hub.docker.com/r/mcp/postgres",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "postman": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/postman"
+      ],
+      "_metadata": {
+        "displayName": "Postman",
+        "category": "ai-task-management",
+        "description": "Postman's MCP server connects AI agents, assistants, and chatbots directly to your APIs on Postma...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/postman",
+        "repository": "https://github.com/postmanlabs"
+      }
+    },
+    "pref-editor": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/pref-editor"
+      ],
+      "_metadata": {
+        "displayName": "Pref Editor",
+        "category": "utilities",
+        "description": "Pref Editor is a tool for viewing and editing Android app preferences during development.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/pref-editor",
+        "repository": "https://github.com/charlesmuchene"
+      }
+    },
+    "pulumi": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/pulumi"
+      ],
+      "_metadata": {
+        "displayName": "Pulumi",
+        "category": "ai-task-management",
+        "description": "Pulumi MCP server enables AI-powered coding assistants to help you codify cloud architectures and...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/pulumi",
+        "repository": "https://github.com/pulumi"
+      }
+    },
+    "puppeteer": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/puppeteer"
+      ],
+      "_metadata": {
+        "displayName": "Puppeteer",
+        "category": "productivity",
+        "description": "Browser automation and web scraping using Puppeteer.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/puppeteer",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "quantconnect": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/quantconnect"
+      ],
+      "_metadata": {
+        "displayName": "Quantconnect",
+        "category": "ai-task-management",
+        "description": "The QuantConnect MCP Server is a bridge for AIs (such as Claude and OpenAI o3 Pro) to interact wi...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/quantconnect",
+        "repository": "https://github.com/QuantConnect"
+      }
+    },
+    "ramparts": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/ramparts"
+      ],
+      "_metadata": {
+        "displayName": "Ramparts",
+        "category": "utilities",
+        "description": "A comprehensive security scanner for MCP servers with YARA rules and static analysis capabilities.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/ramparts",
+        "repository": "https://github.com/getjavelin"
+      }
+    },
+    "razorpay": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/razorpay"
+      ],
+      "_metadata": {
+        "displayName": "Razorpay",
+        "category": "utilities",
+        "description": "Razorpay's Official MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/razorpay",
+        "repository": "https://github.com/razorpay"
+      }
+    },
+    "reddit-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/reddit-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Reddit Mcp",
+        "category": "ai-task-management",
+        "description": "A comprehensive Model Context Protocol (MCP) server for Reddit integration. This server enables A...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/reddit-mcp",
+        "repository": "https://github.com/KrishnaRandad2023"
+      }
+    },
+    "redis": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/redis"
+      ],
+      "_metadata": {
+        "displayName": "Redis",
+        "category": "database",
+        "description": "Access to Redis database operations.",
+        "vendor": "Redis",
+        "dockerHub": "https://hub.docker.com/r/mcp/redis",
+        "repository": "https://github.com/redis"
+      }
+    },
+    "redis-cloud": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/redis-cloud"
+      ],
+      "_metadata": {
+        "displayName": "Redis Cloud",
+        "category": "database",
+        "description": "MCP Server for Redis Cloud's API, allowing you to manage your Redis Cloud resources using natural...",
+        "vendor": "Redis",
+        "dockerHub": "https://hub.docker.com/r/mcp/redis-cloud",
+        "repository": "https://github.com/redis"
+      }
+    },
+    "ref-tools-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/ref-tools-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Ref Tools Mcp",
+        "category": "web-search",
+        "description": "Ref powerful search tool connets your coding tools with documentation context. It includes an up-...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/ref-tools-mcp",
+        "repository": "https://github.com/ref-tools"
+      }
+    },
+    "render": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/render"
+      ],
+      "_metadata": {
+        "displayName": "Render",
+        "category": "utilities",
+        "description": "Interact with your Render resources via LLMs.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/render",
+        "repository": "https://github.com/render-oss"
+      }
+    },
+    "resend": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/resend"
+      ],
+      "_metadata": {
+        "displayName": "Resend",
+        "category": "email-integration",
+        "description": "Send emails directly from Cursor with this email sending MCP server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/resend",
+        "repository": "https://github.com/resend"
+      }
+    },
+    "risken": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/risken"
+      ],
+      "_metadata": {
+        "displayName": "Risken",
+        "category": "utilities",
+        "description": "RISKEN's official MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/risken",
+        "repository": "https://github.com/ca-risken"
+      }
+    },
+    "root": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/root"
+      ],
+      "_metadata": {
+        "displayName": "Root",
+        "category": "cloud-infrastructure",
+        "description": "MCP server that provides container image vulnerability scanning and remediation capabilities thro...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/root",
+        "repository": "https://github.com/rootio-avr"
+      }
+    },
+    "ros2": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/ros2"
+      ],
+      "_metadata": {
+        "displayName": "Ros2",
+        "category": "ai-task-management",
+        "description": "Python server implementing Model Context Protocol (MCP) for ROS2.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/ros2",
+        "repository": "https://github.com/wise-vision"
+      }
+    },
+    "rust-mcp-filesystem": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/rust-mcp-filesystem"
+      ],
+      "_metadata": {
+        "displayName": "Rust Mcp Filesystem",
+        "category": "ai-task-management",
+        "description": "The Rust MCP Filesystem is a high-performance, asynchronous, and lightweight Model Context Protoc...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/rust-mcp-filesystem",
+        "repository": "https://github.com/rust-mcp-stack"
+      }
+    },
+    "schemacrawler-ai": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/schemacrawler-ai"
+      ],
+      "_metadata": {
+        "displayName": "Schemacrawler Ai",
+        "category": "ai-task-management",
+        "description": "The SchemaCrawler AI MCP Server enables natural language interaction with your database schema us...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/schemacrawler-ai",
+        "repository": "https://github.com/schemacrawler"
+      }
+    },
+    "schogini-mcp-image-border": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/schogini-mcp-image-border"
+      ],
+      "_metadata": {
+        "displayName": "Schogini Mcp Image Border",
+        "category": "media-generation",
+        "description": "This adds a border to an image and returns base64 encoded image",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/schogini_mcp_image_border",
+        "repository": "https://github.com/schogini"
+      }
+    },
+    "scrapegraph": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/scrapegraph"
+      ],
+      "_metadata": {
+        "displayName": "Scrapegraph",
+        "category": "utilities",
+        "description": "ScapeGraph MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/scrapegraph",
+        "repository": "https://github.com/ScrapeGraphAI"
+      }
+    },
+    "scrapezy": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/scrapezy"
+      ],
+      "_metadata": {
+        "displayName": "Scrapezy",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol server for Scrapezy that enables AI models to extract structured data fr...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/scrapezy",
+        "repository": "https://github.com/Scrapezy"
+      }
+    },
+    "sec-edgar": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/sec-edgar"
+      ],
+      "_metadata": {
+        "displayName": "Sec Edgar",
+        "category": "database",
+        "description": "MCP server to interact with the US SEC EDGAR database, developed by the community and maintained ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/sec-edgar",
+        "repository": "https://github.com/stefanoamorelli"
+      }
+    },
+    "securenote-link-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/securenote-link-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Securenote Link Mcp Server",
+        "category": "ai-task-management",
+        "description": "SecureNote.link MCP Server - allowing AI agents to securely share sensitive information through e...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/securenote-link-mcp-server",
+        "repository": "https://github.com/jackalterman"
+      }
+    },
+    "sentry": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/sentry"
+      ],
+      "_metadata": {
+        "displayName": "Sentry",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol server for retrieving and analyzing issues from Sentry.io. This server p...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/sentry",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "sequa": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/sequa"
+      ],
+      "_metadata": {
+        "displayName": "Sequa",
+        "category": "ai-task-management",
+        "description": "Stop stitching context for Copilot and Cursor. With Sequa MCP, your AI tools know your entire cod...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/sequa",
+        "repository": "https://github.com/sequa-ai"
+      }
+    },
+    "sequentialthinking": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/sequentialthinking"
+      ],
+      "_metadata": {
+        "displayName": "Sequentialthinking",
+        "category": "utilities",
+        "description": "Dynamic and reflective problem-solving through thought sequences.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/sequentialthinking",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "shopify": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/shopify"
+      ],
+      "_metadata": {
+        "displayName": "Shopify",
+        "category": "utilities",
+        "description": "Shopify.dev MCP server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/shopify",
+        "repository": "https://github.com/Shopify"
+      }
+    },
+    "signatures": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/signatures"
+      ],
+      "_metadata": {
+        "displayName": "Signatures",
+        "category": "utilities",
+        "description": "Repository containing cosign signatures for images in the mcp namespace",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/signatures"
+      }
+    },
+    "singlestore": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/singlestore"
+      ],
+      "_metadata": {
+        "displayName": "Singlestore",
+        "category": "api-development",
+        "description": "MCP server for interacting with SingleStore Management API and services",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/singlestore",
+        "repository": "https://github.com/singlestore-labs"
+      }
+    },
+    "slack": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/slack"
+      ],
+      "_metadata": {
+        "displayName": "Slack",
+        "category": "api-development",
+        "description": "Interact with Slack Workspaces over the Slack API.",
+        "vendor": "Slack",
+        "dockerHub": "https://hub.docker.com/r/mcp/slack",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "smartbear": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/smartbear"
+      ],
+      "_metadata": {
+        "displayName": "Smartbear",
+        "category": "ai-task-management",
+        "description": "MCP server for AI access to SmartBear tools, including BugSnag, Reflect, API Hub, PactFlow.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/smartbear",
+        "repository": "https://github.com/SmartBear"
+      }
+    },
+    "sonarqube": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/sonarqube"
+      ],
+      "_metadata": {
+        "displayName": "Sonarqube",
+        "category": "cloud-infrastructure",
+        "description": "Interact with SonarQube Cloud, Server and Community build over the web API. Analyze code to ident...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/sonarqube",
+        "repository": "https://github.com/SonarSource"
+      }
+    },
+    "sqlite": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/sqlite"
+      ],
+      "_metadata": {
+        "displayName": "Sqlite",
+        "category": "database",
+        "description": "Database interaction and business intelligence capabilities.",
+        "vendor": "SQLite",
+        "dockerHub": "https://hub.docker.com/r/mcp/sqlite",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "stackhawk": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/stackhawk"
+      ],
+      "_metadata": {
+        "displayName": "Stackhawk",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server for integrating with StackHawk's security scanning platform...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/stackhawk",
+        "repository": "https://github.com/stackhawk"
+      }
+    },
+    "stripe": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/stripe"
+      ],
+      "_metadata": {
+        "displayName": "Stripe",
+        "category": "api-development",
+        "description": "Interact with Stripe services over the Stripe API.",
+        "vendor": "Stripe",
+        "dockerHub": "https://hub.docker.com/r/mcp/stripe",
+        "repository": "https://github.com/stripe"
+      }
+    },
+    "suzieq-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/suzieq-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Suzieq Mcp",
+        "category": "developer-tools",
+        "description": "MCP Server to interact with a SuzieQ network observability instance via its REST API",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/suzieq-mcp",
+        "repository": "https://github.com/PovedaAqui"
+      }
+    },
+    "tavily": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/tavily"
+      ],
+      "_metadata": {
+        "displayName": "Tavily",
+        "category": "web-search",
+        "description": "The Tavily MCP server provides seamless interaction with the tavily-search and tavily-extract too...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/tavily",
+        "repository": "https://github.com/tavily-ai"
+      }
+    },
+    "teamwork": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/teamwork"
+      ],
+      "_metadata": {
+        "displayName": "Teamwork",
+        "category": "utilities",
+        "description": "Tools for Teamwork.com products.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/teamwork",
+        "repository": "https://github.com/Teamwork"
+      }
+    },
+    "tembo": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/tembo"
+      ],
+      "_metadata": {
+        "displayName": "Tembo",
+        "category": "cloud-infrastructure",
+        "description": "MCP server for Tembo Cloud's platform API",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/tembo",
+        "repository": "https://github.com/tembo-io"
+      }
+    },
+    "text-to-graphql": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/text-to-graphql"
+      ],
+      "_metadata": {
+        "displayName": "Text To Graphql",
+        "category": "ai-task-management",
+        "description": "Transform natural language queries into GraphQL queries using an AI agent. Provides schema manage...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/text-to-graphql",
+        "repository": "https://github.com/Arize-ai"
+      }
+    },
+    "tigris": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/tigris"
+      ],
+      "_metadata": {
+        "displayName": "Tigris",
+        "category": "cloud-infrastructure",
+        "description": "Tigris is a globally distributed S3-compatible object storage service that provides low latency a...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/tigris",
+        "repository": "https://github.com/tigrisdata"
+      }
+    },
+    "time": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/time"
+      ],
+      "_metadata": {
+        "displayName": "Time",
+        "category": "utilities",
+        "description": "Time and timezone conversion capabilities",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/time",
+        "repository": "https://github.com/modelcontextprotocol"
+      }
+    },
+    "triplewhale": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/triplewhale"
+      ],
+      "_metadata": {
+        "displayName": "Triplewhale",
+        "category": "utilities",
+        "description": "Triplewhale MCP Server",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/triplewhale",
+        "repository": "https://github.com/Triple-Whale"
+      }
+    },
+    "unreal-engine-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/unreal-engine-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Unreal Engine Mcp Server",
+        "category": "ai-task-management",
+        "description": "A comprehensive Model Context Protocol (MCP) server that enables AI assistants to control Unreal ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/unreal-engine-mcp-server",
+        "repository": "https://github.com/ChiR24"
+      }
+    },
+    "veyrax": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/veyrax"
+      ],
+      "_metadata": {
+        "displayName": "Veyrax",
+        "category": "utilities",
+        "description": "VeyraX MCP is the only connection you need to access all your tools in any MCP-compatible environ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/veyrax",
+        "repository": "https://github.com/VeyraX"
+      }
+    },
+    "vizro": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/vizro"
+      ],
+      "_metadata": {
+        "displayName": "Vizro",
+        "category": "utilities",
+        "description": "provides tools and templates to create a functioning Vizro chart or dashboard step by step",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/vizro",
+        "repository": "https://github.com/mckinsey"
+      }
+    },
+    "vuln-nist-mcp-server": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/vuln-nist-mcp-server"
+      ],
+      "_metadata": {
+        "displayName": "Vuln Nist Mcp Server",
+        "category": "api-development",
+        "description": "This MCP server exposes tools to query the NVD/CVE REST API and return formatted text results sui...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/vuln-nist-mcp-server",
+        "repository": "https://github.com/HaroldFinchIFT"
+      }
+    },
+    "webflow": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/webflow"
+      ],
+      "_metadata": {
+        "displayName": "Webflow",
+        "category": "ai-task-management",
+        "description": "Model Context Protocol (MCP) server for the Webflow Data API.",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/webflow",
+        "repository": "https://github.com/webflow"
+      }
+    },
+    "wikipedia-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/wikipedia-mcp"
+      ],
+      "_metadata": {
+        "displayName": "Wikipedia Mcp",
+        "category": "ai-task-management",
+        "description": "A Model Context Protocol (MCP) server that retrieves information from Wikipedia to provide contex...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/wikipedia-mcp",
+        "repository": "https://github.com/Rudra-ravi"
+      }
+    },
+    "wolfram-alpha": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/wolfram-alpha"
+      ],
+      "_metadata": {
+        "displayName": "Wolfram Alpha",
+        "category": "email-integration",
+        "description": "Connect your chat repl to wolfram alpha computational intelligence",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/wolfram-alpha",
+        "repository": "https://github.com/SecretiveShell"
+      }
+    },
+    "youtube-transcript": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/youtube-transcript"
+      ],
+      "_metadata": {
+        "displayName": "Youtube Transcript",
+        "category": "media-generation",
+        "description": "Retrieves transcripts for given YouTube video URLs",
+        "vendor": "YouTube",
+        "dockerHub": "https://hub.docker.com/r/mcp/youtube-transcript",
+        "repository": "https://github.com/jkawamoto"
+      }
+    },
+    "zerodha-kite": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "mcp/zerodha-kite"
+      ],
+      "_metadata": {
+        "displayName": "Zerodha Kite",
+        "category": "api-development",
+        "description": "MCP server for Zerodha Kite Connect API - India's leading stock broker trading platform. Execute ...",
+        "vendor": "MCP",
+        "dockerHub": "https://hub.docker.com/r/mcp/zerodha-kite",
+        "repository": "https://github.com/anshuljain90"
+      }
+    }
+  }
+}

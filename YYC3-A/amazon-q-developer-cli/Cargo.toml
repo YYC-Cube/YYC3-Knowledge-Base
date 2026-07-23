@@ -1,0 +1,221 @@
+[workspace]
+resolver = "3"
+members = ["crates/amzn-codewhisperer-client", "crates/amzn-codewhisperer-streaming-client", "crates/amzn-consolas-client", "crates/amzn-qdeveloper-streaming-client", "crates/amzn-toolkit-telemetry-client", "crates/aws-toolkit-telemetry-definitions", "crates/chat-cli", "crates/semantic-search-client", "crates/chat-cli-ui", "crates/agent"]
+default-members = ["crates/chat-cli"]
+
+[workspace.package]
+authors = ["Amazon Q CLI Team (q-cli@amazon.com)", "Chay Nabors (nabochay@amazon.com)", "Brandon Kiser (bskiser@amazon.com)", "Felix Ding (dingfeli@amazon.com)"]
+edition = "2024"
+homepage = "https://aws.amazon.com/q/"
+publish = false
+version = "1.19.7"
+license = "MIT OR Apache-2.0"
+
+[workspace.dependencies]
+agent = { path = "crates/agent" }
+amzn-codewhisperer-client = { path = "crates/amzn-codewhisperer-client" }
+amzn-codewhisperer-streaming-client = { path = "crates/amzn-codewhisperer-streaming-client" }
+amzn-consolas-client = { path = "crates/amzn-consolas-client" }
+amzn-qdeveloper-streaming-client = { path = "crates/amzn-qdeveloper-streaming-client" }
+amzn-toolkit-telemetry-client = { path = "crates/amzn-toolkit-telemetry-client" }
+anstream = "0.6.13"
+arboard = { version = "3.6.1", default-features = false, features = ["image-data"] }
+assert_cmd = "2.0"
+async-trait = "0.1.87"
+aws-config = "1.0.3"
+aws-credential-types = "1.0.3"
+aws-runtime = "1.4.4"
+aws-sdk-cognitoidentity = "1.51.0"
+aws-sdk-ssooidc = "1.51.0"
+aws-smithy-async = "1.2.2"
+aws-smithy-runtime-api = "1.6.1"
+aws-smithy-types = "1.2.10"
+aws-types = "1.3.0"
+base64 = "0.22.1"
+bitflags = "2.9.0"
+bstr = "1.12.0"
+bytes = "1.10.1"
+camino = { version = "1.1.3", features = ["serde1"] }
+cfg-if = "1.0.0"
+chrono = { version = "0.4.41", features = ["serde"] }
+clap = { version = "4.5.32", features = ["deprecated", "derive", "string", "unicode", "wrap_help"] }
+clap_complete = "4.5.46"
+clap_complete_fig = "4.4.0"
+color-eyre = "0.6.5"
+color-print = "0.3.5"
+convert_case = "0.8.0"
+cookie = "0.18.1"
+criterion = "0.6.0"
+crossterm = { version = "0.28.1", features = ["event-stream", "events"] }
+ctrlc = "3.4.6"
+dialoguer = { version = "0.11.0", features = ["fuzzy-select"] }
+dirs = "5.0.0"
+eyre = "0.6.8"
+fd-lock = "4.0.4"
+futures = "0.3.26"
+glob = "0.3.2"
+globset = "0.4.16"
+hex = "0.4.3"
+http = "1.2.0"
+http-body-util = "0.1.3"
+hyper = { version = "1.6.0", features = ["server"] }
+hyper-util = { version = "0.1.11", features = ["tokio"] }
+indicatif = "0.17.11"
+indoc = "2.0.6"
+insta = "1.43.1"
+libc = "0.2.172"
+mimalloc = "0.1.46"
+mockito = "1.7.0"
+nix = { version = "0.29.0", features = ["feature", "fs", "ioctl", "process", "signal", "term", "user"] }
+objc2 = "0.5.2"
+objc2-app-kit = { version = "0.2.2", features = ["NSWorkspace"] }
+objc2-foundation = { version = "0.2.2", features = ["NSString", "NSURL"] }
+owo-colors = "4.2.0"
+parking_lot = "0.12.3"
+paste = "1.0.11"
+pdf-extract = "0.10.0"
+percent-encoding = "2.2.0"
+image = "0.25"
+predicates = "3.0"
+prettyplease = "0.2.32"
+quote = "1.0.40"
+r2d2 = "0.8.10"
+r2d2_sqlite = "0.25.0"
+rand = "0.9.0"
+rayon = "1.10.0"
+regex = "1.7.0"
+reqwest = { version = "0.12.14", default-features = false, features = ["http2", "charset", "rustls-tls", "rustls-tls-native-roots", "gzip", "json", "socks", "cookies", "stream"] }
+ring = "0.17.14"
+rusqlite = { version = "0.32.1", features = ["bundled", "serde_json"] }
+rustls = "0.23.23"
+rustls-native-certs = "0.8.1"
+rustls-pemfile = "2.1.0"
+rustyline = { version = "15.0.0", features = ["custom-bindings", "derive", "with-file-history"], default-features = false }
+security-framework = "3.2.0"
+semantic_search_client = { path = "crates/semantic-search-client" }
+semver = { version = "1.0.26", features = ["serde"] }
+serde = { version = "1.0.219", features = ["derive", "rc"] }
+serde_json = { version = "1.0.140", features = ["preserve_order"] }
+sha2 = "0.10.9"
+shell-color = "1.0.0"
+shell-words = "1.1.0"
+shellexpand = "3.0.0"
+shlex = "1.3.0"
+similar = "2.7.0"
+skim = { version = "0.16.2" }
+spinners = "4.1.0"
+strip-ansi-escapes = "0.2.1"
+strum = { version = "0.27.1", features = ["derive"] }
+syn = "2.0.101"
+syntect = "5.2.0"
+sysinfo = "0.33.1"
+tempfile = "3.18.0"
+thiserror = "2.0.12"
+time = { version = "0.3.39", features = ["parsing", "formatting", "local-offset", "macros", "serde"] }
+tokio = { version = "1.45.0", features = ["full"] }
+tokio-stream = { version = "0.1.17", features = ["io-util"] }
+tokio-tungstenite = "0.26.2"
+tokio-util = { version = "0.7.15", features = ["codec", "compat"] }
+toml = "0.8.12"
+tracing = { version = "0.1.40", features = ["log"] }
+tracing-appender = "0.2.2"
+tracing-subscriber = { version = "0.3.19", features = ["env-filter", "fmt", "parking_lot", "time"] }
+tracing-test = "0.2.4"
+typed-path = "0.11.0"
+unicode-width = "0.2.0"
+url = "2.5.4"
+uuid = { version = "1.15.1", features = ["v4", "serde"] }
+walkdir = "2.5.0"
+webpki-roots = "=0.26.8"
+whoami = "1.6.0"
+windows = { version = "0.61.1", features = ["Foundation", "Win32_System_ProcessStatus", "Win32_System_Kernel", "Win32_System_Threading", "Wdk_System_Threading"] }
+winnow = "=0.6.2"
+winreg = "0.55.0"
+schemars = "1.0.4"
+jsonschema = "0.30.0"
+zip = "2.2.0"
+rmcp = { version = "0.8.0", features = ["client", "transport-sse-client-reqwest", "reqwest", "transport-streamable-http-client-reqwest", "transport-child-process", "tower", "auth"] }
+chat-cli-ui = { path = "crates/chat-cli-ui" }
+
+[workspace.lints.rust]
+future_incompatible = "warn"
+nonstandard_style = "warn"
+rust_2018_idioms = "warn"
+
+[workspace.lints.clippy]
+await_holding_lock = "warn"
+char_lit_as_u8 = "warn"
+checked_conversions = "warn"
+dbg_macro = "warn"
+debug_assert_with_mut_call = "warn"
+# doc_markdown = "warn"
+empty_enum = "warn"
+enum_glob_use = "warn"
+exit = "warn"
+expl_impl_clone_on_copy = "warn"
+explicit_deref_methods = "warn"
+explicit_into_iter_loop = "warn"
+fallible_impl_from = "warn"
+filter_map_next = "warn"
+flat_map_option = "warn"
+float_cmp_const = "warn"
+fn_params_excessive_bools = "warn"
+from_iter_instead_of_collect = "warn"
+if_let_mutex = "warn"
+implicit_clone = "warn"
+imprecise_flops = "warn"
+inefficient_to_string = "warn"
+invalid_upcast_comparisons = "warn"
+large_digit_groups = "warn"
+large_stack_arrays = "warn"
+large_types_passed_by_value = "warn"
+let_unit_value = "warn"
+linkedlist = "warn"
+lossy_float_literal = "warn"
+macro_use_imports = "warn"
+manual_ok_or = "warn"
+map_err_ignore = "warn"
+map_flatten = "warn"
+map_unwrap_or = "warn"
+match_on_vec_items = "warn"
+# match_same_arms = "warn"
+match_wild_err_arm = "warn"
+match_wildcard_for_single_variants = "warn"
+mem_forget = "warn"
+missing_enforced_import_renames = "warn"
+mut_mut = "warn"
+mutex_integer = "warn"
+needless_borrow = "warn"
+needless_continue = "warn"
+needless_for_each = "warn"
+option_option = "warn"
+path_buf_push_overwrite = "warn"
+ptr_as_ptr = "warn"
+rc_mutex = "warn"
+ref_option_ref = "warn"
+rest_pat_in_fully_bound_structs = "warn"
+same_functions_in_if_condition = "warn"
+semicolon_if_nothing_returned = "warn"
+string_add = "warn"
+string_add_assign = "warn"
+string_lit_as_bytes = "warn"
+string_to_string = "warn"
+todo = "warn"
+trait_duplication_in_bounds = "warn"
+unimplemented = "warn"
+unnested_or_patterns = "warn"
+unused_self = "warn"
+useless_transmute = "warn"
+verbose_file_reads = "warn"
+zero_sized_map_values = "warn"
+
+[profile.release]
+debug = 1
+incremental = true
+lto = "off"
+
+[profile.dev.package.insta]
+opt-level = 3
+
+[profile.dev.package.similar]
+opt-level = 3

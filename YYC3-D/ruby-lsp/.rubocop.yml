@@ -1,0 +1,98 @@
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
+plugins:
+  - rubocop-rake
+  - rubocop-minitest
+
+require:
+  - rubocop-sorbet
+  - ./lib/rubocop/cop/ruby_lsp/use_language_server_aliases
+  - ./lib/rubocop/cop/ruby_lsp/use_register_with_handler_method
+
+AllCops:
+  NewCops: disable
+  SuggestExtensions: false
+  Include:
+    - "sorbet/rbi/shims/**/*.rbi"
+  Exclude:
+    - "vendor/**/*"
+    - "vscode/**/*"
+    - "features/**/*"
+    - "test/fixtures/**/*"
+    - "test/expectations/**/*"
+    - "jekyll/**/*"
+    # This a vendored source file that is not a part of our codebase
+    - "lib/ruby_lsp/requests/support/package_url.rb"
+
+Layout/LeadingCommentSpace:
+  AllowRBSInlineAnnotation: true
+
+Layout/LineLength:
+  AllowedPatterns: ['\A\s*#:']
+
+Minitest/AssertPredicate:
+  Enabled: true
+
+Naming/FileName:
+  Exclude:
+    - "lib/ruby-lsp.rb"
+
+RubyLsp/UseLanguageServerAliases:
+  Exclude:
+    - "test/**/*.rb"
+
+Sorbet/FalseSigil:
+  Enabled: false
+
+Sorbet/TrueSigil:
+  Enabled: true
+  Include:
+    - "test/**/*.rb"
+    - "lib/ruby_indexer/test/**/*.rb"
+    - "lib/ruby_indexer/lib/ruby_indexer/prefix_tree.rb"
+    - "lib/ruby_lsp/scripts/compose_bundle.rb"
+    - "lib/ruby_lsp/test_reporters/test_unit_reporter.rb"
+  Exclude:
+    - "**/*.rake"
+    - "lib/**/*.rb"
+
+Sorbet/StrictSigil:
+  Enabled: true
+  Include:
+    - "lib/**/*.rb"
+  Exclude:
+    - "**/*.rake"
+    - "test/**/*.rb"
+    - "lib/ruby_indexer/test/**/*.rb"
+    - "lib/ruby-lsp.rb"
+    - "lib/ruby_indexer/lib/ruby_indexer/prefix_tree.rb"
+    - "lib/ruby_lsp/scripts/compose_bundle.rb"
+    - "lib/ruby_lsp/test_helper.rb"
+    - "lib/ruby_lsp/test_reporters/test_unit_reporter.rb"
+
+Layout/ClassStructure:
+  Enabled: true
+  Exclude:
+    - "test/**/*"
+  ExpectedOrder:
+    - module_inclusion
+    - constants
+    - public_attribute_macros
+    - public_class_methods # does not recognize `class << self`
+    - initializer
+    - public_methods
+    - protected_attribute_macros
+    - protected_methods
+    - private_attribute_macros
+    - private_delegate
+    - private_methods
+  Categories:
+    attribute_macros:
+      - attr_accessor
+      - attr_reader
+      - attr_writer
+    module_inclusion:
+      - include
+      - prepend
+      - extend

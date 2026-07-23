@@ -1,0 +1,1021 @@
+# 🛡️ 安全漏洞修复报告
+
+**生成时间**: 2025-09-25 04:10:26
+
+## 🔍 扫描工具
+
+- ✅ **Safety** - Python 包安全漏洞扫描器
+- ✅ **pip-audit** - PyPI 包安全审计工具
+
+## 🔧 修复结果
+
+### ✅ 成功修复的包
+
+- accelerate
+- aiofiles
+- aiohappyeyeballs
+- aiohttp
+- aiosignal
+- amqp
+- anaconda-anon-usage
+- anaconda-auth
+- anaconda-cli-base
+- annotated-types
+- anyio
+- archspec
+- attrs
+- authlib
+- billiard
+- bitsandbytes
+- boltons
+- boolean-py
+- boto3
+- botocore
+- bracex
+- brotlicffi
+- bump-my-version
+- cachecontrol
+- celery
+- certifi
+- cffi
+- charset-normalizer
+- click
+- click-didyoumean
+- click-plugins
+- click-repl
+- colorama
+- conda
+- conda-anaconda-telemetry
+- conda-anaconda-tos
+- conda-content-trust
+- conda-libmamba-solver
+- conda-package-handling
+- conda-package-streaming
+- cryptography
+- cyclonedx-python-lib
+- defusedxml
+- distro
+- docker
+- docutils
+- dparse
+- fastapi
+- filelock
+- frozendict
+- frozenlist
+- fsspec
+- h11
+- hf-xet
+- httpcore
+- httpx
+- huggingface-hub
+- id
+- idna
+- isodate
+- jaraco-classes
+- jaraco-context
+- jaraco-functools
+- jinja2
+- jmespath
+- joblib
+- jsonpatch
+- jsonpointer
+- keyring
+- kombu
+- libmambapy
+- license-expression
+- markdown-it-py
+- markupsafe
+- marshmallow
+- mdurl
+- menuinst
+- more-itertools
+- mpmath
+- msgpack
+- multidict
+- networkx
+- ngcsdk
+- nh3
+- nltk
+- numpy
+- optimum
+- packageurl-python
+- packaging
+- pip
+- pip-api
+- pip-audit
+- pip-requirements-parser
+- pkce
+- platformdirs
+- pluggy
+- polling2
+- prettytable
+- prompt-toolkit
+- propcache
+- psutil
+- py-serializable
+- pycosat
+- pycparser
+- pydantic
+- pydantic-core
+- pydantic-settings
+- pygments
+- pyjwt
+- pyparsing
+- pysocks
+- python-dateutil
+- python-dotenv
+- pyyaml
+- questionary
+- readchar
+- readme-renderer
+- regex
+- requests
+- requests-toolbelt
+- rfc3986
+- rich
+- rich-click
+- ruamel-yaml
+- ruamel-yaml-clib
+- s3transfer
+- safetensors
+- safety
+- safety-schemas
+- scipy
+- semver
+- sentencepiece
+- setuptools
+- shellingham
+- shortuuid
+- six
+- sniffio
+- sortedcontainers
+- starlette
+- sympy
+- tenacity
+- tokenizers
+- toml
+- tomli
+- tomlkit
+- torch
+- tqdm
+- transformers
+- truststore
+- twine
+- typer
+- typing-extensions
+- typing-inspection
+- tzdata
+- urllib3
+- uvicorn
+- validators
+- vine
+- wcmatch
+- wcwidth
+- wheel
+- yarl
+- zstandard
+- pydantic_core
+
+## 📊 Safety 扫描结果
+
+```json
+{
+  "vulnerabilities": []
+}
+```
+
+## 📊 pip-audit 扫描结果
+
+```json
+{
+  "dependencies": [
+    {
+      "name": "accelerate",
+      "version": "1.10.1",
+      "vulns": []
+    },
+    {
+      "name": "aiofiles",
+      "version": "24.1.0",
+      "vulns": []
+    },
+    {
+      "name": "aiohappyeyeballs",
+      "version": "2.6.1",
+      "vulns": []
+    },
+    {
+      "name": "aiohttp",
+      "version": "3.12.15",
+      "vulns": []
+    },
+    {
+      "name": "aiosignal",
+      "version": "1.4.0",
+      "vulns": []
+    },
+    {
+      "name": "amqp",
+      "version": "5.3.1",
+      "vulns": []
+    },
+    {
+      "name": "anaconda-anon-usage",
+      "skip_reason": "Dependency not found on PyPI and could not be audited: anaconda-anon-usage (0.7.2)"
+    },
+    {
+      "name": "anaconda-auth",
+      "version": "0.9.0",
+      "vulns": []
+    },
+    {
+      "name": "anaconda-cli-base",
+      "version": "0.5.3",
+      "vulns": []
+    },
+    {
+      "name": "annotated-types",
+      "version": "0.7.0",
+      "vulns": []
+    },
+    {
+      "name": "anyio",
+      "version": "4.11.0",
+      "vulns": []
+    },
+    {
+      "name": "archspec",
+      "version": "0.2.5",
+      "vulns": []
+    },
+    {
+      "name": "attrs",
+      "version": "25.3.0",
+      "vulns": []
+    },
+    {
+      "name": "authlib",
+      "version": "1.6.4",
+      "vulns": []
+    },
+    {
+      "name": "billiard",
+      "version": "4.2.2",
+      "vulns": []
+    },
+    {
+      "name": "bitsandbytes",
+      "version": "0.42.0",
+      "vulns": []
+    },
+    {
+      "name": "boltons",
+      "version": "25.0.0",
+      "vulns": []
+    },
+    {
+      "name": "boolean-py",
+      "version": "5.0",
+      "vulns": []
+    },
+    {
+      "name": "boto3",
+      "version": "1.40.38",
+      "vulns": []
+    },
+    {
+      "name": "botocore",
+      "version": "1.40.38",
+      "vulns": []
+    },
+    {
+      "name": "bracex",
+      "version": "2.6",
+      "vulns": []
+    },
+    {
+      "name": "brotlicffi",
+      "version": "1.1.0.0",
+      "vulns": []
+    },
+    {
+      "name": "bump-my-version",
+      "version": "1.2.3",
+      "vulns": []
+    },
+    {
+      "name": "cachecontrol",
+      "version": "0.14.3",
+      "vulns": []
+    },
+    {
+      "name": "celery",
+      "version": "5.5.3",
+      "vulns": []
+    },
+    {
+      "name": "certifi",
+      "version": "2025.8.3",
+      "vulns": []
+    },
+    {
+      "name": "cffi",
+      "version": "2.0.0",
+      "vulns": []
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.4.3",
+      "vulns": []
+    },
+    {
+      "name": "click",
+      "version": "8.3.0",
+      "vulns": []
+    },
+    {
+      "name": "click-didyoumean",
+      "version": "0.3.1",
+      "vulns": []
+    },
+    {
+      "name": "click-plugins",
+      "version": "1.1.1.2",
+      "vulns": []
+    },
+    {
+      "name": "click-repl",
+      "version": "0.3.0",
+      "vulns": []
+    },
+    {
+      "name": "colorama",
+      "version": "0.4.6",
+      "vulns": []
+    },
+    {
+      "name": "conda",
+      "skip_reason": "Dependency not found on PyPI and could not be audited: conda (25.7.0)"
+    },
+    {
+      "name": "conda-anaconda-telemetry",
+      "skip_reason": "Dependency not found on PyPI and could not be audited: conda-anaconda-telemetry (0.3.0)"
+    },
+    {
+      "name": "conda-anaconda-tos",
+      "skip_reason": "Dependency not found on PyPI and could not be audited: conda-anaconda-tos (0.2.2)"
+    },
+    {
+      "name": "conda-content-trust",
+      "skip_reason": "Dependency not found on PyPI and could not be audited: conda-content-trust (0.2.0)"
+    },
+    {
+      "name": "conda-libmamba-solver",
+      "skip_reason": "Dependency not found on PyPI and could not be audited: conda-libmamba-solver (25.4.0)"
+    },
+    {
+      "name": "conda-package-handling",
+      "version": "2.4.0",
+      "vulns": []
+    },
+    {
+      "name": "conda-package-streaming",
+      "version": "0.12.0",
+      "vulns": []
+    },
+    {
+      "name": "cryptography",
+      "version": "46.0.1",
+      "vulns": []
+    },
+    {
+      "name": "cyclonedx-python-lib",
+      "version": "9.1.0",
+      "vulns": []
+    },
+    {
+      "name": "defusedxml",
+      "version": "0.7.1",
+      "vulns": []
+    },
+    {
+      "name": "distro",
+      "version": "1.9.0",
+      "vulns": []
+    },
+    {
+      "name": "docker",
+      "version": "7.1.0",
+      "vulns": []
+    },
+    {
+      "name": "docutils",
+      "version": "0.22.2",
+      "vulns": []
+    },
+    {
+      "name": "dparse",
+      "version": "0.6.4",
+      "vulns": []
+    },
+    {
+      "name": "fastapi",
+      "version": "0.117.1",
+      "vulns": []
+    },
+    {
+      "name": "filelock",
+      "version": "3.19.1",
+      "vulns": []
+    },
+    {
+      "name": "frozendict",
+      "version": "2.4.6",
+      "vulns": []
+    },
+    {
+      "name": "frozenlist",
+      "version": "1.7.0",
+      "vulns": []
+    },
+    {
+      "name": "fsspec",
+      "version": "2025.9.0",
+      "vulns": []
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0",
+      "vulns": []
+    },
+    {
+      "name": "hf-xet",
+      "version": "1.1.10",
+      "vulns": []
+    },
+    {
+      "name": "httpcore",
+      "version": "1.0.9",
+      "vulns": []
+    },
+    {
+      "name": "httpx",
+      "version": "0.28.1",
+      "vulns": []
+    },
+    {
+      "name": "huggingface-hub",
+      "version": "0.35.1",
+      "vulns": []
+    },
+    {
+      "name": "id",
+      "version": "1.5.0",
+      "vulns": []
+    },
+    {
+      "name": "idna",
+      "version": "3.10",
+      "vulns": []
+    },
+    {
+      "name": "isodate",
+      "version": "0.7.2",
+      "vulns": []
+    },
+    {
+      "name": "jaraco-classes",
+      "version": "3.4.0",
+      "vulns": []
+    },
+    {
+      "name": "jaraco-context",
+      "version": "6.0.1",
+      "vulns": []
+    },
+    {
+      "name": "jaraco-functools",
+      "version": "4.3.0",
+      "vulns": []
+    },
+    {
+      "name": "jinja2",
+      "version": "3.1.6",
+      "vulns": []
+    },
+    {
+      "name": "jmespath",
+      "version": "1.0.1",
+      "vulns": []
+    },
+    {
+      "name": "joblib",
+      "version": "1.5.2",
+      "vulns": []
+    },
+    {
+      "name": "jsonpatch",
+      "version": "1.33",
+      "vulns": []
+    },
+    {
+      "name": "jsonpointer",
+      "version": "3.0.0",
+      "vulns": []
+    },
+    {
+      "name": "keyring",
+      "version": "25.6.0",
+      "vulns": []
+    },
+    {
+      "name": "kombu",
+      "version": "5.5.4",
+      "vulns": []
+    },
+    {
+      "name": "libmambapy",
+      "skip_reason": "Dependency not found on PyPI and could not be audited: libmambapy (2.0.5)"
+    },
+    {
+      "name": "license-expression",
+      "version": "30.4.4",
+      "vulns": []
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.0.0",
+      "vulns": []
+    },
+    {
+      "name": "markupsafe",
+      "version": "3.0.2",
+      "vulns": []
+    },
+    {
+      "name": "marshmallow",
+      "version": "4.0.1",
+      "vulns": []
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "vulns": []
+    },
+    {
+      "name": "menuinst",
+      "skip_reason": "Dependency not found on PyPI and could not be audited: menuinst (2.3.1)"
+    },
+    {
+      "name": "more-itertools",
+      "version": "10.8.0",
+      "vulns": []
+    },
+    {
+      "name": "mpmath",
+      "version": "1.3.0",
+      "vulns": []
+    },
+    {
+      "name": "msgpack",
+      "version": "1.1.1",
+      "vulns": []
+    },
+    {
+      "name": "multidict",
+      "version": "6.6.4",
+      "vulns": []
+    },
+    {
+      "name": "networkx",
+      "version": "3.5",
+      "vulns": []
+    },
+    {
+      "name": "ngcsdk",
+      "version": "4.3.0",
+      "vulns": []
+    },
+    {
+      "name": "nh3",
+      "version": "0.3.0",
+      "vulns": []
+    },
+    {
+      "name": "nltk",
+      "version": "3.9.1",
+      "vulns": []
+    },
+    {
+      "name": "numpy",
+      "version": "2.3.3",
+      "vulns": []
+    },
+    {
+      "name": "optimum",
+      "version": "1.27.0",
+      "vulns": []
+    },
+    {
+      "name": "packageurl-python",
+      "version": "0.17.5",
+      "vulns": []
+    },
+    {
+      "name": "packaging",
+      "version": "25.0",
+      "vulns": []
+    },
+    {
+      "name": "pip",
+      "version": "25.2",
+      "vulns": []
+    },
+    {
+      "name": "pip-api",
+      "version": "0.0.34",
+      "vulns": []
+    },
+    {
+      "name": "pip-audit",
+      "version": "2.9.0",
+      "vulns": []
+    },
+    {
+      "name": "pip-requirements-parser",
+      "version": "32.0.1",
+      "vulns": []
+    },
+    {
+      "name": "pkce",
+      "version": "1.0.3",
+      "vulns": []
+    },
+    {
+      "name": "platformdirs",
+      "version": "4.4.0",
+      "vulns": []
+    },
+    {
+      "name": "pluggy",
+      "version": "1.6.0",
+      "vulns": []
+    },
+    {
+      "name": "polling2",
+      "version": "0.5.0",
+      "vulns": []
+    },
+    {
+      "name": "prettytable",
+      "version": "3.16.0",
+      "vulns": []
+    },
+    {
+      "name": "prompt-toolkit",
+      "version": "3.0.52",
+      "vulns": []
+    },
+    {
+      "name": "propcache",
+      "version": "0.3.2",
+      "vulns": []
+    },
+    {
+      "name": "psutil",
+      "version": "7.1.0",
+      "vulns": []
+    },
+    {
+      "name": "py-serializable",
+      "version": "2.1.0",
+      "vulns": []
+    },
+    {
+      "name": "pycosat",
+      "version": "0.6.6",
+      "vulns": []
+    },
+    {
+      "name": "pycparser",
+      "version": "2.23",
+      "vulns": []
+    },
+    {
+      "name": "pydantic",
+      "version": "2.11.9",
+      "vulns": []
+    },
+    {
+      "name": "pydantic-core",
+      "version": "2.39.0",
+      "vulns": []
+    },
+    {
+      "name": "pydantic-settings",
+      "version": "2.11.0",
+      "vulns": []
+    },
+    {
+      "name": "pygments",
+      "version": "2.19.2",
+      "vulns": []
+    },
+    {
+      "name": "pyjwt",
+      "version": "2.10.1",
+      "vulns": []
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.2.5",
+      "vulns": []
+    },
+    {
+      "name": "pysocks",
+      "version": "1.7.1",
+      "vulns": []
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "vulns": []
+    },
+    {
+      "name": "python-dotenv",
+      "version": "1.1.1",
+      "vulns": []
+    },
+    {
+      "name": "pyyaml",
+      "version": "6.0.2",
+      "vulns": []
+    },
+    {
+      "name": "questionary",
+      "version": "2.1.1",
+      "vulns": []
+    },
+    {
+      "name": "readchar",
+      "version": "4.2.1",
+      "vulns": []
+    },
+    {
+      "name": "readme-renderer",
+      "version": "44.0",
+      "vulns": []
+    },
+    {
+      "name": "regex",
+      "version": "2025.9.18",
+      "vulns": []
+    },
+    {
+      "name": "requests",
+      "version": "2.32.5",
+      "vulns": []
+    },
+    {
+      "name": "requests-toolbelt",
+      "version": "1.0.0",
+      "vulns": []
+    },
+    {
+      "name": "rfc3986",
+      "version": "2.0.0",
+      "vulns": []
+    },
+    {
+      "name": "rich",
+      "version": "14.1.0",
+      "vulns": []
+    },
+    {
+      "name": "rich-click",
+      "version": "1.9.1",
+      "vulns": []
+    },
+    {
+      "name": "ruamel-yaml",
+      "version": "0.18.15",
+      "vulns": []
+    },
+    {
+      "name": "ruamel-yaml-clib",
+      "version": "0.2.14",
+      "vulns": []
+    },
+    {
+      "name": "s3transfer",
+      "version": "0.14.0",
+      "vulns": []
+    },
+    {
+      "name": "safetensors",
+      "version": "0.6.2",
+      "vulns": []
+    },
+    {
+      "name": "safety",
+      "version": "3.6.2",
+      "vulns": []
+    },
+    {
+      "name": "safety-schemas",
+      "version": "0.0.16",
+      "vulns": []
+    },
+    {
+      "name": "scipy",
+      "version": "1.16.2",
+      "vulns": []
+    },
+    {
+      "name": "semver",
+      "version": "3.0.4",
+      "vulns": []
+    },
+    {
+      "name": "sentencepiece",
+      "version": "0.2.1",
+      "vulns": []
+    },
+    {
+      "name": "setuptools",
+      "version": "80.9.0",
+      "vulns": []
+    },
+    {
+      "name": "shellingham",
+      "version": "1.5.4",
+      "vulns": []
+    },
+    {
+      "name": "shortuuid",
+      "version": "1.0.13",
+      "vulns": []
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "vulns": []
+    },
+    {
+      "name": "sniffio",
+      "version": "1.3.1",
+      "vulns": []
+    },
+    {
+      "name": "sortedcontainers",
+      "version": "2.4.0",
+      "vulns": []
+    },
+    {
+      "name": "starlette",
+      "version": "0.48.0",
+      "vulns": []
+    },
+    {
+      "name": "sympy",
+      "version": "1.14.0",
+      "vulns": []
+    },
+    {
+      "name": "tenacity",
+      "version": "9.1.2",
+      "vulns": []
+    },
+    {
+      "name": "tokenizers",
+      "version": "0.22.1",
+      "vulns": []
+    },
+    {
+      "name": "toml",
+      "version": "0.10.2",
+      "vulns": []
+    },
+    {
+      "name": "tomli",
+      "version": "2.2.1",
+      "vulns": []
+    },
+    {
+      "name": "tomlkit",
+      "version": "0.13.3",
+      "vulns": []
+    },
+    {
+      "name": "torch",
+      "version": "2.8.0",
+      "vulns": []
+    },
+    {
+      "name": "tqdm",
+      "version": "4.67.1",
+      "vulns": []
+    },
+    {
+      "name": "transformers",
+      "version": "4.56.2",
+      "vulns": []
+    },
+    {
+      "name": "truststore",
+      "version": "0.10.4",
+      "vulns": []
+    },
+    {
+      "name": "twine",
+      "version": "6.2.0",
+      "vulns": []
+    },
+    {
+      "name": "typer",
+      "version": "0.19.2",
+      "vulns": []
+    },
+    {
+      "name": "typing-extensions",
+      "version": "4.15.0",
+      "vulns": []
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.1",
+      "vulns": []
+    },
+    {
+      "name": "tzdata",
+      "version": "2025.2",
+      "vulns": []
+    },
+    {
+      "name": "urllib3",
+      "version": "2.5.0",
+      "vulns": []
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.37.0",
+      "vulns": []
+    },
+    {
+      "name": "validators",
+      "version": "0.35.0",
+      "vulns": []
+    },
+    {
+      "name": "vine",
+      "version": "5.1.0",
+      "vulns": []
+    },
+    {
+      "name": "wcmatch",
+      "version": "10.1",
+      "vulns": []
+    },
+    {
+      "name": "wcwidth",
+      "version": "0.2.14",
+      "vulns": []
+    },
+    {
+      "name": "wheel",
+      "version": "0.45.1",
+      "vulns": []
+    },
+    {
+      "name": "yarl",
+      "version": "1.20.1",
+      "vulns": []
+    },
+    {
+      "name": "zstandard",
+      "version": "0.25.0",
+      "vulns": []
+    }
+  ],
+  "fixes": []
+}
+```
+
+## 📁 备份文件
+
+- `requirements.txt.backup`
+- `setup.py.backup`
+
+如果需要恢复，可以使用以下命令：
+```bash
+cp requirements.txt.backup requirements.txt
+pip install -r requirements.txt
+```
+
+## 💡 安全建议
+
+1. **定期扫描**: 建议每周运行一次安全扫描
+2. **自动化更新**: 考虑使用 GitHub Dependabot 自动更新依赖
+3. **虚拟环境**: 使用虚拟环境隔离项目依赖
+4. **监控通告**: 关注 GitHub Security Advisories 和 PyPI 安全通告
+5. **版本锁定**: 在生产环境中使用精确的版本号

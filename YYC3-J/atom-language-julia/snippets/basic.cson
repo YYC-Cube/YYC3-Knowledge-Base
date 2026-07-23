@@ -1,0 +1,28 @@
+".source.julia":
+  "Module":
+    prefix: 'module'
+    body: """
+    module ${1:name}
+    ${2}
+    end  # module ${1}
+    """
+  "Bang":
+    prefix: '#!'
+    body: """#! /usr/bin/env julia
+    $1"""
+  'Multi-line comment':
+    prefix: '#='
+    body: """#=
+    $1
+    =#"""
+   "Using":
+      prefix: 'using'
+      body: """using ${1:module}
+      $2"""
+   "Include":
+      prefix: 'include'
+      body: """include("${1:file}")
+      $2"""
+   "Typed variable":
+      prefix: 'tv'
+      body: '${1:var}::${2:type}'

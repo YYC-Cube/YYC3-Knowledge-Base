@@ -1,0 +1,371 @@
+- source: aaa
+  scopesBegin:
+    - meta.function
+  scopes:
+    - entity.name.function
+- source: (
+  scopesBegin:
+    - punctuation.definition.arguments
+- source: )
+  scopesEnd:
+    - punctuation.definition.arguments
+- source: '{'
+  scopesBegin:
+    - meta.function.body
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition
+- source: local
+  scopesBegin:
+    - meta.statement
+    - meta.statement
+    - meta.expression.assignment.modified
+  scopes:
+    - storage.modifier.local
+- source: bbb
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: Hello
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.expression.assignment.modified
+    - string.quoted.double
+- source: printf
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: '%s\n'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: Hello World
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: Hello World
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: case
+  scopesBegin:
+    - meta.case
+  scopes:
+    - keyword.control.case
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.parameter.positional
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+    - variable.parameter.positional
+- source: '1'
+  scopes:
+    - meta.parameter-expansion
+    - variable.parameter.positional
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+    - variable.parameter.positional
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: in
+  scopes:
+    - keyword.control.in
+- source: '1'
+  scopesBegin:
+    - meta.case.entry.pattern
+  scopes:
+    - string.unquoted.pattern
+    - string.regexp.unquoted
+- source: )
+  scopes:
+    - keyword.operator.pattern.case
+  scopesEnd:
+    - meta.case.entry.pattern
+- source: local
+  scopesBegin:
+    - meta.case.entry.body
+    - meta.statement
+    - meta.statement
+    - meta.expression.assignment.modified
+  scopes:
+    - storage.modifier.local
+- source: bbb
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: World
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement
+    - meta.expression.assignment.modified
+    - string.quoted.double
+- source: echo
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: bbb
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: ;;
+  scopes:
+    - punctuation.terminator.statement.case
+  scopesEnd:
+    - meta.case.entry.body
+- source: '2'
+  scopesBegin:
+    - meta.case.entry.pattern
+  scopes:
+    - string.unquoted.pattern
+    - string.regexp.unquoted
+- source: )
+  scopes:
+    - keyword.operator.pattern.case
+  scopesEnd:
+    - meta.case.entry.pattern
+- source: local
+  scopesBegin:
+    - meta.case.entry.body
+    - meta.statement
+    - meta.expression.assignment.modified
+  scopes:
+    - storage.modifier.local
+- source: bbb
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: World
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.expression.assignment.modified
+    - string.quoted.double
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: echo
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: bbb
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: ;;
+  scopes:
+    - punctuation.terminator.statement.case
+  scopesEnd:
+    - meta.case.entry.body
+- source: '3'
+  scopesBegin:
+    - meta.case.entry.pattern
+  scopes:
+    - string.unquoted.pattern
+    - string.regexp.unquoted
+- source: )
+  scopes:
+    - keyword.operator.pattern.case
+  scopesEnd:
+    - meta.case.entry.pattern
+- source: printf
+  scopesBegin:
+    - meta.case.entry.body
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: '%s\n'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: bbb
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: ;;
+  scopes:
+    - punctuation.terminator.statement.case
+  scopesEnd:
+    - meta.case.entry.body
+- source: '*)'
+  scopes:
+    - keyword.operator.pattern.case.default
+- source: echo
+  scopesBegin:
+    - meta.case.entry.body
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: bbb
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: ;;
+  scopes:
+    - punctuation.terminator.statement.case
+  scopesEnd:
+    - meta.case.entry.body
+- source: esac
+  scopes:
+    - keyword.control.esac
+  scopesEnd:
+    - meta.case
+- source: '}'
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition

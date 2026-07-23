@@ -1,0 +1,86 @@
+{
+  "name": "tdesign-vue-mono",
+  "private": true,
+  "packageManager": "pnpm@9.15.9",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tencent/tdesign-vue-next.git"
+  },
+  "homepage": "https://github.com/Tencent/tdesign-vue-next/blob/develop/README.md",
+  "bugs": {
+    "url": "https://github.com/Tencent/tdesign-vue-next/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "scripts": {
+    "pnpm:devPreinstall": "node script/preinstall-tasks.js",
+    "postinstall": "husky install && pnpm -r postinstall",
+    "init": "git submodule init && git submodule update",
+    "lint:tsc": "tsc --noEmit",
+    "lint": "pnpm lint:tsc && eslint --ext .vue,.js,.ts,.tsx ./packages --max-warnings 0 --cache",
+    "lint:fix": "eslint --ext .vue,.js,.ts,.tsx ./packages --max-warnings 0 --fix --cache",
+    "dev:vue": "pnpm -C packages/tdesign-vue-next/site dev",
+    "test:vue": "pnpm -C packages/tdesign-vue-next/test test",
+    "test:vue:update": "pnpm -C packages/tdesign-vue-next/test test:update",
+    "build:vue": "pnpm -C internal/builds build:vue-next",
+    "dev:chat": "pnpm -C packages/tdesign-vue-next-chat/site dev",
+    "build:chat": "pnpm -C internal/builds build:chat",
+    "build:auto-import-resolver": "pnpm -C packages/auto-import-resolver build",
+    "robot": "publish-cli robot-msg"
+  },
+  "author": "tdesign",
+  "license": "MIT",
+  "dependencies": {
+    "@tdesign-vue-next/chat": "workspace:^",
+    "@tdesign/components": "workspace:^",
+    "@tdesign/internal-utils": "workspace:^",
+    "@tdesign/shared-hooks": "workspace:^",
+    "@tdesign/shared-utils": "workspace:^",
+    "tdesign-vue-next": "workspace:^"
+  },
+  "devDependencies": {
+    "@babel/cli": "catalog:bundle",
+    "@babel/core": "catalog:bundle",
+    "@babel/helper-module-imports": "catalog:bundle",
+    "@babel/plugin-transform-modules-commonjs": "catalog:bundle",
+    "@babel/plugin-transform-object-assign": "catalog:bundle",
+    "@babel/plugin-transform-runtime": "catalog:bundle",
+    "@babel/preset-env": "catalog:bundle",
+    "@commitlint/cli": "catalog:lint",
+    "@commitlint/config-conventional": "catalog:lint",
+    "@types/node": "catalog:types",
+    "@typescript-eslint/eslint-plugin": "catalog:lint",
+    "@typescript-eslint/parser": "catalog:lint",
+    "@vue/babel-plugin-jsx": "catalog:bundle",
+    "@vue/eslint-config-typescript": "catalog:lint",
+    "autoprefixer": "catalog:bundle",
+    "cross-env": "catalog:bundle",
+    "cz-git": "catalog:lint",
+    "czg": "catalog:lint",
+    "eslint": "catalog:lint",
+    "eslint-config-prettier": "catalog:lint",
+    "eslint-plugin-import": "catalog:lint",
+    "eslint-plugin-prettier": "catalog:lint",
+    "eslint-plugin-vue": "catalog:lint",
+    "husky": "catalog:lint",
+    "lint-staged": "catalog:lint",
+    "postcss": "catalog:bundle",
+    "prettier": "catalog:lint",
+    "rimraf": "catalog:bundle",
+    "tdesign-publish-cli": "catalog:tdesign",
+    "tsx": "catalog:bundle",
+    "typescript": "catalog:types"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-git"
+    }
+  },
+  "lint-staged": {
+    "*.{vue,js,jsx,ts,tsx}": [
+      "prettier --write --cache",
+      "eslint --fix --cache"
+    ]
+  }
+}

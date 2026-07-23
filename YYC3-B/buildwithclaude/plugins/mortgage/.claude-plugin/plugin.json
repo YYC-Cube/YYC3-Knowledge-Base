@@ -1,0 +1,25 @@
+{
+  "name": "mortgage",
+  "version": "1.1.1",
+  "description": "AI-native mortgage refinance plugin — real-time institutional pricing, state-specific closing costs, FHA Streamline/VA IRRRL detection, weighted recommendation scoring, and regulatory compliance. No API key required.",
+  "author": {
+    "name": "Lendtrain",
+    "url": "https://www.lendtrain.com"
+  },
+  "homepage": "https://www.lendtrain.com",
+  "repository": "https://github.com/lendtrain/mortgage",
+  "license": "Proprietary",
+  "keywords": [
+    "mortgage",
+    "refinance",
+    "finance",
+    "lending",
+    "rates",
+    "fha",
+    "va",
+    "conventional",
+    "closing-costs",
+    "compliance",
+    "mcp"
+  ]
+}

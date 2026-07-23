@@ -1,0 +1,70 @@
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' shellcheck disable=SC2162'
+  scopesEnd:
+    - comment.line.number-sign
+- source: IFS
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: ''''
+  scopesBegin:
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: ':'
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.single
+- source: read
+  scopesBegin:
+    - meta.statement.command.env
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: a
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: version_info
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - string.unquoted.argument
+- source: <<<
+  scopesBegin:
+    - meta.herestring
+  scopes:
+    - keyword.operator.herestring
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: version
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end

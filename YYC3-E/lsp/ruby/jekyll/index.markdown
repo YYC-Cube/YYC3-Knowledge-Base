@@ -1,0 +1,631 @@
+---
+layout: default
+title: Ruby LSP
+nav_order: 0
+---
+
+# Ruby LSP
+
+<p align="center">
+  <img alt="Ruby LSP logo" width="200" src="icon.png" />
+</p>
+
+The Ruby LSP is an implementation of the [language server protocol](https://microsoft.github.io/language-server-protocol/)
+for Ruby, used to improve rich features in editors. It is a part of a wider goal to provide a state-of-the-art
+experience to Ruby developers using modern standards for cross-editor features, documentation and debugging.
+
+Want to discuss Ruby developer experience? Consider joining the public
+[Ruby DX Slack workspace](invite).
+
+## Table of Contents
+
+- [Usage](#usage)
+    - [With VS Code](#with-vs-code)
+    - [With other editors](#with-other-editors)
+    - [Composed Ruby LSP bundle](#composed-ruby-lsp-bundle)
+    - [Dependency Compatibility](#dependency-compatibility)
+- [Add-ons](#add-ons)
+- [General features](#general-features)
+    - [Hover](#hover)
+    - [Go-to-Definition](#go-to-definition)
+    - [Completion](#completion)
+    - [Signature Help](#signature-help)
+    - [Code Lens for tests](#code-lens)
+    - [Document symbol](#document-symbol)
+    - [Workspace symbol](#workspace-symbol)
+    - [Document link](#document-link)
+    - [Document highlight](#document-highlight)
+    - [Folding range](#folding-range)
+    - [Semantic highlighting](#semantic-highlighting)
+    - [Diagnostics](#diagnostics)
+    - [Formatting](#formatting)
+    - [Code actions](#code-actions)
+    - [Inlay hints](#inlay-hints)
+    - [On type formatting](#on-type-formatting)
+    - [Selection range](#selection-range)
+    - [Show syntax tree](#show-syntax-tree)
+    - [ERB support](#erb-support)
+    - [Guessed types](#guessed-types)
+    - [Rename symbol](#rename-symbol)
+    - [Find references](#find-references)
+- [VS Code only features](#vs-code-features)
+    - [Dependencies view](#dependencies-view)
+    - [Rails generator integrations](#rails-generator-integrations)
+    - [Debug client](#debug-client)
+    - [Version manager integrations](#version-manager-integrations)
+    - [Test explorer](test_explorer)
+- [Experimental Features](#experimental-features)
+    - [Ancestors Hierarchy Request](#ancestors-hierarchy-request)
+    - [Copilot chat participant](#copilot-chat-participant)
+- [Configuration](#configuration)
+    - [Configuring code indexing](#configuring-code-indexing)
+- [Additional Resources](#additional-resources)
+
+## Usage
+
+### With VS Code
+
+If using VS Code, all you have to do is install the [Ruby LSP
+extension](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-lsp) to get the extra features in the
+editor. Do not install the `ruby-lsp` gem manually.
+
+For more information on using and configuring the extension, see the [extension page](vscode-extension).
+
+### With other editors
+
+See [editors](editors) for community instructions on setting up the Ruby LSP, which currently includes Emacs, Neovim, Sublime Text, and Zed.
+
+The gem can be installed by doing
+
+```shell
+gem install ruby-lsp
+```
+
+and the language server can be launched running `ruby-lsp` (without bundle exec in order to properly hook into your
+project's dependencies).
+
+### Composed Ruby LSP bundle
+
+The Ruby LSP executable generates a composed bundle with the goal of not requiring users to add the `ruby-lsp` gem to
+their Gemfiles, and at the same time being able to hook into project dependencies. [Learn more](composed-bundle).
+
+### Dependency Compatibility
+
+The Ruby LSP can provide an enhanced experience if RuboCop is present in the project. While using it is optional, if you do choose to include RuboCop, make sure it’s version 1.4.0 or higher.
+
+## Add-ons
+
+The Ruby LSP provides an add-on system that allows other gems to enhance the base functionality with more editor
+features. This is the mechanism that powers add-ons like
+
+- [Ruby LSP Rails](https://github.com/Shopify/ruby-lsp-rails)
+- [Ruby LSP RSpec](https://github.com/st0012/ruby-lsp-rspec)
+- [Ruby LSP rubyfmt](https://github.com/jscharf/ruby-lsp-rubyfmt)
+
+Additionally, some tools may include a Ruby LSP add-on directly, like
+
+- [Standard Ruby (from v1.39.1)](https://github.com/standardrb/standard/wiki/IDE:-vscode#using-ruby-lsp)
+
+Other community driven add-ons can be found:
+- by searching [rubygems](https://rubygems.org/search?query=name%3A+ruby-lsp) for the `ruby-lsp` prefix
+- in the community driven list of [awesome-ruby-lsp](https://github.com/johansenja/awesome-ruby-lsp)
+
+For instructions on how to create add-ons, see the [add-ons documentation](add-ons).
+
+## General features
+
+{: .note }
+Note that none of the features in this section are specific to Ruby; they are general to all programming languages.
+Becoming familiar with them will enhance your ability to use the editor effectively.<br><br>
+If you're using VS Code, we recommend their excellent [guides and documentation](https://code.visualstudio.com/docs) to
+learn more about the editor's philosophy and feature set.
+
+### Hover
+
+The hover feature displays comments or documentation for the target constant or method when the cursor hovers over them.
+
+In VS Code, if you hover while pressing `Command`, it will also send a `definition` request to locate the possible target sources. And it will display the target's source code if only one source is located (e.g., the class is not reopened in multiple places).
+
+<video src="images/ruby-lsp-hover-demo-basic.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates the hover feature, showing how comments and documentation are displayed for the target constant or method.
+</video>
+
+### Go-to-Definition
+
+Go-to-definition allows users to navigate to the target constant or method's definition,
+whether they're defined in your project or its dependencies.
+
+In VS Code this feature can be triggered by one of the following methods:
+
+- `Right click` on the target, and then select `Go to Definition`
+- Placing the cursor on the target, and then hit `F12`
+- `Command + click` the target
+
+**With One Definition:**
+
+Users are taken directly to the source.
+
+<video src="images/ruby-lsp-definition-demo-basic.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video shows the go-to-definition feature in action, navigating directly to the source of the target constant or method.
+</video>
+
+**With Multiple Definitions:**
+
+Users see a dropdown with all the sources, along with a preview window on the side.
+
+<video src="images/ruby-lsp-definition-demo-multi-source.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates the go-to-definition feature when multiple definitions are found, showing the dropdown and preview window.
+</video>
+
+### Completion
+
+The completion feature provides users with completion candidates when the text they type matches certain indexed components. This helps speed up coding by reducing the need to type out full method names or constants.
+It also allows developers to discover constants or methods that are available to them.
+
+<video src="images/ruby-lsp-completion-demo-basic.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video illustrates the completion feature, providing completion candidates as the user types.
+</video>
+
+{: .note }
+Completion for method calls can only be provided when the type of the receiver is known. For example, when typing `foo.`
+it's only possible to show method completion candidates if know the type of `foo`. Since the Ruby LSP does not require
+users to adopt a type system, completion for methods ends up being available only when types can be determined even
+without annotations (e.g.: methods invoked on literals, constants, direct instantiations of objects using `new`).<br><br>
+If you would like to have more accurate completion, consider adopting a
+[type system](design-and-roadmap#accuracy-correctness-and-type-checking).
+
+### Signature Help
+
+Signature help often appears right after users finish typing a method, providing hints about the method's parameters. This feature is invaluable for understanding the expected arguments and improving code accuracy.
+
+<video src="images/ruby-lsp-signature-help-demo-basic.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates the signature help feature, showing hints about the parameters the target method takes.
+</video>
+
+### Code Lens
+
+Code lenses are buttons that are added automatically depending on the context of the code. The Ruby LSP supports code
+lenses for unit tests, allowing you to run tests using [VS Code's test explorer](#test-explorer), run the tests in the
+terminal or launch the debugger.
+
+{: .note }
+The [code
+lens](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_codeLens)
+request requires specific commands to be implemented in the editor in order to work. For VS Code, this is included with the Ruby LSP extension. If you are using a different editor, please check the editor's documentation on how to
+define the required commands.
+
+<video src="images/code_lens.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates Ruby LSP code lens run and debug buttons for tests.
+</video>
+
+### Document symbol
+
+Document symbol allows users to fuzzy search declarations inside the current file. It is also used to populate the
+breadcrumbs and the outline.
+
+<video src="images/document_symbol.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video illustrates the document symbol feature for navigating within a file.
+</video>
+
+### Workspace symbol
+
+Workspace symbol is the project-wide version of document symbol. It allows users to fuzzy search any declaration in the
+entire project.
+
+<video src="images/workspace_symbol.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates workspace-wide symbol search across the project.
+</video>
+
+### Document link
+
+Document link makes magic `source` links clickable. This is used to connect two declarations for convenience. Note that
+the links are only processed if they are immediately above a declaration and not anywhere in the code.
+
+<video src="images/document_link.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video shows clickable source links provided by the document link feature.
+</video>
+
+### Document highlight
+
+Document highlight reveals occurrences and declarations of the entity under the cursor.
+
+<video src="images/document_highlight.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video showcases document highlight revealing all occurrences of the symbol under the cursor.
+</video>
+
+### Folding range
+
+Folding range allows users to fold code at relevant ranges of the source.
+
+<video src="images/folding_range.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates code folding ranges in action.
+</video>
+
+### Semantic highlighting
+
+The semantic highlighting removes ambiguity from the language to achieve consistent editor highlighting. For example,
+with TextMate grammars alone, local variables and method invocations with no receivers or parenthesis can be confused,
+often resulting in incorrect highlighting.
+
+The Ruby LSP's strategy for semantic highlighting is to return as few tokens as possible to ensure accurate highlighting. Processing a large number of tokens is expensive for editors and may result in lag.
+
+{: .note }
+Semantic highlighting simply informs the editor of what type of tokens exist in a file. For example, the Ruby LSP tells
+the editor "this is a local variable" or "this is a method call". However, this does not mean that themes necessarily
+make use of that information or that they support semantic highlighting.<br><br>
+The [Ruby extensions pack extension](https://marketplace.visualstudio.com/items?itemName=Shopify.ruby-extensions-pack) includes the [Spinel](https://github.com/Shopify/vscode-shopify-ruby?tab=readme-ov-file#themes) theme, which is tailored for use with the Ruby language by fully leveraging all of Ruby LSP's semantic information.<br><br>
+If you wish to add better Ruby support to other themes, see [the semantic highlighting for themes docs](semantic-highlighting).
+
+![Semantic highlighting demo](images/semantic_highlighting.png)
+
+### Diagnostics
+
+Diagnostics are linting, error, warning and any other type of information that gets surfaced based on the current state
+of the code. The Ruby LSP has native support for syntax errors and also supports showing linting errors.
+
+{: .note }
+You can configure which linters to use as long as they have integrations for the Ruby LSP. Check the available [configurations](editors#all-initialization-options).
+
+<video src="images/diagnostic.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video displays diagnostics surfacing syntax and lint errors.
+</video>
+
+### Formatting
+
+Formatting allows documents to be formatted automatically on save or manually if the editor supports it.
+
+<video src="images/formatting.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video shows automatic document formatting being applied.
+</video>
+
+### Code actions
+
+**Quick fixes**
+
+The Ruby LSP supports fixing violations through quick fixes.
+
+<video src="images/quickfix.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates applying quick fixes to resolve code issues.
+</video>
+
+**Refactors**
+
+The Ruby LSP supports some code refactorings, like extract to variable, extract to method and switch block style.
+
+<video src="images/refactors.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video illustrates code refactorings such as extract to variable or method.
+</video>
+
+
+### Inlay hints
+
+Inlay hints display implicit information explicitly to the user. The goal is to make implicit behavior more
+discoverable and visible.
+
+By default, only implicit rescue hints are displayed. VS Code users can use the following settings to customize inlay
+hint behavior:
+
+```jsonc
+{
+    // Enable all hints
+    "rubyLsp.featuresConfiguration.inlayHint.enableAll": true,
+    // Enable implicit rescue (defaults to true)
+    "rubyLsp.featuresConfiguration.inlayHint.implicitRescue": true,
+    // Enable implicit hash values (omitted hash values)
+    "rubyLsp.featuresConfiguration.inlayHint.implicitHashValue": true
+  }
+```
+
+To configure other editors, see the [initialization options](editors#all-initialization-options).
+
+<video src="images/inlay_hint.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video shows inlay hints making implicit information explicit.
+</video>
+
+### On type formatting
+
+On type formatting applies changes to the code as the user is typing. For example, the Ruby LSP auto completes the `end` tokens when breaking lines.
+
+{: .note }
+In VS Code, format on type is disabled by default. You can enable it with `"editor.formatOnType": true`
+
+<video src="images/on_type_formatting.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates on-type formatting that auto-completes `end` tokens as you type.
+</video>
+
+### Range formatting
+
+Range formatting allows users to format a selection in the editor, without formatting the entire file. It is also the
+feature that enables format on paste to work.
+
+{: .note }
+In VS Code, format on paste is disabled by default. You can enable it with `"editor.formatOnPaste": true`
+
+{: .note }
+Currently, only the [Syntax Tree](https://github.com/ruby-syntax-tree/syntax_tree) formatter has support for partially
+formatting a file. Supporting range formatting for RuboCop or Standard requires new APIs to be exposed so that the
+Ruby LSP can inform the formatter of the base indentation at the place of the selection. Additionally, the formatter
+can only apply corrections that make sense for the portion of the document.
+
+<video src="images/range_formatting.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video shows range formatting applied to a selected region of code.
+</video>
+
+### Selection range
+
+Selection range (or smart ranges) expands or shrinks a selection based on the code's constructs. In VS Code, this can
+be triggered with `CTRL + SHIFT + LEFT/RIGHT ARROW` to expand/shrink, respectively.
+
+<video src="images/selection_range.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates smart selection range expansion and shrinking.
+</video>
+
+### Show syntax tree
+
+Show syntax tree displays the Abstract Syntax Tree (AST) for the current Ruby document. This custom feature can either
+show the AST for the entire document or for a selection.
+
+{: .note }
+This feature is not a part of the language server specification. It is a custom feature, which is implemented in the
+Ruby LSP's VS Code extension. Other editors can implement a similar approach to achieve the same functionality
+
+<video src="images/show_syntax_tree.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video displays the AST visualization via the show syntax tree command.
+</video>
+
+### ERB support
+
+The Ruby LSP can process ERB files and handle both the embedded Ruby and the host language portions of the file. For the
+embedded Ruby part, the Ruby LSP responds with all Ruby features you would normally see in regular Ruby files. For
+features for the host language, like HTML, the Ruby LSP delegates the requests to the language service registered to
+handle that file type.
+
+{: .note }
+Request delegation has not yet been formalized as part of the LSP specification. Therefore, this requires custom code
+on the client (editor) side. The Ruby LSP VS Code extension ships with that custom implementation, but other editors
+will need to implement the same to support these features
+
+{: .important }
+The delegation of certain JavaScript features works partially. For example, completion inside an `onclick` attribute
+will sometimes display incorrect candidates. We believe this might be a limitation of request delegation in general
+and we've opened a [discussion with VS Code](https://github.com/microsoft/vscode-discussions/discussions/1628) to better
+understand it.
+
+<video src="images/erb.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates ERB support with embedded Ruby and host language features.
+</video>
+
+### Guessed types
+
+Guessed types is a feature where the Ruby LSP attempts to identify the type of a receiver based on its identifier.
+For example:
+
+```ruby
+# The receiver identifier here is `user` and so the Ruby LSP will assign to it the `User` type if that class exists
+user.name
+
+# Similarly, the receiver identifier here is `post` and so the LSP searches for the `Post` class
+@post.like!
+```
+
+{: .important }
+> The goal of this experiment is to understand if we can get better accuracy for the code that you already
+> have. The hypothesis is that a reasonable amount of code already uses patterns like the ones in the example and, in
+> those cases, we can achieve nicer results.
+>
+> However, identifiers are not the ideal medium for proper type annotations. It would not be possible to express anything
+> complex, such as unions, intersections or generics. Additionally, it is very trivial to fool the type guessing by simply
+> naming a variable with a type name that doesn't match its actual type.
+
+```ruby
+pathname = something_that_returns_an_integer
+# This will show methods available in `Pathname`, despite the variable being an Integer
+pathname.a
+```
+
+We do not recommend renaming methods, instance variables or local variables for the sole purpose of getting better
+accuracy - readability should always come first. For example:
+
+```ruby
+# It would not be a good idea to name every string "string" for the sake of getting better accuracy.
+# Using descriptive names will outweigh the benefits of the more accurate editor experience
+
+# don't
+string = something.other_thing
+
+# do
+title = something.other_thing
+name = foo
+```
+
+That said, this feature can also be used for quickly exploring methods available in classes. Simply type the lower case
+name of the class and completion can show the methods available.
+
+```ruby
+# Any class name as an identifier
+pathname.a
+integer.a
+file.a
+```
+
+To guess types, the Ruby LSP will first try to resolve a constant based on the receiver identifier and current nesting.
+If that does not identify any valid types, then it will fallback to matching based on the first match for the
+unqualified type name. For example:
+
+```ruby
+module Admin
+  class User
+  end
+
+  # Will match to `Admin::User` because the `user` reference is inside the `Admin` namespace
+  user.a
+end
+
+module Blog
+  class User
+  end
+
+  # Will match to `Blog::User` because the `user` reference is inside the `Blog` namespace
+  user.a
+end
+
+# Will match to the first class that has the unqualified name of `User`. This may return `Admin::User` or `Blog::User`
+# randomly
+user.a
+```
+### Rename symbol
+
+Rename allows developers to rename all occurrences of the entity under the cursor across the entire project. In VS Code
+renaming can be triggered by right clicking the entity to rename or by pressing F2 on it. You can also preview the
+edits that will be applied by pressing CTRL/CMD + Enter after typing the desired new name.
+
+Rename is currently only supported for constants, module names and class names.
+
+<video src="images/rename.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video shows renaming a symbol across the project.
+</video>
+
+### Find references
+
+The find references request allows users to both see a list of references or jump to reference locations. Note that
+only constants are currently supported, but support for methods, instance variables and local variables is planned.
+
+<video src="images/references.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates finding references to a constant.
+</video>
+
+## VS Code features
+
+The following features are all custom made for VS Code.
+
+### Dependencies view
+
+The Ruby LSP contributes a custom dependencies view panel that allows users to navigate the dependencies of their
+projects.
+
+<video src="images/dependencies_view.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video shows the dependencies view panel for navigating project gems.
+</video>
+
+### Rails generator integrations
+
+The Ruby LSP integrates with Rails generators, which can be invoked through the UI. All generated files are
+automatically opened and formatted using the project's formatting configurations.
+
+![Generator demo](images/rails_generate.png)
+
+### Debug client
+
+The Ruby LSP ships with a client for the [debug gem](https://github.com/ruby/debug). The client allows functionality
+such as [code lens](#code-lens), but also enables launch configurations for starting a process with the visual debugger
+or attaching to an existing server.
+
+### Version manager integrations
+
+When working on many projects with different Ruby versions, the Ruby LSP needs to know which Ruby version is being used
+and where gems are installed in order to support automatic dependency detection and indexing.
+
+We support custom built integrations with the following version managers for automatic version switching with no need
+for any user actions:
+
+- [asdf](https://github.com/asdf-vm/asdf)
+- [chruby](https://github.com/postmodern/chruby)
+- [mise](https://github.com/jdx/mise)
+- [rbenv](https://github.com/rbenv/rbenv)
+- [RubyInstaller](https://rubyinstaller.org)
+- [rvm](https://github.com/rvm/rvm)
+- [shadowenv](https://github.com/Shopify/shadowenv)
+
+Additionally, we provide the following escape hatches if the custom integrations are not enough:
+
+- custom: define a custom shell script to activate the Ruby environment on any project
+- none: do nothing and rely on the environment inherited by VS Code
+
+{: .important }
+Most version managers have some shell component to them in order to mutate the user's environment in a terminal and
+point to the correct Ruby version. For this reason, the VS Code extension must invoke the user's shell from the NodeJS
+process where it is running - otherwise the version manager wouldn't be available for the integration.<br><br>
+This can sometimes lead to Ruby environment activation problems. For example, certain shell plugins expect variables
+set by terminals to be present and fail if they aren't. The NodeJS process running the extension will not have set
+these variables and therefore will be likely to fail.<br><br>
+Finding a general solution to this problem is not trivial due to the number of different combinations of operating
+systems, shells, plugins and version managers. On top of those, people configure their shell environments differently.
+For example, some users may source their version managers in `~/.zshrc` while others will do it in `~/.zshenv`  or `~/.zprofile`.<br><br>
+If experiencing issues, keep in mind that shell configurations could be interfering, check
+[troubleshooting](troubleshooting) and, if none of the listed solutions work, please [report an issue](https://github.com/Shopify/ruby-lsp/issues/new/choose).
+
+## Experimental Features
+
+Ruby LSP also provides experimental features that are not enabled by default. If you have feedback about these features,
+you can let us know in the [DX Slack](invite) or by [creating an issue](https://github.com/Shopify/ruby-lsp/issues/new/choose).
+
+### Ancestors Hierarchy Request
+
+The ancestors hierarchy request feature aims to provide a better understanding of the inheritance hierarchy within your Ruby code. This feature helps developers trace the lineage of their classes and modules, making it easier to:
+
+- Visualize the inheritance hierarchy of classes and modules.
+- Quickly navigate through the inheritance chain.
+
+<video src="images/ruby-lsp-type-hierarchy-demo.mp4" width="100%" controls>
+Sorry, your browser doesn't support embedded videos. This video demonstrates the ancestors hierarchy request feature, visualizing the inheritance hierarchy.
+</video>
+
+#### Why Is It Experimental?
+
+This feature is supported by the [Type Hierarchy Supertypes LSP request](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#typeHierarchy_supertypes). During implementation, we encountered some ambiguities when applying it to Ruby. For example:
+
+- Should the list include only classes (pure inheritance chain), or should it include modules too (current behavior)?
+- How should the inheritance chain of singleton classes be triggered and displayed?
+- If a class or module is reopened multiple times, it will appear multiple times in the list. In real-world applications, this can make the list very long.
+
+We created [an issue](https://github.com/microsoft/language-server-protocol/issues/1984) to seek clarification from the LSP maintainers. We will adjust this feature's design and behavior based on their response and your feedback.
+
+### Copilot chat participant
+
+The Ruby LSP includes a Copilot chat participant that comes with built-in knowledge of Ruby and Rails commands, helping you build these commands efficiently.
+
+![Chat participant demo](images/chat_participant.png)
+
+
+## Configuration
+
+### Configuring code indexing
+
+By default, the Ruby LSP indexes all Ruby files defined in the current project and all of its dependencies, including
+default gems, except for
+
+- Gems that only appear under the `:development` group
+- All Ruby files under `test/**/*.rb`
+
+This behavior can be overridden and tuned. Learn how to configure it [for VS Code](vscode-extension#indexing-configuration).
+
+Note that indexing-dependent behavior, such as definition, hover, completion or workspace symbol will be impacted by
+the configuration changes.
+
+The older approach of using a `.index.yml` file has been deprecated and will be removed in a future release.
+
+```yaml
+# Exclude files based on a given pattern. Often used to exclude test files or fixtures
+excluded_patterns:
+  - "**/spec/**/*.rb"
+
+# Include files based on a given pattern. Can be used to index Ruby files that use different extensions
+included_patterns:
+  - "**/bin/*"
+
+# Exclude gems by name. If a gem is never referenced in the project's code and is only used as a tool, excluding it will
+# speed up indexing and reduce the amount of results in features like definition or completion
+excluded_gems:
+  - rubocop
+  - pathname
+
+# Include gems by name. Normally used to include development gems that are excluded by default
+included_gems:
+  - prism
+```
+
+## Additional Resources
+
+* [RubyConf 2022: Improving the development experience with language servers](https://www.youtube.com/watch?v=kEfXPTm1aCI) ([Vinicius Stock](https://github.com/vinistock))
+* [Remote Ruby: Ruby Language Server with Vinicius Stock](https://remoteruby.com/221)
+* [RubyKaigi 2023: Code indexing - How language servers understand our code](https://www.youtube.com/watch?v=ks3tQojSJLU) ([Vinicius Stock](https://github.com/vinistock))

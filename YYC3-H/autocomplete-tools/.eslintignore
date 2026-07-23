@@ -1,0 +1,14 @@
+node_modules/
+dist/
+lib/
+build/
+eslint/plugin-fig-linter/
+integrations/commander/test/fixtures/*/output.ts
+integrations/commander/test/fixtures/*/expected.ts
+merge/test/fixtures/
+cli/tools-cli/generated/
+cli/tools-cli/test/*/fixtures/
+helpers/test/fixtures/**/spec
+cli/create-completion-spec/bin/
+cli/create-completion-spec/boilerplate
+cli/publish-spec/test/fixtures/**

@@ -1,0 +1,16 @@
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.DS_Store
+output/
+result*.json
+.venv/
+.vscode/
+src/signal_discovery_workflow/data/sp500/*.csv
+
+# Secrets — never commit API keys.
+.env
+.env.local
+
+# Local documentation (not for upstream)
+docs/

@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Submenu > props > :disabled 1`] = `
+<li
+  class="t-submenu t-is-disabled"
+>
+  <!---->
+  <!---->
+</li>
+`;

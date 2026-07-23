@@ -1,0 +1,24 @@
+Cette extension de navigateur ajoute un bouton "Repomix" pratique aux pages de dépôt GitHub, vous permettant d'empaqueter et d'analyser rapidement les dépôts avec Repomix - un outil puissant qui transforme les dépôts logiciels en fichiers uniques adaptés à l'IA.
+
+🛠️ Fonctionnalités:
+- Accès en un clic à Repomix pour n'importe quel dépôt GitHub
+- Plus de fonctionnalités passionnantes arrivent bientôt - restez à l'écoute pour des fonctionnalités améliorées !
+
+🚀 Utilisation:
+1. Installer l'extension
+2. Naviguer vers n'importe quel dépôt GitHub
+3. Cliquer sur le bouton "Repomix" dans l'en-tête du dépôt
+4. Vous serez redirigé vers l'interface web Repomix
+5. Générer une version empaquetée du dépôt pour l'analyse IA
+
+✨ Qu'est-ce que Repomix ?
+Repomix est un outil innovant qui empaquette l'ensemble de votre base de code en un seul fichier complet optimisé pour l'analyse IA. Il prend en charge plusieurs formats de sortie (XML, Markdown, texte brut), inclut des vérifications de sécurité pour exclure les informations sensibles et fournit des métriques détaillées sur votre code.
+
+💻 Open Source:
+Cette extension et Repomix lui-même sont des projets open source. Vous pouvez consulter le code source, contribuer ou construire l'extension vous-même.
+Pour plus de détails, veuillez visiter:
+https://github.com/yamadashy/repomix
+
+🌐 En savoir plus:
+- Site officiel: https://repomix.com
+- Dépôt GitHub: https://github.com/yamadashy/repomix

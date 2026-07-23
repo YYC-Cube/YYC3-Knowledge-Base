@@ -1,0 +1,92 @@
+>// Copyright 2022 The Chromium Authors. All rights reserved.                    // Line 1
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.dart
+>// Use of this source code is governed by a BSD-style license that can be       // Line 2
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.dart
+>// found in the LICENSE file.                                                   // Line 3
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.dart
+>
+>(int, int)? aaa;                                                                // Line 5
+# ^^^ support.class.dart
+#    ^ punctuation.comma.dart
+#      ^^^ support.class.dart
+#          ^ keyword.operator.ternary.dart
+#               ^ punctuation.terminator.dart
+>(int aaa, int bbb)? bbb;                                                        // Line 6
+# ^^^ support.class.dart
+#        ^ punctuation.comma.dart
+#          ^^^ support.class.dart
+#                  ^ keyword.operator.ternary.dart
+#                       ^ punctuation.terminator.dart
+>(int aaa, int, {String? ccc})? ccc;                                             // Line 7
+# ^^^ support.class.dart
+#        ^ punctuation.comma.dart
+#          ^^^ support.class.dart
+#             ^ punctuation.comma.dart
+#                ^^^^^^ support.class.dart
+#                      ^ keyword.operator.ternary.dart
+#                             ^ keyword.operator.ternary.dart
+#                                  ^ punctuation.terminator.dart
+>(int, (int, (int, String)))? ddd;                                               // Line 8
+# ^^^ support.class.dart
+#    ^ punctuation.comma.dart
+#       ^^^ support.class.dart
+#          ^ punctuation.comma.dart
+#             ^^^ support.class.dart
+#                ^ punctuation.comma.dart
+#                  ^^^^^^ support.class.dart
+#                           ^ keyword.operator.ternary.dart
+#                                ^ punctuation.terminator.dart
+>
+>(int aaa, int bbb) func((String aaaa, String? bbbb) ccc) {                      // Line 10
+# ^^^ support.class.dart
+#        ^ punctuation.comma.dart
+#          ^^^ support.class.dart
+#                   ^^^^ entity.name.function.dart
+#                         ^^^^^^ support.class.dart
+#                                    ^ punctuation.comma.dart
+#                                      ^^^^^^ support.class.dart
+#                                            ^ keyword.operator.ternary.dart
+>  final ddd = (1, 2, eee: '');                                                  // Line 11
+#  ^^^^^ storage.modifier.dart
+#            ^ keyword.operator.assignment.dart
+#               ^ constant.numeric.dart
+#                ^ punctuation.comma.dart
+#                  ^ constant.numeric.dart
+#                   ^ punctuation.comma.dart
+#                        ^ keyword.operator.ternary.dart
+#                          ^^ string.interpolated.single.dart
+#                             ^ punctuation.terminator.dart
+>  return (1, 2);                                                                // Line 12
+#  ^^^^^^ keyword.control.return.dart
+#          ^ constant.numeric.dart
+#           ^ punctuation.comma.dart
+#             ^ constant.numeric.dart
+#               ^ punctuation.terminator.dart
+>}                                                                               // Line 13
+>
+>class R {                                                                       // Line 15
+#^^^^^ keyword.declaration.dart
+#      ^ support.class.dart
+>  (int aaa, int, {String? ccc})? get getter => null;                            // Line 16
+#   ^^^ support.class.dart
+#          ^ punctuation.comma.dart
+#            ^^^ support.class.dart
+#               ^ punctuation.comma.dart
+#                  ^^^^^^ support.class.dart
+#                        ^ keyword.operator.ternary.dart
+#                               ^ keyword.operator.ternary.dart
+#                                 ^^^ keyword.declaration.dart
+#                                            ^^ keyword.operator.closure.dart
+#                                               ^^^^ constant.language.dart
+#                                                   ^ punctuation.terminator.dart
+>  final variable = (1, 2, eee: '');                                             // Line 17
+#  ^^^^^ storage.modifier.dart
+#                 ^ keyword.operator.assignment.dart
+#                    ^ constant.numeric.dart
+#                     ^ punctuation.comma.dart
+#                       ^ constant.numeric.dart
+#                        ^ punctuation.comma.dart
+#                             ^ keyword.operator.ternary.dart
+#                               ^^ string.interpolated.single.dart
+#                                  ^ punctuation.terminator.dart
+>}                                                                               // Line 18

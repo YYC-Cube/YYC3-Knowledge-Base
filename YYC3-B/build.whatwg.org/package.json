@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "build.whatwg.org",
+  "description": "The WHATWG build server",
+  "author": "Domenic Denicola <d@domenic.me> (https://domenic.me/)",
+  "license": "CC0",
+  "repository": "whatwg/build.whatwg.org",
+  "bin": "lib/app.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "lint": "eslint",
+    "start": "node lib/app.js"
+  },
+  "dependencies": {
+    "finished": "^1.2.2",
+    "koa": "^3.0.1",
+    "koa-body": "^6.0.1",
+    "koa-router": "^13.1.1"
+  },
+  "devDependencies": {
+    "@domenic/eslint-config": "^4.0.1",
+    "eslint": "^9.32.0",
+    "globals": "^16.3.0"
+  }
+}

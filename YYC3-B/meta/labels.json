@@ -1,0 +1,249 @@
+[
+  {
+    "color": "ea7472",
+    "description": "Issue the Accessibility Group has raised and looks for a response on.",
+    "name": "a11y-needs-resolution",
+    "w3c": true
+  },
+  {
+    "color": "ea7472",
+    "description": "Group bringing to attention of a11y, or tracked by the a11y Group but not needing response.",
+    "name": "a11y-tracker",
+    "w3c": true
+  },
+  {
+    "color": "fbca04",
+    "description": "Affects accessibility",
+    "name": "accessibility"
+  },
+  {
+    "color": "006b75",
+    "description": "New features or enhancements",
+    "name": "addition/proposal"
+  },
+  {
+    "color": "000000",
+    "description": "To be discussed at a triage meeting",
+    "name": "agenda+"
+  },
+  {
+    "color": "000000",
+    "description": "To be discussed at a face-to-face meeting",
+    "name": "agenda+ f2f"
+  },
+  {
+    "color": "ececec",
+    "description": "Identifies issues opened by other standards organizations, as per WHATWG's [anchor permanence policy](https://whatwg.org/working-mode#anchors)",
+    "name": "anchor permanence",
+    "url_exclude_is_open": true
+  },
+  {
+    "color": "fef2c0",
+    "description": "Standard could be clearer",
+    "name": "clarification"
+  },
+  {
+    "color": "bfd4f2",
+    "description": "Standard is not web compatible or proprietary feature needs standardizing",
+    "name": "compat"
+  },
+  {
+    "color": "e11d21",
+    "description": "Pull request must not be merged per rationale in comment",
+    "name": "do not merge yet"
+  },
+  {
+    "color": "c7def8",
+    "description": "Changes that do not affect how the standard is understood",
+    "name": "editorial"
+  },
+  {
+    "color": "bfe5bf",
+    "description": "Ideal for someone new to a WHATWG standard or software project",
+    "name": "good first issue"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies African languages experts of relevant issues",
+    "name": "i18n-afrlreq"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies Arabic script experts of relevant issues",
+    "name": "i18n-alreq"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies experts in languages of the Americas of relevant issues",
+    "name": "i18n-amlreq"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies Chinese script experts of relevant issues",
+    "name": "i18n-clreq"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies Hebrew script experts of relevant issues",
+    "name": "i18n-hlreq"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies Indic script experts of relevant issues",
+    "name": "i18n-ilreq"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies Japanese script experts of relevant issues",
+    "name": "i18n-jlreq"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies Korean script experts of relevant issues",
+    "name": "i18n-klreq"
+  },
+  {
+    "color": "d4c5f9",
+    "description": "Notifies traditional Mongolian script experts of relevant issues",
+    "name": "i18n-mlreq"
+  },
+  {
+    "color": "f9c9ff",
+    "description": "Issue the Internationalization Group has raised and looks for a response on.",
+    "name": "i18n-needs-resolution",
+    "w3c": true
+  },
+  {
+    "color": "f9c9ff",
+    "description": "Group bringing to attention of Internationalization, or tracked by i18n but not needing response.",
+    "name": "i18n-tracker",
+    "w3c": true
+  },
+  {
+    "color": "ececec",
+    "description": "Used by documentation communities, such as MDN, to track changes that impact documentation",
+    "name": "impacts documentation",
+    "url_exclude_is_open": true
+  },
+  {
+    "color": "e0a967",
+    "description": "Better coordination across standards needed",
+    "name": "integration"
+  },
+  {
+    "color": "c5def5",
+    "description": "Implementations are not interoperable with each other",
+    "name": "interop"
+  },
+  {
+    "color": "e4e669",
+    "description": "Used to mark off-topic or spam issues or PRs",
+    "name": "invalid"
+  },
+  {
+    "color": "fcabe1",
+    "description": "Changes to the ecosystem around the standard, not its contents",
+    "name": "meta"
+  },
+  {
+    "color": "1cddc7",
+    "description": "Moving the issue forward requires someone to figure out a detailed plan",
+    "name": "needs concrete proposal"
+  },
+  {
+    "color": "5319e7",
+    "description": "Moving the issue forward requires implementers to express interest",
+    "name": "needs implementer interest"
+  },
+  {
+    "color": "2eb3c4",
+    "description": "Reach out to [WHATWG Chat](https://whatwg.org/chat) or [WICG](https://wicg.io/) for help",
+    "name": "needs incubation"
+  },
+  {
+    "color": "b60205",
+    "description": "Moving the issue forward requires someone to write tests",
+    "name": "needs tests"
+  },
+  {
+    "color": "d4af37",
+    "description": "Issue the Privacy Group has raised and looks for a response on.",
+    "name": "privacy-needs-resolution",
+    "w3c": true
+  },
+  {
+    "color": "d4af37",
+    "description": "Group bringing to attention of Privacy, or tracked by the Privacy Group but not needing response.",
+    "name": "privacy-tracker",
+    "w3c": true
+  },
+  {
+    "color": "eb6420",
+    "description": "Removing or deprecating a feature",
+    "name": "removal/deprecation"
+  },
+  {
+    "color": "ffff00",
+    "description": "Issue the security Group has raised and looks for a response on.",
+    "name": "security-needs-resolution",
+    "w3c": true
+  },
+  {
+    "color": "ffff00",
+    "description": "Group bringing to attention of security, or tracked by the security Group but not needing response.",
+    "name": "security-tracker",
+    "w3c": true
+  },
+  {
+    "color": "0052cc",
+    "description": "There are security or privacy implications",
+    "name": "security/privacy"
+  },
+  {
+    "color": "1d76db",
+    "description": "Proposal",
+    "name": "stage: 0"
+  },
+  {
+    "color": "1d76db",
+    "description": "Incubation",
+    "name": "stage: 1"
+  },
+  {
+    "color": "1d76db",
+    "description": "Iteration",
+    "name": "stage: 2"
+  },
+  {
+    "color": "1d76db",
+    "description": "Committed",
+    "name": "stage: 3"
+  },
+  {
+    "color": "1d76db",
+    "description": "Standard",
+    "name": "stage: 4"
+  },
+  {
+    "color": "7fff00",
+    "description": "Issue the Technical Architecture Group has raised and looks for a response on.",
+    "name": "tag-needs-resolution",
+    "w3c": true
+  },
+  {
+    "color": "7fff00",
+    "description": "Group bringing to attention of the TAG, or tracked by the TAG but not needing response.",
+    "name": "tag-tracker",
+    "w3c": true
+  },
+  {
+    "color": "009800",
+    "description": "Relates to custom elements (as defined in DOM and HTML)",
+    "name": "topic: custom elements"
+  },
+  {
+    "color": "009800",
+    "description": "Relates to shadow trees (as defined in DOM)",
+    "name": "topic: shadow"
+  }
+]

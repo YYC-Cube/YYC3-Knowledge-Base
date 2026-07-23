@@ -1,0 +1,16 @@
+[TensorRT-Cookbook] Version: 0.2.0
+
+================ Public members of <tensorrt.tensorrt.IOptimizationProfile object at 0x76b9244efb70> (instance)
+ 0 Callback members: []
+ 4 Callable methods: ['get_shape', 'get_shape_input', 'set_shape', 'set_shape_input']
+ 1 Non-callable attributions: ['extra_memory_target']
+
+================ Usage coverage in this script
+ 4/ 5 used members: ['get_shape', 'get_shape_input', 'set_shape', 'set_shape_input']
+ 1 uncovered members: ['extra_memory_target']
+
+
+================================================================ Usage show
+profile.get_shape(inputT0) = [(1, 1, 1), (3, 4, 5), (3, 4, 5)]
+profile.get_shape_input(inputT1) = [[1, 1, 1], [3, 4, 5], [3, 4, 5]]
+Finish

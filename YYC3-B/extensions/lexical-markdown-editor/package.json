@@ -1,0 +1,79 @@
+{
+  "name": "lexical-markdown-editor",
+  "displayName": "Lexical Markdown Editor",
+  "description": "Interactive Markdown editor powered by Lexical with TODO list support",
+  "version": "1.0.0",
+  "publisher": "vscode",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCustomEditor:lexicalMarkdown.editor",
+    "onCommand:lexicalMarkdown.openEditor"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "lexicalMarkdown.editor",
+        "displayName": "Lexical Markdown Editor",
+        "selector": [
+          {
+            "filenamePattern": "*.md"
+          }
+        ],
+        "priority": "option"
+      }
+    ],
+    "commands": [
+      {
+        "command": "lexicalMarkdown.openEditor",
+        "title": "Open Lexical Markdown Editor"
+      },
+      {
+        "command": "lexicalMarkdown.syncSpec",
+        "title": "Sync Spec Data"
+      },
+      {
+        "command": "lexicalMarkdown.syncTodoList",
+        "title": "Sync TODO List (Deprecated)"
+      },
+      {
+        "command": "lexicalMarkdown.syncDesignConfig",
+        "title": "Sync Design Config (Deprecated)"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build:webview": "cd webview && npm run build",
+    "install:all": "npm install && cd webview && npm install",
+    "compile:all": "npm run compile && npm run build:webview"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.70.0",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/diff": "^7.0.2",
+    "diff": "^8.0.2",
+    "@lexical/clipboard": "^0.12.0",
+    "@lexical/headless": "^0.12.0",
+    "@lexical/markdown": "^0.12.0",
+    "@lexical/rich-text": "^0.12.0",
+    "@lexical/list": "^0.12.0",
+    "@lexical/code": "^0.12.0",
+    "@lexical/table": "^0.12.0",
+    "@lexical/link": "^0.12.0",
+    "lexical": "^0.12.0",
+    "prismjs": "^1.29.0",
+    "yjs": "^13.5.22"
+  }
+}

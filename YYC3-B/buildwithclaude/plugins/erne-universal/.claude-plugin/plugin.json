@@ -1,0 +1,25 @@
+{
+  "name": "erne-universal",
+  "description": "Complete AI coding agent harness for React Native and Expo development — 8 agents, 16 commands, 8 skills, 10 MCP integrations",
+  "version": "1.0.0",
+  "author": {
+    "name": "JubaKitiashvili",
+    "url": "https://github.com/JubaKitiashvili"
+  },
+  "homepage": "https://erne.dev",
+  "repository": "https://github.com/JubaKitiashvili/everything-react-native-expo",
+  "license": "MIT",
+  "keywords": [
+    "mobile-development",
+    "react-native",
+    "expo",
+    "ai-agents",
+    "claude-code",
+    "skills",
+    "mcp",
+    "typescript",
+    "ios",
+    "android"
+  ],
+  "install": "npx erne-universal init"
+}

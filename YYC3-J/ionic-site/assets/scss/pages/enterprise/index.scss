@@ -1,0 +1,721 @@
+@import "../../vars";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "../../utilities/u-enterprise.scss";
+
+$colorBackHighlight: #2774d2;
+$colorBackInvert: #010610;
+$colorBackInvert2: #001a3a;
+$colorBtnText: #001a3a;
+$colorPanelBack: #f6f8fb;
+$colorTitle: #010610;
+$colorTitle2: #73849a;
+$colorTitleInvert: white;
+$colorSubtext: #445b78;
+$colorSubtextInvert: #f6f8fb;
+$colorSubtextInvert2: #dee3ea;
+$colorSubtextInvert3: #b2becd;
+$colorLinkDark: #001a3a;
+$colorLinkLight: #488aff;
+$lg: 99999;
+$shadow: drop-shadow(0px 8px 8px #d3d3d3);
+$timing: cubic-bezier(0.71, 0.69, 0.45, 0.84);
+
+// #region ------------------- DEFAULT STYLES ----------------------------
+img {
+  height: auto;
+}
+h1 {
+  margin: 0 0 28px 0;
+  font-size: 64px;
+  letter-spacing: -0.03em;
+}
+h2 {
+  margin: 0 0 16px 0;
+  font-size: 48px;
+  line-height: 112%;
+  letter-spacing: -0.04em;
+  color: $colorTitle;
+}
+h3 {
+  font-family: $font-family-inter;
+  font-weight: 500;
+  margin-top: 0;
+  margin-block-end: 8px;
+  color: $colorTitle;
+  font-size: 20px;
+}
+.a1 {
+  font-size: 20px;
+  line-height: 170%;
+  letter-spacing: -0.03em;
+}
+a.light {
+  &:hover,
+  &:active,
+  &:focus {
+    color: $colorLinkLight !important;
+  }
+}
+a.dark {
+  &:hover,
+  &:active,
+  &:focus {
+    color: $colorLinkDark !important;
+  }
+}
+p {
+  color: $colorSubtext;
+  margin: 0;
+}
+.p1 {
+  font-size: 24px;
+  line-height: 160%;
+  letter-spacing: -0.03em;
+}
+.p2 {
+  font-size: 20px;
+  line-height: 160%;
+  letter-spacing: -0.03em;
+}
+.p3 {
+  font-size: 16px;
+  line-height: 160%;
+  letter-spacing: -0.01em;
+}
+
+#sticky-bar li.active a:not(.btn) {
+  color: $colorLinkDark !important;
+}
+
+//Sticky nav won't work on mobile without these
+main {
+  overflow: visible;
+}
+@media (max-width: $screen-sm-max) {
+  .container {
+    overflow: hidden;
+  }
+}
+#top .container,
+.navbar .container {
+  overflow: visible;
+}
+
+//---------------------------------------------
+
+blockquote {
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+  quotes: none;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  color: $colorTitleInvert;
+  z-index: 2;
+  position: relative;
+
+  &::before {
+    content: url("/img/enterprise/left_quote.png");
+    position: absolute;
+    left: -10px;
+    top: -7px;
+    z-index: -1;
+  }
+
+  footer {
+    padding: 0px;
+    border-top: 0;
+    color: inherit;
+    font-family: inherit;
+
+    cite {
+      font-style: normal;
+    }
+    &::before {
+      content: "";
+    }
+  }
+}
+
+.section {
+  padding-top: 200px;
+  padding-bottom: 200px;
+}
+
+.superTitle {
+  font-family: $font-family-monospace;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 100%;
+  text-transform: uppercase;
+  color: $colorTitle2;
+  letter-spacing: 0.14em;
+  margin-bottom: 24px !important;
+}
+
+// #endregion
+
+// #region ------------------- COMPONENTS --------------------------------
+%btn {
+  white-space: nowrap;
+  text-transform: uppercase;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  padding: 16px 20px;
+  cursor: pointer;
+  line-height: 14px;
+}
+
+.btn-main {
+  @extend %btn;
+  background: white;
+  color: $colorBtnText;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#nativeImgs {
+  overflow: visible;
+  overflow-x: hidden;
+
+  .content {
+    max-width: 894px;
+  }
+
+  hgroup p {
+    max-width: 580px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  #imageList {
+    height: 268px;
+    position: relative;
+    display: block;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 1s 1s forwards;
+
+    li {
+      list-style: none;
+      position: absolute;
+    }
+
+    img {
+      position: absolute;
+      width: 128px;
+      border-radius: 50%;
+      box-shadow: 0 6px 24px rgba(black, 0.1);
+
+      &.m {
+        width: 64px;
+      }
+
+      &.m {
+        width: 96px;
+      }
+    }
+  }
+}
+// #endregion
+
+// #region ------------------- ANIMATIONS --------------------------------
+.btn-main,
+ionic-sub-header .btn {
+  animation-name: colorButtonBack;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: $timing;
+  @keyframes colorButtonBack {
+    from {
+      background: darken(white, 12%);
+      color: #001a3a;
+    }
+    to {
+      background: white;
+      color: #001a3a;
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    animation-name: colorButtonForward;
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: $timing;
+    @keyframes colorButtonForward {
+      from {
+        color: #001a3a;
+        background: white;
+      }
+      to {
+        background: darken(white, 12%);
+        color: #001a3a;
+      }
+    }
+  }
+}
+
+.panel {
+  animation-name: jumpUpBackwards;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: $timing;
+  @keyframes jumpUpBackwards {
+    from {
+      background: #e9edf3;
+      transform: translateY(-4px);
+    }
+    to {
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    animation-name: jumpUpForwards;
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: $timing;
+    @keyframes jumpUpForwards {
+      from {
+      }
+      to {
+        transform: translateY(-4px);
+        background: #e9edf3;
+      }
+    }
+  }
+}
+// #endregion
+
+ionic-sub-header {
+  .ionic-sub-header__mobile-toggle {
+    fill: white !important;
+  }
+  .container {
+    background: $colorBackInvert !important;
+  }
+  // position:absolute;
+  background: $colorBackInvert !important;
+  a:not(.active):not(:hover):not(.btn) {
+    color: white !important;
+  }
+  [slot="title"] {
+    letter-spacing: -0.01em;
+    font-size: 18px;
+    &:hover,
+    &:active,
+    &:focus {
+      color: #488aff !important;
+    }
+  }
+  .btn {
+    background: white;
+    color: $colorBtnText !important;
+  }
+}
+
+#sticky-bar {
+  top: 56px;
+}
+
+.ionic-sub-header--stuck {
+  position: sticky;
+}
+
+#heroImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $colorBackInvert;
+}
+
+#heroText {
+  @include box($color: white, $mxW: 560px, $mTop: 180px, $mBot: 164px);
+  @include box("p", $color: $colorSubtextInvert, $mxW: 560px);
+  @include box("a.link1", $mTop: 48px);
+  @include box("a.link2", $mTop: 16px, $color: white);
+  animation-name: fadeInUp;
+  animation-duration: 2s;
+
+  position: relative;
+  z-index: 2;
+}
+
+#top {
+  background: $colorBackInvert;
+  overflow: hidden;
+}
+
+#top .container {
+  position: relative;
+}
+
+#enterpriseSec {
+  @include box($mTop: 160px, $mBot: 200px);
+  @include spacer($mxW: 143px, $mnH: 100px);
+
+  #enterpriseText {
+    @include box($mxW: 384px);
+    @include stack($mY: 16px);
+
+    #logoList {
+      @include box($mTop: 56px, $fG: 0);
+      @include cluster($el: "& ", $sX: 48px, $sY: 32px);
+    }
+  }
+  #enterpriseImg {
+    @include box($mxW: 490px);
+    img {
+      width: 100%;
+    }
+  }
+}
+
+#ossSec {
+  @include spacer($mxW: 96px, $mnW: 32px);
+
+  #ossTitle {
+    @include stack($mY: 16px);
+    @include box($mxW: 480px);
+    h2 {
+      margin-top: 0px !important;
+    }
+  }
+
+  #ossCont {
+    @include stack($mY: 40px);
+    @include box($mxW: 448px);
+    @include box("svg", $mnW: 48px, $mxW: 48px, $mnH: 48px);
+
+    @include box(".content", $mxW: 352px);
+    @include spacer($mxW: 48px, $mnW: 20px, $mnH: 20px);
+  }
+}
+
+#nativeSec {
+  @include box($back: linear-gradient(180deg, #f7f9fc 0%, #fcfdfe 100%));
+  @include box("h2", $mxW: 480px);
+
+  #nativeTitle {
+    @include spacer($mnW: 40px, $mnH: 40px);
+    @include box(".title1", $mxW: 480px);
+
+    @include box(".title2", $mxW: 480px);
+    @include box(".title2 a", $mTop: 32px);
+  }
+
+  #nativeCont {
+    @include box("svg", $mxW: 48px, $mBot: 24px);
+    @include switcher(
+      $count: 3,
+      $threshold: $container-sm - $grid-gutter-width,
+      $gap: 32px
+    );
+  }
+
+  #imageList {
+    @include box($mTop: 96px);
+    svg {
+      filter: $shadow;
+    }
+  }
+}
+
+#quote1Sec {
+  position: relative;
+}
+
+#quote1Img {
+  flex-basis: 50%;
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 332px;
+  }
+}
+#quote1Back {
+  @include box($back: $colorBackHighlight);
+  flex-basis: 50%;
+  height: 332px;
+}
+#quote1Cont {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  blockquote {
+    font-size: 18px;
+    position: absolute;
+    left: calc(50% + 64px);
+    footer {
+      margin-top: 32px;
+    }
+    .company {
+      margin-left: 12px;
+      opacity: 0.6;
+    }
+  }
+}
+
+#mobSecSec {
+  @include spacer($mxW: 96px, $mnW: 32px, $mnH: 32px);
+}
+#mobSecTitle {
+  @include box($mxW: 480px);
+  @include stack($mY: 16px);
+  h2 {
+    margin-top: 0px !important;
+  }
+}
+
+#mobSecCont {
+  @include spacer($mnH: 16px);
+  @include box($mxW: 448px);
+  @include stack($mY: 40px);
+  @include box("svg", $w: 80px, $mBot: 42px);
+
+  .panel {
+    @include box($back: $colorPanelBack, $pX: 48px, $pY: 48px, $bR: 8px);
+  }
+}
+
+#adviseSec {
+  @include box($back: $colorBackInvert2);
+
+  .superTitle {
+    color: $colorSubtextInvert3;
+  }
+}
+#adviseTitle {
+  @include stack($mY: 16px);
+  @include box("h2", $color: $colorTitleInvert, $mTop: 0px);
+  @include box("p", $color: $colorSubtextInvert2, $mxW: 704px);
+}
+
+#adviseCont {
+  @include spacer($mnW: 48px);
+  @include box($mTop: 128px);
+  @include box(".row1", $fB: 440px);
+  @include box(".row2", $fB: 440px);
+
+  article {
+    @include box($mBot: 32px, $fB: 220px);
+    @include box("h3", $color: $colorTitleInvert);
+    @include box("p", $color: $colorSubtextInvert2);
+    @include box("svg", $mBot: 24px);
+  }
+}
+
+#delivSec {
+  @include box($back: #fbfbfd);
+  @include spacer($mxW: 96px, $mnW: 32px, $mnH: 32px);
+}
+#delivTitle {
+  .sec1 {
+    @include box($mxW: 480px, $fB: 50%);
+    @include box("h2", $mBot: 16px);
+    @include box("p", $mxW: 448px);
+  }
+  .sec2 {
+    @include box($mxW: 448px, $fB: 50%);
+    filter: $shadow;
+  }
+}
+
+#delivCont {
+  @include box($mTop: 132px);
+  @include box("svg", $w: 48px, $h: 48px, $mBot: 26px);
+  @include box("article", $mxW: 308px);
+}
+
+#quote2Sec {
+  padding-top: 128px;
+  padding-bottom: 128px;
+  .a1 {
+    color: #92a1b3;
+    font-size: 14px;
+  }
+}
+#quote2Title {
+  @include box($mxW: 832px, $mBot: 86px);
+}
+#quote2Cont {
+  position: relative;
+
+  blockquote {
+    font-size: 22px;
+    footer {
+      margin-top: 47px;
+    }
+    .company {
+      margin-left: 12px;
+      opacity: 0.6;
+    }
+  }
+
+  .sec1 {
+    @include box(
+      $back: $colorBackHighlight,
+      $mxW: 65%,
+      $mnH: 560px,
+      $pX: 64px,
+      $pY: 64px
+    );
+    @include box("& > svg", $mxW: 215.5px, $mBot: 66.3px);
+    @include box("blockquote", $mxW: 66.66%);
+    @include box("footer", $mTop: 47px);
+
+    border-radius: 8px;
+  }
+  .sec2 {
+    height: 100%;
+    position: absolute;
+    left: 45%;
+    img {
+      width: 100%;
+    }
+  }
+}
+#logoList2 {
+  @include cluster($sX: 83px, $sY: 32px);
+  @include box($mTop: 97px, $mBot: 28px);
+}
+
+#finalCta {
+  @include spacer($mnW: 32px, $mnH: 32px);
+
+  padding-top: 128px;
+  padding-bottom: 128px;
+  background: $colorBackInvert;
+
+  p {
+    @include box($color: $colorTitleInvert, $mxW: 679px);
+
+    strong {
+      font-weight: 600;
+    }
+
+    font-size: 28px;
+    line-height: 120%;
+    letter-spacing: -0.03em;
+  }
+}
+
+//sticky doesn't work without this
+@media (min-width: $screen-sm) {
+  main {
+    overflow: visible;
+  }
+  .tag-along {
+    position: relative;
+    #mobSecTitle {
+      position: sticky;
+      top: 180px;
+      height: 100%;
+    }
+  }
+}
+
+@media (min-width: $screen-sm) and (max-width: $screen-md) {
+  #adviseCont > .spacer {
+    min-width: 0px;
+  }
+}
+
+@media (max-width: $screen-sm) {
+  h1 {
+    font-size: 56px;
+  }
+  h2 {
+    font-size: 38px;
+  }
+  .section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+
+  [class*="strip"] {
+    flex-direction: column;
+  }
+  .snap {
+    max-width: 100% !important;
+  }
+
+  #quote1Cont {
+    position: static;
+    blockquote {
+      position: relative;
+      top: 0;
+      left: 0;
+    }
+  }
+  #quote1Back {
+    position: static;
+    height: auto;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    min-height: 332px;
+    display: flex;
+    align-items: center;
+  }
+
+  #adviseSec {
+    text-align: start;
+
+    .superTitle {
+      text-align: start;
+    }
+    #adviseTitle {
+      h2,
+      p {
+        text-align: start;
+      }
+
+      a {
+        margin-left: 0;
+      }
+    }
+  }
+
+  #adviseCont {
+    @include box($mTop: 64px);
+  }
+
+  #delivCont {
+    @include box($mTop: 64px);
+  }
+
+  #quote2Cont .sec1 {
+    @include box($mnH: auto, $pX: 32px);
+    @include box("svg", $mBot: 32px);
+  }
+
+  #quote2Cont .sec2 {
+    position: static;
+  }
+
+  #finalCta .sec2 {
+    justify-content: flex-start;
+  }
+}

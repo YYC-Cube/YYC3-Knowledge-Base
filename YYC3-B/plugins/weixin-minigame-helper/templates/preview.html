@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>微信小游戏预览</title>
+  <style>
+    /* ── Theme CSS variables (defaults = dark theme) ── */
+    :root {
+      --mg-bg: #1e1e1e;
+      --mg-fg: #ccc;
+      --mg-fg-muted: #888;
+      --mg-fg-subtle: #555;
+      --mg-fg-bright: #e8e8e8;
+      --mg-fg-dim: #aaa;
+      --mg-fg-label: #bbb;
+      --mg-border: #444;
+      --mg-border-light: #3a3a3a;
+      --mg-border-dark: #1a1a1a;
+      --mg-border-input: #555;
+      --mg-surface: #252525;
+      --mg-surface-raised: #2d2d2d;
+      --mg-surface-overlay: #2a2a2a;
+      --mg-surface-input: #1a1a1a;
+      --mg-surface-input-alt: #1e1e1e;
+      --mg-surface-select: #333;
+      --mg-surface-game: #1a1a1a;
+      --mg-input-fg: #e8e8e8;
+      --mg-toolbar-bg: linear-gradient(180deg, #2a2a2a 0%, #252525 100%);
+      --mg-toolbar-border: #1a1a1a;
+      --mg-accent: #4fc3f7;
+      --mg-accent-primary: #0969da;
+      --mg-accent-primary-hover: #1a7fe8;
+      --mg-hover-bg: #222;
+      --mg-tooltip-bg: #1a1a1a;
+      --mg-tooltip-fg: #ddd;
+      --mg-toast-bg: #333;
+      --mg-overlay-bg: rgba(0,0,0,0.6);
+      --mg-log-time: #555;
+      --mg-code-fg: #ce9178;
+      --mg-code-bg: #2d2d2d;
+      --mg-tip-bg: #1a2a3a;
+      --mg-tip-fg: #9cdcfe;
+      --mg-warn-bg: #2a1a00;
+      --mg-warn-fg: #e3c000;
+      --mg-link: #4fc3f7;
+      --mg-placeholder: #555;
+      --mg-spinner-border: #555;
+    }
+
+    /* ── VSCode theme adaptation ── */
+    /* VSCode injects vscode-dark / vscode-light / vscode-high-contrast classes on <body> */
+    body.vscode-dark {
+      --mg-bg: var(--vscode-editor-background, #1e1e1e);
+      --mg-fg: var(--vscode-editor-foreground, #ccc);
+      --mg-fg-muted: var(--vscode-descriptionForeground, #888);
+      --mg-fg-subtle: var(--vscode-disabledForeground, #555);
+      --mg-fg-bright: var(--vscode-foreground, #e8e8e8);
+      --mg-fg-dim: var(--vscode-descriptionForeground, #aaa);
+      --mg-fg-label: var(--vscode-foreground, #bbb);
+      --mg-border: var(--vscode-panel-border, #444);
+      --mg-border-light: var(--vscode-widget-border, #3a3a3a);
+      --mg-border-dark: var(--vscode-sideBar-border, #1a1a1a);
+      --mg-border-input: var(--vscode-input-border, #555);
+      --mg-surface: var(--vscode-sideBar-background, #252525);
+      --mg-surface-raised: var(--vscode-dropdown-background, #2d2d2d);
+      --mg-surface-overlay: var(--vscode-sideBar-background, #2a2a2a);
+      --mg-surface-input: var(--vscode-input-background, #1a1a1a);
+      --mg-surface-input-alt: var(--vscode-editor-background, #1e1e1e);
+      --mg-surface-select: var(--vscode-dropdown-background, #333);
+      --mg-surface-game: var(--vscode-editor-background, #1a1a1a);
+      --mg-input-fg: var(--vscode-input-foreground, #e8e8e8);
+      --mg-toolbar-bg: var(--vscode-titleBar-activeBackground, #252525);
+      --mg-toolbar-border: var(--vscode-titleBar-border, #1a1a1a);
+      --mg-accent: var(--vscode-focusBorder, #4fc3f7);
+      --mg-accent-primary: var(--vscode-button-background, #0969da);
+      --mg-accent-primary-hover: var(--vscode-button-hoverBackground, #1a7fe8);
+      --mg-hover-bg: var(--vscode-list-hoverBackground, #222);
+      --mg-tooltip-bg: var(--vscode-editorWidget-background, #1a1a1a);
+      --mg-tooltip-fg: var(--vscode-editorWidget-foreground, #ddd);
+      --mg-toast-bg: var(--vscode-notifications-background, #333);
+      --mg-overlay-bg: rgba(0,0,0,0.6);
+      --mg-log-time: var(--vscode-disabledForeground, #555);
+      --mg-code-fg: var(--vscode-textPreformat-foreground, #ce9178);
+      --mg-code-bg: var(--vscode-textCodeBlock-background, #2d2d2d);
+      --mg-tip-bg: var(--vscode-textBlockQuote-background, #1a2a3a);
+      --mg-tip-fg: var(--vscode-textLink-foreground, #9cdcfe);
+      --mg-warn-bg: #2a1a00;
+      --mg-warn-fg: #e3c000;
+      --mg-link: var(--vscode-textLink-foreground, #4fc3f7);
+      --mg-placeholder: var(--vscode-input-placeholderForeground, #555);
+      --mg-spinner-border: var(--vscode-disabledForeground, #555);
+    }
+
+    body.vscode-light {
+      --mg-bg: var(--vscode-editor-background, #ffffff);
+      --mg-fg: var(--vscode-editor-foreground, #333);
+      --mg-fg-muted: var(--vscode-descriptionForeground, #666);
+      --mg-fg-subtle: var(--vscode-disabledForeground, #999);
+      --mg-fg-bright: var(--vscode-foreground, #1a1a1a);
+      --mg-fg-dim: var(--vscode-descriptionForeground, #666);
+      --mg-fg-label: var(--vscode-foreground, #444);
+      --mg-border: var(--vscode-panel-border, #d0d0d0);
+      --mg-border-light: var(--vscode-widget-border, #e0e0e0);
+      --mg-border-dark: var(--vscode-sideBar-border, #d0d0d0);
+      --mg-border-input: var(--vscode-input-border, #ccc);
+      --mg-surface: var(--vscode-sideBar-background, #f3f3f3);
+      --mg-surface-raised: var(--vscode-dropdown-background, #fff);
+      --mg-surface-overlay: var(--vscode-sideBar-background, #f3f3f3);
+      --mg-surface-input: var(--vscode-input-background, #fff);
+      --mg-surface-input-alt: var(--vscode-editor-background, #ffffff);
+      --mg-surface-select: var(--vscode-dropdown-background, #fff);
+      --mg-surface-game: var(--vscode-editor-background, #f5f5f5);
+      --mg-input-fg: var(--vscode-input-foreground, #1a1a1a);
+      --mg-toolbar-bg: var(--vscode-titleBar-activeBackground, #f3f3f3);
+      --mg-toolbar-border: var(--vscode-titleBar-border, #d0d0d0);
+      --mg-accent: var(--vscode-focusBorder, #0078d4);
+      --mg-accent-primary: var(--vscode-button-background, #0078d4);
+      --mg-accent-primary-hover: var(--vscode-button-hoverBackground, #106ebe);
+      --mg-hover-bg: var(--vscode-list-hoverBackground, #e8e8e8);
+      --mg-tooltip-bg: var(--vscode-editorWidget-background, #f3f3f3);
+      --mg-tooltip-fg: var(--vscode-editorWidget-foreground, #333);
+      --mg-toast-bg: var(--vscode-notifications-background, #f3f3f3);
+      --mg-overlay-bg: rgba(0,0,0,0.3);
+      --mg-log-time: var(--vscode-disabledForeground, #999);
+      --mg-code-fg: var(--vscode-textPreformat-foreground, #a31515);
+      --mg-code-bg: var(--vscode-textCodeBlock-background, #f0f0f0);
+      --mg-tip-bg: var(--vscode-textBlockQuote-background, #e8f4fd);
+      --mg-tip-fg: var(--vscode-textLink-foreground, #0969da);
+      --mg-warn-bg: #fff8e1;
+      --mg-warn-fg: #7c5c00;
+      --mg-link: var(--vscode-textLink-foreground, #0969da);
+      --mg-placeholder: var(--vscode-input-placeholderForeground, #999);
+      --mg-spinner-border: var(--vscode-disabledForeground, #999);
+    }
+
+    body.vscode-high-contrast {
+      --mg-bg: var(--vscode-editor-background, #000);
+      --mg-fg: var(--vscode-editor-foreground, #fff);
+      --mg-fg-muted: var(--vscode-descriptionForeground, #ccc);
+      --mg-fg-subtle: var(--vscode-disabledForeground, #888);
+      --mg-fg-bright: var(--vscode-foreground, #fff);
+      --mg-fg-dim: var(--vscode-descriptionForeground, #ccc);
+      --mg-fg-label: var(--vscode-foreground, #fff);
+      --mg-border: var(--vscode-contrastBorder, #6fc3df);
+      --mg-border-light: var(--vscode-contrastBorder, #6fc3df);
+      --mg-border-dark: var(--vscode-contrastBorder, #6fc3df);
+      --mg-border-input: var(--vscode-contrastBorder, #6fc3df);
+      --mg-surface: var(--vscode-sideBar-background, #000);
+      --mg-surface-raised: var(--vscode-dropdown-background, #0c0c0c);
+      --mg-surface-overlay: var(--vscode-sideBar-background, #000);
+      --mg-surface-input: var(--vscode-input-background, #000);
+      --mg-surface-input-alt: var(--vscode-editor-background, #000);
+      --mg-surface-select: var(--vscode-dropdown-background, #000);
+      --mg-surface-game: var(--vscode-editor-background, #000);
+      --mg-input-fg: var(--vscode-input-foreground, #fff);
+      --mg-toolbar-bg: var(--vscode-titleBar-activeBackground, #000);
+      --mg-toolbar-border: var(--vscode-contrastBorder, #6fc3df);
+      --mg-accent: var(--vscode-focusBorder, #6fc3df);
+      --mg-accent-primary: var(--vscode-button-background, #0078d4);
+      --mg-accent-primary-hover: var(--vscode-button-hoverBackground, #106ebe);
+      --mg-hover-bg: var(--vscode-list-hoverBackground, #0c0c0c);
+      --mg-tooltip-bg: var(--vscode-editorWidget-background, #000);
+      --mg-tooltip-fg: var(--vscode-editorWidget-foreground, #fff);
+      --mg-toast-bg: var(--vscode-notifications-background, #0c0c0c);
+      --mg-overlay-bg: rgba(0,0,0,0.8);
+      --mg-log-time: var(--vscode-disabledForeground, #888);
+      --mg-code-fg: var(--vscode-textPreformat-foreground, #ce9178);
+      --mg-code-bg: var(--vscode-textCodeBlock-background, #0c0c0c);
+      --mg-tip-bg: var(--vscode-textBlockQuote-background, #001a2a);
+      --mg-tip-fg: var(--vscode-textLink-foreground, #6fc3df);
+      --mg-warn-bg: #2a1a00;
+      --mg-warn-fg: #ffcc00;
+      --mg-link: var(--vscode-textLink-foreground, #6fc3df);
+      --mg-placeholder: var(--vscode-input-placeholderForeground, #888);
+      --mg-spinner-border: var(--vscode-disabledForeground, #888);
+    }
+
+    /* ── WorkBuddy light theme (pure white + WeChat green accent) ── */
+    body.workbuddy-light {
+      --mg-bg: #ffffff;
+      --mg-fg: #333;
+      --mg-fg-muted: #666;
+      --mg-fg-subtle: #999;
+      --mg-fg-bright: #1a1a1a;
+      --mg-fg-dim: #666;
+      --mg-fg-label: #444;
+      --mg-border: #e5e5e5;
+      --mg-border-light: #efefef;
+      --mg-border-dark: #dcdcdc;
+      --mg-border-input: #d9d9d9;
+      --mg-surface: #fafafa;
+      --mg-surface-raised: #fff;
+      --mg-surface-overlay: #fafafa;
+      --mg-surface-input: #fff;
+      --mg-surface-input-alt: #ffffff;
+      --mg-surface-select: #fff;
+      --mg-surface-game: #fafafa;
+      --mg-input-fg: #1a1a1a;
+      --mg-toolbar-bg: #ffffff;
+      --mg-toolbar-border: #e5e5e5;
+      --mg-accent: #07C160;
+      --mg-accent-primary: #07C160;
+      --mg-accent-primary-hover: #06AD56;
+      --mg-hover-bg: #f5f5f5;
+      --mg-tooltip-bg: #fafafa;
+      --mg-tooltip-fg: #333;
+      --mg-toast-bg: #fafafa;
+      --mg-overlay-bg: rgba(0,0,0,0.3);
+      --mg-log-time: #999;
+      --mg-code-fg: #a31515;
+      --mg-code-bg: #f5f5f5;
+      --mg-tip-bg: #e7f8ee;
+      --mg-tip-fg: #07C160;
+      --mg-warn-bg: #fff8e1;
+      --mg-warn-fg: #7c5c00;
+      --mg-link: #07C160;
+      --mg-placeholder: #bfbfbf;
+      --mg-spinner-border: #bfbfbf;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 12px;
+      color: var(--mg-fg);
+      background: var(--mg-bg);
+      overflow: hidden;
+    }
+
+    body { display: flex; flex-direction: column; }
+
+    /* ── Toolbar ── */
+    #toolbar {
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 8px;
+      background: var(--mg-toolbar-bg);
+      border-bottom: 1px solid var(--mg-toolbar-border);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+      flex-shrink: 0; flex-wrap: nowrap; overflow: hidden;
+      width: 100%; box-sizing: border-box;
+      min-width: 0;
+    }
+
+    #toolbar select {
+      background: var(--mg-surface-select); color: var(--mg-fg); border: 1px solid var(--mg-border-input);
+      border-radius: 5px; padding: 3px 6px; font-size: 12px; cursor: pointer;
+      flex-shrink: 1; max-width: 140px; min-width: 80px;
+    }
+
+    .sep { width: 1px; height: 14px; background: var(--mg-border-light); flex-shrink: 0; }
+
+    #toolbar label {
+      display: flex; align-items: center; gap: 4px;
+      cursor: pointer; user-select: none; color: var(--mg-fg-label);
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    #toolbar input[type=checkbox] { cursor: pointer; accent-color: var(--mg-accent); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 9px; border: 1px solid transparent; border-radius: 5px;
+      font-size: 12px; cursor: pointer; transition: all 0.15s;
+      white-space: nowrap; flex-shrink: 0; position: relative;
+    }
+    .btn:disabled { opacity: 0.35; cursor: default; }
+
+    /* Compact mode: hide text labels, show icon only – pure CSS media query, no JS flicker */
+    .btn-label { transition: opacity 0.15s; }
+    @media (max-width: 510px) {
+      #toolbar .btn-label { display: none; }
+      #toolbar .btn { padding: 3px 7px; }
+      #toolbar label span { display: none; }
+      #toolbar .sep { display: none; }
+      #toolbar select { min-width: 40px; max-width: 80px; }
+    }
+
+    /* Custom tooltip */
+    .x-tooltip {
+      position: fixed; z-index: 9999;
+      background: var(--mg-tooltip-bg); color: var(--mg-tooltip-fg);
+      border: 1px solid var(--mg-border); border-radius: 4px;
+      padding: 4px 8px; font-size: 11px;
+      white-space: nowrap; pointer-events: none;
+      opacity: 0; transition: opacity 0.12s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .x-tooltip.visible { opacity: 1; }
+    .btn-reload, .btn-stop, .btn-real-device, .btn-real-debug, .btn-publish, .btn-config {
+      background: transparent; color: var(--mg-fg-dim); border: none;
+      padding: 4px 10px; gap: 6px; font-size: 12px;
+    }
+    .btn-reload:hover:not(:disabled), .btn-stop:hover:not(:disabled),
+    .btn-real-device:hover:not(:disabled), .btn-real-debug:hover:not(:disabled),
+    .btn-publish:hover:not(:disabled), .btn-config:hover:not(:disabled) {
+      color: var(--mg-fg-bright); background: rgba(255,255,255,0.06);
+    }
+    .btn-reload svg, .btn-stop svg, .btn-real-device svg, .btn-real-debug svg, .btn-publish svg, .btn-config svg {
+      width: 14px; height: 14px; flex-shrink: 0;
+    }
+    .btn-mcp { background: #0d2218; color: #56d364; border: 1px solid #1a7f37; font-size: 11px; }
+    .btn-mcp:hover:not(:disabled) { background: #112a1e; border-color: #2ea043; }
+
+    .toolbar-right { margin-left: auto; display: flex; align-items: center; gap: 6px; flex-shrink: 0; overflow: visible; }
+
+    /* ── Game area ── */
+    #game-area {
+      flex: 1; display: flex; justify-content: center; align-items: flex-start;
+      overflow: hidden; background: var(--mg-surface-game); position: relative; min-height: 0;
+    }
+
+    #game-frame { border: none; background: #000; display: block; }
+
+    /* ── Log panel ── */
+    #log-panel {
+      flex-shrink: 0; display: flex; flex-direction: column;
+      background: var(--mg-surface-game); border-top: 1px solid var(--mg-border-light);
+      height: 140px; min-height: 28px; max-height: calc(100vh - 80px);
+    }
+
+    #log-resize-handle {
+      height: 4px; background: transparent; cursor: ns-resize;
+      flex-shrink: 0; transition: background 0.15s;
+    }
+    #log-resize-handle:hover, #log-resize-handle.dragging { background: var(--mg-accent); }
+
+    #log-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 4px 10px; background: var(--mg-surface); border-bottom: 1px solid var(--mg-border);
+      cursor: pointer; user-select: none; flex-shrink: 0;
+    }
+    #log-header:hover { background: var(--mg-surface-overlay); }
+    #log-toggle-icon { font-size: 10px; transition: transform 0.15s; }
+    #log-header.collapsed #log-toggle-icon { transform: rotate(-90deg); }
+    #log-title { font-size: 11px; color: var(--mg-fg-muted); font-weight: 600; letter-spacing: 0.5px; }
+    #log-count { font-size: 10px; color: var(--mg-fg-subtle); margin-left: auto; }
+    #btn-clear-log {
+      font-size: 10px; padding: 1px 6px; background: var(--mg-surface-select); color: var(--mg-fg-muted);
+      border: 1px solid var(--mg-border); border-radius: 2px; cursor: pointer;
+    }
+    #btn-clear-log:hover { background: var(--mg-surface-raised); color: var(--mg-fg-dim); }
+
+    #log-body {
+      flex: 1; overflow-y: auto; padding: 4px 0;
+      font-family: 'Menlo', 'Consolas', 'Courier New', monospace;
+      font-size: 11px; line-height: 1.5; min-height: 0;
+    }
+    #log-body.hidden { display: none; }
+
+    .log-entry { display: flex; gap: 6px; padding: 1px 10px; border-bottom: 1px solid transparent; }
+    .log-entry:hover { background: var(--mg-hover-bg); }
+    .log-entry.log { color: var(--mg-fg); }
+    .log-entry.warn { color: #e3a008; background: rgba(227,160,8,0.05); }
+    .log-entry.error { color: #f85149; background: rgba(248,81,73,0.05); }
+    .log-time { color: var(--mg-log-time); flex-shrink: 0; }
+    .log-msg { word-break: break-all; white-space: pre-wrap; }
+
+    /* ── Custom resolution dialog ── */
+    #custom-res-dialog-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--mg-overlay-bg); z-index: 2000;
+      align-items: center; justify-content: center;
+    }
+    #custom-res-dialog-overlay.visible { display: flex; }
+    #custom-res-dialog {
+      background: var(--mg-surface-raised); border: 1px solid var(--mg-border); border-radius: 6px;
+      padding: 20px; width: 300px; max-width: 90%;
+    }
+    #custom-res-dialog h3 { margin: 0 0 14px; font-size: 13px; color: var(--mg-fg-bright); }
+    .custom-res-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .custom-res-row input[type=number] {
+      flex: 1; background: var(--mg-surface-input-alt); color: var(--mg-input-fg); border: 1px solid var(--mg-border);
+      border-radius: 3px; padding: 6px 8px; font-size: 12px; text-align: center;
+      outline: none; -moz-appearance: textfield;
+    }
+    .custom-res-row input[type=number]::-webkit-inner-spin-button,
+    .custom-res-row input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    .custom-res-row input[type=number]:focus { border-color: var(--mg-accent); }
+    .custom-res-row .size-sep { color: var(--mg-fg-muted); font-size: 14px; flex-shrink: 0; }
+    .custom-res-hint { font-size: 11px; color: var(--mg-fg-muted); margin-bottom: 14px; }
+    .custom-res-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--mg-overlay-bg); z-index: 1000;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.visible { display: flex; }
+
+    .modal {
+      background: var(--mg-surface-raised); border: 1px solid var(--mg-border); border-radius: 8px;
+      padding: 24px; width: 460px; max-width: 92vw; max-height: 90vh;
+      overflow-y: auto; position: relative;
+    }
+
+    .modal h2 { font-size: 16px; color: var(--mg-fg-bright); margin-bottom: 6px; }
+    .modal .subtitle { color: var(--mg-fg-muted); font-size: 12px; margin-bottom: 18px; }
+
+    .modal-close {
+      position: absolute; top: 12px; right: 16px; background: none; border: none;
+      color: var(--mg-fg-muted); font-size: 18px; cursor: pointer; padding: 4px;
+    }
+    .modal-close:hover { color: var(--mg-fg); }
+
+    /* ── Form elements in modals ── */
+    .form-row { margin-bottom: 14px; }
+    .form-row:last-child { margin-bottom: 0; }
+
+    .form-label { display: block; font-size: 12px; color: var(--mg-fg-dim); margin-bottom: 5px; font-weight: 500; }
+    .form-label .required { color: #f85149; margin-left: 2px; }
+    .form-label .hint { color: var(--mg-fg-muted); font-weight: 400; margin-left: 6px; }
+
+    .form-input {
+      width: 100%; background: var(--mg-surface-input-alt); border: 1px solid var(--mg-border-input); border-radius: 4px;
+      color: var(--mg-input-fg); font-size: 12px; padding: 7px 10px; outline: none;
+      font-family: 'Menlo', 'Consolas', monospace;
+    }
+    .form-input:focus { border-color: var(--mg-accent-primary); box-shadow: 0 0 0 1px var(--mg-accent-primary); }
+    .form-input::placeholder { color: var(--mg-placeholder); }
+
+    textarea.form-input { height: 100px; resize: vertical; font-size: 11px; }
+
+    .form-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+    .btn-primary { background: var(--mg-accent-primary); color: #fff; padding: 7px 18px; border: none; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: 500; }
+    .btn-primary:hover { background: var(--mg-accent-primary-hover); }
+    .btn-secondary { background: var(--mg-surface-input-alt); color: var(--mg-input-fg); border: 1px solid var(--mg-border-input); padding: 7px 18px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+    .btn-secondary:hover { background: var(--mg-surface-raised); color: var(--mg-input-fg); border-color: var(--mg-accent); }
+
+    /* ── Config modal tabs ── */
+    .config-tabs {
+      display: flex; gap: 2px; margin-bottom: 0;
+      border-bottom: 1px solid var(--mg-border-input);
+    }
+    .config-tab-btn {
+      background: transparent; border: none; border-bottom: 2px solid transparent;
+      color: var(--mg-fg-muted); font-size: 12px; padding: 7px 14px; cursor: pointer;
+      margin-bottom: -1px; transition: all 0.15s; white-space: nowrap;
+    }
+    .config-tab-btn:hover { color: var(--mg-fg); }
+.config-tab-btn.active { color: var(--mg-accent-primary); border-bottom-color: var(--mg-accent-primary); }
+    .config-tab-pane { display: none; }
+    .config-tab-pane.active { display: block; }
+
+    /* ── Steps in config modal ── */
+    .steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+    .step { display: flex; gap: 12px; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--mg-accent-primary); color: #fff; font-size: 10px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; margin-top: 2px;
+    }
+    .step-body { flex: 1; }
+    .step-title { font-weight: 600; color: var(--mg-fg-bright); font-size: 12px; }
+    .step-desc { color: var(--mg-fg-dim); font-size: 11px; margin-top: 2px; }
+
+    .tip {
+      background: var(--mg-tip-bg); border-left: 3px solid var(--mg-accent-primary);
+      border-radius: 0 4px 4px 0; padding: 8px 12px;
+      font-size: 12px; color: var(--mg-tip-fg); margin-top: 8px;
+    }
+    .warning {
+      background: var(--mg-warn-bg); border-left: 3px solid #e3a008;
+      border-radius: 0 4px 4px 0; padding: 8px 12px;
+      font-size: 12px; color: var(--mg-warn-fg); margin-top: 8px;
+    }
+
+    code {
+      background: var(--mg-code-bg); border: 1px solid var(--mg-border-light); border-radius: 3px;
+      padding: 1px 5px;
+      font-family: 'Menlo', 'Consolas', monospace; font-size: 11px; color: var(--mg-code-fg);
+    }
+
+    a { color: var(--mg-link); text-decoration: none; cursor: pointer; }
+    a:hover { text-decoration: underline; }
+
+    /* ── QR code display in modal ── */
+    .qr-wrapper {
+      background: #fff; border-radius: 12px; padding: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4); display: inline-block; margin: 16px 0;
+    }
+    .qr-wrapper img { display: block; width: 200px; height: 200px; image-rendering: pixelated; }
+
+    .badge-success {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #1a3a1a; border: 1px solid #2ea043; border-radius: 20px;
+      padding: 4px 14px; font-size: 12px; color: #3fb950; font-weight: 600;
+    }
+
+    /* ── Toast / notification ── */
+    #toast {
+      position: fixed; top: 16px; right: 16px; z-index: 2000;
+      background: var(--mg-toast-bg); color: var(--mg-fg); padding: 10px 18px; border-radius: 6px;
+      font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transform: translateY(-20px); opacity: 0; transition: all 0.2s;
+      pointer-events: none;
+    }
+    #toast.visible { transform: translateY(0); opacity: 1; }
+    #toast.success { background: #1a3a1a; border: 1px solid #2ea043; color: #3fb950; }
+    #toast.error { background: #3a1a1a; border: 1px solid #da3633; color: #f85149; }
+
+    /* ── Loading spinner ── */
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--mg-spinner-border); border-top-color: var(--mg-accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Light theme overrides for semantic buttons ── */
+    body.vscode-light .btn-reload, body.vscode-light .btn-stop,
+    body.vscode-light .btn-real-device, body.vscode-light .btn-real-debug,
+    body.vscode-light .btn-publish, body.vscode-light .btn-config,
+    body.workbuddy-light .btn-reload, body.workbuddy-light .btn-stop,
+    body.workbuddy-light .btn-real-device, body.workbuddy-light .btn-real-debug,
+    body.workbuddy-light .btn-publish, body.workbuddy-light .btn-config {
+      background: transparent; color: var(--mg-fg-dim);
+    }
+    body.vscode-light .btn-reload:hover:not(:disabled), body.vscode-light .btn-stop:hover:not(:disabled),
+    body.vscode-light .btn-real-device:hover:not(:disabled), body.vscode-light .btn-real-debug:hover:not(:disabled),
+    body.vscode-light .btn-publish:hover:not(:disabled), body.vscode-light .btn-config:hover:not(:disabled),
+    body.workbuddy-light .btn-reload:hover:not(:disabled), body.workbuddy-light .btn-stop:hover:not(:disabled),
+    body.workbuddy-light .btn-real-device:hover:not(:disabled), body.workbuddy-light .btn-real-debug:hover:not(:disabled),
+    body.workbuddy-light .btn-publish:hover:not(:disabled), body.workbuddy-light .btn-config:hover:not(:disabled) {
+      color: var(--mg-fg-bright); background: rgba(0,0,0,0.06);
+    }
+    body.vscode-light .btn-mcp, body.workbuddy-light .btn-mcp { background: #e6f9e6; color: #1a7f37; border: 1px solid #2ea043; }
+    body.vscode-light .btn-mcp:hover:not(:disabled), body.workbuddy-light .btn-mcp:hover:not(:disabled) { background: #d4f4d4; border-color: #1a7f37; }
+    body.vscode-light #toast.success, body.workbuddy-light #toast.success { background: #e6f9e6; border: 1px solid #2ea043; color: #1a7f37; }
+    body.vscode-light #toast.error, body.workbuddy-light #toast.error { background: #fde8e8; border: 1px solid #da3633; color: #cf222e; }
+    body.vscode-light .badge-success, body.workbuddy-light .badge-success { background: #e6f9e6; border: 1px solid #2ea043; color: #1a7f37; }
+    body.vscode-light .log-entry.warn, body.workbuddy-light .log-entry.warn { color: #9a6700; background: rgba(154,103,0,0.06); }
+    body.vscode-light .log-entry.error, body.workbuddy-light .log-entry.error { color: #cf222e; background: rgba(207,34,46,0.06); }
+  </style>
+</head>
+<body>
+  <!-- ═══ Toolbar ═══ -->
+  <div id="toolbar">
+    <!-- Device selector -->
+    <select id="device-select" title="模拟机型">
+      <optgroup label="iPhone">
+        <option value="320x568x2xiPhone%205">iPhone 5 (320×568)</option>
+        <option value="375x667x2xiPhone%206/7/8">iPhone 6/7/8 (375×667)</option>
+        <option value="414x736x3xiPhone%206/7/8%20Plus">iPhone 6/7/8 Plus (414×736)</option>
+        <option value="375x812x3xiPhone%20X">iPhone X (375×812)</option>
+        <option value="414x896x2xiPhone%20XR">iPhone XR (414×896)</option>
+        <option value="414x896x3xiPhone%20XS%20Max">iPhone XS Max (414×896)</option>
+        <option value="375x812x3xiPhone%2012/13%20mini">iPhone 12/13 mini (375×812)</option>
+        <option value="390x844x3xiPhone%2012/13%20(Pro)" selected>iPhone 12/13 (Pro) (390×844)</option>
+        <option value="428x926x3xiPhone%2012/13%20Pro%20Max">iPhone 12/13 Pro Max (428×926)</option>
+        <option value="430x932x3xiPhone%2014%20Pro%20Max">iPhone 14 Pro Max (430×932)</option>
+        <option value="430x932x3xiPhone%2015%20Pro%20Max">iPhone 15 Pro Max (430×932)</option>
+      </optgroup>
+      <optgroup label="Android">
+        <option value="360x640x3xNexus%205">Nexus 5 (360×640)</option>
+        <option value="411x731x2.625xNexus%205X">Nexus 5X (411×731)</option>
+        <option value="412x732x3.5xNexus%206">Nexus 6 (412×732)</option>
+      </optgroup>
+      <optgroup label="Windows">
+        <option value="480x800x2xWindows">Windows (480×800)</option>
+      </optgroup>
+      <optgroup label="Mac">
+        <option value="375x667x2xMac%2013-inch%20and%20below">Mac 13-inch and below (375×667)</option>
+        <option value="375x736x2xMac%2015-inch">Mac 15-inch (375×736)</option>
+        <option value="414x896x2xMac%2021-inch%20and%20above">Mac 21-inch and above (414×896)</option>
+      </optgroup>
+      <optgroup label="iPad">
+        <option value="768x1024x2xiPad">iPad (768×1024)</option>
+        <option value="834x1112x2xiPad%20Pro%2010.5-inch">iPad Pro 10.5-inch (834×1112)</option>
+        <option value="1024x1366x2xiPad%20Pro%2012.9-inch">iPad Pro 12.9-inch (1024×1366)</option>
+      </optgroup>
+      <optgroup label="HUAWEI">
+        <option value="366x809x3.5xHUAWEI%20Mate%2080">HUAWEI Mate 80 (366×809)</option>
+        <option value="374x827x3.25xHUAWEI%20Mate%2070">HUAWEI Mate 70 (374×827)</option>
+        <option value="376x809x3.5xHUAWEI%20Mate%2070%20Pro">HUAWEI Mate 70 Pro (376×809)</option>
+        <option value="374x862x3.25xHUAWEI%20Mate%2060">HUAWEI Mate 60 (374×862)</option>
+        <option value="388x837x3.25xHUAWEI%20Mate%2060%20Pro">HUAWEI Mate 60 Pro (388×837)</option>
+        <option value="365x814x3.5xHUAWEI%20Pura%2080%20Pro">HUAWEI Pura 80 Pro (365×814)</option>
+        <option value="363x817x3.5xHUAWEI%20nova%2014%20Ultra">HUAWEI nova 14 Ultra (363×817)</option>
+        <option value="440x707x3xHUAWEI%20Pura%20X%E5%86%85">HUAWEI Pura X内 (440×707)</option>
+        <option value="327x327x3xHUAWEI%20Pura%20X%E5%A4%96">HUAWEI Pura X外 (327×327)</option>
+        <option value="717x781x3.125xHUAWEI%20Mate%20X6%E5%86%85">HUAWEI Mate X6内 (717×781)</option>
+        <option value="346x781x3.125xHUAWEI%20Mate%20X6%E5%A4%96">HUAWEI Mate X6外 (346×781)</option>
+        <option value="372x818x3.375xHUAWEI%20Pura%2070">HUAWEI Pura 70 (372×818)</option>
+        <option value="373x843x3.375xHUAWEI%20Pura%2070%20Pro">HUAWEI Pura 70 Pro (373×843)</option>
+        <option value="712x799x3.125xHUAWEI%20Mate%20X5%E5%86%85">HUAWEI Mate X5内 (712×799)</option>
+        <option value="346x801x3.125xHUAWEI%20Mate%20X5%E5%A4%96">HUAWEI Mate X5外 (346×801)</option>
+        <option value="364x861x3.125xHUAWEI%20Pocket%202">HUAWEI Pocket 2 (364×861)</option>
+        <option value="361x804x3xHUAWEI%20nova%2013">HUAWEI nova 13 (361×804)</option>
+        <option value="363x823x3.375xHUAWEI%20nova%2013%20Pro">HUAWEI nova 13 Pro (363×823)</option>
+        <option value="361x804x3xHUAWEI%20nova%2012">HUAWEI nova 12 (361×804)</option>
+        <option value="363x823x3.375xHUAWEI%20nova%2012%20Pro">HUAWEI nova 12 Pro (363×823)</option>
+      </optgroup>
+      <optgroup label="自定义">
+        <option value="390x844x2xCustom">自定义</option>
+      </optgroup>
+    </select>
+
+    <div class="sep"></div>
+
+    <label title="将鼠标事件转换为触摸事件">
+      <input type="checkbox" id="mouse-touch" checked /> 鼠标模拟触屏
+    </label>
+
+    <div class="sep"></div>
+
+    <button class="btn btn-reload" id="btn-reload" title="重新加载游戏">
+      <svg viewBox="0 0 1024 1024" fill="currentColor" width="14" height="14">        <path d="M960 416V192l-73.056 73.056a447.712 447.712 0 0 0-373.6-201.088C265.92 63.968 65.312 264.544 65.312 512S265.92 960.032 513.344 960.032a448.064 448.064 0 0 0 415.232-279.488 38.368 38.368 0 1 0-71.136-28.896 371.36 371.36 0 0 1-344.096 231.584C308.32 883.232 142.112 717.024 142.112 512S308.32 140.768 513.344 140.768c132.448 0 251.936 70.08 318.016 179.84L736 416h224z"/>
+      </svg>
+      <span class="btn-label">重载</span>
+    </button>
+
+    <div class="sep"></div>
+
+    <button class="btn btn-real-device" id="btn-real-device" title="编译上传到微信平台，生成扫码预览链接">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+      <span class="btn-label">真机预览</span>
+    </button>
+    <!-- Real device debug button hidden for now
+    <div class="sep"></div>
+    <button class="btn btn-real-debug" id="btn-real-debug" title="敬请期待" disabled>
+      <svg viewBox="0 0 1024 1024" fill="currentColor" width="14" height="14">        <path d="M940 512H792V412c76.8 0 139-62.2 139-139 0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 34.8-28.2 63-63 63H232c-34.8 0-63-28.2-63-63 0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8 0 76.8 62.2 139 139 139v100H84c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h148v96c0 6.5 0.2 13 0.7 19.3C164.1 728.6 116 796.7 116 876c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8 0-44.2 23.9-82.9 59.6-103.7 6 17.2 13.6 33.6 22.7 49 24.3 41.5 59 76.2 100.5 100.5S460.5 960 512 960s99.8-13.9 141.3-38.2c41.5-24.3 76.2-59 100.5-100.5 9.1-15.5 16.7-31.9 22.7-49C812.1 793.1 836 831.8 836 876c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8 0-79.3-48.1-147.4-116.7-176.7 0.4-6.4 0.7-12.8 0.7-19.3v-96h148c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM716 680c0 36.8-9.7 72-27.8 102.9-17.7 30.3-43 55.6-73.3 73.3-20.1 11.8-42 20-64.9 24.3V484c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v396.5c-22.9-4.3-44.8-12.5-64.9-24.3-30.3-17.7-55.6-43-73.3-73.3C317.7 752 308 716.8 308 680V412h408v268z"/>
+        <path d="M304 280h56c4.4 0 8-3.6 8-8 0-28.3 5.9-53.2 17.1-73.5 10.6-19.4 26-34.8 45.4-45.4C450.9 142 475.7 136 504 136h16c28.3 0 53.2 5.9 73.5 17.1 19.4 10.6 34.8 26 45.4 45.4C650 218.9 656 243.7 656 272c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8 0-40-8.8-76.7-25.9-108.1-17.2-31.5-42.5-56.8-74-74C596.7 72.8 560 64 520 64h-16c-40 0-76.7 8.8-108.1 25.9-31.5 17.2-56.8 42.5-74 74C304.8 195.3 296 232 296 272c0 4.4 3.6 8 8 8z"/>
+      </svg>
+      <span class="btn-label">真机调试</span>
+    </button>
+    -->
+    <div class="sep"></div>
+    <button class="btn btn-publish" id="btn-publish" title="发布小游戏到微信平台">
+      <svg viewBox="0 0 1024 1024" fill="currentColor" width="14" height="14">        <path d="M128 704v192h768v-192h64v256H64v-256h64z m384-576l38.4 38.4L832 435.2l-44.8 44.8-243.2-230.4V768h-64V249.6L249.6 480l-44.8-44.8L512 128z"/>
+      </svg>
+      <span class="btn-label">上传</span>
+    </button>
+
+    <div class="toolbar-right">
+      <button class="btn btn-config" id="btn-config" title="配置 AppID / 密钥 / MCP">
+        <svg viewBox="0 0 1024 1024" fill="currentColor" width="14" height="14">
+          <path d="M509.387755 666.122449c-83.591837 0-151.510204-67.918367-151.510204-151.510204s67.918367-151.510204 151.510204-151.510204 151.510204 67.918367 151.510204 151.510204-67.918367 151.510204-151.510204 151.510204z m0-261.22449c-60.604082 0-109.714286 49.110204-109.714286 109.714286s49.110204 109.714286 109.714286 109.714286 109.714286-49.110204 109.714286-109.714286-49.110204-109.714286-109.714286-109.714286z"/>
+          <path d="M556.408163 929.959184h-83.591836c-47.542857 0-86.204082-38.661224-86.204082-86.204082v-22.987755c0-1.044898-0.522449-2.089796-1.567347-2.612245h-0.522449c-1.044898-0.522449-2.089796 0-3.134694 0.522449l-14.628571 15.15102c-16.195918 16.195918-37.093878 25.077551-59.559184 25.077551-22.465306 0-43.363265-8.881633-59.036735-24.555102l-59.036734-59.036734c-32.391837-32.391837-32.391837-85.159184 0-118.07347l15.673469-15.15102c1.044898-1.044898 1.044898-2.089796 0.522449-3.134694v-0.522449c-0.522449-1.044898-1.567347-1.567347-2.612245-1.567347h-22.987755c-47.542857 0-86.204082-38.661224-86.204082-86.204082v-78.367346c0.522449-47.020408 39.183673-85.681633 86.726531-85.681633h21.420408c1.044898 0 2.089796-0.522449 2.612245-2.089796 0.522449-1.044898 1.044898-2.612245 1.567347-3.657143 0.522449-1.044898 0-2.089796-0.522449-3.134694l-16.195918-16.718367C156.734694 329.142857 156.734694 275.853061 189.126531 243.461224l59.036734-59.036734c15.673469-15.673469 36.571429-24.555102 59.036735-24.555102 22.465306 0 43.363265 8.881633 59.036735 24.555102l15.15102 15.673469c0.522449 1.044898 2.089796 1.044898 3.134694 0.522449h0.522449c1.044898-0.522449 1.567347-1.567347 1.567347-2.612245v-17.763265C386.612245 132.702041 425.273469 94.040816 472.816327 94.040816h83.591836c44.408163 0 80.979592 36.571429 80.979592 80.979592v21.420408c0 1.044898 0.522449 2.089796 2.089796 2.612245 1.567347 0.522449 2.612245 1.044898 3.657143 1.567347 1.044898 0.522449 2.089796 0 3.134694-0.522449l16.718367-16.195918c32.391837-32.391837 85.159184-32.391837 118.073469 0.522449l59.036735 59.036734c15.673469 15.673469 24.555102 36.571429 24.555102 59.036735 0 22.465306-8.881633 43.363265-24.555102 59.036735l-15.673469 16.195918c-0.522449 0.522449-1.044898 2.089796-0.522449 2.612245 0.522449 1.044898 1.044898 2.612245 1.567347 3.657143 0.522449 1.044898 1.567347 2.089796 2.612245 2.089796h21.420408c44.408163 0 80.979592 36.571429 80.979592 80.979592v88.816326c0 44.408163-36.571429 80.979592-80.979592 80.979592h-22.987755c-1.044898 0-2.089796 0.522449-2.612245 1.567347-0.522449 1.567347-0.522449 2.612245 0.522449 3.657143l15.15102 14.628571c16.195918 16.195918 25.077551 37.093878 24.555102 59.559184 0 22.465306-8.881633 43.363265-24.555102 59.036735l-59.036734 59.036734c-15.673469 15.673469-36.571429 24.555102-59.036735 24.555102s-43.363265-8.881633-59.036735-24.555102l-16.195918-15.673469c-0.522449-0.522449-2.089796-1.044898-2.612245-0.522449-1.044898 0.522449-2.612245 1.044898-3.657143 1.567347-1.044898 0.522449-2.089796 1.567347-2.089796 2.612245v26.644898C637.387755 893.387755 600.816327 929.959184 556.408163 929.959184zM402.285714 780.538776c16.195918 7.314286 26.122449 22.987755 26.122449 40.75102v22.987755c0 24.555102 19.853061 44.408163 44.408164 44.408163h83.591836c21.420408 0 39.183673-17.763265 39.183674-39.183673v-26.644898c0-18.285714 10.971429-34.481633 28.212245-41.27347 1.044898-0.522449 1.567347-0.522449 2.612245-1.044897 16.718367-7.314286 35.526531-3.657143 48.587755 8.881632l16.195918 15.67347c16.718367 16.718367 43.363265 16.718367 59.559184 0l59.036734-59.036735c7.836735-7.836735 12.016327-18.285714 12.016327-29.779592 0-10.971429-4.179592-21.420408-12.016327-29.779592l-14.628571-14.106122c-13.583673-13.061224-17.763265-32.914286-9.926531-50.155102v-0.522449c6.791837-15.673469 22.987755-26.122449 40.751021-26.122449h22.987755c21.420408 0 39.183673-17.763265 39.183673-39.183674v-88.816326c0-21.420408-17.763265-39.183673-39.183673-39.183674h-21.420408c-18.285714 0-34.481633-10.971429-41.27347-28.212245-0.522449-1.044898-0.522449-1.567347-1.044898-2.612245-7.314286-16.718367-3.657143-35.526531 8.881633-48.587755l15.673469-16.195918c7.836735-7.836735 12.538776-18.808163 12.538776-29.779592 0-11.493878-4.179592-21.942857-12.016327-29.779592L751.281633 214.204082c-16.195918-16.195918-42.840816-16.195918-59.036735 0l-17.240816 16.195918c-13.061224 12.538776-32.391837 15.673469-48.587755 8.881633-0.522449-0.522449-1.567347-0.522449-2.612245-1.044898-17.240816-6.791837-28.212245-22.987755-28.212245-41.27347v-21.420408c0-21.420408-17.763265-39.183673-39.183674-39.183673h-83.591836c-24.555102 0-44.408163 19.853061-44.408164 44.408163V198.530612c0 17.763265-10.44898 33.436735-26.644898 40.751021-17.240816 7.836735-37.093878 3.657143-50.155102-9.404082l-15.15102-15.673469c-7.836735-7.836735-18.285714-12.016327-29.257143-12.016327-10.971429 0-21.420408 4.179592-29.257143 12.016327L218.906122 272.718367c-16.195918 16.195918-16.195918 42.840816 0 59.036735l16.195919 17.240816c12.538776 13.061224 16.195918 32.391837 8.881632 48.587755-0.522449 0.522449-0.522449 1.567347-1.044897 2.612245-6.791837 17.240816-22.987755 28.212245-41.27347 28.212245h-21.420408c-24.555102 0-44.408163 19.853061-44.408163 44.408164v78.367346c0 24.555102 19.853061 44.408163 44.408163 44.408164h22.987755c17.763265 0 33.436735 10.44898 40.75102 26.644898v0.522449c7.314286 16.718367 3.657143 37.093878-9.404081 49.632653l-15.67347 15.15102c-16.195918 16.195918-16.195918 42.318367 0 58.514286l59.036735 59.036735c7.836735 7.836735 18.285714 12.016327 29.257143 12.016326 10.971429 0 21.420408-4.179592 29.779592-12.538775l14.106122-14.628572c13.061224-13.583673 32.914286-17.763265 50.155102-9.92653l1.044898 0.522449z"/>
+        </svg>
+        <span class="btn-label">配置</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ Game area ═══ -->
+  <div id="game-area">
+    <iframe id="game-frame"
+            src=""
+            allow="autoplay"
+            sandbox="allow-scripts allow-same-origin"></iframe>
+  </div>
+
+  <!-- ═══ Log panel ═══ -->
+  <div id="log-panel">
+    <div id="log-resize-handle"></div>
+    <div id="log-header">
+      <span id="log-toggle-icon">▼</span>
+      <span id="log-title">CONSOLE</span>
+      <span id="log-count">0 条</span>
+      <button id="btn-clear-log">清空</button>
+    </div>
+    <div id="log-body"></div>
+  </div>
+
+  <!-- ═══ Custom Resolution Dialog ═══ -->
+  <div id="custom-res-dialog-overlay">
+    <div id="custom-res-dialog">
+      <h3 style="display:flex;align-items:center;gap:6px;">
+        <svg viewBox="0 0 1024 1024" fill="currentColor" width="14" height="14" style="flex-shrink:0;">
+          <path d="M509.387755 666.122449c-83.591837 0-151.510204-67.918367-151.510204-151.510204s67.918367-151.510204 151.510204-151.510204 151.510204 67.918367 151.510204 151.510204-67.918367 151.510204-151.510204 151.510204z m0-261.22449c-60.604082 0-109.714286 49.110204-109.714286 109.714286s49.110204 109.714286 109.714286 109.714286 109.714286-49.110204 109.714286-109.714286-49.110204-109.714286-109.714286-109.714286z"/>
+          <path d="M556.408163 929.959184h-83.591836c-47.542857 0-86.204082-38.661224-86.204082-86.204082v-22.987755c0-1.044898-0.522449-2.089796-1.567347-2.612245h-0.522449c-1.044898-0.522449-2.089796 0-3.134694 0.522449l-14.628571 15.15102c-16.195918 16.195918-37.093878 25.077551-59.559184 25.077551-22.465306 0-43.363265-8.881633-59.036735-24.555102l-59.036734-59.036734c-32.391837-32.391837-32.391837-85.159184 0-118.07347l15.673469-15.15102c1.044898-1.044898 1.044898-2.089796 0.522449-3.134694v-0.522449c-0.522449-1.044898-1.567347-1.567347-2.612245-1.567347h-22.987755c-47.542857 0-86.204082-38.661224-86.204082-86.204082v-78.367346c0.522449-47.020408 39.183673-85.681633 86.726531-85.681633h21.420408c1.044898 0 2.089796-0.522449 2.612245-2.089796 0.522449-1.044898 1.044898-2.612245 1.567347-3.657143 0.522449-1.044898 0-2.089796-0.522449-3.134694l-16.195918-16.718367C156.734694 329.142857 156.734694 275.853061 189.126531 243.461224l59.036734-59.036734c15.673469-15.673469 36.571429-24.555102 59.036735-24.555102 22.465306 0 43.363265 8.881633 59.036735 24.555102l15.15102 15.673469c0.522449 1.044898 2.089796 1.044898 3.134694 0.522449h0.522449c1.044898-0.522449 1.567347-1.567347 1.567347-2.612245v-17.763265C386.612245 132.702041 425.273469 94.040816 472.816327 94.040816h83.591836c44.408163 0 80.979592 36.571429 80.979592 80.979592v21.420408c0 1.044898 0.522449 2.089796 2.089796 2.612245 1.567347 0.522449 2.612245 1.044898 3.657143 1.567347 1.044898 0.522449 2.089796 0 3.134694-0.522449l16.718367-16.195918c32.391837-32.391837 85.159184-32.391837 118.073469 0.522449l59.036735 59.036734c15.673469 15.673469 24.555102 36.571429 24.555102 59.036735 0 22.465306-8.881633 43.363265-24.555102 59.036735l-15.673469 16.195918c-0.522449 0.522449-1.044898 2.089796-0.522449 2.612245 0.522449 1.044898 1.044898 2.612245 1.567347 3.657143 0.522449 1.044898 1.567347 2.089796 2.612245 2.089796h21.420408c44.408163 0 80.979592 36.571429 80.979592 80.979592v88.816326c0 44.408163-36.571429 80.979592-80.979592 80.979592h-22.987755c-1.044898 0-2.089796 0.522449-2.612245 1.567347-0.522449 1.567347-0.522449 2.612245 0.522449 3.657143l15.15102 14.628571c16.195918 16.195918 25.077551 37.093878 24.555102 59.559184 0 22.465306-8.881633 43.363265-24.555102 59.036735l-59.036734 59.036734c-15.673469 15.673469-36.571429 24.555102-59.036735 24.555102s-43.363265-8.881633-59.036735-24.555102l-16.195918-15.673469c-0.522449-0.522449-2.089796-1.044898-2.612245-0.522449-1.044898 0.522449-2.612245 1.044898-3.657143 1.567347-1.044898 0.522449-2.089796 1.567347-2.089796 2.612245v26.644898C637.387755 893.387755 600.816327 929.959184 556.408163 929.959184zM402.285714 780.538776c16.195918 7.314286 26.122449 22.987755 26.122449 40.75102v22.987755c0 24.555102 19.853061 44.408163 44.408164 44.408163h83.591836c21.420408 0 39.183673-17.763265 39.183674-39.183673v-26.644898c0-18.285714 10.971429-34.481633 28.212245-41.27347 1.044898-0.522449 1.567347-0.522449 2.612245-1.044897 16.718367-7.314286 35.526531-3.657143 48.587755 8.881632l16.195918 15.67347c16.718367 16.718367 43.363265 16.718367 59.559184 0l59.036734-59.036735c7.836735-7.836735 12.016327-18.285714 12.016327-29.779592 0-10.971429-4.179592-21.420408-12.016327-29.779592l-14.628571-14.106122c-13.583673-13.061224-17.763265-32.914286-9.926531-50.155102v-0.522449c6.791837-15.673469 22.987755-26.122449 40.751021-26.122449h22.987755c21.420408 0 39.183673-17.763265 39.183673-39.183674v-88.816326c0-21.420408-17.763265-39.183673-39.183673-39.183674h-21.420408c-18.285714 0-34.481633-10.971429-41.27347-28.212245-0.522449-1.044898-0.522449-1.567347-1.044898-2.612245-7.314286-16.718367-3.657143-35.526531 8.881633-48.587755l15.673469-16.195918c7.836735-7.836735 12.538776-18.808163 12.538776-29.779592 0-11.493878-4.179592-21.942857-12.016327-29.779592L751.281633 214.204082c-16.195918-16.195918-42.840816-16.195918-59.036735 0l-17.240816 16.195918c-13.061224 12.538776-32.391837 15.673469-48.587755 8.881633-0.522449-0.522449-1.567347-0.522449-2.612245-1.044898-17.240816-6.791837-28.212245-22.987755-28.212245-41.27347v-21.420408c0-21.420408-17.763265-39.183673-39.183674-39.183673h-83.591836c-24.555102 0-44.408163 19.853061-44.408164 44.408163V198.530612c0 17.763265-10.44898 33.436735-26.644898 40.751021-17.240816 7.836735-37.093878 3.657143-50.155102-9.404082l-15.15102-15.673469c-7.836735-7.836735-18.285714-12.016327-29.257143-12.016327-10.971429 0-21.420408 4.179592-29.257143 12.016327L218.906122 272.718367c-16.195918 16.195918-16.195918 42.840816 0 59.036735l16.195919 17.240816c12.538776 13.061224 16.195918 32.391837 8.881632 48.587755-0.522449 0.522449-0.522449 1.567347-1.044897 2.612245-6.791837 17.240816-22.987755 28.212245-41.27347 28.212245h-21.420408c-24.555102 0-44.408163 19.853061-44.408163 44.408164v78.367346c0 24.555102 19.853061 44.408163 44.408163 44.408164h22.987755c17.763265 0 33.436735 10.44898 40.75102 26.644898v0.522449c7.314286 16.718367 3.657143 37.093878-9.404081 49.632653l-15.67347 15.15102c-16.195918 16.195918-16.195918 42.318367 0 58.514286l59.036735 59.036735c7.836735 7.836735 18.285714 12.016327 29.257143 12.016326 10.971429 0 21.420408-4.179592 29.779592-12.538775l14.106122-14.628572c13.061224-13.583673 32.914286-17.763265 50.155102-9.92653l1.044898 0.522449z"/>
+        </svg>
+        自定义分辨率
+      </h3>
+      <div class="custom-res-row">
+        <input type="number" id="custom-width" min="100" max="4096" placeholder="宽度" />
+        <span class="size-sep">×</span>
+        <input type="number" id="custom-height" min="100" max="4096" placeholder="高度" />
+        <span class="size-sep" style="margin:0 2px;">DPR</span>
+        <input type="number" id="custom-dpr" min="1" max="5" step="0.125" placeholder="DPR" style="width:60px;" />
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <span id="custom-width-error" style="flex:1;font-size:10px;color:#f85149;min-height:14px;"></span>
+        <span style="width:14px;flex-shrink:0;"></span>
+        <span id="custom-height-error" style="flex:1;font-size:10px;color:#f85149;min-height:14px;"></span>
+        <span style="width:60px;flex-shrink:0;"></span>
+      </div>
+      <p class="custom-res-hint">范围：100 ~ 4096 px</p>
+      <div class="custom-res-actions">
+        <button id="custom-res-cancel" class="btn-secondary" style="padding:5px 14px;">取消</button>
+        <button id="custom-res-confirm" class="btn-primary" style="padding:5px 14px;">应用</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Config Modal (unified: AppID / MCP / Workspace) ═══ -->
+  <div class="modal-overlay" id="config-modal">
+    <div class="modal" style="width:520px;">
+      <button class="modal-close" id="config-close">&times;</button>
+      <h2 style="display:flex;align-items:center;gap:8px;">
+        <svg viewBox="0 0 1024 1024" fill="currentColor" width="16" height="16" style="flex-shrink:0;">
+          <path d="M509.387755 666.122449c-83.591837 0-151.510204-67.918367-151.510204-151.510204s67.918367-151.510204 151.510204-151.510204 151.510204 67.918367 151.510204 151.510204-67.918367 151.510204-151.510204 151.510204z m0-261.22449c-60.604082 0-109.714286 49.110204-109.714286 109.714286s49.110204 109.714286 109.714286 109.714286 109.714286-49.110204 109.714286-109.714286-49.110204-109.714286-109.714286-109.714286z"/>
+          <path d="M556.408163 929.959184h-83.591836c-47.542857 0-86.204082-38.661224-86.204082-86.204082v-22.987755c0-1.044898-0.522449-2.089796-1.567347-2.612245h-0.522449c-1.044898-0.522449-2.089796 0-3.134694 0.522449l-14.628571 15.15102c-16.195918 16.195918-37.093878 25.077551-59.559184 25.077551-22.465306 0-43.363265-8.881633-59.036735-24.555102l-59.036734-59.036734c-32.391837-32.391837-32.391837-85.159184 0-118.07347l15.673469-15.15102c1.044898-1.044898 1.044898-2.089796 0.522449-3.134694v-0.522449c-0.522449-1.044898-1.567347-1.567347-2.612245-1.567347h-22.987755c-47.542857 0-86.204082-38.661224-86.204082-86.204082v-78.367346c0.522449-47.020408 39.183673-85.681633 86.726531-85.681633h21.420408c1.044898 0 2.089796-0.522449 2.612245-2.089796 0.522449-1.044898 1.044898-2.612245 1.567347-3.657143 0.522449-1.044898 0-2.089796-0.522449-3.134694l-16.195918-16.718367C156.734694 329.142857 156.734694 275.853061 189.126531 243.461224l59.036734-59.036734c15.673469-15.673469 36.571429-24.555102 59.036735-24.555102 22.465306 0 43.363265 8.881633 59.036735 24.555102l15.15102 15.673469c0.522449 1.044898 2.089796 1.044898 3.134694 0.522449h0.522449c1.044898-0.522449 1.567347-1.567347 1.567347-2.612245v-17.763265C386.612245 132.702041 425.273469 94.040816 472.816327 94.040816h83.591836c44.408163 0 80.979592 36.571429 80.979592 80.979592v21.420408c0 1.044898 0.522449 2.089796 2.089796 2.612245 1.567347 0.522449 2.612245 1.044898 3.657143 1.567347 1.044898 0.522449 2.089796 0 3.134694-0.522449l16.718367-16.195918c32.391837-32.391837 85.159184-32.391837 118.073469 0.522449l59.036735 59.036734c15.673469 15.673469 24.555102 36.571429 24.555102 59.036735 0 22.465306-8.881633 43.363265-24.555102 59.036735l-15.673469 16.195918c-0.522449 0.522449-1.044898 2.089796-0.522449 2.612245 0.522449 1.044898 1.044898 2.612245 1.567347 3.657143 0.522449 1.044898 1.567347 2.089796 2.612245 2.089796h21.420408c44.408163 0 80.979592 36.571429 80.979592 80.979592v88.816326c0 44.408163-36.571429 80.979592-80.979592 80.979592h-22.987755c-1.044898 0-2.089796 0.522449-2.612245 1.567347-0.522449 1.567347-0.522449 2.612245 0.522449 3.657143l15.15102 14.628571c16.195918 16.195918 25.077551 37.093878 24.555102 59.559184 0 22.465306-8.881633 43.363265-24.555102 59.036735l-59.036734 59.036734c-15.673469 15.673469-36.571429 24.555102-59.036735 24.555102s-43.363265-8.881633-59.036735-24.555102l-16.195918-15.673469c-0.522449-0.522449-2.089796-1.044898-2.612245-0.522449-1.044898 0.522449-2.612245 1.044898-3.657143 1.567347-1.044898 0.522449-2.089796 1.567347-2.089796 2.612245v26.644898C637.387755 893.387755 600.816327 929.959184 556.408163 929.959184zM402.285714 780.538776c16.195918 7.314286 26.122449 22.987755 26.122449 40.75102v22.987755c0 24.555102 19.853061 44.408163 44.408164 44.408163h83.591836c21.420408 0 39.183673-17.763265 39.183674-39.183673v-26.644898c0-18.285714 10.971429-34.481633 28.212245-41.27347 1.044898-0.522449 1.567347-0.522449 2.612245-1.044897 16.718367-7.314286 35.526531-3.657143 48.587755 8.881632l16.195918 15.67347c16.718367 16.718367 43.363265 16.718367 59.559184 0l59.036734-59.036735c7.836735-7.836735 12.016327-18.285714 12.016327-29.779592 0-10.971429-4.179592-21.420408-12.016327-29.779592l-14.628571-14.106122c-13.583673-13.061224-17.763265-32.914286-9.926531-50.155102v-0.522449c6.791837-15.673469 22.987755-26.122449 40.751021-26.122449h22.987755c21.420408 0 39.183673-17.763265 39.183673-39.183674v-88.816326c0-21.420408-17.763265-39.183673-39.183673-39.183674h-21.420408c-18.285714 0-34.481633-10.971429-41.27347-28.212245-0.522449-1.044898-0.522449-1.567347-1.044898-2.612245-7.314286-16.718367-3.657143-35.526531 8.881633-48.587755l15.673469-16.195918c7.836735-7.836735 12.538776-18.808163 12.538776-29.779592 0-11.493878-4.179592-21.942857-12.016327-29.779592L751.281633 214.204082c-16.195918-16.195918-42.840816-16.195918-59.036735 0l-17.240816 16.195918c-13.061224 12.538776-32.391837 15.673469-48.587755 8.881633-0.522449-0.522449-1.567347-0.522449-2.612245-1.044898-17.240816-6.791837-28.212245-22.987755-28.212245-41.27347v-21.420408c0-21.420408-17.763265-39.183673-39.183674-39.183673h-83.591836c-24.555102 0-44.408163 19.853061-44.408164 44.408163V198.530612c0 17.763265-10.44898 33.436735-26.644898 40.751021-17.240816 7.836735-37.093878 3.657143-50.155102-9.404082l-15.15102-15.673469c-7.836735-7.836735-18.285714-12.016327-29.257143-12.016327-10.971429 0-21.420408 4.179592-29.257143 12.016327L218.906122 272.718367c-16.195918 16.195918-16.195918 42.840816 0 59.036735l16.195919 17.240816c12.538776 13.061224 16.195918 32.391837 8.881632 48.587755-0.522449 0.522449-0.522449 1.567347-1.044897 2.612245-6.791837 17.240816-22.987755 28.212245-41.27347 28.212245h-21.420408c-24.555102 0-44.408163 19.853061-44.408163 44.408164v78.367346c0 24.555102 19.853061 44.408163 44.408163 44.408164h22.987755c17.763265 0 33.436735 10.44898 40.75102 26.644898v0.522449c7.314286 16.718367 3.657143 37.093878-9.404081 49.632653l-15.67347 15.15102c-16.195918 16.195918-16.195918 42.318367 0 58.514286l59.036735 59.036735c7.836735 7.836735 18.285714 12.016327 29.257143 12.016326 10.971429 0 21.420408-4.179592 29.779592-12.538775l14.106122-14.628572c13.061224-13.583673 32.914286-17.763265 50.155102-9.92653l1.044898 0.522449z"/>
+        </svg>
+        配置
+      </h2>
+
+      <!-- Tab bar -->
+      <div class="config-tabs">
+        <button class="config-tab-btn active" data-tab="appid">
+          <svg viewBox="0 0 1024 1024" fill="currentColor" width="12" height="12" style="vertical-align:-2px;margin-right:4px;">
+            <path d="M418.133333 499.2c-21.333333-34.133333-29.866667-72.533333-29.866666-115.2 0-119.466667 93.866667-213.333333 213.333333-213.333333s213.333333 93.866667 213.333333 213.333333-93.866667 213.333333-213.333333 213.333333c-46.933333 0-85.333333-12.8-123.733333-38.4l-98.133334 98.133334 46.933334 46.933333-59.733334 59.733333-46.933333-46.933333-29.866667 29.866667 46.933334 46.933333L277.333333 853.333333 170.666667 746.666667l247.466666-247.466667zM601.6 256c-72.533333 0-128 55.466667-128 128s55.466667 128 128 128 128-55.466667 128-128-59.733333-128-128-128z"/>
+          </svg>
+          权限配置
+        </button>
+        <button class="config-tab-btn" data-tab="mcp">
+          <svg viewBox="0 0 1024 1024" fill="currentColor" width="12" height="12" style="vertical-align:-2px;margin-right:4px;">
+            <path d="M832 320V192c0-35.2-28.8-64-64-64H256c-35.2 0-64 28.8-64 64v128H64v64h128v128H64v64h128v128H64v64h128v128c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64V640h128v-64H832V448h128v-64H832V256h128V192H832z m-128 448c0 17.6-14.4 32-32 32H352c-17.6 0-32-14.4-32-32V256c0-17.6 14.4-32 32-32h320c17.6 0 32 14.4 32 32v512z"/>
+          </svg>
+          MCP 接入
+        </button>
+        <button class="config-tab-btn" data-tab="workspace">
+          <svg viewBox="0 0 1024 1024" fill="currentColor" width="12" height="12" style="vertical-align:-2px;margin-right:4px;">
+            <path d="M870.4 217.6c14.1 0 25.6 11.5 25.6 25.6v537.6c0 14.1-11.5 25.6-25.6 25.6H153.6c-14.1 0-25.6-11.5-25.6-25.6v-448c0-14.1 11.5-25.6 25.6-25.6h384.9l18.7-18.7 70.9-70.9h242.3m0-64H620.2c-11.9 0-23.3 4.7-31.7 13.1L512 243.2H153.6c-49.5 0-89.6 40.1-89.6 89.6v448c0 49.5 40.1 89.6 89.6 89.6h716.8c49.5 0 89.6-40.1 89.6-89.6V243.2c0-49.5-40.1-89.6-89.6-89.6z"/>
+            <path d="M768 741.4H256c-17.7 0-32-14.3-32-32s14.3-32 32-32h512c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+          </svg>
+          WorkSpace
+        </button>
+      </div>
+
+      <!-- Tab: AppID / Key -->
+      <div class="config-tab-pane active" data-tab="appid">
+        <p class="subtitle" style="margin-top:12px;">配置 AppID 和代码上传密钥，用于真机预览和发布</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-title">登录微信公众平台，获取 AppID 和代码上传密钥</div>
+              <div class="step-desc">
+                前往 <a href="https://mp.weixin.qq.com" target="_blank">mp.weixin.qq.com</a>，路径：
+                <strong style="color:var(--mg-fg)">管理 → 开发管理 → 开发设置 → 小程序代码上传</strong><br/>
+                复制 <code>AppID</code>，点击「生成最新的代码上传密钥」并下载 <code>.key</code> 文件
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-title">配置 IP 白名单</div>
+              <div class="step-desc">在同一页面将本机公网 IP 加入白名单，或临时关闭 IP 白名单验证</div>
+              <div class="tip" id="ip-tip">
+                <svg viewBox="0 0 1024 1024" fill="currentColor" width="12" height="12" style="vertical-align:-2px;margin-right:4px;color:var(--mg-tip-fg);">
+                  <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z m0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z m-48-588h96v44h-96v-44z m0 152h96v332h-96V448z"/>
+                </svg>
+本机公网 IP：<span id="my-ip" style="color:var(--mg-fg-bright);font-family:monospace;">获取中...</span>
+          <button id="btn-copy-ip" style="margin-left:8px;padding:2px 8px;background:var(--mg-surface-input-alt);color:var(--mg-input-fg);border:1px solid var(--mg-border-input);border-radius:3px;cursor:pointer;font-size:11px;">复制</button>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <div class="step-title">在下方填写 AppID 和密钥后保存</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="config-appid">AppID<span class="required">*</span></label>
+          <input type="text" id="config-appid" class="form-input" placeholder="wx1234567890abcdef" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="config-key">
+            代码上传密钥<span class="required">*</span>
+            <span class="hint">（.key 文件内容）</span>
+          </label>
+          <div style="display:flex;gap:6px;align-items:flex-start;">
+            <textarea id="config-key" class="form-input" style="flex:1;" placeholder="-----BEGIN PRIVATE KEY-----&#10;MIIEvgIBADANBgkqhkiG9w0BAQEFAAS...&#10;-----END PRIVATE KEY-----&#10;&#10;打开下载的 .key 文件，复制全部内容粘贴到这里"></textarea>
+            <button id="btn-pick-key-file" style="flex-shrink:0;padding:7px 10px;background:var(--mg-surface-input-alt);color:var(--mg-input-fg);border:1px solid var(--mg-border-input);border-radius:4px;font-size:11px;cursor:pointer;white-space:nowrap;align-self:flex-start;display:inline-flex;align-items:center;gap:4px;">
+              <svg viewBox="0 0 1024 1024" fill="currentColor" width="12" height="12">
+                <path d="M870.4 217.6c14.1 0 25.6 11.5 25.6 25.6v537.6c0 14.1-11.5 25.6-25.6 25.6H153.6c-14.1 0-25.6-11.5-25.6-25.6v-448c0-14.1 11.5-25.6 25.6-25.6h384.9l18.7-18.7 70.9-70.9h242.3m0-64H620.2c-11.9 0-23.3 4.7-31.7 13.1L512 243.2H153.6c-49.5 0-89.6 40.1-89.6 89.6v448c0 49.5 40.1 89.6 89.6 89.6h716.8c49.5 0 89.6-40.1 89.6-89.6V243.2c0-49.5-40.1-89.6-89.6-89.6z"/>
+                <path d="M768 741.4H256c-17.7 0-32-14.3-32-32s14.3-32 32-32h512c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+              </svg>
+              选择文件
+            </button>
+          </div>
+          <!-- Web platform: hidden file input -->
+          <input type="file" id="key-file-input" accept=".key,.pem" style="display:none;" />
+          <div class="warning">
+            <svg viewBox="0 0 1024 1024" fill="currentColor" width="12" height="12" style="vertical-align:-2px;margin-right:4px;color:var(--mg-warn-fg);">
+              <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z m-32 232h64v320h-64V296z m32 476c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z"/>
+            </svg>
+            密钥保存在用户目录 <code>~/.weixin-minigame-helper/config.json</code>（加密存储，无需担心泄露）
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary" id="config-save">保存配置</button>
+          <button class="btn-secondary" id="config-cancel">取消</button>
+        </div>
+      </div>
+
+      <!-- Tab: MCP -->
+      <div class="config-tab-pane" data-tab="mcp">
+        <p class="subtitle" style="margin-top:12px;">将 MCP 服务接入 AI 编程工具（Claude、Cursor 等），让 AI 直接控制游戏预览</p>
+        <div class="tip" style="margin-bottom:14px;">
+          <svg viewBox="0 0 1024 1024" fill="currentColor" width="12" height="12" style="vertical-align:-2px;margin-right:4px;">
+            <path d="M832 320V192c0-35.2-28.8-64-64-64H256c-35.2 0-64 28.8-64 64v128H64v64h128v128H64v64h128v128H64v64h128v128c0 35.2 28.8 64 64 64h512c35.2 0 64-28.8 64-64V640h128v-64H832V448h128v-64H832V256h128V192H832z m-128 448c0 17.6-14.4 32-32 32H352c-17.6 0-32-14.4-32-32V256c0-17.6 14.4-32 32-32h320c17.6 0 32 14.4 32 32v512z"/>
+          </svg>
+          MCP 服务地址：<br/>
+<span id="mcp-config-url" style="color:var(--mg-fg-bright);font-family:monospace;word-break:break-all;font-size:12px;">加载中...</span>
+          <button id="btn-copy-mcp-url" style="margin-left:8px;padding:2px 8px;background:var(--mg-surface-input-alt);color:var(--mg-input-fg);border:1px solid var(--mg-border-input);border-radius:3px;cursor:pointer;font-size:11px;">复制</button>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <div class="step-title">复制上方 MCP 服务地址</div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <div class="step-title">在 AI 工具中添加 MCP 配置</div>
+              <div class="step-desc">
+                以 Claude Desktop 为例，编辑 <code>claude_desktop_config.json</code>，添加：<br/>
+                <code id="mcp-json-example" style="display:block;margin-top:6px;padding:8px;background:var(--mg-surface-input);border-radius:4px;white-space:pre;font-size:12px;line-height:1.5;">加载中...</code>
+                <button id="btn-copy-mcp-json" style="margin-top:6px;padding:2px 8px;background:var(--mg-surface-input-alt);color:var(--mg-fg-bright);border:1px solid var(--mg-border-input);border-radius:3px;cursor:pointer;font-size:11px;">复制 JSON</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step" style="margin-top:16px;">
+          <div class="step-num">⚡</div>
+          <div class="step-body">
+            <div class="step-title">一键写入配置（CodeBuddy）</div>
+            <div class="step-desc">自动将 MCP 配置写入 CodeBuddy 配置文件</div>
+            <div style="margin-top:8px;display:flex;align-items:center;gap:8px;">
+              <button class="btn-primary" id="btn-write-mcp-config" style="padding:5px 14px;font-size:12px;">写入 CodeBuddy 配置</button>
+              <span id="write-mcp-status" style="font-size:12px;display:none;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Workspace (VSCode only) -->
+      <div class="config-tab-pane" data-tab="workspace">
+        <p class="subtitle" style="margin-top:12px;">配置小游戏项目目录，插件将从此目录启动预览服务</p>
+        <div class="form-row">
+          <label class="form-label" for="mcp-workspace-dir">
+            WorkSpace 目录
+            <span class="hint">（相对路径以项目根目录为基准，留空表示根目录）</span>
+          </label>
+          <input type="text" id="mcp-workspace-dir" class="form-input" placeholder="例如：demo 或 /absolute/path/to/game" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="tip">
+          <svg viewBox="0 0 1024 1024" fill="currentColor" width="12" height="12" style="vertical-align:-2px;margin-right:4px;color:var(--mg-tip-fg);">
+            <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64z m0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z m-48-588h96v44h-96v-44z m0 152h96v332h-96V448z"/>
+          </svg>
+          目录中必须包含 <code>game.js</code> 文件
+        </div>
+        <div class="form-actions" style="margin-top:14px;">
+          <button class="btn-primary" id="workspace-save">保存</button>
+          <button class="btn-secondary" id="workspace-cancel">取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ QR Code Modal ═══ -->
+  <div class="modal-overlay" id="qrcode-modal">
+    <div class="modal" style="text-align: center;">
+      <button class="modal-close" id="qrcode-close">&times;</button>
+      <div class="badge-success" id="qr-badge">✓ 预览版本上传成功</div>
+      <h2 style="margin-top: 12px;">微信扫码进行真机预览</h2>
+      <p id="qr-appid" style="color: var(--mg-fg-muted); font-size: 12px; font-family: monospace; margin-top: 4px;"></p>
+      <div class="qr-wrapper">
+        <img id="qr-image" src="" alt="预览二维码" />
+      </div>
+      <p style="color: var(--mg-fg-muted); font-size: 13px;">
+        打开 <strong style="color:var(--mg-fg)">微信</strong>，使用「扫一扫」扫描上方二维码<br/>即可在真实手机上预览小游戏
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══ Publish Modal ═══ -->
+  <div class="modal-overlay" id="publish-modal">
+    <div class="modal">
+      <button class="modal-close" id="publish-close">&times;</button>
+      <h2 style="display:flex;align-items:center;gap:8px;">
+        <svg viewBox="0 0 1024 1024" fill="currentColor" width="16" height="16" style="flex-shrink:0;">
+          <path d="M128 704v192h768v-192h64v256H64v-256h64z m384-576l38.4 38.4L832 435.2l-44.8 44.8-243.2-230.4V768h-64V249.6L249.6 480l-44.8-44.8L512 128z"/>
+        </svg>
+        发布小游戏
+      </h2>
+      <p class="subtitle">将游戏代码上传到微信平台</p>
+
+      <div class="form-row">
+        <label class="form-label" for="publish-version">版本号<span class="required">*</span></label>
+        <input type="text" id="publish-version" class="form-input" placeholder="例如：1.0.0" />
+      </div>
+
+      <div class="form-row">
+        <label class="form-label" for="publish-desc">项目备注</label>
+        <textarea id="publish-desc" class="form-input" placeholder="本次发布的说明（可选）" style="height: 60px;"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary" id="publish-confirm">确认发布</button>
+        <button class="btn-secondary" id="publish-cancel">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Loading Modal ═══ -->
+  <div class="modal-overlay" id="loading-modal">
+    <div class="modal" style="text-align: center; padding: 40px;">
+      <div class="spinner" style="width: 32px; height: 32px; border-width: 3px; margin: 0 auto 16px;"></div>
+      <p id="loading-text" style="color: var(--mg-fg-dim); font-size: 14px;">处理中...</p>
+    </div>
+  </div>
+
+  <!-- ═══ Toast ═══ -->
+  <div id="toast"></div>
+  <!-- Custom tooltip -->
+  <div class="x-tooltip" id="x-tooltip"></div>
+
+  <script>
+    (function () {
+      // ── Platform detection ────────────────────────────────────────────────
+      var urlParams = new URLSearchParams(window.location.search);
+      // Priority: injected global (VSCode/workbuddy) > URL param > default 'web'
+      var platform = (window.__VSCODE_PLATFORM__) ? window.__VSCODE_PLATFORM__
+                   : (window.__WORKBUDDY_PLATFORM__) ? window.__WORKBUDDY_PLATFORM__
+                   : (urlParams.get('platform') || 'web');
+      var isVscode = platform === 'vscode';
+      var isWorkbuddy = platform === 'workbuddy';
+
+      // WorkBuddy runs in browser without VSCode theme injection – default to light theme
+      if (isWorkbuddy) {
+        document.body.classList.add('workbuddy-light');
+      }
+
+      // In VSCode mode, acquire the VSCode API for postMessage communication
+      var vscodeApi = null;
+      if (isVscode && typeof acquireVsCodeApi !== 'undefined') {
+        vscodeApi = acquireVsCodeApi();
+      }
+
+      // MCP button: removed from toolbar (all platforms)
+      // Config is accessible via the ⚙️ button which opens the unified config modal
+
+      // ── API helper ──────────────────────────────────────────────────────
+      // In VSCode mode, commands are sent via vscode.postMessage and responses
+      // come back via window.addEventListener('message').
+      // In web mode, commands are sent via HTTP POST to /api/command.
+      var pendingVscodeCommands = {};
+      var vscodeCommandSeq = 0;
+
+      function api(command) {
+        if (isVscode && vscodeApi) {
+          // VSCode mode: use postMessage bridge
+          return new Promise(function(resolve, reject) {
+            var seq = ++vscodeCommandSeq;
+            pendingVscodeCommands[seq] = { resolve: resolve, reject: reject };
+            vscodeApi.postMessage(Object.assign({}, command, { __seq: seq }));
+            // Timeout after 30s
+            setTimeout(function() {
+              if (pendingVscodeCommands[seq]) {
+                delete pendingVscodeCommands[seq];
+                reject(new Error('Command timeout'));
+              }
+            }, 30000);
+          });
+        }
+        // Web mode: HTTP API
+        return fetch('/api/command', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(command),
+        }).then(function(res) {
+          return res.json();
+        }).then(function(json) {
+          if (!json.success) throw new Error(json.error || 'Unknown error');
+          return json.data;
+        });
+      }
+
+      // ── Toast ───────────────────────────────────────────────────────────
+      var toastEl = document.getElementById('toast');
+      var toastTimer = null;
+      function showToast(msg, type) {
+        if (toastTimer) clearTimeout(toastTimer);
+        toastEl.textContent = msg;
+        toastEl.className = 'visible ' + (type || '');
+        toastTimer = setTimeout(function () {
+          toastEl.className = '';
+        }, 3000);
+      }
+
+      // ── Modal helpers ───────────────────────────────────────────────────
+      function showModal(id) { document.getElementById(id).classList.add('visible'); }
+      function hideModal(id) { document.getElementById(id).classList.remove('visible'); }
+
+      // Close modals by clicking overlay
+      document.querySelectorAll('.modal-overlay').forEach(function (overlay) {
+        overlay.addEventListener('click', function (e) {
+          if (e.target === overlay) overlay.classList.remove('visible');
+        });
+      });
+
+      // Close buttons
+      document.getElementById('config-close').addEventListener('click', function () { hideModal('config-modal'); });
+      document.getElementById('qrcode-close').addEventListener('click', function () { hideModal('qrcode-modal'); });
+      document.getElementById('publish-close').addEventListener('click', function () { hideModal('publish-modal'); });
+      // Config modal cancel buttons (all tabs)
+      ['config-cancel', 'mcp-cancel', 'workspace-cancel'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', function () { hideModal('config-modal'); });
+      });
+
+      // ── Device select & iframe sizing ───────────────────────────────────
+      var deviceSelect = document.getElementById('device-select');
+      var gameArea = document.getElementById('game-area');
+      var gameFrame = document.getElementById('game-frame');
+
+      function applyDeviceSize() {
+        if (!gameFrame) return;
+        var parts = deviceSelect.value.split('x');
+        var w = parseInt(parts[0], 10);
+        var h = parseInt(parts[1], 10);
+        var areaW = gameArea.clientWidth;
+        var areaH = gameArea.clientHeight;
+        var scaleByHeight = areaH / h;
+        var scaleByWidth = areaW / w;
+        var scale = (scaleByHeight <= scaleByWidth) ? scaleByHeight : scaleByWidth;
+        gameFrame.style.width = w + 'px';
+        gameFrame.style.height = h + 'px';
+        gameFrame.style.transform = 'scale(' + scale + ')';
+        gameFrame.style.transformOrigin = 'center top';
+      }
+
+      function reloadFrame() {
+        if (!gameFrame) return;
+        var parts = deviceSelect.value.split('x');
+        if (parts.length < 2) return;
+        var w = parseInt(parts[0], 10);
+        var h = parseInt(parts[1], 10);
+        if (!w || !h || isNaN(w) || isNaN(h)) return;
+        var dpr = parseFloat(parts[2]) || 2;
+        var model = parts[3] || '';
+        // In VSCode mode, use absolute URL since the webview has no HTTP origin.
+        // Guard: if server URL is not yet available (game not started), skip.
+        if (isVscode && !window.__VSCODE_SERVER_URL__) return;
+        var gameHostBase = (isVscode && window.__VSCODE_SERVER_URL__)
+          ? window.__VSCODE_SERVER_URL__ + '/game-host'
+          : '/game-host';
+        gameFrame.src = gameHostBase + '?w=' + w + '&h=' + h + '&dpr=' + dpr + '&model=' + encodeURIComponent(model);
+      }
+
+      // Initialize iframe src on page load with correct device dimensions
+      reloadFrame();
+
+      // ── Custom resolution dialog ─────────────────────────────────────────
+      var customResOverlay  = document.getElementById('custom-res-dialog-overlay');
+      var customWidthInput  = document.getElementById('custom-width');
+      var customHeightInput = document.getElementById('custom-height');
+      var customDprInput    = document.getElementById('custom-dpr');
+      var customResCancel   = document.getElementById('custom-res-cancel');
+      var customResConfirm  = document.getElementById('custom-res-confirm');
+
+      function isCustomSelected() {
+        var parts = deviceSelect.value.split('x');
+        return parts.length >= 4 && parts[3] === 'Custom';
+      }
+
+      function showCustomResDialog() {
+        var parts = deviceSelect.value.split('x');
+        customWidthInput.value  = (parts.length >= 1 && parts[0]) ? parts[0] : '390';
+        customHeightInput.value = (parts.length >= 2 && parts[1]) ? parts[1] : '844';
+        customDprInput.value    = (parts.length >= 3 && parts[2]) ? parts[2] : '2';
+        customWidthInput.style.borderColor  = '#555';
+        customHeightInput.style.borderColor = '#555';
+        customResOverlay.classList.add('visible');
+        setTimeout(function () { customWidthInput.focus(); customWidthInput.select(); }, 50);
+      }
+
+      function hideCustomResDialog() {
+        customResOverlay.classList.remove('visible');
+      }
+
+      function resetErrorMessages() {
+        var wErrEl = document.getElementById('custom-width-error');
+        var hErrEl = document.getElementById('custom-height-error');
+        if (wErrEl) wErrEl.textContent = '';
+        if (hErrEl) hErrEl.textContent = '';
+      }
+
+      function applyCustomResolution() {
+        var w = parseInt(customWidthInput.value, 10);
+        var h = parseInt(customHeightInput.value, 10);
+        var dpr = parseFloat(customDprInput.value) || 2;
+        if (dpr < 1) dpr = 1;
+        if (dpr > 5) dpr = 5;
+        var wInvalid = !customWidthInput.value || isNaN(w) || w < 100 || w > 4096;
+        var hInvalid = !customHeightInput.value || isNaN(h) || h < 100 || h > 4096;
+        if (wInvalid || hInvalid) {
+          customWidthInput.style.borderColor  = wInvalid ? '#f85149' : '#555';
+          customHeightInput.style.borderColor = hInvalid ? '#f85149' : '#555';
+          var wErrEl = document.getElementById('custom-width-error');
+          var hErrEl = document.getElementById('custom-height-error');
+          if (wErrEl) wErrEl.textContent = wInvalid ? (isNaN(w) ? '请输入有效数字' : (w < 100 ? '宽度不能小于 100px' : '宽度不能超过 4096px')) : '';
+          if (hErrEl) hErrEl.textContent = hInvalid ? (isNaN(h) ? '请输入有效数字' : (h < 100 ? '高度不能小于 100px' : '高度不能超过 4096px')) : '';
+          return;
+        }
+        resetErrorMessages();
+        customWidthInput.style.borderColor  = '#555';
+        customHeightInput.style.borderColor = '#555';
+        var opts = deviceSelect.options;
+        for (var i = 0; i < opts.length; i++) {
+          var parts = opts[i].value.split('x');
+          if (parts.length >= 4 && parts[3] === 'Custom') {
+            opts[i].value = w + 'x' + h + 'x' + dpr + 'xCustom';
+            opts[i].text  = '自定义 (' + w + '×' + h + ' | Dpr:' + dpr + ')';
+            break;
+          }
+        }
+        customResOverlay.classList.remove('visible');
+        reloadFrame();
+      }
+
+      customResCancel.addEventListener('click', function () {
+        hideCustomResDialog();
+        // Revert to first non-custom option
+        for (var i = 0; i < deviceSelect.options.length; i++) {
+          var parts = deviceSelect.options[i].value.split('x');
+          if (parts.length < 4 || parts[3] !== 'Custom') {
+            deviceSelect.selectedIndex = i;
+            break;
+          }
+        }
+      });
+
+      customResConfirm.addEventListener('click', applyCustomResolution);
+
+      customResOverlay.addEventListener('click', function (e) {
+        if (e.target === customResOverlay) customResCancel.click();
+      });
+
+      [customWidthInput, customHeightInput, customDprInput].forEach(function (inp) {
+        inp.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') applyCustomResolution();
+          if (e.key === 'Escape') customResCancel.click();
+        });
+        inp.addEventListener('input', function () {
+          inp.style.borderColor = '#555';
+          var errId = inp.id === 'custom-width' ? 'custom-width-error' : 'custom-height-error';
+          var errEl = document.getElementById(errId);
+          if (errEl) errEl.textContent = '';
+        });
+      });
+
+      deviceSelect.addEventListener('change', function () {
+        if (isCustomSelected()) {
+          showCustomResDialog();
+        } else {
+          reloadFrame();
+        }
+      });
+      window.addEventListener('resize', applyDeviceSize);
+      gameFrame.addEventListener('load', function () {
+        // Use rAF to ensure layout is complete before calculating scale
+        requestAnimationFrame(function () {
+          applyDeviceSize();
+          setTimeout(sendMouseTouchConfig, 150);
+        });
+      });
+      // Also observe game-area size changes to handle first-render correctly
+      if (window.ResizeObserver) {
+        new ResizeObserver(function () { applyDeviceSize(); }).observe(gameArea);
+      } else {
+        requestAnimationFrame(applyDeviceSize);
+      }
+
+      // ── Mouse → Touch toggle ────────────────────────────────────────────
+      var mouseTouchCheckbox = document.getElementById('mouse-touch');
+      function sendMouseTouchConfig() {
+        if (!gameFrame || !gameFrame.contentWindow) return;
+        gameFrame.contentWindow.postMessage(
+          { type: 'SET_MOUSE_TOUCH', enabled: mouseTouchCheckbox.checked }, '*'
+        );
+      }
+      mouseTouchCheckbox.addEventListener('change', sendMouseTouchConfig);
+
+      // ── Reload button ───────────────────────────────────────────────────
+      document.getElementById('btn-reload').addEventListener('click', function () {
+        if (isVscode && vscodeApi) {
+          vscodeApi.postMessage({ type: 'reload' });
+        } else {
+          reloadFrame();
+        }
+        showToast('游戏已重载', 'success');
+      });
+
+      // ── Config button ───────────────────────────────────────────────────────
+      document.getElementById('btn-config').addEventListener('click', function () {
+        openConfigModal('appid');
+      });
+
+      // ── Pick key file button ────────────────────────────────────────────────
+      document.getElementById('btn-pick-key-file').addEventListener('click', async function () {
+        if (isVscode && vscodeApi) {
+          // VSCode: use extension file picker via postMessage
+          try {
+            var result = await api({ type: 'pickKeyFile' });
+            if (result && result.content) {
+              document.getElementById('config-key').value = result.content;
+            }
+          } catch (e) { /* ignore */ }
+        } else {
+          // Web: use hidden file input
+          document.getElementById('key-file-input').click();
+        }
+      });
+
+      document.getElementById('key-file-input').addEventListener('change', function (e) {
+        var file = e.target.files && e.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          document.getElementById('config-key').value = ev.target.result || '';
+        };
+        reader.readAsText(file);
+        // Reset so same file can be selected again
+        e.target.value = '';
+      });
+      // ── Unified config modal logic ─────────────────────────────────────────────
+      function openConfigModal(tab) {
+        // Switch to the requested tab
+        switchConfigTab(tab || 'appid');
+
+        // Load current config for appid tab
+        api({ type: 'getConfig' }).then(function(config) {
+          document.getElementById('config-appid').value = config.appId || '';
+          document.getElementById('config-key').value = '';
+          if (config.hasPrivateKey) {
+            document.getElementById('config-key').placeholder = '（密钥已配置，留空则不修改）';
+          } else {
+            document.getElementById('config-key').placeholder = '-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAAS...\n-----END PRIVATE KEY-----\n\n打开下载的 .key 文件，复制全部内容粘贴到这里';
+          }
+        }).catch(function() {});
+
+        // Load MCP config info
+        if (!isWorkbuddy) {
+          loadMcpConfigInfo();
+        }
+
+        showModal('config-modal');
+      }
+
+      function switchConfigTab(tab) {
+        document.querySelectorAll('.config-tab-btn').forEach(function(btn) {
+          btn.classList.toggle('active', btn.dataset.tab === tab);
+        });
+        document.querySelectorAll('.config-tab-pane').forEach(function(pane) {
+          pane.classList.toggle('active', pane.dataset.tab === tab);
+        });
+      }
+
+      // Init tab switching
+      document.querySelectorAll('.config-tab-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          switchConfigTab(btn.dataset.tab);
+        });
+      });
+
+      // Hide workspace tab if not vscode
+      if (!isVscode) {
+        var wsTab = document.querySelector('.config-tab-btn[data-tab="workspace"]');
+        if (wsTab) wsTab.style.display = 'none';
+        var wsPane = document.querySelector('.config-tab-pane[data-tab="workspace"]');
+        if (wsPane) wsPane.style.display = 'none';
+      }
+      // Hide MCP tab if workbuddy
+      if (isWorkbuddy) {
+        var mcpTab = document.querySelector('.config-tab-btn[data-tab="mcp"]');
+        if (mcpTab) mcpTab.style.display = 'none';
+        var mcpPane = document.querySelector('.config-tab-pane[data-tab="mcp"]');
+        if (mcpPane) mcpPane.style.display = 'none';
+      }
+
+      function loadMcpConfigInfo() {
+        var mcpUrl = '';
+        if (isVscode) {
+          mcpUrl = window.__VSCODE_MCP_URL__ || '';
+          // Use injected MCP URL from extension
+          var el = document.getElementById('mcp-config-url');
+          if (el) el.textContent = mcpUrl || '（启动插件后自动填充）';
+          // Load workspace dir
+          api({ type: 'getMcpConfig' }).then(function(data) {
+            var wsEl = document.getElementById('mcp-workspace-dir');
+            if (wsEl && data) wsEl.value = data.workspaceDir || '';
+          }).catch(function() {});
+        } else {
+          // Web mode: show the server URL as MCP URL
+          mcpUrl = window.location.origin + '/mcp';
+          var el = document.getElementById('mcp-config-url');
+          if (el) el.textContent = mcpUrl;
+        }
+        // Update JSON example with real MCP URL
+        updateMcpJsonExample(mcpUrl);
+      }
+
+      function updateMcpJsonExample(mcpUrl) {
+        var jsonEl = document.getElementById('mcp-json-example');
+        if (!jsonEl) return;
+        var urlStr = mcpUrl || '<上方地址>';
+        var obj = {
+          mcpServers: {
+            minigame: {
+              url: urlStr
+            }
+          }
+        };
+        jsonEl.textContent = JSON.stringify(obj, null, 2);
+      }
+
+      // ── Config save (AppID tab) ─────────────────────────────────────────────
+      document.getElementById('config-save').addEventListener('click', async function () {
+        var appId = document.getElementById('config-appid').value.trim();
+        var key = document.getElementById('config-key').value.trim();
+
+        if (!appId) {
+          document.getElementById('config-appid').style.borderColor = '#f85149';
+          document.getElementById('config-appid').focus();
+          return;
+        }
+        document.getElementById('config-appid').style.borderColor = '#444';
+
+        if (!key) {
+          // In VSCode mode, key can be empty if already configured (leave unchanged)
+          if (!isVscode) {
+            document.getElementById('config-key').style.borderColor = '#f85149';
+            document.getElementById('config-key').focus();
+            return;
+          }
+        }
+
+        try {
+          var cmd = { type: 'saveConfig', appId: appId };
+          if (key) cmd.privateKey = key;
+          await api(cmd);
+          hideModal('config-modal');
+          showToast('配置已保存', 'success');
+        } catch (err) {
+          showToast('保存失败: ' + err.message, 'error');
+        }
+      });
+
+      document.getElementById('config-cancel').addEventListener('click', function () {
+        hideModal('config-modal');
+      });
+
+      // ── Workspace config save (VSCode only) ─────────────────────────────────
+      var btnWorkspaceSave = document.getElementById('workspace-save');
+      if (btnWorkspaceSave) {
+        btnWorkspaceSave.addEventListener('click', async function () {
+          var dir = document.getElementById('mcp-workspace-dir').value.trim();
+          try {
+            await api({ type: 'saveWorkspaceDir', dir: dir });
+            hideModal('config-modal');
+            showToast('WorkSpace 目录已保存', 'success');
+          } catch (err) {
+            showToast('保存失败: ' + err.message, 'error');
+          }
+        });
+      }
+
+      // ── Clipboard helper (works even when document is not focused) ───────────
+      function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text).catch(function () {
+            return fallbackCopy(text);
+          });
+        }
+        return fallbackCopy(text);
+      }
+      function fallbackCopy(text) {
+        return new Promise(function (resolve, reject) {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          ta.style.top = '-9999px';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          try {
+            document.execCommand('copy') ? resolve() : reject();
+          } catch (e) {
+            reject(e);
+          } finally {
+            document.body.removeChild(ta);
+          }
+        });
+      }
+
+      // ── MCP config copy button ─────────────────────────────────────────────────
+      var btnCopyMcp = document.getElementById('btn-copy-mcp-url');
+      if (btnCopyMcp) {
+        btnCopyMcp.addEventListener('click', function () {
+          var url = document.getElementById('mcp-config-url').textContent;
+          if (!url) return;
+          copyText(url).then(function () {
+            var orig = btnCopyMcp.textContent;
+            var origColor = btnCopyMcp.style.color;
+            btnCopyMcp.textContent = '已复制';
+            btnCopyMcp.style.color = '#3fb950';
+            setTimeout(function () {
+              btnCopyMcp.textContent = orig;
+              btnCopyMcp.style.color = origColor;
+            }, 1500);
+          });
+        });
+      }
+      // ── MCP JSON example copy button ───────────────────────────────────────────
+      var btnCopyMcpJson = document.getElementById('btn-copy-mcp-json');
+      if (btnCopyMcpJson) {
+        btnCopyMcpJson.addEventListener('click', function () {
+          var jsonEl = document.getElementById('mcp-json-example');
+          if (!jsonEl) return;
+          var jsonText = jsonEl.textContent;
+          if (!jsonText) return;
+          copyText(jsonText).then(function () {
+            var orig = btnCopyMcpJson.textContent;
+            var origColor = btnCopyMcpJson.style.color;
+            btnCopyMcpJson.textContent = '已复制';
+            btnCopyMcpJson.style.color = '#3fb950';
+            setTimeout(function () {
+              btnCopyMcpJson.textContent = orig;
+              btnCopyMcpJson.style.color = origColor;
+            }, 1500);
+          });
+        });
+      }
+      // ── MCP config one-click write button (CodeBuddy) ──────────────────────────
+      var btnWriteMcp = document.getElementById('btn-write-mcp-config');
+      function setMcpBtnWritten() {
+        if (!btnWriteMcp) return;
+        btnWriteMcp.disabled = true;
+        btnWriteMcp.textContent = '✓ 已写入';
+        btnWriteMcp.style.opacity = '0.6';
+      }
+      // Check if MCP config already exists on page load
+      if (btnWriteMcp) {
+        (async function () {
+          try {
+            var checkResult = await api({ type: 'checkMcpConfig' });
+            if (checkResult && checkResult.exists) {
+              setMcpBtnWritten();
+            }
+          } catch (e) { /* ignore check errors */ }
+        })();
+
+        btnWriteMcp.addEventListener('click', async function () {
+          var statusEl = document.getElementById('write-mcp-status');
+          btnWriteMcp.disabled = true;
+          btnWriteMcp.textContent = '写入中...';
+          if (statusEl) { statusEl.style.display = 'none'; }
+
+          try {
+            var result = await api({ type: 'writeMcpConfig' });
+            setMcpBtnWritten();
+            if (statusEl) {
+              statusEl.style.display = 'inline';
+              statusEl.style.color = 'var(--mg-tip-fg)';
+              statusEl.textContent = result.message || '配置已写入';
+            }
+          } catch (err) {
+            btnWriteMcp.disabled = false;
+            btnWriteMcp.textContent = '写入 CodeBuddy 配置';
+            btnWriteMcp.style.opacity = '';
+            if (statusEl) {
+              statusEl.style.display = 'inline';
+              statusEl.style.color = '#f85149';
+              statusEl.textContent = err.message || '写入失败';
+            }
+            setTimeout(function () {
+              if (statusEl) { statusEl.style.display = 'none'; }
+            }, 2500);
+          }
+        });
+      }
+
+      // ── Real device preview ─────────────────────────────────────────────
+      document.getElementById('btn-real-device').addEventListener('click', async function () {
+        showModal('loading-modal');
+        document.getElementById('loading-text').textContent = '正在编译并上传到微信平台...';
+        appendLog('log', Date.now(), '[Preview] Starting real device preview upload...');
+
+        try {
+          var result = await api({ type: 'realDevicePreview' });
+          hideModal('loading-modal');
+
+          if (result.configMissing) {
+            var missing = result.missingItems ? result.missingItems.join(', ') : 'unknown';
+            appendLog('error', Date.now(), '[Preview] Config missing: ' + missing);
+            showToast('配置不完整，请先填写 AppID 和密钥', 'error');
+            // Auto-open config modal
+            document.getElementById('btn-config').click();
+            return;
+          }
+
+          if (result.ipWhitelistError) {
+            appendLog('error', Date.now(), '[Preview] IP whitelist error: ' + result.message);
+            if (result.hint) appendLog('warn', Date.now(), '[Preview] Hint: ' + result.hint);
+            showToast('IP 白名单验证失败', 'error');
+            return;
+          }
+
+          if (result.qrcodeBase64) {
+            appendLog('log', Date.now(), '[Preview] Real device preview QR code generated successfully. AppID: ' + (result.appId || 'N/A'));
+            document.getElementById('qr-image').src = result.qrcodeBase64;
+            document.getElementById('qr-appid').textContent = result.appId ? 'AppID: ' + result.appId : '';
+            showModal('qrcode-modal');
+          } else {
+            appendLog('log', Date.now(), '[Preview] Real device preview succeeded.');
+            showToast('真机预览成功', 'success');
+          }
+        } catch (err) {
+          hideModal('loading-modal');
+          appendLog('error', Date.now(), '[Preview] Real device preview failed: ' + err.message);
+          showToast('真机预览失败: ' + err.message, 'error');
+        }
+      });
+
+      // ── Real device debug (hidden for now) ─────────────────────────────
+      // document.getElementById('btn-real-debug').addEventListener('click', async function () {
+      //   showModal('loading-modal');
+      //   document.getElementById('loading-text').textContent = '正在编译并上传到微信平台（真机调试）...';
+      //   appendLog('log', Date.now(), '[Debug] Starting real device debug upload...');
+      //
+      //   try {
+      //     var result = await api({ type: 'realDeviceDebug' });
+      //     hideModal('loading-modal');
+      //
+      //     if (result.configMissing) {
+      //       var missing = result.missingItems ? result.missingItems.join(', ') : 'unknown';
+      //       appendLog('error', Date.now(), '[Debug] Config missing: ' + missing);
+      //       showToast('配置不完整，请先填写 AppID 和密钥', 'error');
+      //       document.getElementById('btn-config').click();
+      //       return;
+      //     }
+      //
+      //     if (result.ipWhitelistError) {
+      //       appendLog('error', Date.now(), '[Debug] IP whitelist error: ' + result.message);
+      //       if (result.hint) appendLog('warn', Date.now(), '[Debug] Hint: ' + result.hint);
+      //       showToast('IP 白名单验证失败', 'error');
+      //       return;
+      //     }
+      //
+      //     if (result.qrcodeBase64) {
+      //       appendLog('log', Date.now(), '[Debug] Real device debug QR code generated successfully. AppID: ' + (result.appId || 'N/A'));
+      //       document.getElementById('qr-image').src = result.qrcodeBase64;
+      //       document.getElementById('qr-appid').textContent = result.appId ? 'AppID: ' + result.appId : '';
+      //       document.getElementById('qr-badge').textContent = '✓ 调试版本上传成功';
+      //       showModal('qrcode-modal');
+      //     } else {
+      //       appendLog('log', Date.now(), '[Debug] Real device debug succeeded.');
+      //       showToast('真机调试成功', 'success');
+      //     }
+      //   } catch (err) {
+      //     hideModal('loading-modal');
+      //     appendLog('error', Date.now(), '[Debug] Real device debug failed: ' + err.message);
+      //     showToast('真机调试失败: ' + err.message, 'error');
+      //   }
+      // });
+
+      // ── SSE for real-time push (qrcode from MCP tool calls) ────────────────
+      var eventSource = null;
+      function connectSSE() {
+        // SSE is not available in VSCode webview mode
+        if (isVscode) return;
+        if (eventSource) eventSource.close();
+        eventSource = new EventSource('/api/events');
+        eventSource.addEventListener('qrcode', function (e) {
+          var data = JSON.parse(e.data);
+          document.getElementById('qr-image').src = data.qrcodeBase64;
+          document.getElementById('qr-appid').textContent = data.appId ? 'AppID: ' + data.appId : '';
+          hideModal('loading-modal');
+          showModal('qrcode-modal');
+        });
+        eventSource.addEventListener('qrcode-clear', function () {
+          hideModal('qrcode-modal');
+        });
+        eventSource.onerror = function () {
+          // Reconnect after 3 seconds
+          setTimeout(connectSSE, 3000);
+        };
+      }
+      connectSSE();
+
+      // ── Publish ─────────────────────────────────────────────────────────
+      document.getElementById('btn-publish').addEventListener('click', function () {
+        document.getElementById('publish-version').value = '';
+        document.getElementById('publish-desc').value = '';
+        showModal('publish-modal');
+        setTimeout(function () { document.getElementById('publish-version').focus(); }, 100);
+      });
+
+      document.getElementById('publish-cancel').addEventListener('click', function () {
+        hideModal('publish-modal');
+      });
+
+      document.getElementById('publish-confirm').addEventListener('click', async function () {
+        var version = document.getElementById('publish-version').value.trim();
+        if (!version) {
+          document.getElementById('publish-version').style.borderColor = '#f85149';
+          document.getElementById('publish-version').focus();
+          return;
+        }
+        document.getElementById('publish-version').style.borderColor = '#444';
+
+        var desc = document.getElementById('publish-desc').value.trim();
+        hideModal('publish-modal');
+        showModal('loading-modal');
+        document.getElementById('loading-text').textContent = '正在发布 v' + version + '...';
+        appendLog('log', Date.now(), '[Publish] Starting upload v' + version + (desc ? ' - ' + desc : '') + '...');
+
+        try {
+          var result = await api({ type: 'publish', version: version, desc: desc });
+          hideModal('loading-modal');
+
+          if (result.configMissing) {
+            var missing = result.missingItems ? result.missingItems.join(', ') : 'unknown';
+            appendLog('error', Date.now(), '[Publish] Config missing: ' + missing);
+            showToast('配置不完整，请先填写 AppID 和密钥', 'error');
+            document.getElementById('btn-config').click();
+            return;
+          }
+
+          if (result.ipWhitelistError) {
+            appendLog('error', Date.now(), '[Publish] IP whitelist error: ' + result.message);
+            if (result.hint) appendLog('warn', Date.now(), '[Publish] Hint: ' + result.hint);
+            showToast('IP 白名单验证失败', 'error');
+            return;
+          }
+
+          appendLog('log', Date.now(), '[Publish] v' + version + ' uploaded successfully. AppID: ' + (result.appId || 'N/A'));
+          showToast('🎉 v' + version + ' 发布成功!', 'success');
+        } catch (err) {
+          hideModal('loading-modal');
+          appendLog('error', Date.now(), '[Publish] Upload failed: ' + err.message);
+          showToast('发布失败: ' + err.message, 'error');
+        }
+      });
+
+      // Enter key in publish version input
+      document.getElementById('publish-version').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') document.getElementById('publish-confirm').click();
+        if (e.key === 'Escape') hideModal('publish-modal');
+      });
+
+      // ── Log panel ───────────────────────────────────────────────────────
+      var logPanel = document.getElementById('log-panel');
+      var logResizeHandle = document.getElementById('log-resize-handle');
+      var logHeader = document.getElementById('log-header');
+      var logBody = document.getElementById('log-body');
+      var logCountEl = document.getElementById('log-count');
+      var logCollapsed = false;
+      var logCount = 0;
+
+      // Drag to resize
+      logResizeHandle.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        var startY = e.clientY;
+        var startH = logPanel.offsetHeight;
+        logResizeHandle.classList.add('dragging');
+
+        // Add iframe overlay to prevent iframe from capturing mouse events during drag
+        var iframeOverlay = document.createElement('div');
+        iframeOverlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;z-index:9999;cursor:ns-resize;';
+        gameArea.appendChild(iframeOverlay);
+
+        function onMove(ev) {
+          var delta = startY - ev.clientY;
+          var newH = Math.max(28, Math.min(startH + delta, window.innerHeight - 80));
+          logPanel.style.height = newH + 'px';
+          applyDeviceSize();
+        }
+        function onUp() {
+          logResizeHandle.classList.remove('dragging');
+          // Remove iframe overlay
+          if (iframeOverlay.parentNode) iframeOverlay.parentNode.removeChild(iframeOverlay);
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+
+      logHeader.addEventListener('click', function (e) {
+        if (e.target === document.getElementById('btn-clear-log')) return;
+        logCollapsed = !logCollapsed;
+        logBody.classList.toggle('hidden', logCollapsed);
+        logHeader.classList.toggle('collapsed', logCollapsed);
+      });
+
+      document.getElementById('btn-clear-log').addEventListener('click', function (e) {
+        e.stopPropagation();
+        logBody.innerHTML = '';
+        logCount = 0;
+        logCountEl.textContent = '0 条';
+      });
+
+      function appendLog(level, ts, msg) {
+        logCount++;
+        logCountEl.textContent = logCount + ' 条';
+        var entry = document.createElement('div');
+        entry.className = 'log-entry ' + (level || 'log');
+        var time = document.createElement('span');
+        time.className = 'log-time';
+        var d = new Date(ts);
+        time.textContent = pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+        var text = document.createElement('span');
+        text.className = 'log-msg';
+        text.textContent = msg;
+        entry.appendChild(time);
+        entry.appendChild(text);
+        logBody.appendChild(entry);
+        logBody.scrollTop = logBody.scrollHeight;
+        while (logBody.children.length > 500) logBody.removeChild(logBody.firstChild);
+
+        // Push log entry to server-side LogStore so MCP get_logs can retrieve it
+        try {
+          var logsApiUrl = (isVscode && window.__VSCODE_SERVER_URL__)
+            ? window.__VSCODE_SERVER_URL__ + '/api/logs'
+            : '/api/logs';
+          fetch(logsApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ level: level || 'log', timestamp: ts, message: msg }),
+          }).catch(function () { /* ignore push errors */ });
+        } catch (_) { /* ignore */ }
+      }
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+      // ── Compact toolbar ──────────────────────────────────────────────────
+      // Uses pure CSS @media (max-width: 510px) for compact mode.
+      // No JS detection needed – avoids flicker from resize observers & scrollbar toggling.
+      var toolbar = document.getElementById('toolbar');
+
+      // ── Custom tooltip ───────────────────────────────────────────────────
+      var xTooltip = document.getElementById('x-tooltip');
+      var tooltipTimer = null;
+
+      toolbar.addEventListener('mouseover', function (e) {
+        var target = e.target.closest('[title]');
+        if (!target || window.innerWidth > 510) return;
+        var text = target.getAttribute('title');
+        if (!text) return;
+        clearTimeout(tooltipTimer);
+        tooltipTimer = setTimeout(function () {
+          var rect = target.getBoundingClientRect();
+          xTooltip.textContent = text;
+          xTooltip.classList.add('visible');
+          var left = rect.left + rect.width / 2;
+          var top = rect.bottom + 6;
+          xTooltip.style.left = left + 'px';
+          xTooltip.style.top = top + 'px';
+          xTooltip.style.transform = 'translateX(-50%)';
+        }, 300);
+      });
+
+      toolbar.addEventListener('mouseout', function (e) {
+        clearTimeout(tooltipTimer);
+        xTooltip.classList.remove('visible');
+      });
+
+      // ── Intercept console methods so preview.html's own logs appear in the panel ──
+      (function () {
+        var _origConsole = {
+          log: console.log.bind(console),
+          warn: console.warn.bind(console),
+          error: console.error.bind(console),
+          info: console.info.bind(console),
+        };
+
+        function argsToString(args) {
+          return Array.prototype.slice.call(args).map(function (a) {
+            if (a === null) return 'null';
+            if (a === undefined) return 'undefined';
+            if (a instanceof Error) return a.stack || (a.name + ': ' + a.message);
+            if (typeof a === 'object') {
+              try { return JSON.stringify(a); } catch (e) { return String(a); }
+            }
+            return String(a);
+          }).join(' ');
+        }
+
+        console.log = function () {
+          _origConsole.log.apply(console, arguments);
+          appendLog('log', Date.now(), argsToString(arguments));
+        };
+        console.info = function () {
+          _origConsole.info.apply(console, arguments);
+          appendLog('log', Date.now(), argsToString(arguments));
+        };
+        console.warn = function () {
+          _origConsole.warn.apply(console, arguments);
+          appendLog('warn', Date.now(), argsToString(arguments));
+        };
+        console.error = function () {
+          _origConsole.error.apply(console, arguments);
+          appendLog('error', Date.now(), argsToString(arguments));
+        };
+      })();
+
+      // ── Capture uncaught errors and unhandled promise rejections ────────────
+      // Known browser-internal noise messages that are not real game errors
+      var IGNORED_ERROR_PATTERNS = [
+        /ResizeObserver loop/,
+        /ResizeObserver loop completed with undelivered notifications/,
+      ];
+      window.addEventListener('error', function (e) {
+        var msg = e.message || 'Unknown error';
+        // Filter out browser-internal noise that is unrelated to game logic
+        for (var i = 0; i < IGNORED_ERROR_PATTERNS.length; i++) {
+          if (IGNORED_ERROR_PATTERNS[i].test(msg)) return;
+        }
+        if (e.filename) msg += ' (' + e.filename.replace(/^.*\//, '') + ':' + e.lineno + ')';
+        appendLog('error', Date.now(), '[Uncaught] ' + msg);
+      });
+
+      window.addEventListener('unhandledrejection', function (e) {
+        var reason = e.reason;
+        var msg;
+        if (reason instanceof Error) {
+          msg = reason.stack || (reason.name + ': ' + reason.message);
+        } else if (reason !== null && reason !== undefined) {
+          try { msg = JSON.stringify(reason); } catch (_) { msg = String(reason); }
+        } else {
+          msg = 'Unhandled promise rejection (no reason)';
+        }
+        appendLog('error', Date.now(), '[UnhandledRejection] ' + msg);
+      });
+
+      // Listen for log messages from the game iframe and VSCode extension messages
+      window.addEventListener('message', function (e) {
+        var msg = e.data;
+        if (!msg || !msg.type) return;
+        if (msg.type === '__wx_log__') {
+          appendLog(msg.level, msg.ts, msg.msg);
+          return;
+        }
+        // VSCode mode: handle command responses
+        if (isVscode && msg.type === '__apiResponse__' && msg.__seq !== undefined) {
+          var pending = pendingVscodeCommands[msg.__seq];
+          if (pending) {
+            delete pendingVscodeCommands[msg.__seq];
+            if (msg.error) {
+              pending.reject(new Error(msg.error));
+            } else {
+              pending.resolve(msg.data);
+            }
+          }
+          return;
+        }
+        // VSCode mode: handle hot reload, state changes, and openConfigModal
+        if (isVscode) {
+          if (msg.type === 'hotReload') {
+            reloadFrame();
+            return;
+          }
+          if (msg.type === 'stateChange') {
+            // Update toolbar state if needed
+            return;
+          }
+          if (msg.type === 'openConfigModal') {
+            openConfigModal(msg.tab || 'appid');
+            return;
+          }
+          if (msg.type === 'showQrCode') {
+            // Show QR code sent from extension (MCP tool or toolbar button)
+            var qrSrc = msg.qrcodeBase64;
+            if (qrSrc && !qrSrc.startsWith('data:')) {
+              qrSrc = 'data:image/jpeg;base64,' + qrSrc;
+            }
+            document.getElementById('qr-image').src = qrSrc || '';
+            var titleEl = document.getElementById('qrcode-modal-title');
+            if (titleEl) titleEl.textContent = msg.mode === 'debug' ? '真机调试' : '真机预览';
+            showModal('qrcode-modal');
+            return;
+          }
+        }
+      });
+
+      // ── MCP config button (removed from toolbar, kept for programmatic use) ──
+      // No longer in toolbar; MCP tab is accessible via ⚙️ config button
+      // ── Auto-fetch public IP (via server API to avoid CORS) ────────────────
+      var myIp = '';
+      function fetchPublicIP() {
+        // In VSCode mode, use absolute URL.
+        // Guard: if server URL is not yet available, skip silently.
+        if (isVscode && !window.__VSCODE_SERVER_URL__) return;
+        var ipApiUrl = (isVscode && window.__VSCODE_SERVER_URL__)
+          ? window.__VSCODE_SERVER_URL__ + '/api/public-ip'
+          : '/api/public-ip';
+        fetch(ipApiUrl)
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            if (data.success && data.ip) {
+              myIp = data.ip;
+              document.getElementById('my-ip').textContent = myIp;
+            } else {
+              throw new Error(data.error || 'Unknown error');
+            }
+          })
+          .catch(function () {
+            document.getElementById('my-ip').innerHTML = '获取失败 <span style="font-size:12px;color:var(--mg-fg-muted)">(可手动查询)</span>';
+            document.getElementById('my-ip').title = '自动获取失败，请在终端执行 curl ifconfig.me 查询';
+          });
+      }
+      fetchPublicIP();
+
+      document.getElementById('btn-copy-ip').addEventListener('click', function () {
+        if (!myIp) return;
+        copyText(myIp).then(function () {
+          var btn = document.getElementById('btn-copy-ip');
+          var orig = btn.textContent;
+          var origColor = btn.style.color;
+          btn.textContent = '已复制';
+          btn.style.color = '#3fb950';
+          setTimeout(function () {
+            btn.textContent = orig;
+            btn.style.color = origColor;
+          }, 1500);
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>

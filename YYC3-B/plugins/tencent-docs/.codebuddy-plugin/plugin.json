@@ -1,0 +1,18 @@
+{
+  "name": "tencent-docs",
+  "version": "1.0.6",
+  "description": "腾讯文档插件，提供完整的腾讯文档操作能力，包括创建各类在线文档、查询搜索文档、管理空间节点、读取编辑智能表和智能文档。",
+  "author": {
+    "name": "Tencent Docs"
+  },
+  "homepage": "https://docs.qq.com/home",
+  "keywords": [
+    "tencent-docs",
+    "document",
+    "spreadsheet",
+    "smartsheet",
+    "smartcanvas",
+    "mcp"
+  ],
+  "category": "效率"
+}

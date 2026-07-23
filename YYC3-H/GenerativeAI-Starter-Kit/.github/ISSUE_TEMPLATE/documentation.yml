@@ -1,0 +1,131 @@
+name: 📚 文档改进
+description: 报告文档问题或建议文档改进
+labels: ["documentation", "需要分类"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您帮助改进 genai-starter-kit 的文档！好的文档对项目至关重要。
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: 文档类型
+      description: 这涉及哪种类型的文档？
+      options:
+        - README.md
+        - API 文档
+        - 使用教程
+        - 示例代码
+        - 安装指南
+        - 配置说明
+        - 常见问题 FAQ
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: doc-location
+    attributes:
+      label: 文档位置
+      description: 如果适用，请提供具体的文档位置（文件名、章节、链接等）
+      placeholder: "例如: README.md 第3章节, docs/api.md"
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: 问题类型
+      description: 这是什么类型的文档问题？
+      options:
+        - 文档缺失 - 需要新的文档
+        - 内容错误 - 现有内容有误
+        - 内容过时 - 需要更新
+        - 不够清晰 - 需要改善表达
+        - 示例错误 - 代码示例有问题
+        - 格式问题 - 排版或格式需要调整
+        - 翻译问题 - 中英文翻译不准确
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-content
+    attributes:
+      label: 当前内容（如适用）
+      description: 如果是修改现有内容，请粘贴当前的相关内容
+      placeholder: |
+        当前文档中写的是：
+        "..."
+      render: markdown
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: 问题描述
+      description: 详细描述文档问题或您遇到的困难
+      placeholder: |
+        我在阅读文档时遇到的问题是...
+        这让我感到困惑，因为...
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested-improvement
+    attributes:
+      label: 建议的改进
+      description: 您建议如何改进这部分文档？
+      placeholder: |
+        我建议...
+        可以添加...
+        应该更改为...
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-examples
+    attributes:
+      label: 建议的示例（可选）
+      description: 如果需要代码示例，请提供您的建议
+      placeholder: |
+        ```python
+        # 建议添加的示例代码
+        from genai_starter_kit import Example
+
+        example = Example()
+        result = example.run()
+        print(result)
+        ```
+      render: markdown
+
+  - type: textarea
+    id: user-context
+    attributes:
+      label: 用户背景
+      description: 您的技术背景和使用场景，这有助于我们了解如何改进文档
+      placeholder: |
+        我是...（初学者/中级/高级开发者）
+        我在尝试...
+        我的使用场景是...
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: 重要程度
+      description: 这个文档问题有多重要？
+      options:
+        - 高 - 阻碍我使用项目
+        - 中 - 影响理解和使用
+        - 低 - 小的改进建议
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 检查清单
+      options:
+        - label: 我已经搜索过现有的 issues，确认这不是重复问题
+          required: true
+        - label: 我愿意协助改进文档（可选）
+          required: false

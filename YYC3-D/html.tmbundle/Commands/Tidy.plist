@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>captureFormatString</key>
+	<string>$3</string>
+	<key>capturePattern</key>
+	<string>line (\d+) column (\d+) - (.*?)$</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18  -wKU
+
+require ENV['TM_SUPPORT_PATH'] + '/lib/ui.rb'
+require ENV['TM_SUPPORT_PATH'] + '/lib/exit_codes.rb'
+
+if ENV['TM_SOFT_TABS'] == "NO"
+  tabs = '--indent-with-tabs yes'
+else
+  tabs = ''
+end
+
+
+result = `"${TM_TIDY:-$TM_BUNDLE_SUPPORT/bin/tidy}" --error-file /tmp/tm_tidy_errors -q \
+          --wrap 0 \
+          --indent yes #{tabs} \
+          --tab-size $TM_TAB_SIZE --indent-spaces $TM_TAB_SIZE \
+          --keep-tabs yes \
+          ${TM_SELECTED_TEXT:+--show-body-only yes} \
+          --enclose-text yes \
+          --doctype html5 \
+          --wrap-php no \
+          --tidy-mark no`
+status = $?.exitstatus
+
+at_exit { File.unlink('/tmp/tm_tidy_errors') } # Clean up error log
+
+if status == 2 # Errors
+
+  msg = "Errors: " + File.read('/tmp/tm_tidy_errors')
+  TextMate.exit_show_tool_tip msg
+
+elsif status == 1 # Warnings - use output but also display notification with warnings
+  
+  log = File.read('/tmp/tm_tidy_errors').to_a.select do |line|
+    ! (ENV['TM_SELECTED_TEXT'] and (line.include?('Warning: missing &lt;!DOCTYPE&gt; declaration') or line.include?("Warning: inserting missing 'title' element")))
+  end.join rescue nil
+  
+  unless log.empty?
+    options = {
+      :title   =&gt; "Tidy Warnings",
+      :summary =&gt; "Warnings for tidying your document (press escape to close):",
+      :log     =&gt; log
+    }
+    TextMate::UI.simple_notification(options)
+  end
+
+end
+
+print result
+</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>^H</string>
+	<key>lineCaptureRegister</key>
+	<string>1</string>
+	<key>name</key>
+	<string>Tidy</string>
+	<key>outputCaret</key>
+	<string>heuristic</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>replaceInput</string>
+	<key>scope</key>
+	<string>text.html</string>
+	<key>uuid</key>
+	<string>45F92B81-6F0E-11D9-A1E4-000D9332809C</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

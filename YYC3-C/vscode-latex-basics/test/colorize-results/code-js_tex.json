@@ -1,0 +1,446 @@
+[
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.preamble.latex keyword.control.preamble.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "documentclass",
+		"t": "text.tex.latex meta.preamble.latex keyword.control.preamble.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.preamble.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "article",
+		"t": "text.tex.latex meta.preamble.latex support.class.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.preamble.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.begin-document.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.begin-document.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.begin-document.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "document",
+		"t": "text.tex.latex meta.function.begin-document.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.begin-document.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "[",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.begin.latex"
+	},
+	{
+		"c": "linenos",
+		"t": "text.tex.latex meta.parameter.optional.latex"
+	},
+	{
+		"c": "]",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.end.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "js",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.js"
+	},
+	{
+		"c": "const",
+		"t": "text.tex.latex source.js meta.var.expr.js storage.type.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.var.expr.js"
+	},
+	{
+		"c": "fs",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.var-single-variable.expr.js meta.definition.variable.js variable.other.constant.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.var-single-variable.expr.js"
+	},
+	{
+		"c": "=",
+		"t": "text.tex.latex source.js meta.var.expr.js keyword.operator.assignment.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.var.expr.js"
+	},
+	{
+		"c": "require",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.function-call.js entity.name.function.js"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.brace.round.js"
+	},
+	{
+		"c": "'",
+		"t": "text.tex.latex source.js meta.var.expr.js string.quoted.single.js punctuation.definition.string.begin.js"
+	},
+	{
+		"c": "fake",
+		"t": "text.tex.latex source.js meta.var.expr.js string.quoted.single.js"
+	},
+	{
+		"c": "'",
+		"t": "text.tex.latex source.js meta.var.expr.js string.quoted.single.js punctuation.definition.string.end.js"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.brace.round.js"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.js"
+	},
+	{
+		"c": "function",
+		"t": "text.tex.latex source.js meta.function.js storage.type.function.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js"
+	},
+	{
+		"c": "main",
+		"t": "text.tex.latex source.js meta.function.js meta.definition.function.js entity.name.function.js"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex source.js meta.function.js meta.parameters.js punctuation.definition.parameters.begin.js"
+	},
+	{
+		"c": "i",
+		"t": "text.tex.latex source.js meta.function.js meta.parameters.js variable.parameter.js"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex source.js meta.function.js meta.parameters.js punctuation.definition.parameters.end.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js punctuation.definition.block.js"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "return",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js keyword.control.flow.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "i",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js variable.other.readwrite.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js keyword.operator.arithmetic.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js constant.numeric.decimal.js"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js punctuation.definition.block.js"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "[",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.begin.latex"
+	},
+	{
+		"c": "linenos",
+		"t": "text.tex.latex meta.parameter.optional.latex"
+	},
+	{
+		"c": "]",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.end.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "javascript",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.js"
+	},
+	{
+		"c": "const",
+		"t": "text.tex.latex source.js meta.var.expr.js storage.type.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.var.expr.js"
+	},
+	{
+		"c": "fs",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.var-single-variable.expr.js meta.definition.variable.js variable.other.constant.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.var-single-variable.expr.js"
+	},
+	{
+		"c": "=",
+		"t": "text.tex.latex source.js meta.var.expr.js keyword.operator.assignment.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.var.expr.js"
+	},
+	{
+		"c": "require",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.function-call.js entity.name.function.js"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.brace.round.js"
+	},
+	{
+		"c": "'",
+		"t": "text.tex.latex source.js meta.var.expr.js string.quoted.single.js punctuation.definition.string.begin.js"
+	},
+	{
+		"c": "fake",
+		"t": "text.tex.latex source.js meta.var.expr.js string.quoted.single.js"
+	},
+	{
+		"c": "'",
+		"t": "text.tex.latex source.js meta.var.expr.js string.quoted.single.js punctuation.definition.string.end.js"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex source.js meta.var.expr.js meta.brace.round.js"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.js"
+	},
+	{
+		"c": "function",
+		"t": "text.tex.latex source.js meta.function.js storage.type.function.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js"
+	},
+	{
+		"c": "main",
+		"t": "text.tex.latex source.js meta.function.js meta.definition.function.js entity.name.function.js"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex source.js meta.function.js meta.parameters.js punctuation.definition.parameters.begin.js"
+	},
+	{
+		"c": "i",
+		"t": "text.tex.latex source.js meta.function.js meta.parameters.js variable.parameter.js"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex source.js meta.function.js meta.parameters.js punctuation.definition.parameters.end.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js punctuation.definition.block.js"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "return",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js keyword.control.flow.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "i",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js variable.other.readwrite.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js keyword.operator.arithmetic.js"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js constant.numeric.decimal.js"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex source.js meta.function.js meta.block.js punctuation.definition.block.js"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.end-document.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.end-document.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.end-document.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "document",
+		"t": "text.tex.latex meta.function.end-document.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.end-document.latex punctuation.definition.arguments.end.latex"
+	}
+]

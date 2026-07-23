@@ -1,0 +1,28 @@
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+config.sh
+!config.sh.example
+
+# OpenClaw runtime
+.openclaw/
+openclaw.json
+*.log
+
+# Node
+node_modules/
+package-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Deployments
+.deployments/

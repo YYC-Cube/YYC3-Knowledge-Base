@@ -1,0 +1,16 @@
+{
+  "name": "trading-assistant",
+  "version": "1.0.0",
+  "description": "交易分析助手，基于多角色辩论方法论进行系统性投资分析。包含市场技术分析、基本面分析、新闻与情绪分析、多空辩论、交易决策和三方风险评估的完整工作流。",
+  "author": {
+    "name": "CodeBuddy Teams"
+  },
+  "homepage": {
+    "url": "",
+    "type": "github"
+  },
+  "license": "",
+  "skills": [
+    "./skills/trading-analysis"
+  ]
+}

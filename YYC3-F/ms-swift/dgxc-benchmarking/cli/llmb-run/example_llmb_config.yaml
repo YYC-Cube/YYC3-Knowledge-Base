@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: MIT
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+
+# This file is automatically created in the experiment's folder upon job launch
+# It contains metadata about the job, workload, model, cluster, and container
+job_info:
+  job_id: '3913022'
+  launch_time: '2025-07-01T21:05:18.298517'
+workload_info:
+  framework: nemo2
+  gsw_version: '25.07'
+  fw_version: 25.04.01
+  workload_type: pretrain
+  synthetic_dataset: true
+model_info:
+  model_name: nemotron4
+  model_size: 15b
+  dtype: fp8
+  scale: 8
+  gpu_type: h100
+cluster_info:
+  cluster_name: cluster-1
+  gpus_per_node: 8
+  llmb_install: /lustre/fsw/portfolios/general/llmb-25.07-dev
+  llmb_repo: /lustre/fsw/portfolios/general/dev-repo
+  slurm_account: account_name
+  slurm_gpu_partition: slurm_partition
+container_info:
+  images:
+  - nvcr.io#nvidia/nemo:25.04.01
+job_config:
+  profile_enabled: false
+  proxy: false
+  env_overrides: {}
+  model_overrides: {}

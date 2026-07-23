@@ -1,0 +1,5 @@
+XSym
+0021
+f8c785c79c6df912cbc4680d8a1bc303
+.agents/rules/base.md
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

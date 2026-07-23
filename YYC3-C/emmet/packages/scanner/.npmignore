@@ -1,0 +1,12 @@
+npm-debug.log*
+node_modules
+jspm_packages
+.npm
+/.*
+/*.*
+!/scanner.js
+!/scanner.cjs
+!/*.d.ts
+!/*.map
+/test
+/src

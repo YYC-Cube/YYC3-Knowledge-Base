@@ -1,0 +1,66 @@
+name: Discover Plugins
+
+on:
+  schedule:
+    # Run daily at 6 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    # Allow manual trigger
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Discover plugins from GitHub
+        run: npm run fetch:plugins
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate registry
+        run: npm run generate:registry
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet scripts/.discovered-plugins.json web-ui/public/registry.json 2>/dev/null; then
+            echo "changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create Pull Request
+        if: steps.check_changes.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: Update discovered plugins [automated]'
+          title: 'chore: Update discovered plugins'
+          body: |
+            This PR updates the discovered plugins from GitHub.
+
+            **Changes:**
+            - Updated marketplaces list
+            - Updated external plugins list
+
+            This is an automated PR created by the plugin discovery workflow.
+          branch: update-discovered-plugins
+          delete-branch: true
+          labels: automated, plugins

@@ -1,0 +1,80 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: MIT
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+
+# Setup
+general:
+  workload: llama3.3
+  workload_type: inference
+  framework: trt-llm
+
+container:
+  images:
+    - 'nvcr.io#nvidia/tensorrt-llm/release:1.1.0rc5'
+
+repositories:
+  trt-llm:
+    url: "https://github.com/NVIDIA/TensorRT-LLM.git"
+    commit: "1a7c6e79743f100954e0a2375f254e54d5717e52"
+
+setup:
+  venv_req: true
+  dependencies:
+    git:
+      trt-llm:
+        repo_key: trt-llm
+        install_method:
+          type: clone
+    pip:
+      - 'huggingface_hub[cli]'
+      - 'click==8.2.1'
+      - 'transformers==4.52.4'
+      - 'pillow==11.2.1'
+      - 'datasets==3.6.0'
+      - 'pydantic==2.11.7'
+  tasks:
+    - name: weights_download
+      cmd: './download_weights.sh'
+      job_type: local
+
+# Run
+run:
+  launcher_type: 'sbatch'
+  launch_script: 'launch.sh'
+
+  gpu_configs:
+    gb200:
+      model_configs:
+        - model_size: '70b'
+          dtypes: ['nvfp4']
+          scales: [1, 4]
+          exact_scales: true
+    b200:
+      model_configs:
+        - model_size: '70b'
+          dtypes: ['nvfp4']
+          scales: [1]
+          exact_scales: true
+    h100:
+      model_configs:
+        - model_size: '70b'
+          dtypes: ['fp8']
+          scales: [2]
+          exact_scales: true

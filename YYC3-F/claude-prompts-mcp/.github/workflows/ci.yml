@@ -1,0 +1,39 @@
+name: CI Validation
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+
+env:
+  NODE_ENV: test
+
+jobs:
+  validation:
+    name: Jest Unit Suite
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: server
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Jest unit tests
+        run: npm run test:ci

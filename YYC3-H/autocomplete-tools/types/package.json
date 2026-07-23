@@ -1,0 +1,30 @@
+{
+  "name": "@withfig/autocomplete-types",
+  "description": "Typings for fig autocomplete specs and other tools",
+  "version": "1.31.0",
+  "author": "The Fig Team",
+  "types": "index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "generate-docs": "tsx docs-generator/bin.ts ./docs.json",
+    "check-docs": "tsx test/check-docs.mts",
+    "test": "pnpm run cspell && pnpm run check-docs",
+    "test:overwrite": "pnpm run generate-docs",
+    "cspell": "cspell index.d.ts"
+  },
+  "files": [
+    "index.d.ts"
+  ],
+  "devDependencies": {
+    "@microsoft/tsdoc": "^0.15.0",
+    "@types/node": "^22.5.2",
+    "cspell": "^8.15.2",
+    "picocolors": "^1.1.0",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

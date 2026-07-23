@@ -1,0 +1,15 @@
+version: 1
+name: 05-Plugin/PythonPlugin
+enabled: true
+tags:
+  - plugin
+  - python
+run:
+  - python3 add_scalar_cuda_python-V2-deprecated.py > log-add_scalar_cuda_python-V2-deprecated.log
+  - python3 add_scalar_cuda_python.py               > log-add_scalar_cuda_python.log
+  - python3 add_scalar_cupy.py                      > log-add_scalar_cupy.log
+  - python3 add_scalar_numba.py                     > log-add_scalar_numba.log
+  - python3 add_scalar_torch.py                     > log-add_scalar_torch.log
+  - python3 add_scalar_triton.py                    > log-add_scalar_triton.log
+clean:
+  - rm -rf *.trt *.log

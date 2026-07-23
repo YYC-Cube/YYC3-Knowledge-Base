@@ -1,0 +1,19 @@
+{
+  "deps": [
+    {
+      "name": "tikz"
+    }
+  ],
+  "macros": [
+    {
+      "name": "MagicWatermark",
+      "arg": {
+        "format": "{}",
+        "snippet": "MagicWatermark{${1:keyvals}}"
+      }
+    }
+  ],
+  "envs": [],
+  "keys": {},
+  "args": []
+}
