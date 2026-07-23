@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.DS_Store
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+*.log
+node_modules/
+
+# Generated runtime files — excluded from repo
+signals.json
+scored_signals.json
+matrix.json
+analogues.json
+probabilities.json
+report_output.json
+guidance.json

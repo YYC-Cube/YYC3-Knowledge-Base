@@ -1,0 +1,7 @@
+[
+  {"id": "career", "prompt": "Create a 5-slide presentation on how to negotiate a salary increase."},
+  {"id": "environment", "prompt": "Make a 5-slide deck explaining the impact of microplastics on marine ecosystems."},
+  {"id": "food", "prompt": "Create a 5-slide presentation introducing the basics of sourdough baking."},
+  {"id": "social_media", "prompt": "Create a 5-slide presentation on how to grow an engaged TikTok following."},
+  {"id": "technology", "prompt": "Make a 5-slide overview of how transformers work for a non-technical audience."}
+]

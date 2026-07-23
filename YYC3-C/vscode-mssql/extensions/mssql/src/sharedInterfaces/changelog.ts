@@ -1,0 +1,66 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+import { RequestType } from "vscode-jsonrpc/browser";
+import { Icons } from "./icons";
+
+export interface ChangelogWebviewState {
+    mainContent: ContentGroup;
+    secondaryContent: ContentGroup;
+    sidebarContent: ContentEntry[];
+    version: string;
+}
+
+export interface ContentGroup {
+    title: string;
+    description?: string;
+    entries: ContentEntry[];
+}
+
+export interface ContentEntry {
+    title: string;
+    isPreview?: boolean;
+    icon?: string;
+    description: string;
+    codeSnippets?: string[];
+    actions?: ChangelogAction[];
+}
+
+export interface ChangelogAction {
+    label: string;
+    type: "command" | "link" | "walkthrough";
+    value: string;
+    args?: unknown[];
+    icon?: keyof Icons;
+}
+
+export interface ChangelogLinkRequestParams {
+    url: string;
+}
+
+export namespace ChangelogLinkRequest {
+    export const type = new RequestType<ChangelogLinkRequestParams, void, void>(
+        "openChangelogLink",
+    );
+}
+
+export interface ChangelogCommandRequestParams {
+    commandId: string;
+    args?: unknown[];
+}
+
+export namespace ChangelogCommandRequest {
+    export const type = new RequestType<ChangelogCommandRequestParams, void, void>(
+        "executeChangelogCommand",
+    );
+}
+
+export namespace CloseChangelogRequest {
+    export const type = new RequestType<void, void, void>("closeChangelog");
+}
+
+export namespace ChangelogDontShowAgainRequest {
+    export const type = new RequestType<void, void, void>("dontShowChangelogAgain");
+}

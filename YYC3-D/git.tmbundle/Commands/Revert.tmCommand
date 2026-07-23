@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18
+# encoding: utf-8
+require ENV['TM_BUNDLE_SUPPORT'] + '/environment.rb'
+require ENV['TM_SUPPORT_PATH'] + '/lib/ui.rb'
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape.rb'
+
+git     = SCM::Git.new
+paths   = git.paths(:unique =&gt; true, :fallback =&gt; :current_file)
+
+display = paths.map { |e| File.basename(e) }.join("”, “")
+plural  = (paths.size == 1) ? '' : 's'
+files   = (paths.size == 1) ? "“#{display}”" : 'files'
+
+if 'Revert' == TextMate::UI.alert(:warning, "Revert #{files}?", "Do you really want to revert the file#{plural} “#{display}” and lose all local changes?", 'Revert', 'Cancel')
+
+  puts git.revert(paths)
+
+end
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>name</key>
+	<string>Revert…</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>toolTip</string>
+	<key>requiredCommands</key>
+	<array>
+		<dict>
+			<key>command</key>
+			<string>git</string>
+			<key>locations</key>
+			<array>
+				<string>/usr/local/git/bin/git</string>
+				<string>/opt/local/bin/git</string>
+				<string>/usr/local/bin/git</string>
+			</array>
+			<key>variable</key>
+			<string>TM_GIT</string>
+		</dict>
+	</array>
+	<key>scope</key>
+	<string>attr.scm.git</string>
+	<key>semanticClass</key>
+	<string>action.scm.revert</string>
+	<key>uuid</key>
+	<string>CDEA521C-8963-414F-8F8E-F9B81EF79ADA</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

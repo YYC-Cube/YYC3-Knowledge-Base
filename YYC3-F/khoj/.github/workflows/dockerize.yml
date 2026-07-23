@@ -1,0 +1,193 @@
+name: dockerize
+
+on:
+  push:
+    tags:
+      - "*"
+    branches:
+      - master
+      - release/1.x
+    paths:
+      - src/khoj/**
+      - src/interface/web/**
+      - pyproject.toml
+      - Dockerfile
+      - prod.Dockerfile
+      - computer.Dockerfile
+      - docker-compose.yml
+      - .github/workflows/dockerize.yml
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Docker image tag'
+        default: 'dev'
+      khoj:
+        description: 'Build Khoj docker image'
+        type: boolean
+        default: true
+      khoj-cloud:
+        description: 'Build Khoj cloud docker image'
+        type: boolean
+        default: true
+      khoj-computer:
+        description: 'Build computer for Khoj'
+        type: boolean
+        default: true
+
+env:
+  # Tag Image with tag name on release
+  # else with user specified tag (default 'dev') if triggered via workflow
+  # else with run_id if triggered via a pull request
+  # else with 'pre' (if push to master) or 'pre-1x' (if push to release/1.x)
+  DOCKER_IMAGE_TAG: ${{ github.ref_type == 'tag' && github.ref_name || github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref_name == 'release/1.x' && 'pre-1x' || 'pre' }}
+
+jobs:
+  build:
+    name: Publish Khoj Docker Images
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: 'local'
+            platform: linux/amd64
+            runner: ubuntu-latest
+          - image: 'local'
+            platform: linux/arm64
+            runner: ubuntu-linux-arm64
+          - image: 'cloud'
+            platform: linux/amd64
+            runner: ubuntu-latest
+          - image: 'cloud'
+            platform: linux/arm64
+            runner: ubuntu-linux-arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          # Get all history to correctly infer Khoj version using hatch
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PAT }}
+
+      - name: Get App Version
+        id: hatch
+        run: echo "version=$(pipx run hatch version)" >> $GITHUB_OUTPUT
+
+      - name: 🧹 Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      - name: 📦 Build and Push Docker Image
+        uses: docker/build-push-action@v4
+        if: (matrix.image == 'local' && github.event_name == 'workflow_dispatch') && github.event.inputs.khoj == 'true' || (matrix.image == 'local' && github.event_name == 'push')
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ env.DOCKER_IMAGE_TAG }}-${{ matrix.platform == 'linux/amd64' && 'amd64' || 'arm64' }}
+          build-args: |
+            VERSION=${{ steps.hatch.outputs.version }}
+            PORT=42110
+          cache-from: type=gha,scope=${{ matrix.image }}-${{ matrix.platform }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}-${{ matrix.platform}}
+          labels: |
+            org.opencontainers.image.description=Khoj AI - Your second brain powered by LLMs and Neural Search
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+
+      - name: 📦️⛅️ Build and Push Cloud Docker Image
+        uses: docker/build-push-action@v4
+        if: (matrix.image == 'cloud' && github.event_name == 'workflow_dispatch') && github.event.inputs.khoj-cloud == 'true' || (matrix.image == 'cloud' && github.event_name == 'push')
+        with:
+          context: .
+          file: prod.Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}-cloud:${{ env.DOCKER_IMAGE_TAG }}-${{ matrix.platform == 'linux/amd64' && 'amd64' || 'arm64' }}
+          build-args: |
+            VERSION=${{ steps.hatch.outputs.version }}
+            PORT=42110
+          cache-from: type=gha,scope=${{ matrix.image }}-${{ matrix.platform }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}-${{ matrix.platform}}
+          labels: |
+            org.opencontainers.image.description=Khoj AI Cloud - Your second brain powered by LLMs and Neural Search
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+
+      - name: 📦️️💻 Build and Push Computer for Khoj
+        uses: docker/build-push-action@v4
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.khoj-computer == 'true' && matrix.image == 'local'
+        with:
+          context: .
+          file: computer.Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}-computer:${{ env.DOCKER_IMAGE_TAG }}-${{ matrix.platform == 'linux/amd64' && 'amd64' || 'arm64' }}
+          cache-from: type=gha,scope=computer-${{ matrix.platform }}
+          cache-to: type=gha,mode=max,scope=computer-${{ matrix.platform }}
+          labels: |
+            org.opencontainers.image.description=Khoj AI Computer - A computer for your second brain to operate
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+
+  manifest:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PAT }}
+
+      - name: Create and Push Local Manifest
+        if: github.event.inputs.khoj == 'true' || github.event_name == 'push'
+        run: |
+          # Only put "latest.*" tag on stable releases (i.e 1.x, 2.x+)
+          if [[ "${{ env.DOCKER_IMAGE_TAG }}" =~ ^[1-9]\.[0-9]+\.[0-9]+$ ]]; then
+            LATEST_TAG="latest"
+          else
+            LATEST_TAG="${{ env.DOCKER_IMAGE_TAG }}"
+          fi
+
+          docker buildx imagetools create \
+            -t ghcr.io/${{ github.repository }}:${{ env.DOCKER_IMAGE_TAG }} \
+            -t ghcr.io/${{ github.repository }}:${LATEST_TAG} \
+            ghcr.io/${{ github.repository }}:${{ env.DOCKER_IMAGE_TAG }}-amd64 \
+            ghcr.io/${{ github.repository }}:${{ env.DOCKER_IMAGE_TAG }}-arm64
+
+      - name: Create and Push Cloud Manifest
+        if: github.event.inputs.khoj-cloud == 'true' || github.event_name == 'push'
+        run: |
+          # Only put "latest.*" tag on stable releases (i.e 1.x, 2.x+)
+          if [[ "${{ env.DOCKER_IMAGE_TAG }}" =~ ^[1-9]\.[0-9]+\.[0-9]+$ ]]; then
+            LATEST_TAG="latest"
+          else
+            LATEST_TAG="${{ env.DOCKER_IMAGE_TAG }}"
+          fi
+
+          docker buildx imagetools create \
+            -t ghcr.io/${{ github.repository }}-cloud:${{ env.DOCKER_IMAGE_TAG }} \
+            -t ghcr.io/${{ github.repository }}-cloud:${LATEST_TAG} \
+            ghcr.io/${{ github.repository }}-cloud:${{ env.DOCKER_IMAGE_TAG }}-amd64 \
+            ghcr.io/${{ github.repository }}-cloud:${{ env.DOCKER_IMAGE_TAG }}-arm64
+
+      - name: Create and Push Computer Manifest
+        if: github.event.inputs.khoj-computer == 'true'
+        run: |
+          docker buildx imagetools create \
+            -t ghcr.io/${{ github.repository }}-computer:${{ env.DOCKER_IMAGE_TAG }} \
+            -t ghcr.io/${{ github.repository }}-computer:${{ github.ref_type == 'tag' && 'latest' || env.DOCKER_IMAGE_TAG }} \
+            ghcr.io/${{ github.repository }}-computer:${{ env.DOCKER_IMAGE_TAG }}-amd64 \
+            ghcr.io/${{ github.repository }}-computer:${{ env.DOCKER_IMAGE_TAG }}-arm64

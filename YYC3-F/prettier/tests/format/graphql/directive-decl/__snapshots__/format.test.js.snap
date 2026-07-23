@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`directive_decl.graphql format 1`] = `
+====================================options=====================================
+parsers: ["graphql"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+directive @a on QUERY
+directive @a(as: String) on QUERY
+directive @a(as: String = 1) on QUERY
+directive @a(as: String, b: Int!) on QUERY
+directive @a(as: String! = 1 @deprecated) on QUERY
+directive @a(as: String! = 1 @deprecated) on QUERY | MUTATION
+directive @a(as: String! = 1 @deprecated) repeatable on QUERY | MUTATION
+
+directive @a on QUERY
+directive @a repeatable on QUERY
+
+
+directive @a(as: String) on QUERY
+
+
+
+
+directive @a(as: String = 1) on QUERY
+
+=====================================output=====================================
+directive @a on QUERY
+directive @a(as: String) on QUERY
+directive @a(as: String = 1) on QUERY
+directive @a(as: String, b: Int!) on QUERY
+directive @a(as: String! = 1 @deprecated) on QUERY
+directive @a(as: String! = 1 @deprecated) on QUERY | MUTATION
+directive @a(as: String! = 1 @deprecated) repeatable on QUERY | MUTATION
+
+directive @a on QUERY
+directive @a repeatable on QUERY
+
+directive @a(as: String) on QUERY
+
+directive @a(as: String = 1) on QUERY
+
+================================================================================
+`;
+
+exports[`directives-on-directive-definitions.graphql format 1`] = `
+====================================options=====================================
+parsers: ["graphql"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+directive @a @b on QUERY
+directive @a(x: Int)   @b @c on QUERY
+directive @a @b repeatable on QUERY
+directive @a(x: Int) @b repeatable on QUERY | MUTATION
+directive @a @b(reason: "deprecated") on QUERY
+
+extend directive @a @b
+extend directive @a @b @c
+
+=====================================output=====================================
+directive @a @b on QUERY
+directive @a(x: Int) @b @c on QUERY
+directive @a @b repeatable on QUERY
+directive @a(x: Int) @b repeatable on QUERY | MUTATION
+directive @a @b(reason: "deprecated") on QUERY
+
+extend directive @a @b
+extend directive @a @b @c
+
+================================================================================
+`;

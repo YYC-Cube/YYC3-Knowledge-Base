@@ -1,0 +1,149 @@
+- source: IFS
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: ''''
+  scopesBegin:
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: ':'
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.single
+- source: read
+  scopesBegin:
+    - meta.statement.command.env
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: r
+  scopes:
+    - constant.other.option
+- source: '-'
+  scopes:
+    - constant.other.option.dash
+- source: a
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: version_info
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - string.unquoted.argument
+- source: <<<
+  scopesBegin:
+    - meta.herestring
+  scopes:
+    - keyword.operator.herestring
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: full_version
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement.command.env
+    - meta.argument
+    - meta.herestring
+    - string.quoted.double
+- source: VAR2
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '0'
+  scopesBegin:
+    - string.unquoted
+- source: '0'
+- source: '0'
+- source: x
+- source: x
+- source: x
+  scopesEnd:
+    - string.unquoted
+- source: echo
+  scopesBegin:
+    - meta.statement.command.env
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: hi
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement.command.env
+- source: VAR2
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '0'
+  scopesBegin:
+    - string.unquoted
+- source: '0'
+- source: '0'
+- source: x
+- source: x
+- source: x
+  scopesEnd:
+    - string.unquoted
+- source: VAR3
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '0'
+  scopesBegin:
+    - string.unquoted
+- source: '0'
+- source: '0'
+- source: x
+- source: x
+- source: x
+  scopesEnd:
+    - string.unquoted
+- source: echo
+  scopesBegin:
+    - meta.statement.command.env
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: hi
+  scopes:
+    - meta.argument
+    - string.unquoted.argument

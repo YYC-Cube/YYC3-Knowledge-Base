@@ -1,0 +1,6 @@
+import MarkdownDocs from 'docs/src/modules/components/MarkdownDocs';
+import * as pageProps from 'docsx/data/date-pickers/date-time-field/date-time-field.md?muiMarkdown';
+
+export default function Page() {
+  return <MarkdownDocs {...pageProps} />;
+}

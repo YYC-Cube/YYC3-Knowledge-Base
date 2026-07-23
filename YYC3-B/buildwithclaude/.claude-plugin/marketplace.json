@@ -1,0 +1,1364 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "buildwithclaude",
+  "version": "1.0.0",
+  "owner": {
+    "name": "BuildWithClaude Community",
+    "email": "community@buildwithclaude.com",
+    "url": "https://github.com/davepoon/buildwithclaude"
+  },
+  "metadata": {
+    "description": "A comprehensive community-driven collection of 117 AI agents, 174 slash commands, 28 hooks, and 199 MCP servers for Claude Code",
+    "version": "1.0.0",
+    "homepage": "https://buildwithclaude.com",
+    "repository": "https://github.com/davepoon/buildwithclaude",
+    "license": "MIT",
+    "keywords": [
+      "claude-code",
+      "agents",
+      "commands",
+      "hooks",
+      "mcp-servers",
+      "automation",
+      "ai-tools"
+    ]
+  },
+  "plugins": [
+    {
+      "name": "cashflow",
+      "description": "Personal finance ledger for AI agents. Connect bank accounts via Plaid, query spending, track recurring bills, categorize transactions, and get financial recaps through MCP tools with OAuth authentication.",
+      "version": "0.2.0",
+      "author": {
+        "name": "Adam Messinger",
+        "url": "https://cashflow.tech"
+      },
+      "repository": "https://github.com/cashflow-tech/plugin",
+      "license": "MIT",
+      "keywords": [
+        "finance",
+        "personal-finance",
+        "budgeting",
+        "transactions",
+        "spending",
+        "plaid",
+        "mcp",
+        "oauth"
+      ],
+      "category": "finance",
+      "source": "./plugins/cashflow"
+    },
+    {
+      "name": "claude-hud",
+      "description": "Real-time statusline HUD for Claude Code - displays context usage, tool activity, agent tracking, and todo progress",
+      "version": "1.0.0",
+      "author": {
+        "name": "Build With Claude",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hud",
+        "monitoring",
+        "statusline",
+        "context",
+        "tools",
+        "agents",
+        "todos"
+      ],
+      "category": "utilities",
+      "source": "./plugins/claude-hud"
+    },
+    {
+      "name": "agents-blockchain-web3",
+      "description": "Specialized agents for blockchain development, smart contracts, and Web3 applications",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "blockchain-web3",
+        "blockchain-developer",
+        "hyperledger-fabric-developer"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-blockchain-web3"
+    },
+    {
+      "name": "agents-business-finance",
+      "description": "Agents for business analysis, financial modeling, and KPI tracking",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "business-finance",
+        "business-analyst",
+        "legal-advisor",
+        "payment-integration",
+        "quant-analyst"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-business-finance"
+    },
+    {
+      "name": "agents-crypto-trading",
+      "description": "Expert agents for cryptocurrency trading, DeFi strategies, and market analysis",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "crypto-trading",
+        "arbitrage-bot",
+        "crypto-analyst",
+        "crypto-risk-manager",
+        "crypto-trader",
+        "defi-strategist"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-crypto-trading"
+    },
+    {
+      "name": "agents-data-ai",
+      "description": "Agents for data engineering, machine learning, and AI development",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "data-ai",
+        "ai-engineer",
+        "context-manager",
+        "data-engineer",
+        "data-scientist",
+        "hackathon-ai-strategist",
+        "llms-maintainer",
+        "ml-engineer",
+        "mlops-engineer",
+        "prompt-engineer",
+        "search-specialist",
+        "task-decomposition-expert"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-data-ai"
+    },
+    {
+      "name": "agents-design-experience",
+      "description": "Agents for UI/UX design, accessibility, and user experience optimization",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "design-experience",
+        "accessibility-specialist",
+        "ui-ux-designer"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-design-experience"
+    },
+    {
+      "name": "agents-development-architecture",
+      "description": "Expert agents for software architecture, backend development, and system design",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "development-architecture",
+        "backend-architect",
+        "directus-developer",
+        "drupal-developer",
+        "frontend-developer",
+        "graphql-architect",
+        "ios-developer",
+        "laravel-vue-developer",
+        "mobile-developer",
+        "nextjs-app-router-developer",
+        "react-performance-optimization",
+        "wordpress-developer"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-development-architecture"
+    },
+    {
+      "name": "agents-infrastructure-operations",
+      "description": "Agents for cloud infrastructure, DevOps, and database operations",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "infrastructure-operations",
+        "cloud-architect",
+        "database-admin",
+        "database-optimization",
+        "database-optimizer",
+        "deployment-engineer",
+        "devops-troubleshooter",
+        "network-engineer",
+        "terraform-specialist"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-infrastructure-operations"
+    },
+    {
+      "name": "agents-language-specialists",
+      "description": "Expert agents for specific programming languages (Python, Go, Rust, etc.)",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "language-specialists",
+        "c-developer",
+        "cpp-engineer",
+        "golang-expert",
+        "java-developer",
+        "javascript-developer",
+        "php-developer",
+        "python-expert",
+        "rails-expert",
+        "ruby-expert",
+        "rust-expert",
+        "sql-expert",
+        "typescript-expert"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-language-specialists"
+    },
+    {
+      "name": "agents-quality-security",
+      "description": "Agents for code review, security audits, debugging, and quality assurance",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "quality-security",
+        "api-security-audit",
+        "architect-review",
+        "code-reviewer",
+        "command-expert",
+        "debugger",
+        "dx-optimizer",
+        "error-detective",
+        "incident-responder",
+        "mcp-security-auditor",
+        "mcp-server-architect",
+        "mcp-testing-engineer",
+        "performance-engineer",
+        "review-agent",
+        "security-auditor",
+        "test-automator"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-quality-security"
+    },
+    {
+      "name": "agents-sales-marketing",
+      "description": "Agents for content marketing, customer support, and sales automation",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "sales-marketing",
+        "content-marketer",
+        "customer-support",
+        "risk-manager",
+        "sales-automator",
+        "social-media-clip-creator",
+        "social-media-copywriter"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-sales-marketing"
+    },
+    {
+      "name": "agents-specialized-domains",
+      "description": "Domain-specific expert agents for research, documentation, and specialized tasks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "specialized-domains",
+        "academic-research-synthesizer",
+        "academic-researcher",
+        "agent-expert",
+        "api-documenter",
+        "audio-quality-controller",
+        "comprehensive-researcher",
+        "connection-agent",
+        "data-analyst",
+        "docusaurus-expert",
+        "episode-orchestrator",
+        "game-developer",
+        "legacy-modernizer",
+        "markdown-syntax-formatter",
+        "market-research-analyst",
+        "mcp-deployment-orchestrator",
+        "mcp-expert",
+        "mcp-registry-navigator",
+        "metadata-agent",
+        "moc-agent",
+        "ocr-grammar-fixer",
+        "ocr-quality-assurance",
+        "podcast-content-analyzer",
+        "podcast-metadata-specialist",
+        "podcast-transcriber",
+        "podcast-trend-scout",
+        "project-supervisor-orchestrator",
+        "query-clarifier",
+        "report-generator",
+        "research-brief-generator",
+        "research-coordinator",
+        "research-orchestrator",
+        "research-synthesizer",
+        "seo-podcast-optimizer",
+        "tag-agent",
+        "technical-researcher",
+        "text-comparison-validator",
+        "timestamp-precision-specialist",
+        "twitter-ai-influencer-manager",
+        "url-context-validator",
+        "url-link-extractor",
+        "visual-analysis-ocr"
+      ],
+      "category": "agents",
+      "source": "./plugins/agents-specialized-domains"
+    },
+    {
+      "name": "commands-api-development",
+      "description": "Commands for designing and documenting REST and GraphQL APIs",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "api-development",
+        "design-rest-api",
+        "doc-api",
+        "generate-api-documentation",
+        "implement-graphql-api"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-api-development"
+    },
+    {
+      "name": "commands-automation-workflow",
+      "description": "Commands for automating repetitive tasks and workflows",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "automation-workflow",
+        "act"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-automation-workflow"
+    },
+    {
+      "name": "commands-ci-deployment",
+      "description": "Commands for CI/CD setup, containerization, and deployment automation",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "ci-deployment",
+        "add-changelog",
+        "changelog-demo-command",
+        "ci-setup",
+        "containerize-application",
+        "hotfix-deploy",
+        "prepare-release",
+        "release",
+        "rollback-deploy",
+        "run-ci",
+        "setup-automated-releases",
+        "setup-kubernetes-deployment"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-ci-deployment"
+    },
+    {
+      "name": "commands-code-analysis-testing",
+      "description": "Commands for code review, testing, and analysis",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "code-analysis-testing",
+        "add-mutation-testing",
+        "add-property-based-testing",
+        "check",
+        "clean",
+        "code_analysis",
+        "e2e-setup",
+        "generate-test-cases",
+        "generate-tests",
+        "optimize",
+        "repro-issue",
+        "setup-comprehensive-testing",
+        "setup-load-testing",
+        "setup-visual-testing",
+        "tdd",
+        "test-changelog-automation",
+        "test-coverage",
+        "testing_plan_integration",
+        "write-tests"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-code-analysis-testing"
+    },
+    {
+      "name": "commands-context-loading-priming",
+      "description": "Commands for loading context and priming Claude for specific tasks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "context-loading-priming",
+        "context-prime",
+        "initref",
+        "prime",
+        "rsi"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-context-loading-priming"
+    },
+    {
+      "name": "commands-database-operations",
+      "description": "Commands for database schema design, migrations, and optimization",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "database-operations",
+        "create-database-migrations",
+        "design-database-schema",
+        "optimize-database-performance"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-database-operations"
+    },
+    {
+      "name": "commands-documentation-changelogs",
+      "description": "Commands for generating documentation and managing changelogs",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "documentation-changelogs",
+        "add-to-changelog",
+        "create-architecture-documentation",
+        "create-docs",
+        "create-onboarding-guide",
+        "docs",
+        "explain-issue-fix",
+        "load-llms-txt",
+        "migration-guide",
+        "troubleshooting-guide",
+        "update-docs"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-documentation-changelogs"
+    },
+    {
+      "name": "commands-framework-svelte",
+      "description": "Specialized commands for Svelte and SvelteKit development",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "framework-svelte",
+        "svelte-a11y",
+        "svelte-component",
+        "svelte-debug",
+        "svelte-migrate",
+        "svelte-optimize",
+        "svelte-scaffold",
+        "svelte-storybook",
+        "svelte-storybook-migrate",
+        "svelte-storybook-mock",
+        "svelte-storybook-setup",
+        "svelte-storybook-story",
+        "svelte-storybook-troubleshoot",
+        "svelte-test",
+        "svelte-test-coverage",
+        "svelte-test-fix",
+        "svelte-test-setup"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-framework-svelte"
+    },
+    {
+      "name": "commands-game-development",
+      "description": "Commands for game development workflows",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "game-development",
+        "unity-project-setup"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-game-development"
+    },
+    {
+      "name": "commands-integration-sync",
+      "description": "Commands for integrating with external services and syncing data",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "integration-sync",
+        "bidirectional-sync",
+        "bulk-import-issues",
+        "cross-reference-manager",
+        "issue-to-linear-task",
+        "linear-task-to-issue",
+        "sync-automation-setup",
+        "sync-conflict-resolver",
+        "sync-issues-to-linear",
+        "sync-linear-to-issues",
+        "sync-pr-to-task",
+        "sync-status",
+        "task-from-pr"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-integration-sync"
+    },
+    {
+      "name": "commands-miscellaneous",
+      "description": "General-purpose utility commands",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "miscellaneous",
+        "five",
+        "mermaid",
+        "use-stepper"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-miscellaneous"
+    },
+    {
+      "name": "commands-monitoring-observability",
+      "description": "Commands for setting up monitoring and observability",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "monitoring-observability",
+        "add-performance-monitoring",
+        "setup-monitoring-observability"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-monitoring-observability"
+    },
+    {
+      "name": "commands-performance-optimization",
+      "description": "Commands for optimizing build, bundle size, and performance",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "performance-optimization",
+        "implement-caching-strategy",
+        "optimize-build",
+        "optimize-bundle-size",
+        "performance-audit",
+        "setup-cdn-optimization",
+        "system-behavior-simulator"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-performance-optimization"
+    },
+    {
+      "name": "commands-project-setup",
+      "description": "Commands for initializing and setting up new projects",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "project-setup",
+        "modernize-deps",
+        "setup-development-environment",
+        "setup-formatting",
+        "setup-linting",
+        "setup-monorepo",
+        "setup-rate-limiting"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-project-setup"
+    },
+    {
+      "name": "commands-project-task-management",
+      "description": "Commands for task management and project tracking",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "project-task-management",
+        "add-package",
+        "create-command",
+        "create-feature",
+        "create-jtbd",
+        "create-prd",
+        "create-prp",
+        "init-project",
+        "milestone-tracker",
+        "pac-configure",
+        "pac-create-epic",
+        "pac-create-ticket",
+        "pac-update-status",
+        "pac-validate",
+        "project-health-check",
+        "project-timeline-simulator",
+        "project-to-linear",
+        "todo"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-project-task-management"
+    },
+    {
+      "name": "interview",
+      "description": "Interview command for fleshing out big feature plans and specifications",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "interview",
+        "planning",
+        "specification"
+      ],
+      "category": "commands",
+      "source": "./plugins/interview"
+    },
+    {
+      "name": "commands-security-audit",
+      "description": "Commands for security auditing and vulnerability scanning",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "security-audit",
+        "add-authentication-system",
+        "dependency-audit",
+        "security-audit",
+        "security-hardening"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-security-audit"
+    },
+    {
+      "name": "commands-simulation-modeling",
+      "description": "Commands for scenario simulation and decision modeling",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "simulation-modeling",
+        "business-scenario-explorer",
+        "constraint-modeler",
+        "decision-tree-explorer",
+        "digital-twin-creator",
+        "future-scenario-generator",
+        "market-response-modeler",
+        "simulation-calibrator",
+        "timeline-compressor"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-simulation-modeling"
+    },
+    {
+      "name": "commands-team-collaboration",
+      "description": "Commands for team workflows, PR reviews, and collaboration",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "team-collaboration",
+        "architecture-review",
+        "decision-quality-analyzer",
+        "dependency-mapper",
+        "estimate-assistant",
+        "issue-triage",
+        "memory-spring-cleaning",
+        "migration-assistant",
+        "retrospective-analyzer",
+        "session-learning-capture",
+        "sprint-planning",
+        "standup-report",
+        "team-workload-balancer"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-team-collaboration"
+    },
+    {
+      "name": "commands-typescript-migration",
+      "description": "Commands for migrating JavaScript projects to TypeScript",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "typescript-migration",
+        "migrate-to-typescript"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-typescript-migration"
+    },
+    {
+      "name": "commands-utilities-debugging",
+      "description": "General debugging and utility commands",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "utilities-debugging",
+        "all-tools",
+        "architecture-scenario-explorer",
+        "check-file",
+        "clean-branches",
+        "code-permutation-tester",
+        "code-review",
+        "code-to-task",
+        "debug-error",
+        "directory-deep-dive",
+        "explain-code",
+        "generate-linear-worklog",
+        "git-status",
+        "refactor-code",
+        "ultra-think"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-utilities-debugging"
+    },
+    {
+      "name": "commands-version-control-git",
+      "description": "Commands for Git operations, commits, and PRs",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "version-control-git",
+        "bug-fix",
+        "commit",
+        "commit-fast",
+        "create-pr",
+        "create-pull-request",
+        "create-worktrees",
+        "fix-github-issue",
+        "fix-issue",
+        "fix-pr",
+        "husky",
+        "pr-review",
+        "update-branch-name"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-version-control-git"
+    },
+    {
+      "name": "commands-workflow-orchestration",
+      "description": "Commands for orchestrating complex workflows",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "workflow-orchestration",
+        "find",
+        "log",
+        "move",
+        "remove",
+        "report",
+        "resume",
+        "start",
+        "status",
+        "sync"
+      ],
+      "category": "commands",
+      "source": "./plugins/commands-workflow-orchestration"
+    },
+    {
+      "name": "hooks-automation",
+      "description": "Automation Hooks - Event-driven automation hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "automation",
+        "build-on-change",
+        "dependency-checker",
+        "slack-notifications"
+      ],
+      "category": "hooks",
+      "source": "./plugins/hooks-automation"
+    },
+    {
+      "name": "hooks-development",
+      "description": "Development Hooks - Event-driven automation hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "development",
+        "change-tracker",
+        "file-backup",
+        "lint-on-save",
+        "smart-formatting"
+      ],
+      "category": "hooks",
+      "source": "./plugins/hooks-development"
+    },
+    {
+      "name": "hooks-formatting",
+      "description": "Formatting Hooks - Event-driven automation hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "formatting",
+        "format-javascript-files",
+        "format-python-files"
+      ],
+      "category": "hooks",
+      "source": "./plugins/hooks-formatting"
+    },
+    {
+      "name": "hooks-git",
+      "description": "Git Hooks - Event-driven automation hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "git",
+        "auto-git-add",
+        "git-add-changes",
+        "smart-commit"
+      ],
+      "category": "hooks",
+      "source": "./plugins/hooks-git"
+    },
+    {
+      "name": "hooks-notifications",
+      "description": "Notification Hooks - Event-driven automation hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "notifications",
+        "discord-detailed-notifications",
+        "discord-error-notifications",
+        "discord-notifications",
+        "notify-before-bash",
+        "simple-notifications",
+        "slack-detailed-notifications",
+        "slack-error-notifications",
+        "telegram-detailed-notifications",
+        "telegram-error-notifications",
+        "telegram-notifications"
+      ],
+      "category": "hooks",
+      "source": "./plugins/hooks-notifications"
+    },
+    {
+      "name": "hooks-performance",
+      "description": "Performance Hooks - Event-driven automation hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "performance",
+        "performance-monitor"
+      ],
+      "category": "hooks",
+      "source": "./plugins/hooks-performance"
+    },
+    {
+      "name": "hooks-security",
+      "description": "Security Hooks - Event-driven automation hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "security",
+        "file-protection",
+        "file-protection-hook",
+        "security-scanner"
+      ],
+      "category": "hooks",
+      "source": "./plugins/hooks-security"
+    },
+    {
+      "name": "hooks-testing",
+      "description": "Testing Hooks - Event-driven automation hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "testing",
+        "run-tests-after-changes",
+        "test-runner"
+      ],
+      "category": "hooks",
+      "source": "./plugins/hooks-testing"
+    },
+    {
+      "name": "mcp-servers-docker",
+      "description": "Docker-based MCP servers from the official Docker MCP registry - includes 199+ verified servers",
+      "version": "1.0.0",
+      "author": {
+        "name": "Docker Inc. & BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "homepage": "https://hub.docker.com/u/mcp",
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "mcp",
+        "docker",
+        "servers",
+        "integrations",
+        "utilities",
+        "ai-task-management",
+        "cloud-infrastructure",
+        "api-development",
+        "browser-automation",
+        "web-search",
+        "database",
+        "productivity",
+        "developer-tools",
+        "file-system",
+        "email-integration",
+        "media-generation"
+      ],
+      "category": "mcp-servers",
+      "source": "./plugins/mcp-servers-docker"
+    },
+    {
+      "name": "all-agents",
+      "description": "Complete collection of 117 specialized AI agents across 11 categories",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "agents",
+        "subagents",
+        "all",
+        "bundle"
+      ],
+      "category": "agents",
+      "source": "./plugins/all-agents"
+    },
+    {
+      "name": "all-commands",
+      "description": "Complete collection of 174 slash commands across 22 categories",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "commands",
+        "slash-commands",
+        "all",
+        "bundle"
+      ],
+      "category": "commands",
+      "source": "./plugins/all-commands"
+    },
+    {
+      "name": "all-hooks",
+      "description": "Complete collection of 28 automation hooks for event-driven workflows",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "hooks",
+        "automation",
+        "all",
+        "bundle"
+      ],
+      "category": "hooks",
+      "source": "./plugins/all-hooks"
+    },
+    {
+      "name": "all-skills",
+      "description": "Complete collection of ~110 Claude Code skills across document processing, development, automation, CRM, DevOps, and more",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "skills",
+        "all",
+        "bundle",
+        "document-processing",
+        "development",
+        "business-productivity",
+        "creative-collaboration",
+        "automation",
+        "crm",
+        "devops",
+        "communication",
+        "analytics",
+        "composio"
+      ],
+      "category": "skills",
+      "source": "./plugins/all-skills"
+    },
+    {
+      "name": "nextjs-expert",
+      "description": "Next.js development expertise with skills for App Router, Server Components, Route Handlers, Server Actions, and authentication patterns",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "skills",
+        "nextjs",
+        "react",
+        "app-router",
+        "server-components",
+        "route-handlers",
+        "server-actions",
+        "authentication"
+      ],
+      "category": "skills",
+      "source": "./plugins/nextjs-expert"
+    },
+    {
+      "name": "frontend-design-pro",
+      "description": "Advanced frontend design plugin with interactive wizard, trend research, moodboard creation, browser-based inspiration analysis, color/typography selection, and WCAG accessibility",
+      "version": "1.0.0",
+      "author": {
+        "name": "BuildWithClaude Community",
+        "url": "https://github.com/davepoon/buildwithclaude"
+      },
+      "repository": "https://github.com/davepoon/buildwithclaude",
+      "license": "MIT",
+      "keywords": [
+        "skills",
+        "frontend",
+        "design",
+        "ui-ux",
+        "tailwind",
+        "colors",
+        "typography",
+        "accessibility",
+        "moodboard",
+        "dribbble",
+        "coolors",
+        "google-fonts"
+      ],
+      "category": "skills",
+      "source": "./plugins/frontend-design-pro"
+    },
+    {
+      "name": "obsidian-skills",
+      "description": "Skills for working with Obsidian files including Markdown with wikilinks/embeds/callouts, Bases for database views, and Canvas for visual diagrams",
+      "version": "1.0.0",
+      "author": {
+        "name": "kepano",
+        "url": "https://github.com/kepano/obsidian-skills"
+      },
+      "repository": "https://github.com/kepano/obsidian-skills",
+      "license": "MIT",
+      "keywords": [
+        "skills",
+        "obsidian",
+        "obsidian-markdown",
+        "obsidian-bases",
+        "json-canvas",
+        "wikilinks",
+        "callouts",
+        "embeds",
+        "canvas",
+        "bases",
+        "note-taking"
+      ],
+      "category": "skills",
+      "source": "./plugins/obsidian-skills"
+    },
+    {
+      "name": "project-boundary",
+      "description": "Security hook that blocks destructive commands and file operations outside the project directory",
+      "version": "1.0.0",
+      "author": {
+        "name": "Justyna Wojtczak",
+        "url": "https://github.com/justi"
+      },
+      "repository": "https://github.com/justi/claude-code-project-boundary",
+      "homepage": "https://github.com/justi/claude-code-project-boundary",
+      "license": "MIT",
+      "keywords": [
+        "security",
+        "hooks",
+        "safety",
+        "guard",
+        "project-boundary"
+      ],
+      "category": "hooks",
+      "source": "./plugins/project-boundary"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "_note": "Pre-computed baseline results for the slow tasks on the unmodified starter agent (LEGACY_PROMPT, 12 tools, no skills). Use these instead of waiting 5-10 min per task.",
+  "F1": {
+    "status": "fail",
+    "wall_ms": 580000,
+    "turns": 8,
+    "tokens_out": 41000,
+    "why": "~580s wall (budget 270s) — 100+ tool calls processing SKUs serially"
+  },
+  "F2": {
+    "status": "fail",
+    "wall_ms": 95000,
+    "turns": 4,
+    "tokens_out": 6800,
+    "why": "confidence stated qualitatively ('moderate-low'), not as a number"
+  },
+  "F3": {
+    "status": "pass-slow",
+    "wall_ms": 250000,
+    "turns": 7,
+    "tokens_out": 12800,
+    "why": "correct, but ~12.8k out-tokens (budget 5000) — 10× send_slack_alert subagent calls"
+  },
+  "R9": {
+    "status": "pass",
+    "wall_ms": 510000,
+    "turns": 6,
+    "tokens_out": 28000,
+    "why": "passes but ~8.5 min — LEGACY_PROMPT example drives per-SKU forecast loop"
+  }
+}

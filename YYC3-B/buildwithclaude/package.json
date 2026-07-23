@@ -1,0 +1,40 @@
+{
+  "name": "buildwithclaude",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A comprehensive collection of specialized AI subagents for [Claude Code](https://docs.anthropic.com/en/docs/claude-code), designed to enhance development workflows with domain-specific expertise.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run validate",
+    "test:integration": "./tests/plugin-test-harness.sh",
+    "validate": "node scripts/validate-all.js",
+    "validate:subagents": "node scripts/validate-subagents.js",
+    "validate:hooks": "node scripts/validate-hooks.js",
+    "generate:registry": "node scripts/generate-registry.js",
+    "fetch:plugins": "node scripts/fetch-plugins.js",
+    "fetch:all": "npm run fetch:plugins && npm run generate:registry",
+    "start": "node web-ui/server.js"
+  },
+  "workspaces": [
+    "web-ui"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davepoon/buildwithclaude.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davepoon/buildwithclaude/issues"
+  },
+  "homepage": "https://github.com/davepoon/buildwithclaude#readme",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "chalk": "^5.4.1",
+    "glob": "^11.0.3",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {}
+}

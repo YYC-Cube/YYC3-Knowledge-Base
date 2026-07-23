@@ -1,0 +1,26 @@
+{
+	"extends": ["standard-with-typescript", "prettier/@typescript-eslint", "prettier"],
+	"parserOptions": {
+		"project": "./tsconfig.json"
+	},
+	"rules": {
+		"lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+		"@typescript-eslint/explicit-member-accessibility": [
+			"error",
+			{
+				"overrides": {
+					"constructors": "off",
+					"accessors": "off"
+				}
+			}
+		],
+		"@typescript-eslint/explicit-function-return-type": [
+			"error",
+			{
+				"allowTypedFunctionExpressions": true,
+				"allowHigherOrderFunctions": true
+			}
+		],
+		"@typescript-eslint/array-type": ["error", { "default": "array" }]
+	}
+}

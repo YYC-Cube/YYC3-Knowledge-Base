@@ -1,0 +1,12 @@
+version: 1
+name: 05-Plugin/UseCuBLAS
+enabled: true
+tags:
+  - plugin
+run:
+  - make build > /dev/null 2>&1
+  - ./useCuBLASAlone.exe > log-useCuBLASAlone.exe.log
+  - python3 main.py > log-main.py.log
+clean:
+  - make clean
+  - rm -rf *.log

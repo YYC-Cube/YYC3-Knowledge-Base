@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llmb-run"
+
+version = "1.10.11"
+description = "Lightweight tool for automating large batches of LLM benchmarking workloads"
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml~=6.0",
+    "rich>=10.0.0,<15",
+    "typer~=0.12",
+    "shellingham~=1.5",
+    "zstandard~=0.23"
+]
+
+[project.scripts]
+llmb-run = "llmb_run:cli"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-mock",
+    "black~=26.1",
+    "ruff~=0.15"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors - PEP 8 compliance (indentation, syntax issues)
+    "F",   # Pyflakes - logical errors (undefined variables, unused imports, duplicate keys)
+    "W",   # pycodestyle warnings - style issues that don't break code
+    "I",   # isort - import sorting and organization
+    "B",   # flake8-bugbear - catches likely bugs and anti-patterns
+    "N",   # pep8-naming - enforce naming conventions (snake_case functions, etc.)
+    "C4",  # flake8-comprehensions - optimize list/dict/set comprehensions
+]
+
+# Let Black handle all formatting and whitespace
+ignore = ["E501", "E203", "E231", "W293", "W291", "W292"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["llmb_run"]

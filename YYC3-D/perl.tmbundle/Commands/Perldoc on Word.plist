@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18 -wKU
+require "#{ENV['TM_SUPPORT_PATH']}/lib/current_word"
+require "#{ENV['TM_SUPPORT_PATH']}/lib/exit_codes"
+require "#{ENV['TM_SUPPORT_PATH']}/lib/ui"
+require "shellwords"
+
+Dir.chdir('/tmp')
+
+at_exit do
+  [ '/tmp/pod2htmd.tmp', '/tmp/pod2htmi.tmp' ].each do |file|
+    File.unlink(file) if File.exists?(file)
+  end
+end
+
+word = Word.current_word(':_A-Za-z0-9')
+if word.to_s.empty?
+  word = TextMate::UI.request_string(
+    :title =&gt; 'Documentation Search', 
+    :prompt =&gt; 'Search documentation for term:',
+    :button1 =&gt; 'Search'
+  )
+  TextMate.exit_discard if word.to_s.empty?
+end
+
+doc = %x{ perldoc 2&gt;/dev/null -u #{word.shellescape}  }
+doc = %x{ perldoc 2&gt;/dev/null -uf #{word.shellescape} } unless $? == 0
+TextMate.exit_show_tool_tip("No documentation for “#{word}”") unless $? == 0
+
+html = open("|pod2html --q --title 'Documentation for “'#{word.shellescape}'”'", 'r+') { |io| io &lt;&lt; doc; io.close_write; io.read }
+html.gsub(/&lt;a href="#(item_)?([^"]+)"&gt;/, '&lt;a href="http://perldoc.perl.org/search.html?q=\2"&gt;')
+
+STDOUT &lt;&lt; html
+</string>
+	<key>fallbackInput</key>
+	<string>word</string>
+	<key>input</key>
+	<string>selection</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>^h</string>
+	<key>name</key>
+	<string>Documentation for Word / Selection</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
+	<key>scope</key>
+	<string>source.perl</string>
+	<key>semanticClass</key>
+	<string>lookup.define.perl</string>
+	<key>uuid</key>
+	<string>DA0A5D89-5F16-11D9-B9C3-000D93589AF6</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,50 @@
+# common
+__pycache__/
+.claude/
+.hypothesis/
+.mypy_cache/
+.pytest_cache/
+.vscode/
+*.gz
+# *.log  # Publish log files to show output of the examples
+
+# Private files
+91-LocalFile/
+
+# TensorRT
+*.bin
+*.d
+*.engine
+*.exe
+*.Int8Cache
+*.json
+*.lock
+*.o
+*.raw
+*.so
+*.Tacitc
+*.TimingCache
+*.trt
+*.trt*
+
+# Nsight Systems
+*.nsys-rep
+*.qdrep
+
+# numpy
+*.npy
+*.npz
+
+# ML framework
+*.onnx
+*.onnx.data
+*.onnx.weight
+*.pb
+*.pkl
+*.pth
+*.ts
+
+# Packages
+build/
+dist/
+tensorrt_cookbook.egg-info/

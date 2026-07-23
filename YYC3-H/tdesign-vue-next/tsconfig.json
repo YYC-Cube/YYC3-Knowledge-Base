@@ -1,0 +1,65 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "esnext",
+    "lib": [ "esnext", "dom", "dom.iterable", "scripthost"],
+    "jsx": "preserve",
+    "jsxImportSource": "vue", // fix omi override
+
+    /* Modules */
+    "module": "esnext",
+    "rootDir": ".",
+    "moduleResolution": "bundler",
+    "baseUrl": "./",
+    "resolveJsonModule": true,
+    "types": ["vitest/globals", "lodash"],
+
+    /* JavaScript Support */
+    "allowJs": true,
+
+    /* Emit */
+    "declaration": true,  
+    "outDir": "lib",
+    "removeComments": true,
+
+    /* Interop Constraints */
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    /* Type Checking */
+    // TODO: 待开启
+    // "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": false,
+
+    /* Completeness */
+    "skipLibCheck": true,
+
+    "paths": {
+      "@src/*": [ "packages/components/*" ],
+      "tdesign-vue-next": [ "packages/components" ],
+      "tdesign-vue-next/es/locale/*": [ "packages/components/locale/*" ],
+      "tdesign-vue-next/es/config-provider/hooks": [ "packages/components/config-provider/hooks" ],
+      "@tdesign-vue-next/chat":["packages/pro-components/chat"],
+      "@common/*": ["packages/common/*"],
+      "@test/utils": ["test/utils"]
+    }
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "packages/components/**/*.vue",
+    "packages/pro-components/**/*.vue",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "lib",
+    "cjs",
+    "esm",
+    "es",
+    "global.d.ts"
+  ]
+}

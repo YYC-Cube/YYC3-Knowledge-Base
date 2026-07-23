@@ -1,0 +1,923 @@
+import type { MuiPage } from '@mui/docs/MuiPage';
+import chartsComponentApi from './chartsApiPages';
+import dataGridComponentApi from './dataGridApiPages';
+import pickersComponentApi from './datePickersApiPages';
+import treeViewComponentApi from './treeViewApiPages';
+
+const isSchedulerVisible = process.env.SHOW_SCHEDULER === '1';
+
+const schedulerPages: MuiPage[] = isSchedulerVisible
+  ? [
+      {
+        pathname: '/x/react-scheduler-group',
+        title: 'Scheduler',
+        // newFeature: true,
+        unstable: true,
+        children: [
+          { pathname: '/x/react-scheduler', title: 'Overview' },
+          { pathname: '/x/react-scheduler/quickstart' },
+          {
+            pathname: '/x/react-scheduler/main-features',
+            subheader: 'Main features',
+            children: [
+              { pathname: '/x/react-scheduler/timezone', title: 'Timezones' },
+              { pathname: '/x/react-scheduler/recurring-events', plan: 'premium' },
+            ],
+          },
+          {
+            pathname: '/x/react-scheduler/event-calendar-group',
+            subheader: 'Event Calendar',
+            children: [
+              { pathname: '/x/react-scheduler/event-calendar/events' },
+              { pathname: '/x/react-scheduler/event-calendar/resources' },
+              { pathname: '/x/react-scheduler/event-calendar/navigation' },
+              { pathname: '/x/react-scheduler/event-calendar/drag-interactions' },
+              { pathname: '/x/react-scheduler/event-calendar/editing' },
+              { pathname: '/x/react-scheduler/event-calendar/views' },
+              { pathname: '/x/react-scheduler/event-calendar/lazy-loading', plan: 'premium' },
+              { pathname: '/x/react-scheduler/event-calendar/preferences' },
+              { pathname: '/x/react-scheduler/event-calendar/localization' },
+            ],
+          },
+          {
+            pathname: '/x/react-scheduler/event-timeline-group',
+            subheader: 'Event Timeline',
+            plan: 'premium',
+            children: [
+              { pathname: '/x/react-scheduler/event-timeline/events' },
+              { pathname: '/x/react-scheduler/event-timeline/resources' },
+              { pathname: '/x/react-scheduler/event-timeline/navigation' },
+              { pathname: '/x/react-scheduler/event-timeline/drag-interactions' },
+              { pathname: '/x/react-scheduler/event-timeline/editing' },
+              { pathname: '/x/react-scheduler/event-timeline/views' },
+              { pathname: '/x/react-scheduler/event-timeline/preferences' },
+              { pathname: '/x/react-scheduler/event-timeline/localization' },
+            ],
+          },
+        ],
+      },
+    ]
+  : [];
+
+const pages: MuiPage[] = [
+  {
+    pathname: 'https://mui.com/x/whats-new/',
+    title: "What's new in MUI X",
+  },
+  {
+    pathname: '/x/introduction-group',
+    title: 'Introduction',
+    children: [
+      { pathname: `/x/introduction`, title: 'Overview' },
+      { pathname: `/x/introduction/installation` },
+      { pathname: `/x/introduction/licensing` },
+      { pathname: `/x/introduction/support` },
+      { pathname: `/x/llms.txt`, title: 'llms.txt', newFeature: true },
+      { pathname: `/x/introduction/mcp`, title: 'AI support via MCP', newFeature: true },
+      { pathname: `/x/introduction/priority-support`, newFeature: true, plan: 'premium' },
+      { pathname: `/x/guides/telemetry`, plan: 'pro' },
+      { pathname: `/x/introduction/roadmap` },
+    ],
+  },
+  {
+    pathname: '/x/common-features-group',
+    title: 'Common concepts',
+    children: [
+      { pathname: `/x/common-concepts/custom-components`, title: 'Slots and subcomponents' },
+    ],
+  },
+  {
+    pathname: '/x/react-data-grid-group',
+    title: 'Data Grid',
+    children: [
+      { pathname: '/x/react-data-grid', title: 'Overview' },
+      { pathname: '/x/react-data-grid/quickstart' },
+      { pathname: '/x/react-data-grid/features' },
+      {
+        pathname: '/x/react-data-grid/demos-group',
+        title: 'Demos',
+        children: [
+          { pathname: '/x/react-data-grid/demos/real-time-data', title: 'Real-time data' },
+          { pathname: '/x/react-data-grid/demos/time-off-calendar' },
+          { pathname: '/x/react-data-grid/demos/inventory' },
+        ],
+      },
+      {
+        pathname: '/x/react-data-grid/main-features',
+        subheader: 'Main features',
+        children: [
+          { pathname: '/x/react-data-grid/layout' },
+          {
+            pathname: '/x/react-data-grid/columns',
+            children: [
+              { pathname: '/x/react-data-grid/column-definition' },
+              { pathname: '/x/react-data-grid/column-dimensions' },
+              { pathname: '/x/react-data-grid/column-visibility' },
+              { pathname: '/x/react-data-grid/custom-columns' },
+              { pathname: '/x/react-data-grid/column-header' },
+              { pathname: '/x/react-data-grid/column-menu' },
+              { pathname: '/x/react-data-grid/column-spanning' },
+              { pathname: '/x/react-data-grid/column-groups' },
+              {
+                pathname: '/x/react-data-grid/column-ordering',
+                title: 'Column reordering',
+                plan: 'pro',
+              },
+              { pathname: '/x/react-data-grid/column-pinning', plan: 'pro' },
+              { pathname: '/x/react-data-grid/column-recipes', title: 'Recipes' },
+            ],
+          },
+          {
+            pathname: '/x/react-data-grid/rows',
+            children: [
+              { pathname: '/x/react-data-grid/row-definition' },
+              { pathname: '/x/react-data-grid/row-updates' },
+              { pathname: '/x/react-data-grid/row-height' },
+              { pathname: '/x/react-data-grid/row-spanning', newFeature: true },
+              {
+                pathname: '/x/react-data-grid/master-detail',
+                plan: 'pro',
+                title: 'Master-detail row panels',
+              },
+              { pathname: '/x/react-data-grid/row-ordering', plan: 'pro', title: 'Row reordering' },
+              { pathname: '/x/react-data-grid/row-pinning', plan: 'pro' },
+              { pathname: '/x/react-data-grid/row-recipes', title: 'Recipes' },
+            ],
+          },
+          { pathname: '/x/react-data-grid/cells' },
+          {
+            pathname: '/x/react-data-grid/editing-group',
+            title: 'Editing',
+            children: [
+              { pathname: '/x/react-data-grid/editing', title: 'Overview' },
+              { pathname: '/x/react-data-grid/editing/persistence' },
+              { pathname: '/x/react-data-grid/editing/custom-edit-component' },
+              { pathname: '/x/react-data-grid/editing/editing-events' },
+              { pathname: '/x/react-data-grid/recipes-editing' },
+            ],
+          },
+          { pathname: '/x/react-data-grid/sorting' },
+          {
+            pathname: '/x/react-data-grid/filtering-group',
+            title: 'Filtering',
+            children: [
+              { pathname: '/x/react-data-grid/filtering', title: 'Overview' },
+              { pathname: '/x/react-data-grid/filtering/customization' },
+              { pathname: '/x/react-data-grid/filtering/quick-filter' },
+              {
+                pathname: '/x/react-data-grid/filtering/server-side',
+                title: 'Server-side filtering',
+              },
+              {
+                pathname: '/x/react-data-grid/filtering/multi-filters',
+                title: 'Multi-filters',
+                plan: 'pro',
+              },
+              {
+                pathname: '/x/react-data-grid/filtering/header-filters',
+                plan: 'pro',
+              },
+              { pathname: '/x/react-data-grid/filtering-recipes', title: 'Recipes' },
+            ],
+          },
+          { pathname: '/x/react-data-grid/pagination' },
+          {
+            pathname: '/x/react-data-grid/selection',
+            children: [
+              { pathname: '/x/react-data-grid/row-selection' },
+              { pathname: '/x/react-data-grid/cell-selection', plan: 'premium' },
+            ],
+          },
+          { pathname: '/x/react-data-grid/virtualization' },
+          { pathname: '/x/react-data-grid/accessibility' },
+          { pathname: '/x/react-data-grid/localization' },
+        ],
+      },
+      {
+        pathname: '/x/react-data-grid/advanced-features-group',
+        subheader: 'Advanced features',
+        children: [
+          { pathname: '/x/react-data-grid/tree-data', plan: 'pro' },
+          {
+            pathname: '/x/react-data-grid/row-grouping-group',
+            title: 'Row grouping',
+            plan: 'premium',
+            children: [
+              { pathname: '/x/react-data-grid/row-grouping', title: 'Overview' },
+              {
+                pathname: '/x/react-data-grid/recipes-row-grouping',
+                title: 'Recipes',
+              },
+            ],
+          },
+          { pathname: '/x/react-data-grid/aggregation', plan: 'premium' },
+          {
+            pathname: '/x/react-data-grid/pivoting-group',
+            title: 'Pivoting',
+            plan: 'premium',
+            newFeature: true,
+            children: [
+              { pathname: '/x/react-data-grid/pivoting', title: 'Overview' },
+              {
+                pathname: '/x/react-data-grid/pivoting-explained',
+                title: 'Understanding pivoting',
+              },
+            ],
+          },
+          { pathname: '/x/react-data-grid/export' },
+          { pathname: '/x/react-data-grid/clipboard', title: 'Copy and paste' },
+          {
+            pathname: '/x/react-data-grid/undo-redo',
+            title: 'Undo and redo',
+            plan: 'premium',
+            newFeature: true,
+          },
+          { pathname: '/x/react-data-grid/scrolling' },
+          {
+            pathname: '/x/react-data-grid/list-view',
+            plan: 'pro',
+          },
+          {
+            pathname: '/x/react-data-grid/server-side-data-group',
+            title: 'Server-side data',
+            newFeature: true,
+            children: [
+              {
+                pathname: '/x/react-data-grid/server-side-data',
+                title: 'Overview',
+              },
+              {
+                pathname: '/x/react-data-grid/server-side-data/tree-data',
+                plan: 'pro',
+              },
+              {
+                pathname: '/x/react-data-grid/server-side-data/lazy-loading',
+                plan: 'pro',
+              },
+              {
+                pathname: '/x/react-data-grid/server-side-data/row-grouping',
+                plan: 'premium',
+              },
+              {
+                pathname: '/x/react-data-grid/server-side-data/aggregation',
+                plan: 'premium',
+              },
+              {
+                pathname: '/x/react-data-grid/server-side-data/pivoting',
+                plan: 'premium',
+              },
+              {
+                pathname: '/x/react-data-grid/server-side-data/recipes',
+              },
+            ],
+          },
+          {
+            pathname: '/x/react-data-grid/charts-integration',
+            plan: 'premium',
+            newFeature: true,
+            title: 'Charts integration',
+          },
+          {
+            pathname: '/x/react-data-grid/ai-assistant',
+            plan: 'premium',
+            newFeature: true,
+            title: 'AI Assistant',
+          },
+        ],
+      },
+      {
+        pathname: '/x/react-data-grid/components-group',
+        subheader: 'Components',
+        newFeature: true,
+        children: [
+          { pathname: '/x/react-data-grid/components/usage' },
+          { pathname: '/x/react-data-grid/components/toolbar' },
+          { pathname: '/x/react-data-grid/components/export' },
+          { pathname: '/x/react-data-grid/components/quick-filter', title: 'Quick Filter' },
+          {
+            pathname: '/x/react-data-grid/components/columns-panel',
+            title: 'Columns Panel',
+            planned: true,
+          },
+          {
+            pathname: '/x/react-data-grid/components/filter-panel',
+            title: 'Filter Panel',
+            planned: true,
+          },
+          {
+            pathname: '/x/react-data-grid/components/prompt-field',
+            title: 'Prompt Field',
+            plan: 'premium',
+          },
+          {
+            pathname: '/x/react-data-grid/components/pivot-panel',
+            title: 'Pivot Panel',
+            planned: true,
+            plan: 'premium',
+          },
+          {
+            pathname: '/x/react-data-grid/components/charts-panel',
+            title: 'Charts Panel',
+            planned: true,
+            plan: 'premium',
+          },
+          {
+            pathname: '/x/react-data-grid/components/ai-assistant-panel',
+            title: 'AI Assistant Panel',
+            planned: true,
+            plan: 'premium',
+          },
+        ],
+      },
+      {
+        pathname: '/x/react-data-grid/customization-group',
+        subheader: 'Customization',
+        children: [
+          { pathname: '/x/react-data-grid/style', title: 'Styling basics' },
+          { pathname: '/x/react-data-grid/style-recipes', title: 'Styling recipes' },
+          { pathname: '/x/react-data-grid/overlays' },
+          { pathname: '/x/react-data-grid/components', title: 'Custom subcomponents' },
+        ],
+      },
+      {
+        pathname: '/x/api/resources-group',
+        subheader: 'Resources',
+        children: [
+          { pathname: '/x/react-data-grid/api-object', title: 'API object' },
+          { pathname: '/x/react-data-grid/events' },
+          { pathname: '/x/react-data-grid/state' },
+          { pathname: '/x/react-data-grid/performance' },
+        ],
+      },
+      {
+        pathname: '/x/api/data-grid-group',
+        title: 'API reference',
+        children: [
+          { pathname: '/x/api/data-grid', title: 'Index' },
+          {
+            pathname: '/x/api/data-grid-components-group',
+            subheader: 'Components',
+            children: [...dataGridComponentApi],
+          },
+          {
+            pathname: '/x/api/data-grid-interfaces-group',
+            subheader: 'Interfaces',
+            children: [
+              { pathname: '/x/api/data-grid/grid-api', title: 'GridApi' },
+              { pathname: '/x/api/data-grid/grid-cell-params', title: 'GridCellParams' },
+              { pathname: '/x/api/data-grid/grid-col-def', title: 'GridColDef' },
+              {
+                pathname: '/x/api/data-grid/grid-single-select-col-def',
+                title: 'GridSingleSelectColDef',
+              },
+
+              { pathname: '/x/api/data-grid/grid-actions-col-def', title: 'GridActionsColDef' },
+              { pathname: '/x/api/data-grid/grid-list-view-col-def', title: 'GridListViewColDef' },
+              {
+                pathname: '/x/api/data-grid/grid-export-state-params',
+                title: 'GridExportStateParams',
+              },
+              { pathname: '/x/api/data-grid/grid-filter-item', title: 'GridFilterItem' },
+              { pathname: '/x/api/data-grid/grid-filter-model', title: 'GridFilterModel' },
+              { pathname: '/x/api/data-grid/grid-filter-operator', title: 'GridFilterOperator' },
+              { pathname: '/x/api/data-grid/grid-render-context', title: 'GridRenderContext' },
+              {
+                pathname: '/x/api/data-grid/grid-row-class-name-params',
+                title: 'GridRowClassNameParams',
+              },
+              { pathname: '/x/api/data-grid/grid-row-params', title: 'GridRowParams' },
+              {
+                pathname: '/x/api/data-grid/grid-row-spacing-params',
+                title: 'GridRowSpacingParams',
+              },
+              {
+                pathname: '/x/api/data-grid/grid-row-order-change-params',
+                title: 'GridRowOrderChangeParams',
+              },
+              {
+                pathname: '/x/api/data-grid/grid-aggregation-function',
+                title: 'GridAggregationFunction',
+              },
+              {
+                pathname: '/x/api/data-grid/grid-aggregation-function-data-source',
+                title: 'GridAggregationFunctionDataSource',
+              },
+              {
+                pathname: '/x/api/data-grid/grid-csv-export-options',
+                title: 'GridCsvExportOptions',
+              },
+              {
+                pathname: '/x/api/data-grid/grid-print-export-options',
+                title: 'GridPrintExportOptions',
+              },
+              {
+                pathname: '/x/api/data-grid/grid-excel-export-options',
+                title: 'GridExcelExportOptions',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        pathname: '/x/tutorials',
+        subheader: 'Tutorials',
+        children: [
+          { pathname: '/x/react-data-grid/tutorials/server-side-data', title: 'Server-side data' },
+          {
+            pathname: '/x/react-data-grid/tutorials/aggregation-row-grouping',
+            title: 'Aggregation and row grouping',
+            plan: 'premium',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    pathname: '/x/react-date-pickers-group',
+    title: 'Date and Time Pickers',
+    children: [
+      { pathname: '/x/react-date-pickers', title: 'Overview' },
+      { pathname: '/x/react-date-pickers/quickstart', title: 'Quickstart' },
+      { pathname: '/x/react-date-pickers/base-concepts' },
+      {
+        pathname: '/x/react-date-pickers-components',
+        subheader: 'Components',
+        children: [
+          {
+            pathname: '/x/react-date-pickers/date-pickers',
+            title: 'Date components',
+            children: [
+              { pathname: '/x/react-date-pickers/date-picker', title: 'Date Picker' },
+              {
+                pathname: '/x/react-date-pickers/date-field',
+                title: 'Date Field',
+              },
+              { pathname: '/x/react-date-pickers/date-calendar', title: 'Date Calendar' },
+            ],
+          },
+          {
+            pathname: '/x/react-date-pickers/time-pickers',
+            title: 'Time components',
+            children: [
+              { pathname: '/x/react-date-pickers/time-picker', title: 'Time Picker' },
+              {
+                pathname: '/x/react-date-pickers/time-field',
+                title: 'Time Field',
+              },
+              { pathname: '/x/react-date-pickers/time-clock', title: 'Time Clock' },
+              {
+                pathname: '/x/react-date-pickers/digital-clock',
+                title: 'Digital Clock',
+              },
+            ],
+          },
+          {
+            pathname: '/x/react-date-pickers/date-time-pickers',
+            title: 'Date Time components',
+            children: [
+              { pathname: '/x/react-date-pickers/date-time-picker', title: 'Date Time Picker' },
+              {
+                pathname: '/x/react-date-pickers/date-time-field',
+                title: 'Date Time Field',
+              },
+            ],
+          },
+          {
+            pathname: '/x/react-date-pickers/date-range-pickers',
+            title: 'Date Range components',
+            plan: 'pro',
+            children: [
+              { pathname: '/x/react-date-pickers/date-range-picker', title: 'Date Range Picker' },
+              {
+                pathname: '/x/react-date-pickers/date-range-field',
+                title: 'Date Range Field',
+              },
+              {
+                pathname: '/x/react-date-pickers/date-range-calendar',
+                title: 'Date Range Calendar',
+              },
+            ],
+          },
+          {
+            pathname: '/x/react-date-pickers/time-range-pickers',
+            title: 'Time Range components',
+            plan: 'pro',
+            children: [
+              {
+                pathname: '/x/react-date-pickers/time-range-picker',
+                title: 'Time Range Picker',
+              },
+              {
+                pathname: '/x/react-date-pickers/time-range-field',
+                title: 'Time Range Field',
+              },
+            ],
+          },
+          {
+            pathname: '/x/react-date-pickers/date-time-range-pickers',
+            title: 'Date Time Range components',
+            plan: 'pro',
+            children: [
+              {
+                pathname: '/x/react-date-pickers/date-time-range-picker',
+                title: 'Date Time Range Picker',
+              },
+              {
+                pathname: '/x/react-date-pickers/date-time-range-field',
+                title: 'Date Time Range Field',
+              },
+            ],
+          },
+          { pathname: '/x/react-date-pickers/fields', title: 'Field components' },
+        ],
+      },
+      {
+        pathname: '/x/react-date-pickers/main-features',
+        subheader: 'Main features',
+        children: [
+          { pathname: '/x/react-date-pickers/validation' },
+          { pathname: '/x/react-date-pickers/lifecycle', title: 'Components lifecycle' },
+          { pathname: '/x/react-date-pickers/shortcuts' },
+          { pathname: '/x/react-date-pickers/accessibility' },
+        ],
+      },
+      {
+        pathname: '/x/react-date-pickers/localization-group',
+        subheader: 'Localization',
+        children: [
+          {
+            pathname: '/x/react-date-pickers/localization',
+            title: 'Translated components',
+          },
+          {
+            pathname: '/x/react-date-pickers/adapters-locale',
+            title: 'Date format and localization',
+          },
+          {
+            pathname: '/x/react-date-pickers/timezone',
+            title: 'UTC and timezones',
+          },
+          { pathname: '/x/react-date-pickers/calendar-systems' },
+        ],
+      },
+      {
+        pathname: '/x/react-date-pickers/customization-group',
+        subheader: 'Customization',
+        children: [
+          {
+            pathname: '/x/react-date-pickers/custom-components',
+            title: 'Custom subcomponents',
+          },
+          { pathname: '/x/react-date-pickers/custom-layout' },
+          { pathname: '/x/react-date-pickers/custom-field' },
+          { pathname: '/x/react-date-pickers/custom-opening-button' },
+          { pathname: '/x/react-date-pickers/playground', title: 'Customization playground' },
+        ],
+      },
+      {
+        pathname: '/x/api/picker-resources',
+        subheader: 'Resources',
+        children: [
+          {
+            pathname: '/x/api/date-pickers-group',
+            title: 'API reference',
+            children: [{ pathname: '/x/api/date-pickers', title: 'Index' }, ...pickersComponentApi],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    pathname: '/x/react-charts-group',
+    title: 'Charts',
+    children: [
+      { pathname: '/x/react-charts', title: 'Overview' },
+      { pathname: '/x/react-charts/quickstart', title: 'Quickstart' },
+      { pathname: '/x/react-charts/examples', title: 'Examples' },
+      {
+        pathname: '/x/react-chart-components',
+        subheader: 'Components',
+        children: [
+          {
+            pathname: '/x/react-charts-bars',
+            title: 'Bars',
+            newFeature: true,
+            children: [
+              { pathname: '/x/react-charts/bars', title: 'Bars overview' },
+              {
+                pathname: '/x/react-charts/range-bar',
+                title: 'Range bar',
+                plan: 'premium',
+                newFeature: true,
+              },
+              { pathname: '/x/react-charts/bar-demo', title: 'Demos' },
+            ],
+          },
+          {
+            pathname: '/x/react-charts-lines',
+            title: 'Lines',
+            children: [
+              { pathname: '/x/react-charts/lines', title: 'Lines overview' },
+              { pathname: '/x/react-charts/line-demo', title: 'Lines demo' },
+              { pathname: '/x/react-charts/areas-demo', title: 'Area demo' },
+            ],
+          },
+          {
+            pathname: '/x/react-charts-pie',
+            title: 'Pie',
+            children: [
+              { pathname: '/x/react-charts/pie', title: 'Pie overview' },
+              { pathname: '/x/react-charts/pie-demo', title: 'Demo' },
+            ],
+          },
+          {
+            pathname: '/x/react-charts-scatter',
+            title: 'Scatter',
+            children: [
+              { pathname: '/x/react-charts/scatter', title: 'Scatter overview' },
+              { pathname: '/x/react-charts/scatter-demo', title: 'Demo' },
+            ],
+          },
+          {
+            pathname: '/x/react-charts/sparkline',
+          },
+          { pathname: '/x/react-charts/gauge' },
+          { pathname: '/x/react-charts/radar' },
+          {
+            pathname: '/x/react-charts/heatmap',
+            plan: 'pro',
+          },
+          {
+            pathname: '/x/react-charts-funnel',
+            title: 'Funnel',
+            plan: 'pro',
+            children: [
+              { pathname: '/x/react-charts/funnel', title: 'Funnel overview' },
+              { pathname: '/x/react-charts/pyramid', title: 'Pyramid demo' },
+            ],
+          },
+          { pathname: '/x/react-charts/sankey', plan: 'pro' },
+          {
+            pathname: '/x/react-charts/#planned-charts',
+            title: 'Future Components',
+            planned: true,
+          },
+          {
+            pathname: '/x/react-charts/main-features',
+            subheader: 'Main features',
+            children: [
+              { pathname: '/x/react-charts/animation' },
+              { pathname: '/x/react-charts/axis' },
+              { pathname: '/x/react-charts/brush' },
+              { pathname: '/x/react-charts/components', title: 'Custom components' },
+              { pathname: '/x/react-charts/composition' },
+              {
+                pathname: '/x/react-charts/data-grid-integration',
+                title: 'Data Grid integration',
+                plan: 'premium',
+                newFeature: true,
+              },
+              {
+                pathname: '/x/react-charts/export',
+                plan: 'pro',
+              },
+              { pathname: '/x/react-charts/highlighting' },
+              { pathname: '/x/react-charts/label' },
+              { pathname: '/x/react-charts/legend' },
+              { pathname: '/x/react-charts/localization' },
+              { pathname: '/x/react-charts/stacking' },
+              { pathname: '/x/react-charts/styling' },
+              { pathname: '/x/react-charts/references' },
+              { pathname: '/x/react-charts/toolbar' },
+              { pathname: '/x/react-charts/tooltip' },
+              {
+                pathname: '/x/react-charts/zoom-and-pan',
+                title: 'Zoom and pan',
+                plan: 'pro',
+              },
+              {
+                pathname: '/x/react-charts/content-security-policy',
+                title: 'Content Security Policy',
+              },
+            ],
+          },
+          {
+            pathname: '/x/api/chart-resources',
+            subheader: 'Resources',
+            children: [
+              {
+                pathname: '/x/api/charts-group',
+                title: 'API reference',
+                children: [
+                  ...chartsComponentApi,
+                  {
+                    pathname: '/x/api/charts-interfaces-group',
+                    subheader: 'Interfaces',
+                    children: [
+                      { pathname: '/x/api/charts/axis-config', title: 'AxisConfig' },
+                      { pathname: '/x/api/charts/bar-series', title: 'BarSeries' },
+                      { pathname: '/x/api/charts/funnel-series', title: 'FunnelSeries' },
+                      { pathname: '/x/api/charts/heatmap-series', title: 'HeatmapSeries' },
+                      { pathname: '/x/api/charts/line-series', title: 'LineSeries' },
+                      { pathname: '/x/api/charts/pie-series', title: 'PieSeries' },
+                      { pathname: '/x/api/charts/radar-series', title: 'RadarSeries' },
+                      { pathname: '/x/api/charts/scatter-series', title: 'ScatterSeries' },
+                      {
+                        pathname: '/x/api/charts/legend-item-params',
+                        title: 'LegendItemParams',
+                      },
+                      {
+                        pathname: '/x/api/charts/chart-image-export-options',
+                        title: 'ChartImageExportOptions',
+                      },
+                      {
+                        pathname: '/x/api/charts/chart-print-export-options',
+                        title: 'ChartPrintExportOptions',
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                pathname: '/x/react-charts/hooks-group',
+                title: 'Hooks',
+                children: [
+                  { pathname: '/x/react-charts/hooks', title: 'Overview' },
+                  { pathname: '/x/react-charts/hooks/use-series', title: 'Series' },
+                  { pathname: '/x/react-charts/hooks/use-legend', title: 'useLegend' },
+                  { pathname: '/x/react-charts/hooks/use-drawing-area', title: 'useDrawingArea' },
+                  { pathname: '/x/react-charts/hooks/use-scale', title: 'Scale' },
+                  { pathname: '/x/react-charts/hooks/use-axes', title: 'Axis' },
+                  { pathname: '/x/react-charts/hooks/use-dataset', title: 'useDataset' },
+                ],
+              },
+              { pathname: '/x/react-charts/plugins', title: 'Plugins' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    pathname: '/x/react-tree-view-group',
+    title: 'Tree View',
+    children: [
+      { pathname: '/x/react-tree-view', title: 'Overview' },
+      { pathname: '/x/react-tree-view/quickstart', title: 'Quickstart' },
+      {
+        pathname: '/x/react-tree-view/simple-tree-view',
+        subheader: 'Simple Tree View',
+        children: [
+          { pathname: '/x/react-tree-view/simple-tree-view/items' },
+          { pathname: '/x/react-tree-view/simple-tree-view/selection' },
+          { pathname: '/x/react-tree-view/simple-tree-view/expansion' },
+          { pathname: '/x/react-tree-view/simple-tree-view/customization' },
+          { pathname: '/x/react-tree-view/simple-tree-view/focus' },
+        ],
+      },
+      {
+        pathname: '/x/react-tree-view/rich-tree-view',
+        subheader: 'Rich Tree View',
+        children: [
+          { pathname: '/x/react-tree-view/rich-tree-view/items' },
+          { pathname: '/x/react-tree-view/rich-tree-view/selection' },
+          { pathname: '/x/react-tree-view/rich-tree-view/expansion' },
+          { pathname: '/x/react-tree-view/rich-tree-view/customization' },
+          { pathname: '/x/react-tree-view/rich-tree-view/focus' },
+          {
+            pathname: '/x/react-tree-view/rich-tree-view/editing',
+            title: 'Label editing',
+          },
+          {
+            pathname: '/x/react-tree-view/rich-tree-view/virtualization',
+            plan: 'pro',
+            newFeature: true,
+          },
+          {
+            pathname: '/x/react-tree-view/rich-tree-view/lazy-loading',
+            plan: 'pro',
+          },
+          { pathname: '/x/react-tree-view/rich-tree-view/ordering', plan: 'pro' },
+        ],
+      },
+      {
+        pathname: '/x/react-tree-view/main-features',
+        subheader: 'Main features',
+        children: [
+          { pathname: '/x/react-tree-view/accessibility' },
+          { pathname: '/x/react-tree-view/tree-item-customization', title: 'Item customization' },
+        ],
+      },
+      {
+        pathname: '/x/api/tree-view-resources',
+        subheader: 'Resources',
+        children: [
+          {
+            pathname: '/x/api/tree-view-group',
+            title: 'API reference',
+            children: [...treeViewComponentApi],
+          },
+        ],
+      },
+    ],
+  },
+  ...schedulerPages,
+  {
+    pathname: '/x/migration-group',
+    title: 'Migration',
+    children: [
+      {
+        pathname: '/x/migration-v9',
+        subheader: 'Upgrade to v9',
+        children: [
+          { pathname: '/x/migration/migration-data-grid-v8', title: 'Breaking changes: Data Grid' },
+          {
+            pathname: '/x/migration/migration-pickers-v8',
+            title: 'Breaking changes: Date and Time Pickers',
+          },
+          {
+            pathname: '/x/migration/migration-charts-v8',
+            title: 'Breaking changes: Charts',
+          },
+          {
+            pathname: '/x/migration/migration-tree-view-v8',
+            title: 'Breaking changes: Tree View',
+          },
+        ],
+      },
+      {
+        pathname: '/x/migration-v8',
+        subheader: 'Upgrade to v8',
+        children: [
+          { pathname: '/x/migration/migration-data-grid-v7', title: 'Breaking changes: Data Grid' },
+          {
+            pathname: '/x/migration/migration-pickers-v7',
+            title: 'Breaking changes: Date and Time Pickers',
+          },
+          {
+            pathname: '/x/migration/migration-charts-v7',
+            title: 'Breaking changes: Charts',
+          },
+          {
+            pathname: '/x/migration/migration-tree-view-v7',
+            title: 'Breaking changes: Tree View',
+          },
+          {
+            pathname: '/x/migration/usage-with-material-ui-v5-v6',
+            title: 'Usage with Material UI v5/v6',
+          },
+        ],
+      },
+      {
+        pathname: '/x/migration-v7',
+        title: 'Upgrade to v7',
+        children: [
+          { pathname: '/x/migration/migration-data-grid-v6', title: 'Breaking changes: Data Grid' },
+          {
+            pathname: '/x/migration/migration-pickers-v6',
+            title: 'Breaking changes: Date and Time Pickers',
+          },
+          {
+            pathname: '/x/migration/migration-charts-v6',
+            title: 'Breaking changes: Charts',
+          },
+          {
+            pathname: '/x/migration/migration-tree-view-v6',
+            title: 'Breaking changes: Tree View',
+          },
+        ],
+      },
+      {
+        pathname: '/x/migration-v6',
+        title: 'Upgrade to v6',
+        children: [
+          { pathname: '/x/migration/migration-data-grid-v5', title: 'Breaking changes: Data Grid' },
+          {
+            pathname: '/x/migration/migration-pickers-v5',
+            title: 'Breaking changes: Date and Time Pickers',
+          },
+          {
+            pathname: '/x/migration/migration-tree-view-lab',
+            title: 'Migration from lab to v6 (Tree View)',
+          },
+        ],
+      },
+      {
+        pathname: '/x/migration-earlier',
+        title: 'Earlier versions',
+        children: [
+          {
+            pathname: '/x/migration/migration-pickers-lab',
+            title: 'Migration from lab to v5 (Date and Time Pickers)',
+          },
+          {
+            pathname: '/x/migration/migration-data-grid-v4',
+            title: 'Migration from v4 to v5 (Data Grid)',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export default pages;

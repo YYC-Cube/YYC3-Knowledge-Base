@@ -1,0 +1,52 @@
+{
+  "deps": [
+    {
+      "name": "cncolours"
+    },
+    {
+      "name": "pgfornament-han"
+    },
+    {
+      "name": "xpatch"
+    },
+    {
+      "name": "calc"
+    },
+    {
+      "name": "relsize"
+    },
+    {
+      "name": "unicode-math"
+    },
+    {
+      "name": "tcolorbox"
+    },
+    {
+      "name": "tcolorboxlibraryskins"
+    },
+    {
+      "name": "textpos"
+    }
+  ],
+  "macros": [
+    {
+      "name": "TQTopDecoWidth",
+      "unusual": true
+    },
+    {
+      "name": "TQBottomDecoWidth",
+      "unusual": true
+    },
+    {
+      "name": "TQTopDecoOpacity",
+      "unusual": true
+    },
+    {
+      "name": "TQBottomDecoOpacity",
+      "unusual": true
+    }
+  ],
+  "envs": [],
+  "keys": {},
+  "args": []
+}

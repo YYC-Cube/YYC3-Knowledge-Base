@@ -1,0 +1,195 @@
+.pre-header {
+  font-family: $font-family-inter;
+  background: #F8FAFC;
+    box-shadow: 0 1px 0px 0 rgba(0,20,56,.06);
+    position: relative;
+    z-index: 999;
+    padding: 6px 0 7px;
+    text-align: center;
+    color: #73849A;
+
+  .container {
+    position: relative;
+    font-size: 11px;
+    line-height: 1.8em;
+    font-weight: 400;
+    letter-spacing: -.01em;
+
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+
+
+  #btn-header-announcement {
+    color: #fff;
+    border-radius: 16px;
+    margin-left: 12px;
+    padding: 6px 8px 5px;
+    font-weight: 600;
+    font-size: 9px;
+    text-transform: uppercase;
+    vertical-align: 0;
+    white-space: nowrap;
+    letter-spacing: 0;
+    transition: .2s background-color, .2s box-shadow;
+    background: linear-gradient(68.35deg, #4CC3FF 0%, #4172FF 100%);
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.06);
+    font-size: 10px;
+    padding: 5px 10px;
+    margin-left: 24px;
+    line-height: 1;
+
+    &:hover {
+      background-color: lighten(#73a5ff, 5);
+      // background-color: lighten(#30427e, 5);
+      box-shadow: 0 1px 2px rgba(black, .1);
+    }
+  }
+  #optimizely {
+    transition: .2s opacity;
+  }
+
+  p {
+    display: inline;
+  }
+
+  strong {
+    font-weight: 600;
+    color: #020814;
+  }
+
+  a{
+    background-color: #73a5ff;
+    color: #fff;
+    border-radius: 16px;
+    margin-left: 12px;
+    padding: 6px 8px 5px;
+    font-weight: 600;
+    font-size: 9px;
+    text-transform: uppercase;
+    vertical-align: 0;
+    white-space: pre;
+    letter-spacing: .02em;
+    transition: .2s background-color, .2s box-shadow;
+
+    &::after {
+      font-family: 'Ionicons';
+      content: '\f3d1';
+      margin-left: 3px;
+    }
+
+    &:hover {
+      background-color: lighten(#73a5ff, 5);
+      // background-color: lighten(#30427e, 5);
+      box-shadow: 0 1px 2px rgba(black, .1);
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    display: none;
+  }
+
+  &.back {
+    background: #F9F9F9;
+    text-align: left;
+    box-shadow: none;
+    padding: 3px 0;
+
+    a {
+      line-height: normal;
+      font-weight: 600;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      color: #3880FF;
+      background: none;
+      margin: 0;
+      padding: 10px 0;
+
+      &::after {
+        display: none;
+      }
+
+      ion-icon {
+        color: rgba(56, 128, 255, 0.7);
+        font-size: 12px;
+        height: 12px;
+        width: 12px;
+        display: inline-block;
+        vertical-align: -2px;
+        opacity: 0;
+        transition: .2s transform ease, .2s opacity;
+        margin-right: 4px;
+
+        &.hydrated {
+          opacity: 1;
+        }
+      }
+
+      &:hover {
+        box-shadow: none;
+
+        ion-icon {
+          transform: translateX(-2px);
+        }
+      }
+    }
+  }
+
+  &--ioniconf-2022 {
+    background-color: #000715;
+    background-image: url('/img/announcement-bar/bg-ioniconf-2022.png');
+    background-repeat: no-repeat;
+    background-size: 1800px;
+    background-position: center;
+    color: #DEE3EA;
+    padding: 0 0;
+    overflow: hidden;
+
+    .container > div {
+      align-items: center;
+      display: inline-grid;
+      grid-template-columns: 155px fit-content(100%) fit-content(100%);
+      column-gap: 32px;
+
+      min-height: 74px;
+
+      margin: 0 auto;
+    }
+
+    .container p {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.6;
+
+      color: #fff;
+    }
+
+    #btn-header-announcement {
+      border: none;
+
+      background: none;
+      background-color: #8bfbff;
+      border-radius: 0;
+
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 15px;
+      color: #001a3a;
+
+      padding: 7.5px 12px 9.5px;
+
+      min-height: 32px;
+
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+
+      transition: background-color 0.2s ease-out;
+    }
+    #btn-header-announcement:hover {
+      background-color: #bbfcff;
+    }
+  }
+}

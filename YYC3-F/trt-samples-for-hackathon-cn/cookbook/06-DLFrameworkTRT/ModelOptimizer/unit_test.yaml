@@ -1,0 +1,10 @@
+version: 1
+name: 06-DLFrameworkTRT/ModelOptimizer
+enabled: true
+tags:
+  - framework
+  - optimizer
+run:
+  - python3 main.py > log-main.py.log
+clean:
+  - rm -rf *.log model-optimizer-workflow.txt

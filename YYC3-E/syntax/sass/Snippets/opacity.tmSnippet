@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>@mixin opacity(\$opacity: 0.5) {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=\$opacity * 10)";
+	filter: alpha(opacity=\$opacity * 10);
+	-moz-opacity: \$opacity;
+	opacity: \$opacity;
+}</string>
+	<key>name</key>
+	<string>opacity</string>
+	<key>scope</key>
+	<string>source.css.scss</string>
+	<key>tabTrigger</key>
+	<string>mixin</string>
+	<key>uuid</key>
+	<string>C7C87AA5-962E-4BC9-A8BD-5A86D1F47014</string>
+</dict>
+</plist>

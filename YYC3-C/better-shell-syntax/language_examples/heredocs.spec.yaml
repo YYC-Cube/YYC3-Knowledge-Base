@@ -1,0 +1,761 @@
+- source: if
+  scopesBegin:
+    - meta.scope.if-block
+  scopes:
+    - keyword.control.if
+- source: 'true'
+  scopes:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: then
+  scopes:
+    - keyword.control.then
+- source: cat
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: <<-
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: "\t\t# My script here"
+  scopes:
+    - string.unquoted.heredoc.indent.EOF
+- source: "\tEOF"
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.argument
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: <<-
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: ''''
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: ''''
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: "\t\t# My script here"
+  scopes:
+    - string.quoted.heredoc.indent.EOF
+- source: "\tEOF"
+  scopes:
+    - "punctuation.definition.string.heredoc.\tEOF"
+  scopesEnd:
+    - meta.argument
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: <<-
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: '"'
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: '"'
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: "\t\t# My script here"
+  scopes:
+    - string.quoted.heredoc.indent.EOF
+- source: "\tEOF"
+  scopes:
+    - "punctuation.definition.string.heredoc.\tEOF"
+  scopesEnd:
+    - meta.argument
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: '<<'
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: ''''
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: ''''
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: "\t\t# My script here"
+  scopes:
+    - string.quoted.heredoc.no-indent.EOF
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.argument
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: '<<'
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: "\t\t# My script here"
+  scopes:
+    - string.unquoted.heredoc.no-indent.EOF
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+- source: fi
+  scopes:
+    - keyword.control.fi
+  scopesEnd:
+    - meta.scope.if-block
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'here is some '
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: SYNTAX
+  scopes:
+    - variable.other.normal
+- source: ' coloring'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: '<<'
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: '>'
+  scopes:
+    - keyword.operator.redirect
+- source: myfile.txt
+  scopes:
+    - string.unquoted.argument
+- source: multiple line
+  scopesBegin:
+    - string.unquoted.heredoc.no-indent.EOF
+- source: output into
+- source: a file
+  scopesEnd:
+    - string.unquoted.heredoc.no-indent.EOF
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'here is some more '
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: SYNTAX
+  scopes:
+    - variable.other.normal
+- source: ' coloring'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'here is some '
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: SYNTAX
+  scopes:
+    - variable.other.normal
+- source: ' coloring'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: <<-
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: '>'
+  scopes:
+    - keyword.operator.redirect
+- source: myfile.txt
+  scopes:
+    - string.unquoted.argument
+- source: "\tmultiple line"
+  scopesBegin:
+    - string.unquoted.heredoc.indent.EOF
+- source: "\toutput into"
+- source: "\ta file"
+  scopesEnd:
+    - string.unquoted.heredoc.indent.EOF
+- source: "\tEOF"
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'here is some more '
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: SYNTAX
+  scopes:
+    - variable.other.normal
+- source: ' coloring'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: if
+  scopesBegin:
+    - meta.scope.if-block
+  scopes:
+    - keyword.control.if
+- source: 'true'
+  scopes:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: then
+  scopes:
+    - keyword.control.then
+- source: cat
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: <<-
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: grep
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: something
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement.command
+- source: "\t\t# My script here"
+  scopes:
+    - string.unquoted.heredoc.indent.EOF
+- source: "\tEOF"
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.argument
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: <<-
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: ''''
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: ''''
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: grep
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: something
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement.command
+- source: "\t\t# My script here"
+  scopes:
+    - string.quoted.heredoc.indent.EOF
+- source: "\tEOF"
+  scopes:
+    - "punctuation.definition.string.heredoc.\tEOF"
+  scopesEnd:
+    - meta.argument
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: <<-
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: '"'
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: '"'
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: grep
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: something
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement.command
+- source: "\t\t# My script here"
+  scopes:
+    - string.quoted.heredoc.indent.EOF
+- source: "\tEOF"
+  scopes:
+    - "punctuation.definition.string.heredoc.\tEOF"
+  scopesEnd:
+    - meta.argument
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: '<<'
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: ''''
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: ''''
+  scopes:
+    - punctuation.definition.string.heredoc.quote
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: grep
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: something
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement.command
+- source: "\t\t# My script here"
+  scopes:
+    - string.quoted.heredoc.no-indent.EOF
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.argument
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: '<<'
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: grep
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: something
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement.command
+- source: "\t\t# My script here"
+  scopes:
+    - string.unquoted.heredoc.no-indent.EOF
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+- source: fi
+  scopes:
+    - keyword.control.fi
+  scopesEnd:
+    - meta.scope.if-block
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'here is some '
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: SYNTAX
+  scopes:
+    - variable.other.normal
+- source: ' coloring'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: '<<'
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: '>'
+  scopes:
+    - keyword.operator.redirect
+- source: myfile.txt
+  scopes:
+    - string.unquoted.argument
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: grep
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: something
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement.command
+- source: multiple line
+  scopesBegin:
+    - string.unquoted.heredoc.no-indent.EOF
+- source: output into
+- source: a file
+  scopesEnd:
+    - string.unquoted.heredoc.no-indent.EOF
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'here is some more '
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: SYNTAX
+  scopes:
+    - variable.other.normal
+- source: ' coloring'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'here is some '
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: SYNTAX
+  scopes:
+    - variable.other.normal
+- source: ' coloring'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: cat
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: <<-
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - keyword.operator.heredoc
+- source: EOF
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+- source: '>'
+  scopes:
+    - keyword.operator.redirect
+- source: myfile.txt
+  scopes:
+    - string.unquoted.argument
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: grep
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: something
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement.command
+- source: "\tmultiple line"
+  scopesBegin:
+    - string.unquoted.heredoc.indent.EOF
+- source: "\toutput into"
+- source: "\ta file"
+  scopesEnd:
+    - string.unquoted.heredoc.indent.EOF
+- source: "\tEOF"
+  scopes:
+    - punctuation.definition.string.heredoc.delimiter
+  scopesEnd:
+    - meta.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'here is some more '
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: SYNTAX
+  scopes:
+    - variable.other.normal
+- source: ' coloring'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end

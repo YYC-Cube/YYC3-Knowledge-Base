@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [[ 2 -eq $# ]]; then
+  bundle exec ruby -Itest $1 --name "/$2/"
+elif [[ 1 -eq $# ]]; then
+  bundle exec ruby -Itest $1
+else
+  bundle exec rake "$@"
+fi

@@ -1,0 +1,1436 @@
+// SYNTAX TEST "Packages/Better-Less/Syntaxes/Better Less.tmLanguage"
+
+.a {
+    text-decoration: none;
+}
+
+// oh hey, I'm a comment
+// <- punctuation.definition.comment.less
+// ^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.less
+
+   /* block comment */
+// ^^^^^^^^^^^^^^^^^^^ comment.block.less
+// ^^                  punctuation.definition.comment.less
+//                  ^^ punctuation.definition.comment.less
+
+/* Variables */
+   @nice-blue: #5B83AD;
+// ^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+// ^^^^^^^^^^ variable.other.readwrite.less
+// ^ punctuation.definition.variable.less
+//  ^^^^^^^^^ support.other.variable.less
+//           ^ punctuation.separator.key-value.less
+//            ^ meta.property-value.less
+//             ^^^^^^^ constant.other.color.rgb-value.less
+//             ^ punctuation.definition.constant.less
+//                    ^ punctuation.terminator.rule.less
+
+@light-blue: @nice-blue + #111;
+//         ^                    punctuation.separator.key-value.less
+//          ^^^^^^^^^^^^^^^^^^  meta.property-value.less
+//                            ^ punctuation.terminator.rule.less
+
+@link-color-hover:  darken(@link-color, 10%);
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                  ^^^^^^ support.function.color-operation.less
+
+@{my-selector} { }
+// <- variable.other.readwrite.less
+.@{my-selector} { }
+// <- entity.other.attribute-name.class.less
+#@{my-selector} { }
+// <- entity.other.attribute-name.id.less
+
+   #my-@{interpolated}-selector { }
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.id.less
+// ^ punctuation.definition.entity.less
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.id.less
+//     ^^^^^^^^^^^^^^^ variable.other.readwrite.less
+//     ^ punctuation.definition.variable.less
+//      ^ punctuation.definition.expression.less
+//       ^^^^^^^^^^^^ support.other.variable.less
+//                   ^ punctuation.definition.expression.less
+
+/* Import */
+   @import (less, optional) url("style.css") screen and (min-width: 800px);
+// <- meta.at-rule.import.less
+// ^^^^^^^ keyword.control.at-rule.import.less
+// ^ punctuation.definition.keyword.less
+//         ^^^^^^^^^^^^^^^^ meta.group.less
+//         ^ punctuation.definition.group.begin.less
+//          ^^^^ constant.language.import-directive.less
+//              ^ punctuation.separator.less
+//                ^^^^^^^^ constant.language.import-directive.less
+//                        ^ punctuation.definition.group.end.less
+//                          ^^^^^^^^^^^^^^^^ meta.function-call.less
+//                          ^^^ support.function.url.less
+//                             ^ punctuation.definition.group.begin.less
+//                              ^^^^^^^^^^^ string.quoted.double.less
+//                                         ^ punctuation.definition.group.end.less
+//                                           ^^^^^^ support.constant.media.less
+//                                                  ^^^ keyword.operator.logic.media.less
+//                                                      ^^^^^^^^^^^^^^^^^^ meta.group.less
+//                                                      ^ punctuation.definition.group.begin.less
+//                                                       ^^^^^^^^^ support.type.property-name.media.less
+//                                                                ^ punctuation.separator.key-value.less
+//                                                                  ^^^^^ constant.numeric.less
+//                                                                       ^ punctuation.definition.group.end.less
+//                                                                        ^ punctuation.terminator.rule.less
+
+.header {
+  @supports (position: sticky) {
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.supports.less
+//^^^^^^^^^ keyword.control.at-rule.supports.less
+//^ punctuation.definition.keyword.less
+// ^^^^^^^^ keyword.control.at-rule.supports.less
+//          ^^^^^^^^^^^^^^^^^^ meta.group.less
+//          ^ punctuation.definition.group.begin.less
+//           ^^^^^^^^ support.type.property-name.less
+//                   ^ punctuation.separator.key-value.less
+//                     ^^^^^^ support.constant.property-value.less
+//                           ^ punctuation.definition.group.end.less
+    position: sticky;
+    top: 0;
+  }
+}
+
+@supports not (not (transform-origin: 2px) and (display: flex)) {
+//        ^^^ keyword.operator.logic.less
+//             ^^^ keyword.operator.logic.less
+//                                         ^^^ keyword.operator.logic.less
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.less
+//                                             ^^^^^^^^^^^^^^^ meta.group.less
+//                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.less
+//            ^ punctuation.definition.group.begin.less
+//                                                            ^ punctuation.definition.group.end.less
+  .nested {
+    display: inline-block;
+//<- meta.property-list.less
+  }
+}
+
+.variable {
+    content: @@var;
+//           ^^    punctuation.definition.variable.less
+//           ^^^^^ variable.other.readwrite.less
+}
+
+ .widget {
+   @{property}:active {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+// ^^^^^^^^^^^^^^^^^^^ meta.selector.less
+// ^^^^^^^^^^^ variable.other.readwrite.less
+// ^ punctuation.definition.variable.less
+//  ^ punctuation.definition.expression.less
+//   ^^^^^^^^ support.other.variable.less
+//           ^ punctuation.definition.expression.less
+//            ^^^^^^^ meta.function-call.less
+//            ^ punctuation.definition.entity.less
+//             ^^^^^^ entity.other.attribute-name.pseudo-class.less
+//                    ^ meta.property-list.less punctuation.definition.block.begin.less
+//                     ^ punctuation.definition.block.end.less
+   @{property}: #0ee;
+//^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+// ^^^^^^^^^^^ support.type.property-name.less variable.other.readwrite.less
+// ^ punctuation.definition.variable.less
+//  ^ punctuation.definition.expression.less
+//   ^^^^^^^^ support.other.variable.less
+//           ^ punctuation.definition.expression.less
+//            ^ punctuation.separator.key-value.less
+//             ^^^^^ support.type.property-name.less
+//              ^^^^ constant.other.color.rgb-value.less
+//              ^ punctuation.definition.constant.less
+//                  ^ punctuation.terminator.rule.less
+   background-@{property}: #999;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+// ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.less
+//            ^^^^^^^^^^^ variable.other.readwrite.less
+//            ^ punctuation.definition.variable.less
+//             ^ punctuation.definition.expression.less
+//              ^^^^^^^^ support.other.variable.less
+//                      ^ punctuation.definition.expression.less
+//                       ^ punctuation.separator.key-value.less
+//                        ^^^^^ support.type.property-name.less
+//                         ^^^^ constant.other.color.rgb-value.less
+//                         ^ punctuation.definition.constant.less
+//                             ^ punctuation.terminator.rule.less
+
+ }
+
+  #header {
+//^^^^^^^^ meta.selector.less
+//^^^^^^^ entity.other.attribute-name.id.less
+//^ punctuation.definition.entity.less
+//        ^ meta.property-list.less punctuation.definition.block.begin.less
+
+
+
+// <-                  meta.property-list.less
+   color: @light-blue;
+//^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+// ^^^^^ support.type.property-name.less
+//      ^ punctuation.separator.key-value.less
+//       ^^^^^^^^^^^^ meta.property-value.less
+//        ^^^^^^^^^^^ variable.other.readwrite.less
+//        ^ punctuation.definition.variable.less
+//         ^^^^^^^^^^ support.other.variable.less
+//                   ^ punctuation.terminator.rule.less
+}
+// <-                  punctuation.definition.block.end.less
+
+
+/* Extend */
+  .a:extend(.b all, .c), .d {}
+//   ^^^^^^^^^^^^^^ meta.function-call.less
+//  ^ punctuation.definition.entity.less
+//   ^^^^^^ entity.other.attribute-name.pseudo-class.extend.less
+//         ^ punctuation.definition.group.begin.less
+//          ^^ entity.other.attribute-name.class.less
+//             ^^^ constant.language.all.less
+//                ^ punctuation.definition.arbitrary-repetition.less
+//                    ^ punctuation.definition.group.end.less
+
+/* Mixins */
+#menu a {
+   color: #111;
+   .bordered;
+// ^^^^^^^^^  entity.other.attribute-name.class.less
+// ^          punctuation.definition.entity.less
+//          ^ punctuation.terminator.rule.less
+
+}
+
+   #bordered();
+// ^            punctuation.definition.entity.less
+// ^^^^^^^^^ entity.other.attribute-name.id.less
+//          ^^  meta.group.less
+//          ^   punctuation.definition.group.begin.less
+//           ^ punctuation.definition.group.end.less
+//            ^  punctuation.terminator.rule.less
+
+/* Guarded Namespaces */
+#namespace when (@mode=huge) not (default()) { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.less
+//^^^^^^^^ entity.other.attribute-name.id.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.guarded-namespace.less
+//         ^^^^ keyword.control.conditional.less
+//              ^^^^^^^^^^^ meta.group.less
+//              ^ punctuation.definition.group.begin.less
+//               ^^^^^ variable.other.readwrite.less
+//               ^ punctuation.definition.variable.less
+//                ^^^^ support.other.variable.less
+//                    ^ keyword.operator.logical.less
+//                     ^^^^ string.unquoted.less
+//                         ^ punctuation.definition.group.end.less
+//                           ^^^ keyword.operator.logical.less
+//                               ^^^^^^^^^^ meta.group.less
+//                               ^ punctuation.definition.group.begin.less
+//                                ^^^^^^^^^ support.function.default.less
+//                                       ^^ meta.group.less
+//                                       ^ punctuation.definition.group.begin.less
+//                                        ^ punctuation.definition.group.end.less
+//                                         ^ punctuation.definition.group.end.less
+//                                           ^ meta.property-list.less punctuation.definition.block.begin.less
+//                                             ^ punctuation.definition.block.end.less
+
+.mixin() when not () and (default()), () { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.less
+//^^^^ entity.other.attribute-name.class.less
+//    ^^ meta.group.less
+//    ^ punctuation.definition.group.begin.less
+//     ^ punctuation.definition.group.end.less
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.guarded-namespace.less
+//       ^^^^ keyword.control.conditional.less
+//            ^^^ keyword.operator.logical.less
+//                ^ meta.group.less punctuation.definition.group.begin.less
+//                 ^ punctuation.definition.group.end.less
+//                   ^^^ keyword.operator.logical.less
+//                       ^^^^^^^^^^ meta.group.less
+//                       ^ punctuation.definition.group.begin.less
+//                        ^^^^^^^^^ support.function.default.less
+//                               ^^ meta.group.less
+//                               ^ punctuation.definition.group.begin.less
+//                                ^ punctuation.definition.group.end.less
+//                                 ^ punctuation.definition.group.end.less
+//                                  ^ punctuation.definition.block.end.less
+//                                    ^^ meta.group.less
+//                                    ^ punctuation.definition.group.begin.less
+//                                     ^ punctuation.definition.group.end.less
+//                                       ^ meta.property-list.less punctuation.definition.block.begin.less
+//                                         ^ punctuation.definition.block.end.less
+
+.a + .b ~ .c > .d {
+// ^ punctuation.separator.combinator.less
+//      ^ punctuation.separator.combinator.less
+//           ^ punctuation.separator.combinator.less
+
+/* property merge */
+    color: #FFF;
+//       ^ punctuation.separator.key-value.less
+    box-shadow+: inset 0 0 10px #555;
+//            ^^ punctuation.separator.key-value.less
+    transform+_: rotate(15deg);
+//           ^^^ punctuation.separator.key-value.less
+}
+
+/* Nested Rules */
+#header {
+  .navigation {
+    &.class::after { }
+//^^^^^^^^^^^^^^^^^^^^ meta.property-list.less meta.property-list.less
+//  ^^^^^^^^^^^^^^^ meta.selector.less
+//  ^ entity.other.attribute-name.parent.less punctuation.definition.entity.less
+//   ^^^^^^ entity.other.attribute-name.class.less
+//   ^ punctuation.definition.entity.less
+//         ^^^^^^^ entity.other.attribute-name.pseudo-element.less
+//         ^^ punctuation.definition.entity.less
+//                 ^ meta.property-list.less punctuation.definition.block.begin.less
+//                   ^ punctuation.definition.block.end.less
+
+    &-class { }
+//^^^^^^^^^^^^^ meta.property-list.less meta.property-list.less
+//  ^^^^^^^^ meta.selector.less
+//  ^^^^^^^ entity.other.attribute-name.parent.less
+//  ^ punctuation.definition.entity.less
+//          ^ meta.property-list.less punctuation.definition.block.begin.less
+//            ^ punctuation.definition.block.end.less
+
+    &-@{interpolated}-selector { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less meta.property-list.less
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.less
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.parent.less
+//  ^ punctuation.definition.entity.less
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.parent.less
+//    ^^^^^^^^^^^^^^^ variable.other.readwrite.less
+//    ^ punctuation.definition.variable.less
+//     ^ punctuation.definition.expression.less
+//      ^^^^^^^^^^^^ support.other.variable.less
+//                  ^ punctuation.definition.expression.less
+//                             ^ meta.property-list.less punctuation.definition.block.begin.less
+//                               ^ punctuation.definition.block.end.less
+}
+
+   .nested-media-query {
+     @media screen and (min-width: 768px) { }
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.less
+//   ^ punctuation.definition.keyword.less
+//   ^^^^^^ keyword.control.at-rule.media.less
+//          ^^^^^^ support.constant.media.less
+//                 ^^^ keyword.operator.logic.media.less
+//                     ^^^^^^^^^^^^^^^^^^ meta.group.less
+//                     ^                  punctuation.definition.group.begin.less
+//                                      ^ meta.property-list.less meta.at-rule.media.less meta.group.less punctuation.definition.group.end.less
+   }
+
+/* Numbers and units */
+@number: 1 + (1 - 1) * 1 / 1;
+//         ^ keyword.operator.arithmetic.less
+//           ^^^^^^^ meta.group.less
+//           ^ punctuation.definition.group.begin.less
+//              ^ keyword.operator.arithmetic.less
+//                 ^ punctuation.definition.group.end.less
+//                   ^ keyword.operator.arithmetic.less
+//                       ^ keyword.operator.arithmetic.less
+
+@var: 1em, 1ex, 1ch, 1rem;
+//    ^^^ constant.numeric.less
+//         ^^^ constant.numeric.less
+//              ^^^ constant.numeric.less
+//                   ^^^^ constant.numeric.less
+
+@var: 1vw, 1vh, 1vmin, 1vmax;
+//    ^^^ constant.numeric.less
+//         ^^^ constant.numeric.less
+//              ^^^^^ constant.numeric.less
+//                     ^^^^^ constant.numeric.less
+
+@var: 1cm, 1mm, 1m, 1q, 1in, 1pt, 1pc, 1px, 1fr;
+//    ^^^ constant.numeric.less
+//       ^ punctuation.separator.less
+//         ^^^ constant.numeric.less
+//              ^^ constant.numeric.less
+//                  ^^ constant.numeric.less
+//                      ^^^ constant.numeric.less
+//                           ^^^ constant.numeric.less
+//                                ^^^ constant.numeric.less
+//                                     ^^^ constant.numeric.less
+//                                          ^^^ constant.numeric.less
+
+@var: 1deg, 1grad, 1rad, 1turn;
+//    ^^^^ constant.numeric.less
+//          ^^^^^ constant.numeric.less
+//                 ^^^^ constant.numeric.less
+//                       ^^^^^ constant.numeric.less
+
+@var: 1s, 1ms;
+//    ^^ constant.numeric.less
+//        ^^^ constant.numeric.less
+
+@var: 1Hz, 1kHz;
+//    ^^^ constant.numeric.less
+//         ^^^^ constant.numeric.less
+
+@var: 1dpi, 1dpcm, 1dppx;
+//    ^^^^ constant.numeric.less
+//          ^^^^^ constant.numeric.less
+//                 ^^^^^ constant.numeric.less
+
+/* Escaping */
+.weird-element {
+  content: ~"^//* some horrible but needed css hack";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//^^^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.less
+//         ^ constant.character.escape.less
+//          ^ punctuation.definition.string.begin.less
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.inline.less
+//                                                 ^ punctuation.definition.string.end.less
+//                                                  ^ punctuation.terminator.rule.less
+}
+
+/* CSS Variables */
+.css-variables {
+    --myvar: "asdf";
+//  ^^^^^^^ support.type.custom-property.less
+//  ^^ punctuation.definition.custom-property.less
+//    ^^^^^ support.type.custom-property.name.less
+
+    width: var(--myvar);
+//         ^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.var.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^^^^^ support.type.custom-property.less
+//             ^^ punctuation.definition.custom-property.less
+//               ^^^^^ support.type.custom-property.name.less
+}
+
+/* Misc Functions */
+.a {
+    color: color('#aaa');
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^ support.function.color.less
+//              ^ punctuation.definition.group.begin.less
+//               ^^^^^^ string.quoted.single.less
+//               ^ punctuation.definition.string.begin.less
+//                    ^ punctuation.definition.string.end.less
+//                     ^ punctuation.definition.group.end.less
+//                      ^ punctuation.terminator.rule.less
+
+    background-size: image-size("i.png");
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^^^^^^^^^^^ support.type.property-name.less
+//                 ^ punctuation.separator.key-value.less
+//                  ^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//                   ^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                   ^^^^^^^^^^ support.function.image.less
+//                             ^ punctuation.definition.group.begin.less
+//                              ^^^^^^^ string.quoted.double.less
+//                              ^ punctuation.definition.string.begin.less
+//                                    ^ punctuation.definition.string.end.less
+//                                     ^ punctuation.definition.group.end.less
+//                                      ^ punctuation.terminator.rule.less
+    width: image-width("i.png");
+//         ^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^^^ support.function.image.less
+//                    ^ punctuation.definition.group.begin.less
+//                     ^^^^^^^ string.quoted
+//                            ^ punctuation.definition.group.end.less
+
+    height: image-height("i.png");
+//          ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//          ^^^^^^^^^^^^ support.function.image.less
+//                      ^ punctuation.definition.group.begin.less
+//                       ^^^^^^^ string.quoted
+//                              ^ punctuation.definition.group.end.less
+
+    width: convert(9s, "ms");
+//         ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^ support.function.convert.less
+//                ^ punctuation.definition.group.begin.less
+//                 ^^ constant.numeric.less
+//                   ^ punctuation.separator.less
+//                     ^^^^ string.quoted
+//                         ^ punctuation.definition.group.end.less
+
+    width:convert(9s, ms);
+//                    ^^ keyword.other.unit.less
+
+background-image:
+    data-uri('image/svg+xml;charset=UTF-8', 'image.svg');
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//  ^^^^^^^^ support.function.data-uri.less
+//          ^ punctuation.definition.group.begin.less
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted
+//                                        ^ punctuation.separator.less
+//                                          ^^^^^^^^^^^ string.quoted
+//                                                     ^ punctuation.definition.group.end.less
+
+width: unit(5, px);
+//^^^^^^^^^^^^^^^^^ meta.property-list.less
+//^^^ support.type.property-name.less
+//   ^ punctuation.separator.key-value.less
+//    ^^^^^^^^^^^^ meta.property-value.less
+//     ^^^^^^^^^^^ meta.function-call.less
+//     ^^^^ support.function.convert.less
+//         ^ punctuation.definition.group.begin.less
+//          ^ constant.numeric.less
+//           ^ punctuation.separator.less
+//             ^^ keyword.other.unit.less
+//               ^ punctuation.definition.group.end.less
+//                ^ punctuation.terminator.rule.less
+
+width: get-unit(5px);
+//^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//^^^ support.type.property-name.less
+//   ^ punctuation.separator.key-value.less
+//    ^^^^^^^^^^^^^^ meta.property-value.less
+//     ^^^^^^^^^^^^^ meta.function-call.less
+//     ^^^^^^^^ support.function.get-unit.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^ constant.numeric.less
+//               ^^ keyword.other.unit.less
+//                 ^ punctuation.definition.group.end.less
+//                  ^ punctuation.terminator.rule.less
+
+background-image: svg-gradient(to right, red, green 30%, blue);
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                ^^^^^^^^^^^^ support.function.svg-gradient.less
+//                            ^ punctuation.definition.group.begin.less
+//                             ^^ keyword.other.less
+//                                ^^^^^ support.constant.property-value.less
+//                                     ^ punctuation.separator.less
+//                                       ^^^ support.constant.color.w3c-standard-color-name.less
+//                                            ^^^^^ support.constant.color.w3c-standard-color-name.less
+//                                                  ^^^ constant.numeric.less
+//                                                    ^ keyword.other.unit.less
+//                                                           ^ punctuation.definition.group.end.less
+
+@var: escape('a=1');
+//    ^^^^^^^^^^^^^ meta.function-call.less
+//    ^^^^^^ support.function.escape.less
+//          ^ punctuation.definition.group.begin.less
+//           ^^^^^ string.quoted
+//                ^ punctuation.definition.group.end.less
+
+filter: e("ms:alwaysHasItsOwnSyntax.For.Stuff()");
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//      ^ support.function.escape.less
+//       ^ punctuation.definition.group.begin.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted
+//                                              ^ punctuation.definition.group.end.less
+
+    width: %("repetitions: %a file: %d", 1 + 2, "directory/file.less");
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^ support.function.format.less
+//          ^ punctuation.definition.group.begin.less
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted
+//                                     ^ punctuation.separator.less
+//                                                                   ^ punctuation.definition.group.end.less
+
+    content: replace("Hello, Mars?", "Mars\?", "Earth!");
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//           ^^^^^^^ support.function.replace.less
+//                  ^ punctuation.definition.group.begin.less
+//                   ^^^^^^^^^^^^^^ string.quoted
+//                                 ^ punctuation.separator.less
+//                                                     ^ punctuation.definition.group.end.less
+
+    @n: length(1px solid #0080ff);
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//      ^^^^^^ support.function.length.less
+//            ^ punctuation.definition.group.begin.less
+//                              ^ punctuation.definition.group.end.less
+
+    @n: length("banana", "tomato", "potato", "peach");
+//                     ^ punctuation.separator.less
+
+    @value: extract(@list, 3);
+//          ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//          ^^^^^^^ support.function.extract.less
+//                 ^ punctuation.definition.group.begin.less
+//                       ^ punctuation.separator.less
+//                         ^ constant.numeric.less
+//                          ^ punctuation.definition.group.end.less
+}
+
+/* Math Functions */
+#math-functions {
+    width: calc(100% - (@asdf / 2) / var(--asdf));
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.calc.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^^ constant.numeric.less
+//                 ^ keyword.other.unit.less
+//                   ^ keyword.operator.arithmetic.less
+//                     ^^^^^^^^^^^ meta.group.less
+//                     ^ punctuation.definition.group.begin.less
+//                      ^^^^^ variable.other.readwrite.less
+//                      ^ punctuation.definition.variable.less
+//                       ^^^^ support.other.variable.less
+//                            ^ keyword.operator.arithmetic.less
+//                              ^ constant.numeric.less
+//                               ^ punctuation.definition.group.end.less
+//                                 ^ keyword.operator.arithmetic.less
+//                                   ^^^^^^^^^^^ meta.function-call.less
+//                                   ^^^ support.function.var.less
+//                                      ^ punctuation.definition.group.begin.less
+//                                       ^^^^^^ support.type.custom-property.less
+//                                       ^^ punctuation.definition.custom-property.less
+//                                         ^^^^ support.type.custom-property.name.less
+//                                             ^ punctuation.definition.group.end.less
+//                                              ^ punctuation.definition.group.end.less
+//                                               ^ punctuation.terminator.rule.less
+
+    width: ceil(1.1);
+//^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.math.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^ constant.numeric.less
+//                 ^ punctuation.definition.group.end.less
+//                  ^ punctuation.terminator.rule.less
+    width: floor(1.1);
+//         ^^^^^^^^^^ meta.function-call.less
+//         ^^^^^ support.function.math.less
+//              ^ punctuation.definition.group.begin.less
+//               ^^^  constant.numeric.less
+//                  ^ punctuation.definition.group.end.less
+    width: percentage(1.1);
+//         ^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^^ support.function.math.less
+//                   ^ punctuation.definition.group.begin.less
+//                    ^^^  constant.numeric.less
+//                       ^ punctuation.definition.group.end.less
+    width: round(1.1);
+//         ^^^^^^^^^^ meta.function-call.less
+//         ^^^^^ support.function.math.less
+//              ^ punctuation.definition.group.begin.less
+//               ^^^  constant.numeric.less
+//                  ^ punctuation.definition.group.end.less
+    width: sqrt(1.1);
+//         ^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.math.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^  constant.numeric.less
+//                 ^ punctuation.definition.group.end.less
+    width: abs(1.1);
+//         ^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.math.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^  constant.numeric.less
+//                ^ punctuation.definition.group.end.less
+    width: sin(1.1);
+//         ^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.math.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^  constant.numeric.less
+//                ^ punctuation.definition.group.end.less
+    width: asin(1.1);
+//         ^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.math.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^  constant.numeric.less
+//                 ^ punctuation.definition.group.end.less
+    width: cos(1.1);
+//         ^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.math.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^  constant.numeric.less
+//                ^ punctuation.definition.group.end.less
+    width: acos(1.1);
+//         ^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.math.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^  constant.numeric.less
+//                 ^ punctuation.definition.group.end.less
+    width: tan(1.1);
+//         ^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.math.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^  constant.numeric.less
+//                ^ punctuation.definition.group.end.less
+    width: atan(1.1);
+//         ^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.math.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^  constant.numeric.less
+//                 ^ punctuation.definition.group.end.less
+    width: pi();
+//         ^^^^ meta.function-call.less
+//         ^^ support.function.math.less
+//           ^ punctuation.definition.group.begin.less
+//            ^ punctuation.definition.group.end.less
+    width: pow(1.1px, 1.1cm);
+//         ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.math.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^^^ constant.numeric.less
+//                  ^ punctuation.separator.less
+//                         ^ punctuation.definition.group.end.less
+    width: mod(1.1%, 1);
+//         ^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.math.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^^ constant.numeric.less
+//                 ^ punctuation.separator.less
+//                    ^ punctuation.definition.group.end.less
+    width: min(1, 2);
+//         ^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.math.less
+//            ^ punctuation.definition.group.begin.less
+//             ^ constant.numeric.less
+//              ^ punctuation.separator.less
+//                 ^ punctuation.definition.group.end.less
+
+    width: max(1, 2);
+//         ^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.math.less
+//            ^ punctuation.definition.group.begin.less
+//             ^ constant.numeric.less
+//              ^ punctuation.separator.less
+//                 ^ punctuation.definition.group.end.less
+}
+
+/* Type Functions */
+#type-functions {
+    @val: isnumber(1);
+//        ^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^^^ support.function.type.less
+//                ^ punctuation.definition.group.begin.less
+//                 ^ constant.numeric.less
+//                  ^ punctuation.definition.group.end.less
+
+    @val: isstring("string");
+//        ^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^^^ support.function.type.less
+//                ^ punctuation.definition.group.begin.less
+//                 ^^^^^^^^ string.quoted
+//                         ^ punctuation.definition.group.end.less
+
+    @val: iscolor(blue);
+//        ^^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^^ support.function.type.less
+//               ^ punctuation.definition.group.begin.less
+//                ^^^^ support.constant.color.w3c-standard-color-name.less
+//                    ^ punctuation.definition.group.end.less
+
+    @val: iskeyword(color);
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//  ^^^^ variable.other.readwrite.less
+//  ^ punctuation.definition.variable.less
+//   ^^^ support.other.variable.less
+//      ^ punctuation.separator.key-value.less
+//       ^ meta.property-value.less
+//        ^^^^^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^^^^ support.function.type.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^^^^ support.constant.property-value.less
+//                       ^ punctuation.definition.group.end.less
+//                        ^ punctuation.terminator.rule.less
+
+    @val: isurl(url("asdf"));
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//  ^^^^ variable.other.readwrite.less
+//  ^ punctuation.definition.variable.less
+//   ^^^ support.other.variable.less
+//      ^ punctuation.separator.key-value.less
+//       ^ meta.property-value.less
+//        ^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^ support.function.type.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^^^^^^^^^ meta.function-call.less
+//              ^^^ support.function.url.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^^^^^ string.quoted.double.less
+//                  ^ punctuation.definition.string.begin.less
+//                       ^ punctuation.definition.string.end.less
+//                        ^ punctuation.definition.group.end.less
+//                         ^ punctuation.definition.group.end.less
+//                          ^ punctuation.terminator.rule.less
+
+    @val: ispixel(1px);
+//^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//  ^^^^ variable.other.readwrite.less
+//  ^ punctuation.definition.variable.less
+//   ^^^ support.other.variable.less
+//      ^ punctuation.separator.key-value.less
+//       ^ meta.property-value.less
+//        ^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^^ support.function.type.less
+//               ^ punctuation.definition.group.begin.less
+//                ^^^ constant.numeric.less
+//                 ^^ keyword.other.unit.less
+//                   ^ punctuation.definition.group.end.less
+//                    ^ punctuation.terminator.rule.less
+
+    @val: isem(1em);
+//^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^^^^^^^^^^^^ meta.property-value.less
+//  ^^^^ variable.other.readwrite.less
+//  ^ punctuation.definition.variable.less
+//   ^^^ support.other.variable.less
+//      ^ punctuation.separator.key-value.less
+//       ^ meta.property-value.less
+//        ^^^^^^^^^ meta.function-call.less
+//        ^^^^ support.function.type.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^ constant.numeric.less
+//              ^^ keyword.other.unit.less
+//                ^ punctuation.definition.group.end.less
+//                 ^ punctuation.terminator.rule.less
+
+    @val: ispercentage(1%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//  ^^^^ variable.other.readwrite.less
+//  ^ punctuation.definition.variable.less
+//   ^^^ support.other.variable.less
+//      ^ punctuation.separator.key-value.less
+//       ^ meta.property-value.less
+//        ^^^^^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^^^^^^^ support.function.type.less
+//                    ^ punctuation.definition.group.begin.less
+//                     ^^ constant.numeric.less
+//                      ^ keyword.other.unit.less
+//                       ^ punctuation.definition.group.end.less
+//                        ^ punctuation.terminator.rule.less
+
+    @val: isunit(1%, mm);
+//        ^^^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^ support.function.type.less
+//              ^ punctuation.definition.group.begin.less
+//               ^^ constant.numeric.less
+//                   ^^ keyword.other.unit.less
+//                     ^ punctuation.definition.group.end.less
+
+    @val: isruleset(@var);
+//        ^^^^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^^^^ support.function.type.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^^^ variable.other.readwrite.less
+//                      ^ punctuation.definition.group.end.less
+
+    @val: isdefined(@var);
+//        ^^^^^^^^^^^^^^^ meta.function-call.less
+//        ^^^^^^^^^ support.function.type.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^^^ variable.other.readwrite.less
+//                      ^ punctuation.definition.group.end.less
+
+}
+
+/* Color Definition Functions */
+#color-functions {
+    color: rgb(10, 10, 10);
+//         ^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.color.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^ constant.numeric.less
+//                 ^^ constant.numeric.less
+//                     ^^ constant.numeric.less
+//                       ^ punctuation.definition.group.end.less
+
+    color: rgba(10, 10%, 10, 10%);
+//         ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color.less
+//             ^ punctuation.definition.group.begin.less
+//                ^ punctuation.separator.less
+//              ^^ constant.numeric.less
+//                  ^^^ constant.numeric.less
+//                    ^ keyword.other.unit.less
+//                       ^^ constant.numeric.less
+//                              ^ punctuation.definition.group.end.less
+
+    color: argb(red);
+//         ^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color-definition.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^ support.constant.color.w3c-standard-color-name.less
+//                 ^ punctuation.definition.group.end.less
+
+    color: hsl(90, 100%, 50%);
+//         ^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.color.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^ constant.numeric.less
+//               ^ punctuation.separator.less
+//                          ^ punctuation.definition.group.end.less
+
+    color: hsla(90, 100%, 50%, 0.5);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^ constant.numeric.less
+//                ^ punctuation.separator.less
+//                                ^ punctuation.definition.group.end.less
+
+    color: hsv(90, 100%, 50%);
+//         ^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.color.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^ constant.numeric.less
+//               ^ punctuation.separator.less
+//                          ^ punctuation.definition.group.end.less
+
+    color: hsva(90, 100%, 50%, 0.5);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^ constant.numeric.less
+//                ^ punctuation.separator.less
+//                                ^ punctuation.definition.group.end.less
+}
+
+/* Color Channel Functions */
+
+#color-channel-functions {
+    color: hue(hsl(90, 100%, 50%));
+//         ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.color-definition.less
+//            ^ punctuation.definition.group.begin.less
+    color: saturation(hsl(90, 100%, 50%));
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^^ support.function.color-definition.less
+//                   ^ punctuation.definition.group.begin.less
+//                                      ^ punctuation.definition.group.end.less
+    color: lightness(hsl(90, 100%, 50%));
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^ support.function.color-definition.less
+//                  ^ punctuation.definition.group.begin.less
+//                                     ^ punctuation.definition.group.end.less
+    color: hsvhue(hsv(90, 100%, 50%));
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^ support.function.color-definition.less
+//               ^ punctuation.definition.group.begin.less
+//                                  ^ punctuation.definition.group.end.less
+    color: hsvsaturation(hsv(90, 100%, 50%));
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^^^^^ support.function.color-definition.less
+//                      ^ punctuation.definition.group.begin.less
+//                                         ^ punctuation.definition.group.end.less
+    color: hsvvalue(hsv(90, 100%, 50%));
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^ support.function.color-definition.less
+//                 ^ punctuation.definition.group.begin.less
+//                                    ^ punctuation.definition.group.end.less
+    color: red(rgb(10, 20, 30));
+//         ^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.color-definition.less
+//            ^ punctuation.definition.group.begin.less
+//                            ^ punctuation.definition.group.end.less
+    color: green(rgb(10, 20, 30));
+//         ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^ support.function.color-definition.less
+//              ^ punctuation.definition.group.begin.less
+//                              ^ punctuation.definition.group.end.less
+    color: blue(rgb(10, 20, 30));
+//         ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color-definition.less
+//             ^ punctuation.definition.group.begin.less
+//                             ^ punctuation.definition.group.end.less
+    color: alpha(rgba(10, 20, 30, 0.5));
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^ support.function.color-definition.less
+//              ^ punctuation.definition.group.begin.less
+//                                    ^ punctuation.definition.group.end.less
+    color: luma(rgb(100, 200, 30));
+//         ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color-definition.less
+//             ^ punctuation.definition.group.begin.less
+//                               ^ punctuation.definition.group.end.less
+    color: luminance(rgb(100, 200, 30));
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^ support.function.color-definition.less
+//                  ^ punctuation.definition.group.begin.less
+//                                    ^ punctuation.definition.group.end.less
+}
+
+/* Color Operation Functions */
+#color-operation-functions {
+    color: saturate(hsl(90, 80%, 50%), 20%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^ support.function.color-operation.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                  ^^^ support.function.color.less
+//                     ^ punctuation.definition.group.begin.less
+//                      ^^ constant.numeric.less
+//                        ^ punctuation.separator.less
+//                          ^^^ constant.numeric.less
+//                            ^ keyword.other.unit.less
+//                             ^ punctuation.separator.less
+//                               ^^^ constant.numeric.less
+//                                 ^ keyword.other.unit.less
+//                                  ^ punctuation.definition.group.end.less
+//                                   ^ punctuation.separator.less
+//                                     ^^^ constant.numeric.less
+//                                       ^ keyword.other.unit.less
+//                                        ^ punctuation.definition.group.end.less
+//                                         ^ punctuation.terminator.rule.less
+    color: desaturate(hsl(90, 80%, 50%), 20%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^^ support.function.color-operation.less
+//                   ^ punctuation.definition.group.begin.less
+//                    ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                    ^^^ support.function.color.less
+//                       ^ punctuation.definition.group.begin.less
+//                        ^^ constant.numeric.less
+//                          ^ punctuation.separator.less
+//                            ^^^ constant.numeric.less
+//                              ^ keyword.other.unit.less
+//                               ^ punctuation.separator.less
+//                                 ^^^ constant.numeric.less
+//                                   ^ keyword.other.unit.less
+//                                    ^ punctuation.definition.group.end.less
+//                                     ^ punctuation.separator.less
+//                                       ^^^ constant.numeric.less
+//                                         ^ keyword.other.unit.less
+//                                          ^ punctuation.definition.group.end.less
+//                                           ^ punctuation.terminator.rule.less
+    color: lighten(hsl(90, 80%, 50%), 20%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^ support.function.color-operation.less
+//                ^ punctuation.definition.group.begin.less
+//                 ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                 ^^^ support.function.color.less
+//                    ^ punctuation.definition.group.begin.less
+//                     ^^ constant.numeric.less
+//                       ^ punctuation.separator.less
+//                         ^^^ constant.numeric.less
+//                           ^ keyword.other.unit.less
+//                            ^ punctuation.separator.less
+//                              ^^^ constant.numeric.less
+//                                ^ keyword.other.unit.less
+//                                 ^ punctuation.definition.group.end.less
+//                                  ^ punctuation.separator.less
+//                                    ^^^ constant.numeric.less
+//                                      ^ keyword.other.unit.less
+//                                       ^ punctuation.definition.group.end.less
+//                                        ^ punctuation.terminator.rule.less
+    color: darken(hsl(90, 80%, 50%), 20%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^ support.function.color-operation.less
+//               ^ punctuation.definition.group.begin.less
+//                ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                ^^^ support.function.color.less
+//                   ^ punctuation.definition.group.begin.less
+//                    ^^ constant.numeric.less
+//                      ^ punctuation.separator.less
+//                        ^^^ constant.numeric.less
+//                          ^ keyword.other.unit.less
+//                           ^ punctuation.separator.less
+//                             ^^^ constant.numeric.less
+//                               ^ keyword.other.unit.less
+//                                ^ punctuation.definition.group.end.less
+//                                 ^ punctuation.separator.less
+//                                   ^^^ constant.numeric.less
+//                                     ^ keyword.other.unit.less
+//                                      ^ punctuation.definition.group.end.less
+//                                       ^ punctuation.terminator.rule.less
+    color: fadein(hsl(90, 80%, 50%), 20%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^ support.function.color-operation.less
+//               ^ punctuation.definition.group.begin.less
+//                ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                ^^^ support.function.color.less
+//                   ^ punctuation.definition.group.begin.less
+//                    ^^ constant.numeric.less
+//                      ^ punctuation.separator.less
+//                        ^^^ constant.numeric.less
+//                          ^ keyword.other.unit.less
+//                           ^ punctuation.separator.less
+//                             ^^^ constant.numeric.less
+//                               ^ keyword.other.unit.less
+//                                ^ punctuation.definition.group.end.less
+//                                 ^ punctuation.separator.less
+//                                   ^^^ constant.numeric.less
+//                                     ^ keyword.other.unit.less
+//                                      ^ punctuation.definition.group.end.less
+//                                       ^ punctuation.terminator.rule.less
+    color: fadeout(hsl(90, 80%, 50%), 20%, relative);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^ support.function.color-operation.less
+//                ^ punctuation.definition.group.begin.less
+//                 ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                 ^^^ support.function.color.less
+//                    ^ punctuation.definition.group.begin.less
+//                     ^^ constant.numeric.less
+//                       ^ punctuation.separator.less
+//                         ^^^ constant.numeric.less
+//                           ^ keyword.other.unit.less
+//                            ^ punctuation.separator.less
+//                              ^^^ constant.numeric.less
+//                                ^ keyword.other.unit.less
+//                                 ^ punctuation.definition.group.end.less
+//                                  ^ punctuation.separator.less
+//                                    ^^^ constant.numeric.less
+//                                      ^ keyword.other.unit.less
+//                                       ^ punctuation.separator.less
+//                                         ^^^^^^^^ constant.language.relative.less
+//                                                 ^ punctuation.definition.group.end.less
+//                                                  ^ punctuation.terminator.rule.less
+    color: fade(hsl(90, 80%, 50%), 20%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color-operation.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//              ^^^ support.function.color.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^ constant.numeric.less
+//                    ^ punctuation.separator.less
+//                      ^^^ constant.numeric.less
+//                        ^ keyword.other.unit.less
+//                         ^ punctuation.separator.less
+//                           ^^^ constant.numeric.less
+//                             ^ keyword.other.unit.less
+//                              ^ punctuation.definition.group.end.less
+//                               ^ punctuation.separator.less
+//                                 ^^^ constant.numeric.less
+//                                   ^ keyword.other.unit.less
+//                                    ^ punctuation.definition.group.end.less
+//                                     ^ punctuation.terminator.rule.less
+    color: spin(hsl(10, 90%, 50%), 30);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color-operation.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//              ^^^ support.function.color.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^ constant.numeric.less
+//                    ^ punctuation.separator.less
+//                      ^^^ constant.numeric.less
+//                        ^ keyword.other.unit.less
+//                         ^ punctuation.separator.less
+//                           ^^^ constant.numeric.less
+//                             ^ keyword.other.unit.less
+//                              ^ punctuation.definition.group.end.less
+//                               ^ punctuation.separator.less
+//                                 ^^ constant.numeric.less
+//                                   ^ punctuation.definition.group.end.less
+//                                    ^ punctuation.terminator.rule.less
+    color: mix(#ff0000, #0000ff, 50%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^ support.function.color-operation.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^^^^^ constant.other.color.rgb-value.less
+//             ^ punctuation.definition.constant.less
+//                    ^ punctuation.separator.less
+//                      ^^^^^^^ constant.other.color.rgb-value.less
+//                      ^ punctuation.definition.constant.less
+//                             ^ punctuation.separator.less
+//                               ^^^ constant.numeric.less
+//                                 ^ keyword.other.unit.less
+//                                  ^ punctuation.definition.group.end.less
+//                                   ^ punctuation.terminator.rule.less
+    color: tint(#007fff, 50%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^ support.function.color-operation.less
+//             ^ punctuation.definition.group.begin.less
+//              ^^^^^^^ constant.other.color.rgb-value.less
+//              ^ punctuation.definition.constant.less
+//                     ^ punctuation.separator.less
+//                       ^^^ constant.numeric.less
+//                         ^ keyword.other.unit.less
+//                          ^ punctuation.definition.group.end.less
+//                           ^ punctuation.terminator.rule.less
+    color: shade(#007fff, 50%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^ support.function.color-operation.less
+//              ^ punctuation.definition.group.begin.less
+//               ^^^^^^^ constant.other.color.rgb-value.less
+//               ^ punctuation.definition.constant.less
+//                      ^ punctuation.separator.less
+//                        ^^^ constant.numeric.less
+//                          ^ keyword.other.unit.less
+//                           ^ punctuation.definition.group.end.less
+//                            ^ punctuation.terminator.rule.less
+    color: greyscale(hsl(90, 90%, 50%));
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^ support.function.color-operation.less
+//                  ^ punctuation.definition.group.begin.less
+//                   ^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                   ^^^ support.function.color.less
+//                      ^ punctuation.definition.group.begin.less
+//                       ^^ constant.numeric.less
+//                         ^ punctuation.separator.less
+//                           ^^^ constant.numeric.less
+//                             ^ keyword.other.unit.less
+//                              ^ punctuation.separator.less
+//                                ^^^ constant.numeric.less
+//                                  ^ keyword.other.unit.less
+//                                   ^ punctuation.definition.group.end.less
+//                                    ^ punctuation.definition.group.end.less
+//                                     ^ punctuation.terminator.rule.less
+    color: contrast(hsl(90, 100%, 50%), #000000, #ffffff, 80%);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^ support.type.property-name.less
+//       ^ punctuation.separator.key-value.less
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^ support.function.color-operation.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                  ^^^ support.function.color.less
+//                     ^ punctuation.definition.group.begin.less
+//                      ^^ constant.numeric.less
+//                        ^ punctuation.separator.less
+//                          ^^^^ constant.numeric.less
+//                             ^ keyword.other.unit.less
+//                              ^ punctuation.separator.less
+//                                ^^^ constant.numeric.less
+//                                  ^ keyword.other.unit.less
+//                                   ^ punctuation.definition.group.end.less
+//                                    ^ punctuation.separator.less
+//                                      ^^^^^^^ constant.other.color.rgb-value.less
+//                                      ^ punctuation.definition.constant.less
+//                                             ^ punctuation.separator.less
+//                                               ^^^^^^^ constant.other.color.rgb-value.less
+//                                               ^ punctuation.definition.constant.less
+//                                                      ^ punctuation.separator.less
+//                                                        ^^^ constant.numeric.less
+//                                                          ^ keyword.other.unit.less
+//                                                           ^ punctuation.definition.group.end.less
+//                                                            ^ punctuation.terminator.rule.less
+}
+
+/* Color Blending Functions */
+#color-blend-functions {
+    color: multiply(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^ support.function.color-blend.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^^^^^^ constant.other.color.rgb-value.less
+//                         ^ punctuation.separator.less
+//                                  ^ punctuation.definition.group.end.less
+
+    color: screen(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^ support.function.color-blend.less
+//               ^ punctuation.definition.group.begin.less
+//                ^^^^^^^ constant.other.color.rgb-value.less
+//                       ^ punctuation.separator.less
+//                                ^ punctuation.definition.group.end.less
+
+    color: overlay(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^ support.function.color-blend.less
+//                ^ punctuation.definition.group.begin.less
+//                 ^^^^^^^ constant.other.color.rgb-value.less
+//                        ^ punctuation.separator.less
+//                                 ^ punctuation.definition.group.end.less
+
+    color: softlight(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^ support.function.color-blend.less
+//                  ^ punctuation.definition.group.begin.less
+//                   ^^^^^^^ constant.other.color.rgb-value.less
+//                          ^ punctuation.separator.less
+//                                   ^ punctuation.definition.group.end.less
+
+    color: hardlight(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^ support.function.color-blend.less
+//                  ^ punctuation.definition.group.begin.less
+//                   ^^^^^^^ constant.other.color.rgb-value.less
+//                          ^ punctuation.separator.less
+//                                   ^ punctuation.definition.group.end.less
+
+    color: difference(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^^ support.function.color-blend.less
+//                   ^ punctuation.definition.group.begin.less
+//                    ^^^^^^^ constant.other.color.rgb-value.less
+//                           ^ punctuation.separator.less
+//                                    ^ punctuation.definition.group.end.less
+
+    color: exclusion(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^^ support.function.color-blend.less
+//                  ^ punctuation.definition.group.begin.less
+//                   ^^^^^^^ constant.other.color.rgb-value.less
+//                          ^ punctuation.separator.less
+//                                   ^ punctuation.definition.group.end.less
+
+    color: average(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^ support.function.color-blend.less
+//                ^ punctuation.definition.group.begin.less
+//                 ^^^^^^^ constant.other.color.rgb-value.less
+//                        ^ punctuation.separator.less
+//                                 ^ punctuation.definition.group.end.less
+
+    color: negation(#ff6600, #000000);
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//         ^^^^^^^^ support.function.color-blend.less
+//                 ^ punctuation.definition.group.begin.less
+//                  ^^^^^^^ constant.other.color.rgb-value.less
+//                         ^ punctuation.separator.less
+//                                  ^ punctuation.definition.group.end.less
+}
+
+input::-webkit-slider-runnable-track { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.less
+//^^^ entity.name.tag.less
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.pseudo-element.less
+//   ^^ punctuation.definition.entity.less
+//     ^^^^^^^^ meta.namespace.vendor-prefix.less
+//                                   ^ meta.property-list.less punctuation.definition.block.begin.less
+//                                     ^ punctuation.definition.block.end.less
+
+a {
+	animation: anim 1s ease-in-out;
+}
+
+@keyframes anim {
+	from {}
+	50% {}
+	to {}
+}
+
+   @namespace prefix url(XML-namespace-URL);
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.less
+// ^^^^^^^^^^ keyword.control.at-rule.namespace.less
+// ^ punctuation.definition.keyword.less
+//            ^^^^^^ entity.name.constant.namespace-prefix.less
+//                   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//                                         ^ punctuation.terminator.rule.less
+
+   @namespace prefix "XML-namespace-URL";
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.less
+// ^^^^^^^^^^ keyword.control.at-rule.namespace.less
+// ^ punctuation.definition.keyword.less
+//            ^^^^^^ entity.name.constant.namespace-prefix.less
+//                   ^^^^^^^^^^^^^^^^^^^ string.quoted.double.less
+//                                      ^ punctuation.terminator.rule.less
+
+.a {
+    --asdf: 23px;
+    transform: translate(var(--asdf)) scale(var(--asdf)) skew(calc(var(--asdf)));
+}
+
+.colors {
+    color: #A1B;
+    color: #1A2B;
+    color: #1A2B3C;
+    color: #1A2B3C4D;
+
+    color: #BEE;
+    color: #ACDC;
+    color: #A1C0DE;
+    color: #ABBAFADE;
+}
+
+.orderOfEvaluation(@a1, @a2, @a3) when ((@a1) and (@a2) or (@a3)) {}
+div {
+    margin: if((2 > 1), 0, 3px);
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.less
+//  ^^^^^^ support.type.property-name.less
+//        ^ punctuation.separator.key-value.less
+//         ^^^^^^^^^^^^^^^^^^^^ meta.property-value.less
+//          ^^^^^^^^^^^^^^^^^^^ meta.function-call.less
+//          ^^ support.function.if.less
+//            ^ punctuation.definition.group.begin.less
+//             ^^^^^^ meta.group.less
+//             ^ punctuation.definition.group.begin.less
+//              ^ constant.numeric.less
+//                ^ keyword.operator.logical.less
+//                  ^ constant.numeric.less
+//                   ^ punctuation.definition.group.end.less
+//                    ^ punctuation.separator.less
+//                      ^ constant.numeric.less
+//                       ^ punctuation.separator.less
+//                         ^^^ constant.numeric.less
+//                          ^^ keyword.other.unit.less
+//                            ^ punctuation.definition.group.end.less
+//                             ^ punctuation.terminator.rule.less
+
+    color:  if((iscolor(@some)), @some, black);
+}
+
+@bg: black;
+@bg-light: boolean(luma(@bg) > 50%);
+
+div {
+  background: @bg;
+  color: if(@bg-light, black, white);
+}
+
+@value: range(4);
+@value: range(10px, 30px, 10);
+
+.filter {
+    backdrop-filter: blur(10px);
+}
+
+:root {
+    --off-black: 0, 10, 20;
+    --text-primary: rgba(var(--off-black), 0.8);
+    --text-secondary: rgba(var(--off-black), 0.7);
+    color: rgba(var(--off-black),0.8);
+    background: #fff;
+    background: var(--text-primary, rgba(255, 0, 255, 0));
+}

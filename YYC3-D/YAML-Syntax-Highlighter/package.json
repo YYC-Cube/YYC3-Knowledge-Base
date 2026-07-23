@@ -1,0 +1,121 @@
+{
+	"name": "yaml-syntax",
+	"displayName": "YAML Syntax Highlighting",
+	"description": "YAML Ain't Markup Language syntax",
+	"publisher": "RedCMD",
+	"version": "1.4.1",
+	"engines": {
+		"vscode": "^1.92.0"
+	},
+	"icon": "Official_YAML_Logo.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/RedCMD/YAML-Syntax-Highlighter.git"
+	},
+	"bugs": {
+		"url": "https://github.com/RedCMD/YAML-Syntax-Highlighter/issues"
+	},
+	"homepage": "https://marketplace.visualstudio.com/items?itemName=RedCMD.yaml-syntax",
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "yaml",
+				"aliases": [
+					"YAML",
+					"yaml"
+				],
+				"extensions": [
+					".yaml",
+					".yml",
+					".eyaml",
+					".eyml",
+					".cff",
+					".yaml-tmlanguage",
+					".yaml-tmpreferences",
+					".yaml-tmtheme",
+					".clang-format",
+					".eslintrc",
+					".stylelintrc",
+					".yamllint",
+					".yaml.erb",
+					".yml.erb",
+					".sls",
+					".sublime-syntax",
+					".Boxfile",
+					".Kptfile",
+					".Krmfile",
+					".ksy",
+					".winget"
+				],
+				"firstLine": "^#cloud-config|^%YAML([ \t:]+[0-9]+\\.[0-9]+)([ \t]+#|[ \t]*$)|^---$",
+				"configuration": "./language-configuration.json"
+			},
+			{
+				"id": "dockercompose",
+				"aliases": [
+					"Compose",
+					"compose"
+				],
+				"filenamePatterns": [
+					"compose.yml",
+					"compose.yaml",
+					"compose.*.yml",
+					"compose.*.yaml",
+					"*docker*compose*.yml",
+					"*docker*compose*.yaml"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "yaml",
+				"scopeName": "source.yaml",
+				"path": "./syntaxes/yaml.tmLanguage.json",
+				"unbalancedBracketScopes": [
+					"invalid.illegal",
+					"storage.type.tag.shorthand.yaml",
+					"keyword.control.flow"
+				]
+			},
+			{
+				"scopeName": "source.yaml.embedded",
+				"path": "./syntaxes/yaml-embedded.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.yaml.1.3",
+				"path": "./syntaxes/yaml-1.3.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.yaml.1.2",
+				"path": "./syntaxes/yaml-1.2.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.yaml.1.1",
+				"path": "./syntaxes/yaml-1.1.tmLanguage.json"
+			},
+			{
+				"scopeName": "source.yaml.1.0",
+				"path": "./syntaxes/yaml-1.0.tmLanguage.json"
+			},
+			{
+				"language": "dockercompose",
+				"scopeName": "source.yaml",
+				"path": "./syntaxes/yaml.tmLanguage.json"
+			}
+		],
+		"configurationDefaults": {
+			"[yaml][dockercompose]": {
+				"editor.maxTokenizationLineLength": 100000,
+				"editor.insertSpaces": true,
+				"editor.tabSize": 2,
+				"editor.autoIndent": "advanced",
+				"diffEditor.ignoreTrimWhitespace": false,
+				"files.trimTrailingWhitespace": false
+			}
+		}
+	}
+}

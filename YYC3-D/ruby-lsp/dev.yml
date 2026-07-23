@@ -1,0 +1,37 @@
+name: ruby-lsp
+
+nix: true
+type: ruby
+
+up:
+  - submodules
+  - ruby
+  - bundler
+  - node:
+      yarn: true
+      version: 22.21.1
+      packages:
+        - vscode
+  - packages:
+      - libyaml
+      - watchman
+
+commands:
+  server: exe/ruby-lsp
+  style: bin/rubocop
+  typecheck:
+    aliases: ["tc"]
+    run: "bundle exec srb tc"
+  run_ci:
+    run: "bundle exec srb tc &&
+      bin/rubocop &&
+      bin/test &&
+      bundle exec exe/ruby-lsp-check"
+  test:
+    syntax:
+      argument: file
+      optional: args...
+    run: bin/test
+
+env:
+  'RUBY_DEBUG_IRB_CONSOLE': '1'

@@ -1,0 +1,3398 @@
+[
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "align*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  f",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "t,T",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " = f",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "0",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": ",T",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "int",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": "_",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "0",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "^",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "t ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "sigma",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "s,T",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "partial",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": "_",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "T ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "sigma",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "s,T",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " ds ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "int",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": "_",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "0",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "^",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "t ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "partial",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": "_",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "T ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "sigma",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "s,T",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " dW",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "_",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "s.",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "align*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.begin.tex"
+	},
+	{
+		"c": "B",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "T, T",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.operator.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "delta",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.math.tex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " = ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "frac",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.operator.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "delta",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex meta.space-after-command.latex"
+	},
+	{
+		"c": "L",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "T, T",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.operator.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "delta",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.math.tex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.end.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  B",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "T, T",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "delta",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " = ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "frac",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "delta",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "L",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "T, T",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "delta",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  f",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "x",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " =",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "cases",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.math.tex punctuation.definition.function.tex"
+	},
+	{
+		"c": "text",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.arguments.begin.tex meta.text.normal.tex"
+	},
+	{
+		"c": "if ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.text.normal.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.arguments.end.tex meta.text.normal.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "0",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "le",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "x ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "le",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "frac",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.math.tex punctuation.definition.function.tex"
+	},
+	{
+		"c": "text",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.arguments.begin.tex meta.text.normal.tex"
+	},
+	{
+		"c": "if ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.text.normal.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.arguments.end.tex meta.text.normal.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "frac",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": " < x ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "le",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "cases",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  f",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "x",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": " =",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "+cases",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.math.tex punctuation.definition.function.tex"
+	},
+	{
+		"c": "text",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.arguments.begin.tex meta.text.normal.tex"
+	},
+	{
+		"c": "if ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.text.normal.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.arguments.end.tex meta.text.normal.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "0",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "le",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "x ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "le",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "frac",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.math.tex punctuation.definition.function.tex"
+	},
+	{
+		"c": "text",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.arguments.begin.tex meta.text.normal.tex"
+	},
+	{
+		"c": "if ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.text.normal.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.arguments.end.tex meta.text.normal.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "frac",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": " < x ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "le",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "+cases",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "align*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  x ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "= ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\left(",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.big.tex"
+	},
+	{
+		"c": " y ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " z ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\right)",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.big.tex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  y",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "_",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": "0",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " = ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "align*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "underbrace",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": " foo",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "underbrace",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "foo",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex support.function.general.tex punctuation.definition.function.tex"
+	},
+	{
+		"c": ";",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex support.function.general.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "begingroup",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "underbrace",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "foo",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.space-after-command.latex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "underbrace",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "foo",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex punctuation.definition.constant.math.tex"
+	},
+	{
+		"c": "endgroup",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.other.general.math.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.verb.latex support.function.verb.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "verb",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.verb.latex support.function.verb.latex"
+	},
+	{
+		"c": "!",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.verb.latex punctuation.definition.verb.latex"
+	},
+	{
+		"c": "toto",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.verb.latex markup.raw.verb.latex"
+	},
+	{
+		"c": "!",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.verb.latex punctuation.definition.verb.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "align",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ".  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ",  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.escape.tex punctuation.definition.keyword.tex"
+	},
+	{
+		"c": "|",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.escape.tex"
+	},
+	{
+		"c": "|  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.escape.tex punctuation.definition.keyword.tex"
+	},
+	{
+		"c": "|",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.escape.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.escape.tex punctuation.definition.keyword.tex"
+	},
+	{
+		"c": "|",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.character.escape.tex"
+	},
+	{
+		"c": "> ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ".  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ".    ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ",  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ",",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "align",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.begin.tex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ".  ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.escape.tex punctuation.definition.keyword.tex"
+	},
+	{
+		"c": "|",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.escape.tex"
+	},
+	{
+		"c": "|  ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.escape.tex punctuation.definition.keyword.tex"
+	},
+	{
+		"c": "|",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.escape.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.escape.tex punctuation.definition.keyword.tex"
+	},
+	{
+		"c": "|",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.escape.tex"
+	},
+	{
+		"c": ">  ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.escape.tex punctuation.definition.keyword.tex"
+	},
+	{
+		"c": "|",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex constant.character.escape.tex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.end.tex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.begin.tex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ". ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ".   ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ",   ",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": ",",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.end.tex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.begin.tex"
+	},
+	{
+		"c": "\\{\\}",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.end.tex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.begin.tex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "a",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.math.operator.tex"
+	},
+	{
+		"c": "b",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex"
+	},
+	{
+		"c": "$",
+		"t": "text.tex.latex meta.math.block.tex support.class.math.block.tex punctuation.definition.string.end.tex"
+	},
+	{
+		"c": "$$",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.begin.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "split",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "x",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "=y",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "=z",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "split",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "$$",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.end.latex"
+	},
+	{
+		"c": "\\[",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.begin.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "split",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "x",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "=y",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "=z",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "split",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\]",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.end.latex"
+	},
+	{
+		"c": "\\[",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.begin.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "split",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "     x",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "=y",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "     ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "=z",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "split",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\]",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "split",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  x",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "=y",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "=z",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "split",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "Hello ",
+		"t": "text.tex.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex keyword.control.newline.tex"
+	},
+	{
+		"c": " World! ",
+		"t": "text.tex.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex keyword.control.newline.tex"
+	},
+	{
+		"c": "[",
+		"t": "text.tex.latex punctuation.definition.brackets.tex"
+	},
+	{
+		"c": "1ex",
+		"t": "text.tex.latex"
+	},
+	{
+		"c": "]",
+		"t": "text.tex.latex punctuation.definition.brackets.tex"
+	},
+	{
+		"c": " Have ",
+		"t": "text.tex.latex"
+	},
+	{
+		"c": "\\(",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.begin.latex"
+	},
+	{
+		"c": "\\{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "(",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.round.tex"
+	},
+	{
+		"c": "a,b",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": ")",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.round.tex"
+	},
+	{
+		"c": "\\}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.bracket.pair.tex"
+	},
+	{
+		"c": "\\)",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.end.latex"
+	},
+	{
+		"c": ", ",
+		"t": "text.tex.latex"
+	},
+	{
+		"c": "\\(",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.begin.latex"
+	},
+	{
+		"c": "y",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\)",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.end.latex"
+	},
+	{
+		"c": ".",
+		"t": "text.tex.latex"
+	},
+	{
+		"c": "\\[",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.begin.latex"
+	},
+	{
+		"c": "\t",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "aligned",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\t\t",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "   ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": ", ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "[",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.brackets.tex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "ex",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "]",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.brackets.tex"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "3",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "4",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "\t",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "aligned",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\]",
+		"t": "text.tex.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.definition.string.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "array",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "ll",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "3",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "array",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "+array",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "ll",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "3",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "+array",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " = ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "equation*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "bmatrix",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "3",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "bmatrix",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "+bmatrix",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "1",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "2",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "3",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex constant.numeric.math.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "+bmatrix",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "IEEEeqnarray",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.begin.bracket.curly.tex"
+	},
+	{
+		"c": "rCl",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.end.bracket.curly.tex"
+	},
+	{
+		"c": "  a ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " = ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " b ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " c ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " = ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " d ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " e ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " f ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " g ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " h ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " i ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " j ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " k ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " = ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " l ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " m ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "+",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex punctuation.math.operator.tex"
+	},
+	{
+		"c": " n",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "IEEEeqnarray",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "dcases",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "a ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " b ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "%",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex comment.line.percentage.tex punctuation.definition.comment.tex"
+	},
+	{
+		"c": "<- this \"&\" highlight wrong",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex comment.line.percentage.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "dcases",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "dcases*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "a ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " b ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "%",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex comment.line.percentage.tex punctuation.definition.comment.tex"
+	},
+	{
+		"c": "<- this \"&\" highlight wrong",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex comment.line.percentage.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "dcases*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "rcases",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "a ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " b ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "%",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex comment.line.percentage.tex punctuation.definition.comment.tex"
+	},
+	{
+		"c": "<- this \"&\" highlight wrong",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex comment.line.percentage.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "rcases",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "drcases*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "a ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "&",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.align.latex"
+	},
+	{
+		"c": " b ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "\\\\",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex keyword.control.equation.newline.latex"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex"
+	},
+	{
+		"c": "%",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex comment.line.percentage.tex punctuation.definition.comment.tex"
+	},
+	{
+		"c": "<- this \"&\" highlight wrong",
+		"t": "text.tex.latex meta.function.environment.math.latex meta.math.block.latex support.class.math.block.environment.latex comment.line.percentage.tex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.environment.math.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "drcases*",
+		"t": "text.tex.latex meta.function.environment.math.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.environment.math.latex punctuation.definition.arguments.end.latex"
+	}
+]

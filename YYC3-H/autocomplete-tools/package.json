@@ -1,0 +1,56 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "3.3.3",
+    "turbo": "^2.3.1"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "pnpm lint --fix",
+    "build": "pnpm run -r build",
+    "test": "pnpm run -r test",
+    "test:overwrite": "pnpm run -r test:overwrite",
+    "postinstall": "husky install && pnpm build",
+    "pre-commit": "lint-staged && pnpm test",
+    "clean": "git clean -Xdf ."
+  },
+  "packageManager": "pnpm@9.4.0",
+  "workspaces": [
+    "eslint/*",
+    "types",
+    "types/docs-generator",
+    "shared",
+    "generators",
+    "helpers",
+    "hooks",
+    "merge",
+    "integrations/oclif",
+    "integrations/commander",
+    "cli/create-completion-spec",
+    "cli/publish-spec",
+    "cli/tools-cli"
+  ],
+  "lint-staged": {
+    "*.{ts,js,tsx}": "eslint --fix"
+  },
+  "fig": {
+    "lint": {
+      "description": "Lint the code and find errors",
+      "icon": "🔍"
+    },
+    "lint:fix": {
+      "description": "Lint the code and fix errors",
+      "icon": "🧰"
+    }
+  }
+}

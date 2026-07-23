@@ -1,0 +1,146 @@
+original file
+-----------------------------------
+/**
+ * @param {string} value
+ * @param {string[]} arrayValue
+ * @param {string} [optionalValue]
+ */
+function test(value: string, arrayValue: string[], optionalValue?: string) {
+
+}
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>/**
+ ^^^
+ source.ts comment.block.documentation.ts punctuation.definition.comment.ts
+> * @param {string} value
+ ^^^
+ source.ts comment.block.documentation.ts
+    ^
+    source.ts comment.block.documentation.ts storage.type.class.jsdoc punctuation.definition.block.tag.jsdoc
+     ^^^^^
+     source.ts comment.block.documentation.ts storage.type.class.jsdoc
+          ^
+          source.ts comment.block.documentation.ts
+           ^
+           source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc punctuation.definition.bracket.curly.begin.jsdoc
+            ^^^^^^
+            source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc
+                  ^
+                  source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc punctuation.definition.bracket.curly.end.jsdoc
+                   ^
+                   source.ts comment.block.documentation.ts
+                    ^^^^^
+                    source.ts comment.block.documentation.ts variable.other.jsdoc
+> * @param {string[]} arrayValue
+ ^^^
+ source.ts comment.block.documentation.ts
+    ^
+    source.ts comment.block.documentation.ts storage.type.class.jsdoc punctuation.definition.block.tag.jsdoc
+     ^^^^^
+     source.ts comment.block.documentation.ts storage.type.class.jsdoc
+          ^
+          source.ts comment.block.documentation.ts
+           ^
+           source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc punctuation.definition.bracket.curly.begin.jsdoc
+            ^^^^^^
+            source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc
+                  ^
+                  source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc
+                   ^
+                   source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc
+                    ^
+                    source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc punctuation.definition.bracket.curly.end.jsdoc
+                     ^
+                     source.ts comment.block.documentation.ts
+                      ^^^^^^^^^^
+                      source.ts comment.block.documentation.ts variable.other.jsdoc
+> * @param {string} [optionalValue]
+ ^^^
+ source.ts comment.block.documentation.ts
+    ^
+    source.ts comment.block.documentation.ts storage.type.class.jsdoc punctuation.definition.block.tag.jsdoc
+     ^^^^^
+     source.ts comment.block.documentation.ts storage.type.class.jsdoc
+          ^
+          source.ts comment.block.documentation.ts
+           ^
+           source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc punctuation.definition.bracket.curly.begin.jsdoc
+            ^^^^^^
+            source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc
+                  ^
+                  source.ts comment.block.documentation.ts entity.name.type.instance.jsdoc punctuation.definition.bracket.curly.end.jsdoc
+                   ^
+                   source.ts comment.block.documentation.ts
+                    ^
+                    source.ts comment.block.documentation.ts variable.other.jsdoc punctuation.definition.optional-value.begin.bracket.square.jsdoc
+                     ^^^^^^^^^^^^^
+                     source.ts comment.block.documentation.ts variable.other.jsdoc
+                                  ^
+                                  source.ts comment.block.documentation.ts variable.other.jsdoc punctuation.definition.optional-value.end.bracket.square.jsdoc
+> */
+ ^
+ source.ts comment.block.documentation.ts
+  ^^
+  source.ts comment.block.documentation.ts punctuation.definition.comment.ts
+>function test(value: string, arrayValue: string[], optionalValue?: string) {
+ ^^^^^^^^
+ source.ts meta.function.ts storage.type.function.ts
+         ^
+         source.ts meta.function.ts
+          ^^^^
+          source.ts meta.function.ts meta.definition.function.ts entity.name.function.ts
+              ^
+              source.ts meta.function.ts meta.parameters.ts punctuation.definition.parameters.begin.ts
+               ^^^^^
+               source.ts meta.function.ts meta.parameters.ts variable.parameter.ts
+                    ^
+                    source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts keyword.operator.type.annotation.ts
+                     ^
+                     source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts
+                      ^^^^^^
+                      source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts support.type.primitive.ts
+                            ^
+                            source.ts meta.function.ts meta.parameters.ts punctuation.separator.parameter.ts
+                             ^
+                             source.ts meta.function.ts meta.parameters.ts
+                              ^^^^^^^^^^
+                              source.ts meta.function.ts meta.parameters.ts variable.parameter.ts
+                                        ^
+                                        source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts keyword.operator.type.annotation.ts
+                                         ^
+                                         source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts
+                                          ^^^^^^
+                                          source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts support.type.primitive.ts
+                                                ^
+                                                source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts meta.type.tuple.ts meta.brace.square.ts
+                                                 ^
+                                                 source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts meta.type.tuple.ts meta.brace.square.ts
+                                                  ^
+                                                  source.ts meta.function.ts meta.parameters.ts punctuation.separator.parameter.ts
+                                                   ^
+                                                   source.ts meta.function.ts meta.parameters.ts
+                                                    ^^^^^^^^^^^^^
+                                                    source.ts meta.function.ts meta.parameters.ts variable.parameter.ts
+                                                                 ^
+                                                                 source.ts meta.function.ts meta.parameters.ts keyword.operator.optional.ts
+                                                                  ^
+                                                                  source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts keyword.operator.type.annotation.ts
+                                                                   ^
+                                                                   source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts
+                                                                    ^^^^^^
+                                                                    source.ts meta.function.ts meta.parameters.ts meta.type.annotation.ts support.type.primitive.ts
+                                                                          ^
+                                                                          source.ts meta.function.ts meta.parameters.ts punctuation.definition.parameters.end.ts
+                                                                           ^
+                                                                           source.ts meta.function.ts
+                                                                            ^
+                                                                            source.ts meta.function.ts meta.block.ts punctuation.definition.block.ts
+>
+ ^
+ source.ts meta.function.ts meta.block.ts
+>}
+ ^
+ source.ts meta.function.ts meta.block.ts punctuation.definition.block.ts

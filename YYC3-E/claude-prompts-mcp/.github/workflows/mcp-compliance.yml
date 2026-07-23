@@ -1,0 +1,62 @@
+name: MCP Protocol Compliance
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'server/src/mcp-tools/**'
+      - 'server/src/transport/**'
+      - 'server/src/runtime/**'
+      - 'server/package.json'
+      - '.github/workflows/mcp-compliance.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'server/src/mcp-tools/**'
+      - 'server/src/transport/**'
+      - 'server/src/runtime/**'
+      - 'server/package.json'
+
+env:
+  NODE_ENV: test
+
+jobs:
+  mcp-protocol-validation:
+    name: MCP Protocol Compliance Validation
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: server
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Validate MCP architecture
+        run: npm run validate:dependencies
+
+      - name: Detect circular dependencies
+        run: npm run validate:circular

@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`variance.js format 1`] = `
+====================================options=====================================
+parsers: ["flow"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+class Route {
+  static +param: T;
+}
+
+class ReadonlyRoute {
+    static   readonly   param: T;
+}
+
+type ReadonlyObj = {
+    readonly   foo:   string,
+  readonly [string]:   unknown
+};
+
+type ReadonlyTuple = [  readonly   label:   number  ];
+
+type ReadonlyInterface = interface {
+      readonly   prop:   string
+};
+
+type ReadonlyReservedWords = {
+  readonly   with:   string,
+  readonly   default?:   string,
+  readonly   enum:   number,
+  readonly   new:   boolean,
+};
+
+=====================================output=====================================
+class Route {
+  static +param: T;
+}
+
+class ReadonlyRoute {
+  static readonly param: T;
+}
+
+type ReadonlyObj = {
+  readonly foo: string,
+  readonly [string]: unknown,
+};
+
+type ReadonlyTuple = [readonly label: number];
+
+type ReadonlyInterface = interface {
+  readonly prop: string,
+};
+
+type ReadonlyReservedWords = {
+  readonly with: string,
+  readonly default?: string,
+  readonly enum: number,
+  readonly new: boolean,
+};
+
+================================================================================
+`;

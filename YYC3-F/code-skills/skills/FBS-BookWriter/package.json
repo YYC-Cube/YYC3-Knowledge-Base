@@ -1,0 +1,34 @@
+{
+  "name": "fbs-bookwriter",
+  "version": "1.59D",
+  "description": "FBS-BookWriter 技能包构建依赖（D1 HTML/PDF/DOCX）",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "glob": "^13.0.6"
+  },
+  "optionalDependencies": {
+    "html-to-docx": "^1.8.0",
+    "puppeteer": "^22.0.0"
+  },
+  "scripts": {
+    "init:fbs": "node scripts/init-fbs-multiagent-artifacts.mjs",
+    "gate:s3": "node scripts/s3-start-gate.mjs",
+    "gate:s3:strict": "node scripts/s3-start-gate.mjs --verify-stages",
+    "gate:chapter:strict": "node scripts/enforce-search-policy.mjs --verify-stages --stage-scope pre-s3 --verify-atomicity",
+    "run:standard-chain": "node scripts/standard-execution-chain.mjs",
+    "monitor:heartbeat": "node scripts/heartbeat-monitor.mjs",
+    "verify:chapter-status": "node scripts/verify-chapter-status-truth.mjs",
+    "guard:s3": "node scripts/s3-guard.mjs",
+    "guard:s3:full": "node scripts/s3-guard.mjs --verify-stages",
+    "audit:all": "node scripts/run-p0-audits.mjs",
+    "fbs:esm": "node scripts/fbs-record-esm-transition.mjs",
+    "audit:pending": "node scripts/audit-pending-verification.mjs",
+    "audit:temporal": "node scripts/audit-temporal-accuracy.mjs",
+    "audit:terms": "node scripts/audit-term-consistency.mjs",
+    "audit:query-opt": "node scripts/audit-query-optimization.mjs",
+    "fbs:normalize-ledger-dim": "node scripts/normalize-ledger-dimensions.mjs"
+  }
+}

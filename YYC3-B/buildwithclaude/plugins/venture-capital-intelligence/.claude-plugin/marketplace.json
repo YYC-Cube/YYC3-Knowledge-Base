@@ -1,0 +1,42 @@
+{
+  "name": "isanthoshgandhi",
+  "owner": {
+    "name": "Santhosh Gandhi",
+    "url": "https://github.com/isanthoshgandhi"
+  },
+  "metadata": {
+    "description": "3 skills · 6 agents — Complete intelligence layer for venture capital and startups.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "venture-capital-intelligence",
+      "source": "./",
+      "description": "3 skills · 6 agents — Screening startups, analyzing pitch decks, explaining equity terms, modeling financials, computing cap table waterfalls, sizing markets, scanning deal signals, and generating LP fund reports.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Santhosh Gandhi",
+        "url": "https://github.com/isanthoshgandhi"
+      },
+      "homepage": "https://github.com/isanthoshgandhi/venture-capital-intelligence",
+      "repository": "https://github.com/isanthoshgandhi/venture-capital-intelligence",
+      "license": "MIT",
+      "keywords": [
+        "venture-capital",
+        "startup",
+        "due-diligence",
+        "financial-modeling",
+        "cap-table",
+        "market-sizing",
+        "deal-sourcing",
+        "fund-operations",
+        "pitch-deck",
+        "term-sheet",
+        "claude-plugin",
+        "claude-code",
+        "anthropic"
+      ],
+      "category": "business-finance"
+    }
+  ]
+}

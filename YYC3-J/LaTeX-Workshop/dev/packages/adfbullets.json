@@ -1,0 +1,25 @@
+{
+  "deps": [
+    {
+      "name": "svn-prov"
+    }
+  ],
+  "macros": [
+    {
+      "name": "adfbullet",
+      "arg": {
+        "format": "{}",
+        "snippet": "adfbullet{${1:number}}"
+      }
+    }
+  ],
+  "envs": [],
+  "keys": {
+    "\\usepackage/adfbullets#c": [
+      "scale=${1:factor}"
+    ]
+  },
+  "args": [
+    "\\usepackage/adfbullets#c"
+  ]
+}

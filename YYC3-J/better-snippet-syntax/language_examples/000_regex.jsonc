@@ -1,0 +1,71 @@
+{
+    /*
+    // Place your snippets for JavaScript here. Each snippet is defined under a snippet name and has a prefix, body and 
+    // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+    // same ids are connected.
+    // Example:
+    "Print to console": {
+        "prefix": "log",
+        "body": [
+            "console.log('$1');",
+            "$2"
+        ],
+        "description": "Log output to console"
+    }
+*/
+    "1": {
+        "prefix": "no1",
+        "body": [
+            "$0",
+            "\\", // \
+            "\\\\", // \
+            "\\\\\\", // \\
+            "\\\\\\\\", // \\
+            "\\\\\\\\\\",
+            "\\\\\\\\\\\\",
+            "\\$1", // $1
+            "\\\\$1", // \
+            "\\\\\\$1", // \$1
+            "\\\\\\\\$1", // \\
+            "\\\\\\\\\\$1",
+            "\\\\\\\\\\\\$1", // \\\ and special
+            "\\$$1", // $ and special
+            "\\\\$$1", // \$ and special
+            "\\\\\\$$1", // \$ and special
+            "\\\\$$abra 1", // \$ and abra is special
+            "\\\\\\$$abra 1", // \$ and abra is special
+            "\\\\\\\\$$abra 1", // \\$ and abra is special
+            "\\\\\\\\$$ 1", // \\$$ 1
+            "$", // $
+            "$$", // $$
+            "\$", // $
+            "\a", // a
+            "\n", // newline
+            "\b", // still one character
+            "\\$", // $
+            "\\\\$", // \$
+            "\\\\\\$", // \$
+            "$1", // special
+            "$$1", // $ special
+            "\\$1", // $1
+            "\\\\$1", // \$
+            "\\\\\\$1", // \$1
+            "\\\\\\\\$$1", // \\
+            "\\\\\\\\\\$$1",
+            "\\\\\\\\\\\\$$1",
+            "${}", // ${}
+            "${1|a,b,c|}",
+            "${asd:asdfasd}",
+            "\t${1:panic(${2:err})}",
+            "${TM_FILENAME/(.*)\\..+$/$1/}",
+            "adfasdfad ${TM_FILENAME/(.*)\\..+$/$1/}  asdfs",
+            "adfasdfad ${TM_FILENAME/(.*)\\..+$/$1/}_______________",
+            
+            "${TM_FILENAME/[\\.]/_/}"
+            "adfasd${TM_FILENAME/[\\.-]/_/g}"
+            "adfasd${TM_FILENAME/(.*)/${1:/upcase}/}"
+            "adfasd${TM_FILENAME/[^0-9^a-z]/a/gi}"
+        ],
+    },
+}

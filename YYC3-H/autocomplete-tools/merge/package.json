@@ -1,0 +1,41 @@
+{
+  "name": "@fig/autocomplete-merge",
+  "version": "1.4.0",
+  "description": "Package to merge two specs together",
+  "author": "The Fig Team",
+  "scripts": {
+    "build": "tsc",
+    "prepack": "pnpm build",
+    "test": "tsx test/index.ts"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "dependencies": {
+    "prettier": "^3.3.3",
+    "ts-morph": "^23.0.0",
+    "typescript": "^5.5.4"
+  },
+  "files": [
+    "lib/"
+  ],
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.7",
+    "@types/node": "^22.5.2",
+    "@withfig/autocomplete-types": "workspace:^",
+    "tsx": "^4.19.2"
+  },
+  "fig": {
+    "build": {
+      "description": "Typecheck and build the project",
+      "icon": "🛠"
+    },
+    "prepack": {
+      "description": "Run build before packing the package for publishing",
+      "icon": "🛠"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

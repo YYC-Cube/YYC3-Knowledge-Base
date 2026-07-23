@@ -1,0 +1,10 @@
+version: 1
+name: 04-Feature/VersionCompatibility
+enabled: true
+tags:
+  - feature
+  - versioncompatibility
+run:
+  - python3 main.py > log-main.py.log
+clean:
+  - rm -rf *.trt *.log

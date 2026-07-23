@@ -1,0 +1,37 @@
+{
+	"$schema": "https://raw.githubusercontent.com/RedCMD/TmLanguage-Syntax-Highlighter/main/vscode.tmLanguage.schema.json",
+	"scopeName": "source.yaml.1.3",
+	"name": "YAML 1.3",
+	"comment": "https://spec.yaml.io/main/spec/1.3.0/",
+	"patterns": [
+		{ "include": "source.yaml" }
+	],
+	"repository": {
+		"directive-YAML": {
+			"comment": "https://yaml.org/spec/1.2.2/#681-yaml-directives",
+			"begin": "(?=%YAML[\t ]+1\\.3(?=[\r\n\t ]))",
+			"end": "\\G(?=(?>\\.{3}|---)[\r\n\t ])",
+			"name": "meta.1.3.yaml",
+			"patterns": [
+				{
+					"comment": "https://yaml.org/spec/1.2.2/#681-yaml-directives",
+					"begin": "\\G(%)(YAML)([\t ]+)(1\\.3)",
+					"end": "\\G(?=---[\r\n\t ])",
+					"beginCaptures": {
+						"1": { "name": "punctuation.definition.directive.begin.yaml" },
+						"2": { "name": "keyword.other.directive.yaml.yaml" },
+						"3": { "name": "punctuation.whitespace.separator.yaml" },
+						"4": { "name": "constant.numeric.yaml-version.yaml" }
+					},
+					"name": "meta.directives.yaml",
+					"patterns": [
+						{ "include": "source.yaml.1.2#directive-invalid" },
+						{ "include": "source.yaml.1.2#directives" },
+						{ "include": "source.yaml.1.2#presentation-detail" }
+					]
+				},
+				{ "include": "source.yaml.1.2#document" }
+			]
+		}
+	}
+}

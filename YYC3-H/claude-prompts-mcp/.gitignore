@@ -1,0 +1,104 @@
+# Dependencies and Package Management
+server/node_modules/
+.npm/
+.yarn/
+.pnp.*
+yarn.lock
+
+# Build Output and TypeScript
+server/dist/
+server/dist/methodologies/
+build/
+out/
+*.tsbuildinfo
+.tsbuildinfo
+
+# Environment Variables
+server/.env*
+.env*
+
+# Logs and Debug Files
+#server/logs/
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test Coverage and Reports
+coverage/
+nyc_output/
+.coverage/
+junit.xml
+test-results/
+*.lcov
+
+# Editor and IDE Files
+.vscode/
+.cursor/
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*:Zone.Identifier
+*.Zone.Identifier
+
+# Runtime and Cache Files
+.cache/
+tmp/
+temp/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# MCP Server Specific
+admin-ui/
+server/graphs/
+
+# Runtime State Files
+# server/config/framework-state.json
+# .framework-state.json
+
+# Runtime State (generated during server execution)
+runtime-state/
+server/runtime-state/
+
+# Crash Dumps and Diagnostics
+*.dmp
+report.*.json
+*.diagraw
+heapdump-*
+
+# Claude-Code setup
+plans/archive/
+CLAUDE.md
+.codex/
+AGENTS.md
+.claude/
+server/.claude/
+.clinerules/
+
+# Temporary test files
+test_*.js
+test_*.ts
+
+# Backup files
+*.backup
+*.bak
+
+# Temporary directories
+opencodetmp/
+
+# Future planning
+plans/future/
+
+# Test prompts
+server/prompts/general/test_*.md
+node_modules/
+*.tgz

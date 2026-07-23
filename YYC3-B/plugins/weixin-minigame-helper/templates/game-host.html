@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>WeChat Mini Game Preview</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    /* Hide system cursor when mouse-touch emulation is active */
+    body.hide-cursor,
+    body.hide-cursor * {
+      cursor: none !important;
+    }
+
+    #wx-main-canvas {
+      display: block;
+      /* Canvas dimensions are set by wx-compat.js */
+    }
+
+    /* Touch cursor overlay — shown when mouse-touch emulation is active */
+    #touch-cursor {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(79, 195, 247, 0.25);
+      border: 2px solid rgba(79, 195, 247, 0.7);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.1s, transform 0.05s;
+      opacity: 0;
+      z-index: 9999;
+    }
+    #touch-cursor.active {
+      opacity: 1;
+    }
+    #touch-cursor.pressed {
+      background: rgba(79, 195, 247, 0.45);
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+  </style>
+</head>
+<body>
+  <!-- Touch cursor overlay -->
+  <div id="touch-cursor"></div>
+  <!--
+    Script load order is critical:
+    1. wx-compat.js  — MUST be first; game.js depends on window.wx being defined
+    2. game.js       — Pre-bundled IIFE containing all game modules (CommonJS
+                       require/module.exports are handled internally by the bundle)
+  -->
+  <script src="/wx-compat.js"></script>
+  <script src="/game.js"></script>
+
+  <!--
+    Mouse → Touch emulation shim.
+    Activated/deactivated via postMessage({ type: 'SET_MOUSE_TOUCH', enabled: bool }).
+    Converts mousedown/mousemove/mouseup on the canvas into synthetic TouchEvents
+    so that WeChat Mini Games (which only listen for touch events) respond to mouse input.
+  -->
+  <script>
+    (function () {
+      var mouseTouchEnabled = true; // default on; parent toolbar will confirm via postMessage
+      var isDown = false;
+      var cursor = document.getElementById('touch-cursor');
+
+      // ── Cursor helpers ──────────────────────────────────────────────────
+      function moveCursor(x, y) {
+        cursor.style.left = x + 'px';
+        cursor.style.top  = y + 'px';
+      }
+
+      function showCursor(x, y) {
+        moveCursor(x, y);
+        cursor.classList.add('active');
+        cursor.classList.remove('pressed');
+      }
+
+      function pressCursor(x, y) {
+        moveCursor(x, y);
+        cursor.classList.add('active', 'pressed');
+      }
+
+      function hideCursor() {
+        cursor.classList.remove('active', 'pressed');
+      }
+
+      function makeTouchEvent(type, mouseEvt, target) {
+        var rect = target.getBoundingClientRect();
+        var touch = new Touch({
+          identifier: 1,
+          target: target,
+          clientX: mouseEvt.clientX,
+          clientY: mouseEvt.clientY,
+          screenX: mouseEvt.screenX,
+          screenY: mouseEvt.screenY,
+          pageX: mouseEvt.pageX,
+          pageY: mouseEvt.pageY,
+          radiusX: 1,
+          radiusY: 1,
+          rotationAngle: 0,
+          force: 1,
+        });
+        var touches       = (type === 'touchend') ? [] : [touch];
+        var changedTouches = [touch];
+        return new TouchEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          touches: touches,
+          targetTouches: touches,
+          changedTouches: changedTouches,
+          ctrlKey: mouseEvt.ctrlKey,
+          shiftKey: mouseEvt.shiftKey,
+          altKey: mouseEvt.altKey,
+          metaKey: mouseEvt.metaKey,
+        });
+      }
+
+      function getCanvas() {
+        return document.getElementById('wx-main-canvas');
+      }
+
+      function onMouseDown(e) {
+        if (!mouseTouchEnabled) return;
+        var canvas = getCanvas();
+        if (!canvas) return;
+        isDown = true;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        pressCursor(e.clientX, e.clientY);
+        canvas.dispatchEvent(makeTouchEvent('touchstart', e, canvas));
+      }
+
+      function onMouseMove(e) {
+        if (!mouseTouchEnabled) return;
+        if (isDown) {
+          var canvas = getCanvas();
+          if (!canvas) return;
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          pressCursor(e.clientX, e.clientY);
+          canvas.dispatchEvent(makeTouchEvent('touchmove', e, canvas));
+        } else {
+          e.stopImmediatePropagation();
+          showCursor(e.clientX, e.clientY);
+        }
+      }
+
+      function onMouseUp(e) {
+        if (!mouseTouchEnabled) return;
+        var canvas = getCanvas();
+        if (!canvas) return;
+        isDown = false;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        showCursor(e.clientX, e.clientY);
+        canvas.dispatchEvent(makeTouchEvent('touchend', e, canvas));
+      }
+
+      function onMouseEnter(e) {
+        if (!mouseTouchEnabled) return;
+        showCursor(e.clientX, e.clientY);
+      }
+
+      function onMouseLeave() {
+        if (!mouseTouchEnabled) return;
+        hideCursor();
+      }
+
+      function install() {
+        if (document.body && document.body.classList) {
+          document.body.classList.add('hide-cursor');
+        }
+        document.addEventListener('mousedown',  onMouseDown,  { capture: true, passive: false });
+        document.addEventListener('mousemove',  onMouseMove,  { capture: true, passive: false });
+        document.addEventListener('mouseup',    onMouseUp,    { capture: true, passive: false });
+        document.addEventListener('mouseleave', onMouseLeave, { capture: true });
+        // Show cursor immediately if mouse is already over the page
+        document.addEventListener('mouseenter', onMouseEnter, { capture: true });
+      }
+
+      function uninstall() {
+        isDown = false;
+        hideCursor();
+        if (document.body && document.body.classList) {
+          document.body.classList.remove('hide-cursor');
+        }
+        document.removeEventListener('mousedown',  onMouseDown,  { capture: true });
+        document.removeEventListener('mousemove',  onMouseMove,  { capture: true });
+        document.removeEventListener('mouseup',    onMouseUp,    { capture: true });
+        document.removeEventListener('mouseleave', onMouseLeave, { capture: true });
+        document.removeEventListener('mouseenter', onMouseEnter, { capture: true });
+      }
+
+      // Start enabled by default
+      install();
+
+      // Listen for toggle messages from the parent toolbar
+      window.addEventListener('message', function (e) {
+        var msg = e.data;
+        if (!msg || msg.type !== 'SET_MOUSE_TOUCH') return;
+        mouseTouchEnabled = !!msg.enabled;
+        if (mouseTouchEnabled) {
+          install();
+        } else {
+          uninstall();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

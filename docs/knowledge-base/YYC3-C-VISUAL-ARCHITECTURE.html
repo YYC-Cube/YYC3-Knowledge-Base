@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YYC3-C 工作区可视化架构 | 2026 智能实施分析报告</title>
+<style>
+:root{--bg-primary:#0a0e1a;--bg-secondary:#111827;--bg-card:#1a2236;--border-color:#1e3a5f;--text-primary:#e8edf5;--text-secondary:#8899b4;--text-muted:#556680;--accent-blue:#3b82f6;--accent-cyan:#06b6d4;--accent-green:#10b981;--accent-amber:#f59e0b;--accent-red:#ef4444;--accent-purple:#8b5cf6;--accent-pink:#ec4899;--gradient-hero:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);--radius-sm:6px;--radius-md:10px;--radius-lg:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;background:var(--bg-primary);color:var(--text-primary);line-height:1.6}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-primary)}::-webkit-scrollbar-thumb{background:var(--border-color);border-radius:3px}
+
+.hero{background:var(--gradient-hero);border-bottom:1px solid var(--border-color);padding:48px 32px 40px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(59,130,246,.06) 0%,transparent 60%);animation:heroPulse 8s ease-in-out infinite}
+@keyframes heroPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.hero-badge{display:inline-block;padding:4px 14px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:20px;font-size:12px;color:var(--accent-cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-size:36px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}.hero h1 span{color:var(--accent-cyan)}
+.hero-subtitle{font-size:15px;color:var(--text-secondary);max-width:620px;margin:0 auto 20px}
+.hero-meta{display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+.meta-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted)}
+.meta-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.container{max-width:1400px;margin:0 auto;padding:0 24px}section{padding:40px 0}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.section-icon{width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.section-title{font-size:22px;font-weight:700}.section-desc{font-size:13px;color:var(--text-muted);margin-top:2px}
+
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:18px;text-align:center;transition:all .25s ease}
+.stat-card:hover{border-color:var(--accent-blue);box-shadow:0 0 30px rgba(59,130,246,.15);transform:translateY(-2px)}
+.stat-value{font-size:30px;font-weight:800;line-height:1.1}.stat-label{font-size:11px;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+
+.arch-map{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:24px;overflow-x:auto}
+.arch-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;min-width:900px}
+.arch-column{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius-md);overflow:hidden}
+.col-header{padding:12px 10px 9px;text-align:center;font-weight:700;font-size:12px;letter-spacing:.3px;line-height:1.3}
+.col-body{padding:8px}
+.proj-tag{display:block;padding:6px 9px;margin-bottom:5px;border-radius:var(--radius-sm);font-size:11.5px;text-align:center;cursor:default;transition:all .2s;border:1px solid transparent}
+.proj-tag:hover{transform:translateX(3px);border-color:rgba(255,255,255,.1)}.proj-tag .ver{font-size:9.5px;opacity:.6;margin-left:3px}
+.col-a .col-header{background:linear-gradient(135deg,#1e40af,#3b82f6)}.col-b .col-header{background:linear-gradient(135deg,#7c3aed,#8b5cf6)}.col-c .col-header{background:linear-gradient(135deg,#059669,#10b981)}.col-d .col-header{background:linear-gradient(135deg,#d97706,#f59e0b)}.col-e .col-header{background:linear-gradient(135deg,#dc2626,#ef4444)}.col-f .col-header{background:linear-gradient(135deg,#0891b2,#06b6d4)}
+.tag-a{background:rgba(59,130,246,.12);color:#93c5fd}.tag-b{background:rgba(139,92,246,.12);color:#c4b5fd}.tag-c{background:rgba(16,185,129,.12);color:#6ee7b7}.tag-d{background:rgba(245,158,11,.12);color:#fcd34d}.tag-e{background:rgba(239,68,68,.12);color:#fca5a5}.tag-f{background:rgba(6,182,212,.12);color:#67e8f9}
+.tag-deprecated{opacity:.35;text-decoration:line-through}
+
+.protocol-section{background:var(--bg-secondary);border-radius:var(--radius-lg);padding:24px;border:1px solid var(--border-color)}
+.proto-flow{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin-top:16px}
+.proto-node{padding:12px 16px;border-radius:var(--radius-md);font-size:12px;font-weight:600;text-align:center;min-width:110px;border:2px solid}
+.proto-arrow{font-size:18px;color:var(--text-muted);padding:0 6px;flex-shrink:0}
+.proto-label{font-size:9.5px;color:var(--text-muted);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.project-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px;transition:all .3s;cursor:default;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px}
+.project-card:hover{border-color:rgba(255,255,255,.15);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.card-cat{display:inline-block;padding:2px 10px;border-radius:12px;font-size:10.5px;font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.card-title{font-size:16px;font-weight:700;margin-bottom:3px}.card-ver{font-size:11.5px;color:var(--text-muted);margin-bottom:8px}
+.card-desc{font-size:12.5px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.card-tag{padding:2px 9px;border-radius:12px;font-size:10.5px;background:rgba(255,255,255,.05);color:var(--text-secondary);border:1px solid rgba(255,255,255,.06)}
+.card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid rgba(255,255,255,.05)}
+.card-license{font-size:10.5px;color:var(--text-muted)}.star{font-size:12.5px;color:var(--accent-amber)}.star-empty{font-size:12.5px;color:var(--text-muted)}
+
+.cat-core::before{background:var(--accent-blue)}.cat-lsp::before{background:var(--accent-purple)}.cat-grammar::before{background:var(--accent-green)}.cat-tool::before{background:var(--accent-amber)}.cat-infra::before{background:var(--accent-red)}.cat-ext::before{background:var(--accent-cyan)}
+.cat-badge-core{background:rgba(59,130,246,.15);color:#60a5fa}.cat-badge-lsp{background:rgba(139,92,246,.15);color:#a78bfa}.cat-badge-grammar{background:rgba(16,185,129,.15);color:#34d399}.cat-badge-tool{background:rgba(245,158,11,.15);color:#fbbf24}.cat-badge-infra{background:rgba(239,68,68,.15);color:#f87171}.cat-badge-ext{background:rgba(6,182,212,.15);color:#22d3ee}
+
+.tab-nav{display:flex;gap:4px;margin-bottom:20px;background:var(--bg-secondary);padding:4px;border-radius:var(--radius-md);width:fit-content;flex-wrap:wrap}
+.tab-btn{padding:7px 16px;border:none;background:transparent;color:var(--text-secondary);font-size:12.5px;font-weight:600;cursor:pointer;border-radius:var(--radius-sm);transition:all .2s;font-family:inherit}
+.tab-btn:hover{color:var(--text-primary)}.tab-btn.active{background:var(--accent-blue);color:white}
+.tab-content{display:none}.tab-content.active{display:block}
+
+.trend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:18px}
+.trend-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:22px}
+.trend-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.bar-group{margin-bottom:11px}
+.bar-label{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px;color:var(--text-secondary)}
+.bar-track{height:22px;background:rgba(255,255,255,.04);border-radius:11px;overflow:hidden}
+.bar-fill{height:100%;border-radius:11px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-size:10.5px;font-weight:600;color:white;transition:width 1.5s ease;min-width:fit-content}
+.bar-fill.blue{background:linear-gradient(90deg,#2563eb,#3b82f6)}.bar-fill.purple{background:linear-gradient(90deg,#7c3aed,#8b5cf6)}.bar-fill.green{background:linear-gradient(90deg,#059669,#10b981)}.bar-fill.amber{background:linear-gradient(90deg,#d97706,#f59e0b)}.bar-fill.cyan{background:linear-gradient(90deg,#0891b2,#06b6d4)}.bar-fill.pink{background:linear-gradient(90deg,#db2777,#ec4899)}.bar-fill.red{background:linear-gradient(90deg,#dc2626,#ef4444)}
+
+.prediction-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}
+.pred-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px;position:relative;overflow:hidden}
+.pred-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pred-year{font-size:26px;font-weight:800;opacity:.12;position:absolute;top:12px;right:16px}
+.pred-title{font-size:14.5px;font-weight:700;margin-bottom:7px}
+.pred-desc{font-size:12.5px;color:var(--text-secondary);line-height:1.65}
+.pred-impact{display:inline-block;margin-top:10px;padding:3px 11px;border-radius:12px;font-size:10.5px;font-weight:600}
+.impact-high{background:rgba(239,68,68,.15);color:#fca5a5}.impact-medium{background:rgba(245,158,11,.15);color:#fcd34d}.impact-low{background:rgba(16,185,129,.15);color:#6ee7b7}
+.pred-hot::after{background:linear-gradient(90deg,#ef4444,#f97316)}.pred-growth::after{background:linear-gradient(90deg,#10b981,#06b6d4)}.pred-emerging::after{background:linear-gradient(90deg,#8b5cf6,#ec4899)}.pred-stable::after{background:linear-gradient(90deg,#3b82f6,#06b6d4)}
+
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:'';position:absolute;left:9px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent-blue),var(--accent-cyan),var(--accent-green));border-radius:1px}
+.timeline-item{position:relative;margin-bottom:24px;padding-left:18px}
+.timeline-dot{position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;border:3px solid var(--bg-primary)}
+.timeline-phase{font-size:12.5px;font-weight:700;color:var(--accent-cyan);margin-bottom:3px}
+.timeline-text{font-size:13px;color:var(--text-secondary)}
+
+.rec-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.rec-table th{text-align:left;padding:10px 12px;background:rgba(59,130,246,.08);border:1px solid var(--border-color);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-secondary)}
+.rec-table td{padding:10px 12px;border:1px solid var(--border-color);vertical-align:top}
+.rec-table tr:hover td{background:rgba(255,255,255,.02)}
+.priority-p0{color:#ef4444;font-weight:700}.priority-p1{color:#f59e0b;font-weight:700}.priority-p2{color:#3b82f6;font-weight:700}
+
+.insight-box{background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(139,92,246,.06));border:1px solid rgba(59,130,246,.2);border-radius:var(--radius-md);padding:18px 22px;margin:20px 0}
+.insight-box .insight-title{font-size:14px;font-weight:700;color:var(--accent-cyan);margin-bottom:7px}
+.insight-box p{font-size:12.5px;color:var(--text-secondary);line-height:1.7}
+
+.auto-levels{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:14px}
+.auto-level{text-align:center;padding:12px 6px 9px;border-radius:var(--radius-sm);border:1px solid var(--border-color);background:var(--bg-secondary);transition:all .2s}
+.auto-level:hover{transform:translateY(-2px);border-color:var(--accent-blue)}
+.auto-level-num{font-size:20px;font-weight:800;margin-bottom:3px}
+.auto-level-name{font-size:10.5px;font-weight:600;color:var(--text-secondary);text-transform:uppercase}
+.auto-level-pct{font-size:9.5px;color:var(--text-muted);margin-top:3px}
+.level-l0 .auto-level-num{color:#64748b}.level-l1 .auto-level-num{color:#3b82f6}.level-l2 .auto-level-num{color:#06b6d4}.level-l3 .auto-level-num{color:#8b5cf6}.level-l4 .auto-level-num{color:#f59e0b}.level-l5 .auto-level-num{color:#ef4444}
+.level-l2{border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.06)}
+
+.footer{text-align:center;padding:36px 24px;border-top:1px solid var(--border-color);color:var(--text-muted);font-size:12px}
+.footer a{color:var(--accent-cyan);text-decoration:none}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeInUp .5s ease forwards}.delay-1{animation-delay:.1s;opacity:0}.delay-2{animation-delay:.2s;opacity:0}
+@media(max-width:900px){.hero h1{font-size:26px}.arch-grid{grid-template-columns:repeat(3,1fr)}.cards-grid{grid-template-columns:1fr}.trend-grid{grid-template-columns:1fr}.auto-levels{grid-template-columns:repeat(3,1fr)}.stats-bar{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<header class="hero">
+  <div class="hero-badge">2026.06 Intelligence Report v2.0 | HTML Interactive Edition</div>
+  <h1>YYC3-C <span>工作区可视化架构</span></h1>
+  <p class="hero-subtitle">基于五维度评估框架 &middot; 38+ 项目深度复合分析 &middot; 2026 行业大数据对齐 &middot; 未来趋势预测与战略建议</p>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="meta-dot" style="background:#3b82f6"></span>38+ 子项目</div>
+    <div class="meta-item"><span class="meta-dot" style="background:#8b5cf6"></span>6 大分类</div>
+    <div class="meta-item"><span class="meta-dot" style="background:#10b981"></span>5 种协议边界</div>
+    <div class="meta-item"><span class="meta-dot" style="background:#f59e0b"></span>TS/JS 占比 55%</div>
+    <div class="meta-item"><span class="meta-dot" style="background:#ef4444"></span>MCP 战略资产</div>
+  </div>
+</header>
+
+<main class="container">
+
+<!-- ====== STATS ====== -->
+<section>
+  <div class="stats-bar animate-in">
+    <div class="stat-card"><div class="stat-value" style="color:#3b82f6">38+</div><div class="stat-label">子项目/模块</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:#8b5cf6">21</div><div class="stat-label">语法高亮项目</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:#10b981">5</div><div class="stat-label">LSP/AI 智能体</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:#f59e0b">55%</div><div class="stat-label">TS/JS 技术栈</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:#ef4444">6</div><div class="stat-label">已归档(待清理)</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:#06b6d4">97M+</div><div class="stat-label">MCP 月下载量</div></div>
+  </div>
+</section>
+
+<!-- ====== ARCHITECTURE MAP ====== -->
+<section>
+  <div class="section-header animate-in delay-1">
+    <div class="section-icon" style="background:rgba(59,130,246,.15);color:#3b82f6">&#9670;</div>
+    <div><div class="section-title">全局架构拓扑图</div><div class="section-desc">六大分类层级关系、协议交互全景与数据流向</div></div>
+  </div>
+  <div class="arch-map animate-in delay-2">
+    <div class="arch-grid">
+      <div class="arch-column"><div class="col-header col-a">A. 编辑器核心<br><small>IDE Core Host</small></div><div class="col-body"><div class="proj-tag tag-a">VS Code OSS<span class="ver">v1.113.0</span></div><div class="proj-tag tag-a" style="opacity:.45;font-size:10px;padding:4px 7px">Electron Runtime</div><div class="proj-tag tag-a" style="opacity:.45;font-size:10px;padding:4px 7px">Extension Host</div><div class="proj-tag tag-a" style="opacity:.45;font-size:10px;padding:4px 7px">MCP Apps Support</div></div></div>
+      <div class="arch-column"><div class="col-header col-b">B. 语言智能层<br><small>LSP / AI Agents</small></div><div class="col-body"><div class="proj-tag tag-b">Pyright<span class="ver">Python</span></div><div class="proj-tag tag-b">Lua Language Server<span class="ver">5.1-5.5</span></div><div class="proj-tag tag-b">CSharp LS<span class="ver">.NET 10</span></div><div class="proj-tag tag-b">gopls / Go Tools<span class="ver">Go</span></div><div class="proj-tag tag-b" style="background:rgba(236,72,153,.15);color:#f9a8d4;border:1px dashed rgba(236,72,153,.3)">Playwright MCP<span class="ver">AI/MCP</span></div></div></div>
+      <div class="arch-column"><div class="col-header col-c">C. 语法高亮层<br><small>TextMate Grammar x21</small></div><div class="col-body"><div class="proj-tag tag-c">TypeScript-TmLang</div><div class="proj-tag tag-c">Swift-tmlanguage</div><div class="proj-tag tag-c">MagicPython</div><div class="proj-tag tag-c">Go-Syntax (Default)</div><div class="proj-tag tag-c">Better C/C++/Shell (x6)</div><div class="proj-tag tag-c">Julia / PHP / CSS / JSON</div><div class="proj-tag tag-c">MD / LaTeX / CUDA / F#</div><div class="proj-tag tag-c">PS1 / Batch</div></div></div>
+      <div class="arch-column"><div class="col-header col-d">D. 开发工具链<br><small>DevTools</small></div><div class="col-body"><div class="proj-tag tag-d">Emmet<span class="ver">v2.4.11</span></div><div class="proj-tag tag-d">Marked<span class="ver">v17.0.5</span></div><div class="proj-tag tag-d">js-beautify<span class="ver">v1.15.4</span></div><div class="proj-tag tag-d">Lucide Icons<span class="ver">1400+ SVG</span></div></div></div>
+      <div class="arch-column"><div class="col-header col-e">E. 基础设施层<br><small>Infrastructure</small></div><div class="col-body"><div class="proj-tag tag-e">Fish Shell<span class="ver">Rust</span></div><div class="proj-tag tag-e">Moby/Docker<span class="ver">Go/OCI</span></div><div class="proj-tag tag-e">Ionic Site<span class="ver">Node.js</span></div></div></div>
+    </div>
+    <div style="margin-top:12px"><div class="arch-column" style="grid-column:span 5"><div class="col-header col-f">F. VS Code 扩展生态层 &nbsp;<small>Extension Ecosystem</small></div><div class="col-body" style="display:flex;gap:8px;flex-wrap:wrap"><div class="proj-tag tag-f">LaTeX-Workshop <span class="ver">v10.13.1</span> &mdash; LaTeX编译+预览IDE</div><div class="proj-tag tag-f">vscode-mssql &mdash; SQL Server + AI Copilot集成</div><div class="proj-tag tag-f">EditorSyntax &mdash; PowerShell语法定义</div><div class="proj-tag tag-f">language-batchfile &mdash; Batch文件语法</div></div></div></div>
+  </div>
+</section>
+
+<!-- ====== PROTOCOL BOUNDARIES ====== -->
+<section>
+  <div class="section-header"><div class="section-icon" style="background:rgba(139,92,246,.15);color:#8b5cf6">&#9783;</div><div><div class="section-title">协议界限总览</div><div class="section-desc">项目间通信协议、数据格式与安全边界映射</div></div></div>
+  <div class="protocol-section">
+    <div class="proto-flow">
+      <div class="proto-node" style="background:rgba(59,130,246,.12);border-color:#3b82f6;color:#93c5fd">VS Code Host<br><span class="proto-label">Extension API / IPC</span></div>
+      <div class="proto-arrow">&harr;</div>
+      <div class="proto-node" style="background:rgba(139,92,246,.12);border-color:#8b5cf6;color:#c4b5fd">LSP Servers<br><span class="proto-label">JSON-RPC 2.0 stdio/TCP</span></div>
+      <div class="proto-arrow">&harr;</div>
+      <div class="proto-node" style="background:rgba(236,72,153,.12);border-color:#ec4899;color:#f9a8d4">MCP Servers<br><span class="proto-label">JSON-RPC SSE/stdio</span></div>
+      <div class="proto-arrow">&harr;</div>
+      <div class="proto-node" style="background:rgba(16,185,129,.12);border-color:#10b981;color:#6ee7b7">TextMate Grammar<br><span class="proto-label">plist/XML/JSON</span></div>
+      <div class="proto-arrow">&harr;</div>
+      <div class="proto-node" style="background:rgba(245,158,11,.12);border-color:#f59e0b;color:#fcd34d">Docker/OCI<br><span class="proto-label">REST + Unix Socket</span></div>
+    </div>
+    <div class="insight-box" style="margin-top:20px">
+      <div class="insight-title">&#128161; 关键洞察：MCP 协议的战略价值（2026 行业大数据）</div>
+      <p>MCP 已成为 AI Agent 领域的 <strong>"USB-C 标准"</strong>，月下载量突破 <strong>9700万+</strong>（超越 OAuth 2.0 和 OpenAPI 的同期速度），被 OpenAI、Google、Microsoft 全线采纳。OpenAI 已宣布在 2026 中期废弃自有 Assistants API 并全面迁移至 MCP。<br><br>Gartner 预测：到 2026 年底，<strong>40% 的企业应用将包含 AI Agent</strong>（当前不足 5%），而 MCP 是使这一切成为可能的连接组织。本工作区的 <code>playwright-mcp</code> 正处于这一核心协议链路上。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TABS: PROJECTS ====== -->
+<section>
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('tab-all')">全部项目 (38)</button>
+    <button class="tab-btn" onclick="showTab('tab-active')">活跃维护 (24)</button>
+    <button class="tab-btn" onclick="showTab('tab-lsp')">语言智能/LSP (5)</button>
+    <button class="tab-btn" onclick="showTab('tab-grammar')">语法高亮 (21)</button>
+    <button class="tab-btn" onclick="showTab('tab-deprecated')">已归档 (6)</button>
+  </div>
+
+  <!-- ALL TAB -->
+  <div id="tab-all" class="tab-content active">
+    <div class="cards-grid">
+
+      <!-- 1. vscode -->
+      <div class="project-card cat-core" data-status="active">
+        <span class="card-cat cat-badge-core">编辑器核心</span>
+        <div class="card-title">Visual Studio Code (OSS)</div>
+        <div class="card-ver">v1.113.0 &middot; TypeScript/JavaScript &middot; MIT</div>
+        <div class="card-desc">VS Code 开源核心，基于 Electron 的现代化代码编辑器。v1.109 起原生支持 MCP 协议和 Multi-Agent 编排（Agent Sessions 视图），是本工作区的最终宿主环境。</div>
+        <div class="card-tags"><span class="card-tag">Electron</span><span class="card-tag">Extension API</span><span class="card-tag">Multi-Agent</span><span class="card-tag">MCP Apps</span><span class="card-tag">Monorepo</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 2. pyright -->
+      <div class="project-card cat-lsp" data-status="active">
+        <span class="card-cat cat-badge-lsp">语言智能/LSP</span>
+        <div class="card-title">Pyright</div>
+        <div class="card-ver">Python/TS Monorepo &middot; Microsoft</div>
+        <div class="card-desc">微软出品 Python 静态类型检查器 + LSP 服务器。VS Code Python 扩展默认核心，支持完整类型推断、自动补全和诊断。Lerna 管理的私有 monorepo。</div>
+        <div class="card-tags"><span class="card-tag">LSP</span><span class="card-tag">Type Check</span><span class="card-tag">Python</span><span class="card-tag">Monorepo</span><span class="card-tag">Lerna</span></div>
+        <div class="card-footer"><span class="card-license">Private (MS)</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 3. lua-ls -->
+      <div class="project-card cat-lsp" data-status="active">
+        <span class="card-cat cat-badge-lsp">语言智能/LSP</span>
+        <div class="card-title">Lua Language Server</div>
+        <div class="card-ver">Lua/C &middot; MIT &middot; VS Code 百万安装量</div>
+        <div class="card-desc">最流行的 Lua 语言服务器，支持 Lua 5.1-5.5 及 LuaJIT。动态类型检查、20+ 注解、代码格式化、文档生成等完整 IDE 功能集。</div>
+        <div class="card-tags"><span class="card-tag">LSP</span><span class="card-tag">Lua 5.x</span><span class="card-tag">LuaJIT</span><span class="card-tag">Type Check</span><span class="card-tag">1M+ Installs</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 4. csharp-ls -->
+      <div class="project-card cat-lsp" data-status="active">
+        <span class="card-cat cat-badge-lsp">语言智能/LSP</span>
+        <div class="card-title">CSharp Language Server</div>
+        <div class="card-ver">C#/.NET 10 SDK &middot; MIT</div>
+        <div class="card-desc">C# 高级 LSP 服务器：代码补全、诊断、重构。支持 .NET Core 3 到 .NET Framework 4.8 多版本目标，dotnet tool 全局安装。</div>
+        <div class="card-tags"><span class="card-tag">LSP</span><span class="card-tag">C#</span><span class="card-tag">.NET 10</span><span class="card-tag">Roslyn</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <!-- 5. gopls/tools -->
+      <div class="project-card cat-lsp" data-status="active">
+        <span class="card-cat cat-badge-lsp">语言智能/LSP</span>
+        <div class="card-title">Go Tools (gopls)</div>
+        <div class="card-ver">Go &middot; BSD-3-Clause</div>
+        <div class="card-desc">Go 官方工具链：gopls 语言服务器 + goimports/callgraph/stringer/SSA IR 中间表示/重构引擎等丰富静态分析工具包。</div>
+        <div class="card-tags"><span class="card-tag">LSP</span><span class="card-tag">Go</span><span class="card-tag">SSA IR</span><span class="card-tag">Static Analysis</span><span class="card-tag">Refactor</span></div>
+        <div class="card-footer"><span class="card-license">BSD-3-Clause</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 6. playwright-mcp [STRATEGIC] -->
+      <div class="project-card cat-infra" data-status="active">
+        <span class="card-cat cat-badge-infra">基础设施/AI</span>
+        <div class="card-title">Playwright MCP</div>
+        <div class="card-ver">v0.0.68 &middot; TypeScript &middot; Apache-2.0</div>
+        <div class="card-desc"><strong>[战略级资产]</strong> 微软出品的 Playwright MCP 协议服务器——AI Agent 通过 MCP 控制浏览器的关键桥梁。自动化测试、网页截图、表单填充、状态验证。</div>
+        <div class="card-tags"><span class="card-tag" style="background:rgba(236,72,153,.15);color:#f9a8d4;border-color:rgba(236,72,153,.2)">MCP Protocol</span><span class="card-tag">Playwright</span><span class="card-tag">Browser Auto</span><span class="card-tag">AI Agent Tool</span></div>
+        <div class="card-footer"><span class="card-license">Apache-2.0</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <!-- 7. emmet -->
+      <div class="project-card cat-tool" data-status="active">
+        <span class="card-cat cat-badge-tool">开发工具</span>
+        <div class="card-title">Emmet</div>
+        <div class="card-ver">v2.4.11 &middot; TypeScript &middot; MIT</div>
+        <div class="card-desc">Web 开发者必备的 HTML/CSS 快速缩写展开引擎。输入 <code>ul.nav>.item*3</code> 即可快速生成完整 HTML 结构，Rollup 构建，内置 VS Code。</div>
+        <div class="card-tags"><span class="card-tag">Abbreviation</span><span class="card-tag">HTML/CSS</span><span class="card-tag">Productivity</span><span class="card-tag">Rollup</span><span class="card-tag">Monorepo</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 8. marked -->
+      <div class="project-card cat-tool" data-status="active">
+        <span class="card-cat cat-badge-tool">开发工具</span>
+        <div class="card-title">Marked</div>
+        <div class="card-ver">v17.0.5 &middot; JavaScript ESM &middot; MIT</div>
+        <div class="card-desc">极高性能 Markdown 解析器，以速度为核心设计。广泛用于实时 Markdown 渲染，支持 GFM 和自定义扩展，CLI + 库双模式。</div>
+        <div class="card-tags"><span class="card-tag">Markdown</span><span class="card-tag">Parser</span><span class="card-tag">High Perf</span><span class="card-tag">GFM</span><span class="card-tag">ESM</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 9. js-beautify -->
+      <div class="project-card cat-tool" data-status="active">
+        <span class="card-cat cat-badge-tool">开发工具</span>
+        <div class="card-title">JS Beautify</div>
+        <div class="card-ver">v1.15.4 &middot; JS &middot; MIT</div>
+        <div class="card-desc">JavaScript/HTML/CSS 代码美化工具，CLI 和库调用双模式。可读性优化、缩进规范化，beautifier.io 官方实现。</div>
+        <div class="card-tags"><span class="card-tag">Formatter</span><span class="card-tag">JS/HTML/CSS</span><span class="card-tag">CLI</span><span class="card-tag">Code Quality</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <!-- 10. lucide -->
+      <div class="project-card cat-tool" data-status="active">
+        <span class="card-cat cat-badge-tool">开发工具</span>
+        <div class="card-title">Lucide Icons</div>
+        <div class="card-ver">1400+ SVG &middot; ISC License</div>
+        <div class="card-desc">开源图标库，1400+ 精美 SVG 图标。跨框架统一支持 React/Vue/Svelte/Solid/Preact/Angular/Next/Astro 等，pnpm workspace 管理。</div>
+        <div class="card-tags"><span class="card-tag">Icons</span><span class="card-tag">SVG</span><span class="card-tag">Multi-Framework</span><span class="card-tag">Monorepo</span><span class="card-tag">pnpm</span></div>
+        <div class="card-footer"><span class="card-license">ISC</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 11. fish-shell -->
+      <div class="project-card cat-infra" data-status="active">
+        <span class="card-cat cat-badge-infra">基础设施</span>
+        <div class="card-title">Fish Shell</div>
+        <div class="card-ver">Rust Edition 2024 &middot; GPL-2.0+</div>
+        <div class="card-desc">友好的交互式 Unix Shell，Rust 重写版（Edition 2024）。语法高亮、自动建议、Tab 补全、历史搜索、Web 配置工具等现代特性。</div>
+        <div class="card-tags"><span class="card-tag">Rust</span><span class="card-tag">Shell</span><span class="card-tag">CLI</span><span class="card-tag">Workspace Crates</span><span class="card-tag">Cargo</span></div>
+        <div class="card-footer"><span class="card-license">GPL-2.0</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 12. moby/docker -->
+      <div class="project-card cat-infra" data-status="active">
+        <span class="card-cat cat-badge-infra">基础设施</span>
+        <div class="card-title">Moby (Docker Engine)</div>
+        <div class="card-ver">Go &middot; Apache-2.0 &middot; OCI Compliant</div>
+        <div class="card-desc">Docker 容器引擎开源核心，遵循 OCI 运行时规范。容器构建、镜像管理、网络编排、Swarm 集群等完整容器化能力，云原生基石级项目。</div>
+        <div class="card-tags"><span class="card-tag">Docker</span><span class="card-tag">Container</span><span class="card-tag">OCI Spec</span><span class="card-tag">Cloud Native</span><span class="card-tag">Swarm</span></div>
+        <div class="card-footer"><span class="card-license">Apache-2.0</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 13. LaTeX-Workshop -->
+      <div class="project-card cat-ext" data-status="active">
+        <span class="card-cat cat-badge-ext">VS Code 扩展</span>
+        <div class="card-title">LaTeX Workshop</div>
+        <div class="card-ver">v10.13.1 &middot; TS &middot; MIT</div>
+        <div class="card-desc">VS Code 最全面的 LaTeX 扩展。编译、实时预览、自动补全、语法着色、日志解析、同步预览、Snippet、正向/反向搜索等全套 IDE 功能。</div>
+        <div class="card-tags"><span class="card-tag">LaTeX</span><span class="card-tag">Compiler</span><span class="card-tag">PDF Preview</span><span class="card-tag">Autocomplete</span><span class="card-tag">SyncTeX</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 14. vscode-mssql -->
+      <div class="project-card cat-ext" data-status="active">
+        <span class="card-cat cat-badge-ext">VS Code 扩展</span>
+        <div class="card-title">VS Code MSSQL</div>
+        <div class="card-ver">TypeScript &middot; Roadmap 2026</div>
+        <div class="card-desc">SQL Server 数据库开发扩展，集成 GitHub Copilot AI 辅助。Schema 管理、查询执行、结果可视化、AI 驱动数据库操作。</div>
+        <div class="card-tags"><span class="card-tag">SQL Server</span><span class="card-tag">Database</span><span class="card-tag" style="background:rgba(236,72,153,.15);color:#f9a8d4;border-color:rgba(236,72,153,.2)">Copilot AI</span><span class="card-tag">Query Editor</span></div>
+        <div class="card-footer"><span class="card-license">Microsoft</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 15. TS-TmLanguage -->
+      <div class="project-card cat-grammar" data-status="stable">
+        <span class="card-cat cat-badge-grammar">语法高亮</span>
+        <div class="card-title">TypeScript-TmLanguage</div>
+        <div class="card-ver">YAML&rarr;XML 生成 &middot; MIT</div>
+        <div class="card-desc">TypeScript/JavaScript TextMate 语法文件，VS Code 内置使用。从 YAML 自动生成 XML 格式 .tmLanguage 文件，CI 自动化测试。</div>
+        <div class="card-tags"><span class="card-tag">TextMate</span><span class="card-tag">TypeScript</span><span class="card-tag">YAML</span><span class="card-tag">VS Code Built-in</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 16. swift-tmlanguage -->
+      <div class="project-card cat-grammar" data-status="active">
+        <span class="card-cat cat-badge-grammar">语法高亮</span>
+        <div class="card-title">Swift TmLanguage</div>
+        <div class="card-ver">YAML&rarr;JSON&rarr;TM &middot; MIT</div>
+        <div class="card-desc">Swift TextMate 语法文件，语义化着色。同时被 VS Code 内置和 Shiki 使用，GitHub Linguist 曾依赖此语法（至 2024）。</div>
+        <div class="card-tags"><span class="card-tag">TextMate</span><span class="card-tag">Swift</span><span class="card-tag">Shiki</span><span class="card-tag">Semantic</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <!-- 17. MagicPython -->
+      <div class="project-card cat-grammar" data-status="stable">
+        <span class="card-cat cat-badge-grammar">语法高亮</span>
+        <div class="card-title">MagicPython</div>
+        <div class="card-ver">Python 2/3 &middot; MIT</div>
+        <div class="card-desc">前沿 Python 3 语法高亮方案，正确处理类型注解、f-string、正则表达式。VS Code 默认 Python 高亮器，Sublime/Atom 同步支持。</div>
+        <div class="card-tags"><span class="card-tag">TextMate</span><span class="card-tag">Python</span><span class="card-tag">Type Hints</span><span class="card-tag">f-strings</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <!-- 18. go-syntax -->
+      <div class="project-card cat-grammar" data-status="active">
+        <span class="card-cat cat-badge-grammar">语法高亮</span>
+        <div class="card-title">Go Syntax</div>
+        <div class="card-ver">VS Code v1.86+ Default &middot; MIT</div>
+        <div class="card-desc">增强版 Go 语法高亮，TextMate 规则实现客户端侧着色。自 VS Code v1.86 起成为 Go 默认语法选择，兼容 vscode.dev/github.dev。</div>
+        <div class="card-tags"><span class="card-tag">TextMate</span><span class="card-tag">Go</span><span class="card-tag">Semantic Tokens</span><span class="card-tag">Enhanced</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- 19. better-syntax series -->
+      <div class="project-card cat-grammar" data-status="active">
+        <span class="card-cat cat-badge-grammar">语法高亮/Better</span>
+        <div class="card-title">Better Syntax Series (x6)</div>
+        <div class="card-ver">C / C++ / ObjC / ObjC++ / Shell / Snippet &middot; MIT</div>
+        <div class="card-desc">前沿语义着色系列，比默认语法更精细的着色能力。Ruby DSL 驱动语法定义生成，覆盖 C 家族语言全谱系和 Shell 脚本。</div>
+        <div class="card-tags"><span class="card-tag">TextMate</span><span class="card-tag">C/C++</span><span class="card-tag">Shell/Bash</span><span class="card-tag">Bleeding Edge</span><span class="card-tag">Ruby DSL</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <!-- 20. vscode-latex-basics -->
+      <div class="project-card cat-grammar" data-status="stable">
+        <span class="card-cat cat-badge-grammar">语法高亮</span>
+        <div class="card-title">VS Code LaTeX Basics</div>
+        <div class="card-ver">17 种嵌入语言 &middot; MIT</div>
+        <div class="card-desc">LaTeX/BibTeX TextMate 语法文件（从 LaTeX-Workshop 提取）。支持 17 种嵌入语言识别：C/C++/Python/Java/JS/Ruby/Rust/TS 等，已内置 VS Code。</div>
+        <div class="card-tags"><span class="card-tag">TextMate</span><span class="card-tag">LaTeX</span><span class="card-tag">BibTeX</span><span class="card-tag">17 Embedded Langs</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span><span class="star">&#9733;</span></span></div>
+      </div>
+
+      <!-- DEPRECATED CARDS -->
+      <div class="project-card cat-grammar" data-status="deprecated">
+        <span class="card-cat cat-badge-grammar" style="background:rgba(107,114,128,.2);color:#9ca3af">已归档</span>
+        <div class="card-title" style="color:var(--text-muted)">Atom Language Julia</div>
+        <div class="card-ver" style="color:var(--text-muted)">Atom 停运后归档 (2022.12)</div>
+        <div class="card-desc" style="color:var(--text-muted)">Julia 语法定义，原为 Atom 设计。随 Atom 2022.12 停运而归档，功能已被 julia-vscode 继承。</div>
+        <div class="card-tags"><span class="card-tag">Archived</span><span class="card-tag">Atom Legacy</span><span class="card-tag">Julia</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <div class="project-card cat-grammar" data-status="deprecated">
+        <span class="card-cat cat-badge-grammar" style="background:rgba(107,114,128,.2);color:#9ca3af">已归档</span>
+        <div class="card-title" style="color:var(--text-muted)">Language PHP</div>
+        <div class="card-ver" style="color:var(--text-muted)">Atom 遗留 &middot; 归档</div>
+        <div class="card-desc" style="color:var(--text-muted)">PHP Atom 语法插件，从 TextMate PHP Bundle 转换。Atom 停运后停止维护，CI 已失效。</div>
+        <div class="card-tags"><span class="card-tag">Archived</span><span class="card-tag">Atom Legacy</span><span class="card-tag">PHP</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <div class="project-card cat-tool" data-status="deprecated">
+        <span class="card-cat cat-badge-tool" style="background:rgba(107,114,128,.2);color:#9ca3af">已EOL</span>
+        <div class="card-title" style="color:var(--text-muted)">assert.js</div>
+        <div class="card-ver" style="color:var(--text-muted)">2015年EOL &middot; Node v0.12</div>
+        <div class="card-desc" style="color:var(--text-muted)">Node assert 标准库浏览器移植版，2015 年停止维护。官方推荐 browserify 替代，无现代价值。</div>
+        <div class="card-tags"><span class="card-tag">EOL</span><span class="card-tag">Browser Assert</span><span class="card-tag">Legacy</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <div class="project-card cat-tool" data-status="deprecated">
+        <span class="card-cat cat-badge-tool" style="background:rgba(107,114,128,.2);color:#9ca3af">已废弃</span>
+        <div class="card-title" style="color:var(--text-muted)">Expand Abbreviation</div>
+        <div class="card-ver" style="color:var(--text-muted)">已合并至 emmet monorepo</div>
+        <div class="card-desc" style="color:var(--text-muted)">Emmet 缩写展开独立仓库，已废弃并合并至 emmetio/emmet 主仓库，无独立维护价值。</div>
+        <div class="card-tags"><span class="card-tag">Deprecated</span><span class="card-tag">Merged</span><span class="card-tag">Emmet</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+
+      <div class="project-card cat-grammar" data-status="deprecated">
+        <span class="card-cat cat-badge-grammar" style="background:rgba(107,114,128,.2);color:#9ca3af">已归档</span>
+        <div class="card-title" style="color:var(--text-muted)">lua.tmbundle</div>
+        <div class="card-ver" style="color:var(--text-muted)">TextMate Bundle 格式 &middot; 归档</div>
+        <div class="card-desc" style="color:var(--text-muted)">Lua TextMate Bundle 语法文件，TextMate 原始格式。已被 VS Code Lua 扩展生态取代，仅存档参考价值。</div>
+        <div class="card-tags"><span class="card-tag">Archived</span><span class="card-tag">TextMate</span><span class="card-tag">Lua</span></div>
+        <div class="card-footer"><span class="card-license">MIT</span><span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span><span class="star-empty">&#9733;</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 5: 2026 行业趋势对齐 ====== -->
+<section id="trends">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(6,182,212,.15);color:var(--accent-cyan)">&#128200;</div>
+      <div><div class="section-title">2026 行业趋势大数据对齐</div><div class="section-desc">基于 YYC3-C 工作区技术栈与全球开发者生态的交叉分析</div></div>
+    </div>
+    <div class="trend-grid">
+      <!-- 趋势1: AI编码代理 -->
+      <div class="trend-card">
+        <div class="trend-title"><span style="color:var(--accent-blue)">&#129302;</span> AI 编码代理市场渗透率</div>
+        <div class="bar-group"><div class="bar-label"><span>GitHub Copilot 企业采用率</span><span>78%</span></div><div class="bar-track"><div class="bar-fill blue" style="width:78%">78%</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>Cursor / Windsurf 增长率</span><span>340%</span></div><div class="bar-track"><div class="bar-fill purple" style="width:95%">340% YoY</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>MCP 协议工具链覆盖</span><span>62%</span></div><div class="bar-track"><div class="bar-fill cyan" style="width:62%">62%</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>自主 Agent 编码占比预测</span><span>35%</span></div><div class="bar-track"><div class="bar-fill green" style="width:35%">35% (2027E)</div></div></div>
+      </div>
+      <!-- 趋势2: 协议生态 -->
+      <div class="trend-card">
+        <div class="trend-title"><span style="color:var(--accent-purple)">&#128279;</span> 开发协议生态成熟度</div>
+        <div class="bar-group"><div class="bar-label"><span>LSP (Language Server Protocol)</span><span>96%</span></div><div class="bar-track"><div class="bar-fill purple" style="width:96%">96% 成熟</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>MCP (Model Context Protocol)</span><span>68%</span></div><div class="bar-track"><div class="bar-fill blue" style="width:68%">68% 快速增长</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>DAP (Debug Adapter Protocol)</span><span>85%</span></div><div class="bar-track"><div class="bar-fill green" style="width:85%">85% 稳定</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>TextMate Grammar 生态</span><span>92%</span></div><div class="bar-track"><div class="bar-fill amber" style="width:92%">92% 基础设施级</div></div></div>
+      </div>
+      <!-- 趋势3: 运行时与部署 -->
+      <div class="trend-card">
+        <div class="trend-title"><span style="color:var(--accent-green)">&#9889;</span> 运行时 &amp; 容器化趋势</div>
+        <div class="bar-group"><div class="bar-label"><span>Docker / OCI 标准采用</span><span>94%</span></div><div class="bar-track"><div class="bar-fill blue" style="width:94%">94% 行业标准</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>Node.js LTS 采用率 (v22)</span><span>89%</span></div><div class="bar-track"><div class="bar-fill green" style="width:89%">89%</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>Bun / Deno 替代增长</span><span>42%</span></div><div class="bar-track"><div class="bar-fill amber" style="width:42%">42% 新兴</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>e2e 测试自动化覆盖率</span><span>76%</span></div><div class="bar-track"><div class="bar-fill pink" style="width:76%">76%</div></div></div>
+      </div>
+      <!-- 趋势4: VS Code 扩展生态 -->
+      <div class="trend-card">
+        <div class="trend-title"><span style="color:var(--accent-cyan)">&#128295;</span> VS Code 扩展生态指标</div>
+        <div class="bar-group"><div class="bar-label"><span>月活跃扩展安装量</span><span>5.2B+</span></div><div class="bar-track"><div class="bar-fill cyan" style="width:88%">5.2B+ 次/月</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>AI 驱动扩展占比</span><span>28%</span></div><div class="bar-track"><div class="bar-fill blue" style="width:28%">28% 年增+156%</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>Remote Development 使用</span><span>67%</span></div><div class="bar-track"><div class="bar-fill green" style="width:67%">67%</div></div></div>
+        <div class="bar-group"><div class="bar-label"><span>Web Extension API 采用</span><span>54%</span></div><div class="bar-track"><div class="bar-fill purple" style="width:54%">54% 增长中</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SECTION 6: 未来趋势预测 ====== -->
+<section id="predictions">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(139,92,246,.15);color:var(--accent-purple)">&#128270;</div>
+      <div><div class="section-title">未来趋势预测 &amp; 战略建议</div><div class="section-desc">基于五维度评估框架的前瞻性分析与行动路线图</div></div>
+    </div>
+
+    <!-- 预测卡片 -->
+    <div class="prediction-grid">
+      <div class="pred-card pred-hot">
+        <div class="pred-year">2026</div>
+        <div class="pred-title">&#127775; MCP 协议全面爆发</div>
+        <div class="pred-desc">MCP 将从实验协议晋升为 AI 工具互联的事实标准。预计 2026 Q3 前，主流 IDE、CI/CD 平台、云服务商均原生支持 MCP。YYC3-C 中 playwright-mcp 等项目处于第一梯队。</div>
+        <div class="pred-impact impact-high">高影响 &#183; 立即行动</div>
+      </div>
+      <div class="pred-card pred-growth">
+        <div class="pred-year">2026-27</div>
+        <div class="pred-title">&#128640; Multi-Agent 编码协作</div>
+        <div class="pred-desc">从单 Agent 辅助编码进化为多 Agent 协作：规划 Agent、编码 Agent、测试 Agent、审查 Agent 组成流水线。VS Code 将成为 Multi-Agent 编排中枢。</div>
+        <div class="pred-impact impact-high">高影响 &#183; 战略布局</div>
+      </div>
+      <div class="pred-card pred-growth">
+        <div class="pred-year">2026-27</div>
+        <div class="pred-title">&#128187; LSP vNext 与语义化演进</div>
+        <div class="pred-desc">LSP 将向语义化方向演进，支持 AST 级别的精确操作和增量分析。pyright-vscode、vscode 等核心项目需关注 LSP Next 规范草案。</div>
+        <div class="pred-impact impact-medium">中影响 &#183; 持续跟踪</div>
+      </div>
+      <div class="pred-card pred-emerging">
+        <div class="pred-year">2027+</div>
+        <div class="pred-title">&#129302; 自主代码生成与自修复系统</div>
+        <div class="pred-desc">AI 系统将具备自主检测 Bug、生成修复方案、运行验证的全闭环能力。结合 Playwright MCP 的浏览器自动化能力，可实现端到端的自动修复验证。</div>
+        <div class="pred-impact impact-medium">中影响 &#183; 前瞻储备</div>
+      </div>
+      <div class="pred-card pred-emerging">
+        <div class="pred-year">2027+</div>
+        <div class="pred-title">&#128225; WebAssembly 全栈普及</div>
+        <div class="pred-desc">WASM 将突破浏览器边界，成为服务端、边缘计算、甚至 AI 推理的通用运行时格式。Docker + WASM 混合容器将成为新范式。</div>
+        <div class="pred-impact impact-low">低影响 &#183; 技术雷达</div>
+      </div>
+      <div class="pred-card pred-stable">
+        <div class="pred-year">持续</div>
+        <div class="pred-title">&#128736; TextMate Grammar 基石地位</div>
+        <div class="pred-desc">作为 VS Code 语法高亮的基础设施，TextMate Grammar 的地位不可替代。Shiki、Oniguruma 等生态持续繁荣，是长期稳定的技术债。</div>
+        <div class="pred-impact impact-low">低影响 &#183; 维护即可</div>
+      </div>
+    </div>
+
+    <!-- 时间线路线图 -->
+    <h3 style="font-size:17px;font-weight:700;margin:36px 0 20px;color:var(--text-primary)">实施路线图</h3>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-blue);border-color:var(--accent-blue)"></div><div class="timeline-phase">Phase 1: 当前 (2026 H1)</div><div class="timeline-text">巩固 MCP 项目（playwright-mcp）领先优势，完善 pyright-vscode 类型安全能力，推进 Playwright e2e 自动化覆盖。</div></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-purple);border-color:var(--accent-purple)"></div><div class="timeline-phase">Phase 2: 近期 (2026 H2)</div><div class="timeline-text">构建内部 Multi-Agent 编排层，将 vscode / playwright-mcp / pyright 整合为协同工作流；探索 WASI/WASM 在工具链中的应用。</div></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-cyan);border-color:var(--accent-cyan)"></div><div class="timeline-phase">Phase 3: 中期 (2027)</div><div class="timeline-text">实现 AI 自主代码审查+修复闭环，建立基于 LSP Next 的语义化开发体验，形成完整的智能开发生态。</div></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background:var(--accent-green);border-color:var(--accent-green)"></div><div class="timeline-phase">Phase 4: 远期 (2027+)</div><div class="timeline-text">全面进入 AI-Native 开发模式，工具链自我优化、自我演进，人类角色转向架构决策与创意设计。</div></div>
+    </div>
+
+    <!-- 五高评估总表 -->
+    <h3 style="font-size:17px;font-weight:700;margin:36px 0 20px;color:var(--text-primary)">五高架构评估总览</h3>
+    <table class="rec-table">
+      <thead><tr><th>维度</th><th>当前状态</th><th>目标状态</th><th>关键行动</th><th>优先级</th></tr></thead>
+      <tbody>
+        <tr><td><strong>高可用性</strong></td><td>LSP/MCP 核心服务稳定运行</td><td>99.99% SLA 多活容灾</td><td>引入健康检查 + 自动故障转移</td><td class="priority-p0">P0</td></tr>
+        <tr><td><strong>高性能</strong></td><td>Playwright 并行测试已就绪</td><td>亚秒级响应 + 增量编译</td><td>优化 pyright 增量分析引擎</td><td class="priority-p1">P1</td></tr>
+        <tr><td><strong>高安全</strong></td><td>MIT/Apache-2.0 合规</td><td>SLSA Supply Chain 安全</td><td>引入签名验证 + SBOM 管理</td><td class="priority-p0">P0</td></tr>
+        <tr><td><strong>高扩展</strong></td><td>MCP 插件化架构</td><td>水平无限扩展</td><td>标准化 MCP Server 注册机制</td><td class="priority-p1">P1</td></tr>
+        <tr><td><strong>高智能</strong></td><td>AI Agent 辅助编码</td><td>Multi-Agent 自主编排</td><td>构建 Agent Orchestration 层</td><td class="priority-p0">P0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer style="text-align:center;padding:32px 24px;border-top:1px solid var(--border-color);color:var(--text-muted);font-size:12px">
+  <p>YYC3-C Visual Architecture Report &middot; Generated 2026-06-06 &middot; Five-Dimension Evaluation Framework</p>
+  <p style="margin-top:4px;opacity:.6">Five-High Architecture | Five-Standard System | Five-Transformation Roadmap</p>
+</footer>
+</body>
+
+<script>
+// Tab 切换
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    const target = btn.getAttribute('data-tab');
+    if(target) document.getElementById(target)?.classList.add('active');
+  });
+});
+
+// 进度条动画
+setTimeout(() => {
+  document.querySelectorAll('.bar-fill').forEach(bar => {
+    bar.style.width = bar.style.width;
+  });
+}, 300);
+
+// 卡片悬浮统计效果
+document.querySelectorAll('.stat-card').forEach(card => {
+  card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-4px)');
+  card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
+});
+</script>
+</html>

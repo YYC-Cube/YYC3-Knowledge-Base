@@ -1,0 +1,15 @@
+{
+  "displayName": "CodeBuddy 遠端 - 開發容器",
+  "description": "從命令面板和資源管理器連接到開發容器",
+  "command.explorer.refresh": "刷新開發容器",
+  "command.openFolderInContainer": "在容器中打開資料夾",
+  "command.reopenInContainer": "在容器中重新打開",
+  "command.rebuildAndReopenInContainer": "在容器中重建並重新打開",
+  "command.attachToRunningContainer": "附加到運行中的容器",
+  "command.attachToRunningContainerCurrentWindow": "在當前視窗附加",
+  "command.attachToRunningContainerNewWindow": "在新視窗附加",
+  "command.reopenFolderLocally": "在本地重新打開資料夾",
+  "command.showLog": "顯示日誌",
+  "command.openFromHistory": "打開容器",
+  "command.explorer.deleteContainer": "從歷史記錄中刪除容器"
+}

@@ -1,0 +1,6 @@
+version: 1
+skip:
+  # Disabled by default for regular cookbook validation.
+  - 09-TRTLLM/**
+  - 91-OldStaff/**
+  - 99-Todo/**

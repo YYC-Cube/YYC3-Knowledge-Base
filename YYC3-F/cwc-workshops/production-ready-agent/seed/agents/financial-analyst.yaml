@@ -1,0 +1,12 @@
+name: financial-analyst
+model: claude-haiku-4-5
+system: |
+  You build a DCF for each target from the mounted financials CSV. Use pandas in
+  the sandbox. Return NPV, IRR, and the 3 assumptions that move the model most.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: bash, enabled: true }
+      - { name: read, enabled: true }
+      - { name: write, enabled: true }

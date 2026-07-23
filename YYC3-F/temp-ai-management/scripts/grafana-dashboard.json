@@ -1,0 +1,253 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "YanYu Cloud³ 系统监控仪表板",
+    "tags": ["yanyu-cloud", "monitoring", "performance"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "系统概览",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"yanyu-cloud3\"}",
+            "legendFormat": "服务状态"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "HTTP 请求速率",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total[5m])",
+            "legendFormat": "RPS - {{method}} {{route}}"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "API 响应时间",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "P95 响应时间"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "P50 响应时间"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "错误率",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{status_code=~\"4..|5..\"}[5m]) / rate(http_requests_total[5m]) * 100",
+            "legendFormat": "错误率 %"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        }
+      },
+      {
+        "id": 5,
+        "title": "数据库连接池状态",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "db_pool_size",
+            "legendFormat": "总连接数"
+          },
+          {
+            "expr": "db_pool_idle",
+            "legendFormat": "空闲连接"
+          },
+          {
+            "expr": "db_pool_waiting",
+            "legendFormat": "等待连接"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        }
+      },
+      {
+        "id": 6,
+        "title": "Redis 状态",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "redis_memory_usage_bytes / 1024 / 1024",
+            "legendFormat": "内存使用 (MB)"
+          },
+          {
+            "expr": "redis_keys_total",
+            "legendFormat": "Key 总数"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        }
+      },
+      {
+        "id": 7,
+        "title": "缓存命中率",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "cache_hit_rate * 100",
+            "legendFormat": "命中率 %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": 0
+                },
+                {
+                  "color": "yellow",
+                  "value": 70
+                },
+                {
+                  "color": "green",
+                  "value": 85
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 0,
+          "y": 24
+        }
+      },
+      {
+        "id": 8,
+        "title": "WebSocket 连接数",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "websocket_connections_total",
+            "legendFormat": "活跃连接"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 6,
+          "y": 24
+        }
+      },
+      {
+        "id": 9,
+        "title": "AI 分析请求统计",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(ai_analysis_requests_total[5m])",
+            "legendFormat": "AI 请求速率"
+          },
+          {
+            "expr": "ai_analysis_duration_seconds",
+            "legendFormat": "平均响应时间"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 24
+        }
+      },
+      {
+        "id": 10,
+        "title": "系统资源使用",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "process_cpu_usage_percent",
+            "legendFormat": "CPU 使用率 %"
+          },
+          {
+            "expr": "process_memory_usage_bytes / 1024 / 1024",
+            "legendFormat": "内存使用 (MB)"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 32
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "5s",
+    "version": 1
+  }
+}

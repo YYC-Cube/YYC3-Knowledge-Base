@@ -1,0 +1,61 @@
+name: Test Repomix Action
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/actions/repomix/**'
+
+permissions:
+  contents: read
+
+jobs:
+  test-action:
+    name: Test Node.js ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+        include:
+          - node-version: 18
+            test-case: "minimal"
+          - node-version: 20
+            test-case: "basic"
+          - node-version: 22
+            test-case: "full"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Run Repomix Action (Minimal)
+        if: matrix['test-case'] == 'minimal'
+        uses: ./.github/actions/repomix
+        with:
+          output: "repomix-minimal-output.txt"
+
+      - name: Run Repomix Action (Basic)
+        if: matrix['test-case'] == 'basic'
+        uses: ./.github/actions/repomix
+        with:
+          directories: "src"
+          include: "**/*.ts"
+          output: "repomix-basic-output.txt"
+          compress: "true"
+
+      - name: Run Repomix Action (Full)
+        if: matrix['test-case'] == 'full'
+        uses: ./.github/actions/repomix
+        with:
+          directories: "src tests"
+          include: "**/*.ts,**/*.md"
+          ignore: "**/*.test.ts"
+          output: "repomix-full-output.txt"
+          compress: "true"
+          additional-args: "--no-file-summary"
+
+      - name: Upload result
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: repomix-output-node${{ matrix.node-version }}
+          path: repomix-*-output.txt

@@ -1,0 +1,108 @@
+original file
+-----------------------------------
+return new vscode.Variable(property.name, displayValue, variablesReference);
+angular.module('app')
+this._connections.delete(connection.id);
+this._waitingConnections.delete(connection);
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>return new vscode.Variable(property.name, displayValue, variablesReference);
+ ^^^^^^
+ source.ts keyword.control.flow.ts
+       ^
+       source.ts
+        ^^^
+        source.ts new.expr.ts keyword.operator.new.ts
+           ^
+           source.ts new.expr.ts
+            ^^^^^^
+            source.ts new.expr.ts meta.function-call.ts variable.other.object.ts
+                  ^
+                  source.ts new.expr.ts meta.function-call.ts punctuation.accessor.ts
+                   ^^^^^^^^
+                   source.ts new.expr.ts meta.function-call.ts entity.name.function.ts
+                           ^
+                           source.ts new.expr.ts meta.brace.round.ts
+                            ^^^^^^^^
+                            source.ts new.expr.ts variable.other.object.ts
+                                    ^
+                                    source.ts new.expr.ts punctuation.accessor.ts
+                                     ^^^^
+                                     source.ts new.expr.ts support.variable.property.dom.ts
+                                         ^
+                                         source.ts new.expr.ts punctuation.separator.comma.ts
+                                          ^
+                                          source.ts new.expr.ts
+                                           ^^^^^^^^^^^^
+                                           source.ts new.expr.ts variable.other.readwrite.ts
+                                                       ^
+                                                       source.ts new.expr.ts punctuation.separator.comma.ts
+                                                        ^
+                                                        source.ts new.expr.ts
+                                                         ^^^^^^^^^^^^^^^^^^
+                                                         source.ts new.expr.ts variable.other.readwrite.ts
+                                                                           ^
+                                                                           source.ts new.expr.ts meta.brace.round.ts
+                                                                            ^
+                                                                            source.ts punctuation.terminator.statement.ts
+>angular.module('app')
+ ^^^^^^^
+ source.ts meta.function-call.ts variable.other.object.ts
+        ^
+        source.ts meta.function-call.ts punctuation.accessor.ts
+         ^^^^^^
+         source.ts meta.function-call.ts entity.name.function.ts
+               ^
+               source.ts meta.brace.round.ts
+                ^
+                source.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+                 ^^^
+                 source.ts string.quoted.single.ts
+                    ^
+                    source.ts string.quoted.single.ts punctuation.definition.string.end.ts
+                     ^
+                     source.ts meta.brace.round.ts
+>this._connections.delete(connection.id);
+ ^^^^
+ source.ts meta.function-call.ts variable.language.this.ts
+     ^
+     source.ts meta.function-call.ts punctuation.accessor.ts
+      ^^^^^^^^^^^^
+      source.ts meta.function-call.ts variable.other.object.property.ts
+                  ^
+                  source.ts meta.function-call.ts punctuation.accessor.ts
+                   ^^^^^^
+                   source.ts meta.function-call.ts support.function.dom.ts
+                         ^
+                         source.ts meta.brace.round.ts
+                          ^^^^^^^^^^
+                          source.ts variable.other.object.ts
+                                    ^
+                                    source.ts punctuation.accessor.ts
+                                     ^^
+                                     source.ts support.variable.property.dom.ts
+                                       ^
+                                       source.ts meta.brace.round.ts
+                                        ^
+                                        source.ts punctuation.terminator.statement.ts
+>this._waitingConnections.delete(connection);
+ ^^^^
+ source.ts meta.function-call.ts variable.language.this.ts
+     ^
+     source.ts meta.function-call.ts punctuation.accessor.ts
+      ^^^^^^^^^^^^^^^^^^^
+      source.ts meta.function-call.ts variable.other.object.property.ts
+                         ^
+                         source.ts meta.function-call.ts punctuation.accessor.ts
+                          ^^^^^^
+                          source.ts meta.function-call.ts support.function.dom.ts
+                                ^
+                                source.ts meta.brace.round.ts
+                                 ^^^^^^^^^^
+                                 source.ts variable.other.readwrite.ts
+                                           ^
+                                           source.ts meta.brace.round.ts
+                                            ^
+                                            source.ts punctuation.terminator.statement.ts

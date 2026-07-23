@@ -1,0 +1,426 @@
+{{#section "head"}}
+<style>
+h3 {
+ font-size: 1rem;
+}
+
+h4 {
+ font-size: 1rem;
+ font-weight: bold;
+ font-style: italic;
+ display: inline;
+}
+
+summary, label, input[type="submit"] {
+ cursor: pointer;
+}
+
+dfn {
+ font-style: inherit;
+ font-weight: bold;
+}
+
+legend + p {
+ margin-top: 0;
+}
+
+.disabled-control {
+ color: gray;
+ cursor: default;
+}
+
+input[readonly] {
+ border: none;
+}
+
+#intro {
+  font-style: italic;
+}
+
+#scope-selection {
+ margin-left: 60px;
+}
+
+#scope-selection > label,
+#individual-signature-selection > label {
+ display: block;
+ margin: 1.1em 0;
+}
+
+#workstream-selection {
+ margin-left: 60px;
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-form {
+ display: grid;
+ grid-template-columns: auto 1fr;
+ grid-column-gap: 20px;
+ grid-row-gap: 1em;
+}
+
+.explanation {
+ grid-column: 2;
+ margin-top: -1em;
+ color: #333;
+}
+
+.signature-section-container {
+ width: 600px;
+ margin: 0 auto 2em;
+}
+
+input[type="submit"] {
+ display: block;
+ margin: 30px auto;
+ font-size: 30px;
+}
+</style>
+{{/section}}
+
+<h2>Contributor and Workstream Participant Agreement</h2>
+
+<form method="post" action="submit-agreement">
+ <div id="intro">
+  <p>All <a href="#entity">Entities</a> and <a href="#individual">Individuals</a>, by participating or contributing, agree to certain commitments, including licensing obligations relating to copyrights and patents, as set forth in this Contributor and Workstream Participant Agreement (“<dfn id="agreement">Agreement</dfn>”) and the written <a href="https://whatwg.org/policies">WHATWG Policies</a>. <a href="#individual">Individuals</a>, other than those invited by the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a>, who <a href="https://whatwg.org/ipr-policy#2101-work-in-the-field-of-web-technologies">work in the field of web technologies</a> as an employee, contractor, or agent of another person or legal entity must have this <a href="#agreement">Agreement</a> executed by an authorized representative of that <a href="#entity">Entity</a>. (To make <a href="https://whatwg.org/ipr-policy#21-contribution">Contributions</a>, an <a href="#entity">Entity</a> must be a <a href="https://whatwg.org/workstream-policy#workstream-participant">Workstream Participant</a>.)
+
+  <p>Terms not defined here are defined in the <a href="https://whatwg.org/policies">WHATWG Policies</a>.
+ </div>
+
+ <p>“<dfn id="entity">Entity</dfn>” means a legal entity that makes <a href="https://whatwg.org/ipr-policy#21-contribution">Contributions</a> through its employees, agents, contractors, and other representatives; "<dfn id="affiliate">Affiliate</dfn>" means any legal entity that directly or indirectly <a href="#control">Controls</a>, is <a href="#control">Controlled</a> by, or is under common <a href="#control">Control</a> with an entity. "<dfn id="control">Control</dfn>" means the power to determine the course of action of another entity (for example by ownership of more than 50% of the voting stock or equity, authority to appoint a majority of the board or equivalent body, or by virtue of its voting or other rights).
+
+ <p>“<dfn id="individual">Individual</dfn>” means one of the following:
+
+ <ul>
+  <li>a person who does not <a href="https://whatwg.org/ipr-policy#2101-work-in-the-field-of-web-technologies">work in the field of web technologies</a> as an employee, contractor, or agent of another person or legal entity, and who thus makes <a href="https://whatwg.org/ipr-policy#21-contribution">Contributions</a> in their personal capacity only, or
+  <li>an <a href="https://whatwg.org/invitation-policy#invited-individual">Invited Individual</a> who has been invited by the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a> to participate in one or more WHATWG <a href="https://whatwg.org/workstream-policy#workstream">Workstreams</a> for a <a href="https://whatwg.org/invitation-policy#term-of-participation">specified term</a>, and who makes <a href="https://whatwg.org/ipr-policy#21-contribution">Contributions</a> in their personal capacity only.
+ </ul>
+
+
+ <h3 id="rights-and-obligations">Rights and obligations</h3>
+
+ <p>Each <a href="#individual">Individual</a> and <a href="#entity">Entity</a> agrees that participation in the WHATWG is subject to all <a href="https://whatwg.org/policies">WHATWG Policies</a> (including but not limited to the <a href="https://whatwg.org/workstream-policy">Workstream Policy</a> and <a href="https://whatwg.org/ipr-policy">IPR Policy</a> and the associated copyright and patent obligations) in effect at the time.
+
+ <p>Additionally, for the entire duration of <a href="#individual">Individual's</a> participation in the WHATWG, such <a href="#individual">Individual</a> hereby agrees that they will, as soon as is reasonably practicable, notify the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a> of any (1) change in employment or affiliation; and (2) possible conflicts of interest, including, without limitation, conflicts relating to participation in other standards organizations or involvement in other projects that might compete with the work of the <a href="https://whatwg.org/workstream-policy#workstream">Workstream</a> in which such <a href="#individual">Individual</a> is participating.
+
+ <p>Each <a href="#individual">Individual</a> hereby represents and warrants that making <a href="https://whatwg.org/ipr-policy#21-contribution">Contributions</a> or executing this Agreement will not violate, conflict with, or result in the breach of any other agreement with or obligation to any other party.
+
+ <h3 id="obligations-of-affiliates">Obligations of Affiliates</h3>
+
+ <p>In addition to its “<a href="#rights-and-obligations">Rights and obligations</a>” set forth above, each <a href="#entity">Entity</a> further agrees to ensure that its <a href="#affiliate">Affiliates</a> conform to the same <a href="https://whatwg.org/ipr-policy#26-patent-licensing-obligation">Patent-Licensing Obligations</a> as the <a href="#entity">Entity</a>, as if those <a href="#affiliate">Affiliates</a> were bound directly.
+
+
+ <h3 id="notifications">Notifications</h3>
+
+ <p>Each <a href="#entity">Entity</a> must:
+
+ <ol>
+  <li>identify a single person to serve as primary contact with the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a>,
+  <li>identify individuals who are authorized to participate in each <a href="https://whatwg.org/workstream-policy#workstream">Workstream</a>, and
+  <li>notify the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a> if an individual’s authorization to <a href="https://whatwg.org/ipr-policy#21-contribution">Contribute</a> is terminated.
+ </ol>
+
+
+ <h3 id="third-party-beneficiaries">Third-party beneficiaries</h3>
+
+ <p>The intended beneficiaries of this Agreement include (but are not limited to) implementers of the WHATWG <a href="https://whatwg.org/workstream-policy#living-standard">Living Standards</a>.
+
+
+ <h3 id="termination">Termination</h3>
+
+ <p>An <a href="#individual">Individual</a> or <a href="#entity">Entity</a> may terminate <a href="https://whatwg.org/workstream-policy#workstream-participant">Workstream Participation</a> or this <a href="#agreement">Agreement</a> by providing written notice to the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a>, or the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a> may terminate this <a href="#agreement">Agreement</a> by providing written notice to an <a href="#individual">Individual</a> or <a href="#entity">Entity</a>. Termination is effective upon delivery. With respect to <a href="https://whatwg.org/invitation-policy#invited-individual">Invited Individuals</a>, <a href="https://whatwg.org/workstream-policy#workstream-participant">Workstream Participation</a> and this <a href="#agreement">Agreement</a> shall otherwise automatically terminate upon the expiration of the <a href="#https://whatwg.org/invitation-policy#term-of-participation">term</a>, unless extended by the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a>. Obligations (including but not limited to licensing obligations) incurred prior to termination do not cease. As a condition of participation in the WHATWG, each <a href="https://whatwg.org/workstream-policy#workstream-participant">Workstream Participant</a> agrees that no claim of any kind may arise from such removal or termination.
+
+
+ <h3 id="no-assignment">No Assignment</h3>
+
+ <p><a href="#individual">Individual</a> may not assign this <a href="#agreement">Agreement</a> or any rights herein. Any assignment in violation of this clause shall be null and void.
+
+
+ <h3 id="severability">Severability</h3>
+
+ <p>In the event that any provision of this <a href="#agreement">Agreement</a> is found to be invalid or unenforceable, such provision shall be severed from this <a href="#agreement">Agreement</a>, and the remaining provisions shall remain fully operative.
+
+
+ <h3 id="entire-agreement">Entire Agreement</h3>
+
+ <p>This <a href="#agreement">Agreement</a> and the <a href="https://whatwg.org/policies">WHATWG Policies</a> contain the entire agreement and understanding of the parties as to the subject matter of this <a href="#agreement">Agreement</a>, and supersedes all prior agreements and understandings as to such subject matter herein.
+
+
+ <h3 id="scope">Scope</h3>
+
+ <p>This <a href="#agreement">Agreement</a> applies to (select one):
+
+ <div id="scope-selection">
+  <label>
+   <input type="radio" name="scope" value="all" checked>
+   all WHATWG <a href="https://whatwg.org/workstream-policy#workstream">Workstreams</a>, current and future
+  </label>
+
+  <label>
+   <input type="radio" name="scope" value="some">
+   the following <a href="https://whatwg.org/workstream-policy#workstream">Workstreams</a> (select all that apply):
+  </label>
+
+  <div id="workstream-selection">
+  {{#each workstreams}}
+   <label>
+    <input type="checkbox" name="scope-workstreams" value="{{id}}">
+    {{name}}
+   </label>
+  {{/each}}
+  </div>
+
+  <label>
+   <input type="radio" name="scope" value="invited">
+   I am invited by the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a> and want to join all the <a href="https://whatwg.org/workstream-policy#workstream">Workstreams</a> to which I have been invited.
+  </label>
+
+  <p id="following-workstreams-addendum">(To change this selection, e.g., to participate in additional <a href="https://whatwg.org/workstream-policy#workstream">Workstreams</a>, discontinue participation in a Workstream, or switch between the "all WHATWG Workstreams, current and future" selection versus choosing individual Workstreams, notify the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a> using <a href="agreement-update">the Workstream update interface</a>.)</p>
+ </div>
+
+ <h3 id="signature">Signature</h3>
+
+ <details id="individual-signature-container">
+  <summary>
+   <h4 id="signature-individual">If signing as an <a href="#individual">Individual</a></h4>
+  </summary>
+  <div>
+   <p>Select one:
+
+   <div id="individual-signature-selection">
+    <label>
+     <input type="radio" name="individual-type" value="self" required>
+     I represent that I do not <a href="https://whatwg.org/ipr-policy#2101-work-in-the-field-of-web-technologies">work in the field of web technologies</a> as an employee, contractor, or agent of another person or legal entity, and make this <a href="#agreement">Agreement</a> in my personal capacity only.
+    </label>
+
+    <label>
+     <input type="radio" name="individual-type" value="invited" required>
+     I have been invited by the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a> and I agree that I am entering into this <a href="#agreement">Agreement</a> in my personal capacity only.
+    </label>
+   </div>
+
+   <div class="grid-form signature-section-container">
+    <label for="individual-name">Name:</label>
+    <input type="text" name="individual-name" id="individual-name" required>
+    <small class="explanation">This must be your legal name, that you use in the real world to sign contracts. It <a href="https://github.com/whatwg/sg/issues/93#issuecomment-1120799691">cannot be a pseudonym</a>.</small>
+
+    <label for="individual-address">City + Country:</label>
+    <input type="text" name="individual-address" id="individual-address" required>
+
+    <label for="individual-email">Email:</label>
+    <input type="email" name="individual-email" id="individual-email" required>
+
+    <label for="individual-github">GitHub Username:</label>
+    <input type="text" name="individual-github" id="individual-github" required>
+
+    <label for="individual-signature">Signature:</label>
+    <input type="text" name="individual-signature" id="individual-signature" placeholder="Type the name of the person signing" required>
+
+    <label for="individual-date">Date:</label>
+    <input type="date" name="individual-date" id="individual-date" readonly>
+   </div>
+  </div>
+ </details>
+
+ <details id="entity-signature-container">
+  <summary>
+   <h4 id="signature-entity">If signing for an <a href="#entity">Entity</a></h4>
+  </summary>
+  <div>
+   <p>The person executing this <a href="#agreement">Agreement</a> represents that they are authorized to make this <a href="#agreement">Agreement</a> on behalf of the <a href="#entity">Entity</a> identified below.
+
+   <div class="grid-form signature-section-container">
+    <label for="entity-name">Entity Name:</label>
+    <input type="text" name="entity-name" id="entity-name" required>
+
+    <label for="entity-address">Address:</label>
+    <input type="text" name="entity-address" id="entity-address" required>
+
+    <label for="entity-url">URL:</label>
+    <input type="url" name="entity-url" id="entity-url" required>
+
+    <label for="entity-signed-by">Signed by (name):</label>
+    <input type="text" name="entity-signed-by" id="entity-signed-by" required>
+
+    <label for="entity-title">Title:</label>
+    <input type="text" name="entity-title" id="entity-title" required>
+
+    <label for="entity-signature">Signature:</label>
+    <input type="text" name="entity-signature" id="entity-signature" placeholder="Type the name of the person signing" required>
+
+    <label for="entity-date">Date:</label>
+    <input type="date" name="entity-date" id="entity-date" readonly>
+   </div>
+
+   <fieldset class="signature-section-container">
+    <legend>Primary Contact</legend>
+    <div class="grid-form">
+     <label for="contact-1-name">Name:</label>
+     <input type="text" name="contact-1-name" id="contact-1-name" required>
+
+     <label for="contact-1-email">Email:</label>
+     <input type="email" name="contact-1-email" id="contact-1-email" required>
+
+     <label for="contact-1-github">GitHub Username:</label>
+     <input type="text" name="contact-1-github" id="contact-1-github" required>
+    </div>
+   </fieldset>
+
+   <fieldset class="signature-section-container">
+    <legend>Backup Contact (optional)</legend>
+    <div class="grid-form">
+     <label for="contact-2-name">Name:</label>
+     <input type="text" name="contact-2-name" id="contact-2-name">
+
+     <label for="contact-2-email">Email:</label>
+     <input type="email" name="contact-2-email" id="contact-2-email">
+
+     <label for="contact-2-github">GitHub Username:</label>
+     <input type="text" name="contact-2-github" id="contact-2-github">
+    </div>
+   </fieldset>
+
+   <fieldset class="signature-section-container">
+    <legend>Contributor Management</legend>
+
+    <p>For the purposes of easily allowing contributions from persons associated to the <a href="#entity">Entity</a>, the WHATWG requires <a href="#entity">Entities</a> to identify an existing <a href="https://help.github.com/articles/about-organizations/">GitHub organization</a> whose members are associated with the <a href="#entity">Entity</a>. All public members of this GitHub organization will be able to contribute on behalf of the <a href="#entity">Entity</a>.</p>
+
+    <p>If you do not yet have a GitHub organization, please <a href="https://github.com/organizations/new">create one</a> now. The free plan is perfectly sufficient.</p>
+
+    <div class="grid-form">
+     <label for="entity-github-organization">GitHub organization:</label>
+     <input type="text" name="entity-github-organization" id="entity-github-organization" required>
+    </div>
+   </fieldset>
+
+  <p>(To change this information, e.g., to change the Primary Contact, notify the <a href="https://whatwg.org/sg-agreement#steering-group">Steering Group</a> using <a href="agreement-update">the Workstream update interface</a>.)</p>
+
+
+  </div>
+ </details>
+
+ <script nonce="{{@koa.state.cspNonce}}">
+ "use strict";
+ (() => {
+  // Synchronize Scope options
+  // - when not selected, someScope workstream choices are disabled
+  // - invited scope selection toggles individual-type self/invited disabled status + all entity forms
+  const allScope = document.querySelector('input[name="scope"][value="all"]');
+  const someScope = document.querySelector('input[name="scope"][value="some"]');
+  const invitedScope = document.querySelector('input[name="scope"][value="invited"]');
+  const workstreamFields = Array.from(document.querySelectorAll('#workstream-selection input'));
+  const individualSelf = document.querySelector('input[name="individual-type"][value="self"]');
+  const individualInvited = document.querySelector('input[name="individual-type"][value="invited"]');
+  const entityFields = Array.from(document.querySelectorAll('#entity-signature-container input'));
+
+  function syncState() {
+   const disabled = !someScope.checked;
+   for (const field of workstreamFields) {
+    setDisableStateWithLabel(field, disabled, false);
+
+    if (disabled) {
+     field.checked = true;
+    }
+   }
+   setDisableStateWithLabel(individualSelf, invitedScope.checked, true);
+   setDisableStateWithLabel(individualInvited, !invitedScope.checked, true);
+   if (invitedScope.checked) {
+    individualSelf.checked = false;
+   }
+   else {
+    individualInvited.checked = false;
+   }
+   for (const field of entityFields) {
+    setDisableStateWithLabel(field, invitedScope.checked, true);
+   }
+  }
+
+  function setDisableStateWithLabel(input, state, addPersistence) {
+   input.disabled = state;
+   if (addPersistence) {
+    if (state) {
+     input.dataset.enableException = "";
+    }
+    else {
+     delete input.dataset.enableException;
+    }
+   }
+   if (input.type == "checkbox" || input.type == "radio") {
+    input.parentElement.classList.toggle('disabled-control', state);
+   }
+   else {
+    input.previousElementSibling.classList.toggle('disabled-control', state);
+   }
+  }
+
+  syncState();
+  allScope.addEventListener('change', syncState);
+  someScope.addEventListener('change', syncState);
+  invitedScope.addEventListener('change', syncState);
+
+  // Synchronize:
+  // - Only entity or individual <details> can be open at the same time
+  // - Only the open <details>'s form controls should be enabled
+  // - If the signature contains non-whitespace text, the date should get automatically filled out.
+  const containers = {
+   individual: document.querySelector('#individual-signature-container'),
+   entity: document.querySelector('#entity-signature-container')
+  };
+  const types = Object.keys(containers);
+
+  for (const type of types) {
+   const container = containers[type];
+   const otherContainer = containers[type === 'individual' ? 'entity' : 'individual'];
+   const signature = document.querySelector(`#${type}-signature`);
+   const date = document.querySelector(`#${type}-date`);
+
+   function sync() {
+    if (container.hasAttribute('open')) {
+     otherContainer.removeAttribute('open');
+    }
+
+    for (const typeForInputs of types) {
+     let enableExceptions = Array.from(containers[typeForInputs].querySelectorAll('input[data-enable-exception]'));
+     setInputsEnabledness(typeForInputs, containers[typeForInputs].hasAttribute('open'), enableExceptions);
+    }
+
+    if (signature.value.trim().length > 0) {
+     // Does not work in Firefox:
+     // date.valueAsDate = new Date();
+     date.value = (new Date()).toISOString().substring(0, 'YYYY-MM-DD'.length);
+    } else {
+     date.value = '';
+    }
+   }
+
+   signature.addEventListener('input', sync);
+   container.addEventListener('toggle', sync);
+   sync();
+  }
+
+  // Make backup contact email/GitHub ID required if and only if the name is set.
+  const contact2Name = document.querySelector('#contact-2-name');
+  const contact2Email = document.querySelector('#contact-2-email');
+  const contact2GitHub = document.querySelector('#contact-2-github');
+  function syncBackupContact() {
+   const hasName = contact2Name.value.length > 0;
+   contact2Email.required = contact2GitHub.required = hasName;
+  }
+  contact2Name.addEventListener('input', syncBackupContact);
+  syncBackupContact();
+
+  function setInputsEnabledness(type, shouldBeEnabled, enableExceptions) {
+   const container = containers[type];
+   const inputs = Array.from(container.querySelectorAll('input'));
+
+   for (const input of inputs) {
+    // skip enabling if exception is present
+    input.disabled = !(shouldBeEnabled && !enableExceptions.includes(input));
+   }
+  }
+ })();
+ </script>
+
+ <input type="submit" value="Submit">
+</form>

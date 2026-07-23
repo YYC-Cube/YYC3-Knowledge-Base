@@ -1,0 +1,17 @@
+{
+  "description": "Auto-install agent-browser on session start",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CODEBUDDY_PLUGIN_ROOT}/scripts/setup.sh",
+            "timeout": 120000
+          }
+        ]
+      }
+    ]
+  }
+}

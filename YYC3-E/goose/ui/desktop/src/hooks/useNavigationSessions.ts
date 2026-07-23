@@ -1,0 +1,194 @@
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { getSession, listSessions } from '../api';
+import { useChatContext } from '../contexts/ChatContext';
+import { shouldShowNewChatTitle } from '../sessions';
+import { AppEvents } from '../constants/events';
+import type { Session } from '../api';
+
+const MAX_RECENT_SESSIONS = 25;
+
+export function sortAndTrim(sessions: Session[]): Session[] {
+  return [...sessions]
+    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+    .slice(0, MAX_RECENT_SESSIONS);
+}
+
+export function prependUnique(prev: Session[], session: Session): Session[] {
+  if (prev.some((s) => s.id === session.id)) return prev;
+  return [session, ...prev].slice(0, MAX_RECENT_SESSIONS);
+}
+
+export function useNavigationSessions() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const chatContext = useChatContext();
+
+  const [recentSessions, setRecentSessions] = useState<Session[]>([]);
+  const lastSessionIdRef = useRef<string | null>(null);
+
+  const activeSessionId = searchParams.get('resumeSessionId') ?? undefined;
+  const currentSessionId =
+    location.pathname === '/pair' ? searchParams.get('resumeSessionId') : null;
+
+  useEffect(() => {
+    if (currentSessionId) {
+      lastSessionIdRef.current = currentSessionId;
+    }
+  }, [currentSessionId]);
+
+  const fetchSessions = useCallback(async () => {
+    try {
+      const response = await listSessions({ throwOnError: false });
+      if (response.data) {
+        const apiSessions = sortAndTrim(response.data.sessions);
+        setRecentSessions(apiSessions);
+      }
+    } catch (error) {
+      console.error('Failed to fetch sessions:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!activeSessionId) return;
+    if (recentSessions.some((s) => s.id === activeSessionId)) return;
+
+    getSession({ path: { session_id: activeSessionId }, throwOnError: false }).then((response) => {
+      if (!response.data) return;
+      setRecentSessions((prev) => prependUnique(prev, response.data as Session));
+    });
+  }, [activeSessionId, recentSessions]);
+
+  useEffect(() => {
+    let pollingTimeouts: ReturnType<typeof setTimeout>[] = [];
+    let isPolling = false;
+
+    const handleSessionCreated = (event: Event) => {
+      const { session } = (event as CustomEvent<{ session?: Session }>).detail || {};
+      if (session) {
+        setRecentSessions((prev) => prependUnique(prev, session));
+      }
+
+      if (isPolling) return;
+      isPolling = true;
+
+      const pollIntervalMs = 300;
+      const maxPollDurationMs = 10000;
+      const maxPolls = maxPollDurationMs / pollIntervalMs;
+      let pollCount = 0;
+
+      const pollForUpdates = async () => {
+        pollCount++;
+        try {
+          const response = await listSessions({ throwOnError: false });
+          if (response.data) {
+            const apiSessions = sortAndTrim(response.data.sessions);
+            setRecentSessions(apiSessions);
+          }
+        } catch (error) {
+          console.error('Failed to poll sessions:', error);
+        }
+
+        if (pollCount < maxPolls) {
+          const timeout = setTimeout(pollForUpdates, pollIntervalMs);
+          pollingTimeouts.push(timeout);
+        } else {
+          isPolling = false;
+        }
+      };
+
+      pollForUpdates();
+    };
+
+    window.addEventListener(AppEvents.SESSION_CREATED, handleSessionCreated);
+    return () => {
+      window.removeEventListener(AppEvents.SESSION_CREATED, handleSessionCreated);
+      pollingTimeouts.forEach(clearTimeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    let fetchVersion = 0;
+
+    const handleSessionDeleted = (event: Event) => {
+      const { sessionId } = (event as CustomEvent<{ sessionId: string }>).detail;
+
+      setRecentSessions((prev) => prev.filter((session) => session.id !== sessionId));
+
+      if (lastSessionIdRef.current === sessionId) {
+        lastSessionIdRef.current = null;
+      }
+      const version = ++fetchVersion;
+      listSessions({ throwOnError: false })
+        .then((response) => {
+          if (version !== fetchVersion || !response.data) return;
+          const apiSessions = sortAndTrim(response.data.sessions);
+          setRecentSessions(apiSessions);
+        })
+        .catch((error) => console.error('Failed to fetch sessions:', error));
+    };
+
+    const handleSessionRenamed = (event: Event) => {
+      const { sessionId, newName } = (event as CustomEvent<{ sessionId: string; newName: string }>)
+        .detail;
+
+      setRecentSessions((prev) =>
+        prev.map((session) => (session.id === sessionId ? { ...session, name: newName } : session))
+      );
+    };
+
+    window.addEventListener(AppEvents.SESSION_DELETED, handleSessionDeleted);
+    window.addEventListener(AppEvents.SESSION_RENAMED, handleSessionRenamed);
+
+    return () => {
+      window.removeEventListener(AppEvents.SESSION_DELETED, handleSessionDeleted);
+      window.removeEventListener(AppEvents.SESSION_RENAMED, handleSessionRenamed);
+    };
+  }, []);
+
+  const handleNavClick = useCallback(
+    (path: string) => {
+      if (path === '/pair') {
+        const sessionId =
+          currentSessionId || lastSessionIdRef.current || chatContext?.chat?.sessionId;
+        if (sessionId && sessionId.length > 0) {
+          navigate(`/pair?resumeSessionId=${sessionId}`);
+        } else {
+          navigate('/');
+        }
+      } else {
+        navigate(path);
+      }
+    },
+    [navigate, currentSessionId, chatContext?.chat?.sessionId]
+  );
+
+  const handleSessionClick = useCallback(
+    (sessionId: string) => {
+      navigate(`/pair?resumeSessionId=${sessionId}`);
+    },
+    [navigate]
+  );
+
+  return {
+    recentSessions,
+    activeSessionId,
+    fetchSessions,
+    handleNavClick,
+    handleSessionClick,
+  };
+}
+
+export function getSessionDisplayName(session: Session): string {
+  if (session.user_set_name) {
+    return session.name;
+  }
+  if (session.recipe?.title) {
+    return session.recipe.title;
+  }
+  if (shouldShowNewChatTitle(session)) {
+    return 'New Chat';
+  }
+  return session.name;
+}

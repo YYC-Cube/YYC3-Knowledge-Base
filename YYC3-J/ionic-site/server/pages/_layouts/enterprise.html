@@ -1,0 +1,60 @@
+{% extends '_layouts/blank.html' %}
+{% set isEnterprise = true %}
+
+{% import "_includes/macros.html" as macros %}
+{% if header_style == 'transparent' %}}
+  {% set header_style = 'transparent light' %}
+{% endif %}
+
+{% if not meta_image %}
+  {% set meta_image = 'https://ionicframework.com/img/meta/ionic-for-enterprise-og.png'%}
+{% endif %}
+
+{% macro navLinkAttrs(dest) %}
+  {% set regEx = r/\/enterprise(\/index)?(?!\/)/ %}
+
+  {%if regEx.test(dest)%}
+    href="{{dest}}" class="{%if regEx.test(url)%}active{% endif %}"
+  {%else%}
+    href="{{dest}}" class="{%if dest in url%}active{% endif %}"
+  {%endif%}
+
+{% endmacro %}
+
+{% block page %}
+  {% include '../_includes/header.html' %}
+
+  {# <div id="sub-header">
+    <div class="container">
+      <ul class="left sub-header__left">
+        <li><a class="sub-header__title" href="/enterprise">Enterprise</a></li>
+      </ul>
+      <ul class="sub-header__right">
+        <li><a {{ navLinkAttrs('/enterprise') }}>Overview</a></li>
+        <li><a {{ navLinkAttrs('/enterprise/why-ionic') }}>Why Ionic</a></li>
+        <li><a {{ navLinkAttrs('/customers') }}>Customers</a></li>
+        <li><a {{ navLinkAttrs('/enterprise/strategy-session') }}>Strategy Session</a></li>
+        <li><a class="btn" href="https://ionic.io/contact/sales" rel="noopener">Contact us</a></li>
+      </ul>
+    </div>
+  </div> #}
+
+  <ionic-sub-header>
+    <a slot="title" href="/enterprise">Enterprise</a>
+    <ul slot="right">
+      <li><a {{ navLinkAttrs('/enterprise') }}>Overview</a></li>
+      <li><a {{ navLinkAttrs('/enterprise/why-ionic') }}>Why Ionic</a></li>
+      <li><a {{ navLinkAttrs('/customers') }}>Customers</a></li>
+      <li><a {{ navLinkAttrs('/enterprise/strategy-session') }}>Strategy Session</a></li>
+      <li><a href="https://ionic.io/pricing" rel="noopener">Pricing</a></li>
+      <li><a class="btn" href="https://ionic.io/contact/sales" rel="noopener">Contact us</a></li>
+    </ul>
+  </ionic-sub-header>
+
+  {% block main %}
+    <div class="hero"></div>
+  {% endblock %}
+
+  {% include '../_includes/footer.html' %}
+{% endblock %}
+

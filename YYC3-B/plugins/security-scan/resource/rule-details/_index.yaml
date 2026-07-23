@@ -1,0 +1,52 @@
+# rule-details 索引文件
+# Agent 可一次 Read 此索引（~30 行），根据技术栈精准选择需要加载的规则文件。
+# 小型文件（< 50 行）可考虑直接内联到 Agent prompt，大型文件按需 Read 对应章节。
+
+rules:
+  - file: ssrf.yaml
+    tech_stack: ["*"]  # 存在 SSRF 攻击面时加载
+    description: SSRF 绕过技术参考数据
+    lines: 23
+    inline_candidate: true  # 小文件，可内联
+
+  - file: auth-basic.yaml
+    tech_stack: ["*"]  # 通用鉴权检测
+    description: 鉴权/越权基础检测模式
+    lines: 64
+    inline_candidate: false
+
+  - file: spring-security.yaml
+    tech_stack: ["java-spring"]
+    description: Spring Security 配置模式
+    lines: 96
+    inline_candidate: false
+
+  - file: mybatis-injection.yaml
+    tech_stack: ["java-mybatis"]
+    description: MyBatis 注入模式（${} vs #{}）
+    lines: 59
+    inline_candidate: false
+
+  - file: actuator-exposure.yaml
+    tech_stack: ["java-spring"]
+    description: Actuator/管理端点暴露检测模式
+    lines: 321
+    inline_candidate: false  # 大文件，务必按需 Read
+
+  - file: nodejs-web.yaml
+    tech_stack: ["nodejs-express", "nodejs-koa", "nodejs-nestjs"]
+    description: Node.js Web 安全模式
+    lines: 96
+    inline_candidate: false
+
+  - file: python-web.yaml
+    tech_stack: ["python-flask", "python-django", "python-fastapi"]
+    description: Python Web 安全模式
+    lines: 95
+    inline_candidate: false
+
+  - file: go-web.yaml
+    tech_stack: ["go-gin", "go-echo", "go-fiber"]
+    description: Go Web 安全模式
+    lines: 82
+    inline_candidate: false

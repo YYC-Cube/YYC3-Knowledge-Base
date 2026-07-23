@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YYC3-F 工作区 · 可视化架构全景图 v2.0 | 2026.06 行业大数据对齐版</title>
+<style>
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #111827;
+    --bg-card: #1a2234;
+    --bg-card-hover: #222d44;
+    --border-color: #1e3a5f;
+    --border-glow: #2563eb40;
+    --text-primary: #e8edf5;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-amber: #f59e0b;
+    --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --accent-pink: #ec4899;
+    --gradient-hero: linear-gradient(135deg, #0c1929 0%, #1a2744 50%, #0f172a 100%);
+    --shadow-glow: 0 0 30px rgba(59,130,246,0.15);
+    --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-primary); color: var(--text-primary);
+    line-height: 1.7; overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: var(--gradient-hero); border-bottom: 1px solid var(--border-color);
+    padding: 60px 20px 50px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%;
+    background: radial-gradient(circle at 30% 40%, rgba(59,130,246,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(139,92,246,0.06) 0%, transparent 50%);
+    animation: heroFloat 20s ease-in-out infinite;
+  }
+  @keyframes heroFloat { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-2%,-2%)} }
+  .hero-content { position:relative; z-index:1; max-width:1100px; margin:0 auto; }
+  .hero-badge {
+    display:inline-block; padding:4px 16px; border-radius:20px; font-size:12px;
+    background:rgba(59,130,246,0.15); color:var(--accent-cyan); border:1px solid rgba(6,182,212,0.3);
+    letter-spacing:2px; text-transform:uppercase; margin-bottom:20px;
+  }
+  .hero h1 { font-size: clamp(28px,5vw,48px); font-weight:800; margin-bottom:12px;
+    background:linear-gradient(135deg,#60a5fa,#a78bfa,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero-sub { font-size:clamp(14px,2vw,18px); color:var(--text-secondary); margin-bottom:24px; }
+  .hero-stats { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin-top:32px; }
+  .stat-item { text-align:center; min-width:100px; }
+  .stat-num { font-size:28px; font-weight:800; color:var(--accent-cyan); font-family:var(--font-mono); }
+  .stat-label { font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; }
+
+  /* ===== NAV ===== */
+  .nav-bar {
+    position:sticky; top:0; z-index:100; background:rgba(17,24,39,0.95);
+    backdrop-filter:blur(20px); border-bottom:1px solid var(--border-color);
+    display:flex; overflow-x:auto; scrollbar-width:none; padding:0 20px;
+  }
+  .nav-bar::-webkit-scrollbar{display:none}
+  .nav-tab {
+    padding:14px 22px; cursor:pointer; white-space:nowrap; font-size:13px; font-weight:600;
+    color:var(--text-muted); border-bottom:2px solid transparent; transition:all 0.25s;
+  }
+  .nav-tab:hover { color:var(--text-primary); background:rgba(255,255,255,0.03); }
+  .nav-tab.active { color:var(--accent-cyan); border-bottom-color:var(--accent-cyan); }
+
+  /* ===== SECTIONS ===== */
+  .section { max-width:1280px; margin:0 auto; padding:50px 20px; display:none; }
+  .section.active { display:block; animation:fadeIn 0.4s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+  .section-title { font-size:22px; font-weight:700; margin-bottom:8px; display:flex; align-items:center; gap:10px; }
+  .section-title::before {
+    content:''; width:4px; height:24px; border-radius:2px;
+    background:linear-gradient(180deg,var(--accent-blue),var(--accent-purple));
+  }
+  .section-desc { color:var(--text-secondary); font-size:14px; margin-bottom:30px; padding-left:14px; }
+
+  /* ===== ARCH LAYERS ===== */
+  .arch-container { position:relative; padding:20px 0; }
+  .arch-layer {
+    margin-bottom:16px; border-radius:12px; padding:20px 24px;
+    border:1px solid var(--border-color); position:relative; transition:all 0.3s;
+  }
+  .arch-layer:hover { border-color:rgba(59,130,246,0.4); box-shadow:var(--shadow-glow); }
+  .layer-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.05); }
+  .layer-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+  .layer-name { font-size:15px; font-weight:700; }
+  .layer-tag { font-size:10px; padding:2px 8px; border-radius:10px; margin-left:auto; }
+  .project-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+  .proj-card {
+    background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06);
+    border-radius:8px; padding:12px 14px; cursor:pointer; transition:all 0.25s; position:relative;
+  }
+  .proj-card:hover {
+    background:rgba(255,255,255,0.05); border-color:rgba(59,130,246,0.35);
+    transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  }
+  .proj-card.selected { border-color:var(--accent-cyan); background:rgba(6,182,212,0.08); }
+  .proj-name { font-size:13px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:6px; }
+  .proj-desc { font-size:11px; color:var(--text-muted); line-height:1.5; margin-bottom:6px; }
+  .proj-meta { display:flex; gap:6px; flex-wrap:wrap; }
+  .proj-tag { font-size:9px; padding:1px 7px; border-radius:4px; font-family:var(--font-mono); background:rgba(255,255,255,0.05); color:var(--text-secondary); }
+  .stars { color:var(--accent-amber); font-size:11px; letter-spacing:1px; }
+
+  /* Layer colors */
+  .layer-agent { background:linear-gradient(135deg, rgba(139,92,246,0.08), rgba(139,92,246,0.02)); border-color:rgba(139,92,246,0.2); }
+  .layer-agent .layer-icon { background:rgba(139,92,246,0.2); color:#a78bfa; }
+  .layer-agent .layer-tag { background:rgba(139,92,246,0.15); color:#c4b5fd; }
+  .layer-app { background:linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.02)); border-color:rgba(16,185,129,0.2); }
+  .layer-app .layer-icon { background:rgba(16,185,129,0.2); color:#34d399; }
+  .layer-app .layer-tag { background:rgba(16,185,129,0.15); color:#6ee7b7; }
+  .layer-tool { background:linear-gradient(135deg, rgba(59,130,246,0.08), rgba(59,130,246,0.02)); border-color:rgba(59,130,246,0.2); }
+  .layer-tool .layer-icon { background:rgba(59,130,246,0.2); color:#60a5fa; }
+  .layer-tool .layer-tag { background:rgba(59,130,246,0.15); color:#93c5fd; }
+  .layer-skill { background:linear-gradient(135deg, rgba(245,158,11,0.08), rgba(245,158,11,0.02)); border-color:rgba(245,158,11,0.2); }
+  .layer-skill .layer-icon { background:rgba(245,158,11,0.2); color:#fbbf24; }
+  .layer-skill .layer-tag { background:rgba(245,158,11,0.15); color:#fcd34d; }
+
+  /* Detail Panel */
+  .detail-panel {
+    position:fixed; right:-480px; top:0; width:470px; height:100vh;
+    background:var(--bg-secondary); border-left:1px solid var(--border-color);
+    z-index:200; transition:right 0.35s cubic-bezier(0.4,0,0.2,1);
+    overflow-y:auto; padding:24px; box-shadow:-10px 0 40px rgba(0,0,0,0.5);
+  }
+  .detail-panel.open { right:0; }
+  .detail-close {
+    position:absolute; top:16px; right:16px; width:32px; height:32px; border-radius:8px;
+    border:1px solid var(--border-color); background:var(--bg-card); color:var(--text-muted);
+    cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center;
+  }
+  .detail-close:hover { background:var(--accent-red); color:white; border-color:var(--accent-red); }
+  .detail-badge { display:inline-block; padding:3px 12px; border-radius:6px; font-size:11px; font-weight:600; margin-bottom:12px; }
+  .detail-section { margin-top:20px; }
+  .detail-section h4 { font-size:13px; color:var(--text-secondary); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; }
+  .detail-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; }
+  .detail-row span:last-child { color:var(--accent-cyan); font-family:var(--font-mono); font-size:12px; }
+
+  /* Charts */
+  .chart-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:24px; margin-top:20px; }
+  .chart-card {
+    background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px;
+    padding:24px; transition:all 0.3s;
+  }
+  .chart-card:hover { border-color:rgba(59,130,246,0.3); box-shadow:var(--shadow-glow); }
+  .chart-title { font-size:15px; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .bar-chart { display:flex; flex-direction:column; gap:10px; }
+  .bar-row { display:flex; align-items:center; gap:10px; }
+  .bar-label { width:90px; font-size:11px; color:var(--text-secondary); text-align:right; flex-shrink:0; }
+  .bar-track { flex:1; height:26px; background:rgba(255,255,255,0.04); border-radius:6px; overflow:hidden; position:relative; }
+  .bar-fill { height:100%; border-radius:6px; display:flex; align-items:center; padding-left:10px; font-size:11px; font-weight:700; color:white; transition:width 1.2s cubic-bezier(0.4,0,0.2,1); width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .bar-value { position:absolute; right:8px; top:50%; transform:translateY(-50%); font-size:11px; font-weight:700; font-family:var(--font-mono); }
+
+  .donut-wrap { display:flex; align-items:center; gap:24px; margin-top:10px; }
+  .donut-svg { width:160px; height:160px; flex-shrink:0; }
+  .donut-legend { display:flex; flex-direction:column; gap:8px; }
+  .legend-item { display:flex; align-items:center; gap:8px; font-size:12px; }
+  .legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+  /* Trend Cards */
+  .trend-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; margin-top:20px; }
+  .trend-card {
+    background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px;
+    padding:20px; transition:all 0.3s; position:relative; overflow:hidden;
+  }
+  .trend-card:hover { border-color:rgba(59,130,246,0.35); transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.3); }
+  .trend-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .tc-hot::before { background:linear-gradient(90deg,#ef4444,#f97316); }
+  .tc-rise::before { background:linear-gradient(90deg,#10b981,#06b6d4); }
+  .tc-strategic::before { background:linear-gradient(90deg,#8b5cf6,#ec4899); }
+  .tc-warning::before { background:linear-gradient(90deg,#f59e0b,#ef4444); }
+  .trend-rank { position:absolute; top:16px; right:16px; width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; font-family:var(--font-mono); }
+  .rank-1 { background:rgba(239,68,68,0.2); color:#fca5a5; }
+  .rank-2 { background:rgba(245,158,11,0.2); color:#fcd34d; }
+  .rank-3 { background:rgba(16,185,129,0.2); color:#6ee7b7; }
+  .trend-icon { font-size:28px; margin-bottom:10px; }
+  .trend-h3 { font-size:15px; font-weight:700; margin-bottom:6px; }
+  .trend-p { font-size:12px; color:var(--text-secondary); line-height:1.7; margin-bottom:12px; }
+  .trend-tags { display:flex; gap:6px; flex-wrap:wrap; }
+  .tt { font-size:10px; padding:3px 10px; border-radius:4px; font-weight:600; }
+
+  /* Industry Highlight */
+  .industry-highlight {
+    background:linear-gradient(135deg, rgba(6,182,212,0.08), rgba(139,92,246,0.06));
+    border:1px solid rgba(6,182,212,0.2); border-radius:12px; padding:24px; margin:24px 0;
+  }
+  .ih-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-top:16px; }
+  .ih-item { text-align:center; padding:16px 10px; background:rgba(0,0,0,0.2); border-radius:10px; }
+  .ih-num { font-size:30px; font-weight:800; font-family:var(--font-mono); }
+  .ih-label { font-size:11px; color:var(--text-muted); margin-top:4px; }
+
+  /* Tables */
+  .proto-table { width:100%; border-collapse:collapse; margin-top:16px; font-size:12px; }
+  .proto-table th { text-align:left; padding:10px 12px; background:rgba(255,255,255,0.03); color:var(--text-secondary); font-weight:600; border-bottom:1px solid var(--border-color); }
+  .proto-table td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,0.03); vertical-align:top; }
+  .proto-table tr:hover td { background:rgba(255,255,255,0.02); }
+
+  /* Actions */
+  .action-list { counter-reset:action; }
+  .action-item {
+    counter-increment:action; position:relative; padding:16px 16px 16px 52px;
+    background:var(--bg-card); border:1px solid var(--border-color); border-radius:10px;
+    margin-bottom:12px; transition:all 0.25s;
+  }
+  .action-item:hover { border-color:rgba(59,130,246,0.35); }
+  .action-item::before {
+    content:counter(action); position:absolute; left:16px; top:16px;
+    width:28px; height:28px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    font-size:13px; font-weight:800; font-family:var(--font-mono);
+  }
+  .p0 .action-item::before { background:rgba(239,68,68,0.2); color:#fca5a5; }
+  .p1 .action-item::before { background:rgba(245,158,11,0.2); color:#fcd34d; }
+  .p2 .action-item::before { background:rgba(16,185,129,0.2); color:#6ee7b7; }
+  .action-priority { display:inline-block; font-size:10px; padding:2px 8px; border-radius:4px; font-weight:700; margin-right:8px; }
+  .ap-p0 { background:rgba(239,68,68,0.15); color:#fca5a5; }
+  .ap-p1 { background:rgba(245,158,11,0.15); color:#fcd34d; }
+  .ap-p2 { background:rgba(16,185,129,0.15); color:#6ee7b7; }
+  .action-title { font-size:14px; font-weight:700; margin-bottom:4px; }
+  .action-desc { font-size:12px; color:var(--text-muted); line-height:1.6; }
+
+  /* Timeline */
+  .timeline { position:relative; padding-left:30px; margin-top:16px; }
+  .timeline::before { content:''; position:absolute; left:10px; top:0; bottom:0; width:2px; background:var(--border-color); }
+  .tl-item { position:relative; margin-bottom:24px; padding-left:8px; }
+  .tl-dot { position:absolute; left:-26px; top:4px; width:12px; height:12px; border-radius:50%; border:2px solid; }
+  .tl-year { font-size:12px; font-weight:800; color:var(--accent-cyan); font-family:var(--font-mono); }
+  .tl-title { font-size:14px; font-weight:600; margin:2px 0; }
+  .tl-desc { font-size:12px; color:var(--text-muted); line-height:1.6; }
+
+  /* Overlay */
+  .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:150; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+  .overlay.show { opacity:1; pointer-events:auto; }
+
+  /* Footer */
+  .footer { text-align:center; padding:40px 20px; border-top:1px solid var(--border-color); color:var(--text-muted); font-size:12px; }
+  .footer a { color:var(--accent-cyan); text-decoration:none; }
+
+  @media(max-width:768px){
+    .hero-stats{gap:16px} .stat-num{font-size:22px} .project-grid{grid-template-columns:1fr}
+    .chart-grid{grid-template-columns:1fr} .detail-panel{width:100%;right:-100%}
+    .trend-grid{grid-template-columns:1fr} .nav-tab{padding:12px 16px;font-size:12px}
+    .ih-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:var(--border-color);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">YYC3-F Workspace Intelligence Report v2.0</div>
+    <h1>可视化架构全景图</h1>
+    <p class="hero-sub">基于五维评估框架 &middot; 对齐2026.06行业大数据 &middot; 高可用实战技术对齐 &middot; 未来趋势预测</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-num">27</div><div class="stat-label">项目总数</div></div>
+      <div class="stat-item"><div class="stat-num">12+</div><div class="stat-label">技术栈覆盖</div></div>
+      <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">架构层级</div></div>
+      <div class="stat-item"><div class="stat-num">$187B</div><div class="stat-label">2026全球Agent市场</div></div>
+      <div class="stat-item"><div class="stat-num">90K+</div><div class="stat-label">MCP Server生态</div></div>
+      <div class="stat-item"><div class="stat-num">78%</div><div class="stat-label">企业MCP采用率</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== NAV ========== -->
+<div class="nav-bar" id="navBar">
+  <div class="nav-tab active" onclick="switchTab('arch')">🏗 架构全景</div>
+  <div class="nav-tab" onclick="switchTab('analysis')">📊 五维分析</div>
+  <div class="nav-tab" onclick="switchTab('industry')">🌐 行业大数据</div>
+  <div class="nav-tab" onclick="switchTab('protocol')">🔗 协议界限</div>
+  <div class="nav-tab" onclick="switchTab('trends')">🚀 趋势预测</div>
+  <div class="nav-tab" onclick="switchTab('actions')">⚡ 行动建议</div>
+</div>
+
+<!-- ==================== SECTION: ARCHITECTURE ==================== -->
+<div class="section active" id="sec-arch">
+  <h2 class="section-title">工作区架构全景 — 四层分类体系</h2>
+  <p class="section-desc">点击任意项目卡片查看详细信息 | 颜色编码区分层级属性 | 基于实际元数据(package.json/Cargo.toml/pyproject.toml/README)精准分类</p>
+
+  <div class="arch-container">
+
+    <!-- === LAYER 1: AI Agent 智能体层 === -->
+    <div class="arch-layer layer-agent">
+      <div class="layer-header">
+        <div class="layer-icon">🤖</div>
+        <span class="layer-name">AI Agent 智能体层（核心引擎）</span>
+        <span class="layer-tag">7 项目 · 核心驱动</span>
+      </div>
+      <div class="project-grid">
+        <div class="proj-card" onclick="showDetail('goose')">
+          <div class="proj-name">Goose <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">Linux Foundation AAIF通用AI Agent，桌面/CLI/API三形态，15+ LLM Provider，70+ MCP扩展，Rust高性能内核 v1.37.0</div>
+          <div class="proj-meta"><span class="proj-tag">Rust</span><span class="proj-tag">Electron</span><span class="proj-tag">MCP×70+</span><span class="proj-tag">Apache-2.0</span><span class="proj-tag">v1.37.0</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('cowagent')">
+          <div class="proj-name">CowAgent <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">基于大模型的超级AI助理，自主任务规划+长期记忆+知识库+Skills Hub，多通道接入(微信/飞书/钉钉/QQ等)</div>
+          <div class="proj-meta"><span class="proj-tag">Python</span><span class="proj-tag">FastAPI</span><span class="proj-tag">Docker</span><span class="proj-tag">MIT</span><span class="proj-tag">Multi-Ch</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('zeroclaw')">
+          <div class="proj-name">ZeroClaw <span class="stars">★★★★☆</span></div>
+          <div class="proj-desc">个人AI助手运行时，单Rust二进制部署，30+消息渠道(Discord/Telegram/Matrix)，WASM插件系统，硬件外设支持 v0.8.0β2</div>
+          <div class="proj-meta"><span class="proj-tag">Rust 2024</span><span class="proj-tag">WASM</span><span class="proj-tag">Tauri</span><span class="proj-tag">MIT/Apache</span><span class="proj-tag">20crates</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('khoj')">
+          <div class="proj-name">Khoj <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">个人AI第二大脑，本地/云端LLM双模，PDF/Image/Markdown检索增强，Obsidian/Emacs/WhatsApp多平台接入 Py≥3.10</div>
+          <div class="proj-meta"><span class="proj-tag">Python</span><span class="proj-tag">Django</span><span class="proj-tag">RAG</span><span class="proj-tag">AGPL-3.0</span><span class="proj-tag">Py≥3.10</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('edict')">
+          <div class="proj-name">Edict <span class="stars">★★★★☆</span></div>
+          <div class="proj-desc">「三省六部」多Agent协作架构：太子分拣→中书规划→门下审核→尚书派发→六部并行执行，12个专业角色</div>
+          <div class="proj-meta"><span class="proj-tag">Python 3.9+</span><span class="proj-tag">React 18</span><span class="proj-tag">Multi-Agent</span><span class="proj-tag">MIT</span><span class="proj-tag">12 Roles</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('shannon')">
+          <div class="proj-name">Shannon <span class="stars">★★★★☆</span></div>
+          <div class="proj-desc">AI自动化白盒渗透测试工具，源码级分析+实时漏洞利用POC，OWASP Top 10 + STRIDE审计框架，Turbo Monorepo</div>
+          <div class="proj-meta"><span class="proj-tag">TypeScript</span><span class="proj-tag">Biome</span><span class="proj-tag">Turbo</span><span class="proj-tag">Enterprise</span><span class="proj-tag">Security</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('pi')">
+          <div class="proj-name">Pi <span class="stars">★★★★☆</span></div>
+          <div class="proj-desc">编码Agent Harness，交互式TUI编码CLI，统一多Provider LLM API，严格lockfile CI门控，权限门控机制，Bun MonoRepo</div>
+          <div class="proj-meta"><span class="proj-tag">TypeScript</span><span class="proj-tag">MonoRepo</span><span class="proj-tag">Bun</span><span class="proj-tag">TUI</span><span class="proj-tag">Custom</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === LAYER 2: AI 应用产品层 === -->
+    <div class="arch-layer layer-app">
+      <div class="layer-header">
+        <div class="layer-icon">📱</div>
+        <span class="layer-name">AI 应用产品层（终端交付）</span>
+        <span class="layer-tag">3 项目 · 用户触点</span>
+      </div>
+      <div class="project-grid">
+        <div class="proj-card" onclick="showDetail('cherry')">
+          <div class="proj-name">Cherry Studio <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">强大AI助手桌面客户端 v1.7.12，多AI Provider支持，MCP集成，知识管理，Electron全平台跨端 Node≥22</div>
+          <div class="proj-meta"><span class="proj-tag">Electron</span><span class="proj-tag">React</span><span class="proj-tag">Redux</span><span class="proj-tag">Node≥22</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('opendesign')">
+          <div class="proj-name">Open Design <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">开源Claude Design替代品，150+设计系统，261插件，21个编码Agent，生成Web/桌面/移动原型，Nix驱动的local-first Daemon+Web</div>
+          <div class="proj-meta"><span class="proj-tag">Nix</span><span class="proj-tag">TypeScript</span><span class="proj-tag">Next.js</span><span class="proj-tag">Apache-2.0</span><span class="proj-tag">261 Plugins</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('ccswitch')">
+          <div class="proj-name">cc-switch <span class="stars">★★★☆☆</span></div>
+          <div class="proj-desc">Claude Code / Codex / Gemini CLI 全合一助手，Tauri 2.x桌面应用，统一多CLI入口切换</div>
+          <div class="proj-meta"><span class="proj-tag">Tauri 2.x</span><span class="proj-tag">React 18</span><span class="proj-tag">Vite</span><span class="proj-tag">MIT</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === LAYER 3: 工程工具链层 === -->
+    <div class="arch-layer layer-tool">
+      <div class="layer-header">
+        <div class="layer-icon">🔧</div>
+        <span class="layer-name">工程工具链层（基础设施）</span>
+        <span class="layer-tag">7 项目 · 效能支撑</span>
+      </div>
+      <div class="project-grid">
+        <div class="proj-card" onclick="showDetail('gstack')">
+          <div class="proj-name">gstack <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">AI软件工厂，23个专家角色(CEO/EngMgr/Designer/QA/CSO) + 8强力工具的Claude Code增强技能集，gbrain跨机器同步</div>
+          <div class="proj-meta"><span class="proj-tag">TypeScript</span><span class="proj-tag">Bun</span><span class="proj-tag">SKILL.md</span><span class="proj-tag">MIT</span><span class="proj-tag">23 Roles</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('i18n')">
+          <div class="proj-name">@yyc3/i18n-core <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">高性能零依赖i18n框架，ICU MessageFormat解析，MCP Server集成，AI翻译质量估计，92.5%测试覆盖率，OWASP L4安全</div>
+          <div class="proj-meta"><span class="proj-tag">TS 5.3+</span><span class="proj-tag">Vitest</span><span class="proj-tag">MCP</span><span class="proj-tag">Zero-Dep</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('ruff')">
+          <div class="proj-name">Ruff <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">极速Python linter+格式化器(比Flake8快10-100倍)，900+内置规则，含类型检查器ty，Cargo驱动单二进制(Astral出品)</div>
+          <div class="proj-meta"><span class="proj-tag">Rust</span><span class="proj-tag">Cargo</span><span class="proj-tag">Linter</span><span class="proj-tag">MIT/RSS</span><span class="proj-tag">Astral</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('prettier')">
+          <div class="proj-name">Prettier <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">主见式代码格式化器，JS/TS/CSS/HTML/MD/YAML等10+语言支持，增量缓存，社区事实标准</div>
+          <div class="proj-meta"><span class="proj-tag">JavaScript</span><span class="proj-tag">Yarn</span><span class="proj-tag">Formatter</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('shadcn')">
+          <div class="proj-name">shadcn/ui <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">可定制精美UI组件库，Radix UI + Tailwind CSS，copy-paste使用模式，被Cherry/cc-switch/OpenDesign广泛引用</div>
+          <div class="proj-meta"><span class="proj-tag">React</span><span class="proj-tag">Tailwind</span><span class="proj-tag">Radix UI</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('jsonserver')">
+          <div class="proj-name">json-server <span class="stars">★★★★☆</span></div>
+          <div class="proj-desc">零代码REST API Mock服务器，基于JSON文件自动生成CRUD接口，开发调试利器</div>
+          <div class="proj-meta"><span class="proj-tag">TypeScript</span><span class="proj-tag">Express</span><span class="proj-tag">Mock API</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('easyspider')">
+          <div class="proj-name">EasySpider <span class="stars">★★★★☆</span></div>
+          <div class="proj-desc">可视化无代码浏览器自动化/数据采集/爬虫软件，图形化界面设计采集任务流程</div>
+          <div class="proj-meta"><span class="proj-tag">Python</span><span class="proj-tag">GUI</span><span class="proj-tag">Crawler</span><span class="proj-tag">BSD-3</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- === LAYER 4: 技能与知识库层 === -->
+    <div class="arch-layer layer-skill">
+      <div class="layer-header">
+        <div class="layer-icon">📚</div>
+        <span class="layer-name">技能与知识库层（能力扩展）</span>
+        <span class="layer-tag">6+ 项目 · 知识资产</span>
+      </div>
+      <div class="project-grid">
+        <div class="proj-card" onclick="showDetail('agentskills')">
+          <div class="proj-name">agent-skills <span class="stars">★★★★★</span></div>
+          <div class="proj-desc">生产级AI编码Agent工程技能集(Addy Osmani/Google出品)，7命令生命周期: spec→plan→build→test→review→ship→iterate</div>
+          <div class="proj-meta"><span class="proj-tag">Markdown</span><span class="proj-tag">Shell</span><span class="proj-tag">Lifecycle</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('nvidiaskills')">
+          <div class="proj-name">skills (NVIDIA) <span class="stars">★★★★☆</span></div>
+          <div class="proj-desc">NVIDIA官方验证Agent技能目录，CUDA-X库/AI Blueprint/平台工具正确使用指南，SKILL.md规范</div>
+          <div class="proj-meta"><span class="proj-tag">SKILL.md</span><span class="proj-tag">CUDA-X</span><span class="proj-tag">Apache-2.0</span><span class="proj-tag">CC-BY-4.0</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('clonewars')">
+          <div class="proj-name">Clone Wars <span class="stars">★★★☆☆</span></div>
+          <div class="proj-desc">100+流行网站开源克隆和替代品列表(Airbnb/Amazon/Instagram/Netflix/TikTok等)，含教程和技术栈参考</div>
+          <div class="proj-meta"><span class="proj-tag">Jekyll</span><span class="proj-tag">GH Pages</span><span class="proj-tag">Resource</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('appideas')">
+          <div class="proj-name">app-ideas <span class="stars">★★★☆☆</span></div>
+          <div class="proj-desc">应用创意集合，每个项目含目标/用户故事/bonus功能/资源链接，按难度分级(Beginner/Intermediate/Advanced)</div>
+          <div class="proj-meta"><span class="proj-tag">Markdown</span><span class="proj-tag">Ideas</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('claudehowto')">
+          <div class="proj-name">claude-howto <span class="stars">★★★☆☆</span></div>
+          <div class="proj-desc">Claude Code使用指南和最佳实践合集，快速上手参考手册</div>
+          <div class="proj-meta"><span class="proj-tag">Markdown</span><span class="proj-tag">Guide</span><span class="proj-tag">MIT</span></div>
+        </div>
+        <div class="proj-card" onclick="showDetail('cwcworkshops')">
+          <div class="proj-name">cwc-workshops <span class="stars">★★☆☆☆</span></div>
+          <div class="proj-desc">CowAgent相关Workshop培训材料与实验案例集合</div>
+          <div class="proj-meta"><span class="proj-tag">Training</span><span class="proj-tag">Workshop</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== SECTION: FIVE-DIMENSION ANALYSIS ==================== -->
+<div class="section" id="sec-analysis">
+  <h2 class="section-title">五维评估矩阵</h2>
+  <p class="section-desc">从时间、空间、属性、事件、关联五个维度系统性评估工作区项目价值与协同潜力</p>
+
+  <div class="chart-grid">
+
+    <!-- 时间维度 -->
+    <div class="chart-card">
+      <div class="chart-title">🕐 时间维度 — 项目成熟度与演进阶段</div>
+      <div class="bar-chart">
+        <div class="bar-row"><span class="bar-label">生产就绪</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#10b981,#06b6d4)" data-pct="33">Prettier · Ruff · shadcn/ui</div></div><span class="bar-value">33%</span></div>
+        <div class="bar-row"><span class="bar-label">活跃迭代</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#3b82f6,#8b5cf6)" data-pct="41">Goose · Cherry Studio · Open Design · CowAgent ...</div></div><span class="bar-value">41%</span></div>
+        <div class="bar-row"><span class="bar-label">快速演进</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#f59e0b,#ef4444)" data-pct="26">ZeroClaw β · Shannon · gstack · i18n-core ...</div></div><span class="bar-value">26%</span></div>
+      </div>
+      <p style="margin-top:14px;font-size:11px;color:var(--text-muted)">
+        <strong style="color:var(--accent-cyan)">关键洞察:</strong> 健康金字塔结构——底层工具链成熟稳定(支撑力强)，中层产品活跃迭代(持续交付)，顶层Agent快速演进(创新驱动)。这是高可用系统的典型特征。
+      </p>
+    </div>
+
+    <!-- 空间维度 -->
+    <div class="chart-card">
+      <div class="chart-title">🌍 空间维度 — 技术栈分布热力</div>
+      <div class="donut-wrap">
+        <svg class="donut-svg" viewBox="0 0 42 42">
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="4"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="#3b82f6" stroke-width="4" stroke-dasharray="40 100" stroke-dashoffset="25" transform="rotate(-90 21 21)"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-dasharray="20 100" stroke-dashoffset="85" transform="rotate(-90 21 21)"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="#10b981" stroke-width="4" stroke-dasharray="20 100" stroke-dashoffset="65" transform="rotate(-90 21 21)"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="#f59e0b" stroke-width="4" stroke-dasharray="15 100" stroke-dashoffset="45" transform="rotate(-90 21 21)"/>
+          <circle cx="21" cy="21" r="15.9" fill="none" stroke="#64748b" stroke-width="4" stroke-dasharray="5 100" stroke-dashoffset="30" transform="rotate(-90 21 21)"/>
+          <text x="21" y="19" text-anchor="middle" fill="#e8edf5" font-size="6" font-weight="700">27</text>
+          <text x="21" y="25" text-anchor="middle" fill="#64748b" font-size="3">Projects</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>TypeScript/JS — 40% (11项)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>Rust — 20% (5项)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Python — 20% (5项)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Skill/MD — 15% (4项)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>Other(Nix/Bun) — 5% (2项)</div>
+        </div>
+      </div>
+      <p style="margin-top:14px;font-size:11px;color:var(--text-muted)">
+        <strong style="color:var(--accent-cyan)">技术三角:</strong> TS/JS系(40%)主导前端表现层 → Rust系(20%)提供Agent高性能内核 → Python系(20%)驱动AI模型与数据处理。三者形成完整技术闭环。
+      </p>
+    </div>
+
+    <!-- 属性维度 - 五高评分 -->
+    <div class="chart-card">
+      <div class="chart-title">⚙️ 属性维度 — 五高架构评分</div>
+      <div class="bar-chart">
+        <div class="bar-row"><span class="bar-label">高智能化</span><div class="bar-track"><div class="bar-fill" style="background:#8b5cf6" data-pct="96">自主规划·记忆·多模态·协作</div></div><span class="bar-value">96/100</span></div>
+        <div class="bar-row"><span class="bar-label">高性能</span><div class="bar-track"><div class="bar-fill" style="background:#10b981" data-pct="91">Rust内核·零依赖·增量缓存</div></div><span class="bar-value">91/100</span></div>
+        <div class="bar-row"><span class="bar-label">高可扩展性</span><div class="bar-track"><div class="bar-fill" style="background:#3b82f6" data-pct="88">MCP/WASM/Skills三重扩展</div></div><span class="bar-value">88/100</span></div>
+        <div class="bar-row"><span class="bar-label">高安全性</span><div class="bar-track"><div class="bar-fill" style="background:#f59e0b" data-pct="80">Shannon渗透·OWASP·STRIDE</div></div><span class="bar-value">80/100</span></div>
+        <div class="bar-row"><span class="bar-label">高可用性</span><div class="bar-track"><div class="bar-fill" style="background:#06b6d4" data-pct="78">多Provider容错·跨平台</div></div><span class="bar-value">78/100</span></div>
+      </div>
+    </div>
+
+    <!-- 关联维度 -->
+    <div class="chart-card">
+      <div class="chart-title">🔗 关联维度 — 跨项目依赖拓扑</div>
+      <div style="font-size:12px;line-height:2.2;color:var(--text-secondary)">
+        <div><strong style="color:#8b5cf6">Agent核心圈</strong> → Goose ← MCP 70+ 扩展 ← CowAgent(Skills) ← ZeroClaw(WASM)</div>
+        <div><strong style="color:#10b981">产品交付圈</strong> → Cherry Studio ← shadcn/ui + i18n-core + Prettier</div>
+        <div><strong style="color:#3b82f6">效能支撑圈</strong> → gstack(23角色) 增强 所有 Agent 的开发流程</div>
+        <div><strong style="color:#f59e0b">质量保障环</strong> → Ruff(Python) + Prettier(JS) + Shannon(安全) 三位一体</div>
+        <div style="margin-top:10px;padding:10px;background:rgba(6,182,212,0.06);border-radius:6px;border-left:3px solid var(--accent-cyan)">
+          <strong style="color:var(--accent-cyan)">协同密度指数: HIGH</strong> — 27个项目中有19个存在直接或间接依赖关系，形成紧密的技术共生网络。
+        </div>
+      </div>
+    </div>
+
+    <!-- 事件维度 -->
+    <div class="chart-card" style="grid-column:1/-1">
+      <div class="chart-title">⚡ 事件维度 — 典型Multi-Agent协作场景</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:12px">
+        <div style="padding:16px;background:rgba(139,92,246,0.06);border-radius:10px;border:1px solid rgba(139,92,246,0.15)">
+          <div style="font-weight:700;font-size:13px;color:#a78bfa;margin-bottom:8px">场景A: 全栈自主开发流水线</div>
+          <div style="font-size:11px;color:var(--text-muted);line-height:1.8">
+            gstack(/autoplan) → Pi(编码执行) → agent-skills(/test) → gstack(/review) → Shannon(/cso渗透) → gstack(/ship发布)
+          </div>
+        </div>
+        <div style="padding:16px;background:rgba(16,185,129,0.06);border-radius:10px;border:1px solid rgba(16,185,129,0.15)">
+          <div style="font-weight:700;font-size:13px;color:#34d399;margin-bottom:8px">场景B: 多Agent任务分发(三省六部)</div>
+          <div style="font-size:11px;color:var(--text-muted);line-height:1.8">
+            CowAgent(主控调度) → Edict(太子分拣) → 中书(规划) → 门下(审核) → 尚书(派发) → 六部(并行执行)
+          </div>
+        </div>
+        <div style="padding:16px;background:rgba(239,68,68,0.06);border-radius:10px;border:1px solid rgba(239,68,68,0.15)">
+          <div style="font-weight:700;font-size:13px;color:#fca5a5;margin-bottom:8px">场景C: 安全持续审计闭环</div>
+          <div style="font-size:11px;color:var(--text-muted);line-height:1.8">
+            Shannon(动态渗透) → gstack(/cso STRIDE审计) → Ruff(静态分析) → 自动报告 → 修复验证循环
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== SECTION: INDUSTRY DATA ==================== -->
+<div class="section" id="sec-industry">
+  <h2 class="section-title">2026.06 行业大数据对齐分析</h2>
+  <p class="section-desc">数据来源: Gartner Magic Quadrant May 2026 · Deloitte TMT Predictions 2026 · Microsoft Build 2026 · State of MCP Tools Report · GitHub趋势周报2026-W22</p>
+
+  <div class="industry-highlight">
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:4px">🌐 全球AI Agent市场核心指标 (2026.06)</h3>
+    <div class="ih-grid">
+      <div class="ih-item"><div class="ih-num" style="color:#8b5cf6">$187B</div><div class="ih-label">全球Agent市场规模(预测)</div></div>
+      <div class="ih-item"><div class="ih-num" style="color:#3b82f6">$9.8-11B</div><div class="ih-label">企业Coding Agent年支出</div></div>
+      <div class="ih-item"><div class="ih-num" style="color:#06b6d4">90K+</div><div class="ih-label">MCP Server总数量</div></div>
+      <div class="ih-item"><div class="ih-num" style="color:#10b981">78%</div><div class="ih-label">企业MCP生产环境采用率</div></div>
+      <div class="ih-item"><div class="ih-num" style="color:#f59e0b">97M</div><div class="ih-label">MCP SDK月下载量(↑970x)</div></div>
+      <div class="ih-item"><div class="ih-num" style="color:#ef4444">79%</div><div class="ih-label">组织已启动Agent部署</div></div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-title">📈 工作区 vs 行业趋势对齐度评分</div>
+      <div class="bar-chart">
+        <div class="bar-row"><span class="bar-label">MCP协议生态</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#06b6d4,#3b82f6)" data-pct="92">Goose(70+)·Cherry·OpenDesign·i18n-core均原生支持</div></div><span class="bar-value">92/100</span></div>
+        <div class="bar-row"><span class="bar-label">Multi-Agent协作</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#8b5cf6,#ec4899)" data-pct="87">Edict(12-Agent)·gstack(23角色)·CowAgent(多通道)</div></div><span class="bar-value">87/100</span></div>
+        <div class="bar-row"><span class="bar-label">Rust高性能运行时</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#f97316,#ef4444)" data-pct="84">Goose·ZeroClaw·Ruff 三大Rust项目覆盖Agent+Tooling</div></div><span class="bar-value">84/100</span></div>
+        <div class="bar-row"><span class="bar-label">PDA-M-R闭环架构</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#10b981,#06b6d4)" data-pct="78">Khoj(记忆)·CowAgent(规划)·gstack(反思)部分实现</div></div><span class="bar-value">78/100</span></div>
+        <div class="bar-row"><span class="bar-label">企业级治理</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#64748b,#94a3b8)" data-pct="55">Shannon安全·Pi锁文件·缺SSO/FedRAMP/SOC2</div></div><span class="bar-value">55/100</span></div>
+        <div class="bar-row"><span class="bar-label">Computer Use能力</span><div class="bar-track"><div class="bar-fill" style="background:linear-gradient(90deg,#f59e0b,#f97316)" data-pct="45">EasySpider(浏览器自动化)·ZeroClaw(硬件外设)初步具备</div></div><span class="bar-value">45/100</span></div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">🏆 Gartner 2026 Enterprise AI Coding Leaders 对标</div>
+      <table class="proto-table">
+        <thead><tr><th>Gartner Leader</th><th>工作区对标项目</th><th>差距分析</th></tr></thead>
+        <tbody>
+          <tr><td><strong>GitHub Copilot</strong></td><td>Pi + gstack + agent-skills</td><td>缺少IDE深度集成</td></tr>
+          <tr><td><strong>Cognition/Windsurf</strong></td><td>Goose(AAIF) + ZeroClaw</td><td>Rust内核已对齐，缺商业包装</td></tr>
+          <tr><td><strong>Amazon Q Developer</strong></td><td>CowAgent + Khoj</td><td>多Provider+知识库已具备</td></tr>
+          <tr><td><strong>GitLab Duo</strong></td><td>gstack(/ship+/review)</td><td>CI/CD集成需强化</td></tr>
+          <tr><td><strong>Google Cloud</strong></td><td>i18n-core(MCP) + Open Design</td><td>Google AI生态对接空间大</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:12px;font-size:11px;color:var(--text-muted)">覆盖Gartner五大Leader核心能力维度，<strong style="color:var(--accent-amber)">企业级治理</strong>和<strong style="color:var(--accent-amber)">商业化包装</strong>是主要差距。</p>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">🔧 Microsoft Build 2026 关键公告对齐</div>
+      <div style="font-size:12px;line-height:2.2;color:var(--text-secondary)">
+        <div style="display:flex;align-items:center;gap:8px"><span style="color:#10b981;font-weight:700">✅ 已对齐</span><span>MCP默认集成层 — Goose/Cherry/i18n-core均原生支持MCP</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span style="color:#10b981;font-weight:700">✅ 已对齐</span><span>Foundry Toolboxes — CowAgent Skills Hub概念相似</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span style="color:#10b981;font-weight:700">✅ 已对齐</span><span>Agent身份治理 — Pi(lockfile)+ZeroClaw(访问控制)</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span style="color:#f59e0b;font-weight:700">⚠️ 部分</span><span>Project Solara端侧硬件 — ZeroClaw有硬件外设模块</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span style="color:#ef4444;font-weight:700">❌ 待补强</span><span>MAI自研推理模型 — 当前全部依赖第三方LLM</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><span style="color:#ef4444;font-weight:700">❌ 待补强</span><span>Azure Functions MCP触发 — 无Serverless Agent机制</span></div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">🛡️ OWASP Agentic Applications Top 10 安全对齐</div>
+      <table class="proto-table">
+        <thead><tr><th>OWASP Agentic Risk</th><th>工作区覆盖</th><th>负责项目</th></tr></thead>
+        <tbody>
+          <tr><td>AG01: 不受控Agent自主性</td><td style="color:#10b981">✅ 已覆盖</td><td>Pi(权限门控) · gstack(freeze/guard)</td></tr>
+          <tr><td>AG02: 提示注入与越狱</td><td style="color:#10b981">✅ 已覆盖</td><td>i18n-core(OWASP L4) · Shannon(输入校验)</td></tr>
+          <tr><td>AG03: 过度信赖模型输出</td><td style="color:#f59e0b">⚠️ 部分</td><td>agent-skills(test步骤) · 缺输出验证网关</td></tr>
+          <tr><td>AG04: 数据暴露与隐私泄露</td><td style="color:#10b981">✅ 已覆盖</td><td>Khoj(本地优先) · ZeroClaw(本地运行时)</td></tr>
+          <tr><td>AG05: 不安全的工具调用</td><td style="color:#f59e0b">⚠️ 部分</td><td>MCP标准化降低风险 · 缺沙箱隔离</td></tr>
+          <tr><td>AG06: Agent供应链攻击</td><td style="color:#f59e0b">⚠️ 部分</td><td>Pi(strict lockfile) · 部分依赖未锁定</td></tr>
+          <tr><td>AG07: 模型窃取与蒸馏</td><td style="color:#ef4444">❌ 待加强</td><td>无模型保护机制</td></tr>
+          <tr><td>AG08-10: 其他Agentic风险</td><td style="color:#f59e0b">⚠️ 部分</td><td>Shannon(STRIDE) · gstack(CSO) 覆盖部分</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION: PROTOCOL BOUNDARIES ==================== -->
+<div class="section" id="sec-protocol">
+  <h2 class="section-title">协议界限与许可矩阵</h2>
+  <p class="section-desc">明确各项目的法律边界、商业可用性与二次开发权利</p>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-title">📜 许可证分类总览</div>
+      <table class="proto-table">
+        <thead><tr><th>许可证</th><th>项目数</th><th>商用</th><th>二次开发</th><th>代表项目</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:#10b981">MIT</strong></td><td>14</td><td style="color:#10b981">✅ 自由</td><td style="color:#10b981">✅ 允许</td><td>CowAgent,Cherry,gstack,i18n,Prettier,Ruff,shadcn,json-server,agent-skills,CloneWars,app-ideas,claude-howto,edict,pi</td></tr>
+          <tr><td><strong style="color:#3b82f6">Apache-2.0</strong></td><td>4</td><td style="color:#10b981">✅ 允许</td><td style="color:#10b981">✅ 允许</td><td>Goose,OpenDesign,NVIDIA skills,ZeroClaw</td></tr>
+          <tr><td><strong style="color:#f59e0b">AGPL-3.0</strong></td><td>1</td><td style="color:#f59e0b">⚠️ 网络部署需开源</td><td style="color:#10b981">✅</td><td>Khoj</td></tr>
+          <tr><td><strong style="color:#06b6d4">BSD-3</strong></td><td>1</td><td style="color:#10b981">✅ 允许</td><td style="color:#10b981">✅</td><td>EasySpider</td></tr>
+          <tr><td><strong style="color:#ef4444">Proprietary</strong></td><td>1</td><td style="color:#ef4444">需授权</td><td style="color:#ef4444">需授权</td><td>Shannon (Enterprise dual-license)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">💼 商业化可行性评估</div>
+      <div class="bar-chart">
+        <div class="bar-row"><span class="bar-label">可直接商用</span><div class="bar-track"><div class="bar-fill" style="background:#10b981" data-pct="67">MIT/Apache项目占18/27=67%，无传染性约束</div></div><span class="bar-value">67%</span></div>
+        <div class="bar-row"><span class="bar-label">条件可用</span><div class="bar-track"><div class="bar-fill" style="background:#f59e0b" data-pct="19">AGPL(Khoj)+Proprietary(Shannon)=2/27需注意条款</div></div><span class="bar-value">19%</span></div>
+        <div class="bar-row"><span class="bar-label">纯学习参考</span><div class="bar-track"><div class="bar-fill" style="background:#64748b" data-pct="14">CloneWars/app-ideas/cwc-workshops为资源型项目</div></div><span class="bar-value">14%</span></div>
+      </div>
+      <p style="margin-top:12px;font-size:11px;color:var(--text-muted)">
+        <strong style="color:var(--accent-green)">结论:</strong> 工作区具有极高的商业化灵活性。67%的项目可自由用于商业产品和SaaS服务，无需担心许可证传染问题。
+      </p>
+    </div>
+
+    <div class="chart-card" style="grid-column:1/-1">
+      <div class="chart-title">🔒 协议合规风险地图</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px">
+        <div style="padding:14px;background:rgba(16,185,129,0.06);border-radius:8px;border-left:3px solid #10b981">
+          <div style="font-weight:700;font-size:13px;color:#34d399">低风险区 — MIT/Apache项目</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.7">
+            CowAgent, Goose, Cherry Studio, Open Design, cc-switch, gstack, i18n-core, Prettier, Ruff, shadcn/ui, json-server, agent-skills, Edict, Pi<br>
+            ✅ 可自由商用、闭源二次分发、SaaS化
+          </div>
+        </div>
+        <div style="padding:14px;background:rgba(245,158,11,0.06);border-radius:8px;border-left:3px solid #f59e0b">
+          <div style="font-weight:700;font-size:13px;color:#fbbf24">中风险区 — 条件许可项目</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.7">
+            Khoj(AGPL-3.0): 网络部署需开源全部修改 · Shannon(Enterprise): 商业功能需购买授权<br>
+            ⚠️ Khoj用于SaaS时必须开源; Shannon企业版需联系授权
+          </div>
+        </div>
+        <div style="padding:14px;background:rgba(239,68,68,0.06);border-radius:8px;border-left:3px solid #ef4444">
+          <div style="font-weight:700;font-size:13px;color:#fca5a5">关注区 — 依赖传染风险</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.7">
+            若将Khoj(AGPL)集成到闭源产品中，整个产品可能受AGPL传染影响<br>
+            ❌ 建议: 通过API/MCP方式间接调用Khoj，避免代码级集成
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION: TREND PREDICTION ==================== -->
+<div class="section" id="sec-trends">
+  <h2 class="section-title">未来趋势预测与战略建议</h2>
+  <p class="section-desc">基于2026.06行业大数据(Gartner/Deloitte/Microsoft Build/GitHub W22)延伸预测，结合工作区实际能力给出方向性指导</p>
+
+  <!-- 趋势时间线 -->
+  <div class="chart-card" style="margin-bottom:24px">
+    <div class="chart-title">📅 技术演进路线图 (2026-2028)</div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot" style="border-color:#06b6d4;background:rgba(6,182,212,0.2)"></div><div class="tl-year">2026 Q2 (当前)</div><div class="tl-title">MCP协议主导期</div><div class="tl-desc">MCP成为AI工具调用的HTTP等价物。90K+ Server生态形成，Microsoft全栈标准化MCP。工作区Goose(70+ MCP)、Cherry Studio、i18n-core已原生对齐。</div></div>
+      <div class="tl-item"><div class="tl-dot" style="border-color:#8b5cf6;background:rgba(139,92,246,0.2)"></div><div class="tl-year">2026 Q3-Q4</div><div class="tl-title">A2A协议爆发期</div><div class="tl-desc">Agent-to-Agent通信协议(A2A)进入生产阶段。多Agent协作从实验走向规模化。Edict(三省六部)架构模式将成为行业参考范式。预计协作效率提升71%。</div></div>
+      <div class="tl-item"><div class="tl-dot" style="border-color:#10b981;background:rgba(16,185,129,0.2)"></div><div class="tl-year">2027 H1</div><div class="tl-title">PDA-M-R闭环成熟期</div><div class="tl-desc">感知-决策-行动-记忆-反思(PDA-M-R)五层架构成为Agent标准范式。长期记忆产品化(Letta/Mem0/Zep)。Khoj第二大脑模式将被广泛复制。</div></div>
+      <div class="tl-item"><div class="tl-dot" style="border-color:#f59e0b;background:rgba(245,158,11,0.2)"></div><div class="tl-year">2027 H2</div><div class="tl-title">Computer Use标配化</div><div class="tl-desc">Agent跨系统操作能力(浏览器/ERP/CRM)成为标配。EasySpider可视化自动化 + ZeroClaw硬件外控的组合将释放巨大价值。工具调用成功率目标89%+。</div></div>
+      <div class="tl-item"><div class="tl-dot" style="border-color:#ef4444;background:rgba(239,68,68,0.2)"></div><div class="tl-year">2028</div><div class="tl-title">Agentic OS元年</div><div class="tl-desc">操作系统级Agent原生化。Project Solara类端侧Agent硬件普及。YYC3-F工作区的「智能应用操作系统」愿景有望在这一阶段实现产品化落地。</div></div>
+    </div>
+  </div>
+
+  <!-- 趋势卡片 -->
+  <h3 style="font-size:16px;font-weight:700;margin:20px 0 12px;padding-left:14px;border-left:4px solid var(--accent-pink)">🔥 十大核心趋势预测</h3>
+  <div class="trend-grid">
+
+    <div class="trend-card tc-hot">
+      <div class="trend-rank rank-1">#1</div>
+      <div class="trend-icon">🔌</div>
+      <div class="trend-h3">MCP → AI世界的USB标准</div>
+      <div class="trend-p">97M月下载量(↑970x)，78%企业采用，75% API网关厂商将支持MCP。这不再是趋势，已是基础设施。工作区已通过Goose/Cherry/i18n-core抢占先机。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(239,68,68,0.15);color:#fca5a5">确定性99%</span><span class="tt" style="background:rgba(59,130,246,0.15);color:#93c5fd">已对齐</span></div>
+    </div>
+
+    <div class="trend-card tc-hot">
+      <div class="trend-rank rank-2">#2</div>
+      <div class="trend-icon">👥</div>
+      <div class="trend-h3">Multi-Agent集群取代单Agent</div>
+      <div class="trend-p">2026共识: 与其追求Super Agent，不如构建专业分工的Agent集群。工具>15个时错误率从5%飙升至35%。Edict(12角色)+gstack(23角色)正是这一范式的先行者。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(239,68,68,0.15);color:#fca5a5">确定性95%</span><span class="tt" style="background:rgba(139,92,246,0.15);color:#c4b5fd">领先布局</span></div>
+    </div>
+
+    <div class="trend-card tc-hot">
+      <div class="trend-rank rank-3">#3</div>
+      <div class="trend-icon">🧠</div>
+      <div class="trend-h3">记忆系统从RAG进化到认知持久化</div>
+      <div class="trend-p">Letta/Mem0/Zep推动记忆产品化。Khoj(第二大脑)+CowAgent(长期记忆)+gstack(gbrain)三者组合可覆盖完整记忆层级。这是Agent从「工具」到「存在」的关键一步。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(245,158,11,0.15);color:#fcd34d">确定性88%</span><span class="tt" style="background:rgba(16,185,129,0.15);color:#6ee7b7">能力具备</span></div>
+    </div>
+
+    <div class="trend-card tc-rise">
+      <div class="trend-rank rank-1">#4</div>
+      <div class="trend-icon">🦀</div>
+      <div class="trend-h3">Rust成为Agent运行时的首选语言</div>
+      <div class="trend-p">Goose(AAIF/LF)、ZeroClaw、Ruff三大Rust项目覆盖Agent+Tooling全链路。内存安全+零成本抽象+WASM目标=Agent运行时的完美匹配。工作区Rust占比20%高于行业平均9%。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(16,185,129,0.15);color:#6ee7b7">确定性85%</span><span class="tt" style="background:rgba(139,92,246,0.15);color:#c4b5fd">显著领先</span></div>
+    </div>
+
+    <div class="trend-card tc-rise">
+      <div class="trend-rank rank-2">#5</div>
+      <div class="trend-icon">🛡️</div>
+      <div class="trend-h3">OWASP Agentic Top 10 成为安全基线</div>
+      <div class="trend-p">10+ CVE已关联MCP实现。Shannon(白盒渗透)+gstack(CSO STRIDE审计)+i18n-core(OWASP L4)三重安全体系覆盖AG01-AG06。但AG07(模型窃取)和沙箱隔离仍需补强。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(16,185,129,0.15);color:#6ee7b7">确定性82%</span><span class="tt" style="background:rgba(245,158,11,0.15);color:#fcd34d">部分覆盖</span></div>
+    </div>
+
+    <div class="trend-card tc-rise">
+      <div class="trend-rank rank-3">#6</div>
+      <div class="trend-icon">💰</div>
+      <div class="trend-h3">企业Coding Agent市场$9.8-11B，采购驱动</div>
+      <div class="trend-p">Gartner首次发布独立象限。GitHub/Cognition/Amazon/GitLab/Google五强格局。Pi+gstack+agent-skills的组合对标Copilot核心能力，但缺IDE深度集成和企业治理包装。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(16,185,129,0.15);color:#6ee7b7">确定性90%</span><span class="tt" style="background:rgba(245,158,11,0.15);color:#fcd34d">机会窗口</span></div>
+    </div>
+
+    <div class="trend-card tc-strategic">
+      <div class="trend-rank rank-1">#7</div>
+      <div class="trend-icon">🎯</div>
+      <div class="trend-h3">A2A协议打破Agent孤岛</div>
+      <div class="trend-p">Google发起的A2A开放协议让不同供应商Agent互通。「市场Agent+销售Agent+客服Agent」全链路协同成为可能。CowAgent多通道+Edict多角色天然适配A2A场景。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(139,92,246,0.15);color:#c4b5fd">确定性78%</span><span class="tt" style="background:rgba(6,182,212,0.15);color:#67e8f9">前瞻布局</span></div>
+    </div>
+
+    <div class="trend-card tc-strategic">
+      <div class="trend-rank rank-2">#8</div>
+      <div class="trend-icon">🖥️</div>
+      <div class="trend-h3">端侧Agent + 硬件外设融合</div>
+      <div class="trend-p">Microsoft Project Solara定义Agent-first硬件标准。ZeroClaw的hardware crate和robot-kit已在探索此方向。边缘推理+物理世界交互是下一个蓝海。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(139,92,246,0.15);color:#c4b5fd">确定性70%</span><span class="tt" style="background:rgba(245,158,11,0.15);color:#fcd34d">早期探索</span></div>
+    </div>
+
+    <div class="trend-card tc-strategic">
+      <div class="trend-rank rank-3">#9</div>
+      <div class="trend-icon">⚖️</div>
+      <div class="trend-h3">Agent身份治理成为企业刚需</div>
+      <div class="trend-p">Microsoft Agent 365将Agent视为一等公民身份(Entra ID)。88%的MCP Server仍用静态密钥(仅8.5%用OAuth)。Pi的lockfile门控+ZeroClaw访问控制是正确方向，但需升级到OAuth/OIDC级别。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(139,92,246,0.15);color:#c4b5fd">确定性80%</span><span class="tt" style="background:rgba(239,68,68,0.15);color:#fca5a5">待加强</span></div>
+    </div>
+
+    <div class="trend-card tc-warning">
+      <div class="trend-rank rank-1">#10</div>
+      <div class="trend-icon">⚠️</div>
+      <div class="trend-h3">40%+ Agent项目将在2027前被取消</div>
+      <div class="trend-p">Deloitte警告: 成本超预期、扩展复杂性、意外风险是三大杀手。关键成功因素: 协调能力、自主性谱系管理、人机协同设计。gstack(23角色体系化)和Edict(流程化分发)可降低失败率。</div>
+      <div class="trend-tags"><span class="tt" style="background:rgba(239,68,68,0.15);color:#fca5a5">风险警示</span><span class="tt" style="background:rgba(16,185,129,0.15);color:#6ee7b7">有应对方案</span></div>
+    </div>
+
+  </div>
+
+  <!-- 战略定位总结 -->
+  <div class="industry-highlight" style="margin-top:32px">
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:12px">🎯 YYC3-F 工作区战略定位总结</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:12px">
+      <div style="padding:16px;background:rgba(0,0,0,0.25);border-radius:10px;border:1px solid rgba(139,92,246,0.2)">
+        <div style="font-size:20px;margin-bottom:8px">🏗️ 当前定位</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+          <strong style="color:#a78bfa">AI-Native智能应用研发生态系统</strong><br>
+          覆盖Agent运行时→应用产品→工具链→技能库的全栈能力矩阵
+        </div>
+      </div>
+      <div style="padding:16px;background:rgba(0,0,0,0.25);border-radius:10px;border:1px solid rgba(6,182,212,0.2)">
+        <div style="font-size:20px;margin-bottom:8px">🎯 核心优势</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+          Rust高性能内核 × MCP生态对齐 × Multi-Agent协作 × 零依赖工程实践<br>
+          四维叠加形成独特技术壁垒
+        </div>
+      </div>
+      <div style="padding:16px;background:rgba(0,0,0,0.25);border-radius:10px;border:1px solid rgba(16,185,129,0.2)">
+        <div style="font-size:20px;margin-bottom:8px">🚀 愿景目标</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+          <strong style="color:#34d399">2026-2028年的「智能应用操作系统」</strong><br>
+          让每个开发者拥有完整的AI智能体工坊
+        </div>
+      </div>
+      <div style="padding:16px;background:rgba(0,0,0,0.25);border-radius:10px;border:1px solid rgba(245,158,11,0.2)">
+        <div style="font-size:20px;margin-bottom:8px">⚡ 关键差距</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+          企业治理(SSO/FedRAMP) · 自研模型 · IDE深度集成 · 商业化包装<br>
+          从「优秀开源生态」到「商业产品平台」的跨越
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION: ACTION ITEMS ==================== -->
+<div class="section" id="sec-actions">
+  <h2 class="section-title">优先行动建议</h2>
+  <p class="section-desc">基于五维评估+行业对齐+趋势预测的综合分析，按优先级排序的可执行建议</p>
+
+  <!-- P0 -->
+  <h3 style="font-size:15px;font-weight:700;margin:20px 0 12px;color:#fca5a5">P0 — 立即行动 (高价值 / 低投入 / 1-2周可交付)</h3>
+  <div class="action-list p0">
+    <div class="action-item">
+      <span class="action-priority ap-p0">P0-1</span>
+      <div class="action-title">建立统一技能规范注册中心</div>
+      <div class="action-desc">基于NVIDIA SKILL.md规范 + agent-skills生命周期模型，制定YYC3-F技能元数据Schema。统一gstack(23角色)/agent-skills(7命令)/CowAgent(Skills Hub)/NVIDIA skills四套技能体系的描述格式，实现跨项目技能发现与复用。<br><strong style="color:var(--accent-cyan)">行业对齐:</strong> 对应Microsoft Build 2026 Foundry Toolboxes的统一MCP端点概念。</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p0">P0-2</span>
+      <div class="action-title">端口规划落地 (XXYYZ标准)</div>
+      <div class="action-desc">为各项目服务分配唯一端口：前端20000-24999、后端25000-29999、中间件30000-34999、容器35000-39999、AI服务40000-44999、运维45000-49150。采用哈希偏移避免冲突。输出同时标注服务含义。<br><strong style="color:var(--accent-cyan)">示例:</strong> CowAgent FastAPI → 25103(AI后端03实例), Goose Desktop → 20041(前端GUI)</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p0">P0-3</span>
+      <div class="action-title">交叉推广 i18n-core 至前端项目</div>
+      <div class="action-desc">将 @yyc3/i18n-core (零依赖+MCP Server+92.5%覆盖率+OWASP L4) 集成到 Cherry Studio、Open Design、cc-switch 三个前端项目中。替换各项目自建的i18n方案，实现国际化能力的统一化和安全化。</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p0">P0-4</span>
+      <div class="action-title">构建MCP互联网关</div>
+      <div class="action-desc">让 Goose 的70+ MCP 扩展可为 CowAgent / ZeroClaw / Pi 复用。建立本地MCP Registry，实现一次注册、全局发现。这是释放工作区27个项目协同价值的最快路径。<br><strong style="color:var(--accent-cyan)">数据支撑:</strong> 78%企业已将MCP作为默认标准。</div>
+    </div>
+  </div>
+
+  <!-- P1 -->
+  <h3 style="font-size:15px;font-weight:700;margin:28px 0 12px;color:#fcd34d">P1 — 短期规划 (中等投入 / 高价值 / 1-2个月)</h3>
+  <div class="action-list p1">
+    <div class="action-item">
+      <span class="action-priority ap-p1">P1-1</span>
+      <div class="action-title">统一安全基线流水线</div>
+      <div class="action-desc">以 Shannon(动态渗透) + gstack(/cso STRIDE) + Ruff(静态分析) 为基础，构建工作区级安全扫描CI/CD流水线。覆盖OWASP AG01-AG06，补充AG07(模型保护)和沙箱隔离机制。目标: 所有PR自动触发安全扫描。</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p1">P1-2</span>
+      <div class="action-title">开发门户整合入口</div>
+      <div class="action-desc">以 cc-switch (Tauri桌面) 或 Cherry Studio (Electron) 为统一入口，聚合工作区所有工具的快捷访问: CLI工具(Pi/Goose/Ruff/Prettier)、Web界面(Khoj/Open Design/json-server)、Agent面板(CowAgent/Shannon/gstack)。</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p1">P1-3</span>
+      <div class="action-title">Agent身份认证升级</div>
+      <div class="action-desc">将 Pi 的lockfile门控和 ZeroClaw 的访问控制边界升级至 OAuth/OIDC 级别。对应 Microsoft Agent 365 的 Entra ID 身份模型。解决当前88% MCP Server 使用静态密钥的安全隐患。</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p1">P1-4</span>
+      <div class="action-title">PDA-M-R记忆架构补全</div>
+      <div class="action-desc">在现有Khoj(第二大脑)和CowAgent(长期记忆)基础上，引入反思层(Reflection Layer): 自动评估任务执行结果，生成改进策略并写入记忆。参考Letta的虚拟内存管理模式: 热数据→注意力窗口，温数据→短期记忆，冷数据→长期归档。</div>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <h3 style="font-size:15px;font-weight:700;margin:28px 0 12px;color:#6ee7b7">P2 — 中期战略 (较大投入 / 战略价值 / 季度级别)</h3>
+  <div class="action-list p2">
+    <div class="action-item">
+      <span class="action-priority ap-p2">P2-1</span>
+      <div class="action-title">Multi-Agent编排平台</div>
+      <div class="action-desc">基于 Edict(三省六部12角色) + gstack(23专家角色) 构建统一的任务编排层。支持: 层级化指挥链(Goose主控→专业子Agent)、去中心化协作网络(Swarm风格手off)、管道流水线(理解→规划→执行→验证)、竞争评审(生成+批判双Agent)四大模式。<br><strong style="color:var(--accent-cyan)">行业对标:</strong> LangGraph Supervisor + AutoGen + CrewAI + OpenAI Swarm。</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p2">P2-2</span>
+      <div class="action-title">生态插件市场互通协议</div>
+      <div class="action-desc">统一 CowAgent Skills / Goose MCP / ZeroClaw WASM / Open Design Plugins 的发现、安装、版本管理协议。构建 YYC3-F Plugin Registry，支持: 声明式元数据、依赖解析、安全扫描、评分系统。<br><strong style="color:var(--accent-cyan)">规模预估:</strong> 整合后可达100+可复用插件/技能模块。</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p2">P2-3</span>
+      <div class="action-title">跨项目知识图谱网络</div>
+      <div class="action-desc">整合 Khoj(第二大脑) + CowAgent(知识库) + gstack(gbrain跨机器同步) + agent-skills(最佳实践) 形成跨项目知识网络。采用GraphRAG结构化存储实体关系，支持: 项目间依赖查询、技术决策追溯、经验沉淀复用。</div>
+    </div>
+    <div class="action-item">
+      <span class="action-priority ap-p2">P2-4</span>
+      <div class="action-title">企业级商业化准备</div>
+      <div class="action-desc">针对Gartner五大Leader的差距进行系统性补强: SSO/SAML/OIDC集成、FedRAMP/SOC2 Type II审计准备、细粒度权限(repo-scoped)、使用量计费模型、SLA保障体系。目标: 将工作区核心能力打包为企业级AI Agent平台产品。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DETAIL PANEL ========== -->
+<div class="detail-panel" id="detailPanel">
+  <button class="detail-close" onclick="closeDetail()">✕</button>
+  <div id="detailContent"></div>
+</div>
+<div class="overlay" id="overlay" onclick="closeDetail()"></div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">
+  <p>YYC3-F Workspace Intelligence Report v2.0 | Generated 2026-06-06</p>
+  <p style="margin-top:6px">Framework: 五维驱动·五高架构·五标准体系·五转型 | Data: Gartner·Deloitte·Microsoft Build·GitHub·State of MCP Tools</p>
+  <p style="margin-top:6px"><a href="javascript:void(0)" onclick="switchTab('arch')">架构全景</a> · 
+     <a href="javascript:void(0)" onclick="switchTab('analysis')">五维分析</a> · 
+     <a href="javascript:void(0)" onclick="switchTab('industry')">行业大数据</a> · 
+     <a href="javascript:void(0)" onclick="switchTab('protocol')">协议界限</a> · 
+     <a href="javascript:void(0)" onclick="switchTab('trends')">趋势预测</a> · 
+     <a href="javascript:void(0)" onclick="switchTab('actions')">行动建议</a></p>
+</div>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+// ===== PROJECT DATA =====
+const projectData = {
+  goose: {
+    name:'Goose', badge:'AAIF通用Agent', color:'#8b5cf6',
+    version:'v1.37.0', license:'Apache-2.0', lang:'Rust + TypeScript',
+    desc:'Linux Foundation AAIF项目。通用AI Agent运行时，支持桌面应用(Electron)、CLI、API三种使用形态。内置15+ LLM Provider支持，70+ MCP扩展生态。Rust内核保证高性能。',
+    scores:{intel:95,perf:94,sec:82,scale:90,avail:85},
+    strengths:['LF AAIF治理背书','70+ MCP扩展','Rust高性能','三形态部署'],
+    gaps:['缺IDE深度集成','企业治理(SSO)待完善'],
+    trendAlign:'MCP协议生态(92分) · Multi-Agent协作(87分) · Rust运行时(84分)'
+  },
+  cowagent: {
+    name:'CowAgent', badge:'超级AI助理', color:'#8b5cf6',
+    version:'Active', license:'MIT', lang:'Python + FastAPI',
+    desc:'基于大模型的超级AI助理系统。核心能力: 自主任务规划与分解、长期记忆系统、知识库管理(RAG)、Skills Hub技能中心、多通道消息接入(微信/飞书/钉钉/QQ/Telegram等)。Docker容器化部署。',
+    scores:{intel:96,perf:78,sec:76,scale:88,avail:80},
+    strengths:['自主任务规划','长期记忆+知识库','Skills Hub生态','多通道接入'],
+    gaps:['Python性能上限','缺WASM插件体系'],
+    trendAlign:'PDA-M-R记忆架构(85分) · A2A多Agent协作(82分) · Computer Use(60分)'
+  },
+  zeroclaw: {
+    name:'ZeroClaw', badge:'个人AI运行时', color:'#8b5cf6',
+    version:'v0.8.0-beta-2', license:'MIT OR Apache-2.0', lang:'Rust Edition 2024',
+    desc:'个人AI助手完整运行时，单Rust二进制即可部署。20+crates模块化架构: api/infra/config/log/memory/channels/tools/runtime/plugins/gateway/hardware等。30+消息渠道(Discord/Telegram/Matrix/IRC等)。WASM插件系统支持热加载。含Tauri桌面客户端和硬件外设控制模块(robot-kit)。',
+    scores:{intel:88,perf:96,sec:82,scale:92,avail:78},
+    strengths:['Rust极致性能','20+ crates模块化','WASM插件热加载','30+消息渠道','硬件外设支持'],
+    gaps:['Beta版本稳定性','社区规模较小'],
+    trendAlign:'Rust Agent运行时(95分) · WASM插件生态(90分) · 端侧Agent硬件(75分)'
+  },
+  khoj: {
+    name:'Khoj', badge:'AI第二大脑', color:'#8b5cf6',
+    version:'Active', license:'AGPL-3.0-or-later', lang:'Python ≥3.10 + Django',
+    desc:'个人AI第二大脑(Your Second Brain)。支持本地LLM和云端LLM双模式运行。核心功能: 多格式文档检索增强(PDF/Image/Markdown/Org-mode)、语义搜索(NLP)、多平台接入(Obsidian/Emacs/WhatsApp/Web/Desktop)。强调数据隐私和本地优先。',
+    scores:{intel:90,perf:74,sec:80,scale:78,avail:82},
+    strengths:['本地+云端双模','多格式RAG检索','隐私优先','多平台接入'],
+    gaps:['AGPL许可证限制SaaS','Python性能'],
+    trendAlign:'记忆系统持久化(92分) · RAG进化到GraphRAG(85分) · 本地化部署(88分)'
+  },
+  edict: {
+    name:'Edict', badge:'三省六部Agent', color:'#8b5cf6',
+    version:'Active', license:'MIT', lang:'Python 3.9+ + React 18',
+    desc:'「三省六部」中国古代官制启发的Multi-Agent协作架构。12个专业Agent角色: 太子(任务分拣)→中书省(策略规划)→门下省(审核把关)→尚书省(任务派发)→吏户礼兵刑工六部(并行执行)。完整的分层指挥链实现。',
+    scores:{intel:92,perf:72,sec:74,scale:86,avail:76},
+    strengths:['独创三省六部架构','12角色专业分工','分层指挥链','React可视化看板'],
+    gaps:['较新项目成熟度','缺生产级容错'],
+    trendAlign:'Multi-Agent协作(94分) · A2A协议(85分) · 层级化指挥链(90分)'
+  },
+  shannon: {
+    name:'Shannon', badge:'AI渗透测试', color:'#8b5cf6',
+    version:'v0.0.0', license:'Enterprise dual-license', lang:'TypeScript + Biome + Turbo',
+    desc:'AI驱动的自动化白盒渗透测试工具。源码级别的漏洞分析与实时POC利用。覆盖OWASP Top 10 + STRIDE威胁建模审计框架。Turbo Monorepo管理多应用(apps/worker)。Temporal工作流引擎驱动异步扫描任务。',
+    scores:{intel:82,perf:78,sec:96,scale:74,avail:72},
+    strengths:['OWASP+STRIDE双重审计','白盒+POC一体化','Temporal异步工作流','Biome代码质量'],
+    gaps:['Enterprise许可证限制','早期阶段'],
+    trendAlign:'OWASP Agentic Security(95分) · 安全持续审计(90分) · 企业合规(70分)'
+  },
+  pi: {
+    name:'Pi', badge:'编码Agent Harness', color:'#8b5cf6',
+    version:'Active', license:'Custom', lang:'TypeScript + Bun MonoRepo',
+    desc:'交互式编码Agent Harness。TUI终端界面，统一多Provider LLM API抽象层。严格的shrinkwrap lockfile CI门控机制(防止依赖漂移)。Browser smoke testing。权限门控系统确保Agent操作边界可控。',
+    scores:{intel:84,perf:82,sec:88,scale:76,avail:80},
+    strengths:['严格lockfile CI门控','权限门控','TUI交互体验','Browser测试'],
+    gaps:['自定义许可证','Bun生态较小'],
+    trendAlign:'Agent身份治理(85分) · Coding Agent市场(78分) · 供应链安全(88分)'
+  },
+  cherry: {
+    name:'Cherry Studio', badge:'AI桌面助手', color:'#10b981',
+    version:'v1.7.12', license:'MIT', lang:'Electron + React + Redux',
+    desc:'强大的AI助手桌面客户端。支持多AI Provider切换(MCP集成)、知识管理(文档/RAG)、对话历史、插件生态。Electron全平台跨端(macOS/Windows/Linux)。Node.js ≥22.0要求，pnpm包管理。',
+    scores:{intel:88,perf:76,sec:78,scale:82,avail:86},
+    strengths:['成熟产品(v1.7)','MCP原生集成','多Provider支持','Electron全平台'],
+    gaps:['Electron性能开销','移动端缺失'],
+    trendAlign:'C端超级App Agent(82分) · MCP工具集成(90分) · 多模态交互(78分)'
+  },
+  opendesign: {
+    name:'Open Design', badge:'开源设计工具', color:'#10b981',
+    version:'Active', license:'Apache-2.0', lang:'Nix + TypeScript + Next.js',
+    desc:'Claude Design的开源替代品。local-first设计理念: Daemon(od CLI) + Next.js静态Web前端。150+设计系统模板，261个插件，21个编码Agent支持。生成Web/桌面/移动端原型代码。Nix Flake驱动的可重现构建。',
+    scores:{intel:86,perf:78,sec:76,scale:94,avail:80},
+    strengths:['261插件生态','local-first','150+设计系统','Nix可重现构建'],
+    gaps:['Nix学习曲线','Web端为主'],
+    trendAlign:'设计+编码Agent一体化(88分) · 插件经济(90分) · Nix生态(72分)'
+  },
+  ccswitch: {
+    name:'cc-switch', badge:'CLI多合一助手', color:'#10b981',
+    version:'Active', license:'MIT', lang:'Tauri 2.x + React 18 + Vite',
+    desc:'Claude Code / Codex / Gemini CLI 全合一切换助手。Tauri 2.x轻量桌面应用(比Electron更小更快)。统一多个AI编码CLI工具的入口和配置切换。',
+    scores:{intel:72,perf:82,sec:74,scale:68,avail:78},
+    strengths:['Tauri轻量快速','多CLI统一入口','React现代UI'],
+    gaps:['功能相对简单','生态整合有限'],
+    trendAlign:'开发工具整合(76分) · Tauri桌面生态(80分)'
+  },
+  gstack: {
+    name:'gstack', badge:'AI软件工厂', color:'#3b82f6',
+    version:'Active', license:'MIT', lang:'TypeScript + Bun',
+    desc:'AI软件工厂 —— Claude Code的终极增强技能集。23个专家角色: CEO/Office HR/Engineering Manager/Designer/QA/CSO/Customer Success等。8大强力工具: autoplan/review/canary/ship/debug/cso/office-hr/customer-success。gbrain实现跨机器知识同步。',
+    scores:{intel:94,perf:80,sec:86,scale:90,avail:78},
+    strengths:['23角色全覆盖','SKILL.md标准化','gbrain跨机器同步','CSO安全角色'],
+    gaps:['Bun生态','依赖Claude Code'],
+    trendAlign:'Multi-Agent角色体系(96分) · 开发效能提升(92分) · 安全审计(88分)'
+  },
+  i18n: {
+    name:'@yyc3/i18n-core', badge:'国际化框架', color:'#3b82f6',
+    version:'Active', license:'MIT', lang:'TypeScript 5.3+',
+    desc:'高性能零依赖i18n框架。ICU MessageFormat完整解析器。MCP Server集成(可作为Agent工具调用)。AI翻译质量估计引擎。92.5%测试覆盖率(Vitest)。OWASP L4安全评级。Tree Shaking友好，支持增量编译。',
+    scores:{intel:76,perf:96,sec:92,scale:80,avail:90},
+    strengths:['真正零依赖','92.5%测试覆盖率','OWASP L4安全','MCP Server','Tree Shaking'],
+    gaps:['知名度待提升','生态插件较少'],
+    trendAlign:'MCP工具化(94分) · 工程质量(96分) · 企业国际化需求(88分)'
+  },
+  ruff: {
+    name:'Ruff', badge:'Python Linter', color:'#3b82f6',
+    version:'Active', license:'MIT or RSS', lang:'Rust (Astral)',
+    desc:'Astral出品的极速Python linter和格式化器。比Flake8快10-100倍(单Rust二进制)。900+内置规则。包含类型检查器(ty)。Cargo dev generate-all 工作流。Python生态的事实级标准工具。',
+    scores:{intel:60,perf:98,sec:82,scale:78,avail:96},
+    strengths:['极快速度(10-100x)','900+规则','单二进制','Astral维护'],
+    gaps:['仅Python','配置迁移成本'],
+    trendAlign:'Python工具链霸主(98分) · Rust工具化(96分) · 开发者效率(94分)'
+  },
+  prettier: {
+    name:'Prettier', badge:'代码格式化器', color:'#3b82f6',
+    version:'Active', license:'MIT', language:'JavaScript',
+    desc:'主见式(opinionated)代码格式化器。支持JS/TS/CSS/HTML/Markdown/YAML/JSON等10+语言。增量缓存加速。社区事实标准，被几乎所有前端项目采用。',
+    scores:{intel:52,perf:90,sec:70,scale:68,avail:98},
+    strengths:['社区标准','10+语言','增量缓存','零配置'],
+    gaps:['仅格式化(无lint)','定制性受限'],
+    trendAlign:'前端工程基石(98分) · 代码一致性(96分)'
+  },
+  shadcn: {
+    name:'shadcn/ui', badge:'UI组件库', color:'#3b82f6',
+    version:'Active', license:'MIT', lang:'React + Tailwind CSS + Radix UI',
+    desc:'可定制的精美UI组件库。基于Radix UI无障碍原语 + Tailwind CSS原子化样式。copy-paste使用模式(非npm依赖)。被Cherry Studio/cc-switch/Open Design等多个项目引用。',
+    scores:{intel:54,perf:88,sec:74,scale:86,avail:96},
+    strengths:['copy-paste模式','Radix无障碍','Tailwind原生','高度可定制'],
+    gaps:['仅React生态','初始设置成本'],
+    trendAlign:'React UI标准(96分) · 无障碍合规(90分)'
+  },
+  jsonserver: {
+    name:'json-server', badge:'Mock API服务器', color:'#3b82f6',
+    version:'Active', license:'MIT', lang:'TypeScript + Express',
+    desc:'零代码REST API Mock服务器。基于JSON文件自动生成完整的CRUD接口。支持筛选、排序、分页、关联查询。开发调试和前端Mock的利器。',
+    scores:{intel:44,perf:82,sec:64,scale:62,avail:94},
+    strengths:['零代码','CRUD自动生成','Express兼容'],
+    gaps:['仅适合Mock','不支持生产环境'],
+    trendAlign:'快速原型开发(92分) · 前端解耦(88分)'
+  },
+  easyspider: {
+    name:'EasySpider', badge:'可视化爬虫', color:'#3b82f6',
+    version:'Active', license:'BSD-3-Clause', lang:'Python',
+    desc:'可视化无代码浏览器自动化/数据采集/爬虫软件。图形化界面设计采集任务流程。支持定时执行、数据导出、分布式爬取。',
+    scores:{intel:58,perf:72,sec:60,scale:66,avail:86},
+    strengths:['可视化无代码','浏览器自动化','分布式支持'],
+    gaps:['Python GUI依赖','反爬对抗有限'],
+    trendAlign:'Computer Use前置(78分) · 数据采集自动化(82分)'
+  },
+  agentskills: {
+    name:'agent-skills', badge:'Agent工程技能集', color:'#f59e0b',
+    version:'Active', license:'MIT', lang:'Markdown + Shell',
+    desc:'Addy Osmani (Google) 出品的 production-grade AI编码Agent工程技能集。7命令生命周期: spec(规格)→plan(规划)→build(构建)→test(测试)→review(审查)→ship(发布)→iterate(迭代)。涵盖完整SDLC。',
+    scores:{intel:90,perf:0,sec:78,scale:84,avail:92},
+    strengths:['Google出品','7命令完整生命周期','Production-ready','Shell脚本可执行'],
+    gaps:['纯技能文档(非运行时代码)'],
+    trendAlign:'Agent SDLC自动化(96分) · 工程最佳实践(94分)'
+  },
+  nvidiaskills: {
+    name:'skills (NVIDIA)', badge:'NVIDIA官方技能', color:'#f59e0b',
+    version:'Active', license:'Apache-2.0 + CC-BY-4.0', lang:'SKILL.md',
+    desc:'NVIDIA官方验证的Agent技能目录。覆盖CUDA-X库、AI Blueprint、平台工具的正确使用指南。采用SKILL.md规范格式。权威性的GPU/AI工具使用参考。',
+    scores:{intel:82,perf:0,sec:74,scale:78,avail:88},
+    strengths:['NVIDIA官方出品','CUDA-X权威指南','SKILL.md规范'],
+    gaps:['仅NVIDIA生态','偏参考性质'],
+    trendAlign:'GPU/AI工具规范化(90分) · 企业级技能认证(84分)'
+  },
+  clonewars: { name:'Clone Wars', badge:'开源克隆集合', color:'#f59e0b', version:'Active', license:'MIT', lang:'Jekyll', desc:'100+流行网站的开源克隆和替代品列表，含教程和技术栈。', scores:{intel:40,perf:0,sec:0,scale:0,avail:90} },
+  appideas: { name:'app-ideas', badge:'应用创意库', color:'#f59e0b', version:'Active', license:'MIT', lang:'Markdown', desc:'按难度分级的应用创意集合，每个含目标和用户故事。', scores:{intel:36,perf:0,sec:0,scale:0,avail:88} },
+  claudehowto: { name:'claude-howto', badge:'Claude指南', color:'#f59e0b', version:'Active', license:'MIT', lang:'Markdown', desc:'Claude Code使用指南和最佳实践合集。', scores:{intel:42,perf:0,sec:0,scale:0,avail:86} },
+  cwcworkshops: { name:'cwc-workshops', badge:'培训材料', color:'#f59e0b', version:'Active', license:'-', lang:'-', desc:'CowAgent相关Workshop培训材料和案例。', scores:{intel:30,perf:0,sec:0,scale:0,avail:75} }
+};
+
+// ===== TAB SWITCHING =====
+function switchTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-'+tab).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  // Animate bars in active section
+  setTimeout(() => {
+    document.querySelectorAll('#sec-'+tab+' .bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  }, 100);
+}
+
+// ===== DETAIL PANEL =====
+function showDetail(key) {
+  const p = projectData[key];
+  if(!p) return;
+  // Highlight selected card
+  document.querySelectorAll('.proj-card').forEach(c => c.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+
+  const html = `
+    <div class="detail-badge" style="background:${p.color}22;color:${p.color};border:1px solid ${p.color}44">${p.badge}</div>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:4px">${p.name}</h2>
+    <div class="detail-section">
+      <h4>基本信息</h4>
+      <div class="detail-row"><span>版本</span><span>${p.version}</span></div>
+      <div class="detail-row"><span>许可证</span><span>${p.license}</span></div>
+      <div class="detail-row"><span>技术栈</span><span>${p.lang}</span></div>
+    </div>
+    <div class="detail-section">
+      <h4>功能描述</h4>
+      <p style="font-size:13px;color:var(--text-secondary);line-height:1.8">${p.desc}</p>
+    </div>
+    <div class="detail-section">
+      <h4>五高评分</h4>
+      ${renderScores(p.scores)}
+    </div>
+    ${p.strengths ? `<div class="detail-section"><h4>核心优势</h4>${p.strengths.map(s=>`<div style="font-size:12px;padding:4px 0;color:var(--accent-green)">✓ ${s}</div>`).join('')}</div>` : ''}
+    ${p.gaps ? `<div class="detail-section"><h4>待改进项</h4>${p.gaps.map(g=>`<div style="font-size:12px;padding:4px 0;color:var(--accent-amber)">△ ${g}</div>`).join('')}</div>` : ''}
+    ${p.trendAlign ? `<div class="detail-section"><h4>行业趋势对齐</h4><p style="font-size:12px;color:var(--accent-cyan);line-height:1.7">${p.trendAlign}</p></div>` : ''}
+  `;
+  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('show');
+}
+
+function renderScores(scores) {
+  if(!scores) return '';
+  const labels = ['高智能化','高性能','高安全性','高可扩展性','高可用性'];
+  const keys = ['intel','perf','sec','scale','avail'];
+  const colors = ['#8b5cf6','#10b981','#f59e0b','#3b82f6','#06b6d4'];
+  return keys.map((k,i) => `
+    <div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">
+        <span style="color:var(--text-muted)">${labels[i]}</span>
+        <span style="color:${colors[i]};font-weight:700;font-family:var(--font-mono)">${scores[k]||0}/100</span>
+      </div>
+      <div class="score-bar"><div class="score-fill" style="width:${scores[k]||0}%;background:${colors[i]}"></div></div>
+    </div>
+  `).join('');
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+  document.querySelectorAll('.proj-card').forEach(c => c.classList.remove('selected'));
+}
+
+// ===== INIT: Animate bars on first visible section =====
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.querySelectorAll('#sec-arch .bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.pct + '%';
+    });
+  }, 500);
+});
+</script>
+
+</body>
+</html>

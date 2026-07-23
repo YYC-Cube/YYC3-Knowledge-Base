@@ -1,0 +1,69 @@
+version: 2
+updates:
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "Shopify/ruby-dev-exp"
+    labels:
+      - "dependencies"
+      - "ruby"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+        exclude-patterns:
+          - "prism"
+    open-pull-requests-limit: 100
+  - package-ecosystem: "npm"
+    directory: "vscode/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "Shopify/ruby-dev-exp"
+    ignore:
+      - dependency-name: "@types/vscode"
+      - dependency-name: "eslint"
+        versions: [">= 0.9.0"] # blocked by https://github.com/Shopify/web-configs/issues/425
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 100
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "Shopify/ruby-dev-exp"
+    labels:
+      - "dependencies"
+      - "fixtures"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "Shopify/ruby-dev-exp"
+    labels:
+      - "chore"
+      - "dependencies"
+      - "gh-actions"
+  - package-ecosystem: "bundler"
+    directory: "jekyll"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "Shopify/ruby-dev-exp"
+    labels:
+      - "dependencies"
+      - "ruby"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 100

@@ -1,0 +1,45 @@
+name: Update gem RBIs on Dependabot PRs
+
+on: workflow_call
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-gem-rbis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.SHOPIFY_GH_ACCESS_TOKEN }}
+      - uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
+        id: setup
+        with:
+          bundler-cache: true
+      - name: Update gem RBIs
+        run: |
+          bin/tapioca gem
+      - name: Check for modified files
+        id: git_modified_files_check
+        # If there are changes in the sorbet directory, `echo -n` will return true (zero exit code)
+        run: |
+          status=$(git status sorbet --porcelain=v1)
+          echo "changes=$([ -n "$status" ]; echo $?)" >> $GITHUB_OUTPUT
+      - name: Push changes
+        if: ${{ steps.git_modified_files_check.outputs.changes == 0 }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add sorbet/*
+          date="$(date -u +"%Y-%m-%d")"
+          git commit -m "Update RBI files for gems ${date} [dependabot skip]"
+          git push

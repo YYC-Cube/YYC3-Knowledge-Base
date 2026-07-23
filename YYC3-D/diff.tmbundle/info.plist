@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>contactEmailRot13</key>
+	<string>gz-ohaqyrf@znpebzngrf.pbz</string>
+	<key>contactName</key>
+	<string>Allan Odgaard</string>
+	<key>description</key>
+	<string>Syntax highlight and &lt;a href="http://en.wikipedia.org/wiki/Diff"&gt;diff&lt;/a&gt; related functionality, for example see differences between document and last saved version, use a diff file as a patch, etc.</string>
+	<key>mainMenu</key>
+	<dict>
+		<key>items</key>
+		<array>
+			<string>674E54F5-065E-4224-9626-673903B7C0E0</string>
+			<string>0979659D-126E-467F-AC07-599979A42D67</string>
+			<string>4050A252-C604-4D0C-8545-E50B22E2715B</string>
+			<string>------------------------------------</string>
+			<string>D04AFBD3-8110-11D9-8E5B-0011242E4184</string>
+			<string>6A811265-81DC-11D9-9AA2-000D9332809C</string>
+			<string>------------------------------------</string>
+			<string>239E196A-7106-4DC9-8FAE-0A9CA7540AFA</string>
+			<string>------------------------------------</string>
+			<string>B9091553-4317-415E-B381-4609BD453E01</string>
+			<string>------------------------------------</string>
+			<string>54D1CEF2-10AB-407B-AAB2-6AEA06B297B1</string>
+			<string>46842464-574C-477F-9DFB-BB38EA3C85BE</string>
+			<string>------------------------------------</string>
+			<string>5AC09B51-F282-4A3B-891F-2B818FECC96D</string>
+		</array>
+		<key>submenus</key>
+		<dict>
+			<key>5AC09B51-F282-4A3B-891F-2B818FECC96D</key>
+			<dict>
+				<key>items</key>
+				<array>
+					<string>7494B11B-2A67-4BAD-B652-40205D354423</string>
+					<string>------------------------------------</string>
+					<string>2A82E9A1-A70E-4268-86DF-A20C12D2FA01</string>
+					<string>792B95BE-0CD5-4AC1-854A-901E7DD5AA30</string>
+				</array>
+				<key>name</key>
+				<string>Merge Conflicts</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>name</key>
+	<string>Diff</string>
+	<key>uuid</key>
+	<string>C2D2BFF9-708D-11D9-BD09-0011242E4184</string>
+</dict>
+</plist>

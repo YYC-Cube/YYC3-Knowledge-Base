@@ -1,0 +1,177 @@
+Log levels
+-------------------
+ERROR, FAIL, FAILURE
+WARN, WARNING
+INFO, INFORMATION
+DEBUG
+
+error:
+warning:
+debug:
+information:
+
+[ERROR]
+[eror]
+[err]
+[er]
+[e]
+
+[WARNING]
+[warn]
+[wrn]
+[wn]
+[w]
+
+[INFORMATION]
+[info]
+[inf]
+[in]
+[i]
+
+
+[DEBUG]
+[dbug]
+[dbg]
+[de]
+[d]
+
+[VERBOSE]
+[verb]
+[vrb]
+[vb]
+[v]
+
+NLog
+----
+Fatal
+Error but only once on each row. The second Error should not be highlighted.
+Warn
+Info
+Debug
+Trace
+
+Syslog
+------
+EMERGENCY
+ALERT
+CRITICAL
+NOTICE
+
+Android logcat
+--------------
+E/
+W/
+I/
+D/
+V/
+
+Dates and times:
+-------------------
+2015-09-21
+2015-09-21 09:29
+2015-09-21 09:29:02,258
+2015-09-21T09:29:02.258Z
+2015-09-21T09:29:02.258+01:00
+2015-09-21T09:29:02.258333+01:00
+2015-09-21 09:29:02.258+02:00
+2015-09-21 09:29:02.259+01:00
+09/21/2015
+09/21/2015 09:29:02.258
+09/21/2015 09:29:02.259
+09/21/2015 09:29:02.259001
+21.09.2015
+21.09.2015 09:29:02.258
+21.09.2015 09:29:02.259
+21.09.2015 09:29:02.259001
+09:29
+09:29:02
+09:29:02,258
+21-09-2015
+21-09-2015 09:29
+21-09-2015 09:29:02,258
+2015-09-21T092901
+2015-09-21T092902.258+0200
+2015-09-21T092902.258+0100
+
+2018-04-15 00:32:16 should not compare 2018-04-14 00:32:56
+
+Constants
+----------------------
+1
+234
+null
+true
+false
+859A4209-A82D-4CA1-8468-C2606A3501EE
+859a4209-a82d-4ca1-8468-c2606a3501ee
+0x07
+0xE2
+0x0901
+
+String constants
+----------------------
+"lorem ipsum"
+'lorem ipsum'
+['b','a']
+["don't","won't"]
+
+Don't highlight the wrong 'string'.
+
+
+.Net exceptions
+----------------------
+ArgumentNullException
+HttpException
+
+  System.NullReferenceException: Object reference not set to an instance of an object.
+      at MyClass.DoSomethingElse(string foo)
+      at MyClass.DoSomething()
+
+Url:s
+----------------------
+http://www.meadow.se/wordpress/
+https://www.meadow.se/wordpress/
+tcp://127.0.0.1
+rabbitmq://127.0.0.1
+
+Namespaces
+----------------------
+MyApp.MyNameSpace.MyClass
+vscode.merge-conflict
+
+Git hashes
+-----------------------
+Commit: 6b1a8c9bf7a9f4a190bb08226ea376a11e9bdef8 [6b1a8c9]
+Parents: 8d3639a482
+
+MAC addresses (hex number sequences separated by colon or dash (':', '-')
+-------------------------------------------------------------------------
+43:A4:19:A5:AF:C0
+43-A4-19-A5-AF-C0
+fde8:e767:269c:0:9425:3477:7c8f:7f1a
+fde8-e767-269c-0-9425-3477-7c8f-7f1a
+
+
+Should not be highlighted
+---------------------------
+c:\foo.bar\lorem
+/etc/foo.bar/lorem
+192.168.10.11:5678 (should be highlighted as number constants, not as datetime)
+
+Custom keywords
+----------------
+Foo
+E/Custom error E/hhj
+
+To color the above, add this to the user settings:
+
+	"logFileHighlighter.customPatterns": [
+		{
+			"pattern": "Foo",
+			"foreground": "green"
+		},
+		{
+			"pattern": "E/\\w+",
+			"foreground": "#af1f1f"
+		}
+	]

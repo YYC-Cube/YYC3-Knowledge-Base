@@ -1,0 +1,12 @@
+{
+  "publicDataRepo": {
+    "owner": "whatwg",
+    "name": "participant-data",
+    "dataPath": ""
+  },
+  "serverURL": "https://participate.whatwg.org/",
+  "statusPath": "/agreement-status",
+  "steeringGroupEmail": "sg@whatwg.org",
+  "specOrg": "whatwg",
+  "verifyInstructionsURL": "https://github.com/whatwg/participate.whatwg.org#process-for-editors"
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@emmetio/scanner",
+  "version": "1.0.4",
+  "description": "Scans given text character-by-character",
+  "main": "./dist/scanner.cjs",
+  "module": "./dist/scanner.js",
+  "types": "./dist/scanner.d.ts",
+  "type": "module",
+  "exports": {
+    "import": "./dist/scanner.js",
+    "require": "./dist/scanner.cjs"
+  },
+  "scripts": {
+    "test": "tsx --test ./test/*.ts",
+    "build": "rollup -c",
+    "watch": "rollup -wc",
+    "clean": "rm ./scanner.* ./*.d.ts",
+    "prepublishOnly": "npm test && npm run clean && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmetio/stream-reader.git"
+  },
+  "keywords": [
+    "emmet",
+    "stream",
+    "scanner"
+  ],
+  "author": "Sergey Chikuyonok <serge.che@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emmetio/emmet/issues"
+  },
+  "homepage": "https://github.com/emmetio/emmet#readme"
+}

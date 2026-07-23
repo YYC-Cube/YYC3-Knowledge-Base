@@ -1,0 +1,22 @@
+{
+  "deps": [
+    {
+      "name": "xcolor"
+    },
+    {
+      "name": "accsupp"
+    }
+  ],
+  "macros": [],
+  "envs": [],
+  "keys": {
+    "\\usepackage/letgut-banner#c": [
+      "pagecolor={${1:r,g,b}}",
+      "watermark letter=${1:letter}",
+      "watermark scale=${1:factor}"
+    ]
+  },
+  "args": [
+    "\\usepackage/letgut-banner#c"
+  ]
+}

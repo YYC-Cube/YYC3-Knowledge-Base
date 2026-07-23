@@ -1,0 +1,205 @@
+{
+	"name": "LogFileHighlighter",
+	"displayName": "Log File Highlighter",
+	"icon": "content/appicon.png",
+	"description": "Adds color highlighting to log files to make it easier to follow the flow of log events and identify problems.",
+	"categories": [
+		"Other"
+	],
+	"license": "MIT",
+	"version": "3.5.1",
+	"bugs": {
+		"url": "https://github.com/emilast/vscode-logfile-highlighter/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/emilast/vscode-logfile-highlighter.git"
+	},
+	"engines": {
+		"vscode": "^1.109.0"
+	},
+	"publisher": "emilast",
+	"sponsor": {
+		"url": "https://github.com/sponsors/emilast"
+	},
+	"galleryBanner": {
+		"color": "#e7e0d7",
+		"theme": "light"
+	},
+	"extensionKind": [
+		"ui",
+		"workspace"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"languages": [
+			{
+				"id": "log",
+				"aliases": [
+					"Log File",
+					"log"
+				],
+				"extensions": [
+					".log"
+				]
+			}
+		],
+		"grammars": [
+			{
+				"language": "log",
+				"scopeName": "text.log",
+				"path": "./syntaxes/log.tmLanguage"
+			}
+		],
+		"commands": [
+			{
+				"command": "logFileHighlighter.removeProgressIndicatorDecorations",
+				"title": "Log File Highlighter: Remove Progress Indicator Decorations"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "logFileHighlighter.removeProgressIndicatorDecorations",
+				"key": "Escape",
+				"when": "editorTextFocus && editorLangId == log && logFileHighlighter.isShowingProgressIndicators"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Log File Highlighter",
+			"properties": {
+				"logFileHighlighter.customPatterns": {
+					"type": "array",
+					"items": {
+						"title": "Custom patterns to highlight.",
+						"description": "A custom pattern that is highlighted with the given foreground color.",
+						"type": "object",
+						"properties": {
+							"pattern": {
+								"pattern": "^[^$|\\s]",
+								"type": "string",
+								"title": "The pattern that will be highlighted.",
+								"description": "Either the exact string to highlight, or a regular expression pattern."
+							},
+							"patternFlags": {
+								"type": "string",
+								"title": "Optional extra RegExp flags",
+								"description": "By default, the 'gm' flags are automatically used for all custom pattern in Log File Highlighter. This setting allows you to extend those flags. Example: 'i' for case-insensitive matching or 's' for making '.' match newline characters."
+							},
+							"foreground": {
+								"format": "color-hex",
+								"type": "string",
+								"title": "Foreground color",
+								"description": "The foreground color that will be used for highlighting."
+							},
+							"background": {
+								"format": "color-hex",
+								"type": "string",
+								"title": "Background color",
+								"description": "The background color that will be used for highlighting."
+							},
+							"highlightEntireLine": {
+								"type": "boolean",
+								"title": "Highlight Entire Line",
+								"description": "If true, then the entire line is highlighted and not just the pattern."
+							},
+							"fontWeight": {
+								"type": "string",
+								"title": "CSS font weight",
+								"description": "Font weight. Examples: 'normal', 'bold'"
+							},
+							"fontStyle": {
+								"type": "string",
+								"title": "CSS font style",
+								"description": "Font style. Examples: 'normal', 'italic'"
+							},
+							"border": {
+								"type": "string",
+								"title": "CSS border definition",
+								"description": "Border definition. Example: '4px dotted blue'."
+							},
+							"borderRadius": {
+								"type": "string",
+								"title": "CSS border radius",
+								"description": "Border radius, defines how rounded a border is. Example: '3px'"
+							},
+							"letterSpacing": {
+								"type": "string",
+								"title": "CSS letter spacing",
+								"description": "Letter spacing, can be used for adjusting the horizontal distance between characters of the matched text. Example: '3px'"
+							},
+							"overviewColor": {
+								"type": "string",
+								"title": "Marker color in the ruler",
+								"description": "Marker color in the ruler to the right in the text editor window. Example: 'yellow'"
+							},
+							"overviewRulerLane": {
+								"type": "string",
+								"title": "Placement of the ruler marker",
+								"description": "Allows for configuring the placement of the ruler marker, if 'overviewColor' is set. Allowed values: Example: 'Left', 'Right', 'Center', 'Full'"
+							},
+							"textDecoration": {
+								"type": "string",
+								"title": "CSS text decoration",
+								"description": "Adds additional decorations to matched text. Example: 'underline overline dotted red'"
+							}
+						},
+						"required": [
+							"pattern"
+						]
+					},
+					"title": "Custom highlighting patterns.",
+					"description": "An array of custom patterns that shall be highlighted."
+				},
+				"logFileHighlighter.enableProgressIndicator": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable the progress indicator for selected lines"
+				},
+				"logFileHighlighter.progressIndicatorUnderlineColor": {
+					"format": "color-hex",
+					"type": "string",
+					"default": "#00ff1f8f",
+					"description": "The color to use for drawing the timestamp progress indicator underline"
+				},
+				"logFileHighlighter.enableTailMode": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable or disable the tail mode in log files. Scroll to the end of a file to activate it. The status bar will show 'Log File Tail Mode' when it is active."
+				}
+			}
+		}
+	},
+	"activationEvents": [
+		"onLanguage:log"
+	],
+	"scripts": {
+		"vscode:prepublish": "npm run package",
+		"compile": "webpack",
+		"watch": "webpack --watch",
+		"package": "webpack --mode production --devtool hidden-source-map",
+		"compile-tests": "tsc -p . --outDir out",
+		"watch-tests": "tsc -p . -w --outDir out",
+		"preinstall": "npx npm-force-resolutions",
+		"tslint": "tslint --project ./",
+		"unittest": "npm run compile-tests && node out/test/testRunner.js -c jasmine.unittest.json"
+	},
+	"devDependencies": {
+		"@types/jasmine": "^6.0.0",
+		"@types/node": "^25.2.3",
+		"@types/vscode": "^1.109.0",
+		"@vscode/test-electron": "^2.5.2",
+		"jasmine": "^6.0.0",
+		"jasmine-console-reporter": "^3.1.0",
+		"jasmine-core": "^6.0.1",
+		"minimist": "^1.2.8",
+		"ts-loader": "^9.5.4",
+		"tslint": "^6.1.3",
+		"typescript": "^5.9.3",
+		"webpack": "^5.105.2",
+		"webpack-cli": "^6.0.1"
+	},
+	"dependencies": {
+		"moment": "^2.30.1"
+	}
+}

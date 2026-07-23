@@ -1,0 +1,12 @@
+version: 1
+name: 07-Tool/NetworkPrinter
+enabled: true
+tags:
+  - tool
+run:
+  - make build > /dev/null 2>&1
+  - ./main.exe > log-main.exe.log
+  - python3 main.py > log-main.py.log
+clean:
+  - make clean
+  - rm -rf *.log

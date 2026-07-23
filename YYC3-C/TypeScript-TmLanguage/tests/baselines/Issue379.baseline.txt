@@ -1,0 +1,86 @@
+original file
+-----------------------------------
+interface A {
+    prop1: string
+    prop2: string
+    method1(): void
+    prop3: string
+    prop4: string
+}
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>interface A {
+ ^^^^^^^^^
+ source.ts meta.interface.ts storage.type.interface.ts
+          ^
+          source.ts meta.interface.ts
+           ^
+           source.ts meta.interface.ts entity.name.type.interface.ts
+            ^
+            source.ts meta.interface.ts
+             ^
+             source.ts meta.interface.ts punctuation.definition.block.ts
+>    prop1: string
+ ^^^^
+ source.ts meta.interface.ts meta.field.declaration.ts
+     ^^^^^
+     source.ts meta.interface.ts meta.field.declaration.ts meta.definition.property.ts variable.object.property.ts
+          ^
+          source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts keyword.operator.type.annotation.ts
+           ^
+           source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts
+            ^^^^^^
+            source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts support.type.primitive.ts
+>    prop2: string
+ ^^^^
+ source.ts meta.interface.ts meta.field.declaration.ts
+     ^^^^^
+     source.ts meta.interface.ts meta.field.declaration.ts meta.definition.property.ts variable.object.property.ts
+          ^
+          source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts keyword.operator.type.annotation.ts
+           ^
+           source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts
+            ^^^^^^
+            source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts support.type.primitive.ts
+>    method1(): void
+ ^^^^
+ source.ts meta.interface.ts meta.method.declaration.ts
+     ^^^^^^^
+     source.ts meta.interface.ts meta.method.declaration.ts meta.definition.method.ts entity.name.function.ts
+            ^
+            source.ts meta.interface.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.begin.ts
+             ^
+             source.ts meta.interface.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.end.ts
+              ^
+              source.ts meta.interface.ts meta.method.declaration.ts meta.return.type.ts keyword.operator.type.annotation.ts
+               ^
+               source.ts meta.interface.ts meta.method.declaration.ts meta.return.type.ts
+                ^^^^
+                source.ts meta.interface.ts meta.method.declaration.ts meta.return.type.ts support.type.primitive.ts
+>    prop3: string
+ ^^^^
+ source.ts meta.interface.ts meta.field.declaration.ts
+     ^^^^^
+     source.ts meta.interface.ts meta.field.declaration.ts meta.definition.property.ts variable.object.property.ts
+          ^
+          source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts keyword.operator.type.annotation.ts
+           ^
+           source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts
+            ^^^^^^
+            source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts support.type.primitive.ts
+>    prop4: string
+ ^^^^
+ source.ts meta.interface.ts meta.field.declaration.ts
+     ^^^^^
+     source.ts meta.interface.ts meta.field.declaration.ts meta.definition.property.ts variable.object.property.ts
+          ^
+          source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts keyword.operator.type.annotation.ts
+           ^
+           source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts
+            ^^^^^^
+            source.ts meta.interface.ts meta.field.declaration.ts meta.type.annotation.ts support.type.primitive.ts
+>}
+ ^
+ source.ts meta.interface.ts punctuation.definition.block.ts

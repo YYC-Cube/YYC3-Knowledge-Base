@@ -1,0 +1,31 @@
+{
+  "name": "cwc-evals-workshop",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "create-slides": "dotenv -o -e .env -- tsx src/create-slides.ts",
+    "render": "tsx src/render.ts",
+    "eval": "FORCE_COLOR=3 dotenv -o -e .env -- tsx src/eval-runner.ts",
+    "show-baseline": "FORCE_COLOR=3 tsx src/eval-runner.ts --show-baseline",
+    "clean-scores": "rm -f runs/*/score.json runs/*/baseline.score.json",
+    "ant": "dotenv -o -e .env -- ant"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.93.0",
+    "chalk": "^5.6.2",
+    "fast-xml-parser": "^5.5.10",
+    "jszip": "^3.10.1",
+    "p-retry": "^4.6.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.24",
+    "@types/node": "^20.0.0",
+    "dotenv-cli": "^7.4.2",
+    "lodash": "^4.18.1",
+    "prettier": "^3.8.3",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}

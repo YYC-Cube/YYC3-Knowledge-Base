@@ -1,0 +1,33 @@
+{
+  "deps": [
+    {
+      "name": "adjustbox"
+    },
+    {
+      "name": "fancyvrb"
+    },
+    {
+      "name": "ifthen"
+    },
+    {
+      "name": "l3keys2e"
+    },
+    {
+      "name": "luacode"
+    },
+    {
+      "name": "pdftexcmds"
+    },
+    {
+      "name": "tikz"
+    }
+  ],
+  "macros": [],
+  "envs": [
+    {
+      "name": "plantuml"
+    }
+  ],
+  "keys": {},
+  "args": []
+}

@@ -1,0 +1,11 @@
+version: 1
+name: 04-Feature/GPUAllocator
+enabled: true
+tags:
+  - feature
+  - gpuallocator
+run:
+  - make build
+  - python3 main.py > log-main.py.log
+clean:
+  - rm -rf *.log

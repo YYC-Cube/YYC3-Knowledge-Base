@@ -1,0 +1,28 @@
+# Node.js 与 npm
+node_modules/
+package-lock.json
+yarn.lock
+
+# Next.js 产物
+.next/
+out/
+
+# 环境变量
+.env*
+!.env.example
+
+# 临时文件
+*.log
+*.tmp
+
+# TypeScript 编译产物（Next.js 无需提交）
+*.js
+*.d.ts
+!.next/types/**/*.d.ts
+
+# 其他
+.DS_Store
+dist/
+
+# TypeScript 增量编译缓存（仅通过 CI 缓存复用，不入库）
+*.tsbuildinfo

@@ -1,0 +1,14 @@
+{
+    "name": "lua-tmlanguage",
+    "version": "1.0.0",
+    "main": "build/build.js",
+    "dependencies": {
+        "plist": "latest"
+    },
+    "scripts": {
+        "build": "node ."
+    },
+    "devDependencies": {
+        "@types/node": "^25.0.3"
+    }
+}

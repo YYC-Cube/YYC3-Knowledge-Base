@@ -1,0 +1,99 @@
+- source: declare
+  scopesBegin:
+    - meta.statement
+    - meta.expression.assignment.modified
+  scopes:
+    - storage.modifier.declare
+- source: '-A'
+  scopes:
+    - string.unquoted.argument
+    - constant.other.option
+- source: fileKeyFileMap
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: (
+  scopes:
+    - punctuation.definition.array
+- source: '['
+  scopes:
+    - punctuation.definition.bracket.named-array
+- source: '""'
+  scopes:
+    - string.unquoted
+    - entity.other.attribute-name.bracket
+- source: ']'
+  scopes:
+    - punctuation.definition.bracket.named-array
+- source: '='
+  scopes:
+    - punctuation.definition.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: '['
+  scopes:
+    - punctuation.definition.bracket.named-array
+- source: '"${VAR2}"'
+  scopes:
+    - string.unquoted
+    - entity.other.attribute-name.bracket
+- source: ']'
+  scopes:
+    - punctuation.definition.bracket.named-array
+- source: '='
+  scopes:
+    - punctuation.definition.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: VAL2
+  scopes:
+    - meta.parameter-expansion
+    - variable.other.normal
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: )
+  scopes:
+    - punctuation.definition.array
+  scopesEnd:
+    - meta.expression.assignment.modified
+- source: logexit
+  scopes:
+    - meta.statement.command
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' log exit function'

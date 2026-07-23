@@ -1,0 +1,187 @@
+name: Test
+
+on: [push, pull_request]
+
+env:
+  FISH_TEST_MAX_CONCURRENCY: "4"
+  CMAKE_BUILD_PARALLEL_LEVEL: "4"
+
+permissions:
+  contents: read
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2, build_tools/update-dependencies.sh
+    - uses: ./.github/actions/rust-toolchain@oldest-supported
+    - name: Install deps
+      uses: ./.github/actions/install-dependencies
+      with:
+        include_sphinx: true
+    - name: Generate a locale that uses a comma as decimal separator.
+      run: |
+        sudo locale-gen fr_FR.UTF-8
+    - name: cmake
+      run: |
+        mkdir build && cd build
+        cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    - name: make
+      run: |
+        make -C build VERBOSE=1
+    - name: make fish_run_tests
+      run: |
+        make -C build VERBOSE=1 fish_run_tests
+    - name: translation updates
+      run: |
+        # Generate PO files. This should not result it a change in the repo if all translations are
+        # up to date.
+        # Ensure that fish is available as an executable.
+        PATH="$PWD/build:$PATH" build_tools/update_translations.fish
+        # Show diff output. Fail if there is any.
+        git --no-pager diff --exit-code || { echo 'There are uncommitted changes after regenerating the gettext PO files. Make sure to update them via `build_tools/update_translations.fish` after changing source files.'; exit 1; }
+
+  ubuntu-32bit-static-pcre2:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2, build_tools/update-dependencies.sh
+    - uses: ./.github/actions/rust-toolchain@oldest-supported
+      with:
+        targets: "i586-unknown-linux-gnu"
+    - name: Update package database
+      run: sudo apt-get update
+    - name: Install deps
+      uses: ./.github/actions/install-dependencies
+      with:
+        include_pcre: false
+        include_sphinx: false
+    - name: Install g++-multilib
+      run: sudo apt install g++-multilib
+    - name: cmake
+      env:
+          CFLAGS: "-m32"
+      run: |
+        mkdir build && cd build
+        cmake -DFISH_USE_SYSTEM_PCRE2=OFF -DRust_CARGO_TARGET=i586-unknown-linux-gnu ..
+    - name: make
+      run: |
+        make -C build VERBOSE=1
+    - name: make fish_run_tests
+      run: |
+        make -C build VERBOSE=1 fish_run_tests
+
+  ubuntu-asan:
+    if: false
+    runs-on: ubuntu-latest
+    env:
+        # Rust has two different memory sanitizers of interest; they can't be used at the same time:
+        # * AddressSanitizer detects out-of-bound access, use-after-free, use-after-return,
+        #   use-after-scope, double-free, invalid-free, and memory leaks.
+        # * MemorySanitizer detects uninitialized reads.
+        #
+        RUSTFLAGS: "-Zsanitizer=address"
+        # RUSTFLAGS: "-Zsanitizer=memory -Zsanitizer-memory-track-origins"
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2, build_tools/update-dependencies.sh
+    # All -Z options require running nightly
+    - uses: dtolnay/rust-toolchain@nightly
+      with:
+        # ASAN uses `cargo build -Zbuild-std` which requires the rust-src component
+        # this is comma-separated
+        components: rust-src
+    - name: Update package database
+      run: sudo apt-get update
+    - name: Install deps
+      uses: ./.github/actions/install-dependencies
+      with:
+        include_sphinx: false
+    - name: Install llvm
+      run: |
+        sudo apt install llvm # for llvm-symbolizer
+    - name: cmake
+      env:
+          CC: clang
+      run: |
+        mkdir build && cd build
+        # Rust's ASAN requires the build system to explicitly pass a --target triple. We read that
+        # value from CMake variable Rust_CARGO_TARGET.
+        cmake .. -DASAN=1 -DRust_CARGO_TARGET=x86_64-unknown-linux-gnu -DCMAKE_BUILD_TYPE=Debug
+    - name: make
+      run: |
+        make -C build VERBOSE=1
+    - name: make fish_run_tests
+      env:
+          FISH_CI_SAN: 1
+          ASAN_OPTIONS: check_initialization_order=1:detect_stack_use_after_return=1:detect_leaks=1:fast_unwind_on_malloc=0
+          # use_tls=0 is a workaround for LSAN crashing with "Tracer caught signal 11" (SIGSEGV),
+          # which seems to be an issue with TLS support in newer glibc versions under virtualized
+          # environments. Follow https://github.com/google/sanitizers/issues/1342 and
+          # https://github.com/google/sanitizers/issues/1409 to track this issue.
+          # UPDATE: this can cause spurious leak reports for __cxa_thread_atexit_impl() under glibc.
+          LSAN_OPTIONS: verbosity=0:log_threads=0:use_tls=1:print_suppressions=0
+      run: |
+        set -x
+        export ASAN_SYMBOLIZER_PATH=$(command -v /usr/bin/llvm-symbolizer* | sort -n | head -1)
+        export LSAN_OPTIONS="$LSAN_OPTIONS:suppressions=$PWD/build_tools/lsan_suppressions.txt"
+        make -C build VERBOSE=1 fish_run_tests
+
+  macos:
+    runs-on: macos-latest
+    env:
+      # macOS runners keep having issues loading Cargo.toml dependencies from git (GitHub) instead
+      # of crates.io, so give this a try. It's also sometimes significantly faster on all platforms.
+      CARGO_NET_GIT_FETCH_WITH_CLI: true
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2, build_tools/update-dependencies.sh
+    - uses: ./.github/actions/rust-toolchain@oldest-supported
+    - name: Install deps
+      run: |
+        # --break-system-packages because homebrew has now declared itself "externally managed".
+        # this is CI so we don't actually care.
+        sudo pip3 install --break-system-packages pexpect
+        brew install gettext tmux
+    - uses: ./.github/actions/install-sphinx
+    - name: cmake
+      run: |
+        mkdir build && cd build
+        FISH_TEST_MAX_CONCURRENCY=1 \
+          cmake -DCMAKE_BUILD_TYPE=Debug ..
+    - name: make
+      run: |
+        make -C build VERBOSE=1
+    - name: make fish_run_tests
+      run: |
+        make -C build VERBOSE=1 fish_run_tests
+
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2, build_tools/update-dependencies.sh
+    - uses: msys2/setup-msys2@4f806de0a5a7294ffabaff804b38a9b435a73bda # v2.30.0, build_tools/update-dependencies.sh
+      with:
+        update: true
+        msystem: MSYS
+      id: msys2
+    - name: Install deps
+      # Not using setup-msys2 `install` option to make it easier to copy/paste
+      run: |
+        pacman --noconfirm -S --needed git rust
+    - name: rebase
+      env:
+        MSYS2_LOCATION: ${{ steps.msys2.outputs.msys2-location }}
+      shell: cmd
+      run: |
+        "%MSYS2_LOCATION%\usr\bin\dash" /usr/bin/rebaseall -p -v
+    - name: cargo build
+      run: |
+        cargo build
+    - name: smoketest
+      # We can't run `build_tools/check.sh` yet, there are just too many failures
+      # so this is just a quick check to make sure that fish can swim
+      run: |
+        set -x
+        [ "$(target/debug/fish.exe -c 'echo (math 1 + 1)')" = 2 ]
+        cargo test

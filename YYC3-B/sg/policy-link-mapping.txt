@@ -1,0 +1,14 @@
+./IPR%20Policy.md=ipr-policy
+./Workstream%20Policy.md=workstream-policy
+./SG%20Agreement.md=sg-agreement
+./Invited%20Individual%20Policy.md=invitation-policy
+./SG%20Policy.md=sg-policy
+./Code%20of%20Conduct.md=code-of-conduct
+./Principles.md=principles
+./Privacy%20Policy.md=privacy-policy
+./Policies.md=policies
+./Working%20Mode.md=working-mode
+./Stages.md=stages
+./db.json=https://github.com/whatwg/sg/blob/main/db.json
+./ThirdPartyNotices/W3CLicenses.md=https://github.com/whatwg/sg/blob/main/ThirdPartyNotices/W3CLicenses.md
+./LICENSE=https://github.com/whatwg/sg/blob/main/LICENSE

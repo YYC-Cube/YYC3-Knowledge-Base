@@ -1,0 +1,21 @@
+{
+  "name": "yyc3-five-highs",
+  "displayName": "五高五标五化设计规范",
+  "description": "YYC3核心理念：五高(高颜值、高专业度、高互动性、高扩展性、高仪式感)、五标(标准化、规范化、协同化、数字化、智能化)、五化(服务化、平台化、生态化、自动化、智能化)",
+  "version": "1.0.0",
+  "author": "YYC3 AI Team",
+  "tags": ["design", "standards", "quality", "principles"],
+  "capabilities": [
+    "五高设计评审",
+    "五标规范化检查",
+    "五化架构评估",
+    "质量保证清单",
+    "最佳实践指导"
+  ],
+  "metadata": {
+    "createdAt": "2026-01-29",
+    "updatedAt": "2026-01-29",
+    "category": "design",
+    "priority": "high"
+  }
+}

@@ -1,0 +1,399 @@
+[
+    {   
+        "name": "Add",
+        "signature": "Add(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Add two DataFrames element-wise and return the result.", 
+        "code": "\ndef Add(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    result = x + y \n    return result\n"
+    },
+    {   
+        "name": "Sub",
+        "signature": "Sub(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Subtract the second DataFrame from the first DataFrame element-wise and return the result.", 
+        "code": "\ndef Sub(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    result = x - y \n    return result\n"
+    },
+    {
+        "name": "Mul",
+        "signature": "Mul(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Multiply two DataFrames element-wise and return the result.", 
+        "code": "\ndef Mul(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    result = x * y\n    return result\n"
+    },
+    {
+        "name": "Div",
+        "signature": "Div(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Divide the first DataFrame by the second DataFrame element-wise and return the result.", 
+        "code": "\ndef Div(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    result = x / y\n    return result\n"
+    },
+    {
+        "name": "Rank_Add",
+        "signature": "Rank_Add(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return the sum of the quantiles of the elements in DataFrame x and the corresponding elements in DataFrame y.", 
+        "code": "\ndef Rank_Add(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    x = x.T\n    y = y.T\n    rank_x = x.rank() / (len(x) + 1)\n    rank_y = y.rank() / (len(y) + 1)\n    return (rank_x + rank_y).T\n"
+    },
+    {
+        "name": "Rank_Sub",
+        "signature": "Rank_Sub(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return the difference between the quantiles of the elements in DataFrame x and the corresponding elements in DataFrame y.", 
+        "code": "\ndef Rank_Sub(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    x = x.T\n    y = y.T\n    rank_x = x.rank() / (len(x) + 1)\n    rank_y = y.rank() / (len(y) + 1)\n    return (rank_x - rank_y).T\n"
+    },
+    {
+        "name": "Rank_Mul",
+        "signature": "def Rank_Mul(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return the product of the quantiles of the elements in DataFrame x and the corresponding elements in DataFrame y.", 
+        "code": "\ndef Rank_Mul(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    x = x.T\n    y = y.T\n    rank_x = x.rank() * (len(x) + 1)\n    rank_y = y.rank() * (len(y) + 1)\n    return (rank_x * rank_y).T\n"
+    },
+    {   
+        "name": "Rank_Div",
+        "signature": "Rank_Div(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Divide the quantiles of the elements in DataFrame x by the corresponding elements in DataFrame y and return the result.", 
+        "code": "\ndef Rank_Div(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    x = x.T\n    y = y.T\n    rank_x = x.rank() / (len(x) + 1)\n    rank_y = y.rank() / (len(y) + 1)\n    return (rank_x / rank_y).T\n"
+    },
+    {
+        "name": "Inv",
+        "signature": "Inv(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return the element-wise reciprocal of the DataFrame (1 divided by each element).", 
+        "code": "\ndef Inv(x: pd.DataFrame) -> pd.DataFrame:\n    result = 1 / x\n    return result\n"
+    },
+    {
+        "name": "Rank",
+        "signature": "Rank(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Calculate the quantile of each element in the DataFrame.", 
+        "code": "\ndef Rank(x: pd.DataFrame) -> pd.DataFrame:\n    x = x.T\n    result = x.rank() / (len(x) + 1) \n    return result.T\n"
+    },
+    {
+        "name": "TS_Corr",
+        "signature": "TS_Corr(x: pd.DataFrame, y: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The correlation coefficient between the time series formed by x values and the time series formed by y values over the past d days.", 
+        "code": "\ndef TS_Corr(x: pd.DataFrame, y: pd.DataFrame, d: int) -> pd.DataFrame:\n    result = x.rolling(window=d).corr(y)\n    return result\n"
+    },
+    {
+        "name": "TS_Std",
+        "signature": "TS_Std(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The standard deviation of x values over the past d days.",
+        "code": "\ndef TS_Std(x: pd.DataFrame, d: int) -> pd.DataFrame:\n        result = x.rolling(window=d).std()\n        return result\n"
+    },
+    {
+        "name": "Decay_Linear",
+        "signature": "Decay_Linear(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The weighted average of the time series formed by x values over the past d days, with weights being d, d-1, ..., 1 (normalized so that the sum of the weights is 1), where days closer to the present have larger weights.", 
+        "code": "\ndef Decay_Linear(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    weights = np.arange(1, d + 1)\n    weights = weights / weights.sum()\n    result = x.rolling(window=d).apply(lambda y: (y * weights).sum(), raw=True)\n    return result\n"
+    },
+    {
+        "name": "TS_Return",
+        "signature": "TS_Return(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The rate of change of x values over the past d days.", 
+        "code": "\ndef TS_Return(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.pct_change(d)\n"
+    },
+    {
+        "name": "TS_Min",
+        "signature": "TS_Min(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The minimum value in the time series formed by x values over the past d days.", 
+        "code": "\ndef TS_Min(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(d).min()\n"
+    },
+    {
+        "name": "TS_Max",
+        "signature": "TS_Max(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The maximum value in the time series formed by x values over the past d days.", 
+        "code": "\ndef TS_Max(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(d).max()\n"
+    },
+    {
+        "name": "TS_Mean",
+        "signature": "TS_Mean(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The average value of the time series formed by x values over the past d days.", 
+        "code": "\ndef TS_Mean(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(d).mean()\n"
+    },
+    {
+        "name": "TS_Sum",
+        "signature": "TS_Sum(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The sum of the time series formed by x values over the past d days.", 
+        "code": "\ndef TS_Sum(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(d).sum()\n"
+    }, 
+    {
+        "name": "Delay",
+        "signature": "Delay(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The x value from d days ago.", 
+        "code": "\ndef Delay(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.shift(d)\n"
+    },
+    {
+        "name": "TS_Cov",
+        "signature": "TS_Cov(x: pd.DataFrame, y: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The covariance between the time series formed by x values and the time series formed by y values over the past d days.",
+        "code": "\ndef TS_Cov(x: pd.DataFrame, y: pd.DataFrame, d: int) -> pd.DataFrame:\n    result = x.rolling(window=d).cov(y)\n    return result\n"
+    },
+    {
+        "name": "TS_Var",
+        "signature": "TS_Var(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The variance of x values over the past d days.",
+        "code": "\ndef TS_Var(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(window=d).var()\n"
+    },
+    {
+        "name": "TS_Skew",
+        "signature": "TS_Skew(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The skewness of x values over the past d days.",
+        "code": "\ndef TS_Skew(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(window=d).skew()\n"
+    },
+    {
+        "name": "TS_Kurt",
+        "signature": "TS_Kurt(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The kurtosis of x values over the past d days.",
+        "code": "\ndef TS_Kurt(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(window=d).kurt()\n"
+    },
+    {
+        "name": "TS_Median",
+        "signature": "TS_Median(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The median value of x over the past d days.",
+        "code": "\ndef TS_Median(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(window=d).median()\n"
+    },
+    {
+        "name": "TS_Quantile",
+        "signature": "TS_Quantile(x: pd.DataFrame, d: int, q: float) -> pd.DataFrame",
+        "meanings": "The q-th quantile of x values over the past d days (q should be between 0 and 1).",
+        "code": "\ndef TS_Quantile(x: pd.DataFrame, d: int, q: float) -> pd.DataFrame:\n    return x.rolling(window=d).quantile(q)\n"
+    },
+    {
+        "name": "TS_Argmax",
+        "signature": "TS_Argmax(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The number of days since the maximum value occurred within the past d days.",
+        "code": "\ndef TS_Argmax(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return d - 1 - x.rolling(window=d).apply(lambda y: y.argmax(), raw=True)\n"
+    },
+    {
+        "name": "TS_Argmin",
+        "signature": "TS_Argmin(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The number of days since the minimum value occurred within the past d days.",
+        "code": "\ndef TS_Argmin(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return d - 1 - x.rolling(window=d).apply(lambda y: y.argmin(), raw=True)\n"
+    },
+    {
+        "name": "TS_Rank",
+        "signature": "TS_Rank(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The percentile rank of the current value within the past d days.",
+        "code": "\ndef TS_Rank(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(window=d).apply(lambda y: (y[-1] > y[:-1]).sum() / (len(y) - 1), raw=True)\n"
+    },
+    {
+        "name": "TS_Delta",
+        "signature": "TS_Delta(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The difference between current value and the value from d days ago.",
+        "code": "\ndef TS_Delta(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x - x.shift(d)\n"
+    },
+    {
+        "name": "TS_Product",
+        "signature": "TS_Product(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The product of x values over the past d days.",
+        "code": "\ndef TS_Product(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(window=d).apply(lambda y: np.prod(y), raw=True)\n"
+    },
+    {
+        "name": "TS_Count",
+        "signature": "TS_Count(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Count the number of non-NaN values over the past d days.",
+        "code": "\ndef TS_Count(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.rolling(window=d).count()\n"
+    },
+    {
+        "name": "Decay_Exp",
+        "signature": "Decay_Exp(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Exponentially weighted moving average over the past d days (span=d).",
+        "code": "\ndef Decay_Exp(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.ewm(span=d, adjust=False).mean()\n"
+    },
+    {
+        "name": "EMA",
+        "signature": "EMA(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Exponential moving average of x over a span of d days.",
+        "code": "\ndef EMA(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x.ewm(span=d, adjust=False).mean()\n"
+    },
+    {
+        "name": "WMA",
+        "signature": "WMA(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Weighted moving average with linearly decreasing weights over the past d days.",
+        "code": "\ndef WMA(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    weights = np.arange(1, d + 1)\n    return x.rolling(window=d).apply(lambda y: np.dot(y, weights) / weights.sum(), raw=True)\n"
+    },
+    {
+        "name": "Abs",
+        "signature": "Abs(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return the absolute value of each element in the DataFrame.",
+        "code": "\ndef Abs(x: pd.DataFrame) -> pd.DataFrame:\n    return x.abs()\n"
+    },
+    {
+        "name": "Sign",
+        "signature": "Sign(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return the sign of each element (-1, 0, or 1).",
+        "code": "\ndef Sign(x: pd.DataFrame) -> pd.DataFrame:\n    return np.sign(x)\n"
+    },
+    {
+        "name": "Log",
+        "signature": "Log(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return the natural logarithm of each element in the DataFrame.",
+        "code": "\ndef Log(x: pd.DataFrame) -> pd.DataFrame:\n    return np.log(x)\n"
+    },
+    {
+        "name": "Sqrt",
+        "signature": "Sqrt(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return the square root of each element in the DataFrame.",
+        "code": "\ndef Sqrt(x: pd.DataFrame) -> pd.DataFrame:\n    return np.sqrt(x)\n"
+    },
+    {
+        "name": "Power",
+        "signature": "Power(x: pd.DataFrame, n: float) -> pd.DataFrame",
+        "meanings": "Raise each element in the DataFrame to the power of n.",
+        "code": "\ndef Power(x: pd.DataFrame, n: float) -> pd.DataFrame:\n    return np.power(x, n)\n"
+    },
+    {
+        "name": "Clip",
+        "signature": "Clip(x: pd.DataFrame, lower: float, upper: float) -> pd.DataFrame",
+        "meanings": "Clip (limit) the values in the DataFrame to be within the range [lower, upper].",
+        "code": "\ndef Clip(x: pd.DataFrame, lower: float, upper: float) -> pd.DataFrame:\n    return x.clip(lower=lower, upper=upper)\n"
+    },
+    {
+        "name": "Normalize",
+        "signature": "Normalize(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Normalize each row of the DataFrame to have zero mean and unit standard deviation (cross-sectional normalization).",
+        "code": "\ndef Normalize(x: pd.DataFrame) -> pd.DataFrame:\n    mean = x.mean(axis=1)\n    std = x.std(axis=1)\n    return x.sub(mean, axis=0).div(std, axis=0)\n"
+    },
+    {
+        "name": "TS_Normalize",
+        "signature": "TS_Normalize(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Normalize x using rolling mean and standard deviation over the past d days.",
+        "code": "\ndef TS_Normalize(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    mean = x.rolling(window=d).mean()\n    std = x.rolling(window=d).std()\n    return (x - mean) / std\n"
+    },
+    {
+        "name": "Winsorize",
+        "signature": "Winsorize(x: pd.DataFrame, lower_pct: float, upper_pct: float) -> pd.DataFrame",
+        "meanings": "Winsorize the DataFrame by clipping values at the specified percentiles (cross-sectional).",
+        "code": "\ndef Winsorize(x: pd.DataFrame, lower_pct: float, upper_pct: float) -> pd.DataFrame:\n    lower = x.quantile(lower_pct, axis=1)\n    upper = x.quantile(upper_pct, axis=1)\n    return x.clip(lower=lower, upper=upper, axis=0)\n"
+    },
+    {
+        "name": "FillNa",
+        "signature": "FillNa(x: pd.DataFrame, value: float) -> pd.DataFrame",
+        "meanings": "Fill NaN values in the DataFrame with the specified value.",
+        "code": "\ndef FillNa(x: pd.DataFrame, value: float) -> pd.DataFrame:\n    return x.fillna(value)\n"
+    },
+    {
+        "name": "FillNa_Forward",
+        "signature": "FillNa_Forward(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Forward fill NaN values in the DataFrame (propagate last valid observation forward).",
+        "code": "\ndef FillNa_Forward(x: pd.DataFrame) -> pd.DataFrame:\n    return x.ffill()\n"
+    },
+    {
+        "name": "FillNa_Backward",
+        "signature": "FillNa_Backward(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Backward fill NaN values in the DataFrame (propagate next valid observation backward).",
+        "code": "\ndef FillNa_Backward(x: pd.DataFrame) -> pd.DataFrame:\n    return x.bfill()\n"
+    },
+    {
+        "name": "DropNa",
+        "signature": "DropNa(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Drop rows with any NaN values from the DataFrame.",
+        "code": "\ndef DropNa(x: pd.DataFrame) -> pd.DataFrame:\n    return x.dropna()\n"
+    },
+    {
+        "name": "CS_Mean",
+        "signature": "CS_Mean(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Cross-sectional mean: compute mean across all assets for each time point.",
+        "code": "\ndef CS_Mean(x: pd.DataFrame) -> pd.DataFrame:\n    return pd.DataFrame(x.mean(axis=1), columns=['cs_mean']).reindex(x.index)\n"
+    },
+    {
+        "name": "CS_Std",
+        "signature": "CS_Std(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Cross-sectional standard deviation: compute std across all assets for each time point.",
+        "code": "\ndef CS_Std(x: pd.DataFrame) -> pd.DataFrame:\n    return pd.DataFrame(x.std(axis=1), columns=['cs_std']).reindex(x.index)\n"
+    },
+    {
+        "name": "CS_Rank",
+        "signature": "CS_Rank(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Cross-sectional rank: rank assets at each time point (percentile ranking).",
+        "code": "\ndef CS_Rank(x: pd.DataFrame) -> pd.DataFrame:\n    return x.rank(axis=1, pct=True)\n"
+    },
+    {
+        "name": "CS_Demean",
+        "signature": "CS_Demean(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Cross-sectional demean: subtract the cross-sectional mean from each value.",
+        "code": "\ndef CS_Demean(x: pd.DataFrame) -> pd.DataFrame:\n    return x.sub(x.mean(axis=1), axis=0)\n"
+    },
+    {
+        "name": "TS_Zscore",
+        "signature": "TS_Zscore(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Compute the z-score of x using rolling window of d days.",
+        "code": "\ndef TS_Zscore(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    mean = x.rolling(window=d).mean()\n    std = x.rolling(window=d).std()\n    return (x - mean) / std\n"
+    },
+    {
+        "name": "TS_Momentum",
+        "signature": "TS_Momentum(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The momentum of x values: ratio of current value to value from d days ago.",
+        "code": "\ndef TS_Momentum(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return x / x.shift(d)\n"
+    },
+    {
+        "name": "TS_LogReturn",
+        "signature": "TS_LogReturn(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "The logarithmic return of x values over the past d days.",
+        "code": "\ndef TS_LogReturn(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    return np.log(x / x.shift(d))\n"
+    },
+    {
+        "name": "TS_Vol",
+        "signature": "TS_Vol(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Annualized rolling volatility (standard deviation of returns) over the past d days.",
+        "code": "\ndef TS_Vol(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    returns = x.pct_change()\n    return returns.rolling(window=d).std() * np.sqrt(252)\n"
+    },
+    {
+        "name": "TS_Sharpe",
+        "signature": "TS_Sharpe(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Rolling Sharpe ratio (mean return / volatility) over the past d days.",
+        "code": "\ndef TS_Sharpe(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    returns = x.pct_change()\n    mean_return = returns.rolling(window=d).mean() * 252\n    volatility = returns.rolling(window=d).std() * np.sqrt(252)\n    return mean_return / volatility\n"
+    },
+    {
+        "name": "TS_Drawdown",
+        "signature": "TS_Drawdown(x: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Rolling drawdown: the percentage decline from the maximum value over the past d days.",
+        "code": "\ndef TS_Drawdown(x: pd.DataFrame, d: int) -> pd.DataFrame:\n    rolling_max = x.rolling(window=d).max()\n    return (x - rolling_max) / rolling_max\n"
+    },
+    {
+        "name": "TS_Beta",
+        "signature": "TS_Beta(x: pd.DataFrame, y: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Rolling beta coefficient of x with respect to y over the past d days.",
+        "code": "\ndef TS_Beta(x: pd.DataFrame, y: pd.DataFrame, d: int) -> pd.DataFrame:\n    cov = x.rolling(window=d).cov(y)\n    var = y.rolling(window=d).var()\n    return cov / var\n"
+    },
+    {
+        "name": "TS_Residual",
+        "signature": "TS_Residual(x: pd.DataFrame, y: pd.DataFrame, d: int) -> pd.DataFrame",
+        "meanings": "Rolling residual: x minus beta * y (market-neutral component).",
+        "code": "\ndef TS_Residual(x: pd.DataFrame, y: pd.DataFrame, d: int) -> pd.DataFrame:\n    cov = x.rolling(window=d).cov(y)\n    var = y.rolling(window=d).var()\n    beta = cov / var\n    return x - beta * y\n"
+    },
+    {
+        "name": "Max",
+        "signature": "Max(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Element-wise maximum of two DataFrames.",
+        "code": "\ndef Max(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    return np.maximum(x, y)\n"
+    },
+    {
+        "name": "Min",
+        "signature": "Min(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Element-wise minimum of two DataFrames.",
+        "code": "\ndef Min(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    return np.minimum(x, y)\n"
+    },
+    {
+        "name": "If_Then_Else",
+        "signature": "If_Then_Else(condition: pd.DataFrame, x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return x where condition is True, y otherwise (element-wise conditional).",
+        "code": "\ndef If_Then_Else(condition: pd.DataFrame, x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    return pd.DataFrame(np.where(condition, x, y), index=x.index, columns=x.columns)\n"
+    },
+    {
+        "name": "Greater",
+        "signature": "Greater(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return True where x > y, element-wise comparison.",
+        "code": "\ndef Greater(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    return x > y\n"
+    },
+    {
+        "name": "Less",
+        "signature": "Less(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Return True where x < y, element-wise comparison.",
+        "code": "\ndef Less(x: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:\n    return x < y\n"
+    },
+    {
+        "name": "Scale",
+        "signature": "Scale(x: pd.DataFrame, target_sum: float) -> pd.DataFrame",
+        "meanings": "Scale cross-sectional values so that the absolute sum equals target_sum.",
+        "code": "\ndef Scale(x: pd.DataFrame, target_sum: float) -> pd.DataFrame:\n    abs_sum = x.abs().sum(axis=1)\n    return x.mul(target_sum, axis=0).div(abs_sum, axis=0)\n"
+    },
+    {
+        "name": "Neutralize",
+        "signature": "Neutralize(x: pd.DataFrame) -> pd.DataFrame",
+        "meanings": "Neutralize the cross-sectional values so they sum to zero.",
+        "code": "\ndef Neutralize(x: pd.DataFrame) -> pd.DataFrame:\n    return x.sub(x.mean(axis=1), axis=0)\n"
+    }
+]
+

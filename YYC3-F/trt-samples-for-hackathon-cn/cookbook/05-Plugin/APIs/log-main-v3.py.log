@@ -1,0 +1,147 @@
+[TensorRT-Cookbook] Version: 0.2.0
+
+Hello (fallback)
+
+
+Hello (fallback)
+
+============================== Start [case_plugin_v3,(),{}]
+trt.get_builder_plugin_registry(trt.EngineCapability.STANDARD) = <tensorrt.tensorrt.IPluginRegistry object at 0x713f99d66db0>
+
+================ Public members of <tensorrt.tensorrt.IPluginRegistry object at 0x713f99d66db0> (instance)
+ 1 Callback members: ['error_recorder']
+ 8 Callable methods: ['acquire_plugin_resource', 'deregister_creator', 'deregister_library', 'get_creator', 'get_plugin_creator', 'load_library', 'register_creator', 'release_plugin_resource']
+ 4 Non-callable attributions: ['all_creators', 'all_creators_recursive', 'parent_search_enabled', 'plugin_creator_list']
+
+================ Usage coverage in this script
+12/13 used members: ['acquire_plugin_resource', 'all_creators', 'all_creators_recursive', 'deregister_creator', 'deregister_library', 'error_recorder', 'get_creator', 'load_library', 'parent_search_enabled', 'plugin_creator_list', 'register_creator', 'release_plugin_resource']
+ 1 uncovered members: ['get_plugin_creator']
+
+trt.get_builder_plugin_registry(trt.EngineCapability.DLA_STANDALONE) = None
+trt.get_builder_plugin_registry(trt.EngineCapability.SAFETY) = None
+trt.get_builder_plugin_registry(trt.EngineCapability.STANDARD) = <tensorrt.tensorrt.IPluginRegistry object at 0x713f99d66db0>
+plugin_registry.error_recorder = None
+plugin_registry.parent_search_enabled = True
+Count of default plugin creators = 35
+-----------------------------------------------------------------------
+                    Plugin Name                     |NameSpace|Version|
+-----------------------------------------------------------------------
+CaskConvActPoolWeightsTransformerPlugin             |         |   1   |
+CaskConvolutionRunnerWeightsTransformerPlugin       |         |   1   |
+CaskDeconvV1RunnerWeightsTransformerPlugin          |         |   1   |
+CaskDeconvV2RunnerWeightsTransformerPlugin          |         |   1   |
+CaskDepSepConvWeightsTransformerPlugin              |         |   1   |
+CaskFlattenConvolutionRunnerWeightsTransformerPlugin|         |   1   |
+CustomEmbLayerNormPluginDynamic                     |         |   6   |
+CustomEmbLayerNormPluginDynamic                     |         |   4   |
+CustomEmbLayerNormPluginDynamic                     |         |   5   |
+CustomEmbLayerNormPluginDynamic                     |         |   1   |
+CustomEmbLayerNormPluginDynamic                     |         |   2   |
+CustomEmbLayerNormPluginDynamic                     |         |   3   |
+CustomFCPluginDynamic                               |         |   1   |
+CustomGeluPluginDynamic                             |         |   1   |
+CustomQKVToContextPluginDynamic                     |         |   6   |
+CustomQKVToContextPluginDynamic                     |         |   4   |
+CustomQKVToContextPluginDynamic                     |         |   5   |
+CustomQKVToContextPluginDynamic                     |         |   3   |
+CustomQKVToContextPluginDynamic                     |         |   1   |
+CustomQKVToContextPluginDynamic                     |         |   2   |
+CustomSkipLayerNormPluginDynamic                    |         |   7   |
+CustomSkipLayerNormPluginDynamic                    |         |   8   |
+CustomSkipLayerNormPluginDynamic                    |         |   5   |
+CustomSkipLayerNormPluginDynamic                    |         |   6   |
+CustomSkipLayerNormPluginDynamic                    |         |   3   |
+CustomSkipLayerNormPluginDynamic                    |         |   4   |
+CustomSkipLayerNormPluginDynamic                    |         |   1   |
+CustomSkipLayerNormPluginDynamic                    |         |   2   |
+DLRM_BOTTOM_MLP_TRT                                 |         |   1   |
+DisentangledAttention_TRT                           |         |   2   |
+DisentangledAttention_TRT                           |         |   1   |
+GroupNormalizationPlugin                            |         |   1   |
+MyelinWeightsTransformPlugin                        |         |   1   |
+RnRes2FullFusion_TRT                                |         |   1   |
+SmallTileGEMM_TRT                                   |         |   1   |
+-----------------------------------------------------------------------
+
+================ Public members of <tensorrt.tensorrt.IPluginCreatorV3One object at 0x713e1f9138f0> (instance)
+ 0 Callback members: []
+ 1 Callable methods: ['create_plugin']
+ 6 Non-callable attributions: ['api_language', 'field_names', 'interface_info', 'name', 'plugin_namespace', 'plugin_version']
+plugin_creator.api_language = <APILanguage.CPP: 0>
+plugin_creator.interface_info = <tensorrt.tensorrt.InterfaceInfo object at 0x713e1f95cc70>
+plugin_creator.interface_info.kind = 'PLUGIN CREATOR_V3ONE'
+plugin_creator.interface_info.major = 1
+plugin_creator.interface_info.minor = 0
+plugin_creator.name = 'AddScalar'
+plugin_creator.plugin_namespace = ''
+plugin_creator.plugin_version = '1'
+plugin_creator.field_names = <tensorrt.tensorrt.PluginFieldCollection_ object at 0x713e1f95dab0>
+ 0->scalar,PluginFieldType.FLOAT32,1,[-8.462064e+08]
+
+================ Public members of <tensorrt.tensorrt.IPluginV3 object at 0x713e1fc07a30> (instance)
+ 0 Callback members: []
+ 3 Callable methods: ['clone', 'destroy', 'get_capability_interface']
+ 2 Non-callable attributions: ['api_language', 'interface_info']
+plugin.api_language = <APILanguage.CPP: 0>
+plugin.interface_info = <tensorrt.tensorrt.InterfaceInfo object at 0x713e1f913570>
+
+================ Public members of <tensorrt.tensorrt.IPluginV3OneCore object at 0x713e21d7a170> (instance)
+ 0 Callback members: []
+ 0 Callable methods: []
+ 5 Non-callable attributions: ['api_language', 'interface_info', 'plugin_name', 'plugin_namespace', 'plugin_version']
+interface_core.api_language = <APILanguage.CPP: 0>
+interface_core.interface_info = <tensorrt.tensorrt.InterfaceInfo object at 0x713e1f8df8b0>
+interface_core.interface_info.kind = 'PLUGIN_V3ONE_CORE'
+interface_core.interface_info.major = 1
+interface_core.interface_info.minor = 0
+interface_core.plugin_name = 'AddScalar'
+interface_core.plugin_namespace = ''
+interface_core.plugin_version = '1'
+
+================ Public members of <tensorrt.tensorrt.IPluginV3OneBuildV2 object at 0x713e1fc190b0> (instance)
+ 0 Callback members: []
+ 7 Callable methods: ['configure_plugin', 'get_aliased_input', 'get_output_data_types', 'get_output_shapes', 'get_valid_tactics', 'get_workspace_size', 'supports_format_combination']
+ 7 Non-callable attributions: ['DEFAULT_FORMAT_COMBINATION_LIMIT', 'api_language', 'format_combination_limit', 'interface_info', 'metadata_string', 'num_outputs', 'timing_cache_id']
+interface_build.DEFAULT_FORMAT_COMBINATION_LIMIT = 100
+interface_build.format_combination_limit = 0
+interface_build.interface_info = <tensorrt.tensorrt.InterfaceInfo object at 0x713e1f8df0b0>
+interface_build.interface_info.kind = 'PLUGIN_V3ONE_BUILD'
+interface_build.interface_info.major = 1
+interface_build.interface_info.minor = 0
+interface_build.metadata_string = None
+interface_build.num_outputs = 1
+interface_build.timing_cache_id = None
+
+================ Public members of <tensorrt.tensorrt.IPluginV3OneRuntime object at 0x713e214753b0> (instance)
+ 0 Callback members: []
+ 5 Callable methods: ['attach_to_context', 'enqueue', 'get_fields_to_serialize', 'on_shape_change', 'set_tactic']
+ 2 Non-callable attributions: ['api_language', 'interface_info']
+interface_runtime.api_language = <APILanguage.CPP: 0>
+interface_runtime.interface_info = <tensorrt.tensorrt.InterfaceInfo object at 0x713e1f95e130>
+interface_runtime.interface_info.kind = 'PLUGIN_V3ONE_RUNTIME'
+interface_runtime.interface_info.major = 1
+interface_runtime.interface_info.minor = 0
+
+================ Public members of <tensorrt.tensorrt.PluginTensorDesc object at 0x713e1f95ddb0> (instance)
+ 0 Callback members: []
+ 0 Callable methods: []
+ 4 Non-callable attributions: ['dims', 'format', 'scale', 'type']
+plugin_tensor_desc.dims = ()
+plugin_tensor_desc.format = <TensorFormat.LINEAR: 0>
+plugin_tensor_desc.scale = 0.0
+plugin_tensor_desc.type = <DataType.FLOAT: 0>
+
+================ Public members of <tensorrt.tensorrt.DynamicPluginTensorDesc object at 0x713e2144f1f0> (instance)
+ 0 Callback members: []
+
+Hello (fallback)
+
+ 0 Callable methods: []
+ 4 Non-callable attributions: ['desc', 'max', 'min', 'opt']
+dynamic_plugin_tensor_desc.desc = <tensorrt.tensorrt.PluginTensorDesc object at 0x713e21d7b5f0>
+dynamic_plugin_tensor_desc.min = ()
+dynamic_plugin_tensor_desc.opt = ()
+dynamic_plugin_tensor_desc.max = ()
+<tensorrt.tensorrt.IPluginV3 object at 0x713e21467c70>
+============================== End   [case_plugin_v3]
+Finish

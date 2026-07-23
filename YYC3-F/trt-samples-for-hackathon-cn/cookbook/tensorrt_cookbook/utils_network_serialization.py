@@ -1,0 +1,1614 @@
+# Copyright (c) 2024 NVIDIA CORPORATION & AFFILIATES.
+# All rights reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import ast
+import json
+import re
+from collections import OrderedDict
+from pathlib import Path
+from typing import List, Set, Union
+
+import numpy as np
+import tensorrt as trt
+
+from .utils_function import (datatype_cast, layer_dynamic_cast, layer_type_to_add_layer_method_name, layer_type_to_layer_type_name, text_to_logger_level)
+from .utils_network import print_network
+from .utils_plugin import (DummyPluginFactory, load_plugin_files, _tensorrt_cookbook_plugin_info_dict, get_plugin)
+
+def get_trt_builtin_method_parameter_count(func):
+    """Estimate parameter count from TensorRT builtin method docstring text."""
+    text = func.__doc__
+    if text is None:
+        print(f"No document in method {func}")
+        text = ""
+    return len(re.findall(r"\(self:.+(, .+?)", text))
+
+class APIExcludeSet:
+    """Centralized exclude/allow rules for TensorRT API dump and rebuild flows."""
+    common_class_set = {
+        # Common class
+        "logger",
+        "builder",
+        # callback class
+        "algorithm_selector",
+        "error_recorder",
+        "gpu_allocator",
+        "int8_calibrator",
+        "progress_monitor",
+        "_pybind11_conduit_v1_",
+    }
+
+    # The members or methods which are not dumped directly in `dump_member()` (maybe dump in special cases).
+    # Possible reasons:
+    # (1) is a set-only method (Setter)
+    # (2) is a getter with other arguments (Gatter)
+    # (3) is dumped in special cases (SP)
+    # (4) is included in other field
+    # (5) is dumped in other part
+    set1 = {
+        "build_engine_with_config",  # Setter
+        "build_serialized_network",  # Setter
+        "build_serialized_network_to_stream",  # Setter
+        "create_builder_config",  # Setter
+        "create_network",  # Setter
+        "create_optimization_profile",  # Setter
+        "get_plugin_registry",  # TODO: Add support for plugin and remove this
+        "is_network_supported",  # SP
+        "reset",  # Setter
+    }
+    # The members or methods which are not built directly in `build_member()` (maybe built in special cases).
+    # Possible cases:
+    # (1) is a read-only method (Read-only)
+    # (2) is set in special cases (SP)
+    # (3) is a extra mark used in this tool (Extra-Mark)
+    set2 = {
+        "max_DLA_batch_size",  # Read-only
+        "num_DLA_cores",  # Read-only
+        "platform_has_fast_fp16",  # Read-only
+        "platform_has_fast_int8",  # Read-only
+        "platform_has_tf32",  # Read-only
+    }
+    builder_dump_exclude_set = common_class_set | set1
+    builder_build_exclude_set = common_class_set | set1 | set2
+
+    set1 = {
+        "add_optimization_profile",  # Setter
+        "can_run_on_DLA",  # Layer part
+        "clear_flag",  # Setter
+        "clear_quantization_flag",  # Setter
+        "create_timing_cache",  # Setter
+        "get_calibration_profile",  # SP
+        "get_device_type",  # Layer part
+        "get_flag",  # `flags` field
+        "get_memory_pool_limit",  # SP
+        "get_preview_feature",  # SP
+        "get_quantization_flag",  # SP
+        "get_timing_cache",  # TODO: add support for timing cache and remove this
+        "is_device_type_set",  # Layer part
+        "quantization_flags",  # `Quantization Flag` field
+        "reset_device_type",  # Setter for per layer
+        "reset",  # Setter
+        "set_calibration_profile",  # Setter
+        "set_device_type",  # Setter for per layer
+        "set_flag",  # Setter
+        "set_memory_pool_limit",  # Setter
+        "set_preview_feature",  # Setter
+        "set_quantization_flag",  # Setter
+        "set_tactic_sources",  # Setter
+        "set_timing_cache",  # Setter
+    }
+    set2 = {
+        "calibration_profile",  # SP
+        "default_device_type",  # SP
+        "engine_capability",  # SP
+        "get_tactic_sources",  # SP
+        "hardware_compatibility_level",  # SP
+        "memory_pool_limit",  # SP
+        "num_optimization_profiles",  # Read-only
+        "optimization_profile_list",  # SP
+        "preview_feature",  # SP
+        "profiling_verbosity",  # SP
+        "quantization_flag",  # SP
+        "runtime_platform",  # SP
+        "tiling_optimization_level",  # SP
+    }
+    builder_config_dump_exclude_set = common_class_set | set1
+    builder_config_build_exclude_set = common_class_set | set1 | set2
+    builder_config_memory_exclude_set = {
+        "DLA_GLOBAL_DRAM",
+        "DLA_LOCAL_DRAM",
+        "DLA_MANAGED_SRAM",
+        "TACTIC_DRAM",
+    }
+
+    set1 = {
+        "are_weights_marked_refittable",  # Tensor part
+        "get_flag",  # SP
+        "get_input",  # Gatter
+        "get_layer",  # Gatter
+        "get_output",  # Gatter
+        "is_debug_tensor",  # Tensor part
+        "mark_debug",  # Setter
+        "mark_unfused_tensors_as_debug_tensors",  # Setter
+        "mark_output_for_shapes",  # Setter
+        "mark_output",  # Setter
+        "mark_weights_refittable",  # Setter
+        "remove_tensor",  # Setter
+        "set_weights_name",  # Setter
+        "unmark_debug",  # Setter
+        "unmark_unfused_tensors_as_debug_tensors",  # Setter
+        "unmark_output_for_shapes",  # Setter
+        "unmark_output",  # Setter
+        "unmark_weights_refittable",  # Setter
+    }
+    set2 = {
+        "flag",  # Extra-mark
+        "flags",  # SP
+        "has_implicit_batch_dimension",  # Read-only
+        "input_tensor_list",  # Extra-mark
+        "num_inputs",  # Read-only
+        "num_layers",  # Read-only
+        "num_outputs",  # Read-only
+        "output_tensor_list",  # Extra-mark
+    }
+    network_dump_exclude_set = common_class_set | set1
+    network_build_exclude_set = common_class_set | set1 | set2
+    network_exclude_condition = lambda self, key: (key.startswith("add_"))
+
+    set1 = {
+        "attention",  # SP, for Attention structure
+        "conditional",  # SP, for If-Condition structure
+        "get_input",  # Gatter
+        "get_output_type",  # SP
+        "get_output",  # Gatter
+        "loop",  # SP, for Loop structure
+        "output_type_is_set",  # Tensor part
+        "plugin",  # Useless temperorily, maybe useful in the future
+        "reset_output_type",  # Setter
+        "reset_precision",  # Setter
+        "set_input",  # Setter
+        "set_output_type",  # Setter
+    }
+    set2 = {
+        "algo_type",  # Extra-mark
+        "bias_shape",  # Extra-mark
+        "block_shape_patch",  # Extra-mark
+        "can_run_on_DLA",  # Read-only
+        "get_device_type",  # Read-only
+        "input_tensor_name_list",  # Extra-mark
+        "is_device_type_set",  # Read-only
+        "kernel_shape",  # Extra-mark
+        "layer_index",  # Extra-mark
+        "num_inputs",  # Read-only
+        "num_outputs",  # Read-only
+        "output_tensor_datatype_is_set_list",  # Extra-mark
+        "output_tensor_datatype_list",  # Extra-mark
+        "output_tensor_name_list",  # Extra-mark
+        "plugin_info",  # Extra-mark
+        "power_shape",  # Extra-mark
+        "precision_is_set",  # Read-only
+        "precision",  # Precision part
+        "reshape_dims_patch",  # Extra-mark
+        "scale_shape",  # Extra-mark
+        "shift_shape",  # Extra-mark
+        "type",  # Read-only
+        "weight_name_list",  # Extra-mark
+        "weights_refittable",  # Extra-mark
+    }
+    layer_dump_exclude_set = common_class_set | set1
+    layer_build_exclude_set = common_class_set | set1 | set2
+
+    set1 = {
+        "get_dimension_name",  # SP
+        "reset_dynamic_range",  # Setter
+        "set_dimension_name",  # Setter
+        "set_dynamic_range",  # Setter
+    }
+    set2 = {
+        "dimension_name",  # SP
+        "dtype",  # SP
+        "dynamic_range",  # SP
+        "is_execution_tensor",  # Read-only
+        "is_execution_tensor",  # Read-only
+        "is_network_input",  # Read-only
+        "is_network_output",  # Read-only
+        "is_shape_tensor",  # Read-only
+        "location",  # SP
+        "shape",  # SP
+        "allowed_formats",  # SP
+        "is_debug_tensor",  # Read-only
+    }
+    tensor_dump_exclude_set = common_class_set | set1
+    tensor_build_exclude_set = common_class_set | set1 | set2
+
+    set1 = {
+        "mask",  # SP
+        "normalization_quantize_scale",  # SP
+        "get_input",  # Gatter
+        "get_output",  # Gatter
+    }
+    attention_dump_exclude_set = common_class_set | set1
+    attention_build_exclude_set = common_class_set | set1
+
+    set1 = {}
+    set2 = {}
+
+    @staticmethod
+    def split_public_members(obj_or_cls: object, exclude_set: Set[str] | None = None) -> tuple[list[str], list[str], list[str]]:
+        """Split public members into callback, callable, and attribute groups."""
+        exclude_set = exclude_set or set()
+
+        members = dir(obj_or_cls)
+        exclude_set |= {"_pybind11_conduit_v1_"}
+        public_member = set(filter(lambda x: not x.startswith("__"), members))
+        callback_member = public_member & APIExcludeSet.common_class_set - exclude_set
+        callable_member = set(filter(lambda x: callable(getattr(obj_or_cls, x)), public_member - APIExcludeSet.common_class_set - exclude_set))
+        attribution_member = public_member - callback_member - callable_member - exclude_set
+
+        return sorted(list(callback_member)), sorted(list(callable_member)), sorted(list(attribution_member))
+
+    @staticmethod
+    def analyze_public_members(obj_instance: object = None, obj_class: object = None, exclude_set: Set[str] | None = None, b_print: bool = True):
+        """Compare public member sets between class and instance."""
+        exclude_set = exclude_set or set()
+
+        def _collect_public_members(target: object) -> tuple[list[str], list[str], list[str], Set[str]]:
+            callback_member, callable_member, attribution_member = APIExcludeSet.split_public_members(target, exclude_set)
+            public_member = set(callback_member + callable_member + attribution_member)
+            return callback_member, callable_member, attribution_member, public_member
+
+        def _print_members(target: object, callback_member: list[str], callable_member: list[str], attribution_member: list[str]) -> None:
+            print(f"\n{'='* 16} Public members of {target} ({'class' if isinstance(target, type) else 'instance'})")
+            print(f"{len(callback_member):2d} Callback members: {sorted(callback_member)}")
+            print(f"{len(callable_member):2d} Callable methods: {sorted(callable_member)}")
+            print(f"{len(attribution_member):2d} Non-callable attributions: {sorted(attribution_member)}")
+
+        if obj_instance is None:
+            assert obj_class is not None, "Either obj_instance or obj_class must be provided"
+            class_callback_member, class_callable_member, class_attribution_member, class_public_member = _collect_public_members(obj_class)
+            if b_print:
+                _print_members(obj_class, class_callback_member, class_callable_member, class_attribution_member)
+            return class_public_member
+
+        assert ((obj_class is None) or (obj_class is obj_instance.__class__)), f"{obj_class} must be the class of {obj_instance}"
+        callback_member, callable_member, attribution_member, instance_public_member = _collect_public_members(obj_instance)
+        _, _, _, class_public_member = _collect_public_members(obj_instance.__class__)
+
+        if b_print:
+            _print_members(obj_instance, callback_member, callable_member, attribution_member)
+            class_only_members = sorted(class_public_member - instance_public_member)
+            instance_only_members = sorted(instance_public_member - class_public_member)
+            if class_only_members or instance_only_members:
+                print(f"\n{'=' * 16} Class/Object difference")
+                print(f"{len(class_only_members):2d} class-only members: {class_only_members}")
+                print(f"{len(instance_only_members):2d} instance-only members: {instance_only_members}")
+
+        return instance_public_member
+
+class NetworkSerialization:
+    """Serialize TensorRT network structure to JSON/NPZ and rebuild it back."""
+
+    # Public functions =================================================================================================
+    def __init__(self, json_file: Path = None, para_file: Path = None):
+        """Initialize serializer output paths and internal state."""
+        self.json_file = json_file if json_file is not None else Path("network.json")
+        self.para_file = para_file if para_file is not None else Path("network.npz")
+
+        self.api_exclude_set = APIExcludeSet()
+        self.big_json = OrderedDict()
+        self.weights = {}
+        self.use_patch_80 = True  # An ugly patch to deal with unexpected value in some layers, hope to remove this in the future
+        self.unset_plugin_layer_list = []
+        self.rng = np.random.default_rng(seed=31193)
+
+    def serialize(
+        self,
+        *,
+        tw=None,
+        logger: trt.ILogger | None = None,
+        builder: trt.Builder | None = None,
+        builder_config: trt.IBuilderConfig | None = None,
+        network: trt.INetworkDefinition | None = None,
+        optimization_profile_list: list[trt.IOptimizationProfile] | None = None,  # TODO: remove this parameter if we can get it from BuilderConfig
+        plugin_info_dict: dict | None = None,
+        b_print_network: bool = False,
+    ) -> bool:
+        """Serialize builder/config/network/layer metadata and weights."""
+        if tw is not None:
+            logger = tw.logger
+            builder = tw.builder
+            builder_config = tw.builder_config
+            network = tw.network
+        else:
+            assert logger is not None
+            assert builder is not None
+            assert builder_config is not None
+            assert network is not None
+
+        self.logger = logger
+        self.builder = builder
+        self.builder_config = builder_config
+        self.network = network
+        self.optimization_profile_list = optimization_profile_list or []
+        self.plugin_info_dict = plugin_info_dict or {}
+
+        self.dump_builder()
+        self.dump_builder_config()
+        self.dump_network()
+        self.dump_layers()
+
+        with open(self.json_file, "w") as f:
+            f.write(json.dumps(self.big_json))
+
+        np.savez(self.para_file, **self.weights)
+
+        if b_print_network:
+            print_network(self.network)
+
+        return True
+
+    def deserialize(
+        self,
+        *,
+        logger: Union[trt.Logger, trt.Logger.Severity, str] | None = None,  # Pass a `trt.Logger` from outside, or a logger level to create it inside
+        plugin_file_list: list | None = None,  # If we already have some plugins, just load them.
+        callback_object_dict: dict | None = None,
+        b_print_network: bool = False,
+    ) -> bool:
+        """Deserialize metadata files and rebuild TensorRT objects."""
+        # Copy from `class TRTWrapperV1`
+        # Create a logger
+        if isinstance(logger, trt.Logger):
+            self.logger = logger
+        elif isinstance(logger, trt.Logger.Severity):
+            self.logger = trt.Logger(logger)
+        elif isinstance(logger, str):
+            self.logger = trt.Logger(text_to_logger_level(logger))
+        else:
+            self.logger = trt.Logger()
+
+        plugin_file_list = plugin_file_list or []
+        load_plugin_files(plugin_file_list, self.logger)
+
+        self.callback_object_dict = callback_object_dict or {}
+
+        assert self.json_file.exists()
+        with open(self.json_file, "r") as f:
+            self.big_json = json.loads(f.read())
+
+        if self.para_file.exists():
+            self.weights = np.load(self.para_file, allow_pickle=True)
+        else:
+            self.log("INFO", f"Failed finding weight file {str(self.para_file)}, use random weight")
+            self.weights = None
+
+        self.build_builder()
+        self.build_builder_config()
+        self.build_network()
+        self.build_layers()
+        self.build_profile()
+
+        if b_print_network:
+            print_network(self.network)
+
+        return True
+
+    # Common tool functions ============================================================================================
+    def log(self, level, text) -> None:
+        """Emit a serializer log message through TensorRT logger."""
+        self.logger.log(text_to_logger_level(level), f"[NS] " + text)
+        return
+
+    # Serialization tool functions =====================================================================================
+    def dump_member(self, obj: object = None, exclude_set: set | None = None, exclude_condition=(lambda x: False)) -> Union[dict, List[dict]]:
+        """Dump selected members of ``obj`` into JSON-serializable values."""
+        obj_dict = {}
+
+        if obj is None:
+            self.log("ERROR", f"{str(obj)} is None")
+            return obj_dict
+
+        if isinstance(obj, trt.ILayer):
+            obj_dict["weight_name_list"] = []
+
+        for key in dir(obj):
+            if key.startswith("__") or ((exclude_set is not None) and (key in exclude_set)) or exclude_condition(key):
+                continue
+            value = getattr(obj, key)
+            if callable(value):
+                if get_trt_builtin_method_parameter_count(value) == 0:
+                    obj_dict[key] = value()
+                else:
+                    self.log("ERROR", f"Skip {str(obj).split(' ')[0][19:]}.{key}")
+            elif isinstance(value, (int, float, str, list, tuple)):
+                obj_dict[key] = value
+            elif isinstance(value, (tuple)):
+                obj_dict[key] = list(value)
+            elif isinstance(value, (trt.Dims, trt.Permutation)):
+                if np.array(value).shape == ():  # Special case, shape of 0 dimension
+                    obj_dict[key] = [int(str(value)[1:-1])]  # Convert to string and remove brackets
+                else:
+                    obj_dict[key] = list(value)
+            elif isinstance(value, (np.ndarray)):  # Weights
+                obj_dict["weight_name_list"].append(key)
+                obj_dict[key] = value
+            elif isinstance(value, (trt.Weights)):  # TODO: fix this, we can not get value from `trt.Weights`
+                obj_dict["weight_name_list"].append(key)
+                obj_dict[key] = np.array(value.numpy())
+            elif isinstance(value, (trt.TripLimit)):  # Loop structure
+                obj_dict[key] = int(value)
+            elif type(value.__class__).__name__ == "pybind11_type":
+                try:
+                    obj_dict[key] = int(value)
+                except TypeError:
+                    self.log("ERROR", f"Error parsing {str(obj).split(' ')[0][19:]}.{key}")
+            elif value is None:
+                obj_dict[key] = None
+            else:
+                self.log("ERROR", f"Error parsing {str(obj).split(' ')[0][19:]}.{key}")
+
+        return obj_dict
+
+    def dump_builder(self) -> None:
+        """Dump builder attributes into the serialized JSON document."""
+        self.big_json["builder"] = self.dump_member(self.builder, self.api_exclude_set.builder_dump_exclude_set)
+        self.big_json["builder"]["is_network_supported"] = self.builder.is_network_supported(self.network, self.builder_config)
+        return
+
+    def dump_builder_config(self) -> None:
+        """Dump builder-config settings, features, and optimization profiles."""
+        builder_config_dict = self.dump_member(self.builder_config, self.api_exclude_set.builder_config_dump_exclude_set)
+
+        # Memory / Preview Feature / Quantization flag
+        # TODO: use try-except for the inner for-loop, in case that the members are not support in certain versions
+        feature_name_list = ["MemoryPoolType", "PreviewFeature", "QuantizationFlag"]
+        method_name_list = ["memory_pool_limit", "preview_feature", "quantization_flag"]
+        for feature_name, method_name in zip(feature_name_list, method_name_list):
+            obj_dict = {}
+            for key, value in getattr(trt, feature_name).__members__.items():  # Save enumerate names as string rather than integer
+                obj_dict[key] = getattr(self.builder_config, "get_" + method_name)(value)
+            builder_config_dict[method_name] = obj_dict
+        """ # For example, unroll the memory pool part in code above:
+        obj_dict = {}
+        for key, value in trt.MemoryPoolType.__members__.items():
+            obj_dict[key] = self.builder_config.get_memory_pool_limit(value)
+        builder_config_dict["memory_pool_limit"] = obj_dict
+        """
+
+        # Optimization Profile
+        all_op_dump = []  # List of all Optimization Profile
+        if self.builder_config.num_optimization_profiles > 0:
+            expected = self.builder_config.num_optimization_profiles
+            actual = len(self.optimization_profile_list)
+            if actual != expected:
+                self.log("WARNING", f"Optimization profile count mismatch: config={expected}, provided={actual}. Skip dumping profiles.")
+            for op in self.optimization_profile_list[:expected]:
+                op_dict = {}  # Map of one Optimization Profile
+                for j in range(self.network.num_inputs):
+                    tensor = self.network.get_input(j)
+                    tensor_name = tensor.name
+                    shape_list = op.get_shape_input(tensor_name) if tensor.is_shape_tensor else op.get_shape(tensor_name)
+                    op_dict[tensor_name] = {}
+                    if len(shape_list) == 0:
+                        self.log("WARNING", f"No Optimization Profile for input tensor: {tensor_name}")
+                        shape_list = [tensor.shape] * 3  # Use the same shape for min/opt/max
+                    else:
+                        op_dict[tensor_name]["is_shape_tensor"] = tensor.is_shape_tensor
+                        op_dict[tensor_name]["min"], op_dict[tensor_name]["opt"], op_dict[tensor_name]["max"] = [tuple(shape) for shape in shape_list]
+                all_op_dump.append(op_dict)
+        builder_config_dict["optimization_profile_list"] = all_op_dump
+
+        # Int8 Calibrator Profile - deprecated
+        op_dict = {}  # Map of one calibration Profile
+        calibration_op = self.builder_config.get_calibration_profile()
+        if calibration_op is not None:
+            for j in range(self.network.num_inputs):
+                tensor_name = self.network.get_input(j).name
+                shape_list = calibration_op.get_shape(tensor_name)
+                op_dict[tensor_name] = {}
+                if len(shape_list) == 0:
+                    self.log("ERROR", f"No calibration Profile for input tensor {tensor_name}")
+                else:
+                    op_dict[tensor_name]["is_shape_tensor"] = tensor.is_shape_tensor
+                    op_dict[tensor_name]["min"], op_dict[tensor_name]["opt"], op_dict[tensor_name]["max"] = [tuple(shape) for shape in shape_list]
+        builder_config_dict["calibration_profile"] = op_dict
+
+        self.big_json["builder_config"] = builder_config_dict
+        return
+
+    def dump_tensor(self, tensor: trt.ITensor) -> dict:
+        """Dump tensor attributes to a serializable dictionary."""
+        tensor_dict = self.dump_member(tensor, self.api_exclude_set.tensor_dump_exclude_set)
+        tensor_dict["dimension_name"] = [tensor.get_dimension_name(i) for i in range(len(tensor.shape))]
+        tensor_dict["is_debug_tensor"] = self.network.is_debug_tensor(tensor)
+        return tensor_dict
+
+    def dump_network(self) -> None:
+        """Dump network-level members plus input/output tensor snapshots."""
+        network_dict = self.dump_member(self.network, self.api_exclude_set.network_dump_exclude_set, self.api_exclude_set.network_exclude_condition)
+
+        # Flag
+        obj_dict = {}
+        for key, value in trt.NetworkDefinitionCreationFlag.__members__.items():
+            obj_dict[key] = self.network.get_flag(value)
+        network_dict["flag"] = obj_dict
+
+        # I/O tensors - duplicate save of the tensors
+        obj_dict = []
+        for i in range(self.network.num_inputs):
+            tensor = self.network.get_input(i)
+            obj_dict.append(self.dump_tensor(tensor))
+        network_dict["input_tensor_list"] = obj_dict
+
+        obj_dict = []
+        for i in range(self.network.num_outputs):
+            tensor = self.network.get_output(i)
+            obj_dict.append(self.dump_tensor(tensor))
+        network_dict["output_tensor_list"] = obj_dict
+
+        self.big_json["network"] = network_dict
+        return
+
+    def dump_layers(self):
+        """Dump all layers, plugin metadata, and structural maps."""
+        self.big_json["layer"] = []
+        self.big_json["number_of_plugin"] = 0
+        self.big_json["unset_plugin_layer"] = []  # List of plugins which argument information is not provided
+        self.big_json["tensor"] = {}  # Map: tensor name -> tensor dump
+        self.big_json["loop"] = {}  # Map: loop name -> map of loop members
+        self.big_json["if"] = {}  # Map: if name -> map of if members
+        self.big_json["attention"] = {}  # Map: attention name -> map of attention members
+
+        for i in range(self.network.num_layers):
+            layer = self.network.get_layer(i)
+
+            layer_type_from_base_class = layer.type  # `type` is overridden in Activation / Pooling Layer, so we need to save it before dynamic cast
+            layer_dynamic_cast(layer)  # Dynamic cast to real layer type
+            layer_dict = self.dump_member(layer, self.api_exclude_set.layer_dump_exclude_set)
+            layer_dict["layer_index"] = i  # Extra-mark
+
+            # Methods from BuilderConfig
+            layer_dict["can_run_on_DLA"] = self.builder_config.can_run_on_DLA(layer)
+            layer_dict["get_device_type"] = int(self.builder_config.get_device_type(layer))
+            layer_dict["is_device_type_set"] = self.builder_config.is_device_type_set(layer)
+
+            # Weights
+            if len(layer_dict["weight_name_list"]) > 0:
+                for weight_name in layer_dict["weight_name_list"]:
+                    self.weights[f"{layer.name}-{weight_name}"] = layer_dict.pop(weight_name)
+
+            # Input / output tensors
+            input_tensor_name_list = []
+            for j in range(layer.num_inputs):
+                tensor = layer.get_input(j)
+                # TODO: use layer_type = layer.type
+                if (isinstance(layer, trt.IFillLayer) and j == 0 and tensor is None) or \
+                    (isinstance(layer, trt.ISliceLayer) and tensor is None) or \
+                    (isinstance(layer, trt.IAttentionInputLayer) and layer.num_inputs == 5 and j == 3 and tensor is None):
+                    # Input tensor can be None when:
+                    # 1. Fill layer, linspace fill mode, input tensor 0 could be None
+                    # 2. Slice layer, start / shape / stride / fill_value / axes tensors can be None
+                    # 3. Attention input layer, with normalization_quantize_scale input tensor but no mask tensor
+                    input_tensor_name_list.append(None)
+                else:
+                    input_tensor_name_list.append(tensor.name)
+                    self.big_json["tensor"].setdefault(tensor.name, self.dump_tensor(tensor))  # Add to "tenosr" field if it does not exist
+            layer_dict["input_tensor_name_list"] = input_tensor_name_list
+
+            output_tensor_name_list = []
+            output_tensor_datatype_list = []
+            output_tensor_datatype_is_set_list = []
+            for j in range(layer.num_outputs):
+                tensor = layer.get_output(j)
+                output_tensor_name_list.append(tensor.name)
+                output_tensor_datatype_list.append(int(layer.get_output_type(j)))
+                output_tensor_datatype_is_set_list.append(int(layer.output_type_is_set(j)))
+                self.big_json["tensor"].setdefault(tensor.name, self.dump_tensor(tensor))  # Add to "tenosr" field if it does not exist
+            layer_dict["output_tensor_name_list"] = output_tensor_name_list
+            layer_dict["output_tensor_datatype_list"] = output_tensor_datatype_list
+            layer_dict["output_tensor_datatype_is_set_list"] = output_tensor_datatype_is_set_list
+
+            if isinstance(layer, (trt.IConvolutionLayer, trt.IDeconvolutionLayer)):  # 0, 7
+                layer_dict["kernel_shape"] = [layer.num_output_maps, layer.get_input(0).shape[1], *list(layer.kernel_size_nd)]
+                layer_dict["bias_shape"] = list(layer.bias.shape)
+                layer_dict["kernel_refittable"] = self.network.are_weights_marked_refittable(layer.name)
+                layer_dict["bias_refittable"] = self.network.are_weights_marked_refittable(layer.name)
+
+            elif isinstance(layer, (trt.IActivationLayer, trt.IPoolingLayer)):  # 2, 3
+                layer_dict["algo_type"] = layer_dict.pop("type")
+                layer_dict["type"] = int(layer_type_from_base_class)
+
+            elif isinstance(layer, trt.IScaleLayer):  # 5
+                layer_dict["shift_shape"] = layer.shift.shape
+                layer_dict["scale_shape"] = layer.scale.shape
+                layer_dict["power_shape"] = layer.power.shape
+
+            elif isinstance(layer, trt.IShuffleLayer):  # 13
+                if self.use_patch_80:
+                    layer_dict["reshape_dims_patch"] = None  # None if the shuffle os OK
+                    try:
+                        _ = len(layer.reshape_dims)
+                    except ValueError:
+                        layer_dict["reshape_dims"] = ()
+                        if re.fullmatch(r"\(\d+\)", layer.reshape_dims.__repr__()):  # `reshape_dims` is not set, use `reshape_dims_patch` as placeholder
+                            layer_dict["reshape_dims_patch"] = [0 for _ in layer.get_input(0).shape]
+                        else:  # `reshape_dims` is explicitly set as "[]"
+                            layer_dict["reshape_dims_patch"] = []
+
+            elif isinstance(layer, trt.IConstantLayer):  # 19
+                layer_dict["weights_refittable"] = self.network.are_weights_marked_refittable(layer.name)
+
+            elif isinstance(layer, (trt.IPluginV2Layer, trt.IPluginV3Layer)):  # 21, 46, trt.IPluginLayer has been removed
+                self.big_json["number_of_plugin"] += 1
+                layer_name = layer.name
+                if (layer_name in self.plugin_info_dict) or (layer_name in _tensorrt_cookbook_plugin_info_dict):
+                    if layer_name in self.plugin_info_dict:  # User provides the information for the plugin
+                        plugin_info = self.plugin_info_dict[layer_name]
+                    else:  # User does not provide the information for the plugin, but we get it by hooks
+                        plugin_info = _tensorrt_cookbook_plugin_info_dict.pop(layer_name, None)
+                        assert plugin_info is not None, f"Cannot find internal_plugin_info for layer: {layer_name}"
+                    argument_dict = plugin_info.pop("argument_dict")  # Weights are saved in npz
+                    layer_dict["plugin_info"] = plugin_info  # Other information is saved in json
+                    for key, value in argument_dict.items():
+                        self.weights[f"{layer.name}-{key}"] = value
+                    self.log("VERBOSE", f"Feed plugin {layer.name} with parameters: {plugin_info}")
+                else:  # User does not provide the information for the plugin, and the hooks is disabled, raise a warning.
+                    layer_dict["plugin_info"] = None
+                    self.big_json["unset_plugin_layer"].append(layer.name)
+                    self.log("WARNING", "Need argument information of the plugins:")
+                    self.log("WARNING", f"{layer.name}")
+                    self.log("WARNING", "Input:")
+                    for i in range(layer.num_inputs):
+                        tensor = layer.get_input(i)
+                        self.log("WARNING", f"    {tensor.name}, {datatype_cast(tensor.dtype, 'str')}, {tensor.shape}")
+                    for i in range(layer.num_outputs):
+                        tensor = layer.get_output(i)
+                        self.log("WARNING", f"    {tensor.name}, {datatype_cast(tensor.dtype, 'str')}, {tensor.shape}")
+
+            elif isinstance(layer, trt.ISliceLayer):  # 22
+                layer_dict["is_fill"] = (layer.mode == trt.SampleMode.FILL and layer.get_input(4) is not None)
+                if self.use_patch_80:
+                    axes_dump = ast.literal_eval(str(layer.axes))
+                    if isinstance(axes_dump, int) and axes_dump > 8:
+                        layer_dict["axes"] = None
+                    try:
+                        _ = len(layer.start)
+                    except ValueError:
+                        layer_dict["start"] = ()
+                    try:
+                        _ = len(layer.shape)
+                    except ValueError:
+                        layer_dict["shape"] = ()
+                    try:
+                        _ = len(layer.stride)
+                    except ValueError:
+                        layer_dict["stride"] = ()
+
+            elif isinstance(layer, trt.IResizeLayer):  # 25
+                is_dynamic_resize = (layer.num_inputs == 2)
+                layer_dict["is_dynamic_resize"] = is_dynamic_resize
+                layer_dict["is_static_scale_mode"] = (not is_dynamic_resize and len(layer.scales) > 0)
+
+            elif isinstance(layer, (trt.ITripLimitLayer, trt.IRecurrenceLayer, trt.IIteratorLayer, trt.ILoopOutputLayer)):  # 26, 27, 28, 29
+                # Search `loop_name` every time since the appearance order of layers in loop is uncertain
+                loop_name = layer.loop.name
+                if loop_name not in self.big_json["loop"]:
+                    d = {}
+                    d["iterator_layer_name_list"] = []  # could be more than one
+                    d["loop_output_layer_name_list"] = []  # could be more than one
+                    d["recurrence_layer_name_list"] = []  # could be more than one
+                    d["trip_limit_layer_name"] = None  # could only be one
+                    self.big_json["loop"][loop_name] = d
+                loop_dict = self.big_json["loop"][loop_name]
+                key = {trt.LayerType.TRIP_LIMIT: "trip_limit_layer_name", trt.LayerType.RECURRENCE: "recurrence_layer_name_list", trt.LayerType.ITERATOR: "iterator_layer_name_list", trt.LayerType.LOOP_OUTPUT: "loop_output_layer_name_list"}.get(layer.type)
+                if layer.type == trt.LayerType.TRIP_LIMIT:
+                    loop_dict[key] = layer.name
+                else:
+                    loop_dict[key].append(layer.name)
+
+            elif isinstance(layer, trt.IFillLayer):  # 31
+                is_dynamic_fill = layer.get_input(0) is not None
+                layer_dict["is_dynamic_fill"] = is_dynamic_fill
+                if is_dynamic_fill:  # The shape of output tensor is determined by input tenor 0 in dynamic fill mode
+                    layer_dict["shape"] = []  # Just a place-holder
+
+            elif isinstance(layer, (trt.IQuantizeLayer, trt.IDequantizeLayer)):  # 32, 33
+                if self.use_patch_80:
+                    layer_dict["block_shape_patch"] = None  # None if OK
+                    try:
+                        _ = len(getattr(layer, "block_shape", None))
+                    except TypeError:  # Layer has `block_shape` attribution since TensorRT 10.15, no such problem in old versions
+                        pass
+                    except ValueError:
+                        layer_dict["block_shape"] = ()
+                        if re.fullmatch(r"\(\d+\)", layer.block_shape.__repr__()):  # `block_shape` is not set, use `block_shape_patch` as placeholder
+                            layer_dict["block_shape_patch"] = tuple(layer.get_input(0).shape)
+                        else:  # `block_shape` is explicitly set as "[]"
+                            layer_dict["block_shape_patch"] = []
+
+            elif isinstance(layer, (trt.IConditionLayer, trt.IIfConditionalInputLayer, trt.IIfConditionalOutputLayer)):  # 34, 35, 36
+                # Search `if_name` every time since the appearance order of layers in if condition is uncertain
+                if_name = layer.conditional.name
+                if if_name not in self.big_json["if"]:
+                    d = {}
+                    d["condition_layer"] = None
+                    d["condition_input_layer"] = None
+                    d["condition_output_layer"] = None
+                    self.big_json["if"][if_name] = d
+                if_structure = self.big_json["if"][if_name]
+                key = {trt.LayerType.CONDITION: "condition_layer", trt.LayerType.CONDITIONAL_INPUT: "condition_input_layer", trt.LayerType.CONDITIONAL_OUTPUT: "condition_output_layer"}.get(layer.type)
+                if_structure[key] = layer.name
+
+            elif isinstance(layer, (trt.IAttentionInputLayer, trt.IAttentionOutputLayer)):  # 51, 52
+                attention_structure = layer.attention
+                attention_name = attention_structure.name
+                if attention_name not in self.big_json["attention"]:
+                    d = {}
+                    d["input_layer"] = None
+                    d["q_tensor"] = None
+                    d["k_tensor"] = None
+                    d["v_tensor"] = None
+                    d["output_layer"] = None
+                    d["output_tensor"] = None
+                    d["mask"] = None
+                    d["normalization_quantize_scale"] = None
+                    self.big_json["attention"][attention_name] = d
+                attention_dict = self.big_json["attention"][attention_name]
+                if layer.type == trt.LayerType.ATTENTION_INPUT:
+                    attention_dict["input_layer"] = layer.name
+                    for i, key in enumerate(["q_tensor", "k_tensor", "v_tensor"]):
+                        attention_dict[key] = attention_structure.get_input(i).name
+                        if i == 0:  # Update only once
+                            attention_dict.update(self.dump_member(attention_structure, self.api_exclude_set.attention_dump_exclude_set))  # Save attention attribution into the AttentionInputLayer
+                    if attention_structure.num_inputs >= 4 and attention_structure.mask is not None:
+                        d["mask"] = attention_structure.mask.name
+                    if attention_structure.num_inputs >= 5 and attention_structure.normalization_quantize_scale is not None:
+                        d["normalization_quantize_scale"] = attention_structure.normalization_quantize_scale.name
+                else:
+                    attention_dict["output_layer"] = layer.name
+                    attention_dict["output_tensor"] = layer.get_output(0).name
+                layer_dict["attention"] = attention_dict["name"]  # Note attention name in the input / output layer
+
+            self.big_json["layer"].append(layer_dict)
+
+        return
+
+    # Deserialization tool functions ===================================================================================
+    def build_member(self, obj: object = None, obj_dict: dict | None = None, exclude_set: set | None = None, exclude_condition=(lambda x: False)) -> None:
+        """Restore serialized member values onto ``obj`` when writable."""
+        if obj is None:
+            self.log("ERROR", f"{str(obj)} is None")
+            return
+        if obj_dict is None:
+            self.log("WARNING", f"{str(obj)} dump information is empty")
+            return
+        for key, value in obj_dict.items():
+            if key.startswith("__") or ((exclude_set is not None) and (key in exclude_set)) or exclude_condition(key):  # TODO: should we add "or value is None" here?
+                continue
+            try:
+                setattr(obj, key, value)
+                self.log("VERBOSE", f"Build {str(obj).split(' ')[0][19:]}.{key} = {value}")
+            except TypeError:
+                self.log("WARNING", f"Skip {str(obj).split(' ')[0][19:]}.{key}")
+            except AttributeError:
+                self.log("ERROR", f"Error parsing {str(obj).split(' ')[0][19:]}.{key}")
+
+        return
+
+    def build_builder(self) -> None:
+        """Construct TensorRT builder and restore serialized settings."""
+        self.builder = trt.Builder(self.logger)
+        self.build_member(self.builder, self.big_json["builder"], self.api_exclude_set.builder_build_exclude_set)
+
+        if "error_recorder" in self.callback_object_dict:
+            self.builder.error_recorder = self.callback_object_dict["error_recorder"]
+
+        return
+
+    def build_builder_config(self) -> None:
+        """Construct builder config and restore serialized options/profiles."""
+        build_config_dump = self.big_json["builder_config"]
+        self.builder_config = self.builder.create_builder_config()
+        self.build_member(self.builder_config, build_config_dump, self.api_exclude_set.builder_config_build_exclude_set)
+
+        # Default Device Type
+        self.builder_config.default_device_type = trt.DeviceType(build_config_dump["default_device_type"])
+
+        # Tactic Sources
+        self.builder_config.set_tactic_sources(build_config_dump["get_tactic_sources"])
+
+        # Engine Capability / Hardware Compatilility Level / Profiling Verbosity / Runtime Platform / Tiling Optimization Level
+        # Setter name: `<method_name>`
+        feature_name_list = ["EngineCapability", "HardwareCompatibilityLevel", "ProfilingVerbosity", "RuntimePlatform", "TilingOptimizationLevel"]
+        method_name_list = ["engine_capability", "hardware_compatibility_level", "profiling_verbosity", "runtime_platform", "tiling_optimization_level"]
+        for feature_name, method_name in zip(feature_name_list, method_name_list):
+            setattr(self.builder_config, method_name, getattr(trt, feature_name)(build_config_dump[method_name]))
+        """ # # For example, Engine Capability in code unrolled:
+        self.builder_config.engine_capability = trt.EngineCapability(build_config_dump["engine_capability"])
+        """
+        # Quantization Flag (override member `quantization_flags`)
+        # wili: why this API does not align with Memory / Preview Feature?
+        for key, value in trt.QuantizationFlag.__members__.items():
+            if build_config_dump["quantization_flag"][key]:
+                self.builder_config.set_quantization_flag(trt.QuantizationFlag(key))
+
+        # Memory / Preview Feature
+        # Setter name: `set_<method_name>`
+        feature_name_list = ["MemoryPoolType", "PreviewFeature"]
+        method_name_list = ["memory_pool_limit", "preview_feature"]
+        for feature_name, method_name in zip(feature_name_list, method_name_list):
+            for key, value in getattr(trt, feature_name).__members__.items():
+                if feature_name == "MemoryPoolType" and key in self.api_exclude_set.builder_config_memory_exclude_set:  # Remove DLA related memory content
+                    continue
+                getattr(self.builder_config, "set_" + method_name)(getattr(getattr(trt, feature_name), key), build_config_dump[method_name][key])
+        """ # For example, Memory part in code unrolled:
+        for key, value in trt.MemoryPoolType.__members__.items():
+            if key in self.api_exclude_set.builder_config_memory_exclude_set:  # Remove DLA related content
+                continue
+            self.builder_config.set_memory_pool_limit(getattr(trt.MemoryPoolType, key), build_config_dump["memory_pool_limit"][key])
+        """
+
+        if "algorithm_selector" in self.callback_object_dict:
+            self.builder_config.algorithm_selector = self.callback_object_dict["algorithm_selector"]
+        if "int8_calibrator" in self.callback_object_dict:
+            self.builder_config.int8_calibrator = self.callback_object_dict["int8_calibrator"]
+        if "progress_monitor" in self.callback_object_dict:
+            self.builder_config.progress_monitor = self.callback_object_dict["progress_monitor"]
+
+        return
+
+    def build_network(self) -> None:
+        """Construct network definition and restore serialized network flags."""
+        network_dict = self.big_json["network"]
+        # Using `flag` rather than `flags`
+        #flag = network_dict["flags"]
+        flag = 0
+        for key, value in trt.NetworkDefinitionCreationFlag.__members__.items():
+            if network_dict["flag"][key]:
+                flag |= 1 << int(getattr(trt.NetworkDefinitionCreationFlag, key))
+        self.network = self.builder.create_network(flag)
+        self.build_member(self.network, network_dict, self.api_exclude_set.network_build_exclude_set)
+
+        return
+
+    def build_tensor(self, tensor, tensor_dict) -> dict:
+        """Apply serialized tensor settings to a TensorRT tensor object."""
+        self.build_member(tensor, tensor_dict, self.api_exclude_set.tensor_build_exclude_set)
+        self.tensor_map[tensor.name] = tensor
+
+        # Data Type
+        if tensor.is_network_input or tensor_dict["is_network_output"]:  # Do not use `tensor.is_network_input` since no tensor is marked as output till now
+            if trt.DataType(tensor_dict["dtype"]) != trt.DataType.FP4:  # Skip output FP4 since numpy can not deal with this. TODO: remove this constrain
+                tensor.dtype = trt.DataType(tensor_dict["dtype"])  # No effect for intermediate tensors
+
+        # Dimension Name
+        if tensor.is_network_input:
+            for i in range(len(tensor_dict["shape"])):
+                tensor.set_dimension_name(i, tensor_dict["dimension_name"][i])
+
+        # Dynamic Range
+        if tensor_dict["dynamic_range"] is not None:
+            tensor.dynamic_range = tensor_dict["dynamic_range"]
+
+        # Location
+        tensor.location = trt.TensorLocation(tensor_dict["location"])
+
+        # Allowed Format
+        # Do not set it if there is no constrain on tensor, or error like below will be raised:
+        # (x: has dataType Float unsupported by tensor's allowed TensorFormats.)
+        if tensor_dict["allowed_formats"] != 2 ** len(trt.TensorFormat.__members__) - 1:  # All 1 bit mask
+            bit_mask = tensor_dict["allowed_formats"]
+            if tensor.dtype == trt.DataType.FLOAT:
+                bit_mask &= 1 << int(trt.TensorFormat.LINEAR) | 1 << int(trt.TensorFormat.CHW32) | 1 << int(trt.TensorFormat.HWC)
+            elif tensor.dtype in [trt.DataType.HALF, trt.DataType.BF16]:  # TODO: check BF16
+                bit_mask &= \
+                    1 << int(trt.TensorFormat.LINEAR) | 1 << int(trt.TensorFormat.CHW2) | 1 << int(trt.TensorFormat.HWC8) | \
+                    1 << int(trt.TensorFormat.CHW4) | 1 << int(trt.TensorFormat.CHW16) | 1 << int(trt.TensorFormat.CHW32) | \
+                    1 << int(trt.TensorFormat.DHWC8) | 1 << int(trt.TensorFormat.CDHW32) | 1 << int(trt.TensorFormat.HWC16)
+            elif tensor.dtype == trt.DataType.INT32:
+                bit_mask &= 1 << int(trt.TensorFormat.LINEAR) | 1 << int(trt.TensorFormat.CHW32)
+            elif tensor.dtype in [trt.DataType.INT8, trt.DataType.UINT8]:  # TODO: check UINT8
+                bit_mask &= 1 << int(trt.TensorFormat.LINEAR) | 1 << int(trt.TensorFormat.CHW4) | 1 << int(trt.TensorFormat.CHW32) | 1 << int(trt.TensorFormat.CDHW32)
+            elif tensor.dtype == trt.DataType.BOOL:
+                bit_mask &= 1 << int(trt.TensorFormat.LINEAR)
+            else:  # TODO: check kFP8, kINT64, kINT4, kFP4
+                message = f"Allowed format {tensor_dict['allowed_formats']} of tensor {tensor.name} with data type {trt.DataType(tensor.dtype)} is not supported"
+                self.log("ERROR", message)
+
+            tensor.allowed_formats = bit_mask
+
+        return
+
+    def add_set_input_tensor(self, layer_index, input_tensor_name_list, index):
+        """Bind or defer-bind an input tensor for ``set_input`` calls."""
+        assert len(input_tensor_name_list) >= index + 1
+        tensor_name = input_tensor_name_list[index]
+        if tensor_name in self.tensor_map:
+            self.set_input_tensor_map[index] = self.tensor_map[tensor_name]
+        else:
+            self.later_layer_map[layer_index] = [tensor_name, index]
+        return
+
+    def update_loop(self, layer_dict, attribution_map):
+        """Recreate loop sub-structure links and return the created loop layer."""
+        layer_name = layer_dict["name"]
+        kind_name = {trt.LayerType.TRIP_LIMIT: "trip_limit_layer_name", trt.LayerType.RECURRENCE: "recurrence_layer_name_list", trt.LayerType.ITERATOR: "iterator_layer_name_list", trt.LayerType.LOOP_OUTPUT: "loop_output_layer_name_list"}.get(trt.LayerType(layer_dict["type"]))
+        loop_name = None
+        for key, value in self.loop_map.items():
+            if kind_name == "trip_limit_layer_name" and layer_name == value[kind_name] or layer_name in value[kind_name]:
+                loop_name = key
+        if loop_name is None:
+            for key, value in self.big_json["loop"].items():
+                if kind_name == "trip_limit_layer_name" and layer_name == value[kind_name] or layer_name in value[kind_name]:
+                    self.loop_map[key] = {}
+                    self.loop_map[key]["trip_limit_layer_name"] = layer_name if kind_name == "trip_limit_layer_name" else value["trip_limit_layer_name"]
+                    self.loop_map[key]["recurrence_layer_name_list"] = [layer_name] if kind_name == "recurrence_layer_name_list" else value["recurrence_layer_name_list"]
+                    self.loop_map[key]["iterator_layer_name_list"] = [layer_name] if kind_name == "iterator_layer_name_list" else value["iterator_layer_name_list"]
+                    self.loop_map[key]["loop_output_layer_name_list"] = [layer_name] if kind_name == "loop_output_layer_name_list" else value["loop_output_layer_name_list"]
+                    self.loop_map[key]["recurrence_layer_list"] = []  # Save layer object
+                    self.loop_map[key]["loop_output_layer_list"] = []  # Save layer object
+                    self.loop_map[key]["loop"] = self.network.add_loop()  # Save loop object
+                    loop_name = key
+                    break
+        loop = self.loop_map[loop_name]["loop"]
+        if kind_name == "trip_limit_layer_name":
+            layer = loop.add_trip_limit(self.tensor_map[layer_dict["input_tensor_name_list"][0]], trt.TripLimit(layer_dict["kind"]))
+            attribution_map["kind"] = None
+        elif kind_name == "recurrence_layer_name_list":
+            layer = loop.add_recurrence(self.tensor_map[layer_dict["input_tensor_name_list"][0]])
+            if layer_dict["input_tensor_name_list"][1] in self.tensor_map:
+                layer.set_input(1, self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            self.loop_map[loop_name]["recurrence_layer_list"].append(layer)
+        elif kind_name == "iterator_layer_name_list":
+            layer = loop.add_iterator(self.tensor_map[layer_dict["input_tensor_name_list"][0]], layer_dict["axis"], layer_dict["reverse"])
+            attribution_map["reverse"] = None
+        elif kind_name == "loop_output_layer_name_list":
+            layer = loop.add_loop_output(self.tensor_map[layer_dict["input_tensor_name_list"][0]], trt.LoopOutput(layer_dict["kind"]), layer_dict["axis"])
+            self.loop_map[loop_name]["loop_output_layer_list"].append(layer)
+            attribution_map["kind"] = None
+        else:
+            self.log("ERROR", f"Error loop layer name: {kind_name}")
+
+        return layer
+
+    def update_if(self, layer_dict):
+        """Recreate if-conditional sub-structure links and return created layer."""
+        layer_name = layer_dict["name"]
+        kind_name = {trt.LayerType.CONDITION: "condition_layer", trt.LayerType.CONDITIONAL_INPUT: "condition_input_layer", trt.LayerType.CONDITIONAL_OUTPUT: "condition_output_layer"}.get(trt.LayerType(layer_dict["type"]))
+        if_name = None
+        for key, value in self.if_map.items():
+            if layer_name == value[kind_name]:
+                if_name = key
+                break
+        if if_name is None:
+            for key, value in self.big_json["if"].items():
+                if layer_name == value[kind_name]:
+                    self.if_map[key] = {}
+                    self.if_map[key]["condition_layer"] = layer_name if kind_name == "condition_layer" else value["condition_layer"]
+                    self.if_map[key]["condition_input_layer"] = layer_name if kind_name == "condition_input_layer" else value["condition_input_layer"]
+                    self.if_map[key]["condition_output_layer"] = layer_name if kind_name == "condition_output_layer" else value["condition_output_layer"]
+                    self.if_map[key]["IfCondition"] = self.network.add_if_conditional()  # Save if object
+                    if_name = key
+                    break
+        if_structure = self.if_map[if_name]["IfCondition"]
+        if kind_name == "condition_layer":
+            layer = if_structure.set_condition(self.tensor_map[layer_dict["input_tensor_name_list"][0]])
+        elif kind_name == "condition_input_layer":
+            layer = if_structure.add_input(self.tensor_map[layer_dict["input_tensor_name_list"][0]])
+        elif kind_name == "condition_output_layer":
+            layer = if_structure.add_output(self.tensor_map[layer_dict["input_tensor_name_list"][0]], self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+        else:
+            self.log("ERROR", f"Error if structure layer name: {kind_name}")
+
+        return layer
+
+    def update_attention(self, layer_dict):
+        """Recreate attention structure and return attention object or output."""
+        # We assume:
+        # 1. the attention input layer for this attention structure appears only once,
+        # 2. all input tensors are ready before the program comes here
+        if trt.LayerType(layer_dict["type"]) == trt.LayerType.ATTENTION_OUTPUT:
+            return self.attention_map[layer_dict["attention"]]
+        attention_dict = self.big_json["attention"][layer_dict["attention"]]
+        argument_list = []  # Use only in this method
+        argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][0]])
+        argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+        argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+        argument_list.append(trt.AttentionNormalizationOp(attention_dict["norm_op"]))
+        argument_list.append(attention_dict["decomposable"])
+        attention_structure = self.network.add_attention(*argument_list)
+        attention_structure.name = attention_dict["name"]
+        if "metadata" in attention_dict and hasattr(attention_structure, "metadata"):
+            attention_structure.metadata = attention_dict["metadata"]
+        attention_structure.causal = attention_dict["causal"]
+        attention_structure.decomposable = attention_dict["decomposable"]
+        if "num_ranks" in attention_dict and attention_dict["num_ranks"] is not None:
+            try:
+                attention_structure.num_ranks = attention_dict["num_ranks"]
+            except Exception as error:
+                self.log("WARNING", f"Skip setting attention.num_ranks={attention_dict['num_ranks']}: {error}")
+        if trt.DataType(attention_dict["normalization_quantize_to_type"]) in [trt.DataType.FP8, trt.DataType.INT8]:
+            attention_structure.normalization_quantize_to_type = trt.DataType(attention_dict["normalization_quantize_to_type"])
+        if attention_structure.num_inputs >= 4 and attention_dict["mask"] is not None:
+            attention_structure.mask = self.tensor_map[attention_dict["mask"]]
+        if attention_structure.num_inputs >= 5 and attention_dict["normalization_quantize_scale"] is not None:
+            attention_structure.normalization_quantize_scale = self.tensor_map[attention_dict["normalization_quantize_scale"]]
+        self.attention_map[attention_dict["name"]] = attention_structure
+        return attention_structure
+
+    def build_layer(self, layer_dict) -> dict:
+        """Build a single layer from serialized layer metadata."""
+        layer_index = layer_dict["layer_index"]
+        layer_type = trt.LayerType(layer_dict["type"])
+        add_layer_method_name = layer_type_to_add_layer_method_name(layer_type)  # Get exact name of `add_*` API for this layer
+        argument_list = []  # List of tensors / arguments used in `add_*` API
+        self.set_input_tensor_map = {}  # Map: index -> tensor,  tensors used in `set_input` API
+        attribution_map = {}  # Map: attribution name -> attribution value
+
+        if len(layer_dict["input_tensor_name_list"]) > 0 and layer_dict["input_tensor_name_list"][0] is not None:  # Some layers has no input tensor
+            assert layer_dict["input_tensor_name_list"][0] in self.tensor_map
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][0]])
+
+        need_call_add_layer = True  # If-Condition or Loop structure do not need to add layer in network
+
+        # Use `match-case` when yapf supports
+        # Sorted by `int(layer_type)`, might change with TRT release in the future
+        if layer_type in [trt.LayerType.CONVOLUTION, trt.LayerType.DECONVOLUTION]:  # 0, 7
+            assert len(layer_dict["input_tensor_name_list"]) in [1, 2]
+            argument_list.extend([layer_dict["num_output_maps"], layer_dict["kernel_size_nd"]])
+            if self.weights is not None:
+                kernel = self.weights[layer_dict["name"] + "-kernel"]
+                bias = self.weights[layer_dict["name"] + "-bias"]
+            else:
+                kernel_shape = layer_dict["lKernelShape"]
+                bias_shape = layer_dict["lBiasShape"]
+                kernel = self.rng.uniform(-1, 1, kernel_shape).astype(np.float32)
+                bias = self.rng.uniform(-1, 1, bias_shape).astype(np.float32)
+            argument_list.append(trt.Weights(np.ascontiguousarray(kernel)))
+            argument_list.append(trt.Weights(np.ascontiguousarray(bias)))
+            if np.prod(kernel.shape) == 0:  # Int8-QDQ
+                assert len(layer_dict["input_tensor_name_list"]) == 2
+                argument_list[-2] = trt.Weights()
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 1)
+            attribution_map["padding_mode"] = trt.PaddingMode(layer_dict["padding_mode"])
+
+        elif layer_type == trt.LayerType.CAST:  # 1
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.append(trt.DataType(layer_dict["to_type"]))
+            attribution_map["to_type"] = trt.DataType(layer_dict["to_type"])
+
+        elif layer_type == trt.LayerType.ACTIVATION:  # 2
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.append(trt.ActivationType(layer_dict["algo_type"]))
+            attribution_map["type"] = trt.ActivationType(layer_dict["algo_type"])
+
+        elif layer_type == trt.LayerType.POOLING:  # 3
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.append(trt.PoolingType(layer_dict["algo_type"]))
+            argument_list.append(layer_dict["window_size_nd"])
+            attribution_map["padding_mode"] = trt.PaddingMode(layer_dict["padding_mode"])
+            attribution_map["type"] = trt.PoolingType(layer_dict["algo_type"])
+
+        elif layer_type == trt.LayerType.LRN:  # 4
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.extend([layer_dict["window_size"], layer_dict["alpha"], layer_dict["beta"], layer_dict["k"]])
+
+        elif layer_type == trt.LayerType.SCALE:  # 5
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.append(trt.ScaleMode(layer_dict["mode"]))
+            if self.weights is not None:
+                shift = self.weights[layer_dict["name"] + "-shift"]
+                scale = self.weights[layer_dict["name"] + "-scale"]
+                power = self.weights[layer_dict["name"] + "-power"]
+            else:
+                shift_shape = layer_dict["shift_shape"]
+                scale_shape = layer_dict["scale_shape"]
+                power_shape = layer_dict["power_shape"]
+                shift = self.rng.uniform(-1, 1, shift_shape).astype(np.float32)
+                scale = self.rng.uniform(-1, 1, scale_shape).astype(np.float32)
+                power = np.ones(power_shape, dtype=np.float32)
+            argument_list.append(trt.Weights(np.ascontiguousarray(shift)))
+            argument_list.append(trt.Weights(np.ascontiguousarray(scale)))
+            argument_list.append(trt.Weights(np.ascontiguousarray(power)))
+            argument_list.append(layer_dict["channel_axis"])
+
+        elif layer_type == trt.LayerType.SOFTMAX:  # 6
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+
+        elif layer_type == trt.LayerType.CONCATENATION:  # 8
+            assert len(layer_dict["input_tensor_name_list"]) > 0
+            input_tensor_list = []
+            for tensor_name in layer_dict["input_tensor_name_list"]:
+                input_tensor_list.append(self.tensor_map[tensor_name])
+            argument_list = [input_tensor_list]  # Rather than `append`
+
+        elif layer_type == trt.LayerType.ELEMENTWISE:  # 9
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(trt.ElementWiseOperation(layer_dict["op"]))
+            attribution_map["op"] = trt.ElementWiseOperation(layer_dict["op"])
+
+        elif layer_type in [trt.LayerType.PLUGIN, trt.LayerType.PLUGIN_V2, trt.LayerType.PLUGIN_V3]:  # 10, 21, 46
+            self.log("WARNING", "Experimental support for Plugin Layer")
+            argument_list = []
+            if layer_type == trt.LayerType.PLUGIN:
+                self.log("ERROR", "No support for PluginV1 Layer")
+                return
+            plugin_info_dict = layer_dict["plugin_info"]
+            if plugin_info_dict is None:  # Create a dummy plugin
+                dummy_plugin_creator = DummyPluginFactory.build(layer_dict, self.big_json["tensor"])
+                plugin_registry = trt.get_plugin_registry()
+                if dummy_plugin_creator.name not in [creator.name for creator in plugin_registry.all_creators]:
+                    plugin_registry.register_creator(dummy_plugin_creator, "")
+                input_tensor_list = [self.tensor_map[name] for name in layer_dict["input_tensor_name_list"]]  # Asumme no input shape tensor
+                if layer_type == trt.LayerType.PLUGIN_V3:
+                    plugin = dummy_plugin_creator.create_plugin(layer_dict["name"], trt.PluginFieldCollection([]), trt.TensorRTPhase.BUILD)
+                    argument_list = [input_tensor_list, [], plugin]
+                else:  # trt.LayerType.PLUGIN_V2:
+                    plugin = dummy_plugin_creator.create_plugin(layer_dict["name"], trt.PluginFieldCollection([]))
+                    argument_list = [input_tensor_list, plugin]
+            else:  # Rebuild the plugin from the arguments
+                number_input_tensor = plugin_info_dict.get("number_input_tensor", 1)
+                number_input_shape_tensor = plugin_info_dict.get("number_input_shape_tensor", 0)  # In case plugin v2 does not have this attribution
+                assert len(layer_dict["input_tensor_name_list"]) == number_input_tensor + number_input_shape_tensor
+                input_tensor_list = [self.tensor_map[name] for name in layer_dict["input_tensor_name_list"][:number_input_tensor]]
+                input_shape_tensor_list = [self.tensor_map[name] for name in layer_dict["input_tensor_name_list"][number_input_tensor:]]
+                plugin_info_dict["argument_dict"] = {}  # Add back the argument_dict from weights file
+                layer_name = layer_dict['name']
+                for key, value in self.weights.items():
+                    if key.startswith(f"{layer_name}-"):
+                        plugin_info_dict["argument_dict"][key.replace(f"{layer_name}-", "")] = value
+                if layer_type == trt.LayerType.PLUGIN_V3:
+                    argument_list = [input_tensor_list, input_shape_tensor_list, get_plugin(plugin_info_dict)]
+                else:  # trt.LayerType.PLUGIN_V2:
+                    argument_list = [input_tensor_list, get_plugin(plugin_info_dict)]
+
+        elif layer_type == trt.LayerType.UNARY:  # 11
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.append(trt.UnaryOperation(layer_dict["op"]))
+            attribution_map["op"] = trt.UnaryOperation(layer_dict["op"])
+
+        elif layer_type == trt.LayerType.PADDING:  # 12
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.extend([layer_dict["pre_padding_nd"], layer_dict["post_padding_nd"]])
+
+        elif layer_type == trt.LayerType.SHUFFLE:  # 13
+            assert len(layer_dict["input_tensor_name_list"]) in [1, 2]
+            if len(layer_dict["input_tensor_name_list"]) == 2:  # Dynamic shuffle
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 1)
+                attribution_map["reshape_dims"] = None  # Skip setting it in attribution
+            elif self.use_patch_80:
+                if isinstance(layer_dict["reshape_dims"], list) and len(layer_dict["reshape_dims"]) == 0 and layer_dict["reshape_dims_patch"] is not None:
+                    attribution_map["reshape_dims"] = layer_dict["reshape_dims_patch"]
+
+        elif layer_type == trt.LayerType.REDUCE:  # 14
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.append(trt.ReduceOperation(layer_dict["op"]))
+            argument_list.append(layer_dict["axes"])
+            argument_list.append(layer_dict["keep_dims"])
+            attribution_map["op"] = trt.ReduceOperation(layer_dict["op"])
+
+        elif layer_type == trt.LayerType.TOPK:  # 15
+            assert len(layer_dict["input_tensor_name_list"]) in [1, 2]
+            argument_list.append(trt.TopKOperation(layer_dict["op"]))
+            if len(layer_dict["input_tensor_name_list"]) == 2:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 1)
+                argument_list.append(0)  # Place-holder
+            else:
+                argument_list.append(layer_dict["k"])
+            argument_list.append(layer_dict["axes"])
+            attribution_map["op"] = None  # Do not set it in attribution
+
+        elif layer_type == trt.LayerType.GATHER:  # 16
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(trt.GatherMode(layer_dict["mode"]))
+            attribution_map["axis"] = layer_dict["axis"]
+
+        elif layer_type == trt.LayerType.MATRIX_MULTIPLY:  # 17
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(trt.MatrixOperation(layer_dict["op0"]))
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(trt.MatrixOperation(layer_dict["op1"]))
+            attribution_map["op0"] = trt.MatrixOperation(layer_dict["op0"])
+            attribution_map["op1"] = trt.MatrixOperation(layer_dict["op1"])
+
+        elif layer_type == trt.LayerType.RAGGED_SOFTMAX:  # 18
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+
+        elif layer_type == trt.LayerType.CONSTANT:  # 19
+            assert len(layer_dict["input_tensor_name_list"]) == 0
+            if self.weights is not None:
+                weight = self.weights[layer_dict["name"] + "-weights"]
+            else:
+                weight_shape = layer_dict["shape"]
+                data_type = trt.nptype(trt.DataType(layer_dict["output_tensor_data_type_list"][0]))
+                weight = self.rng.uniform(-1, 1, weight_shape).astype(data_type)
+            if weight.shape == (0, ):  # Special process for weight of shape (0,)
+                argument_list.extend([[0], trt.Weights(datatype_cast(weight.dtype, "trt"))])
+                #argument_list.extend([weight.shape, trt.Weights(np.ascontiguousarray(weight))])
+            else:
+                argument_list.extend([weight.shape, trt.Weights(np.ascontiguousarray(weight))])
+
+        elif layer_type == trt.LayerType.IDENTITY:  # 20
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+
+        elif layer_type == trt.LayerType.SLICE:  # 22
+            n_input_tensor = len(layer_dict["input_tensor_name_list"])
+            assert n_input_tensor in [1, 2, 3, 4, 5, 6]
+            argument_list.extend([layer_dict["start"], layer_dict["shape"], layer_dict["stride"]])  # Place-holders
+            if n_input_tensor >= 2 and layer_dict["start"] == []:
+                argument_list[1] = [0] * argument_list[0].shape[0]  # set `start` forcely in dynamic slice mode
+            if n_input_tensor >= 2 and layer_dict["input_tensor_name_list"][1] is not None:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 1)
+                attribution_map["start"] = None  # Do not set it if using input tensor
+            if n_input_tensor >= 3 and layer_dict["input_tensor_name_list"][2] is not None:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 2)
+                attribution_map["shape"] = None  # Do not set it if using input tensor
+            if n_input_tensor >= 4 and layer_dict["input_tensor_name_list"][3] is not None:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 3)
+                attribution_map["stride"] = None  # Do not set it if using input tensor
+            if n_input_tensor >= 5 and trt.SampleMode(layer_dict["mode"]) == trt.SampleMode.FILL and layer_dict["is_fill"] == True:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 4)
+            attribution_map["mode"] = trt.SampleMode(layer_dict["mode"])
+            attribution_map["is_fill"] = None  # Extra-mark
+
+        elif layer_type == trt.LayerType.SHAPE:  # 23
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+
+        elif layer_type == trt.LayerType.PARAMETRIC_RELU:  # 24
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+
+        elif layer_type == trt.LayerType.RESIZE:  # 25
+            assert len(layer_dict["input_tensor_name_list"]) in [1, 2]
+            if layer_dict["is_dynamic_resize"]:
+                assert len(layer_dict["input_tensor_name_list"]) == 2
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 1)
+            if layer_dict["is_static_scale_mode"]:
+                attribution_map["shape"] = None  # Skip setting `shape` in static scale mode
+            attribution_map["resize_mode"] = trt.InterpolationMode(layer_dict["resize_mode"])
+            attribution_map["coordinate_transformation"] = trt.ResizeCoordinateTransformation(layer_dict["coordinate_transformation"])
+            attribution_map["selector_for_single_pixel"] = trt.ResizeSelector(layer_dict["selector_for_single_pixel"])
+            attribution_map["nearest_rounding"] = trt.ResizeRoundMode(layer_dict["nearest_rounding"])
+            attribution_map["is_dynamic_resize"] = None
+            attribution_map["is_static_shape_mode"] = None
+
+        elif layer_type in [trt.LayerType.TRIP_LIMIT, trt.LayerType.RECURRENCE, trt.LayerType.ITERATOR, trt.LayerType.LOOP_OUTPUT]:  # 26, 27, 28, 29
+            layer = self.update_loop(layer_dict, attribution_map)
+            need_call_add_layer = False
+
+        elif layer_type == trt.LayerType.SELECT:  # 30
+            assert len(layer_dict["input_tensor_name_list"]) == 3
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+
+        elif layer_type == trt.LayerType.FILL:  # 31
+            assert len(layer_dict["input_tensor_name_list"]) in [0, 2, 3]
+            if layer_dict["is_dynamic_fill"]:
+                argument_list = []  # Remove the first input tensor and use `set_input` instead
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 0)
+            argument_list.extend([trt.Dims(layer_dict["shape"]), trt.FillOperation(layer_dict["operation"]), trt.DataType(layer_dict["to_type"])])
+            if len(layer_dict["input_tensor_name_list"]) == 3:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 1)
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 2)
+                attribution_map["alpha"] = None  # Do not set `alpha` and `beta` in this case, or error like below will be raised:
+                attribution_map["beta"] = None
+                # Skipping tactic 0x0000000000000000 due to exception Assertion dims.nbDims == 1 failed. Alpha and beta tensor should be set when output an ND tensor.
+            #if "Range" in layer_dict["name"]:  # The special case: Range node from ONNX, TODO: remove this branch
+            #    self.set_input_tensor_map[1] = self.constant_layers_for_Range_node[0].get_output(0)
+            #    self.set_input_tensor_map[2] = self.constant_layers_for_Range_node[1].get_output(0)
+            # Set some attributions as None to avoid setting them in `build_member`
+            attribution_map["is_alpha_beta_int64"] = None  # Read-only atttribution
+            attribution_map["is_dynamic_fill"] = None  # Extra-mark
+            attribution_map["shape"] = None  # Useless after `add_fill` is called
+            attribution_map["to_type"] = None  # Do not set it after `add_fill` is called
+
+        elif layer_type in [trt.LayerType.QUANTIZE, trt.LayerType.DEQUANTIZE]:  # 32, 33
+            assert len(layer_dict["input_tensor_name_list"]) in [2, 3]
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            if self.big_json["network"]["flag"]["STRONGLY_TYPED"]:
+                argument_list.append(trt.DataType(layer_dict["to_type"]))
+            if len(layer_dict["input_tensor_name_list"]) == 3:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 2)
+            if self.use_patch_80:
+                try:
+                    _ = len(layer_dict["block_shape"])
+                    if isinstance(layer_dict["block_shape"], list) and len(layer_dict["block_shape"]) == 0 and layer_dict["block_shape_patch"] is not None:
+                        attribution_map["block_shape"] = layer_dict["block_shape_patch"]
+                except KeyError:  # Layer has `block_shape` attribution since TensorRT 10.15, no such problem in old versions
+                    pass
+
+        elif layer_type in [trt.LayerType.CONDITION, trt.LayerType.CONDITIONAL_INPUT, trt.LayerType.CONDITIONAL_OUTPUT]:  # 34, 35, 36
+            layer = self.update_if(layer_dict)
+            need_call_add_layer = False
+
+        elif layer_type == trt.LayerType.SCATTER:  # 37
+            assert len(layer_dict["input_tensor_name_list"]) == 3
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+            argument_list.append(trt.ScatterMode(layer_dict["mode"]))
+
+        elif layer_type == trt.LayerType.EINSUM:  # 38
+            assert len(layer_dict["input_tensor_name_list"]) > 0
+            input_tensor_list = []
+            for tensor_name in layer_dict["input_tensor_name_list"]:
+                input_tensor_list.append(self.tensor_map[tensor_name])
+            argument_list = [input_tensor_list]  # Rather than `append`
+            argument_list.append(layer_dict["equation"])
+
+        elif layer_type == trt.LayerType.ASSERTION:  # 39
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            argument_list.append(layer_dict["message"])
+
+        elif layer_type == trt.LayerType.ONE_HOT:  # 40
+            assert len(layer_dict["input_tensor_name_list"]) == 3
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+            argument_list.append(layer_dict["axis"])
+
+        elif layer_type == trt.LayerType.NON_ZERO:  # 41
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+
+        elif layer_type == trt.LayerType.GRID_SAMPLE:  # 42
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            attribution_map["interpolation_mode"] = trt.InterpolationMode(layer_dict["interpolation_mode"])
+            attribution_map["sample_mode"] = trt.SampleMode(layer_dict["sample_mode"])
+
+        elif layer_type == trt.LayerType.NMS:  # 43
+            assert len(layer_dict["input_tensor_name_list"]) == 3
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+            attribution_map["bounding_box_format"] = trt.BoundingBoxFormat(layer_dict["bounding_box_format"])
+
+        elif layer_type == trt.LayerType.REVERSE_SEQUENCE:  # 44
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+
+        elif layer_type == trt.LayerType.NORMALIZATION:  # 45
+            assert len(layer_dict["input_tensor_name_list"]) == 3
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+            argument_list.append(layer_dict["axes"])
+            attribution_map["compute_precision"] = trt.DataType(layer_dict["compute_precision"])
+
+        elif layer_type in [trt.LayerType.SQUEEZE, trt.LayerType.UNSQUEEZE]:  # 47, 48
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+
+        elif layer_type == trt.LayerType.CUMULATIVE:  # 49
+            assert len(layer_dict["input_tensor_name_list"]) == 2
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(trt.CumulativeOperation(layer_dict["op"]))
+            argument_list.append(layer_dict["exclusive"])
+            argument_list.append(layer_dict["reverse"])
+            attribution_map["op"] = trt.CumulativeOperation(layer_dict["op"])
+
+        elif layer_type == trt.LayerType.DYNAMIC_QUANTIZE:  # 50
+            assert len(layer_dict["input_tensor_name_list"]) in [1, 2]
+            block_shape = layer_dict.get("block_shape", None)
+            if isinstance(block_shape, (list, tuple)) and len(block_shape) > 0 and any(int(v) != 0 for v in block_shape):
+                # assert len(layer_dict["input_tensor_name_list"]) == 1  # Double quantization is not supported in v2 yet, but we do not check it here
+                add_layer_method_name = "add_dynamic_quantize_v2"
+                argument_list.append(trt.Dims(block_shape))
+            else:
+                argument_list.append(layer_dict["axis"])
+                argument_list.append(layer_dict["block_size"])
+            argument_list.append(trt.DataType(layer_dict["to_type"]))
+            argument_list.append(trt.DataType(layer_dict["scale_type"]))
+            if len(layer_dict["input_tensor_name_list"]) == 2:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 1)
+
+        elif layer_type in [trt.LayerType.ATTENTION_INPUT, trt.LayerType.ATTENTION_OUTPUT]:  # 51, 52
+            layer = self.update_attention(layer_dict)
+            need_call_add_layer = False
+            if not hasattr(layer, "metadata"):
+                attribution_map["metadata"] = None
+            if not hasattr(layer, "num_ranks"):
+                attribution_map["num_ranks"] = None
+
+        elif layer_type == trt.LayerType.ROTARY_EMBEDDING:  # 53
+            assert len(layer_dict["input_tensor_name_list"]) in [3, 4]
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+            argument_list.append(bool(layer_dict["interleaved"]))
+            argument_list.append(int(layer_dict["rotary_embedding_dim"]))
+            if len(layer_dict["input_tensor_name_list"]) == 4 and layer_dict["input_tensor_name_list"][3] is not None:
+                self.add_set_input_tensor(layer_index, layer_dict["input_tensor_name_list"], 3)
+
+        elif layer_type == trt.LayerType.KV_CACHE_UPDATE:  # 54
+            assert len(layer_dict["input_tensor_name_list"]) == 3
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+            argument_list.append(trt.KVCacheMode(layer_dict["cache_mode"]))
+            attribution_map["cache_mode"] = trt.KVCacheMode(layer_dict["cache_mode"])
+
+        elif layer_type == trt.LayerType.MOE:  # 55
+            assert len(layer_dict["input_tensor_name_list"]) == 3
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][1]])
+            argument_list.append(self.tensor_map[layer_dict["input_tensor_name_list"][2]])
+
+        elif layer_type == trt.LayerType.DIST_COLLECTIVE:  # 56
+            assert len(layer_dict["input_tensor_name_list"]) == 1
+            collective_op = layer_dict.get("dist_collective_op", layer_dict.get("collective_op", int(trt.CollectiveOperation.ALL_REDUCE)))
+            reduce_op = layer_dict.get("reduce_op", int(trt.ReduceOperation.SUM))
+            root = int(layer_dict.get("root", -1))
+            groups = layer_dict.get("groups", [0])
+            if isinstance(groups, tuple):
+                groups = list(groups)
+            if groups is None:
+                groups = [0]
+            argument_list.append(trt.CollectiveOperation(collective_op))
+            argument_list.append(trt.ReduceOperation(reduce_op))
+            argument_list.append(root)
+            argument_list.append(groups)
+
+        else:
+            self.log("ERROR", f"Error parsing layer {layer_dict['name']}, type: {layer_type}")
+
+        # Add the layer and set attributions
+        if need_call_add_layer:
+            layer = getattr(self.network, add_layer_method_name)(*argument_list)
+
+        for index, tensor in self.set_input_tensor_map.items():
+            layer.set_input(index, tensor)
+
+        # Set attributions
+        self.build_member(layer, layer_dict, self.api_exclude_set.layer_build_exclude_set | set(attribution_map.keys()))
+        for key, value in attribution_map.items():
+            if value is not None:
+                setattr(layer, key, value)
+
+        # Method from BuilderConfig
+        if not isinstance(layer, trt.IAttention):  # Attention structure does not have this attribution
+            self.builder_config.set_device_type(layer, trt.DeviceType(layer_dict["get_device_type"]))
+
+        # More operations after adding the layer
+        # if layer_type in [trt.LayerType.QUANTIZE, trt.LayerType.DEQUANTIZE]:  # 32, 33
+        #     if layer.axis == -1:  # TODO: check whether this is necessary
+        #         layer.axis = 0  # Change it into 0 (per-tensor Quantization / Dequantization)
+
+        if layer_index in self.later_layer_map:
+            self.later_layer_map[layer_index].append(layer)  # Add layer object to the map
+
+        # Build output tensors, mark debug tensors
+        assert layer.num_outputs == len(layer_dict["output_tensor_name_list"])
+        for i, tensor_name in enumerate(layer_dict["output_tensor_name_list"]):
+            tensor_dict = self.big_json["tensor"][tensor_name]
+            if not isinstance(layer, trt.IAttention):  # Attention structure does not have this attribution
+                layer.set_output_type(i, trt.DataType(tensor_dict["dtype"]))
+            self.build_tensor(layer.get_output(i), tensor_dict)
+            if tensor_dict["is_debug_tensor"]:
+                self.network.mark_debug(layer.get_output(i))
+
+        return
+
+    def build_layers(self):
+        """Build all layers and resolve deferred tensor dependencies."""
+        network_dict = self.big_json["network"]
+        layer_dict = self.big_json["layer"]
+        tensor_dict = self.big_json["tensor"]
+        # Map from "tensor name" to "corresponding tensors which has been in the built network"
+        self.tensor_map = {}
+        # Map from "if structure name" to "names of corresponding layers in this structure"
+        self.if_map = {}
+        # Map: from "loop structure name" to "names of corresponding layers in this structure"
+        self.loop_map = {}
+        # Map: from "attention structure name" to "names of corresponding layers in this structure"
+        self.attention_map = {}
+        # Map from "layer index" to "corresponding name of missing tensor in this layer"
+        # In some cases, the shape tensor consumed in an early layer is produced by a later layer, so we need to mark them
+        self.later_layer_map = {}
+
+        for tensor_dict in network_dict["input_tensor_list"]:
+            tensor = self.network.add_input(tensor_dict["name"], trt.DataType(tensor_dict["dtype"]), tensor_dict["shape"])
+            self.tensor_map[tensor.name] = tensor
+            self.build_tensor(tensor, tensor_dict)
+
+        # Constant layer for Range Node from ONNX file, these layers will be removed if not used automatically
+        # constant_layer0_for_Range = self.network.add_constant([], trt.Weights(np.ascontiguousarray(np.array([0], dtype=np.int32))))
+        # constant_layer0_for_Range.name = "ConstantLayer0ForRangeNode"
+        # constant_layer0_for_Range.get_output(0).name = "ConstantTensor0ForRangeNoe"
+        # constant_layer1_for_Range = self.network.add_constant([1], trt.Weights(np.ascontiguousarray(np.array([1], dtype=np.int32))))
+        # constant_layer1_for_Range.name = "ConstantLayer1ForRangeNoe"
+        # constant_layer1_for_Range.get_output(0).name = "ConstantTensor1ForRangeNoe"
+        # self.constant_layers_for_Range_node = [constant_layer0_for_Range, constant_layer1_for_Range]
+
+        # Rebuild network layer by layer
+        for i, singe_layer_dump in enumerate(layer_dict):
+            message = f"{i:5d}->{layer_type_to_layer_type_name(trt.LayerType(singe_layer_dump['type'])):<15s}: {singe_layer_dump['name']}"
+            self.log("VERBOSE", message)
+            #for key, value in singe_layer_dump.items():  # Too much output
+            #    self.log("VERBOSE", f"      {key}:{value}")
+            self.build_layer(singe_layer_dump)
+
+        # Addition scan, reassign the second input tensor of Shuffle layer
+        for old_layer_index, [tensor_name, index, layer] in self.later_layer_map.items():
+            if layer.type == trt.LayerType.SHUFFLE:
+                assert index == 1
+            elif layer.type == trt.LayerType.FILL:
+                assert index in [1, 2, 3, 4]
+            elif layer.type == trt.LayerType.SLICE:
+                pass
+            else:
+                self.log("ERROR", f"Error checking missing tensor {tensor_name} in layer {old_layer_index}")
+            tensor = self.tensor_map[tensor_name]  # Should be able to be found now
+            layer.set_input(index, tensor)
+
+        # Addition scan, reassign the second input tensor of recurrence layer or output layer in Loop structure
+        for loop_name in self.loop_map.keys():
+            for recurrence_layer_name, recurrence_layer in zip(self.loop_map[loop_name]["recurrence_layer_name_list"], self.loop_map[loop_name]["recurrence_layer_list"]):
+                for layer in self.big_json["layer"]:
+                    if layer["name"] == recurrence_layer_name:
+                        input_tensor_name = layer["input_tensor_name_list"][1]
+                        break
+                input_tensor = self.tensor_map[input_tensor_name]
+                recurrence_layer.set_input(1, input_tensor)
+
+            for output_layer_name, output_layer in zip(self.loop_map[loop_name]["loop_output_layer_name_list"], self.loop_map[loop_name]["loop_output_layer_list"]):
+                if output_layer.kind == trt.LoopOutput.LAST_VALUE:  # Only CONCATENTE and REVERSE mode need the second input tensor
+                    continue
+                for layer in self.big_json["layer"]:
+                    if layer["name"] == output_layer_name:
+                        input_tensor_name = layer["input_tensor_name_list"][1]
+                        break
+                input_tensor = self.tensor_map[input_tensor_name]
+                output_layer.set_input(1, input_tensor)
+
+        # mark output tensor
+        for tensor in network_dict["output_tensor_list"]:
+            output_tensor = self.tensor_map[tensor["name"]]
+            assert (output_tensor.name in self.tensor_map)
+            self.network.mark_output(output_tensor)
+
+        return
+
+    def build_profile(self) -> None:
+        """Rebuild optimization and calibration profiles from serialized config."""
+        for op_dict in self.big_json["builder_config"]["optimization_profile_list"]:
+            op = self.builder.create_optimization_profile()
+            for j in range(self.network.num_inputs):
+                tensor_name = self.network.get_input(j).name
+                assert tensor_name in op_dict
+                if op_dict[tensor_name] == {}:
+                    continue
+                argument_list = [tensor_name, op_dict[tensor_name]["min"], op_dict[tensor_name]["opt"], op_dict[tensor_name]["max"]]
+                if op_dict[tensor_name]["is_shape_tensor"]:
+                    op.set_shape_input(*argument_list)
+                else:
+                    op.set_shape(*argument_list)
+            self.builder_config.add_optimization_profile(op)
+
+        # Int8 Calibration Profile
+        op_dict = self.big_json["builder_config"]["calibration_profile"]
+        if len(op_dict) > 0:
+            op = self.builder.create_optimization_profile()
+            for j in range(self.network.num_inputs):
+                tensor_name = self.network.get_input(j).name
+                assert tensor_name in op_dict
+                if op_dict[tensor_name] == {}:
+                    continue
+                argument_list = [tensor_name, op_dict[tensor_name]["min"], op_dict[tensor_name]["opt"], op_dict[tensor_name]["max"]]
+                if op_dict[tensor_name]["is_shape_tensor"]:
+                    op.set_shape_input(*argument_list)
+                else:
+                    op.set_shape(*argument_list)
+            self.builder_config.set_calibration_profile(op)
+
+        return

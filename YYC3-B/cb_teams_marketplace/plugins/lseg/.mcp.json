@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "akshare-one-mcp": {
+      "command": "uvx",
+      "args": ["akshare-one-mcp"]
+    }
+  }
+}

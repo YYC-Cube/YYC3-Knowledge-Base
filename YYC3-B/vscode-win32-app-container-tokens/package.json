@@ -1,0 +1,36 @@
+{
+  "name": "@vscode/win32-app-container-tokens",
+  "version": "0.2.0",
+  "description": "Native win32 Node.js addon for augmenting the VS Code JavaScript debugger",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "napi": {
+    "name": "win32-app-container-tokens",
+    "triples": {
+      "defaults": false,
+      "additional": [
+        "aarch64-pc-windows-msvc",
+        "x86_64-pc-windows-msvc"
+      ]
+    }
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.4",
+    "ava": "^6.0.1",
+    "rimraf": "^6.0.1"
+  },
+  "ava": {
+    "timeout": "3m"
+  },
+  "engines": {
+    "node": ">= 10"
+  },
+  "scripts": {
+    "artifacts": "napi artifacts",
+    "clean": "rm -f *.node index.js index.d.ts *.tgz",
+    "build": "napi build --platform --release --target aarch64-pc-windows-msvc && napi build --platform --release --target x86_64-pc-windows-msvc",
+    "build:debug": "napi build --platform",
+    "test": "npm run build:debug && node --test index.test.mjs"
+  }
+}

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YYC3-D 工作区 - 可视化架构分析文档</title>
+<style>
+  :root {
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-card: #1c2128;
+    --bg-elevated: #21262d;
+    --border-color: #30363d;
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --accent-blue: #58a6ff;
+    --accent-green: #3fb950;
+    --accent-orange: #d29922;
+    --accent-red: #f85149;
+    --accent-purple: #bc8cff;
+    --accent-cyan: #39d2c0;
+    --gradient-header: linear-gradient(135deg, #1a1f35 0%, #0d1117 50%, #0f1720 100%);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ===== Header ===== */
+  .header {
+    background: var(--gradient-header);
+    border-bottom: 1px solid var(--border-color);
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; top: -50%; right: -20%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(88,166,255,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header::after {
+    content: '';
+    position: absolute; bottom: -30%; left: -10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(188,140,255,0.04) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-content { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; }
+  .badge {
+    display: inline-block; padding: 4px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    background: rgba(88,166,255,0.12); color: var(--accent-blue);
+    border: 1px solid rgba(88,166,255,0.25); margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 36px; font-weight: 800; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #e6edf3 0%, #8b949e 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  .header .subtitle {
+    font-size: 16px; color: var(--text-secondary); max-width: 700px;
+  }
+  .meta-row {
+    display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text-muted);
+  }
+  .meta-item .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  /* ===== Layout ===== */
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px 40px 60px; }
+
+  /* ===== Section ===== */
+  .section { margin-bottom: 48px; }
+  .section-title {
+    font-size: 22px; font-weight: 700; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--border-color);
+  }
+  .section-title .icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  /* ===== Stats Grid ===== */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px; margin-bottom: 48px;
+  }
+  .stat-card {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 20px 24px;
+  }
+  .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 800; }
+  .stat-value.blue { color: var(--accent-blue); }
+  .stat-value.green { color: var(--accent-green); }
+  .stat-value.orange { color: var(--accent-orange); }
+  .stat-value.purple { color: var(--accent-purple); }
+  .stat-value.cyan { color: var(--accent-cyan); }
+
+  /* ===== Architecture Diagram ===== */
+  .arch-diagram {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 16px; padding: 36px; overflow-x: auto;
+  }
+  .arch-layers { display: flex; flex-direction: column; gap: 16px; min-width: 900px; }
+  .arch-layer {
+    display: flex; align-items: stretch; gap: 10px;
+  }
+  .layer-label {
+    width: 130px; flex-shrink: 0; display: flex; align-items: center;
+    justify-content: center; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    writing-mode: vertical-rl; text-orientation: mixed;
+    transform: rotate(180deg); border-radius: 8px; padding: 12px 4px;
+  }
+  .layer-label.core { background: rgba(88,166,255,0.15); color: var(--accent-blue); border: 1px solid rgba(88,166,255,0.3); }
+  .layer-label.toolchain { background: rgba(63,185,80,0.15); color: var(--accent-green); border: 1px solid rgba(63,185,80,0.3); }
+  .layer-label.editor { background: rgba(210,153,34,0.15); color: var(--accent-orange); border: 1px solid rgba(210,153,34,0.3); }
+  .layer-label.bundle { background: rgba(188,140,255,0.15); color: var(--accent-purple); border: 1px solid rgba(188,140,255,0.3); }
+  .layer-items { display: flex; gap: 10px; flex: 1; flex-wrap: wrap; }
+  .arch-node {
+    flex: 1; min-width: 150px; max-width: 240px;
+    background: var(--bg-elevated); border: 1px solid var(--border-color);
+    border-radius: 10px; padding: 14px 16px; cursor: default;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .arch-node:hover {
+    transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    border-color: rgba(88,166,255,0.4);
+  }
+  .arch-node .node-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .arch-node .node-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+  .arch-node .node-tech {
+    display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px;
+    margin-top: 8px; font-weight: 500;
+  }
+  .tech-java { background: rgba(210,153,34,0.15); color: #d29922; }
+  .tech-cpp { background: rgba(88,166,255,0.15); color: #58a6ff; }
+  .tech-js { background: rgba(248,129,73,0.15); color: #f85149; }
+  .tech-ruby { background: rgba(212,80,135,0.15); color: #d45087; }
+  .tech-ts { background: rgba(57,210,192,0.15); color: #39d2c0; }
+  .tech-svg { background: rgba(188,140,255,0.15); color: #bc8cff; }
+  .tech-yaml { background: rgba(210,153,34,0.15); color: #d29922; }
+  .tech-plist { background: rgba(188,140,255,0.15); color: #bc8cff; }
+
+  /* ===== Project Cards Grid ===== */
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 20px; }
+  .project-card {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 14px; padding: 24px; transition: border-color 0.2s;
+  }
+  .project-card:hover { border-color: rgba(88,166,255,0.4); }
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+  .card-title-group { display: flex; align-items: center; gap: 12px; }
+  .card-icon {
+    width: 42px; height: 42px; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+  }
+  .card-title { font-size: 17px; font-weight: 700; }
+  .card-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .card-badge {
+    font-size: 10px; padding: 3px 10px; border-radius: 12px;
+    font-weight: 600; white-space: nowrap;
+  }
+  .badge-core { background: rgba(88,166,255,0.12); color: var(--accent-blue); border: 1px solid rgba(88,166,255,0.25); }
+  .badge-tool { background: rgba(63,185,80,0.12); color: var(--accent-green); border: 1px solid rgba(63,185,80,0.25); }
+  .badge-editor { background: rgba(210,153,34,0.12); color: var(--accent-orange); border: 1px solid rgba(210,153,34,0.25); }
+  .badge-archive { background: rgba(139,148,158,0.12); color: var(--text-secondary); border: 1px solid rgba(139,148,158,0.25); }
+  .card-body { margin-bottom: 16px; }
+  .card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .card-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+  .meta-field { font-size: 11px; }
+  .meta-field .label { color: var(--text-muted); }
+  .meta-field .value { color: var(--text-primary); font-weight: 500; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .tag {
+    font-size: 11px; padding: 3px 10px; border-radius: 6px;
+    background: var(--bg-elevated); color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+  }
+
+  /* ===== Five Dimension Table ===== */
+  .dim-table-wrapper { overflow-x: auto; }
+  .dim-table {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+  }
+  .dim-table th {
+    background: var(--bg-elevated); text-align: left; padding: 12px 16px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-muted); border: 1px solid var(--border-color);
+    white-space: nowrap;
+  }
+  .dim-table td {
+    padding: 12px 16px; border: 1px solid var(--border-color);
+    vertical-align: top;
+  }
+  .dim-table tr:hover td { background: rgba(88,166,255,0.03); }
+  .dim-table .proj-name { font-weight: 700; font-size: 14px; }
+  .score-bar { display: inline-flex; align-items: center; gap: 6px; }
+  .score-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .score-high { background: var(--accent-green); }
+  .score-mid { background: var(--accent-orange); }
+  .score-low { background: var(--accent-red); }
+
+  /* ===== Protocol Boundary ===== */
+  .protocol-section { display: flex; flex-direction: column; gap: 16px; }
+  .protocol-card {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 20px 24px;
+  }
+  .protocol-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .protocol-icon { font-size: 20px; }
+  .protocol-name { font-size: 15px; font-weight: 700; }
+  .protocol-desc { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
+  .protocol-items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .protocol-item {
+    font-size: 12px; padding: 6px 14px; border-radius: 8px;
+    background: var(--bg-elevated); border: 1px solid var(--border-color);
+  }
+
+  /* ===== Value Analysis ===== */
+  .value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .value-card {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 20px;
+  }
+  .value-icon { font-size: 28px; margin-bottom: 10px; }
+  .value-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .value-text { font-size: 12px; color: var(--text-secondary); line-height: 1.7; }
+  .value-list { list-style: none; margin-top: 10px; }
+  .value-list li {
+    font-size: 12px; color: var(--text-secondary); padding: 3px 0;
+    padding-left: 16px; position: relative;
+  }
+  .value-list li::before {
+    content: ''; position: absolute; left: 0; top: 10px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-blue);
+  }
+
+  /* ===== Footer ===== */
+  .footer {
+    border-top: 1px solid var(--border-color);
+    padding: 24px 40px; text-align: center;
+    font-size: 12px; color: var(--text-muted);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    .header { padding: 32px 20px 28px; }
+    .header h1 { font-size: 26px; }
+    .container { padding: 24px 20px 40px; }
+    .project-grid { grid-template-columns: 1fr; }
+    .value-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .arch-diagram { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HEADER ========== -->
+<div class="header">
+  <div class="header-content">
+    <div class="badge">YYC3-D WORKSPACE ARCHITECTURE</div>
+    <h1>工作区可视化架构分析文档</h1>
+    <p class="subtitle">基于五维评估框架（时间/空间/属性/事件/关联维度）对工作区全部项目进行系统性功能定位、实用价值与协议界限的深度分析</p>
+    <div class="meta-row">
+      <div class="meta-item"><span class="dot" style="background:#58a6ff"></span> 分析日期：2026-06-06</div>
+      <div class="meta-item"><span class="dot" style="background:#3fb950"></span> 项目总数：17 个</div>
+      <div class="meta-item"><span class="dot" style="background:#d29922"></span> 技术栈覆盖：9 种</div>
+      <div class="meta-item"><span class="dot" style="background:#bc8cff"></span> 协议边界：LSP / TextMate / Unicode / SemVer</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ========== 统计概览 ========== -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">核心基础项目</div>
+    <div class="stat-value blue">3</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">开发工具链项目</div>
+    <div class="stat-value green">4</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">编辑器增强项目</div>
+    <div class="stat-value orange">3</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">TextMate Bundle</div>
+    <div class="stat-value purple">10</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">已归档项目</div>
+    <div class="stat-value cyan">2</div>
+  </div>
+</div>
+
+<!-- ========== 架构分层图 ========== -->
+<div class="section">
+  <h2 class="section-title">
+    <span class="icon" style="background:rgba(88,166,255,0.15)">01</span>
+    架构分层总览
+  </h2>
+  <div class="arch-diagram">
+    <div class="arch-layers">
+      <!-- Layer 1: Core Foundation -->
+      <div class="arch-layer">
+        <div class="layer-label core">核心基础层</div>
+        <div class="layer-items">
+          <div class="arch-node">
+            <div class="node-name">ICU (Unicode)</div>
+            <div class="node-desc">国际化组件库，提供Unicode支持、本地化、日期格式化等核心能力</div>
+            <span class="node-tech tech-java">Java/Maven</span>
+            <span class="node-tech tech-cpp">C/C++</span>
+          </div>
+          <div class="arch-node">
+            <div class="node-name">node-semver</div>
+            <div class="node-desc">npm官方语义化版本解析器，版本比较/范围匹配/增量计算引擎</div>
+            <span class="node-tech tech-js">JavaScript</span>
+          </div>
+          <div class="arch-node">
+            <div class="node-name">Ruby LSP</div>
+            <div class="node-desc">Shopify主导的Ruby语言服务器协议实现，含静态索引/AST遍历/插件系统</div>
+            <span class="node-tech tech-ruby">Ruby</span>
+            <span class="node-tech ts">TypeScript</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 2: Tool Chain -->
+      <div class="arch-layer">
+        <div class="layer-label toolchain">工具链层</div>
+        <div class="layer-items">
+          <div class="arch-node">
+            <div class="node-name">Seti UI</div>
+            <div class="node-desc">VS Code默认图标主题与暗色界面主题，文件类型识别与视觉映射系统</div>
+            <span class="node-tech tech-svg">SVG/Gulp/Less</span>
+          </div>
+          <div class="arch-node">
+            <div class="node-name">rust-syntax</div>
+            <div class="node-desc">Rust语言TextMate语法高亮扩展，YAML维护JSON生成的语法规则</div>
+            <span class="node-tech tech-yaml">YAML/JSON</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 3: Editor Support -->
+      <div class="arch-layer">
+        <div class="layer-label editor">编辑器增强层</div>
+        <div class="layer-items">
+          <div class="arch-node">
+            <div class="node-name">language-ruby</div>
+            <div class="node-desc">Atom编辑器Ruby语法高亮（tree-sitter驱动），已随Atom归档</div>
+            <span class="node-tech tech-js">JS/CoffeeScript</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 4: TextMate Bundles -->
+      <div class="arch-layer">
+        <div class="layer-label bundle">TextMate语法层</div>
+        <div class="layer-items">
+          <div class="arch-node">
+            <div class="node-name">ruby.tmbundle</div>
+            <div class="node-desc">Ruby完整语法/命令/片段/偏好定义（rcodetools集成）</div>
+            <span class="node-tech tech-plist">Plist/Ruby</span>
+          </div>
+          <div class="arch-node">
+            <div class="node-name">git.tmbundle</div>
+            <div class="node-desc">Git操作命令集（Gemfile/Bundler依赖）</div>
+            <span class="node-tech tech-plist">Plist/Ruby</span>
+          </div>
+          <div class="arch-node">
+            <div class="node-name">xml.tmbundle</div>
+            <div class="node-desc">XML/XSLT语法高亮+代码片段+XMLlint验证集成</div>
+            <span class="node-tech tech-plist">Plist</span>
+          </div>
+          <div class="arch-node">
+            <div class="node-name">c / java / perl / lua / html / groovy / ini / diff / markdown</div>
+            <div class="node-desc">9个TextMate语法Bundle，覆盖主流编程/标记语言</div>
+            <span class="node-tech tech-plist">Plist</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 项目详细卡片 ========== -->
+<div class="section">
+  <h2 class="section-title">
+    <span class="icon" style="background:rgba(63,185,80,0.15)">02</span>
+    项目详细分析
+  </h2>
+  <div class="project-grid">
+
+    <!-- ICU -->
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon" style="background:rgba(88,166,255,0.12)">ICU</div>
+          <div>
+            <div class="card-title">International Components for Unicode</div>
+            <div class="card-subtitle">unicode-org/icu &nbsp;|&nbsp; v79.0.1-SNAPSHOT</div>
+          </div>
+        </div>
+        <span class="card-badge badge-core">核心基础</span>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Unicode联盟官方维护的国际化组件库，为全球软件提供Unicode标准实现。包含ICU4C（C/C++）和ICU4J（Java）两大子项目，是JDK、Chrome、Android等底层依赖的基础库。</div>
+        <div class="card-meta-grid">
+          <div class="meta-field"><span class="label">技术栈：</span><span class="value">C/C++ + Java (Maven)</span></div>
+          <div class="meta-field"><span class="label">协议：</span><span class="value">Unicode Terms of Use</span></div>
+          <div class="meta-field"><span class="label">许可证：</span><span class="value">Unicode License</span></div>
+          <div class="meta-field"><span class="label">起始年份：</span><span class="value">1995</span></div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Unicode</span><span class="tag">i18n/l10n</span><span class="tag">Collation</span><span class="tag">DateTime</span><span class="tag">CLDR</span>
+      </div>
+    </div>
+
+    <!-- node-semver -->
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon" style="background:rgba(248,129,73,0.12)">SV</div>
+          <div>
+            <div class="card-title">node-semver</div>
+            <div class="card-subtitle">npm/node-semver &nbsp;|&nbsp; v7.7.4</div>
+          </div>
+        </div>
+        <span class="card-badge badge-core">核心基础</span>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">npm官方语义化版本解析器，被整个npm生态作为核心依赖使用。提供版本验证、比较、范围匹配、增量计算等完整的SemVer规范实现。</div>
+        <div class="card-meta-grid">
+          <div class="meta-field"><span class="label">技术栈：</span><span class="value">JavaScript (Node.js >=10)</span></div>
+          <div class="meta-field"><span class="label">协议：</span><span class="value">SemVer Specification</span></div>
+          <div class="meta-field"><span class="label">许可证：</span><span class="value">ISC</span></div>
+          <div class="meta-field"><span class="label">维护方：</span><span class="value">GitHub Inc.</span></div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">SemVer</span><span class="tag">Versioning</span><span class="tag">npm Core</span><span class="tag">Comparator</span><span class="tag">Range</span>
+      </div>
+    </div>
+
+    <!-- Ruby LSP -->
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon" style="background:rgba(212,80,135,0.12)">&#x2665;</div>
+          <div>
+            <div class="card-title">Ruby LSP</div>
+            <div class="card-subtitle">Shopify/ruby-lsp &nbsp;|&nbsp; MIT License</div>
+          </div>
+        </div>
+        <span class="card-badge badge-tool">开发工具</span>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Shopify主导开发的Ruby语言服务器协议(LSP)完整实现。采用Prism解析器做AST遍历，内置静态索引引擎(ruby_indexer)，提供补全/跳转/诊断/格式化/测试探索等IDE级功能。</div>
+        <div class="card-meta-grid">
+          <div class="meta-field"><span class="label">技术栈：</span><span class="value">Ruby 3.0+ + TypeScript</span></div>
+          <div class="meta-field"><span class="label">协议：</span><span class="value">LSP 3.17</span></div>
+          <div class="meta-field"><span class="label">许可证：</span><span class="value">MIT</span></div>
+          <div class="meta-field"><span class="label">类型检查：</span><span class="value">Sorbet Strict</span></div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">LSP</span><span class="tag">Prism AST</span><span class="tag">RBS</span><span class="tag">Sorbet</span><span class="tag">Add-on System</span><span class="tag">Test Explorer</span>
+      </div>
+    </div>
+
+    <!-- Seti UI -->
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon" style="background:rgba(188,140,255,0.12)">&#x2601;</div>
+          <div>
+            <div class="card-title">Seti UI</div>
+            <div class="card-subtitle">jesseweed/seti-ui &nbsp;|&nbsp; VS Code Default Theme</div>
+          </div>
+        </div>
+        <span class="card-badge badge-editor">编辑器增强</span>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">VS Code默认使用的暗色界面主题和文件图标包。最初为Atom编辑器设计，后被VS Code采纳为核心主题。通过SVG图标映射120+文件类型到9种颜色分类。</div>
+        <div class="card-meta-grid">
+          <div class="meta-field"><span class="label">技术栈：</span><span class="value">SVG + Gulp + Less</span></div>
+          <div class="meta-field"><span class="label">协议：</span><span class="value">VS Code Theme API</span></div>
+          <div class="meta-field"><span class="label">许可证：</span><span class="value">MIT</span></div>
+          <div class="meta-field"><span class="label">图标数：</span><span class="value">120+</span></div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Icon Theme</span><span class="tag">Dark Theme</span><span class="tag">VS Code</span><span class="tag">File Mapping</span>
+      </div>
+    </div>
+
+    <!-- rust-syntax -->
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon" style="background:rgba(210,153,34,0.12)">Rs</div>
+          <div>
+            <div class="card-title">Rust Syntax</div>
+            <div class="card-subtitle">dustypomerleau/rust-syntax &nbsp;|&nbsp; v0.6.1</div>
+          </div>
+        </div>
+        <span class="card-badge badge-editor">编辑器增强</span>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">VS Code内置Rust语法高亮的TextMate语法定义源码仓库。以YAML形式维护语法规则，自动生成JSON grammar。可与Rust Analyzer语义高亮协同工作。</div>
+        <div class="card-meta-grid">
+          <div class="meta-field"><span class="label">技术栈：</span><span class="value">YAML + Gulp + JSON</span></div>
+          <div class="meta-field"><span class="label">协议：</span><span class="value">TextMate Grammar</span></div>
+          <div class="meta-field"><span class="label">同步机制：</span><span class="value">定期同步至VS Code</span></div>
+          <div class="meta-field"><span class="label">兼容性：</span><span class="value">VS Code ^1.44</span></div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">TextMate</span><span class="tag">Rust</span><span class="tag">Grammar</span><span class="token">Syntax Highlight</span>
+      </div>
+    </div>
+
+    <!-- language-ruby -->
+    <div class="project-card">
+      <div class="card-header">
+        <div class="card-title-group">
+          <div class="card-icon" style="background:rgba(139,148,158,0.12)">&#x2713;</div>
+          <div>
+            <div class="card-title">language-ruby</div>
+            <div class="card-subtitle">atom/language-ruby &nbsp;|&nbsp; v0.73.0 (ARCHIVED)</div>
+          </div>
+        </div>
+        <span class="card-badge badge-archive">已归档</span>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">Atom编辑器的Ruby语言支持包，基于tree-sitter-ruby提供语法高亮功能。随Atom编辑器于2022年12月正式归档，具有历史参考价值。</div>
+        <div class="card-meta-grid">
+          <div class="meta-field"><span class="label">技术栈：</span><span class="value">CoffeeScript + tree-sitter</span></div>
+          <div class="meta-field"><span class="label">协议：</span><span class="value">Tree-sitter Grammar</span></div>
+          <div class="meta-field"><span class="label">许可证：</span><span class="value">MIT</span></div>
+          <div class="meta-field"><span class="label">归档日：</span><span class="value">2022-12-15</span></div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Atom</span><span class="tag">tree-sitter</span><span class="tag">Archived</span><span class="tag">Legacy</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== TextMate Bundles 汇总 ========== -->
+<div class="section">
+  <h2 class="section-title">
+    <span class="icon" style="background:rgba(188,140,255,0.15)">03</span>
+    TextMate Bundle 语法集合
+  </h2>
+  <div class="dim-table-wrapper">
+    <table class="dim-table">
+      <thead>
+        <tr>
+          <th>Bundle 名称</th>
+          <th>目标语言</th>
+          <th>核心能力</th>
+          <th>特殊集成</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="proj-name">ruby.tmbundle</td>
+          <td>Ruby / ERB / Gemfile</td>
+          <td>完整语法高亮、代码折叠、自动缩进、注释切换</td>
+          <td>rcodetools补全/xmpfilter/文档查找/Rake任务执行</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">git.tmbundle</td>
+          <td>Git 操作</td>
+          <td>Diff语法着色、Git命令集</td>
+          <td>Bundler/Gemfile依赖管理</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">xml.tmbundle</td>
+          <td>XML / XSLT</td>
+          <td>XML/XSL语法高亮、代码片段、符号列表</td>
+          <td>XMLlint验证、Tidy XML格式化</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">diff.tmbundle</td>
+          <td>Diff/Patch</td>
+          <td>Unified diff语法、冲突标记样式</td>
+          <td>文件对比/合并/补丁应用/统计信息</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">c.tmbundle</td>
+          <td>C 语言</td>
+          <td>C语法高亮</td>
+          <td>-</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">java.tmbundle</td>
+          <td>Java / JSP</td>
+          <td>Java/JSP语法高亮</td>
+          <td>JSP测试模板</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">perl.tmbundle</td>
+          <td>Perl</td>
+          <td>Perl语法高亮</td>
+          <td>PM测试模板</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">lua.tmbundle</td>
+          <td>Lua</td>
+          <td>Lua语法高亮、代码片段(if/while/for/function)</td>
+          <td>语法检查、终端运行脚本</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">html.tmbundle</td>
+          <td>HTML</td>
+          <td>HTML语法高亮</td>
+          <td>-</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">groovy.tmbundle</td>
+          <td>Groovy</td>
+          <td>Groovy语法高亮</td>
+          <td>-</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">ini.tmbundle</td>
+          <td>INI 配置</td>
+          <td>INI配置文件语法高亮</td>
+          <td>-</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">markdown.tmbundle</td>
+          <td>Markdown</td>
+          <td>Markdown语法高亮</td>
+          <td>-</td>
+          <td><span class="card-badge badge-tool">活跃</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== 五维评估矩阵 ========== -->
+<div class="section">
+  <h2 class="section-title">
+    <span class="icon" style="background:rgba(57,210,192,0.15)">04</span>
+    五维评估矩阵
+  </h2>
+  <div class="dim-table-wrapper">
+    <table class="dim-table">
+      <thead>
+        <tr>
+          <th>项目</th>
+          <th>时间维度<br/><small>成熟度/演进周期</small></th>
+          <th>空间维度<br/><small>部署广度/生态位</small></th>
+          <th>属性维度<br/><small>技术深度/复杂度</small></th>
+          <th>事件维度<br/><small>交互模式/触发方式</small></th>
+          <th>关联维度<br/><small>依赖关系/耦合度</small></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="proj-name">ICU</td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> 30年+ 超长周期</span></td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> 全球级基础设施</span></td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> 极深 CLDR/Unicode</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> 库调用/API调用</span></td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> JDK/Chrome/Android底层依赖</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">node-semver</td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> 稳定迭代 v7.x</span></td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> npm生态核心依赖</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> 中等 版本算法</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> 库函数调用</span></td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> npm CLI/pnpm/yarn均依赖</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">Ruby LSP</td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> 快速迭代 Shopify主推</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> Ruby/VS Code生态</span></td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> 极深 AST/索引/插件架构</span></td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> LSP实时通信/TCP流式</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> Prism/RBS/Sorbet/Rails Add-on</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">Seti UI</td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> 维护期 功能稳定</span></td>
+          <td><span class="score-bar"><span class="score-dot score-high"></span> VS Code默认安装</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 较浅 图标/主题资源</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 静态渲染</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 低耦合 独立主题包</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">rust-syntax</td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> 维护期 与Rust-Analyzer互补</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> VS Code Rust用户</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> 中等 TextMate Grammar规则</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 静态词法分析</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> VS Code Rust扩展依赖</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">language-ruby</td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 已归档 2022终止</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 仅Atom历史用户</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 较浅 tree-sitter绑定</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 静态语法分析</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 已无活跃依赖</span></td>
+        </tr>
+        <tr>
+          <td class="proj-name">TM Bundles (x10)</td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> 成熟稳定 周期性更新</span></td>
+          <td><span class="score-bar"><span class="score-dot score-mid"></span> TextMate/VS Code/Sublime</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 较浅 Plist语法规则</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 静态词法着色</span></td>
+          <td><span class="score-bar"><span class="score-dot score-low"></span> 低耦合 编辑器插件依赖</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== 协议界限分析 ========== -->
+<div class="section">
+  <h2 class="section-title">
+    <span class="icon" style="background:rgba(248,81,73,0.15)">05</span>
+    协议界限分析
+  </h2>
+  <div class="protocol-section">
+
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon">&#x1F517;</span>
+        <span class="protocol-name">Language Server Protocol (LSP)</span>
+      </div>
+      <div class="protocol-desc">Microsoft定义的语言服务器协议，实现编辑器与语言服务的标准化通信。JSON-RPC 2.0为基础传输层。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">Ruby LSP (v3.17)</span>
+        <span class="protocol-item">请求/通知模型</span>
+        <span class="protocol-item">Document Sync</span>
+        <span class="protocol-item">Completion/Hover/Diagnostics</span>
+        <span class="protocol-item">Code Lens/Test Explorer</span>
+        <span class="protocol-item">Custom Requests (TCP Streaming)</span>
+      </div>
+    </div>
+
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon">&#x1F4DD;</span>
+        <span class="protocol-name">TextMate Bundle / Grammar 协议</span>
+      </div>
+      <div class="protocol-desc">基于.plist语法定义的文本编辑器语法高亮标准，被TextMate、VS Code、Sublime Text广泛采用。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">12个 TM Bundle</span>
+        <span class="protocol-item">Plist/XML Grammar</span>
+        <span class="protocol-item">Scope Name 规范</span>
+        <span class="protocol-item">Snippet (.tmSnippet)</span>
+        <span class="protocol-item">Command (.tmCommand)</span>
+        <span class="protocol-item">Preference (.tmPreferences)</span>
+        <span class="protocol-item">Macro (.tmMacro)</span>
+        <span class="protocol-item">rust-syntax YAML->JSON</span>
+      </div>
+    </div>
+
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon">&#x1F310;</span>
+        <span class="protocol-name">Unicode / CLDR 标准</span>
+      </div>
+      <div class="protocol-desc">Unicode Consortium维护的全球字符编码与本地化数据标准，ICU是其参考实现。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">ICU4C / ICU4J</span>
+        <span class="protocol-item">Unicode Standard</span>
+        <span class="protocol-item">CLDR Data</span>
+        <span class="protocol-item">Collation / Normalization</span>
+        <span class="protocol-item">DateTime Formatting</span>
+        <span class="protocol-item">MessageFormat</span>
+      </div>
+    </div>
+
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon">&#x1F4CA;</span>
+        <span class="protocol-name">Semantic Versioning (SemVer)</span>
+      </div>
+      <div class="protocol-desc">语义化版本控制规范，定义 MAJOR.MINOR.PATCH 格式及预发布标识符规则。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">node-semver v7.7.4</span>
+        <span class="protocol-item">MAJOR.MINOR.PATCH(-prerelease)</span>
+        <span class="protocol-item">Comparator (^ ~ >= < -)</span>
+        <span class="protocol-item">Range Intersect/Union</span>
+        <span class="protocol-item">Coercion / Diff / Sort</span>
+        <span class="protocol-item">BNF Range Grammar</span>
+      </div>
+    </div>
+
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon">&#x1F3A8;</span>
+        <span class="protocol-name">VS Code Extension / Theme API</span>
+      </div>
+      <div class="protocol-desc">Visual Studio Code 扩展与主题接口规范，定义图标主题、颜色主题的声明格式。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">Seti UI Icon Theme</span>
+        <span class="protocol-item">iconTheme contribution</span>
+        <span class="protocol-item">file icon association</span>
+        <span class="protocol-item">9色系分类体系</span>
+        <span class="protocol-item">Dark Interface Theme</span>
+      </div>
+    </div>
+
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon">&#x1F4D6;</span>
+        <span class="protocol-name">Tree-sitter Grammar 协议</span>
+      </div>
+      <div class="protocol-desc">增量解析器生成框架，用于编辑器中高性能语法分析与代码理解。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">language-ruby</span>
+        <span class="protocol-item">tree-sitter-ruby ^0.17</span>
+        <span class="protocol-item">Incremental Parsing</span>
+        <span class="protocol-item">Syntax Node Tree</span>
+        <span class="protocol-item">(已随Atom归档)</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== 实用价值评估 ========== -->
+<div class="section">
+  <h2 class="section-title">
+    <span class="icon" style="background:rgba(63,185,80,0.15)">06</span>
+    实用价值评估
+  </h2>
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="value-icon">&#x2699;&#xFE0F;</div>
+      <div class="value-title">基础设施价值</div>
+      <div class="value-text">构成现代软件开发基础设施的核心组件</div>
+      <ul class="value-list">
+        <li>ICU — 全球软件Unicode/i18n基石</li>
+        <li>node-semver — npm生态版本管理核心</li>
+        <li>Ruby LSP — Ruby IDE体验标准实现</li>
+      </ul>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">&#x1F5BC;&#xFE0F;</div>
+      <div class="value-title">开发者体验价值</div>
+      <div class="value-text">直接提升日常编码效率与视觉体验</div>
+      <ul class="value-list">
+        <li>Seti UI — VS Code默认视觉体验</li>
+        <li>12个TM Bundle — 多语言语法支持</li>
+        <li>rust-syntax — Rust精准语法着色</li>
+      </ul>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">&#x1F4DA;</div>
+      <div class="value-title">学习与研究价值</div>
+      <div class="value-text">协议实现的优秀参考样本</div>
+      <ul class="value-list">
+        <li>Ruby LSP — LSP完整实现范例</li>
+        <li>ICU — 大规模C/C++/Java项目管理</li>
+        <li>TM Bundle — TextMate语法规范实践</li>
+        <li>node-semver — SemVer规范参考实现</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 五高架构建议 ========== -->
+<div class="section">
+  <h2 class="section-title">
+    <span class="icon" style="background:rgba(88,166,255,0.15)">07</span>
+    五高架构优化建议
+  </h2>
+  <div class="protocol-section">
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon" style="color:var(--accent-blue)">&#x21AF;</span>
+        <span class="protocol-name">高可用性 (High Availability)</span>
+      </div>
+      <div class="protocol-desc">当前工作区项目均为开源上游依赖，建议建立本地镜像与版本锁定机制，避免上游变更影响稳定性。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">ICU版本固定策略</span>
+        <span class="protocol-item">node-semver lockfile管理</span>
+        <span class="protocol-item">Ruby LSP gem版本约束</span>
+        <span class="protocol-item">TM Bundle版本追踪</span>
+      </div>
+    </div>
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon" style="color:var(--accent-green)">&#x23E3;</span>
+        <span class="protocol-name">高性能 (High Performance)</span>
+      </div>
+      <div class="protocol-desc">关注关键路径性能瓶颈，特别是LSP通信延迟和大型项目的索引效率。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">Ruby LSP Prism AST增量解析</span>
+        <span class="protocol-item">ICU4C数据文件按需加载</span>
+        <span class="protocol-item">Seti UI SVG图标按需渲染</span>
+        <span class="protocol-item">TM Grammar scope匹配优化</span>
+      </div>
+    </div>
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon" style="color:var(--accent-red)">&#x1F512;</span>
+        <span class="protocol-name">高安全性 (High Security)</span>
+      </div>
+      <div class="protocol-desc">供应链安全审计重点区域，特别是广泛依赖的核心库。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">node-semver依赖审计(npm audit)</span>
+        <span class="protocol-item">ICU OpenSSF Scorecard监控</span>
+        <span class="protocol-item">Ruby LSP gem签名验证</span>
+        <span class="protocol-item">OS Fuzz持续模糊测试(ICU)</span>
+      </div>
+    </div>
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon" style="color:var(--accent-orange)">&#x2197;</span>
+        <span class="protocol-name">高可扩展性 (High Scalability)</span>
+      </div>
+      <div class="protocol-desc">利用现有项目的插件/扩展机制构建上层应用。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">Ruby LSP Add-on系统扩展</span>
+        <span class="protocol-item">Seti UI自定义图标扩展</span>
+        <span class="protocol-item">ICU自定义LocaleData扩展</span>
+        <span class="protocol-item">TM Bundle自定义语法扩展</span>
+      </div>
+    </div>
+    <div class="protocol-card">
+      <div class="protocol-header">
+        <span class="protocol-icon" style="color:var(--accent-purple)">&#x1F9E0;</span>
+        <span class="protocol-name">高智能性 (High Intelligence)</span>
+      </div>
+      <div class="protocol-desc">结合AI能力增强现有工具链智能化水平。</div>
+      <div class="protocol-items">
+        <span class="protocol-item">Ruby LSP Chat Agent(AI辅助编程)</span>
+        <span class="protocol-item">ICU NLP多语言处理能力整合</span>
+        <span class="protocol-item">语义化版本智能推荐</span>
+        <span class="protocol-item">跨语言代码理解(TM+AST融合)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- ========== FOOTER ========== -->
+<div class="footer">
+  YYC3-D Workspace Visual Architecture Document &mdash; Generated by Five-Dimension Evaluation Framework &mdash; 2026-06-06
+</div>
+
+</body>
+</html>

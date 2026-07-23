@@ -1,0 +1,43 @@
+{
+  "name": "ollama-llm-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "pull-models": "bash scripts/pull-models.sh",
+    "sync-git": "bash scripts/sync-git.sh",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "next": "^15.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "yaml": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^15.3.3",
+    "prettier": "^3.3.3",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.2.9"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": [
+      "eslint --fix"
+    ],
+    "**/*.{js,jsx,ts,tsx,json,md,yaml,yml,css,scss}": [
+      "prettier --write"
+    ]
+  },
+  "packageManager": "npm@11.6.2"
+}

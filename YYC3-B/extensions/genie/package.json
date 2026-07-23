@@ -1,0 +1,913 @@
+{
+  "private": true,
+  "name": "coding-copilot",
+  "publisher": "Tencent-Cloud",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "version": "3.10.0",
+  "engines": {
+    "vscode": "^1.70.2"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Machine Learning",
+    "Education"
+  ],
+  "keywords": [
+    "腾讯代码助手CodeBuddy",
+    "腾讯云代码助手 CodeBuddy",
+    "代码助手CodeBuddy",
+    "腾讯云CodeBuddy",
+    "腾讯CodeBuddy",
+    "腾讯云AI代码助手Codebuddy",
+    "CodeBuddy ",
+    "腾讯云AI代码助手",
+    "代码助手",
+    "腾讯云AI代码助手Codebuddy",
+    "Tencent CodeBuddy 代码助手",
+    "Tencent Cloud CodeBuddy代码助手",
+    "Tencent Codebuddy",
+    "Tencent Cloud Codebuddy",
+    "Tencent",
+    "Tencent Cloud ",
+    "Codebuddy",
+    "Tencent Code Assistant",
+    "Tencent Cloud  Code Assistant",
+    "Tencent AI Code Assistant",
+    "Tencent Cloud AI Code Assistant",
+    "Tencent Code Assistant",
+    "Tencent Cloud  Code Assistant",
+    "Tencent AI Code Assistant",
+    "Tencent Cloud  AI Code Assistant",
+    "Code Assistant",
+    "Codebuddy Code Assistant"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "extensionKind": [
+    "workspace",
+    "ui"
+  ],
+  "pluginId": "wxext879c541c9193111",
+  "license": "UNLICENSED",
+  "icon": "resources/copilot.png",
+  "main": "out/extension/index.js",
+  "l10n": "./l10n",
+  "enabledApiProposals": [
+    "inlineCompletionsAdditions",
+    "findFiles2",
+    "terminalSelection",
+    "findTextInFiles",
+    "terminalExecuteCommandEvent"
+  ],
+  "capabilities": {
+    "codeActionProvider": "true"
+  },
+  "contributes": {
+    "authentication": [
+      {
+        "label": "TencentCloud",
+        "id": "codingcopilot"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "coding-copilot-chat",
+          "title": "CodeBuddy",
+          "icon": "resources/copilot.svg"
+        }
+      ]
+    },
+    "views": {
+      "coding-copilot-chat": [
+        {
+          "id": "coding-copilot.webviews.chat",
+          "name": "",
+          "type": "webview",
+          "initialSize": 1
+        }
+      ]
+    },
+    "icons": {
+      "codingcopilot-logo": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icon.woff",
+          "fontCharacter": "\\e900"
+        }
+      },
+      "coding-copilot-logo-mini": {
+        "description": "Tencent Cloud AI Code Assistant Icon mini",
+        "default": {
+          "fontPath": "resources/icon.woff",
+          "fontCharacter": "\\E905"
+        }
+      },
+      "codingcopilot-chat": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/coding-copilot-chat.woff",
+          "fontCharacter": "\\e900"
+        }
+      },
+      "codingcopilot-shortcuts": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icon.woff",
+          "fontCharacter": "\\e900"
+        }
+      },
+      "codingcopilot-disable": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icon.woff",
+          "fontCharacter": "\\e901"
+        }
+      },
+      "codingcopilot-warning": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icon.woff",
+          "fontCharacter": "\\e902"
+        }
+      },
+      "codingcopilot-error": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icon.woff",
+          "fontCharacter": "\\e904"
+        }
+      },
+      "codingcopilot-new-chat": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icomoon.woff",
+          "fontCharacter": "\\e800"
+        }
+      },
+      "codingcopilot-history": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icomoon.woff",
+          "fontCharacter": "\\e802"
+        }
+      },
+      "codingcopilot-mcp": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icomoon.woff",
+          "fontCharacter": "\\e801"
+        }
+      },
+      "codingcopilot-rules": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icomoon.woff",
+          "fontCharacter": "\\e806"
+        }
+      },
+      "codingcopilot-zoom-in": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icomoon.woff",
+          "fontCharacter": "\\e804"
+        }
+      },
+      "codingcopilot-zoom-out": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icomoon.woff",
+          "fontCharacter": "\\e803"
+        }
+      },
+      "codingcopilot-settings": {
+        "description": "Tencent CodeBuddy Icon",
+        "default": {
+          "fontPath": "resources/icomoon.woff",
+          "fontCharacter": "\\e805"
+        }
+      }
+    },
+    "iconFonts": [
+      {
+        "id": "coding-copilot-font",
+        "src": [
+          {
+            "path": "resources/icon.woff",
+            "format": "woff"
+          }
+        ]
+      }
+    ],
+    "submenus": [
+      {
+        "id": "codingcopilot",
+        "label": "%displayName%"
+      },
+      {
+        "id": "codingcopilot.explorer",
+        "label": "%displayName%"
+      },
+      {
+        "id": "codingcopilot.terminal",
+        "label": "%displayName%"
+      },
+      {
+        "id": "shortcuts",
+        "label": "%shortcuts.title%",
+        "icon": "$(codingcopilot-shortcuts)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "tencentcloud.codingcopilot.test.sendMessageWithSummary",
+        "title": "Test: Send Message With Summary",
+        "category": "CodeBuddy"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.test.summaryOnly",
+        "title": "Test: Summary Only",
+        "category": "CodeBuddy"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.test.backgroundLLM.chat",
+        "title": "Test: Background LLM Chat",
+        "category": "CodeBuddy"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.rules.show",
+        "title": "%command.rules.show%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.getWebviewInfo",
+        "title": "getWebviewInfo"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.ide.terminalChat.start",
+        "title": "ideTerminalChat"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.ide.usage",
+        "title": "ideUsage"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.copy.userID",
+        "title": "%command.copy.userID%",
+        "icon": "$(save-as)"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.logout",
+        "title": "%command.logout%",
+        "icon": "$(sign-out)"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.open.devPage",
+        "title": "%command.open.devPage%",
+        "icon": "$(debug-console)",
+        "enablement": "!codingcopilot.InConversation"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.openBrowser",
+        "title": "%command.openBrowser%",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.preview",
+        "title": "%command.preview%",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.clearSession",
+        "title": "%command.clearSession.title%",
+        "category": "%command.category%",
+        "enablement": "!codingCopilotChatDisabled"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.settings.show",
+        "icon": "$(settings-gear)",
+        "category": "%command.category%",
+        "title": "%command.settings.title%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.codebuddy.settings.show",
+        "title": "%command.codebuddy.settings.show%",
+        "category": "%command.category%",
+        "icon": "$(settings-gear)",
+        "enablement": "!codingcopilot.NavigationDisabled"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.commit.message.generate",
+        "category": "%command.category%",
+        "title": "%command.commit.message.generate.title%",
+        "icon": "$(codingcopilot-shortcuts)",
+        "enablement": "config.git.enabled && !git.missing && !codingcopilot.commit.generating"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.commit.message.cancel",
+        "category": "%command.category%",
+        "title": "%command.commit.message.cancel.title%",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.login",
+        "category": "%command.category%",
+        "title": "%command.login.title%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.auth",
+        "category": "%command.category%",
+        "title": "%command.login.title%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.switch.account.open",
+        "title": "%command.switchUser.title%",
+        "enablement": "!codingcopilot.InConversation && !codingCopilotChatDisabled",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.copy.versionInfo",
+        "title": "%command.copy.versionInfo%",
+        "icon": "$(save-as)"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.addToChat",
+        "title": "%command.chat.addToChat%",
+        "enablement": "!editorReadonly",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.chat.addTerminalSelectionToChat",
+        "title": "%command.chat.addTerminalSelectionToChat%",
+        "when": "codingcopilot.authenticated"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.chat.explainTerminalSelection",
+        "title": "%command.chat.explainTerminalSelection%",
+        "when": "codingcopilot.authenticated"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.chat.fixTerminalSelection",
+        "title": "%command.chat.fixTerminalSelection%",
+        "when": "codingcopilot.authenticated"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.chat.switchChatMode",
+        "title": "command.chat.switchChatMode",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.chat.switchChatModeV2",
+        "title": "command.chat.switchChatMode",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.chat.startNewChat",
+        "title": "%command.chat.startNewChat%",
+        "icon": "$(codingcopilot-new-chat)",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.chat.newWindowOpen",
+        "title": "%command.chat.newWindowOpen%",
+        "icon": "$(codingcopilot-zoom-in)",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.chatHistory",
+        "title": "%command.chat.history%",
+        "icon": "$(codingcopilot-history)",
+        "category": "%command.category%",
+        "enablement": "!codingcopilot.NavigationDisabled"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.mcpMarket",
+        "title": "%command.mcp.market%",
+        "icon": "$(codingcopilot-mcp)",
+        "category": "%command.category%",
+        "enablement": "!codingcopilot.InConversation"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.rules.manage",
+        "title": "%command.rules.manage%",
+        "icon": "$(codingcopilot-rules)",
+        "category": "%command.category%",
+        "enablement": "!codingcopilot.InConversation"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.completions.change.model",
+        "title": "%command.completions.change.model%",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.reloadAllWindows",
+        "title": "%command.reloadAllWindows%",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.ide.inlineChat.start",
+        "title": "%command.ide.inlineChat.start%",
+        "category": "%command.category%"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.quickFix.addToChat",
+        "title": "%command.quickFix.addToChat%",
+        "category": "%command.category%"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "alt+\\",
+        "jbMac": "alt+back_slash",
+        "command": "editor.action.inlineSuggest.trigger"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.nes.accept.all",
+        "key": "tab",
+        "when": "codingcopilot.predictionShow"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.nes.dismiss",
+        "key": "escape",
+        "when": "codingcopilot.predictionShow"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.nes.trigger",
+        "key": "ctrl+shift+enter"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.completions.trigger",
+        "key": "alt+\\",
+        "jbMac": "alt+back_slash",
+        "jbWin": "alt+p",
+        "when": "editorTextFocus && !editorReadonly"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.completions.accept.all",
+        "key": "tab",
+        "when": "inlineSuggestionHasIndentationLessThanTabSize && inlineSuggestionVisible && !editorHoverFocused && !editorTabMovesFocus && !suggestWidgetVisible && !codingcopilot.predictionShow"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.completions.accept.line",
+        "key": "ctrl+down",
+        "mac": "cmd+down",
+        "jbMac": "alt+l",
+        "when": "editorTextFocus && !editorReadonly && inlineSuggestionVisible"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.completions.accept.word",
+        "key": "ctrl+right",
+        "mac": "cmd+right",
+        "jbMac": "alt+w",
+        "when": "editorTextFocus && !editorReadonly && inlineSuggestionVisible"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.completions.dismiss",
+        "key": "escape",
+        "when": "editorTextFocus && !editorReadonly && inlineSuggestionVisible"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.addToChat",
+        "key": "ctrl+alt+i",
+        "mac": "ctrl+cmd+i",
+        "when": "editorFocus"
+      },
+      {
+        "command": "tencentcloud.codingcopilot.ide.inlineChat.start",
+        "key": "ctrl+i",
+        "mac": "cmd+i",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "%displayName%",
+      "properties": {
+        "codingcopilot.selectedCompletionModel": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "%settings.selectedCompletionModel.markdownDescription%",
+          "scope": "application"
+        },
+        "codingcopilot.enableNextEditSuggestions": {
+          "default": true,
+          "type": "boolean",
+          "tags": [
+            "preview"
+          ],
+          "markdownDescription": "%settings.enableNextEditSuggestions.markdownDescription%",
+          "order": 10,
+          "scope": "application"
+        },
+        "codingcopilot.enableAutoCompletions": {
+          "default": true,
+          "type": "boolean",
+          "markdownDescription": "%settings.enableAutoCompletions.markdownDescription%",
+          "order": 10,
+          "scope": "application"
+        },
+        "codingcopilot.enableCompletionLanguage": {
+          "type": "object",
+          "default": {
+            "scminput": false
+          },
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "markdownDescription": "%settings.enableCompletionLanguage.markdownDescription%",
+          "order": 11,
+          "scope": "application"
+        },
+        "codingcopilot.generationPreference": {
+          "type": "string",
+          "default": "intelligentMode",
+          "enumItemLabels": [
+            "%settings.generationPreference.intelligentMode.label%",
+            "%settings.generationPreference.oneLineMode.label%"
+          ],
+          "enum": [
+            "intelligentMode",
+            "oneLineMode"
+          ],
+          "markdownDescription": "%settings.generationPreference.markdownDescription%",
+          "order": 12,
+          "scope": "application"
+        },
+        "codingcopilot.submitMessageShortcut": {
+          "type": "string",
+          "markdownDescription": "%settings.submitMessageShortcut.markdownDescription%",
+          "default": "Enter",
+          "enum": [
+            "Enter",
+            "Ctrl/Cmd + Enter"
+          ],
+          "enumDescriptions": [
+            "%settings.submitMessageShortcut.Enter.description%",
+            "%settings.submitMessageShortcut.CtrlorCmdandEnter.description%"
+          ],
+          "order": 13,
+          "scope": "application"
+        },
+        "codingcopilot.enableFloatShortcut": {
+          "default": true,
+          "type": "boolean",
+          "markdownDescription": "%settings.enableFloatShortcut.markdownDescription%",
+          "order": 20,
+          "scope": "application"
+        },
+        "codingcopilot.enableInlineChat": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%settings.enableInlineChat.markdownDescription%",
+          "order": 30,
+          "scope": "application"
+        },
+        "codingcopilot.enableInlineChatAutoFormatCode": {
+          "default": true,
+          "type": "boolean",
+          "markdownDescription": "%settings.enableInlineChatAutoFormatCode.markdownDescription%",
+          "order": 31,
+          "scope": "application"
+        },
+        "codingcopilot.enableInlineChatShortcutsTip": {
+          "default": false,
+          "type": "boolean",
+          "markdownDescription": "%settings.enableInlineChatShortcutsTip.markdownDescription%",
+          "order": 32,
+          "scope": "application"
+        },
+        "codingcopilot.enableInlineChatIDEShortcutsTip": {
+          "default": true,
+          "type": "boolean",
+          "markdownDescription": "%settings.enableInlineChatIDEShortcutsTip.markdownDescription%",
+          "order": 32.5,
+          "scope": "application"
+        },
+        "codingcopilot.toolbarOnSelection": {
+          "default": false,
+          "type": "boolean",
+          "markdownDescription": "%settings.toolbarOnSelection.markdownDescription%",
+          "order": 33,
+          "scope": "application"
+        },
+        "codingcopilot.taskList": {
+          "default": true,
+          "type": "boolean",
+          "markdownDescription": "%settings.taskList.markdownDescription%",
+          "order": 33,
+          "scope": "application"
+        },
+        "codingcopilot.enableCodelens": {
+          "default": false,
+          "type": "boolean",
+          "markdownDescription": "%settings.enableCodelens.markdownDescription%",
+          "order": 34,
+          "scope": "application"
+        },
+        "codingcopilot.enabledWebSearch": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%settings.enabledWebSearch.markdownDescription%",
+          "order": 34.5,
+          "scope": "application"
+        },
+        "codingcopilot.autoAcceptWebSearch": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%settings.autoAcceptWebSearch.markdownDescription%",
+          "order": 35,
+          "scope": "application"
+        },
+        "codingcopilot.standaloneTerminal": {
+          "default": true,
+          "type": "boolean",
+          "markdownDescription": "%settings.standaloneTerminal.markdownDescription%",
+          "order": 38,
+          "scope": "application"
+        },
+        "codingcopilot.enableImageGen": {
+          "default": true,
+          "type": "boolean",
+          "markdownDescription": "%settings.enableImageGen.markdownDescription%",
+          "order": 39,
+          "scope": "application"
+        },
+        "codingcopilot.commitMessageStyle": {
+          "type": "string",
+          "enum": [
+            "Default",
+            "ConventionalCommits",
+            "Auto"
+          ],
+          "enumItemLabels": [
+            "%settings.git.commit.style.default%",
+            "%settings.git.commit.style.conv%",
+            "%settings.git.commit.style.gitlog%"
+          ],
+          "enumDescriptions": [
+            "%settings.git.commit.style.default.description%",
+            "%settings.git.commit.style.conv.description%",
+            "%settings.git.commit.style.gitlog.description%"
+          ],
+          "default": "Auto",
+          "description": "%settings.git.commit.description%",
+          "order": 70,
+          "scope": "application"
+        },
+        "codingcopilot.commitMessageLanguage": {
+          "type": "string",
+          "description": "%settings.git.commit.language.description%",
+          "default": "zh_CN",
+          "enumItemLabels": [
+            "%settings.git.commit.language.zh-cn%",
+            "%settings.git.commit.language.en%"
+          ],
+          "enum": [
+            "zh_CN",
+            "en"
+          ],
+          "order": 71,
+          "scope": "application"
+        },
+        "codingcopilot.httpProxySettings": {
+          "type": "string",
+          "description": "%settings.HttpProxyMode.description%",
+          "default": "none",
+          "enum": [
+            "none",
+            "system",
+            "manual"
+          ],
+          "enumDescriptions": [
+            "%settings.HttpProxyMode.system.description%",
+            "%settings.HttpProxyMode.manual.description%"
+          ],
+          "order": 80,
+          "scope": "application"
+        },
+        "codingcopilot.httpProxyURL": {
+          "type": "string",
+          "description": "%settings.HTTPProxy.description%",
+          "order": 81,
+          "scope": "application"
+        },
+        "codingcopilot.endpoint": {
+          "type": "string",
+          "markdownDescription": "%settings.endpoint.markdownDescription%",
+          "order": 90,
+          "scope": "application"
+        },
+        "codingcopilot.envRouteMode": {
+          "type": "string",
+          "description": "%settings.envRouteMode.markdownDescription%",
+          "default": "production",
+          "enum": [
+            "production",
+            "canary",
+            "staging",
+            "custom"
+          ],
+          "order": 1000,
+          "scope": "application"
+        },
+        "codingcopilot.envRouteCustom": {
+          "type": "string",
+          "description": "%settings.envRouteCustom.markdownDescription%",
+          "order": 1001,
+          "scope": "application"
+        },
+        "codingcopilot.enableClientProductPriority": {
+          "type": "boolean",
+          "default": false,
+          "description": "%settings.enableClientProductPriority.markdownDescription%",
+          "order": 1002,
+          "scope": "application"
+        },
+        "codingcopilot.enableIDENotification": {
+          "type": "boolean",
+          "default": true,
+          "description": "%settings.enableIDENotification.markdownDescription%",
+          "order": 1100,
+          "scope": "application"
+        }
+      }
+    },
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "tencentcloud.codingcopilot.addToChat",
+          "when": "codingcopilot.authenticated",
+          "group": "3_compare@99"
+        }
+      ],
+      "terminal/context": [
+        {
+          "command": "tencentcloud.codingcopilot.chat.addTerminalSelectionToChat",
+          "when": "codingcopilot.authenticated",
+          "group": "1_codingcopilot-terminal@1"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.chat.explainTerminalSelection",
+          "when": "codingcopilot.authenticated",
+          "group": "1_codingcopilot-terminal@1"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.chat.fixTerminalSelection",
+          "when": "codingcopilot.authenticated",
+          "group": "1_codingcopilot-terminal@1"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "tencentcloud.codingcopilot.chat.startNewChat",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated",
+          "group": "navigation@0"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.chatHistory",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated",
+          "group": "navigation@1"
+        },
+        {
+          "submenu": "shortcuts",
+          "when": "false",
+          "group": "navigation@99"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.codebuddy.settings.show",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated",
+          "group": "navigation@101"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.openBrowser",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated && codingcopilot.openBrowser",
+          "group": "ide@1"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.preview",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated && codingcopilot.preview",
+          "group": "ide@2"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.copy.userID",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated",
+          "group": "basic@1"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.copy.versionInfo",
+          "when": "false",
+          "group": "basic@2"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.open.devPage",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated && codingcopilot.developerMode",
+          "group": "basic@3"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.switch.account.open",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated && codingcopilot.switchAccount",
+          "group": "group@1"
+        },
+        {
+          "command": "tencentcloud.codingcopilot.logout",
+          "when": "view == coding-copilot.webviews.chat && codingcopilot.authenticated && codingcopilot.logout",
+          "group": "group@2"
+        }
+      ],
+      "scm/title": [
+        {
+          "when": "scmProvider == git && codingcopilot.authenticated && codingcopilot.commitMessageEnabled && codingcopilot.commitMessageAvailable",
+          "command": "tencentcloud.codingcopilot.commit.message.generate",
+          "group": "navigation@1"
+        },
+        {
+          "when": "scmProvider == git && codingcopilot.authenticated && codingcopilot.commitMessageEnabled && !codingcopilot.commitMessageAvailable",
+          "command": "tencentcloud.codingcopilot.commit.message.cancel",
+          "group": "navigation@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "tencentcloud.codingcopilot.addToChat",
+          "when": "codingcopilot.authenticated && !codingCopilotChatDisabled && !editorReadonly",
+          "group": "navigation@1.46"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "command": "tencentcloud.codingcopilot.addToChat",
+          "when": "codingcopilot.authenticated && !codingCopilotChatDisabled",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "tencentcloud.codingcopilot.commit.message.generate",
+          "when": "false"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "clean": "rimraf -g *.vsix",
+    "vscode:prepublish": "yarn run build && yarn run patch",
+    "package": "genie plugin package --platform vscode",
+    "package-self-hosted": "cross-env COPILOT_PACKAGE_PATCH=self-hosted yarn run package",
+    "package-cloud-hosted": "cross-env COPILOT_PACKAGE_PATCH=cloud-hosted yarn run package",
+    "package-ide-genie": "cross-env COPILOT_PACKAGE_PATCH=ide-genie yarn run package",
+    "package-ide-genie-cn": "cross-env COPILOT_PACKAGE_PATCH=ide-genie-cn yarn run package",
+    "package-alpha": "yarn run package --tag=alpha",
+    "package-beta": "yarn run package --tag=beta",
+    "patch": "node ./scripts/patch.js",
+    "patch-ide": "genie patch -s ../../../build/patches/ide",
+    "patch-wx": "genie patch -s ../../../build/patches/wx",
+    "version": "genie plugin version --platform vscode",
+    "version-dev": "yarn run version --tag alpha",
+    "version-test": "yarn run version --tag beta",
+    "build-webview": "cd chat-webview && yarn run build",
+    "watch-webview": "cd chat-webview && yarn run watch",
+    "build": "concurrently \"cross-env CELL_PROJECT_HOME_PATH=out cell build -m externals -p\" \"yarn run build-webview\" \"yarn run lint\" \"yarn run compile-test\" && yarn run copy-builtin-skills",
+    "watch": "yarn run patch && concurrently \"cross-env CELL_PROJECT_HOME_PATH=out cell serve -m externals -p 0\" \"yarn run watch-webview\" \"node scripts/copy-builtin-skills.js --watch\"",
+    "watch:ide": "cross-env COPILOT_PACKAGE_PATCH=ide-genie yarn watch",
+    "watch:ide-cn": "cross-env COPILOT_PACKAGE_PATCH=ide-genie-cn yarn watch",
+    "compile-test": "genie-component compile",
+    "lint": "genie-component lint",
+    "test": "yarn run vscode:prepublish > /dev/null 2>&1 && rimraf .vscode-test/user-data && node ./lib/test/runTest.js",
+    "patch:win": "node .\\scripts\\patch.js",
+    "rimraf:win": "rimraf .vscode-test\\user-data",
+    "test:win": "node .\\lib\\test\\runTest.js",
+    "copy-builtin-skills": "node scripts/copy-builtin-skills.js"
+  },
+  "devDependencies": {
+    "@celljs/cli": "3.7.8",
+    "@genie/component": "0.0.0",
+    "@hurdlegroup/robotjs": "^0.12.3",
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^10.0.1",
+    "@types/vscode": "^1.70.2",
+    "@vscode/test-electron": "^2.5.2",
+    "archiver": "^5.3.2",
+    "cross-env": "^7.0.3",
+    "glob": "^7.1.4",
+    "mocha": "^10.2.0"
+  },
+  "dependencies": {
+    "@genie/activities": "0.0.0",
+    "@genie/agent-core": "0.0.0",
+    "@genie/agent-remote": "0.0.0",
+    "@genie/agent-scm": "0.0.0",
+    "@genie/agent-terminal": "0.0.0",
+    "@genie/agent-inline-chat": "0.0.0",
+    "@genie/agent-enhance": "0.0.0",
+    "@genie/authentication": "0.0.0",
+    "@genie/context": "0.0.0",
+    "@genie/knowledge-base": "0.0.0",
+    "@genie/models": "0.0.0",
+    "@genie/plugin-chat": "0.0.0",
+    "@genie/plugin-completion": "0.0.0",
+    "@genie/plugin-core": "0.0.0",
+    "@genie/product": "0.0.0",
+    "aegis-web-sdk": "^1.41.3"
+  }
+}

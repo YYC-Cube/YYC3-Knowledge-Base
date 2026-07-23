@@ -1,0 +1,15 @@
+
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# We only need to use Jekyll with CRuby
+gem "logger"
+gem "jekyll", "~> 4.4.1"
+gem "jekyll-feed", "~> 0.12"
+gem "jekyll-redirect-from"
+
+# Theme
+gem "just-the-docs", "~> 0.12.0"
+gem "csv"
+gem "base64"

@@ -1,0 +1,12 @@
+".source.julia":
+  editor:
+    tabLength: 4
+    commentStart: "# "
+    increaseIndentPattern: "^(\\s*|.*=\\s*|.*@\\w*\\s*)([\\w\\s]*|\\s+\".*\"\\s+)\\b(if|while|for|function|macro|mutable\\s+struct|struct|abstract\\s+type|primitive\\s+type|let|quote|try|begin|.*\\)\\s*do|else|elseif|catch|finally)\\b(?!.*\\bend\\b[^\\]]*$).*$"
+    decreaseIndentPattern: "^\\s*(end|else|elseif|catch|finally)\\b.*$"
+    foldEndPattern: '^\\s*\\]|^\\s*\\)'
+
+# NOTE: foldingStartMarker/foldingStopMarker not currently implemented in
+#       atom/first-mate, but we leave it here anyway for the potential future
+#       day when it will be implemented
+#       see https://github.com/atom/first-mate/issues/48

@@ -1,0 +1,487 @@
+{
+  "timestamp": "2025-10-08T19:28:21.202Z",
+  "project": "YanYu Cloud³ AI Management Platform",
+  "version": "0.1.0",
+  "coverage": {
+    "total": {
+      "lines": {
+        "total": 205,
+        "covered": 55,
+        "skipped": 0,
+        "pct": 26.82
+      },
+      "statements": {
+        "total": 211,
+        "covered": 56,
+        "skipped": 0,
+        "pct": 26.54
+      },
+      "functions": {
+        "total": 52,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 9.61
+      },
+      "branches": {
+        "total": 93,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 5.37
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "files": [
+      {
+        "file": "/src/utils.js",
+        "coverage": {
+          "lines": {
+            "total": 38,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "functions": {
+            "total": 14,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "statements": {
+            "total": 42,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "branches": {
+            "total": 28,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/hooks/use-language.tsx",
+        "coverage": {
+          "lines": {
+            "total": 33,
+            "covered": 5,
+            "skipped": 0,
+            "pct": 15.15
+          },
+          "functions": {
+            "total": 8,
+            "covered": 1,
+            "skipped": 0,
+            "pct": 12.5
+          },
+          "statements": {
+            "total": 33,
+            "covered": 5,
+            "skipped": 0,
+            "pct": 15.15
+          },
+          "branches": {
+            "total": 10,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/lib/i18n-formatters.ts",
+        "coverage": {
+          "lines": {
+            "total": 52,
+            "covered": 15,
+            "skipped": 0,
+            "pct": 28.84
+          },
+          "functions": {
+            "total": 10,
+            "covered": 3,
+            "skipped": 0,
+            "pct": 30
+          },
+          "statements": {
+            "total": 53,
+            "covered": 15,
+            "skipped": 0,
+            "pct": 28.3
+          },
+          "branches": {
+            "total": 44,
+            "covered": 5,
+            "skipped": 0,
+            "pct": 11.36
+          }
+        }
+      },
+      {
+        "file": "/components/ui/dropdown-menu.tsx",
+        "coverage": {
+          "lines": {
+            "total": 58,
+            "covered": 19,
+            "skipped": 0,
+            "pct": 32.75
+          },
+          "functions": {
+            "total": 15,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "statements": {
+            "total": 58,
+            "covered": 19,
+            "skipped": 0,
+            "pct": 32.75
+          },
+          "branches": {
+            "total": 2,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/components/ui/button.tsx",
+        "coverage": {
+          "lines": {
+            "total": 10,
+            "covered": 6,
+            "skipped": 0,
+            "pct": 60
+          },
+          "functions": {
+            "total": 1,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "statements": {
+            "total": 11,
+            "covered": 7,
+            "skipped": 0,
+            "pct": 63.63
+          },
+          "branches": {
+            "total": 3,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/components/i18n/language-selector.tsx",
+        "coverage": {
+          "lines": {
+            "total": 10,
+            "covered": 7,
+            "skipped": 0,
+            "pct": 70
+          },
+          "functions": {
+            "total": 3,
+            "covered": 1,
+            "skipped": 0,
+            "pct": 33.33
+          },
+          "statements": {
+            "total": 10,
+            "covered": 7,
+            "skipped": 0,
+            "pct": 70
+          },
+          "branches": {
+            "total": 6,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/lib/utils.ts",
+        "coverage": {
+          "lines": {
+            "total": 4,
+            "covered": 3,
+            "skipped": 0,
+            "pct": 75
+          },
+          "functions": {
+            "total": 1,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "statements": {
+            "total": 4,
+            "covered": 3,
+            "skipped": 0,
+            "pct": 75
+          },
+          "branches": {
+            "total": 0,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 100
+          }
+        }
+      }
+    ],
+    "lowCoverageFiles": [
+      {
+        "file": "/src/utils.js",
+        "coverage": {
+          "lines": {
+            "total": 38,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "functions": {
+            "total": 14,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "statements": {
+            "total": 42,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "branches": {
+            "total": 28,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/hooks/use-language.tsx",
+        "coverage": {
+          "lines": {
+            "total": 33,
+            "covered": 5,
+            "skipped": 0,
+            "pct": 15.15
+          },
+          "functions": {
+            "total": 8,
+            "covered": 1,
+            "skipped": 0,
+            "pct": 12.5
+          },
+          "statements": {
+            "total": 33,
+            "covered": 5,
+            "skipped": 0,
+            "pct": 15.15
+          },
+          "branches": {
+            "total": 10,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/lib/i18n-formatters.ts",
+        "coverage": {
+          "lines": {
+            "total": 52,
+            "covered": 15,
+            "skipped": 0,
+            "pct": 28.84
+          },
+          "functions": {
+            "total": 10,
+            "covered": 3,
+            "skipped": 0,
+            "pct": 30
+          },
+          "statements": {
+            "total": 53,
+            "covered": 15,
+            "skipped": 0,
+            "pct": 28.3
+          },
+          "branches": {
+            "total": 44,
+            "covered": 5,
+            "skipped": 0,
+            "pct": 11.36
+          }
+        }
+      },
+      {
+        "file": "/components/ui/dropdown-menu.tsx",
+        "coverage": {
+          "lines": {
+            "total": 58,
+            "covered": 19,
+            "skipped": 0,
+            "pct": 32.75
+          },
+          "functions": {
+            "total": 15,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "statements": {
+            "total": 58,
+            "covered": 19,
+            "skipped": 0,
+            "pct": 32.75
+          },
+          "branches": {
+            "total": 2,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/components/ui/button.tsx",
+        "coverage": {
+          "lines": {
+            "total": 10,
+            "covered": 6,
+            "skipped": 0,
+            "pct": 60
+          },
+          "functions": {
+            "total": 1,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "statements": {
+            "total": 11,
+            "covered": 7,
+            "skipped": 0,
+            "pct": 63.63
+          },
+          "branches": {
+            "total": 3,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/components/i18n/language-selector.tsx",
+        "coverage": {
+          "lines": {
+            "total": 10,
+            "covered": 7,
+            "skipped": 0,
+            "pct": 70
+          },
+          "functions": {
+            "total": 3,
+            "covered": 1,
+            "skipped": 0,
+            "pct": 33.33
+          },
+          "statements": {
+            "total": 10,
+            "covered": 7,
+            "skipped": 0,
+            "pct": 70
+          },
+          "branches": {
+            "total": 6,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          }
+        }
+      },
+      {
+        "file": "/lib/utils.ts",
+        "coverage": {
+          "lines": {
+            "total": 4,
+            "covered": 3,
+            "skipped": 0,
+            "pct": 75
+          },
+          "functions": {
+            "total": 1,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 0
+          },
+          "statements": {
+            "total": 4,
+            "covered": 3,
+            "skipped": 0,
+            "pct": 75
+          },
+          "branches": {
+            "total": 0,
+            "covered": 0,
+            "skipped": 0,
+            "pct": 100
+          }
+        }
+      }
+    ],
+    "highCoverageFiles": []
+  },
+  "tests": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "duration": 0,
+    "suites": 1
+  },
+  "quality": {
+    "coverageScore": 26.82,
+    "testScore": 100,
+    "overallScore": 56.09,
+    "grade": "F",
+    "status": "POOR"
+  },
+  "recommendations": [
+    {
+      "type": "coverage",
+      "priority": "high",
+      "message": "测试覆盖率 26.82% 低于目标 80%，建议增加单元测试"
+    },
+    {
+      "type": "branches",
+      "priority": "medium",
+      "message": "分支覆盖率 5.37% 偏低，建议增加边界条件测试"
+    },
+    {
+      "type": "quantity",
+      "priority": "medium",
+      "message": "测试用例数量偏少，建议增加更多测试场景"
+    },
+    {
+      "type": "improvement",
+      "priority": "high",
+      "message": "建议实施测试体系完善计划：目标覆盖率85%+，集成测试70%+，E2E测试60%+"
+    }
+  ]
+}

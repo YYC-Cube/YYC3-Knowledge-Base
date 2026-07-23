@@ -1,0 +1,82 @@
+import { mount } from '@vue/test-utils';
+import { Menu } from '@tdesign/components/menu';
+
+// every component needs four parts: props/events/slots/functions.
+describe('Menu', () => {
+  // test props api
+  describe('props', () => {
+    it(':theme', () => {
+      const wrapper = mount({
+        render() {
+          return <Menu></Menu>;
+        },
+      });
+      expect(wrapper.element).toMatchSnapshot();
+    });
+
+    it(':theme', () => {
+      const wrapper = mount({
+        render() {
+          return <Menu theme={'light'}></Menu>;
+        },
+      });
+      expect(wrapper.element).toMatchSnapshot();
+    });
+
+    it(':active', () => {
+      const wrapper = mount({
+        render() {
+          return <Menu value={'2-1'}></Menu>;
+        },
+      });
+      expect(wrapper.element).toMatchSnapshot();
+    });
+
+    it(':width', () => {
+      const wrapper = mount({
+        render() {
+          return <Menu width={'256px'}></Menu>;
+        },
+      });
+      expect(wrapper.element).toMatchSnapshot();
+    });
+
+    it(':collapsed', () => {
+      const wrapper = mount({
+        render() {
+          return <Menu collapsed={true}></Menu>;
+        },
+      });
+      expect(wrapper.element).toMatchSnapshot();
+    });
+  });
+
+  describe('slot', () => {
+    it('<logo>', () => {
+      const wrapper = mount(Menu, {
+        slots: {
+          logo: '<div></div>',
+        },
+      });
+      expect(wrapper.element).toMatchSnapshot();
+    });
+
+    it('<default>', () => {
+      const wrapper = mount(Menu, {
+        slots: {
+          default: '<div></div>',
+        },
+      });
+      expect(wrapper.element).toMatchSnapshot();
+    });
+
+    it('<operations>', () => {
+      const wrapper = mount(Menu, {
+        slots: {
+          operations: '<div></div>',
+        },
+      });
+      expect(wrapper.element).toMatchSnapshot();
+    });
+  });
+});

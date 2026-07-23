@@ -1,0 +1,9 @@
+default.check-filename = true
+
+[default.extend-words]
+actived = "actived"
+formated = "formated"
+colum = "colum"
+
+[files]
+extend-exclude = ["CHANGELOG*.md", "*.snap"]

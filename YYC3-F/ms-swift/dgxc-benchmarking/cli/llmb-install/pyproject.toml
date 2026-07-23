@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llmb-install"
+version = "1.8.6"
+requires-python = ">=3.10"
+description = "Installer for LLM benchmarking workloads"
+
+dependencies = [
+    "PyYAML~=6.0",
+    "questionary~=2.1",
+    "rich>=10.0.0,<15",
+    "transformers>4.57.3,<5.0.0",
+    "huggingface-hub>=0.20.0",
+]
+
+[project.scripts]
+llmb-install = "llmb_install.cli:main" 
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-mock>=3.10",
+    "black~=26.1",
+    "ruff~=0.15"
+]
+
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors - PEP 8 compliance (indentation, syntax issues)
+    "F",   # Pyflakes - logical errors (undefined variables, unused imports, duplicate keys)
+    "W",   # pycodestyle warnings - style issues that don't break code
+    "I",   # isort - import sorting and organization
+    "B",   # flake8-bugbear - catches likely bugs and anti-patterns
+    "N",   # pep8-naming - enforce naming conventions (snake_case functions, etc.)
+    "C4",  # flake8-comprehensions - optimize list/dict/set comprehensions
+]
+
+# Let Black handle all formatting and whitespace
+ignore = ["E501", "E203", "E231", "W293", "W291", "W292"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["llmb_install"]

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./setup.sh:*)",
+      "Bash(./host.sh:*)",
+      "Bash(./doctor.sh:*)",
+      "Bash(./bot/tunnel.sh:*)",
+      "Bash(python3 my_agent.py:*)",
+      "Bash(node bot/patch-viewer.cjs)",
+      "Bash(curl:*)",
+      "Bash(tail:*)",
+      "Bash(grep:*)",
+      "Bash(ps:*)",
+      "Bash(cat /tmp/*:*)",
+      "Bash(ls:*)",
+      "Bash(for v in ANTHROPIC_API_KEY*:*)",
+      "Bash(rm -f .agent_cache.json)",
+      "Bash(rm -f /tmp/cf-tunnel-*.log)",
+      "Bash(. .env.setup*:*)",
+      "Bash(eval \"$(./bot/tunnel.sh)\")",
+      "Read(//tmp/**)",
+      "Read(./**)"
+    ]
+  }
+}

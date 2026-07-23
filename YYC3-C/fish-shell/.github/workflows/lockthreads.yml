@@ -1,0 +1,26 @@
+name: 'Lock threads'
+
+on:
+  schedule:
+    - cron: '0 18 * * 1'
+#            │ │  │ │ │
+#   min 0-59 ┘ │  │ │ └ weekday 0-6
+#    hour 0-23 ┘  │ └ month 1-12
+#                 └ day 1-31
+permissions:
+  contents: read
+
+jobs:
+  lock:
+    if: github.repository_owner == 'fish-shell'
+    permissions:
+      issues: write  # for dessant/lock-threads to lock issues
+      pull-requests: write  # for dessant/lock-threads to lock PRs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dessant/lock-threads@f5f995c727ac99a91dec92781a8e34e7c839a65e # v6.0.0, build_tools/update-dependencies.sh
+        with:
+          github-token: ${{ github.token }}
+          issue-inactive-days: '365'
+          pr-inactive-days: '365'
+          exclude-any-issue-labels: 'question, needs more info'

@@ -1,0 +1,924 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+import { expect } from "chai";
+import * as chai from "chai";
+import sinonChai from "sinon-chai";
+import * as sinon from "sinon";
+import * as vscode from "vscode";
+import * as os from "os";
+import * as dockerUtils from "../../src/docker/dockerUtils";
+import { LocalContainers } from "../../src/constants/locConstants";
+import * as childProcess from "child_process";
+import { defaultSqlServerContainerName, Platform } from "../../src/constants/constants";
+import * as path from "path";
+import { stubTelemetry } from "./utils";
+import { ConnectionNode } from "../../src/objectExplorer/nodes/connectionNode";
+import { ObjectExplorerService } from "../../src/objectExplorer/objectExplorerService";
+import * as dockerodeClient from "../../src/docker/dockerodeClient";
+import { PassThrough } from "stream";
+
+chai.use(sinonChai);
+
+suite("Docker Utilities", () => {
+    let sandbox: sinon.SinonSandbox;
+    let node: ConnectionNode;
+    let mockObjectExplorerService: ObjectExplorerService;
+
+    const createDockerClientMock = (
+        overrides: Partial<{
+            listContainers: sinon.SinonStub;
+            createContainer: sinon.SinonStub;
+            pull: sinon.SinonStub;
+            getContainer: sinon.SinonStub;
+            followProgress: sinon.SinonStub;
+            demuxStream: sinon.SinonStub;
+        }> = {},
+    ) => ({
+        listContainers: overrides.listContainers ?? sandbox.stub().resolves([]),
+        createContainer: overrides.createContainer ?? sandbox.stub(),
+        pull: overrides.pull ?? sandbox.stub(),
+        getContainer: overrides.getContainer ?? sandbox.stub(),
+        modem: {
+            followProgress: overrides.followProgress ?? sandbox.stub(),
+            demuxStream:
+                overrides.demuxStream ??
+                sandbox
+                    .stub()
+                    .callsFake(
+                        (
+                            _stream: NodeJS.ReadableStream,
+                            stdout: NodeJS.WritableStream,
+                            _stderr: NodeJS.WritableStream,
+                        ) => {
+                            const output = stdout as PassThrough;
+                            queueMicrotask(() => output.end());
+                        },
+                    ),
+        },
+    });
+
+    type SpawnProcessOptions = {
+        stdoutOutput?: string;
+        stderrOutput?: string;
+        closeCode?: number;
+        emitError?: Error;
+        includePipe?: boolean;
+        includeStdin?: boolean;
+        dataDelayMs?: number;
+        closeDelayMs?: number;
+    };
+
+    const createSpawnProcess = (options: SpawnProcessOptions = {}) => {
+        const {
+            stdoutOutput = "",
+            stderrOutput = "",
+            closeCode,
+            emitError,
+            includePipe = false,
+            includeStdin = false,
+            dataDelayMs = 0,
+            closeDelayMs = 5,
+        } = options;
+
+        const stdout = {
+            on: sinon.stub().callsFake((event, callback) => {
+                if (event === "data") {
+                    setTimeout(() => callback(stdoutOutput), dataDelayMs);
+                }
+            }),
+            ...(includePipe ? { pipe: sinon.stub() } : {}),
+        };
+
+        const stderr = {
+            on: sinon.stub().callsFake((event, callback) => {
+                if (event === "data") {
+                    setTimeout(() => callback(stderrOutput), dataDelayMs);
+                }
+            }),
+        };
+
+        return {
+            stdout,
+            stderr,
+            ...(includeStdin ? { stdin: { end: sinon.stub() } } : {}),
+            on: sinon.stub().callsFake((event, callback) => {
+                if (event === "close" && closeCode !== undefined) {
+                    setTimeout(() => callback(closeCode), closeDelayMs);
+                }
+                if (event === "error" && emitError) {
+                    setTimeout(() => callback(emitError), dataDelayMs);
+                }
+            }),
+        } as any;
+    };
+
+    const createSpawnSuccessProcess = (
+        stdoutOutput: string = "",
+        options: Omit<SpawnProcessOptions, "stdoutOutput" | "closeCode" | "emitError"> = {},
+    ) => createSpawnProcess({ stdoutOutput, closeCode: 0, ...options });
+
+    const createSpawnFailureByExitProcess = (
+        stderrOutput: string,
+        closeCode: number = 1,
+        options: Omit<SpawnProcessOptions, "stderrOutput" | "closeCode" | "emitError"> = {},
+    ) => createSpawnProcess({ stderrOutput, closeCode, ...options });
+
+    const createSpawnFailureByErrorProcess = (
+        error: Error,
+        options: Omit<SpawnProcessOptions, "emitError" | "closeCode"> = {},
+    ) => createSpawnProcess({ emitError: error, ...options });
+
+    setup(async () => {
+        sandbox = sinon.createSandbox();
+        node = {
+            connectionProfile: {
+                containerName: "testContainer",
+                savePassword: true,
+            },
+            loadingLabel: "",
+        } as unknown as ConnectionNode;
+
+        mockObjectExplorerService = {
+            _refreshCallback: sandbox.stub(),
+            setLoadingUiForNode: sandbox.stub(),
+            removeNode: sandbox.stub(),
+        } as unknown as ObjectExplorerService;
+    });
+
+    teardown(() => {
+        sandbox.restore();
+    });
+
+    test("sanitizeErrorText: should truncate long error messages and sanitize SA_PASSWORD", () => {
+        // Test sanitization
+        const errorWithPassword = "Connection failed: SA_PASSWORD={testtesttest} something broke";
+        const sanitized = dockerUtils.sanitizeErrorText(errorWithPassword);
+        expect(sanitized.includes("SA_PASSWORD=******"), "SA_PASSWORD value should be masked").to.be
+            .true;
+        expect(
+            !sanitized.includes("testtesttest"),
+            "Original password should not appear in sanitized output",
+        ).to.be.true;
+    });
+
+    test("checkDockerInstallation: should check Docker installation and return correct status", async () => {
+        // Mock spawn to simulate successful Docker installation check
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+
+        const mockProcess = {
+            stdout: {
+                on: sinon.stub().callsFake((event, callback) => {
+                    if (event === "data") {
+                        setTimeout(() => callback("Docker is installed"), 0);
+                    }
+                }),
+            },
+            stderr: {
+                on: sinon.stub(),
+            },
+            on: sinon.stub().callsFake((event, callback) => {
+                if (event === "close") {
+                    setTimeout(() => callback(0), 10); // Exit code 0 = success
+                }
+            }),
+        };
+
+        spawnStub.returns(mockProcess as any);
+
+        const result = await dockerUtils.checkDockerInstallation();
+
+        // Test the actual behavior
+        expect(result.success, "Should return success when Docker is installed").to.be.true;
+        expect(result.error).to.equal(undefined);
+        expect(result.fullErrorText).to.equal(undefined);
+
+        expect(spawnStub).to.have.been.calledOnceWith("docker", ["--version"]);
+    });
+
+    test("checkDockerInstallation: should check Docker installation and return correct error status", async () => {
+        // Mock spawn to simulate Docker installation failure
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+
+        const mockProcess = {
+            stdout: {
+                on: sinon.stub(),
+            },
+            stderr: {
+                on: sinon.stub().callsFake((event, callback) => {
+                    if (event === "data") {
+                        setTimeout(() => callback("Docker is not installed"), 0);
+                    }
+                }),
+            },
+            on: sinon.stub().callsFake((event, callback) => {
+                if (event === "close") {
+                    setTimeout(() => callback(1), 10); // Exit code 1 = error
+                } else if (event === "error") {
+                    // Don't trigger error event in this test
+                }
+            }),
+        };
+
+        spawnStub.returns(mockProcess as any);
+
+        const result = await dockerUtils.checkDockerInstallation();
+
+        // Test the actual behavior
+        expect(!result.success, "Should return failure when Docker is not installed").to.be.true;
+        expect(result.error).to.equal(LocalContainers.dockerInstallError);
+        expect(result.fullErrorText).to.equal("Docker is not installed");
+
+        expect(spawnStub).to.have.been.calledOnceWith("docker", ["--version"]);
+    });
+
+    test("checkEngine: should succeed on Linux platform with x64 architecture", async () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+
+        platformStub.returns(Platform.Linux);
+        archStub.returns("x64");
+        spawnStub.returns(createSpawnSuccessProcess(""));
+
+        const result = await dockerUtils.checkEngine();
+        expect(result.error).to.equal(undefined);
+        expect(result.success).to.be.true;
+    });
+
+    test("checkEngine: should switch engine on Windows when user confirms", async () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+        const messageStub = sandbox.stub(vscode.window, "showInformationMessage");
+
+        platformStub.returns(Platform.Windows);
+        archStub.returns("x64");
+        messageStub.resolves("Yes" as any);
+
+        spawnStub.callsFake((command: string, args?: ReadonlyArray<string>) => {
+            if (command === "powershell.exe") {
+                return createSpawnSuccessProcess(
+                    "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+                );
+            }
+
+            if (
+                command === "docker" &&
+                args?.[0] === "info" &&
+                args?.[1] === "--format" &&
+                args?.[2] === "{{.OSType}}"
+            ) {
+                // Force switch path.
+                return createSpawnSuccessProcess(Platform.Windows);
+            }
+
+            return createSpawnSuccessProcess("");
+        });
+
+        const result = await dockerUtils.checkEngine();
+        expect(result.success).to.be.true;
+        expect(spawnStub.callCount).to.be.greaterThanOrEqual(3);
+    });
+
+    test("checkEngine: should fail when Windows user cancels engine switch", async () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+        const messageStub = sandbox.stub(vscode.window, "showInformationMessage");
+
+        platformStub.returns(Platform.Windows);
+        archStub.returns("x64");
+        messageStub.resolves(undefined); // User cancels
+
+        spawnStub.callsFake((command: string, args?: ReadonlyArray<string>) => {
+            if (command === "powershell.exe") {
+                return createSpawnSuccessProcess(
+                    "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+                );
+            }
+
+            if (
+                command === "docker" &&
+                args?.[0] === "info" &&
+                args?.[1] === "--format" &&
+                args?.[2] === "{{.OSType}}"
+            ) {
+                // Force switch prompt, then cancel.
+                return createSpawnSuccessProcess(Platform.Windows);
+            }
+
+            return createSpawnSuccessProcess("");
+        });
+
+        const result = await dockerUtils.checkEngine();
+        expect(!result.success).to.be.true;
+        expect(result.fullErrorText).to.equal(LocalContainers.switchToLinuxContainersCanceled);
+    });
+
+    test("checkEngine: should fail on unsupported architecture", async () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+
+        platformStub.returns(Platform.Windows);
+        archStub.returns("arm");
+
+        const result = await dockerUtils.checkEngine();
+        expect(!result.success).to.be.true;
+        expect(result.error).to.equal(LocalContainers.unsupportedDockerArchitectureError("arm"));
+    });
+
+    test("checkEngine: should fail on unsupported platform", async () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+
+        platformStub.returns("fakePlatform" as Platform);
+        archStub.returns("x64");
+
+        const result = await dockerUtils.checkEngine();
+        expect(!result.success).to.be.true;
+        expect(result.error).to.equal(
+            LocalContainers.unsupportedDockerPlatformError("fakePlatform"),
+        );
+    });
+
+    test("checkEngine: should handle Linux Docker permissions error", async () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+
+        platformStub.returns(Platform.Linux);
+        archStub.returns("x64");
+        spawnStub.returns(
+            createSpawnFailureByExitProcess("Permission denied", 1, {
+                includePipe: true,
+                includeStdin: true,
+                closeDelayMs: 10,
+            }),
+        );
+
+        const result = await dockerUtils.checkEngine();
+        expect(!result.success).to.be.true;
+        expect(result.fullErrorText).to.equal("Permission denied");
+        expect(result.error).to.equal(LocalContainers.linuxDockerPermissionsError);
+    });
+
+    test("checkEngine: should handle Mac ARM Rosetta error", async () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+
+        platformStub.returns(Platform.Mac);
+        archStub.returns("arm");
+
+        // For Mac ARM Rosetta error, the cat command fails (file doesn't exist or permission denied)
+        const dockerProcess = createSpawnFailureByErrorProcess(new Error("Rosetta not Enabled"), {
+            stderrOutput: "Rosetta not Enabled",
+            includePipe: true,
+            includeStdin: true,
+        });
+        const grepProcess = createSpawnFailureByErrorProcess(new Error(""), {
+            includePipe: true,
+            includeStdin: true,
+        }); // This won't be reached if dockerProcess fails
+        spawnStub.onFirstCall().returns(dockerProcess as any); // cat settings file fails
+        spawnStub.onSecondCall().returns(grepProcess as any); // grep command
+
+        const result = await dockerUtils.checkEngine();
+        expect(!result.success).to.be.true;
+        expect(result.fullErrorText).to.equal("Rosetta not Enabled");
+        expect(result.error).to.equal(LocalContainers.rosettaError);
+    });
+
+    test("checkEngine: should succeed on Intel Mac without Rosetta check", async () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+
+        platformStub.returns(Platform.Mac);
+        archStub.returns("x64");
+
+        const result = await dockerUtils.checkEngine();
+        expect(result.success).to.be.true;
+    });
+
+    test("validateContainerName: handles various input scenarios", async () => {
+        const listContainersStub = sandbox.stub();
+        const dockerClientMock = createDockerClientMock({
+            listContainers: listContainersStub,
+        });
+        sandbox.stub(dockerodeClient, "getDockerodeClient").returns(dockerClientMock as any);
+
+        // 1. Empty name => generate defaultContainerName_2
+        listContainersStub.resolves([
+            { Names: [`/${defaultSqlServerContainerName}`] },
+            { Names: [`/${defaultSqlServerContainerName}_1`] },
+        ]);
+        let result = await dockerUtils.validateContainerName("");
+        expect(result).to.equal(`${defaultSqlServerContainerName}_2`);
+
+        // 2. Valid name, not taken => return as-is
+        listContainersStub.resolves([{ Names: ["/existing_one"] }, { Names: ["/used"] }]);
+        result = await dockerUtils.validateContainerName("new_valid");
+        expect(result).to.equal("new_valid");
+
+        // 3. Invalid name (regex fails) => return empty string
+        listContainersStub.resolves([]);
+        result = await dockerUtils.validateContainerName("!invalid*name");
+        expect(result).to.equal("");
+
+        // 4. Valid name, but already taken => return empty string
+        listContainersStub.resolves([{ Names: ["/taken_name"] }]);
+        result = await dockerUtils.validateContainerName("taken_name");
+        expect(result).to.equal("");
+
+        // 5. Command throws error => return input unchanged
+        listContainersStub.rejects(new Error("failure"));
+        result = await dockerUtils.validateContainerName("fallback_name");
+        expect(result).to.equal("fallback_name");
+    });
+
+    test("getDockerPath: handles success, invalid path, and failure cases", async () => {
+        const executable = "DockerCli.exe";
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+        let getDockerPathCalls = 0;
+
+        // Case 1: Valid Docker path
+        const validPath = path.join(
+            "C:",
+            "Program Files",
+            "Docker",
+            "Docker",
+            "resources",
+            "bin",
+            "docker.exe",
+        );
+        spawnStub.callsFake((command: string, args?: ReadonlyArray<string>) => {
+            if (
+                command === "powershell.exe" &&
+                args?.[0] === "-Command" &&
+                args?.[1] === "(Get-Command docker).Source"
+            ) {
+                if (getDockerPathCalls++ === 0) {
+                    return createSpawnSuccessProcess(validPath);
+                }
+                if (getDockerPathCalls === 2) {
+                    return createSpawnSuccessProcess(invalidPath);
+                }
+                return createSpawnFailureByErrorProcess(new Error("Command failed"));
+            }
+
+            return createSpawnSuccessProcess("");
+        });
+
+        const expectedValidResult = path.join(
+            "C:",
+            "Program Files",
+            "Docker",
+            "Docker",
+            executable,
+        );
+        const result1 = await dockerUtils.getDockerPath(executable);
+        expect(result1, "Should return the constructed Docker path").to.equal(expectedValidResult);
+
+        // Case 2: Invalid Docker path structure
+        const invalidPath = path.join("C:", "No", "Docker", "Here", "docker.exe");
+        const result2 = await dockerUtils.getDockerPath(executable);
+        expect(result2, "Should return empty string for invalid path structure").to.equal("");
+
+        // Case 3: execCommand throws error
+        const result3 = await dockerUtils.getDockerPath(executable);
+        expect(result3, "Should return empty string when command fails").to.equal("");
+        expect(getDockerPathCalls).to.equal(3);
+    });
+
+    test("isDockerContainerRunning: should return true if container is running, false otherwise", async () => {
+        const containerName = "my-container";
+        const inspectStub = sandbox.stub().resolves({ State: { Running: true } });
+        const listContainersStub = sandbox.stub().resolves([{ Id: "container-id" }]);
+        const getContainerStub = sandbox.stub().returns({
+            inspect: inspectStub,
+        });
+        const dockerClientMock = createDockerClientMock({
+            listContainers: listContainersStub,
+            getContainer: getContainerStub,
+        });
+        sandbox.stub(dockerodeClient, "getDockerodeClient").returns(dockerClientMock as any);
+
+        let result = await dockerUtils.isDockerContainerRunning(containerName);
+        expect(result).to.equal(true);
+
+        // Case 2: container not running
+        inspectStub.resolves({ State: { Running: false } });
+
+        result = await dockerUtils.isDockerContainerRunning(containerName);
+        expect(result).to.equal(false);
+
+        // Case 3: inspect throws error
+        inspectStub.rejects(new Error("inspect error"));
+
+        result = await dockerUtils.isDockerContainerRunning(containerName);
+        expect(result).to.equal(false);
+    });
+
+    test("startDocker: should return success when Docker is already running", async () => {
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+        spawnStub.returns(createSpawnSuccessProcess("Docker is running"));
+
+        const result = await dockerUtils.startDocker();
+        expect(result.success, "Docker is already running, should be successful").to.be.true;
+        expect(spawnStub).to.have.been.calledOnceWith("docker", ["info"]);
+    });
+
+    test("startDocker: should start Docker successfully on Windows when not running", async () => {
+        sandbox.stub(os, "platform").returns(Platform.Windows);
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+        let dockerInfoChecks = 0;
+
+        const dockerPath = path.join(
+            "C:",
+            "Program Files",
+            "Docker",
+            "Docker",
+            "resources",
+            "bin",
+            "docker.exe",
+        );
+        spawnStub.callsFake((command: string, args?: ReadonlyArray<string>) => {
+            if (command === "docker" && args?.[0] === "info") {
+                if (dockerInfoChecks++ === 0) {
+                    return createSpawnFailureByErrorProcess(new Error("Docker not running"));
+                }
+                return createSpawnSuccessProcess("Docker Running");
+            }
+
+            if (
+                command === "powershell.exe" &&
+                args?.[0] === "-Command" &&
+                args?.[1] === "(Get-Command docker).Source"
+            ) {
+                return createSpawnSuccessProcess(dockerPath);
+            }
+
+            if (command === "cmd.exe" && args?.[0] === "/c" && args?.[1] === "start") {
+                return createSpawnSuccessProcess("Started Docker");
+            }
+
+            return createSpawnSuccessProcess("");
+        });
+
+        const result = await dockerUtils.startDocker();
+        expect(result.error).to.equal(undefined);
+        expect(result.success, "Docker should start successfully on Windows").to.be.true;
+        expect(spawnStub.callCount).to.be.greaterThanOrEqual(4);
+    });
+
+    test("startDocker: should start Docker successfully on Linux when not running", async () => {
+        sandbox.stub(os, "platform").returns(Platform.Linux);
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+        let dockerInfoChecks = 0;
+
+        spawnStub.callsFake((command: string, args?: ReadonlyArray<string>) => {
+            if (command === "docker" && args?.[0] === "info") {
+                if (dockerInfoChecks++ === 0) {
+                    return createSpawnFailureByErrorProcess(new Error("Docker not running"));
+                }
+                return createSpawnSuccessProcess("Docker Running");
+            }
+
+            if (command === "systemctl" && args?.[0] === "start" && args?.[1] === "docker") {
+                return createSpawnSuccessProcess("Started Docker");
+            }
+
+            // Allow auxiliary process calls (for example from PATH normalization) to succeed.
+            return createSpawnSuccessProcess("");
+        });
+
+        const result = await dockerUtils.startDocker();
+        expect(result.success, "Docker should start successfully on Linux").to.be.true;
+        expect(spawnStub.callCount).to.be.greaterThanOrEqual(3);
+    });
+
+    test("startDocker: should fail on unsupported platform", async () => {
+        sandbox.stub(os, "platform").returns("fakePlatform" as Platform);
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+
+        spawnStub.callsFake((command: string, args?: ReadonlyArray<string>) => {
+            if (command === "docker" && args?.[0] === "info") {
+                return createSpawnFailureByErrorProcess(new Error("Docker not running"));
+            }
+
+            return createSpawnFailureByErrorProcess(new Error("Unsupported platform"));
+        });
+
+        const result = await dockerUtils.startDocker();
+        expect(!result.success, "Should not succeed on unsupported platform").to.be.true;
+        expect(result.error).to.equal(
+            LocalContainers.unsupportedDockerPlatformError("fakePlatform"),
+        );
+    });
+
+    test("startDocker: should fail on Windows when Docker is not installed", async () => {
+        sandbox.stub(os, "platform").returns(Platform.Windows);
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+        let dockerInfoChecks = 0;
+
+        spawnStub.callsFake((command: string, args?: ReadonlyArray<string>) => {
+            if (command === "docker" && args?.[0] === "info") {
+                if (dockerInfoChecks++ === 0) {
+                    return createSpawnFailureByErrorProcess(new Error("Docker not running"));
+                }
+                return createSpawnFailureByErrorProcess(new Error("Docker still not running"));
+            }
+
+            if (
+                command === "powershell.exe" &&
+                args?.[0] === "-Command" &&
+                args?.[1] === "(Get-Command docker).Source"
+            ) {
+                return createSpawnFailureByErrorProcess(new Error("Docker not installed"));
+            }
+
+            return createSpawnFailureByErrorProcess(new Error("Docker command failed"));
+        });
+
+        const result = await dockerUtils.startDocker();
+        expect(!result.success, "Should fail if Docker is not installed").to.be.true;
+        expect(result.error).to.equal(LocalContainers.dockerDesktopPathError);
+    });
+
+    test("deleteContainer: should delete the container and return success or error", async () => {
+        const { sendActionEvent, sendErrorEvent } = stubTelemetry(sandbox);
+        const stopStub = sandbox.stub().resolves();
+        const removeStub = sandbox.stub().resolves();
+        const listContainersStub = sandbox.stub().resolves([{ Id: "container-id" }]);
+        const dockerClientMock = createDockerClientMock({
+            listContainers: listContainersStub,
+            getContainer: sandbox.stub().returns({
+                stop: stopStub,
+                remove: removeStub,
+            }),
+        });
+        sandbox.stub(dockerodeClient, "getDockerodeClient").returns(dockerClientMock as any);
+
+        let result = await dockerUtils.deleteContainer("testContainer");
+        expect(stopStub).to.have.been.calledOnce;
+        expect(removeStub).to.have.been.calledOnce;
+        expect(sendActionEvent).to.have.been.called;
+        expect(result).to.be.true;
+
+        listContainersStub.resetHistory();
+        listContainersStub.rejects(new Error("Couldn't delete container"));
+
+        result = await dockerUtils.deleteContainer("testContainer");
+
+        expect(sendErrorEvent).to.have.been.called;
+        expect(!result, "Should return false on failure").to.be.true;
+    });
+
+    test("stopContainer: should stop the container and return success or error", async () => {
+        const { sendActionEvent, sendErrorEvent } = stubTelemetry(sandbox);
+        const stopStub = sandbox.stub().resolves();
+        const listContainersStub = sandbox.stub().resolves([{ Id: "container-id" }]);
+        const dockerClientMock = createDockerClientMock({
+            listContainers: listContainersStub,
+            getContainer: sandbox.stub().returns({
+                stop: stopStub,
+            }),
+        });
+        sandbox.stub(dockerodeClient, "getDockerodeClient").returns(dockerClientMock as any);
+
+        let result = await dockerUtils.stopContainer("testContainer");
+        expect(stopStub).to.have.been.calledOnce;
+        expect(sendActionEvent).to.have.been.called;
+        expect(result).to.be.true;
+
+        listContainersStub.resetHistory();
+        listContainersStub.rejects(new Error("Couldn't stop container"));
+
+        result = await dockerUtils.stopContainer("testContainer");
+
+        expect(!result, "Should return false on failure").to.be.true;
+        expect(sendErrorEvent).to.have.been.called;
+    });
+
+    test("checkIfContainerIsDockerContainer: should return true if the container is a Docker container", async () => {
+        const inspectStub = sandbox.stub();
+        const dockerClientMock = createDockerClientMock({
+            getContainer: sandbox.stub().returns({
+                inspect: inspectStub,
+            }),
+        });
+        sandbox.stub(dockerodeClient, "getDockerodeClient").returns(dockerClientMock as any);
+
+        // 1. Non-localhost server: should return undefined
+        inspectStub.rejects(new Error("not a container"));
+        let result = await dockerUtils.checkIfConnectionIsDockerContainer("some.remote.host");
+        expect(result, "Should return undefined for non-localhost address").to.equal(undefined);
+
+        // 2. Docker inspect fails: should return undefined
+        inspectStub.resetBehavior();
+        inspectStub.rejects(new Error("inspect failed"));
+        result = await dockerUtils.checkIfConnectionIsDockerContainer("localhost");
+        expect(result, "Should return undefined on inspect failure").to.equal(undefined);
+
+        // 3. Inspect returns empty name: should return empty string
+        inspectStub.resetBehavior();
+        inspectStub.resolves({ Name: "" });
+        result = await dockerUtils.checkIfConnectionIsDockerContainer("127.0.0.1");
+        expect(result, "Should return empty string when no containers exist").to.equal("");
+
+        // 4. Inspect returns a container name
+        inspectStub.resetBehavior();
+        inspectStub.resolves({ Name: "/dockercontainerid" });
+        result = await dockerUtils.checkIfConnectionIsDockerContainer("localhost, 1433");
+        expect(result, "Should return matched container ID").to.equal("dockercontainerid");
+    });
+
+    test("findAvailablePort: should find next available port", async () => {
+        const listContainersStub = sandbox.stub();
+        const inspectStub = sandbox.stub();
+        const dockerClientMock = createDockerClientMock({
+            listContainers: listContainersStub,
+            getContainer: sandbox.stub().returns({
+                inspect: inspectStub,
+            }),
+        });
+        sandbox.stub(dockerodeClient, "getDockerodeClient").returns(dockerClientMock as any);
+
+        // 1. No containers running: should return 1433
+        listContainersStub.onFirstCall().resolves([]);
+        let result = await dockerUtils.findAvailablePort(1433);
+        expect(result, "Should return 1433 when no containers are running").to.equal(1433);
+
+        // 2. Port 1433 is configured on a stopped container: should return next available port
+        listContainersStub.onSecondCall().resolves([{ Id: "container-id" }]);
+        inspectStub.resolves({
+            NetworkSettings: {
+                Ports: {
+                    "1433/tcp": null,
+                },
+            },
+            HostConfig: {
+                PortBindings: {
+                    "1433/tcp": [{ HostPort: "1433" }],
+                },
+            },
+        });
+        result = await dockerUtils.findAvailablePort(1433);
+        expect(result, "Should return 1434 when 1433 is taken").to.equal(1434);
+    });
+
+    test("prepareForDockerContainerCommand: should prepare the command with correct parameters", async () => {
+        const containerName = "testContainer";
+        sandbox.stub(os, "platform").returns(Platform.Linux);
+        const showInformationMessageStub = sandbox.stub(vscode.window, "showInformationMessage");
+        sandbox.stub(vscode.window, "showErrorMessage");
+
+        const spawnStub = sandbox.stub(childProcess, "spawn");
+        const listContainersStub = sandbox.stub();
+        const dockerClientMock = createDockerClientMock({
+            listContainers: listContainersStub,
+            getContainer: sandbox.stub().returns({}),
+        });
+        sandbox.stub(dockerodeClient, "getDockerodeClient").returns(dockerClientMock as any);
+
+        spawnStub.callsFake((command: string, args?: ReadonlyArray<string>) => {
+            if (command === "docker" && args?.[0] === "info") {
+                return createSpawnSuccessProcess("Docker is running");
+            }
+
+            return createSpawnSuccessProcess("");
+        });
+
+        // Docker is running, and container exists
+        listContainersStub
+            .onFirstCall()
+            .resolves([{ Id: "container-id", Names: [`/${containerName}`] }]);
+
+        let result = await dockerUtils.prepareForDockerContainerCommand(
+            containerName,
+            node,
+            mockObjectExplorerService,
+        );
+        expect(result.success, "Should return true if container exists").to.be.true;
+
+        // Docker is running, container does not exist
+        listContainersStub.onSecondCall().resolves([]);
+
+        result = await dockerUtils.prepareForDockerContainerCommand(
+            containerName,
+            node,
+            mockObjectExplorerService,
+        );
+        expect(!result.success, "Should return false if container does not exist").to.be.true;
+        expect(result.error).to.equal(LocalContainers.containerDoesNotExistError);
+        expect(showInformationMessageStub, "Should show info message if container does not exist")
+            .to.have.been.calledOnce;
+
+        // finding container returns an error
+        listContainersStub.onThirdCall().rejects(new Error("Something went wrong"));
+
+        result = await dockerUtils.prepareForDockerContainerCommand(
+            containerName,
+            node,
+            mockObjectExplorerService,
+        );
+        expect(!result.success, "Should return false if container does not exist").to.be.true;
+        expect(result.error).to.equal(LocalContainers.containerDoesNotExistError);
+    });
+
+    test("sanitizeContainerInput: should properly sanitize container input", () => {
+        // Test with valid input
+        let result = dockerUtils.sanitizeContainerInput("valid-container");
+        expect(result, "Valid name should remain unchanged").to.equal("valid-container");
+
+        // Test with alphanumeric and allowed special characters
+        result = dockerUtils.sanitizeContainerInput("test_container.1-2");
+        expect(result, "Name with allowed special chars should remain unchanged").to.equal(
+            "test_container.1-2",
+        );
+
+        // Test with disallowed special characters
+        result = dockerUtils.sanitizeContainerInput("test@container!");
+        expect(result, "Disallowed special chars should be removed").to.equal("testcontainer");
+
+        // Test with SQL injection attempt
+        result = dockerUtils.sanitizeContainerInput("container';DROP TABLE users;--");
+        expect(result, "SQL injection chars should be removed").to.equal(
+            "containerDROPTABLEusers--",
+        );
+
+        // Test with command injection attempt
+        result = dockerUtils.sanitizeContainerInput('container" && echo Injected');
+        expect(result, "Command injection chars should be removed").to.equal(
+            "containerechoInjected",
+        );
+
+        // Test with command injection attempt
+        result = dockerUtils.sanitizeContainerInput('container"; rm -rf /');
+        expect(result, "Command injection chars should be removed").to.equal("containerrm-rf");
+
+        // Test with empty string
+        result = dockerUtils.sanitizeContainerInput("");
+        expect(result, "Empty string should remain empty").to.equal("");
+
+        // Test with only disallowed characters
+        result = dockerUtils.sanitizeContainerInput("@#$%^&*()");
+        expect(result, "String with only disallowed chars should become empty").to.equal("");
+
+        // Test with command injection attempts
+        const sanitizedInjection = dockerUtils.sanitizeContainerInput('container"; rm -rf / #');
+        expect(sanitizedInjection, "Command injection characters should be removed").to.equal(
+            "containerrm-rf",
+        );
+
+        // Test with invalid characters (should be removed)
+        const sanitizedInvalid = dockerUtils.sanitizeContainerInput(
+            "my container/with\\invalid:chars",
+        );
+        expect(sanitizedInvalid, "Invalid characters should be removed").to.equal(
+            "mycontainerwithinvalidchars",
+        );
+    });
+
+    test("getEngineErrorLink and getEngineErrorLinkText: should return correct error link and text", () => {
+        const platformStub = sandbox.stub(os, "platform");
+        const archStub = sandbox.stub(os, "arch");
+
+        // 1. Windows platform, x64 architecture
+        platformStub.returns(Platform.Windows);
+        archStub.returns("x64");
+
+        let errorLink = dockerUtils.getEngineErrorLink();
+        let errorLinkText = dockerUtils.getEngineErrorLinkText();
+        expect(errorLink, "Error link should match").to.equal(
+            dockerUtils.windowsContainersErrorLink,
+        );
+        expect(errorLinkText, "Error link text should match").to.equal(
+            LocalContainers.configureLinuxContainers,
+        );
+        platformStub.resetBehavior();
+        archStub.resetBehavior();
+
+        // 2. Mac platform, non x64 architecture
+        platformStub.returns(Platform.Mac);
+        archStub.returns("arm64");
+
+        errorLink = dockerUtils.getEngineErrorLink();
+        errorLinkText = dockerUtils.getEngineErrorLinkText();
+        expect(errorLink, "Error link should match").to.equal(dockerUtils.rosettaErrorLink);
+        expect(errorLinkText, "Error link text should match").to.equal(
+            LocalContainers.configureRosetta,
+        );
+        platformStub.resetBehavior();
+        archStub.resetBehavior();
+
+        // 3. Linux platform
+        platformStub.returns(Platform.Linux);
+        errorLink = dockerUtils.getEngineErrorLink();
+        errorLinkText = dockerUtils.getEngineErrorLinkText();
+        platformStub.resetBehavior();
+    });
+});
