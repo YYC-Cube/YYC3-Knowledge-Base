@@ -1,0 +1,2764 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>DGX Spark 操作中心 · YYC³</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='18' font-weight='700' font-family='sans-serif' fill='%23fff'%3ED%3C/text%3E%3C/svg%3E"
+    />
+    <style>
+      /* ═══════════════════════════════════════════
+   CSS Variables & Theme
+   ═══════════════════════════════════════════ */
+      :root {
+        --bg: #0a0a0f;
+        --bg2: #12121a;
+        --bg3: #1a1a2e;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.06);
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(255, 255, 255, 0.15);
+        --text: #f1f1f6;
+        --text2: rgba(255, 255, 255, 0.65);
+        --text3: rgba(255, 255, 255, 0.35);
+        --accent-v: #8b5cf6;
+        --accent-c: #06b6d4;
+        --accent-e: #22c55e;
+        --accent-r: #ef4444;
+        --radius: 14px;
+        --radius-sm: 8px;
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', 'Consolas', monospace;
+      }
+      .light {
+        --bg: #f5f5f0;
+        --bg2: #e8e8e3;
+        --bg3: #ddd;
+        --surface: rgba(0, 0, 0, 0.02);
+        --surface-hover: rgba(0, 0, 0, 0.05);
+        --border: rgba(0, 0, 0, 0.08);
+        --border-hover: rgba(0, 0, 0, 0.15);
+        --text: #1a1a2e;
+        --text2: rgba(0, 0, 0, 0.55);
+        --text3: rgba(0, 0, 0, 0.3);
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+      ::selection {
+        background: rgba(139, 92, 246, 0.3);
+        color: #fff;
+      }
+
+      /* ═══ Layout ═══ */
+      .app {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ═══ Sidebar ═══ */
+      .sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        transition: transform 0.3s ease;
+      }
+      .sidebar.hidden {
+        transform: translateX(-100%);
+      }
+      .sb-header {
+        padding: 20px 20px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .sb-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .sb-logo-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--accent-v), var(--accent-c));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .sb-logo-text {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .sb-logo-sub {
+        font-size: 10px;
+        color: var(--text3);
+        letter-spacing: 1px;
+      }
+      .sb-search {
+        margin: 12px 16px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+      }
+      .sb-search:focus-within {
+        border-color: var(--accent-v);
+      }
+      .sb-search input {
+        flex: 1;
+        background: none;
+        border: none;
+        outline: none;
+        color: var(--text);
+        font-size: 13px;
+      }
+      .sb-search input::placeholder {
+        color: var(--text3);
+      }
+      .sb-search svg {
+        width: 14px;
+        height: 14px;
+        color: var(--text3);
+        flex-shrink: 0;
+      }
+
+      /* ═══ Sidebar Progress ═══ */
+      .sb-progress {
+        margin: 0 16px 12px;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .sb-progress-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+      .sb-progress-label {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--text3);
+      }
+      .sb-progress-pct {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent-v);
+      }
+      .sb-progress-bar {
+        height: 4px;
+        border-radius: 2px;
+        background: var(--border);
+        overflow: hidden;
+        margin-bottom: 4px;
+      }
+      .sb-progress-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--accent-v), var(--accent-c));
+        transition: width 0.6s ease;
+      }
+      .sb-progress-count {
+        font-size: 10px;
+        color: var(--text3);
+      }
+      .sb-nav {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 12px 80px;
+      }
+      .sb-nav::-webkit-scrollbar {
+        width: 3px;
+      }
+      .sb-nav::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+      }
+      .sb-group {
+        margin-bottom: 16px;
+      }
+      .sb-group-title {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: var(--text3);
+        padding: 0 8px;
+        margin-bottom: 4px;
+      }
+      .sb-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        color: var(--text2);
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.15s;
+        text-decoration: none;
+        position: relative;
+      }
+      .sb-item:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .sb-item.active {
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--accent-v);
+      }
+      .sb-item .sb-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: var(--text3);
+        transition: 0.3s;
+      }
+      .sb-item .sb-dot.done {
+        background: var(--accent-e);
+        box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+      }
+      .sb-item .sb-dot.ext {
+        background: rgba(99, 102, 241, 0.5);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+      .sb-item .sb-label {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .sb-item .sb-order {
+        font-size: 9px;
+        color: var(--text3);
+        font-weight: 600;
+        width: 16px;
+        text-align: right;
+      }
+
+      /* ═══ Main ═══ */
+      .main {
+        flex: 1;
+        margin-left: 280px;
+        min-height: 100vh;
+        transition: margin-left 0.3s ease;
+      }
+      .main.expanded {
+        margin-left: 0;
+      }
+
+      /* ═══ Top bar ═══ */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 24px;
+        background: rgba(10, 10, 15, 0.8);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+      .light .topbar {
+        background: rgba(245, 245, 240, 0.8);
+      }
+      .topbar-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .topbar-subtitle {
+        font-size: 12px;
+        color: var(--text3);
+      }
+      .topbar-spacer {
+        flex: 1;
+      }
+      /* Topbar search — hidden by default, shown when sidebar collapsed */
+      .topbar-search {
+        display: none;
+        flex: 1;
+        max-width: 320px;
+        position: relative;
+      }
+      .main.expanded .topbar-search {
+        display: block;
+      }
+      .topbar-search input {
+        width: 100%;
+        padding: 6px 12px 6px 32px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        font-size: 13px;
+        outline: none;
+        transition: 0.2s;
+        font-family: inherit;
+      }
+      .topbar-search input:focus {
+        border-color: var(--accent-v);
+        background: var(--bg2);
+      }
+      .topbar-search input::placeholder {
+        color: var(--text3);
+      }
+      .topbar-search .ts-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text3);
+        font-size: 13px;
+        pointer-events: none;
+      }
+      /* Topbar time widget */
+      .topbar-time {
+        display: none;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        color: var(--text2);
+        font-family: var(--mono);
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        user-select: none;
+        white-space: nowrap;
+      }
+      .main.expanded .topbar-time {
+        display: flex;
+      }
+      .topbar-time .tt-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-e);
+        animation: pulse-dot 2s ease infinite;
+      }
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+      /* Share button */
+      .btn-share {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+      .btn-share:hover {
+        background: var(--surface-hover);
+        color: var(--accent-v);
+        border-color: rgba(139, 92, 246, 0.3);
+      }
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn-theme,
+      .btn-menu {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+      .btn-theme:hover,
+      .btn-menu:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .btn-theme svg {
+        width: 16px;
+        height: 16px;
+      }
+      .progress-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .btn-action {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+      .btn-action:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .btn-action.btn-danger:hover {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+        border-color: rgba(239, 68, 68, 0.3);
+      }
+
+      /* ═══ Dashboard ═══ */
+      .dashboard {
+        padding: 24px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .dash-header {
+        margin-bottom: 32px;
+      }
+      .dash-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--accent-v);
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .dash-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        line-height: 1.2;
+      }
+      .dash-desc {
+        font-size: 14px;
+        color: var(--text2);
+        max-width: 600px;
+        line-height: 1.5;
+      }
+      .dash-stats {
+        display: flex;
+        gap: 16px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .stat-card {
+        padding: 12px 18px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .stat-num {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: var(--text2);
+      }
+
+      /* ═══ Filter bar ═══ */
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .filter-btn {
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text2);
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-weight: 500;
+      }
+      .filter-btn:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+      .filter-btn.active {
+        background: var(--accent-v);
+        color: #fff;
+        border-color: var(--accent-v);
+      }
+      .filter-btn[data-cat='all'].active {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+      }
+
+      /* ═══ Category section ═══ */
+      .cat-section {
+        margin-bottom: 36px;
+      }
+      .cat-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .cat-icon {
+        font-size: 20px;
+      }
+      .cat-name {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .cat-count {
+        font-size: 12px;
+        color: var(--text3);
+      }
+      .cat-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* ═══ Card grid ═══ */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px;
+      }
+      .guide-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.4s ease both;
+      }
+      .guide-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow);
+      }
+      .guide-card.hidden {
+        display: none;
+      }
+      .guide-card .gc-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .gc-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .gc-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .gc-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .gc-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        line-height: 1.3;
+      }
+      .gc-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .gc-tag {
+        font-size: 10px;
+        padding: 1px 7px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .gc-tag.easy {
+        background: rgba(34, 197, 94, 0.12);
+        color: #22c55e;
+      }
+      .gc-tag.medium {
+        background: rgba(245, 158, 11, 0.12);
+        color: #f59e0b;
+      }
+      .gc-tag.hard {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+      }
+      .gc-time {
+        font-size: 10px;
+        color: var(--text3);
+      }
+      .gc-desc {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .gc-tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .gc-tags span {
+        font-size: 9px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: var(--surface);
+        color: var(--text3);
+        border: 1px solid var(--border);
+      }
+      .gc-check {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        cursor: pointer;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+      }
+      .gc-check.done {
+        background: var(--accent-e);
+        border-color: var(--accent-e);
+      }
+      .gc-check.done::after {
+        content: '✓';
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      /* ═══ Guide Detail ═══ */
+      .guide-detail {
+        display: none;
+        padding: 24px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .guide-detail.active {
+        display: block;
+      }
+      .gd-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        font-size: 12px;
+        transition: 0.2s;
+        text-decoration: none;
+        margin-bottom: 20px;
+      }
+      .gd-back:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .gd-hero {
+        padding: 24px;
+        border-radius: var(--radius);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+      .gd-hero-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+      .gd-hero-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+      .gd-hero-info {
+        flex: 1;
+      }
+      .gd-hero-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .gd-hero-desc {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+      .gd-hero-meta {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .gd-hero-meta span {
+        font-size: 12px;
+        color: var(--text3);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .gd-prereq {
+        margin-bottom: 24px;
+        padding: 16px 20px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .gd-prereq-title {
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text2);
+      }
+      .gd-prereq ul {
+        padding-left: 16px;
+      }
+      .gd-prereq li {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.7;
+      }
+
+      /* ═══ Steps ═══ */
+      .step {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        margin-bottom: 12px;
+        overflow: hidden;
+        background: var(--surface);
+        transition: 0.2s;
+      }
+      .step:hover {
+        border-color: var(--border-hover);
+      }
+      .step.destructive {
+        border-left: 3px solid #ef4444;
+      }
+      .step-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .step-num {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        transition: 0.2s;
+        cursor: pointer;
+      }
+      .step-num:hover {
+        transform: scale(1.1);
+      }
+      .step-num-done {
+        background: #22c55e !important;
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+      }
+      .step-title-done {
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+      .step-title {
+        flex: 1;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .step-time {
+        font-size: 11px;
+        color: var(--text3);
+        white-space: nowrap;
+      }
+      .step-toggle {
+        font-size: 12px;
+        color: var(--text3);
+        transition: transform 0.3s ease;
+        width: 20px;
+        text-align: center;
+      }
+      .step.open .step-toggle {
+        transform: rotate(90deg);
+      }
+      .step-body {
+        display: none;
+      }
+      .step.open .step-body {
+        display: block;
+      }
+      .step-body-inner {
+        padding: 0 18px 18px;
+      }
+      .step-content {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.7;
+        margin-bottom: 12px;
+      }
+      .step-content p {
+        margin-bottom: 8px;
+      }
+      .step-content code {
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--accent-v);
+        font-family: var(--font-mono);
+        font-size: 12px;
+      }
+      .step-warning {
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        margin-bottom: 10px;
+        font-size: 12px;
+        color: #ef4444;
+        line-height: 1.5;
+      }
+      .step-tip {
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        background: rgba(6, 182, 212, 0.08);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        margin-bottom: 10px;
+        font-size: 12px;
+        color: var(--accent-c);
+        line-height: 1.5;
+      }
+
+      /* ═══ Code block ═══ */
+      .code-block {
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        margin-bottom: 10px;
+      }
+      .code-hdr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 12px;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+      }
+      .code-hdr span {
+        font-size: 11px;
+        color: var(--text3);
+        font-family: var(--font-mono);
+      }
+      .copy-btn {
+        padding: 3px 10px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        font-size: 11px;
+        transition: 0.2s;
+        background: var(--surface);
+        color: var(--text2);
+      }
+      .copy-btn:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .copy-btn.copied {
+        background: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+      }
+      .code-block pre {
+        padding: 12px 14px;
+        overflow-x: auto;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        line-height: 1.6;
+        color: var(--text);
+        tab-size: 2;
+        background: var(--bg);
+      }
+      .code-block pre::-webkit-scrollbar {
+        height: 3px;
+      }
+      .code-block pre::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+      }
+
+      /* ═══ Progress ═══ */
+      .gd-progress {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding: 10px 16px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .gd-progress-bar {
+        flex: 1;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--border);
+        overflow: hidden;
+      }
+      .gd-progress-fill {
+        height: 100%;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--accent-v), var(--accent-c));
+        transition: width 0.5s ease;
+        width: 0%;
+      }
+      .gd-progress-text {
+        font-size: 11px;
+        color: var(--text3);
+        white-space: nowrap;
+      }
+
+      /* ═══ Loading ═══ */
+      .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px;
+        gap: 16px;
+      }
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent-v);
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .loading p {
+        font-size: 13px;
+        color: var(--text3);
+      }
+
+      /* ═══ Empty ═══ */
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text3);
+      }
+      .empty-state svg {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 12px;
+        opacity: 0.5;
+      }
+      .empty-state p {
+        font-size: 14px;
+      }
+
+      /* ═══ Card Step Strip ═══ */
+      .gc-steps {
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px solid var(--border);
+      }
+      .gc-steps-label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--text3);
+        margin-bottom: 4px;
+      }
+      .gc-steps-list {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .gc-step-item {
+        font-size: 11px;
+        color: var(--text2);
+        padding: 2px 6px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .gc-step-item:hover {
+        background: var(--surface-hover);
+        color: var(--accent-v);
+      }
+      .gc-step-item .gc-si-num {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        font-weight: 700;
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .gc-step-item .gc-si-done {
+        width: 14px;
+        text-align: center;
+        font-size: 10px;
+        flex-shrink: 0;
+        color: var(--accent-e);
+      }
+      .gc-step-more {
+        font-size: 10px;
+        color: var(--accent-v);
+        font-weight: 500;
+        cursor: pointer;
+        padding: 2px 6px;
+        border-radius: 4px;
+        transition: 0.15s;
+      }
+      .gc-step-more:hover {
+        background: rgba(139, 92, 246, 0.1);
+      }
+
+      /* ═══ External Resource Card ═══ */
+      .external-card .gc-ext-link {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: var(--text3);
+        transition: 0.2s;
+        flex-shrink: 0;
+      }
+      .external-card:hover .gc-ext-link {
+        background: var(--surface-hover);
+        color: var(--accent-v);
+        border-color: var(--accent-v);
+      }
+      .gc-domain {
+        margin-top: 8px;
+        font-size: 10px;
+        color: var(--text3);
+        font-family: var(--mono);
+        background: var(--surface);
+        padding: 3px 8px;
+        border-radius: 4px;
+        display: inline-block;
+        border: 1px solid var(--border);
+        word-break: break-all;
+      }
+      .external-card:hover .gc-domain {
+        color: var(--accent-v);
+        border-color: rgba(99, 102, 241, 0.3);
+      }
+
+      /* ═══ Skills Panel ═══ */
+      .skills-panel {
+        display: none;
+        margin-top: 24px;
+      }
+      .skills-panel.active {
+        display: block;
+      }
+      .skills-cat {
+        margin-bottom: 32px;
+      }
+      .skills-cat-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        margin-bottom: 14px;
+        border-radius: var(--radius-sm);
+        border-left: 4px solid var(--sk-color, #666);
+        background: var(--surface);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        position: relative;
+      }
+      .skills-cat-header .sc-icon {
+        font-size: 18px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .skills-cat-header .sc-stars {
+        font-size: 11px;
+        color: #fbbf24;
+        letter-spacing: 1px;
+        flex-shrink: 0;
+      }
+      .skills-cat-header .sc-count {
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--text3);
+        margin-left: auto;
+      }
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 10px;
+      }
+      .skill-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--sk-color, #666);
+        border-radius: var(--radius-sm);
+        padding: 12px 14px;
+        cursor: default;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .skill-card:hover {
+        border-color: var(--border-hover);
+        background: var(--surface-hover);
+      }
+      .skill-card .sk-head {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 4px;
+      }
+      .skill-card .sk-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .skill-card .sk-stars {
+        font-size: 10px;
+        color: #fbbf24;
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .skill-card .sk-desc {
+        font-size: 11px;
+        color: var(--text2);
+        line-height: 1.5;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-clamp: 3;
+      }
+      .skill-card.hidden-by-search {
+        display: none;
+      }
+      .skill-card .sk-cmd-wrap {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent-c);
+        cursor: pointer;
+        transition: background 0.2s;
+        user-select: all;
+      }
+      .skill-card .sk-cmd-wrap:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+      .skill-card .sk-cmd-wrap .sk-copy {
+        margin-left: auto;
+        font-size: 14px;
+        opacity: 0.5;
+        flex-shrink: 0;
+      }
+      .skill-card .sk-cmd-wrap:hover .sk-copy {
+        opacity: 1;
+      }
+      .skills-empty {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text3);
+        font-size: 14px;
+      }
+
+      /* ═══ Commands Panel ═══ */
+      .commands-panel {
+        display: none;
+        margin-top: 24px;
+      }
+      .commands-panel.active {
+        display: block;
+      }
+      .cmd-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+        gap: 8px;
+      }
+      .cmd-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--cmd-color, #0ea5e9);
+        border-radius: var(--radius-sm);
+        padding: 10px 12px;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+      }
+      .cmd-card:hover {
+        border-color: var(--border-hover);
+        background: var(--surface-hover);
+      }
+      .cmd-card.hidden-by-search {
+        display: none;
+      }
+      .cmd-card .cmd-head {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 4px;
+      }
+      .cmd-card .cmd-icon {
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .cmd-card .cmd-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .cmd-card .cmd-tag {
+        font-size: 9px;
+        padding: 1px 6px;
+        border-radius: 3px;
+        background: rgba(14, 165, 233, 0.15);
+        color: #38bdf8;
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .cmd-card .cmd-desc {
+        font-size: 11px;
+        color: var(--text2);
+        line-height: 1.4;
+        margin-bottom: 6px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-clamp: 2;
+      }
+      .cmd-card .cmd-code {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        padding: 3px 8px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--accent-c);
+        cursor: pointer;
+        transition: background 0.15s;
+        user-select: all;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .cmd-card .cmd-code:hover {
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .cmd-card .cmd-copy-btn {
+        margin-left: auto;
+        flex-shrink: 0;
+        font-size: 12px;
+        opacity: 0.4;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+      .cmd-card .cmd-code:hover .cmd-copy-btn {
+        opacity: 1;
+      }
+      .cmd-empty {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text3);
+        font-size: 14px;
+      }
+
+      /* ═══ Card Step Progress Badge ═══ */
+      .gc-step-progress {
+        position: absolute;
+        top: 14px;
+        right: 40px;
+        font-size: 9px;
+        padding: 2px 7px;
+        border-radius: 10px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text3);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+      }
+      .gc-step-progress.has-progress {
+        border-color: rgba(34, 197, 94, 0.3);
+        color: var(--accent-e);
+      }
+
+      /* ═══ Preview Modal ═══ */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 200;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+      }
+      .modal-overlay.show {
+        display: flex;
+      }
+      .modal-box {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        max-width: 520px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        animation: fadeUp 0.3s ease both;
+      }
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px 12px;
+        border-bottom: 1px solid var(--border);
+      }
+      .modal-title {
+        font-size: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .modal-close {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        transition: 0.15s;
+      }
+      .modal-close:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .modal-body {
+        padding: 16px 20px 20px;
+      }
+      .modal-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .modal-step:last-child {
+        border-bottom: none;
+      }
+      .modal-step:hover {
+        padding-left: 4px;
+      }
+      .modal-step .ms-num {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .modal-step .ms-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .modal-step .ms-title {
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .modal-step .ms-meta {
+        font-size: 11px;
+        color: var(--text3);
+        margin-top: 1px;
+      }
+      .modal-step .ms-check {
+        color: var(--accent-e);
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      /* ═══ Animations ═══ */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .guide-card:nth-child(1) {
+        animation-delay: 0.02s;
+      }
+      .guide-card:nth-child(2) {
+        animation-delay: 0.04s;
+      }
+      .guide-card:nth-child(3) {
+        animation-delay: 0.06s;
+      }
+      .guide-card:nth-child(4) {
+        animation-delay: 0.08s;
+      }
+
+      /* ═══ Mobile ═══ */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%;
+        }
+        .sidebar.hidden {
+          transform: translateX(-100%);
+        }
+        .main {
+          margin-left: 0;
+        }
+        .dashboard {
+          padding: 16px;
+        }
+        .guide-detail {
+          padding: 16px;
+        }
+        .dash-title {
+          font-size: 22px;
+        }
+        .card-grid {
+          grid-template-columns: 1fr;
+        }
+        .topbar {
+          padding: 10px 16px;
+        }
+        .sb-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 99;
+          display: none;
+        }
+        .sb-overlay.show {
+          display: block;
+        }
+        .stat-card {
+          flex: 1;
+          min-width: 100px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="app">
+      <div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar()"></div>
+
+      <aside class="sidebar" id="sidebar">
+        <div class="sb-header">
+          <a class="sb-logo" href="#" onclick="showDashboard()">
+            <div class="sb-logo-icon">D</div>
+            <div>
+              <div class="sb-logo-text">DGX Spark 操作中心</div>
+              <div class="sb-logo-sub">YYC³ · NVIDIA 集成</div>
+            </div>
+          </a>
+        </div>
+        <div class="sb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" id="sbSearchInput" placeholder="搜索指南..." oninput="filterSidebar(this.value)" />
+        </div>
+        <!-- Sidebar Progress Bar -->
+        <div class="sb-progress" id="sbProgress">
+          <div class="sb-progress-header">
+            <span class="sb-progress-label">总体进度</span>
+            <span class="sb-progress-pct" id="sbProgressPct">0%</span>
+          </div>
+          <div class="sb-progress-bar">
+            <div class="sb-progress-fill" id="sbProgressFill" style="width: 0%"></div>
+          </div>
+          <div class="sb-progress-count" id="sbProgressCount">0 / 0 已完成</div>
+        </div>
+        <nav class="sb-nav" id="sbNav">
+          <div class="loading">
+            <div class="spinner"></div>
+            <p>加载指南数据...</p>
+          </div>
+        </nav>
+      </aside>
+
+      <div class="main" id="main">
+        <div class="topbar">
+          <button class="btn-menu" onclick="toggleSidebar()" aria-label="Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          </button>
+          <div>
+            <div class="topbar-title" id="topbarTitle">DGX Spark 操作中心</div>
+            <div class="topbar-subtitle" id="topbarSubtitle">NVIDIA 官方集成操作指南</div>
+          </div>
+          <div class="topbar-search">
+            <span class="ts-icon">🔍</span>
+            <input type="text" id="topbarSearchInput" placeholder="搜索指南…" oninput="topbarSearch(this.value)" />
+          </div>
+          <div class="topbar-spacer"></div>
+          <div class="topbar-time" id="topbarClock">
+            <span class="tt-dot"></span>
+            <span id="clockDisplay">--:--:--</span>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn-share" onclick="sharePage()" title="分享当前页面">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+            <div class="progress-actions">
+              <button class="btn-action" onclick="exportProgress()" title="导出进度">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </button>
+              <button class="btn-action" onclick="importProgress()" title="导入进度">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+              </button>
+              <button class="btn-action btn-danger" onclick="resetProgress()" title="重置进度">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </button>
+            </div>
+            <button class="btn-theme" onclick="toggleTheme()" aria-label="切换主题">
+              <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="dashboard" id="dashboardView">
+          <div class="dash-header">
+            <div class="dash-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+              <span id="guideCount">加载中...</span>
+            </div>
+            <h1 class="dash-title">NVIDIA DGX Spark 操作中心</h1>
+            <p class="dash-desc">
+              从入门配置到集群互联，从推理引擎到模型微调 — 涵盖 DGX Spark 全链路操作指南与 NVIDIA 官方集成方案。
+            </p>
+            <div class="dash-stats" id="dashStats"></div>
+          </div>
+          <div class="filter-bar" id="filterBar"></div>
+          <div id="dashboardContent">
+            <div class="loading">
+              <div class="spinner"></div>
+              <p>加载指南数据...</p>
+            </div>
+          </div>
+          <div class="skills-panel" id="skillsPanel"></div>
+          <div class="commands-panel" id="commandsPanel"></div>
+        </div>
+
+        <div class="guide-detail" id="guideDetail"></div>
+      </div>
+    </div>
+
+    <script src="DGX-SPARK-DATA.js"></script>
+
+    <!-- ═══ Preview Modal ═══ -->
+    <div class="modal-overlay" id="previewModal" onclick="if (event.target === this) closePreviewModal();">
+      <div class="modal-box">
+        <div class="modal-header">
+          <div class="modal-title" id="modalTitle">📋 步骤预览</div>
+          <button class="modal-close" onclick="closePreviewModal()">✕</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+    <script>
+      /* ══════════════════════════════════════════════════
+       Application Logic
+       ══════════════════════════════════════════════════ */
+      let currentGuide = null;
+      let currentFilter = 'all';
+      let searchQuery = '';
+
+      /* ═══ Smart Chinese Search ═══ */
+      function smartMatch(text, query) {
+        if (!query) return true;
+        const t = text.toLowerCase().trim();
+        const q = query.toLowerCase().trim();
+        // Normalize full-width to half-width
+        const norm = (s) =>
+          s.replace(/[\uff01-\uff5e]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0)).replace(/\u3000/g, ' ');
+        const tn = norm(t);
+        const qn = norm(q);
+        // Character-level matching for Chinese: split into individual chars
+        // For Latin: word-level; for Chinese: character-level
+        const chars = qn.split('');
+        let pos = 0;
+        for (const ch of chars) {
+          const idx = tn.indexOf(ch, pos);
+          if (idx === -1) {
+            // Try pinyin-like fuzzy for Chinese: match if chars are in sequence
+            // Fallback: check if each char exists anywhere
+            if (tn.indexOf(ch) === -1) return false;
+            continue;
+          }
+          pos = idx + 1;
+        }
+        return true;
+      }
+
+      /* ═══ Theme ═══ */
+      function toggleTheme() {
+        const isLight = document.documentElement.classList.toggle('light');
+        const icon = document.getElementById('themeIcon');
+        if (isLight) {
+          icon.innerHTML =
+            '<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/><circle cx="12" cy="12" r="4"/>';
+        } else {
+          icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+        }
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      }
+      function initTheme() {
+        if (localStorage.getItem('theme') === 'light') toggleTheme();
+      }
+      initTheme();
+
+      /* ═══ Sidebar ═══ */
+      function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('hidden');
+        document.getElementById('sbOverlay').classList.toggle('show');
+        document.getElementById('main').classList.toggle('expanded');
+      }
+
+      /* ═══ Sidebar Navigation ═══ */
+      function buildSidebar() {
+        if (!GUIDES) return;
+        const nav = document.getElementById('sbNav');
+        const catLabels = getCategoryLabels();
+        const groups = {};
+        GUIDES.forEach((g) => {
+          if (!groups[g.cat]) groups[g.cat] = [];
+          groups[g.cat].push(g);
+        });
+        let html = '';
+        Object.entries(groups).forEach(([cat, guides]) => {
+          html += `<div class="sb-group"><div class="sb-group-title">${catLabels[cat] || cat}</div>`;
+          guides.forEach((g) => {
+            const done = localStorage.getItem('guide-done-' + g.id) === '1';
+            if (g.type === 'external') {
+              html += `<a class="sb-item" href="${escHtml(g.externalUrl)}" target="_blank" rel="noopener" data-id="${g.id}">
+            <span class="sb-dot ext"></span>
+            <span class="sb-label">${g.order}. ${g.title}</span>
+            <span class="sb-order">↗</span>
+          </a>`;
+            } else {
+              html += `<a class="sb-item" href="#" onclick="showGuide('${g.id}')" data-id="${g.id}">
+            <span class="sb-dot ${done ? 'done' : ''}"></span>
+            <span class="sb-label">${g.order}. ${g.title}</span>
+            <span class="sb-order">${diffIcon(g.diff)}</span>
+          </a>`;
+            }
+          });
+          html += '</div>';
+        });
+        nav.innerHTML = html;
+        updateSidebarProgress();
+      }
+
+      function diffIcon(d) {
+        if (d === 'easy') return '★';
+        if (d === 'medium') return '★★';
+        return '★★★';
+      }
+
+      function filterSidebar(q) {
+        searchQuery = q;
+        document.querySelectorAll('.sb-item').forEach((el) => {
+          const label = el.querySelector('.sb-label')?.textContent?.toLowerCase() || '';
+          el.style.display = smartMatch(label, searchQuery) ? '' : 'none';
+        });
+        // Also update sidebar group visibility
+        document.querySelectorAll('.sb-group').forEach((grp) => {
+          const visible = [...grp.querySelectorAll('.sb-item')].some((el) => el.style.display !== 'none');
+          grp.style.display = visible ? '' : 'none';
+        });
+        // Sync with dashboard if visible
+        const dashboard = document.getElementById('dashboardView');
+        if (dashboard.style.display !== 'none') {
+          applyFilters();
+        }
+        // Also filter skills panel if visible
+        const sp = document.getElementById('skillsPanel');
+        if (sp.style.display !== 'none' && typeof filterSkills === 'function') {
+          filterSkills(q);
+        }
+        // Also filter commands panel if visible
+        const cp = document.getElementById('commandsPanel');
+        if (cp.style.display !== 'none' && typeof filterCommands === 'function') {
+          filterCommands(q);
+        }
+      }
+
+      /* ═══ Topbar Search Sync ═══ */
+      function topbarSearch(val) {
+        // Sync sidebar search value
+        const sbInput = document.getElementById('sbSearchInput');
+        if (sbInput) sbInput.value = val;
+        filterSidebar(val);
+      }
+      // Sync sidebar search back to topbar when sidebar is visible
+      document.addEventListener('DOMContentLoaded', () => {
+        const sbInput = document.getElementById('sbSearchInput');
+        if (sbInput) {
+          sbInput.addEventListener('input', () => {
+            const tbInput = document.getElementById('topbarSearchInput');
+            if (tbInput) tbInput.value = sbInput.value;
+          });
+        }
+      });
+
+      /* ═══ Clock Widget ═══ */
+      function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        const el = document.getElementById('clockDisplay');
+        if (el) el.textContent = h + ':' + m + ':' + s;
+      }
+
+      /* ═══ Share Page ═══ */
+      function sharePage() {
+        const url = window.location.href;
+        const title = document.getElementById('topbarTitle').textContent;
+        if (navigator.share) {
+          navigator.share({ title: title, url: url }).catch(() => {});
+        } else if (navigator.clipboard) {
+          navigator.clipboard.writeText(url).then(() => {
+            const btn = document.querySelector('.btn-share');
+            const orig = btn.innerHTML;
+            btn.innerHTML =
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+            btn.title = '已复制链接';
+            setTimeout(() => {
+              btn.innerHTML = orig;
+              btn.title = '分享当前页面';
+            }, 2000);
+          });
+        }
+      }
+
+      /* ═══ Dashboard ═══ */
+      function showDashboard() {
+        document.getElementById('guideDetail').classList.remove('active');
+        document.getElementById('guideDetail').style.display = 'none';
+        document.getElementById('dashboardView').style.display = 'block';
+        document.getElementById('topbarTitle').textContent = 'DGX Spark 操作中心';
+        document.getElementById('topbarSubtitle').textContent = 'NVIDIA 官方集成操作指南';
+        window.location.hash = '';
+        currentGuide = null;
+        document.querySelectorAll('.sb-item').forEach((el) => el.classList.remove('active'));
+      }
+
+      function getCategoryLabels() {
+        return {
+          'getting-started': '🚀 入门配置',
+          inference: '⚡ 推理引擎',
+          finetuning: '🎯 模型微调',
+          cluster: '🔗 集群互联',
+          quantization: '📉 模型量化',
+          'ai-application': '🤖 AI 应用',
+          'data-science': '📊 数据科学',
+          development: '🛠️ 开发工具',
+          security: '🛡️ 安全沙箱',
+          'github-repos': '📦 GitHub 仓库',
+          'nvidia-docs': '📘 NVIDIA 官方资源',
+          'mid-term': '🔶 中期可选',
+          skills: '🧰 NVIDIA Skills',
+          commands: '⌨️ 命令库',
+        };
+      }
+
+      function getCategoryColors() {
+        return {
+          'getting-started': '#22c55e',
+          inference: '#f59e0b',
+          finetuning: '#8b5cf6',
+          cluster: '#06b6d4',
+          quantization: '#3b82f6',
+          'ai-application': '#ec4899',
+          'data-science': '#14b8a6',
+          development: '#f97316',
+          security: '#ef4444',
+          'github-repos': '#6366f1',
+          'nvidia-docs': '#76b900',
+          'mid-term': '#f59e0b',
+          skills: '#a855f7',
+          commands: '#0ea5e9',
+        };
+      }
+
+      function renderDashboard() {
+        if (!GUIDES || !GUIDES.length) return;
+        const catLabels = getCategoryLabels();
+        const catColors = getCategoryColors();
+
+        // Stats
+        document.getElementById('guideCount').textContent = GUIDES.length + ' 篇操作指南';
+        const doneCount = GUIDES.filter((g) => localStorage.getItem('guide-done-' + g.id) === '1').length;
+        const cats = [...new Set(GUIDES.map((g) => g.cat))];
+        document.getElementById('dashStats').innerHTML = `
+        <div class="stat-card"><span class="stat-num">${GUIDES.length}</span><span class="stat-label">全部指南</span></div>
+        <div class="stat-card"><span class="stat-num">${cats.length}</span><span class="stat-label">分类</span></div>
+        <div class="stat-card"><span class="stat-num">${doneCount}</span><span class="stat-label">已完成</span></div>
+      `;
+
+        // Filters
+        const filterHtml = `<button class="filter-btn active" data-cat="all" onclick="filterByCategory('all',this)">🏠 全部</button>
+        ${Object.entries(catLabels)
+          .map(
+            ([k, v]) =>
+              `<button class="filter-btn" data-cat="${k}" onclick="filterByCategory('${k}',this)">${v}</button>`
+          )
+          .join('')}`;
+        document.getElementById('filterBar').innerHTML = filterHtml;
+
+        // Content
+        let html = '';
+        const groups = {};
+        GUIDES.forEach((g) => {
+          if (!groups[g.cat]) groups[g.cat] = [];
+          groups[g.cat].push(g);
+        });
+        Object.entries(groups).forEach(([cat, guides]) => {
+          const catColor = catColors[cat] || '#666';
+          const catDone = guides.filter((g) => localStorage.getItem('guide-done-' + g.id) === '1').length;
+          html += `<div class="cat-section" data-cat="${cat}">
+          <div class="cat-header">
+            <span class="cat-icon">${catLabels[cat]?.split(' ')[0] || '📁'}</span>
+            <span class="cat-name">${catLabels[cat] || cat}</span>
+            <span class="cat-count">${guides.length} 篇</span>
+            <span class="cat-progress" style="font-size:11px;color:var(--text3)">${catDone}/${guides.length} 完成</span>
+            <div class="cat-line"></div>
+          </div>
+          <div class="card-grid">`;
+          guides.forEach((g) => {
+            if (g.type === 'external') {
+              // External resource card — opens URL in new tab
+              html += `<a class="guide-card external-card" href="${escHtml(g.externalUrl)}" target="_blank" rel="noopener" data-cat="${g.cat}" data-diff="${g.diff}">
+            <div class="gc-bar" style="background:${catColor}"></div>
+            <div class="gc-head">
+              <div class="gc-icon" style="background:${catColor}22">${g.icon || '🔗'}</div>
+              <div class="gc-info">
+                <div class="gc-title">${g.order}. ${g.title}</div>
+                <div class="gc-meta">
+                  <span class="gc-tag ${g.diff}">${g.diff === 'easy' ? '⭐ 简单' : g.diff === 'medium' ? '⭐⭐ 中等' : '⭐⭐⭐ 高'}</span>
+                  <span class="gc-time">🔗 外部链接</span>
+                </div>
+              </div>
+              <span class="gc-ext-link">↗</span>
+            </div>
+            <div class="gc-desc">${g.desc || ''}</div>
+            <div class="gc-domain">${g.externalUrl.startsWith('http') ? new URL(g.externalUrl).hostname : '本地文件'}</div>
+          </a>`;
+              return;
+            }
+            const done = localStorage.getItem('guide-done-' + g.id) === '1';
+            const stepsDone = g.steps
+              ? g.steps.filter((s) => localStorage.getItem('step-done-' + g.id + '-' + s.n) === '1').length
+              : 0;
+            const totalSteps = g.steps ? g.steps.length : 0;
+            const stepProgCls = stepsDone > 0 ? 'has-progress' : '';
+            // Step preview: first 3 steps
+            const stepsPreview =
+              g.steps && g.steps.length > 0
+                ? `<div class="gc-steps">
+                      <div class="gc-steps-label">⚡ 操作步骤</div>
+                      <div class="gc-steps-list">
+                        ${g.steps
+                          .slice(0, 3)
+                          .map((s) => {
+                            const sDone = localStorage.getItem('step-done-' + g.id + '-' + s.n) === '1';
+                            const sColor = catColor;
+                            return `<span class="gc-step-item" onclick="event.stopPropagation();event.preventDefault();showGuide('${g.id}',${s.n})">
+                            <span class="gc-si-num" style="background:${sColor}">${sDone ? '✓' : s.n}</span>
+                            <span>${s.title}</span>
+                            ${sDone ? '<span class="gc-si-done">✓</span>' : ''}
+                          </span>`;
+                          })
+                          .join('')}
+                        ${g.steps.length > 3 ? `<span class="gc-step-more" onclick="event.stopPropagation();event.preventDefault();openPreviewModal('${g.id}')">查看全部 ${g.steps.length} 步 →</span>` : ''}
+                      </div>
+                    </div>`
+                : '';
+            html += `<a class="guide-card" href="#" onclick="showGuide('${g.id}')" data-cat="${g.cat}" data-diff="${g.diff}">
+            <div class="gc-bar" style="background:${catColor}"></div>
+            ${totalSteps > 0 ? `<div class="gc-step-progress ${stepProgCls}">📋 ${stepsDone}/${totalSteps}</div>` : ''}
+            <div class="gc-head">
+              <div class="gc-icon" style="background:${catColor}22">${g.icon || '📄'}</div>
+              <div class="gc-info">
+                <div class="gc-title">${g.order}. ${g.title}</div>
+                <div class="gc-meta">
+                  <span class="gc-tag ${g.diff}">${g.diff === 'easy' ? '⭐ 简单' : g.diff === 'medium' ? '⭐⭐ 中等' : '⭐⭐⭐ 高'}</span>
+                  <span class="gc-time">⏱ ${g.time || '—'}</span>
+                </div>
+              </div>
+              <div class="gc-check ${done ? 'done' : ''}" onclick="event.stopPropagation();event.preventDefault();toggleDone('${g.id}')"></div>
+            </div>
+            <div class="gc-desc">${g.desc || ''}</div>
+            ${
+              g.prereq
+                ? `<div class="gc-tags">${g.prereq
+                    .slice(0, 3)
+                    .map((p) => `<span>${p}</span>`)
+                    .join('')}</div>`
+                : ''
+            }
+            ${stepsPreview}
+          </a>`;
+          });
+          html += '</div></div>';
+        });
+        document.getElementById('dashboardContent').innerHTML = html;
+        updateSidebarDots();
+        updateSidebarProgress();
+      }
+
+      /* ═══ Filters ═══ */
+      function filterByCategory(cat, btn) {
+        currentFilter = cat;
+        document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Show/hide skills panel vs dashboard
+        const sp = document.getElementById('skillsPanel');
+        const cp = document.getElementById('commandsPanel');
+        const dc = document.getElementById('dashboardContent');
+        const ds = document.getElementById('dashStats');
+        const gc = document.getElementById('guideCount');
+        if (cat === 'skills') {
+          dc.style.display = 'none';
+          sp.style.display = 'block';
+          cp.style.display = 'none';
+          ds.style.display = 'none';
+          gc.textContent = (typeof SKILLS !== 'undefined' ? SKILLS.length : 0) + ' 条 NVIDIA Skills';
+          if (sp.innerHTML === '') renderSkillsPanel();
+        } else if (cat === 'commands') {
+          dc.style.display = 'none';
+          sp.style.display = 'none';
+          cp.style.display = 'block';
+          ds.style.display = 'none';
+          gc.textContent = (typeof COMMANDS !== 'undefined' ? COMMANDS.length : 0) + ' 条命令';
+          if (cp.innerHTML === '') renderCommandsPanel();
+        } else {
+          dc.style.display = '';
+          sp.style.display = 'none';
+          cp.style.display = 'none';
+          ds.style.display = '';
+          applyFilters();
+        }
+      }
+
+      function applyFilters() {
+        const cards = document.querySelectorAll('.guide-card');
+        const sections = document.querySelectorAll('.cat-section');
+        cards.forEach((card) => {
+          const cat = card.dataset.cat;
+          const diff = card.dataset.diff;
+          const title = card.querySelector('.gc-title')?.textContent?.toLowerCase() || '';
+          const desc = card.querySelector('.gc-desc')?.textContent?.toLowerCase() || '';
+          const searchable = title + ' ' + desc;
+          const matchesCat = currentFilter === 'all' || cat === currentFilter;
+          const matchesSearch = smartMatch(searchable, searchQuery);
+          card.classList.toggle('hidden', !(matchesCat && matchesSearch));
+        });
+        sections.forEach((sec) => {
+          const visible = [...sec.querySelectorAll('.guide-card')].some((c) => !c.classList.contains('hidden'));
+          sec.style.display = visible ? '' : 'none';
+        });
+      }
+
+      /* ═══ Skills Panel ═══ */
+      function renderSkillsPanel() {
+        if (typeof SKILLS === 'undefined' || !SKILLS.length) return;
+        const sp = document.getElementById('skillsPanel');
+
+        const groups = {};
+        SKILLS.forEach((s) => {
+          var key = s.subcat || s.cat || 'other';
+          if (!groups[key]) groups[key] = [];
+          groups[key].push(s);
+        });
+
+        const scatInfo = {
+          rag: { name: 'RAG 检索增强生成', icon: '🔍', color: '#6366f1', stars: 2 },
+          aiq: { name: 'AI-Q 基础设施', icon: '�', color: '#818cf8', stars: 2 },
+          cuda: { name: 'CUDA 加速计算', icon: '💻', color: '#06b6d4', stars: 3 },
+          cuopt: { name: 'cuOpt 数学优化', icon: '📐', color: '#14b8a6', stars: 3 },
+          deepstream: { name: 'DeepStream 视频分析', icon: '�', color: '#0ea5e9', stars: 2 },
+          dynamo: { name: 'Dynamo 推理服务', icon: '⚙️', color: '#f59e0b', stars: 3 },
+          earth2: { name: 'Earth2 天气气候', icon: '🌤️', color: '#84cc16', stars: 3 },
+          holoscan: { name: 'Holoscan 医疗设备', icon: '🏥', color: '#f97316', stars: 4 },
+          megatron: { name: 'Megatron 框架工具', icon: '🔧', color: '#8b5cf6', stars: 4 },
+          medical: { name: '医疗影像 AI', icon: '🩻', color: '#2563eb', stars: 4 },
+          nemo: { name: 'NeMo 框架生态', icon: '🤖', color: '#22c55e', stars: 3 },
+          nemoclaw: { name: 'NemoClaw 沙箱安全', icon: '🛡️', color: '#ef4444', stars: 2 },
+          nemotron: { name: 'Nemotron 语音定制', icon: '🎤', color: '#ec4899', stars: 3 },
+          omniverse: { name: 'Omniverse 3D/USD', icon: '🌐', color: '#a855f7', stars: 3 },
+          physical: { name: 'Physical AI', icon: '🏗️', color: '#e11d48', stars: 4 },
+          science: { name: 'AI4Science', icon: '🔬', color: '#059669', stars: 5 },
+          tao: { name: 'TAO 工具包 (38)', icon: '🎯', color: '#d97706', stars: 3 },
+          tilegym: { name: 'TileGym 内核优化', icon: '🧩', color: '#0891b2', stars: 4 },
+          vss: { name: 'VSS 视频分析', icon: '🎥', color: '#0284c7', stars: 3 },
+          data: { name: '数据处理设计', icon: '💾', color: '#65a30d', stars: 2 },
+          governance: { name: '技能治理', icon: '🏛️', color: '#9333ea', stars: 1 },
+          other: { name: '其他', icon: '📦', color: '#666', stars: 2 },
+        };
+
+        function stars(n) {
+          return '★'.repeat(n) + '☆'.repeat(5 - n);
+        }
+
+        let html =
+          '<div class="dash-header" style="margin-bottom:16px"><div class="dash-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg><span>' +
+          SKILLS.length +
+          ' 条 NVIDIA Skills</span></div><h1 class="dash-title" style="margin-top:8px">🧰 NVIDIA Skills — 智能体技能库（完整中文版 201 条）</h1><p class="dash-desc">完整中文翻译版，覆盖 21 个技能领域。通过 <code>npx skills add</code> 一键安装。</p></div>';
+
+        var scatOrder = [
+          'rag',
+          'aiq',
+          'cuda',
+          'cuopt',
+          'deepstream',
+          'dynamo',
+          'earth2',
+          'holoscan',
+          'megatron',
+          'medical',
+          'nemo',
+          'nemoclaw',
+          'nemotron',
+          'omniverse',
+          'physical',
+          'science',
+          'tao',
+          'tilegym',
+          'vss',
+          'data',
+          'governance',
+          'other',
+        ];
+        scatOrder.forEach(function (key) {
+          var list = groups[key];
+          if (!list) return;
+          var info = scatInfo[key] || { name: key, icon: '📁', color: '#666', stars: 2 };
+          var s = stars(info.stars);
+          html +=
+            '<div class="skills-cat" data-sk-cat="' +
+            key +
+            '"><div class="skills-cat-header" style="--sk-color:' +
+            info.color +
+            '"><span class="sc-icon">' +
+            info.icon +
+            '</span><span>' +
+            info.name +
+            ' (' +
+            list.length +
+            ')</span><span class="sc-stars">' +
+            s +
+            '</span><span class="sc-count">' +
+            list.length +
+            ' 条</span></div><div class="skills-grid">';
+          list.forEach(function (sk) {
+            var cmdS = sk.cmd.replace(/'/g, "\\'");
+            html +=
+              '<div class="skill-card" style="--sk-color:' +
+              info.color +
+              '"><div class="sk-head"><span class="sk-name">' +
+              sk.order +
+              '. ' +
+              sk.name +
+              '</span><span class="sk-stars">' +
+              s +
+              '</span></div><div class="sk-desc">' +
+              sk.desc +
+              '</div><div class="sk-cmd-wrap" onclick="navigator.clipboard.writeText(\'' +
+              cmdS +
+              "').then(()=>{this.querySelector('.sk-copy').textContent='✓'}).catch(()=>{})\">" +
+              sk.cmd +
+              '<span class="sk-copy">📋</span></div></div>';
+          });
+          html += '</div></div>';
+        });
+
+        sp.innerHTML = html;
+      }
+
+      /* ═══ Skills Search ═══ */
+      function filterSkills(q) {
+        var query = q.toLowerCase().trim();
+        var cards = document.querySelectorAll('#skillsPanel .skill-card');
+        var sections = document.querySelectorAll('#skillsPanel .skills-cat');
+        var visibleCount = 0;
+
+        cards.forEach(function (c) {
+          var txt = (c.querySelector('.sk-name')?.textContent || '') + (c.querySelector('.sk-desc')?.textContent || '');
+          var match = !query || txt.toLowerCase().includes(query);
+          c.classList.toggle('hidden-by-search', !match);
+          if (match) visibleCount++;
+        });
+
+        sections.forEach(function (sec) {
+          var visible = [...sec.querySelectorAll('.skill-card')].some(function (c) {
+            return !c.classList.contains('hidden-by-search');
+          });
+          sec.style.display = visible ? '' : 'none';
+        });
+
+        // Show/hide empty state
+        var empty = sp.querySelector('.skills-empty');
+        if (visibleCount === 0) {
+          if (!empty) {
+            var e = document.createElement('div');
+            e.className = 'skills-empty';
+            e.textContent = '🔍 未找到匹配的技能条目';
+            sp.appendChild(e);
+          }
+        } else if (empty) {
+          empty.remove();
+        }
+      }
+
+      /* ═══ Commands Panel ═══ */
+      function renderCommandsPanel() {
+        if (typeof COMMANDS === 'undefined' || !COMMANDS.length) return;
+        const cp = document.getElementById('commandsPanel');
+
+        // Group by category
+        const catNames = {
+          system: '🖥️ 系统管理',
+          inference: '⚡ 推理引擎',
+          training: '🎯 训练微调',
+          monitoring: '📊 监控诊断',
+          development: '🛠️ 开发工具',
+          'nvidia-skills': '🧠 NVIDIA Skills',
+        };
+        const catColors = {
+          system: '#0ea5e9',
+          inference: '#f59e0b',
+          training: '#8b5cf6',
+          monitoring: '#22c55e',
+          development: '#f97316',
+          'nvidia-skills': '#6366f1',
+        };
+
+        const groups = {};
+        COMMANDS.forEach(function (c) {
+          if (!groups[c.cat]) groups[c.cat] = [];
+          groups[c.cat].push(c);
+        });
+
+        let html = '<div class="dash-header" style="margin-bottom:12px">';
+        html +=
+          '<div class="dash-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg><span>' +
+          COMMANDS.length +
+          ' 条命令</span></div>';
+        html += '<h1 class="dash-title" style="margin-top:6px">⌨️ DGX Spark 命令与脚本库</h1>';
+        html +=
+          '<p class="dash-desc">基于 DGX Spark 设备架构 + NVIDIA Skills 知识体系，精心设计 ' +
+          COMMANDS.length +
+          ' 条命令与脚本，覆盖系统管理、推理部署、训练微调、监控诊断等全链路操作。点击命令即复制。</p></div>';
+
+        var catOrder = Object.keys(catNames);
+        catOrder.forEach(function (cat) {
+          var cmds = groups[cat];
+          if (!cmds) return;
+          var color = catColors[cat] || '#0ea5e9';
+
+          html += '<div class="skills-cat" data-cmd-cat="' + cat + '">';
+          html += '<div class="skills-cat-header" style="--sk-color:' + color + '">';
+          html += '<span class="sc-icon">' + catNames[cat].split(' ')[0] + '</span>';
+          html += '<span>' + catNames[cat] + '</span>';
+          html += '<span class="sc-count">' + cmds.length + ' 条</span></div>';
+          html += '<div class="cmd-grid">';
+
+          cmds.forEach(function (c) {
+            var subcatLabel = c.subcat ? '<span class="cmd-tag">' + c.subcat + '</span>' : '';
+            var cmdEsc = c.cmd.replace(/'/g, "\\'");
+            html += '<div class="cmd-card" style="--cmd-color:' + color + '">';
+            html += '<div class="cmd-head"><span class="cmd-icon">' + c.icon + '</span>';
+            html += '<span class="cmd-title">' + c.title + '</span>' + subcatLabel + '</div>';
+            html += '<div class="cmd-desc">' + c.desc + '</div>';
+            html +=
+              '<div class="cmd-code" onclick="navigator.clipboard.writeText(\'' +
+              cmdEsc +
+              "').then(()=>{this.querySelector('.cmd-copy-btn').textContent='✓';setTimeout(()=>{this.querySelector('.cmd-copy-btn').textContent='📋'},1500)}).catch(()=>{})\">" +
+              c.cmd +
+              '<span class="cmd-copy-btn">📋</span></div>';
+            html += '</div>';
+          });
+
+          html += '</div></div>';
+        });
+
+        cp.innerHTML = html;
+      }
+
+      /* ═══ Commands Search ═══ */
+      function filterCommands(q) {
+        var query = q ? q.toLowerCase().trim() : '';
+        var cards = document.querySelectorAll('#commandsPanel .cmd-card');
+        var sections = document.querySelectorAll('#commandsPanel .skills-cat');
+        var visibleCount = 0;
+
+        cards.forEach(function (c) {
+          var txt =
+            (c.querySelector('.cmd-title')?.textContent || '') +
+            ' ' +
+            (c.querySelector('.cmd-desc')?.textContent || '') +
+            ' ' +
+            (c.querySelector('.cmd-code')?.textContent || '');
+          var match = smartMatch(txt, query);
+          c.classList.toggle('hidden-by-search', !match);
+          if (match) visibleCount++;
+        });
+
+        sections.forEach(function (sec) {
+          var visible = [...sec.querySelectorAll('.cmd-card')].some(function (c) {
+            return !c.classList.contains('hidden-by-search');
+          });
+          sec.style.display = visible ? '' : 'none';
+        });
+
+        var empty = cp.querySelector('.cmd-empty');
+        if (visibleCount === 0) {
+          if (!empty) {
+            var e = document.createElement('div');
+            e.className = 'cmd-empty';
+            e.textContent = '🔍 未找到匹配的命令';
+            cp.appendChild(e);
+          }
+        } else if (empty) {
+          empty.remove();
+        }
+      }
+
+      /* ═══ Done toggle ═══ */
+      function toggleDone(id) {
+        const key = 'guide-done-' + id;
+        const isDone = localStorage.getItem(key) === '1';
+        localStorage.setItem(key, isDone ? '0' : '1');
+        renderDashboard();
+        buildSidebar();
+        updateSidebarProgress();
+      }
+
+      function updateSidebarDots() {
+        document.querySelectorAll('.sb-item').forEach((el) => {
+          const id = el.dataset.id;
+          const dot = el.querySelector('.sb-dot');
+          if (id && dot) {
+            dot.classList.toggle('done', localStorage.getItem('guide-done-' + id) === '1');
+          }
+        });
+      }
+
+      /* ═══ Sidebar Progress ═══ */
+      function updateSidebarProgress() {
+        if (!GUIDES || !GUIDES.length) return;
+        const total = GUIDES.length;
+        const done = GUIDES.filter((g) => localStorage.getItem('guide-done-' + g.id) === '1').length;
+        const pct = Math.round((done / total) * 100);
+        document.getElementById('sbProgressPct').textContent = pct + '%';
+        document.getElementById('sbProgressFill').style.width = pct + '%';
+        document.getElementById('sbProgressCount').textContent = done + ' / ' + total + ' 已完成';
+      }
+
+      /* ═══ Preview Modal ═══ */
+      function openPreviewModal(id) {
+        if (!GUIDES) return;
+        const guide = GUIDES.find((g) => g.id === id);
+        if (!guide || !guide.steps) return;
+        const catColors = getCategoryColors();
+        const catColor = catColors[guide.cat] || '#666';
+        document.getElementById('modalTitle').textContent = `${guide.icon || '📋'} ${guide.title} — 步骤预览`;
+        const body = document.getElementById('modalBody');
+        body.innerHTML = guide.steps
+          .map((s) => {
+            const sDone = localStorage.getItem('step-done-' + id + '-' + s.n) === '1';
+            return `<div class="modal-step" onclick="closePreviewModal();showGuide('${id}',${s.n})">
+                <div class="ms-num" style="background:${sDone ? '#22c55e' : catColor}">${sDone ? '✓' : s.n}</div>
+                <div class="ms-info">
+                  <div class="ms-title">${s.title}</div>
+                  <div class="ms-meta">⏱ ${s.time || '—'} ${sDone ? '· ✅ 已完成' : ''}</div>
+                </div>
+                ${sDone ? '<span class="ms-check">✓</span>' : ''}
+              </div>`;
+          })
+          .join('');
+        document.getElementById('previewModal').classList.add('show');
+      }
+      function closePreviewModal() {
+        document.getElementById('previewModal').classList.remove('show');
+      }
+
+      /* ═══ Progress Export/Reset ═══ */
+      function exportProgress() {
+        if (!GUIDES) return;
+        const data = {
+          exportTime: new Date().toISOString(),
+          total: GUIDES.length,
+          guides: GUIDES.map((g) => ({
+            id: g.id,
+            title: g.title,
+            done: localStorage.getItem('guide-done-' + g.id) === '1',
+            steps: g.steps
+              ? g.steps.map((s) => ({
+                  n: s.n,
+                  title: s.title,
+                  done: localStorage.getItem('step-done-' + g.id + '-' + s.n) === '1',
+                  open: localStorage.getItem('step-open-' + g.id + '-' + s.n) === '1',
+                }))
+              : [],
+          })),
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dgx-spark-progress-' + new Date().toISOString().slice(0, 10) + '.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function importProgress() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = function (e) {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = function (ev) {
+            try {
+              const data = JSON.parse(ev.target.result);
+              if (!data.guides || !Array.isArray(data.guides)) throw new Error('无效格式');
+              data.guides.forEach((g) => {
+                if (g.id) {
+                  localStorage.setItem('guide-done-' + g.id, g.done ? '1' : '0');
+                  if (g.steps) {
+                    g.steps.forEach((s) => {
+                      localStorage.setItem('step-done-' + g.id + '-' + s.n, s.done ? '1' : '0');
+                      localStorage.setItem('step-open-' + g.id + '-' + s.n, s.open ? '1' : '0');
+                    });
+                  }
+                }
+              });
+              renderDashboard();
+              buildSidebar();
+              updateSidebarProgress();
+              alert('✅ 进度导入成功！');
+            } catch (err) {
+              alert('❌ 导入失败：' + err.message);
+            }
+          };
+          reader.readAsText(file);
+        };
+        input.click();
+      }
+
+      function resetProgress() {
+        if (!confirm('确定重置所有进度？此操作不可撤销。')) return;
+        if (!GUIDES) return;
+        GUIDES.forEach((g) => {
+          localStorage.removeItem('guide-done-' + g.id);
+          if (g.steps) {
+            g.steps.forEach((s) => {
+              localStorage.removeItem('step-done-' + g.id + '-' + s.n);
+              localStorage.removeItem('step-open-' + g.id + '-' + s.n);
+            });
+          }
+        });
+        renderDashboard();
+        buildSidebar();
+        updateSidebarProgress();
+      }
+
+      /* ═══ Show Guide ═══ */
+      function showGuide(id, stepN) {
+        if (!GUIDES) return;
+        const guide = GUIDES.find((g) => g.id === id);
+        if (!guide) return;
+        currentGuide = guide;
+        document.getElementById('dashboardView').style.display = 'none';
+        const detail = document.getElementById('guideDetail');
+        detail.style.display = 'block';
+        detail.classList.add('active');
+        document.getElementById('topbarTitle').textContent = guide.title;
+        document.getElementById('topbarSubtitle').textContent = guide.titleEn || '';
+
+        const stepsDone = guide.steps
+          ? guide.steps.filter((s) => localStorage.getItem('step-done-' + id + '-' + s.n) === '1').length
+          : 0;
+        const totalSteps = guide.steps ? guide.steps.length : 0;
+        const pct = totalSteps > 0 ? Math.round((stepsDone / totalSteps) * 100) : 0;
+        const catColors = getCategoryColors();
+        const catColor = catColors[guide.cat] || '#666';
+
+        let stepsHtml = '';
+        if (guide.steps) {
+          guide.steps.forEach((s) => {
+            const collapsed = localStorage.getItem('step-open-' + id + '-' + s.n) !== '1';
+            const stepDone = localStorage.getItem('step-done-' + id + '-' + s.n) === '1';
+            // Auto-open target step
+            const shouldOpen = !collapsed || (stepN && s.n === stepN);
+            stepsHtml += `<div class="step ${s.isDestructive ? 'destructive' : ''} ${shouldOpen ? 'open' : ''}" data-step="${s.n}">
+            <div class="step-head" onclick="toggleStep('${id}',${s.n})">
+              <div class="step-num ${stepDone ? 'step-num-done' : ''}" style="background:${stepDone ? '#22c55e' : catColor}" onclick="event.stopPropagation();toggleStepDone('${id}',${s.n})">${stepDone ? '✓' : s.n}</div>
+              <span class="step-title ${stepDone ? 'step-title-done' : ''}">${s.title}</span>
+              <span class="step-time">⏱ ${s.time || ''}</span>
+              <span class="step-toggle">▶</span>
+            </div>
+            <div class="step-body">
+              <div class="step-body-inner">
+                <div class="step-content"><p>${s.content || ''}</p></div>
+                ${s.code ? s.code.map((c) => `<div class="code-block"><div class="code-hdr"><span>${c[0]}</span><button class="copy-btn" onclick="copyCode(this,'${escHtml(c[1])}')">📋 复制</button></div><pre>${escHtml(c[1])}</pre></div>`).join('') : ''}
+                ${s.warning ? `<div class="step-warning">⚠️ ${s.warning}</div>` : ''}
+                ${s.tip ? `<div class="step-tip">💡 ${s.tip}</div>` : ''}
+              </div>
+            </div>
+          </div>`;
+          });
+        }
+
+        let prereqHtml = '';
+        if (guide.prereq && guide.prereq.length > 0) {
+          prereqHtml = `<div class="gd-prereq"><div class="gd-prereq-title">📋 前置条件</div><ul>${guide.prereq.map((p) => `<li>${p}</li>`).join('')}</ul></div>`;
+        }
+
+        let overviewHtml = '';
+        if (guide.overview && guide.overview.length > 0) {
+          overviewHtml = guide.overview.map((o) => `<span>${o[0]}: ${o[1]}</span>`).join('');
+        }
+
+        detail.innerHTML = `
+        <a class="gd-back" href="#" onclick="showDashboard();return false;">← 返回操作中心</a>
+        <div class="gd-hero">
+          <div class="gd-hero-top">
+            <div class="gd-hero-icon" style="background:${catColor}22">${guide.icon || '📄'}</div>
+            <div class="gd-hero-info">
+              <div class="gd-hero-title">${guide.title}</div>
+              <div class="gd-hero-desc">${guide.desc || ''}</div>
+              <div class="gd-hero-meta">
+                <span>📂 ${getCategoryLabels()[guide.cat] || guide.cat}</span>
+                <span>📊 ${guide.diff === 'easy' ? '⭐ 简单' : guide.diff === 'medium' ? '⭐⭐ 中等' : '⭐⭐⭐ 高'}</span>
+                ${overviewHtml}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gd-progress">
+          <span>📊 进度</span>
+          <div class="gd-progress-bar"><div class="gd-progress-fill" style="width:${pct}%"></div></div>
+          <span class="gd-progress-text">${stepsDone}/${totalSteps} 步 (${pct}%)</span>
+        </div>
+        ${prereqHtml}
+        <div class="gd-steps">${stepsHtml}</div>
+      `;
+
+        document.getElementById('sidebar').classList.add('hidden');
+        document.getElementById('sbOverlay').classList.remove('show');
+        document.getElementById('main').classList.add('expanded');
+        document.querySelectorAll('.sb-item').forEach((el) => {
+          el.classList.toggle('active', el.dataset.id === id);
+        });
+        window.location.hash = 'guide-' + id + (stepN ? '-step-' + stepN : '');
+        // Auto-scroll to target step
+        if (stepN) {
+          setTimeout(() => {
+            const el = document.querySelector(`.step[data-step="${stepN}"]`);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, 150);
+        }
+      }
+
+      function toggleStep(id, n) {
+        const step = document.querySelector(`.step[data-step="${n}"]`);
+        if (!step) return;
+        step.classList.toggle('open');
+        localStorage.setItem('step-open-' + id + '-' + n, step.classList.contains('open') ? '1' : '0');
+      }
+
+      function toggleStepDone(id, n) {
+        const key = 'step-done-' + id + '-' + n;
+        const isDone = localStorage.getItem(key) === '1';
+        localStorage.setItem(key, isDone ? '0' : '1');
+        // Refresh progress display without full re-render
+        const guide = currentGuide;
+        if (guide && guide.id === id) {
+          const stepsDone = guide.steps
+            ? guide.steps.filter((s) => localStorage.getItem('step-done-' + id + '-' + s.n) === '1').length
+            : 0;
+          const totalSteps = guide.steps ? guide.steps.length : 0;
+          const pct = totalSteps > 0 ? Math.round((stepsDone / totalSteps) * 100) : 0;
+          const fill = document.querySelector('.gd-progress-fill');
+          const text = document.querySelector('.gd-progress-text');
+          if (fill) fill.style.width = pct + '%';
+          if (text) text.textContent = stepsDone + '/' + totalSteps + ' 步 (' + pct + '%)';
+        }
+        // Update step visuals
+        const step = document.querySelector(`.step[data-step="${n}"]`);
+        if (step) {
+          const num = step.querySelector('.step-num');
+          const title = step.querySelector('.step-title');
+          const newDone = localStorage.getItem(key) === '1';
+          if (num) {
+            num.textContent = newDone ? '✓' : n;
+            num.style.background = newDone ? '#22c55e' : currentGuide ? getCategoryColors()[currentGuide.cat] : '#666';
+            num.classList.toggle('step-num-done', newDone);
+          }
+          if (title) title.classList.toggle('step-title-done', newDone);
+        }
+      }
+
+      function copyCode(btn, code) {
+        navigator.clipboard
+          .writeText(code)
+          .then(() => {
+            btn.textContent = '✅ 已复制';
+            btn.classList.add('copied');
+            setTimeout(() => {
+              btn.textContent = '📋 复制';
+              btn.classList.remove('copied');
+            }, 2000);
+          })
+          .catch(() => {
+            const ta = document.createElement('textarea');
+            ta.value = code;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            btn.textContent = '✅ 已复制';
+            btn.classList.add('copied');
+            setTimeout(() => {
+              btn.textContent = '📋 复制';
+              btn.classList.remove('copied');
+            }, 2000);
+          });
+      }
+
+      function escHtml(s) {
+        if (!s) return '';
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      /* ═══ Hash routing ═══ */
+      function parseGuideHash(hash) {
+        if (!hash.startsWith('guide-')) return null;
+        const rest = hash.replace('guide-', '');
+        // Match: g01-step-3 → id=g01, stepN=3
+        const match = rest.match(/^([^-]+)-step-(\d+)$/);
+        if (match) return { id: match[1], stepN: parseInt(match[2]) };
+        return { id: rest, stepN: null };
+      }
+      window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.replace('#', '');
+        const parsed = parseGuideHash(hash);
+        if (parsed) {
+          if (GUIDES) showGuide(parsed.id, parsed.stepN);
+        } else {
+          showDashboard();
+        }
+      });
+
+      /* ═══ Init ═══ */
+      function init() {
+        // Start clock
+        updateClock();
+        setInterval(updateClock, 1000);
+        if (typeof GUIDES !== 'undefined' && GUIDES.length) {
+          buildSidebar();
+          renderDashboard();
+          // Check hash on load
+          const hash = window.location.hash.replace('#', '');
+          const parsed = parseGuideHash(hash);
+          if (parsed) {
+            setTimeout(() => showGuide(parsed.id, parsed.stepN), 100);
+          }
+        } else {
+          // Poll for data
+          let attempts = 0;
+          const check = setInterval(() => {
+            if (typeof GUIDES !== 'undefined' && GUIDES.length) {
+              clearInterval(check);
+              buildSidebar();
+              renderDashboard();
+            }
+            if (++attempts > 50) clearInterval(check);
+          }, 200);
+        }
+      }
+
+      // Wait for DOM + script load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,2226 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>YYC³ 知识库 · 工作区总览</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='18' font-weight='700' font-family='sans-serif' fill='%23fff'%3EY%3C/text%3E%3C/svg%3E"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --bg2: #12121a;
+        --bg3: #1a1a2e;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.06);
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(255, 255, 255, 0.15);
+        --text: #f1f1f6;
+        --text2: rgba(255, 255, 255, 0.65);
+        --text3: rgba(255, 255, 255, 0.35);
+        --accent-v: #8b5cf6;
+        --accent-c: #06b6d4;
+        --accent-e: #22c55e;
+        --accent-r: #ef4444;
+        --accent-a: #f59e0b;
+        --radius: 14px;
+        --radius-sm: 8px;
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', 'Consolas', monospace;
+      }
+
+      .light {
+        --bg: #f5f5f0;
+        --bg2: #e8e8e3;
+        --bg3: #ddd;
+        --surface: rgba(0, 0, 0, 0.02);
+        --surface-hover: rgba(0, 0, 0, 0.05);
+        --border: rgba(0, 0, 0, 0.08);
+        --border-hover: rgba(0, 0, 0, 0.15);
+        --text: #1a1a2e;
+        --text2: rgba(0, 0, 0, 0.55);
+        --text3: rgba(0, 0, 0, 0.3);
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+
+      ::selection {
+        background: rgba(139, 92, 246, 0.3);
+        color: #fff;
+      }
+
+      .app {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ═══ Sidebar ═══ */
+      .sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar.hidden {
+        transform: translateX(-100%);
+      }
+
+      .sb-header {
+        padding: 20px 20px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .sb-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+
+      .sb-logo-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--accent-v), var(--accent-c));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .sb-logo-text {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .sb-logo-sub {
+        font-size: 10px;
+        color: var(--text3);
+        letter-spacing: 1px;
+      }
+
+      .sb-search {
+        margin: 12px 16px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+      }
+
+      .sb-search:focus-within {
+        border-color: var(--accent-v);
+      }
+
+      .sb-search input {
+        flex: 1;
+        background: none;
+        border: none;
+        outline: none;
+        color: var(--text);
+        font-size: 13px;
+      }
+
+      .sb-search input::placeholder {
+        color: var(--text3);
+      }
+
+      .sb-search svg {
+        width: 14px;
+        height: 14px;
+        color: var(--text3);
+        flex-shrink: 0;
+      }
+
+      .sb-progress {
+        margin: 0 16px 12px;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+
+      .sb-progress-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+
+      .sb-progress-label {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--text3);
+      }
+
+      .sb-progress-pct {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent-v);
+      }
+
+      .sb-progress-bar {
+        height: 4px;
+        border-radius: 2px;
+        background: var(--border);
+        overflow: hidden;
+        margin-bottom: 4px;
+      }
+
+      .sb-progress-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--accent-v), var(--accent-c));
+        transition: width 0.6s ease;
+      }
+
+      .sb-progress-count {
+        font-size: 10px;
+        color: var(--text3);
+      }
+
+      .sb-nav {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 12px 80px;
+      }
+
+      .sb-nav::-webkit-scrollbar {
+        width: 3px;
+      }
+
+      .sb-nav::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+      }
+
+      .sb-group {
+        margin-bottom: 16px;
+      }
+
+      .sb-group-title {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: var(--text3);
+        padding: 0 8px;
+        margin-bottom: 4px;
+      }
+
+      .sb-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        color: var(--text2);
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.15s;
+        text-decoration: none;
+        position: relative;
+      }
+
+      .sb-item:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+
+      .sb-item.active {
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--accent-v);
+      }
+
+      .sb-item .sb-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: var(--text3);
+        transition: 0.3s;
+      }
+
+      .sb-item .sb-dot.done {
+        background: var(--accent-e);
+        box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+      }
+
+      .sb-item .sb-label {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* ═══ Main ═══ */
+      .main {
+        flex: 1;
+        margin-left: 280px;
+        min-height: 100vh;
+        transition: margin-left 0.3s ease;
+      }
+
+      .main.expanded {
+        margin-left: 0;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 24px;
+        background: rgba(10, 10, 15, 0.8);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+
+      .light .topbar {
+        background: rgba(245, 245, 240, 0.8);
+      }
+
+      .topbar-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .topbar-subtitle {
+        font-size: 12px;
+        color: var(--text3);
+      }
+
+      .topbar-spacer {
+        flex: 1;
+      }
+
+      .topbar-time {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        color: var(--text2);
+        font-family: var(--font-mono);
+      }
+
+      .topbar-time .tt-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-e);
+        animation: pulse-dot 2s ease infinite;
+      }
+
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-share {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+
+      .btn-share:hover {
+        background: var(--surface-hover);
+        color: var(--accent-v);
+        border-color: rgba(139, 92, 246, 0.3);
+      }
+
+      .btn-theme,
+      .btn-menu {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+
+      .btn-theme:hover,
+      .btn-menu:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+
+      .btn-theme svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .progress-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .btn-action {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+
+      .btn-action:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+
+      .btn-action.btn-danger:hover {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+        border-color: rgba(239, 68, 68, 0.3);
+      }
+
+      /* ═══ Dashboard ═══ */
+      .dashboard {
+        padding: 24px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .dash-header {
+        margin-bottom: 32px;
+      }
+
+      .dash-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--accent-v);
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .dash-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        line-height: 1.2;
+      }
+
+      .dash-desc {
+        font-size: 14px;
+        color: var(--text2);
+        max-width: 600px;
+        line-height: 1.5;
+      }
+
+      .dash-stats {
+        display: flex;
+        gap: 16px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .stat-card {
+        padding: 12px 18px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .stat-num {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .stat-label {
+        font-size: 11px;
+        color: var(--text2);
+      }
+
+      /* ═══ Filter bar ═══ */
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+
+      .filter-btn {
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text2);
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-weight: 500;
+      }
+
+      .filter-btn:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+
+      .filter-btn.active {
+        background: var(--accent-v);
+        color: #fff;
+        border-color: var(--accent-v);
+      }
+
+      .filter-btn[data-cat='all'].active {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+      }
+
+      /* ═══ Category section ═══ */
+      .cat-section {
+        margin-bottom: 36px;
+      }
+
+      .cat-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .cat-icon {
+        font-size: 20px;
+      }
+
+      .cat-name {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .cat-count {
+        font-size: 12px;
+        color: var(--text3);
+      }
+
+      .cat-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* ═══ Card grid ═══ */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px;
+      }
+
+      .guide-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.4s ease both;
+      }
+
+      .guide-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow);
+      }
+
+      .guide-card.hidden {
+        display: none;
+      }
+
+      .guide-card .gc-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+
+      .gc-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .gc-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+
+      .gc-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .gc-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        line-height: 1.3;
+      }
+
+      .gc-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .gc-tag {
+        font-size: 10px;
+        padding: 1px 7px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+
+      .gc-tag.core {
+        background: rgba(139, 92, 246, 0.12);
+        color: #8b5cf6;
+      }
+
+      .gc-tag.tool {
+        background: rgba(6, 182, 212, 0.12);
+        color: #06b6d4;
+      }
+
+      .gc-tag.lib {
+        background: rgba(34, 197, 94, 0.12);
+        color: #22c55e;
+      }
+
+      .gc-tag.doc {
+        background: rgba(245, 158, 11, 0.12);
+        color: #f59e0b;
+      }
+
+      .gc-desc {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .gc-tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+
+      .gc-tags span {
+        font-size: 9px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: var(--surface);
+        color: var(--text3);
+        border: 1px solid var(--border);
+      }
+
+      .gc-check {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        cursor: pointer;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+      }
+
+      .gc-check.done {
+        background: var(--accent-e);
+        border-color: var(--accent-e);
+      }
+
+      .gc-check.done::after {
+        content: '\u2713';
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      /* ═══ Detail View ═══ */
+      .guide-detail {
+        display: none;
+        padding: 24px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .guide-detail.active {
+        display: block;
+      }
+
+      .gd-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        font-size: 12px;
+        transition: 0.2s;
+        text-decoration: none;
+        margin-bottom: 20px;
+      }
+
+      .gd-back:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+
+      .gd-hero {
+        padding: 24px;
+        border-radius: var(--radius);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+
+      .gd-hero-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 12px;
+      }
+
+      .gd-hero-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+
+      .gd-hero-info {
+        flex: 1;
+      }
+
+      .gd-hero-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .gd-hero-desc {
+        font-size: 13px;
+        color: var(--text2);
+        line-height: 1.5;
+      }
+
+      .gd-hero-meta {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .gd-hero-meta span {
+        font-size: 12px;
+        color: var(--text3);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .gd-section {
+        margin-bottom: 24px;
+      }
+
+      .gd-section-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .gd-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        margin-bottom: 6px;
+        transition: 0.15s;
+      }
+
+      .gd-item:hover {
+        border-color: var(--border-hover);
+      }
+
+      .gd-item .gi-name {
+        font-size: 13px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .gd-item .gi-desc {
+        font-size: 11px;
+        color: var(--text3);
+      }
+
+      .gd-item .gi-link {
+        font-size: 10px;
+        color: var(--accent-c);
+        font-family: var(--font-mono);
+        text-decoration: none;
+      }
+
+      .gd-item .gi-link:hover {
+        text-decoration: underline;
+      }
+
+      /* ═══ Modal ═══ */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 200;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+      }
+
+      .modal-overlay.show {
+        display: flex;
+      }
+
+      .modal-box {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        max-width: 520px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        animation: fadeUp 0.3s ease both;
+      }
+
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px 12px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-title {
+        font-size: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .modal-close {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        transition: 0.15s;
+      }
+
+      .modal-close:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+
+      .modal-body {
+        padding: 16px 20px 20px;
+      }
+
+      .modal-sub {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-sub:last-child {
+        border-bottom: none;
+      }
+
+      .modal-sub .ms-num {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+      }
+
+      .modal-sub .ms-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .modal-sub .ms-title {
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .modal-sub .ms-meta {
+        font-size: 11px;
+        color: var(--text3);
+        margin-top: 1px;
+      }
+
+      /* ═══ Animations ═══ */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .guide-card:nth-child(1) {
+        animation-delay: 0.02s;
+      }
+
+      .guide-card:nth-child(2) {
+        animation-delay: 0.04s;
+      }
+
+      .guide-card:nth-child(3) {
+        animation-delay: 0.06s;
+      }
+
+      .guide-card:nth-child(4) {
+        animation-delay: 0.08s;
+      }
+
+      /* ═══ Mobile ═══ */
+      @media (max-width: 768px) {
+        .sidebar {
+          width: 100%;
+        }
+
+        .sidebar.hidden {
+          transform: translateX(-100%);
+        }
+
+        .main {
+          margin-left: 0;
+        }
+
+        .dashboard {
+          padding: 16px;
+        }
+
+        .guide-detail {
+          padding: 16px;
+        }
+
+        .dash-title {
+          font-size: 22px;
+        }
+
+        .card-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          padding: 10px 16px;
+        }
+
+        .sb-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 99;
+          display: none;
+        }
+
+        .sb-overlay.show {
+          display: block;
+        }
+
+        .stat-card {
+          flex: 1;
+          min-width: 100px;
+        }
+      }
+
+      /* ═══ Loading ═══ */
+      .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 20px;
+        gap: 16px;
+      }
+
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent-v);
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading p {
+        font-size: 13px;
+        color: var(--text3);
+      }
+
+      /* ═══ Empty ═══ */
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text3);
+      }
+
+      .empty-state svg {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 12px;
+        opacity: 0.5;
+      }
+
+      .empty-state p {
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app" id="app">
+      <div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar()"></div>
+
+      <aside class="sidebar" id="sidebar">
+        <div class="sb-header">
+          <a class="sb-logo" href="#" onclick="showDashboard()">
+            <div class="sb-logo-icon">Y</div>
+            <div>
+              <div class="sb-logo-text">YYC³ 知识库</div>
+              <div class="sb-logo-sub">KNOWLEDGE BASE · 工作区</div>
+            </div>
+          </a>
+        </div>
+        <div class="sb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" id="sbSearchInput" placeholder="搜索项目..." oninput="filterSidebar(this.value)" />
+        </div>
+        <div class="sb-progress" id="sbProgress">
+          <div class="sb-progress-header">
+            <span class="sb-progress-label">总体进度</span>
+            <span class="sb-progress-pct" id="sbProgressPct">0%</span>
+          </div>
+          <div class="sb-progress-bar">
+            <div class="sb-progress-fill" id="sbProgressFill" style="width: 0%"></div>
+          </div>
+          <div class="sb-progress-count" id="sbProgressCount">0 / 0 已完成</div>
+        </div>
+        <nav class="sb-nav" id="sbNav"></nav>
+      </aside>
+
+      <div class="main" id="main">
+        <div class="topbar">
+          <button class="btn-menu" onclick="toggleSidebar()" aria-label="Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          </button>
+          <div>
+            <div class="topbar-title" id="topbarTitle">YYC³ 知识库</div>
+            <div class="topbar-subtitle" id="topbarSubtitle">Knowledge Base · 全栈智能知识体系</div>
+          </div>
+          <div class="topbar-spacer"></div>
+          <div class="topbar-time"><span class="tt-dot"></span><span id="clockDisplay">--:--:--</span></div>
+          <div class="topbar-actions">
+            <button class="btn-share" onclick="sharePage()" title="分享当前页面">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+            <div class="progress-actions">
+              <button class="btn-action" onclick="exportProgress()" title="导出进度">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </button>
+              <button class="btn-action" onclick="importProgress()" title="导入进度">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+              </button>
+              <button class="btn-action btn-danger" onclick="resetProgress()" title="重置进度">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                </svg>
+              </button>
+            </div>
+            <button class="btn-theme" onclick="toggleTheme()" aria-label="切换主题">
+              <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="dashboard" id="dashboardView">
+          <div class="dash-header">
+            <div class="dash-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+              <span id="projectCount">加载中...</span>
+            </div>
+            <h1 class="dash-title">YYC³ Knowledge Base 工作区</h1>
+            <p class="dash-desc">
+              从 AI 智能体到云原生基础设施，从前端框架到系统编程 — 涵盖 16 大领域、100+ 开源项目的全栈智能知识体系。
+            </p>
+            <div class="dash-stats" id="dashStats"></div>
+          </div>
+          <div class="filter-bar" id="filterBar"></div>
+          <div id="dashboardContent"></div>
+        </div>
+
+        <div class="guide-detail" id="guideDetail"></div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <div class="modal-title" id="modalTitle">📁 项目详情</div>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <script>
+      /* ═══════════════════════════════════════════
+ YYC³ Knowledge Base — Project Data
+ ═══════════════════════════════════════════ */
+      const PROJECTS = [
+        // ═══ AI 人工智能 ═══
+        {
+          id: 'p01',
+          cat: 'ai',
+          title: 'AI 核心',
+          desc: 'AI 项目根配置与核心模块',
+          icon: '🤖',
+          color: '#8b5cf6',
+          tag: 'core',
+          files: ['package.json', 'README.md'],
+        },
+        {
+          id: 'p02',
+          cat: 'ai',
+          title: 'Khoj 检索服务',
+          desc: 'AI 检索增强生成服务端',
+          icon: '🔍',
+          color: '#8b5cf6',
+          tag: 'tool',
+          files: ['Dockerfile', 'pytest.ini', 'README.md'],
+          detail: '基于 Python 的 AI 检索服务，支持 Docker 部署，提供 REST API 接口。',
+        },
+        {
+          id: 'p03',
+          cat: 'ai',
+          title: 'LobeHub 界面',
+          desc: 'AI 对话界面框架，现代化前端架构',
+          icon: '💬',
+          color: '#8b5cf6',
+          tag: 'lib',
+          files: ['.npmrc', '.nvmrc', 'knip.ts'],
+        },
+        {
+          id: 'p04',
+          cat: 'ai',
+          title: 'MS-Swift 微调',
+          desc: '模型微调框架，支持多模态 LLM 训练',
+          icon: '🎯',
+          color: '#8b5cf6',
+          tag: 'core',
+          files: ['setup.py', 'Makefile'],
+        },
+        {
+          id: 'p05',
+          cat: 'ai',
+          title: 'NanoBot 对话',
+          desc: '轻量级 AI 对话机器人',
+          icon: '🤖',
+          color: '#8b5cf6',
+          tag: 'tool',
+          files: ['LICENSE'],
+        },
+        {
+          id: 'p06',
+          cat: 'ai',
+          title: 'New-API 服务',
+          desc: 'AI API 网关服务，Go 实现',
+          icon: '🚪',
+          color: '#8b5cf6',
+          tag: 'tool',
+          files: ['main.go', 'go.mod', 'makefile'],
+        },
+        {
+          id: 'p07',
+          cat: 'ai',
+          title: 'One-API 聚合',
+          desc: '统一 API 聚合网关',
+          icon: '🔗',
+          color: '#8b5cf6',
+          tag: 'tool',
+          files: ['main.go', 'go.mod'],
+        },
+        {
+          id: 'p08',
+          cat: 'ai',
+          title: 'Shannon AI',
+          desc: 'AI 智能通信与消息协议',
+          icon: '📡',
+          color: '#8b5cf6',
+          tag: 'lib',
+          files: ['.npmrc', 'llms.txt'],
+        },
+
+        // ═══ Agent 智能体 ═══
+        {
+          id: 'p09',
+          cat: 'agent',
+          title: 'CowAgent 代理',
+          desc: '智能体代理应用（Python）',
+          icon: '🐄',
+          color: '#06b6d4',
+          tag: 'core',
+          files: ['app.py', 'run.sh'],
+        },
+        {
+          id: 'p10',
+          cat: 'agent',
+          title: 'Agent 核心模块',
+          desc: 'Rust 实现的智能体核心引擎',
+          icon: '⚙️',
+          color: '#06b6d4',
+          tag: 'core',
+          files: ['mod.rs', 'types.rs'],
+        },
+        {
+          id: 'p11',
+          cat: 'agent',
+          title: 'Agents 框架',
+          desc: '智能体框架与工具集',
+          icon: '🛠️',
+          color: '#06b6d4',
+          tag: 'lib',
+          files: ['Makefile'],
+        },
+        {
+          id: 'p12',
+          cat: 'agent',
+          title: 'Goose 交互',
+          desc: '智能体交互协议与 UI',
+          icon: '🦆',
+          color: '#06b6d4',
+          tag: 'tool',
+          files: ['.npmrc', 'Justfile', 'I18N.md'],
+          detail: '支持国际化，集成 React UI 界面，提供 Git 工作流辅助。',
+        },
+        {
+          id: 'p13',
+          cat: 'agent',
+          title: 'GStack 栈',
+          desc: '智能体全栈开发框架（Bun）',
+          icon: '📦',
+          color: '#06b6d4',
+          tag: 'lib',
+          files: ['bun.lock', 'SKILL.md', 'ETHOS.md'],
+        },
+        {
+          id: 'p14',
+          cat: 'agent',
+          title: 'Serena 同步',
+          desc: '智能体数据同步服务',
+          icon: '🔄',
+          color: '#06b6d4',
+          tag: 'tool',
+          files: ['sync.py', 'uv.lock'],
+        },
+
+        // ═══ Cloud 云原生 ═══
+        {
+          id: 'p15',
+          cat: 'cloud',
+          title: 'Moby 容器引擎',
+          desc: 'Docker Moby 开源容器引擎',
+          icon: '🐳',
+          color: '#22c55e',
+          tag: 'core',
+          files: ['Makefile', 'go.mod', 'AUTHORS'],
+        },
+
+        // ═══ Data 数据存储 ═══
+        {
+          id: 'p16',
+          cat: 'data',
+          title: 'ICU 国际化库',
+          desc: 'Unicode ICU 国际化组件',
+          icon: '🌐',
+          color: '#f59e0b',
+          tag: 'lib',
+          files: ['pom.xml', 'WORKSPACE', '.bazelrc'],
+        },
+
+        // ═══ Doc 文档资源 ═══
+        {
+          id: 'p17',
+          cat: 'doc',
+          title: 'Books 书籍',
+          desc: '技术书籍与学习资源',
+          icon: '📚',
+          color: '#f59e0b',
+          tag: 'doc',
+          files: ['LICENSE'],
+        },
+        {
+          id: 'p18',
+          cat: 'doc',
+          title: 'SG 规范治理',
+          desc: '安全治理与策略文档体系',
+          icon: '📋',
+          color: '#f59e0b',
+          tag: 'doc',
+          files: ['Policies.md', 'Stages.md', 'db.py'],
+          detail: '包含 SG 策略、阶段定义、数据库配置等治理文档体系。',
+        },
+
+        // ═══ Editor 编辑器 ═══
+        {
+          id: 'p19',
+          cat: 'editor',
+          title: 'Lucide 图标',
+          desc: 'Lucide 图标库编辑器集成',
+          icon: '✏️',
+          color: '#ec4899',
+          tag: 'lib',
+        },
+
+        // ═══ Framework 框架 ═══
+        {
+          id: 'p20',
+          cat: 'framework',
+          title: 'Apollo 框架',
+          desc: 'Apollo GraphQL 框架（Java）',
+          icon: '🚀',
+          color: '#6366f1',
+          tag: 'lib',
+          files: ['mvnw'],
+        },
+        {
+          id: 'p21',
+          cat: 'framework',
+          title: 'Redux 状态管理',
+          desc: 'Redux 状态管理库',
+          icon: '🔄',
+          color: '#6366f1',
+          tag: 'lib',
+          files: ['CNAME'],
+        },
+        {
+          id: 'p22',
+          cat: 'framework',
+          title: 'Vuex 状态管理',
+          desc: 'Vuex 状态管理模式',
+          icon: '📦',
+          color: '#6366f1',
+          tag: 'lib',
+        },
+
+        // ═══ Icon 图标资源 ═══
+        {
+          id: 'p23',
+          cat: 'icon',
+          title: 'Figures 图形',
+          desc: '项目图形与示意图资源',
+          icon: '🎨',
+          color: '#ec4899',
+          tag: 'doc',
+        },
+        {
+          id: 'p24',
+          cat: 'icon',
+          title: 'Lucide 图标集',
+          desc: 'Lucide 开源 SVG 图标集合',
+          icon: '🖼️',
+          color: '#ec4899',
+          tag: 'lib',
+        },
+
+        // ═══ LSP 语言服务 ═══
+        {
+          id: 'p25',
+          cat: 'lsp',
+          title: 'LSP 服务',
+          desc: '语言服务器协议实现（Ruby）',
+          icon: '🔧',
+          color: '#0ea5e9',
+          tag: 'tool',
+          files: ['Gemfile', 'VERSION', '.irbrc'],
+        },
+        {
+          id: 'p26',
+          cat: 'lsp',
+          title: 'Ruby LSP',
+          desc: 'Ruby 语言服务器协议',
+          icon: '💎',
+          color: '#0ea5e9',
+          tag: 'tool',
+          files: ['Gemfile', 'VERSION'],
+        },
+        {
+          id: 'p27',
+          cat: 'lsp',
+          title: 'Syntax Git',
+          desc: 'Git 语法高亮与解析',
+          icon: '📝',
+          color: '#0ea5e9',
+          tag: 'tool',
+          files: ['TODO'],
+        },
+
+        // ═══ Shell 终端 ═══
+        {
+          id: 'p28',
+          cat: 'shell',
+          title: 'Atuin 终端',
+          desc: 'Shell 历史记录管理与同步',
+          icon: '⌨️',
+          color: '#14b8a6',
+          tag: 'tool',
+        },
+        {
+          id: 'p29',
+          cat: 'shell',
+          title: 'Zsh 源码',
+          desc: 'Zsh 源码级分析与定制',
+          icon: '⚡',
+          color: '#14b8a6',
+          tag: 'core',
+          files: ['Src/*.c', 'Src/*.h', 'Config/*'],
+        },
+
+        // ═══ Skills 技能包 ═══
+        {
+          id: 'p30',
+          cat: 'skills',
+          title: 'Skills 技能库',
+          desc: 'NVIDIA Skills 技能包全集',
+          icon: '🧠',
+          color: '#8b5cf6',
+          tag: 'core',
+        },
+
+        // ═══ Spec 规范工具 ═══
+        {
+          id: 'p31',
+          cat: 'spec',
+          title: 'Meta 规范',
+          desc: '元规范与标签管理工具',
+          icon: '📐',
+          color: '#f97316',
+          tag: 'tool',
+          files: ['labels.py', 'review.py', 'LABELS.md'],
+        },
+
+        // ═══ Tool 开发工具 ═══
+        {
+          id: 'p32',
+          cat: 'tool',
+          title: 'Edict 码表',
+          desc: 'Edict 编码转换工具',
+          icon: '🔣',
+          color: '#f97316',
+          tag: 'tool',
+          files: ['edict.sh', 'start.sh'],
+        },
+        {
+          id: 'p33',
+          cat: 'tool',
+          title: 'Emmet 补全',
+          desc: 'Emmet 代码补全引擎',
+          icon: '⚡',
+          color: '#f97316',
+          tag: 'tool',
+        },
+        {
+          id: 'p34',
+          cat: 'tool',
+          title: 'PI 项目初始化',
+          desc: '项目初始化引导工具（Bun）',
+          icon: '🚀',
+          color: '#f97316',
+          tag: 'tool',
+          files: ['biome.json', 'AGENTS.md', 'SECURITY.md'],
+          detail: '跨平台项目初始化工具，支持 Biome 配置与 Agent 集成。',
+        },
+        {
+          id: 'p35',
+          cat: 'tool',
+          title: 'Repomix 聚合',
+          desc: '仓库合并与代码聚合工具',
+          icon: '🧩',
+          color: '#f97316',
+          tag: 'tool',
+        },
+        {
+          id: 'p36',
+          cat: 'tool',
+          title: 'Ruff 格式化',
+          desc: 'Python Ruff 代码格式化工具',
+          icon: '🦀',
+          color: '#f97316',
+          tag: 'tool',
+          files: ['AGENTS.md', 'CLAUDE.md'],
+        },
+        {
+          id: 'p37',
+          cat: 'tool',
+          title: 'Tools 工具集',
+          desc: 'Go 工具集与实用程序',
+          icon: '🛠️',
+          color: '#f97316',
+          tag: 'tool',
+          files: ['go.mod', 'go.sum'],
+        },
+        {
+          id: 'p38',
+          cat: 'tool',
+          title: 'Void 工具',
+          desc: 'Void 工具链与运行时',
+          icon: '⬛',
+          color: '#f97316',
+          tag: 'tool',
+        },
+        {
+          id: 'p39',
+          cat: 'tool',
+          title: 'ZeroClaw',
+          desc: 'ZeroClaw 零信任安全工具',
+          icon: '🛡️',
+          color: '#f97316',
+          tag: 'tool',
+          files: ['.envrc', 'NOTICE', 'CNAME'],
+        },
+
+        // ═══ UI 用户界面 ═══
+        {
+          id: 'p40',
+          cat: 'ui',
+          title: 'Ant Design',
+          desc: 'Ant Design 企业级 UI 组件库',
+          icon: '🐜',
+          color: '#ec4899',
+          tag: 'lib',
+        },
+        {
+          id: 'p41',
+          cat: 'ui',
+          title: 'MUI X 组件',
+          desc: 'MUI X 高级 React 组件库',
+          icon: '🎯',
+          color: '#ec4899',
+          tag: 'lib',
+        },
+        {
+          id: 'p42',
+          cat: 'ui',
+          title: 'Onlook 视觉',
+          desc: '可视化 UI 编辑器与设计工具',
+          icon: '👁️',
+          color: '#ec4899',
+          tag: 'tool',
+        },
+        {
+          id: 'p43',
+          cat: 'ui',
+          title: 'shadcn/ui 组件',
+          desc: 'shadcn/ui React 组件集合',
+          icon: '🧩',
+          color: '#ec4899',
+          tag: 'lib',
+        },
+
+        // ═══ WebSpec Web 标准 ═══
+        {
+          id: 'p44',
+          cat: 'webspec',
+          title: 'DOM 规范',
+          desc: 'W3C DOM 标准规范',
+          icon: '📄',
+          color: '#06b6d4',
+          tag: 'doc',
+        },
+        {
+          id: 'p45',
+          cat: 'webspec',
+          title: 'File System 规范',
+          desc: 'W3C File System 标准',
+          icon: '📁',
+          color: '#06b6d4',
+          tag: 'doc',
+        },
+        {
+          id: 'p46',
+          cat: 'webspec',
+          title: 'HTML 规范',
+          desc: 'HTML 标准规范文档',
+          icon: '🌐',
+          color: '#06b6d4',
+          tag: 'doc',
+        },
+        {
+          id: 'p47',
+          cat: 'webspec',
+          title: 'URL 规范',
+          desc: 'W3C URL 标准规范',
+          icon: '🔗',
+          color: '#06b6d4',
+          tag: 'doc',
+        },
+        {
+          id: 'p48',
+          cat: 'webspec',
+          title: 'XHR 规范',
+          desc: 'XMLHttpRequest 标准',
+          icon: '📡',
+          color: '#06b6d4',
+          tag: 'doc',
+        },
+
+        // ═══ Docs 文档资源 ═══
+        {
+          id: 'p49',
+          cat: 'docs',
+          title: '知识库文档',
+          desc: 'Knowledge Base 说明文档',
+          icon: '📖',
+          color: '#f59e0b',
+          tag: 'doc',
+        },
+        {
+          id: 'p50',
+          cat: 'docs',
+          title: '卡片信息',
+          desc: '项目卡片信息描述文档',
+          icon: '🃏',
+          color: '#f59e0b',
+          tag: 'doc',
+        },
+        {
+          id: 'p51',
+          cat: 'docs',
+          title: '命令信息',
+          desc: '项目命令与 CLI 信息',
+          icon: '⌨️',
+          color: '#f59e0b',
+          tag: 'doc',
+        },
+        {
+          id: 'p52',
+          cat: 'docs',
+          title: '技术实现边界',
+          desc: '技术实现边界与约束文档',
+          icon: '📐',
+          color: '#f59e0b',
+          tag: 'doc',
+        },
+
+        // ═══ Public 公共资源 ═══
+        {
+          id: 'p53',
+          cat: 'public',
+          title: '品牌资源',
+          desc: 'YYC³ 品牌 Logo 与图标资源',
+          icon: '🏷️',
+          color: '#a855f7',
+          tag: 'doc',
+        },
+        {
+          id: 'p54',
+          cat: 'public',
+          title: '占位资源',
+          desc: '占位图与演示资源文件',
+          icon: '🖼️',
+          color: '#a855f7',
+          tag: 'doc',
+        },
+      ];
+
+      /* ═══════════════════════════════════════════
+ Category Definitions
+ ═══════════════════════════════════════════ */
+      const CATEGORIES = [
+        { id: 'all', name: '全部', icon: '📋' },
+        { id: 'ai', name: 'AI 人工智能', icon: '🤖' },
+        { id: 'agent', name: 'Agent 智能体', icon: '🧠' },
+        { id: 'cloud', name: 'Cloud 云原生', icon: '☁️' },
+        { id: 'data', name: 'Data 数据存储', icon: '💾' },
+        { id: 'doc', name: 'Doc 文档资源', icon: '📚' },
+        { id: 'editor', name: 'Editor 编辑器', icon: '✏️' },
+        { id: 'framework', name: 'Framework 框架', icon: '🔧' },
+        { id: 'icon', name: 'Icon 图标资源', icon: '🎨' },
+        { id: 'lsp', name: 'LSP 语言服务', icon: '🔌' },
+        { id: 'shell', name: 'Shell 终端', icon: '⌨️' },
+        { id: 'skills', name: 'Skills 技能包', icon: '🧠' },
+        { id: 'spec', name: 'Spec 规范工具', icon: '📐' },
+        { id: 'tool', name: 'Tool 开发工具', icon: '🛠️' },
+        { id: 'ui', name: 'UI 用户界面', icon: '🎨' },
+        { id: 'webspec', name: 'WebSpec Web 标准', icon: '🌐' },
+        { id: 'docs', name: 'Docs 文档资源', icon: '📖' },
+        { id: 'public', name: 'Public 公共资源', icon: '🏷️' },
+      ];
+
+      const CAT_COLORS = {
+        ai: '#8b5cf6',
+        agent: '#06b6d4',
+        cloud: '#22c55e',
+        data: '#f59e0b',
+        doc: '#f59e0b',
+        editor: '#ec4899',
+        framework: '#6366f1',
+        icon: '#ec4899',
+        lsp: '#0ea5e9',
+        shell: '#14b8a6',
+        skills: '#8b5cf6',
+        spec: '#f97316',
+        tool: '#f97316',
+        ui: '#ec4899',
+        webspec: '#06b6d4',
+        docs: '#f59e0b',
+        public: '#a855f7',
+      };
+
+      const CAT_ICONS = {
+        ai: '🤖',
+        agent: '🧠',
+        cloud: '☁️',
+        data: '💾',
+        doc: '📚',
+        editor: '✏️',
+        framework: '🔧',
+        icon: '🎨',
+        lsp: '🔌',
+        shell: '⌨️',
+        skills: '🧠',
+        spec: '📐',
+        tool: '🛠️',
+        ui: '🎨',
+        webspec: '🌐',
+        docs: '📖',
+        public: '🏷️',
+      };
+
+      let currentFilter = 'all';
+      let searchQuery = '';
+
+      /* ═══ Theme ═══ */
+      function toggleTheme() {
+        document.documentElement.classList.toggle('light');
+        const icon = document.getElementById('themeIcon');
+        if (document.documentElement.classList.contains('light')) {
+          icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+        } else {
+          icon.innerHTML =
+            '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+        }
+      }
+
+      /* ═══ Sidebar ═══ */
+      function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('hidden');
+        document.getElementById('sbOverlay').classList.toggle('show');
+        document.getElementById('main').classList.toggle('expanded');
+      }
+
+      function buildSidebar() {
+        const nav = document.getElementById('sbNav');
+        let html = '';
+        CATEGORIES.forEach((cat) => {
+          if (cat.id === 'all') return;
+          const items = PROJECTS.filter((p) => p.cat === cat.id);
+          if (!items.length) return;
+          html += `<div class="sb-group"><div class="sb-group-title">${cat.icon} ${cat.name}</div>`;
+          items.forEach((p) => {
+            const done = localStorage.getItem('proj-done-' + p.id) === '1';
+            html += `<a class="sb-item" data-id="${p.id}" href="#" onclick="showDetail('${p.id}');return false;">
+        <span class="sb-dot ${done ? 'done' : ''}"></span>
+        <span class="sb-label">${p.title}</span>
+      </a>`;
+          });
+          html += '</div>';
+        });
+        nav.innerHTML = html;
+        updateSidebarDots();
+        updateSidebarProgress();
+      }
+
+      function updateSidebarDots() {
+        document.querySelectorAll('.sb-item').forEach((el) => {
+          const id = el.dataset.id;
+          const dot = el.querySelector('.sb-dot');
+          if (id && dot) dot.classList.toggle('done', localStorage.getItem('proj-done-' + id) === '1');
+        });
+      }
+
+      function updateSidebarProgress() {
+        if (!PROJECTS.length) return;
+        const total = PROJECTS.length;
+        const done = PROJECTS.filter((p) => localStorage.getItem('proj-done-' + p.id) === '1').length;
+        const pct = Math.round((done / total) * 100);
+        document.getElementById('sbProgressPct').textContent = pct + '%';
+        document.getElementById('sbProgressFill').style.width = pct + '%';
+        document.getElementById('sbProgressCount').textContent = done + ' / ' + total + ' 已完成';
+      }
+
+      function filterSidebar(q) {
+        const query = q.toLowerCase().trim();
+        document.querySelectorAll('.sb-item').forEach((el) => {
+          const label = el.querySelector('.sb-label')?.textContent?.toLowerCase() || '';
+          el.style.display = !query || label.includes(query) ? '' : 'none';
+        });
+      }
+
+      /* ═══ Dashboard ═══ */
+      function showDashboard() {
+        document.getElementById('dashboardView').style.display = '';
+        document.getElementById('guideDetail').classList.remove('active');
+        document.getElementById('guideDetail').style.display = 'none';
+        applyFilters();
+        updateSidebarDots();
+      }
+
+      function showDetail(id) {
+        const p = PROJECTS.find((x) => x.id === id);
+        if (!p) return;
+        const dv = document.getElementById('dashboardView');
+        const gd = document.getElementById('guideDetail');
+        dv.style.display = 'none';
+        gd.style.display = 'block';
+        gd.classList.add('active');
+
+        const catColor = CAT_COLORS[p.cat] || '#666';
+        const catName = CATEGORIES.find((c) => c.id === p.cat)?.name || p.cat;
+        const filesHtml =
+          p.files && p.files.length
+            ? `<div class="gd-section"><div class="gd-section-title">📄 项目文件</div>${p.files.map((f) => `<div class="gd-item"><span class="gi-name">📄 ${f}</span></div>`).join('')}</div>`
+            : '';
+        const descHtml = p.detail
+          ? `<p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px">${p.detail}</p>`
+          : '';
+
+        gd.innerHTML = `
+    <a class="gd-back" href="#" onclick="showDashboard();return false;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回总览
+    </a>
+    <div class="gd-hero">
+      <div class="gd-hero-top">
+        <div class="gd-hero-icon" style="background:${catColor}22">${p.icon || '📁'}</div>
+        <div class="gd-hero-info">
+          <div class="gd-hero-title">${p.title}</div>
+          <div class="gd-hero-desc">${p.desc || ''}</div>
+          <div class="gd-hero-meta">
+            <span>🏷️ ${catName}</span>
+            <span>📁 ${p.files ? p.files.length + ' 文件' : '—'}</span>
+            <span class="gc-tag ${p.tag || 'core'}">${p.tag === 'core' ? '⚡ 核心' : p.tag === 'tool' ? '🔧 工具' : p.tag === 'lib' ? '📦 库' : p.tag === 'doc' ? '📖 文档' : '—'}</span>
+          </div>
+        </div>
+        <div class="gc-check ${localStorage.getItem('proj-done-' + p.id) === '1' ? 'done' : ''}" onclick="event.stopPropagation();toggleDone('${p.id}')"></div>
+      </div>
+    </div>
+    ${descHtml}
+    ${filesHtml}
+  `;
+      }
+
+      /* ═══ Toggle Done ═══ */
+      function toggleDone(id) {
+        const key = 'proj-done-' + id;
+        localStorage.setItem(key, localStorage.getItem(key) === '1' ? '0' : '1');
+        if (document.getElementById('dashboardView').style.display !== 'none') {
+          renderDashboard();
+        }
+        buildSidebar();
+        updateSidebarProgress();
+      }
+
+      /* ═══ Filters ═══ */
+      function buildFilters() {
+        const fb = document.getElementById('filterBar');
+        let html = '';
+        CATEGORIES.forEach((c) => {
+          const active = c.id === 'all' ? 'active' : '';
+          html += `<button class="filter-btn ${active}" data-cat="${c.id}" onclick="filterByCategory('${c.id}',this)">${c.icon} ${c.name}</button>`;
+        });
+        fb.innerHTML = html;
+      }
+
+      function filterByCategory(cat, btn) {
+        currentFilter = cat;
+        document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilters();
+      }
+
+      function applyFilters() {
+        const cards = document.querySelectorAll('.guide-card');
+        const sections = document.querySelectorAll('.cat-section');
+        cards.forEach((card) => {
+          const cat = card.dataset.cat;
+          const title = card.querySelector('.gc-title')?.textContent?.toLowerCase() || '';
+          const desc = card.querySelector('.gc-desc')?.textContent?.toLowerCase() || '';
+          const txt = title + ' ' + desc;
+          const matchCat = currentFilter === 'all' || cat === currentFilter;
+          const matchSearch = !searchQuery || txt.includes(searchQuery.toLowerCase());
+          card.classList.toggle('hidden', !(matchCat && matchSearch));
+        });
+        sections.forEach((sec) => {
+          const visible = [...sec.querySelectorAll('.guide-card')].some((c) => !c.classList.contains('hidden'));
+          sec.style.display = visible ? '' : 'none';
+        });
+      }
+
+      /* ═══ Render Dashboard ═══ */
+      function renderDashboard() {
+        const dc = document.getElementById('dashboardContent');
+        const groups = {};
+        PROJECTS.forEach((p) => {
+          if (!groups[p.cat]) groups[p.cat] = [];
+          groups[p.cat].push(p);
+        });
+
+        let html = '';
+        const catOrder = [
+          'ai',
+          'agent',
+          'cloud',
+          'data',
+          'doc',
+          'editor',
+          'framework',
+          'icon',
+          'lsp',
+          'shell',
+          'skills',
+          'spec',
+          'tool',
+          'ui',
+          'webspec',
+          'docs',
+          'public',
+        ];
+        catOrder.forEach((catId) => {
+          const items = groups[catId];
+          if (!items) return;
+          const catColor = CAT_COLORS[catId] || '#666';
+          const catName = CATEGORIES.find((c) => c.id === catId)?.name || catId;
+          const catIcon = CAT_ICONS[catId] || '📁';
+          html += `<div class="cat-section"><div class="cat-header">
+      <span class="cat-icon">${catIcon}</span>
+      <span class="cat-name">${catName}</span>
+      <span class="cat-count">${items.length} 项目</span>
+      <span class="cat-line"></span>
+    </div><div class="card-grid">`;
+          items.forEach((p) => {
+            const done = localStorage.getItem('proj-done-' + p.id) === '1';
+            const tagLabel = { core: '⚡ 核心', tool: '🔧 工具', lib: '📦 库', doc: '📖 文档' }[p.tag] || p.tag;
+            html += `<a class="guide-card" href="#" onclick="showDetail('${p.id}');return false;" data-cat="${p.cat}">
+        <div class="gc-bar" style="background:${catColor}"></div>
+        <div class="gc-head">
+          <div class="gc-icon" style="background:${catColor}22">${p.icon || '📁'}</div>
+          <div class="gc-info">
+            <div class="gc-title">${p.id.replace(/^p/, '')}. ${p.title}</div>
+            <div class="gc-meta">
+              <span class="gc-tag ${p.tag || 'core'}">${tagLabel}</span>
+            </div>
+          </div>
+          <div class="gc-check ${done ? 'done' : ''}" onclick="event.stopPropagation();toggleDone('${p.id}')"></div>
+        </div>
+        <div class="gc-desc">${p.desc || ''}</div>
+        ${
+          p.files
+            ? `<div class="gc-tags">${p.files
+                .slice(0, 3)
+                .map((f) => `<span>${f}</span>`)
+                .join('')}${p.files.length > 3 ? `<span>+${p.files.length - 3}</span>` : ''}</div>`
+            : ''
+        }
+      </a>`;
+          });
+          html += '</div></div>';
+        });
+        dc.innerHTML = html;
+
+        // Stats
+        const total = PROJECTS.length;
+        const done = PROJECTS.filter((p) => localStorage.getItem('proj-done-' + p.id) === '1').length;
+        const cats = Object.keys(groups).length;
+        document.getElementById('dashStats').innerHTML = `
+    <div class="stat-card"><span class="stat-num">${total}</span><span class="stat-label">总项目</span></div>
+    <div class="stat-card"><span class="stat-num">${done}</span><span class="stat-label">已完成</span></div>
+    <div class="stat-card"><span class="stat-num">${cats}</span><span class="stat-label">领域分类</span></div>
+    <div class="stat-card"><span class="stat-num">${Math.round((done / total) * 100)}%</span><span class="stat-label">完成率</span></div>
+  `;
+        document.getElementById('projectCount').textContent = total + ' 个项目';
+
+        buildFilters();
+        applyFilters();
+        updateSidebarDots();
+        updateSidebarProgress();
+      }
+
+      /* ═══ Modal ═══ */
+      function closeModal() {
+        document.getElementById('modalOverlay').classList.remove('show');
+      }
+
+      /* ═══ Share ═══ */
+      function sharePage() {
+        const url = window.location.href;
+        const title = document.getElementById('topbarTitle').textContent;
+        if (navigator.share) {
+          navigator.share({ title: title, url: url }).catch(() => {});
+        } else if (navigator.clipboard) {
+          navigator.clipboard.writeText(url).then(() => {
+            const btn = document.querySelector('.btn-share');
+            const orig = btn.innerHTML;
+            btn.innerHTML =
+              '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+            btn.title = '已复制链接';
+            setTimeout(() => {
+              btn.innerHTML = orig;
+              btn.title = '分享当前页面';
+            }, 2000);
+          });
+        }
+      }
+
+      /* ═══ Export/Import Progress ═══ */
+      function exportProgress() {
+        const data = {
+          exportTime: new Date().toISOString(),
+          total: PROJECTS.length,
+          projects: PROJECTS.map(function (p) {
+            return {
+              id: p.id,
+              title: p.title,
+              done: localStorage.getItem('proj-done-' + p.id) === '1',
+            };
+          }),
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'yyc3-kb-progress-' + new Date().toISOString().slice(0, 10) + '.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function importProgress() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = function (e) {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = function (ev) {
+            try {
+              const data = JSON.parse(ev.target.result);
+              if (!data.projects || !Array.isArray(data.projects)) throw new Error('无效格式');
+              data.projects.forEach(function (p) {
+                if (p.id) {
+                  localStorage.setItem('proj-done-' + p.id, p.done ? '1' : '0');
+                }
+              });
+              buildSidebar();
+              renderDashboard();
+              updateSidebarProgress();
+              alert('✅ 进度导入成功！');
+            } catch (err) {
+              alert('❌ 导入失败：' + err.message);
+            }
+          };
+          reader.readAsText(file);
+        };
+        input.click();
+      }
+
+      function resetProgress() {
+        if (!confirm('确定重置所有进度？此操作不可撤销。')) return;
+        PROJECTS.forEach(function (p) {
+          localStorage.removeItem('proj-done-' + p.id);
+        });
+        buildSidebar();
+        renderDashboard();
+        updateSidebarProgress();
+      }
+
+      /* ═══ Clock ═══ */
+      function updateClock() {
+        const now = new Date();
+        document.getElementById('clockDisplay').textContent = now.toTimeString().slice(0, 8);
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      /* ═══ Init ═══ */
+      buildSidebar();
+      renderDashboard();
+    </script>
+  </body>
+</html>
