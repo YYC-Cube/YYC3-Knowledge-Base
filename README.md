@@ -29,6 +29,9 @@
   <img src="https://img.shields.io/badge/分类-9-06B6D4?style=flat-square" alt="分类" />
   <img src="https://img.shields.io/badge/运行时-纯前端-FF6B6B?style=flat-square" alt="运行时" />
   <img src="https://img.shields.io/badge/存储-localStorage-F97316?style=flat-square" alt="存储" />
+  <img src="https://img.shields.io/badge/📊-工作区展示-F97316?style=flat-square" alt="工作区展示" />
+  <img src="https://img.shields.io/badge/项目-54个-8B5CF6?style=flat-square" alt="项目数" />
+  <img src="https://img.shields.io/badge/领域-16个-06B6D4?style=flat-square" alt="领域数" />
   <img src="https://img.shields.io/badge/PR-欢迎-2EA043?style=flat-square" alt="PR" />
 </p>
 
@@ -49,6 +52,7 @@
 | 🌓 **暗亮双主题** | 自适应主题系统，持久化用户偏好 |
 | 📋 **进度可视化** | 全局进度条 + 卡片级步骤计数器，学习路径清晰可控 |
 | 📤 **导出/导入** | 进度数据可导出备份或跨设备迁移 |
+| 🗂️ **工作区总览** | [YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) 展示 16 大领域、54 个开源项目的全量工作区卡片看板 |
 
 ---
 
@@ -172,6 +176,9 @@ YYC3 Knowledge Base
 │   └── 数据科学/AI 框架依赖
 │
 └── 📚 docs — 项目文档
+    ├── YYC3-KNOWLEDGE-BASE.html — 工作区总览（可脱机分享的 HTML 看板）
+    ├── DGX-SPARK-HUB.html — DGX Spark 操作中心（在线版）
+    ├── DGX-SPARK-HUB-OFFLINE.html — DGX Spark 操作中心（离线版）
     ├── 技术实现边界.md — 架构设计与延伸路径
     ├── 卡片信息.md — 卡片数据规范
     └── 命令信息.md — CLI 命令索引
@@ -233,19 +240,24 @@ YYC3 Knowledge Base
 
 ```bash
 # 克隆仓库
-git clone https://github.com/YYC-Cube/YYC3-Agent-Skills-MCP-Plugin.git
+git clone https://github.com/YYC-Cube/YYC3-Knowledge-Base.git
 
-# 无需安装依赖，直接打开
-open index.html
+# 工作区总览（推荐入口）
+open docs/YYC3-KNOWLEDGE-BASE.html
+
+# DGX Spark 操作中心
+open docs/DGX-SPARK-HUB.html
+
 # 或使用本地服务器
 python3 -m http.server 8080
-# 访问 http://localhost:8080
+# 访问 http://localhost:8080/docs/YYC3-KNOWLEDGE-BASE.html
 ```
 
 ### 使用场景
 
 ```
-📚 学习 NVIDIA AI 全栈技术 → 通过看板浏览40+实践指南
+�️ 浏览工作区总览 → 通过 YYC3-KNOWLEDGE-BASE.html 查看全部 54 个项目卡片
+� 学习 NVIDIA AI 全栈技术 → 通过 DGX-SPARK-HUB 看板浏览 40+ 实践指南
 🎯 按步骤操作 AI 基础设施 → 利用深度链接直达任意步骤
 📊 追踪学习进度 → 自动保存每一步的完成状态
 🔍 快速检索知识 → 通过分类/难度过滤 + 搜索定位
@@ -277,7 +289,9 @@ GUIDES.push(newGuide);
 
 | 资源 | 链接 |
 |------|------|
-| 📦 GitHub 仓库 | [YYC3-Agent-Skills-MCP-Plugin](https://github.com/YYC-Cube/YYC3-Agent-Skills-MCP-Plugin.git) |
+| 📦 GitHub 仓库 | [YYC3-Knowledge-Base](https://github.com/YYC-Cube/YYC3-Knowledge-Base.git) |
+| 🗂️ 工作区总览 | [docs/YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) |
+| 🚀 DGX Spark 操作中心 | [docs/DGX-SPARK-HUB.html](docs/DGX-SPARK-HUB.html) |
 | 📖 项目文档 | [docs/](docs/) |
 | 🖼️ 品牌资源 | [public/](public/) |
 | 📋 卡片规范 | [docs/卡片信息.md](docs/卡片信息.md) |
