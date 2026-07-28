@@ -319,7 +319,7 @@
     "jaison": "^2.0.2",
     "jest-styled-components": "^7.2.0",
     "js-base64": "3.7.7",
-    "js-yaml": "4.1.0",
+    "js-yaml": "4.3.0",
     "json-schema": "0.4.0",
     "katex": "0.16.22",
     "ky": "1.8.1",
