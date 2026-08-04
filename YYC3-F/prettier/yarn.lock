@@ -5,12 +5,12 @@ __metadata:
   version: 10
   cacheKey: 10
 
-"@angular/compiler@npm:22.0.0":
-  version: 22.0.0
-  resolution: "@angular/compiler@npm:22.0.0"
+"@angular/compiler@npm:22.0.1":
+  version: 22.0.1
+  resolution: "@angular/compiler@npm:22.0.1"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/dbe3dc66309ed2536a8a0f029d6f36a9c1c21cfafcedac2c49258ad939861e3f3990623cda0db51d3760ba05008b7fe6fd5b9e6fa84f979b302a8d862840a0d8
+  checksum: 10/c7e6321b91b3e92bc4fb1206ac3afb69ce1aa72fa3158108525e04a59e57a4b011cfd5b08210d8ae8998007fb18bff6c6b7d8e8dd900360c0bcf0a7f17938dbb
   languageName: node
   linkType: hard
 
@@ -3318,12 +3318,12 @@ __metadata:
   linkType: hard
 
 "brace-expansion@npm:^1.1.7":
-  version: 1.1.15
-  resolution: "brace-expansion@npm:1.1.15"
+  version: 1.1.18
+  resolution: "brace-expansion@npm:1.1.18"
   dependencies:
     balanced-match: "npm:^1.0.0"
     concat-map: "npm:0.0.1"
-  checksum: 10/f2a950034e670523cc186da61aabe3beab74b1b8a7c74a756bf6b172dad1917312f255d9ec46906c9f0cab530868095d8c143918576930dd0e1323c3803850f1
+  checksum: 10/b55a3c03239b8d2127c7cbb3408c9ad3a556a8c303bf3064df78bfb7c093160fc8f6e0a32e42a850a78eba12f29ccf6ef997690b9acf945d242c56c61c4aa977
   languageName: node
   linkType: hard
 
@@ -8076,7 +8076,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "prettier@workspace:."
   dependencies:
-    "@angular/compiler": "npm:22.0.0"
+    "@angular/compiler": "npm:22.0.1"
     "@babel/code-frame": "npm:8.0.0-rc.6"
     "@babel/generator": "npm:8.0.0-rc.6"
     "@babel/parser": "npm:8.0.0-rc.6"
@@ -9322,9 +9322,9 @@ __metadata:
   linkType: hard
 
 "undici@npm:^6.25.0":
-  version: 6.26.0
-  resolution: "undici@npm:6.26.0"
-  checksum: 10/a1715ee4304f58fecd61e0a8c3bd7064435cfbc98b3ec1414dba5e89de97d436b7e88dd094b06ff8440428bf36b56163fc88972118890826039865edf58bdfcf
+  version: 6.28.0
+  resolution: "undici@npm:6.28.0"
+  checksum: 10/672a7a53bd1f6c80edb73b357ab36e98ef9e474024c442aab2b8ea2bc32f1103cab05525c78661ae724f3e1340e23d03efb9730fba28e76218ab0ec52e15d75a
   languageName: node
   linkType: hard
 
