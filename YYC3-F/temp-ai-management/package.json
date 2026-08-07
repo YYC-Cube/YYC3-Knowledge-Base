@@ -111,7 +111,7 @@
     "lucide-react": "^0.454.0",
     "multer": "latest",
     "mysql2": "^3.15.1",
-    "next": "^15.5.4",
+    "next": "^16.3.0",
     "next-auth": "^4.24.15",
     "next-themes": "latest",
     "node-notifier": "latest",
