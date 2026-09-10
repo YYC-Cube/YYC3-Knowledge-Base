@@ -52,7 +52,7 @@
     "react-dom": "18.2.0",
     "sandpack-vue3": "3.1.11",
     "semver": "^7.7.3",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.4",
     "shiki": "^3.15.0",
     "simple-git": "^3.32.3",
     "sitemap": "^7.1.2",
