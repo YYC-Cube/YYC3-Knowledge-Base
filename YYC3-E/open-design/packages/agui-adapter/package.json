@@ -27,7 +27,7 @@
     "@types/node": "20.19.39",
     "esbuild": "0.28.0",
     "typescript": "5.9.3",
-    "vitest": "4.1.6"
+    "vitest": "4.1.11"
   },
   "engines": {
     "node": "~24"
