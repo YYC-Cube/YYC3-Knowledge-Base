@@ -62,7 +62,7 @@
     "@types/multer": "2.1.0",
     "@types/node": "20.19.39",
     "typescript": "5.9.3",
-    "vitest": "4.1.6"
+    "vitest": "4.1.11"
   },
   "engines": {
     "node": "~24"
