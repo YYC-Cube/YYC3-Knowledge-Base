@@ -143,7 +143,7 @@
     "@vitest/coverage-v8": "^4.0.18",
     "@vitest/ui": "^4.0.18",
     "autoprefixer": "^10.4.24",
-    "electron": "41.0.0",
+    "electron": "42.11.16",
     "electron-devtools-installer": "^4.0.0",
     "eslint": "^9.39.2",
     "eslint-plugin-react": "^7.37.5",
@@ -154,7 +154,7 @@
     "prettier": "^3.8.1",
     "tailwindcss": "^4.2.1",
     "typescript": "~5.9.3",
-    "vite": "^7.3.1",
+    "vite": "^7.3.7",
     "vitest": "^4.0.18"
   },
   "keywords": [],
