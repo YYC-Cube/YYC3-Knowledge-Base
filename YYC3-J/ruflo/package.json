@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "semver": "^7.6.0",
-    "zod": "^3.22.4"
+    "zod": "^4.6.6"
   },
   "optionalDependencies": {
     "@claude-flow/codex": "^3.0.0-alpha.8",
