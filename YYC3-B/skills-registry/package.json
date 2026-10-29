@@ -28,7 +28,7 @@
     "cageerf"
   ],
   "dependencies": {
-    "zod": "^3.22.4",
+    "zod": "^4.6.7",
     "eventemitter3": "^5.0.1"
   },
   "peerDependencies": {

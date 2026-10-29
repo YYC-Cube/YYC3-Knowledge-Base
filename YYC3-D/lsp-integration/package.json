@@ -32,7 +32,7 @@
   "dependencies": {
     "vscode-languageserver-protocol": "^3.17.0",
     "vscode-uri": "^3.0.0",
-    "zod": "^3.22.4",
+    "zod": "^4.6.7",
     "eventemitter3": "^5.0.1"
   },
   "devDependencies": {
