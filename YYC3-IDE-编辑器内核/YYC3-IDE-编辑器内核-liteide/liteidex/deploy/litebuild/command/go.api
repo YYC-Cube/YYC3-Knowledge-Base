@@ -1,0 +1,23 @@
+go
+go test
+go test -test.bench=.*
+go test -test.bench=.* -test.benchmem
+go test -cover
+go install
+go get
+go clean
+go env
+go version
+go build
+go build -ldflags "
+go build -ldflags "-r ."
+go build -ldflags "-H windowsgui"
+go build -ldflags "-H windowsgui -r ."
+go build -ldflags "-w -s"
+go build -gcflags "
+go mod init
+go mod tidy
+go mod download
+go mod verify
+go mod graph
+go mod why

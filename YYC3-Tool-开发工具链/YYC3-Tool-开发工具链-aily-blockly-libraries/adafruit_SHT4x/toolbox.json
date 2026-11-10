@@ -1,0 +1,80 @@
+{
+    "kind": "category",
+    "name": "SHT4x温湿度",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-temperature-three-quarters",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "基础功能"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_init"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_read_temperature"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_read_humidity"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_read_both"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_get_last_temperature"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_get_last_humidity"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "高级设置"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_set_precision"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_set_heater"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_read_serial"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_reset"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "简化使用"
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_simple_read",
+            "fields": {
+                "TYPE": "temperature"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "sht4x_simple_read",
+            "fields": {
+                "TYPE": "humidity"
+            }
+        }
+    ]
+}

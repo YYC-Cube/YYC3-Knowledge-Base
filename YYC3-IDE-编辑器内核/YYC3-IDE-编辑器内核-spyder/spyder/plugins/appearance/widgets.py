@@ -1,0 +1,252 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © Spyder Project Contributors
+# Licensed under the terms of the MIT License
+# (see spyder/__init__.py for details)
+
+"""Appearance entry in Preferences."""
+
+import configparser
+import re
+
+from qtpy.QtCore import Qt
+from qtpy.QtGui import QColor
+from qtpy.QtWidgets import (
+    QDialog,
+    QDialogButtonBox,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QMessageBox,
+    QVBoxLayout,
+    QWidget,
+)
+
+from spyder.api.fonts import SpyderFontType, SpyderFontsMixin
+from spyder.api.translations import _
+from spyder.api.widgets.dialogs import SpyderDialogButtonBox
+from spyder.utils.theme_manager import COLOR_SCHEME_KEYS, THEME_MANAGER
+
+
+class SchemeEditor(QDialog, SpyderFontsMixin):
+    """A color scheme editor dialog."""
+
+    def __init__(self, parent=None, stack=None):
+        super().__init__(parent)
+        self.parent = parent
+        self.stack = stack
+        self.order = []    # Uses scheme names
+
+        # Needed for self.get_edited_color_scheme()
+        self.widgets = {}
+        self.last_edited_color_scheme = None
+        self.last_used_scheme = None
+        self.original_scheme = None
+
+        # Widgets
+        bbox = SpyderDialogButtonBox(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        )
+
+        # Layout
+        layout = QVBoxLayout()
+        layout.addWidget(self.stack)
+        layout.addWidget(bbox)
+        self.setLayout(layout)
+
+        # Signals
+        bbox.accepted.connect(self.validate_colors)
+        bbox.accepted.connect(self.get_edited_color_scheme)
+        bbox.rejected.connect(self.reject)
+
+    # Helpers
+    # -------------------------------------------------------------------------
+    def set_scheme(self, scheme_name):
+        """Set the current stack by 'scheme_name'."""
+        self.stack.setCurrentIndex(self.order.index(scheme_name))
+        self.last_used_scheme = scheme_name
+        self.original_scheme = self.get_edited_color_scheme()
+
+    def validate_colors(self):
+        """
+        Validate the current color scheme and display a message box listing
+        any invalid colors.
+        """
+        invalid_colors = {}
+        scheme_name = self.last_used_scheme
+        pattern = (
+            r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{8}|[A-Fa-f0-9]{4})$"
+        )
+        for key in self.widgets[scheme_name]:
+            items = self.widgets[scheme_name][key]
+
+            if not bool(re.match(pattern, items[0].text())):
+                invalid_colors[key] = items[0].text()
+
+        if invalid_colors:
+            message = _(
+                "The following properties have invalid colors:<br><br>"
+            )
+            for property_name, color in invalid_colors.items():
+                name = COLOR_SCHEME_KEYS[property_name]
+                clean_name = name[:-1].replace("<br>", "")
+                message += _(
+                    'The property <b>{}</b> has an invalid color: {}<br>'
+                ).format(clean_name, color)
+
+            msgbox = QMessageBox(
+                QMessageBox.Warning,
+                _('Error setting colors'),
+                message,
+                QMessageBox.Ok,
+                self
+            )
+            msgbox.setTextFormat(Qt.RichText)
+            msgbox.exec_()
+        else:
+            self.accept()
+
+    def get_edited_color_scheme(self):
+        """
+        Get the values of the last edited color scheme to be used in an instant
+        preview in the preview editor, without using `apply`.
+        """
+        color_scheme = {}
+        scheme_name = self.last_used_scheme
+
+        for key in self.widgets[scheme_name]:
+            items = self.widgets[scheme_name][key]
+
+            if len(items) == 1:
+                # ColorLayout
+                value = items[0].text()
+            else:
+                # ColorLayout + checkboxes
+                value = (items[0].text(), items[1].isChecked(),
+                         items[2].isChecked())
+
+            color_scheme[key] = value
+
+        return color_scheme
+
+    # Actions
+    # -------------------------------------------------------------------------
+    def add_color_scheme_stack(self, scheme_name):
+        """Add a stack for a given scheme and connect CONF values."""
+        color_scheme_groups = [
+            (_('Text'), ["normal", "comment", "string", "number", "keyword",
+                         "builtin", "definition", "instance", ]),
+            (_('Highlight'), ["currentcell", "currentline", "occurrence",
+                              "matched_p", "unmatched_p", "ctrlclick"]),
+            (_('Background'), ["background", "sideareas"])
+        ]
+
+        parent = self.parent
+
+        # Themes store a ``name`` field in config; default when missing comes
+        # from the theme manager display name.
+        default_name = THEME_MANAGER.get_theme_display_name(scheme_name)
+
+        # Widget setup
+        self.setWindowTitle(_('Syntax highlighting editor'))
+
+        theme_label = QLabel(default_name)
+        theme_label.setAlignment(Qt.AlignCenter)
+
+        font = self.get_font(SpyderFontType.Interface)
+        font.setPointSize(font.pointSize() + 1)
+        theme_label.setFont(font)
+
+        # Layout
+        cs_layout = QVBoxLayout()
+        cs_layout.addWidget(theme_label)
+        cs_layout.addSpacing(6)
+
+        h_layout = QHBoxLayout()
+        v_layout = QVBoxLayout()
+
+        def value_for_key(k):
+            resolved = None
+
+            opt = "{0}/{1}".format(scheme_name, k)
+            try:
+                return self.parent.get_option(opt)
+            except configparser.NoOptionError:
+                if resolved is None:
+                    resolved = THEME_MANAGER.get_color_scheme(scheme_name)
+
+                return resolved[k]
+
+        self.widgets[scheme_name] = {}
+        for index, item in enumerate(color_scheme_groups):
+            group_name, keys = item
+            group_layout = QGridLayout()
+
+            for row, key in enumerate(keys):
+                option = "{0}/{1}".format(scheme_name, key)
+                value = value_for_key(key)
+                name = COLOR_SCHEME_KEYS[key]
+
+                if isinstance(value, str):
+                    label, clayout = parent.create_coloredit(
+                        name,
+                        option,
+                        default=value,
+                        without_layout=True,
+                    )
+                    label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    group_layout.addWidget(label, row+1, 0)
+                    group_layout.addLayout(clayout, row+1, 1)
+
+                    self.widgets[scheme_name][key] = [clayout]
+                else:
+                    label, clayout, cb_bold, cb_italic = parent.create_scedit(
+                        name,
+                        option,
+                        default=value,
+                        without_layout=True,
+                    )
+                    label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    group_layout.addWidget(label, row+1, 0)
+                    group_layout.addLayout(clayout, row+1, 1)
+                    group_layout.addWidget(cb_bold, row+1, 2)
+                    group_layout.addWidget(cb_italic, row+1, 3)
+
+                    self.widgets[scheme_name][key] = [clayout, cb_bold,
+                                                      cb_italic]
+
+            group_box = QGroupBox(group_name)
+            group_box.setLayout(group_layout)
+
+            if index == 0:
+                h_layout.addWidget(group_box)
+            else:
+                v_layout.addWidget(group_box)
+
+        h_layout.addLayout(v_layout)
+        cs_layout.addLayout(h_layout)
+
+        stackitem = QWidget(self)
+        stackitem.setLayout(cs_layout)
+        self.stack.addWidget(stackitem)
+        self.order.append(scheme_name)
+
+    def restore_original_scheme(self, scheme_name):
+        "Restores the original values of the scheme being edited."
+        for key, value in self.original_scheme.items():
+            if isinstance(value, tuple):
+                color = QColor()
+                color.setNamedColor(value[0])
+                self.widgets[scheme_name][key][0].update_text(color)
+                self.widgets[scheme_name][key][1].setChecked(value[1])
+                self.widgets[scheme_name][key][2].setChecked(value[2])
+            else:
+                color = QColor()
+                color.setNamedColor(value)
+                self.widgets[scheme_name][key][0].update_text(color)
+
+    def reject(self):
+        """Executes when Cancel is pressed: Restores the edited scheme."""
+        self.restore_original_scheme(self.last_used_scheme)
+        super().reject()

@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "TLx493D 3D Magnetic Sensor",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "读取数据": "Read data",
+    "配置": "Configuration",
+    "状态与控制": "status and control"
+  },
+  "tlx493d_init": {
+    "message0": "Initialize 3D magnetic sensor %1\nSensor type %2\nI2C address %3\nUsing %4",
+    "tooltip": "Initialize Infineon TLx493D 3D magnetic sensor via I2C interface",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["TLx493D-A1B6 (Gen1)", "A1B6"],
+          ["TLx493D-A2B6 (Gen2)", "A2B6"],
+          ["TLx493D-A2BW (Gen2)", "A2BW"],
+          ["TLx493D-P2B6 (Gen2)", "P2B6"],
+          ["TLx493D-W2B6 (Gen2)", "W2B6"],
+          ["TLx493D-W2BW (Gen2)", "W2BW"],
+          ["TLx493D-P3B6 (Gen3)", "P3B6"]
+        ]
+      },
+      {
+        "options": [
+          ["0 (Default)", "TLx493D_IIC_ADDR_A0_e"],
+          ["1", "TLx493D_IIC_ADDR_A1_e"],
+          ["2", "TLx493D_IIC_ADDR_A2_e"],
+          ["3", "TLx493D_IIC_ADDR_A3_e"]
+        ]
+      },
+      null
+    ]
+  },
+  "tlx493d_get_temperature": {
+    "message0": "Read temperature (°C) from 3D magnetic sensor %1",
+    "tooltip": "Read temperature from TLx493D sensor, returns Celsius"
+  },
+  "tlx493d_get_magnetic_field": {
+    "message0": "Read magnetic field %2 axis (mT) from 3D magnetic sensor %1",
+    "tooltip": "Read magnetic field value of specified axis from TLx493D sensor in millitesla (mT)",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["X", "X"],
+          ["Y", "Y"],
+          ["Z", "Z"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_set_sensitivity": {
+    "message0": "Set 3D magnetic sensor %1 sensitivity to %2",
+    "tooltip": "Set the sensitivity/range of the TLx493D sensor",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Full Range", "TLx493D_FULL_RANGE_e"],
+          ["Short Range", "TLx493D_SHORT_RANGE_e"],
+          ["Extra Short Range", "TLx493D_EXTRA_SHORT_RANGE_e"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_set_power_mode": {
+    "message0": "Set 3D magnetic sensor %1 power mode to %2",
+    "tooltip": "Set the power mode of the TLx493D sensor",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Fast Mode", "TLx493D_FAST_MODE_e"],
+          ["Low Power Mode", "TLx493D_LOW_POWER_MODE_e"],
+          ["Ultra Low Power Mode", "TLx493D_ULTRA_LOW_POWER_MODE_e"],
+          ["Master Controlled Mode", "TLx493D_MASTER_CONTROLLED_MODE_e"],
+          ["Power Down Mode", "TLx493D_POWER_DOWN_MODE_e"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_has_valid_data": {
+    "message0": "3D magnetic sensor %1 has valid data",
+    "tooltip": "Check if the TLx493D sensor data is valid"
+  },
+  "tlx493d_software_reset": {
+    "message0": "Software reset 3D magnetic sensor %1",
+    "tooltip": "Perform a software reset on the TLx493D sensor"
+  }
+}

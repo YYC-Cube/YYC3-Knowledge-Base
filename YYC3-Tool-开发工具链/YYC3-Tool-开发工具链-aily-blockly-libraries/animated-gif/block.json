@@ -1,0 +1,199 @@
+[
+  {
+    "type": "gif_init",
+    "icon": "fa-light fa-gif",
+    "message0": "初始化GIF播放器 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "gif"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9370DB",
+    "tooltip": "初始化AnimatedGIF播放器对象，需配合TFT显示屏使用",
+    "helpUrl": ""
+  },
+  {
+    "type": "gif_open_memory",
+    "icon": "fa-light fa-gif",
+    "message0": "GIF %1 打开内存数据 头文件 %2 数组名 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gif",
+        "variableTypes": ["AnimatedGIF"],
+        "defaultType": "AnimatedGIF"
+      },
+      {
+        "type": "field_input",
+        "name": "HEADER",
+        "text": "image.h"
+      },
+      {
+        "type": "field_input",
+        "name": "ARRAY",
+        "text": "ucImage"
+      }
+    ],
+    "message1": "显示位置 X %1 Y %2",
+    "args1": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9370DB",
+    "tooltip": "从内存（FLASH）中打开GIF数据，需指定包含GIF数据的头文件名和数组变量名，以及显示位置"
+  },
+  {
+    "type": "gif_open_sd",
+    "icon": "fa-light fa-gif",
+    "message0": "GIF %1 打开SD卡文件 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gif",
+        "variableTypes": ["AnimatedGIF"],
+        "defaultType": "AnimatedGIF"
+      },
+      {
+        "type": "input_value",
+        "name": "FILENAME",
+        "check": "String"
+      }
+    ],
+    "message1": "显示位置 X %1 Y %2",
+    "args1": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9370DB",
+    "tooltip": "从SD卡打开GIF文件，需指定文件路径和显示位置"
+  },
+  {
+    "type": "gif_play_frame",
+    "icon": "fa-light fa-gif",
+    "message0": "GIF %1 播放一帧 同步等待 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gif",
+        "variableTypes": ["AnimatedGIF"],
+        "defaultType": "AnimatedGIF"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SYNC",
+        "options": [
+          ["是", "true"],
+          ["否", "false"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#9370DB",
+    "tooltip": "播放GIF动画的一帧，返回是否还有更多帧。同步等待为「是」时会按帧延迟等待"
+  },
+  {
+    "type": "gif_play_all",
+    "icon": "fa-light fa-gif",
+    "message0": "GIF %1 播放全部帧",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gif",
+        "variableTypes": ["AnimatedGIF"],
+        "defaultType": "AnimatedGIF"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9370DB",
+    "tooltip": "播放GIF动画的所有帧，播放完毕后继续执行下一个块"
+  },
+  {
+    "type": "gif_close",
+    "icon": "fa-light fa-gif",
+    "message0": "GIF %1 关闭",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gif",
+        "variableTypes": ["AnimatedGIF"],
+        "defaultType": "AnimatedGIF"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9370DB",
+    "tooltip": "关闭当前打开的GIF文件，释放资源"
+  },
+  {
+    "type": "gif_get_width",
+    "icon": "fa-light fa-gif",
+    "message0": "GIF %1 画布宽度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gif",
+        "variableTypes": ["AnimatedGIF"],
+        "defaultType": "AnimatedGIF"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#9370DB",
+    "tooltip": "获取当前GIF动画的画布宽度（像素）"
+  },
+  {
+    "type": "gif_get_height",
+    "icon": "fa-light fa-gif",
+    "message0": "GIF %1 画布高度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "gif",
+        "variableTypes": ["AnimatedGIF"],
+        "defaultType": "AnimatedGIF"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#9370DB",
+    "tooltip": "获取当前GIF动画的画布高度（像素）"
+  }
+]

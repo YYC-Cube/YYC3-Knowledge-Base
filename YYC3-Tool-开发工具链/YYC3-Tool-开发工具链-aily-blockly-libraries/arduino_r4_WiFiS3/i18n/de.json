@@ -1,0 +1,102 @@
+{
+  "toolbox_name": "R4 WiFi",
+  "toolbox_labels": {
+    "连接": "verbinden",
+    "状态查询": "Statusabfrage",
+    "配置": "Konfiguration",
+    "网络扫描": "Netzwerkscan",
+    "网络操作": "Netzwerkbetrieb"
+  },
+  "wifis3_begin": {
+    "message0": "WiFi verbinden SSID %1 Passwort %2",
+    "tooltip": "Mit WiFi-Netzwerk verbinden (WPA/WPA2-Verschlüsselung)"
+  },
+  "wifis3_begin_open": {
+    "message0": "WiFi verbinden SSID %1 (Offenes Netzwerk)",
+    "tooltip": "Mit offenem WiFi-Netzwerk ohne Passwort verbinden"
+  },
+  "wifis3_begin_ap": {
+    "message0": "WiFi-AP starten SSID %1 Passwort %2 Kanal %3",
+    "tooltip": "WiFi-Zugangspunkt starten (Hotspot-Modus)"
+  },
+  "wifis3_disconnect": {
+    "message0": "WiFi trennen",
+    "tooltip": "Aktuelle WiFi-Verbindung trennen"
+  },
+  "wifis3_status": {
+    "message0": "WiFi-Verbindungsstatus",
+    "tooltip": "WiFi-Verbindungsstatus zurückgeben (3=verbunden, 1=Leerlauf, 0=getrennt usw.)"
+  },
+  "wifis3_is_connected": {
+    "message0": "WiFi verbunden?",
+    "tooltip": "Prüfen, ob mit WiFi-Netzwerk verbunden"
+  },
+  "wifis3_local_ip": {
+    "message0": "Lokale IP-Adresse abrufen",
+    "tooltip": "Lokale IP-Adresse des Geräts zurückgeben"
+  },
+  "wifis3_mac_address": {
+    "message0": "MAC-Adresse abrufen",
+    "tooltip": "MAC-Adresse des WiFi-Moduls zurückgeben"
+  },
+  "wifis3_gateway_ip": {
+    "message0": "Gateway-IP-Adresse abrufen",
+    "tooltip": "Gateway-IP-Adresse zurückgeben"
+  },
+  "wifis3_subnet_mask": {
+    "message0": "Subnetzmaske abrufen",
+    "tooltip": "Subnetzmaske zurückgeben"
+  },
+  "wifis3_dns_ip": {
+    "message0": "DNS-Server abrufen %1",
+    "tooltip": "DNS-Serveradresse zurückgeben",
+    "args0": [
+      {
+        "options": [
+          ["Primärer DNS", "0"],
+          ["Sekundärer DNS", "1"]
+        ]
+      }
+    ]
+  },
+  "wifis3_set_dns": {
+    "message0": "DNS-Server setzen Primär %1 Sekundär %2",
+    "tooltip": "Primären und sekundären DNS-Server setzen"
+  },
+  "wifis3_config_ip": {
+    "message0": "Statische IP konfigurieren Adresse %1 Gateway %2 Subnetz %3",
+    "tooltip": "Statische IP-Adresse, Gateway und Subnetzmaske des Geräts konfigurieren"
+  },
+  "wifis3_set_hostname": {
+    "message0": "Hostname setzen %1",
+    "tooltip": "DHCP-Hostname setzen"
+  },
+  "wifis3_scan_networks": {
+    "message0": "WiFi-Netzwerke scannen",
+    "tooltip": "Verfügbare WiFi-Netzwerke in der Umgebung scannen"
+  },
+  "wifis3_ssid_by_index": {
+    "message0": "SSID von Netzwerk #%1 abrufen",
+    "tooltip": "SSID des Netzwerks am angegebenen Index zurückgeben"
+  },
+  "wifis3_rssi_by_index": {
+    "message0": "Signalstärke von Netzwerk #%1 abrufen",
+    "tooltip": "RSSI-Signalstärke (dBm) des Netzwerks am angegebenen Index zurückgeben"
+  },
+  "wifis3_scanned_networks_count": {
+    "message0": "Anzahl gescannter Netzwerke abrufen",
+    "tooltip": "Anzahl der beim letzten Scan gefundenen WiFi-Netzwerke zurückgeben"
+  },
+  "wifis3_ping": {
+    "message0": "PING %1 (TTL %2 Anzahl %3)",
+    "tooltip": "PING an den angegebenen Host senden, Antwortzeit zurückgeben"
+  },
+  "wifis3_firmware_version": {
+    "message0": "WiFi-Firmwareversion abrufen",
+    "tooltip": "Firmwareversion des WiFi-Moduls zurückgeben"
+  },
+  "wifis3_wait_for_connection": {
+    "message0": "Auf WiFi-Verbindung warten Timeout %1 ms",
+    "tooltip": "Warten bis WiFi-Verbindung erfolgreich oder Timeout"
+  }
+}

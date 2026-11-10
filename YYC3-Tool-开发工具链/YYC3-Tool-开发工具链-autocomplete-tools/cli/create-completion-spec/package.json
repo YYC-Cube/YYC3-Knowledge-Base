@@ -1,0 +1,44 @@
+{
+  "name": "create-completion-spec",
+  "version": "1.1.9",
+  "description": "Initialize a Fig custom spec boilerplate in the current directory",
+  "bin": "lib/bin.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepack": "pnpm build",
+    "generate-spec": "tsx generate-spec.ts generate-fig-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/withfig/autocomplete-tools.git"
+  },
+  "keywords": [
+    "fig",
+    "spec",
+    "completion"
+  ],
+  "files": [
+    "lib",
+    "boilerplate"
+  ],
+  "author": "Federico Ciardi <fed.ciardi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/withfig/autocomplete-tools/issues"
+  },
+  "homepage": "https://github.com/withfig/autocomplete-tools#readme",
+  "dependencies": {
+    "commander": "^11.1.0",
+    "picocolors": "^1.1.0"
+  },
+  "devDependencies": {
+    "@fig/complete-commander": "workspace:^",
+    "@types/node": "^22.5.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

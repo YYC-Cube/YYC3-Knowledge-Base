@@ -1,0 +1,126 @@
+{
+  "toolbox_name": "SerialTransfer",
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "发送数据": "Envoyer des données",
+    "接收数据": "recevoir des données",
+    "状态": "Statut"
+  },
+  "toolbox_categories": ["Transfert série", "Transfert I2C", "Transfert SPI"],
+  "serial_transfer_init": {
+    "message0": "Initialiser SerialTransfer %1 port %2 débit %3",
+    "tooltip": "Initialiser l'objet SerialTransfer avec le port série et le débit en bauds"
+  },
+  "serial_transfer_send_int": {
+    "message0": "SerialTransfer %1 envoyer entier %2 ID paquet %3",
+    "tooltip": "Envoyer une valeur entière via SerialTransfer"
+  },
+  "serial_transfer_send_float": {
+    "message0": "SerialTransfer %1 envoyer flottant %2 ID paquet %3",
+    "tooltip": "Envoyer une valeur flottante via SerialTransfer"
+  },
+  "serial_transfer_send_string": {
+    "message0": "SerialTransfer %1 envoyer chaîne %2 ID paquet %3",
+    "tooltip": "Envoyer une chaîne de caractères via SerialTransfer"
+  },
+  "serial_transfer_available": {
+    "message0": "SerialTransfer %1 nouvelles données reçues",
+    "tooltip": "Vérifier si SerialTransfer a reçu de nouvelles données valides"
+  },
+  "serial_transfer_receive_int": {
+    "message0": "SerialTransfer %1 recevoir entier",
+    "tooltip": "Recevoir une valeur entière depuis SerialTransfer"
+  },
+  "serial_transfer_receive_float": {
+    "message0": "SerialTransfer %1 recevoir flottant",
+    "tooltip": "Recevoir une valeur flottante depuis SerialTransfer"
+  },
+  "serial_transfer_receive_string": {
+    "message0": "SerialTransfer %1 recevoir chaîne longueur %2",
+    "tooltip": "Recevoir une chaîne de longueur spécifiée depuis SerialTransfer"
+  },
+  "serial_transfer_status": {
+    "message0": "SerialTransfer %1 état du transfert",
+    "tooltip": "Obtenir le code d'état SerialTransfer (2=nouvelles données, 1=pas de données, 0=erreur CRC)"
+  },
+  "serial_transfer_current_packet_id": {
+    "message0": "SerialTransfer %1 ID paquet actuel",
+    "tooltip": "Obtenir l'ID du paquet le plus récemment reçu"
+  },
+  "i2c_transfer_init_master": {
+    "message0": "Initialiser I2CTransfer maître %1 I2C %2",
+    "tooltip": "Initialiser l'objet I2CTransfer maître avec l'interface I2C"
+  },
+  "i2c_transfer_init_slave": {
+    "message0": "Initialiser I2CTransfer esclave %1 I2C %2 adresse %3",
+    "tooltip": "Initialiser l'objet I2CTransfer esclave avec interface I2C et adresse"
+  },
+  "i2c_transfer_send_int": {
+    "message0": "I2CTransfer %1 envoyer entier %2 à l'adresse %3 ID paquet %4",
+    "tooltip": "Envoyer une valeur entière à une adresse I2C spécifique"
+  },
+  "i2c_transfer_send_float": {
+    "message0": "I2CTransfer %1 envoyer flottant %2 à l'adresse %3 ID paquet %4",
+    "tooltip": "Envoyer une valeur flottante à une adresse I2C spécifique"
+  },
+  "i2c_transfer_send_string": {
+    "message0": "I2CTransfer %1 envoyer chaîne %2 à l'adresse %3 ID paquet %4",
+    "tooltip": "Envoyer une chaîne à une adresse I2C spécifique"
+  },
+  "i2c_transfer_receive_int": {
+    "message0": "I2CTransfer %1 recevoir entier",
+    "tooltip": "Recevoir une valeur entière depuis I2C"
+  },
+  "i2c_transfer_receive_float": {
+    "message0": "I2CTransfer %1 recevoir flottant",
+    "tooltip": "Recevoir une valeur flottante depuis I2C"
+  },
+  "i2c_transfer_receive_string": {
+    "message0": "I2CTransfer %1 recevoir chaîne longueur %2",
+    "tooltip": "Recevoir une chaîne de longueur spécifiée depuis I2C"
+  },
+  "i2c_transfer_status": {
+    "message0": "I2CTransfer %1 état du transfert",
+    "tooltip": "Obtenir le code d'état I2CTransfer"
+  },
+  "spi_transfer_init_master": {
+    "message0": "Initialiser SPITransfer maître %1 broche SS %2",
+    "tooltip": "Initialiser l'objet SPITransfer maître avec broche SS"
+  },
+  "spi_transfer_init_slave": {
+    "message0": "Initialiser SPITransfer esclave %1",
+    "tooltip": "Initialiser l'objet SPITransfer esclave avec interruption SPI"
+  },
+  "spi_transfer_send_int": {
+    "message0": "SPITransfer %1 envoyer entier %2 ID paquet %3",
+    "tooltip": "Envoyer une valeur entière via SPI"
+  },
+  "spi_transfer_send_float": {
+    "message0": "SPITransfer %1 envoyer flottant %2 ID paquet %3",
+    "tooltip": "Envoyer une valeur flottante via SPI"
+  },
+  "spi_transfer_send_string": {
+    "message0": "SPITransfer %1 envoyer chaîne %2 ID paquet %3",
+    "tooltip": "Envoyer une chaîne via SPI"
+  },
+  "spi_transfer_available": {
+    "message0": "SPITransfer %1 nouvelles données reçues",
+    "tooltip": "Vérifier si SPITransfer a reçu de nouvelles données par interruption"
+  },
+  "spi_transfer_receive_int": {
+    "message0": "SPITransfer %1 recevoir entier",
+    "tooltip": "Recevoir une valeur entière depuis SPI"
+  },
+  "spi_transfer_receive_float": {
+    "message0": "SPITransfer %1 recevoir flottant",
+    "tooltip": "Recevoir une valeur flottante depuis SPI"
+  },
+  "spi_transfer_receive_string": {
+    "message0": "SPITransfer %1 recevoir chaîne longueur %2",
+    "tooltip": "Recevoir une chaîne de longueur spécifiée depuis SPI"
+  },
+  "spi_transfer_status": {
+    "message0": "SPITransfer %1 état du transfert",
+    "tooltip": "Obtenir le code d'état SPITransfer"
+  }
+}

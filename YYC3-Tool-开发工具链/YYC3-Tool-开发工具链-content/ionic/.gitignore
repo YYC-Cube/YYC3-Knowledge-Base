@@ -1,0 +1,22 @@
+.*.sw*
+.sass-cache
+.DS_Store
+node_modules/
+_site/
+/.idea/
+.jekyll-metadata
+.tmp
+linkchecker.html
+
+* text=auto
+/.env
+/content/_includes/head_includes.prod.html
+/content/_includes/fluid/footer_tags.prod.html
+/content/_includes/fluid/head.prod.html
+/dist/
+/server/pages/_includes/head.prod.html
+/server/pages/_includes/scripts.prod.html
+/.vscode
+/package-lock.json
+/null
+/.stencil

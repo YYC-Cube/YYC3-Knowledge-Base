@@ -1,0 +1,208 @@
+{
+  "toolbox_name": "LED Backpack",
+  "toolbox_labels": {
+    "4位7段数码管": "4-digit 7-segment digital tube",
+    "4位14段字符数码管": "4-digit 14-segment digital display",
+    "点阵 / 双色点阵": "Dot matrix / two-color dot matrix",
+    "24段条形图": "24 segment bar chart"
+  },
+  "ledbp_init": {
+    "message0": "Initialize LED Backpack %1 I2C address %2",
+    "tooltip": "Initialize an Adafruit LED Backpack (HT16K33 based) via I2C (default address 0x70)",
+    "args0": [
+      {
+        "options": [
+          ["4-digit 7-segment", "Adafruit_7segment"],
+          ["4-digit 14-segment alphanumeric", "Adafruit_AlphaNum4"],
+          ["8x8 matrix", "Adafruit_8x8matrix"],
+          ["8x16 matrix", "Adafruit_8x16matrix"],
+          ["8x16 mini matrix", "Adafruit_8x16minimatrix"],
+          ["Bi-color 8x8 matrix", "Adafruit_BicolorMatrix"],
+          ["24-segment bargraph", "Adafruit_24bargraph"]
+        ]
+      }
+    ]
+  },
+  "ledbp_write_display": {
+    "message0": "refresh display buffer",
+    "tooltip": "Write buffer data to the display to apply changes"
+  },
+  "ledbp_clear": {
+    "message0": "clear display buffer",
+    "tooltip": "Clear the display buffer (call refresh to apply)"
+  },
+  "ledbp_set_brightness": {
+    "message0": "set brightness %1",
+    "tooltip": "Set display brightness (0 darkest - 15 brightest)"
+  },
+  "ledbp_blink_rate": {
+    "message0": "set blink rate %1",
+    "tooltip": "Set display blink rate",
+    "args0": [
+      {
+        "options": [
+          ["no blink", "HT16K33_BLINK_OFF"],
+          ["2Hz", "HT16K33_BLINK_2HZ"],
+          ["1Hz", "HT16K33_BLINK_1HZ"],
+          ["0.5Hz", "HT16K33_BLINK_HALFHZ"]
+        ]
+      }
+    ]
+  },
+  "ledbp_set_display_state": {
+    "message0": "set display %1",
+    "tooltip": "Turn the display on or off",
+    "args0": [
+      {
+        "options": [
+          ["on", "true"],
+          ["off", "false"]
+        ]
+      }
+    ]
+  },
+  "ledbp_seven_print_number": {
+    "message0": "7-seg print number %1",
+    "tooltip": "Print a number (integer or float) on the 4-digit 7-segment display and refresh"
+  },
+  "ledbp_seven_print_number_base": {
+    "message0": "7-seg print number %1 base %2",
+    "tooltip": "Print an integer in the specified base",
+    "args0": [
+      {},
+      {
+        "options": [
+          ["decimal", "DEC"],
+          ["hex", "HEX"],
+          ["binary", "BIN"],
+          ["octal", "OCT"]
+        ]
+      }
+    ]
+  },
+  "ledbp_seven_write_digit_num": {
+    "message0": "7-seg position %1 digit %2 show dot %3",
+    "tooltip": "Write a single digit at position (0-4); position 2 is the colon",
+    "args0": [
+      {},
+      {},
+      {
+        "options": [
+          ["no", "false"],
+          ["yes", "true"]
+        ]
+      }
+    ]
+  },
+  "ledbp_seven_draw_colon": {
+    "message0": "7-seg colon %1",
+    "tooltip": "Turn on or off the center colon of the 7-segment display",
+    "args0": [
+      {
+        "options": [
+          ["on", "true"],
+          ["off", "false"]
+        ]
+      }
+    ]
+  },
+  "ledbp_alpha_write_digit_ascii": {
+    "message0": "14-seg position %1 char %2 show dot %3",
+    "tooltip": "Display an ASCII character at position (0-3) on the 14-segment display",
+    "args0": [
+      {},
+      {},
+      {
+        "options": [
+          ["no", "false"],
+          ["yes", "true"]
+        ]
+      }
+    ]
+  },
+  "ledbp_alpha_print_text": {
+    "message0": "14-seg print text %1",
+    "tooltip": "Print up to 4 characters on the 14-segment alphanumeric display"
+  },
+  "ledbp_matrix_color": {
+    "message0": "color %1",
+    "tooltip": "Pick a color. Mono matrices use on/off; bi-color and bargraph support red/yellow/green",
+    "args0": [
+      {
+        "options": [
+          ["on (mono)", "LED_ON"],
+          ["off", "LED_OFF"],
+          ["red", "LED_RED"],
+          ["yellow", "LED_YELLOW"],
+          ["green", "LED_GREEN"]
+        ]
+      }
+    ]
+  },
+  "ledbp_matrix_draw_pixel": {
+    "message0": "matrix draw pixel X: %1 Y: %2 color %3",
+    "tooltip": "Draw a pixel at the specified coordinates"
+  },
+  "ledbp_matrix_draw_line": {
+    "message0": "matrix draw line from X: %1 Y: %2 to X: %3 Y: %4 color %5",
+    "tooltip": "Draw a straight line on the matrix"
+  },
+  "ledbp_matrix_draw_rect": {
+    "message0": "matrix draw rect X: %1 Y: %2 W: %3 H: %4 color %5",
+    "tooltip": "Draw an outlined rectangle"
+  },
+  "ledbp_matrix_fill_rect": {
+    "message0": "matrix fill rect X: %1 Y: %2 W: %3 H: %4 color %5",
+    "tooltip": "Draw a filled rectangle"
+  },
+  "ledbp_matrix_draw_circle": {
+    "message0": "matrix draw circle X: %1 Y: %2 R: %3 color %4",
+    "tooltip": "Draw an outlined circle"
+  },
+  "ledbp_matrix_set_text_size": {
+    "message0": "matrix set text size %1",
+    "tooltip": "Set the text size (1 is normal)"
+  },
+  "ledbp_matrix_set_text_color": {
+    "message0": "matrix set text color %1",
+    "tooltip": "Set the text color"
+  },
+  "ledbp_matrix_set_cursor": {
+    "message0": "matrix set cursor X: %1 Y: %2",
+    "tooltip": "Set the starting position for text printing"
+  },
+  "ledbp_matrix_print": {
+    "message0": "matrix print %1",
+    "tooltip": "Print text at the current cursor position"
+  },
+  "ledbp_matrix_set_rotation": {
+    "message0": "matrix set rotation %1",
+    "tooltip": "Set the matrix rotation",
+    "args0": [
+      {
+        "options": [
+          ["0°", "0"],
+          ["90°", "1"],
+          ["180°", "2"],
+          ["270°", "3"]
+        ]
+      }
+    ]
+  },
+  "ledbp_matrix_set_text_wrap": {
+    "message0": "matrix text wrap %1",
+    "tooltip": "Enable or disable automatic text wrap (disable for scrolling)",
+    "args0": [
+      {
+        "options": [
+          ["on", "true"],
+          ["off", "false"]
+        ]
+      }
+    ]
+  },
+  "ledbp_bar_set_bar": {
+    "message0": "bargraph bar %1 color %2",
+    "tooltip": "Set the color of a single bar (0-23) on the 24-bar bargraph"
+  }
+}

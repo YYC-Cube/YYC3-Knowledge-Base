@@ -1,0 +1,375 @@
+//! Position and range utilities for converting between LSP and internal representations.
+
+use ropey::Rope;
+use tower_lsp::lsp_types::{Position, Range};
+
+/// Convert a byte offset to an LSP Position (0-based line and character).
+pub fn offset_to_position(rope: &Rope, offset: usize) -> Option<Position> {
+    if offset > rope.len_bytes() {
+        return None;
+    }
+
+    // Find the line containing this offset
+    let char_idx = rope.try_byte_to_char(offset).ok()?;
+    let line = rope.char_to_line(char_idx);
+    let line_start_char = rope.line_to_char(line);
+    let character = rope
+        .slice(line_start_char..char_idx)
+        .chars()
+        .map(|ch| ch.len_utf16())
+        .sum::<usize>();
+
+    Some(Position {
+        line: line as u32,
+        character: character as u32,
+    })
+}
+
+/// Convert an LSP Position (0-based) to a byte offset.
+pub fn position_to_offset(rope: &Rope, position: Position) -> Option<usize> {
+    let line = position.line as usize;
+    let character = position.character as usize;
+
+    if line >= rope.len_lines() {
+        return None;
+    }
+
+    let line_start_char = rope.line_to_char(line);
+    let mut utf16_units = 0usize;
+    let mut char_in_line = 0usize;
+
+    for ch in rope.line(line).chars() {
+        if utf16_units == character || ch == '\n' {
+            break;
+        }
+
+        let next_utf16_units = utf16_units + ch.len_utf16();
+        if character < next_utf16_units {
+            return None;
+        }
+
+        utf16_units = next_utf16_units;
+        char_in_line += 1;
+    }
+
+    if utf16_units != character {
+        return None;
+    }
+
+    let char_idx = line_start_char + char_in_line;
+
+    rope.try_char_to_byte(char_idx).ok()
+}
+
+/// Convert a byte offset in a string to an LSP position.
+///
+/// LSP `character` values are UTF-16 code units, not Rust scalar-value counts.
+/// This helper mirrors [`offset_to_position`] for call sites that already have
+/// string content instead of a reusable rope.
+pub fn offset_to_position_str(content: &str, offset: usize) -> Position {
+    let mut line = 0u32;
+    let mut character = 0u32;
+    let mut current_offset = 0usize;
+    let target = offset.min(content.len());
+
+    for ch in content.chars() {
+        if current_offset >= target {
+            break;
+        }
+
+        if ch == '\n' {
+            line += 1;
+            character = 0;
+        } else {
+            character += ch.len_utf16() as u32;
+        }
+
+        current_offset += ch.len_utf8();
+    }
+
+    Position { line, character }
+}
+
+/// Convert internal 1-based Position to LSP 0-based Position.
+pub fn internal_to_lsp_position(pos: &vize_relief::Position) -> Position {
+    Position {
+        line: pos.line.saturating_sub(1),
+        character: pos.column.saturating_sub(1),
+    }
+}
+
+/// Convert internal SourceLocation to LSP Range.
+pub fn source_location_to_range(loc: &vize_relief::SourceLocation) -> Range {
+    Range {
+        start: internal_to_lsp_position(&loc.start),
+        end: internal_to_lsp_position(&loc.end),
+    }
+}
+
+/// Create an LSP Range from start and end positions.
+pub fn make_range(start_line: u32, start_char: u32, end_line: u32, end_char: u32) -> Range {
+    Range {
+        start: Position {
+            line: start_line,
+            character: start_char,
+        },
+        end: Position {
+            line: end_line,
+            character: end_char,
+        },
+    }
+}
+
+/// Convert LSP position (0-based line/character) to byte offset in a string.
+///
+/// This is a convenience function that works directly with string content.
+/// For better performance with repeated conversions, use the Rope-based version.
+#[inline]
+pub fn position_to_offset_str(content: &str, line: u32, character: u32) -> usize {
+    let mut current_line = 0u32;
+    let mut current_offset = 0usize;
+
+    for (i, ch) in content.char_indices() {
+        if current_line == line {
+            // We're on the target line, count UTF-16 code units
+            let line_start = current_offset;
+            let mut utf16_units = 0u32;
+
+            for (j, c) in content[line_start..].char_indices() {
+                if c == '\n' || utf16_units >= character {
+                    return line_start + j;
+                }
+                utf16_units += c.len_utf16() as u32;
+            }
+            // End of file reached
+            return content.len();
+        }
+
+        if ch == '\n' {
+            current_line += 1;
+        }
+        current_offset = i + ch.len_utf8();
+    }
+
+    // If we're past all lines, return end of content
+    content.len()
+}
+
+/// Get the range of a line (0-based line number).
+pub fn line_range(rope: &Rope, line: usize) -> Option<Range> {
+    if line >= rope.len_lines() {
+        return None;
+    }
+
+    let line_text = rope.line(line);
+    let line_len = line_text.len_chars();
+
+    Some(Range {
+        start: Position {
+            line: line as u32,
+            character: 0,
+        },
+        end: Position {
+            line: line as u32,
+            character: line_len as u32,
+        },
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{
+        internal_to_lsp_position, offset_to_position, offset_to_position_str, position_to_offset,
+        position_to_offset_str,
+    };
+    use ropey::Rope;
+    use tower_lsp::lsp_types::Position;
+
+    #[test]
+    fn test_offset_to_position() {
+        let rope = Rope::from_str("hello\nworld\n");
+
+        // Start of file
+        assert_eq!(
+            offset_to_position(&rope, 0),
+            Some(Position {
+                line: 0,
+                character: 0,
+            })
+        );
+
+        // Middle of first line
+        assert_eq!(
+            offset_to_position(&rope, 3),
+            Some(Position {
+                line: 0,
+                character: 3,
+            })
+        );
+
+        // Start of second line
+        assert_eq!(
+            offset_to_position(&rope, 6),
+            Some(Position {
+                line: 1,
+                character: 0,
+            })
+        );
+
+        // End of file
+        assert_eq!(
+            offset_to_position(&rope, 12),
+            Some(Position {
+                line: 2,
+                character: 0,
+            })
+        );
+    }
+
+    #[test]
+    fn test_position_to_offset() {
+        let rope = Rope::from_str("hello\nworld\n");
+
+        // Start of file
+        assert_eq!(
+            position_to_offset(
+                &rope,
+                Position {
+                    line: 0,
+                    character: 0,
+                }
+            ),
+            Some(0)
+        );
+
+        // Middle of first line
+        assert_eq!(
+            position_to_offset(
+                &rope,
+                Position {
+                    line: 0,
+                    character: 3,
+                }
+            ),
+            Some(3)
+        );
+
+        // Start of second line
+        assert_eq!(
+            position_to_offset(
+                &rope,
+                Position {
+                    line: 1,
+                    character: 0,
+                }
+            ),
+            Some(6)
+        );
+    }
+
+    #[test]
+    fn test_offset_to_position_counts_utf16_code_units() {
+        let rope = Rope::from_str("a😀b\nc");
+
+        assert_eq!(
+            offset_to_position(&rope, "a😀".len()),
+            Some(Position {
+                line: 0,
+                character: 3,
+            })
+        );
+        assert_eq!(
+            offset_to_position(&rope, "a😀b\nc".len()),
+            Some(Position {
+                line: 1,
+                character: 1,
+            })
+        );
+    }
+
+    #[test]
+    fn test_position_to_offset_counts_utf16_code_units() {
+        let rope = Rope::from_str("a😀b\nc");
+
+        assert_eq!(
+            position_to_offset(
+                &rope,
+                Position {
+                    line: 0,
+                    character: 3,
+                }
+            ),
+            Some("a😀".len())
+        );
+        assert_eq!(
+            position_to_offset(
+                &rope,
+                Position {
+                    line: 0,
+                    character: 4,
+                }
+            ),
+            Some("a😀b".len())
+        );
+    }
+
+    #[test]
+    fn test_position_to_offset_rejects_utf16_surrogate_pair_interior() {
+        let rope = Rope::from_str("a😀b");
+
+        assert_eq!(
+            position_to_offset(
+                &rope,
+                Position {
+                    line: 0,
+                    character: 2,
+                }
+            ),
+            None
+        );
+    }
+
+    #[test]
+    fn test_offset_to_position_str_counts_utf16_code_units() {
+        let content = "const icon = \"😀\";\nconst message = icon";
+        let message_offset = content.find("message").unwrap();
+
+        assert_eq!(
+            offset_to_position_str(content, message_offset),
+            Position {
+                line: 1,
+                character: 6,
+            }
+        );
+
+        assert_eq!(
+            offset_to_position_str(content, "const icon = \"😀".len()),
+            Position {
+                line: 0,
+                character: 16,
+            }
+        );
+    }
+
+    #[test]
+    fn test_position_to_offset_str_counts_utf16_code_units() {
+        let content = "a😀b\nc";
+
+        assert_eq!(position_to_offset_str(content, 0, 3), "a😀".len());
+        assert_eq!(position_to_offset_str(content, 0, 4), "a😀b".len());
+        assert_eq!(position_to_offset_str(content, 1, 1), content.len());
+    }
+
+    #[test]
+    fn test_internal_to_lsp_position() {
+        let internal = vize_relief::Position {
+            offset: 10,
+            line: 2,
+            column: 5,
+        };
+
+        let lsp = internal_to_lsp_position(&internal);
+        assert_eq!(lsp.line, 1);
+        assert_eq!(lsp.character, 4);
+    }
+}

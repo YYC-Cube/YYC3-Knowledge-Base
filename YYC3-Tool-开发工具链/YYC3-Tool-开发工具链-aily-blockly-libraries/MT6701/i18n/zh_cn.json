@@ -1,0 +1,62 @@
+{
+  "toolbox_name": "MT6701编码器",
+  "toolbox_labels": {
+    "角度读取": "角度读取",
+    "运动分析": "运动分析",
+    "控制": "控制"
+  },
+  "mt6701_init": {
+    "message0": "初始化MT6701编码器%1"
+  },
+  "mt6701_init_advanced": {
+    "message0": "初始化MT6701编码器%1 I2C地址%2 更新间隔%3ms",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "0x06 (默认)",
+            "0x06"
+          ],
+          [
+            "0x07",
+            "0x07"
+          ],
+          [
+            "0x08",
+            "0x08"
+          ],
+          [
+            "0x09",
+            "0x09"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "mt6701_get_angle_radians": {
+    "message0": "编码器%1角度(弧度)"
+  },
+  "mt6701_get_angle_degrees": {
+    "message0": "编码器%1角度(度数)"
+  },
+  "mt6701_get_rpm": {
+    "message0": "编码器%1RPM"
+  },
+  "mt6701_get_count": {
+    "message0": "编码器%1原始计数值"
+  },
+  "mt6701_get_full_turns": {
+    "message0": "编码器%1完整转数"
+  },
+  "mt6701_get_turns": {
+    "message0": "编码器%1转数(浮点)"
+  },
+  "mt6701_get_accumulator": {
+    "message0": "编码器%1累计计数值"
+  },
+  "mt6701_update_count": {
+    "message0": "编码器%1手动更新计数值"
+  }
+}

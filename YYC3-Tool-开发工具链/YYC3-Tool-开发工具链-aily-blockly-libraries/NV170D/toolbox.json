@@ -1,0 +1,23 @@
+
+{
+  "kind": "category",
+  "name": "常用语播报",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "nv170d_init"
+    },
+    {
+      "kind": "block",
+      "type": "nv170d_play"
+    },
+    {
+      "kind": "block",
+      "type": "nv170d_set"
+    },
+    {
+      "kind": "block",
+      "type": "nv170d_playcon"
+    }
+  ]
+}

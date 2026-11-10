@@ -1,0 +1,61 @@
+{
+  "name": "@aily-project/lib-radiolib",
+  "nickname": "RadioLib LoRa无线通信",
+  "nickname_zh_cn": "RadioLib LoRa无线通信",
+  "nickname_en": "RadioLib LoRa Radio",
+  "nickname_zh_hk": "RadioLib LoRa無線通訊",
+  "nickname_ja": "RadioLib LoRa無線通信",
+  "nickname_ko": "RadioLib LoRa 무선 통신",
+  "nickname_de": "RadioLib LoRa-Funk",
+  "nickname_fr": "RadioLib Radio LoRa",
+  "nickname_es": "RadioLib Radio LoRa",
+  "nickname_pt": "RadioLib Rádio LoRa",
+  "nickname_ru": "RadioLib LoRa радио",
+  "nickname_ar": "RadioLib LoRa لاسلكي",
+  "author": "Jan Gromes",
+  "description": "通用无线通信库，支持LoRa (SX127x/SX126x/SX128x/LLCC68)等多种射频模块",
+  "description_zh_cn": "通用无线通信库，支持LoRa (SX127x/SX126x/SX128x/LLCC68)等多种射频模块",
+  "description_en": "Universal wireless communication library supporting LoRa (SX127x/SX126x/SX128x/LLCC68) and other RF modules",
+  "description_zh_hk": "通用無線通訊庫，支援LoRa (SX127x/SX126x/SX128x/LLCC68)等多種射頻模組",
+  "description_ja": "LoRa (SX127x/SX126x/SX128x/LLCC68)などの多種RFモジュールをサポートする汎用無線通信ライブラリ",
+  "description_ko": "LoRa (SX127x/SX126x/SX128x/LLCC68) 등 다양한 RF 모듈을 지원하는 범용 무선 통신 라이브러리",
+  "description_de": "Universelle drahtlose Kommunikationsbibliothek für LoRa (SX127x/SX126x/SX128x/LLCC68) und andere RF-Module",
+  "description_fr": "Bibliothèque de communication sans fil universelle prenant en charge LoRa (SX127x/SX126x/SX128x/LLCC68) et d'autres modules RF",
+  "description_es": "Biblioteca de comunicación inalámbrica universal compatible con LoRa (SX127x/SX126x/SX128x/LLCC68) y otros módulos RF",
+  "description_pt": "Biblioteca de comunicação sem fio universal com suporte a LoRa (SX127x/SX126x/SX128x/LLCC68) e outros módulos RF",
+  "description_ru": "Универсальная библиотека беспроводной связи с поддержкой LoRa (SX127x/SX126x/SX128x/LLCC68) и других RF-модулей",
+  "description_ar": "مكتبة اتصالات لاسلكية شاملة تدعم LoRa (SX127x/SX126x/SX128x/LLCC68) ووحدات RF أخرى",
+  "version": "1.0.0",
+  "compatibility": {
+    "core": [
+      "arduino:avr",
+      "arduino:samd",
+      "esp32:esp32",
+      "rp2040:rp2040",
+      "STMicroelectronics:stm32"
+    ],
+    "voltage": [
+      3.3,
+      5
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "radiolib",
+    "lora",
+    "radio",
+    "wireless",
+    "SX1278",
+    "SX1276",
+    "SX1262",
+    "SX1268",
+    "LLCC68",
+    "SX1280",
+    "RF",
+    "LoRa"
+  ],
+  "tested": false,
+  "tester": "",
+  "url": "https://github.com/jgromes/RadioLib"
+}

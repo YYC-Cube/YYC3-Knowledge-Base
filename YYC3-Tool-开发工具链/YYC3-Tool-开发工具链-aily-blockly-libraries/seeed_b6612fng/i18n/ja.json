@@ -1,0 +1,104 @@
+{
+  "toolbox_name": "TB6612FNG モータードライバー",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "直流电机": "DCモーター",
+    "步进电机": "ステッピングモーター",
+    "电源管理": "電源管理"
+  },
+  "tb6612fng_init": {
+    "message0": "初期化 %1 モータードライバー I2Cアドレス %2",
+    "tooltip": "Grove TB6612FNG モータードライバーモジュールを初期化し、I2Cアドレスを設定"
+  },
+  "tb6612fng_dc_run": {
+    "message0": "%1 DCモーター駆動 %2 速度 %3",
+    "tooltip": "指定チャンネルのDCモーターを駆動、速度範囲 -255~255、正値で時計回り、負値で反時計回り",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["チャンネルA", "MOTOR_CHA"],
+          ["チャンネルB", "MOTOR_CHB"]
+        ]
+      },
+      null
+    ]
+  },
+  "tb6612fng_dc_brake": {
+    "message0": "%1 DCモーターブレーキ %2",
+    "tooltip": "指定チャンネルのDCモーターを即座にブレーキ停止",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["チャンネルA", "MOTOR_CHA"],
+          ["チャンネルB", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_dc_stop": {
+    "message0": "%1 DCモーター停止 %2",
+    "tooltip": "指定チャンネルのDCモーターをゆっくり停止",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["チャンネルA", "MOTOR_CHA"],
+          ["チャンネルB", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_stepper_run": {
+    "message0": "%1 ステッピングモーター駆動 モード %2\nステップ数 %3 回転数(RPM) %4",
+    "tooltip": "ステッピングモーターを駆動、正のステップ数で時計回り、負で反時計回り、RPM範囲1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["フルステップ", "FULL_STEP"],
+          ["ウェーブドライブ", "WAVE_DRIVE"],
+          ["ハーフステップ", "HALF_STEP"],
+          ["マイクロステッピング", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "tb6612fng_stepper_stop": {
+    "message0": "%1 ステッピングモーター停止",
+    "tooltip": "ステッピングモーターを停止"
+  },
+  "tb6612fng_stepper_keep_run": {
+    "message0": "%1 ステッピングモーター連続回転 モード %2\n回転数(RPM) %3 方向 %4",
+    "tooltip": "ステッピングモーターを連続回転させる、RPM範囲1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["フルステップ", "FULL_STEP"],
+          ["ウェーブドライブ", "WAVE_DRIVE"],
+          ["ハーフステップ", "HALF_STEP"],
+          ["マイクロステッピング", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["時計回り", "true"],
+          ["反時計回り", "false"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_standby": {
+    "message0": "%1 スタンバイモードに入る",
+    "tooltip": "モータードライバーがスタンバイモードに入り、全モーター停止"
+  },
+  "tb6612fng_not_standby": {
+    "message0": "%1 スタンバイモードを解除",
+    "tooltip": "モータードライバーがスタンバイモードを解除し、通常動作を再開"
+  }
+}

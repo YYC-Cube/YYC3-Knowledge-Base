@@ -1,0 +1,220 @@
+[
+  {
+    "type": "mma8653_init",
+    "message0": "初始化MMA8653加速度传感器 量程 %1 分辨率 %2 数据速率 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          ["±2g", "MMA8653_2G_RANGE"],
+          ["±4g", "MMA8653_4G_RANGE"],
+          ["±8g", "MMA8653_8G_RANGE"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RESOLUTION",
+        "options": [
+          ["10位", "MMA8653_10BIT_RES"],
+          ["8位", "MMA8653_8BIT_RES"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA_RATE",
+        "options": [
+          ["800 Hz", "MMA8653_ODR_800"],
+          ["400 Hz", "MMA8653_ODR_400"],
+          ["200 Hz", "MMA8653_ODR_200"],
+          ["100 Hz", "MMA8653_ODR_100"],
+          ["50 Hz", "MMA8653_ODR_50"],
+          ["12.5 Hz", "MMA8653_ODR_12_5"],
+          ["6.25 Hz", "MMA8653_ODR_6_25"],
+          ["1.56 Hz", "MMA8653_ODR_1_56"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_set_mode",
+    "message0": "设置MMA8653过采样模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["普通", "MMA8653_MODS_NORMAL"],
+          ["低噪低功耗", "MMA8653_MODS_LOW_NOISE_LOW_POWER"],
+          ["高分辨率", "MMA8653_MODS_HIGH_RES"],
+          ["低功耗", "MMA8653_MODS_LOW_POWER"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_begin",
+    "message0": "启动MMA8653加速度传感器",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_read_x",
+    "message0": "读取MMA8653 X轴加速度",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_read_y",
+    "message0": "读取MMA8653 Y轴加速度",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_read_z",
+    "message0": "读取MMA8653 Z轴加速度",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_read_xyz",
+    "message0": "读取MMA8653全部轴向数据到变量 X %1 Y %2 Z %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR_X",
+        "variable": "accel_x"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR_Y",
+        "variable": "accel_y"
+      },
+      {
+        "type": "field_variable",
+        "name": "VAR_Z",
+        "variable": "accel_z"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_set_range",
+    "message0": "设置MMA8653测量范围 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          ["±2g", "MMA8653_2G_RANGE"],
+          ["±4g", "MMA8653_4G_RANGE"],
+          ["±8g", "MMA8653_8G_RANGE"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_set_data_rate",
+    "message0": "设置MMA8653数据采样率 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DATA_RATE",
+        "options": [
+          ["800 Hz", "MMA8653_ODR_800"],
+          ["400 Hz", "MMA8653_ODR_400"],
+          ["200 Hz", "MMA8653_ODR_200"],
+          ["100 Hz", "MMA8653_ODR_100"],
+          ["50 Hz", "MMA8653_ODR_50"],
+          ["12.5 Hz", "MMA8653_ODR_12_5"],
+          ["6.25 Hz", "MMA8653_ODR_6_25"],
+          ["1.56 Hz", "MMA8653_ODR_1_56"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_set_resolution",
+    "message0": "设置MMA8653分辨率 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RESOLUTION",
+        "options": [
+          ["10位", "MMA8653_10BIT_RES"],
+          ["8位", "MMA8653_8BIT_RES"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_is_active",
+    "message0": "MMA8653传感器已激活",
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_check_connection",
+    "message0": "检查MMA8653传感器连接状态",
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_get_roll",
+    "message0": "读取MMA8653横滚角 Roll (°)",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_get_pitch",
+    "message0": "读取MMA8653俯仰角 Pitch (°)",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  },
+  {
+    "type": "mma8653_get_tilt",
+    "message0": "读取MMA8653倾斜角 (°)",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-gauge"
+  }
+]

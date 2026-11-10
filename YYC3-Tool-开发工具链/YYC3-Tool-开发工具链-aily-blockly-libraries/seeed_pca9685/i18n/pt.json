@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "PCA9685",
+  "toolbox_labels": {
+    "PWM 控制": "Controle PWM",
+    "舵机控制": "Servocontrole"
+  },
+  "seeed_pca9685_init": {
+    "message0": "Inicializar controlador PWM PCA9685 %1 endereço I2C %2",
+    "tooltip": "Criar e inicializar controlador PWM Seeed PCA9685 (saída PWM de 16 canais), endereço I2C padrão 0x7f"
+  },
+  "seeed_pca9685_set_frequency": {
+    "message0": "Definir %1 frequência PWM %2 Hz",
+    "tooltip": "Definir frequência de saída PWM, faixa 24Hz~1526Hz"
+  },
+  "seeed_pca9685_set_pwm": {
+    "message0": "Definir %1 pino %2 PWM início %3 fim %4",
+    "tooltip": "Definir valor PWM, faixa de pinos 1-16, valores início/fim 0-4095"
+  },
+  "seeed_pca9685_servo_init": {
+    "message0": "Inicializar driver servo PCA9685 %1 endereço I2C %2",
+    "tooltip": "Criar e inicializar driver servo Seeed PCA9685 (controle servo de 16 canais), endereço I2C padrão 0x7f"
+  },
+  "seeed_pca9685_servo_set_pulse_range": {
+    "message0": "Definir %1 faixa de pulso servo mín %2 máx %3 ângulo máx %4",
+    "tooltip": "Definir faixa de largura de pulso servo (microssegundos) e ângulo máx, padrão 500-2500μs, 180°"
+  },
+  "seeed_pca9685_servo_set_angle": {
+    "message0": "Definir %1 pino %2 ângulo servo %3",
+    "tooltip": "Definir ângulo servo para pino especificado, faixa 1-16, ângulo 0-180"
+  }
+}

@@ -1,0 +1,100 @@
+[
+    {
+        "type": "dht_init",
+        "message0": "初始化 DHT %1 传感器 类型 %2",
+        "args0": [
+            {
+                "type": "field_input",
+                "name": "VAR",
+                "text": "dht"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TYPE",
+                "options": [
+                    [
+                        "DHT11",
+                        "DHT11"
+                    ],
+                    [
+                        "DHT22",
+                        "DHT22"
+                    ],
+                    [
+                        "DHT21",
+                        "DHT21"
+                    ],
+                    [
+                        "DHT20",
+                        "DHT20"
+                    ]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4CAF50",
+        "icon": "iconfont icon-dht22",
+        "extensions": [
+            "dht_init_dynamic"
+        ]
+    },
+    {
+        "type": "dht_read_temperature",
+        "message0": "从 DHT %1 传感器 读取温度 (℃)",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "dht",
+                "variableTypes": [
+                    "DHT"
+                ],
+                "defaultType": "DHT"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#4CAF50",
+        "icon": "iconfont icon-dht22"
+    },
+    {
+        "type": "dht_read_humidity",
+        "message0": "从 DHT %1 传感器 读取湿度 (%)",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "dht",
+                "variableTypes": [
+                    "DHT"
+                ],
+                "defaultType": "DHT"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Number",
+        "colour": "#4CAF50",
+        "icon": "iconfont icon-dht22"
+    },
+    {
+        "type": "dht_read_success",
+        "message0": "DHT %1 传感器 读取成功",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": "dht",
+                "variableTypes": [
+                    "DHT"
+                ],
+                "defaultType": "DHT"
+            }
+        ],
+        "inputsInline": true,
+        "output": "Boolean",
+        "colour": "#4CAF50",
+        "icon": "iconfont icon-dht22"
+    }
+]

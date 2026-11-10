@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Test outputs
+memory-test-output.txt
+test-output-*.txt
+test-output.txt
+
+# Test results
+memory-history-*.json
+memory-test-results-*.json
+
+# npm
+npm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# OS files
+.DS_Store
+Thumbs.db

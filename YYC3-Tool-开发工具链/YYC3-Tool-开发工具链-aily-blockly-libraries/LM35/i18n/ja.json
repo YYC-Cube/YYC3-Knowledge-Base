@@ -1,0 +1,6 @@
+{
+    "toolbox_name": "LM35温度センサー",
+    "lm35_read": {
+        "message0": "LM35温度センサー ピン # %1"
+    }
+}

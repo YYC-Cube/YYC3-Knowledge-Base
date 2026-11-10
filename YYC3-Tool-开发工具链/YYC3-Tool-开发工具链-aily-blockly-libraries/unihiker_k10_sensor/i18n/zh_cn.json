@@ -1,0 +1,69 @@
+{
+  "toolbox_name": "K10传感器",
+  "k10_get_accelerometer": {
+    "message0": "获取加速度计 %1 轴数据",
+    "tooltip": "获取K10板载加速度计的轴数据",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_get_strength": {
+    "message0": "获取光线强度值",
+    "tooltip": "获取K10板载光线传感器的值"
+  },
+  "k10_aht20_measure": {
+    "message0": "AHT20 启动测量 %1 校验",
+    "tooltip": "启动AHT20一次测量，返回测量是否完成；完成后再读取温度/湿度",
+    "args0": [
+      {
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_temperature": {
+    "message0": "AHT20 获取温度 %1",
+    "tooltip": "获取 AHT20 温度；测量会自动启动",
+    "args0": [
+      {
+        "options": [
+          [
+            "摄氏度(℃)",
+            "C"
+          ],
+          [
+            "华氏度(℉)",
+            "F"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_humidity": {
+    "message0": "AHT20 获取相对湿度(%RH)",
+    "tooltip": "获取 AHT20 相对湿度；测量会自动启动"
+  }
+}

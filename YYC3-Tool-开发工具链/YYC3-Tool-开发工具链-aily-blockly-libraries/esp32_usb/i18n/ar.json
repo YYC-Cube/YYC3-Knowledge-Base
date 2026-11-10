@@ -1,0 +1,294 @@
+{
+  "toolbox_name": "ESP32 USB",
+  "esp32_usb_keyboard_begin": {
+    "message0": "لوحة مفاتيح USB تهيئة",
+    "tooltip": "تهيئة لوحة مفاتيح USB HID، يتم استدعاء USB.begin() تلقائياً"
+  },
+  "esp32_usb_keyboard_print": {
+    "message0": "لوحة مفاتيح USB كتابة نص %1",
+    "tooltip": "كتابة نص عبر لوحة مفاتيح USB"
+  },
+  "esp32_usb_keyboard_println": {
+    "message0": "لوحة مفاتيح USB كتابة نص %1 مع سطر جديد",
+    "tooltip": "كتابة نص عبر لوحة مفاتيح USB والضغط على Enter في النهاية"
+  },
+  "esp32_usb_keyboard_write": {
+    "message0": "لوحة مفاتيح USB إدخال سريع %1",
+    "tooltip": "الضغط على مفتاح مرة واحدة (ضغط وتحرير فوري)"
+  },
+  "esp32_usb_keyboard_press": {
+    "message0": "لوحة مفاتيح USB ضغط مفتاح %1",
+    "tooltip": "الاستمرار في الضغط على المفتاح (يتطلب تحرير يدوي)"
+  },
+  "esp32_usb_keyboard_release": {
+    "message0": "لوحة مفاتيح USB تحرير مفتاح %1",
+    "tooltip": "تحرير المفتاح المحدد"
+  },
+  "esp32_usb_keyboard_release_all": {
+    "message0": "لوحة مفاتيح USB تحرير جميع المفاتيح",
+    "tooltip": "تحرير جميع المفاتيح المضغوطة"
+  },
+  "esp32_usb_keyboard_special_key": {
+    "message0": "مفتاح خاص %1",
+    "tooltip": "قيمة مفتاح خاص للوحة مفاتيح USB",
+    "args0": [
+      {
+        "options": [
+          ["Enter", "KEY_RETURN"],
+          ["Esc", "KEY_ESC"],
+          ["Backspace", "KEY_BACKSPACE"],
+          ["Tab", "KEY_TAB"],
+          ["مسافة", "KEY_SPACE"],
+          ["Ctrl أيسر", "KEY_LEFT_CTRL"],
+          ["Shift أيسر", "KEY_LEFT_SHIFT"],
+          ["Alt أيسر", "KEY_LEFT_ALT"],
+          ["GUI/Win أيسر", "KEY_LEFT_GUI"],
+          ["Ctrl أيمن", "KEY_RIGHT_CTRL"],
+          ["Shift أيمن", "KEY_RIGHT_SHIFT"],
+          ["Alt أيمن", "KEY_RIGHT_ALT"],
+          ["GUI/Win أيمن", "KEY_RIGHT_GUI"],
+          ["↑", "KEY_UP_ARROW"],
+          ["↓", "KEY_DOWN_ARROW"],
+          ["←", "KEY_LEFT_ARROW"],
+          ["→", "KEY_RIGHT_ARROW"],
+          ["Insert", "KEY_INSERT"],
+          ["Delete", "KEY_DELETE"],
+          ["Home", "KEY_HOME"],
+          ["End", "KEY_END"],
+          ["Page Up", "KEY_PAGE_UP"],
+          ["Page Down", "KEY_PAGE_DOWN"],
+          ["Caps Lock", "KEY_CAPS_LOCK"],
+          ["Num Lock", "KEY_NUM_LOCK"],
+          ["F1", "KEY_F1"],
+          ["F2", "KEY_F2"],
+          ["F3", "KEY_F3"],
+          ["F4", "KEY_F4"],
+          ["F5", "KEY_F5"],
+          ["F6", "KEY_F6"],
+          ["F7", "KEY_F7"],
+          ["F8", "KEY_F8"],
+          ["F9", "KEY_F9"],
+          ["F10", "KEY_F10"],
+          ["F11", "KEY_F11"],
+          ["F12", "KEY_F12"],
+          ["Print Screen", "KEY_PRINT_SCREEN"],
+          ["Scroll Lock", "KEY_SCROLL_LOCK"],
+          ["Pause", "KEY_PAUSE"],
+          ["Menu", "KEY_MENU"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_mouse_begin": {
+    "message0": "فأرة USB تهيئة",
+    "tooltip": "تهيئة فأرة USB HID (وضع الموضع النسبي)"
+  },
+  "esp32_usb_mouse_move": {
+    "message0": "فأرة USB تحريك X %1 Y %2 عجلة %3",
+    "tooltip": "تحريك نسبي للفأرة. X موجب=يمين، Y موجب=أسفل، عجلة موجب=أعلى"
+  },
+  "esp32_usb_mouse_click": {
+    "message0": "فأرة USB %1 %2",
+    "tooltip": "عملية زر الفأرة: نقر (ضغط+تحرير)، ضغط (استمرار)، تحرير",
+    "args0": [
+      {
+        "options": [
+          ["الزر الأيسر", "MOUSE_LEFT"],
+          ["الزر الأيمن", "MOUSE_RIGHT"],
+          ["الزر الأوسط", "MOUSE_MIDDLE"]
+        ]
+      },
+      {
+        "options": [
+          ["نقر", "click"],
+          ["ضغط", "press"],
+          ["تحرير", "release"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_mouse_is_pressed": {
+    "message0": "فأرة USB %1 مضغوط",
+    "tooltip": "التحقق مما إذا كان زر الفأرة مضغوطاً",
+    "args0": [
+      {
+        "options": [
+          ["الزر الأيسر", "MOUSE_LEFT"],
+          ["الزر الأيمن", "MOUSE_RIGHT"],
+          ["الزر الأوسط", "MOUSE_MIDDLE"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_begin": {
+    "message0": "ذراع تحكم USB تهيئة",
+    "tooltip": "تهيئة ذراع تحكم USB HID"
+  },
+  "esp32_usb_gamepad_press_button": {
+    "message0": "ذراع تحكم USB ضغط زر %1",
+    "tooltip": "ضغط زر ذراع التحكم",
+    "args0": [
+      {
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["Select", "BUTTON_SELECT"],
+          ["Start", "BUTTON_START"],
+          ["Mode", "BUTTON_MODE"],
+          ["عصا يسرى ضغط", "BUTTON_THUMBL"],
+          ["عصا يمنى ضغط", "BUTTON_THUMBR"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_release_button": {
+    "message0": "ذراع تحكم USB تحرير زر %1",
+    "tooltip": "تحرير زر ذراع التحكم",
+    "args0": [
+      {
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["Select", "BUTTON_SELECT"],
+          ["Start", "BUTTON_START"],
+          ["Mode", "BUTTON_MODE"],
+          ["عصا يسرى ضغط", "BUTTON_THUMBL"],
+          ["عصا يمنى ضغط", "BUTTON_THUMBR"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_left_stick": {
+    "message0": "ذراع تحكم USB عصا يسرى X %1 Y %2",
+    "tooltip": "تعيين موضع العصا اليسرى (-128~127)"
+  },
+  "esp32_usb_gamepad_right_stick": {
+    "message0": "ذراع تحكم USB عصا يمنى X %1 Y %2",
+    "tooltip": "تعيين موضع العصا اليمنى (-128~127)"
+  },
+  "esp32_usb_gamepad_trigger": {
+    "message0": "ذراع تحكم USB زناد %1 %2",
+    "tooltip": "تعيين قيمة الزناد (-128~127)",
+    "args0": [
+      {
+        "options": [
+          ["أيسر", "left"],
+          ["أيمن", "right"]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_gamepad_hat": {
+    "message0": "ذراع تحكم USB مفتاح اتجاهي %1",
+    "tooltip": "تعيين اتجاه المفتاح الاتجاهي",
+    "args0": [
+      {
+        "options": [
+          ["مركز", "HAT_CENTER"],
+          ["أعلى", "HAT_UP"],
+          ["أعلى يمين", "HAT_UP_RIGHT"],
+          ["يمين", "HAT_RIGHT"],
+          ["أسفل يمين", "HAT_DOWN_RIGHT"],
+          ["أسفل", "HAT_DOWN"],
+          ["أسفل يسار", "HAT_DOWN_LEFT"],
+          ["يسار", "HAT_LEFT"],
+          ["أعلى يسار", "HAT_UP_LEFT"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_consumer_press": {
+    "message0": "USB وسائط ضغط %1",
+    "tooltip": "ضغط مفتاح التحكم بالوسائط",
+    "args0": [
+      {
+        "options": [
+          ["تشغيل/إيقاف مؤقت", "CONSUMER_CONTROL_PLAY_PAUSE"],
+          ["إيقاف", "CONSUMER_CONTROL_STOP"],
+          ["المسار التالي", "CONSUMER_CONTROL_SCAN_NEXT"],
+          ["المسار السابق", "CONSUMER_CONTROL_SCAN_PREVIOUS"],
+          ["تسجيل", "CONSUMER_CONTROL_RECORD"],
+          ["تقديم سريع", "CONSUMER_CONTROL_FAST_FORWARD"],
+          ["ترجيع", "CONSUMER_CONTROL_REWIND"],
+          ["رفع الصوت", "CONSUMER_CONTROL_VOLUME_INCREMENT"],
+          ["خفض الصوت", "CONSUMER_CONTROL_VOLUME_DECREMENT"],
+          ["كتم الصوت", "CONSUMER_CONTROL_MUTE"],
+          ["زيادة السطوع", "CONSUMER_CONTROL_BRIGHTNESS_INCREMENT"],
+          ["تقليل السطوع", "CONSUMER_CONTROL_BRIGHTNESS_DECREMENT"],
+          ["الطاقة", "CONSUMER_CONTROL_POWER"],
+          ["سكون", "CONSUMER_CONTROL_SLEEP"],
+          ["آلة حاسبة", "CONSUMER_CONTROL_CALCULATOR"],
+          ["بريد إلكتروني", "CONSUMER_CONTROL_EMAIL_READER"],
+          ["متصفح", "CONSUMER_CONTROL_LOCAL_BROWSER"],
+          ["بحث", "CONSUMER_CONTROL_SEARCH"],
+          ["الصفحة الرئيسية", "CONSUMER_CONTROL_HOME"],
+          ["رجوع", "CONSUMER_CONTROL_BACK"],
+          ["تقدم", "CONSUMER_CONTROL_FORWARD"],
+          ["تحديث", "CONSUMER_CONTROL_REFRESH"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_consumer_release": {
+    "message0": "USB وسائط تحرير",
+    "tooltip": "تحرير مفتاح التحكم بالوسائط"
+  },
+  "esp32_usb_system_press": {
+    "message0": "USB التحكم بالنظام %1",
+    "tooltip": "إرسال أمر التحكم بالنظام",
+    "args0": [
+      {
+        "options": [
+          ["إيقاف التشغيل", "SYSTEM_CONTROL_POWER_OFF"],
+          ["وضع الاستعداد", "SYSTEM_CONTROL_STANDBY"],
+          ["إيقاظ", "SYSTEM_CONTROL_WAKE_HOST"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_system_release": {
+    "message0": "USB التحكم بالنظام تحرير",
+    "tooltip": "تحرير مفتاح التحكم بالنظام"
+  },
+  "esp32_usb_midi_begin": {
+    "message0": "USB MIDI تهيئة",
+    "tooltip": "تهيئة جهاز USB MIDI"
+  },
+  "esp32_usb_midi_note_on": {
+    "message0": "USB MIDI Note On نوتة %1 سرعة %2 قناة %3",
+    "tooltip": "إرسال MIDI Note On (نوتة 0-127، سرعة 0-127، قناة 1-16)"
+  },
+  "esp32_usb_midi_note_off": {
+    "message0": "USB MIDI Note Off نوتة %1 سرعة %2 قناة %3",
+    "tooltip": "إرسال رسالة MIDI Note Off"
+  },
+  "esp32_usb_midi_control_change": {
+    "message0": "USB MIDI CC متحكم %1 قيمة %2 قناة %3",
+    "tooltip": "إرسال MIDI Control Change (متحكم 0-127، قيمة 0-127)"
+  },
+  "esp32_usb_midi_program_change": {
+    "message0": "USB MIDI Program Change برنامج %1 قناة %2",
+    "tooltip": "إرسال MIDI Program Change (تغيير الصوت 0-127)"
+  },
+  "esp32_usb_midi_pitch_bend": {
+    "message0": "USB MIDI Pitch Bend قيمة %1 قناة %2",
+    "tooltip": "إرسال MIDI Pitch Bend (-8192~8191)"
+  }
+}

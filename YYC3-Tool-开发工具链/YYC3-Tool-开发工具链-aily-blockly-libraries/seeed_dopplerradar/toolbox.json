@@ -1,0 +1,63 @@
+{
+  "kind": "category",
+  "name": "多普勒雷达",
+  "colour": "#6A5ACD",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "doppler_radar_init"
+    },
+    {
+      "kind": "block",
+      "type": "doppler_radar_target_is"
+    },
+    {
+      "kind": "block",
+      "type": "doppler_radar_get_speed"
+    },
+    {
+      "kind": "block",
+      "type": "doppler_radar_set_mode"
+    },
+    {
+      "kind": "block",
+      "type": "doppler_radar_set_threshold",
+      "inputs": {
+        "THRESHOLD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1024
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "doppler_radar_get_threshold"
+    },
+    {
+      "kind": "block",
+      "type": "doppler_radar_set_speed_scope",
+      "inputs": {
+        "MAX_SPEED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 512
+            }
+          }
+        },
+        "MIN_SPEED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    }
+  ]
+}

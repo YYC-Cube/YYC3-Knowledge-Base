@@ -1,0 +1,138 @@
+[
+  {
+    "type": "sht31_init",
+    "message0": "初始化 SHT3x %1 传感器 I2C地址 %2 I2C接口 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "sht31"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          [
+            "0x44",
+            "0x44"
+          ],
+          [
+            "0x45",
+            "0x45"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化SHT3x温湿度传感器，选择I2C地址",
+    "icon": "fa-regular fa-temperature-three-quarters"
+  },
+  {
+    "type": "sht31_heater_control",
+    "message0": "%1 加热器%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sht31",
+        "variableTypes": ["Adafruit_SHT31"],
+        "defaultType": "Adafruit_SHT31"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "控制SHT3x传感器内置加热器的开启/关闭",
+    "icon": "fa-regular fa-temperature-three-quarters"
+  },
+  {
+    "type": "sht31_is_heater_enabled",
+    "message0": "%1 加热器是否开启",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sht31",
+        "variableTypes": ["Adafruit_SHT31"],
+        "defaultType": "Adafruit_SHT31"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查SHT3x传感器加热器是否处于开启状态",
+    "icon": "fa-regular fa-temperature-three-quarters"
+  },
+  {
+    "type": "sht31_reset",
+    "message0": "%1 软件复位",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sht31",
+        "variableTypes": ["Adafruit_SHT31"],
+        "defaultType": "Adafruit_SHT31"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "对SHT3x传感器执行软件复位",
+    "icon": "fa-regular fa-temperature-three-quarters"
+  },
+  {
+    "type": "sht31_simple_read",
+    "message0": "%1 读取%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "sht31",
+        "variableTypes": ["Adafruit_SHT31"],
+        "defaultType": "Adafruit_SHT31"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "温度(°C)",
+            "temperature"
+          ],
+          [
+            "湿度(%)",
+            "humidity"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#4CAF50",
+    "tooltip": "简化版读取SHT3x传感器数据，自动初始化",
+    "icon": "fa-regular fa-temperature-three-quarters"
+  }
+]

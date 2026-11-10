@@ -1,0 +1,161 @@
+{
+  "kind": "category",
+  "name": "编码电机",
+  "colour": "#00979D",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "电机配置"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_create",
+      "inputs": {
+        "POS_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "27"
+            }
+          }
+        },
+        "NEG_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "13"
+            }
+          }
+        },
+        "A_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "18"
+            }
+          }
+        },
+        "B_PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "19"
+            }
+          }
+        },
+        "PPR": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "12"
+            }
+          }
+        },
+        "REDUCTION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "90"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_set_pid",
+      "inputs": {
+        "P": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "3.0"
+            }
+          }
+        },
+        "I": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1.0"
+            }
+          }
+        },
+        "D": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1.0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "sep"
+    },
+    {
+      "kind": "label",
+      "text": "电机控制"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_run_pwm",
+      "inputs": {
+        "PWM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "500"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_run_speed",
+      "inputs": {
+        "SPEED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "100"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_stop"
+    },
+    {
+      "kind": "sep"
+    },
+    {
+      "kind": "label",
+      "text": "状态查询"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_get_speed"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_get_pwm"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_get_pulse"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_get_revolutions"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_motor_reset_pulse"
+    }
+  ]
+}

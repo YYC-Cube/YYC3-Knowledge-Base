@@ -1,0 +1,38 @@
+{
+"toolbox_name": "Tube numérique 4 chiffres TM1650",
+"tm1650_init": {
+    "message0": "Initialiser le tube numérique 4 chiffres TM1650"
+},
+"tm1650_set": {
+    "message0": "TM1650 4 chiffres afficher %1, régler la luminosité à %2",
+    "args0": [
+        {
+            "options": [
+                ["Allumer", "1"],
+                ["Éteindre", "0"]
+            ]
+        },
+        {
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"]
+            ]
+        }
+    ]
+},
+"tm1650_displaystring": {
+    "message0": "TM1650 4 chiffres afficher la chaîne %1"
+},
+"tm1650_displayNumber": {
+    "message0": "TM1650 4 chiffres afficher le nombre %1"
+},
+"tm1650_clearDisplay": {
+    "message0": "TM1650 4 chiffres effacer l'affichage"
+}
+}

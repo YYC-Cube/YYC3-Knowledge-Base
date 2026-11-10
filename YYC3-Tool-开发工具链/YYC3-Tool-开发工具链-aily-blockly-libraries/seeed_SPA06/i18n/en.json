@@ -1,0 +1,125 @@
+{
+  "toolbox_name": "SPA06 Barometric & Temperature Sensor",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "数据读取": "Data reading",
+    "状态检查": "status check",
+    "配置": "Configuration"
+  },
+  "spa06_init": {
+    "message0": "Initialize SPA06 sensor address %1",
+    "tooltip": "Initialize SPA06 barometric and temperature sensor (I2C)",
+    "args0": [
+      {
+        "options": [
+          ["0x77 (default)", "0x77"],
+          ["0x76", "0x76"]
+        ]
+      }
+    ]
+  },
+  "spa06_read_temperature": {
+    "message0": "Read SPA06 temperature (°C)",
+    "tooltip": "Read temperature from SPA06 sensor, returns Celsius"
+  },
+  "spa06_read_pressure": {
+    "message0": "Read SPA06 pressure (Pa)",
+    "tooltip": "Read pressure from SPA06 sensor, returns Pascals"
+  },
+  "spa06_read_altitude": {
+    "message0": "Read SPA06 altitude (m)",
+    "tooltip": "Calculate altitude from pressure, returns meters"
+  },
+  "spa06_pressure_available": {
+    "message0": "SPA06 pressure data ready",
+    "tooltip": "Check if new pressure data is available"
+  },
+  "spa06_temperature_available": {
+    "message0": "SPA06 temperature data ready",
+    "tooltip": "Check if new temperature data is available"
+  },
+  "spa06_set_mode": {
+    "message0": "Set SPA06 mode %1",
+    "tooltip": "Set the operating mode of SPA06 sensor",
+    "args0": [
+      {
+        "options": [
+          ["Idle", "SPL07_IDLE"],
+          ["Single pressure", "SPL07_ONE_PRESSURE"],
+          ["Single temperature", "SPL07_ONE_TEMPERATURE"],
+          ["Continuous pressure", "SPL07_CONT_PRESSURE"],
+          ["Continuous temperature", "SPL07_CONT_TEMPERATURE"],
+          ["Continuous pressure & temperature", "SPL07_CONT_PRES_TEMP"]
+        ]
+      }
+    ]
+  },
+  "spa06_set_pressure_config": {
+    "message0": "Set SPA06 pressure sampling rate %1 oversampling %2",
+    "tooltip": "Set pressure measurement rate and oversampling",
+    "args0": [
+      {
+        "options": [
+          ["1 Hz", "SPL07_1HZ"],
+          ["2 Hz", "SPL07_2HZ"],
+          ["4 Hz", "SPL07_4HZ"],
+          ["8 Hz", "SPL07_8HZ"],
+          ["16 Hz", "SPL07_16HZ"],
+          ["32 Hz", "SPL07_32HZ"],
+          ["64 Hz", "SPL07_64HZ"],
+          ["128 Hz", "SPL07_128HZ"]
+        ]
+      },
+      {
+        "options": [
+          ["1x (low precision)", "SPL07_1SAMPLE"],
+          ["2x", "SPL07_2SAMPLES"],
+          ["4x", "SPL07_4SAMPLES"],
+          ["8x", "SPL07_8SAMPLES"],
+          ["16x (standard)", "SPL07_16SAMPLES"],
+          ["32x", "SPL07_32SAMPLES"],
+          ["64x (high precision)", "SPL07_64SAMPLES"],
+          ["128x", "SPL07_128SAMPLES"]
+        ]
+      }
+    ]
+  },
+  "spa06_set_temperature_config": {
+    "message0": "Set SPA06 temperature sampling rate %1 oversampling %2",
+    "tooltip": "Set temperature measurement rate and oversampling",
+    "args0": [
+      {
+        "options": [
+          ["1 Hz", "SPL07_1HZ"],
+          ["2 Hz", "SPL07_2HZ"],
+          ["4 Hz", "SPL07_4HZ"],
+          ["8 Hz", "SPL07_8HZ"],
+          ["16 Hz", "SPL07_16HZ"],
+          ["32 Hz", "SPL07_32HZ"],
+          ["64 Hz", "SPL07_64HZ"],
+          ["128 Hz", "SPL07_128HZ"]
+        ]
+      },
+      {
+        "options": [
+          ["1x (default)", "SPL07_1SAMPLE"],
+          ["2x", "SPL07_2SAMPLES"],
+          ["4x", "SPL07_4SAMPLES"],
+          ["8x", "SPL07_8SAMPLES"],
+          ["16x (standard)", "SPL07_16SAMPLES"],
+          ["32x", "SPL07_32SAMPLES"],
+          ["64x (high precision)", "SPL07_64SAMPLES"],
+          ["128x", "SPL07_128SAMPLES"]
+        ]
+      }
+    ]
+  },
+  "spa06_set_pressure_offset": {
+    "message0": "Set SPA06 pressure offset %1 Pa",
+    "tooltip": "Set pressure calibration offset in Pascals"
+  },
+  "spa06_set_temperature_offset": {
+    "message0": "Set SPA06 temperature offset %1 °C",
+    "tooltip": "Set temperature calibration offset in Celsius"
+  }
+}

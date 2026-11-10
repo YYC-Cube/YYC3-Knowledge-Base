@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "Sensor de Polvo",
+  "gp2y1010au0f_init": {
+    "message0": "Iniciar sensor de polvo pin LED %1 pin de medida %2",
+    "tooltip": "Inicializar el sensor de polvo y configurar los pines de LED y medida"
+  },
+  "gp2y1010au0f_read": {
+    "message0": "Leer concentración de polvo",
+    "tooltip": "Leer datos del sensor de polvo, en la unidad μg/m³"
+  }
+}

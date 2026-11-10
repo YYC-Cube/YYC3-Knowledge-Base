@@ -1,0 +1,52 @@
+{
+  "toolbox_name": "GIFアニメーションプレーヤー",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "打开GIF": "GIFを開く",
+    "播放控制": "再生コントロール",
+    "信息获取": "情報取得"
+  },
+  "gif_init": {
+    "message0": "GIFプレーヤーを初期化 %1",
+    "tooltip": "AnimatedGIFプレーヤーオブジェクトを初期化します。TFTディスプレイが必要です"
+  },
+  "gif_open_memory": {
+    "message0": "GIF %1 メモリデータを開く ヘッダー %2 配列名 %3",
+    "message1": "表示位置 X %1 Y %2",
+    "tooltip": "メモリ（FLASH）からGIFデータを開きます。GIFデータを含むヘッダーファイル名と配列変数名、表示位置を指定します"
+  },
+  "gif_open_sd": {
+    "message0": "GIF %1 SDカードファイルを開く %2",
+    "message1": "表示位置 X %1 Y %2",
+    "tooltip": "SDカードからGIFファイルを開きます。ファイルパスと表示位置を指定します"
+  },
+  "gif_play_frame": {
+    "message0": "GIF %1 1フレーム再生 同期 %2",
+    "tooltip": "GIFアニメーションの1フレームを再生し、残りフレームがあるかを返します。同期が「はい」の場合、フレーム遅延を待ちます",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["はい", "true"],
+          ["いいえ", "false"]
+        ]
+      }
+    ]
+  },
+  "gif_play_all": {
+    "message0": "GIF %1 全フレーム再生",
+    "tooltip": "GIFアニメーションの全フレームを再生し、完了後に次のブロックに進みます"
+  },
+  "gif_close": {
+    "message0": "GIF %1 閉じる",
+    "tooltip": "現在開いているGIFファイルを閉じてリソースを解放します"
+  },
+  "gif_get_width": {
+    "message0": "GIF %1 キャンバス幅",
+    "tooltip": "現在のGIFアニメーションのキャンバス幅を取得します（ピクセル）"
+  },
+  "gif_get_height": {
+    "message0": "GIF %1 キャンバス高さ",
+    "tooltip": "現在のGIFアニメーションのキャンバス高さを取得します（ピクセル）"
+  }
+}

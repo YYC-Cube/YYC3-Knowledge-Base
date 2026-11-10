@@ -1,0 +1,347 @@
+{
+  "toolbox_name": "적외선 리모컨",
+  "toolbox_categories": [
+    "수신",
+    "송신",
+    "고급"
+  ],
+  "irremote_library_config": {
+    "message0": "적외선 라이브러리 설정 버퍼 길이 %1 범용 디코딩 활성화 %2 특수 프로토콜 유지 %3",
+    "tooltip": "컴파일 시 매크로를 통해 RAW_BUFFER_LENGTH 및 범용/특수 프로토콜 파싱 여부를 설정합니다"
+  },
+  "irremote_receiver_begin": {
+    "message0": "적외선 수신 초기화 핀 %1 LED 피드백 %2",
+    "tooltip": "적외선 수신기를 초기화합니다. LED 피드백을 활성화하면 신호 수신 시 보드 LED가 깜빡여 디버깅에 편리합니다"
+  },
+  "irremote_sender_begin": {
+    "message0": "적외선 송신 초기화 핀 %1",
+    "tooltip": "적외선 송신기를 초기화하고 송신 핀을 설정합니다"
+  },
+  "irremote_on_receive": {
+    "message0": "적외선 수신 성공 시 반복 무시 %1 %2",
+    "tooltip": "적외선 신호를 수신하면 내부 코드를 실행합니다. 반복 무시를 선택하면 버튼 한 번 누름에 여러 번 실행되는 것을 방지합니다"
+  },
+  "irremote_receiver_available": {
+    "message0": "적외선 수신 새 데이터 있음",
+    "tooltip": "읽을 수 있는 새로운 적외선 데이터가 있는지 확인합니다"
+  },
+  "irremote_get_value": {
+    "message0": "적외선 데이터 %1",
+    "tooltip": "수신된 적외선 데이터의 지정된 필드를 읽습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "주소",
+            "ADDRESS"
+          ],
+          [
+            "명령",
+            "COMMAND"
+          ],
+          [
+            "추가값",
+            "EXTRA"
+          ],
+          [
+            "원시값",
+            "RAW"
+          ],
+          [
+            "비트 수",
+            "BITS"
+          ],
+          [
+            "플래그",
+            "FLAGS"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_get_protocol": {
+    "message0": "적외선 프로토콜 %1",
+    "tooltip": "수신된 적외선 프로토콜의 이름 또는 열거값을 반환합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "이름",
+            "NAME"
+          ],
+          [
+            "열거값",
+            "ID"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_check_flag": {
+    "message0": "적외선 플래그 %1",
+    "tooltip": "수신된 적외선 데이터의 플래그 상태를 확인합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "반복 프레임",
+            "REPEAT"
+          ],
+          [
+            "자동 반복",
+            "AUTO_REPEAT"
+          ],
+          [
+            "패리티 실패",
+            "PARITY"
+          ],
+          [
+            "토글 비트",
+            "TOGGLE"
+          ],
+          [
+            "다른 반복 프로토콜",
+            "DIFF_REPEAT"
+          ],
+          [
+            "추가 정보 포함",
+            "EXTRA_INFO"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_is_preset_key": {
+    "message0": "프리셋 키 눌림 %1",
+    "tooltip": "Arduino 키트 NEC 미니 리모컨의 프리셋 키와 일치하는지 확인합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "CH_MINUS",
+            "69"
+          ],
+          [
+            "CHANNEL",
+            "70"
+          ],
+          [
+            "CH_PLUS",
+            "71"
+          ],
+          [
+            "PREV",
+            "68"
+          ],
+          [
+            "NEXT",
+            "64"
+          ],
+          [
+            "PLAY_PAUSE",
+            "67"
+          ],
+          [
+            "VOL_DOWN",
+            "7"
+          ],
+          [
+            "VOL_UP",
+            "21"
+          ],
+          [
+            "EQ",
+            "9"
+          ],
+          [
+            "NUM_0",
+            "22"
+          ],
+          [
+            "NUM_1",
+            "12"
+          ],
+          [
+            "NUM_2",
+            "24"
+          ],
+          [
+            "NUM_3",
+            "94"
+          ],
+          [
+            "NUM_4",
+            "8"
+          ],
+          [
+            "NUM_5",
+            "28"
+          ],
+          [
+            "NUM_6",
+            "90"
+          ],
+          [
+            "NUM_7",
+            "66"
+          ],
+          [
+            "NUM_8",
+            "82"
+          ],
+          [
+            "NUM_9",
+            "74"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_get_preset_name": {
+    "message0": "프리셋 키 이름 가져오기",
+    "tooltip": "프리셋 리모컨 키의 이름을 반환합니다. 일치하지 않으면 빈 문자열을 반환합니다"
+  },
+  "irremote_resume": {
+    "message0": "적외선 수신 다음 프레임 준비",
+    "tooltip": "다음 수신을 수동으로 준비합니다. \"적외선 수신 성공 시\" 블록을 사용하지 않을 때만 필요합니다"
+  },
+  "irremote_send_command": {
+    "message0": "적외선 송신 프로토콜 %1 주소 %2 명령 %3 반복 %4",
+    "tooltip": "지정된 프로토콜로 적외선 신호를 송신합니다. 주소, 명령 및 반복 횟수를 설정할 수 있습니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "NEC",
+            "NEC"
+          ],
+          [
+            "NEC2",
+            "NEC2"
+          ],
+          [
+            "SAMSUNG",
+            "SAMSUNG"
+          ],
+          [
+            "SAMSUNG48",
+            "SAMSUNG48"
+          ],
+          [
+            "SAMSUNGLG",
+            "SAMSUNGLG"
+          ],
+          [
+            "SONY",
+            "SONY"
+          ],
+          [
+            "PANASONIC",
+            "PANASONIC"
+          ],
+          [
+            "DENON",
+            "DENON"
+          ],
+          [
+            "SHARP",
+            "SHARP"
+          ],
+          [
+            "LG",
+            "LG"
+          ],
+          [
+            "JVC",
+            "JVC"
+          ],
+          [
+            "RC5",
+            "RC5"
+          ],
+          [
+            "RC6",
+            "RC6"
+          ],
+          [
+            "KASEIKYO_JVC",
+            "KASEIKYO_JVC"
+          ],
+          [
+            "KASEIKYO_DENON",
+            "KASEIKYO_DENON"
+          ],
+          [
+            "KASEIKYO_SHARP",
+            "KASEIKYO_SHARP"
+          ],
+          [
+            "KASEIKYO_MITSUBISHI",
+            "KASEIKYO_MITSUBISHI"
+          ],
+          [
+            "ONKYO",
+            "ONKYO"
+          ],
+          [
+            "APPLE",
+            "APPLE"
+          ],
+          [
+            "BOSEWAVE",
+            "BOSEWAVE"
+          ],
+          [
+            "FAST",
+            "FAST"
+          ],
+          [
+            "LEGO_PF",
+            "LEGO_PF"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "irremote_print_result": {
+    "message0": "시리얼에 적외선 결과 출력 형식 %1",
+    "tooltip": "적외선 수신 결과를 시리얼에 출력합니다. 요약은 프로토콜/주소/명령을 표시하고, 송신 코드는 신호 재생 방법을 표시합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "요약",
+            "SHORT"
+          ],
+          [
+            "송신 코드",
+            "SEND_USAGE"
+          ],
+          [
+            "원시 타이밍",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_command_equals": {
+    "message0": "적외선 명령값이 같음 %1",
+    "tooltip": "수신된 적외선 명령값이 지정된 값과 같은지 확인합니다. 모든 리모컨에 사용 가능합니다"
+  },
+  "irremote_send_nec": {
+    "message0": "적외선 NEC 송신 주소 %1 명령 %2 반복 %3",
+    "tooltip": "NEC 프로토콜로 적외선 신호를 송신합니다. NEC는 가장 일반적인 적외선 프로토콜입니다"
+  },
+  "irremote_send_raw": {
+    "message0": "적외선 Raw 송신 데이터 %1 주파수(kHz) %2",
+    "tooltip": "원시 적외선 타이밍 데이터를 송신합니다. 알 수 없는 프로토콜의 신호를 재생하는 데 사용합니다. 데이터 형식은 쉼표로 구분된 마이크로초 값입니다"
+  },
+  "irremote_send_pronto": {
+    "message0": "적외선 Pronto 코드 송신 %1 반복 %2",
+    "tooltip": "Pronto 형식으로 적외선 신호를 송신합니다. Pronto 코드는 온라인 IR 코드 데이터베이스에서 가져올 수 있습니다"
+  }
+}

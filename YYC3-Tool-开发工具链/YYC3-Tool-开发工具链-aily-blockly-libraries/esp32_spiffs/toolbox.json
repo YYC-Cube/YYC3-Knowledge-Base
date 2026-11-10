@@ -1,0 +1,95 @@
+{
+  "kind": "category",
+  "name": "SPIFFS文件系统",
+  "icon": "fa-light fa-hard-drive",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_begin"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_end"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_format"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_info"
+    },
+    {
+      "kind": "label",
+      "text": "文件操作"
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_write_file",
+      "inputs": {
+        "PATH": {
+          "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } }
+        },
+        "CONTENT": {
+          "shadow": { "type": "text", "fields": { "TEXT": "Hello" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_append_file",
+      "inputs": {
+        "PATH": {
+          "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } }
+        },
+        "CONTENT": {
+          "shadow": { "type": "text", "fields": { "TEXT": "World" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_read_file",
+      "inputs": {
+        "PATH": {
+          "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_delete_file",
+      "inputs": {
+        "PATH": {
+          "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_exists",
+      "inputs": {
+        "PATH": {
+          "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "esp32_spiffs_rename",
+      "inputs": {
+        "OLD_PATH": {
+          "shadow": { "type": "text", "fields": { "TEXT": "/old.txt" } }
+        },
+        "NEW_PATH": {
+          "shadow": { "type": "text", "fields": { "TEXT": "/new.txt" } }
+        }
+      }
+    }
+  ]
+}

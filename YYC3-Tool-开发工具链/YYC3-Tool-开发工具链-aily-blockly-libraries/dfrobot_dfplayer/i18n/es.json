@@ -1,0 +1,141 @@
+{
+    "toolbox_name": "DFPlayer",
+    "dfplayer_begin": {
+        "message0": "Inicializar módulo DFPlayer %1 pin RX %2 pin TX %3"
+    },
+    "dfplayer_play": {
+        "message0": "DFPlayer %1 reproducir archivo número %2"
+    },
+    "dfplayer_pause": {
+        "message0": "DFPlayer %1 pausar reproducción"
+    },
+    "dfplayer_start": {
+        "message0": "DFPlayer %1 continuar reproducción"
+    },
+    "dfplayer_stop": {
+        "message0": "DFPlayer %1 detener reproducción"
+    },
+    "dfplayer_next": {
+        "message0": "DFPlayer %1 reproducir siguiente pista"
+    },
+    "dfplayer_previous": {
+        "message0": "DFPlayer %1 reproducir pista anterior"
+    },
+    "dfplayer_volume": {
+        "message0": "DFPlayer %1 establecer volumen en %2"
+    },
+    "dfplayer_volume_up": {
+        "message0": "DFPlayer %1 aumentar volumen"
+    },
+    "dfplayer_volume_down": {
+        "message0": "DFPlayer %1 disminuir volumen"
+    },
+    "dfplayer_eq": {
+        "message0": "DFPlayer %1 establecer ecualizador %2",
+        "options": [
+            [
+                "Normal",
+                "0"
+            ],
+            [
+                "Pop",
+                "1"
+            ],
+            [
+                "Rock",
+                "2"
+            ],
+            [
+                "Jazz",
+                "3"
+            ],
+            [
+                "Clásico",
+                "4"
+            ],
+            [
+                "Bajo",
+                "5"
+            ]
+        ]
+    },
+    "dfplayer_output_device": {
+        "message0": "DFPlayer %1 establecer dispositivo de salida en %2",
+        "options": [
+            [
+                "DISPOSITIVO1",
+                "1"
+            ],
+            [
+                "DISPOSITIVO2",
+                "2"
+            ]
+        ]
+    },
+    "dfplayer_loop": {
+        "message0": "DFPlayer %1 reproducir en bucle archivo número %2"
+    },
+    "dfplayer_play_folder": {
+        "message0": "DFPlayer %1 reproducir archivo %2 en la carpeta %3"
+    },
+    "dfplayer_enable_loop_all": {
+        "message0": "DFPlayer %1 habilitar bucle total"
+    },
+    "dfplayer_disable_loop_all": {
+        "message0": "DFPlayer %1 deshabilitar bucle total"
+    },
+    "dfplayer_play_mp3_folder": {
+        "message0": "DFPlayer %1 reproducir archivo %2 en la carpeta MP3"
+    },
+    "dfplayer_advertise": {
+        "message0": "DFPlayer %1 reproducir anuncio %2"
+    },
+    "dfplayer_stop_advertise": {
+        "message0": "DFPlayer %1 detener anuncio"
+    },
+    "dfplayer_play_large_folder": {
+        "message0": "DFPlayer %1 reproducir archivo %2 en la carpeta grande %3"
+    },
+    "dfplayer_loop_folder": {
+        "message0": "DFPlayer %1 reproducir en bucle carpeta %2"
+    },
+    "dfplayer_random_all": {
+        "message0": "DFPlayer %1 reproducir aleatoriamente todos los archivos"
+    },
+    "dfplayer_enable_loop": {
+        "message0": "DFPlayer %1 habilitar bucle"
+    },
+    "dfplayer_disable_loop": {
+        "message0": "DFPlayer %1 deshabilitar bucle"
+    },
+    "dfplayer_read_state": {
+        "message0": "DFPlayer %1 leer estado"
+    },
+    "dfplayer_read_volume": {
+        "message0": "DFPlayer %1 leer volumen"
+    },
+    "dfplayer_read_eq": {
+        "message0": "DFPlayer %1 leer ecualizador"
+    },
+    "dfplayer_read_file_counts": {
+        "message0": "DFPlayer %1 leer cantidad de archivos"
+    },
+    "dfplayer_read_current_file_number": {
+        "message0": "DFPlayer %1 leer número de archivo actual"
+    },
+    "dfplayer_read_file_counts_in_folder": {
+        "message0": "DFPlayer %1 leer cantidad de archivos en la carpeta %2"
+    },
+    "dfplayer_available": {
+        "message0": "DFPlayer %1 verificar si hay mensajes disponibles"
+    },
+    "dfplayer_read_type": {
+        "message0": "DFPlayer %1 leer tipo de mensaje"
+    },
+    "dfplayer_read": {
+        "message0": "DFPlayer %1 leer parámetros del mensaje"
+    },
+    "dfplayer_simple_play": {
+        "message0": "Reproducción simple: inicializar DFPlayer (RX: %1, TX: %2) y reproducir archivo %3"
+    }
+}

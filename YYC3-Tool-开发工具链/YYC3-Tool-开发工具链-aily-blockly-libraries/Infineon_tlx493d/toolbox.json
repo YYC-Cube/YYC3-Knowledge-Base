@@ -1,0 +1,51 @@
+{
+  "kind": "category",
+  "name": "TLx493D 3D磁传感器",
+  "colour": "#6A5ACD",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "tlx493d_init"
+    },
+    {
+      "kind": "label",
+      "text": "读取数据"
+    },
+    {
+      "kind": "block",
+      "type": "tlx493d_get_temperature"
+    },
+    {
+      "kind": "block",
+      "type": "tlx493d_get_magnetic_field"
+    },
+    {
+      "kind": "label",
+      "text": "配置"
+    },
+    {
+      "kind": "block",
+      "type": "tlx493d_set_sensitivity"
+    },
+    {
+      "kind": "block",
+      "type": "tlx493d_set_power_mode"
+    },
+    {
+      "kind": "label",
+      "text": "状态与控制"
+    },
+    {
+      "kind": "block",
+      "type": "tlx493d_has_valid_data"
+    },
+    {
+      "kind": "block",
+      "type": "tlx493d_software_reset"
+    }
+  ]
+}

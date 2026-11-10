@@ -1,0 +1,102 @@
+{
+  "toolbox_name": "R4 WiFi",
+  "toolbox_labels": {
+    "连接": "connect",
+    "状态查询": "Status query",
+    "配置": "Configuration",
+    "网络扫描": "Network scan",
+    "网络操作": "network operations"
+  },
+  "wifis3_begin": {
+    "message0": "Connect to WiFi SSID %1 Password %2",
+    "tooltip": "Connect to WiFi network (WPA/WPA2 encryption)"
+  },
+  "wifis3_begin_open": {
+    "message0": "Connect to WiFi SSID %1 (Open Network)",
+    "tooltip": "Connect to open WiFi network without password"
+  },
+  "wifis3_begin_ap": {
+    "message0": "Start WiFi AP SSID %1 Password %2 Channel %3",
+    "tooltip": "Start WiFi access point (hotspot mode)"
+  },
+  "wifis3_disconnect": {
+    "message0": "Disconnect WiFi",
+    "tooltip": "Disconnect current WiFi connection"
+  },
+  "wifis3_status": {
+    "message0": "WiFi connection status",
+    "tooltip": "Return WiFi connection status (3=connected, 1=idle, 0=disconnected, etc.)"
+  },
+  "wifis3_is_connected": {
+    "message0": "WiFi connected?",
+    "tooltip": "Check if connected to WiFi network"
+  },
+  "wifis3_local_ip": {
+    "message0": "Get local IP address",
+    "tooltip": "Return the local IP address of the device"
+  },
+  "wifis3_mac_address": {
+    "message0": "Get MAC address",
+    "tooltip": "Return the MAC address of the WiFi module"
+  },
+  "wifis3_gateway_ip": {
+    "message0": "Get gateway IP address",
+    "tooltip": "Return the gateway IP address"
+  },
+  "wifis3_subnet_mask": {
+    "message0": "Get subnet mask",
+    "tooltip": "Return the subnet mask"
+  },
+  "wifis3_dns_ip": {
+    "message0": "Get DNS server %1",
+    "tooltip": "Return DNS server address",
+    "args0": [
+      {
+        "options": [
+          ["Primary DNS", "0"],
+          ["Secondary DNS", "1"]
+        ]
+      }
+    ]
+  },
+  "wifis3_set_dns": {
+    "message0": "Set DNS server Primary %1 Secondary %2",
+    "tooltip": "Set primary and secondary DNS servers"
+  },
+  "wifis3_config_ip": {
+    "message0": "Configure static IP Address %1 Gateway %2 Subnet %3",
+    "tooltip": "Configure device static IP address, gateway and subnet mask"
+  },
+  "wifis3_set_hostname": {
+    "message0": "Set hostname %1",
+    "tooltip": "Set DHCP hostname"
+  },
+  "wifis3_scan_networks": {
+    "message0": "Scan WiFi networks",
+    "tooltip": "Scan for available WiFi networks"
+  },
+  "wifis3_ssid_by_index": {
+    "message0": "Get SSID of network #%1",
+    "tooltip": "Return the SSID of the network at specified index"
+  },
+  "wifis3_rssi_by_index": {
+    "message0": "Get signal strength of network #%1",
+    "tooltip": "Return the RSSI signal strength (dBm) of the network at specified index"
+  },
+  "wifis3_scanned_networks_count": {
+    "message0": "Get scanned networks count",
+    "tooltip": "Return the number of WiFi networks found in last scan"
+  },
+  "wifis3_ping": {
+    "message0": "PING %1 (TTL %2 Count %3)",
+    "tooltip": "Ping the specified host, return response time"
+  },
+  "wifis3_firmware_version": {
+    "message0": "Get WiFi firmware version",
+    "tooltip": "Return the firmware version of the WiFi module"
+  },
+  "wifis3_wait_for_connection": {
+    "message0": "Wait for WiFi connection Timeout %1 ms",
+    "tooltip": "Wait until WiFi connection succeeds or timeout"
+  }
+}

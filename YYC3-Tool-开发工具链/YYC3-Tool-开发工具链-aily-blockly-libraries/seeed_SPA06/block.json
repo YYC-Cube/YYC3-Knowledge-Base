@@ -1,0 +1,183 @@
+[
+  {
+    "type": "spa06_init",
+    "message0": "初始化SPA06传感器 地址 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          ["0x77 (默认)", "0x77"],
+          ["0x76", "0x76"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "初始化SPA06气压温度传感器（I2C通信）"
+  },
+  {
+    "type": "spa06_read_temperature",
+    "message0": "读取SPA06温度 (°C)",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "读取SPA06传感器的温度值，返回摄氏度"
+  },
+  {
+    "type": "spa06_read_pressure",
+    "message0": "读取SPA06气压 (Pa)",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "读取SPA06传感器的气压值，返回帕斯卡"
+  },
+  {
+    "type": "spa06_read_altitude",
+    "message0": "读取SPA06海拔 (m)",
+    "output": "Number",
+    "colour": "#009688",
+    "tooltip": "根据气压计算当前海拔高度，返回米"
+  },
+  {
+    "type": "spa06_pressure_available",
+    "message0": "SPA06气压数据就绪",
+    "output": "Boolean",
+    "colour": "#009688",
+    "tooltip": "检查是否有新的气压数据可读取"
+  },
+  {
+    "type": "spa06_temperature_available",
+    "message0": "SPA06温度数据就绪",
+    "output": "Boolean",
+    "colour": "#009688",
+    "tooltip": "检查是否有新的温度数据可读取"
+  },
+  {
+    "type": "spa06_set_mode",
+    "message0": "设置SPA06模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["空闲", "SPL07_IDLE"],
+          ["单次气压测量", "SPL07_ONE_PRESSURE"],
+          ["单次温度测量", "SPL07_ONE_TEMPERATURE"],
+          ["连续气压测量", "SPL07_CONT_PRESSURE"],
+          ["连续温度测量", "SPL07_CONT_TEMPERATURE"],
+          ["连续气压和温度测量", "SPL07_CONT_PRES_TEMP"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置SPA06传感器的工作模式"
+  },
+  {
+    "type": "spa06_set_pressure_config",
+    "message0": "设置SPA06气压采样 速率 %1 过采样 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RATE",
+        "options": [
+          ["1 Hz", "SPL07_1HZ"],
+          ["2 Hz", "SPL07_2HZ"],
+          ["4 Hz", "SPL07_4HZ"],
+          ["8 Hz", "SPL07_8HZ"],
+          ["16 Hz", "SPL07_16HZ"],
+          ["32 Hz", "SPL07_32HZ"],
+          ["64 Hz", "SPL07_64HZ"],
+          ["128 Hz", "SPL07_128HZ"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OVERSAMPLE",
+        "options": [
+          ["1次 (低精度)", "SPL07_1SAMPLE"],
+          ["2次", "SPL07_2SAMPLES"],
+          ["4次", "SPL07_4SAMPLES"],
+          ["8次", "SPL07_8SAMPLES"],
+          ["16次 (标准)", "SPL07_16SAMPLES"],
+          ["32次", "SPL07_32SAMPLES"],
+          ["64次 (高精度)", "SPL07_64SAMPLES"],
+          ["128次", "SPL07_128SAMPLES"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置气压传感器的测量速率和过采样率"
+  },
+  {
+    "type": "spa06_set_temperature_config",
+    "message0": "设置SPA06温度采样 速率 %1 过采样 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RATE",
+        "options": [
+          ["1 Hz", "SPL07_1HZ"],
+          ["2 Hz", "SPL07_2HZ"],
+          ["4 Hz", "SPL07_4HZ"],
+          ["8 Hz", "SPL07_8HZ"],
+          ["16 Hz", "SPL07_16HZ"],
+          ["32 Hz", "SPL07_32HZ"],
+          ["64 Hz", "SPL07_64HZ"],
+          ["128 Hz", "SPL07_128HZ"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OVERSAMPLE",
+        "options": [
+          ["1次 (默认)", "SPL07_1SAMPLE"],
+          ["2次", "SPL07_2SAMPLES"],
+          ["4次", "SPL07_4SAMPLES"],
+          ["8次", "SPL07_8SAMPLES"],
+          ["16次 (标准)", "SPL07_16SAMPLES"],
+          ["32次", "SPL07_32SAMPLES"],
+          ["64次 (高精度)", "SPL07_64SAMPLES"],
+          ["128次", "SPL07_128SAMPLES"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置温度传感器的测量速率和过采样率"
+  },
+  {
+    "type": "spa06_set_pressure_offset",
+    "message0": "设置SPA06气压偏移 %1 Pa",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "OFFSET",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置气压校准偏移量（帕斯卡）"
+  },
+  {
+    "type": "spa06_set_temperature_offset",
+    "message0": "设置SPA06温度偏移 %1 °C",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "OFFSET",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688",
+    "tooltip": "设置温度校准偏移量（摄氏度）"
+  }
+]

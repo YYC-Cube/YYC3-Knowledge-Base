@@ -1,0 +1,73 @@
+{
+  "toolbox_name": "NeoPixel",
+  "neopixel_init": {
+    "message0": "初始化NeoPixel灯带 引脚 %1 LED数量 %2 LED类型 %3",
+    "tooltip": "初始化NeoPixel LED灯带",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      null,
+      {
+        "options": [
+          [
+            "RGB (GRB)",
+            "NEO_GRB + NEO_KHZ800"
+          ],
+          [
+            "RGB (RGB)",
+            "NEO_RGB + NEO_KHZ800"
+          ],
+          [
+            "RGBW",
+            "NEO_RGBW + NEO_KHZ800"
+          ],
+          [
+            "RGB (400 KHz)",
+            "NEO_GRB + NEO_KHZ400"
+          ]
+        ]
+      }
+    ]
+  },
+  "neopixel_begin": {
+    "message0": "开始NeoPixel",
+    "tooltip": "开始NeoPixel通信"
+  },
+  "neopixel_show": {
+    "message0": "显示NeoPixel",
+    "tooltip": "更新NeoPixel显示"
+  },
+  "neopixel_set_brightness": {
+    "message0": "设置NeoPixel亮度 %1",
+    "tooltip": "设置NeoPixel灯带亮度(0-255)"
+  },
+  "neopixel_set_pixel_color": {
+    "message0": "设置LED %1 颜色 红 %2 绿 %3 蓝 %4",
+    "tooltip": "设置单个LED颜色"
+  },
+  "neopixel_fill": {
+    "message0": "填充所有LED 颜色 红 %1 绿 %2 蓝 %3",
+    "tooltip": "用同一颜色填充所有LED"
+  },
+  "neopixel_clear": {
+    "message0": "清除所有NeoPixel",
+    "tooltip": "关闭所有LED"
+  },
+  "neopixel_rainbow": {
+    "message0": "显示彩虹效果 延迟(ms) %1",
+    "tooltip": "在LED灯带上显示彩虹效果"
+  },
+  "neopixel_color_wipe": {
+    "message0": "逐个LED填充 颜色 红 %1 绿 %2 蓝 %3 延迟(ms) %4",
+    "tooltip": "逐个LED填充颜色"
+  },
+  "neopixel_theater_chase": {
+    "message0": "追逐灯效果 颜色 红 %1 绿 %2 蓝 %3 延迟(ms) %4",
+    "tooltip": "显示追逐灯效果"
+  },
+  "neopixel_theater_chase_rainbow": {
+    "message0": "彩虹追逐灯效果 延迟(ms) %1",
+    "tooltip": "显示彩虹追逐灯效果"
+  }
+}

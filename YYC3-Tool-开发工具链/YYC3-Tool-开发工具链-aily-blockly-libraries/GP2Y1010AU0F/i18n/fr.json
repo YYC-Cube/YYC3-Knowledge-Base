@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "Capteur de Poussière",
+  "gp2y1010au0f_init": {
+    "message0": "Initialiser le capteur de poussière broche LED %1 broche de mesure %2",
+    "tooltip": "Initialiser le capteur de poussière et définir les broches LED et de mesure"
+  },
+  "gp2y1010au0f_read": {
+    "message0": "Lire la concentration de poussière",
+    "tooltip": "Lire les données du capteur de poussière, unité en μg/m³"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "toolbox_name": "R4 模拟波形",
+  "analogwave_init": {
+    "message0": "初始化模拟波形 %1 引脚 %2",
+    "tooltip": "初始化AnalogWave对象，指定DAC输出引脚",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "DAC",
+            "DAC"
+          ],
+          [
+            "DAC0",
+            "DAC0"
+          ],
+          [
+            "DAC1",
+            "DAC1"
+          ],
+          [
+            "A0",
+            "A0"
+          ]
+        ]
+      }
+    ]
+  },
+  "analogwave_sine": {
+    "message0": "模拟波形 %1 输出正弦波 频率 %2 Hz",
+    "tooltip": "生成指定频率的正弦波"
+  },
+  "analogwave_square": {
+    "message0": "模拟波形 %1 输出方波 频率 %2 Hz",
+    "tooltip": "生成指定频率的方波"
+  },
+  "analogwave_saw": {
+    "message0": "模拟波形 %1 输出锯齿波 频率 %2 Hz",
+    "tooltip": "生成指定频率的锯齿波"
+  },
+  "analogwave_freq": {
+    "message0": "设置模拟波形 %1 频率为 %2 Hz",
+    "tooltip": "更新波形的输出频率"
+  },
+  "analogwave_amplitude": {
+    "message0": "设置模拟波形 %1 振幅为 %2",
+    "tooltip": "设置波形振幅(0-1之间的浮点数)"
+  },
+  "analogwave_start": {
+    "message0": "开始模拟波形 %1 输出",
+    "tooltip": "开始波形输出"
+  },
+  "analogwave_stop": {
+    "message0": "停止模拟波形 %1 输出",
+    "tooltip": "停止波形输出"
+  }
+}

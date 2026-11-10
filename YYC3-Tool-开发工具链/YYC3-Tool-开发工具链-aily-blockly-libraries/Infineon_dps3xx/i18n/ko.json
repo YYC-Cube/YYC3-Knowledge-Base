@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "DPS3xx 기압 센서",
+  "dps3xx_init": {
+    "message0": "DPS3xx 기압 센서 초기화 I2C 주소 %1 사용 %2",
+    "tooltip": "Infineon DPS3xx 고정밀 기압 온도 센서를 I2C 인터페이스로 초기화"
+  },
+  "dps3xx_read_temperature": {
+    "message0": "DPS3xx 온도 읽기 (°C) 오버샘플링 %1",
+    "tooltip": "DPS3xx 센서에서 온도 값을 읽어 섭씨로 반환합니다. 오버샘플링이 높을수록 정밀도가 높아지지만 속도가 느려집니다",
+    "args0": [
+      {
+        "options": [
+          ["1회", "0"],
+          ["2회", "1"],
+          ["4회", "2"],
+          ["8회", "3"],
+          ["16회", "4"],
+          ["32회", "5"],
+          ["64회", "6"],
+          ["128회", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_read_pressure": {
+    "message0": "DPS3xx 기압 읽기 (Pa) 오버샘플링 %1",
+    "tooltip": "DPS3xx 센서에서 기압 값을 읽어 파스칼(Pa)로 반환합니다. 오버샘플링이 높을수록 정밀도가 높아지지만 속도가 느려집니다",
+    "args0": [
+      {
+        "options": [
+          ["1회", "0"],
+          ["2회", "1"],
+          ["4회", "2"],
+          ["8회", "3"],
+          ["16회", "4"],
+          ["32회", "5"],
+          ["64회", "6"],
+          ["128회", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_correct_temp": {
+    "message0": "DPS3xx 온도 센서 교정",
+    "tooltip": "일부 DPS3xx 센서의 온도 측정 하드웨어 문제를 수정합니다. begin() 직후에 호출하는 것을 권장"
+  },
+  "dps3xx_get_product_id": {
+    "message0": "DPS3xx 제품 ID 가져오기",
+    "tooltip": "DPS3xx 센서의 제품 식별 번호를 가져옵니다"
+  },
+  "dps3xx_get_revision_id": {
+    "message0": "DPS3xx 리비전 ID 가져오기",
+    "tooltip": "DPS3xx 센서의 리비전 식별 번호를 가져옵니다"
+  }
+}

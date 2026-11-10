@@ -1,0 +1,189 @@
+{
+  "kind": "category",
+  "name": "micro:bit Matrix",
+  "name_zh_cn": "micro:bit 点阵屏",
+  "icon": "fa-light fa-grid-5",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_begin"
+    },
+    {
+      "kind": "label",
+      "text": "基本操作"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_clear"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_fill"
+    },
+    {
+      "kind": "label",
+      "text": "绘图"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_draw_pixel",
+      "inputs": {
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_draw_line",
+      "inputs": {
+        "X0": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "Y0": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "X1": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}},
+        "Y1": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_draw_rect",
+      "inputs": {
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "W": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}},
+        "H": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_fill_rect",
+      "inputs": {
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "W": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}},
+        "H": {"shadow": {"type": "math_number", "fields": {"NUM": "5"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_draw_circle",
+      "inputs": {
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}},
+        "R": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_fill_circle",
+      "inputs": {
+        "X": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}},
+        "Y": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}},
+        "R": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_draw_triangle",
+      "inputs": {
+        "X0": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "Y0": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}},
+        "X1": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}},
+        "Y1": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "X2": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}},
+        "Y2": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_fill_triangle",
+      "inputs": {
+        "X0": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "Y0": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}},
+        "X1": {"shadow": {"type": "math_number", "fields": {"NUM": "2"}}},
+        "Y1": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "X2": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}},
+        "Y2": {"shadow": {"type": "math_number", "fields": {"NUM": "4"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "图标显示"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_show_icon"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_show_bitmap",
+      "inputs": {
+        "BITMAP": {"shadow": {"type": "microbit_matrix_bitmap_heart"}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "文本显示"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_print_text",
+      "inputs": {
+        "TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "HELLO"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_print_number",
+      "inputs": {
+        "NUMBER": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_scroll_text",
+      "inputs": {
+        "TEXT": {"shadow": {"type": "text", "fields": {"TEXT": "HELLO WORLD"}}},
+        "SPEED": {"shadow": {"type": "math_number", "fields": {"NUM": "150"}}}
+      }
+    },
+    {
+      "kind": "label",
+      "text": "位图"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_bitmap_create",
+      "inputs": {
+        "ROW1": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "ROW2": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "ROW3": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "ROW4": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}},
+        "ROW5": {"shadow": {"type": "math_number", "fields": {"NUM": "0"}}}
+      }
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_bitmap_heart"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_bitmap_empty_heart"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_bitmap_yes"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_bitmap_no"
+    },
+    {
+      "kind": "block",
+      "type": "microbit_matrix_bitmap_smile"
+    }
+  ]
+}

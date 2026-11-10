@@ -1,0 +1,111 @@
+{
+"toolbox_name": "IIC Motor Driver",
+"iicmd_init": {
+    "message0": "Initialize motor driver"
+},
+"iicmd_dirinit": {
+    "message0": "Initialize motor reference direction Motor1%1 Motor2%2 Motor3%3 Motor4%4",
+    "args0": [
+        {
+            "options": [
+                ["Forward", "DIRP"],
+                ["Reverse", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["Forward", "DIRP"],
+                ["Reverse", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["Forward", "DIRP"],
+                ["Reverse", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["Forward", "DIRP"],
+                ["Reverse", "DIRN"]
+            ]
+        }
+    ]
+},
+"iicmd_stop": {
+    "message0": "Set %1 to stop",
+    "args0": [
+        {
+            "options": [
+                ["Motor1","M1"],
+                ["Motor2","M2"],
+                ["Motor3","M3"],
+                ["Motor4","M4"],
+                ["All Motors","MALL"]
+            ]
+        }
+    ]
+},
+"iicmd_runone": {
+    "message0": "Set motor %1 speed to %2",
+    "args0": [
+        {
+            "options": [
+                ["Motor1","M1"],
+                ["Motor2","M2"],
+                ["Motor3","M3"],
+                ["Motor4","M4"]
+            ]
+        },
+        null
+    ]
+},
+"iicmd_runall": {
+    "message0": "Set all motors speed %1",
+    "args0": [
+        null
+    ]
+},
+"iicmd_runall2": {
+    "message0": "Set all motors speed Motor1%1 Motor2%2 Motor3%3 Motor4%4",
+    "args0": [
+        null,
+        null,
+        null,
+        null
+    ]
+},
+"iicmd_digitout": {
+    "message0": "Control port %1 output %2",
+    "args0": [
+        {
+            "options": [
+                ["Port1","S1"],
+                ["Port2","S2"],
+                ["Port3","S3"],
+                ["Port4","S4"]
+            ]
+        },
+        {
+            "options": [
+                ["HIGH","HIGH"],
+                ["LOW","LOW"]
+            ]
+        }
+    ]
+},
+"iicmd_servo": {
+    "message0": "Servo port %1 rotate to (0-180) %2°",
+    "args0": [
+        {
+            "options": [
+                ["Port1","S1"],
+                ["Port2","S2"],
+                ["Port3","S3"],
+                ["Port4","S4"]
+            ]
+        },
+        null
+    ]
+}
+}

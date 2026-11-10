@@ -1,0 +1,52 @@
+{
+  "toolbox_name": "Reproductor de animación GIF",
+  "toolbox_labels": {
+    "初始化": "inicialización",
+    "打开GIF": "Abrir GIF",
+    "播放控制": "Controles de reproducción",
+    "信息获取": "adquisición de información"
+  },
+  "gif_init": {
+    "message0": "Inicializar reproductor GIF %1",
+    "tooltip": "Inicializar el objeto reproductor AnimatedGIF, requiere pantalla TFT"
+  },
+  "gif_open_memory": {
+    "message0": "GIF %1 abrir datos de memoria encabezado %2 arreglo %3",
+    "message1": "posición de visualización X %1 Y %2",
+    "tooltip": "Abrir datos GIF desde la memoria (FLASH). Especifique el nombre del archivo de encabezado y el nombre del arreglo con los datos GIF, y la posición de visualización"
+  },
+  "gif_open_sd": {
+    "message0": "GIF %1 abrir archivo de tarjeta SD %2",
+    "message1": "posición de visualización X %1 Y %2",
+    "tooltip": "Abrir archivo GIF desde tarjeta SD. Especifique la ruta del archivo y la posición de visualización"
+  },
+  "gif_play_frame": {
+    "message0": "GIF %1 reproducir un cuadro sincronizar %2",
+    "tooltip": "Reproducir un cuadro de la animación GIF. Devuelve si quedan más cuadros. Con sincronización en 'Sí', espera el retraso del cuadro",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Sí", "true"],
+          ["No", "false"]
+        ]
+      }
+    ]
+  },
+  "gif_play_all": {
+    "message0": "GIF %1 reproducir todos los cuadros",
+    "tooltip": "Reproducir todos los cuadros de la animación GIF. Continúa al siguiente bloque después de completar"
+  },
+  "gif_close": {
+    "message0": "GIF %1 cerrar",
+    "tooltip": "Cerrar el archivo GIF actualmente abierto y liberar recursos"
+  },
+  "gif_get_width": {
+    "message0": "GIF %1 ancho del lienzo",
+    "tooltip": "Obtener el ancho del lienzo de la animación GIF actual (píxeles)"
+  },
+  "gif_get_height": {
+    "message0": "GIF %1 alto del lienzo",
+    "tooltip": "Obtener el alto del lienzo de la animación GIF actual (píxeles)"
+  }
+}

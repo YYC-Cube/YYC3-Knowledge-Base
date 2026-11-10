@@ -1,0 +1,168 @@
+[
+  {
+    "type": "doppler_radar_init",
+    "message0": "初始化多普勒雷达 %1\n串口 %2\n模式 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "BGT"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["目标检测模式", "0"],
+          ["I/Q ADC模式", "1"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": 230,
+    "tooltip": "初始化BGT24LTR11多普勒雷达传感器，指定串口和工作模式"
+  },
+  {
+    "type": "doppler_radar_set_mode",
+    "message0": "设置多普勒雷达 %1 模式为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "BGT",
+        "variableTypes": ["BGT24LTR11"],
+        "defaultType": "BGT24LTR11"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["目标检测模式", "0"],
+          ["I/Q ADC模式", "1"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": 230,
+    "tooltip": "设置多普勒雷达的工作模式：目标检测或I/Q ADC"
+  },
+  {
+    "type": "doppler_radar_target_is",
+    "message0": "多普勒雷达 %1 目标状态为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "BGT",
+        "variableTypes": ["BGT24LTR11"],
+        "defaultType": "BGT24LTR11"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["正在接近", "APPROACH"],
+          ["正在远离", "LEAVE"],
+          ["无目标", "NONE"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "inputsInline": true,
+    "colour": 230,
+    "tooltip": "判断多普勒雷达检测到的目标状态"
+  },
+  {
+    "type": "doppler_radar_get_speed",
+    "message0": "多普勒雷达 %1 目标速度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "BGT",
+        "variableTypes": ["BGT24LTR11"],
+        "defaultType": "BGT24LTR11"
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": 230,
+    "tooltip": "获取多普勒雷达检测到的目标速度"
+  },
+  {
+    "type": "doppler_radar_set_threshold",
+    "message0": "设置多普勒雷达 %1 检测阈值为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "BGT",
+        "variableTypes": ["BGT24LTR11"],
+        "defaultType": "BGT24LTR11"
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": 230,
+    "tooltip": "设置多普勒雷达的检测阈值，决定检测范围（0-65535）"
+  },
+  {
+    "type": "doppler_radar_get_threshold",
+    "message0": "多普勒雷达 %1 当前阈值",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "BGT",
+        "variableTypes": ["BGT24LTR11"],
+        "defaultType": "BGT24LTR11"
+      }
+    ],
+    "output": "Number",
+    "inputsInline": true,
+    "colour": 230,
+    "tooltip": "获取多普勒雷达当前的检测阈值"
+  },
+  {
+    "type": "doppler_radar_set_speed_scope",
+    "message0": "设置多普勒雷达 %1 速度范围\n最大速度 %2\n最小速度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "BGT",
+        "variableTypes": ["BGT24LTR11"],
+        "defaultType": "BGT24LTR11"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_SPEED",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_SPEED",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": 230,
+    "tooltip": "设置多普勒雷达的速度检测范围（0-65535）"
+  }
+]

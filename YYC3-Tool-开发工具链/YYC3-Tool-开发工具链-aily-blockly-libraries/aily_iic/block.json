@@ -1,0 +1,309 @@
+[
+  {
+    "type": "wire_begin",
+    "message0": "初始化%1 模式%2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "主设备",
+            "MASTER"
+          ],
+          [
+            "从设备",
+            "SLAVE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_begin_pin_info",
+      "wire_begin_mutator"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_begin_with_settings",
+    "message0": "初始化%1 模式%2 SDA %3 SCL %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "主设备",
+            "MASTER"
+          ],
+          [
+            "从设备",
+            "SLAVE"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SDA"
+      },
+      {
+        "type": "input_value",
+        "name": "SCL"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_begin_with_settings_pin_info",
+      "wire_begin_with_settings_mutator"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_set_clock",
+    "message0": "设置%1时钟频率为 %2 Hz",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQUENCY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_set_clock_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_begin_transmission",
+    "message0": "%1开始传输到地址 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_begin_transmission_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_write",
+    "message0": "%1发送数据 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_write_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_end_transmission",
+    "message0": "%1结束传输",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_end_transmission_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_request_from",
+    "message0": "%1从地址 %2 请求 %3 字节数据",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS"
+      },
+      {
+        "type": "input_value",
+        "name": "QUANTITY"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_request_from_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_available",
+    "message0": "%1是否可读数据",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_available_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_read",
+    "message0": "%1读取数据",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "extensions": [
+      "wire_read_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_variables",
+    "message0": "I2C对象 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "output": "Variable",
+    "colour": "#FF9800",
+    "tooltip": "获取Wire对象引用，可用于需要I2C实例的函数或表达式中",
+    "helpUrl": "",
+    "extensions": [
+      "wire_variables_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_on_receive",
+    "message0": "%1收到数据时调用 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "input_statement",
+        "name": "CALLBACK"
+      }
+    ],
+    "colour": "#FF9800",
+    "inputsInline": false,
+    "extensions": [
+      "wire_on_receive_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_on_request",
+    "message0": "%1请求数据时调用 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      },
+      {
+        "type": "input_statement",
+        "name": "CALLBACK"
+      }
+    ],
+    "colour": "#FF9800",
+    "inputsInline": false,
+    "extensions": [
+      "wire_on_request_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  },
+  {
+    "type": "wire_scan",
+    "message0": "%1扫描I2C设备",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "extensions": [
+      "wire_scan_pin_info"
+    ],
+    "icon": "fa-regular fa-network-wired"
+  }
+]

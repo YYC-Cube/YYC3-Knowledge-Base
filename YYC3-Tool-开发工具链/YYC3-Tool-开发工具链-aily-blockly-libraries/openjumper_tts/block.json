@@ -1,0 +1,170 @@
+[
+  {
+    "type": "openjumper_tts_init",
+    "message0": "TTS初始化 RX引脚：%1 TX引脚：%2",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03a9f4",
+    "tooltip": "初始化OpenJumper TTS语音合成模块，设置软串口通信引脚",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RX_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "icon": "fa-regular fa-volume-high"
+  },
+  {
+    "type": "openjumper_tts_play_invoice",
+    "message0": "播放内置 %1 第%2首",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03a9f4",
+    "tooltip": "播放TTS模块内置的铃声、提示音或警示音",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "VOICE_TYPE",
+        "options": [
+          [
+            "铃声",
+            "VOICE_Ringtones"
+          ],
+          [
+            "提示音",
+            "VOICE_PromptSound"
+          ],
+          [
+            "警示音",
+            "VOICE_WarningSound"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VOICE_NUM",
+        "check": "Number",
+        "min": 1,
+        "max": 5
+      }
+    ],
+    "icon": "fa-regular fa-volume-high"
+  },
+  {
+    "type": "openjumper_tts_play_control",
+    "message0": "控制播放 %1",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03a9f4",
+    "tooltip": "控制TTS播放状态：停止、暂停或继续播放",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONTROL_ACTION",
+        "options": [
+          [
+            "停止",
+            "PLAY_STOP"
+          ],
+          [
+            "暂停",
+            "PLAY_PAUSE"
+          ],
+          [
+            "继续",
+            "PLAY_CONTINUE"
+          ]
+        ]
+      }
+    ],
+    "icon": "fa-regular fa-volume-high"
+  },
+  {
+    "type": "openjumper_tts_play_number",
+    "message0": "播放数字 %1",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03a9f4",
+    "tooltip": "将数字转换为语音播报",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUMBER",
+        "check": "Number"
+      }
+    ],
+    "icon": "fa-regular fa-volume-high"
+  },
+  {
+    "type": "openjumper_tts_play_text",
+    "message0": "播放文本 %1",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03a9f4",
+    "tooltip": "将文本内容转换为语音播报，支持中文和数字",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "icon": "fa-regular fa-volume-high"
+  },
+  {
+    "type": "openjumper_tts_setcfg",
+    "message0": "设置%1 为%2",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03a9f4",
+    "tooltip": "设置TTS语音参数：语速(0-10)、语调(0-10)或音量(0-10)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SP_TYPE",
+        "options": [
+          [
+            "语速",
+            "setspeechSpeed"
+          ],
+          [
+            "语调",
+            "setIntonation"
+          ],
+          [
+            "音量",
+            "setVolume"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CFGV",
+        "check": "Number"
+      }
+    ],
+    "icon": "fa-regular fa-volume-high"
+  },
+  {
+    "type": "openjumper_tts_restore_defaults",
+    "message0": "恢复默认设置",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03a9f4",
+    "tooltip": "将语速、语调、音量恢复到默认值",
+    "icon": "fa-regular fa-volume-high"
+  }
+]

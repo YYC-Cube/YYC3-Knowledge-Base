@@ -1,0 +1,182 @@
+{
+  "kind": "category",
+  "name": "ESP32 USB",
+  "icon": "fa-light fa-usb-drive",
+  "colour": "#FF5722",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "USB键盘",
+      "icon": "fa-light fa-keyboard",
+      "contents": [
+        { "kind": "block", "type": "esp32_usb_keyboard_begin" },
+        {
+          "kind": "block",
+          "type": "esp32_usb_keyboard_print",
+          "inputs": {
+            "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "Hello World" } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_keyboard_println",
+          "inputs": {
+            "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "Hello World" } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_keyboard_write",
+          "inputs": {
+            "KEY": { "shadow": { "type": "text", "fields": { "TEXT": "a" } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_keyboard_press",
+          "inputs": {
+            "KEY": { "shadow": { "type": "text", "fields": { "TEXT": "a" } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_keyboard_press",
+          "inputs": {
+            "KEY": { "shadow": { "type": "esp32_usb_keyboard_special_key" } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_keyboard_release",
+          "inputs": {
+            "KEY": { "shadow": { "type": "text", "fields": { "TEXT": "a" } } }
+          }
+        },
+        { "kind": "block", "type": "esp32_usb_keyboard_release_all" },
+        { "kind": "block", "type": "esp32_usb_keyboard_special_key" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "USB鼠标",
+      "icon": "fa-light fa-computer-mouse",
+      "contents": [
+        { "kind": "block", "type": "esp32_usb_mouse_begin" },
+        {
+          "kind": "block",
+          "type": "esp32_usb_mouse_move",
+          "inputs": {
+            "X": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+            "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 10 } } },
+            "WHEEL": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+          }
+        },
+        { "kind": "block", "type": "esp32_usb_mouse_click" },
+        { "kind": "block", "type": "esp32_usb_mouse_is_pressed" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "USB游戏手柄",
+      "icon": "fa-light fa-gamepad",
+      "contents": [
+        { "kind": "block", "type": "esp32_usb_gamepad_begin" },
+        { "kind": "block", "type": "esp32_usb_gamepad_press_button" },
+        { "kind": "block", "type": "esp32_usb_gamepad_release_button" },
+        {
+          "kind": "block",
+          "type": "esp32_usb_gamepad_left_stick",
+          "inputs": {
+            "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+            "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_gamepad_right_stick",
+          "inputs": {
+            "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+            "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_gamepad_trigger",
+          "inputs": {
+            "VALUE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+          }
+        },
+        { "kind": "block", "type": "esp32_usb_gamepad_hat" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "USB媒体控制",
+      "icon": "fa-light fa-circle-play",
+      "contents": [
+        { "kind": "block", "type": "esp32_usb_consumer_press" },
+        { "kind": "block", "type": "esp32_usb_consumer_release" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "USB系统控制",
+      "icon": "fa-light fa-power-off",
+      "contents": [
+        { "kind": "block", "type": "esp32_usb_system_press" },
+        { "kind": "block", "type": "esp32_usb_system_release" }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "USB MIDI",
+      "icon": "fa-light fa-music",
+      "contents": [
+        { "kind": "block", "type": "esp32_usb_midi_begin" },
+        {
+          "kind": "block",
+          "type": "esp32_usb_midi_note_on",
+          "inputs": {
+            "NOTE": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } },
+            "VELOCITY": { "shadow": { "type": "math_number", "fields": { "NUM": 127 } } },
+            "CHANNEL": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_midi_note_off",
+          "inputs": {
+            "NOTE": { "shadow": { "type": "math_number", "fields": { "NUM": 60 } } },
+            "VELOCITY": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+            "CHANNEL": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_midi_control_change",
+          "inputs": {
+            "CONTROL": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+            "VALUE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+            "CHANNEL": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_midi_program_change",
+          "inputs": {
+            "PROGRAM": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+            "CHANNEL": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "esp32_usb_midi_pitch_bend",
+          "inputs": {
+            "VALUE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+            "CHANNEL": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } }
+          }
+        }
+      ]
+    }
+  ]
+}

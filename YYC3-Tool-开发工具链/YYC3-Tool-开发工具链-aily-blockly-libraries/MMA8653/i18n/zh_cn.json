@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "MMA8653加速度",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "读取加速度": "读取加速度",
+    "倾角计": "倾角计",
+    "设置": "设置",
+    "状态": "状态"
+  },
+  "mma8653_init": {
+    "message0": "初始化MMA8653加速度传感器 量程 %1 分辨率 %2 数据速率 %3",
+    "tooltip": "初始化MMA8653三轴加速度传感器，设置量程、分辨率和数据速率",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["10位", "MMA8653_10BIT_RES"],
+          ["8位", "MMA8653_8BIT_RES"]
+        ]
+      },
+      null
+    ]
+  },
+  "mma8653_set_mode": {
+    "message0": "设置MMA8653过采样模式 %1",
+    "tooltip": "设置MMA8653传感器的过采样模式",
+    "args0": [
+      {
+        "options": [
+          ["普通", "MMA8653_MODS_NORMAL"],
+          ["低噪低功耗", "MMA8653_MODS_LOW_NOISE_LOW_POWER"],
+          ["高分辨率", "MMA8653_MODS_HIGH_RES"],
+          ["低功耗", "MMA8653_MODS_LOW_POWER"]
+        ]
+      }
+    ]
+  },
+  "mma8653_begin": {
+    "message0": "启动MMA8653加速度传感器",
+    "tooltip": "启动MMA8653传感器开始采集数据"
+  },
+  "mma8653_read_x": {
+    "message0": "读取MMA8653 X轴加速度",
+    "tooltip": "读取MMA8653传感器X轴加速度值"
+  },
+  "mma8653_read_y": {
+    "message0": "读取MMA8653 Y轴加速度",
+    "tooltip": "读取MMA8653传感器Y轴加速度值"
+  },
+  "mma8653_read_z": {
+    "message0": "读取MMA8653 Z轴加速度",
+    "tooltip": "读取MMA8653传感器Z轴加速度值"
+  },
+  "mma8653_read_xyz": {
+    "message0": "读取MMA8653全部轴向数据到变量 X %1 Y %2 Z %3",
+    "tooltip": "一次性读取MMA8653传感器三个轴的加速度数据"
+  },
+  "mma8653_set_range": {
+    "message0": "设置MMA8653测量范围 %1",
+    "tooltip": "设置MMA8653传感器的测量量程"
+  },
+  "mma8653_set_data_rate": {
+    "message0": "设置MMA8653数据采样率 %1",
+    "tooltip": "设置MMA8653传感器的数据输出速率"
+  },
+  "mma8653_set_resolution": {
+    "message0": "设置MMA8653分辨率 %1",
+    "tooltip": "设置MMA8653传感器的数据分辨率",
+    "args0": [
+      {
+        "options": [
+          ["10位", "MMA8653_10BIT_RES"],
+          ["8位", "MMA8653_8BIT_RES"]
+        ]
+      }
+    ]
+  },
+  "mma8653_is_active": {
+    "message0": "MMA8653传感器已激活",
+    "tooltip": "检查MMA8653传感器是否处于激活状态"
+  },
+  "mma8653_check_connection": {
+    "message0": "检查MMA8653传感器连接状态",
+    "tooltip": "检查MMA8653传感器是否正确连接"
+  },
+  "mma8653_get_roll": {
+    "message0": "读取MMA8653横滚角 Roll (°)",
+    "tooltip": "读取MMA8653传感器的横滚角（绕X轴旋转角度）"
+  },
+  "mma8653_get_pitch": {
+    "message0": "读取MMA8653俯仰角 Pitch (°)",
+    "tooltip": "读取MMA8653传感器的俯仰角（绕Y轴旋转角度）"
+  },
+  "mma8653_get_tilt": {
+    "message0": "读取MMA8653倾斜角 (°)",
+    "tooltip": "读取MMA8653传感器相对于垂直方向的倾斜角"
+  }
+}

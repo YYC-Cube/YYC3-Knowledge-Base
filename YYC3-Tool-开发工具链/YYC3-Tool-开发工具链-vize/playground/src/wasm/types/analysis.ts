@@ -1,0 +1,172 @@
+// Analysis type definitions (Canon/TypeCheck, Cross-file)
+
+// TypeCheck types (Canon)
+export interface TypeCheckOptions {
+  filename?: string;
+  strict?: boolean;
+  includeVirtualTs?: boolean;
+  checkProps?: boolean;
+  checkEmits?: boolean;
+  checkTemplateBindings?: boolean;
+  legacyVue2?: boolean;
+}
+
+export interface TypeCheckRelatedLocation {
+  message: string;
+  start: number;
+  end: number;
+  filename?: string;
+}
+
+export interface TypeCheckDiagnostic {
+  severity: "error" | "warning" | "info" | "hint";
+  message: string;
+  start: number;
+  end: number;
+  code?: string;
+  help?: string;
+  related: TypeCheckRelatedLocation[];
+}
+
+export interface TypeCheckResult {
+  diagnostics: TypeCheckDiagnostic[];
+  virtualTs?: string;
+  errorCount: number;
+  warningCount: number;
+  analysisTimeMs?: number;
+}
+
+export interface TypeCheckCapability {
+  name: string;
+  description: string;
+  severity: string;
+}
+
+export interface TypeCheckCapabilities {
+  mode: string;
+  description: string;
+  checks: TypeCheckCapability[];
+  notes: string[];
+}
+
+// Cross-file analysis types
+export interface CrossFileOptions {
+  all?: boolean;
+  fallthroughAttrs?: boolean;
+  componentEmits?: boolean;
+  eventBubbling?: boolean;
+  provideInject?: boolean;
+  uniqueIds?: boolean;
+  serverClientBoundary?: boolean;
+  errorSuspenseBoundary?: boolean;
+  reactivityTracking?: boolean;
+  setupContext?: boolean;
+  circularDependencies?: boolean;
+  maxImportDepth?: number;
+  componentResolution?: boolean;
+  propsValidation?: boolean;
+}
+
+export interface CrossFileDiagnostic {
+  type: string;
+  code: string;
+  severity: "error" | "warning" | "info" | "hint";
+  message: string;
+  file: string;
+  offset: number;
+  endOffset: number;
+  relatedLocations?: Array<{
+    file: string;
+    offset: number;
+    message: string;
+  }>;
+  suggestion?: string;
+}
+
+export interface CrossFileStats {
+  filesAnalyzed: number;
+  vueComponents: number;
+  dependencyEdges: number;
+  errorCount: number;
+  warningCount: number;
+  infoCount: number;
+  analysisTimeMs: number;
+}
+
+export interface CrossFileComplexityInput {
+  componentCount: number;
+  templateIfCount: number;
+  templateForCount: number;
+  templateLogicalOperatorCount: number;
+  componentTreeVIfMaxDepth: number;
+  componentTreeVForMaxDepth: number;
+  componentTreeScopedSlotMaxDepth: number;
+  componentTreeTemplateNestingScore: number;
+  slotCount: number;
+  propDrillingEdgeCount: number;
+  globalStateReferenceCount: number;
+  provideInjectMaxDepth: number;
+  provideInjectReferenceCount: number;
+  provideInjectFanoutCount: number;
+  fallthroughRiskCount: number;
+  reactiveNodeCount: number;
+  reactiveEdgeCount: number;
+  reactiveCycleCount: number;
+}
+
+export interface CrossFileComplexityDimensions {
+  templateControlFlow: number;
+  slotUsage: number;
+  propDrilling: number;
+  globalState: number;
+  provideInject: number;
+  fallthroughAttrs: number;
+  reactiveGraph: number;
+}
+
+export interface CrossFileComplexityReport {
+  input: CrossFileComplexityInput;
+  dimensions: CrossFileComplexityDimensions;
+  cyclomaticScore: number;
+  cognitiveScore: number;
+  totalScore: number;
+  band: "low" | "moderate" | "high" | "extreme";
+}
+
+export type CrossFileComplexityDimension =
+  | "template-control-flow"
+  | "slot-usage"
+  | "prop-drilling"
+  | "global-state"
+  | "provide-inject"
+  | "fallthrough-attrs"
+  | "reactive-graph";
+
+export interface CrossFileComplexityDimensionBreakdown {
+  dimension: CrossFileComplexityDimension;
+  score: number;
+}
+
+export interface CrossFileComplexityHotspot {
+  fileId: number;
+  fileName: string;
+  componentName: string | null;
+  input: CrossFileComplexityInput;
+  dimensions: CrossFileComplexityDimensions;
+  totalScore: number;
+  dominantDimension: CrossFileComplexityDimensionBreakdown | null;
+}
+
+export interface CrossFileResult {
+  diagnostics: CrossFileDiagnostic[];
+  circularDependencies: string[][];
+  complexityReport: CrossFileComplexityReport;
+  complexityHotspots: CrossFileComplexityHotspot[];
+  stats: CrossFileStats;
+  filePaths: string[];
+}
+
+export interface CrossFileInput {
+  path: string;
+  source: string;
+}

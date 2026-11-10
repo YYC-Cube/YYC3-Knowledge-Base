@@ -1,0 +1,79 @@
+{
+  "toolbox_name": "Horloge RTC",
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "时间设置": "Réglage de l'heure",
+    "时间读取": "Lecture du temps",
+    "时间组件": "composante temporelle",
+    "状态控制": "contrôle d'état",
+    "DS3231专用": "Dédié au DS3231",
+    "DS1302专用": "Spécial pour DS1302"
+  },
+  "rtc_init": {
+    "message0": "Initialiser RTC %1 type de puce %2",
+    "tooltip": "Initialiser le module d'horloge temps réel RTC, sélectionner le type de puce",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["DS3231 (I2C)", "DS3231"],
+          ["DS1307 (I2C)", "DS1307"],
+          ["DS1302 (3 fils)", "DS1302"],
+          ["PCF8563 (I2C)", "PCF8563"]
+        ]
+      }
+    ]
+  },
+  "rtc_set_datetime": {
+    "message0": "%1 régler année %2 mois %3 jour %4 heure %5 min %6 sec %7",
+    "tooltip": "Régler la date et l'heure du RTC"
+  },
+  "rtc_set_compile_datetime": {
+    "message0": "%1 régler à l'heure de compilation",
+    "tooltip": "Régler le RTC à l'heure de compilation du programme (calibration rapide)"
+  },
+  "rtc_get_datetime": {
+    "message0": "%1 obtenir l'heure actuelle",
+    "tooltip": "Lire la date et l'heure actuelles du RTC"
+  },
+  "rtc_is_datetime_valid": {
+    "message0": "%1 l'heure est valide",
+    "tooltip": "Vérifier si l'heure stockée dans le RTC est valide"
+  },
+  "rtc_get_is_running": {
+    "message0": "%1 en fonctionnement",
+    "tooltip": "Vérifier si l'oscillateur RTC fonctionne"
+  },
+  "rtc_set_is_running": {
+    "message0": "%1 définir l'état de fonctionnement %2",
+    "tooltip": "Démarrer ou arrêter l'oscillateur RTC",
+    "args0": [ null, { "options": [["Marche", "TRUE"], ["Arrêt", "FALSE"]] } ]
+  },
+  "rtc_get_year": { "message0": "année de l'heure %1", "tooltip": "Obtenir l'année de RtcDateTime (2000-2099)" },
+  "rtc_get_month": { "message0": "mois de l'heure %1", "tooltip": "Obtenir le mois de RtcDateTime (1-12)" },
+  "rtc_get_day": { "message0": "jour de l'heure %1", "tooltip": "Obtenir le jour de RtcDateTime (1-31)" },
+  "rtc_get_hour": { "message0": "heure de l'heure %1", "tooltip": "Obtenir l'heure de RtcDateTime (0-23)" },
+  "rtc_get_minute": { "message0": "minute de l'heure %1", "tooltip": "Obtenir les minutes de RtcDateTime (0-59)" },
+  "rtc_get_second": { "message0": "seconde de l'heure %1", "tooltip": "Obtenir les secondes de RtcDateTime (0-59)" },
+  "rtc_get_day_of_week": { "message0": "jour de la semaine de %1", "tooltip": "Obtenir le jour de la semaine de RtcDateTime (0=Dim, 1=Lun, ..., 6=Sam)" },
+  "rtc_format_datetime": { "message0": "formater l'heure %1 en texte", "tooltip": "Convertir RtcDateTime au format texte AAAA/MM/JJ HH:MM:SS" },
+  "rtc_ds3231_get_temperature": {
+    "message0": "%1 lire la température %2",
+    "tooltip": "Lire la température du capteur intégré DS3231",
+    "args0": [ null, { "options": [["°C (Celsius)", "C"], ["°F (Fahrenheit)", "F"]] } ]
+  },
+  "rtc_ds1302_set_write_protect": {
+    "message0": "%1 protection en écriture %2",
+    "tooltip": "Activer ou désactiver la protection en écriture du DS1302",
+    "args0": [ null, { "options": [["Activer", "TRUE"], ["Désactiver", "FALSE"]] } ]
+  },
+  "extensions": {
+    "rtc_init_dynamic": {
+      "dat_pin": "Broche DAT",
+      "clk_pin": "Broche CLK",
+      "rst_pin": "Broche RST",
+      "sda_pin": "Broche SDA",
+      "scl_pin": "Broche SCL"
+    }
+  }
+}

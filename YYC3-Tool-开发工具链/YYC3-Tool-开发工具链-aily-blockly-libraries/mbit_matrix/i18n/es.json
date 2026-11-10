@@ -1,0 +1,164 @@
+{
+  "toolbox_name": "micro:bit Matriz LED",
+  "toolbox_labels": {
+    "初始化": "inicialización",
+    "基本操作": "Operaciones básicas",
+    "绘图": "Dibujo",
+    "图标显示": "Visualización de iconos",
+    "文本显示": "visualización de texto",
+    "位图": "mapa de bits"
+  },
+  "microbit_matrix_begin": {
+    "message0": "inicializar matriz LED micro:bit",
+    "tooltip": "Inicializar la matriz LED 5x5 del micro:bit"
+  },
+  "microbit_matrix_clear": {
+    "message0": "borrar matriz LED",
+    "tooltip": "Borrar todos los LED de la matriz"
+  },
+  "microbit_matrix_fill": {
+    "message0": "rellenar matriz LED %1",
+    "tooltip": "Encender o apagar todos los LED",
+    "args0": [
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_pixel": {
+    "message0": "dibujar píxel en x %1 y %2 %3",
+    "tooltip": "Dibujar un píxel en la posición (x, y). x e y van de 0 a 4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_line": {
+    "message0": "dibujar línea de (%1, %2) a (%3, %4) %5",
+    "tooltip": "Dibujar una línea de (x0, y0) a (x1, y1)",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_rect": {
+    "message0": "dibujar rectángulo en (%1, %2) ancho %3 alto %4 %5",
+    "tooltip": "Dibujar el contorno de un rectángulo",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_rect": {
+    "message0": "rellenar rectángulo en (%1, %2) ancho %3 alto %4 %5",
+    "tooltip": "Dibujar un rectángulo relleno",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_circle": {
+    "message0": "dibujar círculo centro (%1, %2) radio %3 %4",
+    "tooltip": "Dibujar el contorno de un círculo",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_circle": {
+    "message0": "rellenar círculo centro (%1, %2) radio %3 %4",
+    "tooltip": "Dibujar un círculo relleno",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_triangle": {
+    "message0": "dibujar triángulo (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Dibujar el contorno de un triángulo",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_triangle": {
+    "message0": "rellenar triángulo (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Dibujar un triángulo relleno",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["ENCENDIDO", "1"], ["APAGADO", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_show_icon": {
+    "message0": "mostrar icono %1",
+    "tooltip": "Mostrar un icono predefinido en la matriz LED",
+    "args0": [
+      {
+        "options": [
+          ["❤️ Corazón", "HEART"],
+          ["🤍 Corazón vacío", "EMPTYHEART"],
+          ["✓ Sí (Marca)", "YES"],
+          ["✕ No (X)", "NO"],
+          ["😊 Sonrisa", "SMILE"]
+        ]
+      }
+    ]
+  },
+  "microbit_matrix_show_bitmap": {
+    "message0": "mostrar bitmap %1",
+    "tooltip": "Mostrar un bitmap de 5 bytes en la matriz LED"
+  },
+  "microbit_matrix_print_text": {
+    "message0": "imprimir texto %1",
+    "tooltip": "Imprimir texto en la matriz LED (se desplaza si tiene más de 1 carácter)"
+  },
+  "microbit_matrix_print_number": {
+    "message0": "imprimir número %1",
+    "tooltip": "Imprimir un número en la matriz LED"
+  },
+  "microbit_matrix_scroll_text": {
+    "message0": "desplazar texto %1 velocidad %2 ms",
+    "tooltip": "Desplazar texto a través de la matriz LED"
+  },
+  "microbit_matrix_bitmap_create": {
+    "message0": "bitmap fila1 %1 fila2 %2 fila3 %3 fila4 %4 fila5 %5",
+    "tooltip": "Crear un bitmap de 5 bytes para la matriz LED. Cada fila es un byte (0-255)"
+  },
+  "microbit_matrix_bitmap_heart": {
+    "message0": "❤️ bitmap corazón",
+    "tooltip": "Bitmap del icono corazón"
+  },
+  "microbit_matrix_bitmap_empty_heart": {
+    "message0": "🤍 bitmap corazón vacío",
+    "tooltip": "Bitmap del icono corazón vacío"
+  },
+  "microbit_matrix_bitmap_yes": {
+    "message0": "✓ bitmap sí",
+    "tooltip": "Bitmap del icono sí (marca)"
+  },
+  "microbit_matrix_bitmap_no": {
+    "message0": "✕ bitmap no",
+    "tooltip": "Bitmap del icono no (X)"
+  },
+  "microbit_matrix_bitmap_smile": {
+    "message0": "😊 bitmap sonrisa",
+    "tooltip": "Bitmap del icono sonrisa"
+  }
+}

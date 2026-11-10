@@ -1,0 +1,46 @@
+{
+  "toolbox_name": "RadioLib LoRa",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "参数设置": "매개변수 설정",
+    "阻塞式通信": "통신 차단",
+    "中断式通信": "방해가 되는 의사소통",
+    "状态查询": "상태 쿼리",
+    "电源管理": "전원 관리"
+  },
+  "radiolib_lora_init": {
+    "message0": "LoRa 초기화 %1 이름 %2",
+    "message1": "핀 CS %1 IRQ %2 RST %3 GPIO %4",
+    "message2": "주파수(MHz) %1 출력(dBm) %2",
+    "tooltip": "LoRa 무선 모듈을 초기화합니다. SX127x: IRQ=DIO0, GPIO=DIO1; SX126x: IRQ=DIO1, GPIO=BUSY"
+  },
+  "radiolib_set_bandwidth": {
+    "message0": "%1 대역폭(kHz) 설정 %2",
+    "tooltip": "LoRa 대역폭 설정. 대역폭이 클수록 속도는 빠르지만 거리는 짧음",
+    "args0": [null, {"options": [["7.8","7.8"],["10.4","10.4"],["15.6","15.6"],["20.8","20.8"],["31.25","31.25"],["41.7","41.7"],["62.5","62.5"],["125","125.0"],["250","250.0"],["500","500.0"]]}]
+  },
+  "radiolib_set_spreading_factor": {
+    "message0": "%1 확산 계수 설정 %2",
+    "tooltip": "LoRa 확산 계수(6-12) 설정. 값이 클수록 거리는 길지만 속도는 느림",
+    "args0": [null, {"options": [["6","6"],["7","7"],["8","8"],["9","9"],["10","10"],["11","11"],["12","12"]]}]
+  },
+  "radiolib_set_coding_rate": {
+    "message0": "%1 코딩률 설정 %2",
+    "tooltip": "LoRa 코딩률 설정. 값이 클수록 오류 정정 능력이 강하지만 속도는 느림",
+    "args0": [null, {"options": [["4/5","5"],["4/6","6"],["4/7","7"],["4/8","8"]]}]
+  },
+  "radiolib_set_frequency": { "message0": "%1 주파수(MHz) 설정 %2", "tooltip": "반송파 주파수 설정" },
+  "radiolib_set_power": { "message0": "%1 송신 출력(dBm) 설정 %2", "tooltip": "송신 출력 설정" },
+  "radiolib_set_sync_word": { "message0": "%1 동기 워드 설정 %2", "tooltip": "LoRa 동기 워드 설정. 송수신이 일치해야 함" },
+  "radiolib_transmit": { "message0": "%1 메시지 전송 %2", "tooltip": "텍스트 메시지 전송(블로킹 모드)" },
+  "radiolib_receive": { "message0": "%1 메시지 수신", "tooltip": "메시지 수신(블로킹 모드)" },
+  "radiolib_on_receive": { "message0": "%1 이(가) 데이터를 수신하면", "message1": "실행 %1", "tooltip": "LoRa 모듈이 패킷을 수신하면 콜백 실행" },
+  "radiolib_start_receive": { "message0": "%1 수신 시작", "tooltip": "비동기 수신 모드 시작" },
+  "radiolib_received_data": { "message0": "%1 수신된 데이터", "tooltip": "수신 콜백에서 데이터 가져오기" },
+  "radiolib_received_rssi": { "message0": "%1 수신 RSSI", "tooltip": "수신 콜백에서 RSSI 가져오기" },
+  "radiolib_received_snr": { "message0": "%1 수신 SNR", "tooltip": "수신 콜백에서 SNR 가져오기" },
+  "radiolib_get_rssi": { "message0": "%1 RSSI 가져오기", "tooltip": "마지막 수신의 RSSI 가져오기" },
+  "radiolib_get_snr": { "message0": "%1 SNR 가져오기", "tooltip": "마지막 수신의 SNR 가져오기" },
+  "radiolib_sleep": { "message0": "%1 슬립 모드 진입", "tooltip": "저전력 슬립 모드" },
+  "radiolib_standby": { "message0": "%1 대기 모드 진입", "tooltip": "대기 모드, 빠른 복귀 가능" }
+}

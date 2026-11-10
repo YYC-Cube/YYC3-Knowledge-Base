@@ -1,0 +1,84 @@
+{
+  "toolbox_name": "AS3935",
+  "as3935_init_i2c": {
+    "message0": "Inicializar AS3935 I2C %1 endereço %2",
+    "tooltip": "Inicializar o sensor de relâmpago SparkFun AS3935 via I2C"
+  },
+  "as3935_init_spi": {
+    "message0": "Inicializar AS3935 SPI %1 CS %2",
+    "tooltip": "Inicializar AS3935 via SPI"
+  },
+  "as3935_is_ready": {
+    "message0": "AS3935 %1 inicializado",
+    "tooltip": "Retorna o estado de init AS3935"
+  },
+  "as3935_set_environment": {
+    "message0": "AS3935 %1 ambiente %2",
+    "tooltip": "Define o modo interior ou exterior AS3935",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Interior",
+            "AS3935_INDOOR"
+          ],
+          [
+            "Exterior",
+            "AS3935_OUTDOOR"
+          ]
+        ]
+      }
+    ]
+  },
+  "as3935_read_interrupt": {
+    "message0": "AS3935 %1 ler fonte interrupção",
+    "tooltip": "Lê o registo de fonte de interrupção AS3935"
+  },
+  "as3935_distance": {
+    "message0": "AS3935 %1 distância relâmpago km",
+    "tooltip": "Lê a distância estimada do relâmpago em km"
+  },
+  "as3935_energy": {
+    "message0": "AS3935 %1 energia relâmpago",
+    "tooltip": "Lê o valor de energia estimado do relâmpago"
+  },
+  "as3935_set_watchdog": {
+    "message0": "Limiar watchdog AS3935 %1 %2",
+    "tooltip": "Define o limiar de sensibilidade watchdog AS3935 (1-10)"
+  },
+  "as3935_set_noise": {
+    "message0": "Nível ruído AS3935 %1 %2",
+    "tooltip": "Define o nível de ruído AS3935 (1-7)"
+  },
+  "as3935_set_spike": {
+    "message0": "Rejeição transitório AS3935 %1 %2",
+    "tooltip": "Define o valor de rejeição de transitório AS3935"
+  },
+  "as3935_set_lightning_threshold": {
+    "message0": "Limiar relâmpago AS3935 %1 %2",
+    "tooltip": "Define o número mínimo de relâmpagos antes de interrupção"
+  },
+  "as3935_mask_disturber": {
+    "message0": "AS3935 %1 mascarar perturbador %2",
+    "tooltip": "Ativar/desativar a máscara de perturbador AS3935",
+    "args0": [
+      {
+        "options": [
+          [
+            "Ligar",
+            "ON"
+          ],
+          [
+            "Desligar",
+            "OFF"
+          ]
+        ]
+      }
+    ]
+  },
+  "as3935_calibrate": {
+    "message0": "AS3935 %1 calibrar",
+    "tooltip": "Calibrar manualmente a ressonância de antena AS3935"
+  }
+}

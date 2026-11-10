@@ -1,0 +1,219 @@
+{
+  "toolbox_name": "Weather Data",
+  "toolbox_labels": {
+    "初始化与配置": "Initialization and configuration",
+    "当前天气": "Current weather",
+    "天气预报": "weather forecast",
+    "空气质量": "air quality",
+    "地理编码": "Geocoding",
+    "工具": "Tools"
+  },
+  "owm_init": {
+    "message0": "Initialize weather service %1 API key %2",
+    "tooltip": "Initialize OpenWeatherMap service, requires an API key"
+  },
+  "owm_set_units": {
+    "message0": "Set weather %1 units to %2",
+    "tooltip": "Set the unit system for temperature and wind speed",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Metric (Celsius)", "OWM_UNITS_METRIC"],
+          ["Imperial (Fahrenheit)", "OWM_UNITS_IMPERIAL"],
+          ["Standard (Kelvin)", "OWM_UNITS_STANDARD"]
+        ]
+      }
+    ]
+  },
+  "owm_set_language": {
+    "message0": "Set weather %1 language to %2",
+    "tooltip": "Set the language of weather descriptions",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Chinese", "zh_cn"],
+          ["English", "en"],
+          ["Japanese", "ja"],
+          ["Korean", "kr"],
+          ["German", "de"],
+          ["French", "fr"],
+          ["Spanish", "es"],
+          ["Russian", "ru"]
+        ]
+      }
+    ]
+  },
+  "owm_set_debug": {
+    "message0": "Set weather %1 debug mode %2",
+    "tooltip": "Enable or disable debug output",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["On", "true"],
+          ["Off", "false"]
+        ]
+      }
+    ]
+  },
+  "owm_get_weather_by_city": {
+    "message0": "Weather %1 request city weather city %2 country code %3",
+    "tooltip": "Request current weather data by city name"
+  },
+  "owm_get_weather_by_coords": {
+    "message0": "Weather %1 request weather by coordinates lat %2 lon %3",
+    "tooltip": "Request current weather data by latitude and longitude"
+  },
+  "owm_request_success": {
+    "message0": "Weather %1 request success?",
+    "tooltip": "Check if the last weather request was successful"
+  },
+  "owm_weather_data": {
+    "message0": "Weather %1 get %2",
+    "tooltip": "Get current weather data fields",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["City name", "name"],
+          ["Country code", "country"],
+          ["Weather main", "weather_main"],
+          ["Weather description", "weather_description"],
+          ["Weather icon", "weather_icon"],
+          ["Temperature", "temp"],
+          ["Feels like", "feels_like"],
+          ["Min temperature", "temp_min"],
+          ["Max temperature", "temp_max"],
+          ["Humidity (%)", "humidity"],
+          ["Pressure (hPa)", "pressure"],
+          ["Wind speed", "wind_speed"],
+          ["Wind direction (°)", "wind_deg"],
+          ["Cloud cover (%)", "clouds"],
+          ["Visibility (m)", "visibility"],
+          ["Sunrise time", "sunrise"],
+          ["Sunset time", "sunset"]
+        ]
+      }
+    ]
+  },
+  "owm_get_forecast": {
+    "message0": "Weather %1 request forecast lat %2 lon %3 count %4",
+    "tooltip": "Request 5-day/3-hour forecast, count 0 for all (max 40)"
+  },
+  "owm_get_forecast_by_city": {
+    "message0": "Weather %1 request city forecast city %2 country code %3 count %4",
+    "tooltip": "Request 5-day forecast by city name"
+  },
+  "owm_forecast_request_success": {
+    "message0": "Weather %1 forecast request success?",
+    "tooltip": "Check if the last forecast request was successful"
+  },
+  "owm_forecast_count": {
+    "message0": "Weather %1 forecast time point count",
+    "tooltip": "Get the number of time points in forecast data"
+  },
+  "owm_forecast_data": {
+    "message0": "Weather %1 forecast #%2 get %3",
+    "tooltip": "Get forecast data for a specific time point (index starts from 0)",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["Date/time text", "dt_txt"],
+          ["Weather main", "weather_main"],
+          ["Weather description", "weather_description"],
+          ["Temperature", "temp"],
+          ["Feels like", "feels_like"],
+          ["Min temperature", "temp_min"],
+          ["Max temperature", "temp_max"],
+          ["Humidity (%)", "humidity"],
+          ["Pressure (hPa)", "pressure"],
+          ["Wind speed", "wind_speed"],
+          ["Cloud cover (%)", "clouds"],
+          ["Precipitation probability", "pop"],
+          ["3h rain volume", "rain_3h"],
+          ["3h snow volume", "snow_3h"]
+        ]
+      }
+    ]
+  },
+  "owm_get_air_pollution": {
+    "message0": "Weather %1 request air quality lat %2 lon %3",
+    "tooltip": "Request current air pollution data for a location"
+  },
+  "owm_air_pollution_request_success": {
+    "message0": "Weather %1 air quality request success?",
+    "tooltip": "Check if the last air pollution request was successful"
+  },
+  "owm_air_pollution_data": {
+    "message0": "Weather %1 air %2",
+    "tooltip": "Get air pollution data fields",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Air Quality Index (1-5)", "aqi"],
+          ["CO (μg/m³)", "co"],
+          ["NO (μg/m³)", "no"],
+          ["NO₂ (μg/m³)", "no2"],
+          ["O₃ (μg/m³)", "o3"],
+          ["SO₂ (μg/m³)", "so2"],
+          ["PM2.5 (μg/m³)", "pm2_5"],
+          ["PM10 (μg/m³)", "pm10"],
+          ["NH₃ (μg/m³)", "nh3"]
+        ]
+      }
+    ]
+  },
+  "owm_aqi_description": {
+    "message0": "AQI description index %1",
+    "tooltip": "Convert Air Quality Index (1-5) to description text"
+  },
+  "owm_get_coords_by_city": {
+    "message0": "Weather %1 get city coordinates city %2 country code %3",
+    "tooltip": "Request geographic coordinates by city name"
+  },
+  "owm_get_coords_by_zip": {
+    "message0": "Weather %1 get zip coordinates zip %2 country code %3",
+    "tooltip": "Request geographic coordinates by postal code"
+  },
+  "owm_get_location_by_coords": {
+    "message0": "Weather %1 reverse geocode lat %2 lon %3",
+    "tooltip": "Request location info by latitude and longitude"
+  },
+  "owm_geo_request_success": {
+    "message0": "Weather %1 geocoding request success?",
+    "tooltip": "Check if the last geocoding request was successful"
+  },
+  "owm_geo_data": {
+    "message0": "Weather %1 location %2",
+    "tooltip": "Get geocoding location data",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["City name", "name"],
+          ["Country code", "country"],
+          ["State/Province", "state"],
+          ["Latitude", "lat"],
+          ["Longitude", "lon"]
+        ]
+      }
+    ]
+  },
+  "owm_get_icon_url": {
+    "message0": "Weather icon URL icon code %1",
+    "tooltip": "Get weather icon URL from icon code"
+  },
+  "owm_get_last_error": {
+    "message0": "Weather %1 last error message",
+    "tooltip": "Get the error message of the last operation"
+  },
+  "owm_get_http_code": {
+    "message0": "Weather %1 last HTTP code",
+    "tooltip": "Get the HTTP response code of the last request"
+  }
+}

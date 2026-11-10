@@ -1,0 +1,96 @@
+{
+  "kind": "category",
+  "name": "TB6612FNG 电机驱动",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_init"
+    },
+    {
+      "kind": "label",
+      "text": "直流电机"
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_dc_run",
+      "inputs": {
+        "SPEED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "255"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_dc_brake"
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_dc_stop"
+    },
+    {
+      "kind": "label",
+      "text": "步进电机"
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_stepper_run",
+      "inputs": {
+        "STEPS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "200"
+            }
+          }
+        },
+        "RPM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "120"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_stepper_keep_run",
+      "inputs": {
+        "RPM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "120"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_stepper_stop"
+    },
+    {
+      "kind": "label",
+      "text": "电源管理"
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_standby"
+    },
+    {
+      "kind": "block",
+      "type": "tb6612fng_not_standby"
+    }
+  ]
+}

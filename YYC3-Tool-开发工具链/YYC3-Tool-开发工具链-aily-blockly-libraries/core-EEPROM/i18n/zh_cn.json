@@ -1,0 +1,13 @@
+{
+  "eeprom_get": {"message0": "从EEPROM地址 %1 读取到变量 %2"},
+  "toolbox_name": "EEPROM",
+  "eeprom_read": {
+    "message0": "读取EEPROM 地址%1"
+  },
+  "eeprom_length": {
+    "message0": "EEPROM空间大小"
+  },
+  "eeprom_write": {
+    "message0": "向EEPROM地址 %1 写入 %2"
+  }
+}

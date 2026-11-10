@@ -1,0 +1,219 @@
+{
+  "toolbox_name": "氣象數據",
+  "toolbox_labels": {
+    "初始化与配置": "初始化與配置",
+    "当前天气": "目前天氣",
+    "天气预报": "天氣預報",
+    "空气质量": "空氣品質",
+    "地理编码": "地理編碼",
+    "工具": "工具"
+  },
+  "owm_init": {
+    "message0": "初始化天氣服務 %1 API密鑰 %2",
+    "tooltip": "初始化OpenWeatherMap服務，需要提供API密鑰"
+  },
+  "owm_set_units": {
+    "message0": "設定天氣 %1 單位為 %2",
+    "tooltip": "設定溫度和風速的單位系統",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["公制 (攝氏度)", "OWM_UNITS_METRIC"],
+          ["英制 (華氏度)", "OWM_UNITS_IMPERIAL"],
+          ["標準 (開爾文)", "OWM_UNITS_STANDARD"]
+        ]
+      }
+    ]
+  },
+  "owm_set_language": {
+    "message0": "設定天氣 %1 語言為 %2",
+    "tooltip": "設定天氣描述的語言",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["中文", "zh_cn"],
+          ["英文", "en"],
+          ["日文", "ja"],
+          ["韓文", "kr"],
+          ["德文", "de"],
+          ["法文", "fr"],
+          ["西班牙文", "es"],
+          ["俄文", "ru"]
+        ]
+      }
+    ]
+  },
+  "owm_set_debug": {
+    "message0": "設定天氣 %1 調試模式 %2",
+    "tooltip": "開啟或關閉調試輸出",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["開啟", "true"],
+          ["關閉", "false"]
+        ]
+      }
+    ]
+  },
+  "owm_get_weather_by_city": {
+    "message0": "天氣 %1 請求城市天氣 城市 %2 國家代碼 %3",
+    "tooltip": "通過城市名稱請求當前天氣數據"
+  },
+  "owm_get_weather_by_coords": {
+    "message0": "天氣 %1 請求座標天氣 緯度 %2 經度 %3",
+    "tooltip": "通過經緯度座標請求當前天氣數據"
+  },
+  "owm_request_success": {
+    "message0": "天氣 %1 請求成功?",
+    "tooltip": "判斷最後一次請求是否成功"
+  },
+  "owm_weather_data": {
+    "message0": "天氣 %1 的 %2",
+    "tooltip": "獲取當前天氣的各項數據",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["城市名稱", "name"],
+          ["國家代碼", "country"],
+          ["天氣主類型", "weather_main"],
+          ["天氣描述", "weather_description"],
+          ["天氣圖標", "weather_icon"],
+          ["當前溫度", "temp"],
+          ["體感溫度", "feels_like"],
+          ["最低溫度", "temp_min"],
+          ["最高溫度", "temp_max"],
+          ["濕度(%)", "humidity"],
+          ["氣壓(hPa)", "pressure"],
+          ["風速", "wind_speed"],
+          ["風向(度)", "wind_deg"],
+          ["雲量(%)", "clouds"],
+          ["能見度(米)", "visibility"],
+          ["日出時間", "sunrise"],
+          ["日落時間", "sunset"]
+        ]
+      }
+    ]
+  },
+  "owm_get_forecast": {
+    "message0": "天氣 %1 請求天氣預報 緯度 %2 經度 %3 時間點數量 %4",
+    "tooltip": "請求5天/3小時天氣預報，時間點數量0表示獲取全部(最多40個)"
+  },
+  "owm_get_forecast_by_city": {
+    "message0": "天氣 %1 請求城市預報 城市 %2 國家代碼 %3 時間點數量 %4",
+    "tooltip": "通過城市名稱請求5天天氣預報"
+  },
+  "owm_forecast_request_success": {
+    "message0": "天氣 %1 預報請求成功?",
+    "tooltip": "判斷最後一次天氣預報請求是否成功"
+  },
+  "owm_forecast_count": {
+    "message0": "天氣 %1 預報時間點數量",
+    "tooltip": "獲取預報數據中的時間點數量"
+  },
+  "owm_forecast_data": {
+    "message0": "天氣 %1 第 %2 個預報的 %3",
+    "tooltip": "獲取指定時間點的預報數據(索引從0開始)",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["時間文字", "dt_txt"],
+          ["天氣主類型", "weather_main"],
+          ["天氣描述", "weather_description"],
+          ["溫度", "temp"],
+          ["體感溫度", "feels_like"],
+          ["最低溫度", "temp_min"],
+          ["最高溫度", "temp_max"],
+          ["濕度(%)", "humidity"],
+          ["氣壓(hPa)", "pressure"],
+          ["風速", "wind_speed"],
+          ["雲量(%)", "clouds"],
+          ["降水概率", "pop"],
+          ["3小時降雨量", "rain_3h"],
+          ["3小時降雪量", "snow_3h"]
+        ]
+      }
+    ]
+  },
+  "owm_get_air_pollution": {
+    "message0": "天氣 %1 請求空氣質量 緯度 %2 經度 %3",
+    "tooltip": "請求指定位置的當前空氣質量數據"
+  },
+  "owm_air_pollution_request_success": {
+    "message0": "天氣 %1 空氣質量請求成功?",
+    "tooltip": "判斷最後一次空氣質量請求是否成功"
+  },
+  "owm_air_pollution_data": {
+    "message0": "天氣 %1 的空氣 %2",
+    "tooltip": "獲取空氣質量的各項數據",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["空氣質量指數(1-5)", "aqi"],
+          ["一氧化碳(μg/m³)", "co"],
+          ["一氧化氮(μg/m³)", "no"],
+          ["二氧化氮(μg/m³)", "no2"],
+          ["臭氧(μg/m³)", "o3"],
+          ["二氧化硫(μg/m³)", "so2"],
+          ["PM2.5(μg/m³)", "pm2_5"],
+          ["PM10(μg/m³)", "pm10"],
+          ["氨(μg/m³)", "nh3"]
+        ]
+      }
+    ]
+  },
+  "owm_aqi_description": {
+    "message0": "空氣質量描述 指數 %1",
+    "tooltip": "將空氣質量指數(1-5)轉換為描述文字"
+  },
+  "owm_get_coords_by_city": {
+    "message0": "天氣 %1 請求城市座標 城市 %2 國家代碼 %3",
+    "tooltip": "通過城市名稱請求地理座標"
+  },
+  "owm_get_coords_by_zip": {
+    "message0": "天氣 %1 請求郵編座標 郵編 %2 國家代碼 %3",
+    "tooltip": "通過郵政編碼請求地理座標"
+  },
+  "owm_get_location_by_coords": {
+    "message0": "天氣 %1 請求反向位置 緯度 %2 經度 %3",
+    "tooltip": "通過經緯度請求反向位置資訊"
+  },
+  "owm_geo_request_success": {
+    "message0": "天氣 %1 地理編碼請求成功?",
+    "tooltip": "判斷最後一次地理編碼請求是否成功"
+  },
+  "owm_geo_data": {
+    "message0": "天氣 %1 的位置 %2",
+    "tooltip": "獲取查詢到的位置資訊",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["城市名稱", "name"],
+          ["國家代碼", "country"],
+          ["州/省", "state"],
+          ["緯度", "lat"],
+          ["經度", "lon"]
+        ]
+      }
+    ]
+  },
+  "owm_get_icon_url": {
+    "message0": "天氣圖標URL 圖標代碼 %1",
+    "tooltip": "根據天氣圖標代碼獲取圖標URL"
+  },
+  "owm_get_last_error": {
+    "message0": "天氣 %1 最後錯誤訊息",
+    "tooltip": "獲取最後一次操作的錯誤訊息"
+  },
+  "owm_get_http_code": {
+    "message0": "天氣 %1 最後HTTP代碼",
+    "tooltip": "獲取最後一次HTTP請求的回應代碼"
+  }
+}

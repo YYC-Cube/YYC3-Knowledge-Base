@@ -1,0 +1,91 @@
+{
+  "toolbox_name": "LIS3DHTR مقياس التسارع",
+  "toolbox_labels": {
+    "初始化与配置": "التهيئة والإعدادات",
+    "加速度读取": "قراءة التسارع",
+    "敲击检测": "كشف النقر",
+    "温度传感器": "مستشعر الحرارة",
+    "ADC 读取": "قراءة ADC",
+    "状态与信息": "الحالة والمعلومات"
+  },
+  "lis3dhtr_init": {
+    "message0": "تهيئة مقياس التسارع LIS3DHTR I2C %1 عنوان %2",
+    "tooltip": "تهيئة مستشعر التسارع LIS3DHTR (وضع I2C)، العنوان الافتراضي 0x18. ⚠️ يجب استخدام Wire1 لـ Wio Terminal"
+  },
+  "lis3dhtr_init_simplified": {
+    "message0": "تهيئة شاملة LIS3DHTR I2C %1 عنوان %2 معدل بيانات %3 نطاق %4 دقة عالية %5",
+    "tooltip": "تهيئة وتكوين LIS3DHTR في خطوة واحدة. يُوصى بفاصل قراءة ≥ 50ms"
+  },
+  "lis3dhtr_set_datarate": {
+    "message0": "تعيين معدل بيانات الإخراج %1",
+    "tooltip": "تعيين معدل بيانات الإخراج لمقياس التسارع"
+  },
+  "lis3dhtr_set_full_scale_range": {
+    "message0": "تعيين نطاق القياس %1",
+    "tooltip": "تعيين نطاق قياس مقياس التسارع"
+  },
+  "lis3dhtr_set_resolution": {
+    "message0": "تعيين وضع الدقة العالية %1",
+    "tooltip": "تمكين/تعطيل وضع الإخراج عالي الدقة"
+  },
+  "lis3dhtr_set_power_mode": {
+    "message0": "تعيين وضع الطاقة %1",
+    "tooltip": "تعيين وضع طاقة المستشعر"
+  },
+  "lis3dhtr_get_acceleration": {
+    "message0": "قراءة تسارع المحور %1 (g)",
+    "tooltip": "قراءة قيمة التسارع للمحور المحدد (الوحدة: g)"
+  },
+  "lis3dhtr_get_acceleration_x": {
+    "message0": "قراءة تسارع المحور X (g)",
+    "tooltip": "قراءة قيمة تسارع المحور X"
+  },
+  "lis3dhtr_get_acceleration_y": {
+    "message0": "قراءة تسارع المحور Y (g)",
+    "tooltip": "قراءة قيمة تسارع المحور Y"
+  },
+  "lis3dhtr_get_acceleration_z": {
+    "message0": "قراءة تسارع المحور Z (g)",
+    "tooltip": "قراءة قيمة تسارع المحور Z"
+  },
+  "lis3dhtr_get_acceleration_xyz": {
+    "message0": "الحصول على تسارع 3 محاور X: %1 Y: %2 Z: %3",
+    "tooltip": "قراءة جميع المحاور الثلاثة في وقت واحد وتخزينها في المتغيرات المحددة"
+  },
+  "lis3dhtr_available": {
+    "message0": "بيانات التسارع جاهزة",
+    "tooltip": "التحقق من توفر بيانات تسارع جديدة"
+  },
+  "lis3dhtr_open_temp": {
+    "message0": "تمكين مستشعر الحرارة",
+    "tooltip": "تمكين مستشعر الحرارة المدمج في LIS3DHTR"
+  },
+  "lis3dhtr_close_temp": {
+    "message0": "تعطيل مستشعر الحرارة",
+    "tooltip": "تعطيل مستشعر الحرارة المدمج في LIS3DHTR"
+  },
+  "lis3dhtr_get_temperature": {
+    "message0": "قراءة الحرارة (°C)",
+    "tooltip": "قراءة بيانات الحرارة، يجب تمكين مستشعر الحرارة أولاً"
+  },
+  "lis3dhtr_read_adc": {
+    "message0": "قراءة قناة ADC %1",
+    "tooltip": "قراءة بيانات قناة ADC المحددة"
+  },
+  "lis3dhtr_is_connection": {
+    "message0": "المستشعر متصل",
+    "tooltip": "التحقق من اتصال مستشعر LIS3DHTR بشكل صحيح (معرف الجهاز == 0x33)"
+  },
+  "lis3dhtr_get_device_id": {
+    "message0": "الحصول على معرف الجهاز",
+    "tooltip": "قراءة معرف جهاز LIS3DHTR (القيمة الطبيعية 0x33)"
+  },
+  "lis3dhtr_reset": {
+    "message0": "إعادة تعيين المستشعر",
+    "tooltip": "إعادة تعيين مستشعر LIS3DHTR إلى الحالة الافتراضية"
+  },
+  "lis3dhtr_on_tap": {
+    "message0": "عند اكتشاف %1 نقرة عتبة %2 دبوس المقاطعة %3",
+    "tooltip": "تكوين كشف النقر ومعالج المقاطعة. العتبات الموصى بها: نطاق 2G 40-80، 4G 20-40، 8G 10-20، 16G 5-10"
+  }
+}

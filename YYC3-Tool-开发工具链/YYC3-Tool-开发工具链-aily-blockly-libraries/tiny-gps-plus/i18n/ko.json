@@ -1,0 +1,140 @@
+{
+  "toolbox_name": "GPS 위치",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "数据读取": "데이터 읽기",
+    "位置信息": "위치정보",
+    "时间日期": "시간 날짜",
+    "运动信息": "스포츠 정보",
+    "信号状态": "신호 상태",
+    "工具": "도구"
+  },
+  "gps_init": {
+    "message0": "GPS 모듈 초기화 %1 시리얼 %2 보드레이트 %3",
+    "tooltip": "TinyGPS++ 모듈 초기화, GPS에 연결할 시리얼 포트와 보드레이트 선택",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      },
+      {
+        "options": [
+          ["9600", "9600"],
+          ["4800", "4800"],
+          ["19200", "19200"],
+          ["38400", "38400"],
+          ["57600", "57600"],
+          ["115200", "115200"]
+        ]
+      }
+    ]
+  },
+  "gps_update": {
+    "message0": "GPS 데이터 읽기 %1",
+    "tooltip": "시리얼에서 GPS 데이터를 읽고 파싱, loop에서 반복 호출 필요"
+  },
+  "gps_location": {
+    "message0": "GPS %1 %2",
+    "tooltip": "GPS 위도 또는 경도 값 가져오기",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["위도", "LAT"],
+          ["경도", "LNG"]
+        ]
+      }
+    ]
+  },
+  "gps_date": {
+    "message0": "GPS %1 날짜 %2",
+    "tooltip": "GPS 날짜의 연, 월, 일 가져오기",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["연", "YEAR"],
+          ["월", "MONTH"],
+          ["일", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gps_time": {
+    "message0": "GPS %1 시간 %2",
+    "tooltip": "GPS 시간의 시, 분, 초 가져오기",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["시", "HOUR"],
+          ["분", "MINUTE"],
+          ["초", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gps_speed": {
+    "message0": "GPS %1 속도 %2",
+    "tooltip": "GPS 속도 값 가져오기",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["km/h", "KMPH"],
+          ["mph", "MPH"],
+          ["m/s", "MPS"],
+          ["노트", "KNOTS"]
+        ]
+      }
+    ]
+  },
+  "gps_altitude": {
+    "message0": "GPS %1 고도 %2",
+    "tooltip": "GPS 고도 값 가져오기",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["미터", "METERS"],
+          ["킬로미터", "KM"],
+          ["피트", "FEET"]
+        ]
+      }
+    ]
+  },
+  "gps_satellites": {
+    "message0": "GPS %1 위성 수",
+    "tooltip": "현재 연결된 위성 수 가져오기"
+  },
+  "gps_course": {
+    "message0": "GPS %1 방위각",
+    "tooltip": "GPS 방위각 가져오기(0-360도)"
+  },
+  "gps_hdop": {
+    "message0": "GPS %1 수평정밀도",
+    "tooltip": "HDOP(수평정밀도 저하율) 가져오기, 낮을수록 정확도가 높음"
+  },
+  "gps_is_valid": {
+    "message0": "GPS %1 %2 유효?",
+    "tooltip": "GPS 데이터가 유효한지 확인",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["위치", "LOCATION"],
+          ["날짜", "DATE"],
+          ["시간", "TIME"]
+        ]
+      }
+    ]
+  },
+  "gps_distance_between": {
+    "message0": "두 점 간 거리(m)\n위도1 %1 경도1 %2\n위도2 %3 경도2 %4",
+    "tooltip": "지구상 두 GPS 좌표 사이의 거리(미터) 계산"
+  },
+  "gps_course_to": {
+    "message0": "두 점 간 방위\n위도1 %1 경도1 %2\n위도2 %3 경도2 %4",
+    "tooltip": "첫 번째 GPS 좌표에서 두 번째 GPS 좌표까지의 방위각 계산"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "kind": "category",
+  "name": "蓝牙串口(BT Serial)",
+  "icon": "fa-light fa-bluetooth",
+  "colour": "#1565C0",
+  "contents": [
+    { "kind": "label", "text": "初始化" },
+    { "kind": "block", "type": "esp32_btserial_begin", "inputs": { "NAME": { "shadow": { "type": "text", "fields": { "TEXT": "ESP32" } } } } },
+    { "kind": "block", "type": "esp32_btserial_end" },
+    { "kind": "block", "type": "esp32_btserial_set_pin", "inputs": { "PIN": { "shadow": { "type": "text", "fields": { "TEXT": "1234" } } } } },
+    { "kind": "label", "text": "发送数据" },
+    { "kind": "block", "type": "esp32_btserial_println", "inputs": { "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "Hello" } } } } },
+    { "kind": "block", "type": "esp32_btserial_print", "inputs": { "DATA": { "shadow": { "type": "text", "fields": { "TEXT": "Hello" } } } } },
+    { "kind": "block", "type": "esp32_btserial_write", "inputs": { "DATA": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } } } },
+    { "kind": "label", "text": "接收数据" },
+    { "kind": "block", "type": "esp32_btserial_available" },
+    { "kind": "block", "type": "esp32_btserial_read_string" },
+    { "kind": "block", "type": "esp32_btserial_read_byte" },
+    { "kind": "label", "text": "连接状态" },
+    { "kind": "block", "type": "esp32_btserial_connected" },
+    { "kind": "block", "type": "esp32_btserial_has_client" },
+    { "kind": "block", "type": "esp32_btserial_disconnect" },
+    { "kind": "block", "type": "esp32_btserial_get_address" }
+  ]
+}

@@ -1,0 +1,91 @@
+name: Generate i18n Files
+
+on:
+  push:
+    branches:
+      - main-disabled
+
+permissions:
+  contents: write
+
+jobs:
+  generate-i18n:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+        
+      - name: Install dependencies for custom action
+        run: cd .github/actions/geni18n && npm install
+
+      - name: Install jq
+        run: sudo apt-get install jq
+
+      - name: Identify directories needing i18n files
+        id: identify_dirs
+        run: |
+          echo "Scanning directories for package.json files..."
+          
+          # 创建数组存储需要i18n生成的目录
+          DIRS_TO_PROCESS=()
+          
+          # 使用进程替换而非管道
+          while read -r pkg_path; do
+            dir_path=$(dirname "$pkg_path")
+            
+            # 跳过根目录的package.json
+            if [ "$dir_path" == "." ]; then
+              continue
+            fi
+            
+            echo "Checking directory: $dir_path"
+            
+            # 检查i18n文件夹是否存在
+            if [ ! -d "${dir_path}/i18n" ]; then
+              # 检查package.json中"tested": true
+              if jq -e '.tested == true' "$pkg_path" > /dev/null; then
+                echo "Directory needs i18n files: ${dir_path}"
+                DIRS_TO_PROCESS+=("$dir_path")
+              else
+                echo "Skipping $dir_path: 'tested' is not true in package.json"
+              fi
+            else
+              echo "i18n folder already exists in $dir_path, skipping"
+            fi
+          done < <(find . -name "package.json")
+          
+          # 创建目录的JSON数组
+          JSON_DIRS=$(printf '%s\n' "${DIRS_TO_PROCESS[@]}" | jq -R . | jq -cs .)
+          echo "dirs=$JSON_DIRS" >> $GITHUB_OUTPUT
+          echo "Directories to process: $JSON_DIRS"
+
+      - name: Generate i18n files
+        uses: ./.github/actions/geni18n
+        with:
+          directories: ${{ steps.identify_dirs.outputs.dirs }}
+          readme: i18n.md
+          llmModel: ${{ secrets.LLM_MODEL }}
+          llmKey: ${{ secrets.LLM_KEY }}
+          llmBaseUrl: ${{ secrets.LLM_BASE_URL }}
+      
+      - name: Check for changes
+        id: git-check
+        run: |
+          git status --porcelain
+          echo "changes=$(git status --porcelain | grep -v "\.github/" | wc -l)" >> $GITHUB_OUTPUT
+          
+      - name: Commit and push i18n files
+        if: steps.git-check.outputs.changes > 0
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add -A -- . ':!.github'
+          git commit -m "Auto-generate i18n files [skip ci]"
+          git remote set-url origin https://${{ secrets.ACTIONS_GIT }}@github.com/ailyProject/aily-blockly-libraries.git
+          git push

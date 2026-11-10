@@ -1,0 +1,164 @@
+{
+  "toolbox_name": "micro:bit LED матрица",
+  "toolbox_labels": {
+    "初始化": "инициализация",
+    "基本操作": "Основные операции",
+    "绘图": "Рисование",
+    "图标显示": "Отображение значков",
+    "文本显示": "текстовый дисплей",
+    "位图": "Растровое изображение"
+  },
+  "microbit_matrix_begin": {
+    "message0": "инициализировать LED матрицу micro:bit",
+    "tooltip": "Инициализировать LED матрицу 5x5 на micro:bit"
+  },
+  "microbit_matrix_clear": {
+    "message0": "очистить LED матрицу",
+    "tooltip": "Очистить все светодиоды на матрице"
+  },
+  "microbit_matrix_fill": {
+    "message0": "заполнить LED матрицу %1",
+    "tooltip": "Включить или выключить все светодиоды",
+    "args0": [
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_pixel": {
+    "message0": "нарисовать пиксель x %1 y %2 %3",
+    "tooltip": "Нарисовать один пиксель в позиции (x, y). x и y от 0 до 4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_line": {
+    "message0": "нарисовать линию от (%1, %2) до (%3, %4) %5",
+    "tooltip": "Нарисовать линию от (x0, y0) до (x1, y1)",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_rect": {
+    "message0": "нарисовать прямоугольник в (%1, %2) ширина %3 высота %4 %5",
+    "tooltip": "Нарисовать контур прямоугольника",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_rect": {
+    "message0": "залить прямоугольник в (%1, %2) ширина %3 высота %4 %5",
+    "tooltip": "Нарисовать залитый прямоугольник",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_circle": {
+    "message0": "нарисовать круг центр (%1, %2) радиус %3 %4",
+    "tooltip": "Нарисовать контур круга",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_circle": {
+    "message0": "залить круг центр (%1, %2) радиус %3 %4",
+    "tooltip": "Нарисовать залитый круг",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_triangle": {
+    "message0": "нарисовать треугольник (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Нарисовать контур треугольника",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_triangle": {
+    "message0": "залить треугольник (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Нарисовать залитый треугольник",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["ВКЛ", "1"], ["ВЫКЛ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_show_icon": {
+    "message0": "показать значок %1",
+    "tooltip": "Показать предустановленный значок на LED матрице",
+    "args0": [
+      {
+        "options": [
+          ["❤️ Сердце", "HEART"],
+          ["🤍 Пустое сердце", "EMPTYHEART"],
+          ["✓ Да (Галочка)", "YES"],
+          ["✕ Нет (X)", "NO"],
+          ["😊 Улыбка", "SMILE"]
+        ]
+      }
+    ]
+  },
+  "microbit_matrix_show_bitmap": {
+    "message0": "показать bitmap %1",
+    "tooltip": "Показать 5-байтовый bitmap на LED матрице"
+  },
+  "microbit_matrix_print_text": {
+    "message0": "вывести текст %1",
+    "tooltip": "Вывести текст на LED матрице (прокручивается, если больше 1 символа)"
+  },
+  "microbit_matrix_print_number": {
+    "message0": "вывести число %1",
+    "tooltip": "Вывести число на LED матрице"
+  },
+  "microbit_matrix_scroll_text": {
+    "message0": "прокрутить текст %1 скорость %2 мс",
+    "tooltip": "Прокрутить текст на LED матрице"
+  },
+  "microbit_matrix_bitmap_create": {
+    "message0": "bitmap строка1 %1 строка2 %2 строка3 %3 строка4 %4 строка5 %5",
+    "tooltip": "Создать 5-байтовый bitmap для LED матрицы. Каждая строка — один байт (0-255)"
+  },
+  "microbit_matrix_bitmap_heart": {
+    "message0": "❤️ bitmap сердце",
+    "tooltip": "Bitmap значка сердце"
+  },
+  "microbit_matrix_bitmap_empty_heart": {
+    "message0": "🤍 bitmap пустое сердце",
+    "tooltip": "Bitmap значка пустое сердце"
+  },
+  "microbit_matrix_bitmap_yes": {
+    "message0": "✓ bitmap да",
+    "tooltip": "Bitmap значка да (галочка)"
+  },
+  "microbit_matrix_bitmap_no": {
+    "message0": "✕ bitmap нет",
+    "tooltip": "Bitmap значка нет (X)"
+  },
+  "microbit_matrix_bitmap_smile": {
+    "message0": "😊 bitmap улыбка",
+    "tooltip": "Bitmap значка улыбка"
+  }
+}

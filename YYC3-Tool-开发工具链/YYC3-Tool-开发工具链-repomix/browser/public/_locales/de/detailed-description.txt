@@ -1,0 +1,24 @@
+Diese Browsererweiterung fügt eine praktische "Repomix"-Schaltfläche zu GitHub-Repository-Seiten hinzu, mit der Sie Repositories schnell mit Repomix verpacken und analysieren können - einem leistungsstarken Tool, das Software-Repositories in AI-freundliche Einzeldateien umwandelt.
+
+🛠️ Funktionen:
+- Ein-Klick-Zugriff auf Repomix für jedes GitHub-Repository
+- Weitere aufregende Funktionen kommen bald - freuen Sie sich auf erweiterte Funktionalität!
+
+🚀 Verwendung:
+1. Erweiterung installieren
+2. Zu einem beliebigen GitHub-Repository navigieren
+3. Auf die "Repomix"-Schaltfläche im Repository-Header klicken
+4. Sie werden zur Repomix-Weboberfläche weitergeleitet
+5. Eine verpackte Version des Repositories für AI-Analyse generieren
+
+✨ Was ist Repomix?
+Repomix ist ein innovatives Tool, das Ihre gesamte Codebasis in eine einzige, umfassende Datei verpackt, die für AI-Analyse optimiert ist. Es unterstützt mehrere Ausgabeformate (XML, Markdown, Plain Text), enthält Sicherheitsprüfungen zum Ausschluss sensibler Informationen und bietet detaillierte Metriken zu Ihrem Code.
+
+💻 Open Source:
+Sowohl diese Erweiterung als auch Repomix selbst sind Open-Source-Projekte. Sie können den Quellcode einsehen, beitragen oder die Erweiterung selbst erstellen.
+Weitere Details finden Sie unter:
+https://github.com/yamadashy/repomix
+
+🌐 Mehr erfahren:
+- Offizielle Website: https://repomix.com
+- GitHub-Repository: https://github.com/yamadashy/repomix

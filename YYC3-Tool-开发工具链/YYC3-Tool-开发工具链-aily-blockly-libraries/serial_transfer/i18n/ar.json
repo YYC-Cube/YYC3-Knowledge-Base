@@ -1,0 +1,126 @@
+{
+  "toolbox_name": "SerialTransfer",
+  "toolbox_labels": {
+    "初始化": "التهيئة",
+    "发送数据": "إرسال البيانات",
+    "接收数据": "تلقي البيانات",
+    "状态": "الحالة"
+  },
+  "toolbox_categories": ["نقل تسلسلي", "نقل I2C", "نقل SPI"],
+  "serial_transfer_init": {
+    "message0": "تهيئة SerialTransfer %1 المنفذ %2 معدل البود %3",
+    "tooltip": "تهيئة كائن SerialTransfer مع المنفذ التسلسلي ومعدل البود"
+  },
+  "serial_transfer_send_int": {
+    "message0": "SerialTransfer %1 إرسال عدد صحيح %2 معرف الحزمة %3",
+    "tooltip": "إرسال قيمة عدد صحيح عبر SerialTransfer"
+  },
+  "serial_transfer_send_float": {
+    "message0": "SerialTransfer %1 إرسال عدد عشري %2 معرف الحزمة %3",
+    "tooltip": "إرسال قيمة عشرية عبر SerialTransfer"
+  },
+  "serial_transfer_send_string": {
+    "message0": "SerialTransfer %1 إرسال نص %2 معرف الحزمة %3",
+    "tooltip": "إرسال سلسلة نصية عبر SerialTransfer"
+  },
+  "serial_transfer_available": {
+    "message0": "SerialTransfer %1 تم استلام بيانات جديدة",
+    "tooltip": "التحقق مما إذا كان SerialTransfer قد استلم بيانات صالحة جديدة"
+  },
+  "serial_transfer_receive_int": {
+    "message0": "SerialTransfer %1 استقبال عدد صحيح",
+    "tooltip": "استقبال قيمة عدد صحيح من SerialTransfer"
+  },
+  "serial_transfer_receive_float": {
+    "message0": "SerialTransfer %1 استقبال عدد عشري",
+    "tooltip": "استقبال قيمة عشرية من SerialTransfer"
+  },
+  "serial_transfer_receive_string": {
+    "message0": "SerialTransfer %1 استقبال نص الطول %2",
+    "tooltip": "استقبال سلسلة نصية بطول محدد من SerialTransfer"
+  },
+  "serial_transfer_status": {
+    "message0": "SerialTransfer %1 حالة النقل",
+    "tooltip": "الحصول على رمز حالة SerialTransfer (2=بيانات جديدة، 1=لا بيانات، 0=خطأ CRC)"
+  },
+  "serial_transfer_current_packet_id": {
+    "message0": "SerialTransfer %1 معرف الحزمة الحالي",
+    "tooltip": "الحصول على معرف آخر حزمة تم استلامها"
+  },
+  "i2c_transfer_init_master": {
+    "message0": "تهيئة I2CTransfer رئيسي %1 I2C %2",
+    "tooltip": "تهيئة كائن I2CTransfer الرئيسي مع واجهة I2C"
+  },
+  "i2c_transfer_init_slave": {
+    "message0": "تهيئة I2CTransfer تابع %1 I2C %2 العنوان %3",
+    "tooltip": "تهيئة كائن I2CTransfer التابع مع واجهة I2C والعنوان"
+  },
+  "i2c_transfer_send_int": {
+    "message0": "I2CTransfer %1 إرسال عدد صحيح %2 إلى العنوان %3 معرف الحزمة %4",
+    "tooltip": "إرسال قيمة عدد صحيح إلى عنوان I2C محدد"
+  },
+  "i2c_transfer_send_float": {
+    "message0": "I2CTransfer %1 إرسال عدد عشري %2 إلى العنوان %3 معرف الحزمة %4",
+    "tooltip": "إرسال قيمة عشرية إلى عنوان I2C محدد"
+  },
+  "i2c_transfer_send_string": {
+    "message0": "I2CTransfer %1 إرسال نص %2 إلى العنوان %3 معرف الحزمة %4",
+    "tooltip": "إرسال سلسلة نصية إلى عنوان I2C محدد"
+  },
+  "i2c_transfer_receive_int": {
+    "message0": "I2CTransfer %1 استقبال عدد صحيح",
+    "tooltip": "استقبال قيمة عدد صحيح من I2C"
+  },
+  "i2c_transfer_receive_float": {
+    "message0": "I2CTransfer %1 استقبال عدد عشري",
+    "tooltip": "استقبال قيمة عشرية من I2C"
+  },
+  "i2c_transfer_receive_string": {
+    "message0": "I2CTransfer %1 استقبال نص الطول %2",
+    "tooltip": "استقبال سلسلة نصية بطول محدد من I2C"
+  },
+  "i2c_transfer_status": {
+    "message0": "I2CTransfer %1 حالة النقل",
+    "tooltip": "الحصول على رمز حالة I2CTransfer"
+  },
+  "spi_transfer_init_master": {
+    "message0": "تهيئة SPITransfer رئيسي %1 طرف SS %2",
+    "tooltip": "تهيئة كائن SPITransfer الرئيسي مع طرف SS"
+  },
+  "spi_transfer_init_slave": {
+    "message0": "تهيئة SPITransfer تابع %1",
+    "tooltip": "تهيئة كائن SPITransfer التابع مع مقاطعة SPI"
+  },
+  "spi_transfer_send_int": {
+    "message0": "SPITransfer %1 إرسال عدد صحيح %2 معرف الحزمة %3",
+    "tooltip": "إرسال قيمة عدد صحيح عبر SPI"
+  },
+  "spi_transfer_send_float": {
+    "message0": "SPITransfer %1 إرسال عدد عشري %2 معرف الحزمة %3",
+    "tooltip": "إرسال قيمة عشرية عبر SPI"
+  },
+  "spi_transfer_send_string": {
+    "message0": "SPITransfer %1 إرسال نص %2 معرف الحزمة %3",
+    "tooltip": "إرسال سلسلة نصية عبر SPI"
+  },
+  "spi_transfer_available": {
+    "message0": "SPITransfer %1 تم استلام بيانات جديدة",
+    "tooltip": "التحقق مما إذا كان SPITransfer قد استلم بيانات جديدة عبر المقاطعة"
+  },
+  "spi_transfer_receive_int": {
+    "message0": "SPITransfer %1 استقبال عدد صحيح",
+    "tooltip": "استقبال قيمة عدد صحيح من SPI"
+  },
+  "spi_transfer_receive_float": {
+    "message0": "SPITransfer %1 استقبال عدد عشري",
+    "tooltip": "استقبال قيمة عشرية من SPI"
+  },
+  "spi_transfer_receive_string": {
+    "message0": "SPITransfer %1 استقبال نص الطول %2",
+    "tooltip": "استقبال سلسلة نصية بطول محدد من SPI"
+  },
+  "spi_transfer_status": {
+    "message0": "SPITransfer %1 حالة النقل",
+    "tooltip": "الحصول على رمز حالة SPITransfer"
+  }
+}

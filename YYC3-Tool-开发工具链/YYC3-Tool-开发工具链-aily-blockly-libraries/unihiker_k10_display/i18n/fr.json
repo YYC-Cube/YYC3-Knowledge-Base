@@ -1,0 +1,147 @@
+{
+  "toolbox_name": "K10 Affichage",
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "绘图": "Dessin",
+    "文字": "texte",
+    "图片": "des photos",
+    "画布控制": "Contrôle du canevas"
+  },
+  "k10_init_screen": {
+    "message0": "initialiser écran K10 direction %1",
+    "tooltip": "Initialiser l'écran UNIHIKER K10 et créer le canevas",
+    "args0": [
+      {
+        "options": [
+          [
+            "Normal",
+            "2"
+          ],
+          [
+            "Inversé",
+            "0"
+          ],
+          [
+            "Paysage gauche",
+            "1"
+          ],
+          [
+            "Paysage droit",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_set_background": {
+    "message0": "définir couleur de fond %1",
+    "tooltip": "Définir la couleur de fond de l'écran"
+  },
+  "k10_draw_point": {
+    "message0": "dessiner point X %1 Y %2 couleur %3",
+    "tooltip": "Dessiner un point sur l'écran"
+  },
+  "k10_draw_line": {
+    "message0": "dessiner ligne de X %1 Y %2 à X %3 Y %4 couleur %5",
+    "tooltip": "Dessiner une ligne sur l'écran"
+  },
+  "k10_set_line_width": {
+    "message0": "définir épaisseur de ligne %1",
+    "tooltip": "Définir l'épaisseur de ligne"
+  },
+  "k10_draw_circle": {
+    "message0": "dessiner cercle centre X %1 Y %2 rayon %3 couleur bordure %4 couleur remplissage %5 remplir %6",
+    "tooltip": "Dessiner un cercle sur l'écran"
+  },
+  "k10_draw_rectangle": {
+    "message0": "dessiner rectangle X %1 Y %2 largeur %3 hauteur %4 couleur bordure %5 couleur remplissage %6 remplir %7",
+    "tooltip": "Dessiner un rectangle sur l'écran"
+  },
+  "k10_draw_text_simple": {
+    "message0": "afficher texte %2 à la ligne %1 couleur %3",
+    "tooltip": "Afficher le texte sur la ligne indiquée (1~7) avec disposition automatique"
+  },
+  "k10_draw_text": {
+    "message0": "afficher texte %1 X %2 Y %3 couleur %4 police %5 caractères par ligne %6",
+    "tooltip": "Afficher le texte à la position indiquée. Le nombre de caractères par ligne contrôle le retour automatique : 25 pour la police 16, 10 pour la police 24.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Police 16",
+            "eCNAndENFont16"
+          ],
+          [
+            "Police 24",
+            "eCNAndENFont24"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "k10_draw_bitmap": {
+    "message0": "afficher image intégrée %1 X %2 Y %3 largeur %4 hauteur %5",
+    "tooltip": "Afficher une image intégrée (fournir arduino_image_cache.h et le tableau d'image, ex. image_data1)"
+  },
+  "k10_draw_image": {
+    "message0": "afficher image carte TF chemin %1 X %2 Y %3",
+    "tooltip": "Charger et afficher une image de la carte TF"
+  },
+  "k10_draw_qrcode": {
+    "message0": "afficher QR code contenu %1",
+    "tooltip": "Afficher un QR code sur l'écran"
+  },
+  "k10_update_canvas": {
+    "message0": "rafraîchir le canevas",
+    "tooltip": "Rafraîchir l'affichage du canevas"
+  },
+  "k10_clear_canvas": {
+    "message0": "effacer le canevas %1",
+    "tooltip": "Effacer le canevas (rafraîchir ensuite)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Tout effacer",
+            "0"
+          ],
+          [
+            "Effacer la ligne 1",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_clear_canvas_row": {
+    "message0": "effacer la ligne %1 du canevas",
+    "tooltip": "Effacer une ligne du canevas (1-7), puis rafraîchir si nécessaire"
+  },
+  "k10_clear_qrcode": {
+    "message0": "effacer le code QR",
+    "tooltip": "Effacer le code QR affiché à l’écran"
+  },
+  "k10_screen_size": {
+    "message0": "écran %1",
+    "tooltip": "Résolution de l'écran K10 : 240x320 (portrait)",
+    "args0": [
+      {
+        "options": [
+          [
+            "largeur",
+            "W"
+          ],
+          [
+            "hauteur",
+            "H"
+          ]
+        ]
+      }
+    ]
+  }
+}

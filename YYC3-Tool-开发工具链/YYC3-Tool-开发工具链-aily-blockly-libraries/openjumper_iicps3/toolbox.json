@@ -1,0 +1,23 @@
+
+{
+  "kind": "category",
+  "name": "IICPS3",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "openjumper_iicps3_init"
+    },
+    {
+      "kind": "block",
+      "type": "openjumper_iicps3_run"
+    },
+    {
+      "kind": "block",
+      "type": "openjumper_iicps3_butstate"
+    },
+    {
+      "kind": "block",
+      "type": "openjumper_iicps3_xy"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "@emmetio/css-abbreviation",
+  "version": "2.1.8",
+  "description": "Parses Emmet CSS abbreviation into AST tree",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "scripts": {
+    "test": "tsx --test ./test/*.ts",
+    "build": "rollup -c",
+    "watch": "rollup -wc",
+    "clean": "rm -rf ./dist",
+    "prepublishOnly": "npm test &&npm run clean && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmetio/emmet.git"
+  },
+  "keywords": [],
+  "author": "Sergey Chikuyonok <serge.che@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emmetio/emmet/issues"
+  },
+  "homepage": "https://github.com/emmetio/emmet#readme",
+  "dependencies": {
+    "@emmetio/scanner": "^1.0.4"
+  },
+  "directories": {
+    "test": "test"
+  }
+}

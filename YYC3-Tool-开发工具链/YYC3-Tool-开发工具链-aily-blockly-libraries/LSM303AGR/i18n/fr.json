@@ -1,0 +1,45 @@
+{
+  "toolbox_name": "LSM303AGR Accéléromètre & Magnétomètre",
+  "toolbox_labels": {
+    "加速度计": "accéléromètre",
+    "磁力计": "Magnétomètre",
+    "姿态解算(AHRS)": "Résolution d'attitude (AHRS)"
+  },
+  "lsm303agr_acc_init": {
+    "message0": "Initialiser l'accéléromètre %1\nutilisant %2",
+    "tooltip": "Initialiser le capteur accéléromètre LSM303AGR via l'interface I2C"
+  },
+  "lsm303agr_mag_init": {
+    "message0": "Initialiser le magnétomètre %1\nutilisant %2",
+    "tooltip": "Initialiser le capteur magnétomètre LSM303AGR via l'interface I2C"
+  },
+  "lsm303agr_acc_get_axis": {
+    "message0": "Lire accéléromètre %1 accélération axe %2 (mg)",
+    "tooltip": "Lire la valeur d'accélération X/Y/Z de l'accéléromètre LSM303AGR, unité : mg"
+  },
+  "lsm303agr_mag_get_axis": {
+    "message0": "Lire magnétomètre %1 champ magnétique axe %2 (mGauss)",
+    "tooltip": "Lire la valeur du champ magnétique X/Y/Z du magnétomètre LSM303AGR, unité : mGauss"
+  },
+  "lsm303agr_acc_get_temperature": {
+    "message0": "Lire température de l'accéléromètre %1 (°C)",
+    "tooltip": "Lire la valeur de température de l'accéléromètre LSM303AGR, unité : °C"
+  },
+  "lsm303agr_ahrs_update": {
+    "message0": "Mettre à jour l'estimation d'attitude\naccéléromètre %1 magnétomètre %2",
+    "tooltip": "Mettre à jour l'estimation d'attitude avec les données de l'accéléromètre et du magnétomètre, calculer le roulis, le tangage et le cap"
+  },
+  "lsm303agr_ahrs_get_angle": {
+    "message0": "Obtenir l'angle d'attitude %1 (°)",
+    "tooltip": "Obtenir le résultat d'estimation d'attitude. Roulis/Tangage : -180~180°, Cap : 0~360°",
+    "args0": [
+      {
+        "options": [
+          ["Roulis (Roll)", "ROLL"],
+          ["Tangage (Pitch)", "PITCH"],
+          ["Cap (Heading)", "HEADING"]
+        ]
+      }
+    ]
+  }
+}

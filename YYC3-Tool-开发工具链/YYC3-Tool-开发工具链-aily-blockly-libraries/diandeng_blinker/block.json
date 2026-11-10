@@ -1,0 +1,504 @@
+[
+  {
+    "type": "blinker_init_wifi",
+    "message0": "初始化Blinker WiFi模式 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "手动配网",
+            "手动配网"
+          ],
+          [
+            "EspTouch V2",
+            "EspTouchV2"
+          ]
+        ]
+      }
+    ],
+    "extensions": [
+      "blinker_init_wifi_extension"
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_init_ble",
+    "message0": "初始化Blinker BLE模式",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_debug_init",
+    "message0": "初始化Blinker调试 串口 %1 速率 %2 完整调试 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": "${board.serialSpeed}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DEBUG_ALL",
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_button",
+    "message0": "按键组件 键名 %1 按下执行",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "btn-"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "NAME"
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_button_state",
+    "message0": "当前按键动作为%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "tap",
+            "tap"
+          ],
+          [
+            "on",
+            "on"
+          ],
+          [
+            "off",
+            "off"
+          ],
+          [
+            "press",
+            "press"
+          ],
+          [
+            "pressup",
+            "pressup"
+          ]
+        ]
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "output": "Boolean",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_slider",
+    "message0": "滑块组件 键名 %1 滑动改变执行",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "ran-"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "NAME"
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_slider_value",
+    "message0": "当前滑块值",
+    "args0": [],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "output": "Number",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_colorpicker",
+    "message0": "调色组件 键名 %1 滑动改变执行",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "col-"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "NAME"
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_colorpicker_value",
+    "message0": "当前设定的颜色 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          [
+            "R",
+            "r_value"
+          ],
+          [
+            "G",
+            "g_value"
+          ],
+          [
+            "B",
+            "b_value"
+          ],
+          [
+            "亮度",
+            "bright_value"
+          ]
+        ]
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "output": "Number",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_joystick",
+    "message0": "摇杆组件 键名 %1 摇杆改变执行",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "joy-"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "NAME"
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_joystick_value",
+    "message0": "当前摇杆坐标 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "output": "Number",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_data_handler",
+    "message0": "数据处理 %1",
+    "args0": [
+      {
+        "type": "input_statement",
+        "name": "NAME"
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_heartbeat",
+    "message0": "收到心跳包时执行 %1",
+    "args0": [
+      {
+        "type": "input_statement",
+        "name": "NAME"
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_chart",
+    "message0": "图表组件 键名 %1 上传数据时执行",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "chart-"
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "NAME"
+      }
+    ],
+    "colour": "#03A9F4",
+    "inputsInline": false,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_chart_data_upload",
+    "message0": "图表 %1 上传数据键名 %2 值 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "CHART",
+        "text": "chart-"
+      },
+      {
+        "type": "field_input",
+        "name": "KEY",
+        "text": "data-"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_log",
+    "message0": "Blinker日志 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_log_args",
+    "message0": "Blinker日志 %1, %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      },
+      {
+        "type": "input_value",
+        "name": "ARGS"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_vibrate",
+    "message0": "Blinker震动",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_print",
+    "message0": "Blinker发送 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_state",
+    "message0": "状态 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "STATE"
+      }
+    ],
+    "colour": "#03A9F4",
+    "output": "Object",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_icon",
+    "message0": "图标 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ICON"
+      }
+    ],
+    "colour": "#03A9F4",
+    "output": "Object",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_color",
+    "message0": "颜色 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "colour": "#03A9F4",
+    "output": "Object",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_text",
+    "message0": "文本 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "colour": "#03A9F4",
+    "output": "Object",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_value",
+    "message0": "数值 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "colour": "#03A9F4",
+    "output": "Object",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_reset",
+    "message0": "Blinker重置设备",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_widget_print",
+    "message0": "组件反馈 名称 %1 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "WIDGET",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "INPUT0",
+        "check": "Object"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "tooltip": "blinker组件反馈",
+    "helpUrl": "",
+    "colour": "#0069b7",
+    "mutator": "dynamic_inputs_mutator",
+    "icon": "iconfont icon-blinker"
+  },
+  {
+    "type": "blinker_delay",
+    "message0": "Blinker延时 %1 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DELAY"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#03A9F4",
+    "inputsInline": true,
+    "icon": "iconfont icon-blinker"
+  }
+]

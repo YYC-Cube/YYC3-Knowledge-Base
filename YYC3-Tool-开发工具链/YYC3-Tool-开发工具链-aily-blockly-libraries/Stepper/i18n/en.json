@@ -1,0 +1,32 @@
+{
+  "toolbox_name": "步进电机",
+  "stepper_init": {
+    "message0": "初始化步进电机 %1 步数/圈 %2 引脚1 %3 引脚2 %4 引脚3 %5 引脚4 %6",
+    "args0": [
+      null,
+      null,
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "stepper_set_speed": {
+    "message0": "设置步进电机 %1 速度为 %2 RPM"
+  },
+  "stepper_step": {
+    "message0": "步进电机 %1 旋转 %2 步"
+  },
+  "stepper_rotate_degrees": {
+    "message0": "步进电机 %1 旋转 %2 度",
+    "tooltip": "控制步进电机旋转指定角度（正值顺时针，负值逆时针）"
+  }
+}

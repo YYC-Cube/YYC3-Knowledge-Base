@@ -1,0 +1,32 @@
+
+[
+  {
+    "type": "gp2y1010au0f_init",
+    "message0": "初始化粉尘传感器 LED引脚 %1 测量引脚 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "LED_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MEASURE_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "tooltip": "初始化粉尘传感器，并设置LED和测量引脚"
+  },
+  {
+    "type": "gp2y1010au0f_read",
+    "message0": "读取粉尘浓度",
+    "output": "Number",
+    "colour": "#FF9800",
+    "inputsInline": true,
+    "tooltip": "读取粉尘传感器的数据，单位为 μg/m³"
+  }
+]

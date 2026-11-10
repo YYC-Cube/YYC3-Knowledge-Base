@@ -1,0 +1,49 @@
+{
+"toolbox_name": "IICPS3",
+"openjumper_iicps3_init": {
+    "message0": "Initialisation du module manette IICPS3 %1"
+},
+"openjumper_iicps3_run": {
+    "message0": "%1 démarrer l'analyse des données"
+},
+"openjumper_iicps3_butstate": {
+    "message0": "%1Manette IIC %2 état du bouton",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Main gauche-Haut", "up"],
+                ["Main gauche-Bas", "down"],
+                ["Main gauche-Gauche", "left"],
+                ["Main gauche-Droite", "right"],
+                ["Main droite-Haut", "triangle"],
+                ["Main droite-Bas", "cross"],
+                ["Main droite-Gauche", "square"],
+                ["Main droite-Droite", "circle"],
+                ["Avant gauche-1", "l1"],
+                ["Avant gauche-2", "l2"],
+                ["Stick gauche", "l3"],
+                ["Avant droit-1", "r1"],
+                ["Avant droit-2", "r2"],
+                ["Stick droit", "r3"],
+                ["Sélectionner", "select"],
+                ["Démarrer", "start"]
+            ]
+        }
+    ]
+},
+"openjumper_iicps3_xy": {
+    "message0": "%1Manette IIC %2 données du stick",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Stick gauche-Axe X", "lx"],
+                ["Stick gauche-Axe Y", "ly"],
+                ["Stick droit-Axe X", "rx"],
+                ["Stick droit-Axe Y", "ry"]
+            ]
+        }
+    ]
+}
+}

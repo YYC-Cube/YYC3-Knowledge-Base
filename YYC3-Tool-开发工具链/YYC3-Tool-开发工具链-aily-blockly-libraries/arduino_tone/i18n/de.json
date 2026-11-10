@@ -1,0 +1,20 @@
+{
+"toolbox_name": "Ton",
+"io_tone": {
+    "message0": "Spiele Ton mit Frequenz %2 an Pin %1",
+    "args0": [
+        {
+            "options": "${board.digitalPins}"
+        },
+        null
+    ]
+},
+"io_notone": {
+    "message0": "Stoppe Ton an Pin %1",
+    "args0": [
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+}
+}

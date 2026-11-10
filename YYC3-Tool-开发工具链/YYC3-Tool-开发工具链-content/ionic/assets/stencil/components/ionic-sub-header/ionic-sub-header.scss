@@ -1,0 +1,480 @@
+@import "../../vars";
+
+ionic-sub-header {
+  font-family: $font-family-inter;
+  position: sticky;
+  top: 0;
+  top: -0.5px;
+  z-index: 99;
+  backdrop-filter: blur(20px);
+  transition: 0.2s box-shadow;
+
+  &.ionic-sub-header--initialized {
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+
+    &:not(.ionic-sub-header--stuck) {
+      backdrop-filter: none;
+    }
+  }
+
+  &__trigger {
+    position: absolute;
+    left: 0;
+    width: 100vw;
+    height: 1px;
+    pointer-events: none;
+    opacity: 0;
+
+    @media (max-width: $screen-xs-max) {
+      top: 0;
+    }
+  }
+
+  &.ionic-sub-header--not-sticky {
+    position: relative;
+
+    &.ionic-sub-header--stuck {
+      background: none;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+  }
+
+  &.ionic-sub-header--stuck {
+    background: #020814;
+    box-shadow: 0 1px 0px rgba(black, 0.06);
+
+    @supports (
+      (-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))
+    ) {
+      background: rgba(#020814, 0.8);
+    }
+  }
+
+  & > .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 55px;
+    // flex-wrap: wrap;
+    overflow-x: auto;
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      border-top: 1px solid rgba(white, 0.06);
+      display: block;
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 15px;
+      left: 15px;
+      flex: 0 0 100%;
+
+      @media (max-width: $screen-xs-max) {
+        display: none;
+      }
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+
+  [slot="right"] li:last-child a:not(.btn) {
+    padding-right: 0;
+  }
+
+  ul:not([slot="right"]) li:first-child a,
+  [slot="left"] li:first-child a,
+  [slot="title"] {
+    padding-left: 0;
+  }
+
+  ul {
+    font-size: 13px;
+    line-height: 14px;
+  }
+
+  [slot="title"] {
+    // same as .sub-header__breadcrumbs li:last-child a
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  [slot="breadcrumbs"] li {
+    &::after {
+      content: "/";
+      color: rgba(white, 0.1);
+      font-size: 16px;
+      font-weight: 400;
+      vertical-align: 0px;
+    }
+
+    a {
+      padding-left: 8px;
+      padding-right: 8px;
+      color: rgba(white, 0.6);
+    }
+
+    &:last-child {
+      a {
+        font-weight: 600;
+        color: white;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  span,
+  a {
+    color: white;
+    fill: white;
+    position: relative;
+    letter-spacing: 0;
+    padding: 16px 12px;
+    display: inline-block;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.2s color;
+
+    &.has-icon {
+      padding-left: 32px;
+    }
+
+    ion-icon {
+      font-size: 1.4em;
+      position: absolute;
+      left: 12px;
+      top: 14px;
+    }
+  }
+
+  a {
+    cursor: pointer;
+
+    svg,
+    path {
+      transition: 0.2s fill;
+      vertical-align: -15%;
+    }
+
+    &.active {
+      pointer-events: none;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+    }
+
+    &.current,
+    &.active,
+    &:hover {
+      color: rgba(white, 0.4);
+    }
+
+    &.btn {
+      padding: 5px 10px 6px;
+      border-radius: 6px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      vertical-align: 0px;
+      letter-spacing: -0.01em;
+      margin-right: 3px;
+      margin-left: 9px;
+      box-shadow: none;
+      transition: 0.3s box-shadow, 0.3s background;
+
+      &:hover {
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .ionic-sub-header__mobile-toggle {
+    display: none;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    &.hydrated.ionic-sub-header--initialized {
+      max-height: 55px;
+      background: transparent;
+    }
+
+    > .container {
+      max-height: 55px;
+      transition: 0.4s max-height ease;
+
+      background: black;
+      backdrop-filter: blur(20px);
+      @supports (
+        (-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))
+      ) {
+        background: rgba(black, 0.9);
+      }
+    }
+
+    &,
+    & > .container {
+      overflow: visible;
+      perspective: 1000px;
+    }
+
+    span,
+    a {
+      ion-icon {
+        font-size: 1.4em;
+        position: static;
+        vertical-align: -3px;
+      }
+    }
+
+    .ionic-sub-header__mobile-toggle {
+      display: block;
+      margin-top: 2px;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: 0.4s transform cubic-bezier(0.07, 0.65, 0.57, 1.66);
+
+      svg path {
+        stroke-dasharray: 955;
+        stroke-dashoffset: 955;
+        transition: stroke-dashoffset 0.4s linear forwards;
+      }
+
+      &:hover {
+        color: inherit;
+      }
+    }
+
+    [slot="right"] {
+      flex: 100%;
+      // position: absolute;
+      // background: white;
+      // left: 0;
+      // top: 55px;
+      // width: 100vw;
+      padding: 0 16px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      align-items: stretch;
+      // box-shadow: 0 1px 0px rgba(black, .06);
+
+      // backdrop-filter: blur(20px);
+      // @supports ((-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))) {
+      //   background: rgba(white, .8);
+      // }
+
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.4s ease 0.3s;
+
+      li {
+        display: block;
+        opacity: 0;
+        transform: translateX(15px);
+        transition: transform 0.4s step-end 0s, opacity 0.4s ease 0s;
+      }
+
+      a {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .btn {
+        margin-top: 16px;
+        text-align: center;
+        margin-left: 0;
+        border-radius: 4px;
+      }
+    }
+
+    &.ionic-sub-header--mobile-active {
+      // box-shadow: none;
+
+      > .container {
+        box-shadow: 0 1px 0px rgba(black, 0.06);
+        transition: 0.4s max-height ease;
+        max-height: 600px;
+      }
+
+      .ionic-sub-header__mobile-toggle {
+        transform: rotateZ(180deg);
+      }
+
+      [slot="right"] {
+        transform: scaleY(1);
+        transition: transform 0.4s ease 0s;
+
+        li {
+          transform: translateX(0);
+          opacity: 1;
+          transition: 0.4s transform 0.2s ease, 0.4s opacity 0.2s ease;
+
+          &:nth-child(2) {
+            transition-delay: 0.3s;
+          }
+          &:nth-child(3) {
+            transition-delay: 0.4s;
+          }
+          &:nth-child(4) {
+            transition-delay: 0.5s;
+          }
+          &:nth-child(5) {
+            transition-delay: 0.6s;
+          }
+        }
+      }
+    }
+
+    & > .container {
+      flex-wrap: wrap;
+    }
+  }
+}
+
+body.light ionic-sub-header {
+  &.ionic-sub-header--stuck {
+    background: white;
+
+    @supports (
+      (-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))
+    ) {
+      background: rgba(white, 0.9);
+    }
+  }
+
+  .container::before {
+    border-top-color: rgba(black, 0.06);
+  }
+
+  span,
+  a {
+    color: #414d5c;
+    fill: #414d5c;
+  }
+
+  .btn,
+  .btn:hover {
+    color: white;
+  }
+
+  .btn.white {
+    color: #4d8dff;
+    border: 1px solid #e9edf3;
+    box-shadow: 0px 1px 2px rgba(0, 16, 46, 0.04);
+    border-radius: 6px;
+    padding-bottom: 6px;
+
+    &:hover {
+      box-shadow: 0px 2px 4px rgba(0, 16, 46, 0.08);
+    }
+
+    &:active,
+    &:focus {
+      box-shadow: inset 0px 1px 2px rgba(0, 16, 46, 0.04);
+    }
+  }
+
+  [slot="breadcrumbs"] li {
+    &:after {
+      color: rgba(#414d5c, 0.2);
+    }
+
+    &:not(:last-child) a {
+      color: rgba(#414d5c, 0.6);
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+
+  [slot="breadcrumbs"],
+  [slot="title"] {
+    &,
+    a {
+      color: #1a232f;
+
+      &:hover {
+        color: #1a232f;
+      }
+    }
+  }
+
+  a {
+    &.current,
+    &.active {
+      color: #b1bbca;
+    }
+
+    &:hover {
+      color: $blue;
+
+      svg,
+      path {
+        fill: $blue;
+      }
+    }
+
+    &.ionic-sub-header__mobile-toggle:hover {
+      svg,
+      path {
+        fill: unset;
+      }
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    > .container {
+      background: white;
+
+      @supports (
+        (-webkit-backdrop-filter: blur(20px)) or (backdrop-filter: blur(20px))
+      ) {
+        background: rgba(white, 0.9);
+      }
+    }
+  }
+}

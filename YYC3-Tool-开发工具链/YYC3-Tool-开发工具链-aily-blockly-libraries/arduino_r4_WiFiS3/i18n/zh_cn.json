@@ -1,0 +1,102 @@
+{
+  "toolbox_name": "R4 WiFi",
+  "toolbox_labels": {
+    "连接": "连接",
+    "状态查询": "状态查询",
+    "配置": "配置",
+    "网络扫描": "网络扫描",
+    "网络操作": "网络操作"
+  },
+  "wifis3_begin": {
+    "message0": "连接WiFi SSID %1 密码 %2",
+    "tooltip": "连接到WiFi网络（WPA/WPA2加密）"
+  },
+  "wifis3_begin_open": {
+    "message0": "连接WiFi SSID %1 （开放网络）",
+    "tooltip": "连接到无密码的开放WiFi网络"
+  },
+  "wifis3_begin_ap": {
+    "message0": "启动WiFi热点 SSID %1 密码 %2 频道 %3",
+    "tooltip": "启动WiFi接入点（热点模式）"
+  },
+  "wifis3_disconnect": {
+    "message0": "断开WiFi连接",
+    "tooltip": "断开当前WiFi连接"
+  },
+  "wifis3_status": {
+    "message0": "WiFi连接状态",
+    "tooltip": "返回WiFi连接状态（3=已连接, 1=空闲, 0=未连接等）"
+  },
+  "wifis3_is_connected": {
+    "message0": "WiFi已连接？",
+    "tooltip": "检查是否已连接到WiFi网络"
+  },
+  "wifis3_local_ip": {
+    "message0": "获取本地IP地址",
+    "tooltip": "返回设备的本地IP地址"
+  },
+  "wifis3_mac_address": {
+    "message0": "获取MAC地址",
+    "tooltip": "返回WiFi模块的MAC地址"
+  },
+  "wifis3_gateway_ip": {
+    "message0": "获取网关IP地址",
+    "tooltip": "返回网络网关的IP地址"
+  },
+  "wifis3_subnet_mask": {
+    "message0": "获取子网掩码",
+    "tooltip": "返回网络的子网掩码"
+  },
+  "wifis3_dns_ip": {
+    "message0": "获取DNS服务器 %1",
+    "tooltip": "返回DNS服务器地址",
+    "args0": [
+      {
+        "options": [
+          ["主DNS", "0"],
+          ["备用DNS", "1"]
+        ]
+      }
+    ]
+  },
+  "wifis3_set_dns": {
+    "message0": "设置DNS服务器 主 %1 备用 %2",
+    "tooltip": "设置主DNS和备用DNS服务器"
+  },
+  "wifis3_config_ip": {
+    "message0": "配置静态IP 地址 %1 网关 %2 子网 %3",
+    "tooltip": "配置设备的静态IP地址、网关和子网掩码"
+  },
+  "wifis3_set_hostname": {
+    "message0": "设置主机名 %1",
+    "tooltip": "设置DHCP主机名"
+  },
+  "wifis3_scan_networks": {
+    "message0": "扫描WiFi网络",
+    "tooltip": "扫描周围可用的WiFi网络"
+  },
+  "wifis3_ssid_by_index": {
+    "message0": "获取第 %1 个网络SSID",
+    "tooltip": "返回指定索引处的网络SSID"
+  },
+  "wifis3_rssi_by_index": {
+    "message0": "获取第 %1 个网络信号强度",
+    "tooltip": "返回指定索引处网络的RSSI信号强度（dBm）"
+  },
+  "wifis3_scanned_networks_count": {
+    "message0": "获取扫描到的网络数量",
+    "tooltip": "返回最后一次扫描发现的WiFi网络数量"
+  },
+  "wifis3_ping": {
+    "message0": "PING %1 （TTL %2 次数 %3）",
+    "tooltip": "对指定主机执行PING操作，返回响应时间"
+  },
+  "wifis3_firmware_version": {
+    "message0": "获取WiFi固件版本",
+    "tooltip": "返回WiFi模块的固件版本"
+  },
+  "wifis3_wait_for_connection": {
+    "message0": "等待WiFi连接 超时 %1 ms",
+    "tooltip": "等待直到WiFi连接成功或超时"
+  }
+}

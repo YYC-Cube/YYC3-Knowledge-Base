@@ -1,0 +1,20 @@
+{
+  "kind": "category",
+  "name": "ArduinoOTA更新",
+  "icon": "fa-light fa-cloud-arrow-up",
+  "colour": "#E91E63",
+  "contents": [
+    { "kind": "label", "text": "配置" },
+    { "kind": "block", "type": "esp32_ota_set_hostname", "inputs": { "HOSTNAME": { "shadow": { "type": "text", "fields": { "TEXT": "esp32" } } } } },
+    { "kind": "block", "type": "esp32_ota_set_password", "inputs": { "PASSWORD": { "shadow": { "type": "text", "fields": { "TEXT": "admin" } } } } },
+    { "kind": "block", "type": "esp32_ota_set_port", "inputs": { "PORT": { "shadow": { "type": "math_number", "fields": { "NUM": 3232 } } } } },
+    { "kind": "label", "text": "控制" },
+    { "kind": "block", "type": "esp32_ota_begin" },
+    { "kind": "block", "type": "esp32_ota_handle" },
+    { "kind": "label", "text": "事件回调" },
+    { "kind": "block", "type": "esp32_ota_on_start" },
+    { "kind": "block", "type": "esp32_ota_on_end" },
+    { "kind": "block", "type": "esp32_ota_on_progress" },
+    { "kind": "block", "type": "esp32_ota_on_error" }
+  ]
+}

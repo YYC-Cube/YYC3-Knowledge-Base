@@ -1,0 +1,753 @@
+[
+  {
+    "type": "math_number",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "NUM",
+        "value": 0
+      }
+    ],
+    "output": "Number",
+    "helpUrl": "%{BKY_MATH_NUMBER_HELPURL}",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_NUMBER_TOOLTIP}",
+    "extensions": [
+      "parent_tooltip_when_inline"
+    ],
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_number_base",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BASE",
+        "options": [
+          [
+            "DEC",
+            "DEC"
+          ],
+          [
+            "HEX",
+            "HEX"
+          ],
+          [
+            "BIN",
+            "BIN"
+          ]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "NUM",
+        "text": "0"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "多进制数字：DEC(十进制) HEX(十六进制0x) BIN(二进制0b)",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_arithmetic",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "%{BKY_MATH_ADDITION_SYMBOL}",
+            "ADD"
+          ],
+          [
+            "%{BKY_MATH_SUBTRACTION_SYMBOL}",
+            "MINUS"
+          ],
+          [
+            "%{BKY_MATH_MULTIPLICATION_SYMBOL}",
+            "MULTIPLY"
+          ],
+          [
+            "%{BKY_MATH_DIVISION_SYMBOL}",
+            "DIVIDE"
+          ],
+          [
+            "%{BKY_MATH_MODULO_SYMBOL}",
+            "MODULO"
+          ],
+          [
+            "%{BKY_MATH_POWER_SYMBOL}",
+            "POWER"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "helpUrl": "%{BKY_MATH_ARITHMETIC_HELPURL}",
+    "extensions": [
+      "math_op_tooltip"
+    ],
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_single",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "平方根",
+            "ROOT"
+          ],
+          [
+            "绝对值",
+            "ABS"
+          ],
+          [
+            "-",
+            "NEG"
+          ],
+          [
+            "ln",
+            "LN"
+          ],
+          [
+            "log10",
+            "LOG10"
+          ],
+          [
+            "e^",
+            "EXP"
+          ],
+          [
+            "10^",
+            "POW10"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "helpUrl": "%{BKY_MATH_SINGLE_HELPURL}",
+    "extensions": [
+      "math_single_tooltip"
+    ],
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_trig",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "正弦",
+            "SIN"
+          ],
+          [
+            "余弦",
+            "COS"
+          ],
+          [
+            "正切",
+            "TAN"
+          ],
+          [
+            "反正弦",
+            "ASIN"
+          ],
+          [
+            "反余弦",
+            "ACOS"
+          ],
+          [
+            "反正切",
+            "ATAN"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "helpUrl": "%{BKY_MATH_TRIG_HELPURL}",
+    "extensions": [
+      "math_trig_tooltip"
+    ],
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_constant",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CONSTANT",
+        "options": [
+          [
+            "π",
+            "PI"
+          ],
+          [
+            "e",
+            "E"
+          ],
+          [
+            "φ",
+            "GOLDEN_RATIO"
+          ],
+          [
+            "sqrt(2)",
+            "SQRT2"
+          ],
+          [
+            "sqrt(½)",
+            "SQRT1_2"
+          ],
+          [
+            "∞",
+            "INFINITY"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_CONSTANT_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_CONSTANT_HELPURL}",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_number_property",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUMBER_TO_CHECK",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          [
+            "是偶数",
+            "EVEN"
+          ],
+          [
+            "是奇数",
+            "ODD"
+          ],
+          [
+            "是质数",
+            "PRIME"
+          ],
+          [
+            "是整数",
+            "WHOLE"
+          ],
+          [
+            "是正数",
+            "POSITIVE"
+          ],
+          [
+            "是负数",
+            "NEGATIVE"
+          ],
+          [
+            "可整除被",
+            "DIVISIBLE_BY"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_IS_TOOLTIP}",
+    "mutator": "math_is_divisibleby_mutator",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_round",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "四舍五入",
+            "ROUND"
+          ],
+          [
+            "向上舍入",
+            "ROUNDUP"
+          ],
+          [
+            "向下舍入",
+            "ROUNDDOWN"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "helpUrl": "%{BKY_MATH_ROUND_HELPURL}",
+    "tooltip": "%{BKY_MATH_ROUND_TOOLTIP}",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_modulo",
+    "message0": "%1 ÷ %2 的余数",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DIVIDEND",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DIVISOR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_MODULO_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_MODULO_HELPURL}",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_constrain",
+    "message0": "将 %1 限制在 最低 %2 到最高 %3 之间",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LOW",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "HIGH",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_CONSTRAIN_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_CONSTRAIN_HELPURL}",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_random_int",
+    "message0": "从 %1 到 %2 范围内的随机整数",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "FROM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TO",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_RANDOM_INT_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_RANDOM_INT_HELPURL}",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_random_float",
+    "message0": "随机小数",
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_RANDOM_FLOAT_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_RANDOM_FLOAT_HELPURL}",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_atan2",
+    "message0": "点(x: %1, y: %2)的方位角",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "%{BKY_MATH_ATAN2_TOOLTIP}",
+    "helpUrl": "%{BKY_MATH_ATAN2_HELPURL}",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "inputsInline": true,
+    "type": "math_round_to_decimal",
+    "message0": "保留 %2 位小数的 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUMBER",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DECIMALS",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "将数字 %1 保留 %2 位小数。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_bitwise_not",
+    "message0": "~ %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "按位取反 %1。",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "map_to",
+    "message0": "映射 %1 从[%2,%3]到[%4,%5]",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "value": 0
+      },
+      {
+        "type": "input_value",
+        "name": "FIRST_START",
+        "value": 0
+      },
+      {
+        "type": "input_value",
+        "name": "FIRST_END",
+        "value": 1023
+      },
+      {
+        "type": "input_value",
+        "name": "LAST_START",
+        "value": 0
+      },
+      {
+        "type": "input_value",
+        "name": "LAST_END",
+        "value": 255
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_bitwise_shift",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "<<",
+            "LEFT"
+          ],
+          [
+            ">>",
+            "RIGHT"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "位移操作：左移(<<)或右移(>>)",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_bitwise_logic",
+    "message0": "%1 %2 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "A",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "&",
+            "AND"
+          ],
+          [
+            "|",
+            "OR"
+          ],
+          [
+            "^",
+            "XOR"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "B",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "按位逻辑运算：与(&)、或(|)、异或(^)",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_extract_bits",
+    "message0": "%1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "高8位",
+            "HIGH_BYTE"
+          ],
+          [
+            "低8位",
+            "LOW_BYTE"
+          ],
+          [
+            "高16位",
+            "HIGH_WORD"
+          ],
+          [
+            "低16位",
+            "LOW_WORD"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "提取数值的指定位段",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_bitread",
+    "message0": "读取 %1 的第 %2 位",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BIT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "读取数值指定位的值(0或1)",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_bitwrite",
+    "message0": "写入 %1 的第 %2 位为 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BIT",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "将数值指定位设置为0或1",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_bitset",
+    "message0": "置位 %1 的第 %2 位",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BIT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "将数值指定位设置为1",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_bitclear",
+    "message0": "清零 %1 的第 %2 位",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "BIT",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "将数值指定位清零为0",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  },
+  {
+    "type": "math_combine_bits",
+    "message0": "%1 高位 %2 低位 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "OP",
+        "options": [
+          [
+            "组合16位",
+            "MAKE_WORD"
+          ],
+          [
+            "组合32位",
+            "MAKE_DWORD"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "HIGH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "LOW",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "style": "math_blocks",
+    "tooltip": "组合高低位为指定位宽的数值",
+    "helpUrl": "",
+    "icon": "fa-regular fa-calculator"
+  }
+]

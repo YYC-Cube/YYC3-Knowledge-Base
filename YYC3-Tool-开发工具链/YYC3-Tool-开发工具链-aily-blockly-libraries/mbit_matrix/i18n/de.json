@@ -1,0 +1,164 @@
+{
+  "toolbox_name": "micro:bit LED-Matrix",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "基本操作": "Grundlegende Operationen",
+    "绘图": "Zeichnen",
+    "图标显示": "Symbolanzeige",
+    "文本显示": "Textanzeige",
+    "位图": "Bitmap"
+  },
+  "microbit_matrix_begin": {
+    "message0": "micro:bit LED-Matrix initialisieren",
+    "tooltip": "Initialisiert die 5x5 LED-Matrix auf dem micro:bit"
+  },
+  "microbit_matrix_clear": {
+    "message0": "LED-Matrix löschen",
+    "tooltip": "Alle LEDs auf der Matrix löschen"
+  },
+  "microbit_matrix_fill": {
+    "message0": "LED-Matrix füllen %1",
+    "tooltip": "Alle LEDs ein- oder ausschalten",
+    "args0": [
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_pixel": {
+    "message0": "Pixel zeichnen x %1 y %2 %3",
+    "tooltip": "Einen einzelnen Pixel an Position (x, y) zeichnen. x und y reichen von 0 bis 4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_line": {
+    "message0": "Linie zeichnen von (%1, %2) nach (%3, %4) %5",
+    "tooltip": "Eine Linie von (x0, y0) nach (x1, y1) zeichnen",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_rect": {
+    "message0": "Rechteck zeichnen bei (%1, %2) Breite %3 Höhe %4 %5",
+    "tooltip": "Einen Rechteckumriss zeichnen",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_rect": {
+    "message0": "Rechteck füllen bei (%1, %2) Breite %3 Höhe %4 %5",
+    "tooltip": "Ein gefülltes Rechteck zeichnen",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_circle": {
+    "message0": "Kreis zeichnen Mitte (%1, %2) Radius %3 %4",
+    "tooltip": "Einen Kreisumriss zeichnen",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_circle": {
+    "message0": "Kreis füllen Mitte (%1, %2) Radius %3 %4",
+    "tooltip": "Einen gefüllten Kreis zeichnen",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_triangle": {
+    "message0": "Dreieck zeichnen (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Einen Dreiecksumriss zeichnen",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_triangle": {
+    "message0": "Dreieck füllen (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Ein gefülltes Dreieck zeichnen",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["EIN", "1"], ["AUS", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_show_icon": {
+    "message0": "Symbol anzeigen %1",
+    "tooltip": "Ein voreingestelltes Symbol auf der LED-Matrix anzeigen",
+    "args0": [
+      {
+        "options": [
+          ["❤️ Herz", "HEART"],
+          ["🤍 Leeres Herz", "EMPTYHEART"],
+          ["✓ Ja (Häkchen)", "YES"],
+          ["✕ Nein (X)", "NO"],
+          ["😊 Lächeln", "SMILE"]
+        ]
+      }
+    ]
+  },
+  "microbit_matrix_show_bitmap": {
+    "message0": "Bitmap anzeigen %1",
+    "tooltip": "Ein 5-Byte-Bitmap auf der LED-Matrix anzeigen"
+  },
+  "microbit_matrix_print_text": {
+    "message0": "Text ausgeben %1",
+    "tooltip": "Text auf der LED-Matrix ausgeben (scrollt bei mehr als 1 Zeichen)"
+  },
+  "microbit_matrix_print_number": {
+    "message0": "Zahl ausgeben %1",
+    "tooltip": "Eine Zahl auf der LED-Matrix ausgeben"
+  },
+  "microbit_matrix_scroll_text": {
+    "message0": "Text scrollen %1 Geschwindigkeit %2 ms",
+    "tooltip": "Text über die LED-Matrix scrollen"
+  },
+  "microbit_matrix_bitmap_create": {
+    "message0": "Bitmap Zeile1 %1 Zeile2 %2 Zeile3 %3 Zeile4 %4 Zeile5 %5",
+    "tooltip": "Ein 5-Byte-Bitmap für die LED-Matrix erstellen. Jede Zeile ist ein Byte (0-255)"
+  },
+  "microbit_matrix_bitmap_heart": {
+    "message0": "❤️ Herz-Bitmap",
+    "tooltip": "Herzsymbol-Bitmap"
+  },
+  "microbit_matrix_bitmap_empty_heart": {
+    "message0": "🤍 Leeres-Herz-Bitmap",
+    "tooltip": "Leeres-Herz-Symbol-Bitmap"
+  },
+  "microbit_matrix_bitmap_yes": {
+    "message0": "✓ Ja-Bitmap",
+    "tooltip": "Ja (Häkchen) Symbol-Bitmap"
+  },
+  "microbit_matrix_bitmap_no": {
+    "message0": "✕ Nein-Bitmap",
+    "tooltip": "Nein (X) Symbol-Bitmap"
+  },
+  "microbit_matrix_bitmap_smile": {
+    "message0": "😊 Lächeln-Bitmap",
+    "tooltip": "Lächeln-Symbol-Bitmap"
+  }
+}

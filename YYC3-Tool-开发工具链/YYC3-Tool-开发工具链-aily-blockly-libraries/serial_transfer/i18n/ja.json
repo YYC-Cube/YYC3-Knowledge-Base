@@ -1,0 +1,126 @@
+{
+  "toolbox_name": "SerialTransfer",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "发送数据": "データを送信する",
+    "接收数据": "データを受信する",
+    "状态": "ステータス"
+  },
+  "toolbox_categories": ["シリアル転送", "I2C 転送", "SPI 転送"],
+  "serial_transfer_init": {
+    "message0": "SerialTransfer %1 を初期化 ポート %2 ボーレート %3",
+    "tooltip": "SerialTransferオブジェクトを初期化し、シリアルポートとボーレートを設定します"
+  },
+  "serial_transfer_send_int": {
+    "message0": "SerialTransfer %1 整数を送信 %2 パケットID %3",
+    "tooltip": "SerialTransferで整数値を送信します"
+  },
+  "serial_transfer_send_float": {
+    "message0": "SerialTransfer %1 浮動小数点を送信 %2 パケットID %3",
+    "tooltip": "SerialTransferで浮動小数点数を送信します"
+  },
+  "serial_transfer_send_string": {
+    "message0": "SerialTransfer %1 文字列を送信 %2 パケットID %3",
+    "tooltip": "SerialTransferで文字列を送信します"
+  },
+  "serial_transfer_available": {
+    "message0": "SerialTransfer %1 新しいデータを受信",
+    "tooltip": "SerialTransferが新しい有効なデータを受信したか確認します"
+  },
+  "serial_transfer_receive_int": {
+    "message0": "SerialTransfer %1 整数を受信",
+    "tooltip": "SerialTransferから整数値を受信します"
+  },
+  "serial_transfer_receive_float": {
+    "message0": "SerialTransfer %1 浮動小数点を受信",
+    "tooltip": "SerialTransferから浮動小数点数を受信します"
+  },
+  "serial_transfer_receive_string": {
+    "message0": "SerialTransfer %1 文字列を受信 長さ %2",
+    "tooltip": "SerialTransferから指定長さの文字列を受信します"
+  },
+  "serial_transfer_status": {
+    "message0": "SerialTransfer %1 転送状態",
+    "tooltip": "SerialTransferの転送状態コードを取得（2=新データ, 1=データなし, 0=CRCエラー）"
+  },
+  "serial_transfer_current_packet_id": {
+    "message0": "SerialTransfer %1 現在のパケットID",
+    "tooltip": "最近受信したパケットのIDを取得します"
+  },
+  "i2c_transfer_init_master": {
+    "message0": "I2CTransfer マスター %1 を初期化 I2C %2",
+    "tooltip": "I2CTransferマスターオブジェクトをI2Cインターフェースで初期化します"
+  },
+  "i2c_transfer_init_slave": {
+    "message0": "I2CTransfer スレーブ %1 を初期化 I2C %2 アドレス %3",
+    "tooltip": "I2CTransferスレーブオブジェクトをI2Cインターフェースとアドレスで初期化します"
+  },
+  "i2c_transfer_send_int": {
+    "message0": "I2CTransfer %1 整数を送信 %2 アドレス %3 パケットID %4",
+    "tooltip": "I2Cで指定アドレスに整数値を送信します"
+  },
+  "i2c_transfer_send_float": {
+    "message0": "I2CTransfer %1 浮動小数点を送信 %2 アドレス %3 パケットID %4",
+    "tooltip": "I2Cで指定アドレスに浮動小数点数を送信します"
+  },
+  "i2c_transfer_send_string": {
+    "message0": "I2CTransfer %1 文字列を送信 %2 アドレス %3 パケットID %4",
+    "tooltip": "I2Cで指定アドレスに文字列を送信します"
+  },
+  "i2c_transfer_receive_int": {
+    "message0": "I2CTransfer %1 整数を受信",
+    "tooltip": "I2Cから整数値を受信します"
+  },
+  "i2c_transfer_receive_float": {
+    "message0": "I2CTransfer %1 浮動小数点を受信",
+    "tooltip": "I2Cから浮動小数点数を受信します"
+  },
+  "i2c_transfer_receive_string": {
+    "message0": "I2CTransfer %1 文字列を受信 長さ %2",
+    "tooltip": "I2Cから指定長さの文字列を受信します"
+  },
+  "i2c_transfer_status": {
+    "message0": "I2CTransfer %1 転送状態",
+    "tooltip": "I2CTransferの転送状態コードを取得します"
+  },
+  "spi_transfer_init_master": {
+    "message0": "SPITransfer マスター %1 を初期化 SSピン %2",
+    "tooltip": "SPITransferマスターオブジェクトをSSピンで初期化します"
+  },
+  "spi_transfer_init_slave": {
+    "message0": "SPITransfer スレーブ %1 を初期化",
+    "tooltip": "SPITransferスレーブオブジェクトをSPI割り込みで初期化します"
+  },
+  "spi_transfer_send_int": {
+    "message0": "SPITransfer %1 整数を送信 %2 パケットID %3",
+    "tooltip": "SPIで整数値を送信します"
+  },
+  "spi_transfer_send_float": {
+    "message0": "SPITransfer %1 浮動小数点を送信 %2 パケットID %3",
+    "tooltip": "SPIで浮動小数点数を送信します"
+  },
+  "spi_transfer_send_string": {
+    "message0": "SPITransfer %1 文字列を送信 %2 パケットID %3",
+    "tooltip": "SPIで文字列を送信します"
+  },
+  "spi_transfer_available": {
+    "message0": "SPITransfer %1 新しいデータを受信",
+    "tooltip": "SPITransferが割り込みで新しいデータを受信したか確認します"
+  },
+  "spi_transfer_receive_int": {
+    "message0": "SPITransfer %1 整数を受信",
+    "tooltip": "SPIから整数値を受信します"
+  },
+  "spi_transfer_receive_float": {
+    "message0": "SPITransfer %1 浮動小数点を受信",
+    "tooltip": "SPIから浮動小数点数を受信します"
+  },
+  "spi_transfer_receive_string": {
+    "message0": "SPITransfer %1 文字列を受信 長さ %2",
+    "tooltip": "SPIから指定長さの文字列を受信します"
+  },
+  "spi_transfer_status": {
+    "message0": "SPITransfer %1 転送状態",
+    "tooltip": "SPITransferの転送状態コードを取得します"
+  }
+}

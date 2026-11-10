@@ -1,0 +1,10 @@
+{
+  "appDescription": {
+    "message": "Add a button to quickly access Repomix from GitHub repositories",
+    "description": "The description of the extension"
+  },
+  "openWithRepomix": {
+    "message": "Open with Repomix",
+    "description": "Button tooltip text for opening repository with Repomix"
+  }
+}

@@ -1,0 +1,566 @@
+//! Structural directive transforms (v-if, v-for).
+
+use vize_carton::{Box, String, Vec};
+
+use crate::errors::ErrorCode;
+use crate::{
+    ConstantType, ElementNode, ElementType, ExpressionNode, ForNode, ForParseResult, IfBranchNode,
+    IfNode, PropNode, RuntimeHelper, SimpleExpressionNode, SourceLocation, TemplateChildNode,
+};
+
+use super::context::clone_expression;
+use super::traverse::traverse_children;
+use super::{ExitFns, ParentNode, TransformContext};
+
+/// Simple expression content for passing between functions
+pub struct SimpleExpressionContent {
+    pub content: String,
+    pub is_static: bool,
+    pub loc: SourceLocation,
+}
+
+#[derive(Clone, Copy)]
+pub enum StructuralDirectiveKind {
+    If,
+    ElseIf,
+    Else,
+    For,
+}
+
+fn directive_expression_to_content(exp: ExpressionNode<'_>) -> SimpleExpressionContent {
+    match exp {
+        ExpressionNode::Simple(s) => {
+            let s = Box::into_inner(s);
+            SimpleExpressionContent {
+                content: s.content,
+                is_static: s.is_static,
+                loc: s.loc,
+            }
+        }
+        ExpressionNode::Compound(c) => {
+            let c = Box::into_inner(c);
+            let loc = c.loc;
+            SimpleExpressionContent {
+                content: loc.source.clone(),
+                is_static: false,
+                loc,
+            }
+        }
+    }
+}
+
+/// Take the highest-priority structural directive from an element.
+///
+/// In Vue 3, v-if has higher priority than v-for when both are present on the same element.
+/// This removes the selected directive from the element in the same pass we discover it.
+pub fn take_structural_directive<'a>(
+    el: &mut Box<'a, ElementNode<'a>>,
+) -> Option<(
+    StructuralDirectiveKind,
+    Option<SimpleExpressionContent>,
+    SourceLocation,
+)> {
+    let mut selected_if = None;
+    let mut selected_for = None;
+
+    for (idx, prop) in el.props.iter().enumerate() {
+        if let PropNode::Directive(dir) = prop {
+            match dir.name.as_str() {
+                "if" => {
+                    selected_if = Some((idx, StructuralDirectiveKind::If));
+                    break;
+                }
+                "else-if" => {
+                    selected_if = Some((idx, StructuralDirectiveKind::ElseIf));
+                    break;
+                }
+                "else" => {
+                    selected_if = Some((idx, StructuralDirectiveKind::Else));
+                    break;
+                }
+                "for" if selected_for.is_none() => {
+                    selected_for = Some((idx, StructuralDirectiveKind::For));
+                }
+                _ => {}
+            }
+        }
+    }
+
+    let (directive_idx, directive_kind) = selected_if.or(selected_for)?;
+    let directive = match el.props.remove(directive_idx) {
+        PropNode::Directive(dir) => Box::into_inner(dir),
+        PropNode::Attribute(_) => {
+            // Panic path by invariant: `directive_idx` is selected only while
+            // iterating over `PropNode::Directive`. Hitting this means the prop
+            // vector was mutated between selection and removal, which would be a
+            // transform bug rather than malformed user input.
+            unreachable!("structural directives are always directive props")
+        }
+    };
+
+    Some((
+        directive_kind,
+        directive.exp.map(directive_expression_to_content),
+        directive.loc,
+    ))
+}
+
+/// Extract and remove key prop from element
+pub fn extract_key_prop<'a>(el: &mut ElementNode<'a>) -> Option<PropNode<'a>> {
+    let mut key_index = None;
+    for (i, prop) in el.props.iter().enumerate() {
+        match prop {
+            PropNode::Attribute(attr) if attr.name == "key" => {
+                key_index = Some(i);
+                break;
+            }
+            PropNode::Directive(dir) if dir.name == "bind" => {
+                if let Some(ExpressionNode::Simple(arg)) = &dir.arg
+                    && arg.content == "key"
+                {
+                    key_index = Some(i);
+                    break;
+                }
+            }
+            _ => {}
+        }
+    }
+    key_index.map(|i| el.props.remove(i))
+}
+
+/// Transform v-if directive
+pub fn transform_v_if<'a>(
+    ctx: &mut TransformContext<'a>,
+    exp: Option<&SimpleExpressionContent>,
+    is_root: bool,
+) -> Option<ExitFns<'a>> {
+    let directive_loc = exp
+        .map(|exp| exp.loc.clone())
+        .unwrap_or(SourceLocation::STUB);
+
+    transform_v_if_with_directive(
+        ctx,
+        StructuralDirectiveKind::If,
+        exp,
+        &directive_loc,
+        is_root,
+    )
+}
+
+pub(crate) fn transform_v_if_with_directive<'a>(
+    ctx: &mut TransformContext<'a>,
+    directive_kind: StructuralDirectiveKind,
+    exp: Option<&SimpleExpressionContent>,
+    directive_loc: &SourceLocation,
+    is_root: bool,
+) -> Option<ExitFns<'a>> {
+    let allocator = ctx.allocator;
+
+    if matches!(
+        directive_kind,
+        StructuralDirectiveKind::If | StructuralDirectiveKind::ElseIf
+    ) && exp.is_none()
+    {
+        ctx.on_error(ErrorCode::VIfNoExpression, Some(directive_loc.clone()));
+        return None;
+    }
+
+    if is_root {
+        // Take the current element from parent
+        let taken = ctx.take_current_node();
+        let taken_node = taken?;
+
+        // Get element info before moving
+        let (element_loc, is_template_if) = match &taken_node {
+            TemplateChildNode::Element(el) => {
+                (el.loc.clone(), el.tag_type == ElementType::Template)
+            }
+            _ => return None,
+        };
+
+        // Create condition expression and process it for identifier prefixing
+        let condition = exp.map(|e| {
+            let raw_exp = ExpressionNode::Simple(Box::new_in(
+                SimpleExpressionNode {
+                    content: e.content.clone(),
+                    is_static: e.is_static,
+                    const_type: if e.is_static {
+                        ConstantType::CanStringify
+                    } else {
+                        ConstantType::NotConstant
+                    },
+                    loc: e.loc.clone(),
+                    js_ast: None,
+                    hoisted: None,
+                    identifiers: None,
+                    is_handler_key: false,
+                    is_ref_transformed: false,
+                },
+                allocator,
+            ));
+            // Process expression to add $setup. prefix
+            if ctx.options.prefix_identifiers || ctx.options.is_ts {
+                crate::steps::expression::process_expression(ctx, &raw_exp, false)
+            } else {
+                raw_exp
+            }
+        });
+
+        // Extract user key from the element if present,
+        // but NOT if the element also has v-for (the key belongs to v-for in that case)
+        let mut user_key = None;
+        let taken_node = match taken_node {
+            TemplateChildNode::Element(mut el) => {
+                let has_v_for = el
+                    .props
+                    .iter()
+                    .any(|p| matches!(p, PropNode::Directive(d) if d.name.as_str() == "for"));
+                if !has_v_for {
+                    user_key = extract_key_prop(&mut el);
+                }
+                TemplateChildNode::Element(el)
+            }
+            other => other,
+        };
+
+        // Process user_key expression for identifier prefixing (e.g., keyA -> _ctx.keyA)
+        if let Some(PropNode::Directive(ref mut dir)) = user_key
+            && (ctx.options.prefix_identifiers || ctx.options.is_ts)
+            && let Some(ref exp) = dir.exp
+        {
+            let processed = crate::steps::expression::process_expression(ctx, exp, false);
+            dir.exp = Some(processed);
+        }
+
+        // Create branch with the taken element
+        let mut branch_children = Vec::new_in(allocator);
+        branch_children.push(taken_node);
+
+        let branch = IfBranchNode {
+            condition,
+            children: branch_children,
+            user_key,
+            is_template_if,
+            loc: element_loc.clone(),
+        };
+
+        let mut branches = Vec::new_in(allocator);
+        branches.push(branch);
+
+        let if_node = IfNode {
+            branches,
+            loc: element_loc,
+        };
+
+        // Replace placeholder with IfNode
+        ctx.replace_node(TemplateChildNode::If(Box::new_in(if_node, allocator)));
+
+        // Add helpers
+        ctx.helper(RuntimeHelper::OpenBlock);
+        ctx.helper(RuntimeHelper::CreateBlock);
+        ctx.helper(RuntimeHelper::Fragment);
+        ctx.helper(RuntimeHelper::CreateComment);
+
+        None
+    } else {
+        // Find previous v-if node and add branch to it
+        let child_index = ctx.child_index;
+
+        // First, find the if node index
+        let found_if_idx = if let Some(parent) = &ctx.parent {
+            let children = parent.children_mut();
+            let mut found = None;
+
+            // Look backwards for v-if node
+            for j in (0..child_index).rev() {
+                match &children[j] {
+                    TemplateChildNode::If(_) => {
+                        found = Some(j);
+                        break;
+                    }
+                    TemplateChildNode::Comment(_) => continue,
+                    TemplateChildNode::Text(t) if t.content.trim().is_empty() => continue,
+                    _ => break,
+                }
+            }
+            found
+        } else {
+            None
+        };
+
+        if let Some(if_idx) = found_if_idx {
+            // Take current element
+            let taken = ctx.take_current_node();
+            let taken_node = taken?;
+
+            let (element_loc, is_template_if) = match &taken_node {
+                TemplateChildNode::Element(el) => {
+                    (el.loc.clone(), el.tag_type == ElementType::Template)
+                }
+                _ => return None,
+            };
+
+            // Create condition for else-if, None for else
+            let condition = exp.map(|e| {
+                let raw_exp = ExpressionNode::Simple(Box::new_in(
+                    SimpleExpressionNode {
+                        content: e.content.clone(),
+                        is_static: e.is_static,
+                        const_type: if e.is_static {
+                            ConstantType::CanStringify
+                        } else {
+                            ConstantType::NotConstant
+                        },
+                        loc: e.loc.clone(),
+                        js_ast: None,
+                        hoisted: None,
+                        identifiers: None,
+                        is_handler_key: false,
+                        is_ref_transformed: false,
+                    },
+                    allocator,
+                ));
+                // Process expression to add $setup. prefix
+                if ctx.options.prefix_identifiers || ctx.options.is_ts {
+                    crate::steps::expression::process_expression(ctx, &raw_exp, false)
+                } else {
+                    raw_exp
+                }
+            });
+
+            // Extract user key from the element if present,
+            // but NOT if the element also has v-for (the key belongs to v-for in that case)
+            let mut user_key = None;
+            let taken_node = match taken_node {
+                TemplateChildNode::Element(mut el) => {
+                    let has_v_for = el
+                        .props
+                        .iter()
+                        .any(|p| matches!(p, PropNode::Directive(d) if d.name.as_str() == "for"));
+                    if !has_v_for {
+                        user_key = extract_key_prop(&mut el);
+                    }
+                    TemplateChildNode::Element(el)
+                }
+                other => other,
+            };
+
+            // Process user_key expression for identifier prefixing
+            if let Some(PropNode::Directive(ref mut dir)) = user_key
+                && (ctx.options.prefix_identifiers || ctx.options.is_ts)
+                && let Some(ref exp) = dir.exp
+            {
+                let processed = crate::steps::expression::process_expression(ctx, exp, false);
+                dir.exp = Some(processed);
+            }
+
+            // Check for key collision with existing branches (vuejs/core #13881)
+            let has_key_collision = if let Some(ref new_key) = user_key {
+                let new_key_str = extract_key_value_str(new_key);
+                if let Some(parent) = &ctx.parent {
+                    let children = parent.children_mut();
+                    if let TemplateChildNode::If(if_node) = &children[if_idx] {
+                        if_node.branches.iter().any(|existing_branch| {
+                            if let Some(ref existing_key) = existing_branch.user_key {
+                                let existing_key_str = extract_key_value_str(existing_key);
+                                matches!((&new_key_str, &existing_key_str), (Some(nk), Some(ek)) if nk == ek)
+                            } else {
+                                false
+                            }
+                        })
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                }
+            } else {
+                false
+            };
+
+            if has_key_collision {
+                ctx.on_error(ErrorCode::VIfSameKey, None);
+            }
+
+            // Create new branch
+            let mut branch_children = Vec::new_in(allocator);
+            branch_children.push(taken_node);
+
+            let branch = IfBranchNode {
+                condition,
+                children: branch_children,
+                user_key,
+                is_template_if,
+                loc: element_loc,
+            };
+
+            // Add branch to if node and traverse its children
+            // Save context state before traversing (traverse_children modifies parent)
+            let saved_parent = ctx.parent;
+            let saved_grandparent = ctx.grandparent;
+            let saved_child_index = ctx.child_index;
+
+            if let Some(parent) = &ctx.parent {
+                let children = parent.children_mut();
+                if let TemplateChildNode::If(if_node) = &mut children[if_idx] {
+                    if_node.branches.push(branch);
+                    // Traverse the newly added branch to process components in it
+                    let branch_idx = if_node.branches.len() - 1;
+                    let branch_ptr = &mut if_node.branches[branch_idx] as *mut IfBranchNode<'a>;
+                    traverse_children(ctx, ParentNode::IfBranch(branch_ptr));
+                }
+            }
+
+            // Restore context state before removing node
+            ctx.parent = saved_parent;
+            ctx.grandparent = saved_grandparent;
+            ctx.child_index = saved_child_index;
+
+            // Remove the placeholder we left
+            ctx.remove_node();
+        } else {
+            ctx.on_error(ErrorCode::VElseNoAdjacentIf, None);
+        }
+
+        None
+    }
+}
+
+/// Transform v-for directive
+pub fn transform_v_for<'a>(
+    ctx: &mut TransformContext<'a>,
+    exp: Option<&SimpleExpressionContent>,
+) -> Option<ExitFns<'a>> {
+    let allocator = ctx.allocator;
+
+    let Some(exp) = exp else {
+        ctx.on_error(ErrorCode::VForNoExpression, None);
+        return None;
+    };
+
+    let Some(parse_result) = crate::steps::parse_for_expression_with_options(
+        allocator,
+        &exp.content,
+        &exp.loc,
+        ctx.template_syntax_quirks(),
+    ) else {
+        ctx.on_error(ErrorCode::VForMalformedExpression, Some(exp.loc.clone()));
+        return None;
+    };
+
+    // Take the current element from parent
+    let taken = ctx.take_current_node();
+    let taken_node = taken?;
+
+    let element_loc = match &taken_node {
+        TemplateChildNode::Element(el) => el.loc.clone(),
+        _ => return None,
+    };
+
+    let mut source = parse_result.source;
+    let value_alias = parse_result.value;
+    let key_alias = parse_result.key;
+    let index_alias = parse_result.index;
+
+    // Process source expression with binding-aware identifier prefixing
+    // This ensures imports and refs are correctly handled (e.g., _unref(PRESETS) instead of _ctx.PRESETS)
+    if ctx.options.prefix_identifiers || ctx.options.is_ts {
+        use crate::steps::process_expression;
+        // Process the source expression through the binding-aware transform
+        let processed = process_expression(ctx, &source, false);
+        source = processed;
+    }
+
+    // Create ForNode children with taken element
+    let mut for_children = Vec::new_in(allocator);
+    for_children.push(taken_node);
+
+    // Create parse result (clone expressions for parse_result)
+    let parse_result = ForParseResult {
+        source: clone_expression(allocator, &source),
+        value: value_alias.as_ref().map(|e| clone_expression(allocator, e)),
+        key: key_alias.as_ref().map(|e| clone_expression(allocator, e)),
+        index: index_alias.as_ref().map(|e| clone_expression(allocator, e)),
+        finalized: false,
+    };
+
+    let for_node = ForNode {
+        source,
+        value_alias,
+        key_alias,
+        object_index_alias: index_alias,
+        parse_result,
+        children: for_children,
+        loc: element_loc,
+    };
+
+    // Replace placeholder with ForNode
+    ctx.replace_node(TemplateChildNode::For(Box::new_in(for_node, allocator)));
+
+    // Add helpers
+    ctx.helper(RuntimeHelper::RenderList);
+    ctx.helper(RuntimeHelper::OpenBlock);
+    ctx.helper(RuntimeHelper::CreateBlock);
+    ctx.helper(RuntimeHelper::CreateElementBlock);
+    ctx.helper(RuntimeHelper::Fragment);
+
+    None
+}
+
+#[cfg(test)]
+#[allow(clippy::disallowed_macros)]
+mod tests {
+    use bumpalo::Bump;
+
+    use super::super::traverse::traverse_children;
+    use super::*;
+    use crate::errors::CompilerError;
+    use crate::lane::{ParentNode, TransformContext};
+    use crate::options::TransformOptions;
+    use crate::parser::parse;
+
+    fn transform_errors(source: &str) -> std::vec::Vec<CompilerError> {
+        let allocator = Bump::new();
+        let (mut root, errors) = parse(&allocator, source);
+        assert!(errors.is_empty(), "Parse errors: {:?}", errors);
+
+        let mut ctx =
+            TransformContext::new(&allocator, root.source.clone(), TransformOptions::default());
+        traverse_children(&mut ctx, ParentNode::Root(&mut root as *mut _));
+        ctx.errors
+    }
+
+    #[test]
+    fn test_v_if_without_expression_reports_error() {
+        let errors = transform_errors(r#"<div v-if>always</div>"#);
+
+        assert_eq!(errors.len(), 1);
+        assert_eq!(errors[0].code, ErrorCode::VIfNoExpression);
+    }
+
+    #[test]
+    fn test_v_else_if_without_expression_reports_error() {
+        let errors = transform_errors(r#"<div v-if="ok">yes</div><div v-else-if>maybe</div>"#);
+
+        assert_eq!(errors.len(), 1);
+        assert_eq!(errors[0].code, ErrorCode::VIfNoExpression);
+    }
+
+    #[test]
+    fn test_v_else_without_expression_stays_valid() {
+        let errors = transform_errors(r#"<div v-if="ok">yes</div><div v-else>no</div>"#);
+
+        assert!(errors.is_empty(), "Unexpected errors: {:?}", errors);
+    }
+}
+
+/// Extract key value string from a PropNode for comparison
+fn extract_key_value_str(prop: &PropNode<'_>) -> Option<String> {
+    match prop {
+        PropNode::Attribute(attr) => attr.value.as_ref().map(|v| v.content.clone()),
+        PropNode::Directive(dir) => dir.exp.as_ref().map(|exp| match exp {
+            ExpressionNode::Simple(s) => s.content.clone(),
+            ExpressionNode::Compound(c) => c.loc.source.clone(),
+        }),
+    }
+}

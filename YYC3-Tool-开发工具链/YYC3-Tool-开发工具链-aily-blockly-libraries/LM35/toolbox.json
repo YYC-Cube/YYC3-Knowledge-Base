@@ -1,0 +1,11 @@
+{
+    "kind": "category",
+    "icon": "fa-light fa-temperature-half",
+    "name": "LM35温度传感器",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "lm35_read"
+        }
+    ]
+}

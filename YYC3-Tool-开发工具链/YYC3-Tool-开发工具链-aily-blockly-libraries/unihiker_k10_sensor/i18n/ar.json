@@ -1,0 +1,69 @@
+{
+  "toolbox_name": "K10 مستشعر",
+  "k10_get_accelerometer": {
+    "message0": "الحصول على مقياس التسارع المحور %1",
+    "tooltip": "الحصول على بيانات محور مقياس التسارع المدمج في K10",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_get_strength": {
+    "message0": "الحصول على قيمة شدة الضوء",
+    "tooltip": "الحصول على قيمة مستشعر الضوء المدمج في K10"
+  },
+  "k10_aht20_measure": {
+    "message0": "AHT20 بدء القياس CRC %1",
+    "tooltip": "بدء قياس AHT20 مرة واحدة؛ يعيد true عند الانتهاء، ثم اقرأ درجة الحرارة/الرطوبة",
+    "args0": [
+      {
+        "options": [
+          [
+            "تشغيل",
+            "true"
+          ],
+          [
+            "إيقاف",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_temperature": {
+    "message0": "AHT20 الحصول على درجة الحرارة %1",
+    "tooltip": "Get AHT20 temperature; measurement starts automatically",
+    "args0": [
+      {
+        "options": [
+          [
+            "مئوية(℃)",
+            "C"
+          ],
+          [
+            "فهرنهايت(℉)",
+            "F"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_humidity": {
+    "message0": "AHT20 الحصول على الرطوبة النسبية(%RH)",
+    "tooltip": "Get AHT20 relative humidity; measurement starts automatically"
+  }
+}

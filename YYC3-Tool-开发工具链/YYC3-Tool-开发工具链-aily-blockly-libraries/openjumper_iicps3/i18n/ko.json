@@ -1,0 +1,49 @@
+{
+"toolbox_name": "IICPS3",
+"openjumper_iicps3_init": {
+    "message0": "IICPS3 컨트롤러 %1 모듈 초기화"
+},
+"openjumper_iicps3_run": {
+    "message0": "%1 데이터 해석 시작"
+},
+"openjumper_iicps3_butstate": {
+    "message0": "%1IIC 컨트롤러 %2 버튼 상태",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["왼손-위", "up"],
+                ["왼손-아래", "down"],
+                ["왼손-왼쪽", "left"],
+                ["왼손-오른쪽", "right"],
+                ["오른손-위", "triangle"],
+                ["오른손-아래", "cross"],
+                ["오른손-왼쪽", "square"],
+                ["오른손-오른쪽", "circle"],
+                ["왼앞-1", "l1"],
+                ["왼앞-2", "l2"],
+                ["왼쪽 스틱", "l3"],
+                ["오른앞-1", "r1"],
+                ["오른앞-2", "r2"],
+                ["오른쪽 스틱", "r3"],
+                ["선택", "select"],
+                ["시작", "start"]
+            ]
+        }
+    ]
+},
+"openjumper_iicps3_xy": {
+    "message0": "%1IIC 컨트롤러 %2 스틱 데이터",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["왼쪽 스틱-X축", "lx"],
+                ["왼쪽 스틱-Y축", "ly"],
+                ["오른쪽 스틱-X축", "rx"],
+                ["오른쪽 스틱-Y축", "ry"]
+            ]
+        }
+    ]
+}
+}

@@ -1,0 +1,47 @@
+{
+  "kind": "category",
+  "name": "LSM303AGR",
+  "colour": "#5B99A5",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "加速度计"
+    },
+    {
+      "kind": "block",
+      "type": "lsm303agr_acc_init"
+    },
+    {
+      "kind": "block",
+      "type": "lsm303agr_acc_get_axis"
+    },
+    {
+      "kind": "block",
+      "type": "lsm303agr_acc_get_temperature"
+    },
+    {
+      "kind": "label",
+      "text": "磁力计"
+    },
+    {
+      "kind": "block",
+      "type": "lsm303agr_mag_init"
+    },
+    {
+      "kind": "block",
+      "type": "lsm303agr_mag_get_axis"
+    },
+    {
+      "kind": "label",
+      "text": "姿态解算(AHRS)"
+    },
+    {
+      "kind": "block",
+      "type": "lsm303agr_ahrs_update"
+    },
+    {
+      "kind": "block",
+      "type": "lsm303agr_ahrs_get_angle"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "toolbox_name": "以太网(Ethernet)",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "状态查询": "状态查询"
+  },
+  "esp32_eth_begin": {
+    "message0": "初始化以太网 PHY类型 %1 PHY地址 %2",
+    "tooltip": "初始化以太网接口",
+    "args0": [
+      {
+        "options": [
+          [
+            "LAN8720",
+            "ETH_PHY_LAN8720"
+          ],
+          [
+            "TLK110",
+            "ETH_PHY_TLK110"
+          ],
+          [
+            "RTL8201",
+            "ETH_PHY_RTL8201"
+          ],
+          [
+            "DP83848",
+            "ETH_PHY_DP83848"
+          ],
+          [
+            "KSZ8041",
+            "ETH_PHY_KSZ8041"
+          ],
+          [
+            "KSZ8081",
+            "ETH_PHY_KSZ8081"
+          ],
+          [
+            "W5500",
+            "ETH_PHY_W5500"
+          ],
+          [
+            "DM9051",
+            "ETH_PHY_DM9051"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_eth_begin_spi": {
+    "message0": "初始化SPI以太网 PHY类型 %1 CS %2 IRQ %3 RST %4",
+    "tooltip": "通过SPI初始化以太网(适用于W5500等SPI PHY)",
+    "args0": [
+      {
+        "options": [
+          [
+            "W5500",
+            "ETH_PHY_W5500"
+          ],
+          [
+            "DM9051",
+            "ETH_PHY_DM9051"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "esp32_eth_connected": {
+    "message0": "以太网已连接",
+    "tooltip": "检查以太网是否已连接"
+  },
+  "esp32_eth_local_ip": {
+    "message0": "以太网本地IP地址",
+    "tooltip": "获取以太网本地IP地址"
+  },
+  "esp32_eth_mac": {
+    "message0": "以太网MAC地址",
+    "tooltip": "获取以太网MAC地址"
+  },
+  "esp32_eth_full_duplex": {
+    "message0": "以太网全双工模式",
+    "tooltip": "检查以太网是否工作在全双工模式"
+  },
+  "esp32_eth_link_speed": {
+    "message0": "以太网链接速度",
+    "tooltip": "获取以太网链接速度(Mbps)"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "toolbox_name": "RadioLib LoRa",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "参数设置": "パラメータ設定",
+    "阻塞式通信": "通信をブロックする",
+    "中断式通信": "中断された通信",
+    "状态查询": "ステータスクエリ",
+    "电源管理": "電源管理"
+  },
+  "radiolib_lora_init": {
+    "message0": "LoRa初期化 %1 名前 %2",
+    "message1": "ピン CS %1 IRQ %2 RST %3 GPIO %4",
+    "message2": "周波数(MHz) %1 出力(dBm) %2",
+    "tooltip": "LoRa無線モジュールを初期化します。SX127x: IRQ=DIO0, GPIO=DIO1; SX126x: IRQ=DIO1, GPIO=BUSY"
+  },
+  "radiolib_set_bandwidth": {
+    "message0": "%1 帯域幅(kHz)を設定 %2",
+    "tooltip": "LoRa帯域幅を設定。帯域幅が大きいほど速度は速いが距離は短い",
+    "args0": [null, {"options": [["7.8","7.8"],["10.4","10.4"],["15.6","15.6"],["20.8","20.8"],["31.25","31.25"],["41.7","41.7"],["62.5","62.5"],["125","125.0"],["250","250.0"],["500","500.0"]]}]
+  },
+  "radiolib_set_spreading_factor": {
+    "message0": "%1 拡散率を設定 %2",
+    "tooltip": "LoRa拡散率(6-12)を設定。値が大きいほど距離は長いが速度は遅い",
+    "args0": [null, {"options": [["6","6"],["7","7"],["8","8"],["9","9"],["10","10"],["11","11"],["12","12"]]}]
+  },
+  "radiolib_set_coding_rate": {
+    "message0": "%1 符号化率を設定 %2",
+    "tooltip": "LoRa符号化率を設定。値が大きいほど誤り訂正は強いが速度は遅い",
+    "args0": [null, {"options": [["4/5","5"],["4/6","6"],["4/7","7"],["4/8","8"]]}]
+  },
+  "radiolib_set_frequency": { "message0": "%1 周波数(MHz)を設定 %2", "tooltip": "搬送波周波数を設定" },
+  "radiolib_set_power": { "message0": "%1 送信出力(dBm)を設定 %2", "tooltip": "送信出力を設定" },
+  "radiolib_set_sync_word": { "message0": "%1 同期ワードを設定 %2", "tooltip": "LoRa同期ワードを設定。送受信で一致が必要" },
+  "radiolib_transmit": { "message0": "%1 メッセージを送信 %2", "tooltip": "テキストメッセージを送信（ブロッキングモード）" },
+  "radiolib_receive": { "message0": "%1 メッセージを受信", "tooltip": "メッセージを受信（ブロッキングモード）" },
+  "radiolib_on_receive": { "message0": "%1 がデータを受信したとき", "message1": "実行 %1", "tooltip": "LoRaモジュールがパケットを受信したときにコールバック" },
+  "radiolib_start_receive": { "message0": "%1 受信を開始", "tooltip": "非同期受信モードを開始" },
+  "radiolib_received_data": { "message0": "%1 受信データ", "tooltip": "受信コールバック内でデータを取得" },
+  "radiolib_received_rssi": { "message0": "%1 受信RSSI", "tooltip": "受信コールバック内でRSSIを取得" },
+  "radiolib_received_snr": { "message0": "%1 受信SNR", "tooltip": "受信コールバック内でSNRを取得" },
+  "radiolib_get_rssi": { "message0": "%1 RSSIを取得", "tooltip": "最後の受信のRSSIを取得" },
+  "radiolib_get_snr": { "message0": "%1 SNRを取得", "tooltip": "最後の受信のSNRを取得" },
+  "radiolib_sleep": { "message0": "%1 スリープモードに入る", "tooltip": "低消費電力スリープモード" },
+  "radiolib_standby": { "message0": "%1 スタンバイモードに入る", "tooltip": "スタンバイモード、高速復帰可能" }
+}

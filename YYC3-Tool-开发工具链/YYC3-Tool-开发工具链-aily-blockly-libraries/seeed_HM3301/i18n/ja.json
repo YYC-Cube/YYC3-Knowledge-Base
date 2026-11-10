@@ -1,0 +1,36 @@
+{
+  "toolbox_name": "HM3301 PM2.5センサー",
+  "toolbox_labels": {
+    "传感器初始化": "センサーの初期化",
+    "数据读取": "データ読み取り"
+  },
+  "hm3301_init": {
+    "message0": "HM3301 PM2.5センサーを初期化",
+    "tooltip": "HM3301レーザー粉塵センサーを初期化（I2C通信、アドレス0x40）"
+  },
+  "hm3301_read": {
+    "message0": "HM3301読み取り %1",
+    "tooltip": "HM3301センサーから粒子状物質の濃度値を読み取る",
+    "args0": [
+      {
+        "options": [
+          ["PM1.0 標準粒子 (μg/m³)", "PM1_0_STD"],
+          ["PM2.5 標準粒子 (μg/m³)", "PM2_5_STD"],
+          ["PM10 標準粒子 (μg/m³)", "PM10_STD"],
+          ["PM1.0 大気環境 (μg/m³)", "PM1_0_ATM"],
+          ["PM2.5 大気環境 (μg/m³)", "PM2_5_ATM"],
+          ["PM10 大気環境 (μg/m³)", "PM10_ATM"]
+        ]
+      }
+    ]
+  },
+  "extensions": {
+    "hm3301_i2c_board_extension": {
+      "sda_pin": "SDAピン",
+      "scl_pin": "SCLピン",
+      "tooltip_esp32": "HM3301センサーを初期化、ESP32はSDA/SCLピンの設定が必要",
+      "tooltip_mega": "HM3301センサーを初期化（Mega2560 I2Cピン固定: SDA->20, SCL->21）",
+      "tooltip_uno": "HM3301センサーを初期化（Arduino UNO I2Cピン固定: SDA->A4, SCL->A5）"
+    }
+  }
+}

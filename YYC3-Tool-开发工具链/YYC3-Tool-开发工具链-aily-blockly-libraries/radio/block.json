@@ -1,0 +1,398 @@
+[
+  {
+    "type": "radiolib_lora_init",
+    "message0": "初始化 LoRa %1 名称 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CHIP",
+        "options": [
+          ["SX1278", "SX1278"],
+          ["SX1276", "SX1276"],
+          ["SX1262", "SX1262"],
+          ["SX1268", "SX1268"],
+          ["LLCC68", "LLCC68"],
+          ["SX1280", "SX1280"]
+        ]
+      },
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "radio"
+      }
+    ],
+    "message1": "引脚 CS %1 IRQ %2 RST %3 GPIO %4",
+    "args1": [
+      { "type": "input_value", "name": "CS", "check": "Number" },
+      { "type": "input_value", "name": "IRQ", "check": "Number" },
+      { "type": "input_value", "name": "RST", "check": "Number" },
+      { "type": "input_value", "name": "GPIO", "check": "Number" }
+    ],
+    "message2": "频率(MHz) %1 功率(dBm) %2",
+    "args2": [
+      { "type": "input_value", "name": "FREQ", "check": "Number" },
+      { "type": "input_value", "name": "POWER", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "初始化LoRa无线模块，设置芯片类型、引脚和基本参数。SX127x: IRQ=DIO0, GPIO=DIO1; SX126x: IRQ=DIO1, GPIO=BUSY",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_set_bandwidth",
+    "message0": "%1 设置带宽(kHz) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BW",
+        "options": [
+          ["7.8", "7.8"],
+          ["10.4", "10.4"],
+          ["15.6", "15.6"],
+          ["20.8", "20.8"],
+          ["31.25", "31.25"],
+          ["41.7", "41.7"],
+          ["62.5", "62.5"],
+          ["125", "125.0"],
+          ["250", "250.0"],
+          ["500", "500.0"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "设置LoRa带宽，带宽越大传输速率越快但距离越短",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_set_spreading_factor",
+    "message0": "%1 设置扩频因子 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SF",
+        "options": [
+          ["6", "6"],
+          ["7", "7"],
+          ["8", "8"],
+          ["9", "9"],
+          ["10", "10"],
+          ["11", "11"],
+          ["12", "12"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "设置LoRa扩频因子(6-12)，值越大距离越远但速率越慢",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_set_coding_rate",
+    "message0": "%1 设置编码率 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CR",
+        "options": [
+          ["4/5", "5"],
+          ["4/6", "6"],
+          ["4/7", "7"],
+          ["4/8", "8"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "设置LoRa编码率，值越大纠错能力越强但速率越慢",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_set_frequency",
+    "message0": "%1 设置频率(MHz) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      },
+      { "type": "input_value", "name": "FREQ", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "设置载波频率。SX127x: 137-525MHz, SX126x: 150-960MHz, SX1280: 2400-2500MHz",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_set_power",
+    "message0": "%1 设置发射功率(dBm) %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      },
+      { "type": "input_value", "name": "POWER", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "设置发射功率。SX127x: 2~17dBm, SX126x: -9~22dBm",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_set_sync_word",
+    "message0": "%1 设置同步字 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      },
+      { "type": "input_value", "name": "SYNC", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "设置LoRa同步字，收发双方必须一致。默认0x12，LoRaWAN使用0x34",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_transmit",
+    "message0": "%1 发送消息 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      },
+      { "type": "input_value", "name": "MESSAGE", "check": "String" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "发送文本消息（阻塞模式），等待发送完成后返回",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_receive",
+    "message0": "%1 接收消息",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "output": "String",
+    "colour": "#1565C0",
+    "tooltip": "接收消息（阻塞模式），等待直到收到数据或超时，返回收到的文本",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_on_receive",
+    "message0": "当 %1 收到数据时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      { "type": "input_statement", "name": "HANDLER" }
+    ],
+    "colour": "#1565C0",
+    "tooltip": "当LoRa模块收到数据包时触发回调，使用中断模式自动接收",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_start_receive",
+    "message0": "%1 开始接收",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "开始异步接收模式，配合中断回调使用",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_received_data",
+    "message0": "%1 收到的数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "output": "String",
+    "colour": "#1565C0",
+    "tooltip": "在接收回调中获取收到的数据内容",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_received_rssi",
+    "message0": "%1 收到的信号强度(RSSI)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "output": "Number",
+    "colour": "#1565C0",
+    "tooltip": "在接收回调中获取收到数据包的信号强度(RSSI)，单位dBm",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_received_snr",
+    "message0": "%1 收到的信噪比(SNR)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "output": "Number",
+    "colour": "#1565C0",
+    "tooltip": "在接收回调中获取收到数据包的信噪比(SNR)，单位dB",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_get_rssi",
+    "message0": "%1 获取信号强度(RSSI)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "output": "Number",
+    "colour": "#1565C0",
+    "tooltip": "获取最近一次接收的信号强度(RSSI)，单位dBm",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_get_snr",
+    "message0": "%1 获取信噪比(SNR)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "output": "Number",
+    "colour": "#1565C0",
+    "tooltip": "获取最近一次接收的信噪比(SNR)，单位dB",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_sleep",
+    "message0": "%1 进入睡眠模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "将LoRa模块置入低功耗睡眠模式",
+    "icon": "fa-light fa-tower-broadcast"
+  },
+  {
+    "type": "radiolib_standby",
+    "message0": "%1 进入待机模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "radio",
+        "variableTypes": ["RadioLib"],
+        "defaultType": "RadioLib"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "将LoRa模块置入待机模式，可快速唤醒",
+    "icon": "fa-light fa-tower-broadcast"
+  }
+]

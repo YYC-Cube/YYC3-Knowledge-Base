@@ -1,0 +1,63 @@
+{
+"toolbox_name": "텍스트 음성 변환",
+"openjumper_tts_init": {
+    "message0": "TTS 초기화 RX핀: %1 TX핀: %2",
+    "args0": [
+        null,
+        null
+    ]
+},
+"openjumper_tts_play_invoice": {
+    "message0": "내장 %1 %2번째 곡 재생",
+    "args0": [
+        {
+            "options": [
+                ["벨소리", "VOICE_Ringtones"],
+                ["알림음", "VOICE_PromptSound"],
+                ["경고음", "VOICE_WarningSound"]
+            ]
+        },
+        null
+    ]
+},
+"openjumper_tts_play_control": {
+    "message0": "%1 재생 제어",
+    "args0": [
+        {
+            "options": [
+                ["정지", "PLAY_STOP"],
+                ["일시정지", "PLAY_PAUSE"],
+                ["계속", "PLAY_CONTINUE"]
+            ]
+        }
+    ]
+},
+"openjumper_tts_play_number": {
+    "message0": "숫자 %1 재생",
+    "args0": [
+        null
+    ]
+},
+"openjumper_tts_play_text": {
+    "message0": "텍스트 %1 재생",
+    "args0": [
+        null
+    ]
+},
+"openjumper_tts_setcfg": {
+    "message0": "%1을(를) %2로 설정",
+    "args0": [
+        {
+            "options": [
+                ["말하기 속도", "setspeechSpeed"],
+                ["억양", "setIntonation"],
+                ["볼륨", "setVolume"]
+            ]
+        },
+        null
+    ]
+},
+"openjumper_tts_restore_defaults": {
+    "message0": "기본 설정 복원"
+}
+}

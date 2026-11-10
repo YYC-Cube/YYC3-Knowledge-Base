@@ -1,0 +1,511 @@
+{
+  "toolbox_name": "PS2控制器",
+  "toolbox_labels": {
+    "简化版本": "简化版本",
+    "完整版本": "完整版本",
+    "按钮检测": "按钮检测",
+    "模拟量读取": "模拟量读取",
+    "控制器信息": "控制器信息"
+  },
+  "ps2x_init": {
+    "message0": "初始化PS2控制器 CLK%1 CMD%2 ATT%3 DAT%4 压力模式%5 震动模式%6",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps2x_read": {
+    "message0": "读取PS2控制器状态 震动强度%1"
+  },
+  "ps2x_button": {
+    "message0": "PS2按钮%1被按下",
+    "args0": [
+      {
+        "options": [
+          [
+            "上",
+            "PSB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSB_CROSS"
+          ],
+          [
+            "方块",
+            "PSB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSB_L1"
+          ],
+          [
+            "L2",
+            "PSB_L2"
+          ],
+          [
+            "L3",
+            "PSB_L3"
+          ],
+          [
+            "R1",
+            "PSB_R1"
+          ],
+          [
+            "R2",
+            "PSB_R2"
+          ],
+          [
+            "R3",
+            "PSB_R3"
+          ],
+          [
+            "SELECT",
+            "PSB_SELECT"
+          ],
+          [
+            "START",
+            "PSB_START"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps2x_button_pressed": {
+    "message0": "PS2按钮%1刚被按下",
+    "args0": [
+      {
+        "options": [
+          [
+            "上",
+            "PSB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSB_CROSS"
+          ],
+          [
+            "方块",
+            "PSB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSB_L1"
+          ],
+          [
+            "L2",
+            "PSB_L2"
+          ],
+          [
+            "L3",
+            "PSB_L3"
+          ],
+          [
+            "R1",
+            "PSB_R1"
+          ],
+          [
+            "R2",
+            "PSB_R2"
+          ],
+          [
+            "R3",
+            "PSB_R3"
+          ],
+          [
+            "SELECT",
+            "PSB_SELECT"
+          ],
+          [
+            "START",
+            "PSB_START"
+          ],
+          [
+            "红色",
+            "PSB_RED"
+          ],
+          [
+            "蓝色",
+            "PSB_BLUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps2x_button_released": {
+    "message0": "PS2按钮%1刚被释放",
+    "args0": [
+      {
+        "options": [
+          [
+            "上",
+            "PSB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSB_CROSS"
+          ],
+          [
+            "方块",
+            "PSB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSB_L1"
+          ],
+          [
+            "L2",
+            "PSB_L2"
+          ],
+          [
+            "L3",
+            "PSB_L3"
+          ],
+          [
+            "R1",
+            "PSB_R1"
+          ],
+          [
+            "R2",
+            "PSB_R2"
+          ],
+          [
+            "R3",
+            "PSB_R3"
+          ],
+          [
+            "SELECT",
+            "PSB_SELECT"
+          ],
+          [
+            "START",
+            "PSB_START"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps2x_analog": {
+    "message0": "PS2模拟量%1",
+    "args0": [
+      {
+        "options": [
+          [
+            "右摇杆X",
+            "PSS_RX"
+          ],
+          [
+            "右摇杆Y",
+            "PSS_RY"
+          ],
+          [
+            "左摇杆X",
+            "PSS_LX"
+          ],
+          [
+            "左摇杆Y",
+            "PSS_LY"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps2x_analog_button": {
+    "message0": "PS2按钮%1压力值",
+    "args0": [
+      {
+        "options": [
+          [
+            "上",
+            "PSAB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSAB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSAB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSAB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSAB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSAB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSAB_CROSS"
+          ],
+          [
+            "方块",
+            "PSAB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSAB_L1"
+          ],
+          [
+            "L2",
+            "PSAB_L2"
+          ],
+          [
+            "R1",
+            "PSAB_R1"
+          ],
+          [
+            "R2",
+            "PSAB_R2"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps2x_controller_type": {
+    "message0": "PS2控制器类型"
+  },
+  "ps2x_new_button_state": {
+    "message0": "PS2按钮状态发生变化"
+  },
+  "ps2x_new_button_state_specific": {
+    "message0": "PS2按钮%1状态发生变化",
+    "args0": [
+      {
+        "options": [
+          [
+            "上",
+            "PSB_PAD_UP"
+          ],
+          [
+            "下",
+            "PSB_PAD_DOWN"
+          ],
+          [
+            "左",
+            "PSB_PAD_LEFT"
+          ],
+          [
+            "右",
+            "PSB_PAD_RIGHT"
+          ],
+          [
+            "三角形",
+            "PSB_TRIANGLE"
+          ],
+          [
+            "圆形",
+            "PSB_CIRCLE"
+          ],
+          [
+            "叉号",
+            "PSB_CROSS"
+          ],
+          [
+            "方块",
+            "PSB_SQUARE"
+          ],
+          [
+            "L1",
+            "PSB_L1"
+          ],
+          [
+            "L2",
+            "PSB_L2"
+          ],
+          [
+            "L3",
+            "PSB_L3"
+          ],
+          [
+            "R1",
+            "PSB_R1"
+          ],
+          [
+            "R2",
+            "PSB_R2"
+          ],
+          [
+            "R3",
+            "PSB_R3"
+          ],
+          [
+            "SELECT",
+            "PSB_SELECT"
+          ],
+          [
+            "START",
+            "PSB_START"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps2x_is_connected": {
+    "message0": "PS2控制器已连接"
+  },
+  "ps2x_simple_init": {
+    "message0": "简易初始化PS2控制器 CLK%1 CMD%2 ATT%3 DAT%4",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "ps2x_simple_read": {
+    "message0": "读取PS2控制器"
+  },
+  "ps2x_joystick_moved": {
+    "message0": "摇杆%1移动",
+    "args0": [
+      {
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps2x_joystick_position": {
+    "message0": "摇杆%1的%2轴位置",
+    "args0": [
+      {
+        "options": [
+          [
+            "左",
+            "LEFT"
+          ],
+          [
+            "右",
+            "RIGHT"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ]
+        ]
+      }
+    ]
+  }
+}

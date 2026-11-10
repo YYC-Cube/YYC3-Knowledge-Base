@@ -1,0 +1,482 @@
+[
+  {
+    "type": "k10_init_screen",
+    "message0": "初始化K10屏幕 方向 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          [
+            "正向",
+            "2"
+          ],
+          [
+            "反向",
+            "0"
+          ],
+          [
+            "左横屏",
+            "1"
+          ],
+          [
+            "右横屏",
+            "3"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化UNIHIKER K10屏幕并创建画布",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_set_background",
+    "message0": "设置屏幕背景颜色 %1",
+    "args0": [
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#ffffff"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置屏幕背景颜色",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_point",
+    "message0": "画点 X %1 Y %2 颜色 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#0000ff"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "在屏幕上画一个点",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_line",
+    "message0": "画线 起点X %1 Y %2 终点X %3 Y %4 颜色 %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "X2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y2",
+        "check": "Number"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#ff0000"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "在屏幕上画一条线",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_set_line_width",
+    "message0": "设置线宽 %1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "WIDTH",
+        "value": 1,
+        "min": 1,
+        "max": 10
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置画线的线宽",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_circle",
+    "message0": "画圆 圆心X %1 Y %2 半径 %3 边框颜色 %4 填充颜色 %5 填充 %6",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "R",
+        "check": "Number"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "BORDER_COLOR",
+        "colour": "#ffcc33"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "FILL_COLOR",
+        "colour": "#ffcc33"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "FILLED",
+        "checked": true
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "在屏幕上画一个圆",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_rectangle",
+    "message0": "画矩形 X %1 Y %2 宽 %3 高 %4 边框颜色 %5 填充颜色 %6 填充 %7",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "BORDER_COLOR",
+        "colour": "#ff0000"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "FILL_COLOR",
+        "colour": "#ffffff"
+      },
+      {
+        "type": "field_checkbox",
+        "name": "FILLED",
+        "checked": true
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "在屏幕上画一个矩形",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_text_simple",
+    "message0": "在第 %1 行显示文字 %2 颜色 %3",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "LINE",
+        "value": 1,
+        "min": 1,
+        "max": 7
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String",
+          "Number"
+        ]
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#0000ff"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "在屏幕指定行(1~7)显示文字，自动按行排版",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_text",
+    "message0": "显示文字 %1 X %2 Y %3 颜色 %4 字体 %5 每行字数 %6",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String",
+          "Number"
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "field_colour_hsv_sliders",
+        "name": "COLOR",
+        "colour": "#0000ff"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FONT",
+        "options": [
+          [
+            "16号字体",
+            "eCNAndENFont16"
+          ],
+          [
+            "24号字体",
+            "eCNAndENFont24"
+          ]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "LINE_CHARS",
+        "value": 25,
+        "min": 1,
+        "max": 100
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "在屏幕指定坐标显示文字。每行字数为自动换行字符数：16号字体建议25，24号字体建议10。",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_bitmap",
+    "message0": "显示内置图片 %1 X %2 Y %3 宽 %4 高 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "IMAGE",
+        "text": "image_data1"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "显示内置图片（需在工程中提供 arduino_image_cache.h 与对应图片数组，如 image_data1）",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_image",
+    "message0": "显示TF卡图片 路径 %1 X %2 Y %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PATH",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "从TF卡加载并显示图片",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_draw_qrcode",
+    "message0": "显示二维码 内容 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "CONTENT",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "在屏幕上显示二维码",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_update_canvas",
+    "message0": "刷新画布",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "刷新屏幕画布显示",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_clear_canvas",
+    "message0": "清除画布 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "清除全部",
+            "0"
+          ],
+          [
+            "清除第1行",
+            "1"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "清除画布内容（清除后通常需要再次刷新画布）",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_clear_canvas_row",
+    "message0": "清除画布第 %1 行",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "LINE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "清除画布指定行（1~7），清除后通常需要再次刷新画布",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_clear_qrcode",
+    "message0": "清除二维码",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "清除屏幕上显示的二维码",
+    "icon": "fa-light fa-display"
+  },
+  {
+    "type": "k10_screen_size",
+    "message0": "屏幕 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WHICH",
+        "options": [
+          [
+            "宽度",
+            "W"
+          ],
+          [
+            "高度",
+            "H"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "K10 屏幕分辨率：240×320（正向/反向）",
+    "icon": "fa-light fa-display"
+  }
+]

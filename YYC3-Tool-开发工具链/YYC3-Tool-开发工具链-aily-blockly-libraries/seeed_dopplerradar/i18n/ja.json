@@ -1,0 +1,60 @@
+{
+  "toolbox_name": "ドップラーレーダー",
+  "doppler_radar_init": {
+    "message0": "ドップラーレーダーを初期化 %1\nシリアル %2\nモード %3",
+    "tooltip": "BGT24LTR11ドップラーレーダーセンサーを初期化し、シリアルポートとモードを指定します",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["ターゲット検出モード", "0"],
+          ["I/Q ADCモード", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_set_mode": {
+    "message0": "ドップラーレーダー %1 のモードを %2 に設定",
+    "tooltip": "ドップラーレーダーの動作モードを設定：ターゲット検出またはI/Q ADC",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["ターゲット検出モード", "0"],
+          ["I/Q ADCモード", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_target_is": {
+    "message0": "ドップラーレーダー %1 のターゲット状態が %2",
+    "tooltip": "ドップラーレーダーが検出したターゲットの状態を確認",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["接近中", "APPROACH"],
+          ["離脱中", "LEAVE"],
+          ["ターゲットなし", "NONE"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_get_speed": {
+    "message0": "ドップラーレーダー %1 のターゲット速度",
+    "tooltip": "ドップラーレーダーが検出したターゲットの速度を取得"
+  },
+  "doppler_radar_set_threshold": {
+    "message0": "ドップラーレーダー %1 の検出閾値を %2 に設定",
+    "tooltip": "ドップラーレーダーの検出閾値を設定（0-65535）"
+  },
+  "doppler_radar_get_threshold": {
+    "message0": "ドップラーレーダー %1 の現在の閾値",
+    "tooltip": "ドップラーレーダーの現在の検出閾値を取得"
+  },
+  "doppler_radar_set_speed_scope": {
+    "message0": "ドップラーレーダー %1 の速度範囲を設定\n最大速度 %2\n最小速度 %3",
+    "tooltip": "ドップラーレーダーの速度検出範囲を設定（0-65535）"
+  }
+}

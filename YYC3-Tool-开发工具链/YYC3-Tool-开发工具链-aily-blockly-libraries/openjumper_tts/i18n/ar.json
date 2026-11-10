@@ -1,0 +1,63 @@
+{
+"toolbox_name": "تحويل النص إلى كلام",
+"openjumper_tts_init": {
+    "message0": "تهيئة TTS دبوس RX: %1 دبوس TX: %2",
+    "args0": [
+        null,
+        null
+    ]
+},
+"openjumper_tts_play_invoice": {
+    "message0": "تشغيل %1 المدمج رقم %2",
+    "args0": [
+        {
+            "options": [
+                ["نغمة رنين", "VOICE_Ringtones"],
+                ["نغمة تنبيه", "VOICE_PromptSound"],
+                ["نغمة تحذير", "VOICE_WarningSound"]
+            ]
+        },
+        null
+    ]
+},
+"openjumper_tts_play_control": {
+    "message0": "التحكم في التشغيل %1",
+    "args0": [
+        {
+            "options": [
+                ["إيقاف", "PLAY_STOP"],
+                ["إيقاف مؤقت", "PLAY_PAUSE"],
+                ["استمرار", "PLAY_CONTINUE"]
+            ]
+        }
+    ]
+},
+"openjumper_tts_play_number": {
+    "message0": "تشغيل الرقم %1",
+    "args0": [
+        null
+    ]
+},
+"openjumper_tts_play_text": {
+    "message0": "تشغيل النص %1",
+    "args0": [
+        null
+    ]
+},
+"openjumper_tts_setcfg": {
+    "message0": "ضبط %1 إلى %2",
+    "args0": [
+        {
+            "options": [
+                ["سرعة الكلام", "setspeechSpeed"],
+                ["النغمة", "setIntonation"],
+                ["مستوى الصوت", "setVolume"]
+            ]
+        },
+        null
+    ]
+},
+"openjumper_tts_restore_defaults": {
+    "message0": "استعادة الإعدادات الافتراضية"
+}
+}

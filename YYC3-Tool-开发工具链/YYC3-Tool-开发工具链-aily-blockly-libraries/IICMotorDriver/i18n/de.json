@@ -1,0 +1,111 @@
+{
+"toolbox_name": "IICMotorDriver",
+"iicmd_init": {
+    "message0": "Motorsteuerung initialisieren"
+},
+"iicmd_dirinit": {
+    "message0": "Motorrichtungsreferenz initialisieren Motor 1%1 Motor 2%2 Motor 3%3 Motor 4%4",
+    "args0": [
+        {
+            "options": [
+                ["RICHTUNG1", "DIRP"],
+                ["RICHTUNG2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["RICHTUNG1", "DIRP"],
+                ["RICHTUNG2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["RICHTUNG1", "DIRP"],
+                ["RICHTUNG2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["RICHTUNG1", "DIRP"],
+                ["RICHTUNG2", "DIRN"]
+            ]
+        }
+    ]
+},
+"iicmd_stop": {
+    "message0": "%1 anhalten",
+    "args0": [
+        {
+            "options": [
+                ["Motor 1","M1"],
+                ["Motor 2","M2"],
+                ["Motor 3","M3"],
+                ["Motor 4","M4"],
+                ["Alle Motoren","MALL"]
+            ]
+        }
+    ]
+},
+"iicmd_runone": {
+    "message0": "Motor %1 Geschwindigkeit auf %2 setzen",
+    "args0": [
+        {
+            "options": [
+                ["Motor 1","M1"],
+                ["Motor 2","M2"],
+                ["Motor 3","M3"],
+                ["Motor 4","M4"]
+            ]
+        },
+        null
+    ]
+},
+"iicmd_runall": {
+    "message0": "Alle Motoren Geschwindigkeit auf %1 setzen",
+    "args0": [
+        null
+    ]
+},
+"iicmd_runall2": {
+    "message0": "Alle Motorengeschwindigkeiten setzen Motor 1%1 Motor 2%2 Motor 3%3 Motor 4%4",
+    "args0": [
+        null,
+        null,
+        null,
+        null
+    ]
+},
+"iicmd_digitout": {
+    "message0": "Port %1 auf %2 setzen",
+    "args0": [
+        {
+            "options": [
+                ["S1","S1"],
+                ["S2","S2"],
+                ["S3","S3"],
+                ["S4","S4"]
+            ]
+        },
+        {
+            "options": [
+                ["HOCH","HIGH"],
+                ["NIEDRIG","LOW"]
+            ]
+        }
+    ]
+},
+"iicmd_servo": {
+    "message0": "Servosteuerung Port %1 auf (0-180) %2° drehen",
+    "args0": [
+        {
+            "options": [
+                ["S1","S1"],
+                ["S2","S2"],
+                ["S3","S3"],
+                ["S4","S4"]
+            ]
+        },
+        null
+    ]
+}
+}

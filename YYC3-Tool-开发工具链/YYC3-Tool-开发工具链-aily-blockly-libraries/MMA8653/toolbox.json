@@ -1,0 +1,27 @@
+{
+    "kind": "category",
+    "icon": "fa-light fa-gauge",
+    "name": "MMA8653加速度",
+    "contents": [
+        { "kind": "label", "text": "初始化" },
+        { "kind": "block", "type": "mma8653_init" },
+        { "kind": "block", "type": "mma8653_set_mode" },
+        { "kind": "block", "type": "mma8653_begin" },
+        { "kind": "label", "text": "读取加速度" },
+        { "kind": "block", "type": "mma8653_read_x" },
+        { "kind": "block", "type": "mma8653_read_y" },
+        { "kind": "block", "type": "mma8653_read_z" },
+        { "kind": "block", "type": "mma8653_read_xyz" },
+        { "kind": "label", "text": "倾角计" },
+        { "kind": "block", "type": "mma8653_get_roll" },
+        { "kind": "block", "type": "mma8653_get_pitch" },
+        { "kind": "block", "type": "mma8653_get_tilt" },
+        { "kind": "label", "text": "设置" },
+        { "kind": "block", "type": "mma8653_set_range" },
+        { "kind": "block", "type": "mma8653_set_data_rate" },
+        { "kind": "block", "type": "mma8653_set_resolution" },
+        { "kind": "label", "text": "状态" },
+        { "kind": "block", "type": "mma8653_is_active" },
+        { "kind": "block", "type": "mma8653_check_connection" }
+    ]
+}

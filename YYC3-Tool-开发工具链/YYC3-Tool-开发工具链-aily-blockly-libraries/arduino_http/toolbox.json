@@ -1,0 +1,19 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-globe",
+  "name": "Network",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "wifi_connect"
+    },
+    {
+      "kind": "block",
+      "type": "http_get"
+    },
+    {
+      "kind": "block",
+      "type": "http_post"
+    }
+  ]
+}

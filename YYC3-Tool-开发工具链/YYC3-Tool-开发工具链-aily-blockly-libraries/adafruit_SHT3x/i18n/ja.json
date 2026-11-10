@@ -1,0 +1,56 @@
+{
+  "toolbox_name": "SHT3x温湿度",
+  "toolbox_labels": {
+    "传感器初始化": "センサーの初期化",
+    "数据读取": "データ読み取り",
+    "高级功能": "高度な機能"
+  },
+  "sht31_init": {
+    "message0": "SHT3x %1 センサーを初期化 I2Cアドレス %2 I2Cバス %3",
+    "tooltip": "SHT3x温湿度センサーを初期化し、I2Cアドレスを選択",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["0x44 (デフォルト)", "0x44"],
+          ["0x45 (予備)", "0x45"]
+        ]
+      },
+      null
+    ]
+  },
+  "sht31_heater_control": {
+    "message0": "%1 ヒーター%2",
+    "tooltip": "SHT3xセンサー内蔵ヒーターのオン/オフを制御",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["オン", "true"],
+          ["オフ", "false"]
+        ]
+      }
+    ]
+  },
+  "sht31_is_heater_enabled": {
+    "message0": "%1 ヒーターが有効か",
+    "tooltip": "SHT3xセンサーのヒーターが有効かどうかを確認"
+  },
+  "sht31_reset": {
+    "message0": "%1 ソフトリセット",
+    "tooltip": "SHT3xセンサーのソフトリセットを実行"
+  },
+  "sht31_simple_read": {
+    "message0": "%1 読取%2",
+    "tooltip": "SHT3xセンサーから温度または湿度データを読み取る",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["温度(°C)", "temperature"],
+          ["湿度(%)", "humidity"]
+        ]
+      }
+    ]
+  }
+}

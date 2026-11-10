@@ -1,0 +1,162 @@
+{
+  "toolbox_name": "Low Power",
+  "toolbox_labels": {
+    "电源配置": "Power configuration",
+    "休眠模式": "sleep mode",
+    "LPCOMP 低功耗比较器": "LPCOMP Low Power Comparator",
+    "看门狗": "watchdog",
+    "唤醒与复位": "Wake up and reset"
+  },
+  "lowpower_init": {
+    "message0": "Initialize low power mode CPU freq %1 power mode %2",
+    "tooltip": "Initialize low power mode, set CPU frequency and power latency mode. Low Power allows clocks to gate during idle; Constant Latency keeps clocks running for faster wake response.",
+    "args0": [
+      {
+        "options": [
+          ["64 MHz", "64MHZ"],
+          ["128 MHz", "128MHZ"]
+        ]
+      },
+      {
+        "options": [
+          ["Low Power", "LOW_POWER"],
+          ["Constant Latency", "CONSTANT_LATENCY"]
+        ]
+      }
+    ]
+  },
+  "lowpower_enter_lowest_power": {
+    "message0": "Enter lowest power board state",
+    "tooltip": "Shut down board-level power rails and shared control nets for lowest power state. Typically called before System OFF."
+  },
+  "lowpower_set_cpu_freq": {
+    "message0": "Set CPU frequency %1",
+    "tooltip": "Dynamically switch CPU frequency at runtime. 64 MHz for low power, 128 MHz for high performance.",
+    "args0": [
+      {
+        "options": [
+          ["64 MHz", "64MHZ"],
+          ["128 MHz", "128MHZ"]
+        ]
+      }
+    ]
+  },
+  "lowpower_wfi": {
+    "message0": "WFI idle wait",
+    "tooltip": "CPU enters WFI (Wait For Interrupt) idle state until next interrupt. Simplest low power method in System ON."
+  },
+  "lowpower_sleep_ms": {
+    "message0": "Low power WFI sleep %1 ms",
+    "tooltip": "Low power delay using WFI loop, CPU automatically enters idle during wait. More power efficient than delay()."
+  },
+  "lowpower_system_off_timed": {
+    "message0": "Timed System OFF sleep %1 ms",
+    "tooltip": "Enter deepest System OFF sleep, cold boot wake after specified time. Execution restarts from setup(). Lowest power timed wake method."
+  },
+  "lowpower_system_off_button": {
+    "message0": "System OFF with button wake",
+    "tooltip": "Configure user button as wake source, then enter deepest System OFF sleep. Press button to cold boot wake, execution restarts from setup()."
+  },
+  "lowpower_system_off": {
+    "message0": "Enter System OFF %1",
+    "tooltip": "Enter deepest System OFF sleep mode. Requires pre-configured wake source (e.g. LPCOMP). No retention = lowest power, .noinit retention preserves small data across sleep.",
+    "args0": [
+      {
+        "options": [
+          ["No RAM retention (lowest power)", "NO_RETENTION"],
+          ["Retain .noinit section", "RETENTION"]
+        ]
+      }
+    ]
+  },
+  "lowpower_lpcomp_init": {
+    "message0": "Init LPCOMP pin %1 VDD %2 mV threshold %3 mV hysteresis %4 detect %5",
+    "tooltip": "Initialize Low Power Comparator (LPCOMP) to monitor analog pin voltage crossing a threshold. LPCOMP works while CPU sleeps, can be used as System OFF wake source. VDD is supply voltage (USB: 3300, LiPo: 3700).",
+    "args0": [
+      {
+        "options": [
+          ["A0", "kPinA0"],
+          ["A1", "kPinA1"],
+          ["A2", "kPinA2"],
+          ["A3", "kPinA3"],
+          ["A4", "kPinA4"],
+          ["A5", "kPinA5"]
+        ]
+      },
+      null,
+      null,
+      {
+        "options": [
+          ["On", "TRUE"],
+          ["Off", "FALSE"]
+        ]
+      },
+      {
+        "options": [
+          ["Rising edge (voltage up)", "UP"],
+          ["Falling edge (voltage down)", "DOWN"],
+          ["Both edges", "CROSS"]
+        ]
+      }
+    ]
+  },
+  "lowpower_lpcomp_poll_up": {
+    "message0": "LPCOMP detected rising crossing?",
+    "tooltip": "Check if LPCOMP detected voltage rising above threshold. Event flag auto-cleared after read. Suitable for polling in loop()."
+  },
+  "lowpower_lpcomp_sample_above": {
+    "message0": "LPCOMP currently above threshold?",
+    "tooltip": "Immediately sample LPCOMP comparator, returns whether analog input is currently above threshold."
+  },
+  "lowpower_lpcomp_clear": {
+    "message0": "Clear LPCOMP events",
+    "tooltip": "Clear all LPCOMP event flags to prevent false triggers. Typically called after LPCOMP initialization."
+  },
+  "lowpower_watchdog_init": {
+    "message0": "Init watchdog timeout %1 ms pause in sleep %2",
+    "tooltip": "Initialize watchdog timer. If not fed within timeout, the chip resets automatically. When pause in sleep is enabled, watchdog pauses during CPU sleep.",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Yes", "TRUE"],
+          ["No", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "lowpower_watchdog_feed": {
+    "message0": "Feed watchdog",
+    "tooltip": "Reset watchdog timer to prevent system reset. Must be called periodically before timeout expires."
+  },
+  "lowpower_woke_from": {
+    "message0": "Wake source is %1 ?",
+    "tooltip": "Check if this boot was triggered by the specified wake source. Use in setup() to determine cold boot vs. sleep wake. Must be used before clearing reset reason.",
+    "args0": [
+      {
+        "options": [
+          ["GPIO (button/pin)", "GPIO"],
+          ["GRTC (timer)", "GRTC"],
+          ["LPCOMP (comparator)", "LPCOMP"],
+          ["Watchdog", "WATCHDOG"]
+        ]
+      }
+    ]
+  },
+  "lowpower_reset_reason": {
+    "message0": "Reset reason value",
+    "tooltip": "Get raw value of reset reason register for advanced debugging. Must be read before clearing reset reason."
+  },
+  "lowpower_clear_reset_reason": {
+    "message0": "Clear reset reason",
+    "tooltip": "Clear reset reason register. Typically called after reading and handling wake source to prevent misidentification on next boot."
+  },
+  "lowpower_gpregret_write": {
+    "message0": "Write retained register value %1",
+    "tooltip": "Write a byte value (0-255) to GPREGRET retained register. Value is preserved during System OFF, useful for marking sleep state or passing info to post-wake program."
+  },
+  "lowpower_gpregret_read": {
+    "message0": "Read retained register",
+    "tooltip": "Read a byte value (0-255) from GPREGRET retained register. Value is preserved during System OFF, useful for detecting wake from sleep."
+  }
+}

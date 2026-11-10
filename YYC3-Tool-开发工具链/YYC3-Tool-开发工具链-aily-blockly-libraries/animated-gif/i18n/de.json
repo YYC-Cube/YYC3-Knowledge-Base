@@ -1,0 +1,52 @@
+{
+  "toolbox_name": "GIF-Animationsplayer",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "打开GIF": "GIF öffnen",
+    "播放控制": "Wiedergabesteuerung",
+    "信息获取": "Informationsbeschaffung"
+  },
+  "gif_init": {
+    "message0": "GIF-Player initialisieren %1",
+    "tooltip": "AnimatedGIF-Player-Objekt initialisieren, erfordert TFT-Display"
+  },
+  "gif_open_memory": {
+    "message0": "GIF %1 Speicherdaten öffnen Header %2 Array %3",
+    "message1": "Anzeigeposition X %1 Y %2",
+    "tooltip": "GIF-Daten aus dem Speicher (FLASH) öffnen. Geben Sie den Header-Dateinamen und den Array-Variablennamen mit den GIF-Daten sowie die Anzeigeposition an"
+  },
+  "gif_open_sd": {
+    "message0": "GIF %1 SD-Karten-Datei öffnen %2",
+    "message1": "Anzeigeposition X %1 Y %2",
+    "tooltip": "GIF-Datei von der SD-Karte öffnen. Geben Sie den Dateipfad und die Anzeigeposition an"
+  },
+  "gif_play_frame": {
+    "message0": "GIF %1 ein Bild abspielen Sync %2",
+    "tooltip": "Ein Bild der GIF-Animation abspielen. Gibt zurück, ob weitere Bilder vorhanden sind. Bei Sync 'Ja' wird die Bildverzögerung abgewartet",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Ja", "true"],
+          ["Nein", "false"]
+        ]
+      }
+    ]
+  },
+  "gif_play_all": {
+    "message0": "GIF %1 alle Bilder abspielen",
+    "tooltip": "Alle Bilder der GIF-Animation abspielen. Nach Abschluss wird der nächste Block ausgeführt"
+  },
+  "gif_close": {
+    "message0": "GIF %1 schließen",
+    "tooltip": "Die aktuell geöffnete GIF-Datei schließen und Ressourcen freigeben"
+  },
+  "gif_get_width": {
+    "message0": "GIF %1 Leinwandbreite",
+    "tooltip": "Die Leinwandbreite der aktuellen GIF-Animation abrufen (Pixel)"
+  },
+  "gif_get_height": {
+    "message0": "GIF %1 Leinwandhöhe",
+    "tooltip": "Die Leinwandhöhe der aktuellen GIF-Animation abrufen (Pixel)"
+  }
+}

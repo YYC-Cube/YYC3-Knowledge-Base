@@ -1,0 +1,169 @@
+{
+  "toolbox_name": "BMP280传感器",
+  "bmp280_init": {
+    "message0": "初始化 BMP280 传感器 I2C地址 %1 使用 %2",
+    "args0": [
+      {
+        "options": [
+          [
+            "0x76 (默认)",
+            "0x76"
+          ],
+          [
+            "0x77 (备选)",
+            "0x77"
+          ]
+        ]
+      },
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  },
+  "bmp280_read_temperature": {
+    "message0": "读取 BMP280 温度 (°C)"
+  },
+  "bmp280_read_pressure": {
+    "message0": "读取 BMP280 气压 (hPa)"
+  },
+  "bmp280_read_altitude": {
+    "message0": "读取 BMP280 高度 (米) 基准气压 %1 hPa"
+  },
+  "bmp280_set_sampling": {
+    "message0": "设置 BMP280 采样模式 工作模式 %1 温度过采样 %2 气压过采样 %3 滤波 %4 休眠时间 %5",
+    "args0": [
+      {
+        "options": [
+          [
+            "正常",
+            "MODE_NORMAL"
+          ],
+          [
+            "强制",
+            "MODE_FORCED"
+          ],
+          [
+            "睡眠",
+            "MODE_SLEEP"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "4倍",
+            "SAMPLING_X4"
+          ],
+          [
+            "无过采样",
+            "SAMPLING_NONE"
+          ],
+          [
+            "1倍",
+            "SAMPLING_X1"
+          ],
+          [
+            "2倍",
+            "SAMPLING_X2"
+          ],
+          [
+            "8倍",
+            "SAMPLING_X8"
+          ],
+          [
+            "16倍",
+            "SAMPLING_X16"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "4倍",
+            "SAMPLING_X4"
+          ],
+          [
+            "无过采样",
+            "SAMPLING_NONE"
+          ],
+          [
+            "1倍",
+            "SAMPLING_X1"
+          ],
+          [
+            "2倍",
+            "SAMPLING_X2"
+          ],
+          [
+            "8倍",
+            "SAMPLING_X8"
+          ],
+          [
+            "16倍",
+            "SAMPLING_X16"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "4倍",
+            "FILTER_X4"
+          ],
+          [
+            "关闭",
+            "FILTER_OFF"
+          ],
+          [
+            "2倍",
+            "FILTER_X2"
+          ],
+          [
+            "8倍",
+            "FILTER_X8"
+          ],
+          [
+            "16倍",
+            "FILTER_X16"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "1ms",
+            "STANDBY_MS_1"
+          ],
+          [
+            "63ms",
+            "STANDBY_MS_63"
+          ],
+          [
+            "125ms",
+            "STANDBY_MS_125"
+          ],
+          [
+            "250ms",
+            "STANDBY_MS_250"
+          ],
+          [
+            "500ms",
+            "STANDBY_MS_500"
+          ],
+          [
+            "1000ms",
+            "STANDBY_MS_1000"
+          ],
+          [
+            "2000ms",
+            "STANDBY_MS_2000"
+          ],
+          [
+            "4000ms",
+            "STANDBY_MS_4000"
+          ]
+        ]
+      }
+    ]
+  }
+}

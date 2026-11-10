@@ -1,0 +1,69 @@
+{
+  "name": "@vizejs/fresco",
+  "version": "0.290.0",
+  "description": "Vue TUI framework - Build terminal UIs with Vue.js",
+  "keywords": [
+    "cli",
+    "fresco",
+    "ink",
+    "terminal",
+    "tui",
+    "vize",
+    "vue"
+  ],
+  "homepage": "https://github.com/ubugeeei-prod/vize",
+  "bugs": {
+    "url": "https://github.com/ubugeeei-prod/vize/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ubugeeei-prod/vize",
+    "directory": "npm/fresco"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
+    },
+    "./components": {
+      "import": "./dist/components/index.mjs",
+      "types": "./dist/components/index.d.mts"
+    },
+    "./composables": {
+      "import": "./dist/composables/index.mjs",
+      "types": "./dist/composables/index.d.mts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "check": "vp check src vite.config.ts",
+    "check:fix": "vp check --fix src vite.config.ts",
+    "fmt": "vp fmt --write src vite.config.ts"
+  },
+  "dependencies": {
+    "@vizejs/fresco-native": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:typescript",
+    "@vue/runtime-core": "catalog:vue-stable",
+    "typescript": "catalog:typescript",
+    "vite-plus": "catalog:vite-stack"
+  },
+  "peerDependencies": {
+    "@vue/runtime-core": "^3.4.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "name": "@aily-project/lib-seeed-pca9685",
+  "nickname": "Seeed PCA9685",
+  "nickname_zh_cn": "Seeed PCA9685 舵机/PWM驱动",
+  "nickname_en": "Seeed PCA9685 Servo/PWM Driver",
+  "nickname_zh_hk": "Seeed PCA9685 舵機/PWM驅動",
+  "nickname_ja": "Seeed PCA9685 サーボ/PWMドライバ",
+  "nickname_ko": "Seeed PCA9685 서보/PWM 드라이버",
+  "nickname_de": "Seeed PCA9685 Servo-/PWM-Treiber",
+  "nickname_fr": "Seeed PCA9685 Servomoteur/PWM",
+  "nickname_es": "Seeed PCA9685 Servo/PWM",
+  "nickname_pt": "Seeed PCA9685 Servo/PWM Driver",
+  "nickname_ru": "Seeed PCA9685 Сервопривод/ШИМ",
+  "nickname_ar": "Seeed PCA9685 مؤازر/PWM",
+  "author": "SeeedStudio",
+  "description": "Seeed PCA9685 I2C 16通道PWM/舵机驱动库",
+  "description_zh_cn": "Seeed PCA9685 I2C 16通道PWM/舵机驱动库，支持PWM输出和舵机角度控制",
+  "description_en": "Seeed PCA9685 I2C 16-channel PWM/servo driver library with PWM output and servo angle control",
+  "description_zh_hk": "Seeed PCA9685 I2C 16通道PWM/舵機驅動程式庫，支援PWM輸出和舵機角度控制",
+  "description_ja": "Seeed PCA9685 I2C 16チャネルPWM/サーボドライバライブラリ、PWM出力とサーボ角度制御をサポート",
+  "description_ko": "Seeed PCA9685 I2C 16채널 PWM/서보 드라이버 라이브러리, PWM 출력 및 서보 각도 제어 지원",
+  "description_de": "Seeed PCA9685 I2C 16-Kanal-PWM-/Servotreiberbibliothek mit PWM-Ausgang und Servowinkelsteuerung",
+  "description_fr": "Bibliothèque Seeed PCA9685 I2C 16 canaux PWM/servomoteur avec sortie PWM et contrôle d'angle servo",
+  "description_es": "Biblioteca Seeed PCA9685 I2C de 16 canales PWM/servo con salida PWM y control de ángulo servo",
+  "description_pt": "Biblioteca Seeed PCA9685 I2C de 16 canais PWM/servo com saída PWM e controle de ângulo servo",
+  "description_ru": "Библиотека драйверов Seeed PCA9685 I2C 16-канальная ШИМ/сервопривод с выходом ШИМ и управлением углом сервопривода",
+  "description_ar": "مكتبة برنامج تشغيل Seeed PCA9685 I2C ذات 16 قناة PWM/مؤازر مع إخراج PWM والتحكم في زاوية المؤازر",
+  "version": "1.0.0",
+  "compatibility": {
+    "core": [],
+    "voltage": [
+      3.3,
+      5
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "seeed",
+    "pca9685",
+    "servo",
+    "pwm",
+    "i2c",
+    "16channel"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "tested": false,
+  "tester": "",
+  "tags": [
+    "servo",
+    "motor"
+  ],
+  "url": "https://github.com/Seeed-Studio/Seeed_PCA9685"
+}

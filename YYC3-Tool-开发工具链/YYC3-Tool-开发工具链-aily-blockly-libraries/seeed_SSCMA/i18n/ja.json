@@ -1,0 +1,299 @@
+{
+  "toolbox_name": "SSCMA AI",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "AI推理": "AI推論",
+    "检测结果": "試験結果",
+    "性能信息": "パフォーマンス情報",
+    "数据传输": "データ転送",
+    "设备信息": "デバイス情報",
+    "控制操作": "制御操作"
+  },
+  "sscma_begin_i2c": {
+    "message0": "初始化SSCMA AI模块 %1 I2C接口 %2 \n复位引脚 %3 I2C地址 %4",
+    "tooltip": "初始化SSCMA AI模块，使用I2C接口通信",
+    "args0": [
+      null,
+      {
+        "options": "${board.i2c}"
+      },
+      null,
+      null
+    ]
+  },
+  "sscma_begin_serial": {
+    "message0": "初始化SSCMA AI模块 %1 串口接口 %2 \n复位引脚 %3 波特率 %4 ",
+    "tooltip": "初始化SSCMA AI模块，使用串口接口通信",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      },
+      null,
+      null
+    ]
+  },
+  "sscma_begin_spi": {
+    "message0": "初始化SSCMA AI模块 %1 SPI接口 %2 \nCS引脚 %3 SYNC引脚 %4 \n复位引脚 %5 时钟频率 %6",
+    "tooltip": "初始化SSCMA AI模块，使用SPI接口通信",
+    "args0": [
+      null,
+      {
+        "options": "${board.spi}"
+      },
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "sscma_invoke": {
+    "message0": "%1获取执行AI推理结果 推理次数%2 过滤%3 显示%4",
+    "tooltip": "执行AI推理，获取检测结果",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "是",
+            "true"
+          ],
+          [
+            "否",
+            "false"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "否",
+            "false"
+          ],
+          [
+            "是",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_return_status": {
+    "message0": "AI执行结果状态常量 %1",
+    "tooltip": "SSCMA命令执行结果状态常量",
+    "args0": [
+      {
+        "options": [
+          [
+            "成功",
+            "CMD_OK"
+          ],
+          [
+            "重试",
+            "CMD_AGAIN"
+          ],
+          [
+            "日志错误",
+            "CMD_ELOG"
+          ],
+          [
+            "超时",
+            "CMD_ETIMEDOUT"
+          ],
+          [
+            "IO错误",
+            "CMD_EIO"
+          ],
+          [
+            "无效参数",
+            "CMD_EINVAL"
+          ],
+          [
+            "内存不足",
+            "CMD_ENOMEM"
+          ],
+          [
+            "繁忙",
+            "CMD_EBUSY"
+          ],
+          [
+            "不支持",
+            "CMD_ENOTSUP"
+          ],
+          [
+            "权限错误",
+            "CMD_EPERM"
+          ],
+          [
+            "未知错误",
+            "CMD_EUNKNOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_get_boxes_count": {
+    "message0": "%1获取目标检测结果数量",
+    "tooltip": "获取检测到的目标框数量"
+  },
+  "sscma_get_box_info": {
+    "message0": "%1获取目标检测信息 索引%2 属性%3",
+    "tooltip": "获取指定检测框的属性信息",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "X坐标",
+            "x"
+          ],
+          [
+            "Y坐标",
+            "y"
+          ],
+          [
+            "宽度",
+            "w"
+          ],
+          [
+            "高度",
+            "h"
+          ],
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_get_classes_count": {
+    "message0": "%1获取分类检测结果数量",
+    "tooltip": "获取分类结果的数量"
+  },
+  "sscma_get_class_info": {
+    "message0": "%1获取分类检测信息 索引%2 属性%3",
+    "tooltip": "获取指定分类结果的属性信息",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_get_points_count": {
+    "message0": "%1获取关键点数量",
+    "tooltip": "获取关键点的数量"
+  },
+  "sscma_get_point_info": {
+    "message0": "%1获取关键点信息 索引%2 属性%3",
+    "tooltip": "获取指定关键点的属性信息",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "X坐标",
+            "x"
+          ],
+          [
+            "Y坐标",
+            "y"
+          ],
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_check_last_image": {
+    "message0": "%1是否有最近一帧图像数据",
+    "tooltip": "检查SSCMA是否有最近一帧图像数据可用"
+  },
+  "sscma_get_last_image": {
+    "message0": "%1获取最近一帧图像数据",
+    "tooltip": "获取SSCMA处理的最近一帧图像数据"
+  },
+  "sscma_get_performance": {
+    "message0": "%1获取性能信息 阶段%2",
+    "tooltip": "获取指定阶段的处理时间（毫秒）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "预处理",
+            "prepocess"
+          ],
+          [
+            "推理",
+            "inference"
+          ],
+          [
+            "后处理",
+            "postprocess"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_available": {
+    "message0": "%1是否有可读数据",
+    "tooltip": "检查SSCMA是否有可读数据"
+  },
+  "sscma_read": {
+    "message0": "%1读取数据 数据%2 长度%3",
+    "tooltip": "从SSCMA读取数据"
+  },
+  "sscma_write": {
+    "message0": "%1写入数据 数据%2 长度%3",
+    "tooltip": "向SSCMA写入数据"
+  },
+  "sscma_get_device_id": {
+    "message0": "%1获取设备ID",
+    "tooltip": "获取SSCMA设备的唯一ID"
+  },
+  "sscma_get_device_name": {
+    "message0": "%1获取设备名称",
+    "tooltip": "获取SSCMA设备的名称"
+  },
+  "sscma_get_device_info": {
+    "message0": "%1获取设备信息",
+    "tooltip": "获取SSCMA设备的详细信息"
+  },
+  "sscma_reset": {
+    "message0": "%1重置SSCMA设备",
+    "tooltip": "重置SSCMA设备"
+  },
+  "sscma_save_jpeg": {
+    "message0": "%1保存JPEG图像",
+    "tooltip": "保存当前图像为JPEG格式"
+  },
+  "sscma_clean_actions": {
+    "message0": "%1清理动作",
+    "tooltip": "清理所有已设置的动作"
+  }
+}

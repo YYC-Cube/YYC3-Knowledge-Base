@@ -1,0 +1,55 @@
+{
+"toolbox_name": "مستشعر الوزن HX711",
+"hx711_create": {
+    "message0": "إنشاء مستشعر الوزن HX711 %1"
+},
+"hx711_begin": {
+    "message0": "تهيئة %1 دبوس البيانات %2 دبوس الساعة %3",
+    "args0": [
+        null,
+        {
+            "options": "${board.digitalPins}"
+        },
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+},
+"hx711_tare": {
+    "message0": "%1 تصفير (عدد المرات %2)"
+},
+"hx711_set_scale": {
+    "message0": "%1 تعيين معامل القياس %2"
+},
+"hx711_get_units": {
+    "message0": "%1 الحصول على الوزن (عدد المرات %2)"
+},
+"hx711_read": {
+    "message0": "%1 قراءة البيانات الخام"
+},
+"hx711_read_average": {
+    "message0": "%1 قراءة المتوسط (عدد المرات %2)"
+},
+"hx711_power_down": {
+    "message0": "%1 إيقاف التشغيل"
+},
+"hx711_power_up": {
+    "message0": "%1 تشغيل الطاقة"
+},
+"hx711_set_gain": {
+    "message0": "%1 تعيين الكسب %2",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["128 (القناة A)", "HX711_CHANNEL_A_GAIN_128"],
+                ["64 (القناة A)", "HX711_CHANNEL_A_GAIN_64"],
+                ["32 (القناة B)", "HX711_CHANNEL_B_GAIN_32"]
+            ]
+        }
+    ]
+},
+"hx711_calibrate_scale": {
+    "message0": "%1 معايرة المقياس الوزن المعروف %2 عدد المرات %3"
+}
+}

@@ -1,0 +1,147 @@
+{
+  "toolbox_name": "K10 Anzeige",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "绘图": "Zeichnen",
+    "文字": "Text",
+    "图片": "Bilder",
+    "画布控制": "Canvas-Steuerung"
+  },
+  "k10_init_screen": {
+    "message0": "K10-Bildschirm initialisieren Richtung %1",
+    "tooltip": "UNIHIKER K10-Bildschirm initialisieren und Zeichenfläche erstellen",
+    "args0": [
+      {
+        "options": [
+          [
+            "Vorwärts",
+            "2"
+          ],
+          [
+            "Rückwärts",
+            "0"
+          ],
+          [
+            "Links Querformat",
+            "1"
+          ],
+          [
+            "Rechts Querformat",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_set_background": {
+    "message0": "Bildschirmhintergrundfarbe setzen %1",
+    "tooltip": "Bildschirm-Hintergrundfarbe setzen"
+  },
+  "k10_draw_point": {
+    "message0": "Punkt zeichnen X %1 Y %2 Farbe %3",
+    "tooltip": "Punkt auf dem Bildschirm zeichnen"
+  },
+  "k10_draw_line": {
+    "message0": "Linie zeichnen von X %1 Y %2 nach X %3 Y %4 Farbe %5",
+    "tooltip": "Linie auf dem Bildschirm zeichnen"
+  },
+  "k10_set_line_width": {
+    "message0": "Linienbreite setzen %1",
+    "tooltip": "Linienbreite zum Zeichnen setzen"
+  },
+  "k10_draw_circle": {
+    "message0": "Kreis zeichnen Mitte X %1 Y %2 Radius %3 Randfarbe %4 Füllfarbe %5 Füllen %6",
+    "tooltip": "Kreis auf dem Bildschirm zeichnen"
+  },
+  "k10_draw_rectangle": {
+    "message0": "Rechteck zeichnen X %1 Y %2 Breite %3 Höhe %4 Randfarbe %5 Füllfarbe %6 Füllen %7",
+    "tooltip": "Rechteck auf dem Bildschirm zeichnen"
+  },
+  "k10_draw_text_simple": {
+    "message0": "Text %2 in Zeile %1 anzeigen Farbe %3",
+    "tooltip": "Text in der angegebenen Zeile (1~7) automatisch anordnen und anzeigen"
+  },
+  "k10_draw_text": {
+    "message0": "Text anzeigen %1 X %2 Y %3 Farbe %4 Schrift %5 Zeichen pro Zeile %6",
+    "tooltip": "Text an der angegebenen Position anzeigen. Zeichen pro Zeile steuern den automatischen Umbruch: 25 für Schrift 16, 10 für Schrift 24.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Schrift 16",
+            "eCNAndENFont16"
+          ],
+          [
+            "Schrift 24",
+            "eCNAndENFont24"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "k10_draw_bitmap": {
+    "message0": "Integriertes Bild %1 anzeigen X %2 Y %3 Breite %4 Höhe %5",
+    "tooltip": "Integriertes Bild anzeigen (arduino_image_cache.h und Bildarray, z. B. image_data1, bereitstellen)"
+  },
+  "k10_draw_image": {
+    "message0": "TF-Karten-Bild anzeigen Pfad %1 X %2 Y %3",
+    "tooltip": "Bild von TF-Karte laden und anzeigen"
+  },
+  "k10_draw_qrcode": {
+    "message0": "QR-Code anzeigen Inhalt %1",
+    "tooltip": "QR-Code auf dem Bildschirm anzeigen"
+  },
+  "k10_update_canvas": {
+    "message0": "Leinwand aktualisieren",
+    "tooltip": "Leinwand-Anzeige aktualisieren"
+  },
+  "k10_clear_canvas": {
+    "message0": "Leinwand löschen %1",
+    "tooltip": "Leinwand löschen (danach normalerweise erneut aktualisieren)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Alles löschen",
+            "0"
+          ],
+          [
+            "Zeile 1 löschen",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_clear_canvas_row": {
+    "message0": "Leinwandzeile %1 löschen",
+    "tooltip": "Eine Leinwandzeile (1-7) löschen und die Leinwand bei Bedarf aktualisieren"
+  },
+  "k10_clear_qrcode": {
+    "message0": "QR-Code löschen",
+    "tooltip": "Den auf dem Bildschirm angezeigten QR-Code löschen"
+  },
+  "k10_screen_size": {
+    "message0": "Bildschirm %1",
+    "tooltip": "K10-Bildschirmauflösung: 240x320 (Hochformat)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Breite",
+            "W"
+          ],
+          [
+            "Höhe",
+            "H"
+          ]
+        ]
+      }
+    ]
+  }
+}

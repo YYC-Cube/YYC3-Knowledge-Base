@@ -1,0 +1,521 @@
+{
+  "kind": "category",
+  "name": "Math",
+  "icon": "fa-light fa-calculator",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "math_number",
+      "fields": {
+        "NUM": "123"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_number_base",
+      "fields": {
+        "BASE": "HEX",
+        "NUM": "FF"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_arithmetic",
+      "inputs": {
+        "A": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        },
+        "B": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      },
+      "output": "Number"
+    },
+    {
+      "kind": "block",
+      "type": "math_single",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "9"
+            }
+          }
+        }
+      },
+      "output": "Number"
+    },
+    {
+      "kind": "block",
+      "type": "math_trig",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "45"
+            }
+          }
+        }
+      },
+      "output": "Number"
+    },
+    {
+      "kind": "block",
+      "type": "math_constant"
+    },
+    {
+      "kind": "block",
+      "type": "math_number_property",
+      "inputs": {
+        "NUMBER_TO_CHECK": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        }
+      },
+      "fields": {
+        "PROPERTY": "EVEN"
+      },
+      "output": "Boolean"
+    },
+    {
+      "kind": "block",
+      "type": "math_round",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "3.1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_modulo",
+      "inputs": {
+        "DIVIDEND": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "64"
+            }
+          }
+        },
+        "DIVISOR": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "10"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_constrain",
+      "inputs": {
+        "VALUE": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "50"
+            }
+          }
+        },
+        "LOW": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        },
+        "HIGH": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "100"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_random_int",
+      "inputs": {
+        "FROM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        },
+        "TO": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "100"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_random_float"
+    },
+    {
+      "kind": "block",
+      "type": "math_atan2",
+      "inputs": {
+        "X": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        },
+        "Y": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_round_to_decimal",
+      "inputs": {
+        "NUMBER": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "123.456"
+            }
+          }
+        },
+        "DECIMALS": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "2"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_bitwise_not",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "5"
+            }
+          }
+        }
+      },
+      "output": "Number"
+    },
+    {
+      "kind": "block",
+      "type": "map_to",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "FIRST_START": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "FIRST_END": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": 1023
+            }
+          }
+        },
+        "LAST_START": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "LAST_END": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": 255
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_bitwise_shift",
+      "inputs": {
+        "A": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "8"
+            }
+          }
+        },
+        "B": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "2"
+            }
+          }
+        }
+      },
+      "fields": {
+        "OP": "LEFT"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_bitwise_logic",
+      "inputs": {
+        "A": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "12"
+            }
+          }
+        },
+        "B": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "10"
+            }
+          }
+        }
+      },
+      "fields": {
+        "OP": "AND"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_extract_bits",
+      "fields": {
+        "OP": "HIGH_BYTE"
+      },
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "1234"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_combine_bits",
+      "fields": {
+        "OP": "MAKE_WORD"
+      },
+      "inputs": {
+        "HIGH": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "4"
+            }
+          }
+        },
+        "LOW": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "210"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_bitread",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "13"
+            }
+          }
+        },
+        "BIT": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_bitwrite",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "13"
+            }
+          }
+        },
+        "BIT": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        },
+        "VALUE": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_bitset",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "12"
+            }
+          }
+        },
+        "BIT": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "math_bitclear",
+      "inputs": {
+        "NUM": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "13"
+            }
+          }
+        },
+        "BIT": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

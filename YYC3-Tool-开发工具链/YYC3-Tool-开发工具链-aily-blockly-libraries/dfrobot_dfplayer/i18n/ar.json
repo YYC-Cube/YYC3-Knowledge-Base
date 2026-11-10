@@ -1,0 +1,141 @@
+{
+    "toolbox_name": "DFPlayer",
+    "dfplayer_begin": {
+        "message0": "تهيئة وحدة DFPlayer %1 RX دبوس %2 TX دبوس %3"
+    },
+    "dfplayer_play": {
+        "message0": "DFPlayer %1 تشغيل الملف رقم %2"
+    },
+    "dfplayer_pause": {
+        "message0": "DFPlayer %1 إيقاف مؤقت"
+    },
+    "dfplayer_start": {
+        "message0": "DFPlayer %1 متابعة التشغيل"
+    },
+    "dfplayer_stop": {
+        "message0": "DFPlayer %1 إيقاف التشغيل"
+    },
+    "dfplayer_next": {
+        "message0": "DFPlayer %1 تشغيل الأغنية التالية"
+    },
+    "dfplayer_previous": {
+        "message0": "DFPlayer %1 تشغيل الأغنية السابقة"
+    },
+    "dfplayer_volume": {
+        "message0": "DFPlayer %1 ضبط مستوى الصوت إلى %2"
+    },
+    "dfplayer_volume_up": {
+        "message0": "DFPlayer %1 زيادة مستوى الصوت"
+    },
+    "dfplayer_volume_down": {
+        "message0": "DFPlayer %1 خفض مستوى الصوت"
+    },
+    "dfplayer_eq": {
+        "message0": "DFPlayer %1 ضبط المعادل %2",
+        "options": [
+            [
+                "عادي",
+                "0"
+            ],
+            [
+                "بوب",
+                "1"
+            ],
+            [
+                "روك",
+                "2"
+            ],
+            [
+                "جاز",
+                "3"
+            ],
+            [
+                "كلاسيكي",
+                "4"
+            ],
+            [
+                "باس",
+                "5"
+            ]
+        ]
+    },
+    "dfplayer_output_device": {
+        "message0": "DFPlayer %1 ضبط جهاز الإخراج إلى %2",
+        "options": [
+            [
+                "الجهاز 1",
+                "1"
+            ],
+            [
+                "الجهاز 2",
+                "2"
+            ]
+        ]
+    },
+    "dfplayer_loop": {
+        "message0": "DFPlayer %1 تشغيل الملف رقم %2 في حلقة"
+    },
+    "dfplayer_play_folder": {
+        "message0": "DFPlayer %1 تشغيل الملف %3 في المجلد %2"
+    },
+    "dfplayer_enable_loop_all": {
+        "message0": "DFPlayer %1 تفعيل التكرار الكلي"
+    },
+    "dfplayer_disable_loop_all": {
+        "message0": "DFPlayer %1 إلغاء تفعيل التكرار الكلي"
+    },
+    "dfplayer_play_mp3_folder": {
+        "message0": "DFPlayer %1 تشغيل الملفات في مجلد MP3 %2"
+    },
+    "dfplayer_advertise": {
+        "message0": "DFPlayer %1 تشغيل الإعلان %2"
+    },
+    "dfplayer_stop_advertise": {
+        "message0": "DFPlayer %1 إيقاف الإعلان"
+    },
+    "dfplayer_play_large_folder": {
+        "message0": "DFPlayer %1 تشغيل الملف %3 في المجلد الكبير %2"
+    },
+    "dfplayer_loop_folder": {
+        "message0": "DFPlayer %1 تشغيل المجلد %2 في حلقة"
+    },
+    "dfplayer_random_all": {
+        "message0": "DFPlayer %1 تشغيل جميع الملفات بشكل عشوائي"
+    },
+    "dfplayer_enable_loop": {
+        "message0": "DFPlayer %1 تفعيل التكرار"
+    },
+    "dfplayer_disable_loop": {
+        "message0": "DFPlayer %1 إلغاء تفعيل التكرار"
+    },
+    "dfplayer_read_state": {
+        "message0": "DFPlayer %1 قراءة الحالة"
+    },
+    "dfplayer_read_volume": {
+        "message0": "DFPlayer %1 قراءة مستوى الصوت"
+    },
+    "dfplayer_read_eq": {
+        "message0": "DFPlayer %1 قراءة المعادل"
+    },
+    "dfplayer_read_file_counts": {
+        "message0": "DFPlayer %1 قراءة عدد الملفات"
+    },
+    "dfplayer_read_current_file_number": {
+        "message0": "DFPlayer %1 قراءة رقم الملف الحالي"
+    },
+    "dfplayer_read_file_counts_in_folder": {
+        "message0": "DFPlayer %1 قراءة عدد الملفات في المجلد %2"
+    },
+    "dfplayer_available": {
+        "message0": "DFPlayer %1 التحقق من وجود رسالة متاحة"
+    },
+    "dfplayer_read_type": {
+        "message0": "DFPlayer %1 قراءة نوع الرسالة"
+    },
+    "dfplayer_read": {
+        "message0": "DFPlayer %1 قراءة معلمات الرسالة"
+    },
+    "dfplayer_simple_play": {
+        "message0": "تشغيل بسيط: تهيئة DFPlayer (RX: %1, TX: %2) وتشغيل الملف %3"
+    }
+}

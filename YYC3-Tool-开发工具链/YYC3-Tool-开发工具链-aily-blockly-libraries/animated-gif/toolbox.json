@@ -1,0 +1,109 @@
+{
+    "kind": "category",
+    "name": "GIF动画播放器",
+    "icon": "fa-light fa-gif",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "gif_init",
+            "fields": {
+                "VAR": "gif"
+            }
+        },
+        {
+            "kind": "label",
+            "text": "打开GIF"
+        },
+        {
+            "kind": "block",
+            "type": "gif_open_memory",
+            "fields": {
+                "HEADER": "image.h",
+                "ARRAY": "ucImage"
+            },
+            "inputs": {
+                "X": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "Y": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "gif_open_sd",
+            "inputs": {
+                "FILENAME": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "/animation.gif"
+                        }
+                    }
+                },
+                "X": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "Y": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "播放控制"
+        },
+        {
+            "kind": "block",
+            "type": "gif_play_all"
+        },
+        {
+            "kind": "block",
+            "type": "gif_play_frame",
+            "fields": {
+                "SYNC": "true"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "gif_close"
+        },
+        {
+            "kind": "label",
+            "text": "信息获取"
+        },
+        {
+            "kind": "block",
+            "type": "gif_get_width"
+        },
+        {
+            "kind": "block",
+            "type": "gif_get_height"
+        }
+    ]
+}

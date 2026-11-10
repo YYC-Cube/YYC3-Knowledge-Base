@@ -1,0 +1,174 @@
+name: Library Compliance Check
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - '*/package.json'
+      - '*/block.json'
+      - '*/generator.js'
+      - '*/toolbox.json'
+      - '*/readme.md'
+      - '*/README.md'
+      - '*/readme_ai.md'
+      - '*/README_AI.md'
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '*/package.json'
+      - '*/block.json'
+      - '*/generator.js'
+      - '*/toolbox.json'
+      - '*/readme.md'
+      - '*/README.md'
+      - '*/readme_ai.md'
+      - '*/README_AI.md'
+
+# GitHub Actions权限配置
+permissions:
+  contents: read            # 读取仓库内容和代码
+  pull-requests: write      # 写入PR评论和状态
+  issues: write            # 写入issue评论（PR也是特殊的issue）
+  actions: read            # 读取workflow运行状态
+  checks: read             # 读取检查状态
+  statuses: read           # 读取状态检查
+
+jobs:
+  validate-libraries:
+    runs-on: ubuntu-latest
+    # 在job级别也明确权限（可选，但更安全）
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      actions: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install js-yaml
+
+    - name: Validate changed libraries
+      id: validation
+      run: |
+        echo "开始检测变更的库..."
+
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          VALIDATE_CMD=(node .scripts_git_action/validate-library-compliance.js --changed --base "${{ github.event.pull_request.base.sha }}" --head "${{ github.event.pull_request.head.sha }}")
+        elif [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+          VALIDATE_CMD=(node .scripts_git_action/validate-library-compliance.js --changed --base "${{ github.event.before }}" --head "${{ github.sha }}")
+        else
+          VALIDATE_CMD=(node .scripts_git_action/validate-library-compliance.js --changed)
+        fi
+        
+        # 使用统一的检测脚本，自动读取配置文件
+        if ! "${VALIDATE_CMD[@]}"; then
+          echo "validation_passed=false" >> $GITHUB_OUTPUT
+          echo "💥 库规范检测失败，请查看详细报告并修复问题"
+          exit 1
+        else
+          echo "validation_passed=true" >> $GITHUB_OUTPUT
+          echo "🎉 所有库均通过规范检测！"
+        fi
+
+    - name: Comment PR with results
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ github.token }}
+        retries: 3
+        retry-exempt-status-codes: 400,401,403,404,422
+        script: |
+          console.log('🔍 开始PR评论操作...');
+          
+          try {
+            // 检查是否已有检测机器人评论
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            // 查找现有的检测评论
+            const botComment = comments.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('🤖 库规范检测')
+            );
+            
+            // 获取检测结果状态
+            const validationPassed = '${{ steps.validation.outputs.validation_passed }}' === 'true';
+            const statusIcon = validationPassed ? '✅' : '❌';
+            const statusText = validationPassed ? '通过检测' : '检测失败';
+            
+            // 构建评论内容
+            let comment = '## 🤖 库规范检测 ' + statusText + ' ' + statusIcon + '\n\n';
+            comment += '📦 **检测模式**: 自动检测 PR 中变更的库\n\n';
+            comment += '📊 **详细报告**: 查看上方的 [Actions Summary](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) 获取完整结果\n\n';
+            
+            if (validationPassed) {
+              comment += '🎉 **恭喜！** 所有变更库均符合规范要求！\n\n';
+              comment += '✨ **主要检测项**:\n';
+              comment += '- 📁 文件结构完整性 ✅\n';
+              comment += '- 🧩 块设计最佳实践 ✅\n';
+              comment += '- ⚙️ 代码生成器规范 ✅\n';
+              comment += '- 📚 文档规范要求 ✅\n';
+            } else {
+              comment += '⚠️ **需要修复** 部分库不符合规范要求\n\n';
+              comment += '🔧 **修复步骤**:\n';
+              comment += '1. 查看上方 Actions Summary 的详细错误信息\n';
+              comment += '2. 参考下方规范文档进行修复\n';
+              comment += '3. 重新提交代码触发检测\n';
+            }
+            
+            comment += '\n💡 **本地检测**: \n';
+            comment += '```bash\n';
+            comment += '# 检测变更的库\n';
+            comment += 'node .scripts_git_action/validate-library-compliance.js --changed\n\n';
+              comment += '# 检测指定库\n';
+            comment += 'node .scripts_git_action/validate-library-compliance.js <库名>\n';
+            comment += '```\n\n';
+            comment += '📖 **规范文档**: \n';
+            comment += '- [Arduino库转Blockly库规范](https://github.com/${{ github.repository }}/blob/main/Arduino库转Blockly库规范.md)\n';
+            comment += '- [配置文件](.github/compliance-config.yml)\n\n';
+            comment += '---\n';
+            comment += '*检测由 [库规范检测系统](https://github.com/${{ github.repository }}/blob/main/.scripts_git_action/validate-library-compliance.js) 自动完成 | 运行ID: ${{ github.run_id }}*';
+            
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+              console.log('✅ 已更新现有检测评论');
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+              console.log('✅ 已添加新的检测评论');
+            }
+          } catch (error) {
+            console.error('❌ 评论操作失败:', error.message);
+            console.log('💡 检测结果已保存在 Actions Summary 中');
+          }
+
+    # 备用评论方案 - 使用简单的echo输出
+    - name: Fallback notification
+      if: failure() && github.event_name == 'pull_request'
+      run: |
+        echo "🔔 备用通知机制:"
+        echo "由于权限限制，无法直接在PR中评论"
+        echo "请访问Actions页面查看详细的库规范检测结果"
+        echo "链接: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"

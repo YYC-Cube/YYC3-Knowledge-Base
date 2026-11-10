@@ -1,0 +1,6 @@
+{
+"toolbox_name": "LM35 Temperature Sensor",
+"lm35_read": {
+    "message0": "LM35 Temperature Sensor Pin # %1"
+}
+}

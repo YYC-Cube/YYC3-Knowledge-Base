@@ -1,0 +1,294 @@
+{
+  "toolbox_name": "ESP32 USB",
+  "esp32_usb_keyboard_begin": {
+    "message0": "Clavier USB Initialiser",
+    "tooltip": "Initialiser le clavier USB HID, USB.begin() est appelé automatiquement"
+  },
+  "esp32_usb_keyboard_print": {
+    "message0": "Clavier USB saisir texte %1",
+    "tooltip": "Saisir du texte via le clavier USB"
+  },
+  "esp32_usb_keyboard_println": {
+    "message0": "Clavier USB saisir texte %1 avec retour à la ligne",
+    "tooltip": "Saisir du texte via le clavier USB et appuyer sur Entrée"
+  },
+  "esp32_usb_keyboard_write": {
+    "message0": "Clavier USB saisie rapide %1",
+    "tooltip": "Appuyer une fois sur une touche (appuyer et relâcher immédiatement)"
+  },
+  "esp32_usb_keyboard_press": {
+    "message0": "Clavier USB touche enfoncée %1",
+    "tooltip": "Maintenir la touche enfoncée (relâchement manuel nécessaire)"
+  },
+  "esp32_usb_keyboard_release": {
+    "message0": "Clavier USB relâcher touche %1",
+    "tooltip": "Relâcher la touche spécifiée"
+  },
+  "esp32_usb_keyboard_release_all": {
+    "message0": "Clavier USB relâcher toutes les touches",
+    "tooltip": "Relâcher toutes les touches enfoncées"
+  },
+  "esp32_usb_keyboard_special_key": {
+    "message0": "Touche spéciale %1",
+    "tooltip": "Valeur de touche spéciale du clavier USB",
+    "args0": [
+      {
+        "options": [
+          ["Entrée", "KEY_RETURN"],
+          ["Échap", "KEY_ESC"],
+          ["Retour arrière", "KEY_BACKSPACE"],
+          ["Tab", "KEY_TAB"],
+          ["Espace", "KEY_SPACE"],
+          ["Ctrl gauche", "KEY_LEFT_CTRL"],
+          ["Maj gauche", "KEY_LEFT_SHIFT"],
+          ["Alt gauche", "KEY_LEFT_ALT"],
+          ["GUI/Win gauche", "KEY_LEFT_GUI"],
+          ["Ctrl droite", "KEY_RIGHT_CTRL"],
+          ["Maj droite", "KEY_RIGHT_SHIFT"],
+          ["Alt droite", "KEY_RIGHT_ALT"],
+          ["GUI/Win droite", "KEY_RIGHT_GUI"],
+          ["↑", "KEY_UP_ARROW"],
+          ["↓", "KEY_DOWN_ARROW"],
+          ["←", "KEY_LEFT_ARROW"],
+          ["→", "KEY_RIGHT_ARROW"],
+          ["Inser", "KEY_INSERT"],
+          ["Suppr", "KEY_DELETE"],
+          ["Début", "KEY_HOME"],
+          ["Fin", "KEY_END"],
+          ["Page haut", "KEY_PAGE_UP"],
+          ["Page bas", "KEY_PAGE_DOWN"],
+          ["Verr. Maj", "KEY_CAPS_LOCK"],
+          ["Verr. Num", "KEY_NUM_LOCK"],
+          ["F1", "KEY_F1"],
+          ["F2", "KEY_F2"],
+          ["F3", "KEY_F3"],
+          ["F4", "KEY_F4"],
+          ["F5", "KEY_F5"],
+          ["F6", "KEY_F6"],
+          ["F7", "KEY_F7"],
+          ["F8", "KEY_F8"],
+          ["F9", "KEY_F9"],
+          ["F10", "KEY_F10"],
+          ["F11", "KEY_F11"],
+          ["F12", "KEY_F12"],
+          ["Impr. écran", "KEY_PRINT_SCREEN"],
+          ["Arrêt défil.", "KEY_SCROLL_LOCK"],
+          ["Pause", "KEY_PAUSE"],
+          ["Menu", "KEY_MENU"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_mouse_begin": {
+    "message0": "Souris USB Initialiser",
+    "tooltip": "Initialiser la souris USB HID (mode position relative)"
+  },
+  "esp32_usb_mouse_move": {
+    "message0": "Souris USB Déplacer X %1 Y %2 Molette %3",
+    "tooltip": "Déplacement relatif de la souris. X positif=droite, Y positif=bas, Molette positif=haut"
+  },
+  "esp32_usb_mouse_click": {
+    "message0": "Souris USB %1 %2",
+    "tooltip": "Opération bouton souris : cliquer (appuyer+relâcher), appuyer (maintenir), relâcher",
+    "args0": [
+      {
+        "options": [
+          ["Bouton gauche", "MOUSE_LEFT"],
+          ["Bouton droit", "MOUSE_RIGHT"],
+          ["Bouton central", "MOUSE_MIDDLE"]
+        ]
+      },
+      {
+        "options": [
+          ["Cliquer", "click"],
+          ["Appuyer", "press"],
+          ["Relâcher", "release"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_mouse_is_pressed": {
+    "message0": "Souris USB %1 est enfoncé",
+    "tooltip": "Vérifier si un bouton de la souris est enfoncé",
+    "args0": [
+      {
+        "options": [
+          ["Bouton gauche", "MOUSE_LEFT"],
+          ["Bouton droit", "MOUSE_RIGHT"],
+          ["Bouton central", "MOUSE_MIDDLE"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_begin": {
+    "message0": "Manette USB Initialiser",
+    "tooltip": "Initialiser la manette USB HID"
+  },
+  "esp32_usb_gamepad_press_button": {
+    "message0": "Manette USB appuyer bouton %1",
+    "tooltip": "Appuyer sur un bouton de la manette",
+    "args0": [
+      {
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["Select", "BUTTON_SELECT"],
+          ["Start", "BUTTON_START"],
+          ["Mode", "BUTTON_MODE"],
+          ["Stick gauche", "BUTTON_THUMBL"],
+          ["Stick droit", "BUTTON_THUMBR"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_release_button": {
+    "message0": "Manette USB relâcher bouton %1",
+    "tooltip": "Relâcher un bouton de la manette",
+    "args0": [
+      {
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["Select", "BUTTON_SELECT"],
+          ["Start", "BUTTON_START"],
+          ["Mode", "BUTTON_MODE"],
+          ["Stick gauche", "BUTTON_THUMBL"],
+          ["Stick droit", "BUTTON_THUMBR"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_left_stick": {
+    "message0": "Manette USB Stick gauche X %1 Y %2",
+    "tooltip": "Définir la position du stick gauche (-128~127)"
+  },
+  "esp32_usb_gamepad_right_stick": {
+    "message0": "Manette USB Stick droit X %1 Y %2",
+    "tooltip": "Définir la position du stick droit (-128~127)"
+  },
+  "esp32_usb_gamepad_trigger": {
+    "message0": "Manette USB gâchette %1 %2",
+    "tooltip": "Définir la valeur de la gâchette (-128~127)",
+    "args0": [
+      {
+        "options": [
+          ["Gauche", "left"],
+          ["Droite", "right"]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_gamepad_hat": {
+    "message0": "Manette USB croix directionnelle %1",
+    "tooltip": "Définir la direction de la croix directionnelle",
+    "args0": [
+      {
+        "options": [
+          ["Centre", "HAT_CENTER"],
+          ["Haut", "HAT_UP"],
+          ["Haut droite", "HAT_UP_RIGHT"],
+          ["Droite", "HAT_RIGHT"],
+          ["Bas droite", "HAT_DOWN_RIGHT"],
+          ["Bas", "HAT_DOWN"],
+          ["Bas gauche", "HAT_DOWN_LEFT"],
+          ["Gauche", "HAT_LEFT"],
+          ["Haut gauche", "HAT_UP_LEFT"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_consumer_press": {
+    "message0": "USB Média Appuyer %1",
+    "tooltip": "Appuyer sur une touche de contrôle média",
+    "args0": [
+      {
+        "options": [
+          ["Lecture/Pause", "CONSUMER_CONTROL_PLAY_PAUSE"],
+          ["Stop", "CONSUMER_CONTROL_STOP"],
+          ["Piste suivante", "CONSUMER_CONTROL_SCAN_NEXT"],
+          ["Piste précédente", "CONSUMER_CONTROL_SCAN_PREVIOUS"],
+          ["Enregistrer", "CONSUMER_CONTROL_RECORD"],
+          ["Avance rapide", "CONSUMER_CONTROL_FAST_FORWARD"],
+          ["Retour rapide", "CONSUMER_CONTROL_REWIND"],
+          ["Volume +", "CONSUMER_CONTROL_VOLUME_INCREMENT"],
+          ["Volume -", "CONSUMER_CONTROL_VOLUME_DECREMENT"],
+          ["Muet", "CONSUMER_CONTROL_MUTE"],
+          ["Luminosité +", "CONSUMER_CONTROL_BRIGHTNESS_INCREMENT"],
+          ["Luminosité -", "CONSUMER_CONTROL_BRIGHTNESS_DECREMENT"],
+          ["Alimentation", "CONSUMER_CONTROL_POWER"],
+          ["Veille", "CONSUMER_CONTROL_SLEEP"],
+          ["Calculatrice", "CONSUMER_CONTROL_CALCULATOR"],
+          ["E-mail", "CONSUMER_CONTROL_EMAIL_READER"],
+          ["Navigateur", "CONSUMER_CONTROL_LOCAL_BROWSER"],
+          ["Rechercher", "CONSUMER_CONTROL_SEARCH"],
+          ["Accueil", "CONSUMER_CONTROL_HOME"],
+          ["Retour", "CONSUMER_CONTROL_BACK"],
+          ["Avancer", "CONSUMER_CONTROL_FORWARD"],
+          ["Actualiser", "CONSUMER_CONTROL_REFRESH"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_consumer_release": {
+    "message0": "USB Média Relâcher",
+    "tooltip": "Relâcher la touche de contrôle média"
+  },
+  "esp32_usb_system_press": {
+    "message0": "USB Contrôle système %1",
+    "tooltip": "Envoyer une commande de contrôle système",
+    "args0": [
+      {
+        "options": [
+          ["Éteindre", "SYSTEM_CONTROL_POWER_OFF"],
+          ["Veille", "SYSTEM_CONTROL_STANDBY"],
+          ["Réveiller", "SYSTEM_CONTROL_WAKE_HOST"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_system_release": {
+    "message0": "USB Contrôle système Relâcher",
+    "tooltip": "Relâcher la touche de contrôle système"
+  },
+  "esp32_usb_midi_begin": {
+    "message0": "USB MIDI Initialiser",
+    "tooltip": "Initialiser le périphérique USB MIDI"
+  },
+  "esp32_usb_midi_note_on": {
+    "message0": "USB MIDI Note On Note %1 Vélocité %2 Canal %3",
+    "tooltip": "Envoyer MIDI Note On (note 0-127, vélocité 0-127, canal 1-16)"
+  },
+  "esp32_usb_midi_note_off": {
+    "message0": "USB MIDI Note Off Note %1 Vélocité %2 Canal %3",
+    "tooltip": "Envoyer un message MIDI Note Off"
+  },
+  "esp32_usb_midi_control_change": {
+    "message0": "USB MIDI CC Contrôleur %1 Valeur %2 Canal %3",
+    "tooltip": "Envoyer MIDI Control Change (contrôleur 0-127, valeur 0-127)"
+  },
+  "esp32_usb_midi_program_change": {
+    "message0": "USB MIDI Changement de programme Programme %1 Canal %2",
+    "tooltip": "Envoyer MIDI Program Change (changement de son 0-127)"
+  },
+  "esp32_usb_midi_pitch_bend": {
+    "message0": "USB MIDI Pitch Bend Valeur %1 Canal %2",
+    "tooltip": "Envoyer MIDI Pitch Bend (-8192~8191)"
+  }
+}

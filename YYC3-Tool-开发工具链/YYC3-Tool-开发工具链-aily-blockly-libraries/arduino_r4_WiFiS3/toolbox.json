@@ -1,0 +1,239 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-wifi",
+  "name": "R4 WiFi",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "连接"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_begin",
+      "inputs": {
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "your-ssid"}
+          }
+        },
+        "PASS": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "your-password"}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_begin_open",
+      "inputs": {
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "your-ssid"}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_begin_ap",
+      "inputs": {
+        "SSID": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "MyAP"}
+          }
+        },
+        "PASS": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "password"}
+          }
+        },
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 1}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_disconnect"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_wait_for_connection",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 30000}
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "状态查询"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_status"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_is_connected"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_local_ip"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_mac_address"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_gateway_ip"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_subnet_mask"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_dns_ip"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_firmware_version"
+    },
+    {
+      "kind": "label",
+      "text": "配置"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_config_ip",
+      "inputs": {
+        "IP": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "192.168.1.100"}
+          }
+        },
+        "GW": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "192.168.1.1"}
+          }
+        },
+        "SUBNET": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "255.255.255.0"}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_set_dns",
+      "inputs": {
+        "DNS1": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "8.8.8.8"}
+          }
+        },
+        "DNS2": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "8.8.4.4"}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_set_hostname",
+      "inputs": {
+        "HOSTNAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "arduino-device"}
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "网络扫描"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_scan_networks"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_scanned_networks_count"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_ssid_by_index",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 0}
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_rssi_by_index",
+      "inputs": {
+        "INDEX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 0}
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "网络操作"
+    },
+    {
+      "kind": "block",
+      "type": "wifis3_ping",
+      "inputs": {
+        "HOST": {
+          "shadow": {
+            "type": "text",
+            "fields": {"TEXT": "8.8.8.8"}
+          }
+        },
+        "TTL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 128}
+          }
+        },
+        "COUNT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {"NUM": 1}
+          }
+        }
+      }
+    }
+  ]
+}

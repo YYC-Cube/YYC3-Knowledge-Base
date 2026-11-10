@@ -1,0 +1,164 @@
+{
+  "toolbox_name": "micro:bit LED Matrix",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "基本操作": "Basic operations",
+    "绘图": "Drawing",
+    "图标显示": "Icon display",
+    "文本显示": "text display",
+    "位图": "Bitmap"
+  },
+  "microbit_matrix_begin": {
+    "message0": "initialize micro:bit LED matrix",
+    "tooltip": "Initialize the 5x5 LED matrix on micro:bit"
+  },
+  "microbit_matrix_clear": {
+    "message0": "clear LED matrix",
+    "tooltip": "Clear all LEDs on the matrix"
+  },
+  "microbit_matrix_fill": {
+    "message0": "fill LED matrix %1",
+    "tooltip": "Fill all LEDs on or off",
+    "args0": [
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_pixel": {
+    "message0": "draw pixel at x %1 y %2 %3",
+    "tooltip": "Draw a single pixel at position (x, y). x and y range from 0 to 4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_line": {
+    "message0": "draw line from (%1, %2) to (%3, %4) %5",
+    "tooltip": "Draw a line from (x0, y0) to (x1, y1)",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_rect": {
+    "message0": "draw rectangle at (%1, %2) width %3 height %4 %5",
+    "tooltip": "Draw a rectangle outline",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_rect": {
+    "message0": "fill rectangle at (%1, %2) width %3 height %4 %5",
+    "tooltip": "Draw a filled rectangle",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_circle": {
+    "message0": "draw circle center (%1, %2) radius %3 %4",
+    "tooltip": "Draw a circle outline",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_circle": {
+    "message0": "fill circle center (%1, %2) radius %3 %4",
+    "tooltip": "Draw a filled circle",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_triangle": {
+    "message0": "draw triangle (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Draw a triangle outline",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_triangle": {
+    "message0": "fill triangle (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Draw a filled triangle",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["ON", "1"], ["OFF", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_show_icon": {
+    "message0": "show icon %1",
+    "tooltip": "Display a preset icon on the LED matrix",
+    "args0": [
+      {
+        "options": [
+          ["❤️ Heart", "HEART"],
+          ["🤍 Empty Heart", "EMPTYHEART"],
+          ["✓ Yes (Check)", "YES"],
+          ["✕ No (X)", "NO"],
+          ["😊 Smile", "SMILE"]
+        ]
+      }
+    ]
+  },
+  "microbit_matrix_show_bitmap": {
+    "message0": "show bitmap %1",
+    "tooltip": "Display a 5-byte bitmap on the LED matrix"
+  },
+  "microbit_matrix_print_text": {
+    "message0": "print text %1",
+    "tooltip": "Print text on the LED matrix (scrolls if longer than 1 character)"
+  },
+  "microbit_matrix_print_number": {
+    "message0": "print number %1",
+    "tooltip": "Print a number on the LED matrix"
+  },
+  "microbit_matrix_scroll_text": {
+    "message0": "scroll text %1 speed %2 ms",
+    "tooltip": "Scroll text across the LED matrix"
+  },
+  "microbit_matrix_bitmap_create": {
+    "message0": "bitmap row1 %1 row2 %2 row3 %3 row4 %4 row5 %5",
+    "tooltip": "Create a 5-byte bitmap for LED matrix. Each row is a byte (0-255)"
+  },
+  "microbit_matrix_bitmap_heart": {
+    "message0": "❤️ heart bitmap",
+    "tooltip": "Heart icon bitmap"
+  },
+  "microbit_matrix_bitmap_empty_heart": {
+    "message0": "🤍 empty heart bitmap",
+    "tooltip": "Empty heart icon bitmap"
+  },
+  "microbit_matrix_bitmap_yes": {
+    "message0": "✓ yes bitmap",
+    "tooltip": "Yes (checkmark) icon bitmap"
+  },
+  "microbit_matrix_bitmap_no": {
+    "message0": "✕ no bitmap",
+    "tooltip": "No (X) icon bitmap"
+  },
+  "microbit_matrix_bitmap_smile": {
+    "message0": "😊 smile bitmap",
+    "tooltip": "Smile icon bitmap"
+  }
+}

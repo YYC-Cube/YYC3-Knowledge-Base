@@ -1,0 +1,79 @@
+{
+  "toolbox_name": "ساعة RTC",
+  "toolbox_labels": {
+    "初始化": "التهيئة",
+    "时间设置": "إعداد الوقت",
+    "时间读取": "قراءة الوقت",
+    "时间组件": "عنصر الوقت",
+    "状态控制": "التحكم في الحالة",
+    "DS3231专用": "مخصص لDS3231",
+    "DS1302专用": "خاص بـ DS1302"
+  },
+  "rtc_init": {
+    "message0": "تهيئة RTC %1 نوع الشريحة %2",
+    "tooltip": "تهيئة وحدة ساعة الوقت الحقيقي RTC، اختيار نوع الشريحة",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["DS3231 (I2C)", "DS3231"],
+          ["DS1307 (I2C)", "DS1307"],
+          ["DS1302 (3 أسلاك)", "DS1302"],
+          ["PCF8563 (I2C)", "PCF8563"]
+        ]
+      }
+    ]
+  },
+  "rtc_set_datetime": {
+    "message0": "%1 تعيين سنة %2 شهر %3 يوم %4 ساعة %5 دقيقة %6 ثانية %7",
+    "tooltip": "تعيين تاريخ ووقت RTC"
+  },
+  "rtc_set_compile_datetime": {
+    "message0": "%1 تعيين وقت الترجمة",
+    "tooltip": "تعيين RTC إلى وقت ترجمة البرنامج (معايرة سريعة)"
+  },
+  "rtc_get_datetime": {
+    "message0": "%1 الحصول على الوقت الحالي",
+    "tooltip": "قراءة التاريخ والوقت الحاليين من RTC"
+  },
+  "rtc_is_datetime_valid": {
+    "message0": "%1 الوقت صالح",
+    "tooltip": "التحقق مما إذا كان الوقت المخزن في RTC صالحًا"
+  },
+  "rtc_get_is_running": {
+    "message0": "%1 قيد التشغيل",
+    "tooltip": "التحقق مما إذا كان مذبذب RTC يعمل"
+  },
+  "rtc_set_is_running": {
+    "message0": "%1 تعيين حالة التشغيل %2",
+    "tooltip": "بدء أو إيقاف مذبذب RTC",
+    "args0": [ null, { "options": [["تشغيل", "TRUE"], ["إيقاف", "FALSE"]] } ]
+  },
+  "rtc_get_year": { "message0": "سنة الوقت %1", "tooltip": "الحصول على السنة من RtcDateTime (2000-2099)" },
+  "rtc_get_month": { "message0": "شهر الوقت %1", "tooltip": "الحصول على الشهر من RtcDateTime (1-12)" },
+  "rtc_get_day": { "message0": "يوم الوقت %1", "tooltip": "الحصول على اليوم من RtcDateTime (1-31)" },
+  "rtc_get_hour": { "message0": "ساعة الوقت %1", "tooltip": "الحصول على الساعة من RtcDateTime (0-23)" },
+  "rtc_get_minute": { "message0": "دقيقة الوقت %1", "tooltip": "الحصول على الدقائق من RtcDateTime (0-59)" },
+  "rtc_get_second": { "message0": "ثانية الوقت %1", "tooltip": "الحصول على الثواني من RtcDateTime (0-59)" },
+  "rtc_get_day_of_week": { "message0": "يوم الأسبوع للوقت %1", "tooltip": "الحصول على يوم الأسبوع من RtcDateTime (0=الأحد، 1=الاثنين، ...، 6=السبت)" },
+  "rtc_format_datetime": { "message0": "تنسيق الوقت %1 كنص", "tooltip": "تحويل RtcDateTime إلى تنسيق نصي YYYY/MM/DD HH:MM:SS" },
+  "rtc_ds3231_get_temperature": {
+    "message0": "%1 قراءة درجة الحرارة %2",
+    "tooltip": "قراءة درجة الحرارة من مستشعر DS3231 المدمج",
+    "args0": [ null, { "options": [["°C (مئوي)", "C"], ["°F (فهرنهايت)", "F"]] } ]
+  },
+  "rtc_ds1302_set_write_protect": {
+    "message0": "%1 حماية الكتابة %2",
+    "tooltip": "تمكين أو تعطيل حماية الكتابة في DS1302",
+    "args0": [ null, { "options": [["تمكين", "TRUE"], ["تعطيل", "FALSE"]] } ]
+  },
+  "extensions": {
+    "rtc_init_dynamic": {
+      "dat_pin": "منفذ DAT",
+      "clk_pin": "منفذ CLK",
+      "rst_pin": "منفذ RST",
+      "sda_pin": "منفذ SDA",
+      "scl_pin": "منفذ SCL"
+    }
+  }
+}

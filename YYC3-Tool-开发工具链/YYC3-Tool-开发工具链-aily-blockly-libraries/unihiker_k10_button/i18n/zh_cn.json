@@ -1,0 +1,59 @@
+{
+  "toolbox_name": "K10按键",
+  "k10_button_pressed": {
+    "message0": "K10按键 %1 被按下",
+    "tooltip": "检测K10按键是否被按下",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_button_callback": {
+    "message0": "当K10按键 %1 被 %2 时",
+    "tooltip": "当K10按键被按下或释放时执行",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "按下",
+            "pressed"
+          ],
+          [
+            "释放",
+            "released"
+          ]
+        ]
+      }
+    ]
+  }
+}

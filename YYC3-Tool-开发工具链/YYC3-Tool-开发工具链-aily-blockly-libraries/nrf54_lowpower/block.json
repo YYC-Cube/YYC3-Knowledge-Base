@@ -1,0 +1,389 @@
+[
+  {
+    "type": "lowpower_init",
+    "message0": "初始化低功耗模式 CPU频率 %1 功耗模式 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FREQ",
+        "options": [
+          [
+            "64 MHz",
+            "64MHZ"
+          ],
+          [
+            "128 MHz",
+            "128MHZ"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "低功耗 (Low Power)",
+            "LOW_POWER"
+          ],
+          [
+            "恒定延迟 (Constant Latency)",
+            "CONSTANT_LATENCY"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化低功耗模式，设置CPU频率和功耗延迟模式。低功耗模式允许系统在空闲时关闭时钟节省电量；恒定延迟保持时钟常开以获得更低唤醒延迟。",
+    "helpUrl": "",
+    "icon": "fa-light fa-bolt"
+  },
+  {
+    "type": "lowpower_enter_lowest_power",
+    "message0": "进入最低功耗板级状态",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "关闭板级供电轨和共享控制网络，使开发板进入最低功耗状态。通常在进入System OFF前调用。",
+    "helpUrl": "",
+    "icon": "fa-light fa-battery-empty"
+  },
+  {
+    "type": "lowpower_set_cpu_freq",
+    "message0": "设置CPU频率 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FREQ",
+        "options": [
+          [
+            "64 MHz",
+            "64MHZ"
+          ],
+          [
+            "128 MHz",
+            "128MHZ"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "运行时动态切换CPU频率。64MHz适合低功耗场景，128MHz适合高性能计算。",
+    "helpUrl": "",
+    "icon": "fa-light fa-microchip"
+  },
+  {
+    "type": "lowpower_wfi",
+    "message0": "WFI 空闲等待",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "CPU进入WFI(Wait For Interrupt)空闲状态，直到下一个中断唤醒。这是System ON下最简单的低功耗方式。",
+    "helpUrl": "",
+    "icon": "fa-light fa-moon"
+  },
+  {
+    "type": "lowpower_sleep_ms",
+    "message0": "低功耗WFI休眠 %1 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "使用WFI循环实现低功耗延时，CPU在等待期间自动进入空闲状态。比delay()更省电。",
+    "helpUrl": "",
+    "icon": "fa-light fa-moon"
+  },
+  {
+    "type": "lowpower_system_off_timed",
+    "message0": "定时 System OFF 休眠 %1 毫秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "进入System OFF最深休眠，指定时间后冷启动唤醒。唤醒后从setup()重新开始执行。这是最低功耗的定时唤醒方式。",
+    "helpUrl": "",
+    "icon": "fa-light fa-clock"
+  },
+  {
+    "type": "lowpower_system_off_button",
+    "message0": "System OFF 按钮唤醒",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "配置用户按钮为唤醒源，然后进入System OFF最深休眠。按下按钮后冷启动唤醒，从setup()重新开始执行。",
+    "helpUrl": "",
+    "icon": "fa-light fa-circle-dot"
+  },
+  {
+    "type": "lowpower_system_off",
+    "message0": "进入 System OFF %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RETENTION",
+        "options": [
+          [
+            "不保留RAM (最低功耗)",
+            "NO_RETENTION"
+          ],
+          [
+            "保留.noinit段",
+            "RETENTION"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "进入System OFF最深休眠模式。需要预先配置唤醒源(如LPCOMP)。不保留RAM为最低功耗，保留.noinit段可保存少量数据跨越休眠。",
+    "helpUrl": "",
+    "icon": "fa-light fa-power-off"
+  },
+  {
+    "type": "lowpower_lpcomp_init",
+    "message0": "初始化LPCOMP 引脚 %1 VDD %2 mV 阈值 %3 mV 迟滞 %4 检测 %5",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": [
+          [
+            "A0",
+            "kPinA0"
+          ],
+          [
+            "A1",
+            "kPinA1"
+          ],
+          [
+            "A2",
+            "kPinA2"
+          ],
+          [
+            "A3",
+            "kPinA3"
+          ],
+          [
+            "A4",
+            "kPinA4"
+          ],
+          [
+            "A5",
+            "kPinA5"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VDD",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "THRESHOLD",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "HYSTERESIS",
+        "options": [
+          [
+            "开启",
+            "TRUE"
+          ],
+          [
+            "关闭",
+            "FALSE"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DETECT",
+        "options": [
+          [
+            "上升沿 (电压升高越限)",
+            "UP"
+          ],
+          [
+            "下降沿 (电压降低越限)",
+            "DOWN"
+          ],
+          [
+            "双向 (任意越限)",
+            "CROSS"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "初始化低功耗比较器(LPCOMP)，监测模拟引脚电压是否越过阈值。LPCOMP在CPU休眠时仍然工作，可作为System OFF唤醒源。VDD为供电电压(USB: 3300, 锂电池: 3700)。",
+    "helpUrl": "",
+    "icon":"fa-light fa-play"
+  },
+  {
+    "type": "lowpower_lpcomp_poll_up",
+    "message0": "LPCOMP 检测到上升越限？",
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "检查LPCOMP是否检测到电压上升越过阈值。检测后自动清除事件标志。适合在loop()中轮询使用。",
+    "helpUrl": "",
+    "icon":"fa-light fa-play"
+  },
+  {
+    "type": "lowpower_lpcomp_sample_above",
+    "message0": "LPCOMP 当前高于阈值？",
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "tooltip": "立即采样LPCOMP比较器，返回当前模拟输入是否高于设定阈值。",
+    "helpUrl": "",
+    "icon":"fa-light fa-play"
+  },
+  {
+    "type": "lowpower_lpcomp_clear",
+    "message0": "清除 LPCOMP 事件",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "清除所有LPCOMP事件标志，防止误触发。通常在初始化LPCOMP后调用。",
+    "helpUrl": "",
+    "icon":"fa-light fa-play"
+  },
+  {
+    "type": "lowpower_watchdog_init",
+    "message0": "初始化看门狗 超时 %1 毫秒 休眠暂停 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIMEOUT",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PAUSE_SLEEP",
+        "options": [
+          [
+            "是",
+            "TRUE"
+          ],
+          [
+            "否",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "icon": "fa-light fa-shield-dog",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "初始化看门狗定时器。如果超时时间内未喂狗，芯片将自动复位。\"休眠暂停\"为是时，CPU休眠期间看门狗暂停计时。",
+    "helpUrl": ""
+  },
+  {
+    "type": "lowpower_watchdog_feed",
+    "message0": "喂看门狗",
+    "icon": "fa-light fa-shield-dog",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F44336",
+    "tooltip": "重置看门狗定时器，防止系统复位。需在看门狗超时前定期调用。",
+    "helpUrl": ""
+  },
+  {
+    "type": "lowpower_woke_from",
+    "message0": "唤醒来源是 %1 ？",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SOURCE",
+        "options": [
+          [
+            "GPIO (按钮/引脚)",
+            "GPIO"
+          ],
+          [
+            "GRTC (定时器)",
+            "GRTC"
+          ],
+          [
+            "LPCOMP (比较器)",
+            "LPCOMP"
+          ],
+          [
+            "看门狗",
+            "WATCHDOG"
+          ]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "检查本次启动是否由指定唤醒源触发。在setup()中使用，判断设备是冷启动还是从休眠唤醒。需在清除复位原因之前使用。",
+    "helpUrl": "",
+    "icon": "fa-light fa-sun"
+  },
+  {
+    "type": "lowpower_reset_reason",
+    "message0": "复位原因值",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "获取复位原因寄存器的原始值，可用于高级调试。需在清除复位原因之前读取。",
+    "helpUrl": "",
+    "icon": "fa-light fa-circle-info"
+  },
+  {
+    "type": "lowpower_clear_reset_reason",
+    "message0": "清除复位原因",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "清除复位原因寄存器。通常在读取并处理唤醒源后调用，避免下次启动误判。",
+    "helpUrl": "",
+    "icon": "fa-light fa-eraser"
+  },
+  {
+    "type": "lowpower_gpregret_write",
+    "message0": "写保持寄存器 值 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "向GPREGRET保持寄存器写入一个字节值(0-255)。该值在System OFF期间保留，可用于标记休眠状态或传递信息给唤醒后的程序。",
+    "helpUrl": "",
+    "icon": "fa-light fa-pen"
+  },
+  {
+    "type": "lowpower_gpregret_read",
+    "message0": "读保持寄存器",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "从GPREGRET保持寄存器读取一个字节值(0-255)。该值在System OFF期间保留，可用于检测是否从休眠唤醒。",
+    "helpUrl": "",
+    "icon": "fa-light fa-eye"
+  }
+]

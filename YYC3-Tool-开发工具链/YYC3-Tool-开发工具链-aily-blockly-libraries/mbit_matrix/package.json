@@ -1,0 +1,32 @@
+{
+  "name": "@aily-project/lib-microbit-matrix",
+  "nickname": "micro:bit Matrix",
+  "nickname_zh_cn": "micro:bit 点阵屏",
+  "nickname_en": "micro:bit LED Matrix",
+  "description": "Control the 5x5 LED matrix on BBC micro:bit",
+  "description_zh_cn": "控制 BBC micro:bit 上的 5x5 LED 点阵屏",
+  "version": "1.0.0",
+  "author": "Adafruit",
+  "license": "MIT",
+  "compatibility": {
+    "core": [
+      "nRF5:nRF5:BBCmicrobit",
+      "nRF5:nRF5:BBCmicrobitV2"
+    ],
+    "voltage": [
+      3.3
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "microbit",
+    "led",
+    "matrix",
+    "display",
+    "gfx"
+  ],
+  "tested": true,
+  "url": "https://github.com/adafruit/Adafruit_Microbit",
+  "dependencies": {}
+}

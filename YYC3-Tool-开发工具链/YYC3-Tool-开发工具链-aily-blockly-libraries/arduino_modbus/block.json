@@ -1,0 +1,525 @@
+[
+    {
+        "type": "modbus_rtu_client_begin",
+        "message0": "初始化Modbus RTU客户端 波特率%1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "BAUDRATE",
+                "options": [
+                    ["9600", "9600"],
+                    ["19200", "19200"],
+                    ["38400", "38400"],
+                    ["57600", "57600"],
+                    ["115200", "115200"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6D00",
+        "tooltip": "初始化Modbus RTU客户端，设置波特率"
+    },
+    {
+        "type": "modbus_rtu_server_begin",
+        "message0": "初始化Modbus RTU服务器 设备ID%1波特率%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "field_dropdown",
+                "name": "BAUDRATE",
+                "options": [
+                    ["9600", "9600"],
+                    ["19200", "19200"],
+                    ["38400", "38400"],
+                    ["57600", "57600"],
+                    ["115200", "115200"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6D00",
+        "tooltip": "初始化Modbus RTU服务器，设置设备ID和波特率"
+    },
+    {
+        "type": "modbus_tcp_client_begin",
+        "message0": "初始化Modbus TCP客户端 IP地址%1端口%2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "IP",
+                "check": "String"
+            },
+            {
+                "type": "field_number",
+                "name": "PORT",
+                "value": 502,
+                "min": 1,
+                "max": 65535
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6D00",
+        "tooltip": "初始化Modbus TCP客户端，连接到指定IP和端口"
+    },
+    {
+        "type": "modbus_tcp_server_begin",
+        "message0": "初始化Modbus TCP服务器 设备ID%1",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 255,
+                "min": 1,
+                "max": 255
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF6D00",
+        "tooltip": "初始化Modbus TCP服务器"
+    },
+    {
+        "type": "modbus_coil_read",
+        "message0": "读取线圈 设备ID%1地址%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 0,
+                "max": 247
+            },
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            }
+        ],
+        "output": "Number",
+        "colour": "#FF8F00",
+        "tooltip": "读取指定地址的线圈状态，返回0或1，失败返回-1"
+    },
+    {
+        "type": "modbus_coil_write",
+        "message0": "写入线圈 设备ID%1地址%2值%3",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 0,
+                "max": 247
+            },
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF8F00",
+        "tooltip": "向指定地址写入线圈值（0或1）"
+    },
+    {
+        "type": "modbus_discrete_input_read",
+        "message0": "读取离散输入 设备ID%1地址%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 0,
+                "max": 247
+            },
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            }
+        ],
+        "output": "Number",
+        "colour": "#FFB300",
+        "tooltip": "读取指定地址的离散输入状态，返回0或1，失败返回-1"
+    },
+    {
+        "type": "modbus_holding_register_read",
+        "message0": "读取保持寄存器 设备ID%1地址%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 0,
+                "max": 247
+            },
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            }
+        ],
+        "output": "Number",
+        "colour": "#FFC107",
+        "tooltip": "读取指定地址的保持寄存器值，失败返回-1"
+    },
+    {
+        "type": "modbus_holding_register_write",
+        "message0": "写入保持寄存器 设备ID%1地址%2值%3",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 0,
+                "max": 247
+            },
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FFC107",
+        "tooltip": "向指定地址写入保持寄存器值（0-65535）"
+    },
+    {
+        "type": "modbus_input_register_read",
+        "message0": "读取输入寄存器 设备ID%1地址%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 0,
+                "max": 247
+            },
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            }
+        ],
+        "output": "Number",
+        "colour": "#FFD54F",
+        "tooltip": "读取指定地址的输入寄存器值，失败返回-1"
+    },
+    {
+        "type": "modbus_server_configure_coils",
+        "message0": "配置服务器线圈 起始地址%1数量%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "START_ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "field_number",
+                "name": "COUNT",
+                "value": 1,
+                "min": 1,
+                "max": 2000
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF8F00",
+        "tooltip": "配置Modbus服务器的线圈地址范围"
+    },
+    {
+        "type": "modbus_server_configure_discrete_inputs",
+        "message0": "配置服务器离散输入 起始地址%1数量%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "START_ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "field_number",
+                "name": "COUNT",
+                "value": 1,
+                "min": 1,
+                "max": 2000
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FFB300",
+        "tooltip": "配置Modbus服务器的离散输入地址范围"
+    },
+    {
+        "type": "modbus_server_configure_holding_registers",
+        "message0": "配置服务器保持寄存器 起始地址%1数量%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "START_ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "field_number",
+                "name": "COUNT",
+                "value": 1,
+                "min": 1,
+                "max": 125
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FFC107",
+        "tooltip": "配置Modbus服务器的保持寄存器地址范围"
+    },
+    {
+        "type": "modbus_server_configure_input_registers",
+        "message0": "配置服务器输入寄存器 起始地址%1数量%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "START_ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "field_number",
+                "name": "COUNT",
+                "value": 1,
+                "min": 1,
+                "max": 125
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FFD54F",
+        "tooltip": "配置Modbus服务器的输入寄存器地址范围"
+    },
+    {
+        "type": "modbus_server_poll",
+        "message0": "Modbus服务器轮询",
+        "output": "Boolean",
+        "colour": "#FF6D00",
+        "tooltip": "轮询Modbus服务器是否有请求，有请求返回true"
+    },
+    {
+        "type": "modbus_server_coil_read",
+        "message0": "服务器读取线圈 地址%1",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            }
+        ],
+        "output": "Number",
+        "colour": "#FF8F00",
+        "tooltip": "读取服务器线圈的当前值"
+    },
+    {
+        "type": "modbus_server_coil_write",
+        "message0": "服务器写入线圈 地址%1值%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF8F00",
+        "tooltip": "设置服务器线圈的值"
+    },
+    {
+        "type": "modbus_server_discrete_input_write",
+        "message0": "服务器写入离散输入 地址%1值%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FFB300",
+        "tooltip": "设置服务器离散输入的值"
+    },
+    {
+        "type": "modbus_server_holding_register_read",
+        "message0": "服务器读取保持寄存器 地址%1",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            }
+        ],
+        "output": "Number",
+        "colour": "#FFC107",
+        "tooltip": "读取服务器保持寄存器的当前值"
+    },
+    {
+        "type": "modbus_server_holding_register_write",
+        "message0": "服务器写入保持寄存器 地址%1值%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FFC107",
+        "tooltip": "设置服务器保持寄存器的值"
+    },
+    {
+        "type": "modbus_server_input_register_write",
+        "message0": "服务器写入输入寄存器 地址%1值%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FFD54F",
+        "tooltip": "设置服务器输入寄存器的值"
+    },
+    {
+        "type": "modbus_last_error",
+        "message0": "获取Modbus最后错误信息",
+        "output": "String",
+        "colour": "#F44336",
+        "tooltip": "获取最后一次Modbus操作的错误信息"
+    },
+    {
+        "type": "modbus_quick_coil_control",
+        "message0": "Modbus快速控制线圈 设备ID%1地址%2值%3",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            },
+            {
+                "type": "field_dropdown",
+                "name": "VALUE",
+                "options": [
+                    ["开启", "1"],
+                    ["关闭", "0"]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#FF8F00",
+        "tooltip": "快速控制Modbus设备的线圈，自动处理初始化"
+    },
+    {
+        "type": "modbus_quick_register_read",
+        "message0": "Modbus快速读取寄存器 设备ID%1地址%2",
+        "args0": [
+            {
+                "type": "field_number",
+                "name": "SLAVE_ID",
+                "value": 1,
+                "min": 1,
+                "max": 247
+            },
+            {
+                "type": "field_number",
+                "name": "ADDRESS",
+                "value": 0,
+                "min": 0,
+                "max": 65535
+            }
+        ],
+        "output": "Number",
+        "colour": "#FFC107",
+        "tooltip": "快速读取Modbus设备的保持寄存器值"
+    }
+]

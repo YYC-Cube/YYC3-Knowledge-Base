@@ -1,0 +1,154 @@
+<div class="aily-blockly-viewer">
+  @if (errorMessage) {
+    <div class="error-card">
+      <div class="error-content">
+        <i class="error-icon">⚠️</i>
+        <span class="error-text">{{ errorMessage }}</span>
+      </div>
+      
+      @if (rawDataString) {
+        <div class="raw-data-section">
+          <h4>原始数据:</h4>
+          <pre class="raw-data">{{ rawDataString }}</pre>
+        </div>
+      }
+    </div>
+  } @else if (blocklyData) {
+    <div class="blockly-card">
+      <!-- 标题和基本信息 -->
+      <div class="card-header">
+        <div class="title-section">
+          <i class="blockly-icon">🧩</i>
+          <h3>{{ getBlocklyTitle() }}</h3>
+        </div>
+        <div class="actions">
+          <button class="action-btn primary" 
+                  [disabled]="getBlockCount() === 0"
+                  (click)="importBlockly()"
+                  title="导入到当前工作区">
+            📥 导入
+          </button>
+          <button class="action-btn" 
+                  (click)="copyToClipboard()"
+                  title="复制到剪贴板">
+            📋 复制
+          </button>
+          <button class="action-btn" 
+                  (click)="toggleRawData()"
+                  title="切换原始数据显示">
+            {{ showRawData ? '👁️' : '🔍' }} {{ showRawData ? '隐藏源码' : '查看源码' }}
+          </button>
+        </div>
+      </div>
+      
+      <!-- 描述 -->
+      <div class="description">
+        {{ getBlocklyDescription() }}
+      </div>
+      
+      <!-- 详细信息 -->
+      <div class="blockly-details">
+        <div class="detail-row">
+          <span class="detail-label">积木块数量:</span>
+          <span class="detail-tag blue">{{ getBlockCount() }}</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">工作区信息:</span>
+          <span class="detail-value">{{ getWorkspaceSummary() }}</span>
+        </div>
+        
+        @if (getProjectType() !== '未知') {
+          <div class="detail-row">
+            <span class="detail-label">项目类型:</span>
+            <span class="detail-tag green">{{ getProjectType() }}</span>
+          </div>
+        }
+        
+        @if (getDifficulty()) {
+          <div class="detail-row">
+            <span class="detail-label">难度:</span>
+            <span class="detail-tag" [style.backgroundColor]="getDifficultyColor(getDifficulty())">
+              {{ getDifficulty() }}
+            </span>
+          </div>
+        }
+        
+        @if (getAuthor()) {
+          <div class="detail-row">
+            <span class="detail-label">作者:</span>
+            <span class="detail-value">{{ getAuthor() }}</span>
+          </div>
+        }
+        
+        @if (getCreatedTime()) {
+          <div class="detail-row">
+            <span class="detail-label">创建时间:</span>
+            <span class="detail-value">{{ getCreatedTime() }}</span>
+          </div>
+        }
+        
+        @if (getTags().length > 0) {
+          <div class="detail-row">
+            <span class="detail-label">标签:</span>
+            <div class="tags">
+              @for (tag of getTags(); track tag) {
+                <span class="tag">{{ tag }}</span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+      
+      <!-- 预览图 -->
+      @if (hasPreview()) {
+        <div class="preview-section">
+          <h4>预览图:</h4>
+          <img [src]="getPreviewUrl()" alt="Blockly预览" class="preview-image" />
+        </div>
+      }
+      
+      <!-- 代码展示 -->
+      @if (hasCode() && !showRawData) {
+        <div class="code-section">
+          <h4>生成的代码:</h4>
+          <pre class="code-content">{{ getGeneratedCode() }}</pre>
+        </div>
+      }
+      
+      <!-- XML代码展示 -->
+      @if (getXmlCode() && !showRawData) {
+        <div class="xml-section">
+          <h4>Blockly XML:</h4>
+          <pre class="xml-content">{{ getXmlCode() }}</pre>
+        </div>
+      }
+      
+      <!-- 原始数据展示 -->
+      @if (showRawData) {
+        <div class="raw-data-section">
+          <h4>原始数据:</h4>
+          <pre class="raw-data">{{ rawDataString }}</pre>
+        </div>
+      }
+      
+      <!-- 如果没有代码和预览，显示占位符 -->
+      @if (!hasCode() && !hasPreview() && !showRawData) {
+        <div class="blockly-preview">
+          <div class="preview-placeholder">
+            <i class="placeholder-icon">🧩</i>
+            <span>Blockly 积木块项目</span>
+            <small>点击导入按钮将积木块添加到工作区</small>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="loading-card">
+      <div class="loading-content">
+        <i class="loading-icon">⏳</i>
+        <span>加载 Blockly 数据中...</span>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,39 @@
+{
+    "kind": "category",
+    "icon":"fa-light fa-shield-dog",
+    "name": "ESP32看门狗",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "wdt_init"
+        },
+        {
+            "kind": "block",
+            "type": "wdt_add_task"
+        },
+        {
+            "kind": "block",
+            "type": "wdt_reset"
+        },
+        {
+            "kind": "block",
+            "type": "wdt_add_user"
+        },
+        {
+            "kind": "block",
+            "type": "wdt_reset_user"
+        },
+        {
+            "kind": "block",
+            "type": "wdt_delete_task"
+        },
+        {
+            "kind": "block",
+            "type": "wdt_delete_user"
+        },
+        {
+            "kind": "block",
+            "type": "wdt_deinit"
+        }
+    ]
+}

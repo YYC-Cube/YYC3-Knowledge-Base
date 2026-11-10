@@ -1,0 +1,553 @@
+{
+  "arduino": {
+    "about": {
+      "detail": "เวอร์ชัน: {0}\nวันที่: {1}{2}\nเวอร์ชัน CLI: {3}\n\n{4}",
+      "label": "เกี่ยวกับ{0}"
+    },
+    "account": {
+      "goToCloudEditor": "ไปยัง Cloud Editor",
+      "goToIoTCloud": "ไปยัง IoT Cloud",
+      "goToProfile": "ไปยัง Profile",
+      "menuTitle": "Arduino Cloud"
+    },
+    "board": {
+      "board": "บอร์ด{0}",
+      "boardConfigDialogTitle": "เลือกบอร์ดและพอร์ตอื่นๆ",
+      "boardDataReloaded": "โหลดข้อมูลบอร์ดใหม่แล้ว",
+      "boardInfo": "ข้อมูลบอร์ด",
+      "boards": "บอร์ด",
+      "configDialog1": "เลือกบอร์ดและพอร์ตที่คุณต้องการอัปโหลดโปรแกรมของคุณ",
+      "configDialog2": "หากคุณแค่เลือกบอร์ดคุณจะสามารถคอมไพล์ได้ แต่สเก็ตช์ของคุณจะไม่ถูกอัปโหลด",
+      "couldNotFindPreviouslySelected": "ไม่สามาถหาบอร์ด {0} ที่ถูกเลือกไว้ก่อนหน้านี้พบในแพลตฟอร์มที่ถูกติดตั้ง {1} กรุณาเลือกบอร์ดที่คุณต้องการใช้งานด้วยตัวเอง คุณต้องการเลือกใหม่ในตอนนี้หรือไม่?",
+      "editBoardsConfig": "แก้ไขบอร์ดและพอร์ต",
+      "getBoardInfo": "เรียกดูข้อมูลของบอร์ด",
+      "inSketchbook": "(ใน Sketchbook)",
+      "installNow": "คอร์ \"{0}{1}\" ต้องถูกติดตั้งสำหรับบอร์ด \"{2}\" ที่ถูกเลือก คุณต้องการติดตั้งในตอนนี้หรือไม่?",
+      "noBoardsFound": "ไม่พบบอร์ด \"{0}\"",
+      "noNativeSerialPort": "พอร์ต Serial ดั้งเดิม ไม่สามารถรับข้อมูลได้",
+      "noPortsDiscovered": "ไม่พบพอร์ต",
+      "nonSerialPort": "ไม่ใช่พอร์ต Serial ไม่สามารถรับข้อมูลได้",
+      "openBoardsConfig": "เลือกบอร์ดอื่นและพอร์ต...",
+      "pleasePickBoard": "กรุณาเลือกบอร์ดที่เชื่อมต่อกับพอร์ตที่คุณได้เลือกไว้",
+      "port": "พอร์ต {0}",
+      "ports": "พอร์ต",
+      "programmer": "เครื่องโปรแกรม",
+      "reloadBoardData": "โหลดข้อมูลบอร์ดใหม่",
+      "reselectLater": "เลือกใหม่ในภายหลัง",
+      "revertBoardsConfig": "ใช้ '{0}' ค้นพบเมื่อ '{1}'",
+      "searchBoard": "ค้นหาบอร์ด",
+      "selectBoard": "เลือกบอร์ด",
+      "selectBoardToReload": "กรุณาเลือกบอร์ดก่อน",
+      "selectPortForInfo": "กรุณาเลือกพอร์ตเพื่อดึงข้อมูลของบอร์ด",
+      "showAllAvailablePorts": "แสดงพอร์ตทั้งหมดที่มีอยู่เมื่อเลือก",
+      "showAllPorts": "แสดงพอร์ตทั้งหมด",
+      "succesfullyInstalledPlatform": "ติดตั้งแพลตฟอร์ม {0}:{1} สำเร็จ",
+      "succesfullyUninstalledPlatform": "ถอนการติดตั้งแพลตฟอร์ม {0}:{1} สำเร็จ",
+      "typeOfPorts": "{0} พอร์ต",
+      "unconfirmedBoard": "บอร์ดไม่ได้รับการยืนยัน",
+      "unknownBoard": "บอร์ดที่ไม่รู้จัก"
+    },
+    "boardsManager": "ตัวจัดการบอร์ด",
+    "boardsType": {
+      "arduinoCertified": "ได้รับการับรองจาก Arduino"
+    },
+    "bootloader": {
+      "burnBootloader": "เขียนบูทโหลดเดอร์",
+      "burningBootloader": "กำลังเขียนบูทโหลดเดอร์...",
+      "doneBurningBootloader": "เขียนบูทโหลดเดอร์สำเร็จ"
+    },
+    "burnBootloader": {
+      "error": "เกิดความผิดพลาดในขณะเขียนบูทโหลดเดอร์: {0}"
+    },
+    "certificate": {
+      "addNew": "เพิ่มใหม่",
+      "addURL": "เพิ่ม URL เพื่อดึงใบรับรอง SSL",
+      "boardAtPort": "{0} ที่ {1}",
+      "certificatesUploaded": "อัปโหลดใบรับรองแล้ว",
+      "enterURL": "ใส่ URL",
+      "noSupportedBoardConnected": "ไม่มีบอร์ดที่รองรับเชื่อมต่ออยู่",
+      "openContext": "เปิดบริบท",
+      "remove": "นำออก",
+      "selectBoard": "เลือกบอร์ด...",
+      "selectCertificateToUpload": "1. เลือกใบรับรองที่จะอัปโหลด",
+      "selectDestinationBoardToUpload": "2. เลือกบอร์ดปลายทางเพื่ออัปโหลด",
+      "upload": "อัปโหลด",
+      "uploadFailed": "อัปโหลดล้มเหลว โปรดลองอีกครั้ง",
+      "uploadRootCertificates": "อัปโหลดใบรับรองรูท SSL ",
+      "uploadingCertificates": "กำลังอัปโหลดใบรับรอง"
+    },
+    "checkForUpdates": {
+      "checkForUpdates": "ตรวจสอบการอัปเดต Arduino",
+      "installAll": "ติดตั้งทั้งหมด",
+      "noUpdates": "ไม่มีอัปเดต",
+      "promptUpdateBoards": "ต้องการอัปเดตบอร์ดหรือไม่?",
+      "promptUpdateLibraries": "ต้องการอัปเดตไลบรารีหรือไม่?",
+      "updatingBoards": "กำลังอัปเดตบอร์ด",
+      "updatingLibraries": "กำลังอัปเดตไลบรารี"
+    },
+    "cli-error-parser": {
+      "keyboardError": "ไม่พบ 'Keyboard' ตรวจสอบว่าสเก็ตช์ของคุณมีบรรทัด '#include <Keyboard.h>' หรือไม่?",
+      "mouseError": " ไม่พบ 'Mouse' ตรวจสอบว่าโค้ดของคุณมีบรรทัด #include <Mouse.h> หรือไม่?"
+    },
+    "cloud": {
+      "chooseSketchVisibility": "เลือกการเปิดเผยสเก็ตช์ของคุณ:",
+      "cloudSketchbook": "สมุดสเก็ตช์บนคลาวด์",
+      "connected": "เชื่อมต่อ",
+      "continue": "ดำเนินการต่อ",
+      "donePulling": "ดึงข้อมูลเสร็จสิ้น '{0}'",
+      "donePushing": "ส่งข้อมูลเสร็จสิ้น '{0}'",
+      "embed": "ฝัง:",
+      "emptySketchbook": "สมุดสเก็ตช์ของคุณว่างเปล่า",
+      "goToCloud": "ไปยัง Cloud",
+      "learnMore": "เรียนรู้เพิ่มเติม",
+      "link": "ลิ้งก์:",
+      "notYetPulled": " ไม่สามารถอัปโหลดไปยัง Cloud ได้ เนื่องจากยังไม่ได้ดึงข้อมูลลงมาก่อน",
+      "offline": "ออฟไลน์",
+      "openInCloudEditor": "เปิดใน Cloud Editor",
+      "options": "ตัวเลือก...",
+      "privateVisibility": "เป็นแบบส่วนตัว มีเพียงคุณเท่านั้นที่สามารถดู สเก็ตช์ ได้",
+      "profilePicture": "ภาพโปรไฟล์",
+      "publicVisibility": " เป็นแบบสาธารณะ ทุกคนที่มีลิงก์สามารถดู สเก็ตช์ ได้",
+      "pull": "ดึง",
+      "pullFirst": "คุณต้องดึงข้อมูลมาก่อน จึงจะสามารถอัปโหลดไปยัง Cloud ได้",
+      "pullSketch": "ดึง สเก็ตช์",
+      "pullSketchMsg": "การดึง สเก็ตช์ นี้จาก Cloud จะเขียนทับเวอร์ชันที่อยู่ในเครื่องของคุณ คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ?",
+      "push": "ส่ง",
+      "pushSketch": "ส่ง สเก็ตช์",
+      "pushSketchMsg": " นี่คือ สเก็ตช์ สาธารณะ ก่อนอัปโหลด โปรดตรวจสอบว่าข้อมูลที่ละเอียดอ่อนถูกกำหนดไว้ในไฟล์ arduino_secrets.h แล้ว คุณสามารถทำให้ สเก็ตช์ เป็นแบบส่วนตัวได้จากเมนู แชร์",
+      "remote": "ระยะไกล",
+      "share": "แชร์...",
+      "shareSketch": "แชร์ สเก็ตช์",
+      "showHideSketchbook": "แสดง/ซ่อน Cloud Sketchbook",
+      "signIn": "ลงชื่อเข้าใช้",
+      "signInToCloud": "ลงชื่อเข้าใช้ Arduino Cloud",
+      "signOut": "ลงชื่อออก",
+      "sync": "ซิงค์",
+      "syncEditSketches": "ซิงค์และแก้ไข สเก็ตช์ ของคุณใน Arduino Cloud",
+      "visitArduinoCloud": "ไปที่ Arduino Cloud เพื่อสร้าง Cloud Sketches"
+    },
+    "cloudSketch": {
+      "alreadyExists": "สมุดสเก็ตช์ '{0}' มีอยู่แล้ว",
+      "creating": "กำลังสร้าง สมุดสเก็ตช์ '{0}'...",
+      "new": "Cloud Sketch ใหม่",
+      "notFound": "ไม่สามารถดึงสเก็ตช์จากคลาวด์ '{0}' สเก็ตช์นี้ไม่มีอยู่จริง",
+      "pulling": "กำลังซิงค์สมุดสเก็ตช์, ดึง '{0}'...",
+      "pushing": "กำลังซิงค์สมุดสเก็ตช์, กำลังอัปโหลด '{0}'...",
+      "renaming": "กำลังเปลี่ยนชื่อสเก็ตช์ในคลาวด์จาก '{0}' เป็น '{1}'...",
+      "synchronizingSketchbook": "กำลังซิงค์สมุดสเก็ตช์..."
+    },
+    "common": {
+      "all": "ทั้งหมด",
+      "contributed": "มีส่วนร่วม",
+      "installManually": "ติดตั้งด้วยตัวเอง",
+      "installed": "ติดตั้งอยู่",
+      "later": "ภายหลัง",
+      "noBoardSelected": "ไม่ได้เลือกบอร์ด :O",
+      "noSketchOpened": "ไม่ได้เปิด สเก็ตช์",
+      "notConnected": "[ไม่ได้เชื่อมต่อ]",
+      "offlineIndicator": "ดูเหมือนว่าคุณจะออฟไลน์อยู่ โดยไม่มีการเชื่อมต่ออินเทอร์เน็ต Arduino CLI อาจไม่สามารถดาวน์โหลดทรัพยากรที่จำเป็นและอาจทำให้เกิดการทำงานผิดปกติได้ กรุณาเชื่อมต่อกับอินเทอร์เน็ตและรีสตาร์ทแอปพลิเคชัน",
+      "oldFormat": "'{0}' ยังคงใช้รูปแบบเก่า .pde อยู่ คุณต้องการเปลี่ยนเป็นนามสกุลใหม่ .ino หรือไม่?",
+      "partner": "พาร์ทเนอร์",
+      "processing": "กำลังประมวลผล",
+      "recommended": "แนะนำ",
+      "retired": "ยกเลิกการใช้งาน",
+      "selectManually": "เลือกด้วยตัวเอง",
+      "selectedOn": "บน {0}",
+      "serialMonitor": "Serial Monitor",
+      "type": "ชนิด",
+      "unknown": "ไม่รู้จัก",
+      "updateable": "อัปเดตได้",
+      "userAbort": "การยกเลิกที่ผู้ใช้ทำเอง"
+    },
+    "compile": {
+      "error": "ข้อผิดพลาดในการคอมไพล์: {0}"
+    },
+    "component": {
+      "boardsIncluded": "บอร์ดที่รวมอยู่ในแพ็คเกจนี้:",
+      "by": "โดย",
+      "clickToOpen": "คลิกเพื่อเปิดในเบราว์เซอร์: {0}",
+      "filterSearch": "กรองการค้นหาของคุณ...",
+      "install": "ติดตั้ง",
+      "installLatest": "ติดตั้งภายหลัง",
+      "installVersion": "ติดตั้ง {0}",
+      "installed": "ติดตั้ง {0} แล้ว",
+      "moreInfo": "ข้อมูลเพิ่มเติม",
+      "otherVersions": "เวอร์ชั่นก่อนหน้า",
+      "remove": "นำออก",
+      "title": "{0} โดย {1}",
+      "uninstall": "ถอนการติดตั้ง",
+      "uninstallMsg": "คุณต้องการถอนการติดตั้ง {0}?",
+      "update": "อัปเดต"
+    },
+    "configuration": {
+      "cli": {
+        "inaccessibleDirectory": "ไม่สามารถเข้าถึงตำแหน่งสมุดสเก็ตช์ที่ '{0}': {1}"
+      }
+    },
+    "connectionStatus": {
+      "connectionLost": "การเชื่อมต่อขาดหาย การดำเนินการและอัปเดตสเก็ตช์บนคลาวด์จะไม่สามารถใช้ได้"
+    },
+    "contributions": {
+      "addFile": "เพิ่มไฟล์",
+      "fileAdded": "เพิ่มไฟล์หนึ่งไฟล์ลงในสเก็ตช์",
+      "plotter": {
+        "couldNotOpen": "ไม่สามารถเปิด Serial Plotter ได้"
+      },
+      "replaceTitle": "แทนที"
+    },
+    "core": {
+      "compilerWarnings": {
+        "all": "ทั้งหมด",
+        "default": "ค่าเริ่มต้น",
+        "more": "อื่นๆ",
+        "none": "ว่าง"
+      }
+    },
+    "coreContribution": {
+      "copyError": "คัดลอกข้อความแสดงข้อผิดพลาด",
+      "noBoardSelected": "ยังไม่ได้เลือกบอร์ด กรุณาเลือกบอร์ด Arduino ของคุณจากเมนู เครื่องมือ > บอร์ด"
+    },
+    "createCloudCopy": "อัพโหลดสเก็ตช์ขึ้นคลาวด์",
+    "daemon": {
+      "restart": "รีสตาร์ท Daemon",
+      "start": "เริ่ม Daemon",
+      "stop": "หยุด Daemon"
+    },
+    "debug": {
+      "debugWithMessage": "ดีบัก - {0}",
+      "debuggingNotSupported": "'{0}' ไม่รองรับการดีบัก",
+      "getDebugInfo": "กำลังรับข้อมูลการดีบัก",
+      "noPlatformInstalledFor": "ไม่ได้ติดตั้งแฟลตฟอร์มสำหรับ '{0}'",
+      "optimizeForDebugging": "ปรับให้เหมาะสมสำหรับการดีบัก",
+      "sketchIsNotCompiled": "สเก็ตช์ '{0}' ต้องได้รับการตรวจสอบก่อนเริ่มการดีบัก กรุณาตรวจสอบสเก็ตช์แล้วลองดีบักอีกครั้ง คุณต้องการตรวจสอบสเก็ตช์ตอนนี้หรือไม่?"
+    },
+    "developer": {
+      "clearBoardList": "ล้างประวัติรายการบอร์ด",
+      "clearBoardsConfig": "ล้างการเลือกบอร์ดและพอร์ต",
+      "dumpBoardList": "แสดงรายการบอร์ด"
+    },
+    "dialog": {
+      "dontAskAgain": "อย่าถามอีก 😠"
+    },
+    "editor": {
+      "autoFormat": "จัดรูปแบบอัตโนมัติ",
+      "commentUncomment": "คอมเมนต์/ยกเลิกคอมเมนต์",
+      "copyForForum": "คัดลอกสำหรับฟอรั่ม (Markdown)",
+      "decreaseFontSize": "ลดขนาดฟอนต์",
+      "decreaseIndent": "ลดการเยื้อง",
+      "increaseFontSize": "เพิ่มขนาดฟอนต์",
+      "increaseIndent": "เพิ่มการเยื้อง",
+      "nextError": "ข้อผิดพลาดถัดไป",
+      "previousError": "ข้อผิดพลาดก่อนหน้า",
+      "revealError": "ดูข้อผิดพลาด"
+    },
+    "examples": {
+      "builtInExamples": "ตัวอย่างที่มีมาให้",
+      "couldNotInitializeExamples": "ไม่สามารถเริ่มต้นตัวอย่างที่มีมาให้",
+      "customLibrary": "ตัวอย่างจากไลบรารีที่กำหนดเอง",
+      "for": "ตัวอย่างสำหรับ {0}",
+      "forAny": "ตัวอย่างสำหรับบอร์ดใดก็ได้",
+      "menu": "ตัวอย่าง"
+    },
+    "firmware": {
+      "checkUpdates": "ตรวจหาอัปเดต",
+      "failedInstall": "ติดตั้งล้มเหลว โปรดลองอีกครั้ง",
+      "install": "ติดตั้ง",
+      "installingFirmware": "กำลังติดตั้งเฟิร์มแวร์",
+      "overwriteSketch": "การติดตั้งจะเขียนทับสเก็ตช์บนบอร์ด",
+      "selectBoard": "เลือกบอร์ด",
+      "selectVersion": "เลือกเวอร์ชั่นเฟิร์มแวร์",
+      "successfullyInstalled": "การติดตั้งเฟิร์มแวร์เสร็จสิ้น 😁",
+      "updater": "อัปเดตเฟิร์มแวร์"
+    },
+    "help": {
+      "environment": "สภาพแวดล้อม",
+      "faq": "Frequently Asked Questions",
+      "findInReference": "Find in Reference",
+      "gettingStarted": "Getting Started",
+      "keyword": "Type a keyword",
+      "privacyPolicy": "Privacy Policy",
+      "reference": "Reference",
+      "search": "Search on Arduino.cc",
+      "troubleshooting": "Troubleshooting",
+      "visit": "Visit Arduino.cc"
+    },
+    "ide-updater": {
+      "checkForUpdates": "Check for Arduino IDE Updates",
+      "closeAndInstallButton": "Close and Install",
+      "closeToInstallNotice": "Close the software and install the update on your machine.",
+      "downloadButton": "Download",
+      "downloadingNotice": "Downloading the latest version of the Arduino IDE.",
+      "errorCheckingForUpdates": "Error while checking for Arduino IDE updates.\n{0}",
+      "goToDownloadButton": "Go To Download",
+      "goToDownloadPage": "มีการอัปเดตสำหรับ Arduino IDE แต่เราไม่สามารถดาวน์โหลดและติดตั้งมันโดยอัตโนมัติได้ กรุณาไปที่หน้าดาวน์โหลดและดาวน์โหลดเวอร์ชันล่าสุดจากที่นั่น",
+      "ideUpdaterDialog": "Software Update",
+      "newVersionAvailable": "A new version of Arduino IDE ({0}) is available for download.",
+      "noUpdatesAvailable": "There are no recent updates available for the Arduino IDE",
+      "notNowButton": "Not now",
+      "skipVersionButton": "Skip Version",
+      "updateAvailable": "Update Available",
+      "versionDownloaded": "Arduino IDE {0} has been downloaded."
+    },
+    "installable": {
+      "libraryInstallFailed": "Failed to install library: '{0}{1}'.",
+      "platformInstallFailed": "Failed to install platform: '{0}{1}'."
+    },
+    "library": {
+      "addZip": "เพิ่มไลบารี .zip...",
+      "arduinoLibraries": "ไลบารีของ Arduino",
+      "contributedLibraries": "ไลบรารีที่มีการร่วมพัฒนา",
+      "include": "รวมไลบารี",
+      "installAll": "ติดตั้งทั้งหมด",
+      "installLibraryDependencies": "ติดตั้งการเพิ่งพาไลบารี",
+      "installMissingDependencies": "คุณต้องการติดตั้งการพึ่งพาที่ขาดหายไปทั้งหมดหรือไม่?",
+      "installOneMissingDependency": "Would you like to install the missing dependency?",
+      "installWithoutDependencies": "Install without dependencies",
+      "installedSuccessfully": "Successfully installed library {0}:{1}",
+      "libraryAlreadyExists": "A library already exists. Do you want to overwrite it?",
+      "manageLibraries": "Manage Libraries...",
+      "namedLibraryAlreadyExists": "A library folder named {0} already exists. Do you want to overwrite it?",
+      "needsMultipleDependencies": "The library <b>{0}:{1}</b> needs some other dependencies currently not installed:",
+      "needsOneDependency": "The library <b>{0}:{1}</b> needs another dependency currently not installed:",
+      "overwriteExistingLibrary": "Do you want to overwrite the existing library?",
+      "successfullyInstalledZipLibrary": "Successfully installed library from {0} archive",
+      "title": "ตัวจัดการไลบารี",
+      "uninstalledSuccessfully": "ถอนการติดตั้งไลบารี {0};{1} สำเร็จ",
+      "zipLibrary": "ไลบารี"
+    },
+    "librarySearchProperty": {
+      "topic": "หัวข้อ"
+    },
+    "libraryTopic": {
+      "communication": "การสื่อสาร",
+      "dataProcessing": "ประมวลผลข้อมูล",
+      "dataStorage": "การจัดเก็บข้อมูล",
+      "deviceControl": "ควบคุมอุปกรณ์",
+      "display": "จอแสดงผล",
+      "other": "อื่นๆ",
+      "sensors": "เซนเซอร์",
+      "signalInputOutput": "สัญญาณ เข้า/ออก",
+      "timing": "เวลา",
+      "uncategorized": "ไม่มีหมวดหมู่"
+    },
+    "libraryType": {
+      "installed": "ติดตั้งอยู่"
+    },
+    "menu": {
+      "advanced": "ขั้นสูง",
+      "sketch": "สเก็ตช์",
+      "tools": "เครื่องมื่อ"
+    },
+    "monitor": {
+      "alreadyConnectedError": "Could not connect to {0} {1} port. Already connected.",
+      "baudRate": "{0} baud",
+      "connectionFailedError": "Could not connect to {0} {1} port.",
+      "connectionFailedErrorWithDetails": "{0} Could not connect to {1} {2} port.",
+      "connectionTimeout": "หมดเวลา. IDE ไม่ได้รับข้อความ 'success' จากตัวมอนิเตอร์หลังจากเชื่อมต่อสำเร็จ",
+      "missingConfigurationError": "Could not connect to {0} {1} port. The monitor configuration is missing.",
+      "notConnectedError": "Not connected to {0} {1} port.",
+      "unableToCloseWebSocket": "Unable to close websocket",
+      "unableToConnectToWebSocket": "Unable to connect to websocket"
+    },
+    "newCloudSketch": {
+      "newSketchTitle": "Name of the new Cloud Sketch"
+    },
+    "portProtocol": {
+      "network": "เน็ตเวิร์ก",
+      "serial": "Serial"
+    },
+    "preferences": {
+      "additionalManagerURLs": "Additional Boards Manager URLs",
+      "auth.audience": "The OAuth2 audience.",
+      "auth.clientID": "The OAuth2 client ID.",
+      "auth.domain": "The OAuth2 domain.",
+      "auth.registerUri": "The URI used to register a new user.",
+      "automatic": "อัตโนมัติ",
+      "board.certificates": "List of certificates that can be uploaded to boards",
+      "browse": "เรียกดู",
+      "checkForUpdate": "รับการแจ้งเตือนเกี่ยวกับการอัปเดตที่มีสำหรับ IDE, บอร์ด และไลบรารี จำเป็นต้องรีสตาร์ท IDE หลังจากการเปลี่ยนแปลง ค่าเริ่มต้นเป็น true",
+      "choose": "เลือก",
+      "cli.daemonDebug": "เปิดการบันทึกดีบักของการเรียก gRPC ไปยัง Arduino CLI จำเป็นต้องรีสตาร์ท IDE เพื่อให้การตั้งค่านี้มีผล ค่าเริ่มต้นเป็น false",
+      "cloud.enabled": "เป็น true หากฟังก์ชันการซิงค์สเก็ตช์เปิดใช้งาน ค่าเริ่มต้นเป็น true",
+      "cloud.pull.warn": "เป็น true หากผู้ใช้ควรได้รับการเตือนก่อนดึงสเก็ตช์จากคลาวด์ ค่าเริ่มต้นเป็น true",
+      "cloud.push.warn": "เป็น true หากผู้ใช้ควรได้รับการเตือนก่อนอัปโหลดสเก็ตช์ไปยังคลาวด์ ค่าเริ่มต้นเป็น true",
+      "cloud.pushpublic.warn": "True if users should be warned before pushing a public sketch to the cloud. Defaults to true.",
+      "cloud.sharedSpaceId": "The ID of the Arduino Cloud shared space to load the sketchbook from. If empty, your private space is selected.",
+      "cloud.sketchSyncEndpoint": "The endpoint used to push and pull sketches from a backend. By default it points to Arduino Cloud API.",
+      "compile": "รวบรวม",
+      "compile.experimental": "True if the IDE should handle multiple compiler errors. False by default",
+      "compile.revealRange": "ปรับแต่งวิธีการแสดงข้อผิดพลาดของคอมไพเลอร์ในตัวแก้ไขหลังจากการตรวจสอบ/อัปโหลดล้มเหลว ค่าที่เป็นไปได้ ได้แก่:\n'auto': เลื่อนแนวตั้งตามที่จำเป็นและแสดงบรรทัด\n'center': เลื่อนแนวตั้งตามที่จำเป็นและแสดงบรรทัดที่ตรงกลางแนวตั้ง\n'top': เลื่อนแนวตั้งตามที่จำเป็นและแสดงบรรทัดที่ใกล้กับด้านบนของหน้าจอ แนะนำสำหรับการดูการนิยามของโค้ด\n'centerIfOutsideViewport': เลื่อนแนวตั้งตามที่จำเป็นและแสดงบรรทัดที่ตรงกลางแนวตั้งเฉพาะเมื่อบรรทัดนั้นอยู่นอกหน้าจอ\nค่าเริ่มต้นคือ '{0}'",
+      "compile.verbose": "True for verbose compile output. False by default",
+      "compile.warnings": "Tells gcc which warning level to use. It's 'None' by default",
+      "compilerWarnings": "คำเตือนของคอมไพเลอร์",
+      "editorFontSize": "แก้ไขขนาดตัวอักษร",
+      "editorQuickSuggestions": "Editor Quick Suggestions",
+      "enterAdditionalURLs": "Enter additional URLs, one for each row",
+      "files.inside.sketches": "Show files inside Sketches",
+      "ide.updateBaseUrl": "URL หลักที่ใช้สำหรับดาวน์โหลดการอัปเดต ค่าเริ่มต้นเป็น 'https://downloads.arduino.cc/arduino-ide'",
+      "ide.updateChannel": "ช่องการอัปเดตที่ใช้สำหรับดาวน์โหลดการอัปเดต 'stable' คือเวอร์ชันที่เสถียร, 'nightly' คือการพัฒนาล่าสุด",
+      "interfaceScale": "Interface scale",
+      "invalid.editorFontSize": "Invalid editor font size. It must be a positive integer.",
+      "invalid.sketchbook.location": "สมุดสเก็ตช์ท้องถิ่น ไม่ถูกต้อง: {0}",
+      "invalid.theme": "ธีมไม่ถูกต้อง",
+      "language.asyncWorkers": "จำนวนของผู้ทำงานแบบอะซิงโครนัสที่ใช้โดย Arduino Language Server (clangd) การสร้างดัชนีพื้นหลังยังใช้จำนวนผู้ทำงานเหล่านี้ ค่าขั้นต่ำคือ 0 และค่าสูงสุดคือ 8 เมื่อเป็น 0 เซิร์ฟเวอร์ภาษาใช้ทุกคอร์ที่มีอยู่ ค่าเริ่มต้นคือ 0",
+      "language.log": "เป็น true หาก Arduino Language Server ควรสร้างไฟล์บันทึกลงในโฟลเดอร์สเก็ตช์ มิฉะนั้นเป็น false ค่าเริ่มต้นเป็น false",
+      "language.realTimeDiagnostics": "ถ้าเป็น true เซิร์ฟเวอร์ภาษาจะให้การวินิจฉัยแบบเรียลไทม์เมื่อพิมพ์ในตัวแก้ไข ค่าเริ่มต้นเป็น false",
+      "manualProxy": "กำหนดค่า proxy เอง",
+      "monitor": {
+        "dockPanel": "The area of the application shell where the _{0}_ widget will reside. It is either \"bottom\" or \"right\". It defaults to \"{1}\"."
+      },
+      "network": "เน็ตเวิร์ก",
+      "newSketchbookLocation": "เลือกสมุดสเก็ตช์ท้องถิ่นใหม่",
+      "noCliConfig": "Could not load the CLI configuration",
+      "noProxy": "ไม่มี proxy",
+      "proxySettings": {
+        "hostname": "ชื่อ Host",
+        "password": "รหัสผ่าน",
+        "port": "หมายเลขพอร์ต",
+        "username": "ชื่อผู้ใช้"
+      },
+      "showVerbose": "Show verbose output during",
+      "sketch": {
+        "inoBlueprint": "เส้นทางระบบไฟล์ที่สมบูรณ์ไปยังไฟล์แม่แบบ .ino เริ่มต้น หากระบุไว้ เนื้อหาของไฟล์แม่แบบจะถูกใช้สำหรับสเก็ตช์ใหม่ทุกครั้งที่สร้างโดย IDE สเก็ตช์จะถูกสร้างขึ้นด้วยเนื้อหามาตรฐานของ Arduino หากไม่ระบุ ไฟล์แม่แบบที่ไม่สามารถเข้าถึงได้จะถูกละเลย ต้องรีสตาร์ท IDE เพื่อให้การตั้งค่านี้มีผล"
+      },
+      "sketchbook.location": "Sketchbook location",
+      "sketchbook.showAllFiles": "True to show all sketch files inside the sketch. It is false by default.",
+      "unofficialBoardSupport": "Click for a list of unofficial board support URLs",
+      "upload": "upload",
+      "upload.autoVerify": "เป็น true หาก IDE ควรตรวจสอบโค้ดโดยอัตโนมัติก่อนการอัปโหลด ค่าเริ่มต้นเป็นจริง เมื่อค่าตั้งเป็นเท็จ IDE จะไม่คอมไพล์โค้ดใหม่ก่อนที่จะอัปโหลดไบนารีไปยังบอร์ด ⚠️ ขอแนะนำให้ตั้งค่านี้เป็น false เฉพาะเมื่อคุณแน่ใจในสิ่งที่กำลังทำ ⚠️",
+      "upload.verbose": "True for verbose upload output. False by default.",
+      "upload.verify": "After upload, verify that the contents of the memory on the board match the uploaded binary.",
+      "verifyAfterUpload": "Verify code after upload",
+      "window.autoScale": "True if the user interface automatically scales with the font size.",
+      "window.zoomLevel": {
+        "deprecationMessage": "Deprecated. Use 'window.zoomLevel' instead."
+      }
+    },
+    "renameCloudSketch": {
+      "renameSketchTitle": "New name of the Cloud Sketch"
+    },
+    "replaceMsg": "Replace the existing version of {0}?",
+    "selectZip": "Select a zip file containing the library you'd like to add",
+    "serial": {
+      "autoscroll": "เลื่อนอัตโนมัติ",
+      "carriageReturn": "การคืนตำแหน่งของตัวพิมพ์",
+      "connecting": "เชื่อมต่อกับ '{0}' บน '{1}'...",
+      "copyOutput": "Copy Output",
+      "message": "Message (Enter to send message to '{0}' on '{1}')",
+      "newLine": "บรรทัดใหม่",
+      "newLineCarriageReturn": "Both NL & CR",
+      "noLineEndings": "ไม่มีการสิ้นสุดบรรทัด",
+      "notConnected": "Not connected. Select a board and a port to connect automatically.",
+      "openSerialPlotter": "Serial Plotter",
+      "timestamp": "Timestamp",
+      "toggleTimestamp": "Toggle Timestamp"
+    },
+    "sketch": {
+      "archiveSketch": "Archive Sketch",
+      "cantOpen": "A folder named \"{0}\" already exists. Can't open sketch.",
+      "compile": "Compiling sketch...",
+      "configureAndUpload": "Configure and Upload",
+      "createdArchive": "Created archive '{0}'.",
+      "doneCompiling": "การคอมไพล์เสร็จสิ้น",
+      "doneUploading": "การอัปโหลดเสร็จสิ้น",
+      "editInvalidSketchFolderLocationQuestion": "Do you want to try saving the sketch to a different location?",
+      "editInvalidSketchFolderQuestion": "Do you want to try saving the sketch with a different name?",
+      "exportBinary": "Export Compiled Binary",
+      "invalidCloudSketchName": "ชื่อจะต้องเริ่มต้นด้วยตัวอักษร ตัวเลข หรือขีดล่าง ตามด้วยตัวอักษร ตัวเลข ขีด จุด และขีดล่าง ความยาวสูงสุดคือ 36 อักขระ",
+      "invalidSketchFolderLocationDetails": "You cannot save a sketch into a folder inside itself.",
+      "invalidSketchFolderLocationMessage": "Invalid sketch folder location: '{0}'",
+      "invalidSketchFolderNameMessage": "Invalid sketch folder name: '{0}'",
+      "invalidSketchName": "ชื่อจะต้องเริ่มต้นด้วยตัวอักษร ตัวเลข หรือขีดล่าง ตามด้วยตัวอักษร ตัวเลข ขีด จุด และขีดล่าง ความยาวสูงสุดคือ 63 อักขระ",
+      "moving": "ย้าย",
+      "movingMsg": "ไฟล์ \"{0}\" จำเป็นต้องอยู่ภายในโฟลเดอร์สเก็ตช์ที่ชื่อว่า \"{1}\" \nสร้างโฟลเดอร์นี้ หรือ ย้ายไฟล์ และดำเนินการต่อหรือไม่?",
+      "new": "สเก็ตช์ ใหม่",
+      "noTrailingPeriod": "A filename cannot end with a dot",
+      "openFolder": "เปิดโฟลเดอร์",
+      "openRecent": "Open Recent",
+      "openSketchInNewWindow": "Open Sketch in New Window",
+      "reservedFilename": "'{0}' is a reserved filename.",
+      "saveFolderAs": "บันทึกโฟลเดอร์สเก็ตช์เป็น...",
+      "saveSketch": "Save your sketch to open it again later.",
+      "saveSketchAs": "บันทึกโฟลเดอร์สเก็ตช์เป็น...",
+      "showFolder": "แสดงโฟลเดอร์สเก็ตช์",
+      "sketch": "สเก็ตช์",
+      "sketchAlreadyContainsThisFileError": "สเก็ตช์นี้มีไฟล์ที่มีชื่อว่า '{0}' อยู่แล้ว",
+      "sketchAlreadyContainsThisFileMessage": "ไม่สามารถบันทึกสเก็ตช์ \"{0}\" เป็น \"{1}\" ได้ {2}",
+      "sketchbook": "สมุดสเก็ตช์",
+      "titleLocalSketchbook": "สมุดสเก็ตช์ ท้องถื่น",
+      "titleSketchbook": "สมุดสเก็ตช์",
+      "upload": "อัปโหลด",
+      "uploadUsingProgrammer": "อัปโหลดโดยใช้โปรแกรมเมอร์",
+      "uploading": "กำลังอัปโหลด",
+      "userFieldsNotFoundError": "ไม่สามารถค้นหาฟิลด์ผู้ใช้สำหรับบอร์ดที่เชื่อมต่ออยู่",
+      "verify": "ยืนยัน",
+      "verifyOrCompile": "ยืนยัน/คอมไพล์"
+    },
+    "sketchbook": {
+      "newCloudSketch": "Cloud Sketch ใหม่",
+      "newSketch": "สเก็ตช์ ใหม่"
+    },
+    "theme": {
+      "currentThemeNotFound": " ไม่สามารถค้นหาธีมที่เลือกไว้ในปัจจุบัน: {0} Arduino IDE ได้เลือกธีมที่มีในตัวที่เข้ากันได้กับธีมที่หายไป",
+      "dark": "มืด",
+      "deprecated": "{0} (เลิกใช้แล้ว)",
+      "hc": "มืด",
+      "hcLight": "สว่าง",
+      "light": "สว่าง",
+      "user": "{0} (ผู้ใช้)"
+    },
+    "title": {
+      "cloud": "Cloud"
+    },
+    "updateIndexes": {
+      "updateIndexes": "อัปเดตดัชนี",
+      "updateLibraryIndex": "อัปเดตดัชนีของไลบารี",
+      "updatePackageIndex": "อัปเดตดัชนีของแพ็กเกจ"
+    },
+    "upload": {
+      "error": "{0} ล้มเหลว: {1}"
+    },
+    "userFields": {
+      "cancel": "ยกเลิก",
+      "enterField": "ป้อน {0}",
+      "upload": "อัปโหลด"
+    },
+    "validateSketch": {
+      "abortFixMessage": "สเก็ตช์ยังไม่ถูกต้อง คุณต้องการแก้ไขปัญหาที่เหลืออยู่หรือไม่? โดยการคลิก '{0}' จะเปิดสเก็ตช์ใหม่",
+      "abortFixTitle": "สเก็ตช์ไม่ถูกต้อง",
+      "renameSketchFileMessage": "ไฟล์สเก็ตช์ '{0}' ไม่สามารถใช้ได้ {1} เนื่องจากชื่อสเก็ตซ์ของคุณโหดเกินไป คุณต้องการเปลี่ยนชื่อสเก็ตช์ตอนนี้หรือไม่?",
+      "renameSketchFileTitle": "ชื่อไฟล์สเก็ตช์ไม่ถูกต้อง",
+      "renameSketchFolderMessage": "สเก็ตช์ '{0}' ไม่สามารถใช้ได้ {1} เนื่องจากชื่อสเก็ตซ์ของคุณโหดเกินไป เพื่อกำจัดข้อความนี้ กรุณาเปลี่ยนชื่อสเก็ตช์ คุณต้องการเปลี่ยนชื่อสเก็ตช์ตอนนี้หรือไม่?",
+      "renameSketchFolderTitle": "ชื่อสเก็ตช์ไม่ถูกต้อง"
+    },
+    "workspace": {
+      "alreadyExists": "'{0}' มีอยู่แล้ว"
+    }
+  },
+  "theia": {
+    "core": {
+      "cannotConnectBackend": "ไม่สามารถเชื่อมต่อกับแบ็กแอนด์ได้",
+      "cannotConnectDaemon": "ไม่สามารถเชื่อมต่อกับ CLI daemon",
+      "couldNotSave": "ไม่สามารถบันทึกสเก็ตช์ได้ กรุณาคัดลอกงานที่ยังไม่ถูกบันทึกไปยังโปรแกรม Text Editor อื่นที่คุณใช้งาน และรีสตาร์ท IDE",
+      "daemonOffline": "CLI Daemon ออฟไลน์",
+      "offline": "ออฟไลน์",
+      "offlineText": "ออฟไลน์",
+      "quitTitle": "คุณแน่ใจว่าต้องการออกใช่หรือไม่"
+    },
+    "editor": {
+      "unsavedTitle": "ไม่ได้บันทึก – {0}"
+    },
+    "messages": {
+      "collapse": "พับ",
+      "expand": "ขยาย"
+    },
+    "workspace": {
+      "deleteCloudSketch": "สเก็ตช์ในคลาวด์ '{0}' จะถูกลบออกถาวรจากเซิร์ฟเวอร์ของ Arduino และแคชท้องถิ่น การกระทำนี้ไม่สามารถย้อนกลับได้ คุณต้องการลบสเก็ตช์ปัจจุบันหรือไม่?",
+      "deleteCurrentSketch": " สเก็ตช์ '{0}' จะถูกลบออกถาวร การกระทำนี้ไม่สามารถย้อนกลับได้ คุณต้องการลบสเก็ตช์ปัจจุบันหรือไม่",
+      "fileNewName": "ชื่อสำหรับไฟล์ใหม่",
+      "invalidExtension": "{0} ไม่ใช่ส่วนขยายที่ถูกต้อง!",
+      "newFileName": "ชื่อใหม่สำหรับไฟล์"
+    }
+  }
+}

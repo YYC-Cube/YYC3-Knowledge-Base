@@ -1,0 +1,592 @@
+[
+  {
+    "type": "ledbp_init",
+    "message0": "初始化LED Backpack %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DISPLAY_TYPE",
+        "options": [
+          ["4位7段数码管", "Adafruit_7segment"],
+          ["4位14段字符数码管", "Adafruit_AlphaNum4"],
+          ["8x8点阵", "Adafruit_8x8matrix"],
+          ["8x16点阵", "Adafruit_8x16matrix"],
+          ["8x16迷你点阵", "Adafruit_8x16minimatrix"],
+          ["双色8x8点阵", "Adafruit_BicolorMatrix"],
+          ["24段条形图", "Adafruit_24bargraph"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ADDR",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6600",
+    "tooltip": "初始化Adafruit LED Backpack模块，基于HT16K33芯片，使用I2C通信（默认地址0x70）",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_write_display",
+    "message0": "刷新显示缓冲",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6600",
+    "tooltip": "将缓冲区数据写入显示模块，使更改生效",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_clear",
+    "message0": "清除显示缓冲",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6600",
+    "tooltip": "清除显示缓冲区内容（需要调用刷新才能生效）",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_set_brightness",
+    "message0": "设置亮度 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "BRIGHTNESS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6600",
+    "tooltip": "设置显示亮度（0最暗 - 15最亮）",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_blink_rate",
+    "message0": "设置闪烁速率 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "RATE",
+        "options": [
+          ["关闭闪烁", "HT16K33_BLINK_OFF"],
+          ["2Hz", "HT16K33_BLINK_2HZ"],
+          ["1Hz", "HT16K33_BLINK_1HZ"],
+          ["0.5Hz", "HT16K33_BLINK_HALFHZ"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6600",
+    "tooltip": "设置显示闪烁速率",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_set_display_state",
+    "message0": "设置显示 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["开启", "true"],
+          ["关闭", "false"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6600",
+    "tooltip": "开启或关闭显示",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_seven_print_number",
+    "message0": "7段数码管显示数字 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "在4位7段数码管上打印数字（整数或浮点数），自动刷新显示",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_seven_print_number_base",
+    "message0": "7段数码管显示数字 %1 进制 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "BASE",
+        "options": [
+          ["十进制", "DEC"],
+          ["十六进制", "HEX"],
+          ["二进制", "BIN"],
+          ["八进制", "OCT"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "在7段数码管上按指定进制显示整数",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_seven_write_digit_num",
+    "message0": "7段数码管 位置 %1 显示数字 %2 显示小数点 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "POS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "NUM",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DOT",
+        "options": [
+          ["否", "false"],
+          ["是", "true"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "在指定位置(0-4)显示单个数字，位置2为冒号。可选择是否点亮小数点",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_seven_draw_colon",
+    "message0": "7段数码管 冒号 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["点亮", "true"],
+          ["熄灭", "false"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "点亮或熄灭7段数码管中间的冒号",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_alpha_write_digit_ascii",
+    "message0": "14段字符数码管 位置 %1 显示字符 %2 显示小数点 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "POS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "CHAR"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DOT",
+        "options": [
+          ["否", "false"],
+          ["是", "true"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "在4位14段字符数码管指定位置(0-3)显示ASCII字符",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_alpha_print_text",
+    "message0": "14段字符数码管显示文本 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "在4位14段字符数码管上显示一段文本（最多4个字符），自动刷新显示",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_color",
+    "message0": "颜色 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "COLOR",
+        "options": [
+          ["点亮 (单色)", "LED_ON"],
+          ["熄灭", "LED_OFF"],
+          ["红色", "LED_RED"],
+          ["黄色", "LED_YELLOW"],
+          ["绿色", "LED_GREEN"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2A82DA",
+    "tooltip": "选择点阵/条形图颜色。单色点阵使用点亮/熄灭，双色点阵和条形图支持红/黄/绿",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_draw_pixel",
+    "message0": "点阵 画点 X: %1 Y: %2 颜色 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "在点阵的指定坐标画一个点",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_draw_line",
+    "message0": "点阵 画线 起点 X: %1 Y: %2 终点 X: %3 Y: %4 颜色 %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y0",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "X1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "在点阵上画直线",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_draw_rect",
+    "message0": "点阵 画矩形 X: %1 Y: %2 宽: %3 高: %4 颜色 %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "画一个空心矩形",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_fill_rect",
+    "message0": "点阵 填充矩形 X: %1 Y: %2 宽: %3 高: %4 颜色 %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "W",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "H",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "画一个实心矩形",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_draw_circle",
+    "message0": "点阵 画圆 圆心 X: %1 Y: %2 半径: %3 颜色 %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "R",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "画一个空心圆",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_set_text_size",
+    "message0": "点阵 设置文字大小 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SIZE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "设置点阵上文字大小（1为标准）",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_set_text_color",
+    "message0": "点阵 设置文字颜色 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "设置点阵上文字颜色",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_set_cursor",
+    "message0": "点阵 设置光标 X: %1 Y: %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "设置打印文字的起始位置",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_print",
+    "message0": "点阵 打印 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "在点阵当前光标位置打印文本",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_set_rotation",
+    "message0": "点阵 设置旋转 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ROTATION",
+        "options": [
+          ["0度", "0"],
+          ["90度", "1"],
+          ["180度", "2"],
+          ["270度", "3"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "设置点阵旋转方向",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_matrix_set_text_wrap",
+    "message0": "点阵 文字换行 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "WRAP",
+        "options": [
+          ["开启", "true"],
+          ["关闭", "false"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "设置文字是否自动换行（关闭可实现滚动效果）",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  },
+  {
+    "type": "ledbp_bar_set_bar",
+    "message0": "条形图 第 %1 段 颜色 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "BAR",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5C68A6",
+    "tooltip": "设置24段条形图中某一段(0-23)的颜色",
+    "helpUrl": "",
+    "icon": "iconfont icon-oled12864"
+  }
+]

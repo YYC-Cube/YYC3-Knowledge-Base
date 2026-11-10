@@ -1,0 +1,75 @@
+{
+  "toolbox_name": "SPA06 Druck- & Temperatursensor",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "数据读取": "Datenlesen",
+    "状态检查": "Statusprüfung",
+    "配置": "Konfiguration"
+  },
+  "spa06_init": {
+    "message0": "SPA06-Sensor initialisieren Adresse %1",
+    "tooltip": "SPA06 Druck- und Temperatursensor initialisieren (I2C)",
+    "args0": [
+      {
+        "options": [
+          ["0x77 (Standard)", "0x77"],
+          ["0x76", "0x76"]
+        ]
+      }
+    ]
+  },
+  "spa06_read_temperature": {
+    "message0": "SPA06 Temperatur lesen (°C)",
+    "tooltip": "Temperatur vom SPA06-Sensor lesen, gibt Celsius zurück"
+  },
+  "spa06_read_pressure": {
+    "message0": "SPA06 Druck lesen (Pa)",
+    "tooltip": "Druck vom SPA06-Sensor lesen, gibt Pascal zurück"
+  },
+  "spa06_read_altitude": {
+    "message0": "SPA06 Höhe lesen (m)",
+    "tooltip": "Höhe aus Druck berechnen, gibt Meter zurück"
+  },
+  "spa06_pressure_available": {
+    "message0": "SPA06 Druckdaten bereit",
+    "tooltip": "Prüfen ob neue Druckdaten verfügbar sind"
+  },
+  "spa06_temperature_available": {
+    "message0": "SPA06 Temperaturdaten bereit",
+    "tooltip": "Prüfen ob neue Temperaturdaten verfügbar sind"
+  },
+  "spa06_set_mode": {
+    "message0": "SPA06 Modus setzen %1",
+    "tooltip": "Betriebsmodus des SPA06-Sensors einstellen",
+    "args0": [
+      {
+        "options": [
+          ["Leerlauf", "SPL07_IDLE"],
+          ["Einzelmessung Druck", "SPL07_ONE_PRESSURE"],
+          ["Einzelmessung Temperatur", "SPL07_ONE_TEMPERATURE"],
+          ["Kontinuierlich Druck", "SPL07_CONT_PRESSURE"],
+          ["Kontinuierlich Temperatur", "SPL07_CONT_TEMPERATURE"],
+          ["Kontinuierlich Druck & Temperatur", "SPL07_CONT_PRES_TEMP"]
+        ]
+      }
+    ]
+  },
+  "spa06_set_pressure_config": {
+    "message0": "SPA06 Druckabtastung setzen Rate %1 Überabtastung %2",
+    "tooltip": "Messrate und Überabtastungsrate des Drucksensors einstellen",
+    "args0": [null, null]
+  },
+  "spa06_set_temperature_config": {
+    "message0": "SPA06 Temperaturabtastung setzen Rate %1 Überabtastung %2",
+    "tooltip": "Messrate und Überabtastungsrate des Temperatursensors einstellen",
+    "args0": [null, null]
+  },
+  "spa06_set_pressure_offset": {
+    "message0": "SPA06 Druckoffset setzen %1 Pa",
+    "tooltip": "Druckkalibrierungsoffset in Pascal einstellen"
+  },
+  "spa06_set_temperature_offset": {
+    "message0": "SPA06 Temperaturoffset setzen %1 °C",
+    "tooltip": "Temperaturkalibrierungsoffset in Celsius einstellen"
+  }
+}

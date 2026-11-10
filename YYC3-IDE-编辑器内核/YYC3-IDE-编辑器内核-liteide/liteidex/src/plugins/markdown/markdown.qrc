@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/markdown">
+        <file>images/bold.png</file>
+        <file>images/code.png</file>
+        <file>images/h1.png</file>
+        <file>images/h2.png</file>
+        <file>images/h3.png</file>
+        <file>images/hr.png</file>
+        <file>images/image.png</file>
+        <file>images/italic.png</file>
+        <file>images/link.png</file>
+        <file>images/quote.png</file>
+        <file>images/css.png</file>
+        <file>images/syncscroll.png</file>
+        <file>images/syncview.png</file>
+        <file>images/config.png</file>
+        <file>css/textbrowser.css</file>
+        <file>images/h4.png</file>
+        <file>images/h5.png</file>
+        <file>images/h6.png</file>
+        <file>images/ol.png</file>
+        <file>images/ul.png</file>
+    </qresource>
+</RCC>

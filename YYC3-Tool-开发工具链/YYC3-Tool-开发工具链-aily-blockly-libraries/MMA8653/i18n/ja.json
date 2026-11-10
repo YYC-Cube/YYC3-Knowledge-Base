@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "MMA8653 加速度センサー",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "读取加速度": "加速度読取",
+    "倾角计": "傾斜計",
+    "设置": "設定",
+    "状态": "ステータス"
+  },
+  "mma8653_init": {
+    "message0": "MMA8653加速度センサーを初期化 レンジ %1 分解能 %2 データレート %3",
+    "tooltip": "MMA8653三軸加速度センサーをレンジ、分解能、データレートで初期化する",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["10ビット", "MMA8653_10BIT_RES"],
+          ["8ビット", "MMA8653_8BIT_RES"]
+        ]
+      },
+      null
+    ]
+  },
+  "mma8653_set_mode": {
+    "message0": "MMA8653オーバーサンプリングモードを設定 %1",
+    "tooltip": "MMA8653センサーのオーバーサンプリングモードを設定する",
+    "args0": [
+      {
+        "options": [
+          ["ノーマル", "MMA8653_MODS_NORMAL"],
+          ["低ノイズ低消費電力", "MMA8653_MODS_LOW_NOISE_LOW_POWER"],
+          ["高分解能", "MMA8653_MODS_HIGH_RES"],
+          ["低消費電力", "MMA8653_MODS_LOW_POWER"]
+        ]
+      }
+    ]
+  },
+  "mma8653_begin": {
+    "message0": "MMA8653加速度センサーを開始",
+    "tooltip": "MMA8653センサーのデータ取得を開始する"
+  },
+  "mma8653_read_x": {
+    "message0": "MMA8653 X軸加速度を読取",
+    "tooltip": "MMA8653センサーのX軸加速度値を読み取る"
+  },
+  "mma8653_read_y": {
+    "message0": "MMA8653 Y軸加速度を読取",
+    "tooltip": "MMA8653センサーのY軸加速度値を読み取る"
+  },
+  "mma8653_read_z": {
+    "message0": "MMA8653 Z軸加速度を読取",
+    "tooltip": "MMA8653センサーのZ軸加速度値を読み取る"
+  },
+  "mma8653_read_xyz": {
+    "message0": "MMA8653全軸データを変数に読取 X %1 Y %2 Z %3",
+    "tooltip": "MMA8653センサーの三軸加速度データを一括で読み取る"
+  },
+  "mma8653_set_range": {
+    "message0": "MMA8653測定レンジを設定 %1",
+    "tooltip": "MMA8653センサーの測定レンジを設定する"
+  },
+  "mma8653_set_data_rate": {
+    "message0": "MMA8653データレートを設定 %1",
+    "tooltip": "MMA8653センサーのデータ出力レートを設定する"
+  },
+  "mma8653_set_resolution": {
+    "message0": "MMA8653分解能を設定 %1",
+    "tooltip": "MMA8653センサーのデータ分解能を設定する",
+    "args0": [
+      {
+        "options": [
+          ["10ビット", "MMA8653_10BIT_RES"],
+          ["8ビット", "MMA8653_8BIT_RES"]
+        ]
+      }
+    ]
+  },
+  "mma8653_is_active": {
+    "message0": "MMA8653センサーがアクティブ",
+    "tooltip": "MMA8653センサーがアクティブ状態かどうかを確認する"
+  },
+  "mma8653_check_connection": {
+    "message0": "MMA8653センサーの接続を確認",
+    "tooltip": "MMA8653センサーが正しく接続されているか確認する"
+  },
+  "mma8653_get_roll": {
+    "message0": "MMA8653ロール角を読取 Roll (°)",
+    "tooltip": "MMA8653センサーのロール角（X軸周りの回転角度）を読み取る"
+  },
+  "mma8653_get_pitch": {
+    "message0": "MMA8653ピッチ角を読取 Pitch (°)",
+    "tooltip": "MMA8653センサーのピッチ角（Y軸周りの回転角度）を読み取る"
+  },
+  "mma8653_get_tilt": {
+    "message0": "MMA8653傾斜角を読取 (°)",
+    "tooltip": "MMA8653センサーの垂直方向に対する傾斜角を読み取る"
+  }
+}

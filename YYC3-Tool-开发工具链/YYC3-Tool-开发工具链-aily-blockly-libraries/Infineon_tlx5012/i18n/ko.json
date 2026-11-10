@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "TLx5012B 각도 센서",
+  "tlx5012_init": {
+    "message0": "TLx5012B 각도 센서 초기화 %1\nCS 핀 %2",
+    "tooltip": "SPI 인터페이스를 사용하여 TLx5012B 자기 각도 센서를 초기화"
+  },
+  "tlx5012_read_angle": {
+    "message0": "TLx5012B %1 의 각도값 (°) 읽기",
+    "tooltip": "TLx5012B 센서의 각도값 읽기, 0°~360° 반환"
+  },
+  "tlx5012_read_speed": {
+    "message0": "TLx5012B %1 의 각속도 읽기",
+    "tooltip": "TLx5012B 센서의 각속도 읽기"
+  },
+  "tlx5012_read_revolutions": {
+    "message0": "TLx5012B %1 의 회전수 읽기",
+    "tooltip": "TLx5012B 센서의 누적 회전수 읽기, 범위 -256~256"
+  },
+  "tlx5012_read_temperature": {
+    "message0": "TLx5012B %1 의 온도 (℃) 읽기",
+    "tooltip": "TLx5012B 센서의 온도를 섭씨로 읽기"
+  },
+  "tlx5012_read_angle_range": {
+    "message0": "TLx5012B %1 의 각도 범위 읽기",
+    "tooltip": "TLx5012B 센서의 각도 범위 설정 읽기"
+  },
+  "tlx5012_reset": {
+    "message0": "TLx5012B %1 센서 리셋",
+    "tooltip": "TLx5012B 센서를 공장 초기값으로 리셋"
+  }
+}

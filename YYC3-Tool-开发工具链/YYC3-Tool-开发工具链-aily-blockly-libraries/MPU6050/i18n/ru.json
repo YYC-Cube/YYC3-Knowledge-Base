@@ -1,0 +1,145 @@
+{
+  "toolbox_name": "MPU6050",
+  "mpu6050_begin": {
+    "message0": "初始化MPU6050传感器",
+    "tooltip": "初始化MPU6050传感器"
+  },
+  "mpu6050_get_accel": {
+    "message0": "获取加速度数据 %1 轴 (g)",
+    "tooltip": "获取X、Y或Z轴的加速度数据，单位为g",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ],
+          [
+            "Z",
+            "z"
+          ]
+        ]
+      }
+    ]
+  },
+  "mpu6050_get_gyro": {
+    "message0": "获取陀螺仪数据 %1 轴 (°/s)",
+    "tooltip": "获取X、Y或Z轴的陀螺仪数据，单位为°/s",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "x"
+          ],
+          [
+            "Y",
+            "y"
+          ],
+          [
+            "Z",
+            "z"
+          ]
+        ]
+      }
+    ]
+  },
+  "mpu6050_get_temp": {
+    "message0": "获取温度 (°C)",
+    "tooltip": "获取MPU6050温度数据，单位为°C"
+  },
+  "mpu6050_set_accel_range": {
+    "message0": "设置加速度计量程 %1",
+    "tooltip": "设置MPU6050加速度计量程",
+    "args0": [
+      {
+        "options": [
+          [
+            "±2g",
+            "MPU6050_RANGE_2_G"
+          ],
+          [
+            "±4g",
+            "MPU6050_RANGE_4_G"
+          ],
+          [
+            "±8g",
+            "MPU6050_RANGE_8_G"
+          ],
+          [
+            "±16g",
+            "MPU6050_RANGE_16_G"
+          ]
+        ]
+      }
+    ]
+  },
+  "mpu6050_set_gyro_range": {
+    "message0": "设置陀螺仪量程 %1",
+    "tooltip": "设置MPU6050陀螺仪量程",
+    "args0": [
+      {
+        "options": [
+          [
+            "±250°/s",
+            "MPU6050_RANGE_250_DEG"
+          ],
+          [
+            "±500°/s",
+            "MPU6050_RANGE_500_DEG"
+          ],
+          [
+            "±1000°/s",
+            "MPU6050_RANGE_1000_DEG"
+          ],
+          [
+            "±2000°/s",
+            "MPU6050_RANGE_2000_DEG"
+          ]
+        ]
+      }
+    ]
+  },
+  "mpu6050_set_filter_bandwidth": {
+    "message0": "设置滤波带宽 %1",
+    "tooltip": "设置MPU6050滤波带宽",
+    "args0": [
+      {
+        "options": [
+          [
+            "260Hz",
+            "MPU6050_BAND_260_HZ"
+          ],
+          [
+            "184Hz",
+            "MPU6050_BAND_184_HZ"
+          ],
+          [
+            "94Hz",
+            "MPU6050_BAND_94_HZ"
+          ],
+          [
+            "44Hz",
+            "MPU6050_BAND_44_HZ"
+          ],
+          [
+            "21Hz",
+            "MPU6050_BAND_21_HZ"
+          ],
+          [
+            "10Hz",
+            "MPU6050_BAND_10_HZ"
+          ],
+          [
+            "5Hz",
+            "MPU6050_BAND_5_HZ"
+          ]
+        ]
+      }
+    ]
+  }
+}

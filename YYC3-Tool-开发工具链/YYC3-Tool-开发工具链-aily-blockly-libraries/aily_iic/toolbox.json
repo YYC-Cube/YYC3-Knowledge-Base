@@ -1,0 +1,103 @@
+
+{
+  "kind": "category",
+  "icon": "fa-light fa-network-wired",
+  "name": "I2C",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "wire_begin",
+      "fields": {
+        "MODE": "MASTER"
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wire_set_clock",
+      "inputs": {
+        "FREQUENCY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "100000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wire_scan"
+    },
+    {
+      "kind": "block",
+      "type": "wire_begin_transmission",
+      "inputs": {
+        "ADDRESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0x08"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wire_write",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wire_end_transmission"
+    },
+    {
+      "kind": "block",
+      "type": "wire_request_from",
+      "inputs": {
+        "ADDRESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0x08"
+            }
+          }
+        },
+        "QUANTITY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "10"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wire_available"
+    },
+    {
+      "kind": "block",
+      "type": "wire_read"
+    },
+    {
+      "kind": "block",
+      "type": "wire_on_receive"
+    },
+    {
+      "kind": "block",
+      "type": "wire_on_request"
+    }
+  ]
+}

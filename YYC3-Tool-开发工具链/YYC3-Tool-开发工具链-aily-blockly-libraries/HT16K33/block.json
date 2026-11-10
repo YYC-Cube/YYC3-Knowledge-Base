@@ -1,0 +1,549 @@
+[
+    {
+        "type": "ht16k33_init",
+        "message0": "初始化HT16K33数码管 %1地址%2",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "ADDRESS",
+                "options": [
+                    ["0x70 (默认)", "0x70"],
+                    ["0x71", "0x71"],
+                    ["0x72", "0x72"],
+                    ["0x73", "0x73"],
+                    ["0x74", "0x74"],
+                    ["0x75", "0x75"],
+                    ["0x76", "0x76"],
+                    ["0x77", "0x77"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "初始化HT16K33四位七段数码管，默认地址为0x70",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_simple_display",
+        "message0": "数码管显示%1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 1234
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "在数码管上显示数字，自动初始化和选择显示格式",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_temperature",
+        "message0": "数码管显示温度%1°C",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "TEMP",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 25.6
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示温度值，自动添加度数符号",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_voltage",
+        "message0": "数码管显示电压%1V",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "VOLTAGE",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 3.3
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示电压值，自动格式化小数位",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_clock_display",
+        "message0": "数码管时钟显示 %1时%2分 %3闪烁冒号",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "HOUR",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 12
+                    }
+                }
+            },
+            {
+                "type": "input_value",
+                "name": "MINUTE", 
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 30
+                    }
+                }
+            },
+            {
+                "type": "field_checkbox",
+                "name": "BLINK",
+                "checked": true
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示时钟，带闪烁冒号效果",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_countdown",
+        "message0": "数码管倒计时显示%1秒",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "SECONDS",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 60
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示倒计时秒数，格式为MM:SS",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_int",
+        "message0": "数码管显示整数%1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 1234
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示整数，范围-999到9999",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_float",
+        "message0": "数码管显示小数%1 小数位数%2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 12.34
+                    }
+                }
+            },
+            {
+                "type": "field_dropdown",
+                "name": "DECIMALS",
+                "options": [
+                    ["1位", "1"],
+                    ["2位", "2"],
+                    ["3位", "3"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示浮点数",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_hex",
+        "message0": "数码管显示十六进制%1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 255
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示十六进制数字，范围0000到FFFF",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_time",
+        "message0": "数码管显示时间%1:%2 显示冒号%3",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "HOUR",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 12
+                    }
+                }
+            },
+            {
+                "type": "input_value",
+                "name": "MINUTE",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 30
+                    }
+                }
+            },
+            {
+                "type": "field_checkbox",
+                "name": "COLON",
+                "checked": true
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示时间格式，如12:30",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_date",
+        "message0": "数码管显示日期%1.%2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "MONTH",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 12
+                    }
+                }
+            },
+            {
+                "type": "input_value",
+                "name": "DAY",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 25
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示日期格式，如12.25",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_clear",
+        "message0": "数码管清屏",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "清除数码管显示内容",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_set_brightness",
+        "message0": "数码管设置亮度%1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "BRIGHTNESS",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 8
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "设置数码管亮度，范围0-15，8为中等亮度",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_set_blink",
+        "message0": "数码管设置闪烁%1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "BLINK",
+                "options": [
+                    ["关闭", "0"],
+                    ["快速闪烁", "1"],
+                    ["中速闪烁", "2"],
+                    ["慢速闪烁", "3"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "设置数码管闪烁模式",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_on_off",
+        "message0": "数码管%1显示",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    ["开启", "ON"],
+                    ["关闭", "OFF"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "开启或关闭数码管显示",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_colon",
+        "message0": "数码管%1冒号",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    ["显示", "true"],
+                    ["隐藏", "false"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "控制数码管中间冒号的显示",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_display_test",
+        "message0": "数码管显示测试%1毫秒",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DELAY",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 100
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "执行数码管显示测试，点亮所有段",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_sensor_display",
+        "message0": "数码管显示传感器值%1 标签%2",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 25.6
+                    }
+                }
+            },
+            {
+                "type": "field_dropdown",
+                "name": "LABEL",
+                "options": [
+                    ["温度 °C", "temp"],
+                    ["湿度 %", "humi"],
+                    ["电压 V", "volt"],
+                    ["电流 A", "curr"],
+                    ["距离 cm", "dist"],
+                    ["亮度", "light"],
+                    ["无标签", "none"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示传感器数值并自动添加对应标签，显示完成后暂停便于观察",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_digital_clock",
+        "message0": "数码管数字时钟显示 %1获取时间方式%2",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "TIME_SOURCE",
+                "options": [
+                    ["系统毫秒数", "millis"],
+                    ["手动设置", "manual"],
+                    ["RTC模块", "rtc"]
+                ]
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示数字时钟，自动计算时分秒，带闪烁冒号",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_score_display",
+        "message0": "数码管显示得分%1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "SCORE",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 0
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "显示游戏得分，支持0-9999分",
+        "helpUrl": ""
+    },
+    {
+        "type": "ht16k33_counter_display",
+        "message0": "数码管计数器 %1操作%2 步长%3",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "OPERATION",
+                "options": [
+                    ["递增", "inc"],
+                    ["递减", "dec"],
+                    ["重置", "reset"]
+                ]
+            },
+            {
+                "type": "input_value",
+                "name": "STEP",
+                "check": "Number",
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 1
+                    }
+                }
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#ff9800",
+        "tooltip": "简单的计数器功能，可递增、递减或重置",
+        "helpUrl": ""
+    }
+]

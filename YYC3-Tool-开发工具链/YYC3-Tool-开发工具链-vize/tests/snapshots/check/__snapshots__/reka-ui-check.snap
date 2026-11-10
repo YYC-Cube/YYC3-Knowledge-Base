@@ -1,0 +1,4059 @@
+{
+  "files": [
+    {
+      "file": "packages/core/src/Accordion/AccordionContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/AccordionHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/AccordionItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/AccordionRoot.vue",
+      "diagnostics": [
+        "error:113:16 [TS2304] Cannot find name 'asChild'.",
+        "error:113:23 [TS2304] Cannot find name 'asChild'.",
+        "error:114:10 [TS2304] Cannot find name 'as'.",
+        "error:114:11 [TS2304] Cannot find name 'as'.\nProperty 'defer' does not exist on type 'AlertDialogPortalProps'.\nProperty 'disabled' does not exist on type 'AlertDialogPortalProps'.\nProperty 'forceMount' does not exist on type 'AlertDialogPortalProps'.\nProperty 'to' does not exist on type 'AlertDialogPortalProps'.",
+        "error:114:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Accordion/AccordionTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/story/AccordionAnimated.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/story/AccordionChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/story/AccordionHorizontal.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/story/AccordionMultiple.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/story/AccordionSingle.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/story/AccordionViewport.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Accordion/story/_Accordion.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogAction.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogCancel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogDescription.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogOverlay.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogTitle.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/AlertDialogTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/story/AlertDialog.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AlertDialog/story/_AlertDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/AspectRatio/AspectRatio.vue",
+      "diagnostics": [
+        "error:46:18 [TS2304] Cannot find name 'asChild'.",
+        "error:46:25 [TS2304] Cannot find name 'asChild'.",
+        "error:47:12 [TS2304] Cannot find name 'as'.",
+        "error:47:13 [TS2304] Cannot find name 'as'.",
+        "error:47:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/AspectRatio/story/AspectRatio.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Autocomplete/AutocompleteInput.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Autocomplete/AutocompleteRoot.vue",
+      "diagnostics": [
+        "error:90:47 [TS2344] Type '__VizeComponentInstance' does not satisfy the constraint 'ComponentPublicInstance'.\nType '__VizeComponentInstance' is missing the following properties from type '{ $: ComponentInternalInstance; $data: {}; $props: {}; $attrs: Attrs; $refs: Data; $slots: Readonly<InternalSlots>; ... 8 more ...; $watch<T extends string | ((...args: any) => any)>(source: T, cb: ..., options?: WatchOptions<...> | undefined): WatchStopHandle; }': $, $data, $attrs, $refs, and 8 more.",
+        "error:222:16 [TS2322] Type 'ComputedRef<Ref<HTMLElement | null, HTMLElement | null> | undefined>' is not assignable to type 'Ref<HTMLElement | undefined, HTMLElement | undefined>'.\nTypes of property 'value' are incompatible.\nType 'Ref<HTMLElement | null, HTMLElement | null> | undefined' is not assignable to type 'HTMLElement | undefined'.\nType 'Ref<HTMLElement | null, HTMLElement | null>' is missing the following properties from type 'HTMLElement': accessKey, accessKeyLabel, autocapitalize, autocorrect, and 318 more.",
+        "error:257:12 [TS2304] Cannot find name 'as'.",
+        "error:257:13 [TS2304] Cannot find name 'as'.",
+        "error:257:14 [TS2304] Cannot find name 'as'.",
+        "error:258:18 [TS2304] Cannot find name 'asChild'.",
+        "error:258:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Autocomplete/story/_Autocomplete.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Avatar/AvatarFallback.vue",
+      "diagnostics": [
+        "error:3:26 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations.",
+        "error:42:16 [TS2304] Cannot find name 'asChild'.",
+        "error:42:23 [TS2304] Cannot find name 'asChild'.",
+        "error:43:10 [TS2304] Cannot find name 'as'.",
+        "error:43:11 [TS2304] Cannot find name 'as'.",
+        "error:43:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Avatar/AvatarImage.vue",
+      "diagnostics": [
+        "error:51:16 [TS2304] Cannot find name 'asChild'.",
+        "error:51:23 [TS2304] Cannot find name 'asChild'.",
+        "error:52:10 [TS2304] Cannot find name 'as'.",
+        "error:52:11 [TS2304] Cannot find name 'as'.",
+        "error:52:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Avatar/AvatarRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Avatar/story/Avatar.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Avatar/story/_Avatar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarCell.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:21:10 [TS2304] Cannot find name 'as'.",
+        "error:21:11 [TS2304] Cannot find name 'as'.",
+        "error:21:12 [TS2304] Cannot find name 'as'.",
+        "error:22:16 [TS2304] Cannot find name 'asChild'.",
+        "error:22:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarCellTrigger.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:10:8 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarGridBody.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarGridHead.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarGridRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarHeadCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarNext.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.\nType '\"step\"' is not assignable to type 'keyof CalendarNextProps'.\nType '\"step\"' is not assignable to type 'keyof CalendarNextProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarPrev.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.\nType '\"step\"' is not assignable to type 'keyof CalendarPrevProps'.\nType '\"step\"' is not assignable to type 'keyof CalendarPrevProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/CalendarRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:10:39 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:348:10 [TS2304] Cannot find name 'as'.",
+        "error:348:11 [TS2304] Cannot find name 'as'.",
+        "error:348:12 [TS2304] Cannot find name 'as'.",
+        "error:349:16 [TS2304] Cannot find name 'asChild'.",
+        "error:349:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarChromatic.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:30 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarDefault.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarDir.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarFixedWeeksForLocales.story.vue",
+      "diagnostics": [
+        "error:2:115 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarLocales.story.vue",
+      "diagnostics": [
+        "error:2:115 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarMultiple.story.vue",
+      "diagnostics": [
+        "error:2:30 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarPopover.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:5:55 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarSelect.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:3:69 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:65:32 [TS2345] Argument of type '(newLocale: string) => void' is not assignable to parameter of type '(value: AcceptableValue) => unknown'.\nTypes of parameters 'newLocale' and 'args' are incompatible.\nType 'AcceptableValue' is not assignable to type 'string'.\nType 'null' is not assignable to type 'string'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarValidation.story.vue",
+      "diagnostics": [
+        "error:3:41 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarWeek.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/CalendarYearIncrement.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/_Calendar.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/_CalendarMultiple.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Calendar/story/_CalendarPopover.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Calendar/story/_DummyCalendar.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Checkbox/CheckboxGroupRoot.vue",
+      "diagnostics": [
+        "error:71:10 [TS2304] Cannot find name 'as'.",
+        "error:72:16 [TS2304] Cannot find name 'asChild'.",
+        "error:81:18 [TS2304] Cannot find name 'required'.",
+        "error:81:19 [TS2304] Cannot find name 'required'.",
+        "error:81:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Checkbox/CheckboxIndicator.vue",
+      "diagnostics": [
+        "error:37:18 [TS2304] Cannot find name 'asChild'.",
+        "error:37:25 [TS2304] Cannot find name 'asChild'.",
+        "error:38:12 [TS2304] Cannot find name 'as'.",
+        "error:38:13 [TS2304] Cannot find name 'as'.",
+        "error:38:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Checkbox/CheckboxRoot.vue",
+      "diagnostics": [
+        "error:48:16 [TS2307] Cannot find module 'ohash' or its corresponding type declarations.",
+        "error:142:16 [TS2304] Cannot find name 'asChild'.",
+        "error:143:10 [TS2304] Cannot find name 'as'.",
+        "error:144:12 [TS2304] Cannot find name 'as'.",
+        "error:146:21 [TS2304] Cannot find name 'required'.",
+        "error:169:18 [TS2304] Cannot find name 'required'.",
+        "error:169:19 [TS2304] Cannot find name 'required'.",
+        "error:169:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Checkbox/story/Checkbox.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Checkbox/story/CheckboxGroup.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Checkbox/story/_Checkbox.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Checkbox/story/_CheckboxGroup.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Collapsible/CollapsibleContent.vue",
+      "diagnostics": [
+        "error:108:12 [TS2304] Cannot find name 'as'.",
+        "error:108:13 [TS2304] Cannot find name 'as'.",
+        "error:108:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Collapsible/CollapsibleRoot.vue",
+      "diagnostics": [
+        "error:80:10 [TS2304] Cannot find name 'as'.",
+        "error:80:11 [TS2304] Cannot find name 'as'.",
+        "error:80:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Collapsible/CollapsibleTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Collapsible/story/Collapsible.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Collapsible/story/_Collapsible.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorArea/ColorAreaArea.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorArea/ColorAreaRoot.vue",
+      "diagnostics": [
+        "error:228:10 [TS2304] Cannot find name 'as'.",
+        "error:228:11 [TS2304] Cannot find name 'as'.",
+        "error:228:12 [TS2304] Cannot find name 'as'.",
+        "error:229:16 [TS2304] Cannot find name 'asChild'.",
+        "error:229:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ColorArea/ColorAreaThumb.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorArea/story/ColorAreaDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorArea/story/_ColorArea.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorField/ColorFieldInput.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorField/ColorFieldRoot.vue",
+      "diagnostics": [
+        "error:309:10 [TS2304] Cannot find name 'as'.",
+        "error:309:11 [TS2304] Cannot find name 'as'.",
+        "error:309:12 [TS2304] Cannot find name 'as'.",
+        "error:310:16 [TS2304] Cannot find name 'asChild'.",
+        "error:310:23 [TS2304] Cannot find name 'asChild'.",
+        "error:323:18 [TS2304] Cannot find name 'required'.",
+        "error:323:19 [TS2304] Cannot find name 'required'.",
+        "error:323:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ColorField/story/ColorFieldDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorField/story/_ColorField.vue",
+      "diagnostics": [
+        "error:38:9 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "packages/core/src/ColorPicker/story/ColorPickerDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorPicker/story/_ColorPicker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSlider/ColorSliderRoot.vue",
+      "diagnostics": [
+        "error:209:10 [TS2304] Cannot find name 'as'.",
+        "error:209:11 [TS2304] Cannot find name 'as'.",
+        "error:209:12 [TS2304] Cannot find name 'as'.",
+        "error:210:16 [TS2304] Cannot find name 'asChild'.",
+        "error:210:23 [TS2304] Cannot find name 'asChild'.",
+        "error:221:18 [TS2304] Cannot find name 'required'.",
+        "error:221:19 [TS2304] Cannot find name 'required'.",
+        "error:221:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ColorSlider/ColorSliderThumb.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSlider/ColorSliderTrack.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSlider/story/ColorSliderDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSlider/story/_ColorSlider.vue",
+      "diagnostics": [
+        "error:33:7 [TS1117] An object literal cannot have multiple properties with the same name.",
+        "error:37:9 [TS1117] An object literal cannot have multiple properties with the same name.",
+        "error:43:9 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "packages/core/src/ColorSlider/story/_ColorSliderCompound.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSwatch/ColorSwatch.vue",
+      "diagnostics": [
+        "error:83:16 [TS2304] Cannot find name 'asChild'.",
+        "error:83:23 [TS2304] Cannot find name 'asChild'.",
+        "error:84:10 [TS2304] Cannot find name 'as'.",
+        "error:84:11 [TS2304] Cannot find name 'as'.\nType '\"loop\"' is not assignable to type 'keyof ColorSwatchPickerRootProps'.\nType '\"loop\"' is not assignable to type 'keyof ColorSwatchPickerRootProps'.\nType '\"loop\"' is not assignable to type 'keyof ColorSwatchPickerRootProps'.",
+        "error:84:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ColorSwatch/story/ColorSwatchDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSwatch/story/_ColorSwatch.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSwatchPicker/ColorSwatchPickerItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSwatchPicker/ColorSwatchPickerItemIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSwatchPicker/ColorSwatchPickerItemSwatch.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSwatchPicker/ColorSwatchPickerRoot.vue",
+      "diagnostics": [
+        "error:44:18 [TS2304] Cannot find name 'asChild'.",
+        "error:44:25 [TS2304] Cannot find name 'asChild'.",
+        "error:45:12 [TS2304] Cannot find name 'as'.",
+        "error:45:13 [TS2304] Cannot find name 'as'.\nProperty 'as' does not exist on type 'ComboboxAnchorProps'.\nProperty 'asChild' does not exist on type 'ComboboxAnchorProps'.\nProperty 'reference' does not exist on type 'ComboboxAnchorProps'.",
+        "error:45:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ColorSwatchPicker/story/ColorSwatchPickerDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ColorSwatchPicker/story/_ColorSwatchPicker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxAnchor.vue",
+      "diagnostics": [
+        "error:24:12 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type 'ComboboxAnchorProps'.\nProperty 'as' does not exist on type 'ComboboxAnchorProps'.",
+        "error:24:13 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type 'ComboboxAnchorProps'.\nProperty 'as' does not exist on type 'ComboboxAnchorProps'.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<ComboboxArrowProps, Pick<ComboboxArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<ComboboxArrowProps, Pick<ComboboxArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<ComboboxArrowProps, Pick<ComboboxArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<ComboboxArrowProps, Pick<ComboboxArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<ComboboxArrowProps, Pick<ComboboxArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.",
+        "error:24:14 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type 'ComboboxAnchorProps'.\nProperty 'as' does not exist on type 'ComboboxAnchorProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxCancel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxContentImpl.vue",
+      "diagnostics": [
+        "error:111:40 [TS2304] Cannot find name 'disableOutsidePointerEvents'.",
+        "error:111:42 [TS2304] Cannot find name 'disableOutsidePointerEvents'.",
+        "error:111:69 [TS2304] Cannot find name 'disableOutsidePointerEvents'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxEmpty.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxInput.vue",
+      "diagnostics": [
+        "error:112:10 [TS2304] Cannot find name 'as'.",
+        "error:112:11 [TS2304] Cannot find name 'as'.",
+        "error:112:12 [TS2304] Cannot find name 'as'.",
+        "error:113:16 [TS2304] Cannot find name 'asChild'.",
+        "error:113:23 [TS2304] Cannot find name 'asChild'.",
+        "error:114:18 [TS2304] Cannot find name 'autoFocus'.",
+        "error:114:27 [TS2304] Cannot find name 'autoFocus'.",
+        "error:115:16 [TS2304] Cannot find name 'disabled'.",
+        "error:115:17 [TS2304] Cannot find name 'disabled'.",
+        "error:115:24 [TS2304] Cannot find name 'disabled'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxItem.vue",
+      "diagnostics": [
+        "error:83:46 [TS2304] Cannot find name 'disabled'.",
+        "error:83:47 [TS2304] Cannot find name 'disabled'.\nProperty 'defer' does not exist on type 'ComboboxPortalProps'.\nProperty 'disabled' does not exist on type 'ComboboxPortalProps'.\nProperty 'forceMount' does not exist on type 'ComboboxPortalProps'.\nProperty 'to' does not exist on type 'ComboboxPortalProps'.",
+        "error:83:54 [TS2304] Cannot find name 'disabled'.",
+        "error:89:43 [TS2304] Cannot find name 'disabled'.",
+        "error:96:14 [TS2304] Cannot find name 'value'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxItemIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxLabel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxRoot.vue",
+      "diagnostics": [
+        "error:107:11 [TS2344] Type '__VizeComponentInstance' does not satisfy the constraint 'ComponentPublicInstance'.\nType '__VizeComponentInstance' is missing the following properties from type '{ $: ComponentInternalInstance; $data: {}; $props: {}; $attrs: Attrs; $refs: Data; $slots: Readonly<InternalSlots>; ... 8 more ...; $watch<T extends string | ((...args: any) => any)>(source: T, cb: ..., options?: WatchOptions<...> | undefined): WatchStopHandle; }': $, $data, $attrs, $refs, and 8 more.",
+        "error:225:3 [TS2322] Type 'ComputedRef<Ref<HTMLElement | null, HTMLElement | null> | undefined>' is not assignable to type 'Ref<HTMLElement | undefined, HTMLElement | undefined>'.\nTypes of property 'value' are incompatible.\nType 'Ref<HTMLElement | null, HTMLElement | null> | undefined' is not assignable to type 'HTMLElement | undefined'.\nType 'Ref<HTMLElement | null, HTMLElement | null>' is missing the following properties from type 'HTMLElement': accessKey, accessKeyLabel, autocapitalize, autocorrect, and 318 more.",
+        "error:258:12 [TS2304] Cannot find name 'as'.",
+        "error:258:13 [TS2304] Cannot find name 'as'.",
+        "error:258:14 [TS2304] Cannot find name 'as'.",
+        "error:259:18 [TS2304] Cannot find name 'asChild'.",
+        "error:259:25 [TS2304] Cannot find name 'asChild'.",
+        "error:262:7 [TS2322] Type 'void' is not assignable to type 'string | undefined'.",
+        "error:263:18 [TS2304] Cannot find name 'required'.",
+        "error:263:19 [TS2304] Cannot find name 'required'.",
+        "error:263:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxSeparator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxTrigger.vue",
+      "diagnostics": [
+        "error:34:12 [TS2304] Cannot find name 'as'.",
+        "error:34:13 [TS2304] Cannot find name 'as'.",
+        "error:34:50 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxViewport.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Combobox/ComboboxVirtualizer.vue",
+      "diagnostics": [
+        "error:5:38 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxAsync.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxAsyncOptions.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:14:34 [TS7006] Parameter 'i' implicitly has an 'any' type.",
+        "error:14:108 [TS7006] Parameter 'i' implicitly has an 'any' type.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'defer' does not exist on type 'ContextMenuPortalProps'.\nProperty 'disabled' does not exist on type 'ContextMenuPortalProps'.\nProperty 'forceMount' does not exist on type 'ContextMenuPortalProps'.\nProperty 'to' does not exist on type 'ContextMenuPortalProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxBasic.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxCancel.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'defer' does not exist on type 'ContextMenuPortalProps'.\nProperty 'disabled' does not exist on type 'ContextMenuPortalProps'.\nProperty 'forceMount' does not exist on type 'ContextMenuPortalProps'.\nProperty 'to' does not exist on type 'ContextMenuPortalProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxCustom.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxMultiple.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'defer' does not exist on type 'ContextMenuPortalProps'.\nProperty 'disabled' does not exist on type 'ContextMenuPortalProps'.\nProperty 'forceMount' does not exist on type 'ContextMenuPortalProps'.\nProperty 'to' does not exist on type 'ContextMenuPortalProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxObject.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxReactive.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'defer' does not exist on type 'ContextMenuPortalProps'.\nProperty 'disabled' does not exist on type 'ContextMenuPortalProps'.\nProperty 'forceMount' does not exist on type 'ContextMenuPortalProps'.\nProperty 'to' does not exist on type 'ContextMenuPortalProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxScrolling.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxSelectMenu.story.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/ComboboxVirtual.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:50:50 [TS7006] Parameter 'opt' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/_Combobox.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/_ComboboxManualFilter.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:36:18 [TS2345] Argument of type '(ev: InputEvent) => string' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'InputEvent': data, dataTransfer, inputType, isComposing, and 5 more.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'defer' does not exist on type 'ContextMenuPortalProps'.\nProperty 'disabled' does not exist on type 'ContextMenuPortalProps'.\nProperty 'forceMount' does not exist on type 'ContextMenuPortalProps'.\nProperty 'to' does not exist on type 'ContextMenuPortalProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Combobox/story/_ComboboxObject.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<ContextMenuArrowProps, Pick<ContextMenuArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'defer' does not exist on type 'ContextMenuPortalProps'.\nProperty 'disabled' does not exist on type 'ContextMenuPortalProps'.\nProperty 'forceMount' does not exist on type 'ContextMenuPortalProps'.\nProperty 'to' does not exist on type 'ContextMenuPortalProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ConfigProvider/ConfigProvider.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ConfigProvider/_ConfigProvider.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuCheckboxItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuItemIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuLabel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuRadioGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuRadioItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuSeparator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuSub.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuSubContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuSubTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ContextMenu/ContextMenuTrigger.vue",
+      "diagnostics": [
+        "error:108:10 [TS2304] Cannot find name 'as'.",
+        "error:108:11 [TS2304] Cannot find name 'as'.",
+        "error:108:12 [TS2304] Cannot find name 'as'.",
+        "error:109:16 [TS2304] Cannot find name 'asChild'.",
+        "error:109:23 [TS2304] Cannot find name 'asChild'.",
+        "error:117:19 [TS2345] Argument of type '(event: PointerEvent) => Promise<void>' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'event' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "packages/core/src/ContextMenu/story/ContextMenu.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/ContextMenu/story/_ContextMenu.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateField/DateFieldInput.vue",
+      "diagnostics": [
+        "error:49:10 [TS2304] Cannot find name 'as'.",
+        "error:49:11 [TS2304] Cannot find name 'as'.",
+        "error:49:12 [TS2304] Cannot find name 'as'.",
+        "error:50:16 [TS2304] Cannot find name 'asChild'.",
+        "error:50:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateField/DateFieldRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:312:18 [TS2304] Cannot find name 'required'.",
+        "error:312:19 [TS2304] Cannot find name 'required'.",
+        "error:312:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateField/story/DateFieldChromatic.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:3:30 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.\nProperty 'as' does not exist on type 'DatePickerAnchorProps'.\nProperty 'asChild' does not exist on type 'DatePickerAnchorProps'.\nProperty 'reference' does not exist on type 'DatePickerAnchorProps'.\nProperty 'as' does not exist on type 'DatePickerArrowProps'.\nProperty 'asChild' does not exist on type 'DatePickerArrowProps'.\nProperty 'height' does not exist on type 'DatePickerArrowProps'.\nProperty 'rounded' does not exist on type 'DatePickerArrowProps'.\nProperty 'width' does not exist on type 'DatePickerArrowProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateField/story/DateFieldDefault.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateField/story/DateFieldGranular.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateField/story/DateFieldInvalid.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateField/story/DateFieldLocales.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateField/story/_DateField.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.\nProperty 'as' does not exist on type 'DatePickerAnchorProps'.\nProperty 'asChild' does not exist on type 'DatePickerAnchorProps'.\nProperty 'reference' does not exist on type 'DatePickerAnchorProps'.\nProperty 'as' does not exist on type 'DatePickerArrowProps'.\nProperty 'asChild' does not exist on type 'DatePickerArrowProps'.\nProperty 'height' does not exist on type 'DatePickerArrowProps'.\nProperty 'rounded' does not exist on type 'DatePickerArrowProps'.\nProperty 'width' does not exist on type 'DatePickerArrowProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerAnchor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerCalendar.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:3:28 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerCellTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerClose.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerField.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerGridBody.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerGridHead.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerGridRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerHeadCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerInput.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerNext.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerPrev.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DatePicker/DatePickerTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/story/DatePickerChromatic.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:5:30 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DatePicker/story/DatePickerDefault.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:71:116 [TS2339] Property 'segments' does not exist on type 'unknown'.",
+        "error:80:169 [TS2339] Property 'weekDays' does not exist on type 'unknown'.",
+        "error:80:179 [TS2339] Property 'grid' does not exist on type 'unknown'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DatePicker/story/DatePickerGranular.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DatePicker/story/DatePickerValidation.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:3:41 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DatePicker/story/_DatePicker.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:95:37 [TS2339] Property 'segments' does not exist on type 'unknown'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DatePicker/story/_DummyDatePicker.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:129:285 [TS2339] Property 'segments' does not exist on type 'unknown'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangeField/DateRangeFieldInput.vue",
+      "diagnostics": [
+        "error:52:10 [TS2304] Cannot find name 'as'.",
+        "error:52:11 [TS2304] Cannot find name 'as'.",
+        "error:52:12 [TS2304] Cannot find name 'as'.",
+        "error:53:16 [TS2304] Cannot find name 'asChild'.",
+        "error:53:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangeField/DateRangeFieldRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:404:18 [TS2304] Cannot find name 'required'.",
+        "error:404:19 [TS2304] Cannot find name 'required'.",
+        "error:404:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangeField/story/DateRangeFieldChromatic.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:57 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangeField/story/DateRangeFieldDefault.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangeField/story/DateRangeFieldGranular.story.vue",
+      "diagnostics": [
+        "error:2:34 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangeField/story/DateRangeFieldValidation.story.vue",
+      "diagnostics": [
+        "error:2:15 [TS2305] Module '\"@/shared/date\"' has no exported member 'Matcher'.",
+        "error:3:30 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:10:38 [TS7006] Parameter 'date' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangeField/story/_DateRangeField.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.\nProperty 'as' does not exist on type 'DateRangePickerAnchorProps'.\nProperty 'asChild' does not exist on type 'DateRangePickerAnchorProps'.\nProperty 'reference' does not exist on type 'DateRangePickerAnchorProps'.\nProperty 'as' does not exist on type 'DateRangePickerArrowProps'.\nProperty 'asChild' does not exist on type 'DateRangePickerArrowProps'.\nProperty 'height' does not exist on type 'DateRangePickerArrowProps'.\nProperty 'rounded' does not exist on type 'DateRangePickerArrowProps'.\nProperty 'width' does not exist on type 'DateRangePickerArrowProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangeField/story/_DummyDateRangeField.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerAnchor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerCalendar.vue",
+      "diagnostics": [
+        "error:2:28 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerCellTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerClose.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerField.vue",
+      "diagnostics": [
+        "error:2:28 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerGridBody.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerGridHead.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerGridRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerHeadCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerInput.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerNext.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerPrev.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/DateRangePickerTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/story/DateRangePickerChromatic.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:34 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/story/DateRangePickerDefault.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:74:30 [TS2339] Property 'segments' does not exist on type 'unknown'.",
+        "error:102:28 [TS2339] Property 'weekDays' does not exist on type 'unknown'.",
+        "error:102:38 [TS2339] Property 'grid' does not exist on type 'unknown'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/story/DateRangePickerGranular.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/story/DateRangePickerValidation.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:3:45 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/story/_DateRangePicker.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:95:27 [TS2339] Property 'segments' does not exist on type 'unknown'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DateRangePicker/story/_DummyDateRangePicker.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:144:46 [TS2339] Property 'segments' does not exist on type 'unknown'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogClose.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogContentImpl.vue",
+      "diagnostics": [
+        "error:58:48 [TS2591] Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.",
+        "error:84:12 [TS2304] Cannot find name 'as'.",
+        "error:84:13 [TS2304] Cannot find name 'as'.",
+        "error:84:14 [TS2304] Cannot find name 'as'.",
+        "error:85:18 [TS2304] Cannot find name 'asChild'.",
+        "error:85:25 [TS2304] Cannot find name 'asChild'.",
+        "error:86:38 [TS2304] Cannot find name 'disableOutsidePointerEvents'.",
+        "error:86:40 [TS2304] Cannot find name 'disableOutsidePointerEvents'.",
+        "error:86:67 [TS2304] Cannot find name 'disableOutsidePointerEvents'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogContentModal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogContentNonModal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogDescription.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogOverlay.vue",
+      "diagnostics": [
+        "error:33:12 [TS2304] Cannot find name 'as'.",
+        "error:33:13 [TS2304] Cannot find name 'as'.",
+        "error:33:14 [TS2304] Cannot find name 'as'.",
+        "error:34:18 [TS2304] Cannot find name 'asChild'.",
+        "error:34:18 [TS2304] Cannot find name 'asChild'.\nProperty 'defer' does not exist on type 'DialogPortalProps'.\nProperty 'disabled' does not exist on type 'DialogPortalProps'.\nProperty 'forceMount' does not exist on type 'DialogPortalProps'.\nProperty 'to' does not exist on type 'DialogPortalProps'.",
+        "error:34:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogOverlayImpl.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogTitle.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/DialogTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/story/Dialog.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/story/DialogExternalTrigger.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Dialog/story/DialogProgrammatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/story/DialogProgrammaticClose.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Dialog/story/DialogWithDropdown.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Dialog/story/_Dialog.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/DismissableLayer.vue",
+      "diagnostics": [
+        "error:177:16 [TS2304] Cannot find name 'asChild'.",
+        "error:177:23 [TS2304] Cannot find name 'asChild'.",
+        "error:178:10 [TS2304] Cannot find name 'as'.",
+        "error:178:11 [TS2304] Cannot find name 'as'.",
+        "error:178:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/DismissableLayerBranch.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/story/DismissableLayerBasic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/story/DismissableLayerDialog.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/story/DismissableLayerPopoverNested.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/story/_DismissableBox.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/story/_DismissableLayer.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/story/_DummyDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DismissableLayer/story/_DummyPopover.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuCheckboxItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuFilter.vue",
+      "diagnostics": [
+        "error:105:10 [TS2304] Cannot find name 'as'.",
+        "error:105:11 [TS2304] Cannot find name 'as'.",
+        "error:105:12 [TS2304] Cannot find name 'as'.",
+        "error:106:16 [TS2304] Cannot find name 'asChild'.",
+        "error:106:16 [TS2304] Cannot find name 'asChild'.\nProperty 'defer' does not exist on type 'DropdownMenuPortalProps'.\nProperty 'disabled' does not exist on type 'DropdownMenuPortalProps'.\nProperty 'forceMount' does not exist on type 'DropdownMenuPortalProps'.\nProperty 'to' does not exist on type 'DropdownMenuPortalProps'.",
+        "error:106:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuItemIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuLabel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuRadioGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuRadioItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuSeparator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuSub.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuSubContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuSubTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/DropdownMenuTrigger.vue",
+      "diagnostics": [
+        "error:39:14 [TS2304] Cannot find name 'as'.",
+        "error:39:15 [TS2304] Cannot find name 'as'.",
+        "error:39:52 [TS2304] Cannot find name 'as'.",
+        "error:41:12 [TS2304] Cannot find name 'as'.",
+        "error:41:13 [TS2304] Cannot find name 'as'.",
+        "error:41:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/story/DropdownMenu.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/story/DropdownMenuFilter.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/story/_DropdownMenu.vue",
+      "diagnostics": [
+        "error:5:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/DropdownMenu/story/_DropdownMenuWithFilter.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/EditableArea.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/EditableCancelTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/EditableEditTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/EditableInput.vue",
+      "diagnostics": [
+        "error:67:40 [TS18047] '$event.target' is possibly 'null'.",
+        "error:67:54 [TS2339] Property 'value' does not exist on type 'EventTarget'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Editable/EditablePreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/EditableRoot.vue",
+      "diagnostics": [
+        "error:224:10 [TS2304] Cannot find name 'as'.",
+        "error:224:11 [TS2304] Cannot find name 'as'.",
+        "error:224:12 [TS2304] Cannot find name 'as'.",
+        "error:225:16 [TS2304] Cannot find name 'asChild'.",
+        "error:225:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Editable/EditableSubmitTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/story/EditableChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/story/EditableDefault.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/story/_DummyEditable.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Editable/story/_Editable.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/FocusGuards/FocusGuards.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/FocusScope/FocusScope.vue",
+      "diagnostics": [
+        "error:36:17 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations.",
+        "error:226:16 [TS2304] Cannot find name 'asChild'.",
+        "error:226:23 [TS2304] Cannot find name 'asChild'.",
+        "error:227:10 [TS2304] Cannot find name 'as'.",
+        "error:227:11 [TS2304] Cannot find name 'as'.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<HoverCardArrowProps, Pick<HoverCardArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<HoverCardArrowProps, Pick<HoverCardArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<HoverCardArrowProps, Pick<HoverCardArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<HoverCardArrowProps, Pick<HoverCardArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<HoverCardArrowProps, Pick<HoverCardArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.",
+        "error:227:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/FocusScope/story/FocusScopeMultiple.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/HoverCard/HoverCardArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/HoverCard/HoverCardContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/HoverCard/HoverCardContentImpl.vue",
+      "diagnostics": [
+        "error:4:25 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations.\nProperty 'align' does not exist on type 'HoverCardContentImplProps'.\nProperty 'alignFlip' does not exist on type 'HoverCardContentImplProps'.\nProperty 'alignOffset' does not exist on type 'HoverCardContentImplProps'.\nProperty 'arrowPadding' does not exist on type 'HoverCardContentImplProps'.\nProperty 'as' does not exist on type 'HoverCardContentImplProps'.\nProperty 'asChild' does not exist on type 'HoverCardContentImplProps'.\nProperty 'avoidCollisions' does not exist on type 'HoverCardContentImplProps'.\nProperty 'collisionBoundary' does not exist on type 'HoverCardContentImplProps'.\nProperty 'collisionPadding' does not exist on type 'HoverCardContentImplProps'.\nProperty 'disableUpdateOnLayoutShift' does not exist on type 'HoverCardContentImplProps'.\nProperty 'hideShiftedArrow' does not exist on type 'HoverCardContentImplProps'.\nProperty 'hideWhenDetached' does not exist on type 'HoverCardContentImplProps'.\nProperty 'positionStrategy' does not exist on type 'HoverCardContentImplProps'.\nProperty 'prioritizePosition' does not exist on type 'HoverCardContentImplProps'.\nProperty 'reference' does not exist on type 'HoverCardContentImplProps'.\nProperty 'side' does not exist on type 'HoverCardContentImplProps'.\nProperty 'sideFlip' does not exist on type 'HoverCardContentImplProps'.\nProperty 'sideOffset' does not exist on type 'HoverCardContentImplProps'.\nProperty 'sticky' does not exist on type 'HoverCardContentImplProps'.\nProperty 'updatePositionStrategy' does not exist on type 'HoverCardContentImplProps'.\nProperty 'defer' does not exist on type 'HoverCardPortalProps'.\nProperty 'disabled' does not exist on type 'HoverCardPortalProps'.\nProperty 'forceMount' does not exist on type 'HoverCardPortalProps'.\nProperty 'to' does not exist on type 'HoverCardPortalProps'.\nProperty 'as' does not exist on type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'.\nProperty 'reference' does not exist on type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'."
+      ]
+    },
+    {
+      "file": "packages/core/src/HoverCard/HoverCardPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/HoverCard/HoverCardRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/HoverCard/HoverCardTrigger.vue",
+      "diagnostics": [
+        "error:38:12 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'.\nProperty 'as' does not exist on type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'.",
+        "error:38:13 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'.\nProperty 'as' does not exist on type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'.",
+        "error:38:14 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'.\nProperty 'as' does not exist on type '__WithDefaultsResult<HoverCardTriggerProps, Pick<HoverCardTriggerProps, \"as\">>'."
+      ]
+    },
+    {
+      "file": "packages/core/src/HoverCard/story/HoverCard.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/HoverCard/story/HoverMultiCard.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/HoverCard/story/_HoverCard.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Label/Label.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Label/Label.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Listbox/ListboxContent.vue",
+      "diagnostics": [
+        "error:3:30 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Listbox/ListboxFilter.vue",
+      "diagnostics": [
+        "error:67:10 [TS2304] Cannot find name 'as'.",
+        "error:67:11 [TS2304] Cannot find name 'as'.",
+        "error:67:12 [TS2304] Cannot find name 'as'.",
+        "error:68:16 [TS2304] Cannot find name 'asChild'.",
+        "error:68:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Listbox/ListboxGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Listbox/ListboxGroupLabel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Listbox/ListboxItem.vue",
+      "diagnostics": [
+        "error:83:12 [TS2304] Cannot find name 'as'.",
+        "error:83:13 [TS2304] Cannot find name 'as'.",
+        "error:83:14 [TS2304] Cannot find name 'as'.",
+        "error:84:18 [TS2304] Cannot find name 'asChild'.",
+        "error:84:25 [TS2304] Cannot find name 'asChild'.",
+        "error:90:31 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: KeyboardEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'KeyboardEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 29 more."
+      ]
+    },
+    {
+      "file": "packages/core/src/Listbox/ListboxItemIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Listbox/ListboxRoot.vue",
+      "diagnostics": [
+        "error:391:10 [TS2304] Cannot find name 'as'.",
+        "error:391:11 [TS2304] Cannot find name 'as'.",
+        "error:391:12 [TS2304] Cannot find name 'as'.",
+        "error:392:16 [TS2304] Cannot find name 'asChild'.",
+        "error:392:23 [TS2304] Cannot find name 'asChild'.",
+        "error:411:18 [TS2304] Cannot find name 'required'.",
+        "error:411:19 [TS2304] Cannot find name 'required'.",
+        "error:411:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Listbox/ListboxVirtualizer.vue",
+      "diagnostics": [
+        "error:14:38 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations.",
+        "error:16:36 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations.",
+        "error:18:45 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations.",
+        "error:66:10 [TS7006] Parameter 'index' implicitly has an 'any' type.",
+        "error:75:2 [TS7006] Parameter 'item' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Listbox/story/ListboxChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Listbox/story/ListboxDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Listbox/story/ListboxFilter.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Listbox/story/ListboxVirtual.story.vue",
+      "diagnostics": [
+        "error:24:46 [TS7006] Parameter 'opt' implicitly has an 'any' type.",
+        "error:48:54 [TS7006] Parameter 'option' implicitly has an 'any' type.",
+        "error:69:54 [TS7006] Parameter 'option' implicitly has an 'any' type.",
+        "error:90:54 [TS7006] Parameter 'option' implicitly has an 'any' type.",
+        "error:111:54 [TS7006] Parameter 'option' implicitly has an 'any' type.",
+        "error:135:54 [TS7006] Parameter 'option' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Listbox/story/_Listbox.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuAnchor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuCheckboxItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuContentImpl.vue",
+      "diagnostics": [
+        "error:369:16 [TS2304] Cannot find name 'as'.",
+        "error:369:17 [TS2304] Cannot find name 'as'.",
+        "error:369:18 [TS2304] Cannot find name 'as'.",
+        "error:370:22 [TS2304] Cannot find name 'asChild'.",
+        "error:370:29 [TS2304] Cannot find name 'asChild'.",
+        "error:375:18 [TS2304] Cannot find name 'side'.",
+        "error:375:19 [TS2304] Cannot find name 'side'.",
+        "error:375:22 [TS2304] Cannot find name 'side'.",
+        "error:376:25 [TS2304] Cannot find name 'sideOffset'.",
+        "error:376:35 [TS2304] Cannot find name 'sideOffset'.",
+        "error:377:19 [TS2304] Cannot find name 'align'.",
+        "error:377:20 [TS2304] Cannot find name 'align'.",
+        "error:377:24 [TS2304] Cannot find name 'align'.",
+        "error:378:26 [TS2304] Cannot find name 'alignOffset'.",
+        "error:378:37 [TS2304] Cannot find name 'alignOffset'.",
+        "error:379:30 [TS2304] Cannot find name 'avoidCollisions'.",
+        "error:379:45 [TS2304] Cannot find name 'avoidCollisions'.",
+        "error:380:32 [TS2304] Cannot find name 'collisionBoundary'.",
+        "error:380:49 [TS2304] Cannot find name 'collisionBoundary'.",
+        "error:381:31 [TS2304] Cannot find name 'collisionPadding'.",
+        "error:381:47 [TS2304] Cannot find name 'collisionPadding'.",
+        "error:382:27 [TS2304] Cannot find name 'arrowPadding'.",
+        "error:382:39 [TS2304] Cannot find name 'arrowPadding'.",
+        "error:383:33 [TS2304] Cannot find name 'prioritizePosition'.",
+        "error:383:51 [TS2304] Cannot find name 'prioritizePosition'.",
+        "error:384:31 [TS2304] Cannot find name 'positionStrategy'.",
+        "error:384:47 [TS2304] Cannot find name 'positionStrategy'.",
+        "error:385:37 [TS2304] Cannot find name 'updatePositionStrategy'.",
+        "error:385:38 [TS2304] Cannot find name 'updatePositionStrategy'.",
+        "error:385:60 [TS2304] Cannot find name 'updatePositionStrategy'.",
+        "error:386:20 [TS2304] Cannot find name 'sticky'.",
+        "error:386:21 [TS2304] Cannot find name 'sticky'.",
+        "error:386:26 [TS2304] Cannot find name 'sticky'.",
+        "error:387:31 [TS2304] Cannot find name 'hideWhenDetached'.",
+        "error:387:32 [TS2304] Cannot find name 'hideWhenDetached'.",
+        "error:387:48 [TS2304] Cannot find name 'hideWhenDetached'.",
+        "error:388:23 [TS2304] Cannot find name 'reference'.",
+        "error:388:24 [TS2304] Cannot find name 'reference'.",
+        "error:388:32 [TS2304] Cannot find name 'reference'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Menu/MenuGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuItem.vue",
+      "diagnostics": [
+        "error:66:53 [TS2339] Property 'click' does not exist on type 'EventTarget'.",
+        "error:74:11 [TS18047] 'event.currentTarget' is possibly 'null'.",
+        "error:74:31 [TS2339] Property 'click' does not exist on type 'EventTarget'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Menu/MenuItemImpl.vue",
+      "diagnostics": [
+        "error:77:12 [TS2304] Cannot find name 'as'.",
+        "error:77:13 [TS2304] Cannot find name 'as'.",
+        "error:77:14 [TS2304] Cannot find name 'as'.",
+        "error:78:18 [TS2304] Cannot find name 'asChild'.",
+        "error:78:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Menu/MenuItemIndicator.vue",
+      "diagnostics": [
+        "error:50:12 [TS2304] Cannot find name 'as'.",
+        "error:50:13 [TS2304] Cannot find name 'as'.",
+        "error:50:14 [TS2304] Cannot find name 'as'.",
+        "error:51:18 [TS2304] Cannot find name 'asChild'.",
+        "error:51:18 [TS2304] Cannot find name 'asChild'.\nProperty 'defer' does not exist on type 'MenuPortalProps'.\nProperty 'disabled' does not exist on type 'MenuPortalProps'.\nProperty 'forceMount' does not exist on type 'MenuPortalProps'.\nProperty 'to' does not exist on type 'MenuPortalProps'.",
+        "error:51:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Menu/MenuLabel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuRadioGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuRadioItem.vue",
+      "diagnostics": [
+        "error:7:30 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Menu/MenuRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuRootContentModal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuRootContentNonModal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuSeparator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuSub.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuSubContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/MenuSubTrigger.vue",
+      "diagnostics": [
+        "error:154:11 [TS18047] 'event.currentTarget' is possibly 'null'.",
+        "error:154:31 [TS2339] Property 'focus' does not exist on type 'EventTarget'.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<MenubarArrowProps, Pick<MenubarArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<MenubarArrowProps, Pick<MenubarArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<MenubarArrowProps, Pick<MenubarArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<MenubarArrowProps, Pick<MenubarArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<MenubarArrowProps, Pick<MenubarArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'defer' does not exist on type 'MenubarPortalProps'.\nProperty 'disabled' does not exist on type 'MenubarPortalProps'.\nProperty 'forceMount' does not exist on type 'MenubarPortalProps'.\nProperty 'to' does not exist on type 'MenubarPortalProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Menu/story/MenuCheckboxItems.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/story/MenuRadioItems.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/story/MenuStyled.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/story/MenuSubMenu.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/story/MenuWithLabels.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/story/_Menu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/story/_MenuWithAnchor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/story/_Submenu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menu/story/_TickIcon.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarCheckboxItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarItemIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarLabel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarMenu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarRadioGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarRadioItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarSeparator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarSub.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarSubContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarSubTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Menubar/MenubarTrigger.vue",
+      "diagnostics": [
+        "error:51:16 [TS2304] Cannot find name 'as'.",
+        "error:51:17 [TS2304] Cannot find name 'as'.",
+        "error:51:18 [TS2304] Cannot find name 'as'.",
+        "error:52:22 [TS2304] Cannot find name 'asChild'.",
+        "error:52:29 [TS2304] Cannot find name 'asChild'.",
+        "error:53:18 [TS2304] Cannot find name 'as'.",
+        "error:53:19 [TS2304] Cannot find name 'as'.",
+        "error:53:56 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Menubar/story/Menubar.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Menubar/story/_Menubar.vue",
+      "diagnostics": [
+        "error:5:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerCell.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:21:10 [TS2304] Cannot find name 'as'.",
+        "error:21:11 [TS2304] Cannot find name 'as'.",
+        "error:21:12 [TS2304] Cannot find name 'as'.",
+        "error:22:16 [TS2304] Cannot find name 'asChild'.",
+        "error:22:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerCellTrigger.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:65 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerGridBody.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerGridRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerNext.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerPrev.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthPicker/MonthPickerRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:286:10 [TS2304] Cannot find name 'as'.",
+        "error:286:11 [TS2304] Cannot find name 'as'.",
+        "error:286:12 [TS2304] Cannot find name 'as'.",
+        "error:287:16 [TS2304] Cannot find name 'asChild'.",
+        "error:287:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthPicker/story/MonthPickerDefault.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthPicker/story/_MonthPicker.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerCell.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:21:10 [TS2304] Cannot find name 'as'.",
+        "error:21:11 [TS2304] Cannot find name 'as'.",
+        "error:21:12 [TS2304] Cannot find name 'as'.",
+        "error:22:16 [TS2304] Cannot find name 'asChild'.",
+        "error:22:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerCellTrigger.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:65 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerGridBody.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerGridRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerNext.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerPrev.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/MonthRangePickerRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:365:10 [TS2304] Cannot find name 'as'.",
+        "error:365:11 [TS2304] Cannot find name 'as'.",
+        "error:365:12 [TS2304] Cannot find name 'as'.",
+        "error:366:16 [TS2304] Cannot find name 'asChild'.",
+        "error:366:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/story/MonthRangePickerDefault.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/MonthRangePicker/story/_MonthRangePicker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuContent.vue",
+      "diagnostics": [
+        "error:16:6 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuContentImpl.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuIndicator.vue",
+      "diagnostics": [
+        "error:73:14 [TS2304] Cannot find name 'as'.",
+        "error:73:15 [TS2304] Cannot find name 'as'.",
+        "error:73:16 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuItem.vue",
+      "diagnostics": [
+        "error:135:16 [TS2304] Cannot find name 'asChild'.",
+        "error:135:23 [TS2304] Cannot find name 'asChild'.",
+        "error:136:10 [TS2304] Cannot find name 'as'.",
+        "error:136:11 [TS2304] Cannot find name 'as'.",
+        "error:136:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuLink.vue",
+      "diagnostics": [
+        "error:59:12 [TS2304] Cannot find name 'as'.",
+        "error:59:13 [TS2304] Cannot find name 'as'.",
+        "error:59:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuList.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuRoot.vue",
+      "diagnostics": [
+        "error:222:12 [TS2304] Cannot find name 'as'.",
+        "error:222:13 [TS2304] Cannot find name 'as'.",
+        "error:222:14 [TS2304] Cannot find name 'as'.",
+        "error:223:18 [TS2304] Cannot find name 'asChild'.",
+        "error:223:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuSub.vue",
+      "diagnostics": [
+        "error:116:12 [TS2304] Cannot find name 'as'.",
+        "error:116:13 [TS2304] Cannot find name 'as'.",
+        "error:116:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuTrigger.vue",
+      "diagnostics": [
+        "error:152:12 [TS2304] Cannot find name 'as'.",
+        "error:152:13 [TS2304] Cannot find name 'as'.",
+        "error:152:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/NavigationMenuViewport.vue",
+      "diagnostics": [
+        "error:170:12 [TS2304] Cannot find name 'as'.",
+        "error:170:13 [TS2304] Cannot find name 'as'.",
+        "error:170:14 [TS2304] Cannot find name 'as'.",
+        "error:171:18 [TS2304] Cannot find name 'asChild'.",
+        "error:171:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/NavigationMenuAlignment.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/NavigationMenuBasic.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/NavigationMenuChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/NavigationMenuDemo.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/NavigationMenuSubmenus.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/NavigationMenuViewport.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/_LinkGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/_NavigationMenu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/_NavigationMenuListItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/NavigationMenu/story/_StoryFrame.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/NumberField/NumberFieldDecrement.vue",
+      "diagnostics": [
+        "error:36:12 [TS2304] Cannot find name 'as'.",
+        "error:36:13 [TS2304] Cannot find name 'as'.",
+        "error:36:50 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NumberField/NumberFieldIncrement.vue",
+      "diagnostics": [
+        "error:36:12 [TS2304] Cannot find name 'as'.",
+        "error:36:13 [TS2304] Cannot find name 'as'.",
+        "error:36:50 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NumberField/NumberFieldInput.vue",
+      "diagnostics": [
+        "error:103:64 [TS2339] Property 'value' does not exist on type 'EventTarget'.",
+        "error:104:55 [TS2339] Property 'value' does not exist on type 'EventTarget'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NumberField/NumberFieldRoot.vue",
+      "diagnostics": [
+        "error:227:10 [TS2304] Cannot find name 'as'.",
+        "error:227:11 [TS2304] Cannot find name 'as'.",
+        "error:227:12 [TS2304] Cannot find name 'as'.",
+        "error:228:16 [TS2304] Cannot find name 'asChild'.",
+        "error:228:23 [TS2304] Cannot find name 'asChild'.",
+        "error:245:18 [TS2304] Cannot find name 'required'.",
+        "error:245:19 [TS2304] Cannot find name 'required'.",
+        "error:245:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/NumberField/story/NumberField.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/NumberField/story/NumberFieldChromatic.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/NumberField/story/_NumberField.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Pagination/PaginationEllipsis.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Pagination/PaginationFirst.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Pagination/PaginationLast.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Pagination/PaginationList.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Pagination/PaginationListItem.vue",
+      "diagnostics": [
+        "error:33:12 [TS2304] Cannot find name 'as'.",
+        "error:33:13 [TS2304] Cannot find name 'as'.",
+        "error:33:50 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Pagination/PaginationNext.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Pagination/PaginationPrev.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Pagination/PaginationRoot.vue",
+      "diagnostics": [
+        "error:92:10 [TS2304] Cannot find name 'as'.",
+        "error:92:11 [TS2304] Cannot find name 'as'.",
+        "error:92:12 [TS2304] Cannot find name 'as'.",
+        "error:93:16 [TS2304] Cannot find name 'asChild'.",
+        "error:93:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Pagination/story/PaginationDefault.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Pagination/story/_Pagination.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/PinInput/PinInputInput.vue",
+      "diagnostics": [
+        "error:196:10 [TS2304] Cannot find name 'as'.",
+        "error:196:11 [TS2304] Cannot find name 'as'.",
+        "error:196:12 [TS2304] Cannot find name 'as'.",
+        "error:197:16 [TS2304] Cannot find name 'asChild'.",
+        "error:197:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/PinInput/PinInputRoot.vue",
+      "diagnostics": [
+        "error:91:27 [TS2769] No overload matches this call.\nThe last overload gave the following error.\nType '(PinInputValue<Type> & false) | (PinInputValue<Type> & true)' is not assignable to type '__WithDefaultsResult<__DefineProps<PinInputRootProps<Type>, \"asChild\" | \"disabled\" | \"mask\" | \"otp\" | \"required\" | ([PinInputValue<Type> | undefined] extends [...] ? \"defaultValue\" : never) | ... | ...>, { ...; }>[\"defaultValue\" | \"modelValue\"] | undefined'.\nType 'PinInputValue<Type> & false' is not assignable to type '__WithDefaultsResult<__DefineProps<PinInputRootProps<Type>, \"asChild\" | \"disabled\" | \"mask\" | \"otp\" | \"required\" | ([PinInputValue<Type> | undefined] extends [...] ? \"defaultValue\" : never) | ... | ...>, { ...; }>[\"defaultValue\" | \"modelValue\"] | undefined'.\nType 'PinInputValue<Type> & false' is not assignable to type '(PinInputValue<Type> & false & Exclude<...> & Exclude<...>) | (PinInputValue<...> & ... 2 more ... & Exclude<...>)'.\nType 'PinInputValue<Type> & false' is not assignable to type 'PinInputValue<Type> & true & Exclude<...> & Exclude<...>'.\nType 'PinInputValue<Type> & false' is not assignable to type 'true'.",
+        "error:151:18 [TS2304] Cannot find name 'required'.",
+        "error:151:19 [TS2304] Cannot find name 'required'.",
+        "error:151:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/PinInput/story/PinInput.story.vue",
+      "diagnostics": [
+        "error:20:11 [TS2322] Type 'string[]' is not assignable to type 'number[]'.\nType 'string' is not assignable to type 'number'."
+      ]
+    },
+    {
+      "file": "packages/core/src/PinInput/story/PinInputNumeric.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/PinInput/story/_PinInput.vue",
+      "diagnostics": [
+        "error:18:5 [TS2322] Type 'string[]' is not assignable to type 'number[]'.\nType 'string' is not assignable to type 'number'.\nProperty 'as' does not exist on type 'PopoverAnchorProps'.\nProperty 'asChild' does not exist on type 'PopoverAnchorProps'.\nProperty 'reference' does not exist on type 'PopoverAnchorProps'.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<PopoverArrowProps, Pick<PopoverArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<PopoverArrowProps, Pick<PopoverArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<PopoverArrowProps, Pick<PopoverArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<PopoverArrowProps, Pick<PopoverArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<PopoverArrowProps, Pick<PopoverArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverAnchor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverClose.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverContentImpl.vue",
+      "diagnostics": [
+        "error:8:30 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations.",
+        "error:61:38 [TS2304] Cannot find name 'disableOutsidePointerEvents'.\nProperty 'align' does not exist on type 'PopoverContentImplProps'.\nProperty 'alignFlip' does not exist on type 'PopoverContentImplProps'.\nProperty 'alignOffset' does not exist on type 'PopoverContentImplProps'.\nProperty 'arrowPadding' does not exist on type 'PopoverContentImplProps'.\nProperty 'avoidCollisions' does not exist on type 'PopoverContentImplProps'.\nProperty 'collisionBoundary' does not exist on type 'PopoverContentImplProps'.\nProperty 'collisionPadding' does not exist on type 'PopoverContentImplProps'.\nProperty 'disableUpdateOnLayoutShift' does not exist on type 'PopoverContentImplProps'.\nProperty 'hideShiftedArrow' does not exist on type 'PopoverContentImplProps'.\nProperty 'hideWhenDetached' does not exist on type 'PopoverContentImplProps'.\nProperty 'positionStrategy' does not exist on type 'PopoverContentImplProps'.\nProperty 'prioritizePosition' does not exist on type 'PopoverContentImplProps'.\nProperty 'reference' does not exist on type 'PopoverContentImplProps'.\nProperty 'side' does not exist on type 'PopoverContentImplProps'.\nProperty 'sideFlip' does not exist on type 'PopoverContentImplProps'.\nProperty 'sideOffset' does not exist on type 'PopoverContentImplProps'.\nProperty 'sticky' does not exist on type 'PopoverContentImplProps'.\nProperty 'updatePositionStrategy' does not exist on type 'PopoverContentImplProps'.\nProperty 'align' does not exist on type 'PopoverContentImplProps'.\nProperty 'alignFlip' does not exist on type 'PopoverContentImplProps'.\nProperty 'alignOffset' does not exist on type 'PopoverContentImplProps'.\nProperty 'arrowPadding' does not exist on type 'PopoverContentImplProps'.\nProperty 'avoidCollisions' does not exist on type 'PopoverContentImplProps'.\nProperty 'collisionBoundary' does not exist on type 'PopoverContentImplProps'.\nProperty 'collisionPadding' does not exist on type 'PopoverContentImplProps'.\nProperty 'disableUpdateOnLayoutShift' does not exist on type 'PopoverContentImplProps'.\nProperty 'hideShiftedArrow' does not exist on type 'PopoverContentImplProps'.\nProperty 'hideWhenDetached' does not exist on type 'PopoverContentImplProps'.\nProperty 'positionStrategy' does not exist on type 'PopoverContentImplProps'.\nProperty 'prioritizePosition' does not exist on type 'PopoverContentImplProps'.\nProperty 'reference' does not exist on type 'PopoverContentImplProps'.\nProperty 'side' does not exist on type 'PopoverContentImplProps'.\nProperty 'sideFlip' does not exist on type 'PopoverContentImplProps'.\nProperty 'sideOffset' does not exist on type 'PopoverContentImplProps'.\nProperty 'sticky' does not exist on type 'PopoverContentImplProps'.\nProperty 'updatePositionStrategy' does not exist on type 'PopoverContentImplProps'.\nProperty 'defer' does not exist on type 'PopoverPortalProps'.\nProperty 'disabled' does not exist on type 'PopoverPortalProps'.\nProperty 'forceMount' does not exist on type 'PopoverPortalProps'.\nProperty 'to' does not exist on type 'PopoverPortalProps'.",
+        "error:61:40 [TS2304] Cannot find name 'disableOutsidePointerEvents'.",
+        "error:61:67 [TS2304] Cannot find name 'disableOutsidePointerEvents'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverContentModal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverContentNonModal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/PopoverTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/story/CustomArrowSvg.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverBodyLock.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverBoundary.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverCustomAnchor.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverCustomArrow.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverDemo.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverForceMount.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverModality.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverNested.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popover/story/PopoverProgrammaticClose.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popover/story/_Popover.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popper/PopperAnchor.vue",
+      "diagnostics": [
+        "error:2:39 [TS2307] Cannot find module '@floating-ui/vue' or its corresponding type declarations.",
+        "error:37:10 [TS2304] Cannot find name 'as'.",
+        "error:37:11 [TS2304] Cannot find name 'as'.",
+        "error:37:12 [TS2304] Cannot find name 'as'.",
+        "error:38:16 [TS2304] Cannot find name 'asChild'.",
+        "error:38:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popper/PopperArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Popper/PopperContent.vue",
+      "diagnostics": [
+        "error:6:8 [TS2307] Cannot find module '@floating-ui/vue' or its corresponding type declarations.",
+        "error:198:6 [TS2307] Cannot find module '@floating-ui/vue' or its corresponding type declarations.",
+        "error:293:21 [TS7031] Binding element 'elements' implicitly has an 'any' type.",
+        "error:293:31 [TS7031] Binding element 'rects' implicitly has an 'any' type.",
+        "error:293:38 [TS7031] Binding element 'availableWidth' implicitly has an 'any' type.",
+        "error:294:16 [TS7031] Binding element 'availableHeight' implicitly has an 'any' type.",
+        "error:334:27 [TS7019] Rest parameter 'args' implicitly has an 'any[]' type.",
+        "error:408:12 [TS2304] Cannot find name 'as'.",
+        "error:408:13 [TS2304] Cannot find name 'as'.",
+        "error:408:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popper/PopperRoot.vue",
+      "diagnostics": [
+        "error:2:39 [TS2307] Cannot find module '@floating-ui/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Popper/_Popper.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Presence/story/PresenceAnimation.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Presence/story/PresenceBasic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Presence/story/PresenceTransition.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Presence/story/_Animation.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Presence/story/_Toggle.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Progress/ProgressIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Progress/ProgressRoot.vue",
+      "diagnostics": [
+        "error:145:16 [TS2304] Cannot find name 'asChild'.",
+        "error:145:23 [TS2304] Cannot find name 'asChild'.",
+        "error:146:10 [TS2304] Cannot find name 'as'.",
+        "error:146:11 [TS2304] Cannot find name 'as'.",
+        "error:146:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Progress/story/Progress.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Progress/story/_Progress.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RadioGroup/Radio.vue",
+      "diagnostics": [
+        "error:79:12 [TS2304] Cannot find name 'as'.",
+        "error:79:13 [TS2304] Cannot find name 'as'.",
+        "error:79:50 [TS2304] Cannot find name 'as'.",
+        "error:80:10 [TS2304] Cannot find name 'as'.",
+        "error:80:11 [TS2304] Cannot find name 'as'.",
+        "error:80:12 [TS2304] Cannot find name 'as'.",
+        "error:83:16 [TS2304] Cannot find name 'asChild'.",
+        "error:83:23 [TS2304] Cannot find name 'asChild'.",
+        "error:88:16 [TS2304] Cannot find name 'required'.",
+        "error:88:17 [TS2304] Cannot find name 'required'.",
+        "error:88:24 [TS2304] Cannot find name 'required'.",
+        "error:102:18 [TS2304] Cannot find name 'required'.",
+        "error:102:19 [TS2304] Cannot find name 'required'.",
+        "error:102:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/RadioGroup/RadioGroupIndicator.vue",
+      "diagnostics": [
+        "error:35:18 [TS2304] Cannot find name 'asChild'.",
+        "error:35:25 [TS2304] Cannot find name 'asChild'.",
+        "error:36:12 [TS2304] Cannot find name 'as'.",
+        "error:36:13 [TS2304] Cannot find name 'as'.",
+        "error:36:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/RadioGroup/RadioGroupItem.vue",
+      "diagnostics": [
+        "error:22:39 [TS2307] Cannot find module 'ohash' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RadioGroup/RadioGroupRoot.vue",
+      "diagnostics": [
+        "error:101:18 [TS2304] Cannot find name 'asChild'.",
+        "error:101:25 [TS2304] Cannot find name 'asChild'.",
+        "error:102:12 [TS2304] Cannot find name 'as'.",
+        "error:102:13 [TS2304] Cannot find name 'as'.",
+        "error:102:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/RadioGroup/story/RadioGroup.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RadioGroup/story/_Radio.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RadioGroup/story/_RadioGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarCell.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:20:10 [TS2304] Cannot find name 'as'.",
+        "error:20:11 [TS2304] Cannot find name 'as'.",
+        "error:20:12 [TS2304] Cannot find name 'as'.",
+        "error:21:16 [TS2304] Cannot find name 'asChild'.",
+        "error:21:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarCellTrigger.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:10:8 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:250:10 [TS2304] Cannot find name 'as'.",
+        "error:250:11 [TS2304] Cannot find name 'as'.",
+        "error:250:12 [TS2304] Cannot find name 'as'.",
+        "error:251:16 [TS2304] Cannot find name 'asChild'.",
+        "error:251:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarGridBody.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarGridHead.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarGridRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarHeadCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarNext.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarPrev.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/RangeCalendarRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:9:28 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:452:10 [TS2304] Cannot find name 'as'.",
+        "error:452:11 [TS2304] Cannot find name 'as'.",
+        "error:452:12 [TS2304] Cannot find name 'as'.",
+        "error:453:16 [TS2304] Cannot find name 'asChild'.",
+        "error:453:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/story/RangeCalendarChromatic.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:59 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/story/RangeCalendarDefault.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/story/RangeCalendarMultiple.story.vue",
+      "diagnostics": [
+        "error:2:30 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/story/RangeCalendarPopover.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:5:41 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/story/RangeCalendarValidation.story.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:3:41 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/story/RangeCalendarWeek.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/story/_DummyRangeCalendar.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RangeCalendar/story/_RangeCalendar.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Rating/RatingItem.vue",
+      "diagnostics": [
+        "error:47:10 [TS2304] Cannot find name 'as'.",
+        "error:47:11 [TS2304] Cannot find name 'as'.",
+        "error:47:12 [TS2304] Cannot find name 'as'.",
+        "error:48:16 [TS2304] Cannot find name 'asChild'.",
+        "error:48:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Rating/RatingItemIndicator.vue",
+      "diagnostics": [
+        "error:39:10 [TS2304] Cannot find name 'as'.",
+        "error:39:11 [TS2304] Cannot find name 'as'.",
+        "error:39:12 [TS2304] Cannot find name 'as'.",
+        "error:40:16 [TS2304] Cannot find name 'asChild'.",
+        "error:40:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Rating/RatingRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Rating/story/RatingChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Rating/story/RatingDefault.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Rating/story/_Rating.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/RovingFocus/RovingFocusGroup.vue",
+      "diagnostics": [
+        "error:154:12 [TS2304] Cannot find name 'as'.",
+        "error:154:13 [TS2304] Cannot find name 'as'.",
+        "error:154:14 [TS2304] Cannot find name 'as'.",
+        "error:155:18 [TS2304] Cannot find name 'asChild'.",
+        "error:155:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/RovingFocus/RovingFocusItem.vue",
+      "diagnostics": [
+        "error:97:12 [TS2304] Cannot find name 'as'.",
+        "error:97:13 [TS2304] Cannot find name 'as'.",
+        "error:97:14 [TS2304] Cannot find name 'as'.",
+        "error:98:18 [TS2304] Cannot find name 'asChild'.",
+        "error:98:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/RovingFocus/story/RovingFocusBasic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RovingFocus/story/_Button.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/RovingFocus/story/_ButtonGroup.vue",
+      "diagnostics": [
+        "error:22:5 [TS1117] An object literal cannot have multiple properties with the same name.",
+        "error:22:13 [TS2367] This comparison appears to be unintentional because the types 'number' and 'string' have no overlap.",
+        "error:22:14 [TS2367] This comparison appears to be unintentional because the types 'number' and 'string' have no overlap.",
+        "error:22:65 [TS2367] This comparison appears to be unintentional because the types 'number' and 'string' have no overlap."
+      ]
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaCorner.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaCornerImpl.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaRoot.vue",
+      "diagnostics": [
+        "error:135:10 [TS2304] Cannot find name 'as'.",
+        "error:135:11 [TS2304] Cannot find name 'as'.",
+        "error:135:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbarAuto.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbarGlimpse.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbarHover.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbarImpl.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbarScroll.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbarVisible.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbarX.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaScrollbarY.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaThumb.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/ScrollAreaViewport.vue",
+      "diagnostics": [
+        "error:78:12 [TS2304] Cannot find name 'as'.",
+        "error:78:13 [TS2304] Cannot find name 'as'.",
+        "error:78:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ScrollArea/story/ScrollAreaBasic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/story/ScrollAreaChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/story/ScrollAreaChromaticBoth.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/story/ScrollAreaChromaticHorizontal.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/story/ScrollAreaChromaticVertical.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/story/_ScrollArea.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/story/_ScrollAreaCopy.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ScrollArea/story/_ScrollAreaStory.vue",
+      "diagnostics": [
+        "error:38:7 [TS1117] An object literal cannot have multiple properties with the same name.",
+        "error:47:9 [TS1117] An object literal cannot have multiple properties with the same name.",
+        "error:54:7 [TS1117] An object literal cannot have multiple properties with the same name.\nType '\"as\"' is not assignable to type 'never'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'as' does not exist on type '__WithDefaultsResult<SelectArrowProps, Pick<SelectArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<SelectArrowProps, Pick<SelectArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'height' does not exist on type '__WithDefaultsResult<SelectArrowProps, Pick<SelectArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nProperty 'rounded' does not exist on type '__WithDefaultsResult<SelectArrowProps, Pick<SelectArrowProps, \"as\" | \"height\" | \"width\">>'.\nProperty 'width' does not exist on type '__WithDefaultsResult<SelectArrowProps, Pick<SelectArrowProps, \"as\" | \"height\" | \"width\">>'.\nType '\"as\"' is not assignable to type 'never'.\nType '\"align\"' is not assignable to type 'keyof SelectContentImplProps'.\nType '\"align\"' is not assignable to type 'keyof SelectContentImplProps'.\nType '\"align\"' is not assignable to type 'keyof SelectContentImplProps'.\nType '\"align\"' is not assignable to type 'keyof SelectContentImplProps'.",
+        "error:63:9 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/BubbleSelect.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectContentImpl.vue",
+      "diagnostics": [
+        "error:289:40 [TS2304] Cannot find name 'disableOutsidePointerEvents'.",
+        "error:289:42 [TS2304] Cannot find name 'disableOutsidePointerEvents'.",
+        "error:289:69 [TS2304] Cannot find name 'disableOutsidePointerEvents'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/SelectGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectIcon.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectItem.vue",
+      "diagnostics": [
+        "error:167:12 [TS2304] Cannot find name 'as'.",
+        "error:167:13 [TS2304] Cannot find name 'as'.",
+        "error:167:14 [TS2304] Cannot find name 'as'.",
+        "error:168:18 [TS2304] Cannot find name 'asChild'.",
+        "error:168:18 [TS2304] Cannot find name 'asChild'.\nType '\"align\"' is not assignable to type 'never'.\nType '\"align\"' is not assignable to type 'never'.\nProperty 'align' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nType '\"align\"' is not assignable to type 'never'.\nProperty 'alignFlip' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'alignOffset' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'arrowPadding' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'as' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'avoidCollisions' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'collisionBoundary' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'collisionPadding' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nType '\"align\"' is not assignable to type 'never'.\nProperty 'disableUpdateOnLayoutShift' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'hideShiftedArrow' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'hideWhenDetached' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'positionStrategy' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'prioritizePosition' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'reference' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'side' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'sideFlip' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'sideOffset' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'sticky' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'updatePositionStrategy' does not exist on type '__WithDefaultsResult<SelectPopperPositionProps, Pick<SelectPopperPositionProps, \"align\" | \"collisionPadding\">>'.\nProperty 'defer' does not exist on type 'SelectPortalProps'.\nProperty 'disabled' does not exist on type 'SelectPortalProps'.\nProperty 'forceMount' does not exist on type 'SelectPortalProps'.\nProperty 'to' does not exist on type 'SelectPortalProps'.",
+        "error:168:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/SelectItemAlignedPosition.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectItemIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectItemText.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectLabel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectPopperPosition.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectProvider.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectRoot.vue",
+      "diagnostics": [
+        "error:93:44 [TS2769] No overload matches this call.\nThe last overload gave the following error.\nType 'false' is not assignable to type 'true'.",
+        "error:210:17 [TS2322] Type 'void' is not assignable to type 'string | undefined'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/SelectScrollButtonImpl.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectScrollDownButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectScrollUpButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectSeparator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Select/SelectTrigger.vue",
+      "diagnostics": [
+        "error:55:17 [TS2304] Cannot find name 'reference'.",
+        "error:55:18 [TS2304] Cannot find name 'reference'.",
+        "error:55:26 [TS2304] Cannot find name 'reference'.",
+        "error:60:14 [TS2304] Cannot find name 'as'.",
+        "error:60:15 [TS2304] Cannot find name 'as'.",
+        "error:60:52 [TS2304] Cannot find name 'as'.",
+        "error:70:18 [TS2304] Cannot find name 'asChild'.",
+        "error:70:25 [TS2304] Cannot find name 'asChild'.",
+        "error:71:12 [TS2304] Cannot find name 'as'.",
+        "error:71:13 [TS2304] Cannot find name 'as'.",
+        "error:71:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/SelectValue.vue",
+      "diagnostics": [
+        "error:52:10 [TS2304] Cannot find name 'as'.",
+        "error:52:11 [TS2304] Cannot find name 'as'.",
+        "error:52:12 [TS2304] Cannot find name 'as'.",
+        "error:53:16 [TS2304] Cannot find name 'asChild'.",
+        "error:53:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/SelectViewport.vue",
+      "diagnostics": [
+        "error:86:14 [TS2345] Argument of type '(event: WheelEvent) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'event' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'WheelEvent': deltaMode, deltaX, deltaY, deltaZ, and 30 more."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/story/SelectDemo.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/story/SelectForm.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/story/SelectWithinDialog.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/story/_Select.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/story/_SelectItem.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Select/story/_SelectTest.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Separator/Separator.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Separator/Separator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/SliderHorizontal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/SliderImpl.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/SliderRange.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/SliderRoot.vue",
+      "diagnostics": [
+        "error:176:18 [TS2304] Cannot find name 'asChild'.",
+        "error:177:12 [TS2304] Cannot find name 'as'.",
+        "error:187:51 [TS2345] Argument of type 'Event' is not assignable to parameter of type 'number'.",
+        "error:188:49 [TS2345] Argument of type 'Event' is not assignable to parameter of type 'number'.",
+        "error:194:54 [TS2339] Property 'key' does not exist on type 'Event'.",
+        "error:195:49 [TS2339] Property 'shiftKey' does not exist on type 'Event'.",
+        "error:195:87 [TS2339] Property 'key' does not exist on type 'Event'.",
+        "error:199:55 [TS18048] 'direction' is possibly 'undefined'.",
+        "error:211:20 [TS2304] Cannot find name 'required'.",
+        "error:211:21 [TS2304] Cannot find name 'required'.",
+        "error:211:28 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Slider/SliderThumb.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/SliderThumbImpl.vue",
+      "diagnostics": [
+        "error:68:18 [TS2304] Cannot find name 'asChild'.",
+        "error:68:25 [TS2304] Cannot find name 'asChild'.",
+        "error:69:12 [TS2304] Cannot find name 'as'.",
+        "error:69:13 [TS2304] Cannot find name 'as'.",
+        "error:69:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Slider/SliderTrack.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/SliderVertical.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/story/SliderChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/story/SliderDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/story/SliderExtremes.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Slider/story/_Slider.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Splitter/SplitterGroup.vue",
+      "diagnostics": [
+        "error:895:10 [TS2304] Cannot find name 'as'.",
+        "error:895:11 [TS2304] Cannot find name 'as'.",
+        "error:895:12 [TS2304] Cannot find name 'as'.",
+        "error:896:16 [TS2304] Cannot find name 'asChild'.",
+        "error:896:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Splitter/SplitterPanel.vue",
+      "diagnostics": [
+        "error:182:10 [TS2304] Cannot find name 'as'.",
+        "error:182:11 [TS2304] Cannot find name 'as'.",
+        "error:182:12 [TS2304] Cannot find name 'as'.",
+        "error:183:16 [TS2304] Cannot find name 'asChild'.",
+        "error:183:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Splitter/SplitterResizeHandle.vue",
+      "diagnostics": [
+        "error:156:10 [TS2304] Cannot find name 'as'.",
+        "error:156:11 [TS2304] Cannot find name 'as'.",
+        "error:156:12 [TS2304] Cannot find name 'as'.",
+        "error:157:16 [TS2304] Cannot find name 'asChild'.",
+        "error:157:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterAction.story.vue",
+      "diagnostics": [
+        "error:9:31 [TS2339] Property '$el' does not exist on type '__VizeComponentInstance'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterCollapsible.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterConditional.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterDirection.story.vue",
+      "diagnostics": [
+        "error:31:15 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterOverflow.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterPersistence.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Splitter/story/SplitterPixelSizing.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Splitter/story/_Splitter.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Stepper/StepperDescription.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Stepper/StepperIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Stepper/StepperItem.vue",
+      "diagnostics": [
+        "error:87:10 [TS2304] Cannot find name 'as'.",
+        "error:87:11 [TS2304] Cannot find name 'as'.",
+        "error:87:12 [TS2304] Cannot find name 'as'.",
+        "error:88:16 [TS2304] Cannot find name 'asChild'.",
+        "error:88:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Stepper/StepperRoot.vue",
+      "diagnostics": [
+        "error:184:10 [TS2304] Cannot find name 'as'.",
+        "error:184:11 [TS2304] Cannot find name 'as'.",
+        "error:184:12 [TS2304] Cannot find name 'as'.",
+        "error:185:16 [TS2304] Cannot find name 'asChild'.",
+        "error:185:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Stepper/StepperSeparator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Stepper/StepperTitle.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Stepper/StepperTrigger.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Stepper/story/StepperChromatic.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Stepper/story/StepperDefault.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Stepper/story/_DummyStepper.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Stepper/story/_Stepper.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Switch/Switch.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Switch/SwitchRoot.vue",
+      "diagnostics": [
+        "error:99:12 [TS2304] Cannot find name 'as'.",
+        "error:99:13 [TS2304] Cannot find name 'as'.",
+        "error:99:50 [TS2304] Cannot find name 'as'.",
+        "error:103:21 [TS2304] Cannot find name 'required'.",
+        "error:103:29 [TS2304] Cannot find name 'required'.",
+        "error:106:16 [TS2304] Cannot find name 'asChild'.",
+        "error:106:23 [TS2304] Cannot find name 'asChild'.",
+        "error:107:10 [TS2304] Cannot find name 'as'.",
+        "error:107:11 [TS2304] Cannot find name 'as'.",
+        "error:107:12 [TS2304] Cannot find name 'as'.",
+        "error:122:18 [TS2304] Cannot find name 'required'.",
+        "error:122:19 [TS2304] Cannot find name 'required'.",
+        "error:122:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Switch/SwitchThumb.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Switch/_Switch.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tabs/TabsContent.vue",
+      "diagnostics": [
+        "error:56:18 [TS2304] Cannot find name 'asChild'.",
+        "error:56:25 [TS2304] Cannot find name 'asChild'.",
+        "error:57:12 [TS2304] Cannot find name 'as'.",
+        "error:57:13 [TS2304] Cannot find name 'as'.",
+        "error:57:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tabs/TabsIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tabs/TabsList.vue",
+      "diagnostics": [
+        "error:38:18 [TS2304] Cannot find name 'asChild'.",
+        "error:38:25 [TS2304] Cannot find name 'asChild'.",
+        "error:39:12 [TS2304] Cannot find name 'as'.",
+        "error:39:13 [TS2304] Cannot find name 'as'.",
+        "error:39:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tabs/TabsRoot.vue",
+      "diagnostics": [
+        "error:117:16 [TS2304] Cannot find name 'asChild'.",
+        "error:117:23 [TS2304] Cannot find name 'asChild'.",
+        "error:118:10 [TS2304] Cannot find name 'as'.",
+        "error:118:11 [TS2304] Cannot find name 'as'.",
+        "error:118:12 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tabs/TabsTrigger.vue",
+      "diagnostics": [
+        "error:45:14 [TS2304] Cannot find name 'as'.",
+        "error:45:15 [TS2304] Cannot find name 'as'.",
+        "error:45:52 [TS2304] Cannot find name 'as'.",
+        "error:46:12 [TS2304] Cannot find name 'as'.",
+        "error:46:13 [TS2304] Cannot find name 'as'.",
+        "error:46:14 [TS2304] Cannot find name 'as'.",
+        "error:47:18 [TS2304] Cannot find name 'asChild'.",
+        "error:47:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tabs/story/Tabs.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tabs/story/TabsVertical.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tabs/story/_Tabs.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TagsInput/TagsInputClear.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TagsInput/TagsInputInput.vue",
+      "diagnostics": [
+        "error:144:10 [TS2304] Cannot find name 'as'.",
+        "error:144:11 [TS2304] Cannot find name 'as'.",
+        "error:144:12 [TS2304] Cannot find name 'as'.",
+        "error:145:16 [TS2304] Cannot find name 'asChild'.",
+        "error:145:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/TagsInput/TagsInputItem.vue",
+      "diagnostics": [
+        "error:56:12 [TS2304] Cannot find name 'as'.",
+        "error:56:13 [TS2304] Cannot find name 'as'.",
+        "error:56:14 [TS2304] Cannot find name 'as'.",
+        "error:57:18 [TS2304] Cannot find name 'asChild'.",
+        "error:57:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/TagsInput/TagsInputItemDelete.vue",
+      "diagnostics": [
+        "error:3:25 [TS2307] Cannot find module 'ohash' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TagsInput/TagsInputItemText.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TagsInput/TagsInputRoot.vue",
+      "diagnostics": [
+        "error:244:12 [TS2304] Cannot find name 'as'.",
+        "error:244:13 [TS2304] Cannot find name 'as'.",
+        "error:244:14 [TS2304] Cannot find name 'as'.",
+        "error:245:18 [TS2304] Cannot find name 'asChild'.",
+        "error:245:25 [TS2304] Cannot find name 'asChild'.",
+        "error:256:20 [TS2304] Cannot find name 'required'.",
+        "error:256:21 [TS2304] Cannot find name 'required'.",
+        "error:256:28 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/TagsInput/story/TagsInput.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TagsInput/story/TagsInputCombobox.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TagsInput/story/TagsInputObject.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TagsInput/story/_TagsInput.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TagsInput/story/_TagsInputObject.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Teleport/Teleport.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TimeField/TimeFieldInput.vue",
+      "diagnostics": [
+        "error:51:10 [TS2304] Cannot find name 'as'.",
+        "error:51:11 [TS2304] Cannot find name 'as'.",
+        "error:51:12 [TS2304] Cannot find name 'as'.",
+        "error:52:16 [TS2304] Cannot find name 'asChild'.",
+        "error:52:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/TimeField/TimeFieldRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:8:79 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.\nType '\"isDateUnavailable\"' is not assignable to type 'keyof TimeFieldRootProps'.\nType '\"isDateUnavailable\"' is not assignable to type 'keyof TimeFieldRootProps'.",
+        "error:364:18 [TS2304] Cannot find name 'required'.",
+        "error:364:19 [TS2304] Cannot find name 'required'.",
+        "error:364:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/TimeField/story/TimeFieldChromatic.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TimeField/story/TimeFieldDefault.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TimeField/story/TimeFieldGranular.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TimeField/story/TimeFieldInvalid.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TimeField/story/TimeFieldLocales.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TimeField/story/_TimeField.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TimeRangeField/TimeRangeFieldInput.vue",
+      "diagnostics": [
+        "error:52:10 [TS2304] Cannot find name 'as'.",
+        "error:52:11 [TS2304] Cannot find name 'as'.",
+        "error:52:12 [TS2304] Cannot find name 'as'.",
+        "error:53:16 [TS2304] Cannot find name 'asChild'.",
+        "error:53:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/TimeRangeField/TimeRangeFieldRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:11:67 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:469:18 [TS2304] Cannot find name 'required'.",
+        "error:469:19 [TS2304] Cannot find name 'required'.",
+        "error:469:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/TimeRangeField/story/TimeRangeFieldChromatic.story.vue",
+      "diagnostics": [
+        "error:4:22 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TimeRangeField/story/TimeRangeFieldDefault.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TimeRangeField/story/TimeRangeFieldGranular.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TimeRangeField/story/TimeRangeFieldValidation.story.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/TimeRangeField/story/_DummyTimeRangeField.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/TimeRangeField/story/_TimeRangeField.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/FocusProxy.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/ToastAction.vue",
+      "diagnostics": [
+        "error:36:12 [TS2304] Cannot find name 'as'.",
+        "error:36:13 [TS2304] Cannot find name 'as'.",
+        "error:36:14 [TS2304] Cannot find name 'as'.",
+        "error:37:18 [TS2304] Cannot find name 'asChild'.",
+        "error:37:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toast/ToastAnnounce.vue",
+      "diagnostics": [
+        "error:3:28 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toast/ToastAnnounceExclude.vue",
+      "diagnostics": [
+        "error:17:10 [TS2304] Cannot find name 'as'.",
+        "error:17:11 [TS2304] Cannot find name 'as'.",
+        "error:17:12 [TS2304] Cannot find name 'as'.",
+        "error:18:16 [TS2304] Cannot find name 'asChild'.",
+        "error:18:16 [TS2304] Cannot find name 'asChild'.\nProperty 'defer' does not exist on type 'ToastPortalProps'.\nProperty 'disabled' does not exist on type 'ToastPortalProps'.\nProperty 'forceMount' does not exist on type 'ToastPortalProps'.\nProperty 'to' does not exist on type 'ToastPortalProps'.",
+        "error:18:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toast/ToastClose.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/ToastDescription.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/ToastPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/ToastProvider.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/ToastRoot.vue",
+      "diagnostics": [
+        "error:60:14 [TS2304] Cannot find name 'type'.",
+        "error:60:15 [TS2304] Cannot find name 'type'.",
+        "error:60:18 [TS2304] Cannot find name 'type'.",
+        "error:61:12 [TS2304] Cannot find name 'as'.",
+        "error:61:13 [TS2304] Cannot find name 'as'.",
+        "error:61:14 [TS2304] Cannot find name 'as'.",
+        "error:62:18 [TS2304] Cannot find name 'asChild'.",
+        "error:62:25 [TS2304] Cannot find name 'asChild'.",
+        "error:63:18 [TS2304] Cannot find name 'duration'.",
+        "error:63:18 [TS2552] Cannot find name 'duration'. Did you mean '_duration'?",
+        "error:63:19 [TS2552] Cannot find name 'duration'. Did you mean '_duration'?",
+        "error:63:26 [TS2552] Cannot find name 'duration'. Did you mean '_duration'?"
+      ]
+    },
+    {
+      "file": "packages/core/src/Toast/ToastRootImpl.vue",
+      "diagnostics": [
+        "error:4:26 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations.",
+        "error:202:14 [TS2304] Cannot find name 'as'.",
+        "error:202:15 [TS2304] Cannot find name 'as'.",
+        "error:202:16 [TS2304] Cannot find name 'as'.",
+        "error:203:20 [TS2304] Cannot find name 'asChild'.",
+        "error:203:27 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toast/ToastTitle.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/ToastViewport.vue",
+      "diagnostics": [
+        "error:190:14 [TS2304] Cannot find name 'as'.",
+        "error:190:15 [TS2304] Cannot find name 'as'.",
+        "error:190:16 [TS2304] Cannot find name 'as'.",
+        "error:191:20 [TS2304] Cannot find name 'asChild'.",
+        "error:191:27 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toast/story/ToastDemo.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/story/ToastDemoFromDialog.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/story/ToastDemoKeyChange.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toast/story/ToastMultiple.story.vue",
+      "diagnostics": [
+        "error:29:23 [TS2345] Argument of type '((value: boolean) => void) | undefined' is not assignable to parameter of type '(value: boolean) => unknown'.\nType 'undefined' is not assignable to type '(value: boolean) => unknown'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toast/story/_Toast.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toggle/Toggle.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toggle/Toggle.vue",
+      "diagnostics": [
+        "error:80:12 [TS2304] Cannot find name 'as'.",
+        "error:80:13 [TS2304] Cannot find name 'as'.",
+        "error:80:50 [TS2304] Cannot find name 'as'.",
+        "error:82:10 [TS2304] Cannot find name 'as'.",
+        "error:82:11 [TS2304] Cannot find name 'as'.",
+        "error:82:12 [TS2304] Cannot find name 'as'.",
+        "error:101:18 [TS2304] Cannot find name 'required'.",
+        "error:101:19 [TS2304] Cannot find name 'required'.",
+        "error:101:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ToggleGroup/ToggleGroupItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/ToggleGroup/ToggleGroupRoot.vue",
+      "diagnostics": [
+        "error:91:18 [TS2304] Cannot find name 'asChild'.",
+        "error:91:25 [TS2304] Cannot find name 'asChild'.",
+        "error:92:12 [TS2304] Cannot find name 'as'.",
+        "error:92:13 [TS2304] Cannot find name 'as'.",
+        "error:92:14 [TS2304] Cannot find name 'as'.",
+        "error:99:20 [TS2304] Cannot find name 'required'.",
+        "error:99:21 [TS2304] Cannot find name 'required'.",
+        "error:99:28 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "packages/core/src/ToggleGroup/story/ToggleGroup.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/ToggleGroup/story/_ToggleGroup.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toolbar/ToolbarButton.vue",
+      "diagnostics": [
+        "error:25:14 [TS2304] Cannot find name 'as'.",
+        "error:25:15 [TS2304] Cannot find name 'as'.",
+        "error:25:52 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toolbar/ToolbarLink.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toolbar/ToolbarRoot.vue",
+      "diagnostics": [
+        "error:51:18 [TS2304] Cannot find name 'asChild'.",
+        "error:51:25 [TS2304] Cannot find name 'asChild'.",
+        "error:52:12 [TS2304] Cannot find name 'as'.",
+        "error:52:13 [TS2304] Cannot find name 'as'.",
+        "error:52:14 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toolbar/ToolbarSeparator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toolbar/ToolbarToggleGroup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toolbar/ToolbarToggleItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Toolbar/story/Toolbar.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Toolbar/story/_Toolbar.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tooltip/TooltipArrow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tooltip/TooltipContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tooltip/TooltipContentHoverable.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tooltip/TooltipContentImpl.vue",
+      "diagnostics": [
+        "error:4:22 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:77:23 [TS2739] Type '{ side: string; sideOffset: number; align: string; avoidCollisions: boolean; collisionBoundary: never[]; collisionPadding: number; arrowPadding: number; sticky: string; hideWhenDetached: boolean; }' is missing the following properties from type 'TooltipContentImplProps': alignOffset, positionStrategy, updatePositionStrategy\nProperty 'defer' does not exist on type 'TooltipPortalProps'.\nProperty 'disabled' does not exist on type 'TooltipPortalProps'.\nProperty 'forceMount' does not exist on type 'TooltipPortalProps'.\nProperty 'to' does not exist on type 'TooltipPortalProps'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tooltip/TooltipPortal.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tooltip/TooltipProvider.vue",
+      "diagnostics": [
+        "error:63:21 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations.\nProperty 'as' does not exist on type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.\nProperty 'asChild' does not exist on type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.\nProperty 'reference' does not exist on type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tooltip/TooltipRoot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tooltip/TooltipTrigger.vue",
+      "diagnostics": [
+        "error:114:12 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.\nProperty 'as' does not exist on type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.",
+        "error:114:13 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.\nProperty 'as' does not exist on type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.",
+        "error:114:14 [TS7053] Element implicitly has an 'any' type because expression of type '\"as\"' can't be used to index type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.\nProperty 'as' does not exist on type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.",
+        "error:115:24 [TS2339] Property 'asChild' does not exist on type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'.",
+        "error:115:31 [TS2339] Property 'asChild' does not exist on type '__WithDefaultsResult<TooltipTriggerProps, Pick<TooltipTriggerProps, \"as\">>'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tooltip/stories/Tooltip.content.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tooltip/stories/Tooltip.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tooltip/stories/_Tooltip.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/Tree/TreeItem.vue",
+      "diagnostics": [
+        "error:172:12 [TS2304] Cannot find name 'as'.",
+        "error:172:13 [TS2304] Cannot find name 'as'.",
+        "error:172:14 [TS2304] Cannot find name 'as'.",
+        "error:173:18 [TS2304] Cannot find name 'asChild'.",
+        "error:173:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/TreeRoot.vue",
+      "diagnostics": [
+        "error:117:17 [TS2769] No overload matches this call.\nThe last overload gave the following error.\nType 'false' is not assignable to type 'true'.",
+        "error:284:12 [TS2304] Cannot find name 'as'.",
+        "error:284:13 [TS2304] Cannot find name 'as'.",
+        "error:284:14 [TS2304] Cannot find name 'as'.",
+        "error:285:18 [TS2304] Cannot find name 'asChild'.",
+        "error:285:25 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/TreeVirtualizer.vue",
+      "diagnostics": [
+        "error:13:13 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations.",
+        "error:15:50 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations.",
+        "error:78:21 [TS7006] Parameter 'index' implicitly has an 'any' type.",
+        "error:80:77 [TS7006] Parameter 'index' implicitly has an 'any' type.",
+        "error:93:48 [TS7006] Parameter 'item' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/story/TreeAsync.story.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:77:41 [TS7006] Parameter 'item' implicitly has an 'any' type.",
+        "error:97:13 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/story/TreeBasic.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:17:39 [TS7006] Parameter 'item' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/story/TreeCheckbox.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:21:39 [TS7006] Parameter 'item' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/story/TreeNested.story.vue",
+      "diagnostics": [
+        "error:16:39 [TS7006] Parameter 'item' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/story/TreeVirtual.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:30:39 [TS7006] Parameter 'item' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/story/_Tree.vue",
+      "diagnostics": [
+        "error:3:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations.",
+        "error:75:35 [TS7006] Parameter 'item' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/Tree/story/_TreeNested.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/Viewport/Viewport.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/VisuallyHidden/VisuallyHidden.vue",
+      "diagnostics": [
+        "error:17:10 [TS2304] Cannot find name 'as'.",
+        "error:17:11 [TS2304] Cannot find name 'as'.",
+        "error:17:12 [TS2304] Cannot find name 'as'.",
+        "error:18:16 [TS2304] Cannot find name 'asChild'.",
+        "error:18:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/VisuallyHidden/VisuallyHiddenInput.vue",
+      "diagnostics": [
+        "error:18:18 [TS2339] Property 'length' does not exist on type 'never'.",
+        "error:30:24 [TS2339] Property 'flatMap' does not exist on type 'never'.",
+        "error:30:33 [TS7006] Parameter 'obj' implicitly has an 'any' type.",
+        "error:30:38 [TS7006] Parameter 'index' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "packages/core/src/VisuallyHidden/VisuallyHiddenInputBubble.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerCell.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:21:10 [TS2304] Cannot find name 'as'.",
+        "error:21:11 [TS2304] Cannot find name 'as'.",
+        "error:21:12 [TS2304] Cannot find name 'as'.",
+        "error:22:16 [TS2304] Cannot find name 'asChild'.",
+        "error:22:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerCellTrigger.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:77 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerGridBody.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerGridRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerNext.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerPrev.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearPicker/YearPickerRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:289:10 [TS2304] Cannot find name 'as'.",
+        "error:289:11 [TS2304] Cannot find name 'as'.",
+        "error:289:12 [TS2304] Cannot find name 'as'.",
+        "error:290:16 [TS2304] Cannot find name 'asChild'.",
+        "error:290:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearPicker/story/YearPickerDefault.story.vue",
+      "diagnostics": [
+        "error:2:22 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearPicker/story/_YearPicker.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerCell.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:21:10 [TS2304] Cannot find name 'as'.",
+        "error:21:11 [TS2304] Cannot find name 'as'.",
+        "error:21:12 [TS2304] Cannot find name 'as'.",
+        "error:22:16 [TS2304] Cannot find name 'asChild'.",
+        "error:22:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerCellTrigger.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:4:77 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerGridBody.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerGridRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerNext.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerPrev.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/YearRangePickerRoot.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:365:10 [TS2304] Cannot find name 'as'.",
+        "error:365:11 [TS2304] Cannot find name 'as'.",
+        "error:365:12 [TS2304] Cannot find name 'as'.",
+        "error:366:16 [TS2304] Cannot find name 'asChild'.",
+        "error:366:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/story/YearRangePickerDefault.story.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/YearRangePicker/story/_YearRangePicker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "packages/core/src/shared/component/Arrow.vue",
+      "diagnostics": [
+        "error:44:15 [TS2304] Cannot find name 'asChild'.",
+        "error:44:16 [TS2304] Cannot find name 'asChild'.",
+        "error:44:47 [TS2304] Cannot find name 'asChild'.",
+        "error:45:27 [TS2304] Cannot find name 'asChild'.",
+        "error:45:28 [TS2304] Cannot find name 'asChild'.",
+        "error:45:55 [TS2304] Cannot find name 'asChild'."
+      ]
+    },
+    {
+      "file": "packages/core/src/shared/component/BaseSeparator.vue",
+      "diagnostics": [
+        "error:50:10 [TS2304] Cannot find name 'as'.",
+        "error:50:11 [TS2304] Cannot find name 'as'.",
+        "error:50:12 [TS2304] Cannot find name 'as'.",
+        "error:51:16 [TS2304] Cannot find name 'asChild'.",
+        "error:51:23 [TS2304] Cannot find name 'asChild'."
+      ]
+    }
+  ],
+  "errorCount": 959,
+  "warningCount": 0,
+  "fileCount": 700
+}

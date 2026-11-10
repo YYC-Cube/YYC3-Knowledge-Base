@@ -1,0 +1,62 @@
+{
+  "name": "@aily-project/lib-ht16k33-matrix",
+  "nickname": "HT16K33点阵屏",
+  "nickname_zh_cn": "HT16K33点阵屏",
+  "nickname_en": "HT16K33 Matrix",
+  "nickname_zh_hk": "HT16K33點陣屏",
+  "nickname_ja": "HT16K33ドットマトリクス",
+  "nickname_ko": "HT16K33 도트매트릭스",
+  "nickname_de": "HT16K33 LED-Matrix",
+  "nickname_fr": "Matrice LED HT16K33",
+  "nickname_es": "Matriz LED HT16K33",
+  "nickname_pt": "Matriz LED HT16K33",
+  "nickname_ru": "Матрица HT16K33",
+  "nickname_ar": "مصفوفة LED HT16K33",
+  "author": "OpenJumper",
+  "description": "8x8 LED点阵屏驱动库，支持像素操作和10种预设动画效果",
+  "description_zh_cn": "8x8 LED点阵屏驱动库，支持像素操作和10种预设动画效果",
+  "description_en": "8x8 LED dot matrix display driver, supports pixel operations and 10 preset animation effects",
+  "description_zh_hk": "8x8 LED點陣屏驅動庫，支持像素操作和10種預設動畫效果",
+  "description_ja": "8x8 LEDドットマトリクスディスプレイドライバ、ピクセル操作と10種のプリセットアニメーション効果をサポート",
+  "description_ko": "8x8 LED 도트매트릭스 디스플레이 드라이버, 픽셀 조작 및 10가지 프리셋 애니메이션 효과 지원",
+  "description_de": "8x8 LED-Punktmatrix-Treiber, unterstützt Pixeloperationen und 10 voreingestellte Animationseffekte",
+  "description_fr": "Pilote matrice LED 8x8, supporte les opérations de pixels et 10 effets d'animation prédéfinis",
+  "description_es": "Controlador de matriz LED 8x8, soporta operaciones de píxeles y 10 efectos de animación preestablecidos",
+  "description_pt": "Driver de matriz LED 8x8, suporta operações de pixel e 10 efeitos de animação predefinidos",
+  "description_ru": "Драйвер светодиодной матрицы 8x8, поддержка пиксельных операций и 10 предустановленных анимационных эффектов",
+  "description_ar": "محرك مصفوفة LED 8x8، يدعم عمليات البكسل و10 تأثيرات رسوم متحركة مسبقة",
+  "version": "1.0.0",
+  "compatibility": {
+    "core": [
+      "arduino:avr",
+      "arduino:samd",
+      "esp32:esp32",
+      "rp2040:rp2040"
+    ],
+    "voltage": [
+      3.3,
+      5
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "ht16k33",
+    "matrix",
+    "led",
+    "display",
+    "i2c",
+    "ht16k33_init",
+    "ht16k33_set_pixel",
+    "ht16k33_effect"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "tested": true,
+  "tester": "OpenJumper",
+  "tags": [
+    "sensor",
+    "i2c"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "toolbox_name": "K10 زر",
+  "k10_button_pressed": {
+    "message0": "زر K10 %1 مضغوط",
+    "tooltip": "التحقق مما إذا كان زر K10 مضغوطًا",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_button_callback": {
+    "message0": "عندما يتم %2 زر K10 %1",
+    "tooltip": "تنفيذ عند الضغط على زر K10 أو تحريره",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "الضغط",
+            "pressed"
+          ],
+          [
+            "التحرير",
+            "released"
+          ]
+        ]
+      }
+    ]
+  }
+}

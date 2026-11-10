@@ -1,0 +1,347 @@
+{
+  "toolbox_name": "赤外線リモコン",
+  "toolbox_categories": [
+    "受信",
+    "送信",
+    "高度"
+  ],
+  "irremote_library_config": {
+    "message0": "赤外線ライブラリ設定 バッファ長 %1 汎用デコード有効 %2 特殊プロトコル保持 %3",
+    "tooltip": "コンパイル時マクロでRAW_BUFFER_LENGTHおよび汎用/特殊プロトコル解析の有無を設定します"
+  },
+  "irremote_receiver_begin": {
+    "message0": "赤外線受信を初期化 ピン %1 LEDフィードバック %2",
+    "tooltip": "赤外線受信機を初期化します。LEDフィードバックを有効にすると、信号受信時にボード上のLEDが点滅しデバッグに便利です"
+  },
+  "irremote_sender_begin": {
+    "message0": "赤外線送信を初期化 ピン %1",
+    "tooltip": "赤外線送信機を初期化し、送信ピンを設定します"
+  },
+  "irremote_on_receive": {
+    "message0": "赤外線受信成功時 リピート無視 %1 %2",
+    "tooltip": "赤外線信号を受信した時に内部コードを実行します。リピート無視にチェックすると、ボタン1回押しで複数回トリガーされるのを防ぎます"
+  },
+  "irremote_receiver_available": {
+    "message0": "赤外線受信に新しいデータあり",
+    "tooltip": "読み取り可能な新しい赤外線データがあるか確認します"
+  },
+  "irremote_get_value": {
+    "message0": "赤外線データ %1",
+    "tooltip": "受信した赤外線データの指定フィールドを読み取ります",
+    "args0": [
+      {
+        "options": [
+          [
+            "アドレス",
+            "ADDRESS"
+          ],
+          [
+            "コマンド",
+            "COMMAND"
+          ],
+          [
+            "追加値",
+            "EXTRA"
+          ],
+          [
+            "生データ",
+            "RAW"
+          ],
+          [
+            "ビット数",
+            "BITS"
+          ],
+          [
+            "フラグ",
+            "FLAGS"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_get_protocol": {
+    "message0": "赤外線プロトコル %1",
+    "tooltip": "受信した赤外線プロトコルの名前または列挙値を返します",
+    "args0": [
+      {
+        "options": [
+          [
+            "名前",
+            "NAME"
+          ],
+          [
+            "列挙値",
+            "ID"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_check_flag": {
+    "message0": "赤外線フラグ %1",
+    "tooltip": "受信した赤外線データのフラグ状態を確認します",
+    "args0": [
+      {
+        "options": [
+          [
+            "リピート",
+            "REPEAT"
+          ],
+          [
+            "自動リピート",
+            "AUTO_REPEAT"
+          ],
+          [
+            "パリティ失敗",
+            "PARITY"
+          ],
+          [
+            "トグルビット",
+            "TOGGLE"
+          ],
+          [
+            "異なるリピートプロトコル",
+            "DIFF_REPEAT"
+          ],
+          [
+            "追加情報あり",
+            "EXTRA_INFO"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_is_preset_key": {
+    "message0": "プリセットキー押下 %1",
+    "tooltip": "Arduinoキット付属NECミニリモコンのプリセットキーに一致するか判定します",
+    "args0": [
+      {
+        "options": [
+          [
+            "CH_MINUS",
+            "69"
+          ],
+          [
+            "CHANNEL",
+            "70"
+          ],
+          [
+            "CH_PLUS",
+            "71"
+          ],
+          [
+            "PREV",
+            "68"
+          ],
+          [
+            "NEXT",
+            "64"
+          ],
+          [
+            "PLAY_PAUSE",
+            "67"
+          ],
+          [
+            "VOL_DOWN",
+            "7"
+          ],
+          [
+            "VOL_UP",
+            "21"
+          ],
+          [
+            "EQ",
+            "9"
+          ],
+          [
+            "NUM_0",
+            "22"
+          ],
+          [
+            "NUM_1",
+            "12"
+          ],
+          [
+            "NUM_2",
+            "24"
+          ],
+          [
+            "NUM_3",
+            "94"
+          ],
+          [
+            "NUM_4",
+            "8"
+          ],
+          [
+            "NUM_5",
+            "28"
+          ],
+          [
+            "NUM_6",
+            "90"
+          ],
+          [
+            "NUM_7",
+            "66"
+          ],
+          [
+            "NUM_8",
+            "82"
+          ],
+          [
+            "NUM_9",
+            "74"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_get_preset_name": {
+    "message0": "プリセットキー名を取得",
+    "tooltip": "プリセットリモコンキーの名前を返します。一致しない場合は空文字列を返します"
+  },
+  "irremote_resume": {
+    "message0": "赤外線受信 次のフレームを準備",
+    "tooltip": "次の受信を手動で準備します。\"赤外線受信成功時\"ブロックを使用しない場合のみ必要です"
+  },
+  "irremote_send_command": {
+    "message0": "赤外線送信 プロトコル %1 アドレス %2 コマンド %3 リピート %4",
+    "tooltip": "指定プロトコルで赤外線信号を送信します。アドレス、コマンド、リピート回数を設定できます",
+    "args0": [
+      {
+        "options": [
+          [
+            "NEC",
+            "NEC"
+          ],
+          [
+            "NEC2",
+            "NEC2"
+          ],
+          [
+            "SAMSUNG",
+            "SAMSUNG"
+          ],
+          [
+            "SAMSUNG48",
+            "SAMSUNG48"
+          ],
+          [
+            "SAMSUNGLG",
+            "SAMSUNGLG"
+          ],
+          [
+            "SONY",
+            "SONY"
+          ],
+          [
+            "PANASONIC",
+            "PANASONIC"
+          ],
+          [
+            "DENON",
+            "DENON"
+          ],
+          [
+            "SHARP",
+            "SHARP"
+          ],
+          [
+            "LG",
+            "LG"
+          ],
+          [
+            "JVC",
+            "JVC"
+          ],
+          [
+            "RC5",
+            "RC5"
+          ],
+          [
+            "RC6",
+            "RC6"
+          ],
+          [
+            "KASEIKYO_JVC",
+            "KASEIKYO_JVC"
+          ],
+          [
+            "KASEIKYO_DENON",
+            "KASEIKYO_DENON"
+          ],
+          [
+            "KASEIKYO_SHARP",
+            "KASEIKYO_SHARP"
+          ],
+          [
+            "KASEIKYO_MITSUBISHI",
+            "KASEIKYO_MITSUBISHI"
+          ],
+          [
+            "ONKYO",
+            "ONKYO"
+          ],
+          [
+            "APPLE",
+            "APPLE"
+          ],
+          [
+            "BOSEWAVE",
+            "BOSEWAVE"
+          ],
+          [
+            "FAST",
+            "FAST"
+          ],
+          [
+            "LEGO_PF",
+            "LEGO_PF"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "irremote_print_result": {
+    "message0": "シリアルに赤外線結果を出力 形式 %1",
+    "tooltip": "赤外線受信結果をシリアルに出力します。概要はプロトコル/アドレス/コマンドを表示、送信コードは信号の再送方法を表示します",
+    "args0": [
+      {
+        "options": [
+          [
+            "概要",
+            "SHORT"
+          ],
+          [
+            "送信コード",
+            "SEND_USAGE"
+          ],
+          [
+            "生タイミング",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_command_equals": {
+    "message0": "赤外線コマンド値が等しい %1",
+    "tooltip": "受信した赤外線コマンド値が指定値と等しいか判定します。任意のリモコンに対応します"
+  },
+  "irremote_send_nec": {
+    "message0": "赤外線NEC送信 アドレス %1 コマンド %2 リピート %3",
+    "tooltip": "NECプロトコルで赤外線信号を送信します。NECは最も一般的な赤外線プロトコルです"
+  },
+  "irremote_send_raw": {
+    "message0": "赤外線Raw送信 データ %1 周波数(kHz) %2",
+    "tooltip": "生の赤外線タイミングデータを送信します。未知プロトコルの信号を再生するために使用します。データ形式はカンマ区切りのマイクロ秒値です"
+  },
+  "irremote_send_pronto": {
+    "message0": "赤外線Prontoコード送信 %1 リピート %2",
+    "tooltip": "Pronto形式で赤外線信号を送信します。ProntoコードはオンラインのIRコードデータベースから取得できます"
+  }
+}

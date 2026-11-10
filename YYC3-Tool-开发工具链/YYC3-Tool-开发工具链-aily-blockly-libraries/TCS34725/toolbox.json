@@ -1,0 +1,22 @@
+{
+    "kind": "category",
+    "name": "颜色传感器",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "tcs34725_init"
+        },
+        {
+            "kind": "block",
+            "type": "tcs34725_led_ctrl"
+        },
+        {
+            "kind": "block",
+            "type": "tcs34725_get_rgb"
+        },
+        {
+            "kind": "block",
+            "type": "tcs34725_rgb_value"
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "DPS3xx Barometrischer Sensor",
+  "dps3xx_init": {
+    "message0": "DPS3xx Sensor initialisieren I2C-Adresse %1 verwende %2",
+    "tooltip": "Infineon DPS3xx hochpräzisen Luftdruck- und Temperatursensor über I2C initialisieren"
+  },
+  "dps3xx_read_temperature": {
+    "message0": "DPS3xx Temperatur lesen (°C) Überabtastung %1",
+    "tooltip": "Temperaturwert vom DPS3xx-Sensor in Celsius lesen. Höhere Überabtastung verbessert die Präzision, dauert aber länger",
+    "args0": [
+      {
+        "options": [
+          ["1x", "0"],
+          ["2x", "1"],
+          ["4x", "2"],
+          ["8x", "3"],
+          ["16x", "4"],
+          ["32x", "5"],
+          ["64x", "6"],
+          ["128x", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_read_pressure": {
+    "message0": "DPS3xx Luftdruck lesen (Pa) Überabtastung %1",
+    "tooltip": "Luftdruckwert vom DPS3xx-Sensor in Pascal lesen. Höhere Überabtastung verbessert die Präzision, dauert aber länger",
+    "args0": [
+      {
+        "options": [
+          ["1x", "0"],
+          ["2x", "1"],
+          ["4x", "2"],
+          ["8x", "3"],
+          ["16x", "4"],
+          ["32x", "5"],
+          ["64x", "6"],
+          ["128x", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_correct_temp": {
+    "message0": "DPS3xx Temperatursensor kalibrieren",
+    "tooltip": "Hardwareproblem bei der Temperaturmessung einiger DPS3xx-Sensoren beheben. Empfohlen direkt nach begin() aufzurufen"
+  },
+  "dps3xx_get_product_id": {
+    "message0": "DPS3xx Produkt-ID abrufen",
+    "tooltip": "Produktidentifikationsnummer des DPS3xx-Sensors abrufen"
+  },
+  "dps3xx_get_revision_id": {
+    "message0": "DPS3xx Revisions-ID abrufen",
+    "tooltip": "Revisionsidentifikationsnummer des DPS3xx-Sensors abrufen"
+  }
+}

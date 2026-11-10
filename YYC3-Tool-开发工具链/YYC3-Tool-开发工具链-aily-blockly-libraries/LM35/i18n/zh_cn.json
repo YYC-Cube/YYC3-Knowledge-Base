@@ -1,0 +1,6 @@
+{
+"toolbox_name": "LM35温度传感器",
+"lm35_read": {
+    "message0": "LM35温度传感器 管脚 # %1"
+}
+}

@@ -1,0 +1,156 @@
+/*
+ * Copyright (C) 2020-2026 Roy Qu (royqh1979@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+#include "dirsettings.h"
+#include "../utils.h"
+#include "../utils/os.h"
+#include <QApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QStandardPaths>
+
+using DataType = DirSettings::DataType;
+
+DirSettings::DirSettings(SettingsPersistor *persistor):
+    BaseSettings{persistor, SETTING_DIRS}
+{
+}
+
+QString DirSettings::appDir()
+{
+#if defined(Q_OS_MACOS) && (FILESYSTEM_LAYOUT == FILESYSTEM_LAYOUT_hierarchy)
+    // Qt on macOS does not resolve symlink,
+    // while brew installs the package to celler and creates symlink.
+    static QString cachedAppDir;
+    if (cachedAppDir.isEmpty()) {
+        const QString appFile = QCoreApplication::applicationFilePath();
+        const QString realAppFile = QFileInfo(appFile).canonicalFilePath();
+        cachedAppDir = QFileInfo(realAppFile).path();
+    }
+    return cachedAppDir;
+#else
+    return QApplication::instance()->applicationDirPath();
+#endif
+}
+
+QString DirSettings::appResourceDir()
+{
+    if constexpr (FILESYSTEM_LAYOUT == FILESYSTEM_LAYOUT_hierarchy) {
+        const static QDir binDir = appDir(); // e.g. '/usr/bin'
+        const static QString absShareDir = binDir.absoluteFilePath("../share/" APP_NAME); // e.g. '/usr/bin/../share/RedPandaCPP'
+        const static QString cleanShareDir = QDir::cleanPath(absShareDir); // e.g. '/usr/share/RedPandaCPP'
+        return cleanShareDir;
+    } else if constexpr (FILESYSTEM_LAYOUT == FILESYSTEM_LAYOUT_flat) {
+        return appDir();
+    } else if constexpr (FILESYSTEM_LAYOUT == FILESYSTEM_LAYOUT_bundle) {
+        const static QDir binDir = appDir(); // e.g. '/Applications/RedPandaCPP.app/Contents/MacOS'
+        const static QString absResourceDir = binDir.absoluteFilePath("../Resources"); // e.g. '/Applications/RedPandaCPP.app/Contents/MacOS/../Resources'
+        const static QString cleanResourceDir = QDir::cleanPath(absResourceDir); // e.g. '/Applications/RedPandaCPP.app/Contents/Resources'
+        return cleanResourceDir;
+    } else {
+        __builtin_unreachable();
+    }
+}
+
+
+QString DirSettings::appLibexecDir()
+{
+    if constexpr (FILESYSTEM_LAYOUT == FILESYSTEM_LAYOUT_hierarchy) {
+        const static QDir binDir = appDir(); // e.g. '/usr/bin'
+        const static QString absLibexecDir = binDir.absoluteFilePath("../" LIBEXECDIR "/" APP_NAME); // e.g. '/usr/bin/../libexec/RedPandaCPP'
+        const static QString cleanLibexecDir = QDir::cleanPath(absLibexecDir); // e.g. '/usr/libexec/RedPandaCPP'
+        return cleanLibexecDir;
+    } else if constexpr (FILESYSTEM_LAYOUT == FILESYSTEM_LAYOUT_flat ||
+                         FILESYSTEM_LAYOUT == FILESYSTEM_LAYOUT_bundle) {
+        return appDir();
+    } else {
+        __builtin_unreachable();
+    }
+}
+
+QString DirSettings::projectDir() const
+{
+    return mProjectDir;
+}
+
+QString DirSettings::data(DirSettings::DataType dataType)
+{
+    QString dataDir = getFilePath(appDir(), +"data");
+    switch (dataType) {
+    case DataType::None:
+        return dataDir;
+    case DataType::ColorScheme:
+        return ":/resources/colorschemes";
+    case DataType::IconSet:
+        return ":/resources/iconsets";
+    case DataType::Theme:
+        return ":/resources/themes";
+    case DataType::Template:
+        return getFilePath(appResourceDir(),"templates");
+    }
+    return "";
+}
+
+QString DirSettings::config(DirSettings::DataType dataType) const
+{
+
+    QFileInfo configFile(mPersistor->filename());
+    QString configDir = configFile.path();
+    switch (dataType) {
+    case DataType::None:
+        return configDir;
+    case DataType::ColorScheme:
+        return getAbsoluteFilePath(configDir, "scheme");
+    case DataType::IconSet:
+        return getAbsoluteFilePath(configDir, "iconsets");
+    case DataType::Theme:
+        return getAbsoluteFilePath(configDir, "themes");
+    case DataType::Template:
+        return getAbsoluteFilePath(configDir, "templates");
+    }
+    return "";
+}
+
+QString DirSettings::executable()
+{
+    QString s = QApplication::instance()->applicationFilePath();
+    s.replace("/",QDir::separator());
+    return s;
+}
+
+void DirSettings::doSave()
+{
+    saveValue("projectDir",mProjectDir);
+}
+
+void DirSettings::doLoad()
+{
+    QString defaultProjectDir;
+    if (usePortableConfigPath()) {
+        defaultProjectDir = getFilePath(appDir(), "projects");
+    } else {
+        QStringList docLocations = QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+        defaultProjectDir = getFilePath(
+                                docLocations.first(),
+                                "projects");
+    }
+    mProjectDir = stringValue("projectDir",defaultProjectDir);
+}
+
+void DirSettings::setProjectDir(const QString &newProjectDir)
+{
+    mProjectDir = newProjectDir;
+}

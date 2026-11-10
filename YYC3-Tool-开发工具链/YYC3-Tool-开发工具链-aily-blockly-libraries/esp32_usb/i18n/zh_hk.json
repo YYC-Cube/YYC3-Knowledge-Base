@@ -1,0 +1,294 @@
+{
+  "toolbox_name": "ESP32 USB",
+  "esp32_usb_keyboard_begin": {
+    "message0": "USB鍵盤 初始化",
+    "tooltip": "初始化USB HID鍵盤，自動調用USB.begin()"
+  },
+  "esp32_usb_keyboard_print": {
+    "message0": "USB鍵盤 輸出字串 %1",
+    "tooltip": "透過USB鍵盤逐字輸出字串"
+  },
+  "esp32_usb_keyboard_println": {
+    "message0": "USB鍵盤 輸出字串 %1 並換行",
+    "tooltip": "透過USB鍵盤逐字輸出字串，末尾按回車"
+  },
+  "esp32_usb_keyboard_write": {
+    "message0": "USB鍵盤 快速輸入 %1",
+    "tooltip": "快速輸入一個按鍵（按下後立即釋放）"
+  },
+  "esp32_usb_keyboard_press": {
+    "message0": "USB鍵盤 按下鍵 %1",
+    "tooltip": "按下指定按鍵並保持（需要手動釋放）"
+  },
+  "esp32_usb_keyboard_release": {
+    "message0": "USB鍵盤 釋放鍵 %1",
+    "tooltip": "釋放指定按鍵"
+  },
+  "esp32_usb_keyboard_release_all": {
+    "message0": "USB鍵盤 釋放所有按鍵",
+    "tooltip": "釋放所有已按下的按鍵"
+  },
+  "esp32_usb_keyboard_special_key": {
+    "message0": "特殊鍵 %1",
+    "tooltip": "USB鍵盤特殊按鍵值",
+    "args0": [
+      {
+        "options": [
+          ["Enter", "KEY_RETURN"],
+          ["Esc", "KEY_ESC"],
+          ["Backspace", "KEY_BACKSPACE"],
+          ["Tab", "KEY_TAB"],
+          ["空格", "KEY_SPACE"],
+          ["左Ctrl", "KEY_LEFT_CTRL"],
+          ["左Shift", "KEY_LEFT_SHIFT"],
+          ["左Alt", "KEY_LEFT_ALT"],
+          ["左GUI/Win", "KEY_LEFT_GUI"],
+          ["右Ctrl", "KEY_RIGHT_CTRL"],
+          ["右Shift", "KEY_RIGHT_SHIFT"],
+          ["右Alt", "KEY_RIGHT_ALT"],
+          ["右GUI/Win", "KEY_RIGHT_GUI"],
+          ["↑", "KEY_UP_ARROW"],
+          ["↓", "KEY_DOWN_ARROW"],
+          ["←", "KEY_LEFT_ARROW"],
+          ["→", "KEY_RIGHT_ARROW"],
+          ["Insert", "KEY_INSERT"],
+          ["Delete", "KEY_DELETE"],
+          ["Home", "KEY_HOME"],
+          ["End", "KEY_END"],
+          ["Page Up", "KEY_PAGE_UP"],
+          ["Page Down", "KEY_PAGE_DOWN"],
+          ["Caps Lock", "KEY_CAPS_LOCK"],
+          ["Num Lock", "KEY_NUM_LOCK"],
+          ["F1", "KEY_F1"],
+          ["F2", "KEY_F2"],
+          ["F3", "KEY_F3"],
+          ["F4", "KEY_F4"],
+          ["F5", "KEY_F5"],
+          ["F6", "KEY_F6"],
+          ["F7", "KEY_F7"],
+          ["F8", "KEY_F8"],
+          ["F9", "KEY_F9"],
+          ["F10", "KEY_F10"],
+          ["F11", "KEY_F11"],
+          ["F12", "KEY_F12"],
+          ["Print Screen", "KEY_PRINT_SCREEN"],
+          ["Scroll Lock", "KEY_SCROLL_LOCK"],
+          ["Pause", "KEY_PAUSE"],
+          ["Menu", "KEY_MENU"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_mouse_begin": {
+    "message0": "USB滑鼠 初始化",
+    "tooltip": "初始化USB HID滑鼠（相對定位模式）"
+  },
+  "esp32_usb_mouse_move": {
+    "message0": "USB滑鼠 移動 X %1 Y %2 滾輪 %3",
+    "tooltip": "USB滑鼠相對移動，X正值向右，Y正值向下，滾輪正值向上"
+  },
+  "esp32_usb_mouse_click": {
+    "message0": "USB滑鼠 %1 %2",
+    "tooltip": "USB滑鼠按鍵操作：點擊（按下並釋放）、按下（保持）、釋放",
+    "args0": [
+      {
+        "options": [
+          ["左鍵", "MOUSE_LEFT"],
+          ["右鍵", "MOUSE_RIGHT"],
+          ["中鍵", "MOUSE_MIDDLE"]
+        ]
+      },
+      {
+        "options": [
+          ["點擊", "click"],
+          ["按下", "press"],
+          ["釋放", "release"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_mouse_is_pressed": {
+    "message0": "USB滑鼠 %1 是否按下",
+    "tooltip": "檢查滑鼠指定按鍵是否被按下",
+    "args0": [
+      {
+        "options": [
+          ["左鍵", "MOUSE_LEFT"],
+          ["右鍵", "MOUSE_RIGHT"],
+          ["中鍵", "MOUSE_MIDDLE"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_begin": {
+    "message0": "USB遊戲手柄 初始化",
+    "tooltip": "初始化USB HID遊戲手柄"
+  },
+  "esp32_usb_gamepad_press_button": {
+    "message0": "USB遊戲手柄 按下按鍵 %1",
+    "tooltip": "按下遊戲手柄指定按鍵",
+    "args0": [
+      {
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["選擇", "BUTTON_SELECT"],
+          ["開始", "BUTTON_START"],
+          ["模式", "BUTTON_MODE"],
+          ["左搖桿按下", "BUTTON_THUMBL"],
+          ["右搖桿按下", "BUTTON_THUMBR"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_release_button": {
+    "message0": "USB遊戲手柄 釋放按鍵 %1",
+    "tooltip": "釋放遊戲手柄指定按鍵",
+    "args0": [
+      {
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["選擇", "BUTTON_SELECT"],
+          ["開始", "BUTTON_START"],
+          ["模式", "BUTTON_MODE"],
+          ["左搖桿按下", "BUTTON_THUMBL"],
+          ["右搖桿按下", "BUTTON_THUMBR"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_left_stick": {
+    "message0": "USB遊戲手柄 左搖桿 X %1 Y %2",
+    "tooltip": "設置左搖桿位置（-128到127）"
+  },
+  "esp32_usb_gamepad_right_stick": {
+    "message0": "USB遊戲手柄 右搖桿 X %1 Y %2",
+    "tooltip": "設置右搖桿位置（-128到127）"
+  },
+  "esp32_usb_gamepad_trigger": {
+    "message0": "USB遊戲手柄 %1 扳機 %2",
+    "tooltip": "設置扳機值（-128到127）",
+    "args0": [
+      {
+        "options": [
+          ["左", "left"],
+          ["右", "right"]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_gamepad_hat": {
+    "message0": "USB遊戲手柄 方向鍵 %1",
+    "tooltip": "設置方向鍵/十字鍵方向",
+    "args0": [
+      {
+        "options": [
+          ["居中", "HAT_CENTER"],
+          ["上", "HAT_UP"],
+          ["右上", "HAT_UP_RIGHT"],
+          ["右", "HAT_RIGHT"],
+          ["右下", "HAT_DOWN_RIGHT"],
+          ["下", "HAT_DOWN"],
+          ["左下", "HAT_DOWN_LEFT"],
+          ["左", "HAT_LEFT"],
+          ["左上", "HAT_UP_LEFT"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_consumer_press": {
+    "message0": "USB媒體控制 按下 %1",
+    "tooltip": "按下指定的媒體/消費者控制鍵",
+    "args0": [
+      {
+        "options": [
+          ["播放/暫停", "CONSUMER_CONTROL_PLAY_PAUSE"],
+          ["停止", "CONSUMER_CONTROL_STOP"],
+          ["下一曲", "CONSUMER_CONTROL_SCAN_NEXT"],
+          ["上一曲", "CONSUMER_CONTROL_SCAN_PREVIOUS"],
+          ["錄製", "CONSUMER_CONTROL_RECORD"],
+          ["快進", "CONSUMER_CONTROL_FAST_FORWARD"],
+          ["快退", "CONSUMER_CONTROL_REWIND"],
+          ["音量增大", "CONSUMER_CONTROL_VOLUME_INCREMENT"],
+          ["音量減小", "CONSUMER_CONTROL_VOLUME_DECREMENT"],
+          ["靜音", "CONSUMER_CONTROL_MUTE"],
+          ["亮度增加", "CONSUMER_CONTROL_BRIGHTNESS_INCREMENT"],
+          ["亮度減少", "CONSUMER_CONTROL_BRIGHTNESS_DECREMENT"],
+          ["電源", "CONSUMER_CONTROL_POWER"],
+          ["睡眠", "CONSUMER_CONTROL_SLEEP"],
+          ["計算器", "CONSUMER_CONTROL_CALCULATOR"],
+          ["郵件", "CONSUMER_CONTROL_EMAIL_READER"],
+          ["瀏覽器", "CONSUMER_CONTROL_LOCAL_BROWSER"],
+          ["搜索", "CONSUMER_CONTROL_SEARCH"],
+          ["主頁", "CONSUMER_CONTROL_HOME"],
+          ["後退", "CONSUMER_CONTROL_BACK"],
+          ["前進", "CONSUMER_CONTROL_FORWARD"],
+          ["刷新", "CONSUMER_CONTROL_REFRESH"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_consumer_release": {
+    "message0": "USB媒體控制 釋放",
+    "tooltip": "釋放媒體控制鍵"
+  },
+  "esp32_usb_system_press": {
+    "message0": "USB系統控制 %1",
+    "tooltip": "發送系統控制命令",
+    "args0": [
+      {
+        "options": [
+          ["關機", "SYSTEM_CONTROL_POWER_OFF"],
+          ["待機", "SYSTEM_CONTROL_STANDBY"],
+          ["喚醒", "SYSTEM_CONTROL_WAKE_HOST"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_system_release": {
+    "message0": "USB系統控制 釋放",
+    "tooltip": "釋放系統控制鍵"
+  },
+  "esp32_usb_midi_begin": {
+    "message0": "USB MIDI 初始化",
+    "tooltip": "初始化USB MIDI設備"
+  },
+  "esp32_usb_midi_note_on": {
+    "message0": "USB MIDI 音符開 音符 %1 力度 %2 通道 %3",
+    "tooltip": "發送MIDI音符開消息（音符0-127，力度0-127，通道1-16）"
+  },
+  "esp32_usb_midi_note_off": {
+    "message0": "USB MIDI 音符關 音符 %1 力度 %2 通道 %3",
+    "tooltip": "發送MIDI音符關消息"
+  },
+  "esp32_usb_midi_control_change": {
+    "message0": "USB MIDI 控制變化 控制號 %1 值 %2 通道 %3",
+    "tooltip": "發送MIDI控制變化消息（控制號0-127，值0-127）"
+  },
+  "esp32_usb_midi_program_change": {
+    "message0": "USB MIDI 程序變化 程序號 %1 通道 %2",
+    "tooltip": "發送MIDI程序變化消息，用於切換音色（0-127）"
+  },
+  "esp32_usb_midi_pitch_bend": {
+    "message0": "USB MIDI 彎音 值 %1 通道 %2",
+    "tooltip": "發送MIDI彎音消息（-8192到8191）"
+  }
+}

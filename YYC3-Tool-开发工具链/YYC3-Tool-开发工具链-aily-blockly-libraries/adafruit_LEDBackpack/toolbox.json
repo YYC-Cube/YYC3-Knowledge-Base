@@ -1,0 +1,216 @@
+{
+  "kind": "category",
+  "name": "LED Backpack",
+  "icon": "iconfont icon-oled12864",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "ledbp_init",
+      "inputs": {
+        "ADDR": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": "0x70" }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_write_display"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_clear"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_set_brightness",
+      "inputs": {
+        "BRIGHTNESS": {
+          "shadow": { "type": "math_number", "fields": { "NUM": 15 } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_blink_rate"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_set_display_state"
+    },
+    {
+      "kind": "label",
+      "text": "4位7段数码管"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_seven_print_number",
+      "inputs": {
+        "NUM": {
+          "shadow": { "type": "math_number", "fields": { "NUM": 0 } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_seven_print_number_base",
+      "inputs": {
+        "NUM": {
+          "shadow": { "type": "math_number", "fields": { "NUM": 0 } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_seven_write_digit_num",
+      "inputs": {
+        "POS": {
+          "shadow": { "type": "math_number", "fields": { "NUM": 0 } }
+        },
+        "NUM": {
+          "shadow": { "type": "math_number", "fields": { "NUM": 0 } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_seven_draw_colon"
+    },
+    {
+      "kind": "label",
+      "text": "4位14段字符数码管"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_alpha_write_digit_ascii",
+      "inputs": {
+        "POS": {
+          "shadow": { "type": "math_number", "fields": { "NUM": 0 } }
+        },
+        "CHAR": {
+          "shadow": { "type": "text", "fields": { "TEXT": "A" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_alpha_print_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": { "type": "text", "fields": { "TEXT": "HELO" } }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "点阵 / 双色点阵"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_color"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_draw_pixel",
+      "inputs": {
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "COLOR": { "shadow": { "type": "ledbp_matrix_color" } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_draw_line",
+      "inputs": {
+        "X0": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y0": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "X1": { "shadow": { "type": "math_number", "fields": { "NUM": 7 } } },
+        "Y1": { "shadow": { "type": "math_number", "fields": { "NUM": 7 } } },
+        "COLOR": { "shadow": { "type": "ledbp_matrix_color" } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_draw_rect",
+      "inputs": {
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "W": { "shadow": { "type": "math_number", "fields": { "NUM": 8 } } },
+        "H": { "shadow": { "type": "math_number", "fields": { "NUM": 8 } } },
+        "COLOR": { "shadow": { "type": "ledbp_matrix_color" } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_fill_rect",
+      "inputs": {
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "W": { "shadow": { "type": "math_number", "fields": { "NUM": 4 } } },
+        "H": { "shadow": { "type": "math_number", "fields": { "NUM": 4 } } },
+        "COLOR": { "shadow": { "type": "ledbp_matrix_color" } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_draw_circle",
+      "inputs": {
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 3 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 3 } } },
+        "R": { "shadow": { "type": "math_number", "fields": { "NUM": 3 } } },
+        "COLOR": { "shadow": { "type": "ledbp_matrix_color" } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_set_text_size",
+      "inputs": {
+        "SIZE": { "shadow": { "type": "math_number", "fields": { "NUM": 1 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_set_text_color",
+      "inputs": {
+        "COLOR": { "shadow": { "type": "ledbp_matrix_color" } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_set_cursor",
+      "inputs": {
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_print",
+      "inputs": {
+        "TEXT": { "shadow": { "type": "text", "fields": { "TEXT": "Hi" } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_set_rotation"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_matrix_set_text_wrap"
+    },
+    {
+      "kind": "label",
+      "text": "24段条形图"
+    },
+    {
+      "kind": "block",
+      "type": "ledbp_bar_set_bar",
+      "inputs": {
+        "BAR": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "COLOR": { "shadow": { "type": "ledbp_matrix_color" } }
+      }
+    }
+  ]
+}

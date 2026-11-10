@@ -1,0 +1,128 @@
+[
+  {
+    "type": "esp32_btserial_begin",
+    "message0": "初始化蓝牙串口 设备名 %1",
+    "args0": [
+      { "type": "input_value", "name": "NAME", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "初始化经典蓝牙串口，设置蓝牙设备名称",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_end",
+    "message0": "关闭蓝牙串口",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "关闭蓝牙串口连接",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_available",
+    "message0": "蓝牙串口有数据可读",
+    "output": "Boolean",
+    "colour": "#1565C0",
+    "tooltip": "检查蓝牙串口是否有数据可读",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_read_string",
+    "message0": "蓝牙串口读取字符串",
+    "output": "String",
+    "colour": "#1565C0",
+    "tooltip": "从蓝牙串口读取字符串",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_read_byte",
+    "message0": "蓝牙串口读取一个字节",
+    "output": "Number",
+    "colour": "#1565C0",
+    "tooltip": "从蓝牙串口读取一个字节",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_println",
+    "message0": "蓝牙串口发送 %1 换行",
+    "args0": [
+      { "type": "input_value", "name": "DATA" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "通过蓝牙串口发送数据并换行",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_print",
+    "message0": "蓝牙串口发送 %1",
+    "args0": [
+      { "type": "input_value", "name": "DATA" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "通过蓝牙串口发送数据",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_write",
+    "message0": "蓝牙串口写入字节 %1",
+    "args0": [
+      { "type": "input_value", "name": "DATA", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "通过蓝牙串口写入单个字节",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_connected",
+    "message0": "蓝牙串口已连接",
+    "output": "Boolean",
+    "colour": "#1565C0",
+    "tooltip": "检查蓝牙串口是否已连接",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_has_client",
+    "message0": "蓝牙串口有客户端连接",
+    "output": "Boolean",
+    "colour": "#1565C0",
+    "tooltip": "检查是否有蓝牙客户端连接",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_disconnect",
+    "message0": "断开蓝牙串口连接",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "断开当前蓝牙串口连接",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_set_pin",
+    "message0": "设置蓝牙配对PIN码 %1",
+    "args0": [
+      { "type": "input_value", "name": "PIN", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#1565C0",
+    "tooltip": "设置蓝牙配对PIN码",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "esp32_btserial_get_address",
+    "message0": "获取蓝牙MAC地址",
+    "output": "String",
+    "colour": "#1565C0",
+    "tooltip": "获取蓝牙设备的MAC地址字符串",
+    "icon": "fa-regular fa-bluetooth"
+  }
+]

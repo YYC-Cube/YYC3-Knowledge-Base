@@ -1,0 +1,114 @@
+//! # vize_croquis
+//!
+//! Croquis - The semantic analysis layer for Vize.
+//!
+//! ## Name Origin
+//!
+//! **Croquis** (/kʁɔ.ki/) is a French term for a quick, sketchy drawing that captures
+//! the essential features of a subject. Like how artists use croquis to rapidly
+//! capture the essence of a pose or scene, `vize_croquis` quickly analyzes Vue
+//! templates to extract semantic meaning from the syntactic structure.
+//!
+//! ## Purpose
+//!
+//! This crate bridges the gap between parsing (vize_armature) and transformation
+//! (vize_atelier_core) by providing:
+//!
+//! - **Scope Analysis**: Track variable scopes across templates and scripts
+//! - **Binding Resolution**: Resolve identifiers to their declarations
+//! - **Reactivity Tracking**: Understand ref/reactive dependencies
+//! - **Symbol Tables**: Fast lookup of bindings and their metadata
+//!
+//! ## Architecture
+//!
+//! ```text
+//! vize_armature (Parse)
+//!        ↓
+//!   vize_relief (AST)
+//!        ↓
+//!  vize_croquis (Semantic Analysis)  ← This crate
+//!        ↓
+//! vize_atelier_core (Transform)
+//! ```
+
+#![cfg_attr(test, allow(clippy::disallowed_macros, clippy::disallowed_types))]
+
+// Core modules
+mod scope;
+mod symbol;
+
+// Croquis modules
+pub mod analysis;
+pub mod analyzer;
+pub mod builtins;
+pub mod call_graph;
+pub mod croquis;
+pub mod css;
+pub mod declaration_ts;
+pub mod display;
+pub mod drawer;
+pub mod effect_graph;
+pub mod hoist;
+pub mod import_resolver;
+pub mod macros;
+pub mod naming;
+pub mod optimization;
+pub mod provide;
+pub mod race;
+pub mod reactivity;
+pub mod reactivity_overlay;
+pub mod reactivity_tracking;
+pub mod render_tree;
+pub mod script_parser;
+pub mod setup_context;
+pub mod types;
+pub mod virtual_ts;
+
+#[cfg(test)]
+mod effect_graph_builder_tests;
+
+#[cfg(test)]
+mod reactivity_overlay_tests;
+
+// Re-export commonly used utilities from vize_carton for convenience
+pub use vize_carton::{
+    is_builtin_directive, is_builtin_tag, is_html_tag, is_math_ml_tag, is_native_tag,
+    is_reserved_prop, is_svg_tag, is_void_tag,
+};
+
+// Re-export core types
+pub use scope::{
+    BindingFlags, BlockKind, BlockScopeData, CallbackScopeData, ClientOnlyScopeData,
+    ClosureScopeData, EventHandlerScopeData, ExternalModuleScopeData, JsGlobalScopeData, JsRuntime,
+    NonScriptSetupScopeData, PARAM_INLINE_CAP, ParamNames, ParentScopes, Scope, ScopeBinding,
+    ScopeChain, ScopeData, ScopeId, ScopeKind, ScriptSetupScopeData, Span, UniversalScopeData,
+    VForScopeData, VSlotScopeData, VueGlobalScopeData,
+};
+pub use symbol::{Symbol, SymbolFlags, SymbolId, SymbolTable};
+
+// Re-export analysis types
+pub use analyzer::{Analyzer, AnalyzerOptions};
+pub use croquis::{
+    AnalysisStats, BindingMetadata, COMPILER_MACRO_NAMES, ComponentShape, Croquis,
+    CroquisSemanticSnapshot, CroquisSemanticSummary, CroquisStats, ImportStatementInfo,
+    InvalidExport, InvalidExportKind, OptionGroup, OptionKey, OptionMember, OptionsDescriptor,
+    ReExportInfo, SemanticBindingSnapshot, SemanticComponentUsageSnapshot,
+    SemanticEventListenerSnapshot, SemanticInjectSnapshot, SemanticPassedPropSnapshot,
+    SemanticProvideSnapshot, SemanticReactiveSourceSnapshot, SemanticReactivityLossSnapshot,
+    SemanticScopeBindingSnapshot, SemanticScopeSnapshot, SemanticSlotUsageSnapshot,
+    SemanticSourceRange, SemanticTemplateExpressionSnapshot, TemplateExpression,
+    TemplateExpressionKind, TypeExport, TypeExportKind, UndefinedRef, UnusedTemplateVar,
+    UnusedVarContext,
+};
+pub use drawer::{Drawer, DrawerOptions};
+pub use effect_graph::{
+    EffectGraph, EffectGraphScript, EffectGraphSummary, build_effect_graph_from_script,
+    build_effect_graph_from_script_setup, build_effect_graph_from_sfc_scripts,
+};
+pub use reactivity_overlay::{
+    ReactivityEffectEdgeOverlay, ReactivityEffectGraphOverlay, ReactivityLossOverlay,
+    ReactivityOverlay, ReactivityOverlaySummary, ReactivitySourceOverlay,
+};
+
+// Re-export common types
+pub use vize_relief::BindingType;

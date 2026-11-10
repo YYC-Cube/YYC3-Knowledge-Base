@@ -1,0 +1,89 @@
+{
+  "toolbox_name": "邮件发送器",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "配置": "配置",
+    "邮件消息": "邮件消息",
+    "发送邮件": "发送邮件",
+    "响应处理": "响应处理"
+  },
+  "emailsender_create": {
+    "message0": "创建邮件发送器 %1 登录邮箱 %2 密码 %3 发件人邮箱 %4",
+    "tooltip": "创建邮件发送器对象"
+  },
+  "emailsender_create_with_name": {
+    "message0": "创建邮件发送器 %1 登录邮箱 %2 密码 %3 发件人邮箱 %4 发件人姓名 %5",
+    "tooltip": "创建邮件发送器对象（包含发件人姓名）"
+  },
+  "emailsender_configure": {
+    "message0": "配置邮件发送器 %1 SMTP服务器 %2 端口 %3",
+    "tooltip": "配置SMTP服务器和端口"
+  },
+  "emailsender_set_secure": {
+    "message0": "设置邮件发送器 %1 安全连接 %2",
+    "tooltip": "设置是否使用安全连接",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "启用",
+            "TRUE"
+          ],
+          [
+            "禁用",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "emailsender_message_create": {
+    "message0": "创建邮件消息 %1",
+    "tooltip": "创建邮件消息对象"
+  },
+  "emailsender_set_subject": {
+    "message0": "设置邮件消息 %1 主题 %2",
+    "tooltip": "设置邮件主题"
+  },
+  "emailsender_set_content": {
+    "message0": "设置邮件消息 %1 内容 %2 类型 %3",
+    "tooltip": "设置邮件内容和类型",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "HTML",
+            "text/html"
+          ],
+          [
+            "纯文本",
+            "text/plain"
+          ]
+        ]
+      }
+    ]
+  },
+  "emailsender_send": {
+    "message0": "发送邮件 %1 收件人 %2 邮件消息 %3",
+    "tooltip": "发送邮件到指定收件人"
+  },
+  "emailsender_send_with_response": {
+    "message0": "发送邮件 %1 收件人 %2 邮件消息 %3 保存响应到 %4",
+    "tooltip": "发送邮件并保存响应信息"
+  },
+  "emailsender_get_status": {
+    "message0": "获取邮件发送状态 %1",
+    "tooltip": "获取邮件发送是否成功"
+  },
+  "emailsender_get_code": {
+    "message0": "获取邮件发送响应码 %1",
+    "tooltip": "获取邮件发送响应码"
+  },
+  "emailsender_get_description": {
+    "message0": "获取邮件发送描述 %1",
+    "tooltip": "获取邮件发送描述信息"
+  }
+}

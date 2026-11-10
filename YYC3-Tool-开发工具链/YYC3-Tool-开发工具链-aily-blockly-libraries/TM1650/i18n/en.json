@@ -1,0 +1,38 @@
+{
+"toolbox_name": "TM1650 4-Digit Display",
+"tm1650_init": {
+    "message0": "Initialize TM1650 4-digit display"
+},
+"tm1650_set": {
+    "message0": "TM1650 4-digit display %1, brightness set to %2",
+    "args0": [
+        {
+            "options": [
+                ["On", "1"],
+                ["Off", "0"]
+            ]
+        },
+        {
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"]
+            ]
+        }
+    ]
+},
+"tm1650_displaystring": {
+    "message0": "TM1650 4-digit display show string %1"
+},
+"tm1650_displayNumber": {
+    "message0": "TM1650 4-digit display show number %1"
+},
+"tm1650_clearDisplay": {
+    "message0": "TM1650 4-digit display clear screen"
+}
+}

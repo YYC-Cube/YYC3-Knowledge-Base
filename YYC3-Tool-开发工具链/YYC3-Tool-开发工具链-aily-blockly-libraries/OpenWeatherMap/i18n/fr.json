@@ -1,0 +1,219 @@
+{
+  "toolbox_name": "Données météo",
+  "toolbox_labels": {
+    "初始化与配置": "Initialisation et configuration",
+    "当前天气": "Météo actuelle",
+    "天气预报": "prévisions météorologiques",
+    "空气质量": "qualité de l'air",
+    "地理编码": "Géocodage",
+    "工具": "Outils"
+  },
+  "owm_init": {
+    "message0": "Initialiser le service météo %1 clé API %2",
+    "tooltip": "Initialiser le service OpenWeatherMap, une clé API est requise"
+  },
+  "owm_set_units": {
+    "message0": "Régler météo %1 unité sur %2",
+    "tooltip": "Définir le système d'unités pour la température et la vitesse du vent",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Métrique (Celsius)", "OWM_UNITS_METRIC"],
+          ["Impérial (Fahrenheit)", "OWM_UNITS_IMPERIAL"],
+          ["Standard (Kelvin)", "OWM_UNITS_STANDARD"]
+        ]
+      }
+    ]
+  },
+  "owm_set_language": {
+    "message0": "Régler météo %1 langue sur %2",
+    "tooltip": "Définir la langue des descriptions météo",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Chinois", "zh_cn"],
+          ["Anglais", "en"],
+          ["Japonais", "ja"],
+          ["Coréen", "kr"],
+          ["Allemand", "de"],
+          ["Français", "fr"],
+          ["Espagnol", "es"],
+          ["Russe", "ru"]
+        ]
+      }
+    ]
+  },
+  "owm_set_debug": {
+    "message0": "Régler météo %1 mode débogage %2",
+    "tooltip": "Activer ou désactiver la sortie de débogage",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Activé", "true"],
+          ["Désactivé", "false"]
+        ]
+      }
+    ]
+  },
+  "owm_get_weather_by_city": {
+    "message0": "Météo %1 obtenir météo ville ville %2 code pays %3",
+    "tooltip": "Obtenir les données météo actuelles par nom de ville"
+  },
+  "owm_get_weather_by_coords": {
+    "message0": "Météo %1 obtenir météo par coordonnées lat %2 lon %3",
+    "tooltip": "Obtenir les données météo actuelles par latitude et longitude"
+  },
+  "owm_request_success": {
+    "message0": "Météo %1 requête réussie ?",
+    "tooltip": "Vérifier si la dernière requête a réussi"
+  },
+  "owm_weather_data": {
+    "message0": "Météo %1 %2",
+    "tooltip": "Obtenir les données météo actuelles",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Nom de la ville", "name"],
+          ["Code pays", "country"],
+          ["Type météo principal", "weather_main"],
+          ["Description météo", "weather_description"],
+          ["Icône météo", "weather_icon"],
+          ["Température actuelle", "temp"],
+          ["Température ressentie", "feels_like"],
+          ["Température min", "temp_min"],
+          ["Température max", "temp_max"],
+          ["Humidité (%)", "humidity"],
+          ["Pression (hPa)", "pressure"],
+          ["Vitesse du vent", "wind_speed"],
+          ["Direction du vent (°)", "wind_deg"],
+          ["Couverture nuageuse (%)", "clouds"],
+          ["Visibilité (m)", "visibility"],
+          ["Lever du soleil", "sunrise"],
+          ["Coucher du soleil", "sunset"]
+        ]
+      }
+    ]
+  },
+  "owm_get_forecast": {
+    "message0": "Météo %1 obtenir prévisions lat %2 lon %3 nombre %4",
+    "tooltip": "Obtenir les prévisions 5 jours/3 heures, nombre 0 pour tout (max 40)"
+  },
+  "owm_get_forecast_by_city": {
+    "message0": "Météo %1 obtenir prévisions ville ville %2 code pays %3 nombre %4",
+    "tooltip": "Obtenir les prévisions 5 jours par nom de ville"
+  },
+  "owm_forecast_request_success": {
+    "message0": "Météo %1 requête prévisions réussie ?",
+    "tooltip": "Vérifier si la dernière requête de prévisions a réussi"
+  },
+  "owm_forecast_count": {
+    "message0": "Météo %1 nombre de points de prévision",
+    "tooltip": "Obtenir le nombre de points temporels dans les données de prévision"
+  },
+  "owm_forecast_data": {
+    "message0": "Météo %1 prévision n°%2 %3",
+    "tooltip": "Obtenir les données de prévision pour un point temporel spécifique (index à partir de 0)",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["Texte date/heure", "dt_txt"],
+          ["Type météo principal", "weather_main"],
+          ["Description météo", "weather_description"],
+          ["Température", "temp"],
+          ["Température ressentie", "feels_like"],
+          ["Température min", "temp_min"],
+          ["Température max", "temp_max"],
+          ["Humidité (%)", "humidity"],
+          ["Pression (hPa)", "pressure"],
+          ["Vitesse du vent", "wind_speed"],
+          ["Couverture nuageuse (%)", "clouds"],
+          ["Probabilité de précipitation", "pop"],
+          ["Pluie sur 3h", "rain_3h"],
+          ["Neige sur 3h", "snow_3h"]
+        ]
+      }
+    ]
+  },
+  "owm_get_air_pollution": {
+    "message0": "Météo %1 obtenir qualité de l'air lat %2 lon %3",
+    "tooltip": "Obtenir les données de pollution atmosphérique pour un emplacement"
+  },
+  "owm_air_pollution_request_success": {
+    "message0": "Météo %1 requête qualité air réussie ?",
+    "tooltip": "Vérifier si la dernière requête de qualité de l'air a réussi"
+  },
+  "owm_air_pollution_data": {
+    "message0": "Météo %1 air %2",
+    "tooltip": "Obtenir les données de pollution atmosphérique",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Indice qualité air (1-5)", "aqi"],
+          ["CO (μg/m³)", "co"],
+          ["NO (μg/m³)", "no"],
+          ["NO₂ (μg/m³)", "no2"],
+          ["O₃ (μg/m³)", "o3"],
+          ["SO₂ (μg/m³)", "so2"],
+          ["PM2.5 (μg/m³)", "pm2_5"],
+          ["PM10 (μg/m³)", "pm10"],
+          ["NH₃ (μg/m³)", "nh3"]
+        ]
+      }
+    ]
+  },
+  "owm_aqi_description": {
+    "message0": "Description qualité air indice %1",
+    "tooltip": "Convertir l'indice de qualité de l'air (1-5) en texte descriptif"
+  },
+  "owm_get_coords_by_city": {
+    "message0": "Météo %1 obtenir coordonnées ville ville %2 code pays %3",
+    "tooltip": "Obtenir les coordonnées géographiques par nom de ville"
+  },
+  "owm_get_coords_by_zip": {
+    "message0": "Météo %1 obtenir coordonnées code postal code postal %2 code pays %3",
+    "tooltip": "Obtenir les coordonnées géographiques par code postal"
+  },
+  "owm_get_location_by_coords": {
+    "message0": "Météo %1 géocodage inversé lat %2 lon %3",
+    "tooltip": "Obtenir les informations de localisation par latitude et longitude"
+  },
+  "owm_geo_request_success": {
+    "message0": "Météo %1 requête géocodage réussie ?",
+    "tooltip": "Vérifier si la dernière requête de géocodage a réussi"
+  },
+  "owm_geo_data": {
+    "message0": "Météo %1 emplacement %2",
+    "tooltip": "Obtenir les données de localisation par géocodage",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Nom de la ville", "name"],
+          ["Code pays", "country"],
+          ["État/Province", "state"],
+          ["Latitude", "lat"],
+          ["Longitude", "lon"]
+        ]
+      }
+    ]
+  },
+  "owm_get_icon_url": {
+    "message0": "URL icône météo code icône %1",
+    "tooltip": "Obtenir l'URL de l'icône météo à partir du code"
+  },
+  "owm_get_last_error": {
+    "message0": "Météo %1 dernier message d'erreur",
+    "tooltip": "Obtenir le message d'erreur de la dernière opération"
+  },
+  "owm_get_http_code": {
+    "message0": "Météo %1 dernier code HTTP",
+    "tooltip": "Obtenir le code de réponse HTTP de la dernière requête"
+  }
+}

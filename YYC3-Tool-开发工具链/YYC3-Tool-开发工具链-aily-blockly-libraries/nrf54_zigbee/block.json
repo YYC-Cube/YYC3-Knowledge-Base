@@ -1,0 +1,695 @@
+[
+  {
+    "type": "zigbee_init",
+    "message0": "初始化Zigbee设备 %1 角色 %2 设备类型 %3 频道 %4 PAN ID %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "zigbee"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ROLE",
+        "options": [
+          [
+            "终端设备 (End Device)",
+            "END_DEVICE"
+          ],
+          [
+            "路由器 (Router)",
+            "ROUTER"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DEVICE_TYPE",
+        "options": [
+          [
+            "开关灯 (On/Off Light)",
+            "ON_OFF_LIGHT"
+          ],
+          [
+            "调光灯 (Dimmable Light)",
+            "DIMMABLE_LIGHT"
+          ],
+          [
+            "彩色灯 (Color Light)",
+            "COLOR_LIGHT"
+          ],
+          [
+            "扩展彩色灯 (Extended Color Light)",
+            "EXTENDED_COLOR_LIGHT"
+          ],
+          [
+            "开关控制器 (On/Off Switch)",
+            "ON_OFF_SWITCH"
+          ],
+          [
+            "温度传感器 (Temperature Sensor)",
+            "TEMPERATURE_SENSOR"
+          ],
+          [
+            "温湿度传感器 (Temp & Humidity Sensor)",
+            "TEMPERATURE_HUMIDITY_SENSOR"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "CHANNEL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PAN_ID",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化Zigbee设备，设置角色、设备类型、频道和PAN ID",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_basic_info",
+    "message0": "设置 %1 基本信息 制造商 %2 型号 %3 版本 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "MANUFACTURER",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "MODEL",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "VERSION",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置Zigbee设备基本信息（制造商名称、型号和软件版本）",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_install_code",
+    "message0": "设置 %1 安装码 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "INSTALL_CODE",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置Zigbee设备安装码（用于安全入网），格式为16进制字符串",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_start",
+    "message0": "启动 %1 Zigbee网络",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "启动Zigbee设备，开始扫描和入网流程",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_loop",
+    "message0": "%1 Zigbee轮询处理",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "在loop()中调用，处理Zigbee网络通信和状态维护",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_is_joined",
+    "message0": "%1 已加入网络？",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#8BC34A",
+    "tooltip": "检查Zigbee设备是否已成功加入网络",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_on_off",
+    "message0": "设置 %1 开关状态为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "开 (ON)",
+            "TRUE"
+          ],
+          [
+            "关 (OFF)",
+            "FALSE"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置On/Off灯的开关状态",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_get_on_off",
+    "message0": "%1 开关状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "tooltip": "获取当前On/Off灯的开关状态",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_level",
+    "message0": "设置 %1 亮度为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "LEVEL",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置调光灯的亮度等级（0-254）",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_get_level",
+    "message0": "%1 亮度",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "获取当前调光灯的亮度等级",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_color_hs",
+    "message0": "设置 %1 颜色 色相 %2 饱和度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "HUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "SATURATION",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置彩色灯的色相（0-254）和饱和度（0-254）",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_color_temp",
+    "message0": "设置 %1 色温为 %2 Mireds",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "COLOR_TEMP",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置扩展彩色灯的色温（Mireds值，153=6500K冷白, 500=2000K暖黄）",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_temperature",
+    "message0": "设置 %1 温度值 %2 ℃",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "TEMPERATURE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置温度传感器的温度值（摄氏度，精度0.01℃）",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_humidity",
+    "message0": "设置 %1 湿度值 %2 %",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "HUMIDITY",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置湿度传感器的湿度值（百分比，精度0.01%）",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_set_battery",
+    "message0": "设置 %1 电池电压 %2 dV 电量 %3 %",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_value",
+        "name": "VOLTAGE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PERCENTAGE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置电池状态（电压：分伏特；电量：百分比0-100）",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_is_identifying",
+    "message0": "%1 正在识别？",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#8BC34A",
+    "tooltip": "检查设备是否处于识别（Identify）模式",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_configure_reporting",
+    "message0": "配置 %1 属性报告 集群 %2 属性ID %3 最小间隔 %4 秒 最大间隔 %5 秒",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CLUSTER",
+        "options": [
+          [
+            "开关 (OnOff)",
+            "ON_OFF"
+          ],
+          [
+            "亮度 (Level Control)",
+            "LEVEL_CONTROL"
+          ],
+          [
+            "颜色 (Color Control)",
+            "COLOR_CONTROL"
+          ],
+          [
+            "温度 (Temperature)",
+            "TEMPERATURE"
+          ],
+          [
+            "湿度 (Humidity)",
+            "HUMIDITY"
+          ],
+          [
+            "电源 (Power Config)",
+            "POWER_CONFIG"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ATTR_ID",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_INTERVAL",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_INTERVAL",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "配置Zigbee属性自动报告策略（最小/最大上报间隔）",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_on_state_change",
+    "message0": "当 %1 开关状态变化时 %2 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当Zigbee网络远程控制开关状态变化时执行代码",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_on_level_change",
+    "message0": "当 %1 亮度变化时 %2 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当Zigbee网络远程控制亮度变化时执行代码",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_on_color_change",
+    "message0": "当 %1 颜色变化时 %2 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当Zigbee网络远程控制颜色变化时执行代码",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_on_join",
+    "message0": "当 %1 加入网络时 %2 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当Zigbee设备成功加入网络时执行代码",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_persist_save",
+    "message0": "保存 %1 网络状态到闪存",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "保存当前Zigbee网络状态到闪存（入网信息、密钥等），断电后可恢复",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_persist_clear",
+    "message0": "清除 %1 保存的网络状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#795548",
+    "tooltip": "清除闪存中保存的Zigbee网络状态，设备重启后需重新入网",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  },
+  {
+    "type": "zigbee_rejoin",
+    "message0": "%1 重新加入网络",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "zigbee",
+        "variableTypes": [
+          "ZigbeeDevice"
+        ],
+        "defaultType": "ZigbeeDevice"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "尝试安全重新加入Zigbee网络",
+    "helpUrl": "",
+    "icon": "fa-light fa-router"
+  }
+]

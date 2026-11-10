@@ -1,0 +1,70 @@
+{
+  "name": "@aily-project/lib-seeed-tb6612fng",
+  "nickname": "Grove TB6612FNG 电机驱动",
+  "nickname_zh_cn": "Grove TB6612FNG 电机驱动",
+  "nickname_en": "Grove TB6612FNG Motor Driver",
+  "nickname_zh_hk": "Grove TB6612FNG 電機驅動",
+  "nickname_ja": "Grove TB6612FNG モータードライバー",
+  "nickname_ko": "Grove TB6612FNG 모터 드라이버",
+  "nickname_de": "Grove TB6612FNG Motortreiber",
+  "nickname_fr": "Grove TB6612FNG Pilote de moteur",
+  "nickname_es": "Grove TB6612FNG Controlador de motor",
+  "nickname_pt": "Grove TB6612FNG Driver de motor",
+  "nickname_ru": "Grove TB6612FNG Драйвер двигателя",
+  "nickname_ar": "Grove TB6612FNG محرك المحرك",
+  "author": "SeeedStudio",
+  "description": "Grove TB6612FNG 电机驱动模块，支持驱动两路直流电机或一个步进电机，通过I2C通信控制",
+  "description_zh_cn": "Grove TB6612FNG 电机驱动模块，支持驱动两路直流电机或一个步进电机，通过I2C通信控制",
+  "description_en": "Grove TB6612FNG motor driver module, supports driving two DC motors or one stepper motor, controlled via I2C communication",
+  "description_zh_hk": "Grove TB6612FNG 電機驅動模組，支援驅動兩路直流電機或一個步進電機，通過I2C通信控制",
+  "description_ja": "Grove TB6612FNG モータードライバーモジュール、2つのDCモーターまたは1つのステッピングモーターの駆動をサポート、I2C通信で制御",
+  "description_ko": "Grove TB6612FNG 모터 드라이버 모듈, 2개의 DC 모터 또는 1개의 스테퍼 모터 구동 지원, I2C 통신으로 제어",
+  "description_de": "Grove TB6612FNG Motortreibermodul, unterstützt den Antrieb von zwei Gleichstrommotoren oder einem Schrittmotor, gesteuert über I2C-Kommunikation",
+  "description_fr": "Module de pilote de moteur Grove TB6612FNG, prend en charge l'entraînement de deux moteurs CC ou d'un moteur pas à pas, contrôlé via la communication I2C",
+  "description_es": "Módulo controlador de motor Grove TB6612FNG, compatible con dos motores de CC o un motor paso a paso, controlado mediante comunicación I2C",
+  "description_pt": "Módulo driver de motor Grove TB6612FNG, suporta acionamento de dois motores DC ou um motor de passo, controlado via comunicação I2C",
+  "description_ru": "Модуль драйвера двигателя Grove TB6612FNG, поддерживает управление двумя двигателями постоянного тока или одним шаговым двигателем, управление через I2C",
+  "description_ar": "وحدة محرك Grove TB6612FNG، تدعم تشغيل محركين DC أو محرك خطوي واحد، يتم التحكم بها عبر اتصال I2C",
+  "version": "0.0.1",
+  "compatibility": {
+    "core": [
+      "arduino:avr",
+      "arduino:renesas_uno:minima",
+      "arduino:renesas_uno:unor4wifi",
+      "esp32:esp32:esp32",
+      "esp32:esp32:wifiduino32",
+      "esp32:esp32:adafruit_metro_esp32s3",
+      "esp32:esp32:dfrobot_firebeetle2_esp32s3",
+      "esp32:esp32:esp32s3",
+      "esp32:esp32:nano_nora",
+      "esp32:esp32:wifiduino32s3",
+      "esp32:esp32:XIAO_ESP32S3",
+      "esp32:esp32:XIAO_ESP32S3_PLUS",
+      "esp32:esp32:esp32c3",
+      "esp32:esp32:wifiduino32c3",
+      "esp32:esp32:XIAO_ESP32C3"
+    ],
+    "voltage": [
+      3.3,
+      5
+    ]
+  },
+  "keywords": [
+    "motor",
+    "driver",
+    "TB6612FNG",
+    "DC motor",
+    "stepper",
+    "I2C",
+    "Grove",
+    "Seeed"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "tested": false,
+  "url": "https://github.com/Seeed-Studio/Grove_Motor_Driver_TB6612FNG",
+  "tags": [
+    "motor"
+  ]
+}

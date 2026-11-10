@@ -1,0 +1,55 @@
+{
+"toolbox_name": "HX711 Load Cell Sensor",
+"hx711_create": {
+    "message0": "Create HX711 Load Cell Sensor %1"
+},
+"hx711_begin": {
+    "message0": "Initialize %1 Data Pin %2 Clock Pin %3",
+    "args0": [
+        null,
+        {
+            "options": "${board.digitalPins}"
+        },
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+},
+"hx711_tare": {
+    "message0": "%1 Tare (Times %2)"
+},
+"hx711_set_scale": {
+    "message0": "%1 Set Scale Factor %2"
+},
+"hx711_get_units": {
+    "message0": "%1 Get Weight (Times %2)"
+},
+"hx711_read": {
+    "message0": "%1 Read Raw Data"
+},
+"hx711_read_average": {
+    "message0": "%1 Read Average (Times %2)"
+},
+"hx711_power_down": {
+    "message0": "%1 Power Down"
+},
+"hx711_power_up": {
+    "message0": "%1 Power Up"
+},
+"hx711_set_gain": {
+    "message0": "%1 Set Gain %2",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["128 (Channel A)", "HX711_CHANNEL_A_GAIN_128"],
+                ["64 (Channel A)", "HX711_CHANNEL_A_GAIN_64"],
+                ["32 (Channel B)", "HX711_CHANNEL_B_GAIN_32"]
+            ]
+        }
+    ]
+},
+"hx711_calibrate_scale": {
+    "message0": "%1 Calibrate Scale Known Weight %2 Times %3"
+}
+}

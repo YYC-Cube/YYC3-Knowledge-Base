@@ -1,0 +1,16 @@
+node_modules/
+package-lock.json
+# /package.json
+.env
+.temp/
+.libs/
+
+**/src/
+**/.temp/
+**/source/
+**/info.json
+
+check_src.ps1
+check_result.txt
+libs.md
+todo-libs.md

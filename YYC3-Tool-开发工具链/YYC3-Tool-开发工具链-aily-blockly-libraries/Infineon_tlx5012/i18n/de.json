@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "TLx5012B Winkelsensor",
+  "tlx5012_init": {
+    "message0": "TLx5012B Winkelsensor initialisieren %1\nCS-Pin %2",
+    "tooltip": "TLx5012B magnetischen Winkelsensor über SPI-Schnittstelle initialisieren"
+  },
+  "tlx5012_read_angle": {
+    "message0": "Winkel (°) von TLx5012B %1 lesen",
+    "tooltip": "Winkelwert vom TLx5012B-Sensor lesen, gibt 0°~360° zurück"
+  },
+  "tlx5012_read_speed": {
+    "message0": "Winkelgeschwindigkeit von TLx5012B %1 lesen",
+    "tooltip": "Winkelgeschwindigkeit vom TLx5012B-Sensor lesen"
+  },
+  "tlx5012_read_revolutions": {
+    "message0": "Umdrehungen von TLx5012B %1 lesen",
+    "tooltip": "Kumulative Umdrehungszahl vom TLx5012B-Sensor lesen, Bereich -256~256"
+  },
+  "tlx5012_read_temperature": {
+    "message0": "Temperatur (℃) von TLx5012B %1 lesen",
+    "tooltip": "Temperatur vom TLx5012B-Sensor in Celsius lesen"
+  },
+  "tlx5012_read_angle_range": {
+    "message0": "Winkelbereich von TLx5012B %1 lesen",
+    "tooltip": "Winkelbereichseinstellung vom TLx5012B-Sensor lesen"
+  },
+  "tlx5012_reset": {
+    "message0": "TLx5012B %1 Sensor zurücksetzen",
+    "tooltip": "TLx5012B-Sensor auf Werkseinstellungen zurücksetzen"
+  }
+}

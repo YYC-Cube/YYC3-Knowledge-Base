@@ -1,0 +1,71 @@
+[submodule "tests/_fixtures/_git/elk"]
+	path = tests/_fixtures/_git/elk
+	url = https://github.com/elk-zone/elk
+
+[submodule "tests/_fixtures/_git/misskey"]
+	path = tests/_fixtures/_git/misskey
+	url = https://github.com/misskey-dev/misskey
+
+[submodule "tests/_fixtures/_git/npmx.dev"]
+	path = tests/_fixtures/_git/npmx.dev
+	url = https://github.com/npmx-dev/npmx.dev
+
+[submodule "tests/_fixtures/_git/vuefes-2025"]
+	path = tests/_fixtures/_git/vuefes-2025
+	url = https://github.com/vuejs-jp/vuefes-2025-website.git
+
+[submodule "tests/_fixtures/_git/frontend-phpcon-do-website"]
+	path = tests/_fixtures/_git/frontend-phpcon-do-website
+	url = https://github.com/frontend-phpcon-do/frontend-phpcon-do-website.git
+
+[submodule "tests/_fixtures/_git/ant-design-vue"]
+	path = tests/_fixtures/_git/ant-design-vue
+	url = https://github.com/vueComponent/ant-design-vue
+
+[submodule "tests/_fixtures/_git/nuxt-ui"]
+	path = tests/_fixtures/_git/nuxt-ui
+	url = https://github.com/nuxt/ui
+
+[submodule "tests/_fixtures/_git/reka-ui"]
+	path = tests/_fixtures/_git/reka-ui
+	url = https://github.com/unovue/reka-ui
+
+[submodule "tests/_fixtures/_git/vue-vben-admin"]
+	path = tests/_fixtures/_git/vue-vben-admin
+	url = https://github.com/vbenjs/vue-vben-admin
+	shallow = true
+
+[submodule "tests/_fixtures/_git/hoppscotch"]
+	path = tests/_fixtures/_git/hoppscotch
+	url = https://github.com/hoppscotch/hoppscotch
+	shallow = true
+
+[submodule "tests/_fixtures/_git/element-plus"]
+	path = tests/_fixtures/_git/element-plus
+	url = https://github.com/element-plus/element-plus
+	shallow = true
+
+[submodule "tests/_fixtures/_git/voicevox"]
+	path = tests/_fixtures/_git/voicevox
+	url = https://github.com/VOICEVOX/voicevox
+	shallow = true
+
+[submodule "tests/_fixtures/_git/primevue"]
+	path = tests/_fixtures/_git/primevue
+	url = https://github.com/primefaces/primevue
+	shallow = true
+
+[submodule "tests/_fixtures/_git/vuetify"]
+	path = tests/_fixtures/_git/vuetify
+	url = https://github.com/vuetifyjs/vuetify
+	shallow = true
+
+[submodule "tests/_fixtures/_git/naive-ui"]
+	path = tests/_fixtures/_git/naive-ui
+	url = https://github.com/tusen-ai/naive-ui
+	shallow = true
+
+[submodule "tests/_fixtures/_git/directus"]
+	path = tests/_fixtures/_git/directus
+	url = https://github.com/directus/directus
+	shallow = true

@@ -1,0 +1,102 @@
+{
+  "toolbox_name": "R4 WiFi",
+  "toolbox_labels": {
+    "连接": "연결하다",
+    "状态查询": "상태 쿼리",
+    "配置": "구성",
+    "网络扫描": "네트워크 스캔",
+    "网络操作": "네트워크 운영"
+  },
+  "wifis3_begin": {
+    "message0": "WiFi 연결 SSID %1 비밀번호 %2",
+    "tooltip": "WiFi 네트워크에 연결 (WPA/WPA2 암호화)"
+  },
+  "wifis3_begin_open": {
+    "message0": "WiFi 연결 SSID %1 (개방 네트워크)",
+    "tooltip": "비밀번호 없는 개방 WiFi 네트워크에 연결"
+  },
+  "wifis3_begin_ap": {
+    "message0": "WiFi AP 시작 SSID %1 비밀번호 %2 채널 %3",
+    "tooltip": "WiFi 액세스 포인트 시작 (핫스팟 모드)"
+  },
+  "wifis3_disconnect": {
+    "message0": "WiFi 연결 해제",
+    "tooltip": "현재 WiFi 연결 해제"
+  },
+  "wifis3_status": {
+    "message0": "WiFi 연결 상태",
+    "tooltip": "WiFi 연결 상태 반환 (3=연결됨, 1=유휴, 0=연결 안 됨 등)"
+  },
+  "wifis3_is_connected": {
+    "message0": "WiFi 연결됨?",
+    "tooltip": "WiFi 네트워크에 연결되어 있는지 확인"
+  },
+  "wifis3_local_ip": {
+    "message0": "로컬 IP 주소 가져오기",
+    "tooltip": "장치의 로컬 IP 주소 반환"
+  },
+  "wifis3_mac_address": {
+    "message0": "MAC 주소 가져오기",
+    "tooltip": "WiFi 모듈의 MAC 주소 반환"
+  },
+  "wifis3_gateway_ip": {
+    "message0": "게이트웨이 IP 주소 가져오기",
+    "tooltip": "게이트웨이 IP 주소 반환"
+  },
+  "wifis3_subnet_mask": {
+    "message0": "서브넷 마스크 가져오기",
+    "tooltip": "서브넷 마스크 반환"
+  },
+  "wifis3_dns_ip": {
+    "message0": "DNS 서버 가져오기 %1",
+    "tooltip": "DNS 서버 주소 반환",
+    "args0": [
+      {
+        "options": [
+          ["기본 DNS", "0"],
+          ["보조 DNS", "1"]
+        ]
+      }
+    ]
+  },
+  "wifis3_set_dns": {
+    "message0": "DNS 서버 설정 기본 %1 보조 %2",
+    "tooltip": "기본 및 보조 DNS 서버 설정"
+  },
+  "wifis3_config_ip": {
+    "message0": "고정 IP 설정 주소 %1 게이트웨이 %2 서브넷 %3",
+    "tooltip": "장치의 고정 IP 주소, 게이트웨이 및 서브넷 마스크 설정"
+  },
+  "wifis3_set_hostname": {
+    "message0": "호스트 이름 설정 %1",
+    "tooltip": "DHCP 호스트 이름 설정"
+  },
+  "wifis3_scan_networks": {
+    "message0": "WiFi 네트워크 스캔",
+    "tooltip": "주변 사용 가능한 WiFi 네트워크 스캔"
+  },
+  "wifis3_ssid_by_index": {
+    "message0": "네트워크 #%1 의 SSID 가져오기",
+    "tooltip": "지정된 인덱스의 네트워크 SSID 반환"
+  },
+  "wifis3_rssi_by_index": {
+    "message0": "네트워크 #%1 의 신호 강도 가져오기",
+    "tooltip": "지정된 인덱스 네트워크의 RSSI 신호 강도(dBm) 반환"
+  },
+  "wifis3_scanned_networks_count": {
+    "message0": "스캔된 네트워크 수 가져오기",
+    "tooltip": "마지막 스캔에서 발견된 WiFi 네트워크 수 반환"
+  },
+  "wifis3_ping": {
+    "message0": "PING %1 (TTL %2 횟수 %3)",
+    "tooltip": "지정된 호스트에 PING 실행, 응답 시간 반환"
+  },
+  "wifis3_firmware_version": {
+    "message0": "WiFi 펌웨어 버전 가져오기",
+    "tooltip": "WiFi 모듈의 펌웨어 버전 반환"
+  },
+  "wifis3_wait_for_connection": {
+    "message0": "WiFi 연결 대기 타임아웃 %1 ms",
+    "tooltip": "WiFi 연결 성공 또는 타임아웃까지 대기"
+  }
+}

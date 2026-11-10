@@ -1,0 +1,15 @@
+{
+    "kind": "category",
+    "name": "Interrupt",
+    "icon": "fa-light fa-flag-pennant",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "io_attach_interrupt"
+        },
+        {
+            "kind": "block",
+            "type": "io_detach_interrupt"
+        }
+    ]
+}

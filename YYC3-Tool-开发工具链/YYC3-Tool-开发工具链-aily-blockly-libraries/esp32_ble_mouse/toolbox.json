@@ -1,0 +1,95 @@
+{
+    "kind": "category",
+    "name": "BLE蓝牙鼠标",
+    "icon": "fa-light fa-computer-mouse-scrollwheel",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化设置"
+        },        {
+            "kind": "block",
+            "type": "ble_mouse_init",
+            "inputs": {
+                "DEVICE_NAME": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "我的鼠标"
+                        }
+                    }
+                },
+                "MANUFACTURER": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "ailyProject"
+                        }
+                    }
+                },
+                "BATTERY": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "连接状态"
+        },
+        {
+            "kind": "block",
+            "type": "ble_mouse_is_connected"
+        },
+        {
+            "kind": "label",
+            "text": "鼠标操作"
+        },
+        {
+            "kind": "block",
+            "type": "ble_mouse_move",
+            "inputs": {
+                "X": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 10
+                        }
+                    }
+                },
+                "Y": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 10
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "ble_mouse_click"
+        },
+        {
+            "kind": "block",
+            "type": "ble_mouse_scroll",            "inputs": {
+                "SCROLL": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "ble_mouse_send_report"
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+{
+  "toolbox_name": "TB6612FNG 모터 드라이버",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "直流电机": "DC 모터",
+    "步进电机": "스테퍼 모터",
+    "电源管理": "전원 관리"
+  },
+  "tb6612fng_init": {
+    "message0": "초기화 %1 모터 드라이버 I2C 주소 %2",
+    "tooltip": "Grove TB6612FNG 모터 드라이버 모듈 초기화, I2C 주소 설정"
+  },
+  "tb6612fng_dc_run": {
+    "message0": "%1 DC 모터 구동 %2 속도 %3",
+    "tooltip": "지정 채널의 DC 모터 구동, 속도 범위 -255~255, 양수는 시계 방향, 음수는 반시계 방향",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["채널 A", "MOTOR_CHA"],
+          ["채널 B", "MOTOR_CHB"]
+        ]
+      },
+      null
+    ]
+  },
+  "tb6612fng_dc_brake": {
+    "message0": "%1 DC 모터 브레이크 %2",
+    "tooltip": "지정 채널의 DC 모터를 즉시 브레이크 정지",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["채널 A", "MOTOR_CHA"],
+          ["채널 B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_dc_stop": {
+    "message0": "%1 DC 모터 정지 %2",
+    "tooltip": "지정 채널의 DC 모터를 천천히 정지",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["채널 A", "MOTOR_CHA"],
+          ["채널 B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_stepper_run": {
+    "message0": "%1 스테퍼 모터 구동 모드 %2\n스텝 수 %3 RPM %4",
+    "tooltip": "스테퍼 모터 구동, 양수 스텝은 시계 방향, 음수는 반시계 방향, RPM 범위 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["풀 스텝", "FULL_STEP"],
+          ["웨이브 드라이브", "WAVE_DRIVE"],
+          ["하프 스텝", "HALF_STEP"],
+          ["마이크로 스테핑", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "tb6612fng_stepper_stop": {
+    "message0": "%1 스테퍼 모터 정지",
+    "tooltip": "스테퍼 모터 정지"
+  },
+  "tb6612fng_stepper_keep_run": {
+    "message0": "%1 스테퍼 모터 연속 회전 모드 %2\nRPM %3 방향 %4",
+    "tooltip": "스테퍼 모터를 연속으로 회전시킴, RPM 범위 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["풀 스텝", "FULL_STEP"],
+          ["웨이브 드라이브", "WAVE_DRIVE"],
+          ["하프 스텝", "HALF_STEP"],
+          ["마이크로 스테핑", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["시계 방향", "true"],
+          ["반시계 방향", "false"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_standby": {
+    "message0": "%1 대기 모드 진입",
+    "tooltip": "모터 드라이버가 대기 모드에 진입, 모든 모터 정지"
+  },
+  "tb6612fng_not_standby": {
+    "message0": "%1 대기 모드 해제",
+    "tooltip": "모터 드라이버가 대기 모드를 해제, 정상 작동 재개"
+  }
+}

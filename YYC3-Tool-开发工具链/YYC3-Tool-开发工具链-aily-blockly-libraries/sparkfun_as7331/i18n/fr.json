@@ -1,0 +1,66 @@
+{
+  "toolbox_name": "AS7331",
+  "as7331_init": {
+    "message0": "Initialiser AS7331 %1 adresse %2 mode %3",
+    "tooltip": "Initialiser le capteur UV SparkFun AS7331"
+  },
+  "as7331_is_ready": {
+    "message0": "AS7331 %1 initialisé",
+    "tooltip": "Retourne l'état d'init AS7331"
+  },
+  "as7331_is_connected": {
+    "message0": "AS7331 %1 connecté",
+    "tooltip": "Retourne true si AS7331 est connecté"
+  },
+  "as7331_take_measurement": {
+    "message0": "AS7331 %1 démarrer et lire UV",
+    "tooltip": "Effectuer une mesure UV dans le mode spécifié",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Unique",
+            "AS7331_MEAS_CMD_SINGLE"
+          ],
+          [
+            "Continu",
+            "AS7331_MEAS_CMD_CONT"
+          ],
+          [
+            "Sync Début",
+            "AS7331_MEAS_CMD_SYNS"
+          ],
+          [
+            "Sync Début+Fin",
+            "AS7331_MEAS_CMD_SYND"
+          ]
+        ]
+      }
+    ]
+  },
+  "as7331_read_uv": {
+    "message0": "AS7331 %1 canal UV %2 µW/cm²",
+    "tooltip": "Lit l'irradiance UV du canal spécifié"
+  },
+  "as7331_read_temperature": {
+    "message0": "AS7331 %1 lire température",
+    "tooltip": "Lit la température du capteur AS7331 en Celsius"
+  },
+  "as7331_data_ready": {
+    "message0": "AS7331 %1 données prêtes",
+    "tooltip": "Vérifie si les données AS7331 sont prêtes"
+  },
+  "as7331_prepare_measurement": {
+    "message0": "AS7331 %1 préparer mesure mode %2",
+    "tooltip": "Préparer AS7331 pour la mesure synchronisée"
+  },
+  "as7331_set_gain": {
+    "message0": "Gain AS7331 %1 %2",
+    "tooltip": "Définit le gain ADC AS7331"
+  },
+  "as7331_set_conversion_time": {
+    "message0": "Temps conversion AS7331 %1 %2",
+    "tooltip": "Définit le temps d'intégration/conversion AS7331"
+  }
+}

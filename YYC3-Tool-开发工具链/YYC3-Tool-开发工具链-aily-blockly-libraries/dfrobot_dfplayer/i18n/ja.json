@@ -1,0 +1,141 @@
+{
+    "toolbox_name": "DFPlayer",
+    "dfplayer_begin": {
+        "message0": "DFPlayerモジュールを初期化 %1 RXピン %2 TXピン %3"
+    },
+    "dfplayer_play": {
+        "message0": "DFPlayer %1 ファイル番号 %2 を再生"
+    },
+    "dfplayer_pause": {
+        "message0": "DFPlayer %1 一時停止"
+    },
+    "dfplayer_start": {
+        "message0": "DFPlayer %1 再生を続ける"
+    },
+    "dfplayer_stop": {
+        "message0": "DFPlayer %1 停止"
+    },
+    "dfplayer_next": {
+        "message0": "DFPlayer %1 次の曲を再生"
+    },
+    "dfplayer_previous": {
+        "message0": "DFPlayer %1 前の曲を再生"
+    },
+    "dfplayer_volume": {
+        "message0": "DFPlayer %1 音量を %2 に設定"
+    },
+    "dfplayer_volume_up": {
+        "message0": "DFPlayer %1 音量を上げる"
+    },
+    "dfplayer_volume_down": {
+        "message0": "DFPlayer %1 音量を下げる"
+    },
+    "dfplayer_eq": {
+        "message0": "DFPlayer %1 イコライザーを %2 に設定",
+        "options": [
+            [
+                "ノーマル",
+                "0"
+            ],
+            [
+                "ポップ",
+                "1"
+            ],
+            [
+                "ロック",
+                "2"
+            ],
+            [
+                "ジャズ",
+                "3"
+            ],
+            [
+                "クラシック",
+                "4"
+            ],
+            [
+                "ベース",
+                "5"
+            ]
+        ]
+    },
+    "dfplayer_output_device": {
+        "message0": "DFPlayer %1 出力デバイスを %2 に設定",
+        "options": [
+            [
+                "DEVICE1",
+                "1"
+            ],
+            [
+                "DEVICE2",
+                "2"
+            ]
+        ]
+    },
+    "dfplayer_loop": {
+        "message0": "DFPlayer %1 ファイル番号 %2 をループ再生"
+    },
+    "dfplayer_play_folder": {
+        "message0": "DFPlayer %1 フォルダー %2 のファイル %3 を再生"
+    },
+    "dfplayer_enable_loop_all": {
+        "message0": "DFPlayer %1 全てループを有効にする"
+    },
+    "dfplayer_disable_loop_all": {
+        "message0": "DFPlayer %1 全てループを無効にする"
+    },
+    "dfplayer_play_mp3_folder": {
+        "message0": "DFPlayer %1 MP3フォルダーのファイル %2 を再生"
+    },
+    "dfplayer_advertise": {
+        "message0": "DFPlayer %1 広告 %2 を再生"
+    },
+    "dfplayer_stop_advertise": {
+        "message0": "DFPlayer %1 広告を停止"
+    },
+    "dfplayer_play_large_folder": {
+        "message0": "DFPlayer %1 大きなフォルダー %2 のファイル %3 を再生"
+    },
+    "dfplayer_loop_folder": {
+        "message0": "DFPlayer %1 フォルダー %2 をループ再生"
+    },
+    "dfplayer_random_all": {
+        "message0": "DFPlayer %1 全てのファイルをランダム再生"
+    },
+    "dfplayer_enable_loop": {
+        "message0": "DFPlayer %1 ループを有効にする"
+    },
+    "dfplayer_disable_loop": {
+        "message0": "DFPlayer %1 ループを無効にする"
+    },
+    "dfplayer_read_state": {
+        "message0": "DFPlayer %1 状態を読み取る"
+    },
+    "dfplayer_read_volume": {
+        "message0": "DFPlayer %1 音量を読み取る"
+    },
+    "dfplayer_read_eq": {
+        "message0": "DFPlayer %1 イコライザーを読み取る"
+    },
+    "dfplayer_read_file_counts": {
+        "message0": "DFPlayer %1 ファイル数を読み取る"
+    },
+    "dfplayer_read_current_file_number": {
+        "message0": "DFPlayer %1 現在のファイル番号を読み取る"
+    },
+    "dfplayer_read_file_counts_in_folder": {
+        "message0": "DFPlayer %1 フォルダー %2 のファイル数を読み取る"
+    },
+    "dfplayer_available": {
+        "message0": "DFPlayer %1 利用可能なメッセージを確認"
+    },
+    "dfplayer_read_type": {
+        "message0": "DFPlayer %1 メッセージタイプを読み取る"
+    },
+    "dfplayer_read": {
+        "message0": "DFPlayer %1 メッセージパラメータを読み取る"
+    },
+    "dfplayer_simple_play": {
+        "message0": "シンプル再生：DFPlayerを初期化 (RX: %1, TX: %2) し、ファイル %3 を再生"
+    }
+}

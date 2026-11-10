@@ -1,0 +1,56 @@
+{
+  "toolbox_name": "SHT3x Temp & Humidity",
+  "toolbox_labels": {
+    "传感器初始化": "Sensor initialization",
+    "数据读取": "Data reading",
+    "高级功能": "Advanced features"
+  },
+  "sht31_init": {
+    "message0": "Initialize SHT3x %1 sensor I2C address %2 I2C bus %3",
+    "tooltip": "Initialize SHT3x temperature and humidity sensor with I2C address",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["0x44 (default)", "0x44"],
+          ["0x45 (alternate)", "0x45"]
+        ]
+      },
+      null
+    ]
+  },
+  "sht31_heater_control": {
+    "message0": "%1 heater %2",
+    "tooltip": "Control the built-in heater of SHT3x sensor on/off",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Enable", "true"],
+          ["Disable", "false"]
+        ]
+      }
+    ]
+  },
+  "sht31_is_heater_enabled": {
+    "message0": "%1 is heater enabled",
+    "tooltip": "Check if the SHT3x sensor heater is enabled"
+  },
+  "sht31_reset": {
+    "message0": "%1 soft reset",
+    "tooltip": "Perform a soft reset on the SHT3x sensor"
+  },
+  "sht31_simple_read": {
+    "message0": "%1 read %2",
+    "tooltip": "Read temperature or humidity data from SHT3x sensor",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Temperature(°C)", "temperature"],
+          ["Humidity(%)", "humidity"]
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+"toolbox_name": "HX711 무게 센서",
+"hx711_create": {
+    "message0": "HX711 무게 센서 생성 %1"
+},
+"hx711_begin": {
+    "message0": "%1 초기화 데이터 핀 %2 클럭 핀 %3",
+    "args0": [
+        null,
+        {
+            "options": "${board.digitalPins}"
+        },
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+},
+"hx711_tare": {
+    "message0": "%1 영점 조정 (횟수 %2)"
+},
+"hx711_set_scale": {
+    "message0": "%1 스케일 팩터 설정 %2"
+},
+"hx711_get_units": {
+    "message0": "%1 무게 가져오기 (횟수 %2)"
+},
+"hx711_read": {
+    "message0": "%1 원시 데이터 읽기"
+},
+"hx711_read_average": {
+    "message0": "%1 평균값 읽기 (횟수 %2)"
+},
+"hx711_power_down": {
+    "message0": "%1 전원 끄기"
+},
+"hx711_power_up": {
+    "message0": "%1 전원 켜기"
+},
+"hx711_set_gain": {
+    "message0": "%1 게인 설정 %2",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["128 (채널A)", "HX711_CHANNEL_A_GAIN_128"],
+                ["64 (채널A)", "HX711_CHANNEL_A_GAIN_64"],
+                ["32 (채널B)", "HX711_CHANNEL_B_GAIN_32"]
+            ]
+        }
+    ]
+},
+"hx711_calibrate_scale": {
+    "message0": "%1 스케일 보정 기준 무게 %2 횟수 %3"
+}
+}

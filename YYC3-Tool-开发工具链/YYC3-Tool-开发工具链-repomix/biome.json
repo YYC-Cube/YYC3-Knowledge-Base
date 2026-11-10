@@ -1,0 +1,81 @@
+{
+  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+  "files": {
+    "includes": [
+      "bin/**",
+      "src/**",
+      "tests/**",
+      "website/**",
+      "browser/**",
+      ".devcontainer/**",
+      ".github/**",
+      "**/package.json",
+      "**/biome.json",
+      "**/.secretlintrc.json",
+      "**/tsconfig.json",
+      "**/tsconfig.build.json",
+      "**/vite.config.ts",
+      "**/repomix.config.json",
+      "!**/website/client/.vitepress/.temp",
+      "!**/website/client/.vitepress/dist",
+      "!**/website/client/.vitepress/cache",
+      "!**/website/server/dist",
+      "!**/browser/dist",
+      "!**/browser/packages",
+      "!.claude/worktrees"
+    ]
+  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.vue"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/index.ts"],
+      "assist": {
+        "actions": {
+          "source": {
+            "organizeImports": "off"
+          }
+        }
+      }
+    }
+  ],
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "trailingCommas": "all",
+      "semicolons": "always"
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true,
+      "allowTrailingCommas": true
+    },
+    "formatter": {
+      "enabled": false
+    }
+  }
+}

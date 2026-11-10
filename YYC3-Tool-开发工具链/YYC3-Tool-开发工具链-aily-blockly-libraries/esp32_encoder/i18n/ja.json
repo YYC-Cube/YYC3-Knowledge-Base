@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "ESP32 Encoder",
+  "rotary_encoder_init": {
+    "message0": "初始化旋转编码器 CLK %1 DT %2 SW %3"
+  },
+  "rotary_encoder_read": {
+    "message0": "读取旋转编码器值"
+  },
+  "rotary_encoder_value_changed": {
+    "message0": "旋转编码器值发生变化"
+  },
+  "rotary_encoder_state_change": {
+    "message0": "当旋转编码器状态 %1 时 %2 执行 %3",
+    "args0": [
+      {
+        "options": [
+          [
+            "位置改变",
+            "CHANGED"
+          ],
+          [
+            "向左旋转",
+            "LEFT"
+          ],
+          [
+            "向右旋转",
+            "RIGHT"
+          ],
+          [
+            "高于上限",
+            "ABOVE_LIMIT"
+          ],
+          [
+            "低于下限",
+            "BELOW_LIMIT"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "rotary_encoder_get_property": {
+    "message0": "获取旋转编码器 %1",
+    "args0": [
+      {
+        "options": [
+          [
+            "位置",
+            "POSITION"
+          ],
+          [
+            "方向",
+            "DIRECTION"
+          ],
+          [
+            "增量",
+            "INCREMENT"
+          ],
+          [
+            "上限",
+            "UPPER_LIMIT"
+          ],
+          [
+            "下限",
+            "LOWER_LIMIT"
+          ]
+        ]
+      }
+    ]
+  },
+  "rotary_encoder_set_property": {
+    "message0": "将旋转编码器 %1 设为 %2",
+    "args0": [
+      {
+        "options": [
+          [
+            "位置",
+            "POSITION"
+          ],
+          [
+            "增量",
+            "INCREMENT"
+          ],
+          [
+            "上限",
+            "UPPER_LIMIT"
+          ],
+          [
+            "下限",
+            "LOWER_LIMIT"
+          ]
+        ]
+      },
+      null
+    ]
+  }
+}

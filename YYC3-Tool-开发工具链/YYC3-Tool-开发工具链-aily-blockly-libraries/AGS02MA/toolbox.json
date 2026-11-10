@@ -1,0 +1,23 @@
+{
+  "kind": "category",
+  "name": "AGS02MA",
+  "icon": "fa-light fa-wind-warning",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "ags02ma_init"
+    },
+    {
+      "kind": "block",
+      "type": "ags02ma_read_tvoc_ppb"
+    },
+    {
+      "kind": "block",
+      "type": "ags02ma_read_tvoc_ugm3"
+    },
+    {
+      "kind": "block",
+      "type": "ags02ma_reset"
+    }
+  ]
+}

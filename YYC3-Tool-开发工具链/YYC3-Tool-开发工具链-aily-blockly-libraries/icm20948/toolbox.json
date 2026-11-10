@@ -1,0 +1,119 @@
+{
+    "kind": "category",
+    "name": "ICM20948",
+    "colour": "#FF6B35",
+    "icon":"fa-light fa-plane-departure",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_init"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "基础读取"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_data_ready"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_read_accel"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_read_gyro"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_read_mag"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_read_temp"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "AHRS姿态解算"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_ahrs_init"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_ahrs_update"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_get_roll"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_get_pitch"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_get_yaw"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "校准和配置"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_calibrate_gyro"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_set_gyro_offset",
+            "inputs": {
+                "OFFSET_X": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "OFFSET_Y": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "OFFSET_Z": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_set_accel_range"
+        },
+        {
+            "kind": "block",
+            "type": "icm20948_set_gyro_range"
+        }
+    ]
+}

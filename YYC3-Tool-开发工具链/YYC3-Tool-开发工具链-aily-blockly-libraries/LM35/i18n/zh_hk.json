@@ -1,0 +1,6 @@
+{
+"toolbox_name": "LM35溫度傳感器",
+"lm35_read": {
+    "message0": "LM35溫度傳感器 腳位 # %1"
+}
+}

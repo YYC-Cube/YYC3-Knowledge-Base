@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "DPS3xx Barometric Sensor",
+  "dps3xx_init": {
+    "message0": "Initialize DPS3xx sensor I2C address %1 using %2",
+    "tooltip": "Initialize Infineon DPS3xx high-precision barometric pressure and temperature sensor via I2C"
+  },
+  "dps3xx_read_temperature": {
+    "message0": "Read DPS3xx temperature (°C) oversampling %1",
+    "tooltip": "Read temperature from DPS3xx sensor in Celsius. Higher oversampling improves precision but takes longer",
+    "args0": [
+      {
+        "options": [
+          ["1x", "0"],
+          ["2x", "1"],
+          ["4x", "2"],
+          ["8x", "3"],
+          ["16x", "4"],
+          ["32x", "5"],
+          ["64x", "6"],
+          ["128x", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_read_pressure": {
+    "message0": "Read DPS3xx pressure (Pa) oversampling %1",
+    "tooltip": "Read pressure from DPS3xx sensor in Pascal. Higher oversampling improves precision but takes longer",
+    "args0": [
+      {
+        "options": [
+          ["1x", "0"],
+          ["2x", "1"],
+          ["4x", "2"],
+          ["8x", "3"],
+          ["16x", "4"],
+          ["32x", "5"],
+          ["64x", "6"],
+          ["128x", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_correct_temp": {
+    "message0": "Correct DPS3xx temperature sensor",
+    "tooltip": "Fix hardware temperature measurement issue on some DPS3xx sensors, recommended to call right after begin()"
+  },
+  "dps3xx_get_product_id": {
+    "message0": "Get DPS3xx product ID",
+    "tooltip": "Get the product identification number of the DPS3xx sensor"
+  },
+  "dps3xx_get_revision_id": {
+    "message0": "Get DPS3xx revision ID",
+    "tooltip": "Get the revision identification number of the DPS3xx sensor"
+  }
+}

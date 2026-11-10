@@ -1,0 +1,21 @@
+{
+  "name": "@aily-project/lib-seeed-lis3dhtr",
+  "nickname": "LIS3DHTR 加速度计",
+  "nickname_zh_cn": "LIS3DHTR 加速度计",
+  "nickname_en": "LIS3DHTR Accelerometer",
+  "nickname_zh_hk": "LIS3DHTR 加速度計",
+  "nickname_ja": "LIS3DHTR 加速度センサー",
+  "nickname_ko": "LIS3DHTR 가속도 센서",
+  "author": "SeeedStudio",
+  "description": "LIS3DHTR 三轴加速度传感器库，支持敲击检测、温度和ADC",
+  "description_zh_cn": "LIS3DHTR 三轴加速度传感器库，支持敲击检测、温度和ADC",
+  "description_en": "LIS3DHTR 3-axis accelerometer library with tap detection, temperature and ADC",
+  "version": "1.0.0",
+  "compatibility": {
+    "core": [],
+    "voltage": [3.3, 5]
+  },
+  "keywords": ["aily", "blockly", "LIS3DHTR", "accelerometer", "sensor"],
+  "tested": true,
+  "url": "https://github.com/Seeed-Studio/Seeed_Arduino_LIS3DHTR"
+}

@@ -1,0 +1,358 @@
+{
+  "toolbox_name": "通义千问",
+  "toolbox_labels": {
+    "配置": "Konfiguration",
+    "I2S音频": "I2S-Audio",
+    "文本对话": "Textgespräch",
+    "图片对话": "Bildgespräch",
+    "图像生成": "Bilderzeugung",
+    "语音合成(TTS)": "Text-to-Speech (TTS)",
+    "全模态对话": "Vollständiger modaler Dialog",
+    "流式回调": "Streaming-Rückruf",
+    "状态管理": "Statusverwaltung"
+  },
+  "qwen_omni_config": {
+    "message0": "配置通义千问API %1 API Key %2 %3 Base URL %4",
+    "tooltip": "配置通义千问API的访问密钥和基础URL"
+  },
+  "qwen_omni_chat": {
+    "message0": "通义千问对话 %1 用户消息 %2 %3 模型 %4",
+    "tooltip": "发送消息到通义千问并获取回复",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3.7-max",
+            "qwen3.7-max"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_chat_simple": {
+    "message0": "通义千问对话(简易) %1 用户消息 %2",
+    "tooltip": "使用默认模型(qwen3.7-plus)发送消息"
+  },
+  "qwen_omni_chat_with_thinking": {
+    "message0": "通义千问深度思考对话 %1 用户消息 %2 %3 模型 %4",
+    "tooltip": "启用深度思考模式的通义千问对话",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3.7-max",
+            "qwen3.7-max"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_chat_with_history": {
+    "message0": "通义千问多轮对话 %1 用户消息 %2 %3 模型 %4",
+    "tooltip": "支持多轮对话的通义千问，自动保存对话历史",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3.7-max",
+            "qwen3.7-max"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_clear_history": {
+    "message0": "清空通义千问对话历史",
+    "tooltip": "清空保存的对话历史记录"
+  },
+  "qwen_omni_set_system_prompt": {
+    "message0": "设置通义千问系统提示词 %1 系统提示词 %2",
+    "tooltip": "设置AI助手的角色和行为规则"
+  },
+  "qwen_omni_get_response_status": {
+    "message0": "获取通义千问响应状态",
+    "tooltip": "检查最后一次API调用是否成功"
+  },
+  "qwen_omni_get_error_message": {
+    "message0": "获取通义千问错误信息",
+    "tooltip": "获取最后一次API调用的错误信息"
+  },
+  "qwen_omni_set_stream_callback": {
+    "message0": "设置通义千问流式回调 %1 %2",
+    "tooltip": "设置流式回调函数，每收到一个文本片段时执行。使用'获取流式片段'块获取当前片段内容"
+  },
+  "qwen_omni_get_stream_chunk": {
+    "message0": "获取通义千问流式片段",
+    "tooltip": "在流式回调中获取当前收到的文本片段"
+  },
+  "qwen_omni_clear_stream_callback": {
+    "message0": "清除通义千问流式回调",
+    "tooltip": "清除已设置的流式回调函数"
+  },
+  "qwen_omni_vision_chat": {
+    "message0": "通义千问图片对话 %1 Base64图片 %2 %3 提示词 %4 %5 模型 %6",
+    "tooltip": "发送Base64编码的图片和文本到通义千问VL模型进行图片理解",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3-vl-plus",
+            "qwen3-vl-plus"
+          ],
+          [
+            "qwen3-vl-flash",
+            "qwen3-vl-flash"
+          ],
+          [
+            "qwen-vl-max",
+            "qwen-vl-max"
+          ],
+          [
+            "qwen-vl-plus",
+            "qwen-vl-plus"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_vision_chat_direct_capture": {
+    "message0": "通义千问图片对话(直接拍照) %1 提示词 %2 %3 模型 %4",
+    "tooltip": "直接从摄像头拍照并流式上传到通义千问VL（不生成完整Base64字符串，降低内存占用）",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3-vl-plus",
+            "qwen3-vl-plus"
+          ],
+          [
+            "qwen3-vl-flash",
+            "qwen3-vl-flash"
+          ],
+          [
+            "qwen-vl-max",
+            "qwen-vl-max"
+          ],
+          [
+            "qwen-vl-plus",
+            "qwen-vl-plus"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_vision_url_chat": {
+    "message0": "通义千问图片URL对话 %1 图片URL %2 %3 提示词 %4 %5 模型 %6",
+    "tooltip": "发送图片URL和文本到通义千问VL模型进行图片理解",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3-vl-plus",
+            "qwen3-vl-plus"
+          ],
+          [
+            "qwen3-vl-flash",
+            "qwen3-vl-flash"
+          ],
+          [
+            "qwen-vl-max",
+            "qwen-vl-max"
+          ],
+          [
+            "qwen-vl-plus",
+            "qwen-vl-plus"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_image_generate": {
+    "message0": "通义万相生成图片 %1 提示词 %2 %3 模型 %4 %5 尺寸 %6",
+    "tooltip": "根据文字描述生成图片，返回图片URL链接，可配合TFT屏幕显示",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "wanx2.1-t2i-turbo",
+            "wanx2.1-t2i-turbo"
+          ],
+          [
+            "wanx2.1-t2i-plus",
+            "wanx2.1-t2i-plus"
+          ],
+          [
+            "wanx-v1",
+            "wanx-v1"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "1024x1024",
+            "1024*1024"
+          ],
+          [
+            "720x1280",
+            "720*1280"
+          ],
+          [
+            "1280x720",
+            "1280*720"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_image_generate_simple": {
+    "message0": "通义万相生成图片(简易) %1 提示词 %2",
+    "tooltip": "根据文字描述生成图片，使用默认设置，返回图片URL链接，可配合TFT屏幕显示"
+  },
+  "qwen_omni_tts": {
+    "message0": "Qwen TTS Sprachsynthese %1 Text %2 %3 Stimme %4 %5 Modell %6 %7 Sprache %8",
+    "tooltip": "Text mit Qwen TTS-Modell in Sprache umwandeln, gibt Base64-kodierte PCM-Audio (24kHz 16bit Mono) zurueck"
+  },
+  "qwen_omni_tts_play": {
+    "message0": "Qwen TTS Audio abspielen %1 I2S-Objekt %2 %3 Base64-Audio %4",
+    "tooltip": "Base64-Audiodaten von Qwen TTS dekodieren und ueber I2S abspielen (24kHz 16bit Mono)"
+  },
+  "qwen_omni_tts_and_play": {
+    "message0": "Qwen TTS synthetisieren und abspielen %1 I2S-Objekt %2 %3 Text %4 %5 Stimme %6 %7 Modell %8 %9 Sprache %10",
+    "tooltip": "Sprache mit Qwen TTS synthetisieren und ueber I2S abspielen. Sammelt vollstaendige Audio fuer stabile Qualitaet"
+  },
+  "qwen_omni_tts_stream_play": {
+    "message0": "Qwen TTS Stream und abspielen %1 I2S-Objekt %2 %3 Text %4 %5 Stimme %6 %7 Modell %8 %9 Sprache %10",
+    "tooltip": "TTS-Synthese streamen und in Echtzeit ueber I2S abspielen. Geringere Latenz, kontinuierliche fluessige Sprache"
+  },
+  "qwen_omni_omni_text": {
+    "message0": "Qwen Omni-Dialog (nur Text) %1 Nachricht %2 %3 Modell %4",
+    "tooltip": "Mit Qwen Omni-Modell chatten, gibt nur Textantwort zurueck"
+  },
+  "qwen_omni_omni_and_play": {
+    "message0": "Qwen Omni-Dialog und abspielen %1 I2S-Objekt %2 %3 Nachricht %4 %5 Modell %6 %7 Stimme %8",
+    "tooltip": "Omni-Dialog gibt Text und Audio zurueck, Audio wird ueber I2S abgespielt"
+  },
+  "qwen_omni_omni_stream_play": {
+    "message0": "Qwen Omni-Stream und abspielen %1 I2S-Objekt %2 %3 Nachricht %4 %5 Modell %6 %7 Stimme %8",
+    "tooltip": "Omni-Streaming-Dialog, Text in Echtzeit, Audio gesammelt und ueber I2S abgespielt. Geringere Latenz"
+  },
+  "qwen_omni_omni_get_audio": {
+    "message0": "Qwen Omni-Audiodaten abrufen",
+    "tooltip": "Base64-Audiodaten aus dem Omni-Dialog abrufen"
+  },
+  "qwen_omni_tts_voice_design": {
+    "message0": "Qwen TTS Stimmendesign %1 I2S-Objekt %2 %3 Text %4 %5 Stimm Beschreibung %6",
+    "tooltip": "Stimme durch Textbeschreibung anpassen und synthetisieren. z.B. sanfte junge Frauenstimme, etwas schnell"
+  },
+  "qwen_omni_omni_voice_chat": {
+    "message0": "Qwen Omni Sprachchat Mikrofonobjekt %1 Lautsprecherobjekt %2 %3 Aufnahme %4 s %5 Modell %6 Stimme %7 Signalton %8 %9 Frage (optional) %10",
+    "tooltip": "Mit separatem I2S-Mikrofonobjekt aufnehmen und die Antwort ueber ein separates I2S-Lautsprecherobjekt streamend dekodieren und abspielen. Wenn Signalton aktiv ist, ertönt am Anfang und Ende der Aufnahme ein kurzer Ton. Aufnahmeformat: 16kHz 16bit Mono"
+  },
+  "qwen_omni_omni_record_text": {
+    "message0": "通义全模态录音转文字 麦克风对象 %1 %2 录音 %3 秒 %4 模型 %5 %6 转写提示(可选) %7",
+    "tooltip": "使用I2S麦克风录音并调用通义全模态模型，只返回识别/转写后的文字，不播放语音。默认录音格式为16kHz 16bit单声道",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen3.5-omni-flash",
+            "qwen3.5-omni-flash"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "qwen_omni_pdm_mic_init": {
+    "message0": "PDM microphone init object %1 %2 CLK %3 DATA %4 sample rate %5",
+    "tooltip": "Initialize a PDM microphone input such as the built-in XIAO ESP32S3 Sense microphone. XIAO ESP32S3 Sense defaults: CLK 42, DATA 41"
+  },
+  "qwen_omni_es8311_mic_init": {
+    "message0": "ES8311 microphone init object %1 %2 SDA %3 SCL %4 address %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 sample rate %10 gain register %11",
+    "tooltip": "Initialize ES8311 codec microphone input by configuring the ADC path over I2C, then initializing the I2S recording object. Default address is 0x18 (decimal 24); default gain register is 0x24 (decimal 36)"
+  },
+  "qwen_omni_es8311_audio_init": {
+    "message0": "ES8311 microphone + speaker init object %1 %2 SDA %3 SCL %4 address %5 BCLK/SCLK %6 LR %7 DI/DAC input %8 DO/ADC output %9 MCK %10 sample rate %11 gain register %12 PA_EN %13",
+    "tooltip": "Initialize ES8311 codec microphone and speaker paths for the Microphone + Audio Amplifier board. Defaults from the silkscreen: SCLK 39, LR 2, DI 38, DO 40, MCK46, SDA 41, SCL 42. ES8311 uses 3V3; NS4150B amplifier uses 5V PA_EN defaults to -1 for no control; set a GPIO to drive an external amplifier enable pin high."
+  },
+  "qwen_omni_es8311_test_tone": {
+    "message0": "play prompt tone object %1 %2 frequency Hz %3 duration ms %4",
+    "tooltip": "Play a short prompt tone through the current I2S/ES8311 speaker object for record start/end cues or speaker checks"
+  },
+  "qwen_omni_k10_audio_init": {
+    "message0": "K10 built-in microphone + speaker init object %1 %2 sample rate %3",
+    "tooltip": "Initialize the UNIHIKER K10 built-in microphone and speaker. Use the same object for both microphone and speaker fields in Qwen voice chat blocks."
+  },
+  "qwen_omni_i2s_prompt_tone": {
+    "message0": "play prompt tone object %1 %2 frequency Hz %3 duration ms %4",
+    "tooltip": "Play a short prompt tone through the current I2S/ES8311 speaker object for record start/end cues or speaker checks"
+  }
+}

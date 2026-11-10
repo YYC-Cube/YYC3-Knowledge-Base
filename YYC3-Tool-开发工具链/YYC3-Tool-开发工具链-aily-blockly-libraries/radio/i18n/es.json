@@ -1,0 +1,46 @@
+{
+  "toolbox_name": "RadioLib LoRa",
+  "toolbox_labels": {
+    "初始化": "inicialización",
+    "参数设置": "Configuración de parámetros",
+    "阻塞式通信": "bloqueando la comunicación",
+    "中断式通信": "comunicación interrumpida",
+    "状态查询": "Consulta de estado",
+    "电源管理": "Gestión de energía"
+  },
+  "radiolib_lora_init": {
+    "message0": "Inicializar LoRa %1 nombre %2",
+    "message1": "Pines CS %1 IRQ %2 RST %3 GPIO %4",
+    "message2": "Frecuencia(MHz) %1 Potencia(dBm) %2",
+    "tooltip": "Inicializar módulo radio LoRa. SX127x: IRQ=DIO0, GPIO=DIO1; SX126x: IRQ=DIO1, GPIO=BUSY"
+  },
+  "radiolib_set_bandwidth": {
+    "message0": "%1 establecer ancho de banda(kHz) %2",
+    "tooltip": "Establecer ancho de banda LoRa. Mayor = más rápido pero menor alcance",
+    "args0": [null, {"options": [["7.8","7.8"],["10.4","10.4"],["15.6","15.6"],["20.8","20.8"],["31.25","31.25"],["41.7","41.7"],["62.5","62.5"],["125","125.0"],["250","250.0"],["500","500.0"]]}]
+  },
+  "radiolib_set_spreading_factor": {
+    "message0": "%1 establecer factor de dispersión %2",
+    "tooltip": "Establecer factor de dispersión LoRa (6-12). Mayor = más alcance pero más lento",
+    "args0": [null, {"options": [["6","6"],["7","7"],["8","8"],["9","9"],["10","10"],["11","11"],["12","12"]]}]
+  },
+  "radiolib_set_coding_rate": {
+    "message0": "%1 establecer tasa de codificación %2",
+    "tooltip": "Establecer tasa de codificación LoRa. Mayor = mejor corrección pero más lento",
+    "args0": [null, {"options": [["4/5","5"],["4/6","6"],["4/7","7"],["4/8","8"]]}]
+  },
+  "radiolib_set_frequency": { "message0": "%1 establecer frecuencia(MHz) %2", "tooltip": "Establecer frecuencia portadora" },
+  "radiolib_set_power": { "message0": "%1 establecer potencia TX(dBm) %2", "tooltip": "Establecer potencia de transmisión" },
+  "radiolib_set_sync_word": { "message0": "%1 establecer palabra de sincronización %2", "tooltip": "Establecer palabra de sync LoRa. TX y RX deben coincidir" },
+  "radiolib_transmit": { "message0": "%1 enviar mensaje %2", "tooltip": "Enviar mensaje de texto (modo bloqueante)" },
+  "radiolib_receive": { "message0": "%1 recibir mensaje", "tooltip": "Recibir mensaje (modo bloqueante)" },
+  "radiolib_on_receive": { "message0": "Cuando %1 recibe datos", "message1": "hacer %1", "tooltip": "Se activa cuando el módulo LoRa recibe un paquete" },
+  "radiolib_start_receive": { "message0": "%1 iniciar recepción", "tooltip": "Iniciar modo de recepción asíncrono" },
+  "radiolib_received_data": { "message0": "%1 datos recibidos", "tooltip": "Obtener datos recibidos en el callback" },
+  "radiolib_received_rssi": { "message0": "%1 RSSI recibido", "tooltip": "Obtener RSSI del paquete recibido" },
+  "radiolib_received_snr": { "message0": "%1 SNR recibido", "tooltip": "Obtener SNR del paquete recibido" },
+  "radiolib_get_rssi": { "message0": "%1 obtener RSSI", "tooltip": "Obtener RSSI de la última recepción" },
+  "radiolib_get_snr": { "message0": "%1 obtener SNR", "tooltip": "Obtener SNR de la última recepción" },
+  "radiolib_sleep": { "message0": "%1 modo suspensión", "tooltip": "Modo de bajo consumo" },
+  "radiolib_standby": { "message0": "%1 modo espera", "tooltip": "Modo espera, despertar rápido" }
+}

@@ -1,0 +1,137 @@
+{
+  "toolbox_name": "AutoDriver",
+  "autodriver_init": {
+    "message0": "Инициализировать AutoDriver %1 позиция цепи %2 CS %3 сброс %4 busy %5",
+    "tooltip": "Инициализировать AutoDriver %1 CS %2 сброс %3 busy %4"
+  },
+  "autodriver_config_step_mode": {
+    "message0": "AutoDriver %1 режим шага %2",
+    "tooltip": "AutoDriver %1 режим шага %2"
+  },
+  "autodriver_set_speed": {
+    "message0": "Установить AutoDriver %1 %2 скорость %3 steps/s",
+    "tooltip": "Установить AutoDriver %1 макс. скорость %2"
+  },
+  "autodriver_set_accel": {
+    "message0": "Установить AutoDriver %1 %2 скорость %3",
+    "tooltip": "Установить AutoDriver %1 %2 скорость %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Ускорение",
+            "AUTODRIVER_ACC"
+          ],
+          [
+            "Замедление",
+            "AUTODRIVER_DEC"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "autodriver_set_kval": {
+    "message0": "Установить AutoDriver %1 KVAL %2 %3",
+    "tooltip": "Установить AutoDriver %1 KVAL %2 %3"
+  },
+  "autodriver_run": {
+    "message0": "AutoDriver %1 запуск направление скорость %2 %3",
+    "tooltip": "AutoDriver %1 запуск направление скорость %2 %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Вперед",
+            "DIR_FWD"
+          ],
+          [
+            "Назад",
+            "DIR_REV"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "autodriver_move": {
+    "message0": "AutoDriver %1 движение направление шаги %2 %3",
+    "tooltip": "AutoDriver %1 движение направление шаги %2 %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Вперед",
+            "DIR_FWD"
+          ],
+          [
+            "Назад",
+            "DIR_REV"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "autodriver_go_to": {
+    "message0": "AutoDriver %1 перейти к позиции %2",
+    "tooltip": "AutoDriver %1 перейти к позиции %2"
+  },
+  "autodriver_get_position": {
+    "message0": "AutoDriver %1 получить позицию",
+    "tooltip": "AutoDriver %1 получить позицию"
+  },
+  "autodriver_get_status": {
+    "message0": "AutoDriver %1 получить статус",
+    "tooltip": "AutoDriver %1 получить статус"
+  },
+  "autodriver_stop": {
+    "message0": "AutoDriver %1 стоп %2",
+    "tooltip": "AutoDriver %1 стоп %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Плавная остановка",
+            "STOP_SOFT"
+          ],
+          [
+            "Жесткая остановка",
+            "STOP_HARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "autodriver_hiz": {
+    "message0": "AutoDriver %1 HiZ %2",
+    "tooltip": "AutoDriver %1 HiZ %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Плавно",
+            "HIZ_SOFT"
+          ],
+          [
+            "Жестко",
+            "HIZ_HARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "autodriver_reset_position": {
+    "message0": "AutoDriver %1 сбросить позицию",
+    "tooltip": "AutoDriver %1 сбросить позицию"
+  },
+  "autodriver_reset_device": {
+    "message0": "AutoDriver %1 сбросить устройство",
+    "tooltip": "AutoDriver %1 сбросить устройство"
+  }
+}

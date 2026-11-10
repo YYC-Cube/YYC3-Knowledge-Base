@@ -1,0 +1,52 @@
+{
+  "toolbox_name": "GIF动画播放器",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "打开GIF": "打开GIF",
+    "播放控制": "播放控制",
+    "信息获取": "信息获取"
+  },
+  "gif_init": {
+    "message0": "初始化GIF播放器 %1",
+    "tooltip": "初始化AnimatedGIF播放器对象，需配合TFT显示屏使用"
+  },
+  "gif_open_memory": {
+    "message0": "GIF %1 打开内存数据 头文件 %2 数组名 %3",
+    "message1": "显示位置 X %1 Y %2",
+    "tooltip": "从内存（FLASH）中打开GIF数据，需指定包含GIF数据的头文件名和数组变量名，以及显示位置"
+  },
+  "gif_open_sd": {
+    "message0": "GIF %1 打开SD卡文件 %2",
+    "message1": "显示位置 X %1 Y %2",
+    "tooltip": "从SD卡打开GIF文件，需指定文件路径和显示位置"
+  },
+  "gif_play_frame": {
+    "message0": "GIF %1 播放一帧 同步等待 %2",
+    "tooltip": "播放GIF动画的一帧，返回是否还有更多帧。同步等待为「是」时会按帧延迟等待",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["是", "true"],
+          ["否", "false"]
+        ]
+      }
+    ]
+  },
+  "gif_play_all": {
+    "message0": "GIF %1 播放全部帧",
+    "tooltip": "播放GIF动画的所有帧，播放完毕后继续执行下一个块"
+  },
+  "gif_close": {
+    "message0": "GIF %1 关闭",
+    "tooltip": "关闭当前打开的GIF文件，释放资源"
+  },
+  "gif_get_width": {
+    "message0": "GIF %1 画布宽度",
+    "tooltip": "获取当前GIF动画的画布宽度（像素）"
+  },
+  "gif_get_height": {
+    "message0": "GIF %1 画布高度",
+    "tooltip": "获取当前GIF动画的画布高度（像素）"
+  }
+}

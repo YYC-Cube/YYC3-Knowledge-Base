@@ -1,0 +1,343 @@
+[
+  {
+    "type": "rtc_init",
+    "icon": "fa-light fa-clock",
+    "message0": "初始化RTC时钟 %1 芯片型号 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "rtc"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHIP_TYPE",
+        "options": [
+          ["DS3231 (I2C)", "DS3231"],
+          ["DS1307 (I2C)", "DS1307"],
+          ["DS1302 (三线)", "DS1302"],
+          ["PCF8563 (I2C)", "PCF8563"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "初始化RTC实时时钟模块，选择芯片型号",
+    "extensions": ["rtc_init_dynamic"]
+  },
+  {
+    "type": "rtc_set_datetime",
+    "icon": "fa-light fa-clock",
+    "message0": "%1 设置时间 年 %2 月 %3 日 %4 时 %5 分 %6 秒 %7",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["RtcDS3231", "RtcDS1307", "RtcDS1302", "RtcPCF8563"],
+        "defaultType": "RtcDS3231"
+      },
+      {
+        "type": "input_value",
+        "name": "YEAR",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MONTH",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "DAY",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "HOUR",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "MINUTE",
+        "check": ["Number"]
+      },
+      {
+        "type": "input_value",
+        "name": "SECOND",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置RTC的日期和时间"
+  },
+  {
+    "type": "rtc_set_compile_datetime",
+    "icon": "fa-light fa-clock",
+    "message0": "%1 设置为编译时间",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["RtcDS3231", "RtcDS1307", "RtcDS1302", "RtcPCF8563"],
+        "defaultType": "RtcDS3231"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "将RTC设置为程序编译时的时间，用于快速校准"
+  },
+  {
+    "type": "rtc_get_datetime",
+    "icon": "fa-light fa-clock",
+    "message0": "%1 获取当前时间",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["RtcDS3231", "RtcDS1307", "RtcDS1302", "RtcPCF8563"],
+        "defaultType": "RtcDS3231"
+      }
+    ],
+    "output": "RtcDateTime",
+    "colour": "#4CAF50",
+    "tooltip": "从RTC读取当前日期和时间"
+  },
+  {
+    "type": "rtc_is_datetime_valid",
+    "icon": "fa-light fa-clock",
+    "message0": "%1 时间是否有效",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["RtcDS3231", "RtcDS1307", "RtcDS1302", "RtcPCF8563"],
+        "defaultType": "RtcDS3231"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查RTC当前存储的时间是否有效"
+  },
+  {
+    "type": "rtc_get_is_running",
+    "icon": "fa-light fa-clock",
+    "message0": "%1 是否正在运行",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["RtcDS3231", "RtcDS1307", "RtcDS1302", "RtcPCF8563"],
+        "defaultType": "RtcDS3231"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查RTC时钟振荡器是否正在运行"
+  },
+  {
+    "type": "rtc_set_is_running",
+    "icon": "fa-light fa-clock",
+    "message0": "%1 设置运行状态 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["RtcDS3231", "RtcDS1307", "RtcDS1302", "RtcPCF8563"],
+        "defaultType": "RtcDS3231"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RUNNING",
+        "options": [
+          ["运行", "TRUE"],
+          ["停止", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "启动或停止RTC时钟振荡器"
+  },
+  {
+    "type": "rtc_get_year",
+    "icon": "fa-light fa-clock",
+    "message0": "时间 %1 的年份",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["RtcDateTime"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取RtcDateTime的年份(2000-2099)"
+  },
+  {
+    "type": "rtc_get_month",
+    "icon": "fa-light fa-clock",
+    "message0": "时间 %1 的月份",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["RtcDateTime"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取RtcDateTime的月份(1-12)"
+  },
+  {
+    "type": "rtc_get_day",
+    "icon": "fa-light fa-clock",
+    "message0": "时间 %1 的日期",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["RtcDateTime"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取RtcDateTime的日期(1-31)"
+  },
+  {
+    "type": "rtc_get_hour",
+    "icon": "fa-light fa-clock",
+    "message0": "时间 %1 的小时",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["RtcDateTime"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取RtcDateTime的小时(0-23)"
+  },
+  {
+    "type": "rtc_get_minute",
+    "icon": "fa-light fa-clock",
+    "message0": "时间 %1 的分钟",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["RtcDateTime"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取RtcDateTime的分钟(0-59)"
+  },
+  {
+    "type": "rtc_get_second",
+    "icon": "fa-light fa-clock",
+    "message0": "时间 %1 的秒数",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["RtcDateTime"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取RtcDateTime的秒数(0-59)"
+  },
+  {
+    "type": "rtc_get_day_of_week",
+    "icon": "fa-light fa-clock",
+    "message0": "时间 %1 的星期",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["RtcDateTime"]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "tooltip": "获取RtcDateTime的星期(0=周日, 1=周一, ..., 6=周六)"
+  },
+  {
+    "type": "rtc_format_datetime",
+    "icon": "fa-light fa-clock",
+    "message0": "格式化时间 %1 为文本",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TIME",
+        "check": ["RtcDateTime"]
+      }
+    ],
+    "output": "String",
+    "colour": "#FF9800",
+    "tooltip": "将RtcDateTime转换为 YYYY/MM/DD HH:MM:SS 格式的文本"
+  },
+  {
+    "type": "rtc_ds3231_get_temperature",
+    "icon": "fa-light fa-clock",
+    "message0": "%1 读取温度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["RtcDS3231"],
+        "defaultType": "RtcDS3231"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UNIT",
+        "options": [
+          ["°C (摄氏)", "C"],
+          ["°F (华氏)", "F"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2196F3",
+    "tooltip": "读取DS3231内置温度传感器的温度值"
+  },
+  {
+    "type": "rtc_ds1302_set_write_protect",
+    "icon": "fa-light fa-clock",
+    "message0": "%1 写保护 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "rtc",
+        "variableTypes": ["RtcDS1302"],
+        "defaultType": "RtcDS1302"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ENABLE",
+        "options": [
+          ["启用", "TRUE"],
+          ["禁用", "FALSE"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "启用或禁用DS1302的写保护功能"
+  }
+]

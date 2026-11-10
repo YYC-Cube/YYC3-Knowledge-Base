@@ -1,0 +1,410 @@
+{
+  "toolbox_name": "モノクロディスプレイ",
+  "toolbox_categories": ["u8g2 初期化と設定", "u8g2 バッファ", "u8g2 図形描画", "u8g2 画像", "u8g2 アニメーション", "u8x8"],
+  "u8g2_begin": {
+    "message0": "ディスプレイを初期化 モデル %1 モード %2",
+    "tooltip": "U8G2ディスプレイデバイスを初期化します",
+    "args0": [
+      {
+        "options": [
+          [
+            "SSD1306",
+            "SSD1306"
+          ],
+          [
+            "SSD1309",
+            "SSD1309"
+          ],
+          [
+            "SH1106",
+            "SH1106"
+          ],
+          [
+            "SH1107",
+            "SH1107"
+          ],
+          [
+            "ST7305",
+            "ST7305"
+          ],
+          [
+            "ST7567",
+            "ST7567"
+          ],
+          [
+            "ST7920",
+            "ST7920"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "フルバッファ",
+            "FULL_BUFFER"
+          ],
+          [
+            "ページバッファ",
+            "PAGE_BUFFER"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_page_buffer": {
+    "message0": "ページバッファモード",
+    "message1": "描画 %1",
+    "tooltip": "ページバッファモードで描画操作を実行します"
+  },
+  "u8g2_clear": {
+    "message0": "ディスプレイをクリア",
+    "tooltip": "表示バッファの内容をクリアします"
+  },
+  "u8g2_draw_pixel": {
+    "message0": "点を描画 x%1 y%2",
+    "tooltip": "点を描画します"
+  },
+  "u8g2_draw_line": {
+    "message0": "線を描画 x%1 y%2 から x%3 y%4 へ",
+    "tooltip": "直線を描画します"
+  },
+  "u8g2_draw_rectangle": {
+    "message0": "矩形を描画 x%1 y%2 幅%3 高さ%4 塗りつぶし%5",
+    "tooltip": "矩形を描画します。塗りつぶしも選択できます"
+  },
+  "u8g2_draw_circle": {
+    "message0": "円を描画 中心 x%1 y%2 半径%3 塗りつぶし%4",
+    "tooltip": "円を描画します。塗りつぶしも選択できます"
+  },
+  "u8g2_draw_str": {
+    "message0": "テキストを表示 x%1 y%2 テキスト%3",
+    "tooltip": "クリアと更新を含む簡易テキスト表示"
+  },
+  "u8g2_draw_bitmap": {
+    "message0": "画像を表示 x%1 y%2 画像 %3",
+    "tooltip": "画像を表示します"
+  },
+  "u8g2_bitmap": {
+    "message0": "画像 %1",
+    "tooltip": "u8g2描画用の画像データ"
+  },
+  "u8g2_animation": {
+    "message0": "アニメーション %1",
+    "tooltip": "GIF、MP4、またはPNGをアップロードし、u8g2アニメーションフレームに変換します"
+  },
+  "u8g2_play_animation": {
+    "message0": "アニメーションを再生 x%1 y%2 アニメーション %3 モード %4",
+    "message1": "ループ再生 %1",
+    "tooltip": "u8g2アニメーションを再生します。非ブロッキングモードでは、loopがフレーム間隔に達するたびに次のフレームを描画します。",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "ブロッキング再生",
+            "BLOCKING"
+          ],
+          [
+            "非ブロッキング再生",
+            "NON_BLOCKING"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_draw_animation_frame": {
+    "message0": "アニメーションフレームを表示 x%1 y%2 アニメーション %3 フレーム %4",
+    "tooltip": "指定した u8g2 アニメーションフレームを表示します。フレーム番号には変数を接続でき、有効範囲に制限されます"
+  },
+  "u8g2_animation_frame_count": {
+    "message0": "アニメーション %1 の総フレーム数を取得",
+    "tooltip": "u8g2 アニメーションの総フレーム数を取得します"
+  },
+  "u8g2_step_animation_frame": {
+    "message0": "フレーム変数 %1 を目標フレーム %2 へ1フレーム移動 総フレーム数 %3 方向 %4",
+    "tooltip": "実行するたびにフレーム変数を1フレーム進めます。順方向と逆方向は端で循環し、自動は現在フレームと目標フレームから方向を選びます",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "自動",
+            "AUTO"
+          ],
+          [
+            "順方向",
+            "FORWARD"
+          ],
+          [
+            "逆方向",
+            "BACKWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_icon_16x16": {
+    "message0": "小アイコン16×16 %1",
+    "tooltip": "16×16ピクセルの小アイコン。バッテリー、信号、絵文字などに適しています"
+  },
+  "u8g2_icon_32x32": {
+    "message0": "中アイコン32×32 %1",
+    "tooltip": "32×32ピクセルの中アイコン。天気や状態アイコンなどに適しています"
+  },
+  "u8g2_icon_64x64": {
+    "message0": "大アイコン64×64 %1",
+    "tooltip": "64×64ピクセルの大アイコン。アプリアイコンや大きな絵文字などに適しています"
+  },
+  "u8g2_set_flip_mode": {
+    "message0": "画面反転を設定 %1",
+    "tooltip": "画面の表示方向を設定します。0=通常 1=180度反転",
+    "args0": [
+      {
+        "options": [
+          [
+            "通常",
+            "0"
+          ],
+          [
+            "180度反転",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_display_mirror": {
+    "message0": "画面ミラーを設定 %1",
+    "tooltip": "U8g2のミラー表示方向を設定します。通常=ミラーなし、水平=左右反転、垂直=上下反転",
+    "args0": [
+      {
+        "options": [
+          [
+            "通常",
+            "U8G2_R0"
+          ],
+          [
+            "水平ミラー（左右）",
+            "U8G2_MIRROR"
+          ],
+          [
+            "垂直ミラー（上下）",
+            "U8G2_MIRROR_VERTICAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_power_save": {
+    "message0": "ディスプレイ電源 %1",
+    "tooltip": "ディスプレイ電源を制御します。0=表示オン 1=表示オフ（省電力モード）",
+    "args0": [
+      {
+        "options": [
+          [
+            "オン",
+            "0"
+          ],
+          [
+            "オフ（省電力）",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_contrast": {
+    "message0": "画面の明るさを設定 %1",
+    "tooltip": "画面のコントラスト/明るさを設定します。範囲0-255"
+  },
+  "u8g2_set_bus_clock": {
+    "message0": "I2C速度を設定 %1",
+    "tooltip": "I2Cバス通信速度を設定します",
+    "args0": [
+      {
+        "options": [
+          [
+            "100kHz（標準）",
+            "100000"
+          ],
+          [
+            "400kHz（高速）",
+            "400000"
+          ],
+          [
+            "1MHz（超高速）",
+            "1000000"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_i2c_address": {
+    "message0": "I2Cアドレスを設定 %1",
+    "tooltip": "ディスプレイのI2C（IIC）アドレスを設定します。入力値はu8g2.setI2CAddress()へそのまま渡され、自動変換は行いません。ディスプレイ初期化前に使用します。"
+  },
+  "u8g2_set_font": {
+    "message0": "フォントを設定 サイズ %1",
+    "tooltip": "表示テキストのフォントスタイルを設定します（3段階選択：サイズ→種類→フォント）",
+    "args0": [
+      {
+        "options": [
+          [
+            "8px",
+            "8"
+          ],
+          [
+            "14px",
+            "14"
+          ],
+          [
+            "19px",
+            "19"
+          ],
+          [
+            "25px",
+            "25"
+          ],
+          [
+            "34px",
+            "34"
+          ],
+          [
+            "42px",
+            "42"
+          ],
+          [
+            "50px",
+            "50"
+          ],
+          [
+            "58px",
+            "58"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_draw_color": {
+    "message0": "描画色を設定 %1",
+    "tooltip": "描画色モードを設定します。1=白 0=黒 2=反転",
+    "args0": [
+      {
+        "options": [
+          [
+            "白（描画）",
+            "1"
+          ],
+          [
+            "黒（消去）",
+            "0"
+          ],
+          [
+            "反転（XOR）",
+            "2"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_font_mode": {
+    "message0": "フォントモードを設定 %1",
+    "tooltip": "文字表示モードを設定します。透明=文字背景透明、不透明=文字背景黒",
+    "args0": [
+      {
+        "options": [
+          [
+            "透明背景",
+            "1"
+          ],
+          [
+            "不透明背景",
+            "0"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_clear_buffer": {
+    "message0": "バッファをクリア",
+    "tooltip": "表示バッファをクリアします（すぐには表示せず、バッファ送信と組み合わせて使用）"
+  },
+  "u8g2_send_buffer": {
+    "message0": "バッファを送信",
+    "tooltip": "バッファ内容を画面に表示します"
+  },
+  "u8x8_begin": {
+    "message0": "U8x8ディスプレイを初期化 モデル %1",
+    "tooltip": "U8X8ディスプレイデバイスを初期化します",
+    "args0": [
+      {
+        "options": [
+          [
+            "SSD1306",
+            "SSD1306"
+          ],
+          [
+            "SSD1309",
+            "SSD1309"
+          ],
+          [
+            "SH1106",
+            "SH1106"
+          ],
+          [
+            "SH1107",
+            "SH1107"
+          ],
+          [
+            "ST7567",
+            "ST7567"
+          ],
+          [
+            "ST7920",
+            "ST7920"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8x8_clear": {
+    "message0": "U8x8ディスプレイをクリア",
+    "tooltip": "表示内容をクリアします"
+  },
+  "u8x8_draw_str": {
+    "message0": "U8x8 テキスト表示 x%1 y%2 テキスト%3 反転%4",
+    "tooltip": "テキストを表示します"
+  },
+  "extensions": {
+    "u8g2_font_dynamic_inputs": {
+      "font_type": "フォント種類",
+      "font": "フォント",
+      "chinese": "中国語",
+      "full_character_set": "全文字セット",
+      "wenquanyi": "WenQuanYi",
+      "about": "約",
+      "characters": "文字"
+    },
+    "u8g2_init_dynamic_inputs": {
+      "resolution": "解像度",
+      "communication": "通信",
+      "i2c_hardware": "I2C（ハードウェア）",
+      "i2c_software": "I2C（ソフトウェア）",
+      "spi3_hardware": "SPI 3線（ハードウェア）",
+      "spi3_software": "SPI 3線（ソフトウェア）",
+      "spi4_hardware": "SPI 4線（ハードウェア）",
+      "spi4_software": "SPI 4線（ソフトウェア）",
+      "spi_hardware": "SPI（ハードウェア）",
+      "spi_software": "SPI（ソフトウェア）",
+      "pin_scl": "ピンSCL",
+      "pin_rst": "ピンRST",
+      "pin_cs": "ピンCS",
+      "pin_clk": "ピンCLK"
+    },
+    "u8g2_animation_play_dynamic_inputs": {}
+  }
+}

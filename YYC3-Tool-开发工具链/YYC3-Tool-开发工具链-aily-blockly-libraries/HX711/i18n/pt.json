@@ -1,0 +1,55 @@
+{
+"toolbox_name": "Sensor de peso HX711",
+"hx711_create": {
+    "message0": "Criar sensor de peso HX711 %1"
+},
+"hx711_begin": {
+    "message0": "Inicializar %1 Pino de dados %2 Pino de clock %3",
+    "args0": [
+        null,
+        {
+            "options": "${board.digitalPins}"
+        },
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+},
+"hx711_tare": {
+    "message0": "%1 Tara (vezes %2)"
+},
+"hx711_set_scale": {
+    "message0": "%1 Definir fator de escala %2"
+},
+"hx711_get_units": {
+    "message0": "%1 Obter peso (vezes %2)"
+},
+"hx711_read": {
+    "message0": "%1 Ler dados brutos"
+},
+"hx711_read_average": {
+    "message0": "%1 Ler valor médio (vezes %2)"
+},
+"hx711_power_down": {
+    "message0": "%1 Desligar"
+},
+"hx711_power_up": {
+    "message0": "%1 Ligar"
+},
+"hx711_set_gain": {
+    "message0": "%1 Definir ganho %2",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["128 (Canal A)", "HX711_CHANNEL_A_GAIN_128"],
+                ["64 (Canal A)", "HX711_CHANNEL_A_GAIN_64"],
+                ["32 (Canal B)", "HX711_CHANNEL_B_GAIN_32"]
+            ]
+        }
+    ]
+},
+"hx711_calibrate_scale": {
+    "message0": "%1 Calibrar escala Peso conhecido %2 Vezes %3"
+}
+}

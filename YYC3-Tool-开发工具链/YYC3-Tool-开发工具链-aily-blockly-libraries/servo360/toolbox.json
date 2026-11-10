@@ -1,0 +1,22 @@
+{
+    "kind": "category",
+    "icon": "iconfont icon-servo",
+    "name": "360 Servo",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "servo360_write",
+            "inputs": {
+                "SPEED": {
+                    "shadow": {
+                        "type": "servo360_speed"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "servo360_speed"
+        }
+    ]
+}

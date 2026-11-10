@@ -1,0 +1,51 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-weight-scale",
+  "name": "HX711称重传感器",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "hx711_create"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_begin"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_tare"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_set_scale"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_get_units"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_calibrate_scale"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_read"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_read_average"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_set_gain"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_power_down"
+    },
+    {
+      "kind": "block",
+      "type": "hx711_power_up"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "type": "k10_button_pressed",
+    "message0": "K10按键 %1 被按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BTN",
+        "options": [
+          ["A", "buttonA"],
+          ["B", "buttonB"],
+          ["A+B", "buttonAB"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检测K10按键是否被按下",
+    "icon": "fa-light fa-hand-pointer"
+  },
+  {
+    "type": "k10_button_callback",
+    "message0": "当K10按键 %1 被 %2 时",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BTN",
+        "options": [
+          ["A", "buttonA"],
+          ["B", "buttonB"],
+          ["A+B", "buttonAB"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "EVENT",
+
+        "options": [
+          ["按下", "pressed"],
+          ["释放", "released"]
+        ]
+      }
+    ],
+    "message1": "%1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "inputsInline": true,
+    "colour": "#4CAF50",
+    "tooltip": "当K10按键被按下或释放时执行",
+    "icon": "fa-light fa-hand-pointer"
+  }
+]

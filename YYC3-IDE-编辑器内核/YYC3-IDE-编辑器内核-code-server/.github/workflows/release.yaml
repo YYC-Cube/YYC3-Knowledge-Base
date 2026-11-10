@@ -1,0 +1,198 @@
+name: Draft release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: write # For creating releases.
+  discussions: write #  For creating a discussion.
+
+# Cancel in-progress runs for pull requests when developers push
+# additional changes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  package-linux:
+    name: ${{ format('linux-{0}', matrix.vscode_arch) }}
+    runs-on: ubuntu-22.04
+    if: >-
+      (github.event_name == 'workflow_dispatch') ||
+      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true && startsWith(github.head_ref, 'update/'))
+
+    strategy:
+      matrix:
+        include:
+          - npm_arch: x64
+            vscode_arch: x64
+            package_arch: amd64
+          - npm_arch: arm64
+            vscode_arch: arm64
+            package_arch: arm64
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+      TAG: ${{ inputs.version || github.event.pull_request.head.ref || github.ref_name }}
+      # Set release package name.
+      ARCH: ${{ matrix.package_arch }}
+      # Cross-compile target.
+      VSCODE_ARCH: ${{ matrix.vscode_arch }}
+      npm_config_arch: ${{ matrix.npm_arch }}
+      # Ensure native modules are built from source to avoid prebuilds and use
+      # the correct version of glibc.
+      npm_config_build_from_source: true
+      # Gulp target name.
+      # TODO: Pull from VSCODE_ARCH instead.
+      VSCODE_TARGET: ${{ format('linux-{0}', matrix.vscode_arch) }}
+
+    steps:
+      - run: sudo apt update && sudo apt install -y libkrb5-dev
+      - uses: awalsh128/cache-apt-pkgs-action@681749ae568c81c2037cb9185e38b709b261bd2f # latest
+        with:
+          packages: quilt
+          version: 1.0
+      - name: Install nfpm
+        run: |
+          mkdir -p ~/.local/bin
+          curl -sSfL https://github.com/goreleaser/nfpm/releases/download/v2.3.1/nfpm_2.3.1_`uname -s`_`uname -m`.tar.gz | tar -C ~/.local/bin -zxv nfpm
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Strip update/ and v from tag and set major version
+        run: |
+          version=${TAG#update/}
+          version=${version#v}
+          version=4${version:1}
+          echo "VERSION=$version" >> $GITHUB_ENV
+
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          submodules: true
+      - run: quilt push -a
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            test/package-lock.json
+
+      - name: Build
+        run: |
+          cd lib/vscode/build
+          npm ci
+          cd ..
+          source ./build/azure-pipelines/linux/setup-env.sh
+          # Run preinstall script before root dependencies are installed
+          # so that v8 headers are patched correctly for native modules.
+          node build/npm/preinstall.ts
+          cd ../..
+          npm ci
+          npm run build
+          npm run build:vscode
+
+      # Platform-agnostic NPM package.
+      - run: npm run release
+        if: ${{ matrix.vscode_arch == 'x64' }}
+      - run: tar -czf package.tar.gz release
+        if: ${{ matrix.vscode_arch == 'x64' }}
+      - run: |
+          sed "/^## Unreleased/,/^## / ! d" CHANGELOG.md | head -n -2 | tail -n +3 > .cache/release-notes
+        if: ${{ matrix.vscode_arch == 'x64' }}
+      - uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        if: ${{ matrix.vscode_arch == 'x64' }}
+        with:
+          draft: true
+          discussion_category_name: "📣 Announcements"
+          files: package.tar.gz
+          tag_name: v${{ env.VERSION }}
+          name: v${{ env.VERSION }}
+          body_path: .cache/release-notes
+
+      # Platform-specific release.
+      - run: KEEP_MODULES=1 npm run release
+      - run: npm run package
+      - uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          draft: true
+          discussion_category_name: "📣 Announcements"
+          files: ./release-packages/*
+          tag_name: v${{ env.VERSION }}
+          name: v${{ env.VERSION }}
+
+  package-macos:
+    name: ${{ matrix.vscode_target }}
+    runs-on: ${{ matrix.os }}
+    if: >-
+      (github.event_name == 'workflow_dispatch') ||
+      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true && startsWith(github.head_ref, 'update/'))
+    strategy:
+      matrix:
+        include:
+          - os: macos-15-intel
+            vscode_target: darwin-x64
+          - os: macos-latest
+            vscode_target: darwin-arm64
+    env:
+      VSCODE_TARGET: ${{ matrix.vscode_target }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      TAG: ${{ inputs.version || github.event.pull_request.head.ref || github.ref_name }}
+      # Ensure native modules are built from source to avoid prebuilds.
+      npm_config_build_from_source: true
+
+    steps:
+      # The version of node-gyp we use depends on distutils but it was removed
+      # in Python 3.12.  It seems to be fixed in the latest node-gyp so when we
+      # next update Node we can probably remove this.  For now, install
+      # setuptools since it contains distutils.
+      - run: brew install python-setuptools quilt
+      - name: Install nfpm
+        run: |
+          mkdir -p ~/.local/bin
+          curl -sSfL https://github.com/goreleaser/nfpm/releases/download/v2.3.1/nfpm_2.3.1_`uname -s`_`uname -m`.tar.gz | tar -C ~/.local/bin -zxv nfpm
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Strip update/ and v from tag and set major version
+        run: |
+          version=${TAG#update/}
+          version=${version#v}
+          version=4${version:1}
+          echo "VERSION=$version" >> $GITHUB_ENV
+
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          submodules: true
+      - run: quilt push -a
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            test/package-lock.json
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run build:vscode
+      - run: KEEP_MODULES=1 npm run release
+      - run: npm run test:native
+
+      - run: npm run package
+      - uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          draft: true
+          discussion_category_name: "📣 Announcements"
+          files: ./release-packages/*
+          tag_name: v${{ env.VERSION }}
+          name: v${{ env.VERSION }}

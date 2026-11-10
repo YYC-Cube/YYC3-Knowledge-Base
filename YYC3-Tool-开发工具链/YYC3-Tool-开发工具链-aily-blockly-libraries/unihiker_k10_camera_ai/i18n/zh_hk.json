@@ -1,0 +1,236 @@
+{
+  "toolbox_name": "K10攝像頭與AI",
+  "toolbox_labels": {
+    "摄像头": "網路攝影機",
+    "AI视觉": "AI視覺",
+    "人脸识别": "人臉辨識"
+  },
+  "k10_camera_init": {
+    "message0": "初始化攝像頭",
+    "tooltip": "初始化K10攝像頭，預覽預設保持隱藏"
+  },
+  "k10_camera_show": {
+    "message0": "顯示攝像頭畫面",
+    "tooltip": "在螢幕上顯示攝像頭即時畫面"
+  },
+  "k10_photo_save": {
+    "message0": "拍照儲存到TF卡 檔案名 %1",
+    "tooltip": "拍照並儲存到TF卡"
+  },
+  "k10_photo_base64": {
+    "message0": "拍照並轉換為Base64",
+    "tooltip": "拍照並返回JPEG圖片Base64字串，可直接連接到通義千問圖片對話的Base64圖片輸入"
+  },
+  "k10_ai_init": {
+    "message0": "初始化AI功能 模式 %1",
+    "tooltip": "初始化AI視覺功能，攝像頭預覽預設保持隱藏",
+    "args0": [
+      {
+        "options": [
+          [
+            "人臉檢測/識別",
+            "Face"
+          ],
+          [
+            "貓臉檢測",
+            "Cat"
+          ],
+          [
+            "運動檢測",
+            "Move"
+          ],
+          [
+            "二維碼識別",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_switch_mode": {
+    "message0": "切換AI模式 %1",
+    "tooltip": "切換AI檢測模式",
+    "args0": [
+      {
+        "options": [
+          [
+            "人臉檢測/識別",
+            "Face"
+          ],
+          [
+            "貓臉檢測",
+            "Cat"
+          ],
+          [
+            "運動檢測",
+            "Move"
+          ],
+          [
+            "二維碼識別",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_is_detected": {
+    "message0": "AI檢測到 %1",
+    "tooltip": "返回AI是否檢測到目標",
+    "args0": [
+      {
+        "options": [
+          [
+            "人臉",
+            "Face"
+          ],
+          [
+            "貓臉",
+            "Cat"
+          ],
+          [
+            "運動",
+            "Move"
+          ],
+          [
+            "二維碼",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_face_data": {
+    "message0": "獲取人臉 %1 數據",
+    "tooltip": "獲取人臉檢測數據",
+    "args0": [
+      {
+        "options": [
+          [
+            "中心X坐標",
+            "CenterX"
+          ],
+          [
+            "中心Y坐標",
+            "CenterY"
+          ],
+          [
+            "寬度",
+            "Length"
+          ],
+          [
+            "高度",
+            "Width"
+          ],
+          [
+            "左眼X坐標",
+            "LeftEyeX"
+          ],
+          [
+            "左眼Y坐標",
+            "LeftEyeY"
+          ],
+          [
+            "右眼X坐標",
+            "RightEyeX"
+          ],
+          [
+            "右眼Y坐標",
+            "RightEyeY"
+          ],
+          [
+            "鼻子X坐標",
+            "NoseX"
+          ],
+          [
+            "鼻子Y坐標",
+            "NoseY"
+          ],
+          [
+            "左嘴角X坐標",
+            "LeftMouthX"
+          ],
+          [
+            "左嘴角Y坐標",
+            "LeftMouthY"
+          ],
+          [
+            "右嘴角X坐標",
+            "RightMouthX"
+          ],
+          [
+            "右嘴角Y坐標",
+            "RightMouthY"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_cat_data": {
+    "message0": "獲取貓臉 %1 數據",
+    "tooltip": "獲取貓臉檢測數據",
+    "args0": [
+      {
+        "options": [
+          [
+            "中心X坐標",
+            "CenterX"
+          ],
+          [
+            "中心Y坐標",
+            "CenterY"
+          ],
+          [
+            "寬度",
+            "Length"
+          ],
+          [
+            "高度",
+            "Width"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_qrcode": {
+    "message0": "獲取二維碼內容",
+    "tooltip": "獲取AI識別到的二維碼內容"
+  },
+  "k10_ai_set_motion_threshold": {
+    "message0": "設置運動檢測閾值 %1",
+    "tooltip": "設置運動檢測的靈敏度閾值"
+  },
+  "k10_ai_face_recognized": {
+    "message0": "人臉識別完成",
+    "tooltip": "返回一次識別人臉指令是否已完成並產生結果"
+  },
+  "k10_ai_get_face_id": {
+    "message0": "獲取識別到的人臉ID",
+    "tooltip": "獲取識別到的人臉ID"
+  },
+  "k10_ai_face_cmd": {
+    "message0": "人臉操作 %1",
+    "tooltip": "學習人臉、觸發一次人臉識別，或清空全部已學習人臉",
+    "args0": [
+      {
+        "options": [
+          [
+            "學習人臉",
+            "ENROLL"
+          ],
+          [
+            "識別人臉",
+            "RECOGNIZE"
+          ],
+          [
+            "清空已學習人臉",
+            "DELETEALL"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_camera_hide": {
+    "message0": "隱藏攝像頭畫面",
+    "tooltip": "隱藏K10攝像頭即時預覽，減少螢幕刷新和攝像頭顯示任務對語音播放的影響"
+  }
+}

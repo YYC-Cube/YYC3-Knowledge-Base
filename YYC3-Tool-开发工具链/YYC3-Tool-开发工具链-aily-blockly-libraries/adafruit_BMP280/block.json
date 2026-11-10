@@ -1,0 +1,122 @@
+[
+  {
+      "inputsInline": true,
+      "message0": "初始化 BMP280 传感器 I2C地址 %1 使用 %2",
+      "type": "bmp280_init",
+      "args0": [
+          {
+              "type": "field_dropdown",
+              "name": "ADDR",
+              "options": [
+                  ["0x76 (默认)", "0x76"],
+                  ["0x77 (备选)", "0x77"]
+              ]
+          },
+          {
+              "type": "field_dropdown",
+              "name": "WIRE",
+              "options": "${board.i2c}"
+          }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": "#4CAF50"
+  },
+  {
+      "inputsInline": true,
+      "message0": "读取 BMP280 温度 (°C)",
+      "type": "bmp280_read_temperature",
+      "output": "Number",
+      "colour": "#4CAF50"
+  },
+  {
+      "inputsInline": true,
+      "message0": "读取 BMP280 气压 (hPa)",
+      "type": "bmp280_read_pressure",
+      "output": "Number",
+      "colour": "#4CAF50"
+  },
+  {
+      "inputsInline": true,
+      "message0": "读取 BMP280 高度 (米) 基准气压 %1 hPa",
+      "type": "bmp280_read_altitude",
+      "args0": [
+          {
+              "type": "field_number",
+              "name": "SEAPRESSURE",
+              "value": 1013.25,
+              "precision": 0.01
+          }
+      ],
+      "output": "Number",
+      "colour": "#4CAF50"
+  },
+  {
+    "inputsInline": true,
+    "message0": "设置 BMP280 采样模式 工作模式 %1 温度过采样 %2 气压过采样 %3 滤波 %4 休眠时间 %5",
+    "type": "bmp280_set_sampling",
+    "args0": [
+        {
+            "type": "field_dropdown",
+            "name": "MODE",
+            "options": [
+                ["正常", "MODE_NORMAL"],
+                ["强制", "MODE_FORCED"],
+                ["睡眠", "MODE_SLEEP"]
+            ]
+        },
+        {
+            "type": "field_dropdown",
+            "name": "TEMP_OS",
+            "options": [
+                ["4倍", "SAMPLING_X4"],
+                ["无过采样", "SAMPLING_NONE"],
+                ["1倍", "SAMPLING_X1"],
+                ["2倍", "SAMPLING_X2"],
+                ["8倍", "SAMPLING_X8"],
+                ["16倍", "SAMPLING_X16"]
+            ]
+        },
+        {
+            "type": "field_dropdown",
+            "name": "PRES_OS",
+            "options": [
+                ["4倍", "SAMPLING_X4"],
+                ["无过采样", "SAMPLING_NONE"],
+                ["1倍", "SAMPLING_X1"],
+                ["2倍", "SAMPLING_X2"],
+                ["8倍", "SAMPLING_X8"],
+                ["16倍", "SAMPLING_X16"]
+            ]
+        },
+        {
+            "type": "field_dropdown",
+            "name": "FILTER",
+            "options": [
+                ["4倍", "FILTER_X4"],
+                ["关闭", "FILTER_OFF"],
+                ["2倍", "FILTER_X2"],
+                ["8倍", "FILTER_X8"],
+                ["16倍", "FILTER_X16"]
+            ]
+        },
+        {
+            "type": "field_dropdown",
+            "name": "DURATION",
+            "options": [
+                ["1ms", "STANDBY_MS_1"],
+                ["63ms", "STANDBY_MS_63"],
+                ["125ms", "STANDBY_MS_125"],
+                ["250ms", "STANDBY_MS_250"],
+                ["500ms", "STANDBY_MS_500"],
+                ["1000ms", "STANDBY_MS_1000"],
+                ["2000ms", "STANDBY_MS_2000"],
+                ["4000ms", "STANDBY_MS_4000"]
+            ]
+        }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50"
+}
+]

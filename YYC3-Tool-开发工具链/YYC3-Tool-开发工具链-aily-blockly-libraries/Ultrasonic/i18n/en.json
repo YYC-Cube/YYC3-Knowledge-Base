@@ -1,0 +1,6 @@
+{
+    "toolbox_name": "Ultrasonic",
+    "ultrasonic_ranging": {
+        "message0": "Ultrasonic ranging (cm) Trig# %1 Echo# %2"
+    }
+}

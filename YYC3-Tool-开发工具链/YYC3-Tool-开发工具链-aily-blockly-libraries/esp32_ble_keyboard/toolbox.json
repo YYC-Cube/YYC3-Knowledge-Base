@@ -1,0 +1,106 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-keyboard",
+  "name": "BLE蓝牙键盘",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "ble_keyboard_begin"
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_is_connected"
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_print",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello World"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_write",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "a"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_press",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "a"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_press",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "ble_keyboard_special_key"
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_release",
+      "inputs": {
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "a"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_release_all"
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_special_key"
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_media_key"
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_consumer_key"
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_set_battery_level"
+    },
+    {
+      "kind": "block",
+      "type": "ble_keyboard_end"
+    }
+  ]
+}

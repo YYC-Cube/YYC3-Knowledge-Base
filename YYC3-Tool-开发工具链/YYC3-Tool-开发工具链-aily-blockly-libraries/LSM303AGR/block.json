@@ -1,0 +1,155 @@
+[
+  {
+    "type": "lsm303agr_acc_init",
+    "message0": "初始化加速度计 %1\n使用 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "Acc"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": "#5B99A5",
+    "tooltip": "初始化LSM303AGR加速度计传感器，使用I2C接口",
+    "extensions": ["lsm303agr_acc_init_pin_info"]
+  },
+  {
+    "type": "lsm303agr_mag_init",
+    "message0": "初始化磁力计 %1\n使用 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "Mag"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": "#5B99A5",
+    "tooltip": "初始化LSM303AGR磁力计传感器，使用I2C接口",
+    "extensions": ["lsm303agr_mag_init_pin_info"]
+  },
+  {
+    "type": "lsm303agr_acc_get_axis",
+    "message0": "读取加速度计 %1 的 %2 轴加速度(mg)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Acc",
+        "variableTypes": ["LSM303AGR_ACC"],
+        "defaultType": "LSM303AGR_ACC"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["X", "0"],
+          ["Y", "1"],
+          ["Z", "2"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B99A5",
+    "tooltip": "读取LSM303AGR加速度计的X/Y/Z轴加速度值，单位为mg"
+  },
+  {
+    "type": "lsm303agr_mag_get_axis",
+    "message0": "读取磁力计 %1 的 %2 轴磁场(mGauss)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Mag",
+        "variableTypes": ["LSM303AGR_MAG"],
+        "defaultType": "LSM303AGR_MAG"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["X", "0"],
+          ["Y", "1"],
+          ["Z", "2"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B99A5",
+    "tooltip": "读取LSM303AGR磁力计的X/Y/Z轴磁场值，单位为mGauss"
+  },
+  {
+    "type": "lsm303agr_acc_get_temperature",
+    "message0": "读取加速度计 %1 的温度(°C)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "Acc",
+        "variableTypes": ["LSM303AGR_ACC"],
+        "defaultType": "LSM303AGR_ACC"
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B99A5",
+    "tooltip": "读取LSM303AGR加速度计的温度值，单位为°C"
+  },
+  {
+    "type": "lsm303agr_ahrs_update",
+    "message0": "更新姿态解算\n加速度计 %1 磁力计 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ACC_VAR",
+        "variable": "Acc",
+        "variableTypes": ["LSM303AGR_ACC"],
+        "defaultType": "LSM303AGR_ACC"
+      },
+      {
+        "type": "field_variable",
+        "name": "MAG_VAR",
+        "variable": "Mag",
+        "variableTypes": ["LSM303AGR_MAG"],
+        "defaultType": "LSM303AGR_MAG"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": "#5B99A5",
+    "tooltip": "使用加速度计和磁力计数据更新姿态解算，计算横滚角、俯仰角和航向角"
+  },
+  {
+    "type": "lsm303agr_ahrs_get_angle",
+    "message0": "获取姿态角 %1 (°)",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ANGLE",
+        "options": [
+          ["横滚角(Roll)", "ROLL"],
+          ["俯仰角(Pitch)", "PITCH"],
+          ["航向角(Heading)", "HEADING"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#5B99A5",
+    "tooltip": "获取姿态解算结果，横滚角/俯仰角范围-180~180°，航向角范围0~360°。需要先执行[更新姿态解算]积木"
+  }
+]

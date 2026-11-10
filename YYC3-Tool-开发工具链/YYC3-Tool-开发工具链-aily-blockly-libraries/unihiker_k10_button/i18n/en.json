@@ -1,0 +1,59 @@
+{
+  "toolbox_name": "K10 Button",
+  "k10_button_pressed": {
+    "message0": "K10 button %1 pressed",
+    "tooltip": "Check if K10 button is pressed",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_button_callback": {
+    "message0": "when K10 button %1 is %2",
+    "tooltip": "Execute when K10 button is pressed or released",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "pressed",
+            "pressed"
+          ],
+          [
+            "released",
+            "released"
+          ]
+        ]
+      }
+    ]
+  }
+}

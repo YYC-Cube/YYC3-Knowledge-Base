@@ -1,0 +1,6 @@
+{
+    "toolbox_name": "초음파",
+    "ultrasonic_ranging": {
+        "message0": "초음파 거리 측정(cm) Trig# %1 Echo# %2"
+    }
+}

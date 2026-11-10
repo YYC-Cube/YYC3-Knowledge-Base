@@ -1,0 +1,338 @@
+//! TypeChecker trait and BatchTypeChecker implementation.
+
+use std::path::{Path, PathBuf};
+
+use super::Diagnostic;
+use super::declaration_path::is_declaration_file;
+use super::error::{CorsaError, CorsaResult};
+use super::executor::CorsaExecutor;
+use super::virtual_project::VirtualProject;
+use crate::virtual_ts::{VirtualTsCheckOptions, VirtualTsOptions};
+use vize_carton::String;
+
+/// Result of type checking.
+#[derive(Debug, Default)]
+pub struct TypeCheckResult {
+    /// Diagnostics from type checking.
+    pub diagnostics: Vec<Diagnostic>,
+    /// Exit code from the Corsa process.
+    pub exit_code: i32,
+    /// Whether type checking succeeded.
+    pub success: bool,
+}
+
+impl TypeCheckResult {
+    /// Check if there are any errors.
+    pub fn has_errors(&self) -> bool {
+        self.diagnostics.iter().any(|d| d.severity == 1)
+    }
+
+    /// Get the number of errors.
+    pub fn error_count(&self) -> usize {
+        self.diagnostics.iter().filter(|d| d.severity == 1).count()
+    }
+
+    /// Get the number of warnings.
+    pub fn warning_count(&self) -> usize {
+        self.diagnostics.iter().filter(|d| d.severity == 2).count()
+    }
+}
+
+/// Options for a project-backed batch type checker.
+#[derive(Debug, Clone, Default)]
+pub struct BatchTypeCheckerOptions {
+    /// Explicit tsconfig path to extend for the materialized project.
+    pub tsconfig_path: Option<PathBuf>,
+    /// Shared Vue virtual TS options.
+    pub virtual_ts_options: VirtualTsOptions,
+}
+
+/// Options for declaration emit.
+#[derive(Debug, Clone)]
+pub struct DeclarationEmitOptions {
+    /// Output directory where emitted `.d.ts` files should be written.
+    pub out_dir: PathBuf,
+    /// Whether declaration maps should be emitted as well.
+    pub declaration_map: bool,
+}
+
+impl DeclarationEmitOptions {
+    /// Create declaration emit options for the given output directory.
+    pub fn new(out_dir: PathBuf) -> Self {
+        Self {
+            out_dir,
+            declaration_map: false,
+        }
+    }
+
+    /// Enable or disable declaration map emit.
+    pub fn with_declaration_map(mut self, declaration_map: bool) -> Self {
+        self.declaration_map = declaration_map;
+        self
+    }
+}
+
+/// A single emitted declaration file.
+#[derive(Debug, Clone)]
+pub struct DeclarationOutput {
+    /// Absolute emitted file path.
+    pub path: PathBuf,
+    /// Emitted file content.
+    pub content: String,
+}
+
+/// Result of declaration emit.
+#[derive(Debug, Clone, Default)]
+pub struct DeclarationEmitResult {
+    /// Emitted declaration files.
+    pub files: Vec<DeclarationOutput>,
+}
+
+/// Trait for type checking.
+pub trait TypeChecker: Send + Sync {
+    /// Check the entire project.
+    fn check_project(&self) -> CorsaResult<TypeCheckResult>;
+
+    /// Check a single file.
+    fn check_file(&self, path: &Path, content: &str) -> CorsaResult<Vec<Diagnostic>>;
+
+    /// Check incrementally (only changed files).
+    fn check_incremental(&self, changed: &[PathBuf]) -> CorsaResult<TypeCheckResult>;
+}
+
+/// Batch type checker using the Corsa CLI.
+pub struct BatchTypeChecker {
+    /// Virtual project.
+    project: VirtualProject,
+    /// Corsa executor.
+    executor: CorsaExecutor,
+    /// Whether the project has been scanned.
+    scanned: bool,
+    /// Number of parallel Corsa CLI processes; `None` auto-tunes.
+    server_count: Option<usize>,
+}
+
+impl BatchTypeChecker {
+    /// Create a new batch type checker.
+    pub fn new(project_root: &Path) -> CorsaResult<Self> {
+        Self::with_options(project_root, BatchTypeCheckerOptions::default())
+    }
+
+    /// Create a new batch type checker with explicit options.
+    pub fn with_options(
+        project_root: &Path,
+        options: BatchTypeCheckerOptions,
+    ) -> CorsaResult<Self> {
+        Self::with_options_and_corsa_path(project_root, options, None)
+    }
+
+    /// Create a new batch type checker with options and an optional Corsa path.
+    pub fn with_options_and_corsa_path(
+        project_root: &Path,
+        options: BatchTypeCheckerOptions,
+        corsa_path: Option<&Path>,
+    ) -> CorsaResult<Self> {
+        let project = VirtualProject::new(project_root)?;
+        let mut project = project;
+        project.set_tsconfig_path(options.tsconfig_path);
+        project.set_virtual_ts_options(options.virtual_ts_options);
+        let executor = CorsaExecutor::with_corsa_path(project.project_root(), corsa_path)?;
+
+        Ok(Self {
+            project,
+            executor,
+            scanned: false,
+            server_count: None,
+        })
+    }
+
+    /// Set the number of parallel Corsa CLI processes the project check is
+    /// partitioned across. `None` (the default) auto-tunes from the machine
+    /// width and the number of registered Vue files.
+    pub fn set_server_count(&mut self, servers: Option<usize>) {
+        self.server_count = servers;
+    }
+
+    /// Resolve Vue 3 Options API template bindings (opt-in, standard build).
+    pub fn enable_options_api(&mut self) {
+        self.project.set_options_api(true);
+    }
+
+    /// Enable Vue 2.7 / Nuxt 2 Options API compatibility for generated virtual
+    /// files (implies Options API binding resolution plus Nuxt 2 globals).
+    pub fn enable_legacy_vue2(&mut self) {
+        self.project.set_legacy_vue2(true);
+    }
+
+    /// Enable opt-in type-checking of `.jsx`/`.tsx` Vize components (#1497).
+    ///
+    /// Off by default so mixed Vue/React repositories do not accidentally route
+    /// React `.tsx` through the Vue JSX checker. When enabled, `.jsx`/`.tsx`
+    /// route through the Vize JSX virtual-TS path instead of the verbatim React
+    /// passthrough.
+    pub fn enable_jsx_typecheck(&mut self) {
+        self.project.set_jsx_typecheck(true);
+    }
+
+    /// Configure which virtual TypeScript checks are generated for Vue files.
+    pub fn set_virtual_ts_checks(
+        &mut self,
+        check_props: bool,
+        check_template_bindings: bool,
+        check_emits: bool,
+    ) {
+        self.project
+            .set_virtual_ts_check_options(VirtualTsCheckOptions {
+                check_props,
+                check_template_bindings,
+                check_emits,
+            });
+    }
+
+    /// Configure template syntax compatibility for Vue template parsing.
+    pub fn set_template_syntax(&mut self, template_syntax: vize_atelier_core::TemplateSyntaxMode) {
+        self.project.set_template_syntax(template_syntax);
+    }
+
+    /// Enable experimental Vue in-tag comments for template parsing.
+    pub fn set_experimental_in_tag_comments(&mut self, enabled: bool) {
+        self.project.set_experimental_in_tag_comments(enabled);
+    }
+
+    /// Set the configured Vue dialect (`vue.version`; default
+    /// [`VueVersion::V3`](vize_carton::config::VueVersion::V3)).
+    ///
+    /// Threaded into virtual-TS generation so canon can emit dialect-aware
+    /// instance types.
+    pub fn set_dialect(&mut self, dialect: vize_carton::config::VueVersion) {
+        self.project.set_dialect(dialect);
+    }
+
+    /// Scan an explicit set of project files.
+    ///
+    /// The underlying virtual project parallelizes registration for multi-file
+    /// batches, so callers should prefer passing the whole discovered input set
+    /// rather than looping over `register_path` themselves. That keeps SFC parse
+    /// and virtual-TS generation CPU-bound instead of serializing every file on
+    /// the batch checker.
+    pub fn scan_paths(&mut self, paths: &[PathBuf]) -> CorsaResult<()> {
+        self.project.register_paths(paths)?;
+        self.scanned = true;
+        Ok(())
+    }
+
+    /// Scan the project for source files.
+    pub fn scan_project(&mut self) -> CorsaResult<()> {
+        let project_root = self.project.project_root().to_path_buf();
+
+        let mut paths: Vec<PathBuf> = Vec::new();
+        for entry in walkdir::WalkDir::new(&project_root)
+            .into_iter()
+            .filter_entry(|e| {
+                // Don't filter the root directory itself
+                if e.path() == project_root {
+                    return true;
+                }
+                // Skip node_modules and hidden directories
+                let name = e.file_name().to_string_lossy();
+                !name.starts_with('.') && name != "node_modules"
+            })
+        {
+            let entry = entry?;
+            let path = entry.path();
+
+            if !path.is_file() {
+                continue;
+            }
+
+            if !is_supported_input(path) {
+                continue;
+            }
+
+            paths.push(path.to_path_buf());
+        }
+
+        self.project.register_paths(&paths)?;
+        self.scanned = true;
+        Ok(())
+    }
+
+    /// Get the number of registered files.
+    pub fn file_count(&self) -> usize {
+        self.project.file_count()
+    }
+
+    /// Access the materialized virtual files in deterministic order.
+    pub fn virtual_files(&self) -> Vec<&super::virtual_project::VirtualFile> {
+        self.project.virtual_files_sorted()
+    }
+
+    /// Access the shared helpers preamble when this checker generated one.
+    pub fn shared_helpers_preamble(&self) -> Option<&'static str> {
+        self.project
+            .uses_shared_helpers()
+            .then_some(crate::virtual_ts::SHARED_PREAMBLE_DTS)
+    }
+
+    /// Emit declaration files for the scanned project.
+    pub fn emit_declarations(
+        &self,
+        options: &DeclarationEmitOptions,
+    ) -> CorsaResult<DeclarationEmitResult> {
+        if !self.scanned {
+            return Err(CorsaError::NotInitialized);
+        }
+
+        self.executor.emit_declarations(&self.project, options)
+    }
+}
+
+impl TypeChecker for BatchTypeChecker {
+    fn check_project(&self) -> CorsaResult<TypeCheckResult> {
+        if !self.scanned {
+            return Err(CorsaError::NotInitialized);
+        }
+
+        let mut result = self
+            .executor
+            .check_with_servers(&self.project, self.server_count)?;
+        result
+            .diagnostics
+            .extend(self.project.diagnostics().iter().cloned());
+        if result.has_errors() {
+            result.success = false;
+            result.exit_code = result.exit_code.max(1);
+        }
+        Ok(result)
+    }
+
+    fn check_file(&self, path: &Path, content: &str) -> CorsaResult<Vec<Diagnostic>> {
+        // Create a temporary project with just this file
+        let project_root = path.parent().unwrap_or(Path::new("."));
+        let mut temp_project = VirtualProject::new(project_root)?;
+        temp_project.register_path_with_content(path, content)?;
+
+        let mut result = self.executor.check(&temp_project)?;
+        result
+            .diagnostics
+            .extend(temp_project.diagnostics().iter().cloned());
+        Ok(result.diagnostics)
+    }
+
+    fn check_incremental(&self, changed: &[PathBuf]) -> CorsaResult<TypeCheckResult> {
+        // For now, just do a full check
+        // TODO: Implement proper incremental checking
+        let _ = changed;
+        self.check_project()
+    }
+}
+
+fn is_supported_input(path: &Path) -> bool {
+    path.extension()
+        .and_then(|extension| extension.to_str())
+        .is_some_and(|extension| matches!(extension, "vue" | "ts" | "tsx" | "mts" | "cts"))
+        || is_declaration_file(path)
+}
+
+#[cfg(test)]
+mod tests;

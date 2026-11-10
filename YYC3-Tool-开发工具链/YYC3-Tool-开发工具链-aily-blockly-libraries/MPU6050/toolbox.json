@@ -1,0 +1,35 @@
+{
+    "kind": "category",
+    "icon": "fa-light fa-drone-front",
+    "name": "MPU6050",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "mpu6050_begin"
+        },
+        {
+            "kind": "block",
+            "type": "mpu6050_get_accel"
+        },
+        {
+            "kind": "block",
+            "type": "mpu6050_get_gyro"
+        },
+        {
+            "kind": "block",
+            "type": "mpu6050_get_temp"
+        },
+        {
+            "kind": "block",
+            "type": "mpu6050_set_accel_range"
+        },
+        {
+            "kind": "block",
+            "type": "mpu6050_set_gyro_range"
+        },
+        {
+            "kind": "block",
+            "type": "mpu6050_set_filter_bandwidth"
+        }
+    ]
+}

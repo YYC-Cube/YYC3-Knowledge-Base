@@ -1,0 +1,51 @@
+{
+  "kind": "category",
+  "name": "Time",
+  "icon": "fa-light fa-timer",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "time_delay",
+      "inputs": {
+        "DELAY_TIME": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "time_delay_microseconds",
+      "inputs": {
+        "DELAY_TIME": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "time_millis"
+    },
+    {
+      "kind": "block",
+      "type": "time_micros"
+    },
+    {
+      "kind": "block",
+      "type": "system_time"
+    },
+    {
+      "kind": "block",
+      "type": "system_date"
+    }
+  ]
+}

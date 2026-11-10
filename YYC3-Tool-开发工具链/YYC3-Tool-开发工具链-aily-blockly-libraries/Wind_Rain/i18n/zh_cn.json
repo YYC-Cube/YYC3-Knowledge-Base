@@ -1,0 +1,89 @@
+{
+  "toolbox_name": "风速风向雨量",
+  "toolbox_labels": {
+    "初始化风速风向传感器": "初始化风速风向传感器",
+    "数据更新": "数据更新",
+    "数据获取": "数据获取",
+    "雨量传感器": "雨量传感器"
+  },
+  "wind_begin": {
+    "message0": "初始化风速风向传感器 风速引脚%1 风向引脚%2",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.analogPins}"
+      }
+    ]
+  },
+  "wind_begin_speed": {
+    "message0": "初始化风速传感器 引脚%1",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "wind_begin_direction": {
+    "message0": "初始化风向传感器 引脚%1",
+    "args0": [
+      {
+        "options": "${board.analogPins}"
+      }
+    ]
+  },
+  "wind_update": {
+    "message0": "更新风速风向数据"
+  },
+  "wind_update_speed": {
+    "message0": "更新风速数据"
+  },
+  "wind_update_direction": {
+    "message0": "更新风向数据"
+  },
+  "wind_get_speed_kmh": {
+    "message0": "获取风速(km/h)"
+  },
+  "wind_get_speed_mph": {
+    "message0": "获取风速(mph)"
+  },
+  "wind_get_direction": {
+    "message0": "获取风向(度)"
+  },
+  "wind_get_direction_string": {
+    "message0": "获取风向(字符串)"
+  },
+  "wind_get_direction_adc": {
+    "message0": "获取风向ADC值"
+  },
+  "wind_is_data_ready": {
+    "message0": "风速风向数据是否准备就绪"
+  },
+  "rain_init": {
+    "message0": "初始化雨量传感器 引脚%1",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "rain_update": {
+    "message0": "更新雨量数据"
+  },
+  "rain_get_total": {
+    "message0": "获取累计降雨量 (mm)"
+  },
+  "rain_get_hour": {
+    "message0": "获取1小时降雨量 (mm)"
+  },
+  "rain_get_day": {
+    "message0": "获取24小时降雨量 (mm)"
+  },
+  "rain_get_ticks": {
+    "message0": "获取雨滴计数"
+  },
+  "rain_is_data_ready": {
+    "message0": "雨量数据准备就绪"
+  }
+}

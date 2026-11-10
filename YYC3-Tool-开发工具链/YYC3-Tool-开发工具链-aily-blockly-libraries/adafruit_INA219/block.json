@@ -1,0 +1,73 @@
+[
+  {
+    "type": "ina219_init_with_wire",
+    "message0": "初始化IN219模块 %1 地址 %2 使用 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "ina219"
+      },
+      {
+        "type": "field_input",
+        "name": "ADDRESS",
+        "text": "0x40"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FFA500",
+    "tooltip": "初始化 INA219 传感器，指定 I2C 地址和使用的 I2C 总线",
+    "extensions": [
+      "ina219_init_with_wire_pin_info"
+    ],
+    "icon": "fa-regular fa-monitor-waveform"
+  },
+  {
+    "type": "ina219_read_value",
+    "message0": "读取IN219模块 %1 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "ina219",
+        "variableTypes": [
+          "INA219"
+        ],
+        "defaultType": "INA219"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "总线电压 (V)",
+            "BUS_VOLTAGE"
+          ],
+          [
+            "分流电压 (mV)",
+            "SHUNT_VOLTAGE"
+          ],
+          [
+            "电流 (mA)",
+            "CURRENT"
+          ],
+          [
+            "功率 (mW)",
+            "POWER"
+          ]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FFA500",
+    "tooltip": "从 INA219 传感器读取电压、电流或功率值",
+    "helpUrl": "",
+    "icon": "fa-regular fa-monitor-waveform"
+  }
+]

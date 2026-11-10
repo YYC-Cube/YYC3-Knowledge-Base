@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "PCA9685",
+  "toolbox_labels": {
+    "PWM 控制": "PWM 控制",
+    "舵机控制": "舵機控制"
+  },
+  "seeed_pca9685_init": {
+    "message0": "初始化 PCA9685 PWM控制器 %1 I2C地址 %2",
+    "tooltip": "創建並初始化Seeed PCA9685 PWM控制器（16通道PWM輸出），默認I2C地址0x7f"
+  },
+  "seeed_pca9685_set_frequency": {
+    "message0": "設置 %1 PWM頻率 %2 Hz",
+    "tooltip": "設置PWM輸出頻率，範圍24Hz~1526Hz"
+  },
+  "seeed_pca9685_set_pwm": {
+    "message0": "設置 %1 引腳 %2 PWM開始 %3 結束 %4",
+    "tooltip": "設置PWM值，引腳範圍1-16，開始/結束值範圍0-4095"
+  },
+  "seeed_pca9685_servo_init": {
+    "message0": "初始化 PCA9685 舵機驅動器 %1 I2C地址 %2",
+    "tooltip": "創建並初始化Seeed PCA9685舵機驅動器（16通道舵機控制），默認I2C地址0x7f"
+  },
+  "seeed_pca9685_servo_set_pulse_range": {
+    "message0": "設置 %1 舵機脈衝範圍 最小 %2 最大 %3 最大角度 %4",
+    "tooltip": "設置舵機脈衝寬度範圍（微秒）和最大角度，默認500-2500μs，180度"
+  },
+  "seeed_pca9685_servo_set_angle": {
+    "message0": "設置 %1 引腳 %2 舵機角度 %3",
+    "tooltip": "設置指定引腳舵機角度，引腳範圍1-16，角度範圍0-180"
+  }
+}

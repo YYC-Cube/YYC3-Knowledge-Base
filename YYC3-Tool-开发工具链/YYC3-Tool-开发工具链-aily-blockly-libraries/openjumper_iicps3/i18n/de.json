@@ -1,0 +1,49 @@
+{
+"toolbox_name": "IICPS3",
+"openjumper_iicps3_init": {
+    "message0": "IICPS3-Controller %1 Modul initialisieren"
+},
+"openjumper_iicps3_run": {
+    "message0": "%1 Datenanalyse starten"
+},
+"openjumper_iicps3_butstate": {
+    "message0": "%1IIC-Controller %2 Tastenstatus",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Links - Oben", "up"],
+                ["Links - Unten", "down"],
+                ["Links - Links", "left"],
+                ["Links - Rechts", "right"],
+                ["Rechts - Oben", "triangle"],
+                ["Rechts - Unten", "cross"],
+                ["Rechts - Links", "square"],
+                ["Rechts - Rechts", "circle"],
+                ["Linke Front - 1", "l1"],
+                ["Linke Front - 2", "l2"],
+                ["Linker Joystick", "l3"],
+                ["Rechte Front - 1", "r1"],
+                ["Rechte Front - 2", "r2"],
+                ["Rechter Joystick", "r3"],
+                ["Auswählen", "select"],
+                ["Start", "start"]
+            ]
+        }
+    ]
+},
+"openjumper_iicps3_xy": {
+    "message0": "%1IIC-Controller %2 Joystick-Daten",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Linker Joystick - X-Achse", "lx"],
+                ["Linker Joystick - Y-Achse", "ly"],
+                ["Rechter Joystick - X-Achse", "rx"],
+                ["Rechter Joystick - Y-Achse", "ry"]
+            ]
+        }
+    ]
+}
+}

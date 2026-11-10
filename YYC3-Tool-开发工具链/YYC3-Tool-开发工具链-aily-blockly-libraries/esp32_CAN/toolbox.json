@@ -1,0 +1,48 @@
+{
+    "kind": "category",
+    "name": "ESP32 CAN总线",
+    "icon": "fa-light fa-car-circle-bolt",
+    "colour": "#2196F3",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "esp32_can_init"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_configure_alerts"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_send_message"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_transmit_interval"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_receive_message"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_check_alerts"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_message_available"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_get_message_id"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_get_message_length"
+        },
+        {
+            "kind": "block",
+            "type": "esp32_can_get_message_data"
+        }
+    ]
+}

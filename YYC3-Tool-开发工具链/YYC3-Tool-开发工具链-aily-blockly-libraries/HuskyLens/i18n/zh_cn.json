@@ -1,0 +1,508 @@
+{
+  "toolbox_name": "HuskyLens",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "算法设置": "算法设置",
+    "数据请求": "数据请求",
+    "状态查询": "状态查询",
+    "数量统计": "数量统计",
+    "数据读取": "数据读取",
+    "屏幕显示": "屏幕显示",
+    "学习与模型": "学习与模型",
+    "拍照截屏": "拍照截屏"
+  },
+  "huskylens_init_i2c_until": {
+    "message0": "初始化 HuskyLens %1 I2C接口 %2 直到成功",
+    "tooltip": "通过I2C接口初始化HuskyLens，会一直尝试直到成功",
+    "args0": [
+      null,
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  },
+  "huskylens_init_i2c": {
+    "message0": "初始化 HuskyLens %1 I2C接口 %2",
+    "tooltip": "通过I2C接口初始化HuskyLens AI摄像头",
+    "args0": [
+      null,
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  },
+  "huskylens_init_serial": {
+    "message0": "初始化 HuskyLens %1 串口 %2",
+    "tooltip": "通过串口初始化HuskyLens AI摄像头",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      }
+    ]
+  },
+  "huskylens_set_algorithm": {
+    "message0": "HuskyLens %1 切换算法为 %2",
+    "tooltip": "切换HuskyLens的识别算法",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "人脸识别",
+            "ALGORITHM_FACE_RECOGNITION"
+          ],
+          [
+            "物体追踪",
+            "ALGORITHM_OBJECT_TRACKING"
+          ],
+          [
+            "物体识别",
+            "ALGORITHM_OBJECT_RECOGNITION"
+          ],
+          [
+            "巡线追踪",
+            "ALGORITHM_LINE_TRACKING"
+          ],
+          [
+            "颜色识别",
+            "ALGORITHM_COLOR_RECOGNITION"
+          ],
+          [
+            "标签识别",
+            "ALGORITHM_TAG_RECOGNITION"
+          ],
+          [
+            "物体分类",
+            "ALGORITHM_OBJECT_CLASSIFICATION"
+          ],
+          [
+            "二维码识别",
+            "ALGORITHM_QR_RECOGNITION"
+          ],
+          [
+            "条形码识别",
+            "ALGORITHM_BARCODE_RECOGNITION"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_set_algorithm_until": {
+    "message0": "HuskyLens %1 切换到 %2 算法 直到成功",
+    "tooltip": "切换HuskyLens的识别算法，会一直尝试直到成功",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "人脸识别",
+            "ALGORITHM_FACE_RECOGNITION"
+          ],
+          [
+            "物体追踪",
+            "ALGORITHM_OBJECT_TRACKING"
+          ],
+          [
+            "物体识别",
+            "ALGORITHM_OBJECT_RECOGNITION"
+          ],
+          [
+            "巡线追踪",
+            "ALGORITHM_LINE_TRACKING"
+          ],
+          [
+            "颜色识别",
+            "ALGORITHM_COLOR_RECOGNITION"
+          ],
+          [
+            "标签识别",
+            "ALGORITHM_TAG_RECOGNITION"
+          ],
+          [
+            "物体分类",
+            "ALGORITHM_OBJECT_CLASSIFICATION"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_request": {
+    "message0": "HuskyLens %1 请求数据",
+    "tooltip": "从HuskyLens请求识别数据"
+  },
+  "huskylens_request_blocks": {
+    "message0": "HuskyLens %1 请求方框数据",
+    "tooltip": "从HuskyLens请求方框类型数据"
+  },
+  "huskylens_request_arrows": {
+    "message0": "HuskyLens %1 请求箭头数据",
+    "tooltip": "从HuskyLens请求箭头类型数据（用于巡线）"
+  },
+  "huskylens_available": {
+    "message0": "HuskyLens %1 检测到数据数量",
+    "tooltip": "获取HuskyLens检测到的数据数量"
+  },
+  "huskylens_is_learned": {
+    "message0": "HuskyLens %1 已学习",
+    "tooltip": "检查HuskyLens是否已学习过目标"
+  },
+  "huskylens_count_learned_ids": {
+    "message0": "HuskyLens %1 已学习ID数量",
+    "tooltip": "获取HuskyLens已学习的ID数量"
+  },
+  "huskylens_is_id_learned": {
+    "message0": "HuskyLens %1 ID %2 是否已学习",
+    "tooltip": "检查指定ID是否已学习"
+  },
+  "huskylens_is_appear": {
+    "message0": "HuskyLens %1 %2 是否在画面中",
+    "tooltip": "检查方框或箭头是否在画面中",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "方框",
+            "Blocks"
+          ],
+          [
+            "箭头",
+            "Arrows"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_is_id_appear": {
+    "message0": "HuskyLens %1 ID %2 %3 是否在画面中",
+    "tooltip": "检查指定ID的方框或箭头是否在画面中",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "方框",
+            "Blocks"
+          ],
+          [
+            "箭头",
+            "Arrows"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_count_type": {
+    "message0": "HuskyLens %1 %2 总数",
+    "tooltip": "获取方框或箭头的总数量",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "方框",
+            "Blocks"
+          ],
+          [
+            "箭头",
+            "Arrows"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_count_id_type": {
+    "message0": "HuskyLens %1 ID %2 %3 总数",
+    "tooltip": "获取指定ID的方框或箭头数量",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "方框",
+            "Blocks"
+          ],
+          [
+            "箭头",
+            "Arrows"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_get_near_center": {
+    "message0": "HuskyLens %1 靠近中心 %2 的 %3",
+    "tooltip": "获取靠近画面中心的方框或箭头的参数",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "方框",
+            "Block"
+          ],
+          [
+            "箭头",
+            "Arrow"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "ID",
+            "ID"
+          ],
+          [
+            "X中心",
+            "xCenter"
+          ],
+          [
+            "Y中心",
+            "yCenter"
+          ],
+          [
+            "宽度",
+            "width"
+          ],
+          [
+            "高度",
+            "height"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_get_id_param": {
+    "message0": "HuskyLens %1 ID %2 %3 的参数 %4",
+    "tooltip": "获取指定ID的方框或箭头的参数",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "方框",
+            "Block"
+          ],
+          [
+            "箭头",
+            "Arrow"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "X中心",
+            "xCenter"
+          ],
+          [
+            "Y中心",
+            "yCenter"
+          ],
+          [
+            "宽度",
+            "width"
+          ],
+          [
+            "高度",
+            "height"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_get_index_param": {
+    "message0": "HuskyLens %1 第 %2 个 %3 的 %4",
+    "tooltip": "获取第N个方框或箭头的参数",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "方框",
+            "Block"
+          ],
+          [
+            "箭头",
+            "Arrow"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "ID",
+            "ID"
+          ],
+          [
+            "X中心",
+            "xCenter"
+          ],
+          [
+            "Y中心",
+            "yCenter"
+          ],
+          [
+            "宽度",
+            "width"
+          ],
+          [
+            "高度",
+            "height"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_get_id_index_param": {
+    "message0": "HuskyLens %1 ID %2 第 %3 个 %4 的参数 %5",
+    "tooltip": "获取指定ID的第N个方框或箭头的参数",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "方框",
+            "Block"
+          ],
+          [
+            "箭头",
+            "Arrow"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "X中心",
+            "xCenter"
+          ],
+          [
+            "Y中心",
+            "yCenter"
+          ],
+          [
+            "宽度",
+            "width"
+          ],
+          [
+            "高度",
+            "height"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_set_custom_name": {
+    "message0": "HuskyLens %1 设置ID %2 名字为 %3",
+    "tooltip": "为指定ID设置自定义名称"
+  },
+  "huskylens_request_by_id": {
+    "message0": "HuskyLens %1 请求ID %2 的数据",
+    "tooltip": "请求指定ID的数据"
+  },
+  "huskylens_read_block_param": {
+    "message0": "HuskyLens %1 读取第 %2 个方框的 %3",
+    "tooltip": "读取指定方框的参数",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "X中心坐标",
+            "xCenter"
+          ],
+          [
+            "Y中心坐标",
+            "yCenter"
+          ],
+          [
+            "宽度",
+            "width"
+          ],
+          [
+            "高度",
+            "height"
+          ],
+          [
+            "ID",
+            "ID"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_read_arrow_param": {
+    "message0": "HuskyLens %1 读取第 %2 个箭头的 %3",
+    "tooltip": "读取指定箭头的参数",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "起点X坐标",
+            "xOrigin"
+          ],
+          [
+            "起点Y坐标",
+            "yOrigin"
+          ],
+          [
+            "终点X坐标",
+            "xTarget"
+          ],
+          [
+            "终点Y坐标",
+            "yTarget"
+          ],
+          [
+            "ID",
+            "ID"
+          ]
+        ]
+      }
+    ]
+  },
+  "huskylens_write_osd": {
+    "message0": "HuskyLens %1 在屏幕 X %2 Y %3 显示文字 %4",
+    "tooltip": "在HuskyLens屏幕上显示自定义文字"
+  },
+  "huskylens_clear_osd": {
+    "message0": "HuskyLens %1 清除屏幕文字",
+    "tooltip": "清除HuskyLens屏幕上的自定义文字"
+  },
+  "huskylens_learn_once": {
+    "message0": "HuskyLens %1 学习一次 ID %2",
+    "tooltip": "让HuskyLens学习当前画面中的目标"
+  },
+  "huskylens_forget_learn": {
+    "message0": "HuskyLens %1 遗忘所有学习",
+    "tooltip": "让HuskyLens遗忘所有已学习的内容"
+  },
+  "huskylens_save_model": {
+    "message0": "HuskyLens %1 保存模型到SD卡 编号 %2",
+    "tooltip": "将当前学习的模型保存到SD卡"
+  },
+  "huskylens_load_model": {
+    "message0": "HuskyLens %1 从SD卡加载模型 编号 %2",
+    "tooltip": "从SD卡加载已保存的模型"
+  },
+  "huskylens_take_photo": {
+    "message0": "HuskyLens %1 拍照保存到SD卡",
+    "tooltip": "拍摄照片并保存到SD卡"
+  },
+  "huskylens_screenshot": {
+    "message0": "HuskyLens %1 截屏保存到SD卡",
+    "tooltip": "截取当前屏幕并保存到SD卡"
+  }
+}

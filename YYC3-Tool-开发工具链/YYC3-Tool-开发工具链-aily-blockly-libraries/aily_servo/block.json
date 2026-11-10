@@ -1,0 +1,317 @@
+[
+  {
+    "type": "servo_attach",
+    "message0": "初始化引脚 %1 舵机",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "初始化指定引脚的舵机。ESP32推荐使用GPIO 4,5,12-19,21-23,25-27,32,33。避免使用GPIO 6-11(闪存)和34-39(仅输入)",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_attach_advanced",
+    "message0": "初始化引脚 %1 舵机\n最小脉宽 %2 最大脉宽 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_PULSE_WIDTH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_PULSE_WIDTH",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#FF6B35",
+    "tooltip": "初始化指定引脚的舵机，并设置脉宽范围。ESP32会自动分配PWM通道，无需手动指定",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_attach_full",
+    "message0": "初始化引脚 %1 舵机\n最小角度 %2 最大角度 %3\n最小脉宽 %4 最大脉宽 %5",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_ANGLE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_ANGLE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN_PULSE_WIDTH",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX_PULSE_WIDTH",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#FF6B35",
+    "tooltip": "初始化指定引脚的舵机，并设置完整参数（角度范围、脉宽范围）。ESP32会自动分配PWM通道",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_write",
+    "message0": "控制引脚 %1 舵机转到角度 %2 度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "设置指定引脚舵机的目标角度（0-180度）",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_write_float",
+    "message0": "控制引脚 %1 舵机转到角度 %2 度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF8C00",
+    "tooltip": "设置指定引脚舵机的精确角度（支持浮点数）",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_write_microseconds",
+    "message0": "控制引脚 %1 舵机设置脉宽为 %2 微秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "MICROSECONDS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "直接设置指定引脚舵机的脉宽值（通常544-2400微秒）",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_read",
+    "message0": "读取引脚 %1 舵机当前角度",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取指定引脚舵机当前的角度值",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_read_microseconds",
+    "message0": "读取引脚 %1 舵机当前脉宽",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "读取指定引脚舵机当前的脉宽值（微秒）",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_attached",
+    "message0": "引脚 %1 舵机已连接",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF6B35",
+    "tooltip": "检查指定引脚的舵机是否已连接",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_detach",
+    "message0": "断开引脚 %1 舵机",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF6B35",
+    "tooltip": "断开指定引脚舵机与引脚的连接",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_get_pin",
+    "message0": "引脚 %1 舵机连接的引脚号",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF6B35",
+    "tooltip": "获取指定舵机连接的引脚号（返回输入的引脚号）",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_map_angle",
+    "message0": "映射值 %1 从范围 %2 到 %3\n至角度范围 %4 到 %5",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "FROM_MIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "FROM_MAX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TO_MIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "TO_MAX",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#87CE00",
+    "tooltip": "将一个范围的数值映射到舵机角度范围",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_sweep",
+    "message0": "引脚 %1 舵机扫描\n从 %2 度到 %3 度 延时 %4 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.servoPins}"
+      },
+      {
+        "type": "input_value",
+        "name": "START_ANGLE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "END_ANGLE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DELAY_MS",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9370DB",
+    "tooltip": "让指定引脚的舵机在指定角度范围内扫描",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  },
+  {
+    "type": "servo_angle",
+    "message0": "角度 %1 度",
+    "args0": [
+      {
+        "type": "field_angle",
+        "name": "ANGLE",
+        "angle": 90
+      }
+    ],
+    "output": "Number",
+    "colour": "#87CE00",
+    "tooltip": "舵机角度值（0-180度）",
+    "helpUrl": "",
+    "icon": "iconfont icon-servo"
+  }
+]

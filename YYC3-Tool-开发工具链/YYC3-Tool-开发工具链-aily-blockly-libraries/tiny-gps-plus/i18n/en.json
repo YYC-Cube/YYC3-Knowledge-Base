@@ -1,0 +1,140 @@
+{
+  "toolbox_name": "GPS",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "数据读取": "Data reading",
+    "位置信息": "location information",
+    "时间日期": "time date",
+    "运动信息": "Sports information",
+    "信号状态": "signal status",
+    "工具": "Tools"
+  },
+  "gps_init": {
+    "message0": "Init GPS module %1 serial %2 baud rate %3",
+    "tooltip": "Initialize TinyGPS++ module, select serial port and baud rate for GPS",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      },
+      {
+        "options": [
+          ["9600", "9600"],
+          ["4800", "4800"],
+          ["19200", "19200"],
+          ["38400", "38400"],
+          ["57600", "57600"],
+          ["115200", "115200"]
+        ]
+      }
+    ]
+  },
+  "gps_update": {
+    "message0": "Read GPS data %1",
+    "tooltip": "Read and parse GPS data from serial, call in loop repeatedly"
+  },
+  "gps_location": {
+    "message0": "GPS %1 %2",
+    "tooltip": "Get GPS latitude or longitude value",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Latitude", "LAT"],
+          ["Longitude", "LNG"]
+        ]
+      }
+    ]
+  },
+  "gps_date": {
+    "message0": "GPS %1 date %2",
+    "tooltip": "Get GPS date year, month or day",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Year", "YEAR"],
+          ["Month", "MONTH"],
+          ["Day", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gps_time": {
+    "message0": "GPS %1 time %2",
+    "tooltip": "Get GPS time hour, minute or second",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Hour", "HOUR"],
+          ["Minute", "MINUTE"],
+          ["Second", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gps_speed": {
+    "message0": "GPS %1 speed %2",
+    "tooltip": "Get GPS speed value",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["km/h", "KMPH"],
+          ["mph", "MPH"],
+          ["m/s", "MPS"],
+          ["knots", "KNOTS"]
+        ]
+      }
+    ]
+  },
+  "gps_altitude": {
+    "message0": "GPS %1 altitude %2",
+    "tooltip": "Get GPS altitude value",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["meters", "METERS"],
+          ["kilometers", "KM"],
+          ["feet", "FEET"]
+        ]
+      }
+    ]
+  },
+  "gps_satellites": {
+    "message0": "GPS %1 satellite count",
+    "tooltip": "Get the number of connected satellites"
+  },
+  "gps_course": {
+    "message0": "GPS %1 course angle",
+    "tooltip": "Get GPS course angle (0-360 degrees)"
+  },
+  "gps_hdop": {
+    "message0": "GPS %1 HDOP",
+    "tooltip": "Get HDOP (Horizontal Dilution of Precision), lower is more accurate"
+  },
+  "gps_is_valid": {
+    "message0": "GPS %1 %2 valid?",
+    "tooltip": "Check if GPS data is valid",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Location", "LOCATION"],
+          ["Date", "DATE"],
+          ["Time", "TIME"]
+        ]
+      }
+    ]
+  },
+  "gps_distance_between": {
+    "message0": "Distance between two points (m)\nLat1 %1 Lng1 %2\nLat2 %3 Lng2 %4",
+    "tooltip": "Calculate distance between two GPS coordinates in meters"
+  },
+  "gps_course_to": {
+    "message0": "Course between two points\nLat1 %1 Lng1 %2\nLat2 %3 Lng2 %4",
+    "tooltip": "Calculate course angle from first GPS coordinate to second"
+  }
+}

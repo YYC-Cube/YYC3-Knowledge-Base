@@ -1,0 +1,174 @@
+[
+  {
+    "type": "tlx493d_init",
+    "message0": "初始化3D磁传感器 %1\n传感器型号 %2\nI2C地址 %3\n使用 %4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mag"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["TLx493D-A1B6 (Gen1)", "A1B6"],
+          ["TLx493D-A2B6 (Gen2)", "A2B6"],
+          ["TLx493D-A2BW (Gen2)", "A2BW"],
+          ["TLx493D-P2B6 (Gen2)", "P2B6"],
+          ["TLx493D-W2B6 (Gen2)", "W2B6"],
+          ["TLx493D-W2BW (Gen2)", "W2BW"],
+          ["TLx493D-P3B6 (Gen3)", "P3B6"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDRESS",
+        "options": [
+          ["0 (默认)", "TLx493D_IIC_ADDR_A0_e"],
+          ["1", "TLx493D_IIC_ADDR_A1_e"],
+          ["2", "TLx493D_IIC_ADDR_A2_e"],
+          ["3", "TLx493D_IIC_ADDR_A3_e"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": "${board.i2c}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": "#6A5ACD",
+    "tooltip": "初始化Infineon TLx493D 3D磁传感器，使用I2C接口"
+  },
+  {
+    "type": "tlx493d_get_temperature",
+    "message0": "读取3D磁传感器 %1 的温度(°C)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mag",
+        "variableTypes": ["TLx493D"],
+        "defaultType": "TLx493D"
+      }
+    ],
+    "output": "Number",
+    "colour": "#6A5ACD",
+    "tooltip": "读取TLx493D传感器的温度值，返回摄氏度"
+  },
+  {
+    "type": "tlx493d_get_magnetic_field",
+    "message0": "读取3D磁传感器 %1 的磁场 %2 轴(mT)",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mag",
+        "variableTypes": ["TLx493D"],
+        "defaultType": "TLx493D"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          ["X", "X"],
+          ["Y", "Y"],
+          ["Z", "Z"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#6A5ACD",
+    "tooltip": "读取TLx493D传感器指定轴的磁场值，单位毫特斯拉(mT)"
+  },
+  {
+    "type": "tlx493d_set_sensitivity",
+    "message0": "设置3D磁传感器 %1 灵敏度为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mag",
+        "variableTypes": ["TLx493D"],
+        "defaultType": "TLx493D"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RANGE",
+        "options": [
+          ["全量程 (Full Range)", "TLx493D_FULL_RANGE_e"],
+          ["短量程 (Short Range)", "TLx493D_SHORT_RANGE_e"],
+          ["超短量程 (Extra Short Range)", "TLx493D_EXTRA_SHORT_RANGE_e"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A5ACD",
+    "tooltip": "设置TLx493D传感器的灵敏度/量程范围"
+  },
+  {
+    "type": "tlx493d_set_power_mode",
+    "message0": "设置3D磁传感器 %1 电源模式为 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mag",
+        "variableTypes": ["TLx493D"],
+        "defaultType": "TLx493D"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["快速模式 (Fast)", "TLx493D_FAST_MODE_e"],
+          ["低功耗模式 (Low Power)", "TLx493D_LOW_POWER_MODE_e"],
+          ["超低功耗模式 (Ultra Low Power)", "TLx493D_ULTRA_LOW_POWER_MODE_e"],
+          ["主控模式 (Master Controlled)", "TLx493D_MASTER_CONTROLLED_MODE_e"],
+          ["掉电模式 (Power Down)", "TLx493D_POWER_DOWN_MODE_e"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A5ACD",
+    "tooltip": "设置TLx493D传感器的电源模式"
+  },
+  {
+    "type": "tlx493d_has_valid_data",
+    "message0": "3D磁传感器 %1 数据有效",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mag",
+        "variableTypes": ["TLx493D"],
+        "defaultType": "TLx493D"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#6A5ACD",
+    "tooltip": "检查TLx493D传感器的数据是否有效"
+  },
+  {
+    "type": "tlx493d_software_reset",
+    "message0": "软件复位3D磁传感器 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mag",
+        "variableTypes": ["TLx493D"],
+        "defaultType": "TLx493D"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#6A5ACD",
+    "tooltip": "对TLx493D传感器执行软件复位"
+  }
+]

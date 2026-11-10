@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "WOL 깨우기",
+  "wol_send": {
+    "message0": "WOL 패킷 전송 MAC %1 브로드캐스트 IP %2 포트 %3",
+    "tooltip": "Wake-on-LAN 매직 패킷을 전송하여 대상 장치를 깨웁니다"
+  },
+  "wol_send_result": {
+    "message0": "WOL 패킷 전송 MAC %1 브로드캐스트 IP %2 포트 %3",
+    "tooltip": "Wake-on-LAN 매직 패킷을 전송하고 성공 여부를 반환합니다"
+  }
+}

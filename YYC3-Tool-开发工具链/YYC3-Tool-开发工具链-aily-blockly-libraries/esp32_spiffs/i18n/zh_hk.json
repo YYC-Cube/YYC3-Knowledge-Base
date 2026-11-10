@@ -1,0 +1,75 @@
+{
+  "toolbox_name": "SPIFFS文件系统",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "文件操作": "文件操作"
+  },
+  "esp32_spiffs_begin": {
+    "message0": "初始化SPIFFS文件系统 格式化失败时自动格式化 %1",
+    "tooltip": "初始化SPIFFS文件系统",
+    "args0": [
+      {
+        "options": [
+          [
+            "是",
+            "true"
+          ],
+          [
+            "否",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_spiffs_end": {
+    "message0": "卸载SPIFFS文件系统",
+    "tooltip": "卸载SPIFFS文件系统"
+  },
+  "esp32_spiffs_format": {
+    "message0": "格式化SPIFFS",
+    "tooltip": "格式化SPIFFS文件系统(会清除所有数据)"
+  },
+  "esp32_spiffs_info": {
+    "message0": "SPIFFS %1",
+    "tooltip": "获取SPIFFS存储信息",
+    "args0": [
+      {
+        "options": [
+          [
+            "总空间(字节)",
+            "totalBytes"
+          ],
+          [
+            "已用空间(字节)",
+            "usedBytes"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_spiffs_write_file": {
+    "message0": "SPIFFS写入文件 路径 %1 内容 %2",
+    "tooltip": "向SPIFFS写入文件(覆盖)"
+  },
+  "esp32_spiffs_append_file": {
+    "message0": "SPIFFS追加文件 路径 %1 内容 %2",
+    "tooltip": "向SPIFFS文件追加内容"
+  },
+  "esp32_spiffs_read_file": {
+    "message0": "SPIFFS读取文件 路径 %1",
+    "tooltip": "从SPIFFS读取文件内容"
+  },
+  "esp32_spiffs_delete_file": {
+    "message0": "SPIFFS删除文件 路径 %1",
+    "tooltip": "删除SPIFFS中的文件"
+  },
+  "esp32_spiffs_exists": {
+    "message0": "SPIFFS文件存在 路径 %1",
+    "tooltip": "检查SPIFFS中文件是否存在"
+  },
+  "esp32_spiffs_rename": {
+    "message0": "SPIFFS重命名文件 原路径 %1 新路径 %2",
+    "tooltip": "重命名SPIFFS中的文件"
+  }
+}

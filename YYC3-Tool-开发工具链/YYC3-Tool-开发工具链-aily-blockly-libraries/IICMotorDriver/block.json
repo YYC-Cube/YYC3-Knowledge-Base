@@ -1,0 +1,285 @@
+[
+  {
+    "type": "iicmd_init",
+    "message0": "电机驱动初始化",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff0000",
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "iicmd_dirinit",
+    "message0": "电机参考方向初始化 电机1%1 电机2%2 电机3%3 电机4%4",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff0000",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DIR_TYPE_M1",
+        "options": [
+          [
+            "DIR1",
+            "DIRP"
+          ],
+          [
+            "DIR2",
+            "DIRN"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR_TYPE_M2",
+        "options": [
+          [
+            "DIR1",
+            "DIRP"
+          ],
+          [
+            "DIR2",
+            "DIRN"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR_TYPE_M3",
+        "options": [
+          [
+            "DIR1",
+            "DIRP"
+          ],
+          [
+            "DIR2",
+            "DIRN"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR_TYPE_M4",
+        "options": [
+          [
+            "DIR1",
+            "DIRP"
+          ],
+          [
+            "DIR2",
+            "DIRN"
+          ]
+        ]
+      }
+    ],
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "iicmd_stop",
+    "message0": "设置 %1 停止",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff0000",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_NUMBER",
+        "options": [
+          [
+            "电机1",
+            "M1"
+          ],
+          [
+            "电机2",
+            "M2"
+          ],
+          [
+            "电机3",
+            "M3"
+          ],
+          [
+            "电机4",
+            "M4"
+          ],
+          [
+            "全部电机",
+            "MALL"
+          ]
+        ]
+      }
+    ],
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "iicmd_runone",
+    "message0": "设置电机 %1 转速为%2",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff0000",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MOTOR_RUN_NUM",
+        "options": [
+          [
+            "电机1",
+            "M1"
+          ],
+          [
+            "电机2",
+            "M2"
+          ],
+          [
+            "电机3",
+            "M3"
+          ],
+          [
+            "电机4",
+            "M4"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RUNONR_SP",
+        "check": "Number"
+      }
+    ],
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "iicmd_runall",
+    "message0": "设置全部电机转速 %1",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff0000",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "RUNALL_SP",
+        "check": "Number"
+      }
+    ],
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "iicmd_runall2",
+    "message0": "设置全部电机速度 电机1%1 电机2%2 电机3%3 电机4%4",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff0000",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "M1_SP",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "M2_SP",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "M3_SP",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "M4_SP",
+        "check": "Number"
+      }
+    ],
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "iicmd_digitout",
+    "message0": "控制端口%1 输出 %2",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff0000",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "IODIGIT",
+        "options": [
+          [
+            "S1",
+            "S1"
+          ],
+          [
+            "S2",
+            "S2"
+          ],
+          [
+            "S3",
+            "S3"
+          ],
+          [
+            "S4",
+            "S4"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "OUTSTATE",
+        "options": [
+          [
+            "HIGH",
+            "HIGH"
+          ],
+          [
+            "LOW",
+            "LOW"
+          ]
+        ]
+      }
+    ],
+    "icon": "iconfont icon-motor"
+  },
+  {
+    "type": "iicmd_servo",
+    "message0": "舵机端口%1 转动到(0-180) %2°",
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#ff0000",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "IOSERVER",
+        "options": [
+          [
+            "S1",
+            "S1"
+          ],
+          [
+            "S2",
+            "S2"
+          ],
+          [
+            "S3",
+            "S3"
+          ],
+          [
+            "S4",
+            "S4"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SERANGLE",
+        "check": "Number"
+      }
+    ],
+    "icon": "iconfont icon-motor"
+  }
+]

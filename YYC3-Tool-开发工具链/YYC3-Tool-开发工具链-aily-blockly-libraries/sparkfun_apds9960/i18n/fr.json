@@ -1,0 +1,100 @@
+{
+  "toolbox_name": "APDS9960",
+  "apds9960_init": {
+    "message0": "Initialiser APDS9960 %1",
+    "tooltip": "Initialiser le capteur SparkFun APDS9960"
+  },
+  "apds9960_is_ready": {
+    "message0": "APDS9960 %1 initialisé",
+    "tooltip": "Retourne l'état d'init APDS9960"
+  },
+  "apds9960_enable_light": {
+    "message0": "APDS9960 %1 activer capteur lumière interruption %2",
+    "tooltip": "Activer le capteur de lumière APDS9960",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "apds9960_enable_proximity": {
+    "message0": "APDS9960 %1 activer capteur proximité interruption %2",
+    "tooltip": "Activer le capteur de proximité APDS9960",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Non",
+            "false"
+          ],
+          [
+            "Oui",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "apds9960_enable_gesture": {
+    "message0": "APDS9960 %1 activer geste interruption %2",
+    "tooltip": "Activer le moteur de gestes APDS9960"
+  },
+  "apds9960_read_light": {
+    "message0": "APDS9960 %1 lire canal lumière %2",
+    "tooltip": "Lit la valeur du canal de lumière APDS9960",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Ambiant",
+            "APDS9960_AMBIENT"
+          ],
+          [
+            "Rouge",
+            "APDS9960_RED"
+          ],
+          [
+            "Vert",
+            "APDS9960_GREEN"
+          ],
+          [
+            "Bleu",
+            "APDS9960_BLUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "apds9960_read_proximity": {
+    "message0": "APDS9960 %1 lire proximité",
+    "tooltip": "Lit la valeur de proximité APDS9960"
+  },
+  "apds9960_gesture_available": {
+    "message0": "APDS9960 %1 geste disponible",
+    "tooltip": "Vérifie si des données de geste sont disponibles"
+  },
+  "apds9960_read_gesture": {
+    "message0": "APDS9960 %1 lire geste",
+    "tooltip": "Lit la direction du dernier geste APDS9960"
+  },
+  "apds9960_set_ambient_gain": {
+    "message0": "Gain lumière ambiante APDS9960 %1 %2",
+    "tooltip": "Définit le gain de lumière ambiante/couleur APDS9960"
+  },
+  "apds9960_set_proximity_gain": {
+    "message0": "Gain proximité APDS9960 %1 %2",
+    "tooltip": "Définit le gain de proximité APDS9960"
+  }
+}

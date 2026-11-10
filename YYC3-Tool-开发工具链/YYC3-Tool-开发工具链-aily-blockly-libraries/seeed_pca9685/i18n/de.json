@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "PCA9685",
+  "toolbox_labels": {
+    "PWM 控制": "PWM-Steuerung",
+    "舵机控制": "Servosteuerung"
+  },
+  "seeed_pca9685_init": {
+    "message0": "PCA9685 PWM-Controller initialisieren %1 I2C-Adresse %2",
+    "tooltip": "Seeed PCA9685 PWM-Controller erstellen und initialisieren (16-Kanal-PWM-Ausgang), Standard-I2C-Adresse 0x7f"
+  },
+  "seeed_pca9685_set_frequency": {
+    "message0": "%1 PWM-Frequenz setzen %2 Hz",
+    "tooltip": "PWM-Ausgangsfrequenz einstellen, Bereich 24Hz~1526Hz"
+  },
+  "seeed_pca9685_set_pwm": {
+    "message0": "%1 Pin %2 PWM Start %3 Ende %4 setzen",
+    "tooltip": "PWM-Wert setzen, Pin-Bereich 1-16, Start-/Endwert 0-4095"
+  },
+  "seeed_pca9685_servo_init": {
+    "message0": "PCA9685 Servotreiber initialisieren %1 I2C-Adresse %2",
+    "tooltip": "Seeed PCA9685 Servotreiber erstellen und initialisieren (16-Kanal-Servosteuerung), Standard-I2C-Adresse 0x7f"
+  },
+  "seeed_pca9685_servo_set_pulse_range": {
+    "message0": "%1 Servo-Pulsbereich setzen Min %2 Max %3 Max-Winkel %4",
+    "tooltip": "Servo-Pulsbreitenbereich (Mikrosekunden) und Maximalwinkel einstellen, Standard 500-2500μs, 180°"
+  },
+  "seeed_pca9685_servo_set_angle": {
+    "message0": "%1 Pin %2 Servowinkel %3 setzen",
+    "tooltip": "Servowinkel für angegebenen Pin setzen, Pin-Bereich 1-16, Winkel 0-180"
+  }
+}

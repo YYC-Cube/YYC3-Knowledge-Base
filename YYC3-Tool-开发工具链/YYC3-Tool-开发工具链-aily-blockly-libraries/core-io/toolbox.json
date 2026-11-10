@@ -1,0 +1,119 @@
+{
+  "kind": "category",
+  "name": "I/O引脚",
+  "icon": "fa-light fa-microchip",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "引脚配置"
+    },
+    {
+      "kind": "block",
+      "type": "io_pinmode",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "io_pin_digi"
+          }
+        },
+        "MODE": {
+          "shadow": {
+            "type": "io_mode",
+            "fields": {
+              "MODE": "INPUT"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "数字信号"
+    },
+    {
+      "kind": "block",
+      "type": "io_digitalwrite",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "io_pin_digi"
+          }
+        },
+        "STATE": {
+          "shadow": {
+            "type": "io_state"
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "io_digitalread",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "io_pin_digi"
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "模拟信号"
+    },
+    {
+      "kind": "block",
+      "type": "io_analogwrite",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "io_pin_pwm"
+          }
+        },
+        "PWM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 255
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "io_analogread",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "io_pin_adc"
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "引脚参数"
+    },
+    {
+      "kind": "block",
+      "type": "io_pin_digi"
+    },
+    {
+      "kind": "block",
+      "type": "io_pin_adc"
+    },
+    {
+      "kind": "block",
+      "type": "io_pin_pwm"
+    },
+    {
+      "kind": "block",
+      "type": "io_state"
+    },
+    {
+      "kind": "block",
+      "type": "io_mode"
+    }
+  ]
+}

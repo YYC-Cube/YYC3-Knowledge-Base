@@ -1,0 +1,51 @@
+{
+  "kind": "category",
+  "icon": "iconfont icon-ws2812",
+  "name": "NeoPixel",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "neopixel_init"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_begin"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_show"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_set_brightness"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_set_pixel_color"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_fill"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_clear"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_rainbow"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_color_wipe"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_theater_chase"
+    },
+    {
+      "kind": "block",
+      "type": "neopixel_theater_chase_rainbow"
+    }
+  ]
+}

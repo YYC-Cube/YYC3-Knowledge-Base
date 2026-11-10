@@ -1,0 +1,436 @@
+{
+  "kind": "category",
+  "name": "蓝牙BLE",
+  "icon": "fa-light fa-bluetooth",
+  "colour": "#2196F3",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "快速模式",
+      "icon": "fa-light fa-bluetooth",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "一键BLE外设"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_peripheral_quick",
+          "inputs": {
+            "NAME": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "XIAO-nRF54"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_peripheral_received_data"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_peripheral_send",
+          "inputs": {
+            "DATA": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello BLE"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_peripheral_connected"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "初始化",
+      "icon": "fa-light fa-bluetooth",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "设备初始化"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_init"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_end"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_name",
+          "inputs": {
+            "NAME": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "XIAO-nRF54"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_address",
+          "inputs": {
+            "ADDRESS": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "C0:DE:54:15:00:01"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_get_address"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_tx_power"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_power_low_power_mode"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "广播",
+      "icon": "fa-light fa-bluetooth",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "广播配置"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_adv_type"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_adv_data_raw"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_scan_response_name",
+          "inputs": {
+            "NAME": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "XIAO-nRF54-SCAN"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "广播发送"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_advertise_once"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_advertise_connectable"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "连接",
+      "icon": "fa-light fa-bluetooth",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "连接管理"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_is_connected"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_disconnect"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_poll_event"
+        },
+        {
+          "kind": "label",
+          "text": "连接事件"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_on_connected"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_on_disconnected"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "GATT服务",
+      "icon": "fa-light fa-bluetooth",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "标准GATT"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_gatt_device_name",
+          "inputs": {
+            "NAME": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "XIAO nRF54"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_gatt_battery",
+          "inputs": {
+            "LEVEL": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 100
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "label",
+          "text": "自定义GATT"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_clear_gatt"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_add_service_16",
+          "inputs": {
+            "UUID": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "0xFFF0"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_add_service_128",
+          "inputs": {
+            "UUID": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "12345678-9ABC-4DEF-8ABC-DEF012345678"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_add_characteristic",
+          "inputs": {
+            "UUID": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "0xFFF1"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_set_char_value",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_notify_char"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_is_cccd_enabled"
+        },
+        {
+          "kind": "label",
+          "text": "写入回调"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_on_char_write"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_char_write_value"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "NUS透传",
+      "icon": "fa-light fa-bluetooth",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "Nordic UART服务"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_nus_init",
+          "inputs": {
+            "NAME": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "X54-NUS"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_nus_service"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_nus_connected"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_nus_available"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_nus_read_string"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_nus_write",
+          "inputs": {
+            "DATA": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello"
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_nus_println",
+          "inputs": {
+            "DATA": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "Hello"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "扫描",
+      "icon": "fa-light fa-bluetooth",
+      "contents": [
+        {
+          "kind": "label",
+          "text": "BLE扫描"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_scan_passive"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_scan_active"
+        },
+        {
+          "kind": "label",
+          "text": "扫描结果"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_scan_get_address"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_scan_get_rssi"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_scan_get_name"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "电源",
+      "icon": "fa-light fa-bluetooth",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "nrf54_ble_power_low_power_mode"
+        },
+        {
+          "kind": "block",
+          "type": "nrf54_ble_battery_percent"
+        }
+      ]
+    }
+  ]
+}

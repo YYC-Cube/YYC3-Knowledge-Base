@@ -1,0 +1,155 @@
+{
+  "toolbox_name": "Zigbee",
+  "toolbox_labels": {
+    "初始化与连接": "初始化與連接",
+    "灯光控制": "燈光控制",
+    "传感器": "感測器",
+    "属性报告": "屬性報告",
+    "事件回调": "事件回調",
+    "状态查询": "狀態查詢",
+    "持久化": "持久化"
+  },
+  "zigbee_init": {
+    "message0": "初始化Zigbee裝置 %1 角色 %2 裝置類型 %3 頻道 %4 PAN ID %5",
+    "tooltip": "初始化Zigbee裝置，設定角色、裝置類型、頻道和PAN ID",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["終端裝置 (End Device)", "END_DEVICE"],
+          ["路由器 (Router)", "ROUTER"]
+        ]
+      },
+      {
+        "options": [
+          ["開關燈 (On/Off Light)", "ON_OFF_LIGHT"],
+          ["調光燈 (Dimmable Light)", "DIMMABLE_LIGHT"],
+          ["彩色燈 (Color Light)", "COLOR_LIGHT"],
+          ["擴展彩色燈 (Extended Color Light)", "EXTENDED_COLOR_LIGHT"],
+          ["開關控制器 (On/Off Switch)", "ON_OFF_SWITCH"],
+          ["溫度感測器 (Temperature Sensor)", "TEMPERATURE_SENSOR"],
+          ["溫濕度感測器 (Temp & Humidity Sensor)", "TEMPERATURE_HUMIDITY_SENSOR"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "zigbee_set_basic_info": {
+    "message0": "設定 %1 基本資訊 製造商 %2 型號 %3 版本 %4",
+    "tooltip": "設定Zigbee裝置基本資訊（製造商名稱、型號和軟體版本）"
+  },
+  "zigbee_set_install_code": {
+    "message0": "設定 %1 安裝碼 %2",
+    "tooltip": "設定Zigbee裝置安裝碼（用於安全入網），格式為16進制字串"
+  },
+  "zigbee_start": {
+    "message0": "啟動 %1 Zigbee網路",
+    "tooltip": "啟動Zigbee裝置，開始掃描和入網流程"
+  },
+  "zigbee_loop": {
+    "message0": "%1 Zigbee輪詢處理",
+    "tooltip": "在loop()中呼叫，處理Zigbee網路通訊和狀態維護"
+  },
+  "zigbee_is_joined": {
+    "message0": "%1 已加入網路？",
+    "tooltip": "檢查Zigbee裝置是否已成功加入網路"
+  },
+  "zigbee_set_on_off": {
+    "message0": "設定 %1 開關狀態為 %2",
+    "tooltip": "設定On/Off燈的開關狀態",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["開 (ON)", "TRUE"],
+          ["關 (OFF)", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "zigbee_get_on_off": {
+    "message0": "%1 開關狀態",
+    "tooltip": "取得當前On/Off燈的開關狀態"
+  },
+  "zigbee_set_level": {
+    "message0": "設定 %1 亮度為 %2",
+    "tooltip": "設定調光燈的亮度等級（0-254）"
+  },
+  "zigbee_get_level": {
+    "message0": "%1 亮度",
+    "tooltip": "取得當前調光燈的亮度等級"
+  },
+  "zigbee_set_color_hs": {
+    "message0": "設定 %1 顏色 色相 %2 飽和度 %3",
+    "tooltip": "設定彩色燈的色相（0-254）和飽和度（0-254）"
+  },
+  "zigbee_set_color_temp": {
+    "message0": "設定 %1 色溫為 %2 Mireds",
+    "tooltip": "設定擴展彩色燈的色溫（Mireds值，153=6500K冷白, 500=2000K暖黃）"
+  },
+  "zigbee_set_temperature": {
+    "message0": "設定 %1 溫度值 %2 ℃",
+    "tooltip": "設定溫度感測器的溫度值（攝氏度，精度0.01℃）"
+  },
+  "zigbee_set_humidity": {
+    "message0": "設定 %1 濕度值 %2 %",
+    "tooltip": "設定濕度感測器的濕度值（百分比，精度0.01%）"
+  },
+  "zigbee_set_battery": {
+    "message0": "設定 %1 電池電壓 %2 dV 電量 %3 %",
+    "tooltip": "設定電池狀態（電壓：分伏特；電量：百分比0-100）"
+  },
+  "zigbee_is_identifying": {
+    "message0": "%1 正在識別？",
+    "tooltip": "檢查裝置是否處於識別（Identify）模式"
+  },
+  "zigbee_configure_reporting": {
+    "message0": "配置 %1 屬性報告 叢集 %2 屬性ID %3 最小間隔 %4 秒 最大間隔 %5 秒",
+    "tooltip": "配置Zigbee屬性自動報告策略（最小/最大上報間隔）",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["開關 (OnOff)", "ON_OFF"],
+          ["亮度 (Level Control)", "LEVEL_CONTROL"],
+          ["顏色 (Color Control)", "COLOR_CONTROL"],
+          ["溫度 (Temperature)", "TEMPERATURE"],
+          ["濕度 (Humidity)", "HUMIDITY"],
+          ["電源 (Power Config)", "POWER_CONFIG"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "zigbee_on_state_change": {
+    "message0": "當 %1 開關狀態變化時 %2 %3",
+    "tooltip": "當Zigbee網路遠端控制開關狀態變化時執行程式碼"
+  },
+  "zigbee_on_level_change": {
+    "message0": "當 %1 亮度變化時 %2 %3",
+    "tooltip": "當Zigbee網路遠端控制亮度變化時執行程式碼"
+  },
+  "zigbee_on_color_change": {
+    "message0": "當 %1 顏色變化時 %2 %3",
+    "tooltip": "當Zigbee網路遠端控制顏色變化時執行程式碼"
+  },
+  "zigbee_on_join": {
+    "message0": "當 %1 加入網路時 %2 %3",
+    "tooltip": "當Zigbee裝置成功加入網路時執行程式碼"
+  },
+  "zigbee_persist_save": {
+    "message0": "儲存 %1 網路狀態到快閃記憶體",
+    "tooltip": "儲存當前Zigbee網路狀態到快閃記憶體（入網資訊、金鑰等），斷電後可恢復"
+  },
+  "zigbee_persist_clear": {
+    "message0": "清除 %1 儲存的網路狀態",
+    "tooltip": "清除快閃記憶體中儲存的Zigbee網路狀態，裝置重啟後需重新入網"
+  },
+  "zigbee_rejoin": {
+    "message0": "%1 重新加入網路",
+    "tooltip": "嘗試安全重新加入Zigbee網路"
+  }
+}

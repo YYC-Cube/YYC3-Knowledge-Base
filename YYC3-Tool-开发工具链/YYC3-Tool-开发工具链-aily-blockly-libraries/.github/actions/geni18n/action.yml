@@ -1,0 +1,26 @@
+name: "I18n Action"
+description: "A GitHub Action to generate i18n files for directories with package.json files."
+inputs:
+  directories:
+    description: "directories to process"
+    required: true
+    default: ""
+  readme:
+    description: "readme file path"
+    required: true
+    default: ""
+  llmModel:
+    description: "llm model name"
+    required: true
+    default: "gpt-4o"
+  llmKey:
+    description: "llm key"
+    required: true
+    default: ""
+  llmBaseUrl:
+    description: "llm url"
+    required: true
+    default: "https://api.openai.com/v1/chat/completions"
+runs:
+  using: "node20"
+  main: "index.js"

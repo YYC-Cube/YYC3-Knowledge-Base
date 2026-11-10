@@ -1,0 +1,48 @@
+{
+  "toolbox_name": "颜色传感器",
+  "tcs34725_init": {
+    "message0": "TCS34725 %1 颜色识别初始化"
+  },
+  "tcs34725_led_ctrl": {
+    "message0": "颜色识别 %1 LED灯 %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "打开",
+            "false"
+          ],
+          [
+            "关闭",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "tcs34725_get_rgb": {
+    "message0": "颜色识别 %1 获取 RGB"
+  },
+  "tcs34725_rgb_value": {
+    "message0": "颜色识别RGB值 %1",
+    "args0": [
+      {
+        "options": [
+          [
+            "红",
+            "red"
+          ],
+          [
+            "绿",
+            "green"
+          ],
+          [
+            "蓝",
+            "blue"
+          ]
+        ]
+      }
+    ]
+  }
+}

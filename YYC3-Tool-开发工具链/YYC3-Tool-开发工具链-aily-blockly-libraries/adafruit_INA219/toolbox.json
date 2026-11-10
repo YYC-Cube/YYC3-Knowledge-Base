@@ -1,0 +1,15 @@
+{
+  "kind": "category",
+  "name": "电流检测INA219",
+  "icon": "fa-light fa-monitor-waveform",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "ina219_init_with_wire"
+    },
+    {
+      "kind": "block",
+      "type": "ina219_read_value"
+    }
+  ]
+}

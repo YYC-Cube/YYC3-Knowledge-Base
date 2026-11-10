@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "MMA8653加速度",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "读取加速度": "讀取加速度",
+    "倾角计": "傾角計",
+    "设置": "設定",
+    "状态": "狀態"
+  },
+  "mma8653_init": {
+    "message0": "初始化MMA8653加速度感應器 量程 %1 解析度 %2 資料速率 %3",
+    "tooltip": "初始化MMA8653三軸加速度感應器，設定量程、解析度和資料速率",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["10位元", "MMA8653_10BIT_RES"],
+          ["8位元", "MMA8653_8BIT_RES"]
+        ]
+      },
+      null
+    ]
+  },
+  "mma8653_set_mode": {
+    "message0": "設定MMA8653過取樣模式 %1",
+    "tooltip": "設定MMA8653感應器的過取樣模式",
+    "args0": [
+      {
+        "options": [
+          ["普通", "MMA8653_MODS_NORMAL"],
+          ["低噪低功耗", "MMA8653_MODS_LOW_NOISE_LOW_POWER"],
+          ["高解析度", "MMA8653_MODS_HIGH_RES"],
+          ["低功耗", "MMA8653_MODS_LOW_POWER"]
+        ]
+      }
+    ]
+  },
+  "mma8653_begin": {
+    "message0": "啟動MMA8653加速度感應器",
+    "tooltip": "啟動MMA8653感應器開始採集資料"
+  },
+  "mma8653_read_x": {
+    "message0": "讀取MMA8653 X軸加速度",
+    "tooltip": "讀取MMA8653感應器X軸加速度值"
+  },
+  "mma8653_read_y": {
+    "message0": "讀取MMA8653 Y軸加速度",
+    "tooltip": "讀取MMA8653感應器Y軸加速度值"
+  },
+  "mma8653_read_z": {
+    "message0": "讀取MMA8653 Z軸加速度",
+    "tooltip": "讀取MMA8653感應器Z軸加速度值"
+  },
+  "mma8653_read_xyz": {
+    "message0": "讀取MMA8653全部軸向資料到變數 X %1 Y %2 Z %3",
+    "tooltip": "一次性讀取MMA8653感應器三個軸的加速度資料"
+  },
+  "mma8653_set_range": {
+    "message0": "設定MMA8653測量範圍 %1",
+    "tooltip": "設定MMA8653感應器的測量量程"
+  },
+  "mma8653_set_data_rate": {
+    "message0": "設定MMA8653資料取樣率 %1",
+    "tooltip": "設定MMA8653感應器的資料輸出速率"
+  },
+  "mma8653_set_resolution": {
+    "message0": "設定MMA8653解析度 %1",
+    "tooltip": "設定MMA8653感應器的資料解析度",
+    "args0": [
+      {
+        "options": [
+          ["10位元", "MMA8653_10BIT_RES"],
+          ["8位元", "MMA8653_8BIT_RES"]
+        ]
+      }
+    ]
+  },
+  "mma8653_is_active": {
+    "message0": "MMA8653感應器已啟動",
+    "tooltip": "檢查MMA8653感應器是否處於啟動狀態"
+  },
+  "mma8653_check_connection": {
+    "message0": "檢查MMA8653感應器連接狀態",
+    "tooltip": "檢查MMA8653感應器是否正確連接"
+  },
+  "mma8653_get_roll": {
+    "message0": "讀取MMA8653橫滾角 Roll (°)",
+    "tooltip": "讀取MMA8653感應器的橫滾角（繞X軸旋轉角度）"
+  },
+  "mma8653_get_pitch": {
+    "message0": "讀取MMA8653俯仰角 Pitch (°)",
+    "tooltip": "讀取MMA8653感應器的俯仰角（繞Y軸旋轉角度）"
+  },
+  "mma8653_get_tilt": {
+    "message0": "讀取MMA8653傾斜角 (°)",
+    "tooltip": "讀取MMA8653感應器相對於垂直方向的傾斜角"
+  }
+}

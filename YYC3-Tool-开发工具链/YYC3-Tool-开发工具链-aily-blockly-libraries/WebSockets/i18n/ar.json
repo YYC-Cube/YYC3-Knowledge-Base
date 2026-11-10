@@ -1,0 +1,160 @@
+{
+  "toolbox_name": "WebSockets",
+  "toolbox_labels": {
+    "WebSocket客户端": "عميل ويب سوكيت",
+    "WebSocket服务器": "خادم ويب سوكيت",
+    "事件处理": "التعامل مع الحدث"
+  },
+  "websocket_client_create": {
+    "message0": "创建WebSocket客户端 %1",
+    "tooltip": "创建WebSocket客户端对象"
+  },
+  "websocket_client_begin": {
+    "message0": "WebSocket客户端 %1 连接到 %2 端口 %3 路径 %4",
+    "tooltip": "连接到WebSocket服务器"
+  },
+  "websocket_client_begin_ssl": {
+    "message0": "WebSocket客户端 %1 SSL连接到 %2 端口 %3 路径 %4",
+    "tooltip": "SSL安全连接到WebSocket服务器"
+  },
+  "websocket_client_on_event": {
+    "message0": "当WebSocket客户端 %1 收到事件时",
+    "tooltip": "设置WebSocket客户端事件处理"
+  },
+  "websocket_client_send_text": {
+    "message0": "WebSocket客户端 %1 发送文本 %2",
+    "tooltip": "发送文本消息到WebSocket服务器"
+  },
+  "websocket_client_send_binary": {
+    "message0": "WebSocket客户端 %1 发送二进制数据 %2",
+    "tooltip": "发送二进制数据到WebSocket服务器"
+  },
+  "websocket_client_disconnect": {
+    "message0": "WebSocket客户端 %1 断开连接",
+    "tooltip": "断开WebSocket客户端连接"
+  },
+  "websocket_client_is_connected": {
+    "message0": "WebSocket客户端 %1 是否已连接",
+    "tooltip": "检查WebSocket客户端是否已连接"
+  },
+  "websocket_client_set_reconnect": {
+    "message0": "WebSocket客户端 %1 设置重连间隔 %2 毫秒",
+    "tooltip": "设置WebSocket客户端重连间隔"
+  },
+  "websocket_client_enable_heartbeat": {
+    "message0": "WebSocket客户端 %1 启用心跳 间隔%2毫秒 超时%3毫秒 断开次数%4",
+    "tooltip": "启用WebSocket客户端心跳检测"
+  },
+  "websocket_server_create": {
+    "message0": "创建WebSocket服务器 %1 端口 %2",
+    "tooltip": "创建WebSocket服务器对象"
+  },
+  "websocket_server_begin": {
+    "message0": "WebSocket服务器 %1 启动",
+    "tooltip": "启动WebSocket服务器"
+  },
+  "websocket_server_on_event": {
+    "message0": "当WebSocket服务器 %1 收到事件时",
+    "tooltip": "设置WebSocket服务器事件处理"
+  },
+  "websocket_server_send_text": {
+    "message0": "WebSocket服务器 %1 向客户端 %2 发送文本 %3",
+    "tooltip": "向指定客户端发送文本消息"
+  },
+  "websocket_server_broadcast_text": {
+    "message0": "WebSocket服务器 %1 广播文本 %2",
+    "tooltip": "向所有连接的客户端广播文本消息"
+  },
+  "websocket_server_send_binary": {
+    "message0": "WebSocket服务器 %1 向客户端 %2 发送二进制数据 %3",
+    "tooltip": "向指定客户端发送二进制数据"
+  },
+  "websocket_server_broadcast_binary": {
+    "message0": "WebSocket服务器 %1 广播二进制数据 %2",
+    "tooltip": "向所有连接的客户端广播二进制数据"
+  },
+  "websocket_server_disconnect": {
+    "message0": "WebSocket服务器 %1 断开客户端 %2",
+    "tooltip": "断开指定客户端连接"
+  },
+  "websocket_server_disconnect_all": {
+    "message0": "WebSocket服务器 %1 断开所有客户端",
+    "tooltip": "断开所有客户端连接"
+  },
+  "websocket_server_connected_clients": {
+    "message0": "WebSocket服务器 %1 连接的客户端数量",
+    "tooltip": "获取连接的客户端数量"
+  },
+  "websocket_server_client_connected": {
+    "message0": "WebSocket服务器 %1 客户端 %2 是否已连接",
+    "tooltip": "检查指定客户端是否已连接"
+  },
+  "websocket_event_type": {
+    "message0": "事件类型 %1",
+    "tooltip": "WebSocket事件类型",
+    "args0": [
+      {
+        "options": [
+          [
+            "断开连接",
+            "WStype_DISCONNECTED"
+          ],
+          [
+            "已连接",
+            "WStype_CONNECTED"
+          ],
+          [
+            "文本消息",
+            "WStype_TEXT"
+          ],
+          [
+            "二进制消息",
+            "WStype_BIN"
+          ],
+          [
+            "Ping",
+            "WStype_PING"
+          ],
+          [
+            "Pong",
+            "WStype_PONG"
+          ],
+          [
+            "错误",
+            "WStype_ERROR"
+          ]
+        ]
+      }
+    ]
+  },
+  "websocket_event_payload": {
+    "message0": "事件数据 %1",
+    "tooltip": "WebSocket事件数据",
+    "args0": [
+      {
+        "options": [
+          [
+            "事件类型",
+            "TYPE"
+          ],
+          [
+            "事件数据(uint8_t*)",
+            "PAYLOAD"
+          ],
+          [
+            "事件数据(char*)",
+            "PAYLOAD_CHAR"
+          ]
+        ]
+      }
+    ]
+  },
+  "websocket_event_payload_length": {
+    "message0": "事件数据长度",
+    "tooltip": "获取事件数据的长度"
+  },
+  "websocket_event_client_num": {
+    "message0": "事件客户端编号",
+    "tooltip": "获取事件的客户端编号"
+  }
+}

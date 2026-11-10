@@ -1,0 +1,155 @@
+{
+  "toolbox_name": "Zigbee",
+  "toolbox_labels": {
+    "初始化与连接": "초기화 및 연결",
+    "灯光控制": "조명 제어",
+    "传感器": "센서",
+    "属性报告": "재산 신고",
+    "事件回调": "이벤트 콜백",
+    "状态查询": "상태 쿼리",
+    "持久化": "끈기"
+  },
+  "zigbee_init": {
+    "message0": "Zigbee 장치 초기화 %1 역할 %2 장치 유형 %3 채널 %4 PAN ID %5",
+    "tooltip": "Zigbee 장치를 초기화하고 역할, 장치 유형, 채널 및 PAN ID를 설정합니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["엔드 디바이스", "END_DEVICE"],
+          ["라우터", "ROUTER"]
+        ]
+      },
+      {
+        "options": [
+          ["온/오프 조명", "ON_OFF_LIGHT"],
+          ["디밍 조명", "DIMMABLE_LIGHT"],
+          ["컬러 조명", "COLOR_LIGHT"],
+          ["확장 컬러 조명", "EXTENDED_COLOR_LIGHT"],
+          ["온/오프 스위치", "ON_OFF_SWITCH"],
+          ["온도 센서", "TEMPERATURE_SENSOR"],
+          ["온습도 센서", "TEMPERATURE_HUMIDITY_SENSOR"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "zigbee_set_basic_info": {
+    "message0": "%1 기본 정보 설정 제조사 %2 모델 %3 버전 %4",
+    "tooltip": "Zigbee 장치 기본 정보 설정 (제조사명, 모델 및 소프트웨어 버전)"
+  },
+  "zigbee_set_install_code": {
+    "message0": "%1 설치 코드 설정 %2",
+    "tooltip": "Zigbee 장치 설치 코드 설정 (보안 네트워크 참가용), 16진수 문자열 형식"
+  },
+  "zigbee_start": {
+    "message0": "%1 Zigbee 네트워크 시작",
+    "tooltip": "Zigbee 장치를 시작하고 스캔 및 커미셔닝을 시작합니다"
+  },
+  "zigbee_loop": {
+    "message0": "%1 Zigbee 처리",
+    "tooltip": "loop()에서 호출하여 Zigbee 네트워크 통신 및 상태 유지를 처리합니다"
+  },
+  "zigbee_is_joined": {
+    "message0": "%1 네트워크에 참가됨?",
+    "tooltip": "Zigbee 장치가 네트워크에 성공적으로 참가했는지 확인합니다"
+  },
+  "zigbee_set_on_off": {
+    "message0": "%1 온/오프 상태를 %2 로 설정",
+    "tooltip": "On/Off 조명의 스위치 상태를 설정합니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["켜기", "TRUE"],
+          ["끄기", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "zigbee_get_on_off": {
+    "message0": "%1 온/오프 상태",
+    "tooltip": "현재 On/Off 조명의 스위치 상태를 가져옵니다"
+  },
+  "zigbee_set_level": {
+    "message0": "%1 밝기를 %2 로 설정",
+    "tooltip": "디밍 조명의 밝기 레벨을 설정합니다 (0-254)"
+  },
+  "zigbee_get_level": {
+    "message0": "%1 밝기",
+    "tooltip": "현재 디밍 조명의 밝기 레벨을 가져옵니다"
+  },
+  "zigbee_set_color_hs": {
+    "message0": "%1 색상 설정 색조 %2 채도 %3",
+    "tooltip": "컬러 조명의 색조 (0-254) 및 채도 (0-254)를 설정합니다"
+  },
+  "zigbee_set_color_temp": {
+    "message0": "%1 색온도를 %2 Mireds로 설정",
+    "tooltip": "확장 컬러 조명의 색온도를 설정합니다 (Mireds 값, 153=6500K 차가운 백색, 500=2000K 따뜻한 황색)"
+  },
+  "zigbee_set_temperature": {
+    "message0": "%1 온도값 설정 %2 ℃",
+    "tooltip": "온도 센서의 온도값을 설정합니다 (섭씨, 정밀도 0.01℃)"
+  },
+  "zigbee_set_humidity": {
+    "message0": "%1 습도값 설정 %2 %",
+    "tooltip": "습도 센서의 습도값을 설정합니다 (백분율, 정밀도 0.01%)"
+  },
+  "zigbee_set_battery": {
+    "message0": "%1 배터리 전압 %2 dV 잔량 %3 % 설정",
+    "tooltip": "배터리 상태를 설정합니다 (전압: 데시볼트; 잔량: 백분율 0-100)"
+  },
+  "zigbee_is_identifying": {
+    "message0": "%1 식별 중?",
+    "tooltip": "장치가 식별 (Identify) 모드인지 확인합니다"
+  },
+  "zigbee_configure_reporting": {
+    "message0": "%1 속성 보고 설정 클러스터 %2 속성 ID %3 최소 간격 %4 초 최대 간격 %5 초",
+    "tooltip": "Zigbee 속성 자동 보고 정책을 설정합니다 (최소/최대 보고 간격)",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["온/오프 (OnOff)", "ON_OFF"],
+          ["밝기 (Level Control)", "LEVEL_CONTROL"],
+          ["색상 (Color Control)", "COLOR_CONTROL"],
+          ["온도 (Temperature)", "TEMPERATURE"],
+          ["습도 (Humidity)", "HUMIDITY"],
+          ["전원 (Power Config)", "POWER_CONFIG"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "zigbee_on_state_change": {
+    "message0": "%1 온/오프 상태 변경 시 %2 %3",
+    "tooltip": "Zigbee 네트워크를 통해 온/오프 상태가 변경될 때 코드를 실행합니다"
+  },
+  "zigbee_on_level_change": {
+    "message0": "%1 밝기 변경 시 %2 %3",
+    "tooltip": "Zigbee 네트워크를 통해 밝기가 변경될 때 코드를 실행합니다"
+  },
+  "zigbee_on_color_change": {
+    "message0": "%1 색상 변경 시 %2 %3",
+    "tooltip": "Zigbee 네트워크를 통해 색상이 변경될 때 코드를 실행합니다"
+  },
+  "zigbee_on_join": {
+    "message0": "%1 네트워크 참가 시 %2 %3",
+    "tooltip": "Zigbee 장치가 네트워크에 성공적으로 참가했을 때 코드를 실행합니다"
+  },
+  "zigbee_persist_save": {
+    "message0": "%1 네트워크 상태를 플래시에 저장",
+    "tooltip": "현재 Zigbee 네트워크 상태를 플래시에 저장합니다 (네트워크 참가 정보, 키 등), 전원 차단 후 복원 가능"
+  },
+  "zigbee_persist_clear": {
+    "message0": "%1 저장된 네트워크 상태 삭제",
+    "tooltip": "플래시에 저장된 Zigbee 네트워크 상태를 삭제합니다, 재시작 후 네트워크에 다시 참가해야 합니다"
+  },
+  "zigbee_rejoin": {
+    "message0": "%1 네트워크 재참가",
+    "tooltip": "Zigbee 네트워크에 안전하게 재참가를 시도합니다"
+  }
+}

@@ -1,0 +1,55 @@
+{
+"toolbox_name": "Датчик веса HX711",
+"hx711_create": {
+    "message0": "Создать датчик веса HX711 %1"
+},
+"hx711_begin": {
+    "message0": "Инициализировать %1 пин данных %2 пин тактирования %3",
+    "args0": [
+        null,
+        {
+            "options": "${board.digitalPins}"
+        },
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+},
+"hx711_tare": {
+    "message0": "%1 Тара (количество %2)"
+},
+"hx711_set_scale": {
+    "message0": "%1 Установить коэффициент шкалы %2"
+},
+"hx711_get_units": {
+    "message0": "%1 Получить вес (количество %2)"
+},
+"hx711_read": {
+    "message0": "%1 Читать исходные данные"
+},
+"hx711_read_average": {
+    "message0": "%1 Читать среднее (количество %2)"
+},
+"hx711_power_down": {
+    "message0": "%1 Выключить питание"
+},
+"hx711_power_up": {
+    "message0": "%1 Включить питание"
+},
+"hx711_set_gain": {
+    "message0": "%1 Установить усиление %2",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["128 (канал A)", "HX711_CHANNEL_A_GAIN_128"],
+                ["64 (канал A)", "HX711_CHANNEL_A_GAIN_64"],
+                ["32 (канал B)", "HX711_CHANNEL_B_GAIN_32"]
+            ]
+        }
+    ]
+},
+"hx711_calibrate_scale": {
+    "message0": "%1 Калибровка шкалы Известный вес %2 Количество %3"
+}
+}

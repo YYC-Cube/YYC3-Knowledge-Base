@@ -1,0 +1,40 @@
+{
+    "kind": "category",
+    "name": "NTC热敏温度",
+    "colour": "#FF6600",
+    "icon": "fa-light fa-temperature-three-quarters",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "ntc_init",
+            "fields": {
+                "PIN": "A0",
+                "REF_RESISTANCE": 10000,
+                "NOMINAL_RESISTANCE": 10000,
+                "NOMINAL_TEMP": 25,
+                "B_VALUE": 3950
+            }
+        },
+        {
+            "kind": "block",
+            "type": "ntc_read_celsius",
+            "fields": {
+                "PIN": "A0"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "ntc_read_fahrenheit",
+            "fields": {
+                "PIN": "A0"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "ntc_read_kelvin",
+            "fields": {
+                "PIN": "A0"
+            }
+        }
+    ]
+}

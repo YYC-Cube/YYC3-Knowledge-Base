@@ -1,0 +1,52 @@
+{
+  "toolbox_name": "Lecteur d'animation GIF",
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "打开GIF": "Ouvrir le GIF",
+    "播放控制": "Commandes de lecture",
+    "信息获取": "acquisition d'informations"
+  },
+  "gif_init": {
+    "message0": "Initialiser le lecteur GIF %1",
+    "tooltip": "Initialiser l'objet lecteur AnimatedGIF, nécessite un écran TFT"
+  },
+  "gif_open_memory": {
+    "message0": "GIF %1 ouvrir données mémoire en-tête %2 tableau %3",
+    "message1": "position d'affichage X %1 Y %2",
+    "tooltip": "Ouvrir les données GIF depuis la mémoire (FLASH). Spécifiez le nom du fichier en-tête et le nom du tableau contenant les données GIF, ainsi que la position d'affichage"
+  },
+  "gif_open_sd": {
+    "message0": "GIF %1 ouvrir fichier carte SD %2",
+    "message1": "position d'affichage X %1 Y %2",
+    "tooltip": "Ouvrir un fichier GIF depuis la carte SD. Spécifiez le chemin du fichier et la position d'affichage"
+  },
+  "gif_play_frame": {
+    "message0": "GIF %1 lire une image sync %2",
+    "tooltip": "Lire une image de l'animation GIF. Retourne s'il reste des images. En mode sync 'Oui', attend le délai de l'image",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Oui", "true"],
+          ["Non", "false"]
+        ]
+      }
+    ]
+  },
+  "gif_play_all": {
+    "message0": "GIF %1 lire toutes les images",
+    "tooltip": "Lire toutes les images de l'animation GIF. Continue au bloc suivant après la fin"
+  },
+  "gif_close": {
+    "message0": "GIF %1 fermer",
+    "tooltip": "Fermer le fichier GIF actuellement ouvert et libérer les ressources"
+  },
+  "gif_get_width": {
+    "message0": "GIF %1 largeur du canevas",
+    "tooltip": "Obtenir la largeur du canevas de l'animation GIF actuelle (pixels)"
+  },
+  "gif_get_height": {
+    "message0": "GIF %1 hauteur du canevas",
+    "tooltip": "Obtenir la hauteur du canevas de l'animation GIF actuelle (pixels)"
+  }
+}

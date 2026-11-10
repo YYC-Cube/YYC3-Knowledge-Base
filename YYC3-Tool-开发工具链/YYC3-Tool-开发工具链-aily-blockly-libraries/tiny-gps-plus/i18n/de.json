@@ -1,0 +1,140 @@
+{
+  "toolbox_name": "GPS",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "数据读取": "Datenlesen",
+    "位置信息": "Standortinformationen",
+    "时间日期": "Uhrzeit Datum",
+    "运动信息": "Sportinformationen",
+    "信号状态": "Signalstatus",
+    "工具": "Werkzeuge"
+  },
+  "gps_init": {
+    "message0": "GPS-Modul initialisieren %1 Seriell %2 Baudrate %3",
+    "tooltip": "TinyGPS++ Modul initialisieren, seriellen Port und Baudrate für GPS wählen",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      },
+      {
+        "options": [
+          ["9600", "9600"],
+          ["4800", "4800"],
+          ["19200", "19200"],
+          ["38400", "38400"],
+          ["57600", "57600"],
+          ["115200", "115200"]
+        ]
+      }
+    ]
+  },
+  "gps_update": {
+    "message0": "GPS-Daten lesen %1",
+    "tooltip": "GPS-Daten vom seriellen Port lesen und parsen, muss in der Schleife wiederholt aufgerufen werden"
+  },
+  "gps_location": {
+    "message0": "GPS %1 %2",
+    "tooltip": "GPS Breiten- oder Längengradwert abrufen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Breitengrad", "LAT"],
+          ["Längengrad", "LNG"]
+        ]
+      }
+    ]
+  },
+  "gps_date": {
+    "message0": "GPS %1 Datum %2",
+    "tooltip": "GPS-Datum Jahr, Monat oder Tag abrufen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Jahr", "YEAR"],
+          ["Monat", "MONTH"],
+          ["Tag", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gps_time": {
+    "message0": "GPS %1 Zeit %2",
+    "tooltip": "GPS-Zeit Stunde, Minute oder Sekunde abrufen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Stunde", "HOUR"],
+          ["Minute", "MINUTE"],
+          ["Sekunde", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gps_speed": {
+    "message0": "GPS %1 Geschwindigkeit %2",
+    "tooltip": "GPS-Geschwindigkeitswert abrufen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["km/h", "KMPH"],
+          ["mph", "MPH"],
+          ["m/s", "MPS"],
+          ["Knoten", "KNOTS"]
+        ]
+      }
+    ]
+  },
+  "gps_altitude": {
+    "message0": "GPS %1 Höhe %2",
+    "tooltip": "GPS-Höhenwert abrufen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Meter", "METERS"],
+          ["Kilometer", "KM"],
+          ["Fuß", "FEET"]
+        ]
+      }
+    ]
+  },
+  "gps_satellites": {
+    "message0": "GPS %1 Satellitenanzahl",
+    "tooltip": "Anzahl der verbundenen Satelliten abrufen"
+  },
+  "gps_course": {
+    "message0": "GPS %1 Kurswinkel",
+    "tooltip": "GPS-Kurswinkel abrufen (0-360 Grad)"
+  },
+  "gps_hdop": {
+    "message0": "GPS %1 HDOP",
+    "tooltip": "HDOP (Horizontale Positionsgenauigkeit) abrufen, niedriger ist genauer"
+  },
+  "gps_is_valid": {
+    "message0": "GPS %1 %2 gültig?",
+    "tooltip": "Prüfen ob GPS-Daten gültig sind",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Position", "LOCATION"],
+          ["Datum", "DATE"],
+          ["Zeit", "TIME"]
+        ]
+      }
+    ]
+  },
+  "gps_distance_between": {
+    "message0": "Entfernung zwischen zwei Punkten (m)\nBreite1 %1 Länge1 %2\nBreite2 %3 Länge2 %4",
+    "tooltip": "Entfernung zwischen zwei GPS-Koordinaten in Metern berechnen"
+  },
+  "gps_course_to": {
+    "message0": "Kurs zwischen zwei Punkten\nBreite1 %1 Länge1 %2\nBreite2 %3 Länge2 %4",
+    "tooltip": "Kurswinkel von der ersten zur zweiten GPS-Koordinate berechnen"
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "files": [
+    {
+      "file": "app/app.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/OgImage/OgDefault.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/OgImage/OgNameBadge.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/OgImage/OgSpeaker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/OgImage/OgSponsor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/SponsorGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/button/VFButton.vue",
+      "diagnostics": [
+        "error:52:5 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "app/components/cta/VFCta.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/cta/VFSpCta.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/cta/VFSpCtaMobileButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/footer/VFFooter.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/form/VFFileInput.vue",
+      "diagnostics": [
+        "error:2:37 [TS2307] Cannot find module '@primevue/forms' or its corresponding type declarations.",
+        "error:3:27 [TS2307] Cannot find module '@primevue/forms' or its corresponding type declarations.",
+        "error:41:25 [TS7006] Parameter 'v' implicitly has an 'any' type.",
+        "error:72:35 [TS2739] Type 'Event' is missing the following properties from type 'FileUploadSelectEvent': originalEvent, files"
+      ]
+    },
+    {
+      "file": "app/components/form/VFForm.vue",
+      "diagnostics": [
+        "error:2:25 [TS2307] Cannot find module 'valibot' or its corresponding type declarations.",
+        "error:7:8 [TS2307] Cannot find module '@primevue/forms' or its corresponding type declarations.",
+        "error:8:33 [TS2307] Cannot find module '@primevue/forms/resolvers/valibot' or its corresponding type declarations.",
+        "error:11:59 [TS2307] Cannot find module '@primevue/forms' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "app/components/form/VFInput.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/form/VFTextarea.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/header/VFHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/heading/VFHeading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/mainVisual/MainVisual.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/mainVisual/MainVisualGraphic.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/mainVisual/MainVisualWebGL.vue",
+      "diagnostics": [
+        "error:3:24 [TS2307] Cannot find module 'three' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "app/components/menu/VFMenu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/menu/VFMenuItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/menu/VFSpMenu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/menu/VFSpMenuMobileButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/nameBadge/VFNameBadgePreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/scrollAttention/VFScrollAttention.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/section/VFSection.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/components/toast/VFToast.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/error.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/layouts/default.vue",
+      "diagnostics": [
+        "error:132:32 [TS7006] Parameter 'hash' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "app/pages/_components/SectionAccess.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionContact.vue",
+      "diagnostics": [
+        "error:2:20 [TS2307] Cannot find module 'valibot' or its corresponding type declarations.",
+        "error:40:52 [TS2339] Property 'value' does not exist on type 'unknown'."
+      ]
+    },
+    {
+      "file": "app/pages/_components/SectionEvent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionGetYourTicket.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionGranYourGear.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionMessage.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionPhoto.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionSpeaker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionSponsorClosed.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionSponsorWanted.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionSponsors.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionStaff.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionStudentSupport.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionTimetable.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/SectionVolunteer.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/StaffGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/_components/StaffGridItem.vue",
+      "diagnostics": [
+        "error:34:5 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "app/pages/code-of-conduct/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/event/_components/EventSpeakerCard.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/event/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/photo/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/privacy-policy/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/related-events/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/speaker/[speakerId]/index.vue",
+      "diagnostics": [
+        "error:42:23 [TS7006] Parameter 'speaker' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "app/pages/speaker/_components/SpeakerCard.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/speaker/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/sponsors/[sponsorId]/index.vue",
+      "diagnostics": [
+        "error:44:23 [TS7006] Parameter 'sponsor' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "app/pages/sponsors/_components/SponsorTag.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/sponsors/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/store/_components/StoreItemCard.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/store/_components/StorePreOrderButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/store/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/ticket/[userId]/edit/index.vue",
+      "diagnostics": [
+        "error:2:20 [TS2307] Cannot find module 'valibot' or its corresponding type declarations.",
+        "error:3:24 [TS2307] Cannot find module 'emoji-regex' or its corresponding type declarations.",
+        "error:74:8 [TS7006] Parameter 'value' implicitly has an 'any' type.",
+        "error:84:7 [TS7006] Parameter 'value' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "app/pages/ticket/[userId]/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/ticket/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/timetable/_components/TimetableCard.vue",
+      "diagnostics": [
+        "error:249:6 [TS2367] This comparison appears to be unintentional because the types '\"event\" | \"lightningTalk\" | \"session\" | undefined' and '\"schedule\"' have no overlap.",
+        "error:259:7 [TS2367] This comparison appears to be unintentional because the types '\"event\" | \"lightningTalk\" | \"session\" | undefined' and '\"schedule\"' have no overlap."
+      ]
+    },
+    {
+      "file": "app/pages/timetable/_components/TimetableCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/timetable/_components/TimetableHead.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/timetable/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "app/pages/tokusho/index.vue",
+      "diagnostics": []
+    }
+  ],
+  "errorCount": 22,
+  "warningCount": 0,
+  "fileCount": 71
+}

@@ -1,0 +1,106 @@
+[
+  {
+    "type": "esp32_hash_compute",
+    "message0": "计算 %1 哈希值 数据 %2",
+    "args0": [
+      { "type": "field_dropdown", "name": "ALGO", "options": [
+        ["SHA1", "SHA1"],
+        ["SHA224", "SHA224"],
+        ["SHA256", "SHA256"],
+        ["SHA384", "SHA384"],
+        ["SHA512", "SHA512"],
+        ["SHA3-256", "SHA3_256"],
+        ["SHA3-512", "SHA3_512"]
+      ]},
+      { "type": "input_value", "name": "DATA", "check": "String" }
+    ],
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "计算字符串的哈希值，返回十六进制字符串",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_hash_create",
+    "message0": "创建哈希构建器 %1 %2",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "hashBuilder" },
+      { "type": "field_dropdown", "name": "ALGO", "options": [
+        ["SHA1", "SHA1"],
+        ["SHA256", "SHA256"],
+        ["SHA512", "SHA512"],
+        ["SHA3-256", "SHA3_256"],
+        ["SHA3-512", "SHA3_512"]
+      ]}
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "创建一个哈希构建器对象（用于分步计算大数据哈希）",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_hash_begin",
+    "message0": "哈希构建器 %1 开始",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hashBuilder" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "重置哈希构建器并开始新的计算",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_hash_add",
+    "message0": "哈希构建器 %1 添加数据 %2",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hashBuilder" },
+      { "type": "input_value", "name": "DATA", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "向哈希构建器添加数据",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_hash_calculate",
+    "message0": "哈希构建器 %1 完成计算",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hashBuilder" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "完成哈希计算",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_hash_result",
+    "message0": "哈希构建器 %1 获取结果",
+    "args0": [
+      { "type": "field_variable", "name": "VAR", "variable": "hashBuilder" }
+    ],
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "获取哈希计算结果（十六进制字符串）",
+    "helpUrl": ""
+  },
+  {
+    "type": "esp32_hash_pbkdf2",
+    "message0": "PBKDF2 密钥派生 算法 %1 密码 %2 盐值 %3 迭代次数 %4",
+    "args0": [
+      { "type": "field_dropdown", "name": "ALGO", "options": [
+        ["SHA256", "SHA256"],
+        ["SHA512", "SHA512"]
+      ]},
+      { "type": "input_value", "name": "PASSWORD", "check": "String" },
+      { "type": "input_value", "name": "SALT", "check": "String" },
+      { "type": "input_value", "name": "ITERATIONS", "check": "Number" }
+    ],
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "使用PBKDF2-HMAC进行密钥派生",
+    "helpUrl": ""
+  }
+]

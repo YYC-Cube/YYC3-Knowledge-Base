@@ -1,0 +1,68 @@
+[
+    {
+        "type": "mlx90614_begin",
+        "message0": "初始化 MLX90614 红外测温传感器",
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#e74c3c",
+        "tooltip": "初始化MLX90614红外测温传感器"
+    },
+    {
+        "type": "mlx90614_read_object_temp",
+        "message0": "获取 MLX90614 物体温度 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "UNIT",
+                "options": [
+                    ["摄氏度", "C"],
+                    ["华氏度", "F"]
+                ]
+            }
+        ],
+        "output": "Number",
+        "colour": "#e74c3c",
+        "tooltip": "读取MLX90614传感器测量的物体温度"
+    },
+    {
+        "type": "mlx90614_read_ambient_temp",
+        "message0": "获取 MLX90614 环境温度 %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "UNIT",
+                "options": [
+                    ["摄氏度", "C"],
+                    ["华氏度", "F"]
+                ]
+            }
+        ],
+        "output": "Number",
+        "colour": "#e74c3c",
+        "tooltip": "读取MLX90614传感器测量的环境温度"
+    },
+    {
+        "type": "mlx90614_read_emissivity",
+        "message0": "获取 MLX90614 辐射率",
+        "output": "Number",
+        "colour": "#e74c3c",
+        "tooltip": "读取MLX90614传感器当前的辐射率设置（0.0-1.0）"
+    },
+    {
+        "type": "mlx90614_write_emissivity",
+        "message0": "设置 MLX90614 辐射率为 %1",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "EMISSIVITY",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#e74c3c",
+        "tooltip": "设置MLX90614传感器的辐射率值（0.0-1.0）"
+    }
+]

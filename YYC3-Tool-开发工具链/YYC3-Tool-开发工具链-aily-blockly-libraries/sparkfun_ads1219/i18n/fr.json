@@ -1,0 +1,79 @@
+{
+  "toolbox_name": "ADS1219",
+  "ads1219_init": {
+    "message0": "Initialiser ADS1219 %1 adresse %2",
+    "tooltip": "Initialiser l'ADC 24 bits SparkFun ADS1219"
+  },
+  "ads1219_is_ready": {
+    "message0": "ADS1219 %1 initialisé",
+    "tooltip": "Retourne l'état d'initialisation ADS1219"
+  },
+  "ads1219_read_millivolts": {
+    "message0": "ADS1219 %1 lecture unique mV réf. %2 mV",
+    "tooltip": "Démarre une conversion et retourne la valeur mV"
+  },
+  "ads1219_read_raw": {
+    "message0": "ADS1219 %1 lecture unique brute",
+    "tooltip": "Démarre une conversion et retourne la valeur brute 24 bits"
+  },
+  "ads1219_start_sync": {
+    "message0": "ADS1219 %1 démarrer la conversion",
+    "tooltip": "Démarrer la conversion ADS1219"
+  },
+  "ads1219_data_ready": {
+    "message0": "ADS1219 %1 données prêtes",
+    "tooltip": "Vérifie si les données ADS1219 sont prêtes"
+  },
+  "ads1219_set_mux": {
+    "message0": "Définir entrée ADS1219 %1 %2",
+    "tooltip": "Définit le multiplexeur d'entrée ADS1219"
+  },
+  "ads1219_set_gain": {
+    "message0": "Définir gain ADS1219 %1 %2",
+    "tooltip": "Définit le gain ADS1219"
+  },
+  "ads1219_set_data_rate": {
+    "message0": "Définir débit ADS1219 %1 %2",
+    "tooltip": "Définit le débit de données ADS1219"
+  },
+  "ads1219_set_mode": {
+    "message0": "Définir mode ADS1219 %1 %2",
+    "tooltip": "Définit le mode de conversion ADS1219",
+    "args0": [
+      {
+        "options": [
+          [
+            "Unique",
+            "ADS1219_CONVERSION_SINGLE_SHOT"
+          ],
+          [
+            "Continu",
+            "ADS1219_CONVERSION_CONTINUOUS"
+          ]
+        ]
+      }
+    ]
+  },
+  "ads1219_set_vref": {
+    "message0": "Définir référence ADS1219 %1 %2",
+    "tooltip": "Définit la source de référence de tension ADS1219",
+    "args0": [
+      {
+        "options": [
+          [
+            "Interne 2.048V",
+            "ADS1219_VREF_INTERNAL"
+          ],
+          [
+            "Externe",
+            "ADS1219_VREF_EXTERNAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "ads1219_power_down": {
+    "message0": "ADS1219 %1 hors tension",
+    "tooltip": "Mettre ADS1219 en mode basse consommation"
+  }
+}

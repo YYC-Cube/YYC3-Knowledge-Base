@@ -1,0 +1,52 @@
+{
+  "name": "@aily-project/lib-lsm303agr",
+  "nickname": "LSM303AGR加速度计和磁力计",
+  "nickname_zh_cn": "LSM303AGR加速度计和磁力计",
+  "nickname_en": "LSM303AGR Accelerometer & Magnetometer",
+  "nickname_zh_hk": "LSM303AGR加速度計和磁力計",
+  "nickname_ja": "LSM303AGR加速度計・磁力計",
+  "nickname_ko": "LSM303AGR 가속도계 및 자력계",
+  "nickname_de": "LSM303AGR Beschleunigungsmesser & Magnetometer",
+  "nickname_fr": "LSM303AGR Accéléromètre & Magnétomètre",
+  "nickname_es": "LSM303AGR Acelerómetro y Magnetómetro",
+  "nickname_pt": "LSM303AGR Acelerômetro e Magnetômetro",
+  "nickname_ru": "LSM303AGR Акселерометр и Магнитометр",
+  "nickname_ar": "LSM303AGR مقياس التسارع ومقياس المغناطيسية",
+  "author": "stm32duino",
+  "description": "LSM303AGR三轴加速度计和三轴磁力计传感器控制库。使用I2C接口读取加速度、磁场和温度数据，适用于Arduino、STM32等开发板。",
+  "description_zh_cn": "LSM303AGR三轴加速度计和三轴磁力计传感器控制库。使用I2C接口读取加速度、磁场和温度数据，适用于Arduino、STM32等开发板。",
+  "description_en": "LSM303AGR 3D accelerometer and 3D magnetometer sensor control library. Reads acceleration, magnetic field and temperature data via I2C interface, suitable for Arduino, STM32 and other development boards.",
+  "description_zh_hk": "LSM303AGR三軸加速度計和三軸磁力計感測器控制庫。使用I2C介面讀取加速度、磁場和溫度數據，適用於Arduino、STM32等開發板。",
+  "description_ja": "LSM303AGR 3軸加速度計と3軸磁力計センサー制御ライブラリ。I2Cインターフェースで加速度、磁場、温度データを読み取り、Arduino、STM32などの開発ボードに対応。",
+  "description_ko": "LSM303AGR 3축 가속도계 및 3축 자력계 센서 제어 라이브러리. I2C 인터페이스를 통해 가속도, 자기장 및 온도 데이터를 읽으며, Arduino, STM32 등의 개발 보드에 적합합니다.",
+  "description_de": "LSM303AGR 3-Achsen-Beschleunigungsmesser und 3-Achsen-Magnetometer Sensor-Steuerungsbibliothek. Liest Beschleunigungs-, Magnetfeld- und Temperaturdaten über I2C-Schnittstelle, geeignet für Arduino, STM32 und andere Entwicklungsboards.",
+  "description_fr": "Bibliothèque de contrôle du capteur LSM303AGR accéléromètre 3 axes et magnétomètre 3 axes. Lit les données d'accélération, de champ magnétique et de température via l'interface I2C, adaptée à Arduino, STM32 et autres cartes de développement.",
+  "description_es": "Biblioteca de control del sensor LSM303AGR acelerómetro 3 ejes y magnetómetro 3 ejes. Lee datos de aceleración, campo magnético y temperatura a través de la interfaz I2C, adecuada para Arduino, STM32 y otras placas de desarrollo.",
+  "description_pt": "Biblioteca de controle do sensor LSM303AGR acelerômetro 3 eixos e magnetômetro 3 eixos. Lê dados de aceleração, campo magnético e temperatura pela interface I2C, adequada para Arduino, STM32 e outras placas de desenvolvimento.",
+  "description_ru": "Библиотека управления датчиком LSM303AGR — 3-осевой акселерометр и 3-осевой магнитометр. Считывает данные ускорения, магнитного поля и температуры через интерфейс I2C, подходит для Arduino, STM32 и других плат.",
+  "description_ar": "مكتبة التحكم في مستشعر LSM303AGR — مقياس تسارع ثلاثي المحاور ومقياس مغناطيسية ثلاثي المحاور. يقرأ بيانات التسارع والمجال المغناطيسي ودرجة الحرارة عبر واجهة I2C، مناسب لـ Arduino و STM32 ولوحات التطوير الأخرى.",
+  "version": "0.0.1",
+  "compatibility": {
+    "core": [],
+    "voltage": [
+      3.3
+    ]
+  },
+  "keywords": [
+    "LSM303AGR",
+    "accelerometer",
+    "magnetometer",
+    "加速度计",
+    "磁力计",
+    "IMU",
+    "I2C"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "tested": false,
+  "url": "https://github.com/stm32duino/LSM303AGR",
+  "tags": [
+    "sensor"
+  ]
+}

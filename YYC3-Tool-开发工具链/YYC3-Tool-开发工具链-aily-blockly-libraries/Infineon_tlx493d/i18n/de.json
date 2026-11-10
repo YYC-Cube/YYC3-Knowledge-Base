@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "TLx493D 3D-Magnetsensor",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "读取数据": "Daten lesen",
+    "配置": "Konfiguration",
+    "状态与控制": "Status und Kontrolle"
+  },
+  "tlx493d_init": {
+    "message0": "3D-Magnetsensor initialisieren %1\nSensortyp %2\nI2C-Adresse %3\nVerwenden %4",
+    "tooltip": "Infineon TLx493D 3D-Magnetsensor über I2C-Schnittstelle initialisieren",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["TLx493D-A1B6 (Gen1)", "A1B6"],
+          ["TLx493D-A2B6 (Gen2)", "A2B6"],
+          ["TLx493D-A2BW (Gen2)", "A2BW"],
+          ["TLx493D-P2B6 (Gen2)", "P2B6"],
+          ["TLx493D-W2B6 (Gen2)", "W2B6"],
+          ["TLx493D-W2BW (Gen2)", "W2BW"],
+          ["TLx493D-P3B6 (Gen3)", "P3B6"]
+        ]
+      },
+      {
+        "options": [
+          ["0 (Standard)", "TLx493D_IIC_ADDR_A0_e"],
+          ["1", "TLx493D_IIC_ADDR_A1_e"],
+          ["2", "TLx493D_IIC_ADDR_A2_e"],
+          ["3", "TLx493D_IIC_ADDR_A3_e"]
+        ]
+      },
+      null
+    ]
+  },
+  "tlx493d_get_temperature": {
+    "message0": "Temperatur (°C) vom 3D-Magnetsensor %1 lesen",
+    "tooltip": "Temperatur vom TLx493D-Sensor lesen, gibt Celsius zurück"
+  },
+  "tlx493d_get_magnetic_field": {
+    "message0": "Magnetfeld %2-Achse (mT) vom 3D-Magnetsensor %1 lesen",
+    "tooltip": "Magnetfeldwert der angegebenen Achse vom TLx493D-Sensor in Millitesla (mT) lesen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["X", "X"],
+          ["Y", "Y"],
+          ["Z", "Z"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_set_sensitivity": {
+    "message0": "3D-Magnetsensor %1 Empfindlichkeit auf %2 setzen",
+    "tooltip": "Empfindlichkeit/Messbereich des TLx493D-Sensors einstellen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Vollbereich", "TLx493D_FULL_RANGE_e"],
+          ["Kurzbereich", "TLx493D_SHORT_RANGE_e"],
+          ["Extrakurzbereich", "TLx493D_EXTRA_SHORT_RANGE_e"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_set_power_mode": {
+    "message0": "3D-Magnetsensor %1 Energiemodus auf %2 setzen",
+    "tooltip": "Energiemodus des TLx493D-Sensors einstellen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Schnellmodus", "TLx493D_FAST_MODE_e"],
+          ["Energiesparmodus", "TLx493D_LOW_POWER_MODE_e"],
+          ["Ultra-Energiesparmodus", "TLx493D_ULTRA_LOW_POWER_MODE_e"],
+          ["Master-gesteuerter Modus", "TLx493D_MASTER_CONTROLLED_MODE_e"],
+          ["Ausschaltmodus", "TLx493D_POWER_DOWN_MODE_e"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_has_valid_data": {
+    "message0": "3D-Magnetsensor %1 hat gültige Daten",
+    "tooltip": "Prüfen, ob die Daten des TLx493D-Sensors gültig sind"
+  },
+  "tlx493d_software_reset": {
+    "message0": "3D-Magnetsensor %1 Software-Reset",
+    "tooltip": "Software-Reset des TLx493D-Sensors durchführen"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "toolbox_name": "MQTT",
+  "toolbox_labels": {
+    "初始化": "inicialización",
+    "连接": "conectar",
+    "通信": "comunicación",
+    "设置": "ajustes"
+  },
+  "pubsub_create": {
+    "message0": "创建MQTT客户端 %1 使用客户端 %2 SSL %3\n服务器 %4 端口 %5",
+    "tooltip": "创建MQTT客户端对象",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "否",
+            "FALSE"
+          ],
+          [
+            "是",
+            "TRUE"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "pubsub_set_callback": {
+    "message0": "MQTT客户端 %1 收到消息时",
+    "tooltip": "设置MQTT消息接收回调函数"
+  },
+  "pubsub_set_callback_with_topic": {
+    "message0": "收到主题 %1 消息时",
+    "tooltip": "设置特定主题的MQTT消息接收回调函数"
+  },
+  "pubsub_get_topic_callback_payload": {
+    "message0": "获取收到的MQTT消息内容",
+    "tooltip": "获取回调函数中收到的MQTT消息内容"
+  },
+  "pubsub_connect": {
+    "message0": "MQTT客户端 %1 连接 客户端ID %2",
+    "tooltip": "连接到MQTT服务器"
+  },
+  "pubsub_connect_auth": {
+    "message0": "MQTT客户端 %1 连接 客户端ID %2 用户名 %3 密码 %4",
+    "tooltip": "使用用户名和密码连接到MQTT服务器"
+  },
+  "pubsub_publish": {
+    "message0": "MQTT客户端 %1 发布消息 主题 %2 内容 %3",
+    "tooltip": "发布MQTT消息"
+  },
+  "pubsub_subscribe": {
+    "message0": "MQTT客户端 %1 订阅主题 %2",
+    "tooltip": "订阅MQTT主题"
+  },
+  "pubsub_unsubscribe": {
+    "message0": "MQTT客户端 %1 取消订阅主题 %2",
+    "tooltip": "取消订阅MQTT主题"
+  },
+  "pubsub_loop": {
+    "message0": "处理MQTT客户端 %1 通信",
+    "tooltip": "处理MQTT通信，需要在loop中调用"
+  },
+  "pubsub_connected": {
+    "message0": "MQTT客户端 %1 是否已连接",
+    "tooltip": "检查MQTT连接状态"
+  },
+  "pubsub_state": {
+    "message0": "MQTT客户端 %1 获取连接状态",
+    "tooltip": "获取MQTT连接状态码"
+  },
+  "pubsub_state_code": {
+    "message0": "MQTT状态码 %1",
+    "tooltip": "MQTT状态码常量",
+    "args0": [
+      {
+        "options": [
+          [
+            "成功连接",
+            "MQTT_CONNECTED"
+          ],
+          [
+            "连接失败",
+            "MQTT_CONNECT_FAILED"
+          ],
+          [
+            "断开连接",
+            "MQTT_DISCONNECTED"
+          ],
+          [
+            "连接丢失",
+            "MQTT_CONNECTION_LOST"
+          ],
+          [
+            "连接超时",
+            "MQTT_CONNECTION_TIMEOUT"
+          ],
+          [
+            "协议错误",
+            "MQTT_CONNECT_BAD_PROTOCOL"
+          ],
+          [
+            "客户端ID错误",
+            "MQTT_CONNECT_BAD_CLIENT_ID"
+          ],
+          [
+            "服务不可用",
+            "MQTT_CONNECT_UNAVAILABLE"
+          ],
+          [
+            "凭证错误",
+            "MQTT_CONNECT_BAD_CREDENTIALS"
+          ],
+          [
+            "未授权",
+            "MQTT_CONNECT_UNAUTHORIZED"
+          ]
+        ]
+      }
+    ]
+  },
+  "pubsub_disconnect": {
+    "message0": "断开MQTT客户端 %1 连接",
+    "tooltip": "断开MQTT连接"
+  },
+  "pubsub_setBufferSize": {
+    "message0": "设置MQTT客户端 %1 缓冲区大小 %2 字节",
+    "tooltip": "设置MQTT客户端缓冲区大小"
+  }
+}

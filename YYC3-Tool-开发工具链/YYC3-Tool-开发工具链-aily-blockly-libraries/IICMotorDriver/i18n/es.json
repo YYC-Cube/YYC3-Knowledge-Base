@@ -1,0 +1,111 @@
+{
+"toolbox_name": "IICMotorDriver",
+"iicmd_init": {
+    "message0": "Inicializar controlador de motor"
+},
+"iicmd_dirinit": {
+    "message0": "Inicializar dirección de referencia del motor Motor 1%1 Motor 2%2 Motor 3%3 Motor 4%4",
+    "args0": [
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        }
+    ]
+},
+"iicmd_stop": {
+    "message0": "Detener %1",
+    "args0": [
+        {
+            "options": [
+                ["Motor 1","M1"],
+                ["Motor 2","M2"],
+                ["Motor 3","M3"],
+                ["Motor 4","M4"],
+                ["Todos los motores","MALL"]
+            ]
+        }
+    ]
+},
+"iicmd_runone": {
+    "message0": "Establecer velocidad del motor %1 a %2",
+    "args0": [
+        {
+            "options": [
+                ["Motor 1","M1"],
+                ["Motor 2","M2"],
+                ["Motor 3","M3"],
+                ["Motor 4","M4"]
+            ]
+        },
+        null
+    ]
+},
+"iicmd_runall": {
+    "message0": "Establecer velocidad de todos los motores %1",
+    "args0": [
+        null
+    ]
+},
+"iicmd_runall2": {
+    "message0": "Establecer velocidad de todos los motores Motor 1%1 Motor 2%2 Motor 3%3 Motor 4%4",
+    "args0": [
+        null,
+        null,
+        null,
+        null
+    ]
+},
+"iicmd_digitout": {
+    "message0": "Puerto de control %1 salida %2",
+    "args0": [
+        {
+            "options": [
+                ["S1","S1"],
+                ["S2","S2"],
+                ["S3","S3"],
+                ["S4","S4"]
+            ]
+        },
+        {
+            "options": [
+                ["ALTO","HIGH"],
+                ["BAJO","LOW"]
+            ]
+        }
+    ]
+},
+"iicmd_servo": {
+    "message0": "Puerto del servo %1 girar a (0-180) %2°",
+    "args0": [
+        {
+            "options": [
+                ["S1","S1"],
+                ["S2","S2"],
+                ["S3","S3"],
+                ["S4","S4"]
+            ]
+        },
+        null
+    ]
+}
+}

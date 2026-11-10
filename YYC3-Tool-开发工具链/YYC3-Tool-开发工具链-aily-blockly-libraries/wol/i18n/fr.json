@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "WOL Réveil",
+  "wol_send": {
+    "message0": "Envoyer paquet WOL MAC %1 IP de diffusion %2 port %3",
+    "tooltip": "Envoie un paquet magique Wake-on-LAN pour réveiller l'appareil cible"
+  },
+  "wol_send_result": {
+    "message0": "Envoyer paquet WOL MAC %1 IP de diffusion %2 port %3",
+    "tooltip": "Envoie un paquet magique Wake-on-LAN et retourne si l'envoi a réussi"
+  }
+}

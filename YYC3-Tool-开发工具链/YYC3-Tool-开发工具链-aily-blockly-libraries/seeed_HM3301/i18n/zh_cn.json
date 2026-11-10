@@ -1,0 +1,36 @@
+{
+  "toolbox_name": "HM3301 PM2.5传感器",
+  "toolbox_labels": {
+    "传感器初始化": "传感器初始化",
+    "数据读取": "数据读取"
+  },
+  "hm3301_init": {
+    "message0": "初始化HM3301 PM2.5传感器",
+    "tooltip": "初始化HM3301激光粉尘传感器（I2C通讯，地址0x40）"
+  },
+  "hm3301_read": {
+    "message0": "HM3301读取 %1",
+    "tooltip": "读取HM3301传感器的颗粒物浓度值",
+    "args0": [
+      {
+        "options": [
+          ["PM1.0 标准颗粒物 (μg/m³)", "PM1_0_STD"],
+          ["PM2.5 标准颗粒物 (μg/m³)", "PM2_5_STD"],
+          ["PM10 标准颗粒物 (μg/m³)", "PM10_STD"],
+          ["PM1.0 大气环境 (μg/m³)", "PM1_0_ATM"],
+          ["PM2.5 大气环境 (μg/m³)", "PM2_5_ATM"],
+          ["PM10 大气环境 (μg/m³)", "PM10_ATM"]
+        ]
+      }
+    ]
+  },
+  "extensions": {
+    "hm3301_i2c_board_extension": {
+      "sda_pin": "SDA引脚",
+      "scl_pin": "SCL引脚",
+      "tooltip_esp32": "初始化HM3301传感器，ESP32需要设置SDA/SCL引脚",
+      "tooltip_mega": "初始化HM3301传感器（Mega2560 I2C引脚固定: SDA->20, SCL->21）",
+      "tooltip_uno": "初始化HM3301传感器（Arduino UNO I2C引脚固定: SDA->A4, SCL->A5）"
+    }
+  }
+}

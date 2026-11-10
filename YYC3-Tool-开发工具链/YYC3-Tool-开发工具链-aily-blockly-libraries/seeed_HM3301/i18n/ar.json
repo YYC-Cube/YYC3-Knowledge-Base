@@ -1,0 +1,36 @@
+{
+  "toolbox_name": "مستشعر PM2.5 HM3301",
+  "toolbox_labels": {
+    "传感器初始化": "تهيئة المستشعر",
+    "数据读取": "قراءة البيانات"
+  },
+  "hm3301_init": {
+    "message0": "تهيئة مستشعر PM2.5 HM3301",
+    "tooltip": "تهيئة مستشعر الغبار بالليزر HM3301 (I2C، العنوان 0x40)"
+  },
+  "hm3301_read": {
+    "message0": "HM3301 قراءة %1",
+    "tooltip": "قراءة تركيز الجسيمات من مستشعر HM3301",
+    "args0": [
+      {
+        "options": [
+          ["PM1.0 قياسي (μg/m³)", "PM1_0_STD"],
+          ["PM2.5 قياسي (μg/m³)", "PM2_5_STD"],
+          ["PM10 قياسي (μg/m³)", "PM10_STD"],
+          ["PM1.0 بيئة جوية (μg/m³)", "PM1_0_ATM"],
+          ["PM2.5 بيئة جوية (μg/m³)", "PM2_5_ATM"],
+          ["PM10 بيئة جوية (μg/m³)", "PM10_ATM"]
+        ]
+      }
+    ]
+  },
+  "extensions": {
+    "hm3301_i2c_board_extension": {
+      "sda_pin": "منفذ SDA",
+      "scl_pin": "منفذ SCL",
+      "tooltip_esp32": "تهيئة مستشعر HM3301، يتطلب ESP32 تكوين منافذ SDA/SCL",
+      "tooltip_mega": "تهيئة مستشعر HM3301 (Mega2560 منافذ I2C ثابتة: SDA->20، SCL->21)",
+      "tooltip_uno": "تهيئة مستشعر HM3301 (Arduino UNO منافذ I2C ثابتة: SDA->A4، SCL->A5)"
+    }
+  }
+}

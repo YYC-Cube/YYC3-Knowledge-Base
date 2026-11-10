@@ -1,0 +1,90 @@
+{
+    "kind": "category",
+    "name": "TM1637数码管",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "tm1637_init",
+            "fields": {
+                "CLK_PIN": "4",
+                "DIO_PIN": "5"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm1637_print_number",
+            "inputs": {
+                "NUMBER": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1234
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm1637_print_text",
+            "inputs": {
+                "TEXT": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "HELLO"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm1637_print_time",
+            "inputs": {
+                "HOUR": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 12
+                        }
+                    }
+                },
+                "MINUTE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 30
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm1637_clear"
+        },
+        {
+            "kind": "block",
+            "type": "tm1637_set_brightness",
+            "fields": {
+                "BRIGHTNESS": "100"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm1637_set_colon",
+            "fields": {
+                "COLON_STATE": "true"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm1637_blink",
+            "fields": {
+                "DELAY": "500",
+                "REPEATS": "5"
+            }
+        }
+    ]
+}

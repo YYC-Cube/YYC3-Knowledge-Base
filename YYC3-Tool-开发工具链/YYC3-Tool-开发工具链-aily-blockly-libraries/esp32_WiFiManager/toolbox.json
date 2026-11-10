@@ -1,0 +1,218 @@
+{
+    "kind": "category",
+    "name": "WiFi管理器",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-router",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "基础功能"
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_simple_setup",
+            "inputs": {
+                "SSID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "MyWiFi"
+                        }
+                    }
+                },
+                "PASSWORD": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "password123"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_init"
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_autoconnect_simple"
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_autoconnect",
+            "inputs": {
+                "SSID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "AutoConnectAP"
+                        }
+                    }
+                },
+                "PASSWORD": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "password"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "配置设置"
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_set_timeout",
+            "inputs": {
+                "TIMEOUT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 30
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_set_blocking"
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_set_static_ip",
+            "inputs": {
+                "IP": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "192.168.1.100"
+                        }
+                    }
+                },
+                "GATEWAY": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "192.168.1.1"
+                        }
+                    }
+                },
+                "SUBNET": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "255.255.255.0"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "高级功能"
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_start_config_portal",
+            "inputs": {
+                "SSID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "ConfigPortal"
+                        }
+                    }
+                },
+                "PASSWORD": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "password"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_process"
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_reset_settings"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "自定义参数"
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_add_parameter",
+            "inputs": {
+                "ID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "custom_field"
+                        }
+                    }
+                },
+                "LABEL": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "自定义字段"
+                        }
+                    }
+                },
+                "DEFAULT_VALUE": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": ""
+                        }
+                    }
+                },
+                "LENGTH": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 40
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "wifimanager_get_parameter",
+            "inputs": {
+                "PARAM_ID": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "custom_field"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        }
+    ]
+}

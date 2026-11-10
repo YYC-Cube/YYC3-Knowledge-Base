@@ -1,0 +1,155 @@
+{
+  "toolbox_name": "Zigbee",
+  "toolbox_labels": {
+    "初始化与连接": "初期化と接続",
+    "灯光控制": "光の制御",
+    "传感器": "センサー",
+    "属性报告": "物件レポート",
+    "事件回调": "イベントコールバック",
+    "状态查询": "ステータスクエリ",
+    "持久化": "持続性"
+  },
+  "zigbee_init": {
+    "message0": "Zigbeeデバイス初期化 %1 役割 %2 デバイスタイプ %3 チャンネル %4 PAN ID %5",
+    "tooltip": "Zigbeeデバイスを初期化し、役割、デバイスタイプ、チャンネル、PAN IDを設定",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["エンドデバイス", "END_DEVICE"],
+          ["ルーター", "ROUTER"]
+        ]
+      },
+      {
+        "options": [
+          ["オン/オフライト", "ON_OFF_LIGHT"],
+          ["調光ライト", "DIMMABLE_LIGHT"],
+          ["カラーライト", "COLOR_LIGHT"],
+          ["拡張カラーライト", "EXTENDED_COLOR_LIGHT"],
+          ["オン/オフスイッチ", "ON_OFF_SWITCH"],
+          ["温度センサー", "TEMPERATURE_SENSOR"],
+          ["温湿度センサー", "TEMPERATURE_HUMIDITY_SENSOR"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "zigbee_set_basic_info": {
+    "message0": "%1 の基本情報を設定 メーカー %2 モデル %3 バージョン %4",
+    "tooltip": "Zigbeeデバイスの基本情報を設定（メーカー名、モデル、ソフトウェアバージョン）"
+  },
+  "zigbee_set_install_code": {
+    "message0": "%1 のインストールコードを設定 %2",
+    "tooltip": "Zigbeeデバイスのインストールコードを設定（セキュア入網用）、16進数文字列形式"
+  },
+  "zigbee_start": {
+    "message0": "%1 のZigbeeネットワークを開始",
+    "tooltip": "Zigbeeデバイスを起動し、スキャンとコミッショニングを開始"
+  },
+  "zigbee_loop": {
+    "message0": "%1 Zigbee処理",
+    "tooltip": "loop()内で呼び出し、Zigbeeネットワーク通信と状態維持を処理"
+  },
+  "zigbee_is_joined": {
+    "message0": "%1 はネットワークに参加済み？",
+    "tooltip": "Zigbeeデバイスがネットワークに正常に参加したか確認"
+  },
+  "zigbee_set_on_off": {
+    "message0": "%1 のオン/オフ状態を %2 に設定",
+    "tooltip": "On/Offライトのスイッチ状態を設定",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["オン", "TRUE"],
+          ["オフ", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "zigbee_get_on_off": {
+    "message0": "%1 のオン/オフ状態",
+    "tooltip": "現在のOn/Offライトのスイッチ状態を取得"
+  },
+  "zigbee_set_level": {
+    "message0": "%1 の明るさを %2 に設定",
+    "tooltip": "調光ライトの明るさレベルを設定（0-254）"
+  },
+  "zigbee_get_level": {
+    "message0": "%1 の明るさ",
+    "tooltip": "現在の調光ライトの明るさレベルを取得"
+  },
+  "zigbee_set_color_hs": {
+    "message0": "%1 の色を設定 色相 %2 彩度 %3",
+    "tooltip": "カラーライトの色相（0-254）と彩度（0-254）を設定"
+  },
+  "zigbee_set_color_temp": {
+    "message0": "%1 の色温度を %2 Miredsに設定",
+    "tooltip": "拡張カラーライトの色温度を設定（Mireds値、153=6500K寒色, 500=2000K暖色）"
+  },
+  "zigbee_set_temperature": {
+    "message0": "%1 の温度値を設定 %2 ℃",
+    "tooltip": "温度センサーの温度値を設定（摂氏、精度0.01℃）"
+  },
+  "zigbee_set_humidity": {
+    "message0": "%1 の湿度値を設定 %2 %",
+    "tooltip": "湿度センサーの湿度値を設定（パーセント、精度0.01%）"
+  },
+  "zigbee_set_battery": {
+    "message0": "%1 のバッテリー電圧 %2 dV 残量 %3 %を設定",
+    "tooltip": "バッテリー状態を設定（電圧：デシボルト；残量：パーセント0-100）"
+  },
+  "zigbee_is_identifying": {
+    "message0": "%1 は識別中？",
+    "tooltip": "デバイスが識別（Identify）モードかどうか確認"
+  },
+  "zigbee_configure_reporting": {
+    "message0": "%1 の属性レポートを設定 クラスター %2 属性ID %3 最小間隔 %4 秒 最大間隔 %5 秒",
+    "tooltip": "Zigbee属性自動レポートポリシーを設定（最小/最大レポート間隔）",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["オン/オフ (OnOff)", "ON_OFF"],
+          ["明るさ (Level Control)", "LEVEL_CONTROL"],
+          ["色 (Color Control)", "COLOR_CONTROL"],
+          ["温度 (Temperature)", "TEMPERATURE"],
+          ["湿度 (Humidity)", "HUMIDITY"],
+          ["電源 (Power Config)", "POWER_CONFIG"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "zigbee_on_state_change": {
+    "message0": "%1 のオン/オフ状態変化時 %2 %3",
+    "tooltip": "Zigbeeネットワーク経由でオン/オフ状態が変化した時にコードを実行"
+  },
+  "zigbee_on_level_change": {
+    "message0": "%1 の明るさ変化時 %2 %3",
+    "tooltip": "Zigbeeネットワーク経由で明るさが変化した時にコードを実行"
+  },
+  "zigbee_on_color_change": {
+    "message0": "%1 の色変化時 %2 %3",
+    "tooltip": "Zigbeeネットワーク経由で色が変化した時にコードを実行"
+  },
+  "zigbee_on_join": {
+    "message0": "%1 がネットワークに参加時 %2 %3",
+    "tooltip": "Zigbeeデバイスがネットワークに正常に参加した時にコードを実行"
+  },
+  "zigbee_persist_save": {
+    "message0": "%1 のネットワーク状態をフラッシュに保存",
+    "tooltip": "現在のZigbeeネットワーク状態をフラッシュに保存（入網情報、キーなど）、停電後も復元可能"
+  },
+  "zigbee_persist_clear": {
+    "message0": "%1 の保存済みネットワーク状態をクリア",
+    "tooltip": "フラッシュに保存されたZigbeeネットワーク状態をクリア、再起動後は再入網が必要"
+  },
+  "zigbee_rejoin": {
+    "message0": "%1 ネットワークに再参加",
+    "tooltip": "Zigbeeネットワークへのセキュア再参加を試行"
+  }
+}

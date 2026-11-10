@@ -1,0 +1,60 @@
+{
+  "toolbox_name": "Radar Doppler",
+  "doppler_radar_init": {
+    "message0": "Initialiser le radar Doppler %1\nSérie %2\nMode %3",
+    "tooltip": "Initialiser le capteur radar Doppler BGT24LTR11 avec le port série et le mode spécifiés",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["Mode détection de cible", "0"],
+          ["Mode I/Q ADC", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_set_mode": {
+    "message0": "Définir le mode du radar Doppler %1 à %2",
+    "tooltip": "Définir le mode de fonctionnement du radar Doppler : détection de cible ou I/Q ADC",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Mode détection de cible", "0"],
+          ["Mode I/Q ADC", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_target_is": {
+    "message0": "Radar Doppler %1 l'état de la cible est %2",
+    "tooltip": "Vérifier l'état de la cible détectée par le radar Doppler",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["En approche", "APPROACH"],
+          ["S'éloigne", "LEAVE"],
+          ["Aucune cible", "NONE"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_get_speed": {
+    "message0": "Radar Doppler %1 vitesse de la cible",
+    "tooltip": "Obtenir la vitesse de la cible détectée par le radar Doppler"
+  },
+  "doppler_radar_set_threshold": {
+    "message0": "Définir le seuil de détection du radar Doppler %1 à %2",
+    "tooltip": "Définir le seuil de détection du radar Doppler (0-65535)"
+  },
+  "doppler_radar_get_threshold": {
+    "message0": "Radar Doppler %1 seuil actuel",
+    "tooltip": "Obtenir le seuil de détection actuel du radar Doppler"
+  },
+  "doppler_radar_set_speed_scope": {
+    "message0": "Définir la plage de vitesse du radar Doppler %1\nVitesse max %2\nVitesse min %3",
+    "tooltip": "Définir la plage de détection de vitesse du radar Doppler (0-65535)"
+  }
+}

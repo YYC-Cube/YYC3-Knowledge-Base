@@ -1,0 +1,104 @@
+{
+  "toolbox_name": "TB6612FNG Driver de motor",
+  "toolbox_labels": {
+    "初始化": "inicialização",
+    "直流电机": "Motor CC",
+    "步进电机": "motor de passo",
+    "电源管理": "Gerenciamento de energia"
+  },
+  "tb6612fng_init": {
+    "message0": "Inicializar %1 driver de motor endereço I2C %2",
+    "tooltip": "Inicializar o módulo driver de motor Grove TB6612FNG, definir endereço I2C"
+  },
+  "tb6612fng_dc_run": {
+    "message0": "%1 acionar motor CC %2 velocidade %3",
+    "tooltip": "Acionar motor CC no canal especificado, faixa de velocidade -255~255, positivo para CW, negativo para CCW",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Canal A", "MOTOR_CHA"],
+          ["Canal B", "MOTOR_CHB"]
+        ]
+      },
+      null
+    ]
+  },
+  "tb6612fng_dc_brake": {
+    "message0": "%1 frear motor CC %2",
+    "tooltip": "Frear imediatamente o motor CC no canal especificado",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Canal A", "MOTOR_CHA"],
+          ["Canal B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_dc_stop": {
+    "message0": "%1 parar motor CC %2",
+    "tooltip": "Parar lentamente o motor CC no canal especificado",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Canal A", "MOTOR_CHA"],
+          ["Canal B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_stepper_run": {
+    "message0": "%1 acionar motor de passo modo %2\npassos %3 RPM %4",
+    "tooltip": "Acionar motor de passo, passos positivos para CW, negativos para CCW, faixa RPM 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Passo completo", "FULL_STEP"],
+          ["Onda", "WAVE_DRIVE"],
+          ["Meio passo", "HALF_STEP"],
+          ["Micro passo", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "tb6612fng_stepper_stop": {
+    "message0": "%1 parar motor de passo",
+    "tooltip": "Parar o motor de passo"
+  },
+  "tb6612fng_stepper_keep_run": {
+    "message0": "%1 motor de passo contínuo modo %2\nRPM %3 direção %4",
+    "tooltip": "Manter o motor de passo em funcionamento contínuo, faixa RPM 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Passo completo", "FULL_STEP"],
+          ["Onda", "WAVE_DRIVE"],
+          ["Meio passo", "HALF_STEP"],
+          ["Micro passo", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["Sentido horário", "true"],
+          ["Sentido anti-horário", "false"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_standby": {
+    "message0": "%1 ativar modo espera",
+    "tooltip": "O driver de motor entra em modo espera, todos os motores param"
+  },
+  "tb6612fng_not_standby": {
+    "message0": "%1 desativar modo espera",
+    "tooltip": "O driver de motor sai do modo espera, retoma operação normal"
+  }
+}

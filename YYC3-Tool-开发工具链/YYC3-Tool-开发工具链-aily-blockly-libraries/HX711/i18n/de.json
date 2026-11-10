@@ -1,0 +1,55 @@
+{
+"toolbox_name": "HX711 Wägezellen-Sensor",
+"hx711_create": {
+    "message0": "HX711 Wägezellen-Sensor erstellen %1"
+},
+"hx711_begin": {
+    "message0": "Initialisiere %1 Datapin %2 Taktpin %3",
+    "args0": [
+        null,
+        {
+            "options": "${board.digitalPins}"
+        },
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+},
+"hx711_tare": {
+    "message0": "%1 Tara (Anzahl %2)"
+},
+"hx711_set_scale": {
+    "message0": "%1 Skalenfaktor setzen %2"
+},
+"hx711_get_units": {
+    "message0": "%1 Gewicht ermitteln (Anzahl %2)"
+},
+"hx711_read": {
+    "message0": "%1 Rohdaten lesen"
+},
+"hx711_read_average": {
+    "message0": "%1 Mittelwert lesen (Anzahl %2)"
+},
+"hx711_power_down": {
+    "message0": "%1 Strom abschalten"
+},
+"hx711_power_up": {
+    "message0": "%1 Strom einschalten"
+},
+"hx711_set_gain": {
+    "message0": "%1 Verstärkung einstellen %2",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["128 (Kanal A)", "HX711_CHANNEL_A_GAIN_128"],
+                ["64 (Kanal A)", "HX711_CHANNEL_A_GAIN_64"],
+                ["32 (Kanal B)", "HX711_CHANNEL_B_GAIN_32"]
+            ]
+        }
+    ]
+},
+"hx711_calibrate_scale": {
+    "message0": "%1 Skala kalibrieren Bekanntes Gewicht %2 Anzahl %3"
+}
+}

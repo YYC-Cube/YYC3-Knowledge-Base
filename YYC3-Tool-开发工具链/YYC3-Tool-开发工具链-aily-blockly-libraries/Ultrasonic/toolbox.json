@@ -1,0 +1,23 @@
+{
+  "kind": "category",
+  "name": "Ultrasonic",
+  "icon": "iconfont icon-sr04",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "ultrasonic_ranging",
+      "inputs": {
+        "PIN1": {
+          "block": {
+            "type": "io_pin_digi"
+          }
+        },
+        "PIN2": {
+          "block": {
+            "type": "io_pin_digi"
+          }
+        }
+      }
+    }
+  ]
+}

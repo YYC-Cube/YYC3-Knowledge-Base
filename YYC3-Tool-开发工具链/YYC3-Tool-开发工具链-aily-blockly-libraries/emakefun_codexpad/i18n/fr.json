@@ -1,0 +1,450 @@
+{
+  "toolbox_name": "CodexPad手柄",
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "按键检测": "Détection de clé",
+    "摇杆": "manette de jeu"
+  },
+  "codexpad_init": {
+    "message0": "初始化CodexPad手柄 %1 MAC地址 %2",
+    "tooltip": "初始化CodexPad蓝牙手柄并连接到指定MAC地址，Update()会自动添加到主循环"
+  },
+  "codexpad_is_connected": {
+    "message0": "CodexPad %1 已连接",
+    "tooltip": "检查CodexPad手柄是否已连接"
+  },
+  "codexpad_set_tx_power": {
+    "message0": "设置CodexPad %1 发射功率 %2",
+    "tooltip": "设置手柄蓝牙发射功率，功率越高通信距离越远但功耗也越大",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "-16 dBm",
+            "kMinus16dBm"
+          ],
+          [
+            "-12 dBm",
+            "kMinus12dBm"
+          ],
+          [
+            "-8 dBm",
+            "kMinus8dBm"
+          ],
+          [
+            "-5 dBm",
+            "kMinus5dBm"
+          ],
+          [
+            "-3 dBm",
+            "kMinus3dBm"
+          ],
+          [
+            "-1 dBm",
+            "kMinus1dBm"
+          ],
+          [
+            "0 dBm",
+            "k0dBm"
+          ],
+          [
+            "1 dBm",
+            "k1dBm"
+          ],
+          [
+            "2 dBm",
+            "k2dBm"
+          ],
+          [
+            "3 dBm",
+            "k3dBm"
+          ],
+          [
+            "4 dBm",
+            "k4dBm"
+          ],
+          [
+            "5 dBm",
+            "k5dBm"
+          ],
+          [
+            "6 dBm",
+            "k6dBm"
+          ]
+        ]
+      }
+    ]
+  },
+  "codexpad_button_pressed": {
+    "message0": "CodexPad %1 按键 %2 刚按下",
+    "tooltip": "检测按键是否刚被按下（从弹起变为按下的瞬间）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "上",
+            "kUp"
+          ],
+          [
+            "下",
+            "kDown"
+          ],
+          [
+            "左",
+            "kLeft"
+          ],
+          [
+            "右",
+            "kRight"
+          ],
+          [
+            "X/□",
+            "kSquareX"
+          ],
+          [
+            "Y/△",
+            "kTriangleY"
+          ],
+          [
+            "A/×",
+            "kCrossA"
+          ],
+          [
+            "B/○",
+            "kCircleB"
+          ],
+          [
+            "L1",
+            "kL1"
+          ],
+          [
+            "L2",
+            "kL2"
+          ],
+          [
+            "L3",
+            "kL3"
+          ],
+          [
+            "R1",
+            "kR1"
+          ],
+          [
+            "R2",
+            "kR2"
+          ],
+          [
+            "R3",
+            "kR3"
+          ],
+          [
+            "Select",
+            "kSelect"
+          ],
+          [
+            "Start",
+            "kStart"
+          ],
+          [
+            "Home",
+            "kHome"
+          ]
+        ]
+      }
+    ]
+  },
+  "codexpad_button_released": {
+    "message0": "CodexPad %1 按键 %2 刚释放",
+    "tooltip": "检测按键是否刚被释放（从按下变为弹起的瞬间）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "上",
+            "kUp"
+          ],
+          [
+            "下",
+            "kDown"
+          ],
+          [
+            "左",
+            "kLeft"
+          ],
+          [
+            "右",
+            "kRight"
+          ],
+          [
+            "X/□",
+            "kSquareX"
+          ],
+          [
+            "Y/△",
+            "kTriangleY"
+          ],
+          [
+            "A/×",
+            "kCrossA"
+          ],
+          [
+            "B/○",
+            "kCircleB"
+          ],
+          [
+            "L1",
+            "kL1"
+          ],
+          [
+            "L2",
+            "kL2"
+          ],
+          [
+            "L3",
+            "kL3"
+          ],
+          [
+            "R1",
+            "kR1"
+          ],
+          [
+            "R2",
+            "kR2"
+          ],
+          [
+            "R3",
+            "kR3"
+          ],
+          [
+            "Select",
+            "kSelect"
+          ],
+          [
+            "Start",
+            "kStart"
+          ],
+          [
+            "Home",
+            "kHome"
+          ]
+        ]
+      }
+    ]
+  },
+  "codexpad_button_holding": {
+    "message0": "CodexPad %1 按键 %2 持续按下",
+    "tooltip": "检测按键是否持续被按住（上一帧和当前帧都处于按下状态）",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "上",
+            "kUp"
+          ],
+          [
+            "下",
+            "kDown"
+          ],
+          [
+            "左",
+            "kLeft"
+          ],
+          [
+            "右",
+            "kRight"
+          ],
+          [
+            "X/□",
+            "kSquareX"
+          ],
+          [
+            "Y/△",
+            "kTriangleY"
+          ],
+          [
+            "A/×",
+            "kCrossA"
+          ],
+          [
+            "B/○",
+            "kCircleB"
+          ],
+          [
+            "L1",
+            "kL1"
+          ],
+          [
+            "L2",
+            "kL2"
+          ],
+          [
+            "L3",
+            "kL3"
+          ],
+          [
+            "R1",
+            "kR1"
+          ],
+          [
+            "R2",
+            "kR2"
+          ],
+          [
+            "R3",
+            "kR3"
+          ],
+          [
+            "Select",
+            "kSelect"
+          ],
+          [
+            "Start",
+            "kStart"
+          ],
+          [
+            "Home",
+            "kHome"
+          ]
+        ]
+      }
+    ]
+  },
+  "codexpad_button_state": {
+    "message0": "CodexPad %1 按键 %2 状态",
+    "tooltip": "获取按键当前状态，按下返回true，弹起返回false",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "上",
+            "kUp"
+          ],
+          [
+            "下",
+            "kDown"
+          ],
+          [
+            "左",
+            "kLeft"
+          ],
+          [
+            "右",
+            "kRight"
+          ],
+          [
+            "X/□",
+            "kSquareX"
+          ],
+          [
+            "Y/△",
+            "kTriangleY"
+          ],
+          [
+            "A/×",
+            "kCrossA"
+          ],
+          [
+            "B/○",
+            "kCircleB"
+          ],
+          [
+            "L1",
+            "kL1"
+          ],
+          [
+            "L2",
+            "kL2"
+          ],
+          [
+            "L3",
+            "kL3"
+          ],
+          [
+            "R1",
+            "kR1"
+          ],
+          [
+            "R2",
+            "kR2"
+          ],
+          [
+            "R3",
+            "kR3"
+          ],
+          [
+            "Select",
+            "kSelect"
+          ],
+          [
+            "Start",
+            "kStart"
+          ],
+          [
+            "Home",
+            "kHome"
+          ]
+        ]
+      }
+    ]
+  },
+  "codexpad_axis_value": {
+    "message0": "CodexPad %1 摇杆 %2 值",
+    "tooltip": "获取摇杆轴值，范围0~255，中心位置约为128",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "左摇杆X轴",
+            "kLeftStickX"
+          ],
+          [
+            "左摇杆Y轴",
+            "kLeftStickY"
+          ],
+          [
+            "右摇杆X轴",
+            "kRightStickX"
+          ],
+          [
+            "右摇杆Y轴",
+            "kRightStickY"
+          ]
+        ]
+      }
+    ]
+  },
+  "codexpad_axis_changed": {
+    "message0": "CodexPad %1 摇杆 %2 值变化 阈值 %3",
+    "tooltip": "检测摇杆轴值是否发生了超过阈值的显著变化，用于过滤微小抖动",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "左摇杆X轴",
+            "kLeftStickX"
+          ],
+          [
+            "左摇杆Y轴",
+            "kLeftStickY"
+          ],
+          [
+            "右摇杆X轴",
+            "kRightStickX"
+          ],
+          [
+            "右摇杆Y轴",
+            "kRightStickY"
+          ]
+        ]
+      },
+      null
+    ]
+  }
+}

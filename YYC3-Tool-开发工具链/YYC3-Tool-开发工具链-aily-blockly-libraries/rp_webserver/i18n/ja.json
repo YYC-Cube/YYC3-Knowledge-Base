@@ -1,0 +1,192 @@
+{
+  "toolbox_name": "Pico Web服务器",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "路由处理": "ルーティング処理",
+    "发送响应": "応答を送信する",
+    "请求信息": "情報を要求する",
+    "请求参数": "リクエストパラメータ",
+    "请求头": "リクエストヘッダー",
+    "高级功能": "高度な機能"
+  },
+  "rp_webserver_create": {
+    "message0": "创建Web服务器 %1 端口 %2",
+    "tooltip": "创建一个Web服务器对象"
+  },
+  "rp_webserver_begin": {
+    "message0": "启动服务器 %1",
+    "tooltip": "启动Web服务器开始监听"
+  },
+  "rp_webserver_handle_client": {
+    "message0": "处理 %1 客户端请求",
+    "tooltip": "处理客户端请求（应放在loop中）"
+  },
+  "rp_webserver_on": {
+    "message0": "当 %1 收到 %2 请求路径 %3",
+    "tooltip": "注册指定路径的请求处理函数",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "任意",
+            "HTTP_ANY"
+          ],
+          [
+            "GET",
+            "HTTP_GET"
+          ],
+          [
+            "POST",
+            "HTTP_POST"
+          ],
+          [
+            "PUT",
+            "HTTP_PUT"
+          ],
+          [
+            "DELETE",
+            "HTTP_DELETE"
+          ],
+          [
+            "PATCH",
+            "HTTP_PATCH"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "rp_webserver_on_not_found": {
+    "message0": "当 %1 收到未知路径请求",
+    "tooltip": "处理未匹配任何路由的请求（404）"
+  },
+  "rp_webserver_send": {
+    "message0": "%1 响应状态码 %2 类型 %3 内容 %4",
+    "tooltip": "发送HTTP响应给客户端",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "纯文本 text/plain",
+            "text/plain"
+          ],
+          [
+            "HTML text/html",
+            "text/html"
+          ],
+          [
+            "JSON application/json",
+            "application/json"
+          ],
+          [
+            "XML application/xml",
+            "application/xml"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "rp_webserver_send_custom_type": {
+    "message0": "%1 响应状态码 %2 自定义类型 %3 内容 %4",
+    "tooltip": "发送自定义Content-Type的HTTP响应"
+  },
+  "rp_webserver_send_header": {
+    "message0": "%1 发送响应头 %2 值 %3",
+    "tooltip": "发送自定义响应头"
+  },
+  "rp_webserver_uri": {
+    "message0": "%1 请求的URI",
+    "tooltip": "获取当前请求的URI路径"
+  },
+  "rp_webserver_method": {
+    "message0": "%1 请求的方法",
+    "tooltip": "获取当前请求的HTTP方法（GET/POST等）"
+  },
+  "rp_webserver_method_is": {
+    "message0": "%1 请求方法是 %2",
+    "tooltip": "判断当前请求是否为指定的HTTP方法",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "GET",
+            "HTTP_GET"
+          ],
+          [
+            "POST",
+            "HTTP_POST"
+          ],
+          [
+            "PUT",
+            "HTTP_PUT"
+          ],
+          [
+            "DELETE",
+            "HTTP_DELETE"
+          ],
+          [
+            "PATCH",
+            "HTTP_PATCH"
+          ]
+        ]
+      }
+    ]
+  },
+  "rp_webserver_arg_by_name": {
+    "message0": "%1 获取参数 %2 的值",
+    "tooltip": "根据参数名获取请求参数值"
+  },
+  "rp_webserver_arg_by_index": {
+    "message0": "%1 获取第 %2 个参数的值",
+    "tooltip": "根据索引获取请求参数值（从0开始）"
+  },
+  "rp_webserver_arg_name": {
+    "message0": "%1 获取第 %2 个参数的名称",
+    "tooltip": "根据索引获取请求参数名称（从0开始）"
+  },
+  "rp_webserver_args_count": {
+    "message0": "%1 参数数量",
+    "tooltip": "获取请求参数的数量"
+  },
+  "rp_webserver_has_arg": {
+    "message0": "%1 存在参数 %2",
+    "tooltip": "检查是否存在指定名称的参数"
+  },
+  "rp_webserver_header": {
+    "message0": "%1 获取请求头 %2 的值",
+    "tooltip": "获取指定名称的请求头值"
+  },
+  "rp_webserver_has_header": {
+    "message0": "%1 存在请求头 %2",
+    "tooltip": "检查是否存在指定名称的请求头"
+  },
+  "rp_webserver_host_header": {
+    "message0": "%1 Host请求头",
+    "tooltip": "获取请求的Host头"
+  },
+  "rp_webserver_collect_headers": {
+    "message0": "%1 收集请求头 %2",
+    "tooltip": "设置要收集的请求头（多个用逗号分隔）"
+  },
+  "rp_webserver_enable_cors": {
+    "message0": "%1 启用CORS跨域",
+    "tooltip": "启用跨域资源共享（CORS）"
+  },
+  "rp_webserver_stop": {
+    "message0": "停止服务器 %1",
+    "tooltip": "停止Web服务器"
+  },
+  "rp_webserver_authenticate": {
+    "message0": "%1 验证用户名 %2 密码 %3",
+    "tooltip": "验证HTTP基本认证的用户名和密码"
+  },
+  "rp_webserver_request_authentication": {
+    "message0": "%1 请求认证 提示 %2",
+    "tooltip": "请求客户端进行HTTP认证"
+  }
+}

@@ -1,0 +1,70 @@
+[
+  {
+    "type": "esp32_eth_begin",
+    "message0": "初始化以太网 PHY类型 %1 PHY地址 %2",
+    "args0": [
+      { "type": "field_dropdown", "name": "PHY_TYPE", "options": [["LAN8720", "ETH_PHY_LAN8720"], ["TLK110", "ETH_PHY_TLK110"], ["RTL8201", "ETH_PHY_RTL8201"], ["DP83848", "ETH_PHY_DP83848"], ["KSZ8041", "ETH_PHY_KSZ8041"], ["KSZ8081", "ETH_PHY_KSZ8081"], ["W5500", "ETH_PHY_W5500"], ["DM9051", "ETH_PHY_DM9051"]] },
+      { "type": "input_value", "name": "ADDR", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "初始化以太网接口",
+    "icon": "fa-regular fa-ethernet"
+  },
+  {
+    "type": "esp32_eth_begin_spi",
+    "message0": "初始化SPI以太网 PHY类型 %1 CS %2 IRQ %3 RST %4",
+    "args0": [
+      { "type": "field_dropdown", "name": "PHY_TYPE", "options": [["W5500", "ETH_PHY_W5500"], ["DM9051", "ETH_PHY_DM9051"]] },
+      { "type": "input_value", "name": "CS", "check": "Number" },
+      { "type": "input_value", "name": "IRQ", "check": "Number" },
+      { "type": "input_value", "name": "RST", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "通过SPI初始化以太网(适用于W5500等SPI PHY)",
+    "icon": "fa-regular fa-ethernet"
+  },
+  {
+    "type": "esp32_eth_connected",
+    "message0": "以太网已连接",
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "检查以太网是否已连接",
+    "icon": "fa-regular fa-ethernet"
+  },
+  {
+    "type": "esp32_eth_local_ip",
+    "message0": "以太网本地IP地址",
+    "output": "String",
+    "colour": "#607D8B",
+    "tooltip": "获取以太网本地IP地址",
+    "icon": "fa-regular fa-ethernet"
+  },
+  {
+    "type": "esp32_eth_mac",
+    "message0": "以太网MAC地址",
+    "output": "String",
+    "colour": "#607D8B",
+    "tooltip": "获取以太网MAC地址",
+    "icon": "fa-regular fa-ethernet"
+  },
+  {
+    "type": "esp32_eth_full_duplex",
+    "message0": "以太网全双工模式",
+    "output": "Boolean",
+    "colour": "#607D8B",
+    "tooltip": "检查以太网是否工作在全双工模式",
+    "icon": "fa-regular fa-ethernet"
+  },
+  {
+    "type": "esp32_eth_link_speed",
+    "message0": "以太网链接速度",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "获取以太网链接速度(Mbps)",
+    "icon": "fa-regular fa-ethernet"
+  }
+]

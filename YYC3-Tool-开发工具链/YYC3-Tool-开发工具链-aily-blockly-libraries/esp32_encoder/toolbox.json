@@ -1,0 +1,30 @@
+{
+  "kind": "category",
+  "name": "ESP32 Encoder",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "rotary_encoder_init"
+    },
+    {
+      "kind": "block",
+      "type": "rotary_encoder_read"
+    },
+    {
+      "kind": "block",
+      "type": "rotary_encoder_value_changed"
+    },
+    {
+      "kind": "block",
+      "type": "rotary_encoder_state_change"
+    },
+    {
+      "kind": "block",
+      "type": "rotary_encoder_get_property"
+    },
+    {
+      "kind": "block",
+      "type": "rotary_encoder_set_property"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "toolbox_name": "AS726X",
+  "as726x_init": {
+    "message0": "Initialiser AS726X %1 gain %2 mode %3",
+    "tooltip": "Initialiser le capteur spectral SparkFun AS726X"
+  },
+  "as726x_take_measurements": {
+    "message0": "AS726X %1 prendre mesures ampoule %2",
+    "tooltip": "Effectuer des mesures spectrales (ampoule optionnelle)",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Sans ampoule",
+            "false"
+          ],
+          [
+            "Avec ampoule",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "as726x_data_available": {
+    "message0": "AS726X %1 données disponibles",
+    "tooltip": "Vérifie si les données AS726X sont disponibles"
+  },
+  "as726x_read_raw": {
+    "message0": "AS726X %1 lire canal brut %2",
+    "tooltip": "Lit la valeur brute du canal spectral"
+  },
+  "as726x_read_calibrated": {
+    "message0": "AS726X %1 lire canal calibré %2",
+    "tooltip": "Lit la valeur calibrée du canal spectral"
+  },
+  "as726x_read_temperature": {
+    "message0": "AS726X %1 lire température",
+    "tooltip": "Lit la température du capteur AS726X en Celsius"
+  },
+  "as726x_set_gain": {
+    "message0": "Gain AS726X %1 %2",
+    "tooltip": "Définit le gain AS726X"
+  },
+  "as726x_set_measurement_mode": {
+    "message0": "Mode mesure AS726X %1 %2",
+    "tooltip": "Définit le mode de mesure AS726X"
+  },
+  "as726x_set_integration_time": {
+    "message0": "Temps intégration AS726X %1 %2",
+    "tooltip": "Définit le temps d'intégration AS726X (2,8ms/pas)"
+  },
+  "as726x_bulb": {
+    "message0": "AS726X %1 ampoule %2",
+    "tooltip": "Allumer/Éteindre la lampe AS726X",
+    "args0": [
+      {
+        "options": [
+          [
+            "Allumer",
+            "ON"
+          ],
+          [
+            "Éteindre",
+            "OFF"
+          ]
+        ]
+      }
+    ]
+  }
+}

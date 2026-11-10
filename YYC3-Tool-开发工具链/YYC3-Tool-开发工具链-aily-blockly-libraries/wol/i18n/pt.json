@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "WOL Despertar",
+  "wol_send": {
+    "message0": "Enviar pacote WOL MAC %1 IP de broadcast %2 porta %3",
+    "tooltip": "Envia um pacote mágico Wake-on-LAN para despertar o dispositivo alvo"
+  },
+  "wol_send_result": {
+    "message0": "Enviar pacote WOL MAC %1 IP de broadcast %2 porta %3",
+    "tooltip": "Envia um pacote mágico Wake-on-LAN e retorna se foi bem-sucedido"
+  }
+}

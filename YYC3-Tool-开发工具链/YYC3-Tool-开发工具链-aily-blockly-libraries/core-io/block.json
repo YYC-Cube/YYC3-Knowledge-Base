@@ -1,0 +1,186 @@
+[
+  {
+    "inputsInline": true,
+    "message0": "引脚 %1 模式设置为 %2",
+    "type": "io_pinmode",
+    "colour": "#ffad38",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN"
+      },
+      {
+        "type": "input_value",
+        "name": "MODE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "inputsInline": true,
+    "message0": "引脚 %1输出数字信号 %2",
+    "type": "io_digitalwrite",
+    "colour": "#ffad38",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN"
+      },
+      {
+        "type": "input_value",
+        "name": "STATE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "inputsInline": true,
+    "message0": "读取引脚 %1 的数字信号",
+    "type": "io_digitalread",
+    "colour": "#ffad38",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN"
+      }
+    ],
+    "output": "Boolean",
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "inputsInline": true,
+    "message0": "引脚 %1 输出PWM信号%2",
+    "type": "io_analogwrite",
+    "colour": "#ffad38",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN"
+      },
+      {
+        "type": "input_value",
+        "name": "PWM"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "inputsInline": true,
+    "message0": "读取引脚 %1 的模拟信号",
+    "type": "io_analogread",
+    "colour": "#ffad38",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN"
+      }
+    ],
+    "output": "Number",
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "inputsInline": true,
+    "message0": "数字引脚%1",
+    "type": "io_pin_digi",
+    "colour": "#00C48C",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "output": "Any",
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "inputsInline": true,
+    "message0": "模拟引脚%1",
+    "type": "io_pin_adc",
+    "colour": "#00C48C",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.analogPins}"
+      }
+    ],
+    "output": "Any",
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "inputsInline": true,
+    "message0": "PWM引脚%1",
+    "type": "io_pin_pwm",
+    "colour": "#00C48C",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": "${board.pwmPins}"
+      }
+    ],
+    "output": "Any",
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "type": "io_mode",
+    "message0": "引脚模式%1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "INPUT",
+            "INPUT"
+          ],
+          [
+            "OUTPUT",
+            "OUTPUT"
+          ],
+          [
+            "INPUT_PULLUP",
+            "INPUT_PULLUP"
+          ]
+        ]
+      }
+    ],
+    "output": "Any",
+    "colour": "#00C48C",
+    "tooltip": "mode",
+    "helpUrl": "",
+    "icon": "fa-regular fa-microchip"
+  },
+  {
+    "type": "io_state",
+    "message0": "%1电平",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "LOW",
+            "LOW"
+          ],
+          [
+            "HIGH",
+            "HIGH"
+          ]
+        ]
+      }
+    ],
+    "output": "Any",
+    "colour": "#00C48C",
+    "tooltip": "state",
+    "helpUrl": "",
+    "icon": "fa-regular fa-microchip"
+  }
+]

@@ -1,0 +1,141 @@
+{
+    "toolbox_name": "DFPlayer",
+    "dfplayer_begin": {
+        "message0": "DFPlayer 모듈 초기화 %1 RX 핀 %2 TX 핀 %3"
+    },
+    "dfplayer_play": {
+        "message0": "DFPlayer %1 파일 번호 %2 재생"
+    },
+    "dfplayer_pause": {
+        "message0": "DFPlayer %1 재생 일시 정지"
+    },
+    "dfplayer_start": {
+        "message0": "DFPlayer %1 재생 계속"
+    },
+    "dfplayer_stop": {
+        "message0": "DFPlayer %1 재생 중지"
+    },
+    "dfplayer_next": {
+        "message0": "DFPlayer %1 다음 곡 재생"
+    },
+    "dfplayer_previous": {
+        "message0": "DFPlayer %1 이전 곡 재생"
+    },
+    "dfplayer_volume": {
+        "message0": "DFPlayer %1 볼륨 설정 %2"
+    },
+    "dfplayer_volume_up": {
+        "message0": "DFPlayer %1 볼륨 증가"
+    },
+    "dfplayer_volume_down": {
+        "message0": "DFPlayer %1 볼륨 감소"
+    },
+    "dfplayer_eq": {
+        "message0": "DFPlayer %1 이퀄라이저 설정 %2",
+        "options": [
+            [
+                "일반",
+                "0"
+            ],
+            [
+                "팝",
+                "1"
+            ],
+            [
+                "록",
+                "2"
+            ],
+            [
+                "재즈",
+                "3"
+            ],
+            [
+                "클래식",
+                "4"
+            ],
+            [
+                "베이스",
+                "5"
+            ]
+        ]
+    },
+    "dfplayer_output_device": {
+        "message0": "DFPlayer %1 출력 장치 설정 %2",
+        "options": [
+            [
+                "장치 1",
+                "1"
+            ],
+            [
+                "장치 2",
+                "2"
+            ]
+        ]
+    },
+    "dfplayer_loop": {
+        "message0": "DFPlayer %1 파일 번호 %2 반복 재생"
+    },
+    "dfplayer_play_folder": {
+        "message0": "DFPlayer %1 폴더 %2의 파일 %3 재생"
+    },
+    "dfplayer_enable_loop_all": {
+        "message0": "DFPlayer %1 전체 반복 활성화"
+    },
+    "dfplayer_disable_loop_all": {
+        "message0": "DFPlayer %1 전체 반복 비활성화"
+    },
+    "dfplayer_play_mp3_folder": {
+        "message0": "DFPlayer %1 MP3 폴더의 파일 %2 재생"
+    },
+    "dfplayer_advertise": {
+        "message0": "DFPlayer %1 광고 재생 %2"
+    },
+    "dfplayer_stop_advertise": {
+        "message0": "DFPlayer %1 광고 중지"
+    },
+    "dfplayer_play_large_folder": {
+        "message0": "DFPlayer %1 대용량 폴더 %2의 파일 %3 재생"
+    },
+    "dfplayer_loop_folder": {
+        "message0": "DFPlayer %1 폴더 %2 반복 재생"
+    },
+    "dfplayer_random_all": {
+        "message0": "DFPlayer %1 모든 파일 무작위 재생"
+    },
+    "dfplayer_enable_loop": {
+        "message0": "DFPlayer %1 반복 활성화"
+    },
+    "dfplayer_disable_loop": {
+        "message0": "DFPlayer %1 반복 비활성화"
+    },
+    "dfplayer_read_state": {
+        "message0": "DFPlayer %1 상태 읽기"
+    },
+    "dfplayer_read_volume": {
+        "message0": "DFPlayer %1 볼륨 읽기"
+    },
+    "dfplayer_read_eq": {
+        "message0": "DFPlayer %1 이퀄라이저 읽기"
+    },
+    "dfplayer_read_file_counts": {
+        "message0": "DFPlayer %1 파일 수 읽기"
+    },
+    "dfplayer_read_current_file_number": {
+        "message0": "DFPlayer %1 현재 파일 번호 읽기"
+    },
+    "dfplayer_read_file_counts_in_folder": {
+        "message0": "DFPlayer %1 폴더 %2의 파일 수 읽기"
+    },
+    "dfplayer_available": {
+        "message0": "DFPlayer %1 사용 가능한 메시지 확인"
+    },
+    "dfplayer_read_type": {
+        "message0": "DFPlayer %1 메시지 유형 읽기"
+    },
+    "dfplayer_read": {
+        "message0": "DFPlayer %1 메시지 매개변수 읽기"
+    },
+    "dfplayer_simple_play": {
+        "message0": "간단 재생: DFPlayer 초기화 (RX: %1, TX: %2) 및 파일 %3 재생"
+    }
+}

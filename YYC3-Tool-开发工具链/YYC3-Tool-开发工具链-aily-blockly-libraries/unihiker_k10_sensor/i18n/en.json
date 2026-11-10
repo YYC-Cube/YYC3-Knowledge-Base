@@ -1,0 +1,69 @@
+{
+  "toolbox_name": "K10 Sensor",
+  "k10_get_accelerometer": {
+    "message0": "get accelerometer %1 axis data",
+    "tooltip": "Get K10 onboard accelerometer axis data",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_get_strength": {
+    "message0": "get light intensity value",
+    "tooltip": "Get K10 onboard light sensor value"
+  },
+  "k10_aht20_measure": {
+    "message0": "AHT20 start measurement CRC %1",
+    "tooltip": "Start one AHT20 measurement; returns true when ready, then read temperature/humidity",
+    "args0": [
+      {
+        "options": [
+          [
+            "on",
+            "true"
+          ],
+          [
+            "off",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_temperature": {
+    "message0": "AHT20 get temperature %1",
+    "tooltip": "Get AHT20 temperature; measurement starts automatically",
+    "args0": [
+      {
+        "options": [
+          [
+            "Celsius(℃)",
+            "C"
+          ],
+          [
+            "Fahrenheit(℉)",
+            "F"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_humidity": {
+    "message0": "AHT20 get relative humidity (%RH)",
+    "tooltip": "Get AHT20 relative humidity; measurement starts automatically"
+  }
+}

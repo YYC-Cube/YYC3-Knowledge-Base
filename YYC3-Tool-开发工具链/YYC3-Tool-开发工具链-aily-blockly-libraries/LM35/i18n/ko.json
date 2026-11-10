@@ -1,0 +1,6 @@
+{
+    "toolbox_name": "LM35 온도 센서",
+    "lm35_read": {
+        "message0": "LM35 온도 센서 핀 # %1"
+    }
+}

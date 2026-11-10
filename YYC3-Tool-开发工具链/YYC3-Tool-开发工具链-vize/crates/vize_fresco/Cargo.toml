@@ -1,0 +1,58 @@
+[package]
+name = "vize_fresco"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Fresco - Vue TUI framework (Terminal User Interface)"
+
+[lib]
+name = "vize_fresco"
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = []
+napi = ["dep:napi", "dep:napi-derive"]
+
+[dependencies]
+vize_carton = { workspace = true }
+
+# Terminal control
+crossterm.workspace = true
+
+# Layout engine
+taffy.workspace = true
+
+# Text processing
+unicode-width.workspace = true
+unicode-segmentation.workspace = true
+
+# Efficient string handling
+compact_str = { workspace = true }
+smallvec = { workspace = true }
+
+# Collections
+rustc-hash = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Error handling
+thiserror = { workspace = true }
+
+# NAPI (optional)
+napi = { workspace = true, optional = true }
+napi-derive = { workspace = true, optional = true }
+
+[target.'cfg(not(target_arch = "wasm32"))'.build-dependencies]
+napi-build.workspace = true
+
+[dev-dependencies]
+insta.workspace = true
+criterion.workspace = true
+
+[[bench]]
+name = "render"
+harness = false

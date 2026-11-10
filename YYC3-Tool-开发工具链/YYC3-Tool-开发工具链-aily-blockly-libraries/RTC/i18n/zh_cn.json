@@ -1,0 +1,127 @@
+{
+  "toolbox_name": "RTC实时时钟",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "时间设置": "时间设置",
+    "时间读取": "时间读取",
+    "时间组件": "时间组件",
+    "状态控制": "状态控制",
+    "DS3231专用": "DS3231专用",
+    "DS1302专用": "DS1302专用"
+  },
+  "rtc_init": {
+    "message0": "初始化RTC时钟 %1 芯片型号 %2",
+    "tooltip": "初始化RTC实时时钟模块，选择芯片型号",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["DS3231 (I2C)", "DS3231"],
+          ["DS1307 (I2C)", "DS1307"],
+          ["DS1302 (三线)", "DS1302"],
+          ["PCF8563 (I2C)", "PCF8563"]
+        ]
+      }
+    ]
+  },
+  "rtc_set_datetime": {
+    "message0": "%1 设置时间 年 %2 月 %3 日 %4 时 %5 分 %6 秒 %7",
+    "tooltip": "设置RTC的日期和时间"
+  },
+  "rtc_set_compile_datetime": {
+    "message0": "%1 设置为编译时间",
+    "tooltip": "将RTC设置为程序编译时的时间，用于快速校准"
+  },
+  "rtc_get_datetime": {
+    "message0": "%1 获取当前时间",
+    "tooltip": "从RTC读取当前日期和时间"
+  },
+  "rtc_is_datetime_valid": {
+    "message0": "%1 时间是否有效",
+    "tooltip": "检查RTC当前存储的时间是否有效"
+  },
+  "rtc_get_is_running": {
+    "message0": "%1 是否正在运行",
+    "tooltip": "检查RTC时钟振荡器是否正在运行"
+  },
+  "rtc_set_is_running": {
+    "message0": "%1 设置运行状态 %2",
+    "tooltip": "启动或停止RTC时钟振荡器",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["运行", "TRUE"],
+          ["停止", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "rtc_get_year": {
+    "message0": "时间 %1 的年份",
+    "tooltip": "获取RtcDateTime的年份(2000-2099)"
+  },
+  "rtc_get_month": {
+    "message0": "时间 %1 的月份",
+    "tooltip": "获取RtcDateTime的月份(1-12)"
+  },
+  "rtc_get_day": {
+    "message0": "时间 %1 的日期",
+    "tooltip": "获取RtcDateTime的日期(1-31)"
+  },
+  "rtc_get_hour": {
+    "message0": "时间 %1 的小时",
+    "tooltip": "获取RtcDateTime的小时(0-23)"
+  },
+  "rtc_get_minute": {
+    "message0": "时间 %1 的分钟",
+    "tooltip": "获取RtcDateTime的分钟(0-59)"
+  },
+  "rtc_get_second": {
+    "message0": "时间 %1 的秒数",
+    "tooltip": "获取RtcDateTime的秒数(0-59)"
+  },
+  "rtc_get_day_of_week": {
+    "message0": "时间 %1 的星期",
+    "tooltip": "获取RtcDateTime的星期(0=周日, 1=周一, ..., 6=周六)"
+  },
+  "rtc_format_datetime": {
+    "message0": "格式化时间 %1 为文本",
+    "tooltip": "将RtcDateTime转换为 YYYY/MM/DD HH:MM:SS 格式的文本"
+  },
+  "rtc_ds3231_get_temperature": {
+    "message0": "%1 读取温度 %2",
+    "tooltip": "读取DS3231内置温度传感器的温度值",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["°C (摄氏)", "C"],
+          ["°F (华氏)", "F"]
+        ]
+      }
+    ]
+  },
+  "rtc_ds1302_set_write_protect": {
+    "message0": "%1 写保护 %2",
+    "tooltip": "启用或禁用DS1302的写保护功能",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["启用", "TRUE"],
+          ["禁用", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "extensions": {
+    "rtc_init_dynamic": {
+      "dat_pin": "DAT引脚",
+      "clk_pin": "CLK引脚",
+      "rst_pin": "RST引脚",
+      "sda_pin": "SDA引脚",
+      "scl_pin": "SCL引脚"
+    }
+  }
+}

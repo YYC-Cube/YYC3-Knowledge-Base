@@ -1,0 +1,112 @@
+/*
+ * Copyright (C) 2020-2022 Roy Qu (royqh1979@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+#include "editorclipboardwidget.h"
+#include "ui_editorclipboardwidget.h"
+#include "../settings.h"
+#include "../mainwindow.h"
+#include "../colorscheme.h"
+
+EditorClipboardWidget::EditorClipboardWidget(ColorManager *colorManager, const QString& name,
+                                             const QString& group, IconsManager *iconsManager, QWidget *parent) :
+    SettingsWidget(name,group,iconsManager,parent),
+    ui(new Ui::EditorClipboardWidget)
+{
+    ui->setupUi(this);
+    mColorManager = colorManager;
+    ui->cbCopyWithFormatAs->addItem("None");
+#ifdef Q_OS_WIN
+    ui->cbCopyWithFormatAs->addItem("HTML");
+#endif
+
+    connect(ui->chkCopyRTFUseEditorColor,
+            &QCheckBox::stateChanged,
+            this,
+            &EditorClipboardWidget::onUseSchemeChanged);
+    connect(ui->chkCopyHTMLUseEditorColor,
+            &QCheckBox::stateChanged,
+            this,
+            &EditorClipboardWidget::onUseSchemeChanged);
+    connect(ui->chkCopyHTMLWithLineNumber,
+            &QCheckBox::stateChanged,
+            ui->chkCopyHTMLRecalcLineNumber,
+            &QCheckBox::setEnabled);
+}
+
+EditorClipboardWidget::~EditorClipboardWidget()
+{
+    delete ui;
+}
+
+void EditorClipboardWidget::onUseSchemeChanged()
+{
+    ui->cbRTFColorScheme->setEnabled(!ui->chkCopyRTFUseEditorColor->isChecked());
+    ui->cbRTFBackground->setEnabled(!ui->chkCopyRTFUseEditorColor->isChecked());
+    ui->cbHTMLColorScheme->setEnabled(!ui->chkCopyHTMLUseEditorColor->isChecked());
+    ui->cbHTMLForeground->setEnabled(!ui->chkCopyHTMLUseEditorColor->isChecked());
+    ui->cbHTMLBackground->setEnabled(!ui->chkCopyHTMLUseEditorColor->isChecked());
+}
+
+void EditorClipboardWidget::doLoad()
+{
+    //pSettings->editor().load();
+    //copy
+    ui->cbHTMLColorScheme->clear();
+    ui->cbRTFColorScheme->clear();
+    foreach (const QString &name, mColorManager->getSchemes()) {
+        ui->cbHTMLColorScheme->addItem(name);
+        ui->cbRTFColorScheme->addItem(name);
+    }
+
+    ui->cbCopyWithFormatAs->setCurrentIndex(std::max(0,std::min(ui->cbCopyWithFormatAs->count(),
+                                                                pSettings->editor().copyWithFormatAs())) );
+    ui->chkCopyRTFUseEditorColor->setChecked(pSettings->editor().copyRTFUseEditorColor());
+    ui->cbRTFColorScheme->setCurrentText(pSettings->editor().copyRTFColorScheme());
+    ui->cbRTFBackground->setColor(pSettings->editor().copyRTFBackgroundColor());
+    ui->chkCopyHTMLUseEditorColor->setChecked(pSettings->editor().copyHTMLUseEditorColor());
+    ui->chkCopyHTMLWithLineNumber->setChecked(pSettings->editor().copyHTMLWithLineNumber());
+    ui->chkCopyHTMLRecalcLineNumber->setEnabled(pSettings->editor().copyHTMLWithLineNumber());
+    ui->chkCopyHTMLRecalcLineNumber->setChecked(pSettings->editor().copyHTMLRecalcLineNumber());
+    ui->cbHTMLColorScheme->setCurrentText(pSettings->editor().copyHTMLColorScheme());
+    ui->cbHTMLForeground->setColor(pSettings->editor().copyHTMLForegroundColor());
+    ui->cbHTMLBackground->setColor(pSettings->editor().copyHTMLBackgroundColor());
+    onUseSchemeChanged();
+}
+
+void EditorClipboardWidget::doSave()
+{
+    //copy
+    pSettings->editor().setCopyWithFormatAs(ui->cbCopyWithFormatAs->currentIndex());
+
+    pSettings->editor().setCopyRTFUseEditorColor(ui->chkCopyRTFUseEditorColor->isChecked());
+    if (ui->cbRTFColorScheme->isEnabled()) {
+        pSettings->editor().setCopyRTFColorScheme(ui->cbRTFColorScheme->currentText());
+        pSettings->editor().setCopyRTFBackgroundColor(ui->cbRTFBackground->color());
+    }
+
+    pSettings->editor().setCopyHTMLUseEditorColor(ui->chkCopyHTMLUseEditorColor->isChecked());
+    pSettings->editor().setCopyHTMLWithLineNumber(ui->chkCopyHTMLWithLineNumber->isChecked());
+    if (ui->chkCopyHTMLRecalcLineNumber->isEnabled())
+        pSettings->editor().setCopyHTMLRecalcLineNumber(ui->chkCopyHTMLRecalcLineNumber->isChecked());
+    if (ui->cbHTMLColorScheme->isEnabled()) {
+        pSettings->editor().setCopyHTMLColorScheme(ui->cbHTMLColorScheme->currentText());
+        pSettings->editor().setCopyHTMLForegroundColor(ui->cbHTMLForeground->color());
+        pSettings->editor().setCopyHTMLBackgroundColor(ui->cbHTMLBackground->color());
+    }
+
+    pSettings->editor().save();
+    pMainWindow->updateEditorSettings();
+}

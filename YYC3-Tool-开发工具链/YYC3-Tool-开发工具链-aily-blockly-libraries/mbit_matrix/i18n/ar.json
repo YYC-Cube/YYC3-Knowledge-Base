@@ -1,0 +1,164 @@
+{
+  "toolbox_name": "micro:bit مصفوفة LED",
+  "toolbox_labels": {
+    "初始化": "التهيئة",
+    "基本操作": "العمليات الأساسية",
+    "绘图": "الرسم",
+    "图标显示": "عرض الأيقونة",
+    "文本显示": "عرض النص",
+    "位图": "الصورة النقطية"
+  },
+  "microbit_matrix_begin": {
+    "message0": "تهيئة مصفوفة LED لـ micro:bit",
+    "tooltip": "تهيئة مصفوفة LED بحجم 5x5 على micro:bit"
+  },
+  "microbit_matrix_clear": {
+    "message0": "مسح مصفوفة LED",
+    "tooltip": "مسح جميع مصابيح LED على المصفوفة"
+  },
+  "microbit_matrix_fill": {
+    "message0": "ملء مصفوفة LED %1",
+    "tooltip": "تشغيل أو إيقاف جميع مصابيح LED",
+    "args0": [
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_pixel": {
+    "message0": "رسم بكسل عند x %1 y %2 %3",
+    "tooltip": "رسم بكسل واحد في الموضع (x, y). نطاق x و y من 0 إلى 4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_line": {
+    "message0": "رسم خط من (%1, %2) إلى (%3, %4) %5",
+    "tooltip": "رسم خط من (x0, y0) إلى (x1, y1)",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_rect": {
+    "message0": "رسم مستطيل عند (%1, %2) عرض %3 ارتفاع %4 %5",
+    "tooltip": "رسم إطار مستطيل",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_rect": {
+    "message0": "ملء مستطيل عند (%1, %2) عرض %3 ارتفاع %4 %5",
+    "tooltip": "رسم مستطيل ممتلئ",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_circle": {
+    "message0": "رسم دائرة المركز (%1, %2) نصف القطر %3 %4",
+    "tooltip": "رسم إطار دائرة",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_circle": {
+    "message0": "ملء دائرة المركز (%1, %2) نصف القطر %3 %4",
+    "tooltip": "رسم دائرة ممتلئة",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_triangle": {
+    "message0": "رسم مثلث (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "رسم إطار مثلث",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_triangle": {
+    "message0": "ملء مثلث (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "رسم مثلث ممتلئ",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["تشغيل", "1"], ["إيقاف", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_show_icon": {
+    "message0": "عرض أيقونة %1",
+    "tooltip": "عرض أيقونة مسبقة على مصفوفة LED",
+    "args0": [
+      {
+        "options": [
+          ["❤️ قلب", "HEART"],
+          ["🤍 قلب فارغ", "EMPTYHEART"],
+          ["✓ نعم (علامة)", "YES"],
+          ["✕ لا (X)", "NO"],
+          ["😊 ابتسامة", "SMILE"]
+        ]
+      }
+    ]
+  },
+  "microbit_matrix_show_bitmap": {
+    "message0": "عرض صورة نقطية %1",
+    "tooltip": "عرض صورة نقطية من 5 بايت على مصفوفة LED"
+  },
+  "microbit_matrix_print_text": {
+    "message0": "طباعة نص %1",
+    "tooltip": "طباعة نص على مصفوفة LED (يتم التمرير إذا كان أكثر من حرف واحد)"
+  },
+  "microbit_matrix_print_number": {
+    "message0": "طباعة رقم %1",
+    "tooltip": "طباعة رقم على مصفوفة LED"
+  },
+  "microbit_matrix_scroll_text": {
+    "message0": "تمرير نص %1 سرعة %2 مللي ثانية",
+    "tooltip": "تمرير النص عبر مصفوفة LED"
+  },
+  "microbit_matrix_bitmap_create": {
+    "message0": "صورة نقطية صف1 %1 صف2 %2 صف3 %3 صف4 %4 صف5 %5",
+    "tooltip": "إنشاء صورة نقطية من 5 بايت لمصفوفة LED. كل صف بايت واحد (0-255)"
+  },
+  "microbit_matrix_bitmap_heart": {
+    "message0": "❤️ صورة قلب",
+    "tooltip": "صورة نقطية لأيقونة قلب"
+  },
+  "microbit_matrix_bitmap_empty_heart": {
+    "message0": "🤍 صورة قلب فارغ",
+    "tooltip": "صورة نقطية لأيقونة قلب فارغ"
+  },
+  "microbit_matrix_bitmap_yes": {
+    "message0": "✓ صورة نعم",
+    "tooltip": "صورة نقطية لأيقونة نعم (علامة)"
+  },
+  "microbit_matrix_bitmap_no": {
+    "message0": "✕ صورة لا",
+    "tooltip": "صورة نقطية لأيقونة لا (X)"
+  },
+  "microbit_matrix_bitmap_smile": {
+    "message0": "😊 صورة ابتسامة",
+    "tooltip": "صورة نقطية لأيقونة ابتسامة"
+  }
+}

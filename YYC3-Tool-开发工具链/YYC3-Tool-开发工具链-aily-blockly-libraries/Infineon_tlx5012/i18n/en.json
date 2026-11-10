@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "TLx5012B Angle Sensor",
+  "tlx5012_init": {
+    "message0": "Initialize TLx5012B angle sensor %1\nCS Pin %2",
+    "tooltip": "Initialize TLx5012B magnetic angle sensor using SPI interface"
+  },
+  "tlx5012_read_angle": {
+    "message0": "Read angle (°) from TLx5012B %1",
+    "tooltip": "Read angle value from TLx5012B sensor, returns 0°~360°"
+  },
+  "tlx5012_read_speed": {
+    "message0": "Read angular speed from TLx5012B %1",
+    "tooltip": "Read angular speed from TLx5012B sensor"
+  },
+  "tlx5012_read_revolutions": {
+    "message0": "Read revolutions from TLx5012B %1",
+    "tooltip": "Read cumulative revolution count from TLx5012B sensor, range -256~256"
+  },
+  "tlx5012_read_temperature": {
+    "message0": "Read temperature (℃) from TLx5012B %1",
+    "tooltip": "Read temperature from TLx5012B sensor in Celsius"
+  },
+  "tlx5012_read_angle_range": {
+    "message0": "Read angle range from TLx5012B %1",
+    "tooltip": "Read angle range setting from TLx5012B sensor"
+  },
+  "tlx5012_reset": {
+    "message0": "Reset TLx5012B %1 sensor",
+    "tooltip": "Reset TLx5012B sensor to factory defaults"
+  }
+}

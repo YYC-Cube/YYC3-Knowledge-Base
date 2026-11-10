@@ -1,0 +1,91 @@
+{
+  "toolbox_name": "LIS3DHTR Acelerômetro",
+  "toolbox_labels": {
+    "初始化与配置": "Init & Config",
+    "加速度读取": "Aceleração",
+    "敲击检测": "Detecção de tap",
+    "温度传感器": "Sensor de temperatura",
+    "ADC 读取": "Leitura ADC",
+    "状态与信息": "Status e Info"
+  },
+  "lis3dhtr_init": {
+    "message0": "inicializar acelerômetro LIS3DHTR I2C %1 endereço %2",
+    "tooltip": "Inicializar sensor de aceleração LIS3DHTR (modo I2C), endereço padrão 0x18. ⚠️ Wio Terminal deve usar Wire1"
+  },
+  "lis3dhtr_init_simplified": {
+    "message0": "inicialização tudo-em-um LIS3DHTR I2C %1 endereço %2 taxa de dados %3 faixa %4 alta resolução %5",
+    "tooltip": "Inicialização e configuração LIS3DHTR em uma etapa. Intervalo de leitura recomendado ≥ 50ms"
+  },
+  "lis3dhtr_set_datarate": {
+    "message0": "definir taxa de dados de saída %1",
+    "tooltip": "Definir a taxa de dados de saída do acelerômetro"
+  },
+  "lis3dhtr_set_full_scale_range": {
+    "message0": "definir faixa de medição %1",
+    "tooltip": "Definir a faixa de medição do acelerômetro"
+  },
+  "lis3dhtr_set_resolution": {
+    "message0": "definir modo de alta resolução %1",
+    "tooltip": "Ativar/desativar o modo de saída de alta resolução"
+  },
+  "lis3dhtr_set_power_mode": {
+    "message0": "definir modo de energia %1",
+    "tooltip": "Definir o modo de energia do sensor"
+  },
+  "lis3dhtr_get_acceleration": {
+    "message0": "ler aceleração eixo %1 (g)",
+    "tooltip": "Ler o valor de aceleração do eixo especificado (unidade: g)"
+  },
+  "lis3dhtr_get_acceleration_x": {
+    "message0": "ler aceleração eixo X (g)",
+    "tooltip": "Ler o valor de aceleração do eixo X"
+  },
+  "lis3dhtr_get_acceleration_y": {
+    "message0": "ler aceleração eixo Y (g)",
+    "tooltip": "Ler o valor de aceleração do eixo Y"
+  },
+  "lis3dhtr_get_acceleration_z": {
+    "message0": "ler aceleração eixo Z (g)",
+    "tooltip": "Ler o valor de aceleração do eixo Z"
+  },
+  "lis3dhtr_get_acceleration_xyz": {
+    "message0": "obter aceleração 3 eixos X: %1 Y: %2 Z: %3",
+    "tooltip": "Ler os três eixos de uma vez e armazenar nas variáveis especificadas"
+  },
+  "lis3dhtr_available": {
+    "message0": "dados de aceleração prontos",
+    "tooltip": "Verificar se novos dados de aceleração estão disponíveis"
+  },
+  "lis3dhtr_open_temp": {
+    "message0": "ativar sensor de temperatura",
+    "tooltip": "Ativar o sensor de temperatura integrado do LIS3DHTR"
+  },
+  "lis3dhtr_close_temp": {
+    "message0": "desativar sensor de temperatura",
+    "tooltip": "Desativar o sensor de temperatura integrado do LIS3DHTR"
+  },
+  "lis3dhtr_get_temperature": {
+    "message0": "ler temperatura (°C)",
+    "tooltip": "Ler dados de temperatura, ative o sensor de temperatura primeiro"
+  },
+  "lis3dhtr_read_adc": {
+    "message0": "ler canal ADC %1",
+    "tooltip": "Ler dados do canal ADC especificado"
+  },
+  "lis3dhtr_is_connection": {
+    "message0": "sensor conectado",
+    "tooltip": "Verificar se o sensor LIS3DHTR está conectado corretamente (ID do dispositivo == 0x33)"
+  },
+  "lis3dhtr_get_device_id": {
+    "message0": "obter ID do dispositivo",
+    "tooltip": "Ler o ID do dispositivo LIS3DHTR (valor normal 0x33)"
+  },
+  "lis3dhtr_reset": {
+    "message0": "reiniciar sensor",
+    "tooltip": "Reiniciar o sensor LIS3DHTR para o estado padrão"
+  },
+  "lis3dhtr_on_tap": {
+    "message0": "ao detectar %1 tap limite %2 pino de interrupção %3",
+    "tooltip": "Configurar detecção de tap e manipulador de interrupção. Limites recomendados: faixa 2G 40-80, 4G 20-40, 8G 10-20, 16G 5-10"
+  }
+}

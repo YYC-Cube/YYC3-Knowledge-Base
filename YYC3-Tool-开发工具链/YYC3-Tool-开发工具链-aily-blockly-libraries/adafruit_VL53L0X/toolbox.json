@@ -1,0 +1,24 @@
+{
+  "kind": "category",
+  "name": "VL53L0X 激光测距",
+  "icon": "fa-light fa-ruler-horizontal",
+  "colour": "#2D7DB3",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "vl53l0x_init_with_wire"
+    },
+    {
+      "kind": "block",
+      "type": "vl53l0x_ranging_test"
+    },
+    {
+      "kind": "block",
+      "type": "vl53l0x_check_range_valid"
+    },
+    {
+      "kind": "block",
+      "type": "vl53l0x_get_range_mm"
+    }
+  ]
+}

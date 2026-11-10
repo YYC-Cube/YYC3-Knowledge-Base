@@ -1,0 +1,71 @@
+{
+  "kind": "category",
+  "name": "Si7021传感器",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "基础操作"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_begin"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_reset"
+    },
+    {
+      "kind": "sep"
+    },
+    {
+      "kind": "label",
+      "text": "数据读取"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_read_temperature"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_read_humidity"
+    },
+    {
+      "kind": "sep"
+    },
+    {
+      "kind": "label",
+      "text": "加热器控制"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_heater_control"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_is_heater_enabled"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_set_heat_level"
+    },
+    {
+      "kind": "sep"
+    },
+    {
+      "kind": "label",
+      "text": "设备信息"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_get_model"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_get_revision"
+    },
+    {
+      "kind": "block",
+      "type": "si7021_read_serial_number"
+    }
+  ]
+}

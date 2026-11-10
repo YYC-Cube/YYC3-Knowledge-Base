@@ -1,0 +1,104 @@
+{
+  "toolbox_name": "TB6612FNG Motor Driver",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "直流电机": "DC motor",
+    "步进电机": "stepper motor",
+    "电源管理": "Power management"
+  },
+  "tb6612fng_init": {
+    "message0": "Init %1 motor driver I2C addr %2",
+    "tooltip": "Initialize Grove TB6612FNG motor driver module with I2C address"
+  },
+  "tb6612fng_dc_run": {
+    "message0": "%1 drive DC motor %2 speed %3",
+    "tooltip": "Drive DC motor on specified channel, speed range -255~255, positive for CW, negative for CCW",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Channel A", "MOTOR_CHA"],
+          ["Channel B", "MOTOR_CHB"]
+        ]
+      },
+      null
+    ]
+  },
+  "tb6612fng_dc_brake": {
+    "message0": "%1 brake DC motor %2",
+    "tooltip": "Immediately brake the DC motor on specified channel",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Channel A", "MOTOR_CHA"],
+          ["Channel B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_dc_stop": {
+    "message0": "%1 stop DC motor %2",
+    "tooltip": "Slowly stop the DC motor on specified channel",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Channel A", "MOTOR_CHA"],
+          ["Channel B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_stepper_run": {
+    "message0": "%1 drive stepper motor mode %2\nsteps %3 RPM %4",
+    "tooltip": "Drive stepper motor, positive steps for CW, negative for CCW, RPM range 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Full Step", "FULL_STEP"],
+          ["Wave Drive", "WAVE_DRIVE"],
+          ["Half Step", "HALF_STEP"],
+          ["Micro Stepping", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "tb6612fng_stepper_stop": {
+    "message0": "%1 stop stepper motor",
+    "tooltip": "Stop the stepper motor"
+  },
+  "tb6612fng_stepper_keep_run": {
+    "message0": "%1 stepper keep running mode %2\nRPM %3 direction %4",
+    "tooltip": "Keep stepper motor running continuously, RPM range 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Full Step", "FULL_STEP"],
+          ["Wave Drive", "WAVE_DRIVE"],
+          ["Half Step", "HALF_STEP"],
+          ["Micro Stepping", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["Clockwise", "true"],
+          ["Counter-clockwise", "false"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_standby": {
+    "message0": "%1 enter standby mode",
+    "tooltip": "Motor driver enters standby mode, all motors stop"
+  },
+  "tb6612fng_not_standby": {
+    "message0": "%1 exit standby mode",
+    "tooltip": "Motor driver exits standby mode, resume normal operation"
+  }
+}

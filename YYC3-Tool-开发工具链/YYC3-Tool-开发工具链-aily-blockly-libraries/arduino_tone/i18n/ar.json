@@ -1,0 +1,20 @@
+{
+"toolbox_name": "نغمة",
+"io_tone": {
+    "message0": "تشغيل نغمة بتردد %2 على المنفذ %1",
+    "args0": [
+        {
+            "options": "${board.digitalPins}"
+        },
+        null
+    ]
+},
+"io_notone": {
+    "message0": "إيقاف النغمة على المنفذ %1",
+    "args0": [
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+}
+}

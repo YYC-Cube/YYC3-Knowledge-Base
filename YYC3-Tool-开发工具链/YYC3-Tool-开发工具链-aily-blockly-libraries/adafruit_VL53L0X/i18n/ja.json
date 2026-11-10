@@ -1,0 +1,47 @@
+{
+  "toolbox_name": "VL53L0X 激光测距",
+  "vl53l0x_config_i2c": {
+    "message0": "配置VL53L0X I2C引脚 %1",
+    "tooltip": "配置VL53L0X传感器使用的I2C引脚",
+    "args0": [
+      {
+        "options": [
+          [
+            "Wire1 (SDA:8, SCL:9)",
+            "WIRE1"
+          ],
+          [
+            "Wire2 (SDA:4, SCL:5)",
+            "WIRE2"
+          ]
+        ]
+      }
+    ]
+  },
+  "vl53l0x_init_with_wire": {
+    "message0": "初始化VL53L0X传感器 %1 使用 %2",
+    "tooltip": "初始化VL53L0X激光测距传感器，指定使用的I2C总线",
+    "args0": [
+      null,
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  },
+  "vl53l0x_begin": {
+    "message0": "初始化VL53L0X传感器 %1 %2",
+    "tooltip": "初始化VL53L0X激光测距传感器，配置I2C引脚并检查连接"
+  },
+  "vl53l0x_ranging_test": {
+    "message0": "传感器 %1 进行测量并存入结果 %2",
+    "tooltip": "进行一次详细测量并将结果存入指定变量"
+  },
+  "vl53l0x_check_range_valid": {
+    "message0": "测量结果 %1 有效",
+    "tooltip": "检查测量结果是否有效，状态值不为4时表示有效"
+  },
+  "vl53l0x_get_range_mm": {
+    "message0": "从测量结果 %1 中获取距离(mm)",
+    "tooltip": "从测量结果中获取距离数据，单位是毫米"
+  }
+}

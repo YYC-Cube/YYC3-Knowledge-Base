@@ -1,0 +1,56 @@
+{
+    "toolbox_name": "RFID Module",
+    "toolbox_labels": {
+      "初始化": "initialization",
+      "卡片检测": "Card detection",
+      "数据操作": "Data operations",
+      "控制": "control"
+    },
+    "blocks": {
+        "rfid_init": {
+            "message0": "Create RFID reader %1 SDA pin %2 RST pin %3",
+            "tooltip": "Create an MFRC522 reader and start SPI"
+        },
+        "rfid_is_card_present": {
+            "message0": "RFID %1 detect if card is present",
+            "tooltip": "Check whether a new RFID card is near the reader"
+        },
+        "rfid_read_uid": {
+            "message0": "RFID %1 read card UID",
+            "tooltip": "Read the card UID and return it as hex string"
+        },
+        "rfid_authenticate": {
+            "message0": "RFID %1 authenticate sector %2 key type %3 key %4",
+            "tooltip": "Authenticate the access key for the given sector",
+            "args0": [
+                null,
+                null,
+                [
+                    ["Key A", "PICC_CMD_MF_AUTH_KEY_A"],
+                    ["Key B", "PICC_CMD_MF_AUTH_KEY_B"]
+                ],
+                null
+            ]
+        },
+        "rfid_read_block": {
+            "message0": "RFID %1 read data block %2",
+            "tooltip": "Read the specified data block and return hex string"
+        },
+        "rfid_write_block": {
+            "message0": "RFID %1 write data block %2 data %3",
+            "tooltip": "Write text or hex data to the given block"
+        },
+        "rfid_halt": {
+            "message0": "RFID %1 stop communication",
+            "tooltip": "Stop communicating with the current card and end crypto"
+        },
+        "rfid_get_uid_string": {
+            "message0": "RFID %1 get UID string",
+            "tooltip": "Convert the cached UID to string without rereading"
+        },
+        "rfid_uid_equals": {
+            "message0": "RFID %1 current UID equals %2",
+            "tooltip": "Check whether the cached UID equals the given value"
+        }
+    }
+}

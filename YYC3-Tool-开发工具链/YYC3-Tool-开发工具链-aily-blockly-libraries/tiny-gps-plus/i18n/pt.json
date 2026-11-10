@@ -1,0 +1,140 @@
+{
+  "toolbox_name": "GPS",
+  "toolbox_labels": {
+    "初始化": "inicialização",
+    "数据读取": "Leitura de dados",
+    "位置信息": "informações de localização",
+    "时间日期": "hora data",
+    "运动信息": "Informações esportivas",
+    "信号状态": "estado do sinal",
+    "工具": "Ferramentas"
+  },
+  "gps_init": {
+    "message0": "Inicializar módulo GPS %1 serial %2 taxa %3",
+    "tooltip": "Inicializar módulo TinyGPS++, selecionar porta serial e taxa de transmissão para GPS",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      },
+      {
+        "options": [
+          ["9600", "9600"],
+          ["4800", "4800"],
+          ["19200", "19200"],
+          ["38400", "38400"],
+          ["57600", "57600"],
+          ["115200", "115200"]
+        ]
+      }
+    ]
+  },
+  "gps_update": {
+    "message0": "Ler dados GPS %1",
+    "tooltip": "Ler e analisar dados GPS da porta serial, chamar no loop repetidamente"
+  },
+  "gps_location": {
+    "message0": "GPS %1 %2",
+    "tooltip": "Obter valor de latitude ou longitude GPS",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Latitude", "LAT"],
+          ["Longitude", "LNG"]
+        ]
+      }
+    ]
+  },
+  "gps_date": {
+    "message0": "GPS %1 data %2",
+    "tooltip": "Obter ano, mês ou dia da data GPS",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Ano", "YEAR"],
+          ["Mês", "MONTH"],
+          ["Dia", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gps_time": {
+    "message0": "GPS %1 hora %2",
+    "tooltip": "Obter hora, minuto ou segundo GPS",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Hora", "HOUR"],
+          ["Minuto", "MINUTE"],
+          ["Segundo", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gps_speed": {
+    "message0": "GPS %1 velocidade %2",
+    "tooltip": "Obter valor de velocidade GPS",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["km/h", "KMPH"],
+          ["mph", "MPH"],
+          ["m/s", "MPS"],
+          ["nós", "KNOTS"]
+        ]
+      }
+    ]
+  },
+  "gps_altitude": {
+    "message0": "GPS %1 altitude %2",
+    "tooltip": "Obter valor de altitude GPS",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["metros", "METERS"],
+          ["quilômetros", "KM"],
+          ["pés", "FEET"]
+        ]
+      }
+    ]
+  },
+  "gps_satellites": {
+    "message0": "GPS %1 número de satélites",
+    "tooltip": "Obter o número de satélites conectados"
+  },
+  "gps_course": {
+    "message0": "GPS %1 ângulo de rumo",
+    "tooltip": "Obter ângulo de rumo GPS (0-360 graus)"
+  },
+  "gps_hdop": {
+    "message0": "GPS %1 HDOP",
+    "tooltip": "Obter HDOP (diluição de precisão horizontal), menor é mais preciso"
+  },
+  "gps_is_valid": {
+    "message0": "GPS %1 %2 válido?",
+    "tooltip": "Verificar se os dados GPS são válidos",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Posição", "LOCATION"],
+          ["Data", "DATE"],
+          ["Hora", "TIME"]
+        ]
+      }
+    ]
+  },
+  "gps_distance_between": {
+    "message0": "Distância entre dois pontos (m)\nLat1 %1 Lng1 %2\nLat2 %3 Lng2 %4",
+    "tooltip": "Calcular distância entre duas coordenadas GPS em metros"
+  },
+  "gps_course_to": {
+    "message0": "Rumo entre dois pontos\nLat1 %1 Lng1 %2\nLat2 %3 Lng2 %4",
+    "tooltip": "Calcular ângulo de rumo da primeira coordenada GPS para a segunda"
+  }
+}

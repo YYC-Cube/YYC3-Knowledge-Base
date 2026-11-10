@@ -1,0 +1,75 @@
+{
+  "toolbox_name": "SPA06 気圧温度センサー",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "数据读取": "データ読み取り",
+    "状态检查": "ステータスチェック",
+    "配置": "構成"
+  },
+  "spa06_init": {
+    "message0": "SPA06センサーを初期化 アドレス %1",
+    "tooltip": "SPA06気圧温度センサーを初期化（I2C通信）",
+    "args0": [
+      {
+        "options": [
+          ["0x77 (デフォルト)", "0x77"],
+          ["0x76", "0x76"]
+        ]
+      }
+    ]
+  },
+  "spa06_read_temperature": {
+    "message0": "SPA06温度を読み取る (°C)",
+    "tooltip": "SPA06センサーから温度値を読み取り、摂氏で返す"
+  },
+  "spa06_read_pressure": {
+    "message0": "SPA06気圧を読み取る (Pa)",
+    "tooltip": "SPA06センサーから気圧値を読み取り、パスカルで返す"
+  },
+  "spa06_read_altitude": {
+    "message0": "SPA06高度を読み取る (m)",
+    "tooltip": "気圧から高度を計算し、メートルで返す"
+  },
+  "spa06_pressure_available": {
+    "message0": "SPA06気圧データ準備完了",
+    "tooltip": "新しい気圧データが利用可能か確認"
+  },
+  "spa06_temperature_available": {
+    "message0": "SPA06温度データ準備完了",
+    "tooltip": "新しい温度データが利用可能か確認"
+  },
+  "spa06_set_mode": {
+    "message0": "SPA06モードを設定 %1",
+    "tooltip": "SPA06センサーの動作モードを設定",
+    "args0": [
+      {
+        "options": [
+          ["アイドル", "SPL07_IDLE"],
+          ["単発気圧測定", "SPL07_ONE_PRESSURE"],
+          ["単発温度測定", "SPL07_ONE_TEMPERATURE"],
+          ["連続気圧測定", "SPL07_CONT_PRESSURE"],
+          ["連続温度測定", "SPL07_CONT_TEMPERATURE"],
+          ["連続気圧・温度測定", "SPL07_CONT_PRES_TEMP"]
+        ]
+      }
+    ]
+  },
+  "spa06_set_pressure_config": {
+    "message0": "SPA06気圧サンプリング設定 レート %1 オーバーサンプリング %2",
+    "tooltip": "気圧センサーの測定レートとオーバーサンプリングを設定",
+    "args0": [null, null]
+  },
+  "spa06_set_temperature_config": {
+    "message0": "SPA06温度サンプリング設定 レート %1 オーバーサンプリング %2",
+    "tooltip": "温度センサーの測定レートとオーバーサンプリングを設定",
+    "args0": [null, null]
+  },
+  "spa06_set_pressure_offset": {
+    "message0": "SPA06気圧オフセットを設定 %1 Pa",
+    "tooltip": "気圧校正オフセットをパスカルで設定"
+  },
+  "spa06_set_temperature_offset": {
+    "message0": "SPA06温度オフセットを設定 %1 °C",
+    "tooltip": "温度校正オフセットを摂氏で設定"
+  }
+}

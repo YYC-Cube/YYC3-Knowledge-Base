@@ -1,0 +1,124 @@
+[
+  {
+    "type": "encoder_init",
+    "message0": "初始化编码器 %1 连接到引脚A %2 引脚B %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ENCODER",
+        "variable": "encoder1",
+        "variableTypes": [
+            "Encoder"
+        ],
+        "defaultType": "Encoder"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN_A",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN_B",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "tooltip": "初始化一个旋转编码器对象，连接到指定的两个引脚"
+  },
+  {
+    "type": "encoder_set_property",
+    "message0": "将编码器 %1 的 %2 设为 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ENCODER",
+        "variable": "encoder1",
+        "variableTypes": ["Encoder"],
+        "defaultType": "Encoder"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["位置", "position"],
+          ["上限", "upper_limit"],
+          ["下限", "lower_limit"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "tooltip": "设置编码器的各种属性值"
+  },
+  {
+    "type": "encoder_value_changed",
+    "message0": "旋转编码器值变化",
+    "output": "Boolean",
+    "colour": "#2E8B57",
+    "tooltip": "判断旋转编码器的值是否发生了变化"
+  },
+  {
+    "type": "encoder_state_change",
+    "message0": "当编码器状态 %1 时 %2 执行 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["向左旋转", "LEFT"],
+          ["向右旋转", "RIGHT"],
+          ["高于上限", "ABOVE_LIMIT"],
+          ["低于下限", "BELOW_LIMIT"]
+        ]
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "DO"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E8B57",
+    "tooltip": "当编码器发生特定状态变化时执行相应操作"
+  },
+  {
+    "type": "encoder_get_property",
+    "message0": "获取编码器 %1 的 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "ENCODER",
+        "variable": "encoder1",
+        "variableTypes": ["Encoder"],
+        "defaultType": "Encoder"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPERTY",
+        "options": [
+          ["位置", "POSITION"],
+          ["方向", "DIRECTION"],
+          ["上限", "UPPER_LIMIT"],
+          ["下限", "LOWER_LIMIT"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E8B57",
+    "tooltip": "获取编码器的各种属性值"
+  }
+]

@@ -1,0 +1,122 @@
+{
+  "toolbox_name": "USB模拟键盘",
+  "keyboard_begin": {
+    "message0": "初始化键盘"
+  },
+  "keyboard_end": {
+    "message0": "结束键盘"
+  },
+  "keyboard_print": {
+    "message0": "键盘输出字符串 %1"
+  },
+  "keyboard_press": {
+    "message0": "键盘按下键 %1"
+  },
+  "keyboard_special_key": {
+    "message0": "键盘特殊键 %1",
+    "args0": [
+      {
+        "options": [
+          [
+            "Enter",
+            "KEY_RETURN"
+          ],
+          [
+            "Esc",
+            "KEY_ESC"
+          ],
+          [
+            "Backspace",
+            "KEY_BACKSPACE"
+          ],
+          [
+            "Tab",
+            "KEY_TAB"
+          ],
+          [
+            "空格",
+            "' '"
+          ],
+          [
+            "左Ctrl",
+            "KEY_LEFT_CTRL"
+          ],
+          [
+            "左Shift",
+            "KEY_LEFT_SHIFT"
+          ],
+          [
+            "左Alt",
+            "KEY_LEFT_ALT"
+          ],
+          [
+            "左Windows/Command",
+            "KEY_LEFT_GUI"
+          ],
+          [
+            "右Ctrl",
+            "KEY_RIGHT_CTRL"
+          ],
+          [
+            "右Shift",
+            "KEY_RIGHT_SHIFT"
+          ],
+          [
+            "右Alt",
+            "KEY_RIGHT_ALT"
+          ],
+          [
+            "右Windows/Command",
+            "KEY_RIGHT_GUI"
+          ],
+          [
+            "向上箭头",
+            "KEY_UP_ARROW"
+          ],
+          [
+            "向下箭头",
+            "KEY_DOWN_ARROW"
+          ],
+          [
+            "向左箭头",
+            "KEY_LEFT_ARROW"
+          ],
+          [
+            "向右箭头",
+            "KEY_RIGHT_ARROW"
+          ],
+          [
+            "Insert",
+            "KEY_INSERT"
+          ],
+          [
+            "Delete",
+            "KEY_DELETE"
+          ],
+          [
+            "Home",
+            "KEY_HOME"
+          ],
+          [
+            "End",
+            "KEY_END"
+          ],
+          [
+            "Page Up",
+            "KEY_PAGE_UP"
+          ],
+          [
+            "Page Down",
+            "KEY_PAGE_DOWN"
+          ]
+        ]
+      }
+    ]
+  },
+  "keyboard_release": {
+    "message0": "键盘释放键 %1"
+  },
+  "keyboard_release_all": {
+    "message0": "键盘释放所有按键"
+  }
+}

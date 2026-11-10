@@ -1,0 +1,20 @@
+[
+  {
+    "inputsInline": true,
+    "message0": "超声波测距(cm) Trig# %1 Echo# %2",
+    "type": "ultrasonic_ranging",
+    "colour": "#FFCF5C",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "PIN1"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN2"
+      }
+    ],
+    "output": "Number",
+    "icon": "iconfont icon-sr04"
+  }
+]

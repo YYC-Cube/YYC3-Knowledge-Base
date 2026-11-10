@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "DPS3xx气压传感器",
+  "dps3xx_init": {
+    "message0": "初始化 DPS3xx 气压传感器 I2C地址 %1 使用 %2",
+    "tooltip": "初始化Infineon DPS3xx高精度气压温度传感器，通过I2C接口连接"
+  },
+  "dps3xx_read_temperature": {
+    "message0": "读取 DPS3xx 温度 (°C) 过采样率 %1",
+    "tooltip": "读取DPS3xx传感器的温度值，返回摄氏度。过采样率越高精度越高但速度越慢",
+    "args0": [
+      {
+        "options": [
+          ["1次", "0"],
+          ["2次", "1"],
+          ["4次", "2"],
+          ["8次", "3"],
+          ["16次", "4"],
+          ["32次", "5"],
+          ["64次", "6"],
+          ["128次", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_read_pressure": {
+    "message0": "读取 DPS3xx 气压 (Pa) 过采样率 %1",
+    "tooltip": "读取DPS3xx传感器的气压值，返回帕斯卡(Pa)。过采样率越高精度越高但速度越慢",
+    "args0": [
+      {
+        "options": [
+          ["1次", "0"],
+          ["2次", "1"],
+          ["4次", "2"],
+          ["8次", "3"],
+          ["16次", "4"],
+          ["32次", "5"],
+          ["64次", "6"],
+          ["128次", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_correct_temp": {
+    "message0": "校正 DPS3xx 温度传感器",
+    "tooltip": "修复某些DPS3xx传感器的温度测量硬件问题，建议在begin()后立即调用"
+  },
+  "dps3xx_get_product_id": {
+    "message0": "获取 DPS3xx 产品ID",
+    "tooltip": "获取DPS3xx传感器的产品标识号"
+  },
+  "dps3xx_get_revision_id": {
+    "message0": "获取 DPS3xx 版本ID",
+    "tooltip": "获取DPS3xx传感器的版本标识号"
+  }
+}

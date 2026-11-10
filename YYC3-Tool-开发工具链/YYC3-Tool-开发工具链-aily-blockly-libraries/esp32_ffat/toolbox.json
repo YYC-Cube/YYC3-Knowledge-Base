@@ -1,0 +1,22 @@
+{
+  "kind": "category",
+  "name": "FFat文件系统",
+  "icon": "fa-light fa-hard-drive",
+  "colour": "#FF5722",
+  "contents": [
+    { "kind": "label", "text": "初始化" },
+    { "kind": "block", "type": "esp32_ffat_begin" },
+    { "kind": "block", "type": "esp32_ffat_end" },
+    { "kind": "block", "type": "esp32_ffat_format" },
+    { "kind": "block", "type": "esp32_ffat_info" },
+    { "kind": "label", "text": "文件操作" },
+    { "kind": "block", "type": "esp32_ffat_write_file", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } }, "CONTENT": { "shadow": { "type": "text", "fields": { "TEXT": "Hello" } } } } },
+    { "kind": "block", "type": "esp32_ffat_append_file", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } }, "CONTENT": { "shadow": { "type": "text", "fields": { "TEXT": "World" } } } } },
+    { "kind": "block", "type": "esp32_ffat_read_file", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } } } },
+    { "kind": "block", "type": "esp32_ffat_delete_file", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } } } },
+    { "kind": "block", "type": "esp32_ffat_exists", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/test.txt" } } } } },
+    { "kind": "label", "text": "目录操作" },
+    { "kind": "block", "type": "esp32_ffat_mkdir", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/mydir" } } } } },
+    { "kind": "block", "type": "esp32_ffat_rmdir", "inputs": { "PATH": { "shadow": { "type": "text", "fields": { "TEXT": "/mydir" } } } } }
+  ]
+}

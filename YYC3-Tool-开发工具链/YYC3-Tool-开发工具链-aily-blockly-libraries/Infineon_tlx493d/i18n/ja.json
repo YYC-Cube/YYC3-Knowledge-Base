@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "TLx493D 3D磁気センサー",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "读取数据": "読み取りデータ",
+    "配置": "構成",
+    "状态与控制": "ステータスとコントロール"
+  },
+  "tlx493d_init": {
+    "message0": "3D磁気センサーを初期化 %1\nセンサータイプ %2\nI2Cアドレス %3\n使用 %4",
+    "tooltip": "Infineon TLx493D 3D磁気センサーをI2Cインターフェースで初期化",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["TLx493D-A1B6 (Gen1)", "A1B6"],
+          ["TLx493D-A2B6 (Gen2)", "A2B6"],
+          ["TLx493D-A2BW (Gen2)", "A2BW"],
+          ["TLx493D-P2B6 (Gen2)", "P2B6"],
+          ["TLx493D-W2B6 (Gen2)", "W2B6"],
+          ["TLx493D-W2BW (Gen2)", "W2BW"],
+          ["TLx493D-P3B6 (Gen3)", "P3B6"]
+        ]
+      },
+      {
+        "options": [
+          ["0 (デフォルト)", "TLx493D_IIC_ADDR_A0_e"],
+          ["1", "TLx493D_IIC_ADDR_A1_e"],
+          ["2", "TLx493D_IIC_ADDR_A2_e"],
+          ["3", "TLx493D_IIC_ADDR_A3_e"]
+        ]
+      },
+      null
+    ]
+  },
+  "tlx493d_get_temperature": {
+    "message0": "3D磁気センサー %1 の温度を読み取る(°C)",
+    "tooltip": "TLx493Dセンサーから温度を読み取り、摂氏で返す"
+  },
+  "tlx493d_get_magnetic_field": {
+    "message0": "3D磁気センサー %1 の磁場 %2 軸を読み取る(mT)",
+    "tooltip": "TLx493Dセンサーの指定軸の磁場値を読み取る（ミリテスラ）",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["X", "X"],
+          ["Y", "Y"],
+          ["Z", "Z"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_set_sensitivity": {
+    "message0": "3D磁気センサー %1 の感度を %2 に設定",
+    "tooltip": "TLx493Dセンサーの感度/レンジを設定",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["フルレンジ", "TLx493D_FULL_RANGE_e"],
+          ["ショートレンジ", "TLx493D_SHORT_RANGE_e"],
+          ["エクストラショートレンジ", "TLx493D_EXTRA_SHORT_RANGE_e"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_set_power_mode": {
+    "message0": "3D磁気センサー %1 の電源モードを %2 に設定",
+    "tooltip": "TLx493Dセンサーの電源モードを設定",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["高速モード", "TLx493D_FAST_MODE_e"],
+          ["低電力モード", "TLx493D_LOW_POWER_MODE_e"],
+          ["超低電力モード", "TLx493D_ULTRA_LOW_POWER_MODE_e"],
+          ["マスター制御モード", "TLx493D_MASTER_CONTROLLED_MODE_e"],
+          ["パワーダウンモード", "TLx493D_POWER_DOWN_MODE_e"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_has_valid_data": {
+    "message0": "3D磁気センサー %1 のデータが有効",
+    "tooltip": "TLx493Dセンサーのデータが有効かチェック"
+  },
+  "tlx493d_software_reset": {
+    "message0": "3D磁気センサー %1 をソフトウェアリセット",
+    "tooltip": "TLx493Dセンサーをソフトウェアリセットする"
+  }
+}

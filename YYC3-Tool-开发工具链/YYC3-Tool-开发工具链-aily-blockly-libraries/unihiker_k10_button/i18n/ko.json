@@ -1,0 +1,59 @@
+{
+  "toolbox_name": "K10 버튼",
+  "k10_button_pressed": {
+    "message0": "K10 버튼 %1 눌림",
+    "tooltip": "K10 버튼이 눌렸는지 확인",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_button_callback": {
+    "message0": "K10 버튼 %1 이(가) %2 되었을 때",
+    "tooltip": "K10 버튼이 눌리거나 해제될 때 실행",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "눌림",
+            "pressed"
+          ],
+          [
+            "해제",
+            "released"
+          ]
+        ]
+      }
+    ]
+  }
+}

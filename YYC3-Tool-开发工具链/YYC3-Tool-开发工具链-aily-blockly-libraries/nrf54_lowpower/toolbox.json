@@ -1,0 +1,162 @@
+{
+  "kind": "category",
+  "name": "低功耗",
+  "colour": "#2196F3",
+  "icon": "fa-light fa-alarm-snooze",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "电源配置"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_init"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_enter_lowest_power"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_set_cpu_freq"
+    },
+    {
+      "kind": "label",
+      "text": "休眠模式"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_wfi"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_sleep_ms",
+      "inputs": {
+        "MS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_system_off_timed",
+      "inputs": {
+        "MS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_system_off_button"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_system_off"
+    },
+    {
+      "kind": "label",
+      "text": "LPCOMP 低功耗比较器"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_lpcomp_init",
+      "inputs": {
+        "VDD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 3300
+            }
+          }
+        },
+        "THRESHOLD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 200
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_lpcomp_poll_up"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_lpcomp_sample_above"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_lpcomp_clear"
+    },
+    {
+      "kind": "label",
+      "text": "看门狗"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_watchdog_init",
+      "inputs": {
+        "TIMEOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_watchdog_feed"
+    },
+    {
+      "kind": "label",
+      "text": "唤醒与复位"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_woke_from"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_reset_reason"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_clear_reset_reason"
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_gpregret_write",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 165
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "lowpower_gpregret_read"
+    }
+  ]
+}

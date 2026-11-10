@@ -1,0 +1,55 @@
+{
+"toolbox_name": "Reproductor de música MP3",
+"gd3800_init": {
+    "message0": "Inicializar módulo MP3 TX%1 RX%2"
+},
+"gd3800_set": {
+    "message0": "Módulo MP3 establecer en %1",
+    "args0": [
+        {
+            "options": [
+                ["Reproducir", "play"],
+                ["Pausar", "pause"],
+                ["Siguiente pista", "next"],
+                ["Pista anterior", "prev"],
+                ["Subir volumen", "volumeUp"],
+                ["Bajar volumen", "volumeDn"]
+            ]
+        }
+    ]
+},
+"gd3800_play": {
+    "message0": "Módulo MP3 reproducir la canción número %1"
+},
+"gd3800_cyclemode": {
+    "message0": "Módulo MP3 establecer en %1",
+    "args0": [
+        {
+            "options": [
+                ["Repetir todo", "MP3_LOOP_ALL"],
+                ["Repetir carpeta", "MP3_LOOP_FOLDER"],
+                ["Repetir una pista", "MP3_LOOP_ONE"],
+                ["Reproducción aleatoria", "MP3_LOOP_RAM"]
+            ]
+        }
+    ]
+},
+"gd3800_equalizer": {
+    "message0": "Módulo MP3 establecer ecualizador en %1",
+    "args0": [
+        {
+            "options": [
+                ["Normal", "MP3_EQ_NORMAL"],
+                ["Pop", "MP3_EQ_POP"],
+                ["Rock", "MP3_EQ_ROCK"],
+                ["Jazz", "MP3_EQ_JAZZ"],
+                ["Clásica", "MP3_EQ_CLASSIC"],
+                ["Bajo", "MP3_EQ_BASS"]
+            ]
+        }
+    ]
+},
+"gd3800_setvolume": {
+    "message0": "Módulo MP3 establecer volumen en %1"
+}
+}

@@ -1,0 +1,32 @@
+[package]
+name = "vize_croquis"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Croquis - Semantic analysis layer for Vize. Quick sketches of meaning from Vue templates"
+
+[dependencies]
+vize_carton.workspace = true
+vize_relief.workspace = true
+phf.workspace = true
+once_cell.workspace = true
+rustc-hash.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+dashmap.workspace = true
+regex.workspace = true
+
+# OXC for high-performance AST parsing
+oxc_parser.workspace = true
+oxc_ast.workspace = true
+oxc_ast_visit.workspace = true
+oxc_syntax.workspace = true
+oxc_span.workspace = true
+oxc_allocator.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+vize_armature.workspace = true
+insta.workspace = true

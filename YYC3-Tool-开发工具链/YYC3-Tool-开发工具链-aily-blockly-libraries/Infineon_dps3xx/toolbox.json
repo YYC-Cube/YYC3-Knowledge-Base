@@ -1,0 +1,30 @@
+{
+    "kind": "category",
+    "name": "DPS3xx气压传感器",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "dps3xx_init"
+        },
+        {
+            "kind": "block",
+            "type": "dps3xx_read_temperature"
+        },
+        {
+            "kind": "block",
+            "type": "dps3xx_read_pressure"
+        },
+        {
+            "kind": "block",
+            "type": "dps3xx_correct_temp"
+        },
+        {
+            "kind": "block",
+            "type": "dps3xx_get_product_id"
+        },
+        {
+            "kind": "block",
+            "type": "dps3xx_get_revision_id"
+        }
+    ]
+}

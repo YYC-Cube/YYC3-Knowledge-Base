@@ -1,0 +1,49 @@
+{
+"toolbox_name": "IICPS3",
+"openjumper_iicps3_init": {
+    "message0": "Inicializar módulo de control IICPS3 %1"
+},
+"openjumper_iicps3_run": {
+    "message0": "%1 iniciar análisis de datos"
+},
+"openjumper_iicps3_butstate": {
+    "message0": "%1 Estado del botón %2 del control IIC",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Izquierda-Arriba", "up"],
+                ["Izquierda-Abajo", "down"],
+                ["Izquierda-Izquierda", "left"],
+                ["Izquierda-Derecha", "right"],
+                ["Derecha-Arriba", "triangle"],
+                ["Derecha-Abajo", "cross"],
+                ["Derecha-Izquierda", "square"],
+                ["Derecha-Derecha", "circle"],
+                ["Frontal Izquierdo-1", "l1"],
+                ["Frontal Izquierdo-2", "l2"],
+                ["Palanca Izquierda", "l3"],
+                ["Frontal Derecho-1", "r1"],
+                ["Frontal Derecho-2", "r2"],
+                ["Palanca Derecha", "r3"],
+                ["Seleccionar", "select"],
+                ["Iniciar", "start"]
+            ]
+        }
+    ]
+},
+"openjumper_iicps3_xy": {
+    "message0": "%1 Datos del joystick %2 del control IIC",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Palanca Izquierda-Eje X", "lx"],
+                ["Palanca Izquierda-Eje Y", "ly"],
+                ["Palanca Derecha-Eje X", "rx"],
+                ["Palanca Derecha-Eje Y", "ry"]
+            ]
+        }
+    ]
+}
+}

@@ -1,0 +1,286 @@
+<app-sub-window [title]="'SETTINGS.TITLE' | translate" [winBtns]="['close']">
+  <div class="window-inner">
+    <div class="window-content">
+      <div class="left">
+        <div class="left-inner">
+          @for (item of items; track item.name) {
+          <div class="type-btn btn" (click)="scrollToSection(item)"
+            [ngClass]="{ selected: activeSection === item.name }">
+            <div class="icon ccenter"><i class="{{ item.icon }}"></i></div>
+            {{ item.name | translate}}
+          </div>
+          }
+        </div>
+      </div>
+      <ngx-simplebar class="right" #scrollContainer [options]="options">
+        <div class="right-inner-container">
+          <!-- 基础设置 -->
+          <div id="SETTINGS.SECTIONS.BASIC" class="section" style="padding-bottom: 100px;">
+            <h2 class="section-title">{{ 'SETTINGS.SECTIONS.BASIC' | translate }}</h2>
+            <div class="right-inner">
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.PROJECT_FOLDER' | translate }}:</div>
+                <input nz-input [(ngModel)]="configData.project_path" [disabled]="true" />
+              </div>
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.LANGUAGE' | translate }}:</div>
+                <div class="langs">
+                  @for(lang of langList; track lang) {
+                  <div class="lang ccenter" [ngClass]="{ selected: currentLang==lang.code }" (click)="selectLang(lang)">
+                    <img src="i18n/{{ lang.code }}/{{ lang.code }}.jpg" alt="" srcset="" />
+                    <span>{{ lang.name }}</span>
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 主题设置 -->
+          <div id="SETTINGS.SECTIONS.THEME" class="section">
+            <h2 class="section-title">{{ 'SETTINGS.SECTIONS.THEME' | translate }}</h2>
+            <div class="right-inner">
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.UI_THEME' | translate }}:</div>
+                <nz-radio-group [(ngModel)]="configData.theme" [nzSize]="'small'" nzButtonStyle="solid"
+                  (ngModelChange)="onThemeChange($event)">
+                  <label nz-radio-button nzValue="default">Dark</label>
+                  <label nz-radio-button nzValue="light">Light</label>
+                </nz-radio-group>
+              </div>
+            </div>
+          </div>
+
+          <!-- Blockly 设置 -->
+          <div id="SETTINGS.SECTIONS.BLOCKLY" class="section">
+            <h2 class="section-title">{{ 'SETTINGS.SECTIONS.BLOCKLY' | translate }}</h2>
+            <div class="right-inner">
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.BLOCKLY_THEME' | translate }}:</div>
+                <nz-radio-group [(ngModel)]="configData.blockly.renderer" [nzSize]="'small'" nzButtonStyle="solid">
+                  <label nz-radio-button nzValue="thrasos">Thrasos</label>
+                  <label nz-radio-button nzValue="zelos">Zelos</label>
+                </nz-radio-group>
+              </div>
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.BLOCKLY_MINIMAP' | translate }}:</div>
+                <nz-switch [(ngModel)]="configData.blockly.minimap"></nz-switch>
+              </div>
+              <!-- <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.FLYOUT_AUTO_CLOSE' | translate }}:</div>
+                <nz-switch [(ngModel)]="configData.blockly.flyoutAutoClose" [ngModelOptions]="{standalone: true}"
+                  [ngModel]="configData.blockly.flyoutAutoClose !== false"
+                  (ngModelChange)="configData.blockly.flyoutAutoClose = $event"></nz-switch>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- 编译设置 -->
+          <!-- <div id="SETTINGS.SECTIONS.COMPILATION" class="section">
+            <h2 class="section-title">{{ 'SETTINGS.SECTIONS.COMPILATION' | translate }}</h2>
+            <div class="right-inner">
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.COMPILATION_OPTIONS' | translate }}:</div>
+                <div class="item-inner">
+                  <div class="w50 ccenter">
+                    多核编译
+                    <nz-switch [ngModel]="true"></nz-switch>
+                  </div>
+                  <div class="w50 ccenter">
+                    显示详情
+                    <nz-switch [ngModel]="true"></nz-switch>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- 仓库设置 -->
+          <div id="SETTINGS.SECTIONS.REPOSITORY" class="section">
+            <h2 class="section-title">{{ 'SETTINGS.SECTIONS.REPOSITORY' | translate }}</h2>
+            <div class="right-inner">
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.REGION' | translate }}:</div>
+                <div class="region-buttons">
+                  @for (region of regionList; track region.key) {
+                  <button nz-button nzSize="small" [nzType]="selectedRegion === region.key ? 'primary' : 'default'"
+                    (click)="onRegionChange(region.key)">
+                    {{ region.name }}
+                  </button>
+                  }
+                </div>
+              </div>
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.RESOURCE_SOURCE' | translate }}:</div>
+                <div class="region-buttons">
+                  <button nz-button nzSize="small" [nzType]="selectedResourceSource === 'auto' ? 'primary' : 'default'"
+                    (click)="selectedResourceSource = 'auto'">
+                    {{ 'SETTINGS.FIELDS.RESOURCE_SOURCE_AUTO' | translate }}
+                  </button>
+                  @for (source of resourceSourceList; track source.key) {
+                  <button nz-button nzSize="small"
+                    [nzType]="selectedResourceSource === source.key ? 'primary' : 'default'"
+                    (click)="selectedResourceSource = source.key">
+                    {{ getResourceSourceLabel(source) }}
+                  </button>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 全局依赖管理 -->
+          <div id="SETTINGS.SECTIONS.DEPENDENCIES" class="section">
+            <h2 class="section-title">
+              <div style="position:relative;">
+                {{ 'SETTINGS.SECTIONS.DEPENDENCIES' | translate }}
+                <div class="btn ccenter link folder-open-btn" style="position: absolute;right: -30px; top:6px"
+                  (click)="openResources()" nz-tooltip
+                  [nzTooltipTitle]="'SETTINGS.FIELDS.OPEN_RESOURCE_FOLDER' | translate">
+                  <i class="fa-light fa-folder folder-icon folder-icon-close"></i>
+                  <i class="fa-light fa-folder-open folder-icon folder-icon-open"></i>
+                </div>
+              </div>
+              <div class="search-box">
+                <input nz-input placeholder="{{'SEARCH'}}" [(ngModel)]="boardSearchKeyword"
+                  (ngModelChange)="onBoardSearchChange()" />
+                <i class="fa-light fa-search"></i>
+              </div>
+            </h2>
+            <div class="right-inner">
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.DEPENDENCY_CLEANUP' | translate }}:</div>
+                <div class="region-buttons">
+                  <!-- <button nz-button nzSize="small" [disabled]="dependencyRemoving"
+                    [nzLoading]="dependencyRemoving === 'all'" (click)="removeGlobalDependencies('all')">{{
+                    'SETTINGS.FIELDS.DEPENDENCY_REMOVE_ALL' | translate }}</button> -->
+                  <button nz-button nzSize="small" [disabled]="dependencyRemoving"
+                    [nzLoading]="dependencyRemoving === 'unused-30'"
+                    (click)="removeGlobalDependencies('unused-30')">{{
+                    'SETTINGS.FIELDS.DEPENDENCY_REMOVE_UNUSED_30' | translate }}</button>
+                  <button nz-button nzSize="small" [disabled]="dependencyRemoving"
+                    [nzLoading]="dependencyRemoving === 'unused-90'"
+                    (click)="removeGlobalDependencies('unused-90')">{{
+                    'SETTINGS.FIELDS.DEPENDENCY_REMOVE_UNUSED_90' | translate }}</button>
+                </div>
+              </div>
+              <div class="board-list sscroll bborder">
+                @if(filteredBoardList.length == 0 && boardSearchKeyword) {
+                <div class="board-item">{{ 'NO RESULTS'}}</div>
+                }@else if(boardList.length == 0) {
+                <div class="board-item">Loading...</div>
+                }@else{
+                @for (board of filteredBoardList; track $index) {
+                <div class="board-item">
+                  <div>{{ board.name }}</div>
+                  <div class="version">&#64;{{ board.version }}</div>
+                  <div class="btns">
+                    @if (board.installed) {
+                    <div class="btn link" (click)="uninstall(board)">{{ 'SETTINGS.FIELDS.UNINSTALL' | translate }}</div>
+                    } @else {
+                    <div class="btn link" (click)="install(board)">{{ 'SETTINGS.FIELDS.INSTALL' | translate }}</div>
+                    }
+                  </div>
+                </div>
+                }
+                }
+              </div>
+            </div>
+          </div>
+          <!-- aily-tools 设置 -->
+          <div id="SETTINGS.SECTIONS.AILY_TOOLS" class="section">
+            <h2 class="section-title">
+              <div style="position:relative;">
+                {{ 'SETTINGS.SECTIONS.AILY_TOOLS' | translate }}
+                <div class="btn ccenter link tool-update-btn" style="position: absolute;right: -30px; top:6px"
+                  [class.disabled]="!canCheckAilyToolsUpdates()" (click)="checkAilyToolsUpdates()" nz-tooltip
+                  [nzTooltipTitle]="'MENU.UPDATE' | translate">
+                  <i class="fa-light fa-arrows-rotate" [class.fa-spin]="isAilyToolsUpdateLoading()"></i>
+                </div>
+              </div>
+            </h2>
+            <div class="right-inner">
+              <div class="item tool-item">
+                <div>aily-builder</div>
+                <div class="tool-setting-inline">
+                  <div class="tool-version">
+                    <strong>&#64; {{ getAilyToolVersion(ailyBuilderStatus) }}</strong>
+                  </div>
+                  @if (getAilyToolStatusText(ailyBuilderStatus)) {
+                  <span class="tool-status" [class.warning]="!ailyBuilderStatus?.installed"
+                    [class.error]="!!ailyBuilderStatus?.error">
+                    {{ getAilyToolStatusText(ailyBuilderStatus) }}
+                  </span>
+                  }
+                </div>
+              </div>
+              <div class="item tool-item">
+                <div>aily-linter</div>
+                <div class="tool-setting-inline">
+                  <div class="tool-version">
+                    <strong>&#64; {{ getAilyToolVersion(ailyLinterStatus) }}</strong>
+                  </div>
+                  @if (getAilyToolStatusText(ailyLinterStatus)) {
+                  <span class="tool-status" [class.warning]="!ailyLinterStatus?.installed"
+                    [class.error]="!!ailyLinterStatus?.error">
+                    {{ getAilyToolStatusText(ailyLinterStatus) }}
+                  </span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 缓存管理 -->
+          <div id="SETTINGS.SECTIONS.CACHE" class="section">
+            <h2 class="section-title">
+              <div style="position:relative;">
+                {{ 'SETTINGS.SECTIONS.CACHE' | translate }}
+                <div class="btn ccenter link folder-open-btn" style="position: absolute;right: -30px; top:6px"
+                  (click)="openCacheFolder()" nz-tooltip
+                  [nzTooltipTitle]="'SETTINGS.FIELDS.OPEN_CACHE_FOLDER' | translate">
+                  <i class="fa-light fa-folder folder-icon folder-icon-close"></i>
+                  <i class="fa-light fa-folder-open folder-icon folder-icon-open"></i>
+                </div>
+              </div>
+            </h2>
+            <div class="right-inner">
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.CACHE_SIZE' | translate }}:</div>
+                <span>{{ cacheSizeLoading ? ('SETTINGS.FIELDS.CACHE_LOADING' | translate) :
+                  (cacheStats.totalSizeFormatted + ' (' + cacheStats.totalFiles + ' files)') }}</span>
+              </div>
+              <div class="item">
+                <div>{{ 'SETTINGS.FIELDS.CLEAR_CACHE' | translate }}:</div>
+                <div class="region-buttons">
+                  <button nz-button nzSize="small" [disabled]="cacheClearing" [nzLoading]="cacheClearing === 'all'"
+                    (click)="clearCache('all')">{{ 'SETTINGS.FIELDS.CACHE_ALL' | translate }}</button>
+                  <button nz-button nzSize="small" [disabled]="cacheClearing" [nzLoading]="cacheClearing === 'unused-7'"
+                    (click)="clearCache('unused-7')">{{ 'SETTINGS.FIELDS.CACHE_ONE_MONTH' | translate }}</button>
+                  <button nz-button nzSize="small" [disabled]="cacheClearing"
+                    [nzLoading]="cacheClearing === 'unused-30'" (click)="clearCache('unused-30')">{{
+                    'SETTINGS.FIELDS.CACHE_THREE_MONTHS' | translate }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 开发者设置 -->
+          <!-- <div id="SETTINGS.SECTIONS.DEVMODE" class="section">
+            <h2 class="section-title">{{ 'SETTINGS.SECTIONS.DEVMODE' | translate }}</h2>
+            <div class="right-inner">
+              <div class="item">
+                <div>{{ 'SETTINGS.SECTIONS.DEVMODE' | translate }}:</div>
+                <nz-switch [(ngModel)]="configData.devmode" (ngModelChange)="onDevModeChange()"></nz-switch>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </ngx-simplebar>
+    </div>
+    <div class="window-footer">
+      <div class="btns">
+        <button nz-button nzType="default" (click)="cancel()">{{ 'SETTINGS.BUTTONS.CANCEL' | translate }}</button>
+        <button nz-button nzType="primary" [nzLoading]="applying" (click)="apply()">{{ 'SETTINGS.BUTTONS.APPLY' |
+          translate }}</button>
+      </div>
+    </div>
+  </div>
+</app-sub-window>

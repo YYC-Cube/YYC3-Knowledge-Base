@@ -1,0 +1,82 @@
+{
+  "kind": "category",
+  "name": "String",
+  "contents": [
+      {
+          "kind": "block",
+          "type": "string_create"
+      },
+      {
+          "kind": "block",
+          "type": "string_char_create"
+      },
+      {
+          "kind": "block",
+          "type": "string_literal"
+      },
+      {
+          "kind": "block",
+          "type": "string_char_literal"
+      },
+      {
+          "kind": "block",
+          "type": "string_get"
+      },
+      {
+          "kind": "block",
+          "type": "string_length"
+      },
+      {
+          "kind": "block",
+          "type": "string_concat"
+      },
+      {
+          "kind": "block",
+          "type": "string_char_at"
+      },
+      {
+          "kind": "block",
+          "type": "string_substring"
+      },
+      {
+          "kind": "block",
+          "type": "string_index_of"
+      },
+      {
+          "kind": "block",
+          "type": "string_equals"
+      },
+      {
+          "kind": "block",
+          "type": "string_starts_with"
+      },
+      {
+          "kind": "block",
+          "type": "string_ends_with"
+      },
+      {
+          "kind": "block",
+          "type": "string_to_upper"
+      },
+      {
+          "kind": "block",
+          "type": "string_to_lower"
+      },
+      {
+          "kind": "block",
+          "type": "string_trim"
+      },
+      {
+          "kind": "block",
+          "type": "string_replace"
+      },
+      {
+          "kind": "block",
+          "type": "string_to_int"
+      },
+      {
+          "kind": "block",
+          "type": "string_to_float"
+      }
+  ]
+}

@@ -1,0 +1,55 @@
+
+{
+  "kind": "category",
+  "name": "BME280",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "bme280_init"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_read_temperature"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_read_pressure"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_read_humidity"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_read_altitude"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_take_forced_measurement"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_set_sampling"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_read_and_print_all"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_sea_level_for_altitude"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_sensor_id"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_temperature_compensation"
+    },
+    {
+      "kind": "block",
+      "type": "bme280_get_temperature_compensation"
+    }
+  ]
+}

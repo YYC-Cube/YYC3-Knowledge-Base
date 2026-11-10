@@ -1,0 +1,99 @@
+[
+  {
+    "type": "k10_get_accelerometer",
+    "message0": "获取加速度计 %1 轴数据",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "AXIS",
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "获取K10板载加速度计的轴数据",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "k10_get_strength",
+    "message0": "获取光线强度值",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "获取K10板载光线传感器的值",
+    "icon": "fa-light fa-gauge-high"
+  },
+  {
+    "type": "k10_aht20_measure",
+    "message0": "AHT20 启动测量 %1 校验",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "CRC",
+        "options": [
+          [
+            "开启",
+            "true"
+          ],
+          [
+            "关闭",
+            "false"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "启动AHT20一次测量，返回测量是否完成；完成后再读取温度/湿度",
+    "icon": "fa-light fa-temperature-half"
+  },
+  {
+    "type": "k10_aht20_get_temperature",
+    "message0": "AHT20 获取温度 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "UNIT",
+        "options": [
+          [
+            "摄氏度(℃)",
+            "C"
+          ],
+          [
+            "华氏度(℉)",
+            "F"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "获取 AHT20 温度；测量会自动启动",
+    "icon": "fa-light fa-temperature-half"
+  },
+  {
+    "type": "k10_aht20_get_humidity",
+    "message0": "AHT20 获取相对湿度(%RH)",
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "获取 AHT20 相对湿度；测量会自动启动",
+    "icon": "fa-light fa-droplet"
+  }
+]

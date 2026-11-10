@@ -1,0 +1,26 @@
+{
+"toolbox_name": "مقاطعة",
+"io_attach_interrupt": {
+    "message0": "مقاطعة الأجهزة دبوس # %1",
+    "args0": [
+        {
+            "options": "${board.interruptPins}"
+        }
+    ],
+    "message1": "الوضع %1",
+    "args1": [
+        {
+            "options": "${board.interruptMode}"
+        }
+    ],
+    "message2": "%1"
+},
+"io_detach_interrupt": {
+    "message0": "إلغاء مقاطعة الأجهزة دبوس # %1",
+    "args0": [
+        {
+            "options": "${board.interruptPins}"
+        }
+    ]
+}
+}

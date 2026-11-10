@@ -1,0 +1,100 @@
+{
+  "toolbox_name": "RS485通信",
+  "toolbox_labels": {
+    "📡 主从通信": "📡 Master-slave communication",
+    "📤 数据发送": "📤 Data sending",
+    "📥 数据接收": "📥 Data reception",
+    "🔧 高级功能": "🔧 Advanced features"
+  },
+  "rs485_end": {
+    "message0": "关闭RS485通信"
+  },
+  "rs485_available": {
+    "message0": "RS485有数据可读"
+  },
+  "rs485_read": {
+    "message0": "读取RS485数据"
+  },
+  "rs485_peek": {
+    "message0": "查看RS485下一个字节"
+  },
+  "rs485_write": {
+    "message0": "RS485发送数据%1"
+  },
+  "rs485_print": {
+    "message0": "RS485打印%1"
+  },
+  "rs485_println": {
+    "message0": "RS485打印并换行%1"
+  },
+  "rs485_flush": {
+    "message0": "等待RS485发送完成"
+  },
+  "rs485_begin_transmission": {
+    "message0": "开始RS485发送"
+  },
+  "rs485_end_transmission": {
+    "message0": "结束RS485发送"
+  },
+  "rs485_receive": {
+    "message0": "启用RS485接收"
+  },
+  "rs485_no_receive": {
+    "message0": "禁用RS485接收"
+  },
+  "rs485_send_break": {
+    "message0": "发送RS485中断信号 持续时间%1毫秒"
+  },
+  "rs485_send_break_microseconds": {
+    "message0": "发送RS485中断信号 持续时间%1微秒"
+  },
+  "rs485_set_pins": {
+    "message0": "设置RS485引脚 发送引脚%1 发送使能引脚%2 接收使能引脚%3",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "rs485_simple_send": {
+    "message0": "RS485简单发送%1"
+  },
+  "rs485_simple_receive": {
+    "message0": "RS485接收到数据时"
+  },
+  "rs485_received_data": {
+    "message0": "RS485接收的数据"
+  },
+  "rs485_begin": {
+    "message0": "快速设置RS485 串口%1 波特率%2 发送引脚%3 发送使能引脚%4 接收使能引脚%5",
+    "args0": [
+      {
+        "options": "${board.serialPort}"
+      },
+      {
+        "options": "${board.serialSpeed}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "rs485_master_send": {
+    "message0": "RS485主机发送数据%1到从机地址%2"
+  },
+  "rs485_slave_receive": {
+    "message0": "RS485从机地址%1接收到数据时"
+  }
+}

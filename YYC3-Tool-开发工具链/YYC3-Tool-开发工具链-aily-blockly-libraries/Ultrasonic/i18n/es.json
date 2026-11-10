@@ -1,0 +1,6 @@
+{
+    "toolbox_name": "Ultrasonido",
+    "ultrasonic_ranging": {
+        "message0": "Medición ultrasónica de distancia (cm) Trig# %1 Echo# %2"
+    }
+}

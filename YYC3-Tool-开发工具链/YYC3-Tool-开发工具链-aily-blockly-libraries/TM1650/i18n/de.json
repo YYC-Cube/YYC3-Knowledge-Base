@@ -1,0 +1,38 @@
+{
+"toolbox_name": "TM1650 Vierstellige Segmentanzeige",
+"tm1650_init": {
+    "message0": "TM1650 Vierstellige Segmentanzeige initialisieren"
+},
+"tm1650_set": {
+    "message0": "TM1650 Vierstellige Segmentanzeige %1 anzeigen, Helligkeit auf %2 setzen",
+    "args0": [
+        {
+            "options": [
+                ["Ein", "1"],
+                ["Aus", "0"]
+            ]
+        },
+        {
+            "options": [
+                ["0", "0"],
+                ["1", "1"],
+                ["2", "2"],
+                ["3", "3"],
+                ["4", "4"],
+                ["5", "5"],
+                ["6", "6"],
+                ["7", "7"]
+            ]
+        }
+    ]
+},
+"tm1650_displaystring": {
+    "message0": "TM1650 Vierstellige Segmentanzeige Zeichenkette %1 anzeigen"
+},
+"tm1650_displayNumber": {
+    "message0": "TM1650 Vierstellige Segmentanzeige Zahl %1 anzeigen"
+},
+"tm1650_clearDisplay": {
+    "message0": "TM1650 Vierstellige Segmentanzeige löschen"
+}
+}

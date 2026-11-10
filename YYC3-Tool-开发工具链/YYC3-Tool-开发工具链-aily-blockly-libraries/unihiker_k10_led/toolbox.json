@@ -1,0 +1,25 @@
+{
+  "kind": "category",
+  "name": "K10 RGB灯",
+  "icon": "fa-light fa-lightbulb",
+  "colour": "#FF9800",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "k10_rgb_brightness"
+    },
+    {
+      "kind": "block",
+      "type": "k10_rgb_switch"
+    },
+    {
+      "kind": "block",
+      "type": "k10_rgb_write",
+      "inputs": {
+        "R": { "shadow": { "type": "math_number", "fields": { "NUM": 255 } } },
+        "G": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "B": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+      }
+    }
+  ]
+}

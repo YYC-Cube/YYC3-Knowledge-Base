@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "먼지 센서",
+  "gp2y1010au0f_init": {
+    "message0": "먼지 센서 초기화 LED 핀 %1 측정 핀 %2",
+    "tooltip": "먼지 센서를 초기화하고 LED와 측정 핀을 설정"
+  },
+  "gp2y1010au0f_read": {
+    "message0": "먼지 농도 읽기",
+    "tooltip": "먼지 센서에서 데이터를 읽고, 단위는 μg/m³"
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "toolbox_name": "GPS測位",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "数据读取": "データ読み取り",
+    "位置信息": "位置情報",
+    "时间日期": "時間日付",
+    "运动信息": "スポーツ情報",
+    "信号状态": "信号ステータス",
+    "工具": "ツール"
+  },
+  "gps_init": {
+    "message0": "GPSモジュール初期化 %1 シリアル %2 ボーレート %3",
+    "tooltip": "TinyGPS++モジュールを初期化、GPSに接続するシリアルポートとボーレートを選択",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      },
+      {
+        "options": [
+          ["9600", "9600"],
+          ["4800", "4800"],
+          ["19200", "19200"],
+          ["38400", "38400"],
+          ["57600", "57600"],
+          ["115200", "115200"]
+        ]
+      }
+    ]
+  },
+  "gps_update": {
+    "message0": "GPSデータ読み取り %1",
+    "tooltip": "シリアルからGPSデータを読み取り解析、loopで繰り返し呼び出す"
+  },
+  "gps_location": {
+    "message0": "GPS %1 %2",
+    "tooltip": "GPSの緯度または経度を取得",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["緯度", "LAT"],
+          ["経度", "LNG"]
+        ]
+      }
+    ]
+  },
+  "gps_date": {
+    "message0": "GPS %1 日付 %2",
+    "tooltip": "GPS日付の年、月、日を取得",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["年", "YEAR"],
+          ["月", "MONTH"],
+          ["日", "DAY"]
+        ]
+      }
+    ]
+  },
+  "gps_time": {
+    "message0": "GPS %1 時刻 %2",
+    "tooltip": "GPS時刻の時、分、秒を取得",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["時", "HOUR"],
+          ["分", "MINUTE"],
+          ["秒", "SECOND"]
+        ]
+      }
+    ]
+  },
+  "gps_speed": {
+    "message0": "GPS %1 速度 %2",
+    "tooltip": "GPS速度を取得",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["km/h", "KMPH"],
+          ["mph", "MPH"],
+          ["m/s", "MPS"],
+          ["ノット", "KNOTS"]
+        ]
+      }
+    ]
+  },
+  "gps_altitude": {
+    "message0": "GPS %1 高度 %2",
+    "tooltip": "GPS高度を取得",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["メートル", "METERS"],
+          ["キロメートル", "KM"],
+          ["フィート", "FEET"]
+        ]
+      }
+    ]
+  },
+  "gps_satellites": {
+    "message0": "GPS %1 衛星数",
+    "tooltip": "接続中の衛星数を取得"
+  },
+  "gps_course": {
+    "message0": "GPS %1 進路角度",
+    "tooltip": "GPS進路角度を取得(0-360度)"
+  },
+  "gps_hdop": {
+    "message0": "GPS %1 水平精度低下率",
+    "tooltip": "HDOP(水平精度低下率)を取得、値が小さいほど精度が高い"
+  },
+  "gps_is_valid": {
+    "message0": "GPS %1 %2 有効?",
+    "tooltip": "GPSデータが有効かどうかを確認",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["位置", "LOCATION"],
+          ["日付", "DATE"],
+          ["時刻", "TIME"]
+        ]
+      }
+    ]
+  },
+  "gps_distance_between": {
+    "message0": "2点間の距離(m)\n緯度1 %1 経度1 %2\n緯度2 %3 経度2 %4",
+    "tooltip": "地球上の2つのGPS座標間の距離(メートル)を計算"
+  },
+  "gps_course_to": {
+    "message0": "2点間の進路\n緯度1 %1 経度1 %2\n緯度2 %3 経度2 %4",
+    "tooltip": "1つ目のGPS座標から2つ目のGPS座標への進路角度を計算"
+  }
+}

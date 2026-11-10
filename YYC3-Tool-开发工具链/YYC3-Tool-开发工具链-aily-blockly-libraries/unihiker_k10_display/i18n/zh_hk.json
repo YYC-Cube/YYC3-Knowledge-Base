@@ -1,0 +1,147 @@
+{
+  "toolbox_name": "K10螢幕顯示",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "绘图": "繪圖",
+    "文字": "文字",
+    "图片": "圖片",
+    "画布控制": "畫布控制"
+  },
+  "k10_init_screen": {
+    "message0": "初始化K10螢幕 方向 %1",
+    "tooltip": "初始化UNIHIKER K10螢幕並建立畫布",
+    "args0": [
+      {
+        "options": [
+          [
+            "正向",
+            "2"
+          ],
+          [
+            "反向",
+            "0"
+          ],
+          [
+            "左橫屏",
+            "1"
+          ],
+          [
+            "右橫屏",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_set_background": {
+    "message0": "設定螢幕背景顏色 %1",
+    "tooltip": "設定螢幕背景顏色"
+  },
+  "k10_draw_point": {
+    "message0": "畫點 X %1 Y %2 顏色 %3",
+    "tooltip": "在螢幕上畫一個點"
+  },
+  "k10_draw_line": {
+    "message0": "畫線 起點X %1 Y %2 終點X %3 Y %4 顏色 %5",
+    "tooltip": "在螢幕上畫一條線"
+  },
+  "k10_set_line_width": {
+    "message0": "設定線寬 %1",
+    "tooltip": "設定畫線的線寬"
+  },
+  "k10_draw_circle": {
+    "message0": "畫圓 圓心X %1 Y %2 半徑 %3 邊框顏色 %4 填充顏色 %5 填充 %6",
+    "tooltip": "在螢幕上畫一個圓"
+  },
+  "k10_draw_rectangle": {
+    "message0": "畫矩形 X %1 Y %2 寬 %3 高 %4 邊框顏色 %5 填充顏色 %6 填充 %7",
+    "tooltip": "在螢幕上畫一個矩形"
+  },
+  "k10_draw_text_simple": {
+    "message0": "在第 %1 行顯示文字 %2 顏色 %3",
+    "tooltip": "在螢幕指定行(1~7)顯示文字，自動按行排版"
+  },
+  "k10_draw_text": {
+    "message0": "顯示文字 %1 X %2 Y %3 顏色 %4 字體 %5 每行字數 %6",
+    "tooltip": "在螢幕指定座標顯示文字。每行字數為自動換行字元數：16號字體建議25，24號字體建議10。",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "16號字體",
+            "eCNAndENFont16"
+          ],
+          [
+            "24號字體",
+            "eCNAndENFont24"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "k10_draw_bitmap": {
+    "message0": "顯示內置圖片 %1 X %2 Y %3 寬 %4 高 %5",
+    "tooltip": "顯示內置圖片（需在工程中提供 arduino_image_cache.h 與對應圖片陣列，如 image_data1）"
+  },
+  "k10_draw_image": {
+    "message0": "顯示TF卡圖片 路徑 %1 X %2 Y %3",
+    "tooltip": "從TF卡載入並顯示圖片"
+  },
+  "k10_draw_qrcode": {
+    "message0": "顯示二維碼 內容 %1",
+    "tooltip": "在螢幕上顯示二維碼"
+  },
+  "k10_update_canvas": {
+    "message0": "刷新畫布",
+    "tooltip": "刷新螢幕畫布顯示"
+  },
+  "k10_clear_canvas": {
+    "message0": "清除畫布 %1",
+    "tooltip": "清除畫布內容（清除後通常需要再次刷新畫布）",
+    "args0": [
+      {
+        "options": [
+          [
+            "清除全部",
+            "0"
+          ],
+          [
+            "清除第1行",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_clear_canvas_row": {
+    "message0": "清除畫布第 %1 行",
+    "tooltip": "清除畫布指定行（1~7），清除後通常需要再次刷新畫布"
+  },
+  "k10_clear_qrcode": {
+    "message0": "清除二維碼",
+    "tooltip": "清除螢幕上顯示的二維碼"
+  },
+  "k10_screen_size": {
+    "message0": "螢幕 %1",
+    "tooltip": "K10 螢幕解析度：240×320（正向/反向）",
+    "args0": [
+      {
+        "options": [
+          [
+            "寬度",
+            "W"
+          ],
+          [
+            "高度",
+            "H"
+          ]
+        ]
+      }
+    ]
+  }
+}

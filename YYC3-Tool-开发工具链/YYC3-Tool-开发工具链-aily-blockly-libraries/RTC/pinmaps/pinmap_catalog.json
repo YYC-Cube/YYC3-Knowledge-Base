@@ -1,0 +1,80 @@
+{
+  "version": "1.0.0",
+  "library": "@aily-project/lib-rtc",
+  "displayName": "RTC 实时时钟系列",
+  "type": "library",
+  "models": [
+    {
+      "id": "ds3231",
+      "name": "DS3231",
+      "description": "高精度I2C实时时钟模块，内置温度补偿晶振，年误差±2分钟，含日历功能，支持掉电保持（纽扣电池）。",
+      "defaultVariant": "module",
+      "variants": [
+        {
+          "id": "module",
+          "name": "标准模块",
+          "fullId": "lib-rtc:ds3231:module",
+          "pinmapFile": "pinmaps/ds3231_module.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        }
+      ]
+    },
+    {
+      "id": "ds1307",
+      "name": "DS1307",
+      "description": "经典I2C实时时钟模块，56字节NV RAM，低功耗，支持掉电保持（纽扣电池）。",
+      "defaultVariant": "module",
+      "variants": [
+        {
+          "id": "module",
+          "name": "标准模块",
+          "fullId": "lib-rtc:ds1307:module",
+          "pinmapFile": "pinmaps/ds1307_module.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        }
+      ]
+    },
+    {
+      "id": "ds1302",
+      "name": "DS1302",
+      "description": "三线接口实时时钟模块，31字节RAM，涓流充电功能，低功耗，支持掉电保持。",
+      "defaultVariant": "module",
+      "variants": [
+        {
+          "id": "module",
+          "name": "标准模块",
+          "fullId": "lib-rtc:ds1302:module",
+          "pinmapFile": "pinmaps/ds1302_module.json",
+          "protocol": "other",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "DAT", "CLK", "RST"]
+        }
+      ]
+    },
+    {
+      "id": "pcf8563",
+      "name": "PCF8563",
+      "description": "低功耗I2C实时时钟模块，支持闹钟和定时器功能，低工作电流，适合电池供电场景。",
+      "defaultVariant": "module",
+      "variants": [
+        {
+          "id": "module",
+          "name": "标准模块",
+          "fullId": "lib-rtc:pcf8563:module",
+          "pinmapFile": "pinmaps/pcf8563_module.json",
+          "protocol": "i2c",
+          "status": "available",
+          "isDefault": true,
+          "previewPins": ["VCC", "GND", "SDA", "SCL"]
+        }
+      ]
+    }
+  ]
+}

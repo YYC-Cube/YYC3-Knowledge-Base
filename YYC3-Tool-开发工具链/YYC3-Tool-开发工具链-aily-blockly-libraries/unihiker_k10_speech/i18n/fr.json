@@ -1,0 +1,88 @@
+{
+  "toolbox_name": "K10 Parole",
+  "toolbox_labels": {
+    "语音识别": "reconnaissance vocale",
+    "语音播报": "Diffusion vocale"
+  },
+  "k10_asr_init": {
+    "message0": "initialiser reconnaissance vocale mode %1 langue %2 durée d’éveil %3 ms",
+    "tooltip": "Initialiser la reconnaissance K10 ; le chinois exige Hi_eps et l’anglais Ni_hao_xiao_zhi",
+    "args0": [
+      {
+        "options": [
+          [
+            "Continu",
+            "CONTINUOUS"
+          ],
+          [
+            "Une fois",
+            "ONCE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Chinois",
+            "CN_MODE"
+          ],
+          [
+            "Anglais",
+            "EN_MODE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "k10_asr_add_command": {
+    "message0": "ajouter commande vocale ID %1 mot-clé %2",
+    "tooltip": "Ajouter un mot de commande de reconnaissance vocale"
+  },
+  "k10_asr_is_wakeup": {
+    "message0": "assistant vocal activé",
+    "tooltip": "Vérifier si l'assistant vocal est activé"
+  },
+  "k10_asr_is_detected": {
+    "message0": "commande vocale détectée ID %1",
+    "tooltip": "Vérifier si la commande vocale avec l'ID spécifié est détectée"
+  },
+  "k10_asr_speak": {
+    "message0": "parler %1 toutes les %2 secondes",
+    "tooltip": "Utiliser TTS pour prononcer du texte et définir l'intervalle de répétition"
+  },
+  "k10_asr_set_speed": {
+    "message0": "définir vitesse de parole %1",
+    "tooltip": "Définir la vitesse de parole TTS",
+    "args0": [
+      {
+        "options": [
+          [
+            "Le plus lent",
+            "0"
+          ],
+          [
+            "Très lent",
+            "1"
+          ],
+          [
+            "Lent",
+            "2"
+          ],
+          [
+            "Normal",
+            "3"
+          ],
+          [
+            "Rapide",
+            "4"
+          ],
+          [
+            "Très rapide",
+            "5"
+          ]
+        ]
+      }
+    ]
+  }
+}

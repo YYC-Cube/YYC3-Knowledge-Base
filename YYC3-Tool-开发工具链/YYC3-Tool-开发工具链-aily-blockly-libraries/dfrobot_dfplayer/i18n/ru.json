@@ -1,0 +1,141 @@
+{
+    "toolbox_name": "DFPlayer",
+    "dfplayer_begin": {
+        "message0": "Инициализация модуля DFPlayer %1 RX-вывод %2 TX-вывод %3"
+    },
+    "dfplayer_play": {
+        "message0": "DFPlayer %1 воспроизвести файл номер %2"
+    },
+    "dfplayer_pause": {
+        "message0": "DFPlayer %1 приостановить воспроизведение"
+    },
+    "dfplayer_start": {
+        "message0": "DFPlayer %1 продолжить воспроизведение"
+    },
+    "dfplayer_stop": {
+        "message0": "DFPlayer %1 остановить воспроизведение"
+    },
+    "dfplayer_next": {
+        "message0": "DFPlayer %1 воспроизвести следующую песню"
+    },
+    "dfplayer_previous": {
+        "message0": "DFPlayer %1 воспроизвести предыдущую песню"
+    },
+    "dfplayer_volume": {
+        "message0": "DFPlayer %1 установить громкость на %2"
+    },
+    "dfplayer_volume_up": {
+        "message0": "DFPlayer %1 увеличить громкость"
+    },
+    "dfplayer_volume_down": {
+        "message0": "DFPlayer %1 уменьшить громкость"
+    },
+    "dfplayer_eq": {
+        "message0": "DFPlayer %1 установить эквалайзер %2",
+        "options": [
+            [
+                "Нормальный",
+                "0"
+            ],
+            [
+                "Поп",
+                "1"
+            ],
+            [
+                "Рок",
+                "2"
+            ],
+            [
+                "Джаз",
+                "3"
+            ],
+            [
+                "Классика",
+                "4"
+            ],
+            [
+                "Бас",
+                "5"
+            ]
+        ]
+    },
+    "dfplayer_output_device": {
+        "message0": "DFPlayer %1 установить выходное устройство на %2",
+        "options": [
+            [
+                "УСТРОЙСТВО1",
+                "1"
+            ],
+            [
+                "УСТРОЙСТВО2",
+                "2"
+            ]
+        ]
+    },
+    "dfplayer_loop": {
+        "message0": "DFPlayer %1 зациклить воспроизведение файла номер %2"
+    },
+    "dfplayer_play_folder": {
+        "message0": "DFPlayer %1 воспроизвести файл %3 из папки %2"
+    },
+    "dfplayer_enable_loop_all": {
+        "message0": "DFPlayer %1 включить зацикливание всех"
+    },
+    "dfplayer_disable_loop_all": {
+        "message0": "DFPlayer %1 выключить зацикливание всех"
+    },
+    "dfplayer_play_mp3_folder": {
+        "message0": "DFPlayer %1 воспроизвести файл %2 из папки MP3"
+    },
+    "dfplayer_advertise": {
+        "message0": "DFPlayer %1 воспроизвести рекламу %2"
+    },
+    "dfplayer_stop_advertise": {
+        "message0": "DFPlayer %1 остановить рекламу"
+    },
+    "dfplayer_play_large_folder": {
+        "message0": "DFPlayer %1 воспроизвести файл %3 из большой папки %2"
+    },
+    "dfplayer_loop_folder": {
+        "message0": "DFPlayer %1 зациклить воспроизведение папки %2"
+    },
+    "dfplayer_random_all": {
+        "message0": "DFPlayer %1 случайно воспроизвести все файлы"
+    },
+    "dfplayer_enable_loop": {
+        "message0": "DFPlayer %1 включить зацикливание"
+    },
+    "dfplayer_disable_loop": {
+        "message0": "DFPlayer %1 выключить зацикливание"
+    },
+    "dfplayer_read_state": {
+        "message0": "DFPlayer %1 прочитать состояние"
+    },
+    "dfplayer_read_volume": {
+        "message0": "DFPlayer %1 прочитать громкость"
+    },
+    "dfplayer_read_eq": {
+        "message0": "DFPlayer %1 прочитать эквалайзер"
+    },
+    "dfplayer_read_file_counts": {
+        "message0": "DFPlayer %1 прочитать количество файлов"
+    },
+    "dfplayer_read_current_file_number": {
+        "message0": "DFPlayer %1 прочитать текущий номер файла"
+    },
+    "dfplayer_read_file_counts_in_folder": {
+        "message0": "DFPlayer %1 прочитать количество файлов в папке %2"
+    },
+    "dfplayer_available": {
+        "message0": "DFPlayer %1 проверить наличие доступных сообщений"
+    },
+    "dfplayer_read_type": {
+        "message0": "DFPlayer %1 прочитать тип сообщения"
+    },
+    "dfplayer_read": {
+        "message0": "DFPlayer %1 прочитать параметры сообщения"
+    },
+    "dfplayer_simple_play": {
+        "message0": "Простое воспроизведение: инициализация DFPlayer (RX: %1, TX: %2) и воспроизведение файла %3"
+    }
+}

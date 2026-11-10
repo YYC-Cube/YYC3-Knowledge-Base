@@ -1,0 +1,390 @@
+{
+    "kind": "category",
+    "name": "小智AI",
+    "icon": "fa-light fa-message-bot",
+    "colour": "#FF6B35",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "esp32_task",
+            "inputs": {
+                "INTERVAL": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 4096
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "esp32_serial_init"
+        },
+        {
+            "kind": "label",
+            "text": "说明:小智事件中禁用delay阻塞编程，简单定时器不如多线程"
+        },
+        {
+            "kind": "category",
+            "name": "初始化",
+            "icon": "fa-light fa-cog",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "esp32ai_button_setup"
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox3_init_es8311"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_init_es8388"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32_i2s_mic_setup"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_i2s_speaker_setup"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_init_wifi"
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox_config_ota_url",
+                    "inputs": {
+                        "ai_vox_ota_url": {
+                            "shadow": {
+                                "type": "text",
+                                "fields": {
+                                    "TEXT": "https://api.tenclass.net/xiaozhi/ota/"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox_config_websocket",
+                    "inputs": {
+                        "ai_vox_websocket_url": {
+                            "shadow": {
+                                "type": "text",
+                                "fields": {
+                                    "TEXT": "wss://api.tenclass.net/xiaozhi/v1/"
+                                }
+                            }
+                        },
+                        "ai_vox_websocket_param": {
+                            "shadow": {
+                                "type": "text",
+                                "fields": {
+                                    "TEXT": "{{\"Authorization\", \"Bearer test-token\"}}"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_start_engine"
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "屏显示",
+            "icon": "fa-light fa-desktop",
+            "contents": [
+                {
+                    "kind": "label",
+                    "text": "说明:1. 预内置和自定义不可混用"
+                },
+                {
+                    "kind": "label",
+                    "text": "   2. 自定义需要自己画界面,内容可自定，灵活但麻烦"
+                },
+                {
+                    "kind": "label",
+                    "text": "   3. 预内置是定死的，但直接可用"
+                },
+                {
+                    "kind": "label",
+                    "text": "*特别声明1. 屏显功能需要加载LVGL库"
+                },
+                {
+                    "kind": "label",
+                    "text": "*特别声明2. 在LVGL库初始化中需‘设置图像字体开启’"
+                },
+                {
+                    "kind": "label",
+                    "text": "*特别声明3. 需自绘界面的，一般用TFT_eSPI库，按例程"
+                },
+                {
+                    "kind": "label",
+                    "text": " 就行，这里的自定义一般不需要，单色屏时可考虑使用"
+                },
+                {
+                    "kind": "category",
+                    "name": "预内置",
+                    "icon": "fa-light fa-eye",
+                    "contents": [
+                        {
+                            "kind": "block",
+                            "type": "esp32ai_init_display"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "aivox_display_mode"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "aivox_lcd_show_status",
+                            "inputs": {
+                                "ai_vox_content": {
+                                    "shadow": {
+                                        "type": "text",
+                                        "fields": {
+                                            "TEXT": "连接中"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "kind": "block",
+                            "type": "aivox3_ST77789TurnOnBacklight_engine"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "aivox3_ST77789TurnOffBacklight_engine"
+                        }
+                    ]
+                },
+                {
+                    "kind": "category",
+                    "name": "自定义",
+                    "icon": "fa-light fa-code",
+                    "contents": [
+                        {
+                            "kind": "block",
+                            "type": "esp32ai_init_nlvgl_display"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "lvgl_port_lock"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "lvgl_port_unlock"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "esp32ai_lvgl_obj_set_style_text_font"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "esp32ai_emotion_select"
+                        },
+                        {
+                            "kind": "block",
+                            "type": "lvgl_label_set_text_emotion",
+                            "inputs": {
+                                "TEXT":{
+                                    "block": {
+                                        "type": "esp32ai_emotion_select"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "kind": "block",
+                            "type": "lvgl_label_set_text_cpemotion",
+                            "inputs": {
+                                "TEXT":{
+                                    "block": {
+                                        "type": "get_aivox_emotion_result"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "控制",
+            "icon": "fa-light fa-sliders",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "esp32ai_wake_engine"
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox3_set_es8311_volume",
+                    "inputs": {
+                        "aivox3_es8311_volume": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 100
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox3_set_screen_light",
+                    "inputs": {
+                        "aivox3_screen_light": {
+                            "shadow": {
+                                "type": "math_number",
+                                "fields": {
+                                    "NUM": 255
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_sendtext",
+                    "inputs": {
+                        "sendmessage": {
+                            "shadow": {
+                                "type": "text",
+                                "fields": {
+                                    "TEXT": "今天天气怎么样"
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "AI按钮",
+            "icon": "fa-light fa-hand-back-fist",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "esp32ai_button_click"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_button_double_click"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_button_long_pressing"
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "状态与激活",
+            "icon": "fa-light fa-signal",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "esp32ai_state_change_root"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_state_change_case"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_loop_activation"
+                },
+                {
+                    "kind": "block",
+                    "type": "get_aivox_activation_message"
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "表情与聊天",
+            "icon": "fa-light fa-face-smile",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "esp32ai_loop_emotion"
+                },
+                {
+                    "kind": "block",
+                    "type": "get_aivox_emotion_result"
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox_emotion"
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox_emotion_list"
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_loop_chat_message"
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox_loop_chat_message_role_var"
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox_loop_chat_message_msg_var"
+                }
+            ]
+        },
+        {
+            "kind": "category",
+            "name": "MCP",
+            "icon": "fa-light fa-microchip",
+            "contents": [
+                {
+                    "kind": "block",
+                    "type": "esp32ai_loop_mcp_new",
+                    "inputs": {
+                        "DESC": {
+                            "shadow": {
+                                "type": "text",
+                                "fields": {
+                                    "TEXT": "LED, true for on, false for off"
+                                }
+                            }
+                        },
+                        "params_list": {
+                            "block": {
+                                "type": "esp32ai_mcp_control_param"
+                            }
+                        }
+                    }
+                },
+                {
+                    "kind": "block",
+                    "type": "esp32ai_mcp_control_param"
+                },
+                {
+                    "kind": "block",
+                    "type": "aivox_control_message_event_fuction"
+                },
+                {
+                    "kind": "label",
+                    "text": "说明:操作设备代码放设置，服务器读取代码放上报"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,120 @@
+[
+  {
+    "type": "fingerprint_begin",
+    "message0": "初始化指纹模块，波特率 %1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "BAUDRATE",
+        "value": 57600
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_verify",
+    "message0": "验证指纹模块",
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_get_image",
+    "message0": "获取指纹图像",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_image2Tz",
+    "message0": "转换图像到特征缓冲区 %1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "SLOT",
+        "value": 1
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_create_model",
+    "message0": "创建指纹模板",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_store_model",
+    "message0": "存储指纹模板到位置 %1",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_delete_model",
+    "message0": "删除位置 %1 的指纹模板",
+    "args0": [
+      {
+        "type": "field_number",
+        "name": "ID",
+        "value": 1
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_finger_fast_search",
+    "message0": "快速搜索指纹",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_LEDcontrol",
+    "message0": "设置指纹模块LED %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          [
+            "开启",
+            "ON"
+          ],
+          [
+            "关闭",
+            "OFF"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  },
+  {
+    "type": "fingerprint_get_template_count",
+    "message0": "获取指纹存储数量",
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-regular fa-fingerprint"
+  }
+]

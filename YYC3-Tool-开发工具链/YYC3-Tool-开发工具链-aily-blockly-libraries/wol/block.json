@@ -1,0 +1,53 @@
+[
+  {
+    "type": "wol_send",
+    "message0": "发送WOL唤醒包 MAC地址 %1 广播地址 %2 端口 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MAC",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "BROADCAST_IP",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5B80A5",
+    "tooltip": "发送Wake-on-LAN魔术包唤醒目标设备",
+    "icon": "fa-regular fa-power-off"
+  },
+  {
+    "type": "wol_send_result",
+    "message0": "发送WOL唤醒包 MAC地址 %1 广播地址 %2 端口 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "MAC",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "BROADCAST_IP",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#5B80A5",
+    "tooltip": "发送Wake-on-LAN魔术包并返回是否成功",
+    "icon": "fa-regular fa-power-off"
+  }
+]

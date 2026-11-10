@@ -1,0 +1,236 @@
+{
+  "toolbox_name": "K10 Cámara e IA",
+  "toolbox_labels": {
+    "摄像头": "cámara",
+    "AI视觉": "Visión de IA",
+    "人脸识别": "reconocimiento facial"
+  },
+  "k10_camera_init": {
+    "message0": "inicializar cámara",
+    "tooltip": "Inicializar la cámara K10 con la vista previa oculta"
+  },
+  "k10_camera_show": {
+    "message0": "mostrar vista de cámara",
+    "tooltip": "Mostrar vista en vivo de la cámara en pantalla"
+  },
+  "k10_photo_save": {
+    "message0": "guardar foto en tarjeta TF nombre %1",
+    "tooltip": "Tomar foto y guardar en tarjeta TF"
+  },
+  "k10_photo_base64": {
+    "message0": "tomar foto y convertir a Base64",
+    "tooltip": "Toma una foto y devuelve una cadena JPEG Base64 lista para la entrada de imagen Base64 de Qwen"
+  },
+  "k10_ai_init": {
+    "message0": "inicializar IA modo %1",
+    "tooltip": "Inicializar la visión IA con la vista previa de la cámara oculta",
+    "args0": [
+      {
+        "options": [
+          [
+            "Detección/reconocimiento facial",
+            "Face"
+          ],
+          [
+            "Detección gato",
+            "Cat"
+          ],
+          [
+            "Detección movimiento",
+            "Move"
+          ],
+          [
+            "Escaneo QR",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_switch_mode": {
+    "message0": "cambiar modo IA %1",
+    "tooltip": "Cambiar modo de detección IA",
+    "args0": [
+      {
+        "options": [
+          [
+            "Detección/reconocimiento facial",
+            "Face"
+          ],
+          [
+            "Detección gato",
+            "Cat"
+          ],
+          [
+            "Detección movimiento",
+            "Move"
+          ],
+          [
+            "Escaneo QR",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_is_detected": {
+    "message0": "AI detectó %1",
+    "tooltip": "Retorna si la IA detectó un objetivo",
+    "args0": [
+      {
+        "options": [
+          [
+            "Rostro",
+            "Face"
+          ],
+          [
+            "Gato",
+            "Cat"
+          ],
+          [
+            "Movimiento",
+            "Move"
+          ],
+          [
+            "Código QR",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_face_data": {
+    "message0": "obtener datos de cara %1",
+    "tooltip": "Obtener datos de detección facial",
+    "args0": [
+      {
+        "options": [
+          [
+            "Centro X",
+            "CenterX"
+          ],
+          [
+            "Centro Y",
+            "CenterY"
+          ],
+          [
+            "Ancho",
+            "Length"
+          ],
+          [
+            "Alto",
+            "Width"
+          ],
+          [
+            "Ojo izquierdo X",
+            "LeftEyeX"
+          ],
+          [
+            "Ojo izquierdo Y",
+            "LeftEyeY"
+          ],
+          [
+            "Ojo derecho X",
+            "RightEyeX"
+          ],
+          [
+            "Ojo derecho Y",
+            "RightEyeY"
+          ],
+          [
+            "Nariz X",
+            "NoseX"
+          ],
+          [
+            "Nariz Y",
+            "NoseY"
+          ],
+          [
+            "Comisura izquierda X",
+            "LeftMouthX"
+          ],
+          [
+            "Comisura izquierda Y",
+            "LeftMouthY"
+          ],
+          [
+            "Comisura derecha X",
+            "RightMouthX"
+          ],
+          [
+            "Comisura derecha Y",
+            "RightMouthY"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_cat_data": {
+    "message0": "obtener datos de cara gato %1",
+    "tooltip": "Obtener datos de detección de cara de gato",
+    "args0": [
+      {
+        "options": [
+          [
+            "Centro X",
+            "CenterX"
+          ],
+          [
+            "Centro Y",
+            "CenterY"
+          ],
+          [
+            "Ancho",
+            "Length"
+          ],
+          [
+            "Alto",
+            "Width"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_qrcode": {
+    "message0": "obtener contenido código QR",
+    "tooltip": "Obtener contenido del código QR detectado por IA"
+  },
+  "k10_ai_set_motion_threshold": {
+    "message0": "establecer umbral detección movimiento %1",
+    "tooltip": "Establecer umbral de sensibilidad de detección de movimiento"
+  },
+  "k10_ai_face_recognized": {
+    "message0": "reconocimiento facial completado",
+    "tooltip": "Devuelve si un comando de reconocimiento facial terminó con un resultado"
+  },
+  "k10_ai_get_face_id": {
+    "message0": "obtener ID de cara reconocida",
+    "tooltip": "Obtener ID de cara reconocida"
+  },
+  "k10_ai_face_cmd": {
+    "message0": "acción facial %1",
+    "tooltip": "Aprender un rostro, reconocerlo una vez o borrar todos los rostros aprendidos",
+    "args0": [
+      {
+        "options": [
+          [
+            "Aprender rostro",
+            "ENROLL"
+          ],
+          [
+            "Reconocer rostro",
+            "RECOGNIZE"
+          ],
+          [
+            "Borrar rostros aprendidos",
+            "DELETEALL"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_camera_hide": {
+    "message0": "Hide camera preview",
+    "tooltip": "Hide the K10 live camera preview to reduce screen refresh load during audio playback"
+  }
+}

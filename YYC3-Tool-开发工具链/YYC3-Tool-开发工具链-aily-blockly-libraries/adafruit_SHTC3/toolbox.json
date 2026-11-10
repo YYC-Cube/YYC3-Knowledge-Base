@@ -1,0 +1,35 @@
+{
+    "kind": "category",
+    "name": "SHTC3温湿度",
+    "icon": "fa-light fa-temperature-three-quarters",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "shtc3_init"
+        },
+        {
+            "kind": "block",
+            "type": "shtc3_read_temperature"
+        },
+        {
+            "kind": "block",
+            "type": "shtc3_read_humidity"
+        },
+        {
+            "kind": "block",
+            "type": "shtc3_read_both"
+        },
+        {
+            "kind": "block",
+            "type": "shtc3_is_connected"
+        },
+        {
+            "kind": "block",
+            "type": "shtc3_sleep"
+        },
+        {
+            "kind": "block",
+            "type": "shtc3_set_power_mode"
+        }
+    ]
+}

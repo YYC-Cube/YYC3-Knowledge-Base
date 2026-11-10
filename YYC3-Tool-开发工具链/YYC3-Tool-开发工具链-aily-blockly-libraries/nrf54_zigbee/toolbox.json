@@ -1,0 +1,288 @@
+{
+  "kind": "category",
+  "name": "Zigbee",
+  "colour": "#4CAF50",
+  "icon": "fa-light fa-router",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化与连接"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_init",
+      "inputs": {
+        "CHANNEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 15
+            }
+          }
+        },
+        "PAN_ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4660
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_basic_info",
+      "inputs": {
+        "MANUFACTURER": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Aily"
+            }
+          }
+        },
+        "MODEL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "ZigbeeDevice"
+            }
+          }
+        },
+        "VERSION": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "1.0.0"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_install_code",
+      "inputs": {
+        "INSTALL_CODE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "10AC0101244B00A1B2C3D4E5F607182943"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_start"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_loop"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_is_joined"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_rejoin"
+    },
+    {
+      "kind": "label",
+      "text": "灯光控制"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_on_off"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_get_on_off"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_level",
+      "inputs": {
+        "LEVEL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 128
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_get_level"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_color_hs",
+      "inputs": {
+        "HUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "SATURATION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 254
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_color_temp",
+      "inputs": {
+        "COLOR_TEMP": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 250
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "传感器"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_temperature",
+      "inputs": {
+        "TEMPERATURE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 25
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_humidity",
+      "inputs": {
+        "HUMIDITY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 50
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_set_battery",
+      "inputs": {
+        "VOLTAGE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 30
+            }
+          }
+        },
+        "PERCENTAGE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 100
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "属性报告"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_configure_reporting",
+      "inputs": {
+        "ATTR_ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "MIN_INTERVAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "MAX_INTERVAL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 30
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "事件回调"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_on_state_change"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_on_level_change"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_on_color_change"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_on_join"
+    },
+    {
+      "kind": "label",
+      "text": "状态查询"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_is_identifying"
+    },
+    {
+      "kind": "label",
+      "text": "持久化"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_persist_save"
+    },
+    {
+      "kind": "block",
+      "type": "zigbee_persist_clear"
+    }
+  ]
+}

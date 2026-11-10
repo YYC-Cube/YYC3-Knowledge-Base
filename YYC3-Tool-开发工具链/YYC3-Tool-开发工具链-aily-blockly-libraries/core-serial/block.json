@@ -1,0 +1,259 @@
+[
+  {
+    "inputsInline": true,
+    "message0": "初始化串口%1 设置波特率为%2",
+    "type": "serial_begin",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": "${board.serialSpeed}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_begin_custom_port"]
+  },
+  {
+    "inputsInline": true,
+    "message0": "串口%1缓冲区有数据",
+    "type": "serial_available",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      }
+    ],
+    "output": "Number",
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_available_custom_port"]
+  },
+  {
+    "inputsInline": true,
+    "message0": "读取串口%1数据 %2",
+    "type": "serial_read",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["read", "read()"],
+          ["peek", "peek()"],
+          ["parseInt", "parseInt()"],
+          ["parseFloat", "parseFloat()"],
+          ["readString", "readString()"],
+          ["readStringUntil('\\r')", "readStringUntil('\\r')"],
+          ["readStringUntil('\\n')", "readStringUntil('\\n')"],
+          ["readStringUntil('\\0')", "readStringUntil('\\0')"]
+        ]
+      }
+    ],
+    "output": "Any",
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_read_custom_port"]
+  },
+  {
+    "inputsInline": true,
+    "message0": "读取串口%1数据直到%2",
+    "type": "serial_read_until",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "TERMINATOR",
+        "check": ["Character"]
+      }
+    ],
+    "output": "String",
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_read_until_custom_port"]
+  },
+  {
+    "inputsInline": true,
+    "message0": "串口%1输出%2",
+    "type": "serial_print",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "VAR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_print_custom_port"]
+  },
+  {
+    "inputsInline": true,
+    "message0": "串口%1输出%2并换行",
+    "type": "serial_println",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "VAR"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_println_custom_port"]
+  },
+  {
+    "inputsInline": true,
+    "message0": "串口%1输出原始数据%2",
+    "type": "serial_write",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      },
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_write_custom_port"]
+  },
+  {
+    "inputsInline": true,
+    "message0": "读取串口%1字符串",
+    "type": "serial_read_string",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": "${board.serialPort}"
+      }
+    ],
+    "output": "String",
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_read_string_custom_port"]
+  },
+  {
+    "inputsInline": true,
+    "message0": "初始化串口%1 使用%2 \n设置波特率为%3 RX引脚%4 TX引脚%5",
+    "type": "serial_begin_esp32_custom",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "SerialCustom"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "UART",
+        "options": [
+          ["UART0","UART0"],
+          ["UART1","UART1"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": "${board.serialSpeed}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_begin_esp32_custom_extension"]
+  },
+  {
+    "inputsInline":true,
+    "message0": "初始化软串口%1 设置波特率为%2 RX引脚%3 TX引脚%4",
+    "type": "serial_begin_software",
+    "colour": "#48c2c4",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mySerial"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": "${board.serialSpeed}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "RX",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TX",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "icon": "fa-regular fa-arrow-right-arrow-left",
+    "extensions": ["serial_begin_software_extension"]
+  },
+  {
+    "type": "serial_listen_software",
+    "message0": "软串口 %1 开始监听",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SERIAL_VAR",
+        "variable": "mySerial",
+        "variableTypes": ["SoftwareSerial"],
+        "defaultType": "SoftwareSerial"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#48c2c4",
+    "icon": "fa-regular fa-arrow-right-arrow-left"
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "toolbox_name": "R4 WiFi",
+  "toolbox_labels": {
+    "连接": "接続する",
+    "状态查询": "ステータスクエリ",
+    "配置": "構成",
+    "网络扫描": "ネットワークスキャン",
+    "网络操作": "ネットワーク運用"
+  },
+  "wifis3_begin": {
+    "message0": "WiFiに接続 SSID %1 パスワード %2",
+    "tooltip": "WiFiネットワークに接続（WPA/WPA2暗号化）"
+  },
+  "wifis3_begin_open": {
+    "message0": "WiFiに接続 SSID %1 （オープンネットワーク）",
+    "tooltip": "パスワードなしのオープンWiFiネットワークに接続"
+  },
+  "wifis3_begin_ap": {
+    "message0": "WiFiアクセスポイント開始 SSID %1 パスワード %2 チャンネル %3",
+    "tooltip": "WiFiアクセスポイントを開始（ホットスポットモード）"
+  },
+  "wifis3_disconnect": {
+    "message0": "WiFi切断",
+    "tooltip": "現在のWiFi接続を切断"
+  },
+  "wifis3_status": {
+    "message0": "WiFi接続状態",
+    "tooltip": "WiFi接続状態を返す（3=接続済み, 1=アイドル, 0=未接続など）"
+  },
+  "wifis3_is_connected": {
+    "message0": "WiFi接続済み？",
+    "tooltip": "WiFiネットワークに接続しているか確認"
+  },
+  "wifis3_local_ip": {
+    "message0": "ローカルIPアドレスを取得",
+    "tooltip": "デバイスのローカルIPアドレスを返す"
+  },
+  "wifis3_mac_address": {
+    "message0": "MACアドレスを取得",
+    "tooltip": "WiFiモジュールのMACアドレスを返す"
+  },
+  "wifis3_gateway_ip": {
+    "message0": "ゲートウェイIPアドレスを取得",
+    "tooltip": "ゲートウェイIPアドレスを返す"
+  },
+  "wifis3_subnet_mask": {
+    "message0": "サブネットマスクを取得",
+    "tooltip": "サブネットマスクを返す"
+  },
+  "wifis3_dns_ip": {
+    "message0": "DNSサーバーを取得 %1",
+    "tooltip": "DNSサーバーアドレスを返す",
+    "args0": [
+      {
+        "options": [
+          ["プライマリDNS", "0"],
+          ["セカンダリDNS", "1"]
+        ]
+      }
+    ]
+  },
+  "wifis3_set_dns": {
+    "message0": "DNSサーバーを設定 プライマリ %1 セカンダリ %2",
+    "tooltip": "プライマリとセカンダリDNSサーバーを設定"
+  },
+  "wifis3_config_ip": {
+    "message0": "静的IPを設定 アドレス %1 ゲートウェイ %2 サブネット %3",
+    "tooltip": "デバイスの静的IPアドレス、ゲートウェイ、サブネットマスクを設定"
+  },
+  "wifis3_set_hostname": {
+    "message0": "ホスト名を設定 %1",
+    "tooltip": "DHCPホスト名を設定"
+  },
+  "wifis3_scan_networks": {
+    "message0": "WiFiネットワークをスキャン",
+    "tooltip": "周囲の利用可能なWiFiネットワークをスキャン"
+  },
+  "wifis3_ssid_by_index": {
+    "message0": "ネットワーク #%1 のSSIDを取得",
+    "tooltip": "指定インデックスのネットワークSSIDを返す"
+  },
+  "wifis3_rssi_by_index": {
+    "message0": "ネットワーク #%1 の信号強度を取得",
+    "tooltip": "指定インデックスのネットワークのRSSI信号強度（dBm）を返す"
+  },
+  "wifis3_scanned_networks_count": {
+    "message0": "スキャンしたネットワーク数を取得",
+    "tooltip": "最後のスキャンで見つかったWiFiネットワーク数を返す"
+  },
+  "wifis3_ping": {
+    "message0": "PING %1 （TTL %2 回数 %3）",
+    "tooltip": "指定ホストにPINGを実行、応答時間を返す"
+  },
+  "wifis3_firmware_version": {
+    "message0": "WiFiファームウェアバージョンを取得",
+    "tooltip": "WiFiモジュールのファームウェアバージョンを返す"
+  },
+  "wifis3_wait_for_connection": {
+    "message0": "WiFi接続を待つ タイムアウト %1 ms",
+    "tooltip": "WiFi接続が成功するかタイムアウトするまで待つ"
+  }
+}

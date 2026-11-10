@@ -1,0 +1,35 @@
+{
+  "kind": "category",
+  "name": "HM3301 PM2.5",
+  "colour": "#2E7D32",
+  "icon": "fa-light fa-smog",
+  "contents": [
+    { "kind": "label", "text": "传感器初始化" },
+    {
+      "kind": "block",
+      "type": "hm3301_init"
+    },
+    { "kind": "sep" },
+    { "kind": "label", "text": "数据读取" },
+    {
+      "kind": "block",
+      "type": "hm3301_read",
+      "fields": { "TYPE": "PM1_0_STD" }
+    },
+    {
+      "kind": "block",
+      "type": "hm3301_read",
+      "fields": { "TYPE": "PM2_5_STD" }
+    },
+    {
+      "kind": "block",
+      "type": "hm3301_read",
+      "fields": { "TYPE": "PM10_STD" }
+    },
+    {
+      "kind": "block",
+      "type": "hm3301_read",
+      "fields": { "TYPE": "PM2_5_ATM" }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "toolbox_name": "Sensor PM2.5 HM3301",
+  "toolbox_labels": {
+    "传感器初始化": "Inicialização do sensor",
+    "数据读取": "Leitura de dados"
+  },
+  "hm3301_init": {
+    "message0": "Inicializar sensor PM2.5 HM3301",
+    "tooltip": "Inicializar o sensor de poeira a laser HM3301 (I2C, endereço 0x40)"
+  },
+  "hm3301_read": {
+    "message0": "HM3301 ler %1",
+    "tooltip": "Ler a concentração de partículas do sensor HM3301",
+    "args0": [
+      {
+        "options": [
+          ["PM1.0 Padrão (μg/m³)", "PM1_0_STD"],
+          ["PM2.5 Padrão (μg/m³)", "PM2_5_STD"],
+          ["PM10 Padrão (μg/m³)", "PM10_STD"],
+          ["PM1.0 Atmosférico (μg/m³)", "PM1_0_ATM"],
+          ["PM2.5 Atmosférico (μg/m³)", "PM2_5_ATM"],
+          ["PM10 Atmosférico (μg/m³)", "PM10_ATM"]
+        ]
+      }
+    ]
+  },
+  "extensions": {
+    "hm3301_i2c_board_extension": {
+      "sda_pin": "Pino SDA",
+      "scl_pin": "Pino SCL",
+      "tooltip_esp32": "Inicializar sensor HM3301, ESP32 requer configuração dos pinos SDA/SCL",
+      "tooltip_mega": "Inicializar sensor HM3301 (Mega2560 pinos I2C fixos: SDA->20, SCL->21)",
+      "tooltip_uno": "Inicializar sensor HM3301 (Arduino UNO pinos I2C fixos: SDA->A4, SCL->A5)"
+    }
+  }
+}

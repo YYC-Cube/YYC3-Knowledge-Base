@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "Sensor barométrico DPS3xx",
+  "dps3xx_init": {
+    "message0": "Inicializar sensor DPS3xx endereço I2C %1 usar %2",
+    "tooltip": "Inicializar o sensor de pressão e temperatura de alta precisão Infineon DPS3xx via I2C"
+  },
+  "dps3xx_read_temperature": {
+    "message0": "Ler temperatura DPS3xx (°C) sobreamostragem %1",
+    "tooltip": "Ler o valor de temperatura do sensor DPS3xx em Celsius. Uma sobreamostragem mais alta melhora a precisão, mas demora mais",
+    "args0": [
+      {
+        "options": [
+          ["1x", "0"],
+          ["2x", "1"],
+          ["4x", "2"],
+          ["8x", "3"],
+          ["16x", "4"],
+          ["32x", "5"],
+          ["64x", "6"],
+          ["128x", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_read_pressure": {
+    "message0": "Ler pressão DPS3xx (Pa) sobreamostragem %1",
+    "tooltip": "Ler o valor de pressão do sensor DPS3xx em Pascal. Uma sobreamostragem mais alta melhora a precisão, mas demora mais",
+    "args0": [
+      {
+        "options": [
+          ["1x", "0"],
+          ["2x", "1"],
+          ["4x", "2"],
+          ["8x", "3"],
+          ["16x", "4"],
+          ["32x", "5"],
+          ["64x", "6"],
+          ["128x", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_correct_temp": {
+    "message0": "Calibrar sensor de temperatura DPS3xx",
+    "tooltip": "Corrigir problema de hardware na medição de temperatura em alguns sensores DPS3xx. Recomendado chamar logo após begin()"
+  },
+  "dps3xx_get_product_id": {
+    "message0": "Obter ID do produto DPS3xx",
+    "tooltip": "Obter o número de identificação do produto do sensor DPS3xx"
+  },
+  "dps3xx_get_revision_id": {
+    "message0": "Obter ID de revisão DPS3xx",
+    "tooltip": "Obter o número de identificação de revisão do sensor DPS3xx"
+  }
+}

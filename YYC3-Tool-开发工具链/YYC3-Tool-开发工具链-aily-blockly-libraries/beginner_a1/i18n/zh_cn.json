@@ -1,0 +1,100 @@
+{
+  "toolbox_name": "Beginner A1",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "遥控输入": "遥控输入",
+    "行驶控制": "行驶控制",
+    "舵机": "舵机"
+  },
+  "beginner_a1_init": {
+    "message0": "初始化 Beginner A1 小车 %1 最大速度 %2",
+    "tooltip": "创建并初始化小车对象：通信、电机、舵机、LED 与电池，并在循环中自动刷新状态"
+  },
+  "beginner_a1_button": {
+    "message0": "%1 遥控按键 %2 被按下",
+    "tooltip": "判断遥控器按键 A/B/C/D 是否被按下",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["A", "0"],
+          ["B", "1"],
+          ["C", "2"],
+          ["D", "3"]
+        ]
+      }
+    ]
+  },
+  "beginner_a1_joystick": {
+    "message0": "%1 遥控摇杆 %2",
+    "tooltip": "读取遥控器摇杆值，范围 -127~127（未连接时为 0）",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["左摇杆X", "0"],
+          ["左摇杆Y", "1"],
+          ["右摇杆X", "2"],
+          ["右摇杆Y", "3"]
+        ]
+      }
+    ]
+  },
+  "beginner_a1_drive": {
+    "message0": "%1 小车行驶 前进 %2 转向 %3",
+    "tooltip": "差速行驶：前进量与转向量范围 -127~127"
+  },
+  "beginner_a1_motor": {
+    "message0": "%1 设置 %2 电机速度 %3",
+    "tooltip": "单独设置左/右电机速度，范围 -120~120，负值反转",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["左", "0"],
+          ["右", "1"]
+        ]
+      },
+      null
+    ]
+  },
+  "beginner_a1_stop": {
+    "message0": "%1 停止小车",
+    "tooltip": "两路电机停止"
+  },
+  "beginner_a1_servo": {
+    "message0": "%1 %2 舵机转到 %3 度",
+    "tooltip": "定位舵机平滑转到指定角度，范围 0~360 度",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["SERVO_20", "0"],
+          ["SERVO_21", "1"]
+        ]
+      },
+      null
+    ]
+  },
+  "beginner_a1_servo_rotate": {
+    "message0": "%1 %2 舵机 %3 速度 %4 转 %5 秒",
+    "tooltip": "连续旋转舵机：按方向和速度转动指定秒数后自动停（速度 0~100），非阻塞",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["SERVO_20", "0"],
+          ["SERVO_21", "1"]
+        ]
+      },
+      {
+        "options": [
+          ["正转", "1"],
+          ["反转", "-1"]
+        ]
+      },
+      null,
+      null
+    ]
+  }
+}

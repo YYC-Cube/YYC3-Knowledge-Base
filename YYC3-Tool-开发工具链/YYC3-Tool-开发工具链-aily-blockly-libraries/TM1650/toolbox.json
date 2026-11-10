@@ -1,0 +1,47 @@
+{
+  "kind": "category",
+  "icon": "iconfont icon-digital-tube",
+  "name": "TM1650四位数码管",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "tm1650_init"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_set"
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_displaystring",
+      "inputs": {
+        "TMSTR": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+                "TEXT": "abcd"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_displayNumber",
+      "inputs": {
+        "TMNUM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+                "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tm1650_clearDisplay"
+    }
+  ]
+}

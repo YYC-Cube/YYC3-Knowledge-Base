@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "TLx5012B角度傳感器",
+  "tlx5012_init": {
+    "message0": "初始化 TLx5012B 角度傳感器 %1\nCS引腳 %2",
+    "tooltip": "初始化TLx5012B磁性角度傳感器，使用SPI介面通訊"
+  },
+  "tlx5012_read_angle": {
+    "message0": "讀取 TLx5012B %1 的角度值 (°)",
+    "tooltip": "讀取TLx5012B傳感器的角度值，返回0°~360°"
+  },
+  "tlx5012_read_speed": {
+    "message0": "讀取 TLx5012B %1 的角速度",
+    "tooltip": "讀取TLx5012B傳感器的角速度"
+  },
+  "tlx5012_read_revolutions": {
+    "message0": "讀取 TLx5012B %1 的旋轉圈數",
+    "tooltip": "讀取TLx5012B傳感器的累計旋轉圈數，範圍-256~256"
+  },
+  "tlx5012_read_temperature": {
+    "message0": "讀取 TLx5012B %1 的溫度 (℃)",
+    "tooltip": "讀取TLx5012B傳感器的溫度值，返回攝氏度"
+  },
+  "tlx5012_read_angle_range": {
+    "message0": "讀取 TLx5012B %1 的角度範圍",
+    "tooltip": "讀取TLx5012B傳感器的角度範圍設定"
+  },
+  "tlx5012_reset": {
+    "message0": "重置 TLx5012B %1 傳感器",
+    "tooltip": "重置TLx5012B傳感器至出廠預設值"
+  }
+}

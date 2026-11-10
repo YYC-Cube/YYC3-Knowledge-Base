@@ -1,0 +1,20 @@
+{
+    "toolbox_name": "トーン",
+    "io_tone": {
+        "message0": "%1 ピンで周波数 %2 の音を鳴らす",
+        "args0": [
+            {
+                "options": "${board.digitalPins}"
+            },
+            null
+        ]
+    },
+    "io_notone": {
+        "message0": "%1 ピンの音を止める",
+        "args0": [
+            {
+                "options": "${board.digitalPins}"
+            }
+        ]
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "WOL 唤醒",
+  "wol_send": {
+    "message0": "发送WOL唤醒包 MAC地址 %1 广播地址 %2 端口 %3",
+    "tooltip": "发送Wake-on-LAN魔术包唤醒目标设备"
+  },
+  "wol_send_result": {
+    "message0": "发送WOL唤醒包 MAC地址 %1 广播地址 %2 端口 %3",
+    "tooltip": "发送Wake-on-LAN魔术包并返回是否成功"
+  }
+}

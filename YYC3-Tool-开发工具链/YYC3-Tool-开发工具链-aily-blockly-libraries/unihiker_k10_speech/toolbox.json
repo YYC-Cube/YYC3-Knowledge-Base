@@ -1,0 +1,88 @@
+{
+  "kind": "category",
+  "name": "K10语音",
+  "icon": "fa-light fa-microphone",
+  "colour": "#00BCD4",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "语音识别"
+    },
+    {
+      "kind": "block",
+      "type": "k10_asr_init",
+      "inputs": {
+        "WAKEUP_TIME": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 6000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "k10_asr_add_command",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "KEYWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "开灯"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "k10_asr_is_wakeup"
+    },
+    {
+      "kind": "block",
+      "type": "k10_asr_is_detected",
+      "inputs": {
+        "ID": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "语音播报"
+    },
+    {
+      "kind": "block",
+      "type": "k10_asr_speak",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "k10_asr_set_speed"
+    }
+  ]
+}

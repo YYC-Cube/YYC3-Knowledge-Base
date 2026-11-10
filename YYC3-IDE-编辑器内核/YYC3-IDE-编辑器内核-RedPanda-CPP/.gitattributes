@@ -1,0 +1,33 @@
+##################################
+# Linux packageing on Windows host
+##################################
+
+# script run in docker
+/packages/alpine/* eol=lf
+/packages/appimage/01-in-docker.sh eol=lf
+/packages/archlinux/* eol=lf
+/packages/debian/01-in-docker.sh eol=lf
+/packages/debian/rules eol=lf
+/packages/fedora/* eol=lf
+/packages/opensuse/* eol=lf
+
+# files to be processed with Unix utils
+/packages/windows/qtbase-5.6.3-redpanda.patch eol=lf
+
+# text files to be packed
+/packages/appimage/AppRun.sh eol=lf
+/packages/debian/changelog eol=lf
+/packages/debian/compat eol=lf
+/packages/debian/control eol=lf
+/packages/debian/copyright eol=lf
+/platform/linux/install.sh eol=lf
+/platform/linux/RedPandaIDE.desktop.in eol=lf
+/platform/linux/redpandaide.svg eol=lf
+/platform/linux/templates/*/*.txt eol=lf
+/platform/linux/templates/*/*.template eol=lf
+/platform/linux/templates/*/*.fs eol=lf
+/platform/linux/templates/*/*.vs eol=lf
+
+# generated files
+compiler_hint.lua eol=lf
+/RedPandaIDE/resources/themes/*.lua eol=lf

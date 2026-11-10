@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "Capteur d'angle TLx5012B",
+  "tlx5012_init": {
+    "message0": "Initialiser le capteur d'angle TLx5012B %1\nBroche CS %2",
+    "tooltip": "Initialiser le capteur d'angle magnétique TLx5012B via l'interface SPI"
+  },
+  "tlx5012_read_angle": {
+    "message0": "Lire l'angle (°) du TLx5012B %1",
+    "tooltip": "Lire la valeur d'angle du capteur TLx5012B, retourne 0°~360°"
+  },
+  "tlx5012_read_speed": {
+    "message0": "Lire la vitesse angulaire du TLx5012B %1",
+    "tooltip": "Lire la vitesse angulaire du capteur TLx5012B"
+  },
+  "tlx5012_read_revolutions": {
+    "message0": "Lire les révolutions du TLx5012B %1",
+    "tooltip": "Lire le nombre cumulé de révolutions du capteur TLx5012B, plage -256~256"
+  },
+  "tlx5012_read_temperature": {
+    "message0": "Lire la température (℃) du TLx5012B %1",
+    "tooltip": "Lire la température du capteur TLx5012B en Celsius"
+  },
+  "tlx5012_read_angle_range": {
+    "message0": "Lire la plage d'angle du TLx5012B %1",
+    "tooltip": "Lire le réglage de plage d'angle du capteur TLx5012B"
+  },
+  "tlx5012_reset": {
+    "message0": "Réinitialiser le capteur TLx5012B %1",
+    "tooltip": "Réinitialiser le capteur TLx5012B aux valeurs d'usine"
+  }
+}

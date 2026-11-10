@@ -1,0 +1,34 @@
+{
+  "name": "@aily-project/lib-unihiker-k10-music",
+  "nickname": "K10音乐/音频",
+  "nickname_zh_cn": "K10音乐/音频",
+  "nickname_en": "K10 Music & Audio",
+  "author": "DFRobot",
+  "description": "UNIHIKER K10音乐与音频库，支持内置音乐播放、音调播放、TF卡录音和播放",
+  "description_zh_cn": "UNIHIKER K10音乐与音频库，支持内置音乐播放、音调播放、TF卡录音和播放",
+  "description_en": "UNIHIKER K10 music and audio library, supports built-in music, tone playback, TF card recording and playback",
+  "version": "0.2.0",
+  "compatibility": {
+    "core": [
+      "UNIHIKER:esp32:k10"
+    ],
+    "voltage": [
+      3.3
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "unihiker",
+    "k10",
+    "music",
+    "audio",
+    "tone",
+    "record"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "tags": [
+    "audio"
+  ]
+}

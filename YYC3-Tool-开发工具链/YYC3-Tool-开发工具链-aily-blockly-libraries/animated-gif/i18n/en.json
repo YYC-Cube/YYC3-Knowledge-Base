@@ -1,0 +1,52 @@
+{
+  "toolbox_name": "GIF Animation Player",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "打开GIF": "Open GIF",
+    "播放控制": "Playback controls",
+    "信息获取": "information acquisition"
+  },
+  "gif_init": {
+    "message0": "Initialize GIF player %1",
+    "tooltip": "Initialize AnimatedGIF player object, requires TFT display"
+  },
+  "gif_open_memory": {
+    "message0": "GIF %1 open memory data header %2 array %3",
+    "message1": "position X %1 Y %2",
+    "tooltip": "Open GIF data from memory (FLASH), specify the header file and array name containing GIF data, and display position"
+  },
+  "gif_open_sd": {
+    "message0": "GIF %1 open SD card file %2",
+    "message1": "position X %1 Y %2",
+    "tooltip": "Open GIF file from SD card, specify file path and display position"
+  },
+  "gif_play_frame": {
+    "message0": "GIF %1 play one frame sync %2",
+    "tooltip": "Play one frame of GIF animation, returns whether more frames remain. When sync is Yes, waits for frame delay",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Yes", "true"],
+          ["No", "false"]
+        ]
+      }
+    ]
+  },
+  "gif_play_all": {
+    "message0": "GIF %1 play all frames",
+    "tooltip": "Play all frames of the GIF animation, continues to next block after completion"
+  },
+  "gif_close": {
+    "message0": "GIF %1 close",
+    "tooltip": "Close the currently open GIF file and release resources"
+  },
+  "gif_get_width": {
+    "message0": "GIF %1 canvas width",
+    "tooltip": "Get the canvas width of the current GIF animation (pixels)"
+  },
+  "gif_get_height": {
+    "message0": "GIF %1 canvas height",
+    "tooltip": "Get the canvas height of the current GIF animation (pixels)"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "kind": "category",
+  "name": "Beginner A1",
+  "icon": "fa-solid fa-robot",
+  "colour": "#1565C0",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "beginner_a1_init"
+    },
+    {
+      "kind": "label",
+      "text": "遥控输入"
+    },
+    {
+      "kind": "block",
+      "type": "beginner_a1_button"
+    },
+    {
+      "kind": "block",
+      "type": "beginner_a1_joystick"
+    },
+    {
+      "kind": "label",
+      "text": "行驶控制"
+    },
+    {
+      "kind": "block",
+      "type": "beginner_a1_drive",
+      "inputs": {
+        "FORWARD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "TURN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "beginner_a1_motor",
+      "inputs": {
+        "SPEED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "beginner_a1_stop"
+    },
+    {
+      "kind": "label",
+      "text": "舵机"
+    },
+    {
+      "kind": "block",
+      "type": "beginner_a1_servo"
+    },
+    {
+      "kind": "block",
+      "type": "beginner_a1_servo_rotate"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "kind": "category",
+  "icon": "iconfont icon-a-8x8lattice",
+  "name": "MAX7219点阵",
+  "name_en": "MAX7219 Matrix",
+  "colour": "#5AA6A6",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_matrix_init"
+    },
+    {
+      "kind": "label",
+      "text": "基础控制"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_set_pixel",
+      "inputs": {
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "STATE": { "shadow": { "type": "logic_boolean", "fields": { "BOOL": "TRUE" } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max7219_draw_screen_pixel",
+      "inputs": {
+        "DEVICE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "X": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "Y": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max7219_set_rotation",
+      "inputs": {
+        "DEVICE": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } },
+        "ROTATION": { "shadow": { "type": "math_number", "fields": { "NUM": 0 } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max7219_fill",
+      "inputs": {
+        "STATE": { "shadow": { "type": "logic_boolean", "fields": { "BOOL": "TRUE" } } }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max7219_set_brightness",
+      "inputs": {
+        "BRIGHTNESS": { "shadow": { "type": "math_number", "fields": { "NUM": 5 } } }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "图案与文字"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_display_pattern",
+      "inputs": {
+        "DEVICE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "PATTERN": {
+          "shadow": {
+            "type": "max7219_matrix_pattern"
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "max7219_matrix_pattern"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_preset_pattern"
+    },
+    {
+      "kind": "block",
+      "type": "max7219_scroll_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello"
+            }
+          }
+        },
+        "SPEED": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 300
+            }
+          }
+        }
+      }
+    }
+  ]
+}

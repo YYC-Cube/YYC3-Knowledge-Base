@@ -1,0 +1,126 @@
+{
+  "toolbox_name": "SerialTransfer",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "发送数据": "傳送數據",
+    "接收数据": "接收資料",
+    "状态": "狀態"
+  },
+  "toolbox_categories": ["串口傳輸", "I2C 傳輸", "SPI 傳輸"],
+  "serial_transfer_init": {
+    "message0": "初始化 SerialTransfer %1 串口 %2 波特率 %3",
+    "tooltip": "初始化SerialTransfer物件，設定串口和波特率"
+  },
+  "serial_transfer_send_int": {
+    "message0": "SerialTransfer %1 傳送整數 %2 包ID %3",
+    "tooltip": "透過SerialTransfer傳送一個整數值"
+  },
+  "serial_transfer_send_float": {
+    "message0": "SerialTransfer %1 傳送浮點數 %2 包ID %3",
+    "tooltip": "透過SerialTransfer傳送一個浮點數值"
+  },
+  "serial_transfer_send_string": {
+    "message0": "SerialTransfer %1 傳送字串 %2 包ID %3",
+    "tooltip": "透過SerialTransfer傳送一個字串"
+  },
+  "serial_transfer_available": {
+    "message0": "SerialTransfer %1 收到新資料",
+    "tooltip": "檢查SerialTransfer是否收到新的有效資料"
+  },
+  "serial_transfer_receive_int": {
+    "message0": "SerialTransfer %1 接收整數",
+    "tooltip": "從SerialTransfer接收一個整數值"
+  },
+  "serial_transfer_receive_float": {
+    "message0": "SerialTransfer %1 接收浮點數",
+    "tooltip": "從SerialTransfer接收一個浮點數值"
+  },
+  "serial_transfer_receive_string": {
+    "message0": "SerialTransfer %1 接收字串 長度 %2",
+    "tooltip": "從SerialTransfer接收指定長度的字串"
+  },
+  "serial_transfer_status": {
+    "message0": "SerialTransfer %1 傳輸狀態",
+    "tooltip": "取得SerialTransfer的傳輸狀態碼（2=新資料, 1=無資料, 0=CRC錯誤）"
+  },
+  "serial_transfer_current_packet_id": {
+    "message0": "SerialTransfer %1 目前包ID",
+    "tooltip": "取得最近接收到的資料包ID"
+  },
+  "i2c_transfer_init_master": {
+    "message0": "初始化 I2CTransfer 主機 %1 I2C介面 %2",
+    "tooltip": "初始化I2CTransfer主機物件，設定I2C介面"
+  },
+  "i2c_transfer_init_slave": {
+    "message0": "初始化 I2CTransfer 從機 %1 I2C介面 %2 地址 %3",
+    "tooltip": "初始化I2CTransfer從機物件，設定I2C介面和從機地址"
+  },
+  "i2c_transfer_send_int": {
+    "message0": "I2CTransfer %1 傳送整數 %2 到地址 %3 包ID %4",
+    "tooltip": "透過I2C傳送一個整數值到指定地址"
+  },
+  "i2c_transfer_send_float": {
+    "message0": "I2CTransfer %1 傳送浮點數 %2 到地址 %3 包ID %4",
+    "tooltip": "透過I2C傳送一個浮點數值到指定地址"
+  },
+  "i2c_transfer_send_string": {
+    "message0": "I2CTransfer %1 傳送字串 %2 到地址 %3 包ID %4",
+    "tooltip": "透過I2C傳送一個字串到指定地址"
+  },
+  "i2c_transfer_receive_int": {
+    "message0": "I2CTransfer %1 接收整數",
+    "tooltip": "從I2C接收一個整數值"
+  },
+  "i2c_transfer_receive_float": {
+    "message0": "I2CTransfer %1 接收浮點數",
+    "tooltip": "從I2C接收一個浮點數值"
+  },
+  "i2c_transfer_receive_string": {
+    "message0": "I2CTransfer %1 接收字串 長度 %2",
+    "tooltip": "從I2C接收指定長度的字串"
+  },
+  "i2c_transfer_status": {
+    "message0": "I2CTransfer %1 傳輸狀態",
+    "tooltip": "取得I2CTransfer的傳輸狀態碼"
+  },
+  "spi_transfer_init_master": {
+    "message0": "初始化 SPITransfer 主機 %1 SS引腳 %2",
+    "tooltip": "初始化SPITransfer主機物件，設定SS引腳"
+  },
+  "spi_transfer_init_slave": {
+    "message0": "初始化 SPITransfer 從機 %1",
+    "tooltip": "初始化SPITransfer從機物件，自動配置SPI中斷"
+  },
+  "spi_transfer_send_int": {
+    "message0": "SPITransfer %1 傳送整數 %2 包ID %3",
+    "tooltip": "透過SPI傳送一個整數值"
+  },
+  "spi_transfer_send_float": {
+    "message0": "SPITransfer %1 傳送浮點數 %2 包ID %3",
+    "tooltip": "透過SPI傳送一個浮點數值"
+  },
+  "spi_transfer_send_string": {
+    "message0": "SPITransfer %1 傳送字串 %2 包ID %3",
+    "tooltip": "透過SPI傳送一個字串"
+  },
+  "spi_transfer_available": {
+    "message0": "SPITransfer %1 收到新資料",
+    "tooltip": "檢查SPITransfer是否透過中斷收到新資料"
+  },
+  "spi_transfer_receive_int": {
+    "message0": "SPITransfer %1 接收整數",
+    "tooltip": "從SPI接收一個整數值"
+  },
+  "spi_transfer_receive_float": {
+    "message0": "SPITransfer %1 接收浮點數",
+    "tooltip": "從SPI接收一個浮點數值"
+  },
+  "spi_transfer_receive_string": {
+    "message0": "SPITransfer %1 接收字串 長度 %2",
+    "tooltip": "從SPI接收指定長度的字串"
+  },
+  "spi_transfer_status": {
+    "message0": "SPITransfer %1 傳輸狀態",
+    "tooltip": "取得SPITransfer的傳輸狀態碼"
+  }
+}

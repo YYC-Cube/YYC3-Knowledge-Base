@@ -1,0 +1,235 @@
+{
+  "kind": "category",
+  "icon": "iconfont icon-blinker",
+  "name": "点灯物联网",
+  "colour": "#03A9F4",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_init_wifi"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_init_ble"
+    },
+    {
+      "kind": "label",
+      "text": "自定义组件"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_button"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_button_state"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_slider"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_slider_value"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_colorpicker"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_colorpicker_value"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_joystick"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_joystick_value"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_chart"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_chart_data_upload",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": {
+              "NUM": "100"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blinker_heartbeat"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_data_handler"
+    },
+    {
+      "kind": "label",
+      "text": "数据反馈"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_widget_print"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_icon",
+      "inputs": {
+        "ICON": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blinker_color",
+      "inputs": {
+        "COLOR": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blinker_text",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blinker_state",
+      "inputs": {
+        "STATE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blinker_value",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blinker_vibrate"
+    },
+    {
+      "kind": "label",
+      "text": "调试功能"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_debug_init"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_log",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "blinker_log_args",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        },
+        "ARGS": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "高级功能"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_print"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_reset"
+    },
+    {
+      "kind": "block",
+      "type": "blinker_delay",
+      "inputs": {
+        "DELAY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1000
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+"toolbox_name": "HX711重量センサー",
+"hx711_create": {
+    "message0": "HX711重量センサーを作成 %1"
+},
+"hx711_begin": {
+    "message0": "%1 を初期化 データピン %2 クロックピン %3",
+    "args0": [
+        null,
+        {
+            "options": "${board.digitalPins}"
+        },
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+},
+"hx711_tare": {
+    "message0": "%1 テア (回数 %2)"
+},
+"hx711_set_scale": {
+    "message0": "%1 スケールファクターを設定 %2"
+},
+"hx711_get_units": {
+    "message0": "%1 重量を取得 (回数 %2)"
+},
+"hx711_read": {
+    "message0": "%1 生データを読み取る"
+},
+"hx711_read_average": {
+    "message0": "%1 平均値を読み取る (回数 %2)"
+},
+"hx711_power_down": {
+    "message0": "%1 電源オフ"
+},
+"hx711_power_up": {
+    "message0": "%1 電源オン"
+},
+"hx711_set_gain": {
+    "message0": "%1 ゲインを設定 %2",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["128 (チャンネルA)", "HX711_CHANNEL_A_GAIN_128"],
+                ["64 (チャンネルA)", "HX711_CHANNEL_A_GAIN_64"],
+                ["32 (チャンネルB)", "HX711_CHANNEL_B_GAIN_32"]
+            ]
+        }
+    ]
+},
+"hx711_calibrate_scale": {
+    "message0": "%1 スケールをキャリブレーション 既知の重量 %2 回数 %3"
+}
+}

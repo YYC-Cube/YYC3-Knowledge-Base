@@ -1,0 +1,20 @@
+{
+    "toolbox_name": "톤",
+    "io_tone": {
+        "message0": "%1 핀에서 주파수 %2의 음을 재생하기",
+        "args0": [
+            {
+                "options": "${board.digitalPins}"
+            },
+            null
+        ]
+    },
+    "io_notone": {
+        "message0": "%1 핀에서 음 멈추기",
+        "args0": [
+            {
+                "options": "${board.digitalPins}"
+            }
+        ]
+    }
+}

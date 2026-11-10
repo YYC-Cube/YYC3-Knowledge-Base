@@ -1,0 +1,74 @@
+[
+  {
+    "type": "keypad_initialize",
+    "message0": "初始化键盘 行引脚 R1 %1 R2 %2 R3 %3 R4 %4 列引脚 C1 %5 C2 %6 C3 %7 C4 %8",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ROW1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ROW2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ROW3",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ROW4",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COL1",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COL2",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COL3",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "COL4",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "初始化键盘矩阵，需要指定4个行引脚和4个列引脚",
+    "helpUrl": "",
+    "icon": "iconfont icon-keyboard4x4"
+  },
+  {
+    "type": "keypad_getkey",
+    "message0": "获取按下的键",
+    "output": "String",
+    "colour": 230,
+    "tooltip": "返回当前按下的键，如未按键则返回空",
+    "helpUrl": "",
+    "icon": "iconfont icon-keyboard4x4"
+  },
+  {
+    "type": "keypad_delete",
+    "message0": "释放键盘资源",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "释放键盘占用的资源",
+    "helpUrl": "",
+    "icon": "iconfont icon-keyboard4x4"
+  }
+]

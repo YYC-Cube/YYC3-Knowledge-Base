@@ -1,0 +1,208 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`comment.js format 1`] = `
+====================================options=====================================
+parsers: ["flow"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+const myValue = (callcallcallcallcallcall(87689769876876897698768768976987687689769876):
+                 // Comment
+                 one | two| thre | jdkxhflksjdhfglkjsdhfglkjhsdkfljghskdjhfgkljshdfgkjhsdkljfhgkljshdfgjdfklgjhklj );
+
+=====================================output=====================================
+const myValue = (callcallcallcallcallcall(
+  87689769876876897698768768976987687689769876,
+):
+  // Comment
+  | one
+  | two
+  | thre
+  | jdkxhflksjdhfglkjsdhfglkjhsdkfljghskdjhfgkljshdfgkjhsdkljfhgkljshdfgjdfklgjhklj);
+
+================================================================================
+`;
+
+exports[`issue-1197-2.js format 1`] = `
+====================================options=====================================
+parsers: ["flow"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+// https://github.com/prettier/prettier/issues/1197#issuecomment-496620145
+
+type RecordDataType = {|
+  type: 'Record',
+  /** Fields */
+  fields: {[string]: DataType},
+  /**
+   * Meta
+   */
+  meta?: /**
+     * Custom layouts allow you to provide your own layout.
+     * Example for conditionally showing the interface of one setting based on the value of another.
+     */
+      | {|
+        layout: 'Custom',
+      |}
+    /**
+     * The None layout, embeds Record children directly with no wrapping layout.
+     */
+    | {|layout: 'None'|},
+|};
+
+=====================================output=====================================
+// https://github.com/prettier/prettier/issues/1197#issuecomment-496620145
+
+type RecordDataType = {|
+  type: "Record",
+  /** Fields */
+  fields: { [string]: DataType },
+  /**
+   * Meta
+   */
+  meta?:
+    /**
+     * Custom layouts allow you to provide your own layout.
+     * Example for conditionally showing the interface of one setting based on the value of another.
+     */
+    | {|
+        layout: "Custom",
+      |}
+    /**
+     * The None layout, embeds Record children directly with no wrapping layout.
+     */
+    | {| layout: "None" |},
+|};
+
+================================================================================
+`;
+
+exports[`union.js format 1`] = `
+====================================options=====================================
+parsers: ["flow"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+interface RelayProps {
+  articles: Array<{
+    __id: string,
+  } | null> | null | void | 1,
+}
+
+interface RelayProps2 {
+  articles: Array<{
+    __id: string,
+  } | null> | null | void,
+}
+
+export function aPrettyLongFunction(aRatherLongParamName: string | null): string {}
+
+export function aPrettyLongFunctionA(aRatherLongParameterName: {} | null): string[] {}
+export function aPrettyLongFunctionB(aRatherLongParameterName: Function | null): string[] {}
+export interface MyInterface {}
+export function aPrettyLongFunctionC(aRatherLongParameterName: MyInterface | null): string[] {}
+export type MyType = MyInterface
+export function aPrettyLongFunctionD(aRatherLongParameterName: MyType | null): string[] {}
+
+export function aShortFn(aShortParmName: MyType | null): string[] {}
+
+export function aPrettyLongFunctionE(aRatherLongParameterName: Array<{
+  __id: string,
+} | null> | null | void): string[] {}
+
+=====================================output=====================================
+interface RelayProps {
+  articles:
+    | Array<{
+        __id: string,
+      } | null>
+    | null
+    | void
+    | 1;
+}
+
+interface RelayProps2 {
+  articles: Array<{
+    __id: string,
+  } | null> | null | void;
+}
+
+export function aPrettyLongFunction(
+  aRatherLongParamName: string | null,
+): string {}
+
+export function aPrettyLongFunctionA(
+  aRatherLongParameterName: {} | null,
+): string[] {}
+export function aPrettyLongFunctionB(
+  aRatherLongParameterName: Function | null,
+): string[] {}
+export interface MyInterface {}
+export function aPrettyLongFunctionC(
+  aRatherLongParameterName: MyInterface | null,
+): string[] {}
+export type MyType = MyInterface;
+export function aPrettyLongFunctionD(
+  aRatherLongParameterName: MyType | null,
+): string[] {}
+
+export function aShortFn(aShortParmName: MyType | null): string[] {}
+
+export function aPrettyLongFunctionE(
+  aRatherLongParameterName: Array<{
+    __id: string,
+  } | null> | null | void,
+): string[] {}
+
+================================================================================
+`;
+
+exports[`within-tuple.js format 1`] = `
+====================================options=====================================
+parsers: ["flow"]
+                                                      printWidth: 80 (default) |
+=====================================input======================================
+type A = [AAAAAAAAAAAAAAAAAAAAAA | BBBBBBBBBBBBBBBBBBBBBB | CCCCCCCCCCCCCCCCCCCCCC | DDDDDDDDDDDDDDDDDDDDDD]
+
+type B = [
+  | AAAAAAAAAAAAAAAAAAAAAA
+  | BBBBBBBBBBBBBBBBBBBBBB
+  | CCCCCCCCCCCCCCCCCCCCCC
+  | DDDDDDDDDDDDDDDDDDDDDD
+]
+
+type C = [
+  | [AAAAAAAAAAAAAAAAAAAAAA | BBBBBBBBBBBBBBBBBBBBBB | CCCCCCCCCCCCCCCCCCCCCC | DDDDDDDDDDDDDDDDDDDDDD]
+  | [AAAAAAAAAAAAAAAAAAAAAA | BBBBBBBBBBBBBBBBBBBBBB | CCCCCCCCCCCCCCCCCCCCCC | DDDDDDDDDDDDDDDDDDDDDD]
+]
+
+=====================================output=====================================
+type A = [
+  | AAAAAAAAAAAAAAAAAAAAAA
+  | BBBBBBBBBBBBBBBBBBBBBB
+  | CCCCCCCCCCCCCCCCCCCCCC
+  | DDDDDDDDDDDDDDDDDDDDDD,
+];
+
+type B = [
+  | AAAAAAAAAAAAAAAAAAAAAA
+  | BBBBBBBBBBBBBBBBBBBBBB
+  | CCCCCCCCCCCCCCCCCCCCCC
+  | DDDDDDDDDDDDDDDDDDDDDD,
+];
+
+type C = [
+  | [
+      | AAAAAAAAAAAAAAAAAAAAAA
+      | BBBBBBBBBBBBBBBBBBBBBB
+      | CCCCCCCCCCCCCCCCCCCCCC
+      | DDDDDDDDDDDDDDDDDDDDDD,
+    ]
+  | [
+      | AAAAAAAAAAAAAAAAAAAAAA
+      | BBBBBBBBBBBBBBBBBBBBBB
+      | CCCCCCCCCCCCCCCCCCCCCC
+      | DDDDDDDDDDDDDDDDDDDDDD,
+    ],
+];
+
+================================================================================
+`;

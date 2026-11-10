@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "PCA9685",
+  "toolbox_labels": {
+    "PWM 控制": "Contrôle PWM",
+    "舵机控制": "Asservissement"
+  },
+  "seeed_pca9685_init": {
+    "message0": "Initialiser contrôleur PWM PCA9685 %1 adresse I2C %2",
+    "tooltip": "Créer et initialiser le contrôleur PWM Seeed PCA9685 (sortie PWM 16 canaux), adresse I2C par défaut 0x7f"
+  },
+  "seeed_pca9685_set_frequency": {
+    "message0": "Définir %1 fréquence PWM %2 Hz",
+    "tooltip": "Définir la fréquence de sortie PWM, plage 24Hz~1526Hz"
+  },
+  "seeed_pca9685_set_pwm": {
+    "message0": "Définir %1 broche %2 PWM début %3 fin %4",
+    "tooltip": "Définir la valeur PWM, plage de broches 1-16, valeurs début/fin 0-4095"
+  },
+  "seeed_pca9685_servo_init": {
+    "message0": "Initialiser pilote servo PCA9685 %1 adresse I2C %2",
+    "tooltip": "Créer et initialiser le pilote servo Seeed PCA9685 (contrôle servo 16 canaux), adresse I2C par défaut 0x7f"
+  },
+  "seeed_pca9685_servo_set_pulse_range": {
+    "message0": "Définir %1 plage d'impulsion servo min %2 max %3 angle max %4",
+    "tooltip": "Définir la plage de largeur d'impulsion servo (microsecondes) et l'angle max, défaut 500-2500μs, 180°"
+  },
+  "seeed_pca9685_servo_set_angle": {
+    "message0": "Définir %1 broche %2 angle servo %3",
+    "tooltip": "Définir l'angle servo pour la broche spécifiée, plage 1-16, angle 0-180"
+  }
+}

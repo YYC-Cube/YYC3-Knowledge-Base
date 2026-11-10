@@ -1,0 +1,54 @@
+{
+  "name": "@aily-project/lib-tiny-gps-plus",
+  "nickname": "GPS定位模块",
+  "nickname_zh_cn": "GPS定位模块",
+  "nickname_en": "GPS Module",
+  "nickname_zh_hk": "GPS定位模組",
+  "nickname_ja": "GPS測位モジュール",
+  "nickname_ko": "GPS 위치 모듈",
+  "nickname_de": "GPS-Modul",
+  "nickname_fr": "Module GPS",
+  "nickname_es": "Módulo GPS",
+  "nickname_pt": "Módulo GPS",
+  "nickname_ru": "GPS модуль",
+  "nickname_ar": "وحدة GPS",
+  "author": "mikalhart",
+  "description": "基于TinyGPS++的GPS定位模块控制库，支持NMEA协议解析，可获取经纬度、日期时间、速度、海拔、航向、卫星数等信息，支持两点间距离和航向计算。",
+  "description_zh_cn": "基于TinyGPS++的GPS定位模块控制库，支持NMEA协议解析，可获取经纬度、日期时间、速度、海拔、航向、卫星数等信息，支持两点间距离和航向计算。",
+  "description_en": "GPS module control library based on TinyGPS++, supports NMEA protocol parsing to obtain latitude/longitude, date/time, speed, altitude, course, satellite count and more. Includes distance and course calculation between two points.",
+  "description_zh_hk": "基於TinyGPS++的GPS定位模組控制庫，支援NMEA協定解析，可取得經緯度、日期時間、速度、海拔、航向、衛星數等資訊，支援兩點間距離和航向計算。",
+  "description_ja": "TinyGPS++ベースのGPS測位モジュール制御ライブラリ。NMEAプロトコル解析に対応し、緯度経度、日時、速度、高度、進路、衛星数などの情報を取得できます。2点間の距離と進路の計算もサポートしています。",
+  "description_ko": "TinyGPS++ 기반 GPS 위치 모듈 제어 라이브러리로, NMEA 프로토콜 파싱을 지원하여 위도/경도, 날짜/시간, 속도, 고도, 방위, 위성 수 등의 정보를 얻을 수 있습니다. 두 점 간의 거리 및 방위 계산도 지원합니다.",
+  "description_de": "GPS-Modul-Steuerungsbibliothek basierend auf TinyGPS++, unterstützt NMEA-Protokoll-Parsing zum Abrufen von Breiten-/Längengrad, Datum/Uhrzeit, Geschwindigkeit, Höhe, Kurs, Satellitenanzahl und mehr. Enthält Entfernungs- und Kursberechnung zwischen zwei Punkten.",
+  "description_fr": "Bibliothèque de contrôle de module GPS basée sur TinyGPS++, prend en charge l'analyse du protocole NMEA pour obtenir latitude/longitude, date/heure, vitesse, altitude, cap, nombre de satellites et plus. Inclut le calcul de distance et de cap entre deux points.",
+  "description_es": "Biblioteca de control de módulo GPS basada en TinyGPS++, soporta análisis del protocolo NMEA para obtener latitud/longitud, fecha/hora, velocidad, altitud, rumbo, número de satélites y más. Incluye cálculo de distancia y rumbo entre dos puntos.",
+  "description_pt": "Biblioteca de controle de módulo GPS baseada em TinyGPS++, suporta análise do protocolo NMEA para obter latitude/longitude, data/hora, velocidade, altitude, rumo, número de satélites e mais. Inclui cálculo de distância e rumo entre dois pontos.",
+  "description_ru": "Библиотека управления GPS-модулем на основе TinyGPS++, поддерживает разбор протокола NMEA для получения широты/долготы, даты/времени, скорости, высоты, курса, количества спутников и др. Включает расчёт расстояния и курса между двумя точками.",
+  "description_ar": "مكتبة تحكم GPS بناءً على TinyGPS++، تدعم تحليل بروتوكول NMEA للحصول على خط العرض/الطول، التاريخ/الوقت، السرعة، الارتفاع، الاتجاه، عدد الأقمار الصناعية والمزيد. تتضمن حساب المسافة والاتجاه بين نقطتين.",
+  "version": "0.0.1",
+  "compatibility": {
+    "core": [],
+    "voltage": [
+      3.3,
+      5
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "GPS",
+    "TinyGPS++",
+    "NMEA",
+    "location",
+    "latitude",
+    "longitude",
+    "navigation"
+  ],
+  "tested": false,
+  "tester": "",
+  "url": "https://github.com/mikalhart/TinyGPSPlus",
+  "tags": [
+    "sensor",
+    "input"
+  ]
+}

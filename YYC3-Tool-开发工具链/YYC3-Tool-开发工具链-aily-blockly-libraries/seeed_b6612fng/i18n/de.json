@@ -1,0 +1,104 @@
+{
+  "toolbox_name": "TB6612FNG Motortreiber",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "直流电机": "Gleichstrommotor",
+    "步进电机": "Schrittmotor",
+    "电源管理": "Energieverwaltung"
+  },
+  "tb6612fng_init": {
+    "message0": "Initialisiere %1 Motortreiber I2C-Adresse %2",
+    "tooltip": "Grove TB6612FNG Motortreibermodul initialisieren, I2C-Adresse einstellen"
+  },
+  "tb6612fng_dc_run": {
+    "message0": "%1 DC-Motor antreiben %2 Geschwindigkeit %3",
+    "tooltip": "DC-Motor am angegebenen Kanal antreiben, Geschwindigkeitsbereich -255~255, positiv für CW, negativ für CCW",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Kanal A", "MOTOR_CHA"],
+          ["Kanal B", "MOTOR_CHB"]
+        ]
+      },
+      null
+    ]
+  },
+  "tb6612fng_dc_brake": {
+    "message0": "%1 DC-Motor bremsen %2",
+    "tooltip": "DC-Motor am angegebenen Kanal sofort bremsen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Kanal A", "MOTOR_CHA"],
+          ["Kanal B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_dc_stop": {
+    "message0": "%1 DC-Motor stoppen %2",
+    "tooltip": "DC-Motor am angegebenen Kanal langsam stoppen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Kanal A", "MOTOR_CHA"],
+          ["Kanal B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_stepper_run": {
+    "message0": "%1 Schrittmotor antreiben Modus %2\nSchritte %3 RPM %4",
+    "tooltip": "Schrittmotor antreiben, positive Schritte für CW, negative für CCW, RPM-Bereich 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Vollschritt", "FULL_STEP"],
+          ["Wellenantrieb", "WAVE_DRIVE"],
+          ["Halbschritt", "HALF_STEP"],
+          ["Mikroschritt", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "tb6612fng_stepper_stop": {
+    "message0": "%1 Schrittmotor stoppen",
+    "tooltip": "Schrittmotor stoppen"
+  },
+  "tb6612fng_stepper_keep_run": {
+    "message0": "%1 Schrittmotor Dauerlauf Modus %2\nRPM %3 Richtung %4",
+    "tooltip": "Schrittmotor kontinuierlich laufen lassen, RPM-Bereich 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Vollschritt", "FULL_STEP"],
+          ["Wellenantrieb", "WAVE_DRIVE"],
+          ["Halbschritt", "HALF_STEP"],
+          ["Mikroschritt", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["Uhrzeigersinn", "true"],
+          ["Gegen Uhrzeigersinn", "false"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_standby": {
+    "message0": "%1 Standby-Modus aktivieren",
+    "tooltip": "Motortreiber in Standby-Modus versetzen, alle Motoren stoppen"
+  },
+  "tb6612fng_not_standby": {
+    "message0": "%1 Standby-Modus deaktivieren",
+    "tooltip": "Motortreiber aus Standby-Modus wecken, Normalbetrieb fortsetzen"
+  }
+}

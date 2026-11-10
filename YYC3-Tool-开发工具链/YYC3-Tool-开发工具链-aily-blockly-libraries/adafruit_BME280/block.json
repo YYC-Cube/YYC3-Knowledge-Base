@@ -1,0 +1,175 @@
+
+[
+  {
+    "type": "bme280_init",
+    "message0": "初始化BME280传感器 地址 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "ADDRESS",
+        "text": "BME280_ADDRESS"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_read_temperature",
+    "message0": "读取温度 (°C)",
+    "output": "Number",
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_read_pressure",
+    "message0": "读取气压 (hPa)",
+    "output": "Number",
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_read_humidity",
+    "message0": "读取湿度 (%)",
+    "output": "Number",
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_read_altitude",
+    "message0": "读取海拔 (m) 海平面压力 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "SEALEVEL",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_take_forced_measurement",
+    "message0": "强制测量BME280",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_set_sampling",
+    "message0": "设置BME280采样：模式 %1 温度采样 %2 气压采样 %3 湿度采样 %4 滤波 %5 待机 %6",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [ "正常", "0" ],
+          [ "省电", "1" ],
+          [ "强制", "2" ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "TEMP_SAMPLING",
+        "options": [
+          [ "低", "0" ],
+          [ "标准", "1" ],
+          [ "高", "2" ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PRESS_SAMPLING",
+        "options": [
+          [ "低", "0" ],
+          [ "标准", "1" ],
+          [ "高", "2" ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "HUM_SAMPLING",
+        "options": [
+          [ "低", "0" ],
+          [ "标准", "1" ],
+          [ "高", "2" ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "FILTER",
+        "options": [
+          [ "关闭", "0" ],
+          [ "2", "2" ],
+          [ "4", "4" ],
+          [ "8", "8" ],
+          [ "16", "16" ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "STANDBY",
+        "options": [
+          [ "0.5ms", "0.5" ],
+          [ "10ms", "10" ],
+          [ "20ms", "20" ],
+          [ "62.5ms", "62.5" ],
+          [ "125ms", "125" ],
+          [ "250ms", "250" ],
+          [ "500ms", "500" ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_read_and_print_all",
+    "message0": "读取并打印所有BME280数据",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_sea_level_for_altitude",
+    "message0": "海拔校正：海拔 %1 压力 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ALTITUDE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PRESSURE",
+        "check": "Number"
+      }
+    ],
+    "output": "Number",
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_sensor_id",
+    "message0": "获取BME280传感器ID",
+    "output": "Number",
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_temperature_compensation",
+    "message0": "设置温度补偿 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "COMPENSATION",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#009688"
+  },
+  {
+    "type": "bme280_get_temperature_compensation",
+    "message0": "获取温度补偿",
+    "output": "Number",
+    "colour": "#009688"
+  }
+]

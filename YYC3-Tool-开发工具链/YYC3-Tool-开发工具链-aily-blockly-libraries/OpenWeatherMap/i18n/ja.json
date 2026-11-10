@@ -1,0 +1,219 @@
+{
+  "toolbox_name": "気象データ",
+  "toolbox_labels": {
+    "初始化与配置": "初期化と構成",
+    "当前天气": "現在の天気",
+    "天气预报": "天気予報",
+    "空气质量": "空気の質",
+    "地理编码": "ジオコーディング",
+    "工具": "ツール"
+  },
+  "owm_init": {
+    "message0": "天気サービスを初期化 %1 APIキー %2",
+    "tooltip": "OpenWeatherMapサービスを初期化します。APIキーが必要です"
+  },
+  "owm_set_units": {
+    "message0": "天気 %1 の単位を %2 に設定",
+    "tooltip": "温度と風速の単位システムを設定します",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["メートル法 (摂氏)", "OWM_UNITS_METRIC"],
+          ["ヤード・ポンド法 (華氏)", "OWM_UNITS_IMPERIAL"],
+          ["標準 (ケルビン)", "OWM_UNITS_STANDARD"]
+        ]
+      }
+    ]
+  },
+  "owm_set_language": {
+    "message0": "天気 %1 の言語を %2 に設定",
+    "tooltip": "天気説明の言語を設定します",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["中国語", "zh_cn"],
+          ["英語", "en"],
+          ["日本語", "ja"],
+          ["韓国語", "kr"],
+          ["ドイツ語", "de"],
+          ["フランス語", "fr"],
+          ["スペイン語", "es"],
+          ["ロシア語", "ru"]
+        ]
+      }
+    ]
+  },
+  "owm_set_debug": {
+    "message0": "天気 %1 デバッグモード %2",
+    "tooltip": "デバッグ出力を有効または無効にします",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["オン", "true"],
+          ["オフ", "false"]
+        ]
+      }
+    ]
+  },
+  "owm_get_weather_by_city": {
+    "message0": "天気 %1 都市の天気を取得 都市 %2 国コード %3",
+    "tooltip": "都市名で現在の天気データをリクエストします"
+  },
+  "owm_get_weather_by_coords": {
+    "message0": "天気 %1 座標の天気を取得 緯度 %2 経度 %3",
+    "tooltip": "緯度・経度で現在の天気データをリクエストします"
+  },
+  "owm_request_success": {
+    "message0": "天気 %1 リクエスト成功?",
+    "tooltip": "最後のリクエストが成功したかを確認します"
+  },
+  "owm_weather_data": {
+    "message0": "天気 %1 の %2",
+    "tooltip": "現在の天気データを取得します",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["都市名", "name"],
+          ["国コード", "country"],
+          ["天気メイン", "weather_main"],
+          ["天気の説明", "weather_description"],
+          ["天気アイコン", "weather_icon"],
+          ["現在の気温", "temp"],
+          ["体感温度", "feels_like"],
+          ["最低気温", "temp_min"],
+          ["最高気温", "temp_max"],
+          ["湿度(%)", "humidity"],
+          ["気圧(hPa)", "pressure"],
+          ["風速", "wind_speed"],
+          ["風向(度)", "wind_deg"],
+          ["雲量(%)", "clouds"],
+          ["視程(m)", "visibility"],
+          ["日の出時刻", "sunrise"],
+          ["日の入り時刻", "sunset"]
+        ]
+      }
+    ]
+  },
+  "owm_get_forecast": {
+    "message0": "天気 %1 天気予報を取得 緯度 %2 経度 %3 時点数 %4",
+    "tooltip": "5日間/3時間天気予報をリクエストします。時点数0で全て取得(最大40)"
+  },
+  "owm_get_forecast_by_city": {
+    "message0": "天気 %1 都市予報を取得 都市 %2 国コード %3 時点数 %4",
+    "tooltip": "都市名で5日間天気予報をリクエストします"
+  },
+  "owm_forecast_request_success": {
+    "message0": "天気 %1 予報リクエスト成功?",
+    "tooltip": "最後の天気予報リクエストが成功したかを確認します"
+  },
+  "owm_forecast_count": {
+    "message0": "天気 %1 予報時点数",
+    "tooltip": "予報データの時点数を取得します"
+  },
+  "owm_forecast_data": {
+    "message0": "天気 %1 第 %2 予報の %3",
+    "tooltip": "指定した時点の予報データを取得します(インデックスは0から)",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["日時テキスト", "dt_txt"],
+          ["天気メイン", "weather_main"],
+          ["天気の説明", "weather_description"],
+          ["気温", "temp"],
+          ["体感温度", "feels_like"],
+          ["最低気温", "temp_min"],
+          ["最高気温", "temp_max"],
+          ["湿度(%)", "humidity"],
+          ["気圧(hPa)", "pressure"],
+          ["風速", "wind_speed"],
+          ["雲量(%)", "clouds"],
+          ["降水確率", "pop"],
+          ["3時間降水量", "rain_3h"],
+          ["3時間降雪量", "snow_3h"]
+        ]
+      }
+    ]
+  },
+  "owm_get_air_pollution": {
+    "message0": "天気 %1 大気質を取得 緯度 %2 経度 %3",
+    "tooltip": "指定位置の大気汚染データをリクエストします"
+  },
+  "owm_air_pollution_request_success": {
+    "message0": "天気 %1 大気質リクエスト成功?",
+    "tooltip": "最後の大気汚染リクエストが成功したかを確認します"
+  },
+  "owm_air_pollution_data": {
+    "message0": "天気 %1 の大気 %2",
+    "tooltip": "大気汚染データを取得します",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["大気質指数(1-5)", "aqi"],
+          ["一酸化炭素(μg/m³)", "co"],
+          ["一酸化窒素(μg/m³)", "no"],
+          ["二酸化窒素(μg/m³)", "no2"],
+          ["オゾン(μg/m³)", "o3"],
+          ["二酸化硫黄(μg/m³)", "so2"],
+          ["PM2.5(μg/m³)", "pm2_5"],
+          ["PM10(μg/m³)", "pm10"],
+          ["アンモニア(μg/m³)", "nh3"]
+        ]
+      }
+    ]
+  },
+  "owm_aqi_description": {
+    "message0": "大気質の説明 指数 %1",
+    "tooltip": "大気質指数(1-5)を説明テキストに変換します"
+  },
+  "owm_get_coords_by_city": {
+    "message0": "天気 %1 都市の座標を取得 都市 %2 国コード %3",
+    "tooltip": "都市名で地理座標をリクエストします"
+  },
+  "owm_get_coords_by_zip": {
+    "message0": "天気 %1 郵便番号の座標を取得 郵便番号 %2 国コード %3",
+    "tooltip": "郵便番号で地理座標をリクエストします"
+  },
+  "owm_get_location_by_coords": {
+    "message0": "天気 %1 逆ジオコーディング 緯度 %2 経度 %3",
+    "tooltip": "緯度・経度で逆ジオコーディングをリクエストします"
+  },
+  "owm_geo_request_success": {
+    "message0": "天気 %1 ジオコーディングリクエスト成功?",
+    "tooltip": "最後のジオコーディングリクエストが成功したかを確認します"
+  },
+  "owm_geo_data": {
+    "message0": "天気 %1 の位置 %2",
+    "tooltip": "ジオコーディング位置データを取得します",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["都市名", "name"],
+          ["国コード", "country"],
+          ["州/県", "state"],
+          ["緯度", "lat"],
+          ["経度", "lon"]
+        ]
+      }
+    ]
+  },
+  "owm_get_icon_url": {
+    "message0": "天気アイコンURL アイコンコード %1",
+    "tooltip": "天気アイコンコードからアイコンURLを取得します"
+  },
+  "owm_get_last_error": {
+    "message0": "天気 %1 最後のエラーメッセージ",
+    "tooltip": "最後の操作のエラーメッセージを取得します"
+  },
+  "owm_get_http_code": {
+    "message0": "天気 %1 最後のHTTPコード",
+    "tooltip": "最後のHTTPリクエストのレスポンスコードを取得します"
+  }
+}

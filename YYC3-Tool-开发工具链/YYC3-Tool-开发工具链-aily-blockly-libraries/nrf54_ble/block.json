@@ -1,0 +1,640 @@
+[
+  {
+    "type": "nrf54_ble_init",
+    "message0": "初始化BLE 发射功率(dBm) %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TX_POWER",
+        "options": [
+          ["+8", "8"],
+          ["+4", "4"],
+          ["0", "0"],
+          ["-4", "-4"],
+          ["-8 (默认)", "-8"],
+          ["-12", "-12"],
+          ["-16", "-16"],
+          ["-20", "-20"],
+          ["-40", "-40"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "初始化nRF54 BLE无线电，设置发射功率",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_end",
+    "message0": "关闭BLE",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "关闭BLE无线电",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_name",
+    "message0": "设置BLE广播名称 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置BLE广播设备名称",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_address",
+    "message0": "设置BLE地址 %1 类型 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR_TYPE",
+        "options": [
+          ["随机静态", "kRandomStatic"],
+          ["公共", "kPublic"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置BLE设备地址(格式: AA:BB:CC:DD:EE:FF)",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_get_address",
+    "message0": "获取BLE地址",
+    "output": "String",
+    "colour": "#2196F3",
+    "tooltip": "获取当前BLE设备地址字符串",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_tx_power",
+    "message0": "设置发射功率(dBm) %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TX_POWER",
+        "options": [
+          ["+8", "8"],
+          ["+4", "4"],
+          ["0", "0"],
+          ["-4", "-4"],
+          ["-8", "-8"],
+          ["-12", "-12"],
+          ["-16", "-16"],
+          ["-20", "-20"],
+          ["-40", "-40"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "tooltip": "设置BLE发射功率",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_adv_type",
+    "message0": "设置广播类型 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PDU_TYPE",
+        "options": [
+          ["可连接可扫描(ADV_IND)", "kAdvInd"],
+          ["不可连接不可扫描(ADV_NONCONN_IND)", "kAdvNonConnInd"],
+          ["不可连接可扫描(ADV_SCAN_IND)", "kAdvScanInd"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置BLE广播PDU类型",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_adv_data_raw",
+    "message0": "设置广播原始数据 Flags %1 包含名称 %2",
+    "args0": [
+      {
+        "type": "field_checkbox",
+        "name": "FLAGS",
+        "checked": true
+      },
+      {
+        "type": "field_checkbox",
+        "name": "INCLUDE_NAME",
+        "checked": true
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "使用setAdvertisingName自动构建广播数据",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_scan_response_name",
+    "message0": "设置扫描响应名称 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "设置BLE扫描响应中的设备名称",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_advertise_once",
+    "message0": "发送一次广播事件",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "在三个主广播信道上发送一次广播事件 (TX-only)",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_advertise_connectable",
+    "message0": "发送可连接广播并监听",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "tooltip": "发送可连接广播事件并监听连接请求 (ADV_IND)",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_is_connected",
+    "message0": "BLE已连接?",
+    "output": "Boolean",
+    "colour": "#4CAF50",
+    "tooltip": "检查BLE是否已建立连接",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_disconnect",
+    "message0": "断开BLE连接",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "主动断开当前BLE连接",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_poll_event",
+    "message0": "等待连接事件",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "等待并处理一个BLE连接事件",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_on_connected",
+    "message0": "当BLE连接时 %1 %2",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当BLE设备连接成功时执行",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_on_disconnected",
+    "message0": "当BLE断开时 %1 %2",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当BLE设备连接断开时执行",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_gatt_device_name",
+    "message0": "设置GATT设备名称 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置GATT标准设备名称特征值",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_gatt_battery",
+    "message0": "设置GATT电池电量 %1 %%",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "LEVEL",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置GATT标准电池电量 (0-100)",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_clear_gatt",
+    "message0": "清空自定义GATT表",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "清空自定义GATT服务表，添加新服务前必须调用",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_add_service_16",
+    "message0": "添加GATT服务 %1 UUID(16位) %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "SVC_VAR",
+        "text": "svcHandle"
+      },
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "添加一个16位UUID自定义GATT服务",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_add_service_128",
+    "message0": "添加GATT服务(128位) %1 UUID %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "SVC_VAR",
+        "text": "svcHandle"
+      },
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": "String"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "添加一个128位UUID自定义GATT服务",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_add_characteristic",
+    "message0": "在服务 %1 添加特征 %2 UUID(16位) %3 属性 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "SVC_VAR",
+        "variable": "svcHandle",
+        "variableTypes": ["uint16_t"],
+        "defaultType": "uint16_t"
+      },
+      {
+        "type": "field_input",
+        "name": "CHAR_VAR",
+        "text": "charHandle"
+      },
+      {
+        "type": "input_value",
+        "name": "UUID",
+        "check": "String"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PROPS",
+        "options": [
+          ["读", "READ"],
+          ["写(有响应)", "WRITE"],
+          ["写(无响应)", "WRITE_NR"],
+          ["通知", "NOTIFY"],
+          ["指示", "INDICATE"],
+          ["读+通知", "READ_NOTIFY"],
+          ["读+写", "READ_WRITE"],
+          ["读+写+通知", "READ_WRITE_NOTIFY"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "在指定服务下添加一个特征值",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_set_char_value",
+    "message0": "设置特征值 %1 数据 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR_VAR",
+        "variable": "charHandle",
+        "variableTypes": ["uint16_t"],
+        "defaultType": "uint16_t"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置特征值的数据内容",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_notify_char",
+    "message0": "通知特征值 %1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR_VAR",
+        "variable": "charHandle",
+        "variableTypes": ["uint16_t"],
+        "defaultType": "uint16_t"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "发送特征值变化通知给已连接的中心设备",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_is_cccd_enabled",
+    "message0": "特征 %1 通知已启用?",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR_VAR",
+        "variable": "charHandle",
+        "variableTypes": ["uint16_t"],
+        "defaultType": "uint16_t"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "检查中心设备是否已启用该特征值的通知",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_on_char_write",
+    "message0": "当特征 %1 被写入时 %2 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "CHAR_VAR",
+        "variable": "charHandle",
+        "variableTypes": ["uint16_t"],
+        "defaultType": "uint16_t"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "当特征值被中心设备写入时执行",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_char_write_value",
+    "message0": "写入的数据(字符串)",
+    "output": "String",
+    "colour": "#E91E63",
+    "tooltip": "获取最后一次写入特征值的数据(需在写入回调中使用)",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_nus_init",
+    "message0": "初始化BLE Nordic UART服务 名称 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "初始化BLE和Nordic UART服务(NUS)，设置广播名称",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_nus_available",
+    "message0": "NUS可读字节数",
+    "output": "Number",
+    "colour": "#00BCD4",
+    "tooltip": "返回NUS接收缓冲区中可读的字节数",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_nus_read_string",
+    "message0": "NUS读取字符串",
+    "output": "String",
+    "colour": "#00BCD4",
+    "tooltip": "从NUS接收缓冲区读取所有可用数据为字符串",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_nus_write",
+    "message0": "NUS发送 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "通过NUS发送字符串数据到中心设备",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_nus_println",
+    "message0": "NUS发送一行 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "通过NUS发送字符串数据并换行",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_nus_connected",
+    "message0": "NUS已连接?",
+    "output": "Boolean",
+    "colour": "#00BCD4",
+    "tooltip": "检查NUS蓝牙连接是否建立",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_nus_service",
+    "message0": "NUS服务循环处理",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "在loop中调用，处理NUS收发和连接事件",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_scan_passive",
+    "message0": "被动扫描BLE设备 (无发射)",
+    "output": "Boolean",
+    "colour": "#795548",
+    "tooltip": "被动扫描附近BLE广播(不发送SCAN_REQ)，返回是否收到广播",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_scan_active",
+    "message0": "主动扫描BLE设备",
+    "output": "Boolean",
+    "colour": "#795548",
+    "tooltip": "主动扫描附近BLE设备(发送SCAN_REQ接收SCAN_RSP)，返回是否扫描到设备",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_scan_get_address",
+    "message0": "扫描结果 设备地址",
+    "output": "String",
+    "colour": "#795548",
+    "tooltip": "获取最近扫描到的设备地址",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_scan_get_rssi",
+    "message0": "扫描结果 RSSI",
+    "output": "Number",
+    "colour": "#795548",
+    "tooltip": "获取最近扫描到的设备信号强度(dBm)",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_scan_get_name",
+    "message0": "扫描结果 设备名称",
+    "output": "String",
+    "colour": "#795548",
+    "tooltip": "从扫描结果的广播数据中解析设备名称",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_peripheral_quick",
+    "message0": "快速BLE外设 名称 %1 %2 当收到数据 %3",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "NAME"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "ON_RECEIVE"
+      }
+    ],
+    "colour": "#E91E63",
+    "tooltip": "一键初始化BLE NUS外设。连接后自动桥接，收到数据时执行代码块",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_peripheral_received_data",
+    "message0": "接收到的BLE数据",
+    "output": "String",
+    "colour": "#E91E63",
+    "tooltip": "获取通过BLE接收到的数据字符串(需在回调中使用)",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_peripheral_send",
+    "message0": "BLE发送 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DATA"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#E91E63",
+    "tooltip": "通过BLE发送数据给中心设备",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_peripheral_connected",
+    "message0": "BLE外设已连接?",
+    "output": "Boolean",
+    "colour": "#E91E63",
+    "tooltip": "检查快速BLE外设是否已连接",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_power_low_power_mode",
+    "message0": "设置低功耗模式",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#607D8B",
+    "tooltip": "设置CPU为低功耗延迟模式，空闲时自动降频节能",
+    "icon": "fa-regular fa-bluetooth"
+  },
+  {
+    "type": "nrf54_ble_battery_percent",
+    "message0": "电池电量(%)",
+    "output": "Number",
+    "colour": "#607D8B",
+    "tooltip": "采样并返回电池电量百分比 (Li-ion)",
+    "icon": "fa-regular fa-bluetooth"
+  }
+]

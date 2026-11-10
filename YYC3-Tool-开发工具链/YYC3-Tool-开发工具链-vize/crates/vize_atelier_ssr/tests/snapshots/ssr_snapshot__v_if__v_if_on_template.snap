@@ -1,0 +1,11 @@
+---
+source: crates/vize_atelier_ssr/tests/ssr_snapshot.rs
+expression: "compile_full(r#\"<template v-if=\"foo\"><div>hello</div></template>\"#)"
+---
+function ssrRender(_ctx, _push, _parent, _attrs) {
+  if (_ctx.foo) {
+    _push(`<div>hello</div>`)
+  } else {
+    _push(`<!---->`)
+  }
+}

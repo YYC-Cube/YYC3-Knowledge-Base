@@ -1,0 +1,111 @@
+{
+"toolbox_name": "IICMotorDriver",
+"iicmd_init": {
+    "message0": "모터 드라이버 초기화"
+},
+"iicmd_dirinit": {
+    "message0": "모터 기준 방향 초기화 모터1%1 모터2%2 모터3%3 모터4%4",
+    "args0": [
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        }
+    ]
+},
+"iicmd_stop": {
+    "message0": "%1 정지 설정",
+    "args0": [
+        {
+            "options": [
+                ["모터1","M1"],
+                ["모터2","M2"],
+                ["모터3","M3"],
+                ["모터4","M4"],
+                ["모든 모터","MALL"]
+            ]
+        }
+    ]
+},
+"iicmd_runone": {
+    "message0": "모터 %1 속도를 %2로 설정",
+    "args0": [
+        {
+            "options": [
+                ["모터1","M1"],
+                ["모터2","M2"],
+                ["모터3","M3"],
+                ["모터4","M4"]
+            ]
+        },
+        null
+    ]
+},
+"iicmd_runall": {
+    "message0": "모든 모터 속도 %1로 설정",
+    "args0": [
+        null
+    ]
+},
+"iicmd_runall2": {
+    "message0": "모든 모터 속도 설정 모터1%1 모터2%2 모터3%3 모터4%4",
+    "args0": [
+        null,
+        null,
+        null,
+        null
+    ]
+},
+"iicmd_digitout": {
+    "message0": "포트%1 %2 출력",
+    "args0": [
+        {
+            "options": [
+                ["S1","S1"],
+                ["S2","S2"],
+                ["S3","S3"],
+                ["S4","S4"]
+            ]
+        },
+        {
+            "options": [
+                ["HIGH","HIGH"],
+                ["LOW","LOW"]
+            ]
+        }
+    ]
+},
+"iicmd_servo": {
+    "message0": "서보 포트%1 (0-180) %2°로 회전",
+    "args0": [
+        {
+            "options": [
+                ["S1","S1"],
+                ["S2","S2"],
+                ["S3","S3"],
+                ["S4","S4"]
+            ]
+        },
+        null
+    ]
+}
+}

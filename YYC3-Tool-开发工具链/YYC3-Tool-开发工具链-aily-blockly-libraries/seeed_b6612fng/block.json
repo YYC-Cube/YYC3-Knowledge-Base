@@ -1,0 +1,247 @@
+[
+  {
+    "type": "tb6612fng_init",
+    "message0": "初始化 %1 电机驱动 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "motor"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ADDR",
+        "options": [
+          ["0x14", "0x14"],
+          ["0x15", "0x15"],
+          ["0x16", "0x16"],
+          ["0x17", "0x17"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "初始化 Grove TB6612FNG 电机驱动模块，设置I2C地址",
+    "helpUrl": ""
+  },
+  {
+    "type": "tb6612fng_dc_run",
+    "message0": "%1 驱动直流电机 %2 速度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["MotorDriver"],
+        "defaultType": "MotorDriver"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["通道A", "MOTOR_CHA"],
+          ["通道B", "MOTOR_CHB"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": true,
+    "colour": "#F57C00",
+    "tooltip": "驱动指定通道的直流电机，速度范围 -255~255，正值顺时针，负值逆时针",
+    "helpUrl": ""
+  },
+  {
+    "type": "tb6612fng_dc_brake",
+    "message0": "%1 刹车直流电机 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["MotorDriver"],
+        "defaultType": "MotorDriver"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["通道A", "MOTOR_CHA"],
+          ["通道B", "MOTOR_CHB"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "立即刹车停止指定通道的直流电机",
+    "helpUrl": ""
+  },
+  {
+    "type": "tb6612fng_dc_stop",
+    "message0": "%1 停止直流电机 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["MotorDriver"],
+        "defaultType": "MotorDriver"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["通道A", "MOTOR_CHA"],
+          ["通道B", "MOTOR_CHB"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "缓慢停止指定通道的直流电机",
+    "helpUrl": ""
+  },
+  {
+    "type": "tb6612fng_stepper_run",
+    "message0": "%1 驱动步进电机 模式 %2\n步数 %3 转速(RPM) %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["MotorDriver"],
+        "defaultType": "MotorDriver"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["全步进", "FULL_STEP"],
+          ["波浪驱动", "WAVE_DRIVE"],
+          ["半步进", "HALF_STEP"],
+          ["微步进", "MICRO_STEPPING"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "STEPS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "RPM",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": "#F57C00",
+    "tooltip": "驱动步进电机，步数正值顺时针，负值逆时针，转速范围1~300RPM",
+    "helpUrl": ""
+  },
+  {
+    "type": "tb6612fng_stepper_stop",
+    "message0": "%1 停止步进电机",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["MotorDriver"],
+        "defaultType": "MotorDriver"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "停止步进电机",
+    "helpUrl": ""
+  },
+  {
+    "type": "tb6612fng_stepper_keep_run",
+    "message0": "%1 步进电机持续运转 模式 %2\n转速(RPM) %3 方向 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["MotorDriver"],
+        "defaultType": "MotorDriver"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          ["全步进", "FULL_STEP"],
+          ["波浪驱动", "WAVE_DRIVE"],
+          ["半步进", "HALF_STEP"],
+          ["微步进", "MICRO_STEPPING"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "RPM",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DIR",
+        "options": [
+          ["顺时针", "true"],
+          ["逆时针", "false"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "inputsInline": false,
+    "colour": "#F57C00",
+    "tooltip": "使步进电机持续运转，转速范围1~300RPM",
+    "helpUrl": ""
+  },
+  {
+    "type": "tb6612fng_standby",
+    "message0": "%1 进入待机模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["MotorDriver"],
+        "defaultType": "MotorDriver"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "电机驱动进入待机模式，所有电机停止",
+    "helpUrl": ""
+  },
+  {
+    "type": "tb6612fng_not_standby",
+    "message0": "%1 退出待机模式",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "motor",
+        "variableTypes": ["MotorDriver"],
+        "defaultType": "MotorDriver"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#F57C00",
+    "tooltip": "电机驱动退出待机模式，恢复正常工作",
+    "helpUrl": ""
+  }
+]

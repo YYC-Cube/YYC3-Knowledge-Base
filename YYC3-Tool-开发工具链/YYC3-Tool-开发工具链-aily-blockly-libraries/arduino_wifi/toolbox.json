@@ -1,0 +1,31 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-wifi",
+  "name": "WiFi",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "wifi_begin"
+    },
+    {
+      "kind": "block",
+      "type": "wifi_connect"
+    },
+    {
+      "kind": "block",
+      "type": "wifi_connected"
+    },
+    {
+      "kind": "block",
+      "type": "ciao_begin"
+    },
+    {
+      "kind": "block",
+      "type": "ciao_read"
+    },
+    {
+      "kind": "block",
+      "type": "ciao_write"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "toolbox_name": "LSM303AGR 加速度計・磁力計",
+  "toolbox_labels": {
+    "加速度计": "加速度計",
+    "磁力计": "磁力計",
+    "姿态解算(AHRS)": "姿勢解像度 (AHRS)"
+  },
+  "lsm303agr_acc_init": {
+    "message0": "加速度計を初期化 %1\n使用 %2",
+    "tooltip": "LSM303AGR加速度計センサーをI2Cインターフェースで初期化"
+  },
+  "lsm303agr_mag_init": {
+    "message0": "磁力計を初期化 %1\n使用 %2",
+    "tooltip": "LSM303AGR磁力計センサーをI2Cインターフェースで初期化"
+  },
+  "lsm303agr_acc_get_axis": {
+    "message0": "加速度計 %1 の %2 軸加速度を読み取る(mg)",
+    "tooltip": "LSM303AGR加速度計のX/Y/Z軸加速度値を読み取る、単位はmg"
+  },
+  "lsm303agr_mag_get_axis": {
+    "message0": "磁力計 %1 の %2 軸磁場を読み取る(mGauss)",
+    "tooltip": "LSM303AGR磁力計のX/Y/Z軸磁場値を読み取る、単位はmGauss"
+  },
+  "lsm303agr_acc_get_temperature": {
+    "message0": "加速度計 %1 の温度を読み取る(°C)",
+    "tooltip": "LSM303AGR加速度計の温度値を読み取る、単位は°C"
+  },
+  "lsm303agr_ahrs_update": {
+    "message0": "姿勢推定を更新\n加速度計 %1 磁力計 %2",
+    "tooltip": "加速度計と磁力計のデータを使用して姿勢推定を更新し、ロール角、ピッチ角、ヘディング角を計算"
+  },
+  "lsm303agr_ahrs_get_angle": {
+    "message0": "姿勢角を取得 %1 (°)",
+    "tooltip": "姿勢推定結果を取得。ロール/ピッチ範囲: -180~180°、ヘディング範囲: 0~360°",
+    "args0": [
+      {
+        "options": [
+          ["ロール角(Roll)", "ROLL"],
+          ["ピッチ角(Pitch)", "PITCH"],
+          ["ヘディング角(Heading)", "HEADING"]
+        ]
+      }
+    ]
+  }
+}

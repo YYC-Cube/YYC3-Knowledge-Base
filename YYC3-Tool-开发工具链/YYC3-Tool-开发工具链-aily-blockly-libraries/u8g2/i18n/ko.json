@@ -1,0 +1,410 @@
+{
+  "toolbox_name": "단색 디스플레이",
+  "toolbox_categories": ["u8g2 초기화 및 설정", "u8g2 버퍼", "u8g2 그래픽 그리기", "u8g2 이미지", "u8g2 애니메이션", "u8x8"],
+  "u8g2_begin": {
+    "message0": "디스플레이 초기화 모델 %1 모드 %2",
+    "tooltip": "U8G2 디스플레이 장치를 초기화합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "SSD1306",
+            "SSD1306"
+          ],
+          [
+            "SSD1309",
+            "SSD1309"
+          ],
+          [
+            "SH1106",
+            "SH1106"
+          ],
+          [
+            "SH1107",
+            "SH1107"
+          ],
+          [
+            "ST7305",
+            "ST7305"
+          ],
+          [
+            "ST7567",
+            "ST7567"
+          ],
+          [
+            "ST7920",
+            "ST7920"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "전체 버퍼",
+            "FULL_BUFFER"
+          ],
+          [
+            "페이지 버퍼",
+            "PAGE_BUFFER"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_page_buffer": {
+    "message0": "페이지 버퍼 모드",
+    "message1": "그리기 %1",
+    "tooltip": "페이지 버퍼 모드에서 그리기 작업을 수행합니다"
+  },
+  "u8g2_clear": {
+    "message0": "디스플레이 지우기",
+    "tooltip": "디스플레이 버퍼 내용을 지웁니다"
+  },
+  "u8g2_draw_pixel": {
+    "message0": "점 그리기 x%1 y%2",
+    "tooltip": "점을 그립니다"
+  },
+  "u8g2_draw_line": {
+    "message0": "선 그리기 x%1 y%2 에서 x%3 y%4 까지",
+    "tooltip": "직선을 그립니다"
+  },
+  "u8g2_draw_rectangle": {
+    "message0": "사각형 그리기 x%1 y%2 너비%3 높이%4 채우기%5",
+    "tooltip": "사각형을 그리며 채우기 여부를 선택할 수 있습니다"
+  },
+  "u8g2_draw_circle": {
+    "message0": "원 그리기 중심 x%1 y%2 반지름%3 채우기%4",
+    "tooltip": "원을 그리며 채우기 여부를 선택할 수 있습니다"
+  },
+  "u8g2_draw_str": {
+    "message0": "텍스트 표시 x%1 y%2 텍스트%3",
+    "tooltip": "화면 지우기와 갱신이 포함된 간단한 텍스트 표시"
+  },
+  "u8g2_draw_bitmap": {
+    "message0": "이미지 표시 x%1 y%2 이미지 %3",
+    "tooltip": "이미지를 표시합니다"
+  },
+  "u8g2_bitmap": {
+    "message0": "이미지 %1",
+    "tooltip": "u8g2 그리기용 이미지 데이터"
+  },
+  "u8g2_animation": {
+    "message0": "애니메이션 %1",
+    "tooltip": "GIF, MP4 또는 PNG를 업로드하고 u8g2 애니메이션 프레임으로 변환합니다"
+  },
+  "u8g2_play_animation": {
+    "message0": "애니메이션 재생 x%1 y%2 애니메이션 %3 모드 %4",
+    "message1": "반복 재생 %1",
+    "tooltip": "u8g2 애니메이션을 재생합니다. 비차단 모드에서는 loop가 프레임 간격에 도달할 때마다 다음 프레임을 렌더링합니다.",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "차단 재생",
+            "BLOCKING"
+          ],
+          [
+            "비차단 재생",
+            "NON_BLOCKING"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_draw_animation_frame": {
+    "message0": "애니메이션 프레임 표시 x%1 y%2 애니메이션 %3 프레임 %4",
+    "tooltip": "지정한 u8g2 애니메이션 프레임을 표시합니다. 프레임 번호에는 변수를 연결할 수 있으며 유효 범위로 제한됩니다"
+  },
+  "u8g2_animation_frame_count": {
+    "message0": "애니메이션 %1의 전체 프레임 수 가져오기",
+    "tooltip": "u8g2 애니메이션의 전체 프레임 수를 가져옵니다"
+  },
+  "u8g2_step_animation_frame": {
+    "message0": "프레임 변수 %1 을(를) 목표 프레임 %2 쪽으로 한 단계 이동 전체 프레임 수 %3 방향 %4",
+    "tooltip": "실행할 때마다 프레임 변수를 한 프레임 이동합니다. 정방향과 역방향은 양 끝에서 순환하며, 자동은 현재 프레임과 목표 프레임에 따라 방향을 선택합니다",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "자동",
+            "AUTO"
+          ],
+          [
+            "정방향",
+            "FORWARD"
+          ],
+          [
+            "역방향",
+            "BACKWARD"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_icon_16x16": {
+    "message0": "작은 아이콘16×16 %1",
+    "tooltip": "16×16 픽셀 작은 아이콘으로 배터리, 신호, 이모지 등에 적합합니다"
+  },
+  "u8g2_icon_32x32": {
+    "message0": "중간 아이콘32×32 %1",
+    "tooltip": "32×32 픽셀 중간 아이콘으로 날씨와 상태 아이콘 등에 적합합니다"
+  },
+  "u8g2_icon_64x64": {
+    "message0": "큰 아이콘64×64 %1",
+    "tooltip": "64×64 픽셀 큰 아이콘으로 앱 아이콘과 큰 이모지 등에 적합합니다"
+  },
+  "u8g2_set_flip_mode": {
+    "message0": "화면 뒤집기 설정 %1",
+    "tooltip": "화면 표시 방향을 설정합니다. 0=정상 1=180도 뒤집기",
+    "args0": [
+      {
+        "options": [
+          [
+            "정상",
+            "0"
+          ],
+          [
+            "180도 뒤집기",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_display_mirror": {
+    "message0": "화면 미러 설정 %1",
+    "tooltip": "U8g2 미러 표시 방향을 설정합니다. 정상=미러 없음, 수평=좌우 반전, 수직=상하 반전",
+    "args0": [
+      {
+        "options": [
+          [
+            "정상",
+            "U8G2_R0"
+          ],
+          [
+            "수평 미러(좌우)",
+            "U8G2_MIRROR"
+          ],
+          [
+            "수직 미러(상하)",
+            "U8G2_MIRROR_VERTICAL"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_power_save": {
+    "message0": "디스플레이 전원 %1",
+    "tooltip": "디스플레이 전원을 제어합니다. 0=표시 켜기 1=표시 끄기(절전 모드)",
+    "args0": [
+      {
+        "options": [
+          [
+            "켜기",
+            "0"
+          ],
+          [
+            "끄기(절전)",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_contrast": {
+    "message0": "화면 밝기 설정 %1",
+    "tooltip": "화면 대비/밝기를 설정합니다. 범위 0-255"
+  },
+  "u8g2_set_bus_clock": {
+    "message0": "I2C 속도 설정 %1",
+    "tooltip": "I2C 버스 통신 속도를 설정합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "100kHz(표준)",
+            "100000"
+          ],
+          [
+            "400kHz(고속)",
+            "400000"
+          ],
+          [
+            "1MHz(초고속)",
+            "1000000"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_i2c_address": {
+    "message0": "I2C 주소 설정 %1",
+    "tooltip": "디스플레이 I2C(IIC) 주소를 설정합니다. 입력값은 u8g2.setI2CAddress()에 그대로 전달되며 자동 변환되지 않습니다. 디스플레이 초기화 전에 사용하세요."
+  },
+  "u8g2_set_font": {
+    "message0": "글꼴 설정 크기 %1",
+    "tooltip": "표시 텍스트의 글꼴 스타일을 설정합니다(3단계 선택: 크기→유형→글꼴)",
+    "args0": [
+      {
+        "options": [
+          [
+            "8px",
+            "8"
+          ],
+          [
+            "14px",
+            "14"
+          ],
+          [
+            "19px",
+            "19"
+          ],
+          [
+            "25px",
+            "25"
+          ],
+          [
+            "34px",
+            "34"
+          ],
+          [
+            "42px",
+            "42"
+          ],
+          [
+            "50px",
+            "50"
+          ],
+          [
+            "58px",
+            "58"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_draw_color": {
+    "message0": "그리기 색상 설정 %1",
+    "tooltip": "그리기 색상 모드를 설정합니다. 1=흰색 0=검정 2=반전",
+    "args0": [
+      {
+        "options": [
+          [
+            "흰색(그리기)",
+            "1"
+          ],
+          [
+            "검정(지우기)",
+            "0"
+          ],
+          [
+            "반전(XOR)",
+            "2"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_set_font_mode": {
+    "message0": "글꼴 모드 설정 %1",
+    "tooltip": "문자 표시 모드를 설정합니다. 투명=문자 배경 투명, 불투명=문자 배경 검정",
+    "args0": [
+      {
+        "options": [
+          [
+            "투명 배경",
+            "1"
+          ],
+          [
+            "불투명 배경",
+            "0"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8g2_clear_buffer": {
+    "message0": "버퍼 지우기",
+    "tooltip": "디스플레이 버퍼를 지웁니다(즉시 표시하지 않으며 버퍼 전송과 함께 사용)"
+  },
+  "u8g2_send_buffer": {
+    "message0": "버퍼 전송",
+    "tooltip": "버퍼 내용을 화면에 표시합니다"
+  },
+  "u8x8_begin": {
+    "message0": "U8x8 디스플레이 초기화 모델 %1",
+    "tooltip": "U8X8 디스플레이 장치를 초기화합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "SSD1306",
+            "SSD1306"
+          ],
+          [
+            "SSD1309",
+            "SSD1309"
+          ],
+          [
+            "SH1106",
+            "SH1106"
+          ],
+          [
+            "SH1107",
+            "SH1107"
+          ],
+          [
+            "ST7567",
+            "ST7567"
+          ],
+          [
+            "ST7920",
+            "ST7920"
+          ]
+        ]
+      }
+    ]
+  },
+  "u8x8_clear": {
+    "message0": "U8x8 디스플레이 지우기",
+    "tooltip": "표시 내용을 지웁니다"
+  },
+  "u8x8_draw_str": {
+    "message0": "U8x8 텍스트 표시 x%1 y%2 텍스트%3 반전%4",
+    "tooltip": "텍스트를 표시합니다"
+  },
+  "extensions": {
+    "u8g2_font_dynamic_inputs": {
+      "font_type": "글꼴 유형",
+      "font": "글꼴",
+      "chinese": "중국어",
+      "full_character_set": "전체 문자 집합",
+      "wenquanyi": "WenQuanYi",
+      "about": "약 ",
+      "characters": "자"
+    },
+    "u8g2_init_dynamic_inputs": {
+      "resolution": "해상도",
+      "communication": "통신",
+      "i2c_hardware": "I2C(하드웨어)",
+      "i2c_software": "I2C(소프트웨어)",
+      "spi3_hardware": "SPI 3선(하드웨어)",
+      "spi3_software": "SPI 3선(소프트웨어)",
+      "spi4_hardware": "SPI 4선(하드웨어)",
+      "spi4_software": "SPI 4선(소프트웨어)",
+      "spi_hardware": "SPI(하드웨어)",
+      "spi_software": "SPI(소프트웨어)",
+      "pin_scl": "핀 SCL",
+      "pin_rst": "핀 RST",
+      "pin_cs": "핀 CS",
+      "pin_clk": "핀 CLK"
+    },
+    "u8g2_animation_play_dynamic_inputs": {}
+  }
+}

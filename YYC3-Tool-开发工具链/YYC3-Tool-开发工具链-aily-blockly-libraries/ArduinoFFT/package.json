@@ -1,0 +1,54 @@
+{
+  "name": "@aily-project/lib-arduino-fft",
+  "nickname": "ArduinoFFT",
+  "nickname_zh_cn": "ArduinoFFT频谱分析",
+  "nickname_en": "ArduinoFFT",
+  "nickname_zh_hk": "ArduinoFFT頻譜分析",
+  "nickname_ja": "ArduinoFFT",
+  "nickname_ko": "ArduinoFFT",
+  "nickname_de": "ArduinoFFT",
+  "nickname_fr": "ArduinoFFT",
+  "nickname_es": "ArduinoFFT",
+  "nickname_pt": "ArduinoFFT",
+  "nickname_ru": "ArduinoFFT",
+  "nickname_ar": "ArduinoFFT",
+  "description": "arduinoFFT blocks for sampling signals, running FFT, and reading frequency peaks.",
+  "description_zh_cn": "用于采样信号、执行FFT并读取主频和频段幅值的arduinoFFT积木库",
+  "description_en": "arduinoFFT blocks for sampling signals, running FFT, and reading frequency peaks.",
+  "description_zh_hk": "用於取樣訊號、執行FFT並讀取主頻和頻段幅值的arduinoFFT積木庫",
+  "description_ja": "信号のサンプリング、FFT実行、ピーク周波数取得用のarduinoFFTブロックです。",
+  "description_ko": "신호 샘플링, FFT 실행, 주파수 피크 읽기를 위한 arduinoFFT 블록입니다.",
+  "description_de": "arduinoFFT-Blöcke zum Abtasten von Signalen, Ausführen von FFT und Lesen von Frequenzspitzen.",
+  "description_fr": "Blocs arduinoFFT pour échantillonner des signaux, exécuter la FFT et lire les pics de fréquence.",
+  "description_es": "Bloques arduinoFFT para muestrear señales, ejecutar FFT y leer picos de frecuencia.",
+  "description_pt": "Blocos arduinoFFT para amostrar sinais, executar FFT e ler picos de frequência.",
+  "description_ru": "Блоки arduinoFFT для выборки сигналов, выполнения FFT и чтения частотных пиков.",
+  "description_ar": "لبنات arduinoFFT لأخذ عينات الإشارات وتشغيل FFT وقراءة قمم التردد.",
+  "version": "0.1.1",
+  "author": "Enrique Condes, Didier Longueville, Bim Overbohm",
+  "license": "GPL-3.0-or-later",
+  "compatibility": {
+    "core": [],
+    "voltage": [
+      3.3,
+      5
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "fft",
+    "frequency",
+    "signal-processing",
+    "spectrum"
+  ],
+  "url": "https://github.com/kosme/arduinoFFT",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "tested": true,
+  "tester": "ericoding",
+  "tags": [
+    "signal-processing"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "TLx5012B角度センサー",
+  "tlx5012_init": {
+    "message0": "TLx5012B 角度センサーを初期化 %1\nCSピン %2",
+    "tooltip": "TLx5012B磁気角度センサーをSPIインターフェースで初期化"
+  },
+  "tlx5012_read_angle": {
+    "message0": "TLx5012B %1 の角度値 (°) を読み取る",
+    "tooltip": "TLx5012Bセンサーの角度値を読み取り、0°~360°を返す"
+  },
+  "tlx5012_read_speed": {
+    "message0": "TLx5012B %1 の角速度を読み取る",
+    "tooltip": "TLx5012Bセンサーの角速度を読み取る"
+  },
+  "tlx5012_read_revolutions": {
+    "message0": "TLx5012B %1 の回転数を読み取る",
+    "tooltip": "TLx5012Bセンサーの累計回転数を読み取り、範囲-256~256"
+  },
+  "tlx5012_read_temperature": {
+    "message0": "TLx5012B %1 の温度 (℃) を読み取る",
+    "tooltip": "TLx5012Bセンサーの温度を摂氏で読み取る"
+  },
+  "tlx5012_read_angle_range": {
+    "message0": "TLx5012B %1 の角度範囲を読み取る",
+    "tooltip": "TLx5012Bセンサーの角度範囲設定を読み取る"
+  },
+  "tlx5012_reset": {
+    "message0": "TLx5012B %1 センサーをリセット",
+    "tooltip": "TLx5012Bセンサーを工場出荷時の設定にリセット"
+  }
+}

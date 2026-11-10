@@ -1,0 +1,100 @@
+{
+  "kind": "category",
+  "name": "MQTT",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "mqtt_begin",
+      "inputs": {
+        "BROKER": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "mqtt.example.com"
+            }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1883
+            }
+          }
+        },
+        "USERNAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        },
+        "PASSWORD": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "mqtt_connected"
+    },
+    {
+      "kind": "block",
+      "type": "mqtt_poll"
+    },
+    {
+      "kind": "block",
+      "type": "mqtt_subscribe",
+      "inputs": {
+        "TOPIC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "topic"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "mqtt_publish",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "message"
+            }
+          }
+        },
+        "TOPIC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "topic"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "mqtt_message_available"
+    },
+    {
+      "kind": "block",
+      "type": "mqtt_read_topic"
+    },
+    {
+      "kind": "block",
+      "type": "mqtt_read_message"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "name": "@vizejs/fresco-native",
+  "version": "0.290.0",
+  "description": "Vue TUI framework - Native bindings",
+  "keywords": [
+    "fresco",
+    "napi",
+    "native",
+    "terminal",
+    "tui",
+    "vize",
+    "vue"
+  ],
+  "homepage": "https://github.com/ubugeeei-prod/vize",
+  "bugs": {
+    "url": "https://github.com/ubugeeei-prod/vize/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ubugeeei-prod/vize",
+    "directory": "npm/fresco-native"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "*.node"
+  ],
+  "main": "index.js",
+  "types": "index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "napi build --platform --release --manifest-path ../../crates/vize_fresco/Cargo.toml -p vize_fresco --features napi --output-dir .",
+    "build:ci": "napi build --platform --profile ci --manifest-path ../../crates/vize_fresco/Cargo.toml -p vize_fresco --features napi --output-dir .",
+    "build:debug": "napi build --platform --manifest-path ../../crates/vize_fresco/Cargo.toml -p vize_fresco --features napi --output-dir ."
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "catalog:integrations"
+  },
+  "napi": {
+    "binaryName": "vize-fresco",
+    "targets": [
+      "x86_64-apple-darwin",
+      "aarch64-apple-darwin",
+      "x86_64-pc-windows-msvc",
+      "aarch64-pc-windows-msvc",
+      "x86_64-unknown-linux-gnu",
+      "x86_64-unknown-linux-musl",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-unknown-linux-musl"
+    ]
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

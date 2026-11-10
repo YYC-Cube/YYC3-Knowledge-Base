@@ -1,0 +1,219 @@
+{
+  "kind": "category",
+  "name": "红外遥控",
+  "colour": "#FF7043",
+  "icon": "fa-solid fa-signal",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "接收",
+      "icon": "fa-light fa-mobile-signal",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "irremote_receiver_begin",
+          "inputs": {
+            "PIN": {
+              "block": {
+                "type": "io_pin_digi"
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "irremote_on_receive"
+        },
+        {
+          "kind": "block",
+          "type": "irremote_print_result"
+        },
+        {
+          "kind": "block",
+          "type": "irremote_get_value"
+        },
+        {
+          "kind": "block",
+          "type": "irremote_get_protocol"
+        },
+        {
+          "kind": "block",
+          "type": "irremote_command_equals",
+          "inputs": {
+            "VALUE": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "irremote_is_preset_key"
+        },
+        {
+          "kind": "block",
+          "type": "irremote_get_preset_name"
+        },
+        {
+          "kind": "block",
+          "type": "irremote_receiver_available"
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "发送",
+      "icon": "fa-light fa-mobile-signal-out",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "irremote_sender_begin",
+          "inputs": {
+            "PIN": {
+              "block": {
+                "type": "io_pin_digi"
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "irremote_send_nec",
+          "inputs": {
+            "ADDRESS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "COMMAND": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "REPEAT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "irremote_send_command",
+          "inputs": {
+            "ADDRESS": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "COMMAND": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            },
+            "REPEAT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "irremote_send_raw",
+          "inputs": {
+            "DATA": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "9000,4500,560,560,560,1690"
+                }
+              }
+            },
+            "FREQ": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 38
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "irremote_send_pronto",
+          "inputs": {
+            "CODE": {
+              "shadow": {
+                "type": "text",
+                "fields": {
+                  "TEXT": "0000 006D 0022 0000"
+                }
+              }
+            },
+            "REPEAT": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 0
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "高级",
+      "icon":"fa-light fa-wifi",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "irremote_library_config",
+          "inputs": {
+            "RAW_LENGTH": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 200
+                }
+              }
+            }
+          }
+        },
+        {
+          "kind": "block",
+          "type": "irremote_check_flag"
+        },
+        {
+          "kind": "block",
+          "type": "irremote_resume"
+        }
+      ]
+    }
+  ]
+}

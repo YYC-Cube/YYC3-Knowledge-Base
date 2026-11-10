@@ -1,0 +1,63 @@
+{
+"toolbox_name": "Text-zu-Sprache",
+"openjumper_tts_init": {
+    "message0": "TTS Initialisierung RX-Pin: %1 TX-Pin: %2",
+    "args0": [
+        null,
+        null
+    ]
+},
+"openjumper_tts_play_invoice": {
+    "message0": "Integrierten %1 Nummer %2 abspielen",
+    "args0": [
+        {
+            "options": [
+                ["Klingelton", "VOICE_Ringtones"],
+                ["Hinweiston", "VOICE_PromptSound"],
+                ["Warnsignal", "VOICE_WarningSound"]
+            ]
+        },
+        null
+    ]
+},
+"openjumper_tts_play_control": {
+    "message0": "%1 Wiedergabe steuern",
+    "args0": [
+        {
+            "options": [
+                ["Stopp", "PLAY_STOP"],
+                ["Pause", "PLAY_PAUSE"],
+                ["Fortsetzen", "PLAY_CONTINUE"]
+            ]
+        }
+    ]
+},
+"openjumper_tts_play_number": {
+    "message0": "Zahl %1 abspielen",
+    "args0": [
+        null
+    ]
+},
+"openjumper_tts_play_text": {
+    "message0": "Text %1 abspielen",
+    "args0": [
+        null
+    ]
+},
+"openjumper_tts_setcfg": {
+    "message0": "%1 auf %2 einstellen",
+    "args0": [
+        {
+            "options": [
+                ["Sprechgeschwindigkeit", "setspeechSpeed"],
+                ["Intonation", "setIntonation"],
+                ["Lautstärke", "setVolume"]
+            ]
+        },
+        null
+    ]
+},
+"openjumper_tts_restore_defaults": {
+    "message0": "Standardeinstellungen wiederherstellen"
+}
+}

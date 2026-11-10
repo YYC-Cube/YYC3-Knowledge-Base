@@ -1,0 +1,527 @@
+[
+  {
+    "type": "esp32_usb_keyboard_begin",
+    "message0": "USB键盘 初始化",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "初始化USB HID键盘，自动调用USB.begin()",
+    "icon": "fa-regular fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_keyboard_print",
+    "message0": "USB键盘 输出字符串 %1",
+    "args0": [
+      { "type": "input_value", "name": "TEXT", "check": "String" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "通过USB键盘逐字输出字符串",
+    "icon": "fa-regular fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_keyboard_println",
+    "message0": "USB键盘 输出字符串 %1 并换行",
+    "args0": [
+      { "type": "input_value", "name": "TEXT", "check": "String" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "通过USB键盘逐字输出字符串，末尾按回车",
+    "icon": "fa-regular fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_keyboard_write",
+    "message0": "USB键盘 快速输入 %1",
+    "args0": [
+      { "type": "input_value", "name": "KEY", "check": ["String", "Number"] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "快速输入一个按键（按下后立即释放）",
+    "icon": "fa-regular fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_keyboard_press",
+    "message0": "USB键盘 按下键 %1",
+    "args0": [
+      { "type": "input_value", "name": "KEY", "check": ["String", "Number"] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "按下指定按键并保持（需要手动释放）",
+    "icon": "fa-regular fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_keyboard_release",
+    "message0": "USB键盘 释放键 %1",
+    "args0": [
+      { "type": "input_value", "name": "KEY", "check": ["String", "Number"] }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "释放指定按键",
+    "icon": "fa-regular fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_keyboard_release_all",
+    "message0": "USB键盘 释放所有按键",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "释放所有已按下的按键",
+    "icon": "fa-regular fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_keyboard_special_key",
+    "message0": "特殊键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["Enter", "KEY_RETURN"],
+          ["Esc", "KEY_ESC"],
+          ["Backspace", "KEY_BACKSPACE"],
+          ["Tab", "KEY_TAB"],
+          ["空格", "KEY_SPACE"],
+          ["左Ctrl", "KEY_LEFT_CTRL"],
+          ["左Shift", "KEY_LEFT_SHIFT"],
+          ["左Alt", "KEY_LEFT_ALT"],
+          ["左GUI/Win", "KEY_LEFT_GUI"],
+          ["右Ctrl", "KEY_RIGHT_CTRL"],
+          ["右Shift", "KEY_RIGHT_SHIFT"],
+          ["右Alt", "KEY_RIGHT_ALT"],
+          ["右GUI/Win", "KEY_RIGHT_GUI"],
+          ["↑", "KEY_UP_ARROW"],
+          ["↓", "KEY_DOWN_ARROW"],
+          ["←", "KEY_LEFT_ARROW"],
+          ["→", "KEY_RIGHT_ARROW"],
+          ["Insert", "KEY_INSERT"],
+          ["Delete", "KEY_DELETE"],
+          ["Home", "KEY_HOME"],
+          ["End", "KEY_END"],
+          ["Page Up", "KEY_PAGE_UP"],
+          ["Page Down", "KEY_PAGE_DOWN"],
+          ["Caps Lock", "KEY_CAPS_LOCK"],
+          ["Num Lock", "KEY_NUM_LOCK"],
+          ["F1", "KEY_F1"],
+          ["F2", "KEY_F2"],
+          ["F3", "KEY_F3"],
+          ["F4", "KEY_F4"],
+          ["F5", "KEY_F5"],
+          ["F6", "KEY_F6"],
+          ["F7", "KEY_F7"],
+          ["F8", "KEY_F8"],
+          ["F9", "KEY_F9"],
+          ["F10", "KEY_F10"],
+          ["F11", "KEY_F11"],
+          ["F12", "KEY_F12"],
+          ["Print Screen", "KEY_PRINT_SCREEN"],
+          ["Scroll Lock", "KEY_SCROLL_LOCK"],
+          ["Pause", "KEY_PAUSE"],
+          ["Menu", "KEY_MENU"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#FF5722",
+    "tooltip": "USB键盘特殊按键值",
+    "icon": "fa-regular fa-keyboard"
+  },
+  {
+    "type": "esp32_usb_mouse_begin",
+    "message0": "USB鼠标 初始化",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "初始化USB HID鼠标（相对定位模式）",
+    "icon": "fa-regular fa-computer-mouse"
+  },
+  {
+    "type": "esp32_usb_mouse_move",
+    "message0": "USB鼠标 移动 X %1 Y %2 滚轮 %3",
+    "args0": [
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" },
+      { "type": "input_value", "name": "WHEEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "USB鼠标相对移动，X正值向右，Y正值向下，滚轮正值向上",
+    "icon": "fa-regular fa-computer-mouse"
+  },
+  {
+    "type": "esp32_usb_mouse_click",
+    "message0": "USB鼠标 %1 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["左键", "MOUSE_LEFT"],
+          ["右键", "MOUSE_RIGHT"],
+          ["中键", "MOUSE_MIDDLE"]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          ["点击", "click"],
+          ["按下", "press"],
+          ["释放", "release"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "USB鼠标按键操作：点击（按下并释放）、按下（保持）、释放",
+    "icon": "fa-regular fa-computer-mouse"
+  },
+  {
+    "type": "esp32_usb_mouse_is_pressed",
+    "message0": "USB鼠标 %1 是否按下",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["左键", "MOUSE_LEFT"],
+          ["右键", "MOUSE_RIGHT"],
+          ["中键", "MOUSE_MIDDLE"]
+        ]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#FF5722",
+    "tooltip": "检查鼠标指定按键是否被按下",
+    "icon": "fa-regular fa-computer-mouse"
+  },
+  {
+    "type": "esp32_usb_gamepad_begin",
+    "message0": "USB游戏手柄 初始化",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "初始化USB HID游戏手柄",
+    "icon": "fa-regular fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_usb_gamepad_press_button",
+    "message0": "USB游戏手柄 按下按键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["选择", "BUTTON_SELECT"],
+          ["开始", "BUTTON_START"],
+          ["模式", "BUTTON_MODE"],
+          ["左摇杆按下", "BUTTON_THUMBL"],
+          ["右摇杆按下", "BUTTON_THUMBR"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "按下游戏手柄指定按键",
+    "icon": "fa-regular fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_usb_gamepad_release_button",
+    "message0": "USB游戏手柄 释放按键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "BUTTON",
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["选择", "BUTTON_SELECT"],
+          ["开始", "BUTTON_START"],
+          ["模式", "BUTTON_MODE"],
+          ["左摇杆按下", "BUTTON_THUMBL"],
+          ["右摇杆按下", "BUTTON_THUMBR"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "释放游戏手柄指定按键",
+    "icon": "fa-regular fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_usb_gamepad_left_stick",
+    "message0": "USB游戏手柄 左摇杆 X %1 Y %2",
+    "args0": [
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置左摇杆位置（-128到127）",
+    "icon": "fa-regular fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_usb_gamepad_right_stick",
+    "message0": "USB游戏手柄 右摇杆 X %1 Y %2",
+    "args0": [
+      { "type": "input_value", "name": "X", "check": "Number" },
+      { "type": "input_value", "name": "Y", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置右摇杆位置（-128到127）",
+    "icon": "fa-regular fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_usb_gamepad_trigger",
+    "message0": "USB游戏手柄 %1 扳机 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SIDE",
+        "options": [
+          ["左", "left"],
+          ["右", "right"]
+        ]
+      },
+      { "type": "input_value", "name": "VALUE", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置扳机值（-128到127）",
+    "icon": "fa-regular fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_usb_gamepad_hat",
+    "message0": "USB游戏手柄 方向键 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "DIRECTION",
+        "options": [
+          ["居中", "HAT_CENTER"],
+          ["上", "HAT_UP"],
+          ["右上", "HAT_UP_RIGHT"],
+          ["右", "HAT_RIGHT"],
+          ["右下", "HAT_DOWN_RIGHT"],
+          ["下", "HAT_DOWN"],
+          ["左下", "HAT_DOWN_LEFT"],
+          ["左", "HAT_LEFT"],
+          ["左上", "HAT_UP_LEFT"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "设置方向键/十字键方向",
+    "icon": "fa-regular fa-gamepad-modern"
+  },
+  {
+    "type": "esp32_usb_consumer_press",
+    "message0": "USB媒体控制 按下 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "KEY",
+        "options": [
+          ["播放/暂停", "CONSUMER_CONTROL_PLAY_PAUSE"],
+          ["停止", "CONSUMER_CONTROL_STOP"],
+          ["下一曲", "CONSUMER_CONTROL_SCAN_NEXT"],
+          ["上一曲", "CONSUMER_CONTROL_SCAN_PREVIOUS"],
+          ["录制", "CONSUMER_CONTROL_RECORD"],
+          ["快进", "CONSUMER_CONTROL_FAST_FORWARD"],
+          ["快退", "CONSUMER_CONTROL_REWIND"],
+          ["音量增大", "CONSUMER_CONTROL_VOLUME_INCREMENT"],
+          ["音量减小", "CONSUMER_CONTROL_VOLUME_DECREMENT"],
+          ["静音", "CONSUMER_CONTROL_MUTE"],
+          ["亮度增加", "CONSUMER_CONTROL_BRIGHTNESS_INCREMENT"],
+          ["亮度减少", "CONSUMER_CONTROL_BRIGHTNESS_DECREMENT"],
+          ["电源", "CONSUMER_CONTROL_POWER"],
+          ["睡眠", "CONSUMER_CONTROL_SLEEP"],
+          ["计算器", "CONSUMER_CONTROL_CALCULATOR"],
+          ["邮件", "CONSUMER_CONTROL_EMAIL_READER"],
+          ["浏览器", "CONSUMER_CONTROL_LOCAL_BROWSER"],
+          ["搜索", "CONSUMER_CONTROL_SEARCH"],
+          ["主页", "CONSUMER_CONTROL_HOME"],
+          ["后退", "CONSUMER_CONTROL_BACK"],
+          ["前进", "CONSUMER_CONTROL_FORWARD"],
+          ["刷新", "CONSUMER_CONTROL_REFRESH"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "按下指定的媒体/消费者控制键",
+    "icon": "fa-regular fa-music"
+  },
+  {
+    "type": "esp32_usb_consumer_release",
+    "message0": "USB媒体控制 释放",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "释放媒体控制键",
+    "icon": "fa-regular fa-music"
+  },
+  {
+    "type": "esp32_usb_system_press",
+    "message0": "USB系统控制 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "ACTION",
+        "options": [
+          ["关机", "SYSTEM_CONTROL_POWER_OFF"],
+          ["待机", "SYSTEM_CONTROL_STANDBY"],
+          ["唤醒", "SYSTEM_CONTROL_WAKE_HOST"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "发送系统控制命令",
+    "icon": "fa-regular fa-power-off"
+  },
+  {
+    "type": "esp32_usb_system_release",
+    "message0": "USB系统控制 释放",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "释放系统控制键",
+    "icon": "fa-regular fa-power-off"
+  },
+  {
+    "type": "esp32_usb_midi_begin",
+    "message0": "USB MIDI 初始化",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "初始化USB MIDI设备",
+    "icon": "fa-regular fa-music"
+  },
+  {
+    "type": "esp32_usb_midi_note_on",
+    "message0": "USB MIDI 音符开 音符 %1 力度 %2 通道 %3",
+    "args0": [
+      { "type": "input_value", "name": "NOTE", "check": "Number" },
+      { "type": "input_value", "name": "VELOCITY", "check": "Number" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "发送MIDI音符开消息（音符0-127，力度0-127，通道1-16）",
+    "icon": "fa-regular fa-music"
+  },
+  {
+    "type": "esp32_usb_midi_note_off",
+    "message0": "USB MIDI 音符关 音符 %1 力度 %2 通道 %3",
+    "args0": [
+      { "type": "input_value", "name": "NOTE", "check": "Number" },
+      { "type": "input_value", "name": "VELOCITY", "check": "Number" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "发送MIDI音符关消息",
+    "icon": "fa-regular fa-music"
+  },
+  {
+    "type": "esp32_usb_midi_control_change",
+    "message0": "USB MIDI 控制变化 控制号 %1 值 %2 通道 %3",
+    "args0": [
+      { "type": "input_value", "name": "CONTROL", "check": "Number" },
+      { "type": "input_value", "name": "VALUE", "check": "Number" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "发送MIDI控制变化消息（控制号0-127，值0-127）",
+    "icon": "fa-regular fa-music"
+  },
+  {
+    "type": "esp32_usb_midi_program_change",
+    "message0": "USB MIDI 程序变化 程序号 %1 通道 %2",
+    "args0": [
+      { "type": "input_value", "name": "PROGRAM", "check": "Number" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "发送MIDI程序变化消息，用于切换音色（0-127）",
+    "icon": "fa-regular fa-music"
+  },
+  {
+    "type": "esp32_usb_midi_pitch_bend",
+    "message0": "USB MIDI 弯音 值 %1 通道 %2",
+    "args0": [
+      { "type": "input_value", "name": "VALUE", "check": "Number" },
+      { "type": "input_value", "name": "CHANNEL", "check": "Number" }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF5722",
+    "tooltip": "发送MIDI弯音消息（-8192到8191）",
+    "icon": "fa-regular fa-music"
+  }
+]

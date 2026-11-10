@@ -1,0 +1,20 @@
+{
+    "toolbox_name": "Ton",
+    "io_tone": {
+        "message0": "Jouer une tonalité de fréquence %2 sur la broche %1",
+        "args0": [
+            {
+                "options": "${board.digitalPins}"
+            },
+            null
+        ]
+    },
+    "io_notone": {
+        "message0": "Arrêter la tonalité sur la broche %1",
+        "args0": [
+            {
+                "options": "${board.digitalPins}"
+            }
+        ]
+    }
+}

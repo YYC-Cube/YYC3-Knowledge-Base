@@ -1,0 +1,15 @@
+{
+  "kind": "category",
+  "name": "BH1750",
+  "colour": "#5BA55B",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "bh1750_init_with_wire"
+    },
+    {
+      "kind": "block",
+      "type": "bh1750_read_light_level"
+    }
+  ]
+}

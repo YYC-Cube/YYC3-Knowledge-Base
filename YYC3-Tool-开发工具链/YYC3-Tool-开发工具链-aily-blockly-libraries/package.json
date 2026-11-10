@@ -1,0 +1,44 @@
+{
+  "name": "aily-blockly-libraries",
+  "version": "1.0.0",
+  "description": "Arduino Blockly库集合及规范检测工具",
+  "main": ".scripts_git_action/validate-library-compliance.js",
+  "scripts": {
+    "validate": "node .scripts_git_action/validate-library-compliance.js",
+    "validate:all": "node .scripts_git_action/validate-library-compliance.js --all",
+    "validate:changed": "node .scripts_git_action/validate-library-compliance.js --changed",
+    "readme:check": "node .scripts/check-readme-compliance.js --all",
+    "readme:fix": "node .scripts/check-readme-compliance.js --all --fix",
+    "test:actions": "node .scripts_git_action/test-github-actions.js",
+    "help": "node .scripts_git_action/validate-library-compliance.js --help"
+  },
+  "bin": {
+    "validate-library": "./.scripts_git_action/validate-library-compliance.js",
+    "validate-github": "./.scripts_git_action/github-actions-validator.js"
+  },
+  "keywords": [
+    "arduino",
+    "blockly",
+    "validation",
+    "github-actions",
+    "compliance",
+    "quality-assurance"
+  ],
+  "author": "ailyProject",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ailyProject/aily-blockly-libraries.git"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.46",
+    "@langchain/openai": "^0.5.6",
+    "dotenv": "^16.5.0",
+    "js-yaml": "^4.1.1",
+    "langchain": "^0.3.24",
+    "zod": "^3.24.3"
+  }
+}

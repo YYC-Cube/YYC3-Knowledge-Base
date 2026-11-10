@@ -1,0 +1,36 @@
+[
+  {
+    "type": "hm3301_init",
+    "message0": "初始化HM3301 PM2.5传感器",
+    "args0": [],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2E7D32",
+    "tooltip": "初始化HM3301激光粉尘传感器（I2C通讯，地址0x40）",
+    "extensions": ["hm3301_i2c_board_extension"],
+    "icon": "fa-regular fa-smog"
+  },
+  {
+    "type": "hm3301_read",
+    "message0": "HM3301读取 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          ["PM1.0 标准颗粒物 (μg/m³)", "PM1_0_STD"],
+          ["PM2.5 标准颗粒物 (μg/m³)", "PM2_5_STD"],
+          ["PM10 标准颗粒物 (μg/m³)", "PM10_STD"],
+          ["PM1.0 大气环境 (μg/m³)", "PM1_0_ATM"],
+          ["PM2.5 大气环境 (μg/m³)", "PM2_5_ATM"],
+          ["PM10 大气环境 (μg/m³)", "PM10_ATM"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#2E7D32",
+    "tooltip": "读取HM3301传感器的颗粒物浓度值",
+    "icon": "fa-regular fa-smog"
+  }
+]

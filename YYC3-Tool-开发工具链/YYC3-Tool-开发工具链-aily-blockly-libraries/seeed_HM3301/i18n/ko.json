@@ -1,0 +1,36 @@
+{
+  "toolbox_name": "HM3301 PM2.5 센서",
+  "toolbox_labels": {
+    "传感器初始化": "센서 초기화",
+    "数据读取": "데이터 읽기"
+  },
+  "hm3301_init": {
+    "message0": "HM3301 PM2.5 센서 초기화",
+    "tooltip": "HM3301 레이저 먼지 센서 초기화 (I2C 통신, 주소 0x40)"
+  },
+  "hm3301_read": {
+    "message0": "HM3301 읽기 %1",
+    "tooltip": "HM3301 센서에서 미세먼지 농도값 읽기",
+    "args0": [
+      {
+        "options": [
+          ["PM1.0 표준 입자 (μg/m³)", "PM1_0_STD"],
+          ["PM2.5 표준 입자 (μg/m³)", "PM2_5_STD"],
+          ["PM10 표준 입자 (μg/m³)", "PM10_STD"],
+          ["PM1.0 대기 환경 (μg/m³)", "PM1_0_ATM"],
+          ["PM2.5 대기 환경 (μg/m³)", "PM2_5_ATM"],
+          ["PM10 대기 환경 (μg/m³)", "PM10_ATM"]
+        ]
+      }
+    ]
+  },
+  "extensions": {
+    "hm3301_i2c_board_extension": {
+      "sda_pin": "SDA 핀",
+      "scl_pin": "SCL 핀",
+      "tooltip_esp32": "HM3301 센서 초기화, ESP32는 SDA/SCL 핀 설정 필요",
+      "tooltip_mega": "HM3301 센서 초기화 (Mega2560 I2C 핀 고정: SDA->20, SCL->21)",
+      "tooltip_uno": "HM3301 센서 초기화 (Arduino UNO I2C 핀 고정: SDA->A4, SCL->A5)"
+    }
+  }
+}

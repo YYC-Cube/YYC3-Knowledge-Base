@@ -1,0 +1,88 @@
+{
+  "toolbox_name": "K10 음성",
+  "toolbox_labels": {
+    "语音识别": "음성 인식",
+    "语音播报": "음성방송"
+  },
+  "k10_asr_init": {
+    "message0": "음성 인식 초기화 모드 %1 언어 %2 깨우기 유지 %3 밀리초",
+    "tooltip": "K10 음성 인식을 초기화합니다. 중국어는 Hi_eps, 영어는 Ni_hao_xiao_zhi 모델이 필요합니다",
+    "args0": [
+      {
+        "options": [
+          [
+            "연속 인식",
+            "CONTINUOUS"
+          ],
+          [
+            "한 번 인식",
+            "ONCE"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "중국어",
+            "CN_MODE"
+          ],
+          [
+            "영어",
+            "EN_MODE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "k10_asr_add_command": {
+    "message0": "음성 명령 추가 ID %1 키워드 %2",
+    "tooltip": "음성 인식 명령어 추가"
+  },
+  "k10_asr_is_wakeup": {
+    "message0": "음성 어시스턴트 활성화됨",
+    "tooltip": "음성 어시스턴트가 활성화되었는지 확인"
+  },
+  "k10_asr_is_detected": {
+    "message0": "음성 명령 감지 ID %1",
+    "tooltip": "지정된 ID의 음성 명령이 감지되었는지 확인"
+  },
+  "k10_asr_speak": {
+    "message0": "음성 출력 %1 간격 %2초",
+    "tooltip": "TTS로 텍스트를 출력하고 반복 간격 설정"
+  },
+  "k10_asr_set_speed": {
+    "message0": "음성 속도 설정 %1",
+    "tooltip": "TTS 음성 속도 설정",
+    "args0": [
+      {
+        "options": [
+          [
+            "가장 느리게",
+            "0"
+          ],
+          [
+            "매우 느리게",
+            "1"
+          ],
+          [
+            "느리게",
+            "2"
+          ],
+          [
+            "보통",
+            "3"
+          ],
+          [
+            "빠르게",
+            "4"
+          ],
+          [
+            "매우 빠르게",
+            "5"
+          ]
+        ]
+      }
+    ]
+  }
+}

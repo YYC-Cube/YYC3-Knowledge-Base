@@ -1,0 +1,215 @@
+//! vue/component-definition-name-casing
+//!
+//! Enforce specific casing for the component definition name.
+//!
+//! Component file names should use PascalCase (default).
+//! This checks the filename of .vue files.
+//!
+//! ## Examples
+//!
+//! ### Invalid
+//! ```text
+//! my-component.vue     -> should be MyComponent.vue
+//! myComponent.vue      -> should be MyComponent.vue
+//! ```
+//!
+//! ### Valid
+//! ```text
+//! MyComponent.vue
+//! index.vue
+//! App.vue
+//! ```
+
+use crate::context::LintContext;
+use crate::diagnostic::Severity;
+use crate::rule::{Rule, RuleCategory, RuleMeta};
+use vize_relief::RootNode;
+
+static META: RuleMeta = RuleMeta {
+    name: "vue/component-definition-name-casing",
+    description: "Enforce PascalCase for component definition names",
+    category: RuleCategory::StronglyRecommended,
+    fixable: false,
+    default_severity: Severity::Warning,
+};
+
+/// Enforce PascalCase component definition names
+#[derive(Default)]
+pub struct ComponentDefinitionNameCasing;
+
+fn is_pascal_case(s: &str) -> bool {
+    if s.is_empty() {
+        return false;
+    }
+    let Some(first) = s.chars().next() else {
+        return false;
+    };
+    if !first.is_ascii_uppercase() {
+        return false;
+    }
+    // Must not contain hyphens
+    if s.contains('-') {
+        return false;
+    }
+    // Must not be all uppercase (SCREAMING_CASE)
+    if s.chars()
+        .all(|c| c.is_ascii_uppercase() || !c.is_alphabetic())
+    {
+        return false;
+    }
+    true
+}
+
+fn is_nuxt_route_file(filename: &str) -> bool {
+    filename
+        .replace('\\', "/")
+        .split('/')
+        .any(|segment| segment == "pages")
+}
+
+/// Common exception filenames that don't need PascalCase
+const EXCEPTION_NAMES: &[&str] = &["App"];
+
+impl Rule for ComponentDefinitionNameCasing {
+    fn meta(&self) -> &'static RuleMeta {
+        &META
+    }
+
+    fn run_on_template<'a>(&self, ctx: &mut LintContext<'a>, root: &RootNode<'a>) {
+        let filename = ctx.filename;
+        if !filename.ends_with(".vue") {
+            return;
+        }
+
+        if is_nuxt_route_file(filename) {
+            return;
+        }
+
+        // Extract the stem name (without extension and path)
+        let stem = filename
+            .rsplit('/')
+            .next()
+            .unwrap_or(filename)
+            .rsplit('\\')
+            .next()
+            .unwrap_or(filename)
+            .trim_end_matches(".vue");
+
+        // Skip exception names
+        if EXCEPTION_NAMES.contains(&stem) {
+            return;
+        }
+
+        // Skip names starting with [ (dynamic routes)
+        if stem.starts_with('[') {
+            return;
+        }
+
+        // Skip single-word lowercase names (index, test, app, main, etc.)
+        if stem.chars().all(|c| c.is_ascii_lowercase()) {
+            return;
+        }
+
+        if !is_pascal_case(stem) {
+            ctx.warn_with_help(
+                ctx.t_fmt(
+                    "vue/component-definition-name-casing.message",
+                    &[("name", stem)],
+                ),
+                &root.loc,
+                ctx.t("vue/component-definition-name-casing.help"),
+            );
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::ComponentDefinitionNameCasing;
+    use crate::linter::Linter;
+    use crate::rule::RuleRegistry;
+
+    fn create_linter() -> Linter {
+        let mut registry = RuleRegistry::new();
+        registry.register(Box::new(ComponentDefinitionNameCasing));
+        Linter::with_registry(registry)
+    }
+
+    #[test]
+    fn test_valid_pascal_case() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "MyComponent.vue");
+        assert_eq!(result.warning_count, 0);
+    }
+
+    #[test]
+    fn test_valid_index() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "index.vue");
+        assert_eq!(result.warning_count, 0);
+    }
+
+    #[test]
+    fn test_valid_app() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "App.vue");
+        assert_eq!(result.warning_count, 0);
+    }
+
+    #[test]
+    fn test_invalid_kebab_case() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "my-component.vue");
+        assert_eq!(result.warning_count, 1);
+    }
+
+    #[test]
+    fn test_valid_nuxt_pages_route_kebab_case() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "pages/job-board.vue");
+        assert_eq!(result.warning_count, 0);
+    }
+
+    #[test]
+    fn test_valid_nuxt_app_pages_route_kebab_case() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "app/pages/job-board.vue");
+        assert_eq!(result.warning_count, 0);
+    }
+
+    #[test]
+    fn test_valid_nuxt_src_pages_route_kebab_case() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "src/pages/job-board.vue");
+        assert_eq!(result.warning_count, 0);
+    }
+
+    #[test]
+    fn test_invalid_camel_case() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "myComponent.vue");
+        assert_eq!(result.warning_count, 1);
+    }
+
+    #[test]
+    fn test_valid_with_path() {
+        let linter = create_linter();
+        let result =
+            linter.lint_template(r#"<div>Content</div>"#, "src/components/MyComponent.vue");
+        assert_eq!(result.warning_count, 0);
+    }
+
+    #[test]
+    fn test_invalid_component_kebab_case_with_path() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "src/components/job-board.vue");
+        assert_eq!(result.warning_count, 1);
+    }
+
+    #[test]
+    fn test_valid_non_vue_file() {
+        let linter = create_linter();
+        let result = linter.lint_template(r#"<div>Content</div>"#, "test.html");
+        assert_eq!(result.warning_count, 0);
+    }
+}

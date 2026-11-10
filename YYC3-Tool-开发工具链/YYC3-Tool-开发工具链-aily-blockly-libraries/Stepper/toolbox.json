@@ -1,0 +1,42 @@
+{
+    "kind": "category",
+    "name": "步进电机",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "stepper_init"
+        },
+        {
+            "kind": "block",
+            "type": "stepper_set_speed"
+        },
+        {
+            "kind": "block",
+            "type": "stepper_step",
+            "inputs": {
+            "STEPS": {
+                "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                        "NUM": 4096
+                        }
+                    }
+                }
+            }
+        },
+        {
+  "kind": "block",
+  "type": "stepper_rotate_degrees",
+  "inputs": {
+    "DEGREES": {
+      "shadow": {
+        "type": "math_number",
+        "fields": {
+          "NUM": 90
+        }
+      }
+    }
+  }
+}
+    ]
+}

@@ -1,0 +1,69 @@
+{
+  "toolbox_name": "K10 센서",
+  "k10_get_accelerometer": {
+    "message0": "가속도계 %1 축 데이터 가져오기",
+    "tooltip": "K10 보드 가속도계 축 데이터 가져오기",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_get_strength": {
+    "message0": "광도 값 가져오기",
+    "tooltip": "K10 보드 조도 센서 값 가져오기"
+  },
+  "k10_aht20_measure": {
+    "message0": "AHT20 측정 시작 CRC %1",
+    "tooltip": "AHT20 측정을 한 번 시작하고 완료되면 true 반환; 이후 온도/습도 읽기",
+    "args0": [
+      {
+        "options": [
+          [
+            "켜기",
+            "true"
+          ],
+          [
+            "끄기",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_temperature": {
+    "message0": "AHT20 온도 가져오기 %1",
+    "tooltip": "Get AHT20 temperature; measurement starts automatically",
+    "args0": [
+      {
+        "options": [
+          [
+            "섭씨(℃)",
+            "C"
+          ],
+          [
+            "화씨(℉)",
+            "F"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_humidity": {
+    "message0": "AHT20 상대습도 가져오기(%RH)",
+    "tooltip": "Get AHT20 relative humidity; measurement starts automatically"
+  }
+}

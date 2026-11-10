@@ -1,0 +1,177 @@
+{
+  "kind": "category",
+  "icon": "iconfont icon-servo",
+  "name": "Servo",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "基础控制"
+    },
+    {
+      "kind": "block",
+      "type": "servo_write_float",
+      "inputs": {
+        "ANGLE": {
+          "shadow": {
+            "type": "servo_angle",
+            "fields": {
+              "ANGLE": "90"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "读取状态"
+    },
+    {
+      "kind": "block",
+      "type": "servo_read"
+    },
+    {
+      "kind": "block",
+      "type": "servo_read_microseconds"
+    },
+    {
+      "kind": "block",
+      "type": "servo_attached"
+    },
+    {
+      "kind": "block",
+      "type": "servo_get_pin"
+    },
+    {
+      "kind": "label",
+      "text": "高级控制"
+    },
+    {
+      "kind": "block",
+      "type": "servo_write_microseconds",
+      "inputs": {
+        "MICROSECONDS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1500"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "servo_detach"
+    },
+    {
+      "kind": "block",
+      "type": "servo_attach_advanced",
+      "inputs": {
+        "MIN_PULSE_WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "544"
+            }
+          }
+        },
+        "MAX_PULSE_WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "2400"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "实用功能"
+    },
+    {
+      "kind": "block",
+      "type": "servo_sweep",
+      "inputs": {
+        "START_ANGLE": {
+          "shadow": {
+            "type": "servo_angle",
+            "fields": {
+              "ANGLE": "0"
+            }
+          }
+        },
+        "END_ANGLE": {
+          "shadow": {
+            "type": "servo_angle",
+            "fields": {
+              "ANGLE": "180"
+            }
+          }
+        },
+        "DELAY_MS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "20"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "角度值"
+    },
+    {
+      "kind": "block",
+      "type": "servo_angle"
+    },
+    {
+      "kind": "block",
+      "type": "servo_map_angle",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "512"
+            }
+          }
+        },
+        "FROM_MIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "0"
+            }
+          }
+        },
+        "FROM_MAX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1023"
+            }
+          }
+        },
+        "TO_MIN": {
+          "shadow": {
+            "type": "servo_angle",
+            "fields": {
+              "ANGLE": "0"
+            }
+          }
+        },
+        "TO_MAX": {
+          "shadow": {
+            "type": "servo_angle",
+            "fields": {
+              "ANGLE": "180"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

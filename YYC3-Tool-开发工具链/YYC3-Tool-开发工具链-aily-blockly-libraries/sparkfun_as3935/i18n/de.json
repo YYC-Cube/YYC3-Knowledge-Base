@@ -1,0 +1,84 @@
+{
+  "toolbox_name": "AS3935",
+  "as3935_init_i2c": {
+    "message0": "AS3935 I2C %1 initialisieren Adresse %2",
+    "tooltip": "SparkFun AS3935 Blitzsensor über I2C initialisieren"
+  },
+  "as3935_init_spi": {
+    "message0": "AS3935 SPI %1 initialisieren CS %2",
+    "tooltip": "SparkFun AS3935 über SPI initialisieren"
+  },
+  "as3935_is_ready": {
+    "message0": "AS3935 %1 initialisiert",
+    "tooltip": "AS3935-Initialisierungsstatus"
+  },
+  "as3935_set_environment": {
+    "message0": "AS3935 %1 Umgebung %2",
+    "tooltip": "AS3935 Innen- oder Außenmodus setzen",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Innen",
+            "AS3935_INDOOR"
+          ],
+          [
+            "Außen",
+            "AS3935_OUTDOOR"
+          ]
+        ]
+      }
+    ]
+  },
+  "as3935_read_interrupt": {
+    "message0": "AS3935 %1 Interruptquelle lesen",
+    "tooltip": "AS3935-Interruptquellregister lesen"
+  },
+  "as3935_distance": {
+    "message0": "AS3935 %1 Blitz Entfernung km",
+    "tooltip": "Geschätzte Blitzentfernung in km lesen"
+  },
+  "as3935_energy": {
+    "message0": "AS3935 %1 Blitzenergie",
+    "tooltip": "Geschätzten Blitzenergiewert lesen"
+  },
+  "as3935_set_watchdog": {
+    "message0": "AS3935 %1 Watchdog-Schwellenwert %2",
+    "tooltip": "AS3935 Watchdog-Sensitivitätsschwelle setzen (1-10)"
+  },
+  "as3935_set_noise": {
+    "message0": "AS3935 %1 Rauschpegel %2",
+    "tooltip": "AS3935 Rauschpegel setzen (1-7)"
+  },
+  "as3935_set_spike": {
+    "message0": "AS3935 %1 Spike-Unterdrückung %2",
+    "tooltip": "AS3935 Spike-Unterdrückungswert setzen"
+  },
+  "as3935_set_lightning_threshold": {
+    "message0": "AS3935 %1 Blitz-Schwelle %2",
+    "tooltip": "Mindestanzahl Blitzschläge vor Interrupt setzen (1/5/9/16)"
+  },
+  "as3935_mask_disturber": {
+    "message0": "AS3935 %1 Störer maskieren %2",
+    "tooltip": "AS3935 Störermaske aktivieren/deaktivieren",
+    "args0": [
+      {
+        "options": [
+          [
+            "Ein",
+            "ON"
+          ],
+          [
+            "Aus",
+            "OFF"
+          ]
+        ]
+      }
+    ]
+  },
+  "as3935_calibrate": {
+    "message0": "AS3935 %1 kalibrieren",
+    "tooltip": "AS3935 Antennenresonanz manuell kalibrieren"
+  }
+}

@@ -1,0 +1,660 @@
+[
+  {
+    "type": "serial_transfer_init",
+    "message0": "初始化 SerialTransfer %1 串口 %2 波特率 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "myTransfer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SERIAL",
+        "options": [
+          ["Serial", "Serial"],
+          ["Serial1", "Serial1"],
+          ["Serial2", "Serial2"],
+          ["Serial3", "Serial3"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "BAUD",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_send_int",
+    "message0": "SerialTransfer %1 发送整数 %2 包ID %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_send_float",
+    "message0": "SerialTransfer %1 发送浮点数 %2 包ID %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_send_string",
+    "message0": "SerialTransfer %1 发送字符串 %2 包ID %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_available",
+    "message0": "SerialTransfer %1 收到新数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_receive_int",
+    "message0": "SerialTransfer %1 接收整数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_receive_float",
+    "message0": "SerialTransfer %1 接收浮点数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_receive_string",
+    "message0": "SerialTransfer %1 接收字符串 长度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_status",
+    "message0": "SerialTransfer %1 传输状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "serial_transfer_current_packet_id",
+    "message0": "SerialTransfer %1 当前包ID",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "myTransfer",
+        "variableTypes": ["SerialTransfer"],
+        "defaultType": "SerialTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#2196F3",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_init_master",
+    "message0": "初始化 I2CTransfer 主机 %1 I2C接口 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "i2cTransfer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": [
+          ["Wire", "Wire"],
+          ["Wire1", "Wire1"]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_init_slave",
+    "message0": "初始化 I2CTransfer 从机 %1 I2C接口 %2 地址 %3",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "i2cTransfer"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "WIRE",
+        "options": [
+          ["Wire", "Wire"],
+          ["Wire1", "Wire1"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_send_int",
+    "message0": "I2CTransfer %1 发送整数 %2 到地址 %3 包ID %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2cTransfer",
+        "variableTypes": ["I2CTransfer"],
+        "defaultType": "I2CTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_send_float",
+    "message0": "I2CTransfer %1 发送浮点数 %2 到地址 %3 包ID %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2cTransfer",
+        "variableTypes": ["I2CTransfer"],
+        "defaultType": "I2CTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_send_string",
+    "message0": "I2CTransfer %1 发送字符串 %2 到地址 %3 包ID %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2cTransfer",
+        "variableTypes": ["I2CTransfer"],
+        "defaultType": "I2CTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "ADDRESS",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_receive_int",
+    "message0": "I2CTransfer %1 接收整数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2cTransfer",
+        "variableTypes": ["I2CTransfer"],
+        "defaultType": "I2CTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_receive_float",
+    "message0": "I2CTransfer %1 接收浮点数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2cTransfer",
+        "variableTypes": ["I2CTransfer"],
+        "defaultType": "I2CTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_receive_string",
+    "message0": "I2CTransfer %1 接收字符串 长度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2cTransfer",
+        "variableTypes": ["I2CTransfer"],
+        "defaultType": "I2CTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "i2c_transfer_status",
+    "message0": "I2CTransfer %1 传输状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "i2cTransfer",
+        "variableTypes": ["I2CTransfer"],
+        "defaultType": "I2CTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_init_master",
+    "message0": "初始化 SPITransfer 主机 %1 SS引脚 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "spiTransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "SS_PIN",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_init_slave",
+    "message0": "初始化 SPITransfer 从机 %1",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "spiTransfer"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_send_int",
+    "message0": "SPITransfer %1 发送整数 %2 包ID %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spiTransfer",
+        "variableTypes": ["SPITransfer"],
+        "defaultType": "SPITransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_send_float",
+    "message0": "SPITransfer %1 发送浮点数 %2 包ID %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spiTransfer",
+        "variableTypes": ["SPITransfer"],
+        "defaultType": "SPITransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_send_string",
+    "message0": "SPITransfer %1 发送字符串 %2 包ID %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spiTransfer",
+        "variableTypes": ["SPITransfer"],
+        "defaultType": "SPITransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "PACKET_ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_available",
+    "message0": "SPITransfer %1 收到新数据",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spiTransfer",
+        "variableTypes": ["SPITransfer"],
+        "defaultType": "SPITransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_receive_int",
+    "message0": "SPITransfer %1 接收整数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spiTransfer",
+        "variableTypes": ["SPITransfer"],
+        "defaultType": "SPITransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_receive_float",
+    "message0": "SPITransfer %1 接收浮点数",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spiTransfer",
+        "variableTypes": ["SPITransfer"],
+        "defaultType": "SPITransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_receive_string",
+    "message0": "SPITransfer %1 接收字符串 长度 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spiTransfer",
+        "variableTypes": ["SPITransfer"],
+        "defaultType": "SPITransfer"
+      },
+      {
+        "type": "input_value",
+        "name": "LENGTH",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "String",
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  },
+  {
+    "type": "spi_transfer_status",
+    "message0": "SPITransfer %1 传输状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "spiTransfer",
+        "variableTypes": ["SPITransfer"],
+        "defaultType": "SPITransfer"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Number",
+    "colour": "#FF9800",
+    "icon": "fa-light fa-arrows-left-right-to-line"
+  }
+]

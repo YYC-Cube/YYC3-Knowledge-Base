@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "MMA8653 Accélération",
+  "toolbox_labels": {
+    "初始化": "Initialisation",
+    "读取加速度": "Lire accélération",
+    "倾角计": "Inclinomètre",
+    "设置": "Paramètres",
+    "状态": "État"
+  },
+  "mma8653_init": {
+    "message0": "Initialiser le capteur d'accélération MMA8653 Plage %1 Résolution %2 Taux de données %3",
+    "tooltip": "Initialiser le capteur d'accélération MMA8653 trois axes avec plage, résolution et taux de données",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["10 bits", "MMA8653_10BIT_RES"],
+          ["8 bits", "MMA8653_8BIT_RES"]
+        ]
+      },
+      null
+    ]
+  },
+  "mma8653_set_mode": {
+    "message0": "Définir le mode de suréchantillonnage MMA8653 %1",
+    "tooltip": "Définir le mode de suréchantillonnage du capteur MMA8653",
+    "args0": [
+      {
+        "options": [
+          ["Normal", "MMA8653_MODS_NORMAL"],
+          ["Faible bruit faible puissance", "MMA8653_MODS_LOW_NOISE_LOW_POWER"],
+          ["Haute résolution", "MMA8653_MODS_HIGH_RES"],
+          ["Faible puissance", "MMA8653_MODS_LOW_POWER"]
+        ]
+      }
+    ]
+  },
+  "mma8653_begin": {
+    "message0": "Démarrer le capteur d'accélération MMA8653",
+    "tooltip": "Démarrer le capteur MMA8653 pour commencer l'acquisition de données"
+  },
+  "mma8653_read_x": {
+    "message0": "Lire l'accélération MMA8653 axe X",
+    "tooltip": "Lire la valeur d'accélération de l'axe X du capteur MMA8653"
+  },
+  "mma8653_read_y": {
+    "message0": "Lire l'accélération MMA8653 axe Y",
+    "tooltip": "Lire la valeur d'accélération de l'axe Y du capteur MMA8653"
+  },
+  "mma8653_read_z": {
+    "message0": "Lire l'accélération MMA8653 axe Z",
+    "tooltip": "Lire la valeur d'accélération de l'axe Z du capteur MMA8653"
+  },
+  "mma8653_read_xyz": {
+    "message0": "Lire toutes les données d'axes MMA8653 dans les variables X %1 Y %2 Z %3",
+    "tooltip": "Lire les données d'accélération des trois axes du capteur MMA8653 en une seule fois"
+  },
+  "mma8653_set_range": {
+    "message0": "Définir la plage de mesure MMA8653 %1",
+    "tooltip": "Définir la plage de mesure du capteur MMA8653"
+  },
+  "mma8653_set_data_rate": {
+    "message0": "Définir le taux de données MMA8653 %1",
+    "tooltip": "Définir le taux de sortie des données du capteur MMA8653"
+  },
+  "mma8653_set_resolution": {
+    "message0": "Définir la résolution MMA8653 %1",
+    "tooltip": "Définir la résolution des données du capteur MMA8653",
+    "args0": [
+      {
+        "options": [
+          ["10 bits", "MMA8653_10BIT_RES"],
+          ["8 bits", "MMA8653_8BIT_RES"]
+        ]
+      }
+    ]
+  },
+  "mma8653_is_active": {
+    "message0": "Le capteur MMA8653 est actif",
+    "tooltip": "Vérifier si le capteur MMA8653 est en état actif"
+  },
+  "mma8653_check_connection": {
+    "message0": "Vérifier la connexion du capteur MMA8653",
+    "tooltip": "Vérifier si le capteur MMA8653 est correctement connecté"
+  },
+  "mma8653_get_roll": {
+    "message0": "Lire l'angle de roulis MMA8653 Roll (°)",
+    "tooltip": "Lire l'angle de roulis du capteur MMA8653 (rotation autour de l'axe X)"
+  },
+  "mma8653_get_pitch": {
+    "message0": "Lire l'angle de tangage MMA8653 Pitch (°)",
+    "tooltip": "Lire l'angle de tangage du capteur MMA8653 (rotation autour de l'axe Y)"
+  },
+  "mma8653_get_tilt": {
+    "message0": "Lire l'angle d'inclinaison MMA8653 (°)",
+    "tooltip": "Lire l'angle d'inclinaison du capteur MMA8653 par rapport à la verticale"
+  }
+}

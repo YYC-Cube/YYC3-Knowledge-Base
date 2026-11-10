@@ -1,0 +1,219 @@
+{
+    "kind": "category",
+    "name": "Modbus通信",
+    "colour": "#FF6D00",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "客户端初始化"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_rtu_client_begin"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_tcp_client_begin",
+            "inputs": {
+                "IP": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "192.168.1.100"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "服务器初始化"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_rtu_server_begin"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_tcp_server_begin"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "服务器配置"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_configure_coils"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_configure_discrete_inputs"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_configure_holding_registers"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_configure_input_registers"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_poll"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "客户端读写操作"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_coil_read"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_coil_write",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "modbus_discrete_input_read"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_holding_register_read"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_holding_register_write",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "modbus_input_register_read"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "服务器读写操作"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_coil_read"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_coil_write",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_discrete_input_write",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_holding_register_read"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_holding_register_write",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "modbus_server_input_register_write",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "错误处理"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_last_error"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "快速操作"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_quick_coil_control"
+        },
+        {
+            "kind": "block",
+            "type": "modbus_quick_register_read"
+        }
+    ]
+}

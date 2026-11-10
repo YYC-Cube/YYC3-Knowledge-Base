@@ -1,0 +1,293 @@
+{
+  "kind": "category",
+  "name": "DFPlayer",
+  "icon": "fa-light fa-list-music",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "dfplayer_begin",
+      "inputs": {
+        "RX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "TX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 11
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_play",
+      "inputs": {
+        "FILE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_pause"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_start"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_stop"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_next"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_previous"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_volume",
+      "inputs": {
+        "VOLUME": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 15
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_volume_up"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_volume_down"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_eq"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_output_device"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_loop",
+      "inputs": {
+        "FILE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_play_folder",
+      "inputs": {
+        "FOLDER": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "FILE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_enable_loop_all"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_disable_loop_all"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_play_mp3_folder",
+      "inputs": {
+        "FILE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_advertise",
+      "inputs": {
+        "FILE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_stop_advertise"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_play_large_folder",
+      "inputs": {
+        "FOLDER": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "FILE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_loop_folder",
+      "inputs": {
+        "FOLDER": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_random_all"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_enable_loop"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_disable_loop"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_read_state"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_read_volume"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_read_eq"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_read_file_counts"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_read_current_file_number"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_read_file_counts_in_folder",
+      "inputs": {
+        "FOLDER": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_available"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_read_type"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_read"
+    },
+    {
+      "kind": "block",
+      "type": "dfplayer_simple_play",
+      "inputs": {
+        "RX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "TX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 11
+            }
+          }
+        },
+        "FILE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    }
+  ]
+}

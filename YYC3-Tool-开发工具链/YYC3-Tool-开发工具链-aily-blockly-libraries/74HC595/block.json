@@ -1,0 +1,143 @@
+[
+  {
+    "type": "74hc595_create",
+    "message0": "初始化74HC595 %1 数量%2 data:%3  clock:%4 latch:%5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "hc1"
+      },
+      {
+        "type": "input_value",
+        "name": "HCNUMBER",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "HCDATA_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "HCCLOCK_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "HCLATCH_PIN",
+        "options": "${board.digitalPins}"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF8800"
+  },
+  {
+    "type": "74hc595_set",
+    "message0": "74HC595 %1 设置引脚 %2 为 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "hc1",
+        "variableTypes": [
+            "HC"
+        ],
+        "defaultType": "HC"
+      },
+      {
+        "type": "input_value",
+        "name": "HCPIN"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "VALUE",
+        "options": [
+          [ "HIGH", "HIGH" ],
+          [ "LOW", "LOW" ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF8800"
+  },
+  {
+    "type": "74hc595_setAll",
+    "message0": "74HC595 %1 全部引脚设为%2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "hc1",
+        "variableTypes": [
+            "HC"
+        ],
+        "defaultType": "HC"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "ALLSTATE",
+        "options": [
+          [ "HIGH", "High" ],
+          [ "LOW", "Low" ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF8800"
+  },
+  {
+    "type": "74hc595_setAllBin",
+    "message0": "74HC595%1 设置输出电平 使用数组%2[]",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "hc1",
+        "variableTypes": [
+            "HC"
+        ],
+        "defaultType": "HC"
+      },
+      {
+        "type": "field_input",
+        "name": "HCARRAY",
+        "text": "arrayname"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF8800"
+  },
+  {
+    "type": "74hc595_getstate",
+    "message0": "74HC595%1 获取输出%2号引脚状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "hc1",
+        "variableTypes": [
+            "HC"
+        ],
+        "defaultType": "HC"
+      },
+      {
+        "type": "input_value",
+        "name": "HCOUTPSTATE",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#FF8800"
+  }
+]

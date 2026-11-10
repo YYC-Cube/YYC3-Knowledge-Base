@@ -1,0 +1,140 @@
+{
+  "kind": "category",
+  "name": "GPS定位",
+  "colour": "#E6A817",
+  "icon": "fa-light fa-satellite-dish",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "gps_init"
+    },
+    {
+      "kind": "label",
+      "text": "数据读取"
+    },
+    {
+      "kind": "block",
+      "type": "gps_update"
+    },
+    {
+      "kind": "block",
+      "type": "gps_is_valid"
+    },
+    {
+      "kind": "label",
+      "text": "位置信息"
+    },
+    {
+      "kind": "block",
+      "type": "gps_location"
+    },
+    {
+      "kind": "block",
+      "type": "gps_altitude"
+    },
+    {
+      "kind": "label",
+      "text": "时间日期"
+    },
+    {
+      "kind": "block",
+      "type": "gps_date"
+    },
+    {
+      "kind": "block",
+      "type": "gps_time"
+    },
+    {
+      "kind": "label",
+      "text": "运动信息"
+    },
+    {
+      "kind": "block",
+      "type": "gps_speed"
+    },
+    {
+      "kind": "block",
+      "type": "gps_course"
+    },
+    {
+      "kind": "label",
+      "text": "信号状态"
+    },
+    {
+      "kind": "block",
+      "type": "gps_satellites"
+    },
+    {
+      "kind": "block",
+      "type": "gps_hdop"
+    },
+    {
+      "kind": "label",
+      "text": "工具"
+    },
+    {
+      "kind": "block",
+      "type": "gps_distance_between",
+      "inputs": {
+        "LAT1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "LNG1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "LAT2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "LNG2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "gps_course_to",
+      "inputs": {
+        "LAT1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "LNG1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "LAT2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        },
+        "LNG2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 0 }
+          }
+        }
+      }
+    }
+  ]
+}

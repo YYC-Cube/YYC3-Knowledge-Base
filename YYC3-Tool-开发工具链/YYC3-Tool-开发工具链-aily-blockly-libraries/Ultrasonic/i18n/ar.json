@@ -1,0 +1,6 @@
+{
+    "toolbox_name": "موجات فوق الصوتية",
+    "ultrasonic_ranging": {
+        "message0": "قياس المسافة بالموجات فوق الصوتية (سم) Trig# %1 Echo# %2"
+    }
+}

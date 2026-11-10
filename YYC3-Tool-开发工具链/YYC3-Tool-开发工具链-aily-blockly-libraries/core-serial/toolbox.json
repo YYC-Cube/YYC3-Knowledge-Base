@@ -1,0 +1,77 @@
+{
+  "kind": "category",
+  "name": "Serial",
+  "icon": "fa-light fa-arrow-right-arrow-left",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "serial_begin"
+    },
+    {
+      "kind": "block",
+      "type": "serial_available"
+    },
+    {
+      "kind": "block",
+      "type": "serial_read"
+    },
+    {
+      "kind": "block",
+      "type": "serial_read_string"
+    },
+    {
+      "kind": "block",
+      "type": "serial_read_until",
+      "inputs": {
+        "TERMINATOR": {
+          "shadow": {
+            "type": "char",
+            "fields": {
+              "CHAR": "\\n"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "serial_print",
+      "inputs": {
+        "VAR": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "serial_println",
+      "inputs": {
+        "VAR": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "serial_write"
+    },
+    {
+      "kind": "block",
+      "type": "text"
+    },
+    {
+      "kind": "block",
+      "type": "math_number"
+    }
+  ]
+}

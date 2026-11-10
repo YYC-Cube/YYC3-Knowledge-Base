@@ -1,0 +1,75 @@
+{
+  "toolbox_name": "SPA06 Capteur de pression et température",
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "数据读取": "Lecture de données",
+    "状态检查": "vérification de l'état",
+    "配置": "Configuration"
+  },
+  "spa06_init": {
+    "message0": "Initialiser le capteur SPA06 adresse %1",
+    "tooltip": "Initialiser le capteur de pression et température SPA06 (I2C)",
+    "args0": [
+      {
+        "options": [
+          ["0x77 (par défaut)", "0x77"],
+          ["0x76", "0x76"]
+        ]
+      }
+    ]
+  },
+  "spa06_read_temperature": {
+    "message0": "Lire la température SPA06 (°C)",
+    "tooltip": "Lire la température du capteur SPA06, retourne en Celsius"
+  },
+  "spa06_read_pressure": {
+    "message0": "Lire la pression SPA06 (Pa)",
+    "tooltip": "Lire la pression du capteur SPA06, retourne en Pascals"
+  },
+  "spa06_read_altitude": {
+    "message0": "Lire l'altitude SPA06 (m)",
+    "tooltip": "Calculer l'altitude à partir de la pression, retourne en mètres"
+  },
+  "spa06_pressure_available": {
+    "message0": "Données de pression SPA06 prêtes",
+    "tooltip": "Vérifier si de nouvelles données de pression sont disponibles"
+  },
+  "spa06_temperature_available": {
+    "message0": "Données de température SPA06 prêtes",
+    "tooltip": "Vérifier si de nouvelles données de température sont disponibles"
+  },
+  "spa06_set_mode": {
+    "message0": "Définir le mode SPA06 %1",
+    "tooltip": "Définir le mode de fonctionnement du capteur SPA06",
+    "args0": [
+      {
+        "options": [
+          ["Veille", "SPL07_IDLE"],
+          ["Pression unique", "SPL07_ONE_PRESSURE"],
+          ["Température unique", "SPL07_ONE_TEMPERATURE"],
+          ["Pression continue", "SPL07_CONT_PRESSURE"],
+          ["Température continue", "SPL07_CONT_TEMPERATURE"],
+          ["Pression et température continues", "SPL07_CONT_PRES_TEMP"]
+        ]
+      }
+    ]
+  },
+  "spa06_set_pressure_config": {
+    "message0": "Configurer l'échantillonnage de pression SPA06 taux %1 suréchantillonnage %2",
+    "tooltip": "Configurer le taux de mesure et le suréchantillonnage du capteur de pression",
+    "args0": [null, null]
+  },
+  "spa06_set_temperature_config": {
+    "message0": "Configurer l'échantillonnage de température SPA06 taux %1 suréchantillonnage %2",
+    "tooltip": "Configurer le taux de mesure et le suréchantillonnage du capteur de température",
+    "args0": [null, null]
+  },
+  "spa06_set_pressure_offset": {
+    "message0": "Définir le décalage de pression SPA06 %1 Pa",
+    "tooltip": "Définir le décalage de calibration de pression en Pascals"
+  },
+  "spa06_set_temperature_offset": {
+    "message0": "Définir le décalage de température SPA06 %1 °C",
+    "tooltip": "Définir le décalage de calibration de température en Celsius"
+  }
+}

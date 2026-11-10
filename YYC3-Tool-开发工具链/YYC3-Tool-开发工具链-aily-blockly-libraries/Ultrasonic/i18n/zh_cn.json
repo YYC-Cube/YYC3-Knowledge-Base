@@ -1,0 +1,6 @@
+{
+    "toolbox_name": "超声波",
+    "ultrasonic_ranging": {
+        "message0": "超声波测距(cm) Trig# %1 Echo# %2"
+    }
+}

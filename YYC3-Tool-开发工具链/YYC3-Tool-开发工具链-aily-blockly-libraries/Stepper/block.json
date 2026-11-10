@@ -1,0 +1,112 @@
+[
+    {
+        "type": "stepper_init",
+        "message0": "初始化步进电机 %1 步数/圈 %2 引脚1 %3 引脚2 %4 引脚3 %5 引脚4 %6",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER",
+                "variable": "stepper",
+                "variableTypes": ["Stepper"],
+                "defaultType": "Stepper"
+            },
+            {
+                "type": "field_number",
+                "name": "STEPS",
+                "value": 4096,
+                "min": 1
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PIN1",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PIN2",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PIN3",
+                "options": "${board.digitalPins}"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "PIN4",
+                "options": "${board.digitalPins}"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4C97FF",
+        "inputsInline": false
+    },
+    {
+        "type": "stepper_set_speed",
+        "message0": "设置步进电机 %1 速度为 %2 RPM",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER",
+                "variable": "stepper",
+                "variableTypes": ["Stepper"],
+                "defaultType": "Stepper"
+            },
+            {
+                "type": "field_number",
+                "name": "SPEED",
+                "value": 5,
+                "min": 1
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4C97FF",
+        "inputsInline": true
+    },
+    {
+        "type": "stepper_step",
+        "message0": "步进电机 %1 旋转 %2 步",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "STEPPER",
+                "variable": "stepper",
+                "variableTypes": ["Stepper"],
+                "defaultType": "Stepper"
+            },
+            {
+                "type": "input_value",
+                "name": "STEPS",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "#4C97FF",
+        "inputsInline": true
+    },
+    {
+  "type": "stepper_rotate_degrees",
+  "message0": "步进电机 %1 旋转 %2 度",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "STEPPER",
+      "variable": "stepper"
+    },
+    {
+      "type": "input_value",
+      "name": "DEGREES",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#4C97FF",
+  "tooltip": "控制步进电机旋转指定角度（正值顺时针，负值逆时针）",
+  "helpUrl": ""
+}
+]

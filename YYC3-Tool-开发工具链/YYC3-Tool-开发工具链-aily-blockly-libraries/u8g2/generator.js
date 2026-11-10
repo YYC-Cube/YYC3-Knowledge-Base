@@ -1,0 +1,1795 @@
+var U8G2_I18N_PACKAGE_NAME = '@aily-project/lib-u8g2';
+
+function getU8g2I18n() {
+  return (typeof window !== 'undefined' && window.__BLOCKLY_LIB_I18N__)
+    ? window.__BLOCKLY_LIB_I18N__[U8G2_I18N_PACKAGE_NAME] || {}
+    : {};
+}
+
+function getU8g2ExtensionI18n(extensionName) {
+  var extensions = getU8g2I18n().extensions;
+  return (extensions && extensions[extensionName]) || {};
+}
+
+function getU8g2Text(i18n, key, fallback) {
+  return (i18n && i18n[key]) || fallback;
+}
+
+// 检测是否为ESP32核心
+function isESP32Core() {
+  const boardConfig = window['boardConfig'];
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('esp32') > -1;
+}
+
+function isAVRCore() {
+  const boardConfig = window['boardConfig'];
+  return boardConfig && boardConfig.core && boardConfig.core.indexOf('avr') > -1;
+}
+
+// 注册字体动态扩展
+if (Blockly.Extensions.isRegistered('u8g2_font_dynamic_inputs')) {
+  Blockly.Extensions.unregister('u8g2_font_dynamic_inputs');
+}
+
+Blockly.Extensions.register('u8g2_font_dynamic_inputs', function () {
+  // 动态字体选择：字体大小 -> 字体类型 -> 具体字体
+  const i18n = getU8g2ExtensionI18n('u8g2_font_dynamic_inputs');
+  const text = (key, fallback) => getU8g2Text(i18n, key, fallback);
+  const localizeFontTypeOptions = options => options.map(([label, value]) => [
+    value === 'CHINESE' ? text('chinese', '中文') : label,
+    value
+  ]);
+  const localizeFontOptions = options => options.map(([label, value]) => {
+    const fullSetMatch = label.match(/^(\d+px) 全字符集$/);
+    if (fullSetMatch) {
+      return [`${fullSetMatch[1]} ${text('full_character_set', '全字符集')}`, value];
+    }
+    const wqyMatch = label.match(/^文泉驿 (.+)\(约(\d+)字\)$/);
+    if (wqyMatch) {
+      return [`${text('wenquanyi', '文泉驿')} ${wqyMatch[1]} (${text('about', '约')}${wqyMatch[2]}${text('characters', '字')})`, value];
+    }
+    return [label, value];
+  });
+  
+  // 辅助函数：移除字体选择输入
+  this.removeFontInputs_ = function() {
+    if (this.getInput('FONT_TYPE')) this.removeInput('FONT_TYPE');
+    if (this.getInput('FONT_NAME')) this.removeInput('FONT_NAME');
+  };
+
+  // 根据字体大小更新字体类型选项
+  this.updateFontSize_ = function (sizeValue) {
+    // 移除现有输入
+    this.removeFontInputs_();
+    
+    var fontTypeOptions = [];
+    
+    // 根据字体大小确定可用的字体类型
+    switch (sizeValue) {
+      case '8':
+        fontTypeOptions = [
+          ['中文', 'CHINESE'],
+          ['Helvetica Bold', 'HELV_B'],
+          ['Helvetica Regular', 'HELV_R'],
+          ['New Century Bold', 'NCEN_B'],
+          ['New Century Regular', 'NCEN_R']
+        ];
+        break;
+      case '14':
+        fontTypeOptions = [
+          ['中文', 'CHINESE'],
+          ['Helvetica Bold', 'HELV_B'],
+          ['Helvetica Regular', 'HELV_R'],
+          ['New Century Bold', 'NCEN_B'],
+          ['New Century Regular', 'NCEN_R'],
+          ['Free Universal Bold', 'FUB'],
+          ['Free Universal Regular', 'FUR'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      case '19':
+        fontTypeOptions = [
+          ['中文', 'CHINESE'],
+          ['Helvetica Bold', 'HELV_B'],
+          ['Helvetica Regular', 'HELV_R'],
+          ['New Century Bold', 'NCEN_B'],
+          ['New Century Regular', 'NCEN_R'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      case '25':
+        fontTypeOptions = [
+          ['Helvetica Bold', 'HELV_B'],
+          ['Helvetica Regular', 'HELV_R'],
+          ['New Century Bold', 'NCEN_B'],
+          ['New Century Regular', 'NCEN_R'],
+          ['Free Universal Bold', 'FUB'],
+          ['Free Universal Regular', 'FUR'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      case '34':
+      case '42':
+        fontTypeOptions = [
+          ['Free Universal Bold', 'FUB'],
+          ['Free Universal Regular', 'FUR'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      case '50':
+      case '58':
+        fontTypeOptions = [
+          // ['Helvetica Bold', 'HELV_B'],
+          // ['Helvetica Regular', 'HELV_R'],
+          // ['New Century Bold', 'NCEN_B'],
+          // ['New Century Regular', 'NCEN_R'],
+          ['Logisoso', 'LOGISOSO']
+        ];
+        break;
+      default:
+        return;
+    }
+    
+    fontTypeOptions = localizeFontTypeOptions(fontTypeOptions);
+
+    // 添加字体类型下拉框
+    this.appendDummyInput('FONT_TYPE')
+      .appendField(text('font_type', '字体类型'))
+      .appendField(new Blockly.FieldDropdown(fontTypeOptions), 'FONT_TYPE');
+    
+    // 为字体类型字段添加验证器
+    this.getField('FONT_TYPE').setValidator(option => {
+      this.updateFontName_(sizeValue, option);
+      return option;
+    });
+    
+    // 初始化具体字体
+    this.updateFontName_(sizeValue, fontTypeOptions[0][1]);
+  };
+
+  // 根据字体大小和类型更新具体字体选项
+  this.updateFontName_ = function (sizeValue, typeValue) {
+    // 移除具体字体输入
+    if (this.getInput('FONT_NAME')) this.removeInput('FONT_NAME');
+    
+    var fontOptions = [];
+    
+    // 根据大小和类型确定具体字体
+    if (typeValue === 'CHINESE') {
+      // 中文字体
+      switch (sizeValue) {
+        case '8':
+          if (!isAVRCore()) {
+            fontOptions = [
+              ['文泉驿 12t 1(约400字)', 'u8g2_font_wqy12_t_chinese1'],
+              ['文泉驿 12t 2(约600字)', 'u8g2_font_wqy12_t_chinese2'],
+              ['文泉驿 12t 3(约1000字)', 'u8g2_font_wqy12_t_chinese3'],
+              ['文泉驿 12t a(约4000字)', 'u8g2_font_wqy12_t_gb2312a'],
+              ['文泉驿 12t b(约4500字)', 'u8g2_font_wqy12_t_gb2312b'],
+              ['文泉驿 12t c(约7500字)', 'u8g2_font_wqy12_t_gb2312']
+            ];
+          }
+          else {
+            fontOptions = [
+              ['文泉驿 12t 1(约400字)', 'u8g2_font_wqy12_t_chinese1'],
+              ['文泉驿 12t 2(约600字)', 'u8g2_font_wqy12_t_chinese2'],
+              ['文泉驿 12t 3(约1000字)', 'u8g2_font_wqy12_t_chinese3']
+            ];
+          }
+          break;
+        case '14':
+          if (!isAVRCore()) {
+            fontOptions = [
+              ['文泉驿 14t 1(约400字)', 'u8g2_font_wqy14_t_chinese1'],
+              ['文泉驿 14t 2(约600字)', 'u8g2_font_wqy14_t_chinese2'],
+              ['文泉驿 14t 3(约1000字)', 'u8g2_font_wqy14_t_chinese3'],
+              ['文泉驿 14t a(约4000字)', 'u8g2_font_wqy14_t_gb2312a'],
+              ['文泉驿 14t b(约4500字)', 'u8g2_font_wqy14_t_gb2312b'],
+              ['文泉驿 14t c(约7500字)', 'u8g2_font_wqy14_t_gb2312']
+            ];
+          }
+          else {
+            fontOptions = [
+              ['文泉驿 14t 1(约400字)', 'u8g2_font_wqy14_t_chinese1'],
+              ['文泉驿 14t 2(约600字)', 'u8g2_font_wqy14_t_chinese2'],
+              ['文泉驿 14t 3(约1000字)', 'u8g2_font_wqy14_t_chinese3']
+            ];
+          }
+          break;
+        case '19':
+          if (!isAVRCore()) {
+            fontOptions = [
+              ['文泉驿 16t 1(约400字)', 'u8g2_font_wqy16_t_chinese1'],
+              ['文泉驿 16t 2(约600字)', 'u8g2_font_wqy16_t_chinese2'],
+              ['文泉驿 16t 3(约1000字)', 'u8g2_font_wqy16_t_chinese3'],
+              ['文泉驿 16t a(约4000字)', 'u8g2_font_wqy16_t_gb2312a'],
+              ['文泉驿 16t b(约4500字)', 'u8g2_font_wqy16_t_gb2312b'],
+              ['文泉驿 16t c(约7500字)', 'u8g2_font_wqy16_t_gb2312']
+            ];
+          }
+          else {
+            fontOptions = [
+              ['文泉驿 16t 1(约400字)', 'u8g2_font_wqy16_t_chinese1'],
+              ['文泉驿 16t 2(约600字)', 'u8g2_font_wqy16_t_chinese2'],
+              ['文泉驿 16t 3(约1000字)', 'u8g2_font_wqy16_t_chinese3']
+            ];
+          }
+          break;
+      }
+    } else if (typeValue === 'HELV_B') {
+      // Helvetica Bold
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['8px ASCII 32-127', 'u8g2_font_helvB08_tr'],
+            ['8px 全字符集', 'u8g2_font_helvB08_tf']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_helvB14_tr'],
+            ['14px 全字符集', 'u8g2_font_helvB14_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_helvB18_tr'],
+            ['18px 全字符集', 'u8g2_font_helvB18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_helvB24_tr'],
+            ['24px 全字符集', 'u8g2_font_helvB24_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'HELV_R') {
+      // Helvetica Regular
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['8px ASCII 32-127', 'u8g2_font_helvR08_tr'],
+            ['8px 全字符集', 'u8g2_font_helvR08_tf']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_helvR14_tr'],
+            ['14px 全字符集', 'u8g2_font_helvR14_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_helvR18_tr'],
+            ['18px 全字符集', 'u8g2_font_helvR18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_helvR24_tr'],
+            ['24px 全字符集', 'u8g2_font_helvR24_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'NCEN_B') {
+      // New Century Bold
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['8px ASCII 32-127', 'u8g2_font_ncenB08_tr'],
+            ['8px 全字符集', 'u8g2_font_ncenB08_tf']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_ncenB14_tr'],
+            ['14px 全字符集', 'u8g2_font_ncenB14_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_ncenB18_tr'],
+            ['18px 全字符集', 'u8g2_font_ncenB18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_ncenB24_tr'],
+            ['24px 全字符集', 'u8g2_font_ncenB24_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'NCEN_R') {
+      // New Century Regular
+      switch (sizeValue) {
+        case '8':
+          fontOptions = [
+            ['8px ASCII 32-127', 'u8g2_font_ncenR08_tr'],
+            ['8px 全字符集', 'u8g2_font_ncenR08_tf']
+          ];
+          break;
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_ncenR14_tr'],
+            ['14px 全字符集', 'u8g2_font_ncenR14_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_ncenR18_tr'],
+            ['18px 全字符集', 'u8g2_font_ncenR18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_ncenR24_tr'],
+            ['24px 全字符集', 'u8g2_font_ncenR24_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'FUB') {
+      // Free Universal Bold
+      switch (sizeValue) {
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_fub14_tr'],
+            ['14px 全字符集', 'u8g2_font_fub14_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['25px ASCII 32-127', 'u8g2_font_fub25_tr'],
+            ['25px 全字符集', 'u8g2_font_fub25_tf']
+          ];
+          break;
+        case '42':
+          fontOptions = [
+            ['42px ASCII 32-127', 'u8g2_font_fub42_tr'],
+            ['42px 全字符集', 'u8g2_font_fub42_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'FUR') {
+      // Free Universal Regular
+      switch (sizeValue) {
+        case '14':
+          fontOptions = [
+            ['14px ASCII 32-127', 'u8g2_font_fur14_tr'],
+            ['14px 全字符集', 'u8g2_font_fur14_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['25px ASCII 32-127', 'u8g2_font_fur25_tr'],
+            ['25px 全字符集', 'u8g2_font_fur25_tf']
+          ];
+          break;
+        case '42':
+          fontOptions = [
+            ['42px ASCII 32-127', 'u8g2_font_fur42_tr'],
+            ['42px 全字符集', 'u8g2_font_fur42_tf']
+          ];
+          break;
+      }
+    } else if (typeValue === 'LOGISOSO') {
+      // Logisoso
+      switch (sizeValue) {
+        case '14':
+          fontOptions = [
+            ['16px ASCII 32-127', 'u8g2_font_logisoso16_tr'],
+            ['16px 全字符集', 'u8g2_font_logisoso16_tf']
+          ];
+          break;
+        case '19':
+          fontOptions = [
+            ['18px ASCII 32-127', 'u8g2_font_logisoso18_tr'],
+            ['18px 全字符集', 'u8g2_font_logisoso18_tf']
+          ];
+          break;
+        case '25':
+          fontOptions = [
+            ['24px ASCII 32-127', 'u8g2_font_logisoso24_tr'],
+            ['24px 全字符集', 'u8g2_font_logisoso24_tf']
+          ];
+          break;
+        case '34':
+          fontOptions = [
+            ['34px ASCII 32-127', 'u8g2_font_logisoso34_tr'],
+            ['34px 全字符集', 'u8g2_font_logisoso34_tf']
+          ];
+          break;
+        case '42':
+          fontOptions = [
+            ['42px ASCII 32-127', 'u8g2_font_logisoso42_tr'],
+            ['42px 全字符集', 'u8g2_font_logisoso42_tf']
+          ];
+          break;
+        case '50':
+          fontOptions = [
+            ['50px ASCII 32-127', 'u8g2_font_logisoso50_tr'],
+            ['50px 全字符集', 'u8g2_font_logisoso50_tf']
+          ];
+          break;
+        case '58':
+          fontOptions = [
+            ['58px ASCII 32-127', 'u8g2_font_logisoso58_tr'],
+            ['58px 全字符集', 'u8g2_font_logisoso58_tf']
+          ];
+          break;
+      }
+    }
+    
+    if (fontOptions.length > 0) {
+      fontOptions = localizeFontOptions(fontOptions);
+      // 添加具体字体下拉框
+      this.appendDummyInput('FONT_NAME')
+        .appendField(text('font', '字体'))
+        .appendField(new Blockly.FieldDropdown(fontOptions), 'FONT');
+    }
+  };
+  
+  // 为SIZE字段添加验证器，切换时动态更新输入
+  this.getField('SIZE').setValidator(option => {
+    this.updateFontSize_(option);
+    return option;
+  });
+  
+  // 初始化时根据当前字体大小设置输入
+  this.updateFontSize_(this.getFieldValue('SIZE'));
+});
+
+if (Blockly.Extensions.isRegistered('u8g2_init_dynamic_inputs')) {
+  Blockly.Extensions.unregister('u8g2_init_dynamic_inputs');
+}
+
+Blockly.Extensions.register('u8g2_init_dynamic_inputs', function () {
+  // 重新设计动态输入流程：屏幕类型 -> 分辨率 -> 通信协议 -> 引脚配置
+  const i18n = getU8g2ExtensionI18n('u8g2_init_dynamic_inputs');
+  const text = (key, fallback) => getU8g2Text(i18n, key, fallback);
+  const protocolLabels = {
+    _HW_I2C: text('i2c_hardware', 'I2C(硬件)'),
+    _SW_I2C: text('i2c_software', 'I2C(软件)'),
+    _3W_HW_SPI: text('spi3_hardware', 'SPI 3线(硬件)'),
+    _3W_SW_SPI: text('spi3_software', 'SPI 3线(软件)'),
+    _4W_HW_SPI: text('spi4_hardware', 'SPI 4线(硬件)'),
+    _4W_SW_SPI: text('spi4_software', 'SPI 4线(软件)'),
+    _HW_SPI: text('spi_hardware', 'SPI(硬件)'),
+    _SW_SPI: text('spi_software', 'SPI(软件)')
+  };
+  const localizeProtocolOptions = options => options.map(([label, value]) => [
+    protocolLabels[value] || label,
+    value
+  ]);
+  let isESP32 = isESP32Core();
+  
+  // 辅助函数：移除所有输入
+  this.removeAllInputs_ = function() {
+    if (this.getInput('RESOLUTION')) this.removeInput('RESOLUTION');
+    if (this.getInput('PROTOCOL')) this.removeInput('PROTOCOL');
+    this.removePinInputs_();
+  };
+  
+  // 辅助函数：移除所有引脚输入
+  this.removePinInputs_ = function() {
+    if (this.getInput('I2C_PINS')) this.removeInput('I2C_PINS');
+    if (this.getInput('SW_I2C_PINS')) this.removeInput('SW_I2C_PINS');
+    if (this.getInput('3W_SPI_PINS')) this.removeInput('3W_SPI_PINS');
+    if (this.getInput('3W_SW_SPI_PINS')) this.removeInput('3W_SW_SPI_PINS');
+    if (this.getInput('4W_SPI_PINS')) this.removeInput('4W_SPI_PINS');
+    if (this.getInput('4W_SW_SPI_PINS')) this.removeInput('4W_SW_SPI_PINS');
+    if (this.getInput('ST7920_SPI_PINS')) this.removeInput('ST7920_SPI_PINS');
+  };
+
+  this.updateType_ = function (typeValue) {
+    // 使用辅助函数移除所有输入
+    this.removeAllInputs_();
+    // 根据屏幕类型添加分辨率选项
+    switch (typeValue) {
+      case 'SSD1306':
+        this.appendDummyInput('RESOLUTION')
+          .appendField(text('resolution', '分辨率'))
+          .appendField(new Blockly.FieldDropdown([
+            ['128x64', '128X64_NONAME'],
+            ['128x32', '128X32_UNIVISION']
+          ]), 'RESOLUTION');
+        break;
+      case 'SSD1309':
+        this.appendDummyInput('RESOLUTION')
+          .appendField(text('resolution', '分辨率'))
+          .appendField(new Blockly.FieldDropdown([
+            ['128x64 NONAME0', '128X64_NONAME0'],
+            ['128x64 NONAME2', '128X64_NONAME2']
+          ]), 'RESOLUTION');
+        break;
+      case 'SH1106':
+        this.appendDummyInput('RESOLUTION')
+          .appendField(text('resolution', '分辨率'))
+          .appendField(new Blockly.FieldDropdown([
+            ['128x64', '128X64_NONAME']
+          ]), 'RESOLUTION');
+        break;
+      case 'SH1107':
+        this.appendDummyInput('RESOLUTION')
+          .appendField(text('resolution', '分辨率'))
+          .appendField(new Blockly.FieldDropdown([
+            ['64x128', '64X128'],
+            ['128x128', '128X128'],
+            ['128x80', '128X80'],
+            ['96x96 SEEED', 'SEEED_96X96'],
+            ['128x128 SEEED', 'SEEED_128X128']
+          ]), 'RESOLUTION');
+        break;
+      case 'ST7305':
+        this.appendDummyInput('RESOLUTION')
+          .appendField(text('resolution', '分辨率'))
+          .appendField(new Blockly.FieldDropdown([
+            ['122X250', '122X250'],
+            ['200X200', '200X200'],
+            ['168X384', '168X384']
+          ]), 'RESOLUTION');
+        break;
+      case 'ST7567':
+        this.appendDummyInput('RESOLUTION')
+          .appendField(text('resolution', '分辨率'))
+          .appendField(new Blockly.FieldDropdown([
+            ['JLX12864 (128x64)', 'JLX12864'],
+            ['ENH DG128064 (128x64)', 'ENH_DG128064'],
+            ['ENH DG128064I (128x64)', 'ENH_DG128064I'],
+            ['OS12864 (128x64)', 'OS12864'],
+            ['ERC12864 (128x64)', 'ERC12864'],
+            ['PI (132x64)', 'PI_132X64'],
+            ['ERC13232 (132x32)', 'ERC13232'],
+            ['122x32', '122X32'],
+            ['LW12832 (128x32)', 'LW12832'],
+            ['YXD12832 (128x32)', 'YXD12832'],
+            ['HEM6432 (64x32)', 'HEM6432'],
+            ['64x32', '64X32'],
+            ['96x65', '96X65']
+          ]), 'RESOLUTION');
+        break;
+      case 'ST7920':
+        this.appendDummyInput('RESOLUTION')
+          .appendField(text('resolution', '分辨率'))
+          .appendField(new Blockly.FieldDropdown([
+            ['128x32', '128X32'],
+            ['128x64', '128X64']
+          ]), 'RESOLUTION');
+        break;
+      default:
+        return;
+    }
+    
+    // 为分辨率字段添加验证器
+    this.getField('RESOLUTION').setValidator(option => {
+      this.updateProtocol_(this.getFieldValue('TYPE'), option);
+      return option;
+    });
+    
+    // 初始化协议选择
+    this.updateProtocol_(typeValue, this.getFieldValue('RESOLUTION'));
+  };
+
+  // 根据屏幕类型和分辨率更新协议选项
+  this.updateProtocol_ = function (typeValue, resolutionValue) {
+    // 移除协议和引脚输入
+    if (this.getInput('PROTOCOL')) this.removeInput('PROTOCOL');
+    this.removePinInputs_();
+    
+    var protocolOptions = [];
+    
+    // 根据屏幕类型和分辨率确定支持的协议
+    switch (typeValue) {
+      case 'SSD1306':
+        protocolOptions = [
+          ['I2C(硬件)', '_HW_I2C'],
+          ['I2C(软件)', '_SW_I2C'],
+          ['SPI 3线(硬件)', '_3W_HW_SPI'],
+          ['SPI 3线(软件)', '_3W_SW_SPI'],
+          ['SPI 4线(硬件)', '_4W_HW_SPI'],
+          ['SPI 4线(软件)', '_4W_SW_SPI']
+        ];
+        break;
+      case 'SSD1309':
+        protocolOptions = [
+          ['SPI 4线(硬件)', '_4W_HW_SPI'],
+          ['SPI 4线(软件)', '_4W_SW_SPI']
+        ];
+        break;
+      case 'SH1106':
+        protocolOptions = [
+          ['I2C(硬件)', '_HW_I2C'],
+          ['SPI 4线(硬件)', '_4W_HW_SPI']
+        ];
+        break;
+      case 'SH1107':
+        if (resolutionValue === 'SEEED_96X96') {
+          // SEEED 96x96 只支持 SPI 4线硬件
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI']
+          ];
+        } else if (resolutionValue === 'SEEED_128X128') {
+          // SEEED 128x128 支持 I2C 硬件和软件
+          protocolOptions = [
+            ['I2C(硬件)', '_HW_I2C'],
+            ['I2C(软件)', '_SW_I2C']
+          ];
+        } else {
+          // 标准 SH1107 支持 I2C 硬件和 SPI 4线硬件
+          protocolOptions = [
+            ['I2C(硬件)', '_HW_I2C'],
+            ['SPI 4线(硬件)', '_4W_HW_SPI']
+          ];
+        }
+        break;
+      case 'ST7305':
+        if (resolutionValue === '122X250') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
+          ];
+        } else if (resolutionValue === '200X200') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
+          ];
+        } else if (resolutionValue === '168X384') {
+          protocolOptions = [
+            ['SPI 4线(硬件)', '_4W_HW_SPI'],
+            ['SPI 4线(软件)', '_4W_SW_SPI']
+          ];
+        }
+        break;
+      case 'ST7567':
+        protocolOptions = [
+          ['I2C(硬件)', '_HW_I2C'],
+          ['I2C(软件)', '_SW_I2C'],
+          ['SPI 3线(硬件)', '_3W_HW_SPI'],
+          ['SPI 3线(软件)', '_3W_SW_SPI'],
+          ['SPI 4线(硬件)', '_4W_HW_SPI'],
+          ['SPI 4线(软件)', '_4W_SW_SPI']
+        ];
+        if (resolutionValue === 'ERC12864' || resolutionValue === 'YXD12832') {
+          protocolOptions = protocolOptions.slice(2);
+        }
+        break;
+      case 'ST7920':
+        if (resolutionValue === '128X64') {
+          protocolOptions = [
+            ['SPI(硬件)', '_HW_SPI'],
+            ['SPI(软件)', '_SW_SPI']
+          ];
+        } else {
+          protocolOptions = [
+            ['SPI(软件)', '_SW_SPI']
+          ];
+        }
+        break;
+      default:
+        return;
+    }
+    
+    protocolOptions = localizeProtocolOptions(protocolOptions);
+
+    // 添加协议下拉框
+    this.appendDummyInput('PROTOCOL')
+      .appendField(text('communication', '通信'))
+      .appendField(new Blockly.FieldDropdown(protocolOptions), 'PROTOCOL');
+    
+    // 为协议字段添加验证器
+    this.getField('PROTOCOL').setValidator(option => {
+      this.updatePins_(option);
+      return option;
+    });
+    
+    // 初始化引脚配置
+    this.updatePins_(protocolOptions[0][1]);
+  };
+  
+  // 引脚配置更新函数
+  this.updatePins_ = function (protocolValue) {
+    // 使用辅助函数移除所有引脚输入
+    this.removePinInputs_();
+    
+    switch (protocolValue) {
+      case '_HW_I2C':
+        if (isESP32) {
+          this.appendDummyInput('I2C_PINS')
+            .appendField(text('pin_scl', '引脚SCL'))
+            .appendField(new Blockly.FieldTextInput('SCL'), 'SCL_PIN')
+            .appendField('SDA')
+            .appendField(new Blockly.FieldTextInput('SDA'), 'SDA_PIN')
+            .appendField('RST')
+            .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
+        } else {
+          this.appendDummyInput('I2C_PINS')
+            .appendField(text('pin_rst', '引脚RST'))
+            .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
+        }
+        break;
+      case '_SW_I2C':
+        this.appendDummyInput('SW_I2C_PINS')
+          .appendField(text('pin_scl', '引脚SCL'))
+          .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
+          .appendField('SDA')
+          .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
+          .appendField('RST')
+          .appendField(new Blockly.FieldTextInput('8'), 'RESET_PIN');
+        break;
+      case '_3W_HW_SPI':
+        this.appendDummyInput('3W_SPI_PINS')
+          .appendField(text('pin_cs', '引脚CS'))
+          .appendField(new Blockly.FieldTextInput('10'), 'CS_PIN')
+          .appendField('RST')
+          .appendField(new Blockly.FieldTextInput('8'), 'RESET_PIN');
+        break;
+      case '_3W_SW_SPI':
+        this.appendDummyInput('3W_SW_SPI_PINS')
+          .appendField(text('pin_clk', '引脚CLK'))
+          .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
+          .appendField('DATA')
+          .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
+          .appendField('CS')
+          .appendField(new Blockly.FieldTextInput('10'), 'CS_PIN')
+          .appendField('RST')
+          .appendField(new Blockly.FieldTextInput('8'), 'RESET_PIN');
+        break;
+      case '_4W_HW_SPI':
+        this.appendDummyInput('4W_SPI_PINS')
+          .appendField(text('pin_cs', '引脚CS'))
+          .appendField(new Blockly.FieldTextInput('10'), 'CS_PIN')
+          .appendField('DC')
+          .appendField(new Blockly.FieldTextInput('9'), 'DC_PIN')
+          .appendField('RST')
+          .appendField(new Blockly.FieldTextInput('8'), 'RESET_PIN');
+        break;
+      case '_4W_SW_SPI':
+        this.appendDummyInput('4W_SW_SPI_PINS')
+          .appendField(text('pin_clk', '引脚CLK'))
+          .appendField(new Blockly.FieldTextInput('13'), 'CLOCK_PIN')
+          .appendField('DATA')
+          .appendField(new Blockly.FieldTextInput('11'), 'DATA_PIN')
+          .appendField('CS')
+          .appendField(new Blockly.FieldTextInput('10'), 'CS_PIN')
+          .appendField('DC')
+          .appendField(new Blockly.FieldTextInput('9'), 'DC_PIN')
+          .appendField('RST')
+          .appendField(new Blockly.FieldTextInput('8'), 'RESET_PIN');
+        break;
+      case '_HW_SPI':
+        // ST7920 硬件SPI
+        this.appendDummyInput('ST7920_SPI_PINS')
+          .appendField(text('pin_cs', '引脚CS'))
+          .appendField(new Blockly.FieldTextInput('17'), 'CS_PIN')
+          .appendField('RST')
+          .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
+        break;
+      case '_SW_SPI':
+        // ST7920 SPI模式
+        this.appendDummyInput('ST7920_SPI_PINS')
+          .appendField(text('pin_clk', '引脚CLK'))
+          .appendField(new Blockly.FieldTextInput('18'), 'CLOCK_PIN')
+          .appendField('DATA')
+          .appendField(new Blockly.FieldTextInput('16'), 'DATA_PIN')
+          .appendField('CS')
+          .appendField(new Blockly.FieldTextInput('17'), 'CS_PIN')
+          .appendField('RST')
+          .appendField(new Blockly.FieldTextInput('U8X8_PIN_NONE'), 'RESET_PIN');
+        break;
+      default:
+        break;
+    }
+  };
+  
+  // 为TYPE字段添加验证器，切换时动态更新输入
+  this.getField('TYPE').setValidator(option => {
+    this.updateType_(option);
+    return option;
+  });
+  // 初始化时根据当前类型值设置输入
+  this.updateType_(this.getFieldValue('TYPE'));
+});
+
+Arduino.forBlock['u8g2_begin'] = function (block, generator) {
+  var type = block.getFieldValue('TYPE');
+  var resolution = block.getFieldValue('RESOLUTION');
+  var protocol = block.getFieldValue('PROTOCOL');
+  var mode = block.getFieldValue('MODE') === 'FULL_BUFFER' ? '_F' : '_1';
+
+  // 处理SEEED变种的特殊情况
+  var constructorType = type;
+  var constructorProtocol = protocol;
+  
+  if (type === 'SH1107' && (resolution === 'SEEED_96X96' || resolution === 'SEEED_128X128')) {
+    constructorType = 'SH1107_SEEED';
+    if (resolution === 'SEEED_96X96') {
+      resolution = '96X96';
+    } else if (resolution === 'SEEED_128X128') {
+      resolution = '128X128';
+    }
+  }
+
+  // 获取分辨率，如果为空则使用默认值
+  if (!resolution || resolution === 'null') {
+    switch (type) {
+      case 'SSD1306':
+        resolution = '128X64_NONAME';
+        break;
+      case 'SSD1309':
+        resolution = '128X64_NONAME0';
+        break;
+      case 'SH1106':
+        resolution = '128X64_NONAME';
+        break;
+      case 'SH1107':
+        resolution = '64X128';
+        break;
+      case 'ST7567':
+        resolution = 'JLX12864';
+        break;
+      case 'ST7920':
+        resolution = '128X32';
+        break;
+      default:
+        resolution = '128X64_NONAME';
+        break;
+    }
+  }
+  // 分辨率现在已经是正确的U8G2格式
+
+  // 构建基础的构造函数名称
+  var code = 'U8G2_' + constructorType + '_' + resolution + mode + constructorProtocol + ' u8g2(';
+
+  // 根据不同的协议类型添加对应的引脚参数
+  switch (protocol) {
+    case '_HW_I2C':
+      if (isESP32Core()) {
+        // ESP32硬件I2C需要SCL、SDA和重置引脚
+        var sclPin = block.getFieldValue('SCL_PIN') || 'SCL';
+        var sdaPin = block.getFieldValue('SDA_PIN') || 'SDA';
+        var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+        code += 'U8G2_R0, ' + resetPin + ', ' + sclPin + ', ' + sdaPin;
+      } else {
+        // 硬件I2C只需要重置引脚
+        var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+        code += 'U8G2_R0, ' + resetPin;
+      }
+      break;
+
+    case '_SW_I2C':
+      // 软件I2C需要时钟、数据和重置引脚
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += 'U8G2_R0, ' + clockPin + ', ' + dataPin + ', ' + resetPin;
+      break;
+
+    case '_3W_HW_SPI':
+      // 3线硬件SPI需要片选和重置引脚
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += 'U8G2_R0, ' + csPin + ', ' + resetPin;
+      break;
+
+    case '_3W_SW_SPI':
+      // 3线软件SPI需要时钟、数据、片选和重置引脚
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += 'U8G2_R0, ' + clockPin + ', ' + dataPin + ', ' + csPin + ', ' + resetPin;
+      break;
+
+    case '_4W_HW_SPI':
+      // 4线硬件SPI需要CS、DC和重置引脚
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var dcPin = block.getFieldValue('DC_PIN') || '9';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += 'U8G2_R0, ' + csPin + ', ' + dcPin + ', ' + resetPin;
+      break;
+
+    case '_4W_SW_SPI':
+      // 4线软件SPI需要时钟、数据、片选、DC和重置引脚
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var dcPin = block.getFieldValue('DC_PIN') || '9';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += 'U8G2_R0, ' + clockPin + ', ' + dataPin + ', ' + csPin + ', ' + dcPin + ', ' + resetPin;
+      break;
+
+    case '_HW_SPI':
+      // ST7920 硬件SPI模式：使用默认硬件SPI引脚 + 片选和重置
+      var csPin = block.getFieldValue('CS_PIN') || 'U8X8_PIN_NONE';
+      var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+      code += 'U8G2_R0, ' + csPin + ', ' + resetPin;
+      break;
+
+    case '_SW_SPI':
+      // ST7920 SPI模式：时钟、数据、片选、重置
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '18';
+      var dataPin = block.getFieldValue('DATA_PIN') || '16';
+      var csPin = block.getFieldValue('CS_PIN') || '17';
+      var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+      code += 'U8G2_R0, ' + clockPin + ', ' + dataPin + ', ' + csPin + ', ' + resetPin;
+      break;
+
+    default:
+      // 默认情况，只添加旋转参数
+      code += 'U8G2_R0';
+      break;
+  }
+
+  code += ');';
+
+  generator.addLibrary('u8g2', '#include <U8g2lib.h>');
+  generator.addObject('u8g2', code);
+  return 'u8g2.begin();\n';
+};
+
+Arduino.forBlock['u8g2_page_buffer'] = function (block, generator) {
+  let branchCode = generator.statementToCode(block, 'DO');
+
+  let code = '';
+  code += 'u8g2.firstPage();\n';
+  code += 'do {\n';
+  code += branchCode;
+  code += '} while (u8g2.nextPage());\n';
+  return code;
+};
+
+// 清屏操作（立即生效）
+Arduino.forBlock['u8g2_clear'] = function (block, generator) {
+  return `u8g2.clear();\n`;
+};
+
+// 清空缓冲区（需要配合sendBuffer使用）
+Arduino.forBlock['u8g2_clear_buffer'] = function (block, generator) {
+  return `u8g2.clearBuffer();\n`;
+};
+
+// 发送缓冲区到显示器
+Arduino.forBlock['u8g2_send_buffer'] = function (block, generator) {
+  return `u8g2.sendBuffer();\n`;
+};
+
+// 辅助函数：检测后续块中是否有u8g2_send_buffer
+function hasFollowingSendBuffer(block) {
+  let nextBlock = block.getNextBlock();
+  while (nextBlock) {
+    if (nextBlock.type === 'u8g2_send_buffer') {
+      return true;
+    }
+    nextBlock = nextBlock.getNextBlock();
+  }
+  return false;
+}
+
+// 辅助函数：检测是full buffer还是page buffer模式
+function isPageBufferMode(block) {
+  let parentBlock = block.getSurroundParent();
+  while (parentBlock) {
+    if (parentBlock.type === 'u8g2_page_buffer') {
+      return true;
+    }
+    parentBlock = parentBlock.getSurroundParent();
+  }
+  return false;
+}
+
+// 辅助函数：检测工作区中是否有设置字体的block
+function hasSetFontInWorkspace(block) {
+  const workspace = block.workspace;
+  if (!workspace) return false;
+  
+  const allBlocks = workspace.getAllBlocks(false);
+  for (let i = 0; i < allBlocks.length; i++) {
+    if (allBlocks[i].type === 'u8g2_set_font') {
+      return true;
+    }
+  }
+  return false;
+}
+
+// 绘制像素点
+Arduino.forBlock['u8g2_draw_pixel'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
+  let code = `u8g2.drawPixel(${x}, ${y});\n`;
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
+};
+
+// 绘制直线
+Arduino.forBlock['u8g2_draw_line'] = function (block, generator) {
+  const x1 = generator.valueToCode(block, 'X1', Arduino.ORDER_ATOMIC);
+  const y1 = generator.valueToCode(block, 'Y1', Arduino.ORDER_ATOMIC);
+  const x2 = generator.valueToCode(block, 'X2', Arduino.ORDER_ATOMIC);
+  const y2 = generator.valueToCode(block, 'Y2', Arduino.ORDER_ATOMIC);
+
+  let code = `u8g2.drawLine(${x1}, ${y1}, ${x2}, ${y2});\n`;
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
+};
+
+// 绘制矩形
+Arduino.forBlock['u8g2_draw_rectangle'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
+  const width = generator.valueToCode(block, 'WIDTH', Arduino.ORDER_ATOMIC);
+  const height = generator.valueToCode(block, 'HEIGHT', Arduino.ORDER_ATOMIC);
+  const fill = block.getFieldValue('FILL') === 'TRUE';
+  const needSendBuffer = !hasFollowingSendBuffer(block) && !isPageBufferMode(block);
+
+  let code;
+  if (fill) {
+    code = `u8g2.drawBox(${x}, ${y}, ${width}, ${height});\n`;
+  } else {
+    code = `u8g2.drawFrame(${x}, ${y}, ${width}, ${height});\n`;
+  }
+  if (needSendBuffer) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
+};
+
+// 绘制圆形
+Arduino.forBlock['u8g2_draw_circle'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
+  const radius = generator.valueToCode(block, 'RADIUS', Arduino.ORDER_ATOMIC);
+  const fill = block.getFieldValue('FILL') === 'TRUE';
+  const needSendBuffer = !hasFollowingSendBuffer(block) && !isPageBufferMode(block);
+
+  let code;
+  if (fill) {
+    code = `u8g2.drawDisc(${x}, ${y}, ${radius});\n`;
+  } else {
+    code = `u8g2.drawCircle(${x}, ${y}, ${radius});\n`;
+  }
+  if (needSendBuffer) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
+};
+
+// 绘制文本
+Arduino.forBlock['u8g2_draw_str'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
+  const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC);
+  let drawCode= 'drawUTF8';
+
+  let fontSetting = 'u8g2_font_ncenB08_tr'; // 默认字体设置
+
+  const isChinese = /[\u4e00-\u9fa5]/.test(text); // 检测是否为中文
+  if (isChinese) {
+    // 如果是中文，使用特定的字体
+    fontSetting = 'u8g2_font_wqy12_t_chinese2';
+    // drawCode = 'drawUTF8';
+  }
+  generator.addSetupEnd('u8g2_enableUTF8Print', 'u8g2.enableUTF8Print();');
+  
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  let code = '';
+  if (!hasSetFontInWorkspace(block)) {
+    code += `u8g2.setFont(${fontSetting});\n`;
+  }
+  // code += `u8g2.setFont(${fontSetting});\n`;
+  code += `u8g2.${drawCode}(${x}, ${y}, ${textCode});\n`;
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
+};
+
+// 设置字体
+Arduino.forBlock['u8g2_set_font'] = function (block, generator) {
+  // 8pixels high font
+  // u8g2_font_wqy12_t_chinese1/2/3
+  // u8g2_font_helvB08_tf/tr
+  // u8g2_font_helvR08_tf/tr
+  // u8g2_font_ncenB08_tf/tr
+  // u8g2_font_ncenR08_tf/tr
+  // 14pixels high font
+  // u8g2_font_wqy14_t_chinese2
+  // u8g2_font_helvB14_tf/tr
+  // u8g2_font_helvR14_tf/tr
+  // u8g2_font_ncenB14_tf/tr
+  // u8g2_font_ncenR14_tf/tr
+  // u8g2_font_logisoso16_tf/tr
+  // 19pixels high font
+  // u8g2_font_wqy16_t_chinese2
+  // u8g2_font_helvB18_tf/tr
+  // u8g2_font_helvR18_tf/tr
+  // u8g2_font_ncenB18_tf/tr
+  // u8g2_font_ncenR18_tf/tr
+  // u8g2_font_logisoso18_tf/tr
+  // 25pixels high font
+  // u8g2_font_helvB24_tf/tr
+  // u8g2_font_helvR24_tf/tr
+  // u8g2_font_ncenB24_tf/tr
+  // u8g2_font_ncenR24_tf/tr
+  // u8g2_font_logisoso24_tf/tr
+  // 34pixels high font
+  // u8g2_font_logisoso34_tf/tr
+  // 42pixels high font
+  // u8g2_font_logisoso42_tf/tr
+  // 50pixels high font
+  // u8g2_font_logisoso50_tf/tr
+  // 58pixels high font
+  // u8g2_font_logisoso58_tf/tr
+  const font = block.getFieldValue('FONT');
+  return `u8g2.setFont(${font});\n`;
+};
+
+// 将二维数组位图数据转换为XBM格式
+function convertBitmapToXBM(bitmapArray) {
+  if (!Array.isArray(bitmapArray) || bitmapArray.length === 0) {
+    return null;
+  }
+
+  const height = bitmapArray.length;
+  const width = bitmapArray[0].length;
+
+  // 确保所有行的长度一致
+  for (let i = 0; i < height; i++) {
+    if (!Array.isArray(bitmapArray[i]) || bitmapArray[i].length !== width) {
+      console.error(`Row ${i} has inconsistent width`);
+      return null;
+    }
+  }
+
+  // XBM格式按字节存储，每字节8位，按行从左到右，LSB在前（最低位在最左边）
+  const bytesPerRow = Math.ceil(width / 8);
+  const xbmBytes = [];
+
+  for (let y = 0; y < height; y++) {
+    for (let byteIndex = 0; byteIndex < bytesPerRow; byteIndex++) {
+      let byteValue = 0;
+
+      // 处理当前字节的8个位
+      for (let bit = 0; bit < 8; bit++) {
+        const x = byteIndex * 8 + bit;
+        if (x < width && bitmapArray[y][x] === 1) {
+          // XBM格式中，最低位对应最左边的像素
+          // bit 0 对应字节中最左边的像素，bit 7 对应最右边的像素
+          // 使用LSB格式：最低位(bit 0)对应最左边的像素
+          byteValue |= (1 << bit);
+        }
+      }
+
+      xbmBytes.push(`0x${byteValue.toString(16).padStart(2, '0').toUpperCase()}`);
+    }
+  }
+
+  // 格式化为XBM数组字符串
+  const xbmData = xbmBytes.join(', ');
+
+  return {
+    xbmData,
+    width,
+    height,
+    formattedXbmData: formatXBMData(xbmBytes, bytesPerRow)
+  };
+}
+
+// 格式化XBM数据为多行显示
+function formatXBMData(xbmBytes, bytesPerRow) {
+  const lines = [];
+  for (let i = 0; i < xbmBytes.length; i += bytesPerRow) {
+    const rowBytes = xbmBytes.slice(i, i + bytesPerRow);
+    lines.push('  ' + rowBytes.join(', '));
+  }
+  return lines.join(',\n');
+}
+
+// 通用位图处理函数
+function processBitmapBlock(block, generator, blockType) {
+  // 获取bitmap字段
+  const bitmapData = block.getFieldValue('CUSTOM_BITMAP');
+  console.log(`[${blockType}] Original bitmap data:`, bitmapData);
+
+  // 转换为XBM格式
+  const xbmResult = convertBitmapToXBM(bitmapData);
+  console.log(`[${blockType}] Converted XBM result:`, xbmResult);
+
+  if (!xbmResult) {
+    console.error(`[${blockType}] Failed to convert bitmap to XBM format`);
+    return ['', Arduino.ORDER_ATOMIC];
+  }
+
+  const { formattedXbmData, width, height } = xbmResult;
+
+  // 生成一个唯一的变量名
+  const bitmapVarName = `${blockType}_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+
+  console.log(`[${blockType}] Generated bitmap variable name:`, bitmapVarName);
+
+  // 添加bitmap数据到程序的全局变量部分
+  const bitmapDeclaration = `// XBM format bitmap data (${width}x${height})
+static const unsigned char ${bitmapVarName}_data[] PROGMEM = {
+${formattedXbmData}
+};
+const int ${bitmapVarName}_width = ${width};
+const int ${bitmapVarName}_height = ${height};`;
+
+  generator.addVariable(bitmapVarName, bitmapDeclaration);
+
+  // 返回变量名，用于在drawXBM中引用
+  return [`${bitmapVarName}_data`, Arduino.ORDER_ATOMIC];
+}
+
+// 位图数据块 (128x64 全屏)
+Arduino.forBlock['u8g2_bitmap'] = function (block, generator) {
+  return processBitmapBlock(block, generator, 'bitmap');
+};
+
+// 小图标 16x16
+Arduino.forBlock['u8g2_icon_16x16'] = function (block, generator) {
+  return processBitmapBlock(block, generator, 'icon16');
+};
+
+// 中图标 32x32
+Arduino.forBlock['u8g2_icon_32x32'] = function (block, generator) {
+  return processBitmapBlock(block, generator, 'icon32');
+};
+
+// 大图标 64x64
+Arduino.forBlock['u8g2_icon_64x64'] = function (block, generator) {
+  return processBitmapBlock(block, generator, 'icon64');
+};
+
+// 绘制位图 - 更新以使用正确的变量名
+Arduino.forBlock['u8g2_draw_bitmap'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
+  const bitmapCode = generator.valueToCode(block, 'BITMAP', Arduino.ORDER_ATOMIC);
+
+  if (!bitmapCode) {
+    return '// No bitmap data\n';
+  }
+
+  // 从bitmap代码中提取变量名前缀
+  const bitmapVarPrefix = bitmapCode.replace('_data', '');
+
+  let code = `u8g2.drawXBMP(${x}, ${y}, ${bitmapVarPrefix}_width, ${bitmapVarPrefix}_height, ${bitmapCode});\n`;
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
+    code += `u8g2.sendBuffer();\n`;
+  }
+  return code;
+};
+
+function getU8g2AnimationData(block) {
+  let animationData = block.getFieldValue('CUSTOM_ANIMATION');
+
+  if (typeof animationData === 'string') {
+    try {
+      animationData = JSON.parse(animationData);
+    } catch (error) {
+      console.error('[u8g2_animation] Failed to parse animation field value:', error);
+      return null;
+    }
+  }
+
+  if (!animationData || !Array.isArray(animationData.frames) || animationData.frames.length === 0) {
+    return null;
+  }
+
+  const width = Number(animationData.width);
+  const height = Number(animationData.height);
+  const fps = Number(animationData.fps);
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+    return null;
+  }
+
+  return {
+    width: Math.floor(width),
+    height: Math.floor(height),
+    fps: Number.isFinite(fps) && fps > 0 ? Math.floor(fps) : 10,
+    frames: animationData.frames
+  };
+}
+
+Arduino.forBlock['u8g2_animation'] = function (block, generator) {
+  const animationData = getU8g2AnimationData(block);
+  if (!animationData) {
+    console.error('[u8g2_animation] No valid animation data');
+    return ['', Arduino.ORDER_ATOMIC];
+  }
+
+  const { width, height, fps, frames } = animationData;
+  const animationVarName = `animation_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+  const frameNames = [];
+  const frameDeclarations = [];
+
+  for (let i = 0; i < frames.length; i++) {
+    const xbmResult = convertBitmapToXBM(frames[i]);
+    if (!xbmResult) {
+      console.error(`[u8g2_animation] Failed to convert frame ${i}`);
+      continue;
+    }
+
+    const frameName = `${animationVarName}_frame_${i}`;
+    frameNames.push(frameName);
+    frameDeclarations.push(`static const unsigned char ${frameName}[] PROGMEM = {
+${xbmResult.formattedXbmData}
+};`);
+  }
+
+  if (frameNames.length === 0) {
+    return ['', Arduino.ORDER_ATOMIC];
+  }
+
+  const frameDelay = Math.max(1, Math.round(1000 / fps));
+  const animationDeclaration = `// U8g2 animation frames (${width}x${height}, ${frameNames.length} frames, ${fps} FPS)
+${frameDeclarations.join('\n\n')}
+static const unsigned char* const ${animationVarName}_frames[] = {
+  ${frameNames.join(',\n  ')}
+};
+const int ${animationVarName}_width = ${width};
+const int ${animationVarName}_height = ${height};
+const uint16_t ${animationVarName}_frame_count = ${frameNames.length};
+const unsigned long ${animationVarName}_frame_delay = ${frameDelay};`;
+
+  generator.addVariable(animationVarName, animationDeclaration);
+  return [`${animationVarName}_frames`, Arduino.ORDER_ATOMIC];
+};
+
+function addU8g2AnimationRenderHelper(generator) {
+  generator.addFunction('u8g2_draw_animation_frame', `void u8g2DrawAnimationFrame(int x, int y, int width, int height, const unsigned char *frame) {
+  u8g2.setDrawColor(0);
+  u8g2.drawBox(x, y, width, height);
+  u8g2.setDrawColor(1);
+  u8g2.drawXBMP(x, y, width, height, frame);
+}`);
+}
+
+function addU8g2AnimationFrameByIndexHelper(generator) {
+  addU8g2AnimationRenderHelper(generator);
+  generator.addFunction('u8g2_draw_animation_frame_by_index', `void u8g2DrawAnimationFrameByIndex(int x, int y, int width, int height, const unsigned char * const frames[], uint16_t frameCount, int frameIndex) {
+  if (frameCount == 0) {
+    return;
+  }
+  if (frameIndex < 0) {
+    frameIndex = 0;
+  }
+  if (frameIndex >= (int)frameCount) {
+    frameIndex = frameCount - 1;
+  }
+  u8g2DrawAnimationFrame(x, y, width, height, frames[frameIndex]);
+}`);
+}
+
+function getU8g2VariableCodeName(block, generator, fieldName, fallbackName) {
+  const fieldValue = block.getFieldValue(fieldName);
+  const variable = block.workspace && typeof block.workspace.getVariableById === 'function'
+    ? block.workspace.getVariableById(fieldValue)
+    : null;
+  if (variable && variable.name) {
+    return variable.name;
+  }
+
+  if (fieldValue && generator.nameDB_ && typeof generator.nameDB_.getName === 'function') {
+    return generator.nameDB_.getName(fieldValue, Blockly.Variables.NAME_TYPE);
+  }
+
+  return fallbackName;
+}
+
+Arduino.forBlock['u8g2_play_animation'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
+  const animationCode = generator.valueToCode(block, 'ANIMATION', Arduino.ORDER_ATOMIC);
+
+  if (!animationCode) {
+    return '// No animation data\n';
+  }
+
+  addU8g2AnimationRenderHelper(generator);
+
+  const animationVarPrefix = animationCode.replace('_frames', '');
+  const needSendBuffer = !hasFollowingSendBuffer(block) && !isPageBufferMode(block);
+  const playMode = block.getFieldValue('PLAY_MODE') || 'BLOCKING';
+  const loop = block.getFieldValue('LOOP') === 'TRUE';
+
+  if (playMode === 'NON_BLOCKING') {
+    const stateVarName = `animation_state_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+    generator.addVariable(`${stateVarName}_frame`, `uint16_t ${stateVarName}_frame = 0;`);
+    generator.addVariable(`${stateVarName}_last_ms`, `unsigned long ${stateVarName}_last_ms = 0;`);
+    generator.addVariable(`${stateVarName}_started`, `bool ${stateVarName}_started = false;`);
+    generator.addVariable(`${stateVarName}_done`, `bool ${stateVarName}_done = false;`);
+
+    let code = `if (!${stateVarName}_done) {\n`;
+    code += `  unsigned long ${stateVarName}_now = millis();\n`;
+    code += `  if (!${stateVarName}_started || ${stateVarName}_now - ${stateVarName}_last_ms >= ${animationVarPrefix}_frame_delay) {\n`;
+    code += `    u8g2DrawAnimationFrame(${x}, ${y}, ${animationVarPrefix}_width, ${animationVarPrefix}_height, ${animationVarPrefix}_frames[${stateVarName}_frame]);\n`;
+    if (needSendBuffer) {
+      code += '    u8g2.sendBuffer();\n';
+    }
+    code += `    ${stateVarName}_last_ms = ${stateVarName}_now;\n`;
+    code += `    ${stateVarName}_started = true;\n`;
+    code += `    ${stateVarName}_frame++;\n`;
+    code += `    if (${stateVarName}_frame >= ${animationVarPrefix}_frame_count) {\n`;
+    if (loop) {
+      code += `      ${stateVarName}_frame = 0;\n`;
+    } else {
+      code += `      ${stateVarName}_frame = ${animationVarPrefix}_frame_count - 1;\n`;
+      code += `      ${stateVarName}_done = true;\n`;
+    }
+    code += '    }\n';
+    code += '  }\n';
+    code += '}\n';
+    return code;
+  }
+
+  let code = `for (uint16_t i = 0; i < ${animationVarPrefix}_frame_count; i++) {\n`;
+  code += `  u8g2DrawAnimationFrame(${x}, ${y}, ${animationVarPrefix}_width, ${animationVarPrefix}_height, ${animationVarPrefix}_frames[i]);\n`;
+  if (needSendBuffer) {
+    code += '  u8g2.sendBuffer();\n';
+  }
+  code += `  delay(${animationVarPrefix}_frame_delay);\n`;
+  code += '}\n';
+  return code;
+};
+
+Arduino.forBlock['u8g2_draw_animation_frame'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC) || '0';
+  const frame = generator.valueToCode(block, 'FRAME', Arduino.ORDER_ATOMIC) || '0';
+  const animationCode = generator.valueToCode(block, 'ANIMATION', Arduino.ORDER_ATOMIC);
+
+  if (!animationCode) {
+    return '// No animation data\n';
+  }
+
+  addU8g2AnimationFrameByIndexHelper(generator);
+
+  const animationVarPrefix = animationCode.replace('_frames', '');
+  let code = `u8g2DrawAnimationFrameByIndex(${x}, ${y}, ${animationVarPrefix}_width, ${animationVarPrefix}_height, ${animationVarPrefix}_frames, ${animationVarPrefix}_frame_count, ${frame});\n`;
+  if (!hasFollowingSendBuffer(block) && !isPageBufferMode(block)) {
+    code += 'u8g2.sendBuffer();\n';
+  }
+  return code;
+};
+
+Arduino.forBlock['u8g2_animation_frame_count'] = function (block, generator) {
+  const animationCode = generator.valueToCode(block, 'ANIMATION', Arduino.ORDER_ATOMIC);
+
+  if (!animationCode) {
+    return ['0', Arduino.ORDER_ATOMIC];
+  }
+
+  const animationVarPrefix = animationCode.replace('_frames', '');
+  return [`${animationVarPrefix}_frame_count`, Arduino.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['u8g2_step_animation_frame'] = function (block, generator) {
+  const frameVar = getU8g2VariableCodeName(block, generator, 'FRAME_VAR', 'animationFrame');
+  const target = generator.valueToCode(block, 'TARGET', Arduino.ORDER_ATOMIC) || '0';
+  const frameCount = generator.valueToCode(block, 'FRAME_COUNT', Arduino.ORDER_ATOMIC) || '1';
+  const direction = block.getFieldValue('DIRECTION') || 'AUTO';
+  const targetVar = `animation_target_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+  const frameCountVar = `animation_frame_count_${block.id.replace(/[^a-zA-Z0-9]/g, '')}`;
+
+  let code = `int ${frameCountVar} = (int)(${frameCount});\n`;
+  code += `if (${frameCountVar} > 0) {\n`;
+  code += `  int ${targetVar} = constrain((int)(${target}), 0, ${frameCountVar} - 1);\n`;
+  code += `  ${frameVar} = constrain((int)${frameVar}, 0, ${frameCountVar} - 1);\n`;
+
+  if (direction === 'FORWARD') {
+    code += `  if (${frameVar} != ${targetVar}) {\n`;
+    code += `    ${frameVar}++;\n`;
+    code += `    if (${frameVar} >= ${frameCountVar}) {\n`;
+    code += `      ${frameVar} = 0;\n`;
+    code += '    }\n';
+    code += '  }\n';
+  } else if (direction === 'BACKWARD') {
+    code += `  if (${frameVar} != ${targetVar}) {\n`;
+    code += `    if (${frameVar} <= 0) {\n`;
+    code += `      ${frameVar} = ${frameCountVar} - 1;\n`;
+    code += '    } else {\n';
+    code += `      ${frameVar}--;\n`;
+    code += '    }\n';
+    code += '  }\n';
+  } else {
+    code += `  if (${frameVar} < ${targetVar}) {\n`;
+    code += `    ${frameVar}++;\n`;
+    code += `  } else if (${frameVar} > ${targetVar}) {\n`;
+    code += `    ${frameVar}--;\n`;
+    code += '  }\n';
+  }
+
+  code += '}\n';
+  return code;
+};
+
+if (Blockly.Extensions.isRegistered('u8g2_animation_play_dynamic_inputs')) {
+  Blockly.Extensions.unregister('u8g2_animation_play_dynamic_inputs');
+}
+
+Blockly.Extensions.register('u8g2_animation_play_dynamic_inputs', function () {
+  let renderScheduled = false;
+
+  const getLoopInput = () => {
+    return this.inputList.find(input => input.fieldRow && input.fieldRow.some(field => field.name === 'LOOP'));
+  };
+
+  const scheduleRender = () => {
+    if (!this.rendered || renderScheduled) {
+      return;
+    }
+    renderScheduled = true;
+    Promise.resolve().then(() => {
+      renderScheduled = false;
+      const rootBlock = typeof this.getRootBlock === 'function' ? this.getRootBlock() : this;
+      if (rootBlock && rootBlock.rendered) {
+        rootBlock.render();
+      } else if (this.rendered) {
+        this.render();
+      }
+    });
+  };
+
+  const updatePlaybackMode = (modeValue) => {
+    const loopInput = getLoopInput();
+    if (loopInput) {
+      loopInput.setVisible(modeValue === 'NON_BLOCKING');
+    }
+    scheduleRender();
+  };
+
+  this.getField('PLAY_MODE').setValidator(option => {
+    updatePlaybackMode(option);
+    return option;
+  });
+
+  updatePlaybackMode(this.getFieldValue('PLAY_MODE'));
+});
+
+// 设置屏幕翻转
+Arduino.forBlock['u8g2_set_flip_mode'] = function (block, generator) {
+  const mode = block.getFieldValue('MODE');
+  return `u8g2.setFlipMode(${mode});\n`;
+};
+
+// 设置屏幕镜像
+Arduino.forBlock['u8g2_set_display_mirror'] = function (block, generator) {
+  const mode = block.getFieldValue('MODE');
+  return `u8g2.setDisplayRotation(${mode});\n`;
+};
+
+// 设置电源管理
+Arduino.forBlock['u8g2_set_power_save'] = function (block, generator) {
+  const mode = block.getFieldValue('MODE');
+  return `u8g2.setPowerSave(${mode});\n`;
+};
+
+// 设置对比度/亮度
+Arduino.forBlock['u8g2_set_contrast'] = function (block, generator) {
+  const value = generator.valueToCode(block, 'VALUE', Arduino.ORDER_ATOMIC) || '128';
+  return `u8g2.setContrast(${value});\n`;
+};
+
+// 设置I2C总线速度
+Arduino.forBlock['u8g2_set_bus_clock'] = function (block, generator) {
+  const speed = block.getFieldValue('SPEED');
+  return `u8g2.setBusClock(${speed});\n`;
+};
+
+Arduino.forBlock['u8g2_set_i2c_address'] = function (block, generator) {
+  const address = (block.getFieldValue('ADDRESS') || '0x78').trim();
+  return `u8g2.setI2CAddress(${address});\n`;
+};
+
+// 设置字体
+// Arduino.forBlock['u8g2_set_font'] = function (block, generator) {
+//   const font = block.getFieldValue('FONT');
+//   return `u8g2.setFont(${font});\n`;
+// };
+
+// 设置绘图颜色
+Arduino.forBlock['u8g2_set_draw_color'] = function (block, generator) {
+  const color = block.getFieldValue('COLOR');
+  return `u8g2.setDrawColor(${color});\n`;
+};
+
+// 设置字体模式
+Arduino.forBlock['u8g2_set_font_mode'] = function (block, generator) {
+  const mode = block.getFieldValue('MODE');
+  return `u8g2.setFontMode(${mode});\n`;
+};
+
+Arduino.forBlock['u8x8_begin'] = function (block, generator) {
+  var type = block.getFieldValue('TYPE');
+  var resolution = block.getFieldValue('RESOLUTION');
+  var protocol = block.getFieldValue('PROTOCOL');
+
+  // 处理SEEED变种的特殊情况
+  var constructorType = type;
+  var constructorProtocol = protocol;
+  
+  if (type === 'SH1107' && (resolution === 'SEEED_96X96' || resolution === 'SEEED_128X128')) {
+    constructorType = 'SH1107_SEEED';
+    if (resolution === 'SEEED_96X96') {
+      resolution = '96X96';
+    } else if (resolution === 'SEEED_128X128') {
+      resolution = '128X128';
+    }
+  }
+
+  // 获取分辨率，如果为空则使用默认值
+  if (!resolution || resolution === 'null') {
+    switch (type) {
+      case 'SSD1306':
+        resolution = '128X64_NONAME';
+        break;
+      case 'SSD1309':
+        resolution = '128X64_NONAME0';
+        break;
+      case 'SH1106':
+        resolution = '128X64_NONAME';
+        break;
+      case 'SH1107':
+        resolution = '64X128';
+        break;
+      case 'ST7567':
+        resolution = 'JLX12864';
+        break;
+      case 'ST7920':
+        resolution = '128X32';
+        break;
+      default:
+        resolution = '128X64_NONAME';
+        break;
+    }
+  }
+  // 分辨率现在已经是正确的U8G2格式
+
+  // 构建基础的构造函数名称
+  var code = 'U8X8_' + constructorType + '_' + resolution + constructorProtocol + ' u8x8(';
+
+  // 根据不同的协议类型添加对应的引脚参数
+  switch (protocol) {
+    case '_HW_I2C':
+      if (isESP32Core()) {
+        // ESP32硬件I2C需要SCL、SDA和重置引脚
+        var sclPin = block.getFieldValue('SCL_PIN') || 'SCL';
+        var sdaPin = block.getFieldValue('SDA_PIN') || 'SDA';
+        var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+        code += resetPin + ', ' + sclPin + ', ' + sdaPin;
+      } else {
+        // 硬件I2C只需要重置引脚
+        var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+        code += resetPin;
+      }
+      break;
+
+    case '_SW_I2C':
+      // 软件I2C需要时钟、数据和重置引脚
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += clockPin + ', ' + dataPin + ', ' + resetPin;
+      break;
+
+    case '_3W_HW_SPI':
+      // 3线硬件SPI需要片选和重置引脚
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += csPin + ', ' + resetPin;
+      break;
+
+    case '_3W_SW_SPI':
+      // 3线软件SPI需要时钟、数据、片选和重置引脚
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += clockPin + ', ' + dataPin + ', ' + csPin + ', ' + resetPin;
+      break;
+
+    case '_4W_HW_SPI':
+      // 4线硬件SPI需要CS、DC和重置引脚
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var dcPin = block.getFieldValue('DC_PIN') || '9';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += csPin + ', ' + dcPin + ', ' + resetPin;
+      break;
+
+    case '_4W_SW_SPI':
+      // 4线软件SPI需要时钟、数据、片选、DC和重置引脚
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '13';
+      var dataPin = block.getFieldValue('DATA_PIN') || '11';
+      var csPin = block.getFieldValue('CS_PIN') || '10';
+      var dcPin = block.getFieldValue('DC_PIN') || '9';
+      var resetPin = block.getFieldValue('RESET_PIN') || '8';
+      code += clockPin + ', ' + dataPin + ', ' + csPin + ', ' + dcPin + ', ' + resetPin;
+      break;
+
+    case '_HW_SPI':
+      // ST7920 硬件SPI模式：使用默认硬件SPI引脚 + 片选和重置
+      var csPin = block.getFieldValue('CS_PIN') || 'U8X8_PIN_NONE';
+      var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+      code += csPin + ', ' + resetPin;
+      break;
+
+    case '_SW_SPI':
+      // ST7920 SPI模式：时钟、数据、片选、重置
+      var clockPin = block.getFieldValue('CLOCK_PIN') || '18';
+      var dataPin = block.getFieldValue('DATA_PIN') || '16';
+      var csPin = block.getFieldValue('CS_PIN') || '17';
+      var resetPin = block.getFieldValue('RESET_PIN') || 'U8X8_PIN_NONE';
+      code += clockPin + ', ' + dataPin + ', ' + csPin + ', ' + resetPin;
+      break;
+
+    default:
+      // 默认情况
+      code += 'U8X8_PIN_NONE';
+      break;
+  }
+
+  code += ');';
+
+  generator.addLibrary('u8x8', '#include <U8x8lib.h>');
+  generator.addObject('u8x8', code);
+  return 'u8x8.begin();\n';
+};
+
+Arduino.forBlock['u8x8_clear'] = function (block, generator) {
+  return `u8x8.clear();\n`;
+};
+
+Arduino.forBlock['u8x8_draw_str'] = function (block, generator) {
+  const x = generator.valueToCode(block, 'X', Arduino.ORDER_ATOMIC);
+  const y = generator.valueToCode(block, 'Y', Arduino.ORDER_ATOMIC);
+  const text = generator.valueToCode(block, 'TEXT', Arduino.ORDER_ATOMIC);
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  const inverse = block.getFieldValue('INVERSE') === 'TRUE';
+  let fontSetting = 'u8x8_font_chroma48medium8_r'; // 默认字体设置
+  let drawCode= 'drawString';
+  let code = 'u8x8.setFont(' + fontSetting + ');\n';
+  
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  if (inverse) {
+    code += 'u8x8.setInverseFont(1);\n';
+    code += `u8x8.${drawCode}(${x}, ${y}, ${textCode});\n`;
+    code += 'u8x8.setInverseFont(0);\n';
+  }
+  else {
+    code += `u8x8.${drawCode}(${x}, ${y}, ${textCode});\n`;
+  }
+  return code;
+};
+
+// 清空缓冲区（已有，保持不变）
+// Arduino.forBlock['u8g2_clear_buffer'] 已在第160行定义
+
+// 发送缓冲区（已有，保持不变）
+// Arduino.forBlock['u8g2_send_buffer'] 已在第165行定义

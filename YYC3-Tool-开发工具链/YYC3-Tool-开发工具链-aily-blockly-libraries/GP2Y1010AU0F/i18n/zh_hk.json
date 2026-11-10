@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "粉塵傳感器",
+  "gp2y1010au0f_init": {
+    "message0": "初始化粉塵傳感器 LED引腳 %1 測量引腳 %2",
+    "tooltip": "初始化粉塵傳感器，並設置LED和測量引腳"
+  },
+  "gp2y1010au0f_read": {
+    "message0": "讀取粉塵濃度",
+    "tooltip": "讀取粉塵傳感器的數據，單位為 μg/m³"
+  }
+}

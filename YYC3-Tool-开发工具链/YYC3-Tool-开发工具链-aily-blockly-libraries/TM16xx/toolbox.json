@@ -1,0 +1,113 @@
+{
+    "kind": "category",
+    "name": "TM16xx数码管",
+    "colour": "#FF6600",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "初始化"
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_simple_init",
+            "inputs": {}
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_init",
+            "inputs": {}
+        },
+        {
+            "kind": "label",
+            "text": "显示控制"
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_display_string",
+            "inputs": {
+                "TEXT": {
+                    "shadow": {
+                        "type": "text",
+                        "fields": {
+                            "TEXT": "HELLO"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_display_number",
+            "inputs": {
+                "NUMBER": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 1234
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_display_time",
+            "inputs": {
+                "HOUR": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 12
+                        }
+                    }
+                },
+                "MINUTE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 30
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_clear_display"
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_set_brightness"
+        },
+        {
+            "kind": "label",
+            "text": "高级功能"
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_set_segment",
+            "inputs": {
+                "SEGMENTS": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 255
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "label",
+            "text": "按键检测"
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_get_buttons"
+        },
+        {
+            "kind": "block",
+            "type": "tm16xx_is_button_pressed"
+        }
+    ]
+}

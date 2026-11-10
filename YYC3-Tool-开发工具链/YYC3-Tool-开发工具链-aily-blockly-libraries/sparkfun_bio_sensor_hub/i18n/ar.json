@@ -1,0 +1,108 @@
+{
+  "toolbox_name": "Bio Sensor Hub",
+  "biohub_init": {
+    "message0": "تهيئة Bio Sensor Hub %1 إعادة ضبط %2 mfio %3",
+    "tooltip": "تهيئة Bio Sensor Hub %1 إعادة ضبط %2 mfio %3"
+  },
+  "biohub_is_ready": {
+    "message0": "Bio Sensor Hub %1 مهيأ",
+    "tooltip": "Bio Sensor Hub %1 مهيأ"
+  },
+  "biohub_config_bpm": {
+    "message0": "Bio Sensor Hub %1 إعداد وضع BPM %2",
+    "tooltip": "Bio Sensor Hub %1 إعداد وضع BPM %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "الوضع الأول",
+            "MODE_ONE"
+          ],
+          [
+            "الوضع الثاني",
+            "MODE_TWO"
+          ]
+        ]
+      }
+    ]
+  },
+  "biohub_config_sensor_bpm": {
+    "message0": "Bio Sensor Hub %1 إعداد الحساس ووضع BPM %2",
+    "tooltip": "Bio Sensor Hub %1 إعداد الحساس ووضع BPM %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "الوضع الأول",
+            "MODE_ONE"
+          ],
+          [
+            "الوضع الثاني",
+            "MODE_TWO"
+          ]
+        ]
+      }
+    ]
+  },
+  "biohub_read_bpm": {
+    "message0": "Bio Sensor Hub %1 قراءة بيانات BPM",
+    "tooltip": "Bio Sensor Hub %1 قراءة بيانات BPM"
+  },
+  "biohub_read_sensor_bpm": {
+    "message0": "Bio Sensor Hub %1 قراءة بيانات الحساس و BPM",
+    "tooltip": "Bio Sensor Hub %1 قراءة بيانات الحساس و BPM"
+  },
+  "biohub_value": {
+    "message0": "Bio Sensor Hub %1 القيمة %2",
+    "tooltip": "Bio Sensor Hub %1 القيمة %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "معدل القلب",
+            "BIOHUB_HEART_RATE"
+          ],
+          [
+            "SpO2",
+            "BIOHUB_SPO2"
+          ],
+          [
+            "الثقة",
+            "BIOHUB_CONFIDENCE"
+          ],
+          [
+            "الحالة",
+            "BIOHUB_STATUS"
+          ],
+          [
+            "IR LED",
+            "BIOHUB_IR"
+          ],
+          [
+            "LED أحمر",
+            "BIOHUB_RED"
+          ],
+          [
+            "قيمة R",
+            "BIOHUB_R_VALUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "biohub_set_pulse_width": {
+    "message0": "ضبط Bio Sensor Hub %1 عرض النبضة %2",
+    "tooltip": "ضبط Bio Sensor Hub %1 عرض النبضة %2"
+  },
+  "biohub_set_sample_rate": {
+    "message0": "ضبط Bio Sensor Hub %1 معدل العينة %2",
+    "tooltip": "ضبط Bio Sensor Hub %1 معدل العينة %2"
+  },
+  "biohub_set_adc_range": {
+    "message0": "ضبط Bio Sensor Hub %1 مدى ADC %2",
+    "tooltip": "ضبط Bio Sensor Hub %1 مدى ADC %2"
+  }
+}

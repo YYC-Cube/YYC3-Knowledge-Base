@@ -1,0 +1,164 @@
+{
+  "toolbox_name": "micro:bit Matrice LED",
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "基本操作": "Opérations de base",
+    "绘图": "Dessin",
+    "图标显示": "Affichage des icônes",
+    "文本显示": "affichage du texte",
+    "位图": "Bitmap"
+  },
+  "microbit_matrix_begin": {
+    "message0": "initialiser la matrice LED micro:bit",
+    "tooltip": "Initialiser la matrice LED 5x5 du micro:bit"
+  },
+  "microbit_matrix_clear": {
+    "message0": "effacer la matrice LED",
+    "tooltip": "Effacer toutes les LED de la matrice"
+  },
+  "microbit_matrix_fill": {
+    "message0": "remplir la matrice LED %1",
+    "tooltip": "Allumer ou éteindre toutes les LED",
+    "args0": [
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_pixel": {
+    "message0": "dessiner pixel à x %1 y %2 %3",
+    "tooltip": "Dessiner un pixel à la position (x, y). x et y vont de 0 à 4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_line": {
+    "message0": "dessiner ligne de (%1, %2) à (%3, %4) %5",
+    "tooltip": "Dessiner une ligne de (x0, y0) à (x1, y1)",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_rect": {
+    "message0": "dessiner rectangle à (%1, %2) largeur %3 hauteur %4 %5",
+    "tooltip": "Dessiner un contour de rectangle",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_rect": {
+    "message0": "remplir rectangle à (%1, %2) largeur %3 hauteur %4 %5",
+    "tooltip": "Dessiner un rectangle rempli",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_circle": {
+    "message0": "dessiner cercle centre (%1, %2) rayon %3 %4",
+    "tooltip": "Dessiner un contour de cercle",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_circle": {
+    "message0": "remplir cercle centre (%1, %2) rayon %3 %4",
+    "tooltip": "Dessiner un cercle rempli",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_triangle": {
+    "message0": "dessiner triangle (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Dessiner un contour de triangle",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_triangle": {
+    "message0": "remplir triangle (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "Dessiner un triangle rempli",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["ALLUMÉ", "1"], ["ÉTEINT", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_show_icon": {
+    "message0": "afficher icône %1",
+    "tooltip": "Afficher une icône prédéfinie sur la matrice LED",
+    "args0": [
+      {
+        "options": [
+          ["❤️ Cœur", "HEART"],
+          ["🤍 Cœur vide", "EMPTYHEART"],
+          ["✓ Oui (Coche)", "YES"],
+          ["✕ Non (X)", "NO"],
+          ["😊 Sourire", "SMILE"]
+        ]
+      }
+    ]
+  },
+  "microbit_matrix_show_bitmap": {
+    "message0": "afficher bitmap %1",
+    "tooltip": "Afficher un bitmap de 5 octets sur la matrice LED"
+  },
+  "microbit_matrix_print_text": {
+    "message0": "afficher texte %1",
+    "tooltip": "Afficher du texte sur la matrice LED (défile si plus de 1 caractère)"
+  },
+  "microbit_matrix_print_number": {
+    "message0": "afficher nombre %1",
+    "tooltip": "Afficher un nombre sur la matrice LED"
+  },
+  "microbit_matrix_scroll_text": {
+    "message0": "défiler texte %1 vitesse %2 ms",
+    "tooltip": "Faire défiler du texte sur la matrice LED"
+  },
+  "microbit_matrix_bitmap_create": {
+    "message0": "bitmap ligne1 %1 ligne2 %2 ligne3 %3 ligne4 %4 ligne5 %5",
+    "tooltip": "Créer un bitmap de 5 octets pour la matrice LED. Chaque ligne est un octet (0-255)"
+  },
+  "microbit_matrix_bitmap_heart": {
+    "message0": "❤️ bitmap cœur",
+    "tooltip": "Bitmap de l'icône cœur"
+  },
+  "microbit_matrix_bitmap_empty_heart": {
+    "message0": "🤍 bitmap cœur vide",
+    "tooltip": "Bitmap de l'icône cœur vide"
+  },
+  "microbit_matrix_bitmap_yes": {
+    "message0": "✓ bitmap oui",
+    "tooltip": "Bitmap de l'icône oui (coche)"
+  },
+  "microbit_matrix_bitmap_no": {
+    "message0": "✕ bitmap non",
+    "tooltip": "Bitmap de l'icône non (X)"
+  },
+  "microbit_matrix_bitmap_smile": {
+    "message0": "😊 bitmap sourire",
+    "tooltip": "Bitmap de l'icône sourire"
+  }
+}

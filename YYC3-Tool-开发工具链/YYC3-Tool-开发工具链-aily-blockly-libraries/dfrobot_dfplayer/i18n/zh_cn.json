@@ -1,0 +1,141 @@
+{
+    "toolbox_name": "DFPlayer",
+    "dfplayer_begin": {
+        "message0": "初始化DFPlayer模块 %1 RX引脚 %2 TX引脚 %3"
+    },
+    "dfplayer_play": {
+        "message0": "DFPlayer %1 播放文件编号 %2"
+    },
+    "dfplayer_pause": {
+        "message0": "DFPlayer %1 暂停播放"
+    },
+    "dfplayer_start": {
+        "message0": "DFPlayer %1 继续播放"
+    },
+    "dfplayer_stop": {
+        "message0": "DFPlayer %1 停止播放"
+    },
+    "dfplayer_next": {
+        "message0": "DFPlayer %1 播放下一首"
+    },
+    "dfplayer_previous": {
+        "message0": "DFPlayer %1 播放上一首"
+    },
+    "dfplayer_volume": {
+        "message0": "DFPlayer %1 设置音量为 %2"
+    },
+    "dfplayer_volume_up": {
+        "message0": "DFPlayer %1 增大音量"
+    },
+    "dfplayer_volume_down": {
+        "message0": "DFPlayer %1 减小音量"
+    },
+    "dfplayer_eq": {
+        "message0": "DFPlayer %1 设置均衡器 %2",
+        "options": [
+            [
+                "Normal",
+                "0"
+            ],
+            [
+                "Pop",
+                "1"
+            ],
+            [
+                "Rock",
+                "2"
+            ],
+            [
+                "Jazz",
+                "3"
+            ],
+            [
+                "Classic",
+                "4"
+            ],
+            [
+                "Bass",
+                "5"
+            ]
+        ]
+    },
+    "dfplayer_output_device": {
+        "message0": "DFPlayer %1 设置输出设备为 %2",
+        "options": [
+            [
+                "DEVICE1",
+                "1"
+            ],
+            [
+                "DEVICE2",
+                "2"
+            ]
+        ]
+    },
+    "dfplayer_loop": {
+        "message0": "DFPlayer %1 循环播放文件编号 %2"
+    },
+    "dfplayer_play_folder": {
+        "message0": "DFPlayer %1 播放文件夹 %2 中的文件 %3"
+    },
+    "dfplayer_enable_loop_all": {
+        "message0": "DFPlayer %1 开启全部循环"
+    },
+    "dfplayer_disable_loop_all": {
+        "message0": "DFPlayer %1 关闭全部循环"
+    },
+    "dfplayer_play_mp3_folder": {
+        "message0": "DFPlayer %1 播放MP3文件夹中的文件 %2"
+    },
+    "dfplayer_advertise": {
+        "message0": "DFPlayer %1 播放广告 %2"
+    },
+    "dfplayer_stop_advertise": {
+        "message0": "DFPlayer %1 停止广告"
+    },
+    "dfplayer_play_large_folder": {
+        "message0": "DFPlayer %1 播放大文件夹 %2 中的文件 %3"
+    },
+    "dfplayer_loop_folder": {
+        "message0": "DFPlayer %1 循环播放文件夹 %2"
+    },
+    "dfplayer_random_all": {
+        "message0": "DFPlayer %1 随机播放全部文件"
+    },
+    "dfplayer_enable_loop": {
+        "message0": "DFPlayer %1 开启循环"
+    },
+    "dfplayer_disable_loop": {
+        "message0": "DFPlayer %1 关闭循环"
+    },
+    "dfplayer_read_state": {
+        "message0": "DFPlayer %1 读取状态"
+    },
+    "dfplayer_read_volume": {
+        "message0": "DFPlayer %1 读取音量"
+    },
+    "dfplayer_read_eq": {
+        "message0": "DFPlayer %1 读取均衡器"
+    },
+    "dfplayer_read_file_counts": {
+        "message0": "DFPlayer %1 读取文件数量"
+    },
+    "dfplayer_read_current_file_number": {
+        "message0": "DFPlayer %1 读取当前文件编号"
+    },
+    "dfplayer_read_file_counts_in_folder": {
+        "message0": "DFPlayer %1 读取文件夹 %2 中的文件数量"
+    },
+    "dfplayer_available": {
+        "message0": "DFPlayer %1 检查是否有可用消息"
+    },
+    "dfplayer_read_type": {
+        "message0": "DFPlayer %1 读取消息类型"
+    },
+    "dfplayer_read": {
+        "message0": "DFPlayer %1 读取消息参数"
+    },
+    "dfplayer_simple_play": {
+        "message0": "简单播放：初始化DFPlayer (RX: %1, TX: %2) 并播放文件 %3"
+    }
+}

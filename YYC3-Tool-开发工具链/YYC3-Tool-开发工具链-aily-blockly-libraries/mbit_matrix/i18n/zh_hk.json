@@ -1,0 +1,164 @@
+{
+  "toolbox_name": "micro:bit 點陣屏",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "基本操作": "基本操作",
+    "绘图": "繪圖",
+    "图标显示": "圖示顯示",
+    "文本显示": "文字顯示",
+    "位图": "點陣圖"
+  },
+  "microbit_matrix_begin": {
+    "message0": "初始化 micro:bit LED 點陣屏",
+    "tooltip": "初始化 micro:bit 上的 5x5 LED 點陣屏"
+  },
+  "microbit_matrix_clear": {
+    "message0": "清除點陣屏",
+    "tooltip": "清除點陣屏上的所有 LED"
+  },
+  "microbit_matrix_fill": {
+    "message0": "填充點陣屏 %1",
+    "tooltip": "點亮或熄滅所有 LED",
+    "args0": [
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_pixel": {
+    "message0": "繪製像素 x %1 y %2 %3",
+    "tooltip": "在位置 (x, y) 繪製單個像素，x 和 y 範圍為 0 到 4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_line": {
+    "message0": "繪製線段 從 (%1, %2) 到 (%3, %4) %5",
+    "tooltip": "從 (x0, y0) 到 (x1, y1) 繪製線段",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_rect": {
+    "message0": "繪製矩形 在 (%1, %2) 寬 %3 高 %4 %5",
+    "tooltip": "繪製矩形輪廓",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_rect": {
+    "message0": "填充矩形 在 (%1, %2) 寬 %3 高 %4 %5",
+    "tooltip": "繪製填充矩形",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_circle": {
+    "message0": "繪製圓 圓心 (%1, %2) 半徑 %3 %4",
+    "tooltip": "繪製圓形輪廓",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_circle": {
+    "message0": "填充圓 圓心 (%1, %2) 半徑 %3 %4",
+    "tooltip": "繪製填充圓形",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_triangle": {
+    "message0": "繪製三角形 (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "繪製三角形輪廓",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_triangle": {
+    "message0": "填充三角形 (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "繪製填充三角形",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["開", "1"], ["關", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_show_icon": {
+    "message0": "顯示圖標 %1",
+    "tooltip": "在 LED 點陣屏上顯示預設圖標",
+    "args0": [
+      {
+        "options": [
+          ["❤️ 愛心", "HEART"],
+          ["🤍 空心愛心", "EMPTYHEART"],
+          ["✓ 是（勾選）", "YES"],
+          ["✕ 否（叉號）", "NO"],
+          ["😊 微笑", "SMILE"]
+        ]
+      }
+    ]
+  },
+  "microbit_matrix_show_bitmap": {
+    "message0": "顯示位圖 %1",
+    "tooltip": "在 LED 點陣屏上顯示 5 字節位圖"
+  },
+  "microbit_matrix_print_text": {
+    "message0": "打印文本 %1",
+    "tooltip": "在 LED 點陣屏上打印文本（超過 1 個字符時滾動顯示）"
+  },
+  "microbit_matrix_print_number": {
+    "message0": "打印數字 %1",
+    "tooltip": "在 LED 點陣屏上打印數字"
+  },
+  "microbit_matrix_scroll_text": {
+    "message0": "滾動文本 %1 速度 %2 毫秒",
+    "tooltip": "在 LED 點陣屏上滾動顯示文本"
+  },
+  "microbit_matrix_bitmap_create": {
+    "message0": "位圖 第1行 %1 第2行 %2 第3行 %3 第4行 %4 第5行 %5",
+    "tooltip": "創建 5 字節 LED 點陣位圖，每行為一個字節 (0-255)"
+  },
+  "microbit_matrix_bitmap_heart": {
+    "message0": "❤️ 愛心位圖",
+    "tooltip": "愛心圖標位圖"
+  },
+  "microbit_matrix_bitmap_empty_heart": {
+    "message0": "🤍 空心愛心位圖",
+    "tooltip": "空心愛心圖標位圖"
+  },
+  "microbit_matrix_bitmap_yes": {
+    "message0": "✓ 是 位圖",
+    "tooltip": "是（勾選）圖標位圖"
+  },
+  "microbit_matrix_bitmap_no": {
+    "message0": "✕ 否 位圖",
+    "tooltip": "否（叉號）圖標位圖"
+  },
+  "microbit_matrix_bitmap_smile": {
+    "message0": "😊 微笑位圖",
+    "tooltip": "微笑圖標位圖"
+  }
+}

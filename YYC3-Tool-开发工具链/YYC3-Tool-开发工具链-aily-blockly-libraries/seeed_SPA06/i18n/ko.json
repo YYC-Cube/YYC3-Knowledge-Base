@@ -1,0 +1,75 @@
+{
+  "toolbox_name": "SPA06 기압 온도 센서",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "数据读取": "데이터 읽기",
+    "状态检查": "상태 확인",
+    "配置": "구성"
+  },
+  "spa06_init": {
+    "message0": "SPA06 센서 초기화 주소 %1",
+    "tooltip": "SPA06 기압 온도 센서 초기화 (I2C 통신)",
+    "args0": [
+      {
+        "options": [
+          ["0x77 (기본값)", "0x77"],
+          ["0x76", "0x76"]
+        ]
+      }
+    ]
+  },
+  "spa06_read_temperature": {
+    "message0": "SPA06 온도 읽기 (°C)",
+    "tooltip": "SPA06 센서의 온도를 읽어 섭씨로 반환"
+  },
+  "spa06_read_pressure": {
+    "message0": "SPA06 기압 읽기 (Pa)",
+    "tooltip": "SPA06 센서의 기압을 읽어 파스칼로 반환"
+  },
+  "spa06_read_altitude": {
+    "message0": "SPA06 고도 읽기 (m)",
+    "tooltip": "기압으로 고도를 계산하여 미터로 반환"
+  },
+  "spa06_pressure_available": {
+    "message0": "SPA06 기압 데이터 준비됨",
+    "tooltip": "새 기압 데이터를 읽을 수 있는지 확인"
+  },
+  "spa06_temperature_available": {
+    "message0": "SPA06 온도 데이터 준비됨",
+    "tooltip": "새 온도 데이터를 읽을 수 있는지 확인"
+  },
+  "spa06_set_mode": {
+    "message0": "SPA06 모드 설정 %1",
+    "tooltip": "SPA06 센서의 작동 모드를 설정",
+    "args0": [
+      {
+        "options": [
+          ["대기", "SPL07_IDLE"],
+          ["단일 기압 측정", "SPL07_ONE_PRESSURE"],
+          ["단일 온도 측정", "SPL07_ONE_TEMPERATURE"],
+          ["연속 기압 측정", "SPL07_CONT_PRESSURE"],
+          ["연속 온도 측정", "SPL07_CONT_TEMPERATURE"],
+          ["연속 기압 및 온도 측정", "SPL07_CONT_PRES_TEMP"]
+        ]
+      }
+    ]
+  },
+  "spa06_set_pressure_config": {
+    "message0": "SPA06 기압 샘플링 설정 속도 %1 오버샘플링 %2",
+    "tooltip": "기압 센서의 측정 속도와 오버샘플링을 설정",
+    "args0": [null, null]
+  },
+  "spa06_set_temperature_config": {
+    "message0": "SPA06 온도 샘플링 설정 속도 %1 오버샘플링 %2",
+    "tooltip": "온도 센서의 측정 속도와 오버샘플링을 설정",
+    "args0": [null, null]
+  },
+  "spa06_set_pressure_offset": {
+    "message0": "SPA06 기압 오프셋 설정 %1 Pa",
+    "tooltip": "기압 보정 오프셋을 파스칼로 설정"
+  },
+  "spa06_set_temperature_offset": {
+    "message0": "SPA06 온도 오프셋 설정 %1 °C",
+    "tooltip": "온도 보정 오프셋을 섭씨로 설정"
+  }
+}

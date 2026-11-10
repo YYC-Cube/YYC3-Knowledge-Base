@@ -1,0 +1,261 @@
+{
+  "toolbox_name": "AFMotor",
+  "toolbox_labels": {
+    "直流电机控制": "直流电机控制",
+    "步进电机控制": "步进电机控制"
+  },
+  "afmotor_dc_init": {
+    "message0": "初始化DC电机 %1 频率 %2",
+    "tooltip": "初始化Adafruit电机驱动板上的DC电机",
+    "args0": [
+      {
+        "options": [
+          [
+            "M1",
+            "1"
+          ],
+          [
+            "M2",
+            "2"
+          ],
+          [
+            "M3",
+            "3"
+          ],
+          [
+            "M4",
+            "4"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "默认",
+            "DC_MOTOR_PWM_RATE"
+          ],
+          [
+            "64KHz",
+            "MOTOR12_64KHZ"
+          ],
+          [
+            "8KHz",
+            "MOTOR12_8KHZ"
+          ],
+          [
+            "2KHz",
+            "MOTOR12_2KHZ"
+          ],
+          [
+            "1KHz",
+            "MOTOR12_1KHZ"
+          ]
+        ]
+      }
+    ]
+  },
+  "afmotor_dc_run": {
+    "message0": "DC电机 %1 运行方向 %2 速度 %3",
+    "tooltip": "控制DC电机的方向和速度",
+    "args0": [
+      {
+        "options": [
+          [
+            "M1",
+            "1"
+          ],
+          [
+            "M2",
+            "2"
+          ],
+          [
+            "M3",
+            "3"
+          ],
+          [
+            "M4",
+            "4"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "前进",
+            "FORWARD"
+          ],
+          [
+            "后退",
+            "BACKWARD"
+          ],
+          [
+            "刹车",
+            "BRAKE"
+          ],
+          [
+            "释放",
+            "RELEASE"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "afmotor_stepper_init": {
+    "message0": "初始化步进电机 %1 每转步数 %2",
+    "tooltip": "初始化步进电机，指定每转的步数",
+    "args0": [
+      {
+        "options": [
+          [
+            "1(M1+M2)",
+            "1"
+          ],
+          [
+            "2(M3+M4)",
+            "2"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "afmotor_stepper_setspeed": {
+    "message0": "步进电机 %1 设置速度为 %2 RPM",
+    "tooltip": "设置步进电机的转速(RPM)",
+    "args0": [
+      {
+        "options": [
+          [
+            "1(M1+M2)",
+            "1"
+          ],
+          [
+            "2(M3+M4)",
+            "2"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "afmotor_stepper_step": {
+    "message0": "步进电机 %1 移动 %2 步 方向 %3 模式 %4",
+    "tooltip": "控制步进电机移动指定步数",
+    "args0": [
+      {
+        "options": [
+          [
+            "1(M1+M2)",
+            "1"
+          ],
+          [
+            "2(M3+M4)",
+            "2"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "前进",
+            "FORWARD"
+          ],
+          [
+            "后退",
+            "BACKWARD"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "单相",
+            "SINGLE"
+          ],
+          [
+            "双相",
+            "DOUBLE"
+          ],
+          [
+            "交错",
+            "INTERLEAVE"
+          ],
+          [
+            "微步进",
+            "MICROSTEP"
+          ]
+        ]
+      }
+    ]
+  },
+  "afmotor_stepper_onestep": {
+    "message0": "步进电机 %1 单步移动 方向 %2 模式 %3",
+    "tooltip": "控制步进电机单步移动",
+    "args0": [
+      {
+        "options": [
+          [
+            "1(M1+M2)",
+            "1"
+          ],
+          [
+            "2(M3+M4)",
+            "2"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "前进",
+            "FORWARD"
+          ],
+          [
+            "后退",
+            "BACKWARD"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "单相",
+            "SINGLE"
+          ],
+          [
+            "双相",
+            "DOUBLE"
+          ],
+          [
+            "交错",
+            "INTERLEAVE"
+          ],
+          [
+            "微步进",
+            "MICROSTEP"
+          ]
+        ]
+      }
+    ]
+  },
+  "afmotor_stepper_release": {
+    "message0": "步进电机 %1 释放",
+    "tooltip": "释放步进电机，停止供电",
+    "args0": [
+      {
+        "options": [
+          [
+            "1(M1+M2)",
+            "1"
+          ],
+          [
+            "2(M3+M4)",
+            "2"
+          ]
+        ]
+      }
+    ]
+  }
+}

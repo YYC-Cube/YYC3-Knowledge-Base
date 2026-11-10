@@ -1,0 +1,49 @@
+{
+"toolbox_name": "IICPS3",
+"openjumper_iicps3_init": {
+    "message0": "IICPS3手柄%1模块初始化"
+},
+"openjumper_iicps3_run": {
+    "message0": "%1开启数据解析"
+},
+"openjumper_iicps3_butstate": {
+    "message0": "%1IIC手柄 %2按键状态",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["左手-上", "up"],
+                ["左手-下", "down"],
+                ["左手-左", "left"],
+                ["左手-右", "right"],
+                ["右手-上", "triangle"],
+                ["右手-下", "cross"],
+                ["右手-左", "square"],
+                ["右手-右", "circle"],
+                ["左前-1", "l1"],
+                ["左前-2", "l2"],
+                ["左摇杆", "l3"],
+                ["右前-1", "r1"],
+                ["右前-2", "r2"],
+                ["右摇杆", "r3"],
+                ["选择", "select"],
+                ["开始", "start"]
+            ]
+        }
+    ]
+},
+"openjumper_iicps3_xy": {
+    "message0": "%1IIC手柄 %2摇杆数据",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["左摇杆-X轴", "lx"],
+                ["左摇杆-Y轴", "ly"],
+                ["右摇杆-X轴", "rx"],
+                ["右摇杆-Y轴", "ry"]
+            ]
+        }
+    ]
+}
+}

@@ -1,0 +1,16 @@
+{
+  "kind": "category",
+  "name": "K10按键",
+  "icon": "fa-light fa-hand-pointer",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "k10_button_pressed"
+    },
+    {
+      "kind": "block",
+      "type": "k10_button_callback"
+    }
+  ]
+}

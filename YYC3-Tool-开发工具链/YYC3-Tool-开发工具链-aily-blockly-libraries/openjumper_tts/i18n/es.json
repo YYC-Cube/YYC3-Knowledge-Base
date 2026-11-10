@@ -1,0 +1,63 @@
+{
+"toolbox_name": "Texto a voz",
+"openjumper_tts_init": {
+    "message0": "Inicializar TTS Pin RX: %1 Pin TX: %2",
+    "args0": [
+        null,
+        null
+    ]
+},
+"openjumper_tts_play_invoice": {
+    "message0": "Reproducir incorporado %1 Número %2",
+    "args0": [
+        {
+            "options": [
+                ["Tono de llamada", "VOICE_Ringtones"],
+                ["Tono de aviso", "VOICE_PromptSound"],
+                ["Tono de advertencia", "VOICE_WarningSound"]
+            ]
+        },
+        null
+    ]
+},
+"openjumper_tts_play_control": {
+    "message0": "Controlar reproducción %1",
+    "args0": [
+        {
+            "options": [
+                ["Detener", "PLAY_STOP"],
+                ["Pausar", "PLAY_PAUSE"],
+                ["Continuar", "PLAY_CONTINUE"]
+            ]
+        }
+    ]
+},
+"openjumper_tts_play_number": {
+    "message0": "Reproducir número %1",
+    "args0": [
+        null
+    ]
+},
+"openjumper_tts_play_text": {
+    "message0": "Reproducir texto %1",
+    "args0": [
+        null
+    ]
+},
+"openjumper_tts_setcfg": {
+    "message0": "Establecer %1 a %2",
+    "args0": [
+        {
+            "options": [
+                ["Velocidad de voz", "setspeechSpeed"],
+                ["Entonación", "setIntonation"],
+                ["Volumen", "setVolume"]
+            ]
+        },
+        null
+    ]
+},
+"openjumper_tts_restore_defaults": {
+    "message0": "Restaurar configuración predeterminada"
+}
+}

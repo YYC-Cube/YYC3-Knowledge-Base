@@ -1,0 +1,56 @@
+{
+  "toolbox_name": "RFID读卡器",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "事件": "Ereignis",
+    "控制": "Kontrolle",
+    "读取": "lesen"
+  },
+  "rfid_setup": {
+    "message0": "初始化RFID读卡器 %1 RX引脚 %2 TX引脚 %3 使能引脚 %4",
+    "tooltip": "初始化RFID读卡器，设置RX、TX和使能引脚",
+    "args0": [
+      null,
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "rfid_on_tag_read": {
+    "message0": "当RFID读卡器 %1 读取到标签时",
+    "tooltip": "当读取到RFID标签时执行的代码"
+  },
+  "rfid_available": {
+    "message0": "RFID读卡器 %1 有数据可读",
+    "tooltip": "检查RFID读卡器是否有数据可读"
+  },
+  "rfid_read_tag": {
+    "message0": "RFID读卡器 %1 读取标签ID",
+    "tooltip": "读取RFID标签的ID（10位字符串）"
+  },
+  "rfid_enable": {
+    "message0": "RFID读卡器 %1 %2",
+    "tooltip": "启用或禁用RFID读卡器",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "启用",
+            "LOW"
+          ],
+          [
+            "禁用",
+            "HIGH"
+          ]
+        ]
+      }
+    ]
+  }
+}

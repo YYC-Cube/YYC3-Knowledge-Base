@@ -1,0 +1,347 @@
+{
+  "toolbox_name": "红外遥控",
+  "toolbox_categories": [
+    "接收",
+    "发送",
+    "高级"
+  ],
+  "irremote_library_config": {
+    "message0": "红外库配置 缓冲区长度 %1 启用通用解码 %2 保留特殊协议 %3",
+    "tooltip": "通过编译期宏配置RAW_BUFFER_LENGTH以及是否保留通用/特殊协议解析"
+  },
+  "irremote_receiver_begin": {
+    "message0": "初始化红外接收 引脚 %1 LED反馈 %2",
+    "tooltip": "初始化红外接收器，开启LED反馈后板载LED会在接收信号时闪烁，便于调试"
+  },
+  "irremote_sender_begin": {
+    "message0": "初始化红外发送 引脚 %1",
+    "tooltip": "初始化红外发射器，设置发射引脚"
+  },
+  "irremote_on_receive": {
+    "message0": "当红外接收成功时 忽略重复帧 %1 %2",
+    "tooltip": "当收到红外信号时执行内部代码，勾选忽略重复帧可防止遥控器按一次触发多次"
+  },
+  "irremote_receiver_available": {
+    "message0": "红外接收有新数据",
+    "tooltip": "检查是否有新的红外数据可读"
+  },
+  "irremote_get_value": {
+    "message0": "红外数据 %1",
+    "tooltip": "读取红外接收数据的指定字段",
+    "args0": [
+      {
+        "options": [
+          [
+            "地址",
+            "ADDRESS"
+          ],
+          [
+            "命令",
+            "COMMAND"
+          ],
+          [
+            "附加值",
+            "EXTRA"
+          ],
+          [
+            "原始码",
+            "RAW"
+          ],
+          [
+            "位数",
+            "BITS"
+          ],
+          [
+            "标志位",
+            "FLAGS"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_get_protocol": {
+    "message0": "红外协议 %1",
+    "tooltip": "返回接收到的红外协议名称或枚举值",
+    "args0": [
+      {
+        "options": [
+          [
+            "名称",
+            "NAME"
+          ],
+          [
+            "枚举值",
+            "ID"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_check_flag": {
+    "message0": "红外标志 %1",
+    "tooltip": "检查红外接收数据的标志位状态",
+    "args0": [
+      {
+        "options": [
+          [
+            "重复帧",
+            "REPEAT"
+          ],
+          [
+            "自动重复",
+            "AUTO_REPEAT"
+          ],
+          [
+            "奇偶校验失败",
+            "PARITY"
+          ],
+          [
+            "切换位",
+            "TOGGLE"
+          ],
+          [
+            "不同重发协议",
+            "DIFF_REPEAT"
+          ],
+          [
+            "包含附加信息",
+            "EXTRA_INFO"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_is_preset_key": {
+    "message0": "按下预置按键 %1",
+    "tooltip": "匹配Arduino套件NEC迷你遥控器的预置按键",
+    "args0": [
+      {
+        "options": [
+          [
+            "CH_MINUS",
+            "69"
+          ],
+          [
+            "CHANNEL",
+            "70"
+          ],
+          [
+            "CH_PLUS",
+            "71"
+          ],
+          [
+            "PREV",
+            "68"
+          ],
+          [
+            "NEXT",
+            "64"
+          ],
+          [
+            "PLAY_PAUSE",
+            "67"
+          ],
+          [
+            "VOL_DOWN",
+            "7"
+          ],
+          [
+            "VOL_UP",
+            "21"
+          ],
+          [
+            "EQ",
+            "9"
+          ],
+          [
+            "NUM_0",
+            "22"
+          ],
+          [
+            "NUM_1",
+            "12"
+          ],
+          [
+            "NUM_2",
+            "24"
+          ],
+          [
+            "NUM_3",
+            "94"
+          ],
+          [
+            "NUM_4",
+            "8"
+          ],
+          [
+            "NUM_5",
+            "28"
+          ],
+          [
+            "NUM_6",
+            "90"
+          ],
+          [
+            "NUM_7",
+            "66"
+          ],
+          [
+            "NUM_8",
+            "82"
+          ],
+          [
+            "NUM_9",
+            "74"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_get_preset_name": {
+    "message0": "获取预置按键名称",
+    "tooltip": "返回预置遥控器按键的名称，若未匹配返回空字符串"
+  },
+  "irremote_resume": {
+    "message0": "红外接收准备下一帧",
+    "tooltip": "手动准备下一次接收，仅在不使用\"当红外接收成功时\"块时需要"
+  },
+  "irremote_send_command": {
+    "message0": "红外发送 协议 %1 地址 %2 命令 %3 重复 %4",
+    "tooltip": "按指定协议发送红外信号，可配置地址、命令和重复次数",
+    "args0": [
+      {
+        "options": [
+          [
+            "NEC",
+            "NEC"
+          ],
+          [
+            "NEC2",
+            "NEC2"
+          ],
+          [
+            "SAMSUNG",
+            "SAMSUNG"
+          ],
+          [
+            "SAMSUNG48",
+            "SAMSUNG48"
+          ],
+          [
+            "SAMSUNGLG",
+            "SAMSUNGLG"
+          ],
+          [
+            "SONY",
+            "SONY"
+          ],
+          [
+            "PANASONIC",
+            "PANASONIC"
+          ],
+          [
+            "DENON",
+            "DENON"
+          ],
+          [
+            "SHARP",
+            "SHARP"
+          ],
+          [
+            "LG",
+            "LG"
+          ],
+          [
+            "JVC",
+            "JVC"
+          ],
+          [
+            "RC5",
+            "RC5"
+          ],
+          [
+            "RC6",
+            "RC6"
+          ],
+          [
+            "KASEIKYO_JVC",
+            "KASEIKYO_JVC"
+          ],
+          [
+            "KASEIKYO_DENON",
+            "KASEIKYO_DENON"
+          ],
+          [
+            "KASEIKYO_SHARP",
+            "KASEIKYO_SHARP"
+          ],
+          [
+            "KASEIKYO_MITSUBISHI",
+            "KASEIKYO_MITSUBISHI"
+          ],
+          [
+            "ONKYO",
+            "ONKYO"
+          ],
+          [
+            "APPLE",
+            "APPLE"
+          ],
+          [
+            "BOSEWAVE",
+            "BOSEWAVE"
+          ],
+          [
+            "FAST",
+            "FAST"
+          ],
+          [
+            "LEGO_PF",
+            "LEGO_PF"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "irremote_print_result": {
+    "message0": "串口打印红外结果 格式 %1",
+    "tooltip": "在串口打印红外接收结果，摘要显示协议/地址/命令，发送代码显示如何回放该信号",
+    "args0": [
+      {
+        "options": [
+          [
+            "摘要",
+            "SHORT"
+          ],
+          [
+            "发送代码",
+            "SEND_USAGE"
+          ],
+          [
+            "原始时序",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_command_equals": {
+    "message0": "红外命令值等于 %1",
+    "tooltip": "判断当前接收到的红外命令值是否等于指定值，适用于任何遥控器"
+  },
+  "irremote_send_nec": {
+    "message0": "红外发送NEC 地址 %1 命令 %2 重复 %3",
+    "tooltip": "使用NEC协议发送红外信号，NEC是最常用的红外协议"
+  },
+  "irremote_send_raw": {
+    "message0": "红外发送Raw 数据 %1 频率(kHz) %2",
+    "tooltip": "发送原始红外时序数据，用于回放未知协议的信号，数据格式为逗号分隔的微秒值"
+  },
+  "irremote_send_pronto": {
+    "message0": "红外发送Pronto码 %1 重复 %2",
+    "tooltip": "使用Pronto格式发送红外信号，Pronto码可从网上红外码数据库获取"
+  }
+}

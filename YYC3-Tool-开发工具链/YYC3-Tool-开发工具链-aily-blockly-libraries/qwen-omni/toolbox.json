@@ -1,0 +1,726 @@
+{
+  "kind": "category",
+  "name": "通义千问",
+  "icon": "fa-light fa-head-side-gear",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "配置"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_config",
+      "inputs": {
+        "API_KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "sk-your-api-key-here"
+            }
+          }
+        },
+        "BASE_URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "https://dashscope.aliyuncs.com/compatible-mode/v1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_set_system_prompt",
+      "inputs": {
+        "SYSTEM_PROMPT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你是一个有用的AI助手"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "I2S音频"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_k10_audio_init",
+      "inputs": {
+        "SAMPLE_RATE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "16000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_i2s_speaker_init",
+      "inputs": {
+        "BCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "15"
+            }
+          }
+        },
+        "LRCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "16"
+            }
+          }
+        },
+        "DIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "7"
+            }
+          }
+        },
+        "SAMPLE_RATE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "24000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_i2s_mic_init",
+      "inputs": {
+        "BCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "5"
+            }
+          }
+        },
+        "LRCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "4"
+            }
+          }
+        },
+        "SD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "6"
+            }
+          }
+        },
+        "SAMPLE_RATE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "16000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_pdm_mic_init",
+      "inputs": {
+        "CLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "42"
+            }
+          }
+        },
+        "DATA": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "41"
+            }
+          }
+        },
+        "SAMPLE_RATE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "16000"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_es8311_mic_init",
+      "inputs": {
+        "SDA": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "41"
+            }
+          }
+        },
+        "SCL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "42"
+            }
+          }
+        },
+        "I2C_ADDRESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "24"
+            }
+          }
+        },
+        "BCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "39"
+            }
+          }
+        },
+        "LRCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "2"
+            }
+          }
+        },
+        "SDOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "40"
+            }
+          }
+        },
+        "MCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "46"
+            }
+          }
+        },
+        "SAMPLE_RATE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "16000"
+            }
+          }
+        },
+        "MIC_GAIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "36"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_es8311_audio_init",
+      "inputs": {
+        "SDA": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "41"
+            }
+          }
+        },
+        "SCL": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "42"
+            }
+          }
+        },
+        "I2C_ADDRESS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "24"
+            }
+          }
+        },
+        "BCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "39"
+            }
+          }
+        },
+        "LRCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "2"
+            }
+          }
+        },
+        "DAC_DIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "38"
+            }
+          }
+        },
+        "ADC_DOUT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "40"
+            }
+          }
+        },
+        "MCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "46"
+            }
+          }
+        },
+        "SAMPLE_RATE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "16000"
+            }
+          }
+        },
+        "MIC_GAIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "36"
+            }
+          }
+        },
+        "PA_EN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "-1"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_i2s_prompt_tone",
+      "inputs": {
+        "FREQ": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1000"
+            }
+          }
+        },
+        "DURATION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "300"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "文本对话"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_chat_simple",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_chat",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_chat_with_thinking",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "请帮我分析这个问题"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_chat_with_history",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "继续我们的对话"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "图片对话"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_vision_chat",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "图中描绘的是什么?"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_vision_chat_direct_capture",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "图中描绘的是什么?"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_vision_url_chat",
+      "inputs": {
+        "IMAGE_URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "https://example.com/image.jpg"
+            }
+          }
+        },
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "图中描绘的是什么?"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "图像生成"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_image_generate",
+      "inputs": {
+        "PROMPT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "一只可爱的猫咪在草地上玩耍"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_image_generate_simple",
+      "inputs": {
+        "PROMPT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "一只可爱的猫咪"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "语音合成(TTS)"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_tts",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好，欢迎使用通义千问语音合成"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_tts_play",
+      "inputs": {
+        "BASE64_AUDIO": {
+          "block": {
+            "type": "qwen_omni_tts",
+            "inputs": {
+              "TEXT": {
+                "shadow": {
+                  "type": "text",
+                  "fields": {
+                    "TEXT": "你好"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_tts_and_play",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好，欢迎使用通义千问语音合成"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_tts_stream_play",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好，这是流式语音合成测试"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_tts_voice_design",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好，这是自定义音色"
+            }
+          }
+        },
+        "VOICE_DESC": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "温柔的年轻女声，语速稍快"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "全模态对话"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_omni_text",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好，请介绍一下你自己"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_omni_and_play",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好，请介绍一下你自己"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_omni_stream_play",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好，请介绍一下你自己"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_omni_record_text",
+      "inputs": {
+        "DURATION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "3"
+            }
+          }
+        },
+        "PROMPT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "请只把音频内容转写成文字，不要回答、解释或补充。"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_omni_voice_chat",
+      "inputs": {
+        "DURATION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "3"
+            }
+          }
+        },
+        "PROMPT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "请用简短友好的方式回答，适合语音播报"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_omni_get_audio"
+    },
+    {
+      "kind": "label",
+      "text": "流式回调"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_set_stream_callback"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_get_stream_chunk"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_clear_stream_callback"
+    },
+    {
+      "kind": "label",
+      "text": "状态管理"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_clear_history"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_get_response_status"
+    },
+    {
+      "kind": "block",
+      "type": "qwen_omni_get_error_message"
+    }
+  ]
+}

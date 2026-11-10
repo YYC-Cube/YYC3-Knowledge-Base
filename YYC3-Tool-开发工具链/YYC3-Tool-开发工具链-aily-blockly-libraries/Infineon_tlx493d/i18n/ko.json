@@ -1,0 +1,92 @@
+{
+  "toolbox_name": "TLx493D 3D 자기 센서",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "读取数据": "데이터 읽기",
+    "配置": "구성",
+    "状态与控制": "상태 및 제어"
+  },
+  "tlx493d_init": {
+    "message0": "3D 자기 센서 초기화 %1\n센서 유형 %2\nI2C 주소 %3\n사용 %4",
+    "tooltip": "Infineon TLx493D 3D 자기 센서를 I2C 인터페이스로 초기화",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["TLx493D-A1B6 (Gen1)", "A1B6"],
+          ["TLx493D-A2B6 (Gen2)", "A2B6"],
+          ["TLx493D-A2BW (Gen2)", "A2BW"],
+          ["TLx493D-P2B6 (Gen2)", "P2B6"],
+          ["TLx493D-W2B6 (Gen2)", "W2B6"],
+          ["TLx493D-W2BW (Gen2)", "W2BW"],
+          ["TLx493D-P3B6 (Gen3)", "P3B6"]
+        ]
+      },
+      {
+        "options": [
+          ["0 (기본값)", "TLx493D_IIC_ADDR_A0_e"],
+          ["1", "TLx493D_IIC_ADDR_A1_e"],
+          ["2", "TLx493D_IIC_ADDR_A2_e"],
+          ["3", "TLx493D_IIC_ADDR_A3_e"]
+        ]
+      },
+      null
+    ]
+  },
+  "tlx493d_get_temperature": {
+    "message0": "3D 자기 센서 %1 의 온도 읽기(°C)",
+    "tooltip": "TLx493D 센서에서 온도를 읽고 섭씨로 반환"
+  },
+  "tlx493d_get_magnetic_field": {
+    "message0": "3D 자기 센서 %1 의 자기장 %2 축 읽기(mT)",
+    "tooltip": "TLx493D 센서의 지정 축 자기장 값을 밀리테슬라 단위로 읽기",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["X", "X"],
+          ["Y", "Y"],
+          ["Z", "Z"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_set_sensitivity": {
+    "message0": "3D 자기 센서 %1 감도를 %2 로 설정",
+    "tooltip": "TLx493D 센서의 감도/범위 설정",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["전체 범위", "TLx493D_FULL_RANGE_e"],
+          ["단거리 범위", "TLx493D_SHORT_RANGE_e"],
+          ["초단거리 범위", "TLx493D_EXTRA_SHORT_RANGE_e"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_set_power_mode": {
+    "message0": "3D 자기 센서 %1 전원 모드를 %2 로 설정",
+    "tooltip": "TLx493D 센서의 전원 모드 설정",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["고속 모드", "TLx493D_FAST_MODE_e"],
+          ["저전력 모드", "TLx493D_LOW_POWER_MODE_e"],
+          ["초저전력 모드", "TLx493D_ULTRA_LOW_POWER_MODE_e"],
+          ["마스터 제어 모드", "TLx493D_MASTER_CONTROLLED_MODE_e"],
+          ["전원 차단 모드", "TLx493D_POWER_DOWN_MODE_e"]
+        ]
+      }
+    ]
+  },
+  "tlx493d_has_valid_data": {
+    "message0": "3D 자기 센서 %1 데이터 유효",
+    "tooltip": "TLx493D 센서 데이터의 유효성 확인"
+  },
+  "tlx493d_software_reset": {
+    "message0": "3D 자기 센서 %1 소프트웨어 리셋",
+    "tooltip": "TLx493D 센서를 소프트웨어 리셋"
+  }
+}

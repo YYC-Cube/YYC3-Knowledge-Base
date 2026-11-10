@@ -1,0 +1,49 @@
+{
+"toolbox_name": "IICPS3",
+"openjumper_iicps3_init": {
+    "message0": "IICPS3 controller %1 module initialization"
+},
+"openjumper_iicps3_run": {
+    "message0": "%1 start data parsing"
+},
+"openjumper_iicps3_butstate": {
+    "message0": "%1IIC controller %2 button state",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Left-Up", "up"],
+                ["Left-Down", "down"],
+                ["Left-Left", "left"],
+                ["Left-Right", "right"],
+                ["Right-Up (Triangle)", "triangle"],
+                ["Right-Down (Cross)", "cross"],
+                ["Right-Left (Square)", "square"],
+                ["Right-Right (Circle)", "circle"],
+                ["Left Front-1 (L1)", "l1"],
+                ["Left Front-2 (L2)", "l2"],
+                ["Left Joystick (L3)", "l3"],
+                ["Right Front-1 (R1)", "r1"],
+                ["Right Front-2 (R2)", "r2"],
+                ["Right Joystick (R3)", "r3"],
+                ["Select", "select"],
+                ["Start", "start"]
+            ]
+        }
+    ]
+},
+"openjumper_iicps3_xy": {
+    "message0": "%1IIC controller %2 joystick data",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Left Joystick-X Axis", "lx"],
+                ["Left Joystick-Y Axis", "ly"],
+                ["Right Joystick-X Axis", "rx"],
+                ["Right Joystick-Y Axis", "ry"]
+            ]
+        }
+    ]
+}
+}

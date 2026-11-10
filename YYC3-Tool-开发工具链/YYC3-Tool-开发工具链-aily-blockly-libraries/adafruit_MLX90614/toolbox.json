@@ -1,0 +1,37 @@
+{
+  "kind": "category",
+  "name": "MLX90614 红外测温",
+  "colour": "#e74c3c",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "mlx90614_begin"
+    },
+    {
+      "kind": "block",
+      "type": "mlx90614_read_object_temp"
+    },
+    {
+      "kind": "block",
+      "type": "mlx90614_read_ambient_temp"
+    },
+    {
+      "kind": "block",
+      "type": "mlx90614_read_emissivity"
+    },
+    {
+      "kind": "block",
+      "type": "mlx90614_write_emissivity",
+      "inputs": {
+        "EMISSIVITY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0.95
+            }
+          }
+        }
+      }
+    }
+  ]
+}

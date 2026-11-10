@@ -1,0 +1,137 @@
+{
+  "toolbox_name": "PS3手柄",
+  "ps3_init": {
+    "message0": "初始化PS3手柄 MAC地址 %1",
+    "tooltip": "初始化PS3蓝牙手柄，需要提供ESP32的MAC地址"
+  },
+  "ps3_button_pressed": {
+    "message0": "PS3按键 %1 被按下",
+    "tooltip": "判断PS3按键是否被按下",
+    "args0": [
+      {
+        "options": [
+          [
+            "Cross (×)",
+            "cross"
+          ],
+          [
+            "Square (□)",
+            "square"
+          ],
+          [
+            "Triangle (△)",
+            "triangle"
+          ],
+          [
+            "Circle (○)",
+            "circle"
+          ],
+          [
+            "Up",
+            "up"
+          ],
+          [
+            "Down",
+            "down"
+          ],
+          [
+            "Left",
+            "left"
+          ],
+          [
+            "Right",
+            "right"
+          ],
+          [
+            "L1",
+            "l1"
+          ],
+          [
+            "L2",
+            "l2"
+          ],
+          [
+            "R1",
+            "r1"
+          ],
+          [
+            "R2",
+            "r2"
+          ],
+          [
+            "Select",
+            "select"
+          ],
+          [
+            "Start",
+            "start"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps3_stick_value": {
+    "message0": "PS3摇杆 %1 %2 轴值",
+    "tooltip": "获取PS3摇杆模拟值(-128到127)",
+    "args0": [
+      {
+        "options": [
+          [
+            "左摇杆",
+            "l"
+          ],
+          [
+            "右摇杆",
+            "r"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "X轴",
+            "x"
+          ],
+          [
+            "Y轴",
+            "y"
+          ]
+        ]
+      }
+    ]
+  },
+  "ps3_is_connected": {
+    "message0": "PS3手柄已连接",
+    "tooltip": "判断PS3手柄是否连接"
+  },
+  "ps3_set_rumble": {
+    "message0": "PS3手柄震动 强度 %1 持续 %2 毫秒",
+    "tooltip": "设置PS3手柄震动，强度0-100，持续时间0-5000毫秒"
+  },
+  "ps3_set_player": {
+    "message0": "设置PS3手柄玩家编号 %1",
+    "tooltip": "设置PS3手柄LED显示的玩家编号",
+    "args0": [
+      {
+        "options": [
+          [
+            "1",
+            "1"
+          ],
+          [
+            "2",
+            "2"
+          ],
+          [
+            "3",
+            "3"
+          ],
+          [
+            "4",
+            "4"
+          ]
+        ]
+      }
+    ]
+  }
+}

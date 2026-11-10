@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "MMA8653 Accelerometer",
+  "toolbox_labels": {
+    "初始化": "Initialize",
+    "读取加速度": "Read Acceleration",
+    "倾角计": "Inclinometer",
+    "设置": "Settings",
+    "状态": "Status"
+  },
+  "mma8653_init": {
+    "message0": "Initialize MMA8653 accelerometer Range %1 Resolution %2 Data Rate %3",
+    "tooltip": "Initialize MMA8653 three-axis accelerometer with range, resolution and data rate",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["10-bit", "MMA8653_10BIT_RES"],
+          ["8-bit", "MMA8653_8BIT_RES"]
+        ]
+      },
+      null
+    ]
+  },
+  "mma8653_set_mode": {
+    "message0": "Set MMA8653 oversampling mode %1",
+    "tooltip": "Set the oversampling mode of MMA8653 sensor",
+    "args0": [
+      {
+        "options": [
+          ["Normal", "MMA8653_MODS_NORMAL"],
+          ["Low Noise Low Power", "MMA8653_MODS_LOW_NOISE_LOW_POWER"],
+          ["High Resolution", "MMA8653_MODS_HIGH_RES"],
+          ["Low Power", "MMA8653_MODS_LOW_POWER"]
+        ]
+      }
+    ]
+  },
+  "mma8653_begin": {
+    "message0": "Start MMA8653 accelerometer",
+    "tooltip": "Start MMA8653 sensor to begin data acquisition"
+  },
+  "mma8653_read_x": {
+    "message0": "Read MMA8653 X-axis acceleration",
+    "tooltip": "Read MMA8653 sensor X-axis acceleration value"
+  },
+  "mma8653_read_y": {
+    "message0": "Read MMA8653 Y-axis acceleration",
+    "tooltip": "Read MMA8653 sensor Y-axis acceleration value"
+  },
+  "mma8653_read_z": {
+    "message0": "Read MMA8653 Z-axis acceleration",
+    "tooltip": "Read MMA8653 sensor Z-axis acceleration value"
+  },
+  "mma8653_read_xyz": {
+    "message0": "Read all MMA8653 axis data to variables X %1 Y %2 Z %3",
+    "tooltip": "Read all three-axis acceleration data from MMA8653 sensor at once"
+  },
+  "mma8653_set_range": {
+    "message0": "Set MMA8653 measurement range %1",
+    "tooltip": "Set the measurement range of MMA8653 sensor"
+  },
+  "mma8653_set_data_rate": {
+    "message0": "Set MMA8653 data rate %1",
+    "tooltip": "Set the data output rate of MMA8653 sensor"
+  },
+  "mma8653_set_resolution": {
+    "message0": "Set MMA8653 resolution %1",
+    "tooltip": "Set the data resolution of MMA8653 sensor",
+    "args0": [
+      {
+        "options": [
+          ["10-bit", "MMA8653_10BIT_RES"],
+          ["8-bit", "MMA8653_8BIT_RES"]
+        ]
+      }
+    ]
+  },
+  "mma8653_is_active": {
+    "message0": "MMA8653 sensor is active",
+    "tooltip": "Check if MMA8653 sensor is in active state"
+  },
+  "mma8653_check_connection": {
+    "message0": "Check MMA8653 sensor connection",
+    "tooltip": "Check if MMA8653 sensor is properly connected"
+  },
+  "mma8653_get_roll": {
+    "message0": "Read MMA8653 Roll angle (°)",
+    "tooltip": "Read MMA8653 sensor roll angle (rotation around X-axis)"
+  },
+  "mma8653_get_pitch": {
+    "message0": "Read MMA8653 Pitch angle (°)",
+    "tooltip": "Read MMA8653 sensor pitch angle (rotation around Y-axis)"
+  },
+  "mma8653_get_tilt": {
+    "message0": "Read MMA8653 Tilt angle (°)",
+    "tooltip": "Read MMA8653 sensor tilt angle relative to vertical"
+  }
+}

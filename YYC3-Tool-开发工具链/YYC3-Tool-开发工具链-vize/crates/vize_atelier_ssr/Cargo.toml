@@ -1,0 +1,23 @@
+[package]
+name = "vize_atelier_ssr"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Vue SSR compiler for Vize"
+
+[dependencies]
+vize_carton = { workspace = true }
+vize_relief = { workspace = true }
+vize_armature = { workspace = true }
+vize_atelier_core = { workspace = true }
+vize_croquis = { workspace = true }
+
+serde = { workspace = true }
+
+[dev-dependencies]
+insta = { workspace = true }
+
+[lints.clippy]
+all = "warn"

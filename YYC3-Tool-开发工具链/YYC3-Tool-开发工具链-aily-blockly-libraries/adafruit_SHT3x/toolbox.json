@@ -1,0 +1,62 @@
+{
+    "kind": "category",
+    "name": "SHT3x温湿度",
+    "colour": "#4CAF50",
+    "icon": "fa-light fa-temperature-three-quarters",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "传感器初始化"
+        },
+        {
+            "kind": "block",
+            "type": "sht31_init",
+            "fields": {
+                "ADDRESS": "0x44"
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "数据读取"
+        },
+        {
+            "kind": "block",
+            "type": "sht31_simple_read",
+            "fields": {
+                "TYPE": "temperature"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "sht31_simple_read",
+            "fields": {
+                "TYPE": "humidity"
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "高级功能"
+        },
+        {
+            "kind": "block",
+            "type": "sht31_heater_control",
+            "fields": {
+                "STATE": "false"
+            }
+        },
+        {
+            "kind": "block",
+            "type": "sht31_is_heater_enabled"
+        },
+        {
+            "kind": "block",
+            "type": "sht31_reset"
+        }
+    ]
+}

@@ -1,0 +1,147 @@
+{
+  "toolbox_name": "K10 디스플레이",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "绘图": "그리기",
+    "文字": "텍스트",
+    "图片": "그림",
+    "画布控制": "캔버스 컨트롤"
+  },
+  "k10_init_screen": {
+    "message0": "K10 화면 초기화 방향 %1",
+    "tooltip": "UNIHIKER K10 화면을 초기화하고 캔버스를 생성",
+    "args0": [
+      {
+        "options": [
+          [
+            "정방향",
+            "2"
+          ],
+          [
+            "역방향",
+            "0"
+          ],
+          [
+            "왼쪽 가로",
+            "1"
+          ],
+          [
+            "오른쪽 가로",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_set_background": {
+    "message0": "화면 배경색 설정 %1",
+    "tooltip": "화면 배경색 설정"
+  },
+  "k10_draw_point": {
+    "message0": "점 그리기 X %1 Y %2 색상 %3",
+    "tooltip": "화면에 점 그리기"
+  },
+  "k10_draw_line": {
+    "message0": "선 그리기 시작X %1 Y %2 끝X %3 Y %4 색상 %5",
+    "tooltip": "화면에 선 그리기"
+  },
+  "k10_set_line_width": {
+    "message0": "선 두께 설정 %1",
+    "tooltip": "그리기 선 두께 설정"
+  },
+  "k10_draw_circle": {
+    "message0": "원 그리기 중심X %1 Y %2 반지름 %3 테두리색 %4 채우기색 %5 채우기 %6",
+    "tooltip": "화면에 원 그리기"
+  },
+  "k10_draw_rectangle": {
+    "message0": "사각형 그리기 X %1 Y %2 너비 %3 높이 %4 테두리색 %5 채우기색 %6 채우기 %7",
+    "tooltip": "화면에 사각형 그리기"
+  },
+  "k10_draw_text_simple": {
+    "message0": "텍스트 %2 를 %1번 줄에 표시 색상 %3",
+    "tooltip": "지정한 줄(1~7)에 텍스트를 자동 배치로 표시"
+  },
+  "k10_draw_text": {
+    "message0": "텍스트 표시 %1 X %2 Y %3 색상 %4 글꼴 %5 줄당 글자수 %6",
+    "tooltip": "지정한 위치에 텍스트를 표시합니다. 줄당 글자수는 자동 줄바꿈 기준이며 글꼴 16은 25, 글꼴 24는 10을 권장합니다.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "글꼴 16",
+            "eCNAndENFont16"
+          ],
+          [
+            "글꼴 24",
+            "eCNAndENFont24"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "k10_draw_bitmap": {
+    "message0": "내장 이미지 %1 표시 X %2 Y %3 너비 %4 높이 %5",
+    "tooltip": "내장 이미지를 표시합니다(arduino_image_cache.h 와 이미지 배열, 예: image_data1 필요)"
+  },
+  "k10_draw_image": {
+    "message0": "TF카드 이미지 표시 경로 %1 X %2 Y %3",
+    "tooltip": "TF카드에서 이미지를 불러와 표시"
+  },
+  "k10_draw_qrcode": {
+    "message0": "QR코드 표시 내용 %1",
+    "tooltip": "화면에 QR코드 표시"
+  },
+  "k10_update_canvas": {
+    "message0": "캔버스 새로고침",
+    "tooltip": "캔버스 화면 새로고침"
+  },
+  "k10_clear_canvas": {
+    "message0": "캔버스 지우기 %1",
+    "tooltip": "캔버스를 지웁니다(보통 이후 다시 새로고침 필요)",
+    "args0": [
+      {
+        "options": [
+          [
+            "모두 지우기",
+            "0"
+          ],
+          [
+            "1번 줄 지우기",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_clear_canvas_row": {
+    "message0": "캔버스 %1번 줄 지우기",
+    "tooltip": "캔버스의 지정된 줄(1~7)을 지우고 필요하면 새로고침합니다"
+  },
+  "k10_clear_qrcode": {
+    "message0": "QR 코드 지우기",
+    "tooltip": "화면에 표시된 QR 코드를 지웁니다"
+  },
+  "k10_screen_size": {
+    "message0": "화면 %1",
+    "tooltip": "K10 화면 해상도: 240×320(세로)",
+    "args0": [
+      {
+        "options": [
+          [
+            "너비",
+            "W"
+          ],
+          [
+            "높이",
+            "H"
+          ]
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "toolbox_name": "K10感測器",
+  "k10_get_accelerometer": {
+    "message0": "獲取加速度計 %1 軸數據",
+    "tooltip": "獲取K10板載加速度計的軸數據",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_get_strength": {
+    "message0": "獲取光線強度值",
+    "tooltip": "獲取K10板載光線感測器的值"
+  },
+  "k10_aht20_measure": {
+    "message0": "AHT20 啟動測量 %1 校驗",
+    "tooltip": "啟動AHT20一次測量，返回測量是否完成；完成後再讀取溫度/濕度",
+    "args0": [
+      {
+        "options": [
+          [
+            "開啟",
+            "true"
+          ],
+          [
+            "關閉",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_temperature": {
+    "message0": "AHT20 獲取溫度 %1",
+    "tooltip": "獲取 AHT20 溫度；測量會自動啟動",
+    "args0": [
+      {
+        "options": [
+          [
+            "攝氏度(℃)",
+            "C"
+          ],
+          [
+            "華氏度(℉)",
+            "F"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_humidity": {
+    "message0": "AHT20 獲取相對濕度(%RH)",
+    "tooltip": "獲取 AHT20 相對濕度；測量會自動啟動"
+  }
+}

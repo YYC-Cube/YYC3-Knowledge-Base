@@ -1,0 +1,223 @@
+{
+  "toolbox_name": "ESP-NOW",
+  "toolbox_labels": {
+    "ESP-NOW极简模式": "Mode minimaliste ESP-NOW",
+    "ESP-NOW串口模式": "Mode port série ESP-NOW",
+    "ESP-NOW标准模式": "Mode standard ESP-NOW",
+    "初始化": "initialisation",
+    "创建对等设备": "Créer un appareil homologue",
+    "发送消息": "Envoyer un message",
+    "接收事件": "recevoir des événements",
+    "回调变量": "variable de rappel",
+    "快速操作": "Fonctionnement rapide",
+    "状态查询": "Requête d'état"
+  },
+  "esp_now_master_init": {
+    "message0": "ESP-NOW 初始化为主机（发送方）通道 %1",
+    "tooltip": "一键初始化为ESP-NOW主机（广播发送方），自动配置WiFi和ESP-NOW"
+  },
+  "esp_now_slave_init": {
+    "message0": "ESP-NOW 初始化为从机（接收方）通道 %1",
+    "tooltip": "一键初始化为ESP-NOW从机（接收方），自动配置WiFi、ESP-NOW并注册新设备"
+  },
+  "esp_now_broadcast_message": {
+    "message0": "广播消息 %1",
+    "tooltip": "向网络中所有设备广播消息（需先初始化为主机）"
+  },
+  "esp_now_on_message_received": {
+    "message0": "当收到 ESP-NOW 消息时",
+    "tooltip": "全局接收回调，任何ESP-NOW消息都会触发。回调中可用：收到的消息内容、消息长度、是否广播、发送方MAC"
+  },
+  "esp_now_received_message": {
+    "message0": "收到的消息",
+    "tooltip": "在全局接收回调中获取收到的消息内容"
+  },
+  "esp_now_received_message_len": {
+    "message0": "消息长度",
+    "tooltip": "在全局接收回调中获取消息长度"
+  },
+  "esp_now_received_is_broadcast": {
+    "message0": "是广播消息",
+    "tooltip": "在全局接收回调中判断是否为广播消息"
+  },
+  "esp_now_received_sender_mac": {
+    "message0": "发送方MAC",
+    "tooltip": "在全局接收回调中获取发送方的MAC地址"
+  },
+  "esp_now_reply_message": {
+    "message0": "回复消息 %1",
+    "tooltip": "回复最后一个发送消息的设备（在接收回调中或之后使用）"
+  },
+  "esp_now_node_init": {
+    "message0": "ESP-NOW 初始化为双向节点 通道 %1",
+    "tooltip": "初始化为双向节点，既能广播发送也能接收消息"
+  },
+  "esp_now_begin": {
+    "message0": "初始化 ESP-NOW",
+    "tooltip": "初始化ESP-NOW协议，使用默认配置"
+  },
+  "esp_now_begin_with_pmk": {
+    "message0": "初始化 ESP-NOW 主密钥 %1",
+    "tooltip": "初始化ESP-NOW协议并设置主密钥（16字节）用于加密通信"
+  },
+  "esp_now_end": {
+    "message0": "停止 ESP-NOW",
+    "tooltip": "停止ESP-NOW协议"
+  },
+  "esp_now_wifi_init": {
+    "message0": "设置WiFi模式 %1 通道 %2",
+    "tooltip": "初始化WiFi模式和通道（ESP-NOW需要先配置WiFi）",
+    "args0": [
+      {
+        "options": [
+          [
+            "STA（站点模式）",
+            "WIFI_STA"
+          ],
+          [
+            "AP（热点模式）",
+            "WIFI_AP"
+          ],
+          [
+            "AP+STA（混合模式）",
+            "WIFI_AP_STA"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp_now_create_peer": {
+    "message0": "创建对等设备 %1 MAC地址 %2",
+    "tooltip": "创建一个ESP-NOW对等设备（需要指定对方的MAC地址）"
+  },
+  "esp_now_create_peer_advanced": {
+    "message0": "创建对等设备 %1 MAC地址 %2 \n通道 %3 加密密钥 %4",
+    "tooltip": "创建带加密的ESP-NOW对等设备（LMK需要16字节）"
+  },
+  "esp_now_create_broadcast_peer": {
+    "message0": "创建广播对等设备 %1",
+    "tooltip": "创建一个广播对等设备，用于向网络中所有设备发送消息"
+  },
+  "esp_now_remove_peer": {
+    "message0": "移除对等设备 %1",
+    "tooltip": "移除已注册的对等设备"
+  },
+  "esp_now_send": {
+    "message0": "对等设备 %1 发送消息 %2",
+    "tooltip": "向指定对等设备发送字符串消息"
+  },
+  "esp_now_send_data": {
+    "message0": "对等设备 %1 发送数据 %2 长度 %3",
+    "tooltip": "向指定对等设备发送原始数据"
+  },
+  "esp_now_on_receive": {
+    "message0": "当对等设备 %1 收到消息时",
+    "tooltip": "设置对等设备接收消息的回调函数。回调中可使用变量: esp_now_data(消息内容), esp_now_len(消息长度), esp_now_broadcast(是否广播)"
+  },
+  "esp_now_on_sent": {
+    "message0": "当对等设备 %1 消息发送完成时",
+    "tooltip": "设置消息发送完成的回调函数。回调中可使用变量: esp_now_success(是否发送成功)"
+  },
+  "esp_now_on_new_peer": {
+    "message0": "当收到新对等设备消息时",
+    "tooltip": "当收到未知设备消息时触发。回调中可使用变量: esp_now_src_mac(发送方MAC), esp_now_data(消息内容), esp_now_len(消息长度)"
+  },
+  "esp_now_received_data": {
+    "message0": "收到的消息内容",
+    "tooltip": "在接收回调中获取收到的消息内容（字符串）"
+  },
+  "esp_now_received_len": {
+    "message0": "收到的消息长度",
+    "tooltip": "在接收回调中获取收到的消息长度"
+  },
+  "esp_now_is_broadcast": {
+    "message0": "是否为广播消息",
+    "tooltip": "在接收回调中判断是否为广播消息"
+  },
+  "esp_now_send_success": {
+    "message0": "发送是否成功",
+    "tooltip": "在发送回调中判断消息是否发送成功"
+  },
+  "esp_now_src_mac": {
+    "message0": "发送方MAC地址",
+    "tooltip": "在新对等设备回调中获取发送方MAC地址"
+  },
+  "esp_now_serial_create": {
+    "message0": "创建ESP-NOW串口 %1 对方MAC %2 通道 %3 工作模式 %4",
+    "tooltip": "创建ESP-NOW串口通信对象，类似于Serial的使用方式",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Station模式",
+            "WIFI_STA"
+          ],
+          [
+            "AP模式",
+            "WIFI_AP"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp_now_serial_available": {
+    "message0": "ESP-NOW串口 %1 可读字节数",
+    "tooltip": "获取ESP-NOW串口接收缓冲区中可读取的字节数"
+  },
+  "esp_now_serial_available_for_write": {
+    "message0": "ESP-NOW串口 %1 可写字节数",
+    "tooltip": "获取ESP-NOW串口发送缓冲区剩余空间"
+  },
+  "esp_now_serial_read": {
+    "message0": "ESP-NOW串口 %1 读取一个字节",
+    "tooltip": "从ESP-NOW串口读取一个字节"
+  },
+  "esp_now_serial_read_string": {
+    "message0": "ESP-NOW串口 %1 读取字符串",
+    "tooltip": "从ESP-NOW串口读取所有可用数据作为字符串"
+  },
+  "esp_now_serial_read_string_until": {
+    "message0": "ESP-NOW串口 %1 读取字符串直到 %2",
+    "tooltip": "从ESP-NOW串口读取数据直到遇到指定字符"
+  },
+  "esp_now_serial_print": {
+    "message0": "ESP-NOW串口 %1 发送 %2",
+    "tooltip": "通过ESP-NOW串口发送数据"
+  },
+  "esp_now_serial_println": {
+    "message0": "ESP-NOW串口 %1 发送 %2 并换行",
+    "tooltip": "通过ESP-NOW串口发送数据并换行"
+  },
+  "esp_now_serial_write": {
+    "message0": "ESP-NOW串口 %1 发送原始数据 %2",
+    "tooltip": "通过ESP-NOW串口发送原始数据"
+  },
+  "esp_now_quick_broadcast": {
+    "message0": "快速广播消息 %1 通道 %2",
+    "tooltip": "快速向网络中的所有设备广播消息（自动初始化）"
+  },
+  "esp_now_quick_send": {
+    "message0": "快速发送消息给 MAC %1 内容 %2 通道 %3",
+    "tooltip": "快速向指定MAC地址设备发送消息（自动初始化）"
+  },
+  "esp_now_get_mac": {
+    "message0": "获取本机MAC地址",
+    "tooltip": "获取本机的WiFi MAC地址"
+  },
+  "esp_now_get_max_data_len": {
+    "message0": "ESP-NOW 最大数据长度",
+    "tooltip": "获取ESP-NOW协议支持的最大数据长度（通常为250字节）"
+  },
+  "esp_now_get_peer_count": {
+    "message0": "ESP-NOW 对等设备数量",
+    "tooltip": "获取已注册的对等设备数量"
+  },
+  "esp_now_get_version": {
+    "message0": "ESP-NOW 版本号",
+    "tooltip": "获取ESP-NOW协议版本号"
+  }
+}

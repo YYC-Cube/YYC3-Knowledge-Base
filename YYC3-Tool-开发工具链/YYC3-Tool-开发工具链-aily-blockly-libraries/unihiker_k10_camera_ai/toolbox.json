@@ -1,0 +1,100 @@
+{
+  "kind": "category",
+  "name": "K10摄像头与AI",
+  "icon": "fa-light fa-camera",
+  "colour": "#E91E63",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "摄像头"
+    },
+    {
+      "kind": "block",
+      "type": "k10_camera_init"
+    },
+    {
+      "kind": "block",
+      "type": "k10_camera_show"
+    },
+    {
+      "kind": "block",
+      "type": "k10_camera_hide"
+    },
+    {
+      "kind": "block",
+      "type": "k10_photo_save",
+      "inputs": {
+        "FILENAME": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "photo.bmp"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "k10_photo_base64"
+    },
+    {
+      "kind": "label",
+      "text": "AI视觉"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_init"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_switch_mode"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_is_detected"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_get_face_data"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_get_cat_data"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_get_qrcode"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_set_motion_threshold",
+      "inputs": {
+        "THRESHOLD": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "人脸识别"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_face_recognized"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_get_face_id"
+    },
+    {
+      "kind": "block",
+      "type": "k10_ai_face_cmd"
+    }
+  ]
+}

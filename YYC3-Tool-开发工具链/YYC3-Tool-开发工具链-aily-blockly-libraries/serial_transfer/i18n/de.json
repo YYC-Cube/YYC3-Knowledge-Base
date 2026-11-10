@@ -1,0 +1,126 @@
+{
+  "toolbox_name": "SerialTransfer",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "发送数据": "Daten senden",
+    "接收数据": "Daten empfangen",
+    "状态": "Status"
+  },
+  "toolbox_categories": ["Serielle Übertragung", "I2C-Übertragung", "SPI-Übertragung"],
+  "serial_transfer_init": {
+    "message0": "SerialTransfer %1 initialisieren Port %2 Baudrate %3",
+    "tooltip": "SerialTransfer-Objekt initialisieren, seriellen Port und Baudrate einstellen"
+  },
+  "serial_transfer_send_int": {
+    "message0": "SerialTransfer %1 Ganzzahl senden %2 Paket-ID %3",
+    "tooltip": "Einen Ganzzahlwert über SerialTransfer senden"
+  },
+  "serial_transfer_send_float": {
+    "message0": "SerialTransfer %1 Gleitkommazahl senden %2 Paket-ID %3",
+    "tooltip": "Einen Gleitkommawert über SerialTransfer senden"
+  },
+  "serial_transfer_send_string": {
+    "message0": "SerialTransfer %1 Zeichenkette senden %2 Paket-ID %3",
+    "tooltip": "Eine Zeichenkette über SerialTransfer senden"
+  },
+  "serial_transfer_available": {
+    "message0": "SerialTransfer %1 neue Daten empfangen",
+    "tooltip": "Prüfen, ob SerialTransfer neue gültige Daten empfangen hat"
+  },
+  "serial_transfer_receive_int": {
+    "message0": "SerialTransfer %1 Ganzzahl empfangen",
+    "tooltip": "Einen Ganzzahlwert von SerialTransfer empfangen"
+  },
+  "serial_transfer_receive_float": {
+    "message0": "SerialTransfer %1 Gleitkommazahl empfangen",
+    "tooltip": "Einen Gleitkommawert von SerialTransfer empfangen"
+  },
+  "serial_transfer_receive_string": {
+    "message0": "SerialTransfer %1 Zeichenkette empfangen Länge %2",
+    "tooltip": "Eine Zeichenkette mit angegebener Länge von SerialTransfer empfangen"
+  },
+  "serial_transfer_status": {
+    "message0": "SerialTransfer %1 Übertragungsstatus",
+    "tooltip": "SerialTransfer-Statuscode abrufen (2=neue Daten, 1=keine Daten, 0=CRC-Fehler)"
+  },
+  "serial_transfer_current_packet_id": {
+    "message0": "SerialTransfer %1 aktuelle Paket-ID",
+    "tooltip": "Die Paket-ID des zuletzt empfangenen Pakets abrufen"
+  },
+  "i2c_transfer_init_master": {
+    "message0": "I2CTransfer Master %1 initialisieren I2C %2",
+    "tooltip": "I2CTransfer-Master-Objekt mit I2C-Schnittstelle initialisieren"
+  },
+  "i2c_transfer_init_slave": {
+    "message0": "I2CTransfer Slave %1 initialisieren I2C %2 Adresse %3",
+    "tooltip": "I2CTransfer-Slave-Objekt mit I2C-Schnittstelle und Adresse initialisieren"
+  },
+  "i2c_transfer_send_int": {
+    "message0": "I2CTransfer %1 Ganzzahl senden %2 an Adresse %3 Paket-ID %4",
+    "tooltip": "Einen Ganzzahlwert über I2C an eine bestimmte Adresse senden"
+  },
+  "i2c_transfer_send_float": {
+    "message0": "I2CTransfer %1 Gleitkommazahl senden %2 an Adresse %3 Paket-ID %4",
+    "tooltip": "Einen Gleitkommawert über I2C an eine bestimmte Adresse senden"
+  },
+  "i2c_transfer_send_string": {
+    "message0": "I2CTransfer %1 Zeichenkette senden %2 an Adresse %3 Paket-ID %4",
+    "tooltip": "Eine Zeichenkette über I2C an eine bestimmte Adresse senden"
+  },
+  "i2c_transfer_receive_int": {
+    "message0": "I2CTransfer %1 Ganzzahl empfangen",
+    "tooltip": "Einen Ganzzahlwert von I2C empfangen"
+  },
+  "i2c_transfer_receive_float": {
+    "message0": "I2CTransfer %1 Gleitkommazahl empfangen",
+    "tooltip": "Einen Gleitkommawert von I2C empfangen"
+  },
+  "i2c_transfer_receive_string": {
+    "message0": "I2CTransfer %1 Zeichenkette empfangen Länge %2",
+    "tooltip": "Eine Zeichenkette mit angegebener Länge von I2C empfangen"
+  },
+  "i2c_transfer_status": {
+    "message0": "I2CTransfer %1 Übertragungsstatus",
+    "tooltip": "I2CTransfer-Statuscode abrufen"
+  },
+  "spi_transfer_init_master": {
+    "message0": "SPITransfer Master %1 initialisieren SS-Pin %2",
+    "tooltip": "SPITransfer-Master-Objekt mit SS-Pin initialisieren"
+  },
+  "spi_transfer_init_slave": {
+    "message0": "SPITransfer Slave %1 initialisieren",
+    "tooltip": "SPITransfer-Slave-Objekt mit SPI-Interrupt initialisieren"
+  },
+  "spi_transfer_send_int": {
+    "message0": "SPITransfer %1 Ganzzahl senden %2 Paket-ID %3",
+    "tooltip": "Einen Ganzzahlwert über SPI senden"
+  },
+  "spi_transfer_send_float": {
+    "message0": "SPITransfer %1 Gleitkommazahl senden %2 Paket-ID %3",
+    "tooltip": "Einen Gleitkommawert über SPI senden"
+  },
+  "spi_transfer_send_string": {
+    "message0": "SPITransfer %1 Zeichenkette senden %2 Paket-ID %3",
+    "tooltip": "Eine Zeichenkette über SPI senden"
+  },
+  "spi_transfer_available": {
+    "message0": "SPITransfer %1 neue Daten empfangen",
+    "tooltip": "Prüfen, ob SPITransfer neue Daten per Interrupt empfangen hat"
+  },
+  "spi_transfer_receive_int": {
+    "message0": "SPITransfer %1 Ganzzahl empfangen",
+    "tooltip": "Einen Ganzzahlwert von SPI empfangen"
+  },
+  "spi_transfer_receive_float": {
+    "message0": "SPITransfer %1 Gleitkommazahl empfangen",
+    "tooltip": "Einen Gleitkommawert von SPI empfangen"
+  },
+  "spi_transfer_receive_string": {
+    "message0": "SPITransfer %1 Zeichenkette empfangen Länge %2",
+    "tooltip": "Eine Zeichenkette mit angegebener Länge von SPI empfangen"
+  },
+  "spi_transfer_status": {
+    "message0": "SPITransfer %1 Übertragungsstatus",
+    "tooltip": "SPITransfer-Statuscode abrufen"
+  }
+}

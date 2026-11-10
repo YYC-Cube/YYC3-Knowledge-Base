@@ -1,0 +1,102 @@
+{
+  "toolbox_name": "R4 WiFi",
+  "toolbox_labels": {
+    "连接": "conectar",
+    "状态查询": "Consulta de estado",
+    "配置": "Configuración",
+    "网络扫描": "Escaneo de red",
+    "网络操作": "operaciones de red"
+  },
+  "wifis3_begin": {
+    "message0": "Conectar WiFi SSID %1 Contraseña %2",
+    "tooltip": "Conectar a la red WiFi (cifrado WPA/WPA2)"
+  },
+  "wifis3_begin_open": {
+    "message0": "Conectar WiFi SSID %1 (Red abierta)",
+    "tooltip": "Conectar a la red WiFi abierta sin contraseña"
+  },
+  "wifis3_begin_ap": {
+    "message0": "Iniciar AP WiFi SSID %1 Contraseña %2 Canal %3",
+    "tooltip": "Iniciar punto de acceso WiFi (modo hotspot)"
+  },
+  "wifis3_disconnect": {
+    "message0": "Desconectar WiFi",
+    "tooltip": "Desconectar la conexión WiFi actual"
+  },
+  "wifis3_status": {
+    "message0": "Estado de conexión WiFi",
+    "tooltip": "Devolver el estado de conexión WiFi (3=conectado, 1=inactivo, 0=desconectado, etc.)"
+  },
+  "wifis3_is_connected": {
+    "message0": "¿WiFi conectado?",
+    "tooltip": "Verificar si está conectado a la red WiFi"
+  },
+  "wifis3_local_ip": {
+    "message0": "Obtener dirección IP local",
+    "tooltip": "Devolver la dirección IP local del dispositivo"
+  },
+  "wifis3_mac_address": {
+    "message0": "Obtener dirección MAC",
+    "tooltip": "Devolver la dirección MAC del módulo WiFi"
+  },
+  "wifis3_gateway_ip": {
+    "message0": "Obtener dirección IP de puerta de enlace",
+    "tooltip": "Devolver la dirección IP de la puerta de enlace"
+  },
+  "wifis3_subnet_mask": {
+    "message0": "Obtener máscara de subred",
+    "tooltip": "Devolver la máscara de subred"
+  },
+  "wifis3_dns_ip": {
+    "message0": "Obtener servidor DNS %1",
+    "tooltip": "Devolver la dirección del servidor DNS",
+    "args0": [
+      {
+        "options": [
+          ["DNS primario", "0"],
+          ["DNS secundario", "1"]
+        ]
+      }
+    ]
+  },
+  "wifis3_set_dns": {
+    "message0": "Configurar servidor DNS Primario %1 Secundario %2",
+    "tooltip": "Configurar servidores DNS primario y secundario"
+  },
+  "wifis3_config_ip": {
+    "message0": "Configurar IP estática Dirección %1 Puerta de enlace %2 Subred %3",
+    "tooltip": "Configurar dirección IP estática, puerta de enlace y máscara de subred"
+  },
+  "wifis3_set_hostname": {
+    "message0": "Configurar nombre de host %1",
+    "tooltip": "Configurar nombre de host DHCP"
+  },
+  "wifis3_scan_networks": {
+    "message0": "Escanear redes WiFi",
+    "tooltip": "Escanear redes WiFi disponibles"
+  },
+  "wifis3_ssid_by_index": {
+    "message0": "Obtener SSID de la red #%1",
+    "tooltip": "Devolver el SSID de la red en el índice especificado"
+  },
+  "wifis3_rssi_by_index": {
+    "message0": "Obtener intensidad de señal de la red #%1",
+    "tooltip": "Devolver la intensidad de señal RSSI (dBm) de la red en el índice especificado"
+  },
+  "wifis3_scanned_networks_count": {
+    "message0": "Obtener cantidad de redes escaneadas",
+    "tooltip": "Devolver el número de redes WiFi encontradas en el último escaneo"
+  },
+  "wifis3_ping": {
+    "message0": "PING %1 (TTL %2 Cantidad %3)",
+    "tooltip": "Enviar PING al host especificado, devolver tiempo de respuesta"
+  },
+  "wifis3_firmware_version": {
+    "message0": "Obtener versión de firmware WiFi",
+    "tooltip": "Devolver la versión de firmware del módulo WiFi"
+  },
+  "wifis3_wait_for_connection": {
+    "message0": "Esperar conexión WiFi Timeout %1 ms",
+    "tooltip": "Esperar hasta que la conexión WiFi tenga éxito o se agote el tiempo"
+  }
+}

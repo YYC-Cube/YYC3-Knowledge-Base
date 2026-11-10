@@ -1,0 +1,75 @@
+{
+  "kind": "category",
+  "name": "I/O特殊引脚",
+  "icon": "fa-light fa-microchip",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "r4_io_adc_resolution"
+    },
+    {
+      "kind": "block",
+      "type": "r4_io_dac_init",
+      "inputs": {
+        "FREQUENCY": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "r4_io_dac_set_frequency",
+      "inputs": {
+        "FREQUENCY": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "r4_io_dac_set_amplitude",
+      "inputs": {
+        "AMPLITUDE": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "r4_io_dac_set_offset",
+      "inputs": {
+        "OFFSET": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "r4_io_dac_start"
+    },
+    {
+      "kind": "block",
+      "type": "r4_io_dac_stop"
+    }
+  ]
+}

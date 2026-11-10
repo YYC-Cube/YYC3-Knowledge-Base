@@ -1,0 +1,104 @@
+{
+  "toolbox_name": "TB6612FNG 電機驅動",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "直流电机": "直流馬達",
+    "步进电机": "步進馬達",
+    "电源管理": "電源管理"
+  },
+  "tb6612fng_init": {
+    "message0": "初始化 %1 電機驅動 I2C地址 %2",
+    "tooltip": "初始化 Grove TB6612FNG 電機驅動模組，設置I2C地址"
+  },
+  "tb6612fng_dc_run": {
+    "message0": "%1 驅動直流電機 %2 速度 %3",
+    "tooltip": "驅動指定通道的直流電機，速度範圍 -255~255，正值順時針，負值逆時針",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["通道A", "MOTOR_CHA"],
+          ["通道B", "MOTOR_CHB"]
+        ]
+      },
+      null
+    ]
+  },
+  "tb6612fng_dc_brake": {
+    "message0": "%1 剎車直流電機 %2",
+    "tooltip": "立即剎車停止指定通道的直流電機",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["通道A", "MOTOR_CHA"],
+          ["通道B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_dc_stop": {
+    "message0": "%1 停止直流電機 %2",
+    "tooltip": "緩慢停止指定通道的直流電機",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["通道A", "MOTOR_CHA"],
+          ["通道B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_stepper_run": {
+    "message0": "%1 驅動步進電機 模式 %2\n步數 %3 轉速(RPM) %4",
+    "tooltip": "驅動步進電機，步數正值順時針，負值逆時針，轉速範圍1~300RPM",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["全步進", "FULL_STEP"],
+          ["波浪驅動", "WAVE_DRIVE"],
+          ["半步進", "HALF_STEP"],
+          ["微步進", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "tb6612fng_stepper_stop": {
+    "message0": "%1 停止步進電機",
+    "tooltip": "停止步進電機"
+  },
+  "tb6612fng_stepper_keep_run": {
+    "message0": "%1 步進電機持續運轉 模式 %2\n轉速(RPM) %3 方向 %4",
+    "tooltip": "使步進電機持續運轉，轉速範圍1~300RPM",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["全步進", "FULL_STEP"],
+          ["波浪驅動", "WAVE_DRIVE"],
+          ["半步進", "HALF_STEP"],
+          ["微步進", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["順時針", "true"],
+          ["逆時針", "false"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_standby": {
+    "message0": "%1 進入待機模式",
+    "tooltip": "電機驅動進入待機模式，所有電機停止"
+  },
+  "tb6612fng_not_standby": {
+    "message0": "%1 退出待機模式",
+    "tooltip": "電機驅動退出待機模式，恢復正常工作"
+  }
+}

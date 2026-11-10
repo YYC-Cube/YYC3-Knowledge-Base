@@ -1,0 +1,55 @@
+{
+"toolbox_name": "MP3 음악 플레이어",
+"gd3800_init": {
+"message0": "MP3 모듈 초기화 TX%1 RX%2"
+},
+"gd3800_set": {
+"message0": "MP3 모듈 %1(으)로 설정",
+"args0": [
+{
+"options": [
+["재생", "play"],
+["일시정지", "pause"],
+["다음 곡", "next"],
+["이전 곡", "prev"],
+["볼륨 업", "volumeUp"],
+["볼륨 다운", "volumeDn"]
+]
+}
+]
+},
+"gd3800_play": {
+"message0": "MP3 모듈 %1번째 곡 재생"
+},
+"gd3800_cyclemode": {
+"message0": "MP3 모듈 %1(으)로 설정",
+"args0": [
+{
+"options": [
+["전체 반복", "MP3_LOOP_ALL"],
+["폴더 내 반복", "MP3_LOOP_FOLDER"],
+["한 곡 반복", "MP3_LOOP_ONE"],
+["랜덤 재생", "MP3_LOOP_RAM"]
+]
+}
+]
+},
+"gd3800_equalizer": {
+"message0": "MP3 모듈 이퀄라이저를 %1(으)로 설정",
+"args0": [
+{
+"options": [
+["일반", "MP3_EQ_NORMAL"],
+["팝", "MP3_EQ_POP"],
+["록", "MP3_EQ_ROCK"],
+["재즈", "MP3_EQ_JAZZ"],
+["클래식", "MP3_EQ_CLASSIC"],
+["베이스", "MP3_EQ_BASS"]
+]
+}
+]
+},
+"gd3800_setvolume": {
+"message0": "MP3 모듈 볼륨을 %1(으)로 설정"
+}
+}

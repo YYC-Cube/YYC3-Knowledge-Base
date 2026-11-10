@@ -1,0 +1,8 @@
+lib
+release-packages
+release
+helm-chart
+test/scripts
+test/e2e/extensions/test-extension
+.pc
+package-lock.json

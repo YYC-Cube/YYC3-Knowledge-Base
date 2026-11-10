@@ -1,0 +1,35 @@
+{
+  "kind": "category",
+  "name": "TLx5012B角度传感器",
+  "colour": "#5B80A5",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "tlx5012_init"
+    },
+    {
+      "kind": "block",
+      "type": "tlx5012_read_angle"
+    },
+    {
+      "kind": "block",
+      "type": "tlx5012_read_speed"
+    },
+    {
+      "kind": "block",
+      "type": "tlx5012_read_revolutions"
+    },
+    {
+      "kind": "block",
+      "type": "tlx5012_read_temperature"
+    },
+    {
+      "kind": "block",
+      "type": "tlx5012_read_angle_range"
+    },
+    {
+      "kind": "block",
+      "type": "tlx5012_reset"
+    }
+  ]
+}

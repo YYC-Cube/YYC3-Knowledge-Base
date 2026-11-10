@@ -1,0 +1,20 @@
+{
+"toolbox_name": "Tom",
+"io_tone": {
+    "message0": "Tocar tom de frequência %2 no pino %1",
+    "args0": [
+        {
+            "options": "${board.digitalPins}"
+        },
+        null
+    ]
+},
+"io_notone": {
+    "message0": "Parar tom no pino %1",
+    "args0": [
+        {
+            "options": "${board.digitalPins}"
+        }
+    ]
+}
+}

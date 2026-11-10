@@ -1,0 +1,30 @@
+{
+  "name": "vite-musea-example",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev --config vite.app.config.ts",
+    "build": "pnpm check && vp build --config vite.app.config.ts",
+    "preview": "vp preview --config vite.app.config.ts",
+    "check": "cargo run --quiet --target-dir ../../target/docs-example --manifest-path ../../Cargo.toml -p vize -- check && vp check src vite.config.ts vite.app.config.ts vize.config.ts playwright.config.ts",
+    "check:fix": "vp check --fix src vite.config.ts vite.app.config.ts vize.config.ts playwright.config.ts",
+    "fmt": "vp fmt --write src vite.config.ts vite.app.config.ts vize.config.ts playwright.config.ts",
+    "vrt": "musea-vrt",
+    "vrt:update": "musea-vrt -u",
+    "test:vrt": "playwright test",
+    "test:vrt:update": "playwright test --update-snapshots"
+  },
+  "dependencies": {
+    "vue": "catalog:vue-stable"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:testing",
+    "@vizejs/vite-plugin": "workspace:*",
+    "@vizejs/vite-plugin-musea": "workspace:*",
+    "typescript": "catalog:typescript",
+    "vite": "catalog:vite-stack",
+    "vite-plus": "catalog:vite-stack",
+    "vize": "workspace:*"
+  }
+}

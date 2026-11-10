@@ -1,0 +1,37 @@
+{
+  "name": "@aily-project/lib-nrf54-ble",
+  "nickname": "nRF54 BLE",
+  "nickname_zh_cn": "nRF54 蓝牙",
+  "nickname_en": "nRF54 BLE",
+  "author": "lolren",
+  "description": "nRF54L15 BLE低功耗蓝牙库，支持广播、连接、GATT服务、Nordic UART(NUS)和被动/主动扫描",
+  "description_en": "nRF54L15 BLE library with advertising, connections, GATT services, Nordic UART Service (NUS), and passive/active scanning",
+  "version": "0.6.7",
+  "compatibility": {
+    "core": [
+      "nrf54l15clean:nrf54l15clean"
+    ],
+    "voltage": [
+      1.8,
+      3.3
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "nRF54",
+    "nRF54L15",
+    "BLE",
+    "Bluetooth",
+    "蓝牙",
+    "低功耗蓝牙",
+    "GATT",
+    "NUS",
+    "Nordic UART",
+    "广播",
+    "扫描",
+    "Advertising",
+    "Scanning",
+    "XIAO"
+  ]
+}

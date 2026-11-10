@@ -1,0 +1,56 @@
+{
+  "toolbox_name": "SHT3x Temp. y Humedad",
+  "toolbox_labels": {
+    "传感器初始化": "Inicialización del sensor",
+    "数据读取": "Lectura de datos",
+    "高级功能": "Funciones avanzadas"
+  },
+  "sht31_init": {
+    "message0": "Inicializar SHT3x %1 sensor dirección I2C %2 bus I2C %3",
+    "tooltip": "Inicializar el sensor de temperatura y humedad SHT3x con dirección I2C",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["0x44 (predeterminado)", "0x44"],
+          ["0x45 (alternativo)", "0x45"]
+        ]
+      },
+      null
+    ]
+  },
+  "sht31_heater_control": {
+    "message0": "%1 calentador %2",
+    "tooltip": "Controlar el calentador integrado del sensor SHT3x",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Encender", "true"],
+          ["Apagar", "false"]
+        ]
+      }
+    ]
+  },
+  "sht31_is_heater_enabled": {
+    "message0": "%1 calentador activado",
+    "tooltip": "Verificar si el calentador del sensor SHT3x está activado"
+  },
+  "sht31_reset": {
+    "message0": "%1 reinicio por software",
+    "tooltip": "Realizar un reinicio por software del sensor SHT3x"
+  },
+  "sht31_simple_read": {
+    "message0": "%1 leer %2",
+    "tooltip": "Leer datos de temperatura o humedad del sensor SHT3x",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Temperatura(°C)", "temperature"],
+          ["Humedad(%)", "humidity"]
+        ]
+      }
+    ]
+  }
+}

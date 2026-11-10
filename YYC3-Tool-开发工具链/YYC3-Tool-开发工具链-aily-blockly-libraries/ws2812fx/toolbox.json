@@ -1,0 +1,23 @@
+{
+    "kind": "category",
+    "icon": "iconfont icon-ws2812",
+    "name": "WS2812 LED",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "ws2812fx_set_color"
+        },
+        {
+            "kind": "block",
+            "type": "ws2812fx_set_effect"
+        },
+        {
+            "kind": "block",
+            "type": "ws2812fx_show"
+        },
+        {
+            "kind": "block",
+            "type": "ws2812fx_clear"
+        }
+    ]
+}

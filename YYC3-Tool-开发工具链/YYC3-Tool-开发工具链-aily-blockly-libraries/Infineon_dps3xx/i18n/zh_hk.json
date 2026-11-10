@@ -1,0 +1,55 @@
+{
+  "toolbox_name": "DPS3xx氣壓傳感器",
+  "dps3xx_init": {
+    "message0": "初始化 DPS3xx 氣壓傳感器 I2C地址 %1 使用 %2",
+    "tooltip": "初始化Infineon DPS3xx高精度氣壓溫度傳感器，通過I2C接口連接"
+  },
+  "dps3xx_read_temperature": {
+    "message0": "讀取 DPS3xx 溫度 (°C) 過採樣率 %1",
+    "tooltip": "讀取DPS3xx傳感器的溫度值，返回攝氏度。過採樣率越高精度越高但速度越慢",
+    "args0": [
+      {
+        "options": [
+          ["1次", "0"],
+          ["2次", "1"],
+          ["4次", "2"],
+          ["8次", "3"],
+          ["16次", "4"],
+          ["32次", "5"],
+          ["64次", "6"],
+          ["128次", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_read_pressure": {
+    "message0": "讀取 DPS3xx 氣壓 (Pa) 過採樣率 %1",
+    "tooltip": "讀取DPS3xx傳感器的氣壓值，返回帕斯卡(Pa)。過採樣率越高精度越高但速度越慢",
+    "args0": [
+      {
+        "options": [
+          ["1次", "0"],
+          ["2次", "1"],
+          ["4次", "2"],
+          ["8次", "3"],
+          ["16次", "4"],
+          ["32次", "5"],
+          ["64次", "6"],
+          ["128次", "7"]
+        ]
+      }
+    ]
+  },
+  "dps3xx_correct_temp": {
+    "message0": "校正 DPS3xx 溫度傳感器",
+    "tooltip": "修復某些DPS3xx傳感器的溫度測量硬件問題，建議在begin()後立即調用"
+  },
+  "dps3xx_get_product_id": {
+    "message0": "獲取 DPS3xx 產品ID",
+    "tooltip": "獲取DPS3xx傳感器的產品標識號"
+  },
+  "dps3xx_get_revision_id": {
+    "message0": "獲取 DPS3xx 版本ID",
+    "tooltip": "獲取DPS3xx傳感器的版本標識號"
+  }
+}

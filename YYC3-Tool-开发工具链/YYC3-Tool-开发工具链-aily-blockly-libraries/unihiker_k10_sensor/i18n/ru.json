@@ -1,0 +1,69 @@
+{
+  "toolbox_name": "K10 Датчик",
+  "k10_get_accelerometer": {
+    "message0": "получить акселерометр ось %1",
+    "tooltip": "Получить данные акселерометра K10",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_get_strength": {
+    "message0": "получить значение освещённости",
+    "tooltip": "Получить значение датчика освещенности K10"
+  },
+  "k10_aht20_measure": {
+    "message0": "AHT20 запустить измерение CRC %1",
+    "tooltip": "Запустить одно измерение AHT20; возвращает true когда готово, затем читать температуру/влажность",
+    "args0": [
+      {
+        "options": [
+          [
+            "вкл",
+            "true"
+          ],
+          [
+            "выкл",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_temperature": {
+    "message0": "AHT20 получить температуру %1",
+    "tooltip": "Get AHT20 temperature; measurement starts automatically",
+    "args0": [
+      {
+        "options": [
+          [
+            "Цельсий(℃)",
+            "C"
+          ],
+          [
+            "Фаренгейт(℉)",
+            "F"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_humidity": {
+    "message0": "AHT20 получить относительную влажность(%RH)",
+    "tooltip": "Get AHT20 relative humidity; measurement starts automatically"
+  }
+}

@@ -1,0 +1,6 @@
+{
+    "toolbox_name": "Capteur de température LM35",
+    "lm35_read": {
+        "message0": "Capteur de température LM35 broche # %1"
+    }
+}

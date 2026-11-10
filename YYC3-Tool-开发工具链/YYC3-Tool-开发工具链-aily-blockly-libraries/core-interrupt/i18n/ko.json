@@ -1,0 +1,26 @@
+{
+"toolbox_name": "인터럽트",
+"io_attach_interrupt": {
+    "message0": "하드웨어 인터럽트 핀 # %1",
+    "args0": [
+        {
+            "options": "${board.interruptPins}"
+        }
+    ],
+    "message1": "모드 %1",
+    "args1": [
+        {
+            "options": "${board.interruptMode}"
+        }
+    ],
+    "message2": "%1"
+},
+"io_detach_interrupt": {
+    "message0": "하드웨어 인터럽트 해제 핀 # %1",
+    "args0": [
+        {
+            "options": "${board.interruptPins}"
+        }
+    ]
+}
+}

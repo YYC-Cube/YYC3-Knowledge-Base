@@ -1,0 +1,1733 @@
+{
+  "files": [
+    {
+      "file": "src/runtime/components/Accordion.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/accordion' or its corresponding type declarations.",
+        "error:77:6 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:105:44 [TS2304] Cannot find name 'type'.",
+        "error:105:45 [TS2304] Cannot find name 'type'.",
+        "error:105:48 [TS2304] Cannot find name 'type'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Alert.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/alert' or its corresponding type declarations.",
+        "error:75:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/App.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/runtime/components/AuthForm.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/auth-form' or its corresponding type declarations.",
+        "error:107:38 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:248:18 [TS2345] Argument of type '((event: FormSubmitEvent<InferOutput<T>>) => void | Promise<void>) | (() => void | Promise<void>) | undefined' is not assignable to parameter of type '(event: FormSubmitEvent<InferOutput<T>>) => unknown'.\nType 'undefined' is not assignable to type '(event: FormSubmitEvent<InferOutput<T>>) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Avatar.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/avatar' or its corresponding type declarations.",
+        "error:41:30 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:42:24 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:43:34 [TS2307] Cannot find module '#build/ui-image-component' or its corresponding type declarations.",
+        "error:72:2 [TS7053] Element implicitly has an 'any' type because expression of type 'string | number | symbol' can't be used to index type '{ '3xs': number; '2xs': number; xs: number; sm: number; md: number; lg: number; xl: number; '2xl': number; '3xl': number; }'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/AvatarGroup.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/avatar-group' or its corresponding type declarations.",
+        "error:34:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Badge.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/badge' or its corresponding type declarations.",
+        "error:45:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:77:29 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:77:132 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/Banner.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/banner' or its corresponding type declarations.",
+        "error:70:5 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:153:5 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/runtime/components/BlogPost.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/blog-post' or its corresponding type declarations.",
+        "error:62:7 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:62:45 [TS2307] Cannot find module '#build/ui-image-component' or its corresponding type declarations.",
+        "error:122:137 [TS2345] Argument of type '((event: MouseEvent) => void | Promise<void>) | undefined' is not assignable to parameter of type '($event: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: PointerEvent) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/BlogPosts.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/blog-posts' or its corresponding type declarations.",
+        "error:41:29 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Breadcrumb.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/breadcrumb' or its corresponding type declarations.",
+        "error:62:28 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Button.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/button' or its corresponding type declarations.",
+        "error:46:32 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:48:38 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:122:12 [TS2304] Cannot find name 'type'.",
+        "error:122:13 [TS2304] Cannot find name 'type'.",
+        "error:122:16 [TS2304] Cannot find name 'type'.",
+        "error:123:16 [TS2304] Cannot find name 'disabled'.",
+        "error:123:17 [TS2304] Cannot find name 'disabled'.",
+        "error:123:37 [TS2304] Cannot find name 'disabled'.",
+        "error:140:31 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:140:134 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/Calendar.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@internationalized/date' or its corresponding type declarations.",
+        "error:6:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:7:19 [TS2307] Cannot find module '#build/ui/calendar' or its corresponding type declarations.",
+        "error:118:72 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Card.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/card' or its corresponding type declarations.",
+        "error:32:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Carousel.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:75 [TS2307] Cannot find module 'embla-carousel' or its corresponding type declarations.",
+        "error:6:42 [TS2307] Cannot find module 'embla-carousel-autoplay' or its corresponding type declarations.",
+        "error:7:44 [TS2307] Cannot find module 'embla-carousel-auto-scroll' or its corresponding type declarations.",
+        "error:8:44 [TS2307] Cannot find module 'embla-carousel-auto-height' or its corresponding type declarations.",
+        "error:9:44 [TS2307] Cannot find module 'embla-carousel-class-names' or its corresponding type declarations.",
+        "error:10:38 [TS2307] Cannot find module 'embla-carousel-fade' or its corresponding type declarations.",
+        "error:11:49 [TS2307] Cannot find module 'embla-carousel-wheel-gestures' or its corresponding type declarations.",
+        "error:12:19 [TS2307] Cannot find module '#build/ui/carousel' or its corresponding type declarations.",
+        "error:118:34 [TS2307] Cannot find module 'embla-carousel-vue' or its corresponding type declarations.",
+        "error:121:7 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:161:34 [TS2769] No overload matches this call.\nThe last overload gave the following error.\nType '__WithDefaultsResult<__DefineProps<CarouselProps<T>, keyof CarouselProps<T>>, { orientation: string; arrows: boolean; dots: boolean; active: boolean; ... 20 more ...; wheelGestures: boolean; }>' has no properties in common with type '{ ui?: any; }'.",
+        "error:199:44 [TS2307] Cannot find module 'embla-carousel-autoplay' or its corresponding type declarations.",
+        "error:206:2 [TS2307] Cannot find module 'embla-carousel-auto-scroll' or its corresponding type declarations.",
+        "error:211:2 [TS2307] Cannot find module 'embla-carousel-auto-height' or its corresponding type declarations.",
+        "error:216:2 [TS2307] Cannot find module 'embla-carousel-class-names' or its corresponding type declarations.",
+        "error:218:98 [TS2307] Cannot find module 'embla-carousel-fade' or its corresponding type declarations.",
+        "error:226:12 [TS2307] Cannot find module 'embla-carousel-wheel-gestures' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ChangelogVersion.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/changelog-version' or its corresponding type declarations.",
+        "error:62:7 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:62:45 [TS2307] Cannot find module '#build/ui-image-component' or its corresponding type declarations.",
+        "error:147:105 [TS2345] Argument of type '((event: MouseEvent) => void | Promise<void>) | undefined' is not assignable to parameter of type '($event: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: PointerEvent) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ChangelogVersions.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:54 [TS2307] Cannot find module 'motion-v' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/changelog-versions' or its corresponding type declarations.",
+        "error:53:20 [TS2307] Cannot find module 'motion-v' or its corresponding type declarations.",
+        "error:54:16 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:54:52 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ChatMessage.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:32 [TS2307] Cannot find module 'ai' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/chat-message' or its corresponding type declarations.",
+        "error:60:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:88:35 [TS2304] Cannot find name 'role'.",
+        "error:88:39 [TS2304] Cannot find name 'role'.",
+        "error:97:29 [TS2304] Cannot find name 'parts'.",
+        "error:101:18 [TS2304] Cannot find name 'role'.",
+        "error:103:19 [TS2304] Cannot find name 'parts'.",
+        "error:109:63 [TS2304] Cannot find name 'id'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ChatMessages.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:44 [TS2307] Cannot find module 'ai' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/chat-messages' or its corresponding type declarations.",
+        "error:79:23 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:81:80 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ChatPalette.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/chat-palette' or its corresponding type declarations.",
+        "error:27:38 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ChatPrompt.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/chat-prompt' or its corresponding type declarations.",
+        "error:44:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:108:36 [TS2304] Cannot find name 'disabled'.",
+        "error:108:37 [TS2304] Cannot find name 'disabled'.",
+        "error:108:44 [TS2304] Cannot find name 'disabled'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ChatPromptSubmit.vue",
+      "diagnostics": [
+        "error:2:33 [TS2307] Cannot find module 'ai' or its corresponding type declarations.",
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/chat-prompt-submit' or its corresponding type declarations.",
+        "error:89:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:117:8 [TS7053] Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ ready: { icon: any; color: string | number | symbol | undefined; variant: string | number | symbol | undefined; type: \"submit\"; }; submitted: { icon: any; color: string | number | symbol; variant: string | ... 1 more ... | symbol; onClick(e: MouseEvent): void; }; streaming: { ...; }; error: { ...; }; }'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Checkbox.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/checkbox' or its corresponding type declarations.",
+        "error:66:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:116:54 [TS2304] Cannot find name 'as'.",
+        "error:116:55 [TS2304] Cannot find name 'as'.",
+        "error:116:64 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/CheckboxGroup.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/checkbox-group' or its corresponding type declarations.",
+        "error:83:46 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:133:5 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<CheckboxGroupProps<T, VK>, \"as\" | \"class\" | \"disabled\" | \"icon\" | \"loop\" | \"required\" | ([GetItemKeys<T> | undefined] extends [...] ? \"descriptionKey\" : never) | ... | ... | ...>>[\"labelKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:137:26 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<CheckboxGroupProps<T, VK>, \"as\" | \"class\" | \"disabled\" | \"icon\" | \"loop\" | \"required\" | ([GetItemKeys<T> | undefined] extends [...] ? \"descriptionKey\" : never) | ... | ... | ...>>[\"descriptionKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:187:28 [TS2698] Spread types may only be created from object types."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Chip.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/chip' or its corresponding type declarations.",
+        "error:50:38 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Collapsible.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/collapsible' or its corresponding type declarations.",
+        "error:31:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ColorPicker.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/color-picker' or its corresponding type declarations.",
+        "error:6:32 [TS2307] Cannot find module 'colortranslator' or its corresponding type declarations.",
+        "error:74:91 [TS2307] Cannot find module '@vueuse/shared' or its corresponding type declarations.",
+        "error:75:41 [TS2307] Cannot find module 'colortranslator' or its corresponding type declarations.",
+        "error:76:46 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/CommandPalette.vue",
+      "diagnostics": [
+        "error:5:33 [TS2307] Cannot find module 'fuse.js' or its corresponding type declarations.",
+        "error:6:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:7:37 [TS2307] Cannot find module '@vueuse/integrations/useFuse' or its corresponding type declarations.",
+        "error:8:19 [TS2307] Cannot find module '#build/ui/command-palette' or its corresponding type declarations.",
+        "error:215:94 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:216:28 [TS2307] Cannot find module '@vueuse/integrations/useFuse' or its corresponding type declarations.",
+        "error:217:60 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:261:34 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<CommandPaletteProps<G, T>, \"as\" | \"autofocus\" | \"backIcon\" | \"childrenIcon\" | \"class\" | \"closeIcon\" | \"disabled\" | \"fuse\" | \"highlightOnHover\" | ... 9 more ... | ...>>[\"descriptionKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:338:28 [TS7006] Parameter 'acc' implicitly has an 'any' type.",
+        "error:338:33 [TS7006] Parameter 'result' implicitly has an 'any' type.",
+        "error:378:48 [TS2345] Argument of type 'unknown' is not assignable to parameter of type '(T & { matches?: any; })[]'.",
+        "error:468:49 [TS2304] Cannot find name 'loadingIcon'.",
+        "error:468:50 [TS2304] Cannot find name 'loadingIcon'.",
+        "error:468:90 [TS2304] Cannot find name 'loadingIcon'.",
+        "error:528:26 [TS2698] Spread types may only be created from object types.",
+        "error:528:88 [TS2304] Cannot find name 'selectionBehavior'.",
+        "error:528:105 [TS2304] Cannot find name 'selectionBehavior'.",
+        "error:536:19 [TS2304] Cannot find name 'loading'.",
+        "error:536:20 [TS2304] Cannot find name 'loading'.",
+        "error:536:26 [TS2304] Cannot find name 'loading'.",
+        "error:537:24 [TS2304] Cannot find name 'loadingIcon'.",
+        "error:537:35 [TS2304] Cannot find name 'loadingIcon'.",
+        "error:585:38 [TS2345] Argument of type 'AcceptableValue' is not assignable to parameter of type 'Record<string, any> | undefined'.\nType 'null' is not assignable to type 'Record<string, any> | undefined'.",
+        "error:585:69 [TS2345] Argument of type 'AcceptableValue' is not assignable to parameter of type 'Record<string, any> | undefined'.\nType 'null' is not assignable to type 'Record<string, any> | undefined'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Container.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/container' or its corresponding type declarations.",
+        "error:26:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ContextMenu.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/context-menu' or its corresponding type declarations.",
+        "error:114:73 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ContextMenuContent.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:24 [TS2307] Cannot find module '#build/ui/context-menu' or its corresponding type declarations.",
+        "error:41:13 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:167:36 [TS2345] Argument of type '((checked: boolean) => void) | undefined' is not assignable to parameter of type '($event: Event) => unknown'.\nType 'undefined' is not assignable to type '($event: Event) => unknown'.",
+        "error:168:24 [TS2345] Argument of type '((e: Event) => void) | undefined' is not assignable to parameter of type '($event: Event) => unknown'.\nType 'undefined' is not assignable to type '($event: Event) => unknown'.",
+        "error:177:26 [TS2345] Argument of type '((e: Event) => void) | undefined' is not assignable to parameter of type '($event: Event) => unknown'.\nType 'undefined' is not assignable to type '($event: Event) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardGroup.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/dashboard-group' or its corresponding type declarations.",
+        "error:28:8 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardNavbar.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/dashboard-navbar' or its corresponding type declarations.",
+        "error:54:50 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardPanel.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/dashboard-panel' or its corresponding type declarations.",
+        "error:25:41 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:78:13 [TS2552] Cannot find name 'resizable'. Did you mean 'useResizable'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardResizeHandle.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/dashboard-resize-handle' or its corresponding type declarations.",
+        "error:26:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardSearch.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:37 [TS2307] Cannot find module '@vueuse/integrations/useFuse' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/dashboard-search' or its corresponding type declarations.",
+        "error:82:30 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:85:43 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:194:13 [TS2304] Cannot find name 'title'.",
+        "error:194:14 [TS2304] Cannot find name 'title'.",
+        "error:194:48 [TS2304] Cannot find name 'title'.",
+        "error:195:19 [TS2304] Cannot find name 'description'.",
+        "error:195:20 [TS2304] Cannot find name 'description'.",
+        "error:195:66 [TS2304] Cannot find name 'description'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardSearchButton.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/dashboard-search-button' or its corresponding type declarations.",
+        "error:54:30 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:56:64 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:110:15 [TS2345] Argument of type '(() => void) | undefined' is not assignable to parameter of type '($event: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: PointerEvent) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardSidebar.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/dashboard-sidebar' or its corresponding type declarations.",
+        "error:55:4 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:57:35 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:163:15 [TS2552] Cannot find name 'resizable'. Did you mean 'useResizable'?",
+        "error:174:36 [TS2304] Cannot find name 'side'.",
+        "error:199:36 [TS2304] Cannot find name 'side'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardSidebarCollapse.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/dashboard-sidebar-collapse' or its corresponding type declarations.",
+        "error:30:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardSidebarToggle.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/dashboard-sidebar-toggle' or its corresponding type declarations.",
+        "error:30:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:66:13 [TS2345] Argument of type '(() => void) | undefined' is not assignable to parameter of type '($event: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: PointerEvent) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DashboardToolbar.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/dashboard-toolbar' or its corresponding type declarations.",
+        "error:28:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Drawer.vue",
+      "diagnostics": [
+        "error:3:55 [TS2307] Cannot find module 'vaul-vue' or its corresponding type declarations.",
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/drawer' or its corresponding type declarations.",
+        "error:12:18 [TS2430] Interface 'DrawerProps' incorrectly extends interface 'Pick<DrawerRootProps, \"activeSnapPoint\" | \"closeThreshold\" | \"defaultOpen\" | \"direction\" | \"dismissible\" | \"fixed\" | \"handleOnly\" | \"modal\" | \"nested\" | \"noBodyStyles\" | \"open\" | \"preventScrollRestoration\" | \"scrollLockTimeout\" | \"setBackgroundColorOnScale\" | \"shouldScaleBackground\" | \"snapPoints\">'.\nProperty 'nested' is optional in type 'DrawerProps' but required in type 'Pick<DrawerRootProps, \"activeSnapPoint\" | \"closeThreshold\" | \"defaultOpen\" | \"direction\" | \"dismissible\" | \"fixed\" | \"handleOnly\" | \"modal\" | \"nested\" | \"noBodyStyles\" | \"open\" | \"preventScrollRestoration\" | \"scrollLockTimeout\" | \"setBackgroundColorOnScale\" | \"shouldScaleBackground\" | \"snapPoints\">'.",
+        "error:69:117 [TS2307] Cannot find module 'vaul-vue' or its corresponding type declarations.",
+        "error:70:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DropdownMenu.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/dropdown-menu' or its corresponding type declarations.",
+        "error:121:51 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:124:93 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/DropdownMenuContent.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:24 [TS2307] Cannot find module '#build/ui/dropdown-menu' or its corresponding type declarations.",
+        "error:53:12 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:181:36 [TS2345] Argument of type '((checked: boolean) => void) | undefined' is not assignable to parameter of type '($event: Event) => unknown'.\nType 'undefined' is not assignable to type '($event: Event) => unknown'.",
+        "error:182:24 [TS2345] Argument of type '((e: Event) => void) | undefined' is not assignable to parameter of type '($event: Event) => unknown'.\nType 'undefined' is not assignable to type '($event: Event) => unknown'.",
+        "error:191:26 [TS2345] Argument of type '((e: Event) => void) | undefined' is not assignable to parameter of type '($event: Event) => unknown'.\nType 'undefined' is not assignable to type '($event: Event) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Editor.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:41 [TS2307] Cannot find module '@tiptap/extension-placeholder' or its corresponding type declarations.",
+        "error:7:47 [TS2307] Cannot find module '@tiptap/markdown' or its corresponding type declarations.",
+        "error:8:35 [TS2307] Cannot find module '@tiptap/extension-image' or its corresponding type declarations.",
+        "error:9:37 [TS2307] Cannot find module '@tiptap/extension-mention' or its corresponding type declarations.",
+        "error:10:19 [TS2307] Cannot find module '#build/ui/editor' or its corresponding type declarations.",
+        "error:87:70 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:89:20 [TS2307] Cannot find module '@tiptap/core' or its corresponding type declarations.",
+        "error:90:24 [TS2307] Cannot find module '@tiptap/extension-code' or its corresponding type declarations.",
+        "error:91:23 [TS2307] Cannot find module '@tiptap/extension-horizontal-rule' or its corresponding type declarations.",
+        "error:92:30 [TS2307] Cannot find module '@tiptap/extension-image' or its corresponding type declarations.",
+        "error:93:34 [TS2307] Cannot find module '@tiptap/extension-mention' or its corresponding type declarations.",
+        "error:94:23 [TS2307] Cannot find module '@tiptap/extension-placeholder' or its corresponding type declarations.",
+        "error:95:36 [TS2307] Cannot find module '@tiptap/markdown' or its corresponding type declarations.",
+        "error:99:37 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:120:53 [TS18047] 'props.placeholder' is possibly 'null'.",
+        "error:120:71 [TS2339] Property 'mode' does not exist on type 'object'.",
+        "error:217:16 [TS2339] Property 'getMarkdown' does not exist on type 'Editor'.",
+        "error:237:18 [TS2339] Property 'getMarkdown' does not exist on type 'Editor'.",
+        "error:249:27 [TS2353] Object literal may only specify known properties, and 'contentType' does not exist in type 'SetContentOptions'.",
+        "error:257:38 [TS2698] Spread types may only be created from object types."
+      ]
+    },
+    {
+      "file": "src/runtime/components/EditorDragHandle.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:42 [TS2307] Cannot find module '@floating-ui/dom' or its corresponding type declarations.",
+        "error:6:38 [TS2307] Cannot find module '@tiptap/extension-drag-handle-vue-3' or its corresponding type declarations.",
+        "error:7:19 [TS2307] Cannot find module '#build/ui/editor-drag-handle' or its corresponding type declarations.",
+        "error:49:26 [TS2307] Cannot find module '@tiptap/extension-drag-handle-vue-3' or its corresponding type declarations.",
+        "error:52:46 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:53:24 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:75:17 [TS2769] No overload matches this call.\nThe last overload gave the following error.\nType '__WithDefaultsResult<__DefineProps<EditorDragHandleProps, keyof EditorDragHandleProps>, { color: string; variant: string; size: string; }>' has no properties in common with type '{ ui?: any; }'.",
+        "error:82:20 [TS7031] Binding element 'rects' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/runtime/components/EditorEmojiMenu.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/editor-emoji-menu' or its corresponding type declarations.",
+        "error:31:35 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/EditorMentionMenu.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/editor-mention-menu' or its corresponding type declarations.",
+        "error:35:33 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/EditorSuggestionMenu.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/editor-suggestion-menu' or its corresponding type declarations.",
+        "error:54:38 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/EditorToolbar.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:44 [TS2307] Cannot find module '@tiptap/extension-bubble-menu' or its corresponding type declarations.",
+        "error:7:46 [TS2307] Cannot find module '@tiptap/extension-floating-menu' or its corresponding type declarations.",
+        "error:8:19 [TS2307] Cannot find module '#build/ui/editor-toolbar' or its corresponding type declarations.",
+        "error:99:38 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:102:50 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:128:36 [TS7053] Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ bubble: DefineComponent<ExtractPropTypes<{ pluginKey: { type: PropType<string | PluginKey<any>>; default: undefined; }; editor: { type: PropType<Editor>; required: true; }; ... 5 more ...; getReferencedVirtualElement: { ...; }; }>, ... 18 more ..., any>; floating: DefineComponent<...>; fixed: string; }'.",
+        "error:131:10 [TS2339] Property 'layout' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:134:13 [TS2345] Argument of type '\"as\"' is not assignable to parameter of type '(Exclude<keyof __DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, \"activeColor\" | ... 4 more ... | \"variant\"> | ((\"activeColor\" | ... 4 more ... | \"variant\") & keyof __DefineProps<...>))[] | Exclude<...> | ((\"activeColor\" | ... 4 more ... | \"vari...'.",
+        "error:145:24 [TS2339] Property 'layout' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:145:74 [TS2339] Property 'items' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:146:21 [TS2339] Property 'items' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:149:14 [TS2339] Property 'items' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:150:5 [TS2339] Property 'items' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:153:34 [TS2339] Property 'editor' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:172:41 [TS2339] Property 'editor' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:174:49 [TS2339] Property 'editor' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:200:9 [TS2339] Property 'editor' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:205:5 [TS2339] Property 'editor' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:209:38 [TS2339] Property 'editor' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:226:4 [TS2339] Property 'editor' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:257:11 [TS2339] Property 'color' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:257:41 [TS2339] Property 'activeColor' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:261:26 [TS2339] Property 'activeVariant' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:263:9 [TS2339] Property 'variant' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:263:34 [TS2339] Property 'size' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:271:115 [TS2339] Property 'size' does not exist on type '__WithDefaultsResult<__DefineProps<EditorToolbarProps<T>, \"as\" | \"class\" | ([T | undefined] extends [boolean | undefined] ? \"items\" : never)>, { ...; }>'.",
+        "error:318:7 [TS2698] Spread types may only be created from object types.",
+        "error:325:21 [TS2304] Cannot find name 'as'.",
+        "error:325:22 [TS2304] Cannot find name 'as'.",
+        "error:325:23 [TS2304] Cannot find name 'as'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Empty.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/empty' or its corresponding type declarations.",
+        "error:53:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Error.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:32 [TS2307] Cannot find module '#app' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/error' or its corresponding type declarations.",
+        "error:45:8 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/FieldGroup.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/field-group' or its corresponding type declarations.",
+        "error:35:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/FileUpload.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/file-upload' or its corresponding type declarations.",
+        "error:136:25 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Footer.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/footer' or its corresponding type declarations.",
+        "error:30:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/FooterColumns.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/footer-columns' or its corresponding type declarations.",
+        "error:51:26 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Form.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/form' or its corresponding type declarations.",
+        "error:79:85 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:351:73 [TS2538] Type 'symbol' cannot be used as an index type.",
+        "error:443:12 [TS2322] Type 'ReadonlySet<string | number | symbol>' is not assignable to type 'ReadonlySet<DeepReadonly<keyof InferInput<S>>>'.\nType 'string | number | symbol' is not assignable to type 'DeepReadonly<keyof InferInput<S>>'.\nType 'string' is not assignable to type 'DeepReadonly<keyof InferInput<S>>'.",
+        "error:443:50 [TS2322] Type 'ReadonlySet<string | number | symbol>' is not assignable to type 'ReadonlySet<DeepReadonly<keyof InferInput<S>>>'.\nType 'string | number | symbol' is not assignable to type 'DeepReadonly<keyof InferInput<S>>'.\nType 'string' is not assignable to type 'DeepReadonly<keyof InferInput<S>>'.",
+        "error:448:10 [TS2322] Type 'ReadonlySet<string | number | symbol>' is not assignable to type 'ReadonlySet<DeepReadonly<keyof InferInput<S>>>'.\nType 'string | number | symbol' is not assignable to type 'DeepReadonly<keyof InferInput<S>>'.\nType 'string' is not assignable to type 'DeepReadonly<keyof InferInput<S>>'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/FormField.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/form-field' or its corresponding type declarations.",
+        "error:57:39 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Header.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/header' or its corresponding type declarations.",
+        "error:63:38 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:66:29 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Icon.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/runtime/components/Input.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/input' or its corresponding type declarations.",
+        "error:16:18 [TS2430] Interface 'InputProps<T, Mod>' incorrectly extends interface 'Omit<InputHTMLAttributes, \"autocomplete\" | \"autofocus\" | \"disabled\" | \"name\" | \"placeholder\" | \"required\" | \"type\">'.\nTypes of property 'size' are incompatible.\nType 'string | number | symbol | undefined' is not assignable to type 'Numberish | undefined'.\nType 'symbol' is not assignable to type 'Numberish | undefined'.",
+        "error:70:14 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:207:32 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:210:31 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:210:134 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/InputDate.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:8:19 [TS2307] Cannot find module '#build/ui/input-date' or its corresponding type declarations.",
+        "error:75:36 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:170:13 [TS7006] Parameter 'el' implicitly has an 'any' type.",
+        "error:182:15 [TS2698] Spread types may only be created from object types.",
+        "error:208:32 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:211:31 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:211:134 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/InputMenu.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/input-menu' or its corresponding type declarations.",
+        "error:228:133 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:228:164 [TS2307] Cannot find module 'ohash/utils' or its corresponding type declarations.",
+        "error:228:275 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:274:74 [TS2345] Argument of type 'NonNullable<string | number | symbol | undefined>' is not assignable to parameter of type '\"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\"'.\nType 'string' is not assignable to type '\"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\"'.",
+        "error:274:99 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<InputMenuProps<T, VK, M, Mod, C>, \"as\" | \"autofocus\" | \"class\" | \"clearIcon\" | \"defaultOpen\" | \"deleteIcon\" | \"disabled\" | \"fixed\" | ... 26 more ... | ...>>[\"descriptionKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:330:11 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<InputMenuProps<T, VK, M, Mod, C>, \"as\" | \"autofocus\" | \"class\" | \"clearIcon\" | \"defaultOpen\" | \"deleteIcon\" | \"disabled\" | \"fixed\" | ... 26 more ... | ...>>[\"labelKey\"], undefined>[]' to type 'string[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<__LooseRequired<__DefineProps<InputMenuProps<T, VK, M, Mod, C>, \"as\" | \"autofocus\" | \"class\" | \"clearIcon\" | \"defaultOpen\" | \"deleteIcon\" | \"disabled\" | \"fixed\" | ... 26 more ... | ...>>[\"labelKey\"], undefined>' is not comparable to type 'string'.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:350:12 [TS2339] Property 'when' does not exist on type 'never'.",
+        "error:350:34 [TS2367] This comparison appears to be unintentional because the types '__LooseRequired<__DefineProps<InputMenuProps<T, VK, M, Mod, C>, \"as\" | \"autofocus\" | \"class\" | \"clearIcon\" | \"defaultOpen\" | \"deleteIcon\" | \"disabled\" | \"fixed\" | ... 26 more ... | ...>>[\"createItem\"]' and 'string' have no overlap.",
+        "error:355:29 [TS2352] Conversion of type '(((a: T, b: T) => boolean) & false) | (((a: T, b: T) => boolean) & true)' to type 'string | undefined' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType '((a: T, b: T) => boolean) & true' is not comparable to type 'string | undefined'.",
+        "error:357:114 [TS2339] Property 'position' does not exist on type 'never'.",
+        "error:642:34 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:645:33 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:645:144 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/InputNumber.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/input-number' or its corresponding type declarations.",
+        "error:88:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:179:11 [TS2304] Cannot find name 'min'.",
+        "error:179:12 [TS2304] Cannot find name 'min'.",
+        "error:179:14 [TS2304] Cannot find name 'min'.",
+        "error:180:11 [TS2304] Cannot find name 'max'.",
+        "error:180:12 [TS2304] Cannot find name 'max'.",
+        "error:180:14 [TS2304] Cannot find name 'max'.",
+        "error:181:12 [TS2304] Cannot find name 'step'.",
+        "error:181:13 [TS2304] Cannot find name 'step'.",
+        "error:181:16 [TS2304] Cannot find name 'step'.",
+        "error:192:18 [TS2304] Cannot find name 'required'.",
+        "error:192:19 [TS2304] Cannot find name 'required'.",
+        "error:192:26 [TS2304] Cannot find name 'required'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/InputTags.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/input-tags' or its corresponding type declarations.",
+        "error:73:7 [TS2307] Cannot find module '#imports' or its corresponding type declarations.\nType '\"type\"' is not assignable to type 'keyof Props<T>'.\nType '\"type\"' is not assignable to type 'keyof Props<T>'.\nType '\"type\"' is not assignable to type 'keyof Props<T>'.",
+        "error:160:19 [TS2304] Cannot find name 'modelValue'.",
+        "error:160:29 [TS2304] Cannot find name 'modelValue'.",
+        "error:161:21 [TS2304] Cannot find name 'defaultValue'.",
+        "error:161:33 [TS2304] Cannot find name 'defaultValue'.",
+        "error:167:26 [TS2345] Argument of type '(value: T[]) => void' is not assignable to parameter of type '(payload: AcceptableInputValue[]) => unknown'.\nTypes of parameters 'value' and 'args' are incompatible.\nType 'AcceptableInputValue[]' is not assignable to type 'T[]'.\nType 'AcceptableInputValue' is not assignable to type 'T'.\n'AcceptableInputValue' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'AcceptableInputValue'.\nType 'string' is not assignable to type 'T'.\n'string' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'AcceptableInputValue'.",
+        "error:204:32 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:207:31 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:207:134 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/InputTime.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/input-time' or its corresponding type declarations.",
+        "error:56:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:164:32 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:167:31 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:167:134 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/Kbd.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/kbd' or its corresponding type declarations.",
+        "error:40:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Link.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/link' or its corresponding type declarations.",
+        "error:109:22 [TS2307] Cannot find module 'ohash/utils' or its corresponding type declarations.",
+        "error:111:30 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:114:6 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/LinkBase.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/runtime/components/Main.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/main' or its corresponding type declarations.",
+        "error:26:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Marquee.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/marquee' or its corresponding type declarations.",
+        "error:51:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Modal.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/modal' or its corresponding type declarations.",
+        "error:85:64 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/NavigationMenu.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/navigation-menu' or its corresponding type declarations.",
+        "error:229:130 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:229:234 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:308:8 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<NavigationMenuProps<T, K, O>, \"arrow\" | \"as\" | \"class\" | \"collapsed\" | \"collapsible\" | \"disableClickTrigger\" | \"disableHoverTrigger\" | ... 12 more ... | ...>>[\"valueKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:408:20 [TS2345] Argument of type '((e: Event) => void) | undefined' is not assignable to parameter of type '($event: Event) => unknown'.\nType 'undefined' is not assignable to type '($event: Event) => unknown'.",
+        "error:488:13 [TS2698] Spread types may only be created from object types.",
+        "error:512:7 [TS2698] Spread types may only be created from object types.",
+        "error:528:11 [TS2698] Spread types may only be created from object types."
+      ]
+    },
+    {
+      "file": "src/runtime/components/OverlayProvider.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/runtime/components/Page.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page' or its corresponding type declarations.",
+        "error:28:38 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageAnchors.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-anchors' or its corresponding type declarations.",
+        "error:43:1 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageAside.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-aside' or its corresponding type declarations.",
+        "error:28:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageBody.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-body' or its corresponding type declarations.",
+        "error:26:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageCTA.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-cta' or its corresponding type declarations.",
+        "error:56:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageCard.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-card' or its corresponding type declarations.",
+        "error:74:61 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:134:13 [TS2345] Argument of type '((event: MouseEvent) => void | Promise<void>) | undefined' is not assignable to parameter of type '($event: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: PointerEvent) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageColumns.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-columns' or its corresponding type declarations.",
+        "error:26:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageFeature.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-feature' or its corresponding type declarations.",
+        "error:45:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:76:137 [TS2345] Argument of type '((event: MouseEvent) => void | Promise<void>) | undefined' is not assignable to parameter of type '($event: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: PointerEvent) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageGrid.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-grid' or its corresponding type declarations.",
+        "error:26:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageHeader.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-header' or its corresponding type declarations.",
+        "error:39:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageHero.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-hero' or its corresponding type declarations.",
+        "error:54:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageLinks.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-links' or its corresponding type declarations.",
+        "error:45:3 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageList.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-list' or its corresponding type declarations.",
+        "error:27:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageLogos.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-logos' or its corresponding type declarations.",
+        "error:36:50 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PageSection.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/page-section' or its corresponding type declarations.",
+        "error:68:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Pagination.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/pagination' or its corresponding type declarations.",
+        "error:107:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PinInput.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/pin-input' or its corresponding type declarations.",
+        "error:56:7 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:126:15 [TS2698] Spread types may only be created from object types.",
+        "error:129:19 [TS2304] Cannot find name 'placeholder'.",
+        "error:129:20 [TS2304] Cannot find name 'placeholder'.",
+        "error:129:30 [TS2304] Cannot find name 'placeholder'.",
+        "error:130:13 [TS2322] Type 'PinInputValue<T>' is not assignable to type 'string[] | null | undefined'.\nType 'string[] | number[]' is not assignable to type 'string[] | null | undefined'.\nType 'number[]' is not assignable to type 'string[]'.\nType 'number' is not assignable to type 'string'.\nType 'PinInputValue<T>' is not assignable to type 'string[]'.\nType 'string[] | number[]' is not assignable to type 'string[]'.\nType 'number[]' is not assignable to type 'string[]'.\nType 'number' is not assignable to type 'string'.",
+        "error:130:20 [TS2304] Cannot find name 'modelValue'.",
+        "error:130:51 [TS2304] Cannot find name 'modelValue'.",
+        "error:131:13 [TS2322] Type 'PinInputValue<T>' is not assignable to type 'string[] | undefined'.\nType 'string[] | number[]' is not assignable to type 'string[] | undefined'.\nType 'number[]' is not assignable to type 'string[]'.\nType 'number' is not assignable to type 'string'.\nType 'PinInputValue<T>' is not assignable to type 'string[]'.\nType 'string[] | number[]' is not assignable to type 'string[]'.\nType 'number[]' is not assignable to type 'string[]'.\nType 'number' is not assignable to type 'string'.",
+        "error:131:22 [TS2304] Cannot find name 'defaultValue'.",
+        "error:131:55 [TS2304] Cannot find name 'defaultValue'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Popover.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/popover' or its corresponding type declarations.",
+        "error:62:51 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:67:8 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PricingPlan.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/pricing-plan' or its corresponding type declarations.",
+        "error:115:50 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:231:155 [TS2345] Argument of type '((event: MouseEvent) => void | Promise<void>)[] | ((event: MouseEvent) => void | Promise<void>) | undefined' is not assignable to parameter of type '($event: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: PointerEvent) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PricingPlans.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/pricing-plans' or its corresponding type declarations.",
+        "error:52:26 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/PricingTable.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/pricing-table' or its corresponding type declarations.",
+        "error:106:13 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Progress.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/progress' or its corresponding type declarations.",
+        "error:58:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/RadioGroup.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/radio-group' or its corresponding type declarations.",
+        "error:93:92 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:141:8 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<RadioGroupProps<T, VK>, \"as\" | \"class\" | \"disabled\" | \"loop\" | \"required\" | ([GetItemValue<T, VK, undefined, NestedItem<T>> | undefined] extends [...] ? \"defaultValue\" : never) | ... 4 more ... | ...>>[\"labelKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:145:29 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<RadioGroupProps<T, VK>, \"as\" | \"class\" | \"disabled\" | \"loop\" | \"required\" | ([GetItemValue<T, VK, undefined, NestedItem<T>> | undefined] extends [...] ? \"defaultValue\" : never) | ... 4 more ... | ...>>[\"descriptionKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:181:13 [TS2322] Type 'string | number | symbol' is not assignable to type 'DataOrientation | undefined'.\nType 'string' is not assignable to type 'DataOrientation | undefined'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/ScrollArea.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:54 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/scroll-area' or its corresponding type declarations.",
+        "error:84:74 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:85:27 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations.",
+        "error:87:16 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Select.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/select' or its corresponding type declarations.",
+        "error:152:28 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:152:108 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:302:20 [TS2304] Cannot find name 'autocomplete'.",
+        "error:302:21 [TS2304] Cannot find name 'autocomplete'.",
+        "error:302:32 [TS2304] Cannot find name 'autocomplete'.",
+        "error:316:34 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:319:33 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:319:144 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/SelectMenu.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/select-menu' or its corresponding type declarations.",
+        "error:229:58 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:229:162 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:275:74 [TS2345] Argument of type 'NonNullable<string | number | symbol | undefined>' is not assignable to parameter of type '\"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\"'.\nType 'string' is not assignable to type '\"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\"'.",
+        "error:275:100 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<SelectMenuProps<T, VK, M, Mod, C>, \"autofocus\" | \"class\" | \"clearIcon\" | \"defaultOpen\" | \"disabled\" | \"highlight\" | \"highlightOnHover\" | ... 22 more ... | ...>>[\"descriptionKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:345:42 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<SelectMenuProps<T, VK, M, Mod, C>, \"autofocus\" | \"class\" | \"clearIcon\" | \"defaultOpen\" | \"disabled\" | \"highlight\" | \"highlightOnHover\" | ... 22 more ... | ...>>[\"labelKey\"], undefined>[]' to type 'string[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<__LooseRequired<__DefineProps<SelectMenuProps<T, VK, M, Mod, C>, \"autofocus\" | \"class\" | \"clearIcon\" | \"defaultOpen\" | \"disabled\" | \"highlight\" | \"highlightOnHover\" | ... 22 more ... | ...>>[\"labelKey\"], undefined>' is not comparable to type 'string'.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:362:11 [TS2339] Property 'when' does not exist on type 'never'.",
+        "error:362:33 [TS2367] This comparison appears to be unintentional because the types '__LooseRequired<__DefineProps<SelectMenuProps<T, VK, M, Mod, C>, \"autofocus\" | \"class\" | \"clearIcon\" | \"defaultOpen\" | \"disabled\" | \"highlight\" | \"highlightOnHover\" | ... 22 more ... | ...>>[\"createItem\"]' and 'string' have no overlap.",
+        "error:367:28 [TS2352] Conversion of type '(((a: T, b: T) => boolean) & false) | (((a: T, b: T) => boolean) & true)' to type 'string | undefined' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType '((a: T, b: T) => boolean) & true' is not comparable to type 'string | undefined'.",
+        "error:369:113 [TS2339] Property 'position' does not exist on type 'never'.",
+        "error:569:15 [TS2698] Spread types may only be created from object types.",
+        "error:579:36 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:582:35 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:582:146 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/Separator.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/separator' or its corresponding type declarations.",
+        "error:55:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Skeleton.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/skeleton' or its corresponding type declarations.",
+        "error:21:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Slideover.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/slideover' or its corresponding type declarations.",
+        "error:85:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Slider.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/slider' or its corresponding type declarations.",
+        "error:49:2 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Stepper.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/stepper' or its corresponding type declarations.",
+        "error:83:8 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:115:23 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<StepperProps<T>, \"as\" | \"class\" | \"disabled\" | \"linear\" | ([GetItemKeys<T> | undefined] extends [boolean | undefined] ? \"valueKey\" : never)>>[\"valueKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:119:7 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<StepperProps<T>, \"as\" | \"class\" | \"disabled\" | \"linear\" | ([GetItemKeys<T> | undefined] extends [boolean | undefined] ? \"valueKey\" : never)>>[\"valueKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:147:70 [TS2322] Type 'string | number | symbol' is not assignable to type 'DataOrientation | undefined'.\nType 'string' is not assignable to type 'DataOrientation | undefined'.",
+        "error:196:17 [TS2352] Conversion of type '__VizeWidenTemplateRef<T>' to type 'Extract<T, { slot: string; }>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'T | (T extends string ? string : T extends number ? number : T extends boolean ? boolean : T)' is not comparable to type 'Extract<T, { slot: string; }>'.\nType 'T extends string ? string : T extends number ? number : T extends boolean ? boolean : T' is not comparable to type 'Extract<T, { slot: string; }>'.\nType 'string | (T extends number ? number : T extends boolean ? boolean : T)' is not comparable to type 'Extract<T, { slot: string; }>'.\nType 'T extends number ? number : T extends boolean ? boolean : T' is not comparable to type 'Extract<T, { slot: string; }>'.\nType 'number | (T extends boolean ? boolean : T)' is not comparable to type 'Extract<T, { slot: string; }>'.\nType 'T extends boolean ? boolean : T' is not comparable to type 'Extract<T, { slot: string; }>'.\nType 'boolean | T' is not comparable to type 'Extract<T, { slot: string; }>'.\nType 'T' is not comparable to type 'Extract<T, { slot: string; }>'.\nType 'StepperItem' is not comparable to type 'Extract<T, { slot: string; }>'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Switch.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/switch' or its corresponding type declarations.",
+        "error:63:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Table.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:41:8 [TS2307] Cannot find module '@tanstack/vue-table' or its corresponding type declarations.",
+        "error:42:41 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations.",
+        "error:43:19 [TS2307] Cannot find module '#build/ui/table' or its corresponding type declarations.",
+        "error:47:16 [TS2664] Invalid module name in augmentation, module '@tanstack/table-core' cannot be found.",
+        "error:229:17 [TS2307] Cannot find module 'scule' or its corresponding type declarations.",
+        "error:229:46 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:232:55 [TS2307] Cannot find module '@tanstack/vue-table' or its corresponding type declarations.",
+        "error:232:108 [TS2307] Cannot find module '@tanstack/vue-virtual' or its corresponding type declarations.",
+        "error:234:45 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:251:31 [TS2769] No overload matches this call.\nThe last overload gave the following error.\nType '__WithDefaultsResult<__DefineProps<TableProps<T>, keyof TableProps<T>>, { watchOptions: () => { deep: true; }; virtualize: boolean; }>' has no properties in common with type '{ ui?: any; }'.",
+        "error:263:53 [TS7031] Binding element 'getValue' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Tabs.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/tabs' or its corresponding type declarations.",
+        "error:96:11 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:143:19 [TS2304] Cannot find name 'modelValue'.",
+        "error:143:29 [TS2304] Cannot find name 'modelValue'.",
+        "error:144:21 [TS2304] Cannot find name 'defaultValue'.",
+        "error:144:33 [TS2304] Cannot find name 'defaultValue'.",
+        "error:145:13 [TS2322] Type 'string | number | symbol' is not assignable to type 'DataOrientation | undefined'.\nType 'string' is not assignable to type 'DataOrientation | undefined'.",
+        "error:146:23 [TS2304] Cannot find name 'activationMode'.",
+        "error:146:37 [TS2304] Cannot find name 'activationMode'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Textarea.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/textarea' or its corresponding type declarations.",
+        "error:70:69 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:235:32 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:238:31 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?",
+        "error:238:134 [TS2552] Cannot find name 'avatar'. Did you mean 'UAvatar'?"
+      ]
+    },
+    {
+      "file": "src/runtime/components/Theme.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/runtime/components/Timeline.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/timeline' or its corresponding type declarations.",
+        "error:74:10 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:103:20 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<TimelineProps<T>, \"as\" | \"class\" | \"reverse\" | ([GetItemKeys<T> | undefined] extends [boolean | undefined] ? \"valueKey\" : never)>>[\"valueKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:156:23 [TS2322] Type 'string | number | symbol' is not assignable to type 'DataOrientation | undefined'.\nType 'string' is not assignable to type 'DataOrientation | undefined'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Toast.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/toast' or its corresponding type declarations.",
+        "error:77:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Toaster.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/toaster' or its corresponding type declarations.",
+        "error:52:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:156:43 [TS2339] Property 'startsWith' does not exist on type 'string | number | symbol'.\nProperty 'startsWith' does not exist on type 'number'.",
+        "error:156:44 [TS2339] Property 'startsWith' does not exist on type 'string | number | symbol'.\nProperty 'startsWith' does not exist on type 'number'.",
+        "error:157:23 [TS2339] Property 'startsWith' does not exist on type 'string | number | symbol'.\nProperty 'startsWith' does not exist on type 'number'.",
+        "error:157:30 [TS2339] Property 'startsWith' does not exist on type 'string | number | symbol'.\nProperty 'startsWith' does not exist on type 'number'.",
+        "error:157:31 [TS2339] Property 'startsWith' does not exist on type 'string | number | symbol'.\nProperty 'startsWith' does not exist on type 'number'.",
+        "error:158:21 [TS2339] Property 'startsWith' does not exist on type 'string | number | symbol'.\nProperty 'startsWith' does not exist on type 'number'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Tooltip.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/tooltip' or its corresponding type declarations.",
+        "error:52:26 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:55:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/Tree.vue",
+      "diagnostics": [
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/tree' or its corresponding type declarations.",
+        "error:146:82 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:147:34 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:189:31 [TS2339] Property 'perLevel' does not exist on type '{ xs: { base: number; perLevel: number; }; sm: { base: number; perLevel: number; }; md: { base: number; perLevel: number; }; lg: { base: number; perLevel: number; }; xl: { base: number; perLevel: number; }; }[__LooseRequired<__DefineProps<TreeProps<...>, \"as\" | ... 12 more ... | ...>>[\"size\"]]'.",
+        "error:190:1 [TS2339] Property 'base' does not exist on type '{ xs: { base: number; perLevel: number; }; sm: { base: number; perLevel: number; }; md: { base: number; perLevel: number; }; lg: { base: number; perLevel: number; }; xl: { base: number; perLevel: number; }; }[__LooseRequired<__DefineProps<TreeProps<...>, \"as\" | ... 12 more ... | ...>>[\"size\"]]'.",
+        "error:225:64 [TS2352] Conversion of type 'Exclude<__LooseRequired<__DefineProps<TreeProps<T, M>, \"as\" | \"bubbleSelect\" | \"class\" | \"collapsedIcon\" | \"disabled\" | \"expandedIcon\" | \"nested\" | \"propagateSelect\" | \"trailingIcon\" | ... 4 more ... | ...>>[\"labelKey\"], undefined>' to type 'string' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.\nType 'Exclude<...> | Exclude<...>' is not comparable to type 'string'.\nType 'Exclude<DotPathKeys<Extract<NestedItem<T>, object>> & true, undefined>' is not comparable to type 'string'.",
+        "error:276:41 [TS2304] Cannot find name 'disabled'.",
+        "error:278:130 [TS2304] Cannot find name 'disabled'.",
+        "error:366:15 [TS2698] Spread types may only be created from object types.",
+        "error:373:15 [TS2322] Type 'boolean | (string[] & false) | (string[] & true)' is not assignable to type 'string[] | undefined'.\nType 'boolean' is not assignable to type 'string[]'.",
+        "error:374:26 [TS2304] Cannot find name 'selectionBehavior'.",
+        "error:374:43 [TS2304] Cannot find name 'selectionBehavior'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/User.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/user' or its corresponding type declarations.",
+        "error:46:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:72:137 [TS2345] Argument of type '((event: MouseEvent) => void | Promise<void>) | undefined' is not assignable to parameter of type '($event: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: PointerEvent) => unknown'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/color-mode/ColorModeAvatar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/runtime/components/color-mode/ColorModeButton.vue",
+      "diagnostics": [
+        "error:20:10 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/color-mode/ColorModeImage.vue",
+      "diagnostics": [
+        "error:11:31 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:12:38 [TS2307] Cannot find module '#build/ui-image-component' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/color-mode/ColorModeSelect.vue",
+      "diagnostics": [
+        "error:11:10 [TS2307] Cannot find module '#imports' or its corresponding type declarations.\nProperty 'when' does not exist on type '__WithDefaultsResult<ColorModeSelectProps, Pick<ColorModeSelectProps, \"searchInput\">>'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/color-mode/ColorModeSwitch.vue",
+      "diagnostics": [
+        "error:11:10 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/content/ContentNavigation.vue",
+      "diagnostics": [
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:44 [TS2307] Cannot find module '@nuxt/content' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/content/content-navigation' or its corresponding type declarations.",
+        "error:97:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:142:29 [TS2339] Property 'path' does not exist on type 'ContentNavigationLink'.",
+        "error:175:24 [TS2339] Property 'title' does not exist on type 'ContentNavigationLink'.",
+        "error:177:19 [TS2339] Property 'title' does not exist on type 'ContentNavigationLink'.",
+        "error:229:65 [TS18048] 'slotData' is possibly 'undefined'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/content/ContentSearch.vue",
+      "diagnostics": [
+        "error:4:44 [TS2307] Cannot find module '@nuxt/content' or its corresponding type declarations.",
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:37 [TS2307] Cannot find module '@vueuse/integrations/useFuse' or its corresponding type declarations.",
+        "error:7:19 [TS2307] Cannot find module '#build/ui/content/content-search' or its corresponding type declarations.",
+        "error:113:39 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:116:33 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:275:13 [TS2304] Cannot find name 'title'.",
+        "error:275:14 [TS2304] Cannot find name 'title'.",
+        "error:275:46 [TS2304] Cannot find name 'title'.",
+        "error:276:19 [TS2304] Cannot find name 'description'.",
+        "error:276:20 [TS2304] Cannot find name 'description'.",
+        "error:276:64 [TS2304] Cannot find name 'description'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/content/ContentSearchButton.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/content/content-search-button' or its corresponding type declarations.",
+        "error:54:30 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:56:64 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/content/ContentSurround.vue",
+      "diagnostics": [
+        "error:3:44 [TS2307] Cannot find module '@nuxt/content' or its corresponding type declarations.",
+        "error:4:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/content/content-surround' or its corresponding type declarations.",
+        "error:57:10 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:86:34 [TS2339] Property 'path' does not exist on type 'ContentSurroundLink'.",
+        "error:86:35 [TS2339] Property 'path' does not exist on type 'ContentSurroundLink'.",
+        "error:86:38 [TS2339] Property 'path' does not exist on type 'ContentSurroundLink'.",
+        "error:96:21 [TS2339] Property 'title' does not exist on type 'ContentSurroundLink'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/content/ContentToc.vue",
+      "diagnostics": [
+        "error:4:30 [TS2307] Cannot find module '@nuxt/content' or its corresponding type declarations.",
+        "error:5:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:6:19 [TS2307] Cannot find module '#build/ui/content/content-toc' or its corresponding type declarations.",
+        "error:72:52 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:179:90 [TS2304] Cannot find name 'defaultOpen'.",
+        "error:179:101 [TS2304] Cannot find name 'defaultOpen'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/locale/LocaleSelect.vue",
+      "diagnostics": [
+        "error:83:5 [TS2322] Type 'string' is not assignable to type 'Locale<any>'."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/A.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/a' or its corresponding type declarations.",
+        "error:22:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Accordion.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/accordion' or its corresponding type declarations.",
+        "error:22:48 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/AccordionItem.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/accordion-item' or its corresponding type declarations.",
+        "error:22:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Badge.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/badge' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Blockquote.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/blockquote' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Callout.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/callout' or its corresponding type declarations.",
+        "error:28:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Card.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/card' or its corresponding type declarations.",
+        "error:31:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/CardGroup.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/card-group' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Code.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/code' or its corresponding type declarations.",
+        "error:25:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/CodeCollapse.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/code-collapse' or its corresponding type declarations.",
+        "error:41:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/CodeGroup.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/code-group' or its corresponding type declarations.",
+        "error:31:6 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/CodeIcon.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/prose/code-icon' or its corresponding type declarations.",
+        "error:16:19 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:17:24 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/CodePreview.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/code-preview' or its corresponding type declarations.",
+        "error:21:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/CodeTree.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/code-tree' or its corresponding type declarations.",
+        "error:54:50 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Collapsible.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/collapsible' or its corresponding type declarations.",
+        "error:41:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Em.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/em' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Field.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/field' or its corresponding type declarations.",
+        "error:42:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/FieldGroup.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/field-group' or its corresponding type declarations.",
+        "error:26:32 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/H1.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/h1' or its corresponding type declarations.",
+        "error:22:14 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/H2.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/h2' or its corresponding type declarations.",
+        "error:22:14 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/H3.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/h3' or its corresponding type declarations.",
+        "error:22:14 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/H4.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/h4' or its corresponding type declarations.",
+        "error:22:14 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Hr.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/hr' or its corresponding type declarations.",
+        "error:15:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Icon.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/prose/icon' or its corresponding type declarations.",
+        "error:16:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Img.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/img' or its corresponding type declarations.",
+        "error:26:7 [TS2307] Cannot find module 'motion-v' or its corresponding type declarations.",
+        "error:28:14 [TS2307] Cannot find module '#imports' or its corresponding type declarations.",
+        "error:28:52 [TS2307] Cannot find module '#build/ui-image-component' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Kbd.vue",
+      "diagnostics": [
+        "error:2:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:3:19 [TS2307] Cannot find module '#build/ui/prose/kbd' or its corresponding type declarations.",
+        "error:16:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Li.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/li' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Ol.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/ol' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/P.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/p' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Pre.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/pre' or its corresponding type declarations.",
+        "error:29:40 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Script.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/runtime/components/prose/Steps.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/steps' or its corresponding type declarations.",
+        "error:25:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Strong.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/strong' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Table.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/table' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Tabs.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/prose/tabs' or its corresponding type declarations.",
+        "error:35:6 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/TabsItem.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/tabs-item' or its corresponding type declarations.",
+        "error:22:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Tbody.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/tbody' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Td.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/td' or its corresponding type declarations.",
+        "error:21:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Th.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/th' or its corresponding type declarations.",
+        "error:21:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Thead.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/thead' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Tr.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/tr' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/Ul.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/prose/ul' or its corresponding type declarations.",
+        "error:20:27 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/callout/Caution.vue",
+      "diagnostics": [
+        "error:2:30 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/callout/Note.vue",
+      "diagnostics": [
+        "error:2:30 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/callout/Tip.vue",
+      "diagnostics": [
+        "error:2:30 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/components/prose/callout/Warning.vue",
+      "diagnostics": [
+        "error:2:30 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/vue/components/Icon.vue",
+      "diagnostics": [
+        "error:10:3 [TS2307] Cannot find module '@iconify/vue' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/vue/components/color-mode/ColorModeSelect.vue",
+      "diagnostics": [
+        "error:11:10 [TS2307] Cannot find module '#imports' or its corresponding type declarations.\nProperty 'when' does not exist on type '__WithDefaultsResult<ColorModeSelectProps, Pick<ColorModeSelectProps, \"searchInput\">>'."
+      ]
+    },
+    {
+      "file": "src/runtime/vue/components/color-mode/ColorModeSwitch.vue",
+      "diagnostics": [
+        "error:11:10 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/vue/overrides/inertia/Link.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:39 [TS2307] Cannot find module '@inertiajs/vue3' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/link' or its corresponding type declarations.",
+        "error:72:19 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:75:35 [TS2307] Cannot find module '@inertiajs/vue3' or its corresponding type declarations.",
+        "error:76:37 [TS2307] Cannot find module 'ufo' or its corresponding type declarations.",
+        "error:77:30 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/vue/overrides/inertia/LinkBase.vue",
+      "diagnostics": [
+        "error:19:3 [TS2307] Cannot find module '@inertiajs/vue3' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/vue/overrides/none/Link.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:4:19 [TS2307] Cannot find module '#build/ui/link' or its corresponding type declarations.",
+        "error:74:27 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:75:23 [TS2307] Cannot find module 'ufo' or its corresponding type declarations.",
+        "error:76:30 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    },
+    {
+      "file": "src/runtime/vue/overrides/vue-router/Link.vue",
+      "diagnostics": [
+        "error:3:32 [TS2307] Cannot find module '@nuxt/schema' or its corresponding type declarations.",
+        "error:5:19 [TS2307] Cannot find module '#build/ui/link' or its corresponding type declarations.",
+        "error:65:19 [TS2307] Cannot find module 'defu' or its corresponding type declarations.",
+        "error:66:19 [TS2307] Cannot find module 'ohash/utils' or its corresponding type declarations.",
+        "error:69:39 [TS2307] Cannot find module 'ufo' or its corresponding type declarations.",
+        "error:71:46 [TS2307] Cannot find module '#imports' or its corresponding type declarations."
+      ]
+    }
+  ],
+  "errorCount": 833,
+  "warningCount": 0,
+  "fileCount": 180
+}

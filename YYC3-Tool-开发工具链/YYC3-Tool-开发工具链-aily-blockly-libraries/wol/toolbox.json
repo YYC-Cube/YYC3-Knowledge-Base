@@ -1,0 +1,56 @@
+{
+  "kind": "category",
+  "name": "WOL 唤醒",
+  "icon": "fa-light fa-power-off",
+  "colour": "#5B80A5",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "wol_send",
+      "inputs": {
+        "MAC": {
+          "shadow": {
+            "type": "text",
+            "fields": { "TEXT": "00:11:22:33:44:55" }
+          }
+        },
+        "BROADCAST_IP": {
+          "shadow": {
+            "type": "text",
+            "fields": { "TEXT": "255.255.255.255" }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 9 }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wol_send_result",
+      "inputs": {
+        "MAC": {
+          "shadow": {
+            "type": "text",
+            "fields": { "TEXT": "00:11:22:33:44:55" }
+          }
+        },
+        "BROADCAST_IP": {
+          "shadow": {
+            "type": "text",
+            "fields": { "TEXT": "255.255.255.255" }
+          }
+        },
+        "PORT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": { "NUM": 9 }
+          }
+        }
+      }
+    }
+  ]
+}

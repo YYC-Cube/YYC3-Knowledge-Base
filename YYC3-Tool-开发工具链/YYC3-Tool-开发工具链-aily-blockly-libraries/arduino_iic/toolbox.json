@@ -1,0 +1,259 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-network-wired",
+  "name": "I2C",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "wire_begin"
+    },
+    {
+      "kind": "block",
+      "type": "wire_begin_address"
+    },
+    {
+      "kind": "block",
+      "type": "wire_set_clock"
+    },
+    {
+      "kind": "block",
+      "type": "wire_end"
+    },
+    {
+      "kind": "block",
+      "type": "wire_begin_transmission"
+    },
+    {
+      "kind": "block",
+      "type": "wire_end_transmission"
+    },
+    {
+      "kind": "block",
+      "type": "wire_end_transmission_result"
+    },
+    {
+      "kind": "block",
+      "type": "wire_write"
+    },
+    {
+      "kind": "block",
+      "type": "wire_write_bytes"
+    },
+    {
+      "kind": "block",
+      "type": "wire_request_from"
+    },
+    {
+      "kind": "block",
+      "type": "wire_available"
+    },
+    {
+      "kind": "block",
+      "type": "wire_read"
+    },
+    {
+      "kind": "block",
+      "type": "wire_peek"
+    },
+    {
+      "kind": "block",
+      "type": "wire_flush"
+    },
+    {
+      "kind": "block",
+      "type": "wire_on_receive"
+    },
+    {
+      "kind": "block",
+      "type": "wire_on_request"
+    },
+    {
+      "kind": "label",
+      "text": "I2C扫描模板"
+    },
+    {
+      "kind": "block",
+      "type": "wire_begin",
+      "next": {
+        "block": {
+          "type": "controls_for",
+          "fields": {
+            "VAR": {
+              "name": "address",
+              "id": "i2c_scan_address",
+              "type": ""
+            }
+          },
+          "inputs": {
+            "FROM": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1
+                }
+              }
+            },
+            "TO": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 127
+                }
+              }
+            },
+            "BY": {
+              "shadow": {
+                "type": "math_number",
+                "fields": {
+                  "NUM": 1
+                }
+              }
+            },
+            "DO": {
+              "block": {
+                "type": "wire_begin_transmission",
+                "inputs": {
+                  "ADDRESS": {
+                    "block": {
+                      "type": "variables_get",
+                      "fields": {
+                        "VAR": {
+                          "name": "address",
+                          "id": "i2c_scan_address",
+                          "type": ""
+                        }
+                      }
+                    }
+                  }
+                },
+                "next": {
+                  "block": {
+                    "type": "variables_set",
+                    "fields": {
+                      "VAR": {
+                        "name": "error",
+                        "id": "i2c_scan_error",
+                        "type": ""
+                      }
+                    },
+                    "inputs": {
+                      "VALUE": {
+                        "block": {
+                          "type": "wire_end_transmission_result",
+                          "fields": {
+                            "STOP": "TRUE"
+                          }
+                        }
+                      }
+                    },
+                    "next": {
+                      "block": {
+                        "type": "controls_if",
+                        "inputs": {
+                          "IF0": {
+                            "block": {
+                              "type": "logic_compare",
+                              "fields": {
+                                "OP": "EQ"
+                              },
+                              "inputs": {
+                                "A": {
+                                  "block": {
+                                    "type": "variables_get",
+                                    "fields": {
+                                      "VAR": {
+                                        "name": "error",
+                                        "id": "i2c_scan_error",
+                                        "type": ""
+                                      }
+                                    }
+                                  }
+                                },
+                                "B": {
+                                  "shadow": {
+                                    "type": "math_number",
+                                    "fields": {
+                                      "NUM": 0
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "next": {
+                          "block": {
+                            "type": "controls_if",
+                            "inputs": {
+                              "IF0": {
+                                "block": {
+                                  "type": "logic_compare",
+                                  "fields": {
+                                    "OP": "EQ"
+                                  },
+                                  "inputs": {
+                                    "A": {
+                                      "block": {
+                                        "type": "variables_get",
+                                        "fields": {
+                                          "VAR": {
+                                            "name": "error",
+                                            "id": "i2c_scan_error",
+                                            "type": ""
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "B": {
+                                      "shadow": {
+                                        "type": "math_number",
+                                        "fields": {
+                                          "NUM": 4
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "next": {
+            "block": {
+              "type": "time_delay",
+              "inputs": {
+                "DELAY_TIME": {
+                  "shadow": {
+                    "type": "math_number",
+                    "fields": {
+                      "NUM": 5000
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "wire_set_timeout"
+    },
+    {
+      "kind": "block",
+      "type": "wire_get_timeout_flag"
+    },
+    {
+      "kind": "block",
+      "type": "wire_clear_timeout_flag"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "toolbox_name": "LSM303AGR加速度計和磁力計",
+  "toolbox_labels": {
+    "加速度计": "加速度計",
+    "磁力计": "磁力計",
+    "姿态解算(AHRS)": "姿態解算(AHRS)"
+  },
+  "lsm303agr_acc_init": {
+    "message0": "初始化加速度計 %1\n使用 %2",
+    "tooltip": "初始化LSM303AGR加速度計感測器，使用I2C介面"
+  },
+  "lsm303agr_mag_init": {
+    "message0": "初始化磁力計 %1\n使用 %2",
+    "tooltip": "初始化LSM303AGR磁力計感測器，使用I2C介面"
+  },
+  "lsm303agr_acc_get_axis": {
+    "message0": "讀取加速度計 %1 的 %2 軸加速度(mg)",
+    "tooltip": "讀取LSM303AGR加速度計的X/Y/Z軸加速度值，單位為mg"
+  },
+  "lsm303agr_mag_get_axis": {
+    "message0": "讀取磁力計 %1 的 %2 軸磁場(mGauss)",
+    "tooltip": "讀取LSM303AGR磁力計的X/Y/Z軸磁場值，單位為mGauss"
+  },
+  "lsm303agr_acc_get_temperature": {
+    "message0": "讀取加速度計 %1 的溫度(°C)",
+    "tooltip": "讀取LSM303AGR加速度計的溫度值，單位為°C"
+  },
+  "lsm303agr_ahrs_update": {
+    "message0": "更新姿態解算\n加速度計 %1 磁力計 %2",
+    "tooltip": "使用加速度計和磁力計數據更新姿態解算，計算橫滾角、俯仰角和航向角"
+  },
+  "lsm303agr_ahrs_get_angle": {
+    "message0": "獲取姿態角 %1 (°)",
+    "tooltip": "獲取姿態解算結果，橫滾角/俯仰角範圍-180~180°，航向角範圍0~360°",
+    "args0": [
+      {
+        "options": [
+          ["橫滾角(Roll)", "ROLL"],
+          ["俯仰角(Pitch)", "PITCH"],
+          ["航向角(Heading)", "HEADING"]
+        ]
+      }
+    ]
+  }
+}

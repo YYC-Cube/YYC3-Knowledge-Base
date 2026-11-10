@@ -1,0 +1,294 @@
+{
+  "toolbox_name": "ESP32 USB",
+  "esp32_usb_keyboard_begin": {
+    "message0": "USB-клавиатура Инициализация",
+    "tooltip": "Инициализировать USB HID клавиатуру, USB.begin() вызывается автоматически"
+  },
+  "esp32_usb_keyboard_print": {
+    "message0": "USB-клавиатура ввести текст %1",
+    "tooltip": "Ввести текст через USB-клавиатуру"
+  },
+  "esp32_usb_keyboard_println": {
+    "message0": "USB-клавиатура ввести текст %1 с переводом строки",
+    "tooltip": "Ввести текст через USB-клавиатуру и нажать Enter в конце"
+  },
+  "esp32_usb_keyboard_write": {
+    "message0": "USB-клавиатура быстрый ввод %1",
+    "tooltip": "Нажать клавишу один раз (нажать и сразу отпустить)"
+  },
+  "esp32_usb_keyboard_press": {
+    "message0": "USB-клавиатура удерживать клавишу %1",
+    "tooltip": "Удерживать клавишу (требуется ручное отпускание)"
+  },
+  "esp32_usb_keyboard_release": {
+    "message0": "USB-клавиатура отпустить клавишу %1",
+    "tooltip": "Отпустить указанную клавишу"
+  },
+  "esp32_usb_keyboard_release_all": {
+    "message0": "USB-клавиатура отпустить все клавиши",
+    "tooltip": "Отпустить все нажатые клавиши"
+  },
+  "esp32_usb_keyboard_special_key": {
+    "message0": "Специальная клавиша %1",
+    "tooltip": "Значение специальной клавиши USB-клавиатуры",
+    "args0": [
+      {
+        "options": [
+          ["Enter", "KEY_RETURN"],
+          ["Esc", "KEY_ESC"],
+          ["Backspace", "KEY_BACKSPACE"],
+          ["Tab", "KEY_TAB"],
+          ["Пробел", "KEY_SPACE"],
+          ["Левый Ctrl", "KEY_LEFT_CTRL"],
+          ["Левый Shift", "KEY_LEFT_SHIFT"],
+          ["Левый Alt", "KEY_LEFT_ALT"],
+          ["Левый GUI/Win", "KEY_LEFT_GUI"],
+          ["Правый Ctrl", "KEY_RIGHT_CTRL"],
+          ["Правый Shift", "KEY_RIGHT_SHIFT"],
+          ["Правый Alt", "KEY_RIGHT_ALT"],
+          ["Правый GUI/Win", "KEY_RIGHT_GUI"],
+          ["↑", "KEY_UP_ARROW"],
+          ["↓", "KEY_DOWN_ARROW"],
+          ["←", "KEY_LEFT_ARROW"],
+          ["→", "KEY_RIGHT_ARROW"],
+          ["Insert", "KEY_INSERT"],
+          ["Delete", "KEY_DELETE"],
+          ["Home", "KEY_HOME"],
+          ["End", "KEY_END"],
+          ["Page Up", "KEY_PAGE_UP"],
+          ["Page Down", "KEY_PAGE_DOWN"],
+          ["Caps Lock", "KEY_CAPS_LOCK"],
+          ["Num Lock", "KEY_NUM_LOCK"],
+          ["F1", "KEY_F1"],
+          ["F2", "KEY_F2"],
+          ["F3", "KEY_F3"],
+          ["F4", "KEY_F4"],
+          ["F5", "KEY_F5"],
+          ["F6", "KEY_F6"],
+          ["F7", "KEY_F7"],
+          ["F8", "KEY_F8"],
+          ["F9", "KEY_F9"],
+          ["F10", "KEY_F10"],
+          ["F11", "KEY_F11"],
+          ["F12", "KEY_F12"],
+          ["Print Screen", "KEY_PRINT_SCREEN"],
+          ["Scroll Lock", "KEY_SCROLL_LOCK"],
+          ["Pause", "KEY_PAUSE"],
+          ["Menu", "KEY_MENU"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_mouse_begin": {
+    "message0": "USB-мышь Инициализация",
+    "tooltip": "Инициализировать USB HID мышь (режим относительной позиции)"
+  },
+  "esp32_usb_mouse_move": {
+    "message0": "USB-мышь Переместить X %1 Y %2 Колесо %3",
+    "tooltip": "Относительное перемещение мыши. X положительный=вправо, Y положительный=вниз, Колесо положительный=вверх"
+  },
+  "esp32_usb_mouse_click": {
+    "message0": "USB-мышь %1 %2",
+    "tooltip": "Операция кнопки мыши: клик (нажать+отпустить), нажать (удерживать), отпустить",
+    "args0": [
+      {
+        "options": [
+          ["Левая кнопка", "MOUSE_LEFT"],
+          ["Правая кнопка", "MOUSE_RIGHT"],
+          ["Средняя кнопка", "MOUSE_MIDDLE"]
+        ]
+      },
+      {
+        "options": [
+          ["Клик", "click"],
+          ["Нажать", "press"],
+          ["Отпустить", "release"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_mouse_is_pressed": {
+    "message0": "USB-мышь %1 нажата",
+    "tooltip": "Проверить, нажата ли кнопка мыши",
+    "args0": [
+      {
+        "options": [
+          ["Левая кнопка", "MOUSE_LEFT"],
+          ["Правая кнопка", "MOUSE_RIGHT"],
+          ["Средняя кнопка", "MOUSE_MIDDLE"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_begin": {
+    "message0": "USB-геймпад Инициализация",
+    "tooltip": "Инициализировать USB HID геймпад"
+  },
+  "esp32_usb_gamepad_press_button": {
+    "message0": "USB-геймпад нажать кнопку %1",
+    "tooltip": "Нажать кнопку геймпада",
+    "args0": [
+      {
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["Select", "BUTTON_SELECT"],
+          ["Start", "BUTTON_START"],
+          ["Mode", "BUTTON_MODE"],
+          ["Левый стик", "BUTTON_THUMBL"],
+          ["Правый стик", "BUTTON_THUMBR"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_release_button": {
+    "message0": "USB-геймпад отпустить кнопку %1",
+    "tooltip": "Отпустить кнопку геймпада",
+    "args0": [
+      {
+        "options": [
+          ["A", "BUTTON_A"],
+          ["B", "BUTTON_B"],
+          ["C", "BUTTON_C"],
+          ["X", "BUTTON_X"],
+          ["Y", "BUTTON_Y"],
+          ["Z", "BUTTON_Z"],
+          ["L1", "BUTTON_TL"],
+          ["R1", "BUTTON_TR"],
+          ["L2", "BUTTON_TL2"],
+          ["R2", "BUTTON_TR2"],
+          ["Select", "BUTTON_SELECT"],
+          ["Start", "BUTTON_START"],
+          ["Mode", "BUTTON_MODE"],
+          ["Левый стик", "BUTTON_THUMBL"],
+          ["Правый стик", "BUTTON_THUMBR"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_gamepad_left_stick": {
+    "message0": "USB-геймпад Левый стик X %1 Y %2",
+    "tooltip": "Установить позицию левого стика (-128~127)"
+  },
+  "esp32_usb_gamepad_right_stick": {
+    "message0": "USB-геймпад Правый стик X %1 Y %2",
+    "tooltip": "Установить позицию правого стика (-128~127)"
+  },
+  "esp32_usb_gamepad_trigger": {
+    "message0": "USB-геймпад %1 триггер %2",
+    "tooltip": "Установить значение триггера (-128~127)",
+    "args0": [
+      {
+        "options": [
+          ["Левый", "left"],
+          ["Правый", "right"]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_usb_gamepad_hat": {
+    "message0": "USB-геймпад крестовина %1",
+    "tooltip": "Установить направление крестовины",
+    "args0": [
+      {
+        "options": [
+          ["Центр", "HAT_CENTER"],
+          ["Вверх", "HAT_UP"],
+          ["Вверх-вправо", "HAT_UP_RIGHT"],
+          ["Вправо", "HAT_RIGHT"],
+          ["Вниз-вправо", "HAT_DOWN_RIGHT"],
+          ["Вниз", "HAT_DOWN"],
+          ["Вниз-влево", "HAT_DOWN_LEFT"],
+          ["Влево", "HAT_LEFT"],
+          ["Вверх-влево", "HAT_UP_LEFT"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_consumer_press": {
+    "message0": "USB Мультимедиа Нажать %1",
+    "tooltip": "Нажать мультимедийную клавишу управления",
+    "args0": [
+      {
+        "options": [
+          ["Воспроизведение/Пауза", "CONSUMER_CONTROL_PLAY_PAUSE"],
+          ["Стоп", "CONSUMER_CONTROL_STOP"],
+          ["Следующий трек", "CONSUMER_CONTROL_SCAN_NEXT"],
+          ["Предыдущий трек", "CONSUMER_CONTROL_SCAN_PREVIOUS"],
+          ["Запись", "CONSUMER_CONTROL_RECORD"],
+          ["Перемотка вперёд", "CONSUMER_CONTROL_FAST_FORWARD"],
+          ["Перемотка назад", "CONSUMER_CONTROL_REWIND"],
+          ["Громкость +", "CONSUMER_CONTROL_VOLUME_INCREMENT"],
+          ["Громкость -", "CONSUMER_CONTROL_VOLUME_DECREMENT"],
+          ["Без звука", "CONSUMER_CONTROL_MUTE"],
+          ["Яркость +", "CONSUMER_CONTROL_BRIGHTNESS_INCREMENT"],
+          ["Яркость -", "CONSUMER_CONTROL_BRIGHTNESS_DECREMENT"],
+          ["Питание", "CONSUMER_CONTROL_POWER"],
+          ["Сон", "CONSUMER_CONTROL_SLEEP"],
+          ["Калькулятор", "CONSUMER_CONTROL_CALCULATOR"],
+          ["Почта", "CONSUMER_CONTROL_EMAIL_READER"],
+          ["Браузер", "CONSUMER_CONTROL_LOCAL_BROWSER"],
+          ["Поиск", "CONSUMER_CONTROL_SEARCH"],
+          ["Домой", "CONSUMER_CONTROL_HOME"],
+          ["Назад", "CONSUMER_CONTROL_BACK"],
+          ["Вперёд", "CONSUMER_CONTROL_FORWARD"],
+          ["Обновить", "CONSUMER_CONTROL_REFRESH"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_consumer_release": {
+    "message0": "USB Мультимедиа Отпустить",
+    "tooltip": "Отпустить мультимедийную клавишу"
+  },
+  "esp32_usb_system_press": {
+    "message0": "USB Управление системой %1",
+    "tooltip": "Отправить команду управления системой",
+    "args0": [
+      {
+        "options": [
+          ["Выключение", "SYSTEM_CONTROL_POWER_OFF"],
+          ["Ожидание", "SYSTEM_CONTROL_STANDBY"],
+          ["Пробуждение", "SYSTEM_CONTROL_WAKE_HOST"]
+        ]
+      }
+    ]
+  },
+  "esp32_usb_system_release": {
+    "message0": "USB Управление системой Отпустить",
+    "tooltip": "Отпустить клавишу управления системой"
+  },
+  "esp32_usb_midi_begin": {
+    "message0": "USB MIDI Инициализация",
+    "tooltip": "Инициализировать устройство USB MIDI"
+  },
+  "esp32_usb_midi_note_on": {
+    "message0": "USB MIDI Note On Нота %1 Скорость %2 Канал %3",
+    "tooltip": "Отправить MIDI Note On (нота 0-127, скорость 0-127, канал 1-16)"
+  },
+  "esp32_usb_midi_note_off": {
+    "message0": "USB MIDI Note Off Нота %1 Скорость %2 Канал %3",
+    "tooltip": "Отправить сообщение MIDI Note Off"
+  },
+  "esp32_usb_midi_control_change": {
+    "message0": "USB MIDI CC Контроллер %1 Значение %2 Канал %3",
+    "tooltip": "Отправить MIDI Control Change (контроллер 0-127, значение 0-127)"
+  },
+  "esp32_usb_midi_program_change": {
+    "message0": "USB MIDI Program Change Программа %1 Канал %2",
+    "tooltip": "Отправить MIDI Program Change (смена тембра 0-127)"
+  },
+  "esp32_usb_midi_pitch_bend": {
+    "message0": "USB MIDI Pitch Bend Значение %1 Канал %2",
+    "tooltip": "Отправить MIDI Pitch Bend (-8192~8191)"
+  }
+}

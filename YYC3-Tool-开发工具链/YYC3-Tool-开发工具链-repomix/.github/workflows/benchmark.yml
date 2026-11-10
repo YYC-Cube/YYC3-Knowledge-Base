@@ -1,0 +1,129 @@
+name: Memory Benchmark
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      iterations:
+        description: 'Number of test iterations (default: 50)'
+        required: false
+        default: '50'
+      delay:
+        description: 'Delay between iterations in ms (default: 50)'
+        required: false
+        default: '50'
+
+permissions:
+  contents: read
+
+jobs:
+  memory-test:
+    name: Memory Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: scripts/memory
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version-file: .tool-versions
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            scripts/memory/package-lock.json
+
+      # Install root dependencies (for repomix)
+      - name: Install root dependencies
+        working-directory: .
+        run: npm ci
+
+      # Build repomix
+      - name: Build repomix
+        working-directory: .
+        run: npm run build
+
+      # Install benchmark dependencies
+      - name: Install benchmark dependencies
+        run: npm ci
+
+      # Build benchmark
+      - name: Build benchmark
+        run: npm run build
+
+      # Run memory test
+      - name: Run memory test
+        run: node --expose-gc dist/memory-test.js "$ITERATIONS" "$DELAY"
+        env:
+          CI: true
+          ITERATIONS: ${{ github.event.inputs.iterations || '50' }}
+          DELAY: ${{ github.event.inputs.delay || '50' }}
+
+      # Upload memory test results if available
+      - name: Upload memory test results
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: always()
+        with:
+          name: memory-test-results-${{ github.run_id }}
+          path: scripts/memory/memory-test-results-*.json
+          retention-days: 30
+
+  memory-test-full:
+    name: Memory Test (Full Analysis)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Only run full analysis on manual dispatch
+    if: github.event_name == 'workflow_dispatch'
+    defaults:
+      run:
+        working-directory: scripts/memory
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version-file: .tool-versions
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            scripts/memory/package-lock.json
+
+      # Install root dependencies (for repomix)
+      - name: Install root dependencies
+        working-directory: .
+        run: npm ci
+
+      # Build repomix
+      - name: Build repomix
+        working-directory: .
+        run: npm run build
+
+      # Install benchmark dependencies
+      - name: Install benchmark dependencies
+        run: npm ci
+
+      # Build benchmark
+      - name: Build benchmark
+        run: npm run build
+
+      # Run comprehensive memory test
+      - name: Run comprehensive memory test
+        run: node --expose-gc dist/memory-test.js --full --save
+        env:
+          CI: true
+
+      # Upload detailed memory test results
+      - name: Upload detailed memory test results
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: always()
+        with:
+          name: memory-test-results-full-${{ github.run_id }}
+          path: scripts/memory/memory-test-results-*.json
+          retention-days: 90

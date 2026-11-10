@@ -1,0 +1,248 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-layer-group",
+  "name": "数组",
+  "colour": "#03A9F4",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "创建数组"
+    },
+    {
+      "kind": "block",
+      "type": "list_create_empty",
+      "inputs": {
+        "LENGTH": {
+          "block": {
+            "kind": "block",
+            "type": "math_number",
+            "fields": { "NUM": "10" }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_create_with_values",
+      "inputs": {
+        "VALUES": {
+          "block": {
+            "kind": "block",
+            "type": "list_values",
+            "extraState": { "extraCount": 2 },
+            "inputs": {
+              "INPUT0": {
+                "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "1" } }
+              },
+              "INPUT1": {
+                "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "2" } }
+              },
+              "INPUT2": {
+                "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_from_string",
+      "inputs": {
+        "TEXT": {
+          "block": {
+            "kind": "block",
+            "type": "text",
+            "fields": { "TEXT": "Hello" }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_values",
+      "extraState": { "extraCount": 2 },
+      "inputs": {
+        "INPUT0": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "1" } }
+        },
+        "INPUT1": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "2" } }
+        },
+        "INPUT2": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_values_simple"
+    },
+    {
+      "kind": "label",
+      "text": "读写元素"
+    },
+    {
+      "kind": "block",
+      "type": "list_get",
+      "inputs": {
+        "INDEX": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_set",
+      "inputs": {
+        "INDEX": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        },
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "10" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_length"
+    },
+    {
+      "kind": "label",
+      "text": "查找与判断"
+    },
+    {
+      "kind": "block",
+      "type": "list_find",
+      "inputs": {
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "5" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_contains",
+      "inputs": {
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "5" } }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "统计计算"
+    },
+    {
+      "kind": "block",
+      "type": "list_min_max"
+    },
+    {
+      "kind": "label",
+      "text": "数组操作"
+    },
+    {
+      "kind": "block",
+      "type": "list_sort"
+    },
+    {
+      "kind": "block",
+      "type": "list_reverse"
+    },
+    {
+      "kind": "block",
+      "type": "list_fill",
+      "inputs": {
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list_copy"
+    },
+    {
+      "kind": "block",
+      "type": "list_shift"
+    },
+    {
+      "kind": "label",
+      "text": "二维数组"
+    },
+    {
+      "kind": "block",
+      "type": "list2d_create",
+      "inputs": {
+        "ROWS": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } }
+        },
+        "COLS": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list2d_create_with_values",
+      "extraState": { "extraCount": 1 },
+      "inputs": {
+        "INPUT0": {
+          "block": {
+            "kind": "block",
+            "type": "list_values",
+            "extraState": { "extraCount": 2 },
+            "inputs": {
+              "INPUT0": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "1" } } },
+              "INPUT1": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "2" } } },
+              "INPUT2": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "3" } } }
+            }
+          }
+        },
+        "INPUT1": {
+          "block": {
+            "kind": "block",
+            "type": "list_values",
+            "extraState": { "extraCount": 2 },
+            "inputs": {
+              "INPUT0": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "4" } } },
+              "INPUT1": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "5" } } },
+              "INPUT2": { "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "6" } } }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list2d_get",
+      "inputs": {
+        "ROW": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        },
+        "COL": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list2d_set",
+      "inputs": {
+        "ROW": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        },
+        "COL": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        },
+        "VALUE": {
+          "block": { "kind": "block", "type": "math_number", "fields": { "NUM": "0" } }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "list2d_size"
+    }
+  ]
+}

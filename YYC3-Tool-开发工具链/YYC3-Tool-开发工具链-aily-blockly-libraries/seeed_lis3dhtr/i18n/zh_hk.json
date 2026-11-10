@@ -1,0 +1,91 @@
+{
+  "toolbox_name": "LIS3DHTR 加速度計",
+  "toolbox_labels": {
+    "初始化与配置": "初始化與配置",
+    "加速度读取": "加速度讀取",
+    "敲击检测": "敲擊偵測",
+    "温度传感器": "溫度感測器",
+    "ADC 读取": "ADC 讀取",
+    "状态与信息": "狀態與資訊"
+  },
+  "lis3dhtr_init": {
+    "message0": "初始化 LIS3DHTR 加速度計 I2C %1 位址 %2",
+    "tooltip": "初始化 LIS3DHTR 加速度感測器（I2C 模式），預設位址 0x18。⚠️ Wio Terminal 必須使用 Wire1"
+  },
+  "lis3dhtr_init_simplified": {
+    "message0": "一體化初始化 LIS3DHTR I2C %1 位址 %2 資料速率 %3 量程 %4 高解析度 %5",
+    "tooltip": "一步完成 LIS3DHTR 初始化和配置：初始化 + 設定資料速率 + 量程 + 高解析度。建議讀取間隔 50ms 以上避免資料量過大"
+  },
+  "lis3dhtr_set_datarate": {
+    "message0": "設定輸出資料速率 %1",
+    "tooltip": "設定加速度計輸出資料速率"
+  },
+  "lis3dhtr_set_full_scale_range": {
+    "message0": "設定量程範圍 %1",
+    "tooltip": "設定加速度計量程範圍"
+  },
+  "lis3dhtr_set_resolution": {
+    "message0": "設定高解析度模式 %1",
+    "tooltip": "開啟/關閉高解析度輸出模式"
+  },
+  "lis3dhtr_set_power_mode": {
+    "message0": "設定電源模式 %1",
+    "tooltip": "設定感測器電源模式"
+  },
+  "lis3dhtr_get_acceleration": {
+    "message0": "讀取 %1 軸加速度 (g)",
+    "tooltip": "讀取指定軸的加速度值（單位：g）"
+  },
+  "lis3dhtr_get_acceleration_x": {
+    "message0": "讀取 X 軸加速度 (g)",
+    "tooltip": "讀取 X 軸加速度值"
+  },
+  "lis3dhtr_get_acceleration_y": {
+    "message0": "讀取 Y 軸加速度 (g)",
+    "tooltip": "讀取 Y 軸加速度值"
+  },
+  "lis3dhtr_get_acceleration_z": {
+    "message0": "讀取 Z 軸加速度 (g)",
+    "tooltip": "讀取 Z 軸加速度值"
+  },
+  "lis3dhtr_get_acceleration_xyz": {
+    "message0": "獲取三軸加速度 X: %1 Y: %2 Z: %3",
+    "tooltip": "一次性讀取三軸加速度並儲存到指定變數"
+  },
+  "lis3dhtr_available": {
+    "message0": "加速度計資料已就緒",
+    "tooltip": "檢查是否有新的加速度計資料可讀取"
+  },
+  "lis3dhtr_open_temp": {
+    "message0": "開啟溫度感測器",
+    "tooltip": "開啟 LIS3DHTR 內建溫度感測器"
+  },
+  "lis3dhtr_close_temp": {
+    "message0": "關閉溫度感測器",
+    "tooltip": "關閉 LIS3DHTR 內建溫度感測器"
+  },
+  "lis3dhtr_get_temperature": {
+    "message0": "讀取溫度 (°C)",
+    "tooltip": "讀取溫度資料，需先開啟溫度感測器"
+  },
+  "lis3dhtr_read_adc": {
+    "message0": "讀取 ADC %1 通道",
+    "tooltip": "讀取指定 ADC 通道資料"
+  },
+  "lis3dhtr_is_connection": {
+    "message0": "感測器已連接",
+    "tooltip": "檢查 LIS3DHTR 感測器是否正常連接（裝置ID == 0x33）"
+  },
+  "lis3dhtr_get_device_id": {
+    "message0": "獲取裝置 ID",
+    "tooltip": "讀取 LIS3DHTR 裝置 ID（正常值 0x33）"
+  },
+  "lis3dhtr_reset": {
+    "message0": "復位感測器",
+    "tooltip": "復位 LIS3DHTR 感測器至預設狀態"
+  },
+  "lis3dhtr_on_tap": {
+    "message0": "當偵測到 %1 敲擊 閾值 %2 中斷引腳 %3",
+    "tooltip": "配置敲擊偵測並設定中斷處理程式。閾值範圍建議：2G量程40-80，4G量程20-40，8G量程10-20，16G量程5-10"
+  }
+}

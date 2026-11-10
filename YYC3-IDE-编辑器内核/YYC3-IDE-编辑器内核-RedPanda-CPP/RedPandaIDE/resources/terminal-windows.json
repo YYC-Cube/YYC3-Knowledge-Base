@@ -1,0 +1,63 @@
+[
+    {
+        "group": "Bundled",
+        "comment": "Use `%*APP_DIR*%` in path for application directory; `%*APP_LIBEXEC_DIR*%` for application libexec directory.",
+        "terminals": [
+            {
+                "name": "UTF-8 compatible Console Host",
+                "path": "%*APP_LIBEXEC_DIR*%/OpenConsole.exe",
+                "argsPattern": "$term -- $argv"
+            }
+        ]
+    },
+    {
+        "group": "System",
+        "terminals": [
+            {
+                "name": "System Default",
+                "path": "",
+                "argsPattern": "$argv"
+            }
+        ]
+    },
+    {
+        "group": "Predefined arguments pattern (will not be searched)",
+        "terminals": [
+            {
+                "name": "Console Host",
+                "path": "conhost.exe",
+                "argsPattern": "$term -- $argv"
+            },
+            {
+                "name": "Windows Terminal",
+                "path": "wt.exe",
+                "argsPattern": "$term -- $argv"
+            },
+            {
+                "name": "Alacritty",
+                "path": "alacritty.exe",
+                "argsPattern": "$term -e $argv"
+            },
+            {
+                "name": "ConEmu",
+                "path": "ConEmu.exe",
+                "argsPattern": "$term -run $argv"
+            },
+            {
+                "name": "ConEmu",
+                "path": "ConEmu64.exe",
+                "argsPattern": "$term -run $argv"
+            },
+            {
+                "name": "Konsole",
+                "path": "konsole.exe",
+                "argsPattern": "$term -e $argv"
+            },
+            {
+                "name": "Mintty",
+                "path": "mintty.exe",
+                "argsPattern": "$term -e $argv"
+            }
+        ]
+    }
+]

@@ -1,0 +1,102 @@
+{
+  "toolbox_name": "R4 WiFi",
+  "toolbox_labels": {
+    "连接": "conectar",
+    "状态查询": "Consulta de status",
+    "配置": "Configuração",
+    "网络扫描": "Verificação de rede",
+    "网络操作": "operações de rede"
+  },
+  "wifis3_begin": {
+    "message0": "Conectar WiFi SSID %1 Senha %2",
+    "tooltip": "Conectar à rede WiFi (criptografia WPA/WPA2)"
+  },
+  "wifis3_begin_open": {
+    "message0": "Conectar WiFi SSID %1 (Rede aberta)",
+    "tooltip": "Conectar à rede WiFi aberta sem senha"
+  },
+  "wifis3_begin_ap": {
+    "message0": "Iniciar AP WiFi SSID %1 Senha %2 Canal %3",
+    "tooltip": "Iniciar ponto de acesso WiFi (modo hotspot)"
+  },
+  "wifis3_disconnect": {
+    "message0": "Desconectar WiFi",
+    "tooltip": "Desconectar a conexão WiFi atual"
+  },
+  "wifis3_status": {
+    "message0": "Estado da conexão WiFi",
+    "tooltip": "Retornar o estado da conexão WiFi (3=conectado, 1=inativo, 0=desconectado, etc.)"
+  },
+  "wifis3_is_connected": {
+    "message0": "WiFi conectado?",
+    "tooltip": "Verificar se está conectado à rede WiFi"
+  },
+  "wifis3_local_ip": {
+    "message0": "Obter endereço IP local",
+    "tooltip": "Retornar o endereço IP local do dispositivo"
+  },
+  "wifis3_mac_address": {
+    "message0": "Obter endereço MAC",
+    "tooltip": "Retornar o endereço MAC do módulo WiFi"
+  },
+  "wifis3_gateway_ip": {
+    "message0": "Obter endereço IP do gateway",
+    "tooltip": "Retornar o endereço IP do gateway"
+  },
+  "wifis3_subnet_mask": {
+    "message0": "Obter máscara de sub-rede",
+    "tooltip": "Retornar a máscara de sub-rede"
+  },
+  "wifis3_dns_ip": {
+    "message0": "Obter servidor DNS %1",
+    "tooltip": "Retornar o endereço do servidor DNS",
+    "args0": [
+      {
+        "options": [
+          ["DNS primário", "0"],
+          ["DNS secundário", "1"]
+        ]
+      }
+    ]
+  },
+  "wifis3_set_dns": {
+    "message0": "Definir servidor DNS Primário %1 Secundário %2",
+    "tooltip": "Definir servidores DNS primário e secundário"
+  },
+  "wifis3_config_ip": {
+    "message0": "Configurar IP estático Endereço %1 Gateway %2 Sub-rede %3",
+    "tooltip": "Configurar endereço IP estático, gateway e máscara de sub-rede"
+  },
+  "wifis3_set_hostname": {
+    "message0": "Definir nome do host %1",
+    "tooltip": "Definir nome de host DHCP"
+  },
+  "wifis3_scan_networks": {
+    "message0": "Escanear redes WiFi",
+    "tooltip": "Escanear redes WiFi disponíveis"
+  },
+  "wifis3_ssid_by_index": {
+    "message0": "Obter SSID da rede #%1",
+    "tooltip": "Retornar o SSID da rede no índice especificado"
+  },
+  "wifis3_rssi_by_index": {
+    "message0": "Obter intensidade do sinal da rede #%1",
+    "tooltip": "Retornar a intensidade do sinal RSSI (dBm) da rede no índice especificado"
+  },
+  "wifis3_scanned_networks_count": {
+    "message0": "Obter quantidade de redes escaneadas",
+    "tooltip": "Retornar o número de redes WiFi encontradas no último escaneamento"
+  },
+  "wifis3_ping": {
+    "message0": "PING %1 (TTL %2 Quantidade %3)",
+    "tooltip": "Enviar PING ao host especificado, retornar tempo de resposta"
+  },
+  "wifis3_firmware_version": {
+    "message0": "Obter versão do firmware WiFi",
+    "tooltip": "Retornar a versão do firmware do módulo WiFi"
+  },
+  "wifis3_wait_for_connection": {
+    "message0": "Aguardar conexão WiFi Timeout %1 ms",
+    "tooltip": "Aguardar até a conexão WiFi ser bem-sucedida ou timeout"
+  }
+}

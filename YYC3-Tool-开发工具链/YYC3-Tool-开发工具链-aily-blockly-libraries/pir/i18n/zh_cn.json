@@ -1,0 +1,18 @@
+{
+  "toolbox_name": "PIR",
+  "toolbox_labels": {
+    "PIR 运动传感器": "PIR 运动传感器"
+  },
+  "grove_pir_init": {
+    "message0": "初始化 PIR 运动传感器 %1 引脚 %2",
+    "tooltip": "初始化PIR运动传感器，设置信号引脚"
+  },
+  "grove_pir_read": {
+    "message0": "读取 %1 状态",
+    "tooltip": "读取PIR传感器状态，返回HIGH(检测到运动)或LOW(无运动)"
+  },
+  "grove_pir_motion_detected": {
+    "message0": "%1 检测到运动",
+    "tooltip": "判断PIR传感器是否检测到运动，返回true或false"
+  }
+}

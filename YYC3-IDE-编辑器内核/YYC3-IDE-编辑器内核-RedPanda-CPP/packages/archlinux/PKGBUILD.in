@@ -1,0 +1,49 @@
+_pkgname=RedPanda-CPP
+pkgname=redpanda-cpp
+pkgver=__VERSION__
+pkgrel=1
+pkgdesc='A fast, lightweight, open source, and cross platform C++ IDE (development version)'
+arch=('i686' 'pentium4' 'x86_64' 'arm' 'armv6h' 'armv7h' 'aarch64' 'riscv64')
+url="https://github.com/royqh1979/$_pkgname"
+license=('GPL3')
+depends=(qt6-base qt6-svg gcc gdb astyle)
+makedepends=(
+    qt6-tools cmake
+    # for test suite
+    noto-fonts noto-fonts-cjk noto-fonts-emoji
+)
+optdepends=(
+    'clang: C/C++ compiler (alternative)'
+)
+source=(
+    "$_pkgname.tar.gz"
+    'compiler_hint.lua'
+)
+sha256sums=(
+    'SKIP'
+    'SKIP'
+)
+
+build() {
+    mkdir redpanda-build
+    cd redpanda-build
+    cmake -S "$srcdir/$_pkgname" -B . \
+        -G "Unix Makefiles" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBEXECDIR=lib
+    make
+}
+
+check() {
+    cd redpanda-build
+    QT_QPA_PLATFORM=offscreen make test
+}
+
+package() {
+    local _libexecdir="$pkgdir/usr/lib/RedPandaCPP"
+    install -Dm644 "compiler_hint.lua" "$_libexecdir/compiler_hint.lua"
+
+    cd redpanda-build
+    make DESTDIR="$pkgdir" install
+}

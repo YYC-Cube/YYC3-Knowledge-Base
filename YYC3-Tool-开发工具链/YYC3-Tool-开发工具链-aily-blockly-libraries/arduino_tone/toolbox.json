@@ -1,0 +1,56 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-volume",
+  "name": "Tone",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "io_tone",
+      "inputs": {
+        "FREQUENCY": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 440
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "io_tone_duration",
+      "inputs": {
+        "FREQUENCY": {
+          "shadow": {
+            "type": "io_note"
+          }
+        },
+        "DURATION": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 500
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "io_system_sound"
+    },
+    {
+      "kind": "block",
+      "type": "io_music"
+    },
+    {
+      "kind": "block",
+      "type": "io_note"
+    },
+    {
+      "kind": "block",
+      "type": "io_notone"
+    }
+  ]
+}

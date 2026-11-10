@@ -1,0 +1,155 @@
+[
+  {
+    "type": "seeed_pca9685_init",
+    "message0": "初始化 PCA9685 PWM控制器 %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "pwm"
+      },
+      {
+        "type": "field_input",
+        "name": "ADDRESS",
+        "text": "0x7f"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建并初始化Seeed PCA9685 PWM控制器（16通道PWM输出），默认I2C地址0x7f"
+  },
+  {
+    "type": "seeed_pca9685_set_frequency",
+    "message0": "设置 %1 PWM频率 %2 Hz",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["PCA9685"],
+        "defaultType": "PCA9685"
+      },
+      {
+        "type": "input_value",
+        "name": "FREQ",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置PWM输出频率，范围24Hz~1526Hz"
+  },
+  {
+    "type": "seeed_pca9685_set_pwm",
+    "message0": "设置 %1 引脚 %2 PWM开始 %3 结束 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "pwm",
+        "variableTypes": ["PCA9685"],
+        "defaultType": "PCA9685"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ON",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "OFF",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置PWM值，引脚范围1-16，开始/结束值范围0-4095"
+  },
+  {
+    "type": "seeed_pca9685_servo_init",
+    "message0": "初始化 PCA9685 舵机驱动器 %1 I2C地址 %2",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "servo"
+      },
+      {
+        "type": "field_input",
+        "name": "ADDRESS",
+        "text": "0x7f"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "创建并初始化Seeed PCA9685舵机驱动器（16通道舵机控制），默认I2C地址0x7f"
+  },
+  {
+    "type": "seeed_pca9685_servo_set_pulse_range",
+    "message0": "设置 %1 舵机脉冲范围 最小 %2 最大 %3 最大角度 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servo",
+        "variableTypes": ["ServoDriver"],
+        "defaultType": "ServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "MIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "MAX",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "DEGREE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置舵机脉冲宽度范围（微秒）和最大角度，默认500-2500μs，180度"
+  },
+  {
+    "type": "seeed_pca9685_servo_set_angle",
+    "message0": "设置 %1 引脚 %2 舵机角度 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "servo",
+        "variableTypes": ["ServoDriver"],
+        "defaultType": "ServoDriver"
+      },
+      {
+        "type": "input_value",
+        "name": "PIN",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ANGLE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#4CAF50",
+    "tooltip": "设置指定引脚舵机角度，引脚范围1-16，角度范围0-180"
+  }
+]

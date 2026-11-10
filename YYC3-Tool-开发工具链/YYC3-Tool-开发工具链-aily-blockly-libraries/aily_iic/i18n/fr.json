@@ -1,0 +1,141 @@
+{
+  "toolbox_name": "I2C",
+  "wire_begin": {
+    "message0": "初始化%1 模式%2",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      },
+      {
+        "options": [
+          [
+            "主设备",
+            "MASTER"
+          ],
+          [
+            "从设备",
+            "SLAVE"
+          ]
+        ]
+      }
+    ]
+  },
+  "wire_begin_with_settings": {
+    "message0": "初始化%1 模式%2 SDA %3 SCL %4",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      },
+      {
+        "options": [
+          [
+            "主设备",
+            "MASTER"
+          ],
+          [
+            "从设备",
+            "SLAVE"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "wire_set_clock": {
+    "message0": "设置%1时钟频率为 %2 Hz",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      },
+      null
+    ]
+  },
+  "wire_begin_transmission": {
+    "message0": "%1开始传输到地址 %2",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      },
+      null
+    ]
+  },
+  "wire_write": {
+    "message0": "%1发送数据 %2",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      },
+      null
+    ]
+  },
+  "wire_end_transmission": {
+    "message0": "%1结束传输",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  },
+  "wire_request_from": {
+    "message0": "%1从地址 %2 请求 %3 字节数据",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      },
+      null,
+      null
+    ]
+  },
+  "wire_available": {
+    "message0": "%1是否可读数据",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  },
+  "wire_read": {
+    "message0": "%1读取数据",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  },
+  "wire_variables": {
+    "message0": "I2C对象 %1",
+    "tooltip": "获取Wire对象引用，可用于需要I2C实例的函数或表达式中",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  },
+  "wire_on_receive": {
+    "message0": "%1收到数据时调用 %2",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      },
+      null
+    ]
+  },
+  "wire_on_request": {
+    "message0": "%1请求数据时调用 %2",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      },
+      null
+    ]
+  },
+  "wire_scan": {
+    "message0": "%1扫描I2C设备",
+    "args0": [
+      {
+        "options": "${board.i2c}"
+      }
+    ]
+  }
+}

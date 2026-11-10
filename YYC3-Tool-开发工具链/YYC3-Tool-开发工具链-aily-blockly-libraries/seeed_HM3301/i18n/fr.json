@@ -1,0 +1,36 @@
+{
+  "toolbox_name": "Capteur PM2.5 HM3301",
+  "toolbox_labels": {
+    "传感器初始化": "Initialisation du capteur",
+    "数据读取": "Lecture de données"
+  },
+  "hm3301_init": {
+    "message0": "Initialiser le capteur PM2.5 HM3301",
+    "tooltip": "Initialiser le capteur de poussière laser HM3301 (I2C, adresse 0x40)"
+  },
+  "hm3301_read": {
+    "message0": "HM3301 lire %1",
+    "tooltip": "Lire la concentration de particules du capteur HM3301",
+    "args0": [
+      {
+        "options": [
+          ["PM1.0 Standard (μg/m³)", "PM1_0_STD"],
+          ["PM2.5 Standard (μg/m³)", "PM2_5_STD"],
+          ["PM10 Standard (μg/m³)", "PM10_STD"],
+          ["PM1.0 Atmosphérique (μg/m³)", "PM1_0_ATM"],
+          ["PM2.5 Atmosphérique (μg/m³)", "PM2_5_ATM"],
+          ["PM10 Atmosphérique (μg/m³)", "PM10_ATM"]
+        ]
+      }
+    ]
+  },
+  "extensions": {
+    "hm3301_i2c_board_extension": {
+      "sda_pin": "Broche SDA",
+      "scl_pin": "Broche SCL",
+      "tooltip_esp32": "Initialiser le capteur HM3301, ESP32 nécessite la configuration des broches SDA/SCL",
+      "tooltip_mega": "Initialiser le capteur HM3301 (Mega2560 broches I2C fixes : SDA->20, SCL->21)",
+      "tooltip_uno": "Initialiser le capteur HM3301 (Arduino UNO broches I2C fixes : SDA->A4, SCL->A5)"
+    }
+  }
+}

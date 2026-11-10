@@ -1,0 +1,898 @@
+{
+  "kind": "category",
+  "name": "Adafruit GFX",
+  "icon": "iconfont icon-oled12864",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "tft_init",
+      "fields": {
+        "MODEL": "ST7789"
+      },
+      "inputs": {
+        "CS": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 34
+            }
+          }
+        },
+        "DC": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 35
+            }
+          }
+        },
+        "MOSI": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 37
+            }
+          }
+        },
+        "SCLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 36
+            }
+          }
+        },
+        "RST": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": -1
+            }
+          }
+        },
+        "BLK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 33
+            }
+          }
+        },
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 172
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 320
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_set_rotation"
+    },
+    {
+      "kind": "block",
+      "type": "tft_invert_display"
+    },
+    {
+      "kind": "block",
+      "type": "tft_fill_screen",
+      "inputs": {
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::Red"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_clear_screen"
+    },
+    {
+      "kind": "block",
+      "type": "tft_set_text_color",
+      "inputs": {
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        },
+        "BG_COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::Black"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_set_text_size",
+      "inputs": {
+        "SIZE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_print",
+      "inputs": {
+        "ROW": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "COLUMN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": " "
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_color565",
+      "inputs": {
+        "R": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 255
+            }
+          }
+        },
+        "G": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "B": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_pixel",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_line",
+      "inputs": {
+        "X0": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y0": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "X1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "Y1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_fast_h_line",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_fast_v_line",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_rect",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_fill_rect",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_round_rect",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "R": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_fill_round_rect",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "W": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        },
+        "H": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "R": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 4
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_circle",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "R": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_fill_circle",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "R": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 5
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_triangle",
+      "inputs": {
+        "X0": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y0": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "X1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "Y1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "X2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        },
+        "Y2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_fill_triangle",
+      "inputs": {
+        "X0": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y0": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "X1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "Y1": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 10
+            }
+          }
+        },
+        "X2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        },
+        "Y2": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "COLOR": {
+          "shadow": {
+            "type": "tft_preset_color",
+            "fields": {
+              "COLOR": "CRGB::White"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_create_canvas16",
+      "inputs": {
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 64
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 64
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_create_canvas1",
+      "inputs": {
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 64
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 64
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_get_buffer",
+      "inputs": {
+        "CANVAS": {
+          "shadow": {
+            "type": "variables_get",
+            "fields": {
+              "VAR": {
+                "name": "canvas16"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_bitmap_image"
+    },
+    {
+      "kind": "block",
+      "type": "tft_image_file"
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_image",
+      "inputs": {
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "BITMAP": {
+          "shadow": {
+            "type": "tft_bitmap_image",
+            "fields": {
+              "IMAGE_DATA": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tft_draw_url_image",
+      "inputs": {
+        "URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "http://example.com/image.jpg"
+            }
+          }
+        },
+        "X": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "Y": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "WIDTH": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 240
+            }
+          }
+        },
+        "HEIGHT": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 240
+            }
+          }
+        }
+      }
+    }
+  ]
+}

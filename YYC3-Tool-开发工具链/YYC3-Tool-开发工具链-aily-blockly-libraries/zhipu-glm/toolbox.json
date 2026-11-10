@@ -1,0 +1,220 @@
+{
+  "kind": "category",
+  "name": "智谱AI",
+  "icon": "fa-light fa-brain",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "配置"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_config",
+      "inputs": {
+        "API_KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "your-api-key"
+            }
+          }
+        },
+        "BASE_URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "https://open.bigmodel.cn/api/paas/v4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_set_system_prompt",
+      "inputs": {
+        "SYSTEM_PROMPT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你是一个有用的AI助手"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "文本对话"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_chat",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "你好"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_chat_with_thinking",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "请帮我分析这个问题"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_chat_with_history",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "继续我们的对话"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "图片对话"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_vision_chat",
+      "inputs": {
+        "IMAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "base64-image"
+            }
+          }
+        },
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "请描述这个图片"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_vision_chat_direct_capture",
+      "inputs": {
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "请描述这个图片"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_vision_url_chat",
+      "inputs": {
+        "IMAGE_URL": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "https://example.com/image.jpg"
+            }
+          }
+        },
+        "MESSAGE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "请描述这个图片"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "图像生成"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_image_generate",
+      "inputs": {
+        "PROMPT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "一只可爱的猫咪在草地上玩耍"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_image_generate_simple",
+      "inputs": {
+        "PROMPT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "一只可爱的猫咪"
+            }
+          }
+        }
+      }
+    },
+
+    {
+      "kind": "label",
+      "text": "流式回调"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_set_stream_callback"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_get_stream_chunk"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_clear_stream_callback"
+    },
+    {
+      "kind": "label",
+      "text": "状态管理"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_clear_history"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_get_response_status"
+    },
+    {
+      "kind": "block",
+      "type": "zhipu_glm_get_error_message"
+    }
+  ]
+}

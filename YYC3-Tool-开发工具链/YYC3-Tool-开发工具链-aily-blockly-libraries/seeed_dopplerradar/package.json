@@ -1,0 +1,57 @@
+{
+  "name": "@aily-project/lib-seeed-dopplerradar",
+  "nickname": "多普勒雷达传感器",
+  "nickname_zh_cn": "多普勒雷达传感器",
+  "nickname_en": "Doppler Radar Sensor",
+  "nickname_zh_hk": "多普勒雷達傳感器",
+  "nickname_ja": "ドップラーレーダーセンサー",
+  "nickname_ko": "도플러 레이더 센서",
+  "nickname_de": "Doppler-Radarsensor",
+  "nickname_fr": "Capteur radar Doppler",
+  "nickname_es": "Sensor de radar Doppler",
+  "nickname_pt": "Sensor de radar Doppler",
+  "nickname_ru": "Датчик доплеровского радара",
+  "nickname_ar": "مستشعر رادار دوبلر",
+  "author": "SeeedStudio",
+  "description": "Seeed BGT24LTR11多普勒雷达传感器控制库，用于检测目标运动状态（接近/远离）和速度。通过串口通信，支持目标检测模式和I/Q ADC模式，可配置检测阈值和速度范围。",
+  "description_zh_cn": "Seeed BGT24LTR11多普勒雷达传感器控制库，用于检测目标运动状态（接近/远离）和速度。通过串口通信，支持目标检测模式和I/Q ADC模式，可配置检测阈值和速度范围。",
+  "description_en": "Seeed BGT24LTR11 Doppler radar sensor control library for detecting target motion state (approaching/leaving) and speed. Communicates via serial port, supports target detection mode and I/Q ADC mode, with configurable detection threshold and speed range.",
+  "description_zh_hk": "Seeed BGT24LTR11多普勒雷達傳感器控制庫，用於檢測目標運動狀態（接近/遠離）和速度。通過串口通信，支持目標檢測模式和I/Q ADC模式，可配置檢測閾值和速度範圍。",
+  "description_ja": "Seeed BGT24LTR11ドップラーレーダーセンサー制御ライブラリ。ターゲットの運動状態（接近/離脱）と速度を検出します。シリアル通信により、ターゲット検出モードとI/Q ADCモードをサポートし、検出閾値と速度範囲の設定が可能です。",
+  "description_ko": "Seeed BGT24LTR11 도플러 레이더 센서 제어 라이브러리로, 대상의 운동 상태(접근/이탈)와 속도를 감지합니다. 시리얼 통신을 통해 대상 감지 모드와 I/Q ADC 모드를 지원하며, 감지 임계값과 속도 범위를 구성할 수 있습니다.",
+  "description_de": "Seeed BGT24LTR11 Doppler-Radarsensor-Steuerungsbibliothek zur Erkennung des Zielbewegungsstatus (Annäherung/Entfernung) und der Geschwindigkeit. Kommuniziert über die serielle Schnittstelle, unterstützt den Zielerkennungsmodus und den I/Q-ADC-Modus mit konfigurierbarer Erkennungsschwelle und Geschwindigkeitsbereich.",
+  "description_fr": "Bibliothèque de contrôle du capteur radar Doppler Seeed BGT24LTR11 pour détecter l'état de mouvement de la cible (approche/éloignement) et la vitesse. Communique via le port série, prend en charge le mode de détection de cible et le mode I/Q ADC, avec seuil de détection et plage de vitesse configurables.",
+  "description_es": "Biblioteca de control del sensor de radar Doppler Seeed BGT24LTR11 para detectar el estado de movimiento del objetivo (acercamiento/alejamiento) y la velocidad. Se comunica a través del puerto serie, admite el modo de detección de objetivos y el modo I/Q ADC, con umbral de detección y rango de velocidad configurables.",
+  "description_pt": "Biblioteca de controle do sensor de radar Doppler Seeed BGT24LTR11 para detecção do estado de movimento do alvo (aproximação/afastamento) e velocidade. Comunica-se via porta serial, suporta modo de detecção de alvo e modo I/Q ADC, com limiar de detecção e faixa de velocidade configuráveis.",
+  "description_ru": "Библиотека управления датчиком доплеровского радара Seeed BGT24LTR11 для обнаружения состояния движения цели (приближение/удаление) и скорости. Связь через последовательный порт, поддержка режима обнаружения цели и режима I/Q АЦП с настраиваемым порогом обнаружения и диапазоном скорости.",
+  "description_ar": "مكتبة التحكم بمستشعر الرادار الدوبلري Seeed BGT24LTR11 لاكتشاف حالة حركة الهدف (الاقتراب/الابتعاد) والسرعة. يتواصل عبر المنفذ التسلسلي، ويدعم وضع اكتشاف الهدف ووضع I/Q ADC، مع عتبة اكتشاف ونطاق سرعة قابلين للتكوين.",
+  "version": "0.0.1",
+  "compatibility": {
+    "core": [
+      "arduino:avr",
+      "arduino:samd",
+      "esp32:esp32",
+      "rp2040:rp2040"
+    ],
+    "voltage": [
+      3.3,
+      5
+    ]
+  },
+  "keywords": [
+    "doppler",
+    "radar",
+    "BGT24LTR11",
+    "多普勒雷达",
+    "speed",
+    "motion"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "tested": false,
+  "url": "https://github.com/Seeed-Studio/Seeed_Arduino_DopplerRadar",
+  "tags": [
+    "sensor"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "kind": "category",
+  "name": "K10传感器",
+  "icon": "fa-light fa-gauge-high",
+  "colour": "#9C27B0",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "k10_get_accelerometer"
+    },
+    {
+      "kind": "block",
+      "type": "k10_get_strength"
+    },
+    {
+      "kind": "block",
+      "type": "k10_aht20_get_temperature"
+    },
+    {
+      "kind": "block",
+      "type": "k10_aht20_get_humidity"
+    }
+  ]
+}

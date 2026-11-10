@@ -1,0 +1,23 @@
+{
+    "kind": "category",
+    "icon": "iconfont icon-dht22",
+    "name": "DHT传感器",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "dht_init"
+        },
+        {
+            "kind": "block",
+            "type": "dht_read_temperature"
+        },
+        {
+            "kind": "block",
+            "type": "dht_read_humidity"
+        },
+        {
+            "kind": "block",
+            "type": "dht_read_success"
+        }
+    ]
+}

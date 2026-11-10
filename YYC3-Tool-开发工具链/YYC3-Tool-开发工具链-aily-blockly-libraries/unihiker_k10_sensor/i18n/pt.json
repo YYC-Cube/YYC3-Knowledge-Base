@@ -1,0 +1,69 @@
+{
+  "toolbox_name": "K10 Sensor",
+  "k10_get_accelerometer": {
+    "message0": "obter acelerômetro eixo %1",
+    "tooltip": "Obter dados do acelerômetro integrado K10",
+    "args0": [
+      {
+        "options": [
+          [
+            "X",
+            "X"
+          ],
+          [
+            "Y",
+            "Y"
+          ],
+          [
+            "Z",
+            "Z"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_get_strength": {
+    "message0": "obter valor de intensidade luminosa",
+    "tooltip": "Obter valor do sensor de luz integrado K10"
+  },
+  "k10_aht20_measure": {
+    "message0": "AHT20 iniciar medição CRC %1",
+    "tooltip": "Iniciar uma medição AHT20; retorna verdadeiro quando pronto, depois ler temperatura/umidade",
+    "args0": [
+      {
+        "options": [
+          [
+            "ligado",
+            "true"
+          ],
+          [
+            "desligado",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_temperature": {
+    "message0": "AHT20 obter temperatura %1",
+    "tooltip": "Get AHT20 temperature; measurement starts automatically",
+    "args0": [
+      {
+        "options": [
+          [
+            "Celsius(℃)",
+            "C"
+          ],
+          [
+            "Fahrenheit(℉)",
+            "F"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_aht20_get_humidity": {
+    "message0": "AHT20 obter umidade relativa(%RH)",
+    "tooltip": "Get AHT20 relative humidity; measurement starts automatically"
+  }
+}

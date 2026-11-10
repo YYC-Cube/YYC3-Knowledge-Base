@@ -1,0 +1,29 @@
+{
+  "toolbox_name": "360-Servo",
+  "servo360_write": {
+    "message0": "360-Servo an Pin %1 Geschwindigkeit %2 Richtung %3",
+    "tooltip": "Steuert Geschwindigkeit und Richtung des 360-Grad-Dauerrotationsservos am ausgewählten Pin.",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      null,
+      {
+        "options": [
+          [
+            "Vorwärts",
+            "true"
+          ],
+          [
+            "Rückwärts",
+            "false"
+          ]
+        ]
+      }
+    ]
+  },
+  "servo360_speed": {
+    "message0": "Geschwindigkeit %1",
+    "tooltip": "Geschwindigkeitswert für einen 360-Grad-Dauerrotationsservo (0-100)."
+  }
+}

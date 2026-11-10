@@ -1,0 +1,79 @@
+{
+  "toolbox_name": "RTC 실시간 시계",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "时间设置": "시간 설정",
+    "时间读取": "독서시간",
+    "时间组件": "시간 구성요소",
+    "状态控制": "상태 제어",
+    "DS3231专用": "DS3231 전용",
+    "DS1302专用": "DS1302 전용"
+  },
+  "rtc_init": {
+    "message0": "RTC 초기화 %1 칩 유형 %2",
+    "tooltip": "RTC 실시간 시계 모듈을 초기화하고 칩 유형을 선택",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["DS3231 (I2C)", "DS3231"],
+          ["DS1307 (I2C)", "DS1307"],
+          ["DS1302 (3선식)", "DS1302"],
+          ["PCF8563 (I2C)", "PCF8563"]
+        ]
+      }
+    ]
+  },
+  "rtc_set_datetime": {
+    "message0": "%1 시간 설정 년 %2 월 %3 일 %4 시 %5 분 %6 초 %7",
+    "tooltip": "RTC의 날짜와 시간을 설정"
+  },
+  "rtc_set_compile_datetime": {
+    "message0": "%1 컴파일 시간으로 설정",
+    "tooltip": "RTC를 프로그램 컴파일 시간으로 설정 (빠른 보정용)"
+  },
+  "rtc_get_datetime": {
+    "message0": "%1 현재 시간 가져오기",
+    "tooltip": "RTC에서 현재 날짜와 시간을 읽기"
+  },
+  "rtc_is_datetime_valid": {
+    "message0": "%1 시간이 유효한지",
+    "tooltip": "RTC에 저장된 시간이 유효한지 확인"
+  },
+  "rtc_get_is_running": {
+    "message0": "%1 실행 중인지",
+    "tooltip": "RTC 오실레이터가 실행 중인지 확인"
+  },
+  "rtc_set_is_running": {
+    "message0": "%1 실행 상태 설정 %2",
+    "tooltip": "RTC 오실레이터를 시작 또는 중지",
+    "args0": [ null, { "options": [["실행", "TRUE"], ["중지", "FALSE"]] } ]
+  },
+  "rtc_get_year": { "message0": "시간 %1 의 연도", "tooltip": "RtcDateTime의 연도 가져오기(2000-2099)" },
+  "rtc_get_month": { "message0": "시간 %1 의 월", "tooltip": "RtcDateTime의 월 가져오기(1-12)" },
+  "rtc_get_day": { "message0": "시간 %1 의 일", "tooltip": "RtcDateTime의 일 가져오기(1-31)" },
+  "rtc_get_hour": { "message0": "시간 %1 의 시", "tooltip": "RtcDateTime의 시 가져오기(0-23)" },
+  "rtc_get_minute": { "message0": "시간 %1 의 분", "tooltip": "RtcDateTime의 분 가져오기(0-59)" },
+  "rtc_get_second": { "message0": "시간 %1 의 초", "tooltip": "RtcDateTime의 초 가져오기(0-59)" },
+  "rtc_get_day_of_week": { "message0": "시간 %1 의 요일", "tooltip": "RtcDateTime의 요일 가져오기(0=일, 1=월, ..., 6=토)" },
+  "rtc_format_datetime": { "message0": "시간 %1 을 텍스트로 변환", "tooltip": "RtcDateTime을 YYYY/MM/DD HH:MM:SS 형식의 텍스트로 변환" },
+  "rtc_ds3231_get_temperature": {
+    "message0": "%1 온도 읽기 %2",
+    "tooltip": "DS3231 내장 온도 센서의 온도값 읽기",
+    "args0": [ null, { "options": [["°C (섭씨)", "C"], ["°F (화씨)", "F"]] } ]
+  },
+  "rtc_ds1302_set_write_protect": {
+    "message0": "%1 쓰기 보호 %2",
+    "tooltip": "DS1302의 쓰기 보호를 활성화 또는 비활성화",
+    "args0": [ null, { "options": [["활성화", "TRUE"], ["비활성화", "FALSE"]] } ]
+  },
+  "extensions": {
+    "rtc_init_dynamic": {
+      "dat_pin": "DAT 핀",
+      "clk_pin": "CLK 핀",
+      "rst_pin": "RST 핀",
+      "sda_pin": "SDA 핀",
+      "scl_pin": "SCL 핀"
+    }
+  }
+}

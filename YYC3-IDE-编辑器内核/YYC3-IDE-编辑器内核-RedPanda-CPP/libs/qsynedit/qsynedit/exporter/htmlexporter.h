@@ -1,0 +1,60 @@
+/*
+ * Copyright (C) 2020-2022 Roy Qu (royqh1979@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+#ifndef QSYNEDIT_HTMLEXPORTER_H
+#define QSYNEDIT_HTMLEXPORTER_H
+
+#include "exporter.h"
+
+namespace QSynedit {
+class HTMLExporter : public Exporter
+{
+public:
+    explicit HTMLExporter(int tabSize,const QByteArray charset);
+    HTMLExporter(const HTMLExporter&)=delete;
+    const HTMLExporter& operator=(const HTMLExporter&)=delete;
+
+    bool createHTMLFragment() const;
+    void setCreateHTMLFragment(bool createHTMLFragment);
+
+protected:
+    bool mCreateHTMLFragment;
+private:
+    PTokenAttribute mLastAttri;
+    QString attriToCSS(PTokenAttribute attri, const QString& uniqueAttriName);
+    QString colorToHTML(const QColor &color) const;
+    QString getStyleName(PSyntaxer syntaxer,
+                         PTokenAttribute attri);
+//    QString makeValidName(const QString &name);
+    // Exporter interface
+protected:
+    void formatAttributeDone(bool backgroundChanged, bool foregroundChanged, FontStyles fontStyles) override;
+    void formatAttributeInit(bool backgroundChanged, bool foregroundChanged, FontStyles fontStyles) override;
+    void formatAfterLastAttribute() override;
+    void formatBeforeFirstAttribute(bool backgroundChanged, bool foregroundChanged, FontStyles fontStyles) override;
+    void formatNewLine() override;
+    QString getFooter() override;
+    QString getFormatName() override;
+    QString getHeader() override;
+    void setTokenAttribute(PTokenAttribute Attri) override;
+protected:
+    QString getStartLineNumberString(int startLine, int endLine) override;
+    QString getEndLineNumberString(int startLine, int endLine) override;
+private:
+    QHash<QString,QString> mCssNames;
+};
+}
+#endif // HTMLEXPORTER_H

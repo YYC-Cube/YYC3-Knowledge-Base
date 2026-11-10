@@ -1,0 +1,272 @@
+
+#include "Lexer.h"
+#include "Token.h"
+
+namespace CPlusPlus {
+
+static inline int golangTypes3(const char *s) {
+  if (s[0] == 'a') {
+    if (s[1] == 'n') {
+      if (s[2] == 'y') {
+        return T_GO_ANY;
+      }
+    }
+  }
+  else if (s[0] == 'i') {
+    if (s[1] == 'n') {
+      if (s[2] == 't') {
+        return T_GO_INT;
+      }
+    }
+  }
+  return T_IDENTIFIER;
+}
+
+static inline int golangTypes4(const char *s) {
+  if (s[0] == 'b') {
+    if (s[1] == 'o') {
+      if (s[2] == 'o') {
+        if (s[3] == 'l') {
+          return T_GO_BOOL;
+        }
+      }
+    }
+    else if (s[1] == 'y') {
+      if (s[2] == 't') {
+        if (s[3] == 'e') {
+          return T_GO_BYTE;
+        }
+      }
+    }
+  }
+  else if (s[0] == 'i') {
+    if (s[1] == 'n') {
+      if (s[2] == 't') {
+        if (s[3] == '8') {
+          return T_GO_INT8;
+        }
+      }
+    }
+  }
+  else if (s[0] == 'r') {
+    if (s[1] == 'u') {
+      if (s[2] == 'n') {
+        if (s[3] == 'e') {
+          return T_GO_RUNE;
+        }
+      }
+    }
+  }
+  else if (s[0] == 'u') {
+    if (s[1] == 'i') {
+      if (s[2] == 'n') {
+        if (s[3] == 't') {
+          return T_GO_UINT;
+        }
+      }
+    }
+  }
+  return T_IDENTIFIER;
+}
+
+static inline int golangTypes5(const char *s) {
+  if (s[0] == 'e') {
+    if (s[1] == 'r') {
+      if (s[2] == 'r') {
+        if (s[3] == 'o') {
+          if (s[4] == 'r') {
+            return T_GO_ERROR;
+          }
+        }
+      }
+    }
+  }
+  else if (s[0] == 'i') {
+    if (s[1] == 'n') {
+      if (s[2] == 't') {
+        if (s[3] == '1') {
+          if (s[4] == '6') {
+            return T_GO_INT16;
+          }
+        }
+        else if (s[3] == '3') {
+          if (s[4] == '2') {
+            return T_GO_INT32;
+          }
+        }
+        else if (s[3] == '6') {
+          if (s[4] == '4') {
+            return T_GO_INT64;
+          }
+        }
+      }
+    }
+  }
+  else if (s[0] == 'u') {
+    if (s[1] == 'i') {
+      if (s[2] == 'n') {
+        if (s[3] == 't') {
+          if (s[4] == '8') {
+            return T_GO_UINT8;
+          }
+        }
+      }
+    }
+  }
+  return T_IDENTIFIER;
+}
+
+static inline int golangTypes6(const char *s) {
+  if (s[0] == 's') {
+    if (s[1] == 't') {
+      if (s[2] == 'r') {
+        if (s[3] == 'i') {
+          if (s[4] == 'n') {
+            if (s[5] == 'g') {
+              return T_GO_STRING;
+            }
+          }
+        }
+      }
+    }
+  }
+  else if (s[0] == 'u') {
+    if (s[1] == 'i') {
+      if (s[2] == 'n') {
+        if (s[3] == 't') {
+          if (s[4] == '1') {
+            if (s[5] == '6') {
+              return T_GO_UINT16;
+            }
+          }
+          else if (s[4] == '3') {
+            if (s[5] == '2') {
+              return T_GO_UINT32;
+            }
+          }
+          else if (s[4] == '6') {
+            if (s[5] == '4') {
+              return T_GO_UINT64;
+            }
+          }
+        }
+      }
+    }
+  }
+  return T_IDENTIFIER;
+}
+
+static inline int golangTypes7(const char *s) {
+  if (s[0] == 'f') {
+    if (s[1] == 'l') {
+      if (s[2] == 'o') {
+        if (s[3] == 'a') {
+          if (s[4] == 't') {
+            if (s[5] == '3') {
+              if (s[6] == '2') {
+                return T_GO_FLOAT32;
+              }
+            }
+            else if (s[5] == '6') {
+              if (s[6] == '4') {
+                return T_GO_FLOAT64;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  else if (s[0] == 'u') {
+    if (s[1] == 'i') {
+      if (s[2] == 'n') {
+        if (s[3] == 't') {
+          if (s[4] == 'p') {
+            if (s[5] == 't') {
+              if (s[6] == 'r') {
+                return T_GO_UINTPTR;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return T_IDENTIFIER;
+}
+
+static inline int golangTypes9(const char *s) {
+  if (s[0] == 'c') {
+    if (s[1] == 'o') {
+      if (s[2] == 'm') {
+        if (s[3] == 'p') {
+          if (s[4] == 'l') {
+            if (s[5] == 'e') {
+              if (s[6] == 'x') {
+                if (s[7] == '6') {
+                  if (s[8] == '4') {
+                    return T_GO_COMPLEX64;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return T_IDENTIFIER;
+}
+
+static inline int golangTypes10(const char *s) {
+  if (s[0] == 'c') {
+    if (s[1] == 'o') {
+      if (s[2] == 'm') {
+        if (s[3] == 'p') {
+          if (s[4] == 'a') {
+            if (s[5] == 'r') {
+              if (s[6] == 'a') {
+                if (s[7] == 'b') {
+                  if (s[8] == 'l') {
+                    if (s[9] == 'e') {
+                      return T_GO_COMPARABLE;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          else if (s[4] == 'l') {
+            if (s[5] == 'e') {
+              if (s[6] == 'x') {
+                if (s[7] == '1') {
+                  if (s[8] == '2') {
+                    if (s[9] == '8') {
+                      return T_GO_COMPLEX128;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return T_IDENTIFIER;
+}
+
+int Lexer::golangTypes(const char *s, int n) {
+  switch (n) {
+    case 3: return golangTypes3(s);
+    case 4: return golangTypes4(s);
+    case 5: return golangTypes5(s);
+    case 6: return golangTypes6(s);
+    case 7: return golangTypes7(s);
+    case 9: return golangTypes9(s);
+    case 10: return golangTypes10(s);
+    default: return T_IDENTIFIER;
+  } // switch
+}
+
+}

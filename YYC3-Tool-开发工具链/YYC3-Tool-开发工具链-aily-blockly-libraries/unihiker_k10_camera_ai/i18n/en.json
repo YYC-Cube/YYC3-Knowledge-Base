@@ -1,0 +1,236 @@
+{
+  "toolbox_name": "K10 Camera & AI",
+  "toolbox_labels": {
+    "摄像头": "camera",
+    "AI视觉": "AI vision",
+    "人脸识别": "face recognition"
+  },
+  "k10_camera_init": {
+    "message0": "init camera",
+    "tooltip": "Initialize the K10 camera with preview hidden"
+  },
+  "k10_camera_show": {
+    "message0": "show camera view",
+    "tooltip": "Show camera live view on screen"
+  },
+  "k10_photo_save": {
+    "message0": "save photo to TF card filename %1",
+    "tooltip": "Take photo and save to TF card"
+  },
+  "k10_photo_base64": {
+    "message0": "take photo and convert to Base64",
+    "tooltip": "Take a photo and return a JPEG image Base64 string, ready for the Qwen image chat Base64 input"
+  },
+  "k10_ai_init": {
+    "message0": "init AI mode %1",
+    "tooltip": "Initialize AI vision with camera preview hidden",
+    "args0": [
+      {
+        "options": [
+          [
+            "Face detection/recognition",
+            "Face"
+          ],
+          [
+            "Cat detection",
+            "Cat"
+          ],
+          [
+            "Motion detection",
+            "Move"
+          ],
+          [
+            "QR code scan",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_switch_mode": {
+    "message0": "switch AI mode %1",
+    "tooltip": "Switch AI detection mode",
+    "args0": [
+      {
+        "options": [
+          [
+            "Face detection/recognition",
+            "Face"
+          ],
+          [
+            "Cat detection",
+            "Cat"
+          ],
+          [
+            "Motion detection",
+            "Move"
+          ],
+          [
+            "QR code scan",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_is_detected": {
+    "message0": "AI detected %1",
+    "tooltip": "Return whether AI detected a target",
+    "args0": [
+      {
+        "options": [
+          [
+            "Face",
+            "Face"
+          ],
+          [
+            "Cat",
+            "Cat"
+          ],
+          [
+            "Motion",
+            "Move"
+          ],
+          [
+            "QR code",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_face_data": {
+    "message0": "get face %1 data",
+    "tooltip": "Get face detection data",
+    "args0": [
+      {
+        "options": [
+          [
+            "Center X",
+            "CenterX"
+          ],
+          [
+            "Center Y",
+            "CenterY"
+          ],
+          [
+            "Width",
+            "Length"
+          ],
+          [
+            "Height",
+            "Width"
+          ],
+          [
+            "Left eye X",
+            "LeftEyeX"
+          ],
+          [
+            "Left eye Y",
+            "LeftEyeY"
+          ],
+          [
+            "Right eye X",
+            "RightEyeX"
+          ],
+          [
+            "Right eye Y",
+            "RightEyeY"
+          ],
+          [
+            "Nose X",
+            "NoseX"
+          ],
+          [
+            "Nose Y",
+            "NoseY"
+          ],
+          [
+            "Left mouth corner X",
+            "LeftMouthX"
+          ],
+          [
+            "Left mouth corner Y",
+            "LeftMouthY"
+          ],
+          [
+            "Right mouth corner X",
+            "RightMouthX"
+          ],
+          [
+            "Right mouth corner Y",
+            "RightMouthY"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_cat_data": {
+    "message0": "get cat face %1 data",
+    "tooltip": "Get cat face detection data",
+    "args0": [
+      {
+        "options": [
+          [
+            "Center X",
+            "CenterX"
+          ],
+          [
+            "Center Y",
+            "CenterY"
+          ],
+          [
+            "Width",
+            "Length"
+          ],
+          [
+            "Height",
+            "Width"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_qrcode": {
+    "message0": "get QR code content",
+    "tooltip": "Get QR code content detected by AI"
+  },
+  "k10_ai_set_motion_threshold": {
+    "message0": "set motion detection threshold %1",
+    "tooltip": "Set motion detection sensitivity threshold"
+  },
+  "k10_ai_face_recognized": {
+    "message0": "face recognition completed",
+    "tooltip": "Return whether a face recognition command completed with a result"
+  },
+  "k10_ai_get_face_id": {
+    "message0": "get recognized face ID",
+    "tooltip": "Get recognized face ID"
+  },
+  "k10_ai_face_cmd": {
+    "message0": "face action %1",
+    "tooltip": "Learn a face, trigger one recognition attempt, or clear all learned faces",
+    "args0": [
+      {
+        "options": [
+          [
+            "Learn face",
+            "ENROLL"
+          ],
+          [
+            "Recognize face",
+            "RECOGNIZE"
+          ],
+          [
+            "Clear learned faces",
+            "DELETEALL"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_camera_hide": {
+    "message0": "Hide camera preview",
+    "tooltip": "Hide the K10 live camera preview to reduce screen refresh load during audio playback"
+  }
+}

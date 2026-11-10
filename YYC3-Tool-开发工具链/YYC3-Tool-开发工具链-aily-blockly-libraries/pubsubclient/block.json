@@ -1,0 +1,342 @@
+[
+  {
+    "type": "pubsub_create",
+    "message0": "创建MQTT客户端 %1 使用客户端 %2 SSL %3\n服务器 %4 端口 %5",
+    "args0": [
+      {
+        "type": "field_input",
+        "name": "VAR",
+        "text": "mqttClient"
+      },
+      {
+        "type": "field_input",
+        "name": "CLIENT",
+        "text": "client"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "SSL",
+        "options": [
+          ["否", "FALSE"],
+          ["是", "TRUE"]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "SERVER",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PORT",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "创建MQTT客户端对象",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_set_callback",
+    "message0": "MQTT客户端 %1 收到消息时",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "colour": "#9C27B0",
+    "tooltip": "设置MQTT消息接收回调函数",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_set_callback_with_topic",
+    "message0": "收到主题 %1 消息时",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TOPIC",
+        "check": ["String"]
+      }
+    ],
+    "message1": "执行 %1",
+    "args1": [
+      {
+        "type": "input_statement",
+        "name": "HANDLER"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置特定主题的MQTT消息接收回调函数",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_get_topic_callback_payload",
+    "message0": "获取收到的MQTT消息内容",
+    "output": "String",
+    "colour": "#9C27B0",
+    "tooltip": "获取回调函数中收到的MQTT消息内容",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_connect",
+    "message0": "MQTT客户端 %1 连接 客户端ID %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      },
+      {
+        "type": "input_value",
+        "name": "CLIENT_ID",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "连接到MQTT服务器",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_connect_auth",
+    "message0": "MQTT客户端 %1 连接 客户端ID %2 用户名 %3 密码 %4",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      },
+      {
+        "type": "input_value",
+        "name": "CLIENT_ID",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "USERNAME",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PASSWORD",
+        "check": ["String"]
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "使用用户名和密码连接到MQTT服务器",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_publish",
+    "message0": "MQTT客户端 %1 发布消息 主题 %2 内容 %3",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      },
+      {
+        "type": "input_value",
+        "name": "TOPIC",
+        "check": ["String"]
+      },
+      {
+        "type": "input_value",
+        "name": "PAYLOAD",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "发布MQTT消息",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_subscribe",
+    "message0": "MQTT客户端 %1 订阅主题 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      },
+      {
+        "type": "input_value",
+        "name": "TOPIC",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "订阅MQTT主题",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_unsubscribe",
+    "message0": "MQTT客户端 %1 取消订阅主题 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      },
+      {
+        "type": "input_value",
+        "name": "TOPIC",
+        "check": ["String"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "取消订阅MQTT主题",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_loop",
+    "message0": "处理MQTT客户端 %1 通信",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "处理MQTT通信，需要在loop中调用",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_connected",
+    "message0": "MQTT客户端 %1 是否已连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      }
+    ],
+    "output": "Boolean",
+    "colour": "#9C27B0",
+    "tooltip": "检查MQTT连接状态",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_state",
+    "message0": "MQTT客户端 %1 获取连接状态",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "获取MQTT连接状态码",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_state_code",
+    "message0": "MQTT状态码 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "STATE",
+        "options": [
+          ["成功连接", "MQTT_CONNECTED"],
+          ["连接失败", "MQTT_CONNECT_FAILED"],
+          ["断开连接", "MQTT_DISCONNECTED"],
+          ["连接丢失", "MQTT_CONNECTION_LOST"],
+          ["连接超时", "MQTT_CONNECTION_TIMEOUT"],
+          ["协议错误", "MQTT_CONNECT_BAD_PROTOCOL"],
+          ["客户端ID错误", "MQTT_CONNECT_BAD_CLIENT_ID"],
+          ["服务不可用", "MQTT_CONNECT_UNAVAILABLE"],
+          ["凭证错误", "MQTT_CONNECT_BAD_CREDENTIALS"],
+          ["未授权", "MQTT_CONNECT_UNAUTHORIZED"]
+        ]
+      }
+    ],
+    "output": "Number",
+    "colour": "#9C27B0",
+    "tooltip": "MQTT状态码常量",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_disconnect",
+    "message0": "断开MQTT客户端 %1 连接",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "断开MQTT连接",
+    "icon": "fa-light fa-comments"
+  },
+  {
+    "type": "pubsub_setBufferSize",
+    "message0": "设置MQTT客户端 %1 缓冲区大小 %2 字节",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "mqttClient",
+        "variableTypes": ["PubSubClient"],
+        "defaultType": "PubSubClient"
+      },
+      {
+        "type": "input_value",
+        "name": "SIZE",
+        "check": ["Number"]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#9C27B0",
+    "tooltip": "设置MQTT客户端缓冲区大小",
+    "icon": "fa-light fa-comments"
+  }
+]

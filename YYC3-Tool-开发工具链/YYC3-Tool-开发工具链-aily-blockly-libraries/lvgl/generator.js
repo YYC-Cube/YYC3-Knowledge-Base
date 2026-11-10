@@ -1,0 +1,1832 @@
+/**
+ * LVGL Blockly Generator
+ * 为LVGL图形库生成Arduino代码
+ */
+
+if (!Arduino.lvgl) {
+  Arduino.lvgl = true;
+  Arduino.lvgl_type = '';
+  Arduino.lvgl_font = '';
+  Arduino.lvgl_img_font = false;
+  Arduino.lvgl_stdlib_malloc = '';
+  Arduino.lvgl_stdlib_string = '';
+  Arduino.lvgl_stdlib_sprintf = '';
+  Arduino.lvgl_theme = '';
+  Arduino.lvgl_fonts_used = {}; // 跟踪正在使用的字体
+}
+
+// 监听块删除事件（将监听器绑定到工作区实例，避免重载/热替换时重复添加）
+if (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace) {
+  // 延迟添加监听器,确保工作区已初始化
+  setTimeout(() => {
+    const workspace = Blockly.getMainWorkspace();
+    if (!workspace) return;
+
+    // 如果工作区上已标记为添加过监听器则跳过（工作区作用域）
+    if (workspace._lvglDeleteListenerAdded) return;
+
+    const deleteListener = function(event) {
+      if (event.type === Blockly.Events.BLOCK_DELETE) {
+        if (event.oldJson && event.oldJson.type == 'lvgl_init') {
+          console.log('delete LVGL macro');
+          if (Arduino.lvgl_type === 'TFT_eSPI' && window['projectService']) {
+            window['projectService'].removeMacro('LV_USE_TFT_ESPI')
+              .then(() => console.log('LVGL macro removed'))
+              .catch(err => console.error('Failed to remove LVGL macro:', err));
+            Arduino.lvgl_type = '';
+          }
+        }
+        // 处理字体块删除
+        if (event.oldJson && event.oldJson.type == 'lvgl_obj_set_style_text_font') {
+          const fontField = event.oldJson.fields && event.oldJson.fields.FONT;
+          if (fontField) {
+            const deletedFont = fontField;
+            // 延迟检查，确保工作区状态已更新
+            setTimeout(() => {
+              checkAndRemoveFontMacro(workspace, deletedFont);
+            }, 100);
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_img_font') {
+          if (Arduino.lvgl_img_font) {
+            console.log('delete LVGL image font macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro('LV_USE_IMGFONT')
+                .then(() => console.log('LVGL image font macro removed'))
+                .catch(err => console.error('Failed to remove LVGL image font macro:', err));
+              Arduino.lvgl_img_font = false;
+            }
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_stdlib_malloc') {
+          if (Arduino.lvgl_stdlib_malloc != '') {
+            console.log('delete LVGL stdlib malloc macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro('LV_USE_STDLIB_MALLOC')
+                .then(() => console.log('LVGL stdlib malloc macro removed'))
+                .catch(err => console.error('Failed to remove LVGL stdlib malloc macro:', err));
+              Arduino.lvgl_stdlib_malloc = '';
+            }
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_stdlib_string') {
+          if (Arduino.lvgl_stdlib_string != '') {
+            console.log('delete LVGL stdlib string macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro('LV_USE_STDLIB_STRING')
+                .then(() => console.log('LVGL stdlib string macro removed'))
+                .catch(err => console.error('Failed to remove LVGL stdlib string macro:', err));
+              Arduino.lvgl_stdlib_string = '';
+            }
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_stdlib_sprintf') {
+          if (Arduino.lvgl_stdlib_sprintf != '') {
+            console.log('delete LVGL stdlib sprintf macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro('LV_USE_STDLIB_SPRINTF')
+                .then(() => console.log('LVGL stdlib sprintf macro removed'))
+                .catch(err => console.error('Failed to remove LVGL stdlib sprintf macro:', err));
+              Arduino.lvgl_stdlib_sprintf = '';
+            }
+          }
+        }
+
+        if (event.oldJson && event.oldJson.type == 'lvgl_set_theme') {
+          if (Arduino.lvgl_theme != '') {
+            console.log('delete LVGL theme macro');
+            if (window['projectService']) {
+              window['projectService'].removeMacro(Arduino.lvgl_theme)
+                .then(() => console.log('LVGL theme macro removed'))
+                .catch(err => console.error('Failed to remove LVGL theme macro:', err));
+              Arduino.lvgl_theme = '';
+            }
+          }
+        }
+      }
+    };
+
+    workspace.addChangeListener(deleteListener);
+    workspace._lvglDeleteListenerAdded = true;
+    workspace._lvglDeleteListener = deleteListener;
+
+    // 在工作区被销毁时移除监听器并清理标志（防止残留）
+    // 该操作会覆盖 workspace.dispose，保留原有实现并在其中移除监听器
+    if (typeof workspace.dispose === 'function') {
+      const _origDispose = workspace.dispose.bind(workspace);
+      workspace.dispose = function() {
+        try {
+          if (workspace._lvglDeleteListener) {
+            workspace.removeChangeListener(workspace._lvglDeleteListener);
+            workspace._lvglDeleteListener = null;
+          }
+        } catch (e) {
+          // 忽略错误
+        }
+        workspace._lvglDeleteListenerAdded = false;
+        _origDispose();
+      };
+    }
+  }, 100);
+}
+// ==================== 辅助函数 ====================
+
+/**
+ * 检查工作区中是否还有使用指定字体的块
+ */
+function isFontUsedInWorkspace(workspace, fontName) {
+  if (!workspace) return false;
+  
+  const allBlocks = workspace.getAllBlocks(false);
+  for (let i = 0; i < allBlocks.length; i++) {
+    const block = allBlocks[i];
+    if (block.type === 'lvgl_obj_set_style_text_font') {
+      const font = block.getFieldValue('FONT');
+      if (font === fontName) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+/**
+ * 检查并移除不再使用的字体宏
+ */
+function checkAndRemoveFontMacro(workspace, fontName) {
+  if (!window['projectService']) return;
+  
+  // 检查工作区中是否还有使用该字体的块
+  if (!isFontUsedInWorkspace(workspace, fontName)) {
+    console.log('Font no longer used, removing macro:', fontName);
+    window['projectService'].removeMacro(fontName)
+      .then(() => console.log('Font macro removed:', fontName))
+      .catch(err => console.error('Failed to remove font macro:', err));
+  } else {
+    console.log('Font still in use:', fontName);
+  }
+}
+
+/**
+ * 确保LVGL库被添加
+ */
+function ensureLvglLib(generator) {
+  generator.addLibrary('lvgl', '#include <lvgl.h>');
+}
+
+/**
+ * 将颜色值转换为LVGL颜色格式
+ */
+function colorToLvgl(color) {
+  // 移除#前缀
+  const hex = color.replace('#', '');
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  return 'lv_color_make(' + r + ', ' + g + ', ' + b + ')';
+}
+
+// ==================== 标签控件 ====================
+Arduino.forBlock['lvgl_init'] = function(block, generator) {
+  ensureLvglLib(generator);
+  // generator.addSetup('lv_init', 'lv_init();');
+  // generator.addSetup('lv_tick_set_cb', 'lv_tick_set_cb(millis);\n');
+  const driver = block.getFieldValue('DRIVER') || 'TFT_eSPI';
+  const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '240';
+  const height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '240';
+  const rotation = block.getFieldValue('ROTATION') || '0';
+
+  if (Arduino.lvgl_type !== driver) {
+    console.log('selected LVGL driver:', driver);
+    Arduino.lvgl_type = driver;
+    
+    if (window['projectService'] && driver === 'TFT_eSPI') {
+      window['projectService'].addMacro('LV_USE_TFT_ESPI=1')
+        .then(() => {
+          console.log('LVGL macro added')
+        })
+        .catch(err => console.error('Failed to add LVGL macro:', err));
+    } else {
+      window['projectService'].removeMacro('LV_USE_TFT_ESPI')
+        .then(() => console.log('LVGL macro removed'))
+        .catch(err => console.error('Failed to remove LVGL macro:', err));
+    }
+  }
+
+  if (driver === 'TFT_eSPI') {
+    generator.addMacro('LV_USE_TFT_ESPI', '#define LV_USE_TFT_ESPI 1');
+  }
+
+  let setupCode = '';
+  setupCode += 'lv_init();\n';
+  setupCode += 'lv_tick_set_cb(millis);\n';
+  setupCode += 'static uint32_t draw_buf[' + width + ' * ' + height + ' / 10 * (LV_COLOR_DEPTH / 8) / 4];\n';
+
+  if (driver === 'TFT_eSPI') {
+    setupCode += 'lv_display_t * disp;\n';
+    setupCode += 'disp = lv_tft_espi_create(' + width +', ' + height + ', draw_buf, sizeof(draw_buf));\n';
+    setupCode += 'lv_display_set_rotation(disp, ' + rotation + ');\n';
+  }
+
+  generator.addLoopBegin('lv_task_handler', 'lv_task_handler();');
+
+  return setupCode;
+};
+
+Arduino.forBlock['lvgl_indev_create'] = function(block, generator) {
+  // 变量重命名监听
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'indev';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_indev_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_indev_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'indev';
+  const type = block.getFieldValue('TYPE') || 'LV_INDEV_TYPE_POINTER';
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+
+  let callbackName = varName + '_read_cb';
+  let callbackCode = '';
+  callbackCode += 'void ' + callbackName + '(lv_indev_t * drv, lv_indev_data_t * data) {\n';
+  callbackCode += handlerCode;
+  callbackCode += '}\n';
+
+  generator.addFunction(callbackName, callbackCode);
+
+  let code = '';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_indev_t * ' + varName + ';');
+    code += varName + ' = lv_indev_create();\n';
+  } else {
+    code += 'lv_indev_t *' + varName + ' = lv_indev_create();\n';
+  }
+  code += 'lv_indev_set_type(' + varName + ', ' + type + ');\n';
+  code += 'lv_indev_set_read_cb(' + varName + ', ' + callbackName + ');\n';
+
+  return code;
+};
+
+Arduino.forBlock['lvgl_indev_data_param_set'] = function(block, generator) {
+  const param = block.getFieldValue('PARAM');
+  const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
+
+  let code = '';
+  code += 'data->' + param + ' = ' + value + ';\n';
+
+  return code;
+};
+
+Arduino.forBlock['lvgl_indev_state_param'] = function(block, generator) {
+  const state = block.getFieldValue('STATE') || 'LV_INDEV_STATE_REL';
+  return [state, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['lvgl_label_create'] = function(block, generator) {
+  // 变量重命名监听
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'label';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'label';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_label_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_label_create(' + parent + ');\n';
+  }
+};
+
+Arduino.forBlock['lvgl_label_set_text'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'label';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_label_set_text(' + varName + ', ' + textCode + ');\n';
+};
+
+Arduino.forBlock['lv_label_set_text_fmt'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'label';
+  const fmt = generator.valueToCode(block, 'FMT', generator.ORDER_ATOMIC) || '""';
+  const args = generator.valueToCode(block, 'ARGS', generator.ORDER_ATOMIC) || '';
+  
+  ensureLvglLib(generator);
+  
+  // 如果有参数则添加，否则只使用格式字符串
+  return 'lv_label_set_text_fmt(' + varName + ', ' + fmt + (args ? ', ' + args : '') + ');\n';
+};
+
+Arduino.forBlock['lvgl_label_set_long_mode'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'label';
+  const mode = block.getFieldValue('MODE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_label_set_long_mode(' + varName + ', ' + mode + ');\n';
+};
+
+// ==================== 按钮控件 ====================
+
+Arduino.forBlock['lvgl_button_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'btn';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'btn';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_button_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_button_create(' + parent + ');\n';
+  }
+};
+
+// ==================== 滑动条控件 ====================
+
+Arduino.forBlock['lvgl_slider_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'slider';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'slider';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_slider_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_slider_create(' + parent + ');\n';
+  }
+};
+
+Arduino.forBlock['lvgl_slider_set_value'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'slider';
+  const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
+  const anim = block.getFieldValue('ANIM');
+
+  ensureLvglLib(generator);
+
+  return 'lv_slider_set_value(' + varName + ', ' + value + ', ' + anim + ');\n';
+};
+
+Arduino.forBlock['lvgl_slider_set_range'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'slider';
+  const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '0';
+  const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
+
+  ensureLvglLib(generator);
+
+  return 'lv_slider_set_range(' + varName + ', ' + min + ', ' + max + ');\n';
+};
+
+Arduino.forBlock['lvgl_slider_get_value'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'slider';
+
+  ensureLvglLib(generator);
+
+  return ['lv_slider_get_value(' + varName + ')', generator.ORDER_ATOMIC];
+};
+
+// ==================== 开关控件 ====================
+
+Arduino.forBlock['lvgl_switch_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'sw';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'sw';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_switch_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_switch_create(' + parent + ');\n';
+  }
+};
+
+// ==================== 复选框控件 ====================
+
+Arduino.forBlock['lvgl_checkbox_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'cb';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'cb';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '"Checkbox"';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  let code = '';
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    code = varName + ' = lv_checkbox_create(' + parent + ');\n';
+  } else {
+    code = 'lv_obj_t *' + varName + ' = lv_checkbox_create(' + parent + ');\n';
+  }
+  code += 'lv_checkbox_set_text(' + varName + ', ' + text + ');\n';
+
+  return code;
+};
+
+// ==================== 进度条控件 ====================
+
+Arduino.forBlock['lvgl_bar_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'bar';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'bar';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_bar_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_bar_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_bar_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_bar_set_value'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'bar';
+  const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
+  const anim = block.getFieldValue('ANIM');
+
+  ensureLvglLib(generator);
+
+  return 'lv_bar_set_value(' + varName + ', ' + value + ', ' + anim + ');\n';
+};
+
+Arduino.forBlock['lvgl_bar_set_range'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'bar';
+  const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '0';
+  const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
+
+  ensureLvglLib(generator);
+
+  return 'lv_bar_set_range(' + varName + ', ' + min + ', ' + max + ');\n';
+};
+
+// ==================== 圆弧控件 ====================
+
+Arduino.forBlock['lvgl_arc_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'arc';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'arc';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_arc_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_arc_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_arc_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_arc_set_value'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'arc';
+  const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_arc_set_value(' + varName + ', ' + value + ');\n';
+};
+
+Arduino.forBlock['lvgl_arc_set_range'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'arc';
+  const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '0';
+  const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
+
+  ensureLvglLib(generator);
+
+  return 'lv_arc_set_range(' + varName + ', ' + min + ', ' + max + ');\n';
+};
+
+// ==================== 加载动画控件 ====================
+
+Arduino.forBlock['lvgl_spinner_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'spinner';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'spinner';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_spinner_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_spinner_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_spinner_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_spinner_set_anim_params'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'spinner';
+  const time = generator.valueToCode(block, 'TIME', generator.ORDER_ATOMIC) || '1000';
+  const angle = generator.valueToCode(block, 'ANGLE', generator.ORDER_ATOMIC) || '270';
+
+  ensureLvglLib(generator);
+
+  return 'lv_spinner_set_anim_params(' + varName + ', ' + time + ', ' + angle + ');\n';
+};
+
+// ==================== 下拉框控件 ====================
+
+Arduino.forBlock['lvgl_dropdown_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'dropdown';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'dropdown';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_dropdown_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_dropdown_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_dropdown_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_dropdown_set_options'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'dropdown';
+  const options = generator.valueToCode(block, 'OPTIONS', generator.ORDER_ATOMIC) || '"Option1\\nOption2\\nOption3"';
+
+  ensureLvglLib(generator);
+
+  return 'lv_dropdown_set_options(' + varName + ', ' + options + ');\n';
+};
+
+Arduino.forBlock['lvgl_dropdown_get_selected'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'dropdown';
+
+  ensureLvglLib(generator);
+
+  return ['lv_dropdown_get_selected(' + varName + ')', generator.ORDER_ATOMIC];
+};
+
+// ==================== 文本框控件 ====================
+
+Arduino.forBlock['lvgl_textarea_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'textarea';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'textarea';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_textarea_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_textarea_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_textarea_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_textarea_set_text'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'textarea';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+
+  ensureLvglLib(generator);
+
+  return 'lv_textarea_set_text(' + varName + ', ' + text + ');\n';
+};
+
+Arduino.forBlock['lvgl_textarea_get_text'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'textarea';
+
+  ensureLvglLib(generator);
+
+  return ['lv_textarea_get_text(' + varName + ')', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['lvgl_textarea_set_placeholder'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'textarea';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+
+  ensureLvglLib(generator);
+
+  return 'lv_textarea_set_placeholder_text(' + varName + ', ' + text + ');\n';
+};
+
+// ==================== 对象通用操作 ====================
+
+Arduino.forBlock['lvgl_obj_set_pos'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_pos(' + varName + ', ' + x + ', ' + y + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_set_size'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '100';
+  const height = generator.valueToCode(block, 'HEIGHT', generator.ORDER_ATOMIC) || '50';
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_size(' + varName + ', ' + width + ', ' + height + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_align'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const align = block.getFieldValue('ALIGN');
+  const xOfs = generator.valueToCode(block, 'X_OFS', generator.ORDER_ATOMIC) || '0';
+  const yOfs = generator.valueToCode(block, 'Y_OFS', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_align(' + varName + ', ' + align + ', ' + xOfs + ', ' + yOfs + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_center'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_center(' + varName + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_add_flag'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const flag = block.getFieldValue('FLAG');
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_add_flag(' + varName + ', ' + flag + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_remove_flag'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const flag = block.getFieldValue('FLAG');
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_remove_flag(' + varName + ', ' + flag + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_add_state'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const state = block.getFieldValue('STATE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_add_state(' + varName + ', ' + state + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_remove_state'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const state = block.getFieldValue('STATE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_remove_state(' + varName + ', ' + state + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_has_state'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const state = block.getFieldValue('STATE');
+
+  ensureLvglLib(generator);
+
+  return ['lv_obj_has_state(' + varName + ', ' + state + ')', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['lvgl_obj_delete'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_delete(' + varName + ');\n';
+};
+
+// ==================== 样式设置 ====================
+
+Arduino.forBlock['lvgl_obj_set_style_text_font'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const font = block.getFieldValue('FONT');
+  let setFont = '';
+
+  // if (font === 'LV_FONT_DEFAULT') {
+  //   // 默认字体不需要设置
+  //   return '';
+  // }
+  // if (font === 'LV_FONT_MONTSERRAT_14') {
+  //   setFont = '&lv_font_montserrat_14';
+  // }
+
+  if (font === 'LV_FONT_SOURCE_HAN_SANS_SC_14_CJK') {
+    setFont = '&lv_font_source_han_sans_sc_14_cjk';
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_FONT_SOURCE_HAN_SANS_SC_14_CJK=1')
+        .then(() => console.log('Font macro added: LV_FONT_SOURCE_HAN_SANS_SC_14_CJK'))
+        .catch((err) => console.error('Error adding font macro:', err));
+    }
+  } else if (font === 'LV_FONT_SOURCE_HAN_SANS_SC_16_CJK') {
+    setFont = '&lv_font_source_han_sans_sc_16_cjk';
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_FONT_SOURCE_HAN_SANS_SC_16_CJK=1')
+        .then(() => console.log('Font macro added: LV_FONT_SOURCE_HAN_SANS_SC_16_CJK'))
+        .catch((err) => console.error('Error adding font macro:', err));
+    }
+  } else {
+    // 小写的font值直接使用
+    setFont = '&' + font.toLowerCase();
+
+    if (window['projectService']) {
+      window['projectService'].addMacro(font + '=1')
+        .then(() => console.log('Font macro added: ' + font))
+        .catch((err) => console.error('Error adding font macro:', err));
+    }
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_text_font(' + varName + ', ' + setFont + ', LV_PART_MAIN);\n';
+};
+
+Arduino.forBlock['lvgl_obj_set_style_bg_color'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const color = block.getFieldValue('COLOR');
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_bg_color(' + varName + ', ' + colorToLvgl(color) + ', LV_PART_MAIN);\n';
+};
+
+Arduino.forBlock['lvgl_obj_set_style_text_color'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const color = block.getFieldValue('COLOR');
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_text_color(' + varName + ', ' + colorToLvgl(color) + ', LV_PART_MAIN);\n';
+};
+
+Arduino.forBlock['lvgl_obj_set_style_border_color'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const color = block.getFieldValue('COLOR');
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_border_color(' + varName + ', ' + colorToLvgl(color) + ', LV_PART_MAIN);\n';
+};
+
+Arduino.forBlock['lvgl_obj_set_style_border_width'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const width = generator.valueToCode(block, 'WIDTH', generator.ORDER_ATOMIC) || '1';
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_border_width(' + varName + ', ' + width + ', LV_PART_MAIN);\n';
+};
+
+Arduino.forBlock['lvgl_obj_set_style_radius'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const radius = generator.valueToCode(block, 'RADIUS', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_radius(' + varName + ', ' + radius + ', LV_PART_MAIN);\n';
+};
+
+Arduino.forBlock['lvgl_obj_set_style_pad_all'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const pad = generator.valueToCode(block, 'PAD', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_pad_all(' + varName + ', ' + pad + ', LV_PART_MAIN);\n';
+};
+
+Arduino.forBlock['lvgl_obj_set_style_bg_opa'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const opa = block.getFieldValue('OPA');
+
+  ensureLvglLib(generator);
+
+  return 'lv_obj_set_style_bg_opa(' + varName + ', ' + opa + ', LV_PART_MAIN);\n';
+};
+
+// ==================== 事件处理 ====================
+
+Arduino.forBlock['lvgl_event_add_cb'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'obj';
+  const event = block.getFieldValue('EVENT');
+  const handlerCode = generator.statementToCode(block, 'HANDLER') || '';
+  
+  // 生成唯一的回调函数名
+  const callbackName = 'lvgl_event_cb_' + varName + '_' + event.toLowerCase().replace('lv_event_', '');
+
+  ensureLvglLib(generator);
+
+  // 添加回调函数定义
+  const functionDef = 'void ' + callbackName + '(lv_event_t * e) {\n' +
+    '  lv_event_code_t code = lv_event_get_code(e);\n' +
+    '  lv_obj_t *' + varName + ' = lv_event_get_target_obj(e);\n' +
+    '  if (code == ' + event + ') {\n' +
+      handlerCode +
+    '  }\n' +
+    '}\n';
+
+  generator.addFunction(callbackName, functionDef);
+
+  // 在setup中添加事件注册
+  const setupCode = 'lv_obj_add_event_cb(' + varName + ', ' + callbackName + ', ' + event + ', NULL);\n';
+  // generator.addSetupEnd(callbackName + '_setup', setupCode);
+
+  return setupCode;
+};
+
+Arduino.forBlock['lvgl_event_code'] = function(block, generator) {
+  const eventCode = block.getFieldValue('EVENT');
+  return [eventCode, generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['lvgl_obj_get_child'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'child_obj';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'child_obj';
+
+  const varField = block.getField('VAR_PARENT');
+  const varParentName = varField ? varField.getText() : 'obj';
+  const index = generator.valueToCode(block, 'INDEX', generator.ORDER_ATOMIC) || '0';
+
+  const code = 'lv_obj_t *' + varName + ' = lv_obj_get_child(' + varParentName + ', ' + index + ');\n';
+  
+  ensureLvglLib(generator);
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  return code;
+}
+
+// ==================== 屏幕操作 ====================
+
+Arduino.forBlock['lvgl_screen_active'] = function(block, generator) {
+  ensureLvglLib(generator);
+
+  return ['lv_screen_active()', generator.ORDER_ATOMIC];
+};
+
+Arduino.forBlock['lvgl_screen_load'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'screen';
+
+  ensureLvglLib(generator);
+
+  return 'lv_screen_load(' + varName + ');\n';
+};
+
+Arduino.forBlock['lvgl_obj_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'obj';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'obj';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_obj_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_obj_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_obj_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_screen_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'screen';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'screen';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_obj_create(NULL);\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_obj_create(NULL);\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_obj_create(NULL);\n';
+};
+
+// ==================== 图像控件 ====================
+
+Arduino.forBlock['lvgl_image_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'img';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'img';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_image_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_image_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_image_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_image_set_src'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'img';
+  const src = generator.valueToCode(block, 'SRC', generator.ORDER_ATOMIC) || '""';
+
+  const target = block.getInputTargetBlock('SRC');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let srcCode = src;
+  if (!isText) {
+    srcCode = 'String(' + src + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_image_set_src(' + varName + ', ' + srcCode + ');\n';
+};
+
+Arduino.forBlock['lvgl_image_set_zoom'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'img';
+  const zoom = generator.valueToCode(block, 'ZOOM', generator.ORDER_ATOMIC) || '256';
+
+  ensureLvglLib(generator);
+
+  return 'lv_img_set_zoom(' + varName + ', ' + zoom + ');\n';
+};
+
+Arduino.forBlock['lvgl_image_set_angle'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'img';
+  const angle = generator.valueToCode(block, 'ANGLE', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_image_set_angle(' + varName + ', ' + angle + ');\n';
+};
+
+Arduino.forBlock['lvgl_image_set_offset'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'img';
+  const x = generator.valueToCode(block, 'X', generator.ORDER_ATOMIC) || '0';
+  const y = generator.valueToCode(block, 'Y', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_image_set_offset_x(' + varName + ', ' + x + ');\nlv_image_set_offset_y(' + varName + ', ' + y + ');\n';
+};
+
+// ==================== 图表控件 ====================
+
+Arduino.forBlock['lvgl_chart_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'chart';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'chart';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_chart_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_chart_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_chart_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_type'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const type = block.getFieldValue('TYPE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_type(' + varName + ', ' + type + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_point_count'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const count = generator.valueToCode(block, 'COUNT', generator.ORDER_ATOMIC) || '10';
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_point_count(' + varName + ', ' + count + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_add_series'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const seriesName = block.getFieldValue('SERIES') || 'series1';
+  const color = block.getFieldValue('COLOR');
+
+  ensureLvglLib(generator);
+  registerVariableToBlockly(seriesName, 'lv_chart_series_t');
+  // generator.addVariable(seriesName, 'lv_chart_series_t * ' + seriesName + ';');
+
+  return 'lv_chart_series_t *' + seriesName + ' = lv_chart_add_series(' + varName + ', ' + color + ', LV_AXIS_PRIMARY_Y);\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_next_value'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const seriesName = block.getFieldValue('SERIES') || 'series1';
+  const value = generator.valueToCode(block, 'VALUE', generator.ORDER_ATOMIC) || '0';
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_next_value(' + varName + ', ' + seriesName + ', ' + value + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_range'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const seriesName = block.getFieldValue('SERIES') || 'series1';
+  const min = generator.valueToCode(block, 'MIN', generator.ORDER_ATOMIC) || '0';
+  const max = generator.valueToCode(block, 'MAX', generator.ORDER_ATOMIC) || '100';
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_range(' + varName + ', LV_AXIS_PRIMARY_Y, ' + min + ', ' + max + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_set_update_mode'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+  const mode = block.getFieldValue('MODE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_set_update_mode(' + varName + ', ' + mode + ');\n';
+};
+
+Arduino.forBlock['lvgl_chart_refresh'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'chart';
+
+  ensureLvglLib(generator);
+
+  return 'lv_chart_refresh(' + varName + ');\n';
+};
+
+// ==================== 键盘控件 ====================
+
+Arduino.forBlock['lvgl_keyboard_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'keyboard';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'keyboard';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_keyboard_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_keyboard_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_keyboard_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_keyboard_set_textarea'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'keyboard';
+  const textareaField = block.getField('TEXTAREA');
+  const textarea = textareaField ? textareaField.getText() : 'textarea';
+
+  ensureLvglLib(generator);
+
+  return 'lv_keyboard_set_textarea(' + varName + ', ' + textarea + ');\n';
+};
+
+Arduino.forBlock['lvgl_keyboard_set_mode'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'keyboard';
+  const mode = block.getFieldValue('MODE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_keyboard_set_mode(' + varName + ', ' + mode + ');\n';
+};
+
+Arduino.forBlock['lvgl_keyboard_set_popovers'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'keyboard';
+  const enable = block.getFieldValue('ENABLE');
+
+  ensureLvglLib(generator);
+
+  return 'lv_keyboard_set_popovers(' + varName + ', ' + enable + ');\n';
+};
+
+// ==================== 列表控件 ====================
+
+Arduino.forBlock['lvgl_list_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'list';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'list';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_list_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_list_create(' + parent + ');\n';
+  }
+  // generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+  // return 'lv_obj_t *' + varName + ' = lv_list_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_list_add_text'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'list';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_list_add_text(' + varName + ', ' + textCode + ');\n';
+};
+
+Arduino.forBlock['lvgl_list_add_btn'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'list';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+  const icon = block.getFieldValue('ICON');
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return 'lv_list_add_btn(' + varName + ', ' + icon + ', ' + textCode + ');\n';
+};
+
+// ==================== 选项卡控件 ====================
+
+Arduino.forBlock['lvgl_tabview_create'] = function(block, generator) {
+  if (!block._lvglVarMonitorAttached) {
+    block._lvglVarMonitorAttached = true;
+    block._lvglVarLastName = block.getFieldValue('VAR') || 'tabview';
+    // 初次注册变量到 Blockly 系统（仅执行一次）
+    registerVariableToBlockly(block._lvglVarLastName, 'lv_obj_t');
+    const varField = block.getField('VAR');
+    if (varField) {
+      const originalFinishEditing = varField.onFinishEditing_;
+      varField.onFinishEditing_ = function(newName) {
+        if (typeof originalFinishEditing === 'function') {
+          originalFinishEditing.call(this, newName);
+        }
+        const workspace = block.workspace || (typeof Blockly !== 'undefined' && Blockly.getMainWorkspace && Blockly.getMainWorkspace());
+        const oldName = block._lvglVarLastName;
+        if (workspace && newName && newName !== oldName) {
+          renameVariableInBlockly(block, oldName, newName, 'lv_obj_t');
+          block._lvglVarLastName = newName;
+        }
+      };
+    }
+  }
+
+  const varName = block.getFieldValue('VAR') || 'tabview';
+  const parentField = block.getField('PARENT');
+  const parent = parentField ? parentField.getText() : 'lv_screen_active()';
+  const scope = block.getFieldValue('SCOPE') || 'global';
+
+  ensureLvglLib(generator);
+
+  if (scope === 'global') {
+    generator.addVariable(varName, 'lv_obj_t * ' + varName + ';');
+    return varName + ' = lv_tabview_create(' + parent + ');\n';
+  } else {
+    return 'lv_obj_t *' + varName + ' = lv_tabview_create(' + parent + ');\n';
+  }
+
+  // return 'lv_obj_t *' + varName + ' = lv_tabview_create(' + parent + ');\n';
+};
+
+Arduino.forBlock['lvgl_tabview_add_tab'] = function(block, generator) {
+  const varField = block.getField('VAR');
+  const varName = varField ? varField.getText() : 'tabview';
+  const text = generator.valueToCode(block, 'TEXT', generator.ORDER_ATOMIC) || '""';
+
+  const target = block.getInputTargetBlock('TEXT');
+  let isText = false;
+
+  if (target && target.type === 'text') {
+    isText = true;
+  }
+
+  let textCode = text;
+  if (!isText) {
+    textCode = 'String(' + text + ').c_str()';
+  }
+
+  ensureLvglLib(generator);
+
+  return ['lv_tabview_add_tab(' + varName + ', ' + textCode + ')', generator.ORDER_FUNCTION_CALL];
+};
+
+Arduino.forBlock['lvgl_set_img_font'] = function(block, generator) {
+  ensureLvglLib(generator);
+  
+  const font = block.getFieldValue('ENABLE');
+
+  if (font === 'true') {
+    if (window['projectService'] && !Arduino.lvgl_img_font) {
+      Arduino.lvgl_img_font = true;
+      window['projectService'].addMacro('LV_USE_IMGFONT=1')
+        .then(() => {
+          console.log('Macro added: LV_USE_IMGFONT=1')
+        })
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  } else {
+    if (window['projectService'] && Arduino.lvgl_img_font) {
+      Arduino.lvgl_img_font = false;
+      window['projectService'].removeMacro('LV_USE_IMGFONT')
+        .then(() => console.log('Macro removed: LV_USE_IMGFONT'))
+        .catch((err) => console.error('Error removing macro:', err));
+    }
+  }
+
+  if (font === 'true') {
+    generator.addMacro('LV_USE_IMGFONT', '#define LV_USE_IMGFONT 1');
+  }
+
+  return '';
+}
+
+Arduino.forBlock['lvgl_set_stdlib_malloc'] = function(block, generator) {
+  ensureLvglLib(generator);
+
+  const lib = block.getFieldValue('LIB');
+
+  if (Arduino.lvgl_stdlib_malloc !== lib) {
+    Arduino.lvgl_stdlib_malloc = lib;
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_USE_STDLIB_MALLOC=' + lib)
+        .then(() => console.log('Macro added: LV_USE_STDLIB_MALLOC=' + lib))
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  }
+
+  generator.addMacro('LV_USE_STDLIB_MALLOC', '#define LV_USE_STDLIB_MALLOC ' + lib);
+
+  return '';
+};
+
+Arduino.forBlock['lvgl_set_stdlib_string'] = function(block, generator) {
+  ensureLvglLib(generator);
+
+  const lib = block.getFieldValue('LIB');
+
+  if (Arduino.lvgl_stdlib_string !== lib) {
+    Arduino.lvgl_stdlib_string = lib;
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_USE_STDLIB_STRING=' + lib)
+        .then(() => console.log('Macro added: LV_USE_STDLIB_STRING=' + lib))
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  }
+
+  generator.addMacro('LV_USE_STDLIB_STRING', '#define LV_USE_STDLIB_STRING ' + lib);
+
+  return '';
+};
+
+Arduino.forBlock['lvgl_set_stdlib_sprintf'] = function(block, generator) {
+  ensureLvglLib(generator);
+
+  const lib = block.getFieldValue('LIB');
+
+  if (Arduino.lvgl_stdlib_sprintf !== lib) {
+    Arduino.lvgl_stdlib_sprintf = lib;
+    
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_USE_STDLIB_SPRINTF=' + lib)
+        .then(() => console.log('Macro added: LV_USE_STDLIB_SPRINTF=' + lib))
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  }
+
+  generator.addMacro('LV_USE_STDLIB_SPRINTF', '#define LV_USE_STDLIB_SPRINTF ' + lib);
+
+  return '';
+};
+
+Arduino.forBlock['lvgl_set_theme'] = function(block, generator) {
+  ensureLvglLib(generator);
+
+  const theme = block.getFieldValue('THEME');
+
+  if (Arduino.lvgl_theme !== theme) {
+    Arduino.lvgl_theme = theme;
+
+    if (window['projectService']) {
+      window['projectService'].addMacro('LV_THEME_DEFAULT_DARK=' + (theme === 'dark' ? '1' : '0'))
+        .then(() => console.log('Macro added: LV_THEME_DEFAULT_DARK=' + (theme === 'dark' ? '1' : '0')))
+        .catch((err) => console.error('Error adding macro:', err));
+    }
+  }
+
+  generator.addMacro('LV_THEME_DEFAULT_DARK', '#define LV_THEME_DEFAULT_DARK ' + (theme === 'dark' ? '1' : '0'));
+
+  return '';
+};

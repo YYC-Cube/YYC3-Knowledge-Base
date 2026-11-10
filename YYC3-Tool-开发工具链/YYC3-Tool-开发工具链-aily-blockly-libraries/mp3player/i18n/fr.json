@@ -1,0 +1,55 @@
+{
+"toolbox_name": "Lecteur MP3",
+"gd3800_init": {
+"message0": "Initialiser le module MP3 TX%1 RX%2"
+},
+"gd3800_set": {
+"message0": "Module MP3 régler sur %1",
+"args0": [
+{
+"options": [
+["Lecture", "play"],
+["Pause", "pause"],
+["Piste suivante", "next"],
+["Piste précédente", "prev"],
+["Augmenter le volume", "volumeUp"],
+["Diminuer le volume", "volumeDn"]
+]
+}
+]
+},
+"gd3800_play": {
+"message0": "Module MP3 jouer la piste n°%1"
+},
+"gd3800_cyclemode": {
+"message0": "Module MP3 régler sur %1",
+"args0": [
+{
+"options": [
+["Lecture en boucle totale", "MP3_LOOP_ALL"],
+["Lecture en boucle dans le dossier", "MP3_LOOP_FOLDER"],
+["Lecture en boucle unique", "MP3_LOOP_ONE"],
+["Lecture aléatoire", "MP3_LOOP_RAM"]
+]
+}
+]
+},
+"gd3800_equalizer": {
+"message0": "Module MP3 égaliseur réglé sur %1",
+"args0": [
+{
+"options": [
+["Normal", "MP3_EQ_NORMAL"],
+["Pop", "MP3_EQ_POP"],
+["Rock", "MP3_EQ_ROCK"],
+["Jazz", "MP3_EQ_JAZZ"],
+["Classique", "MP3_EQ_CLASSIC"],
+["Basses", "MP3_EQ_BASS"]
+]
+}
+]
+},
+"gd3800_setvolume": {
+"message0": "Module MP3 régler le volume sur %1"
+}
+}

@@ -1,0 +1,204 @@
+{
+    "kind": "category",
+    "name": "PID控制器",
+    "icon": "fa-light fa-dharmachakra",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "快速开始"
+        },
+        {
+            "kind": "block",
+            "type": "pid_quick_setup",
+            "inputs": {
+                "SETPOINT": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "pid_temperature_control",
+            "inputs": {
+                "TARGET_TEMP": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 25
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "pid_motor_speed_control",
+            "inputs": {
+                "TARGET_RPM": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "基础控制"
+        },
+        {
+            "kind": "block",
+            "type": "pid_init"
+        },
+        {
+            "kind": "block",
+            "type": "pid_control_loop"
+        },
+        {
+            "kind": "block",
+            "type": "pid_compute"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "参数设置"
+        },
+        {
+            "kind": "block",
+            "type": "pid_set_tunings",
+            "inputs": {
+                "KP": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 2
+                        }
+                    }
+                },
+                "KI": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0.1
+                        }
+                    }
+                },
+                "KD": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0.5
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "pid_set_output_limits",
+            "inputs": {
+                "MIN": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                },
+                "MAX": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 255
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "pid_set_mode"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "值设置与获取"
+        },
+        {
+            "kind": "block",
+            "type": "pid_set_setpoint",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 100
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "pid_set_input",
+            "inputs": {
+                "VALUE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "pid_get_input"
+        },
+        {
+            "kind": "block",
+            "type": "pid_get_output"
+        },
+        {
+            "kind": "block",
+            "type": "pid_get_error"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "高级控制"
+        },
+        {
+            "kind": "block",
+            "type": "pid_adaptive_control"
+        },
+        {
+            "kind": "sep"
+        },
+        {
+            "kind": "label",
+            "text": "条件判断"
+        },
+        {
+            "kind": "block",
+            "type": "pid_is_at_setpoint"
+        }
+    ]
+}

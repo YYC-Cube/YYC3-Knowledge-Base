@@ -1,0 +1,97 @@
+{
+    "kind": "category",
+    "icon": "fa-light fa-gamepad-modern",
+    "name": "PS2控制器",
+    "contents": [
+        {
+            "kind": "label",
+            "text": "简化版本"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_simple_init"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_simple_read"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_joystick_moved"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_joystick_position"
+        },
+        {
+            "kind": "label",
+            "text": "完整版本"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_init"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_read",
+            "inputs": {
+                "VIBRATE": {
+                    "shadow": {
+                        "type": "math_number",
+                        "fields": {
+                            "NUM": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_is_connected"
+        },
+        {
+            "kind": "label",
+            "text": "按钮检测"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_button"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_button_pressed"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_button_released"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_new_button_state"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_new_button_state_specific"
+        },
+        {
+            "kind": "label",
+            "text": "模拟量读取"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_analog"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_analog_button"
+        },
+        {
+            "kind": "label",
+            "text": "控制器信息"
+        },
+        {
+            "kind": "block",
+            "type": "ps2x_controller_type"
+        }
+    ]
+}

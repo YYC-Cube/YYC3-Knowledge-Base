@@ -1,0 +1,970 @@
+{
+  "toolbox_name": "通义千问",
+  "toolbox_labels": {
+    "配置": "配置",
+    "I2S音频": "I2S音频",
+    "文本对话": "文本对话",
+    "图片对话": "图片对话",
+    "图像生成": "图像生成",
+    "语音合成(TTS)": "语音合成(TTS)",
+    "全模态对话": "全模态对话",
+    "流式回调": "流式回调",
+    "状态管理": "状态管理"
+  },
+  "qwen_omni_config": {
+    "message0": "配置通义千问API %1 API Key %2 %3 Base URL %4",
+    "tooltip": "配置通义千问API的访问密钥和基础URL"
+  },
+  "qwen_omni_i2s_speaker_init": {
+    "message0": "I2S喇叭初始化 对象 %1 %2 BCLK %3 LRCLK %4 DIN %5 采样率 %6",
+    "tooltip": "初始化MAX98357A等I2S喇叭输出对象，并自动声明I2SClass对象"
+  },
+  "qwen_omni_i2s_mic_init": {
+    "message0": "I2S麦克风初始化 对象 %1 %2 BCLK %3 LRCLK/WS %4 SD/DOUT %5 采样率 %6",
+    "tooltip": "初始化INMP441等标准I2S麦克风输入对象，并自动声明I2SClass对象"
+  },
+  "qwen_omni_pdm_mic_init": {
+    "message0": "PDM麦克风初始化 对象 %1 %2 CLK %3 DATA %4 采样率 %5",
+    "tooltip": "初始化PDM麦克风输入对象，适用于XIAO ESP32S3 Sense板载麦克风等。XIAO ESP32S3 Sense默认CLK为42、DATA为41"
+  },
+  "qwen_omni_es8311_mic_init": {
+    "message0": "ES8311麦克风初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK %6 LRCLK %7 SDOUT %8 MCLK %9 采样率 %10 增益寄存器 %11",
+    "tooltip": "初始化ES8311音频编解码器的麦克风输入，先通过I2C配置ADC/麦克风路径，再初始化I2S录音对象。默认地址0x18(十进制24)，默认增益寄存器0x24(十进制36)"
+  },
+  "qwen_omni_es8311_audio_init": {
+    "message0": "ES8311麦克风+喇叭初始化 对象 %1 %2 SDA %3 SCL %4 地址 %5 BCLK/SCLK %6 LR %7 DI/DAC输入 %8 DO/ADC输出 %9 MCK %10 采样率 %11 增益寄存器 %12 PA_EN %13",
+    "tooltip": "初始化ES8311音频编解码器的麦克风和喇叭通道，适合Microphone + Audio Amplifier板。图中默认: SCLK39, LR2, DI38, DO40, MCK46, SDA41, SCL42。ES8311供电3V3，NS4150B功放供电5V。PA_EN默认-1表示不控制；如果板子有功放使能脚，填入GPIO后会拉高"
+  },
+  "qwen_omni_es8311_test_tone": {
+    "message0": "播放提示音 对象 %1 %2 频率Hz %3 时长ms %4",
+    "tooltip": "通过当前I2S/ES8311喇叭对象播放一段短提示音，用于开始录音、结束录音或检查喇叭输出"
+  },
+  "qwen_omni_chat": {
+    "message0": "通义千问对话 %1 用户消息 %2 %3 模型 %4",
+    "tooltip": "发送消息到通义千问并获取回复",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3.7-max",
+            "qwen3.7-max"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_chat_simple": {
+    "message0": "通义千问对话(简易) %1 用户消息 %2",
+    "tooltip": "使用默认模型(qwen3.7-plus)发送消息"
+  },
+  "qwen_omni_chat_with_thinking": {
+    "message0": "通义千问深度思考对话 %1 用户消息 %2 %3 模型 %4",
+    "tooltip": "启用深度思考模式的通义千问对话",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3.7-max",
+            "qwen3.7-max"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_chat_with_history": {
+    "message0": "通义千问多轮对话 %1 用户消息 %2 %3 模型 %4",
+    "tooltip": "支持多轮对话的通义千问，自动保存对话历史",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3.7-max",
+            "qwen3.7-max"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_clear_history": {
+    "message0": "清空通义千问对话历史",
+    "tooltip": "清空保存的对话历史记录"
+  },
+  "qwen_omni_set_system_prompt": {
+    "message0": "设置通义千问系统提示词 %1 系统提示词 %2",
+    "tooltip": "设置AI助手的角色和行为规则"
+  },
+  "qwen_omni_get_response_status": {
+    "message0": "获取通义千问响应状态",
+    "tooltip": "检查最后一次API调用是否成功"
+  },
+  "qwen_omni_get_error_message": {
+    "message0": "获取通义千问错误信息",
+    "tooltip": "获取最后一次API调用的错误信息"
+  },
+  "qwen_omni_set_stream_callback": {
+    "message0": "设置通义千问流式回调 %1 %2",
+    "tooltip": "设置流式回调函数，每收到一个文本片段时执行。使用'获取流式片段'块获取当前片段内容"
+  },
+  "qwen_omni_get_stream_chunk": {
+    "message0": "获取通义千问流式片段",
+    "tooltip": "在流式回调中获取当前收到的文本片段"
+  },
+  "qwen_omni_clear_stream_callback": {
+    "message0": "清除通义千问流式回调",
+    "tooltip": "清除已设置的流式回调函数"
+  },
+  "qwen_omni_vision_chat": {
+    "message0": "通义千问图片对话 %1 Base64图片 %2 %3 提示词 %4 %5 模型 %6",
+    "tooltip": "发送Base64编码的图片和文本到通义千问VL模型进行图片理解",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3-vl-plus",
+            "qwen3-vl-plus"
+          ],
+          [
+            "qwen3-vl-flash",
+            "qwen3-vl-flash"
+          ],
+          [
+            "qwen-vl-max",
+            "qwen-vl-max"
+          ],
+          [
+            "qwen-vl-plus",
+            "qwen-vl-plus"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_vision_chat_direct_capture": {
+    "message0": "通义千问图片对话(直接拍照) %1 提示词 %2 %3 模型 %4",
+    "tooltip": "直接从摄像头拍照并流式上传到通义千问VL（不生成完整Base64字符串，降低内存占用）",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3-vl-plus",
+            "qwen3-vl-plus"
+          ],
+          [
+            "qwen3-vl-flash",
+            "qwen3-vl-flash"
+          ],
+          [
+            "qwen-vl-max",
+            "qwen-vl-max"
+          ],
+          [
+            "qwen-vl-plus",
+            "qwen-vl-plus"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_vision_url_chat": {
+    "message0": "通义千问图片URL对话 %1 图片URL %2 %3 提示词 %4 %5 模型 %6",
+    "tooltip": "发送图片URL和文本到通义千问VL模型进行图片理解",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.7-plus",
+            "qwen3.7-plus"
+          ],
+          [
+            "qwen3-vl-plus",
+            "qwen3-vl-plus"
+          ],
+          [
+            "qwen3-vl-flash",
+            "qwen3-vl-flash"
+          ],
+          [
+            "qwen-vl-max",
+            "qwen-vl-max"
+          ],
+          [
+            "qwen-vl-plus",
+            "qwen-vl-plus"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_image_generate": {
+    "message0": "通义万相生成图片 %1 提示词 %2 %3 模型 %4 %5 尺寸 %6",
+    "tooltip": "根据文字描述生成图片，返回图片URL链接，可配合TFT屏幕显示",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "wanx2.1-t2i-turbo",
+            "wanx2.1-t2i-turbo"
+          ],
+          [
+            "wanx2.1-t2i-plus",
+            "wanx2.1-t2i-plus"
+          ],
+          [
+            "wanx-v1",
+            "wanx-v1"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "1024x1024",
+            "1024*1024"
+          ],
+          [
+            "720x1280",
+            "720*1280"
+          ],
+          [
+            "1280x720",
+            "1280*720"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_image_generate_simple": {
+    "message0": "通义万相生成图片(简易) %1 提示词 %2",
+    "tooltip": "根据文字描述生成图片，使用默认设置，返回图片URL链接，可配合TFT屏幕显示"
+  },
+  "qwen_omni_tts": {
+    "message0": "通义TTS语音合成 %1 待合成文本 %2 %3 音色 %4 %5 模型 %6 %7 语种 %8",
+    "tooltip": "使用通义TTS模型将文本合成为语音，返回Base64编码的PCM音频数据(24kHz 16bit 单声道)",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Cherry (甜美女声)",
+            "Cherry"
+          ],
+          [
+            "Ethan (阳光男声)",
+            "Ethan"
+          ],
+          [
+            "Chelsie (温柔女声)",
+            "Chelsie"
+          ],
+          [
+            "Serena (甜美小姐姐)",
+            "Serena"
+          ],
+          [
+            "Dylan (北京话男声)",
+            "Dylan"
+          ],
+          [
+            "Jada (上海话女声)",
+            "Jada"
+          ],
+          [
+            "Sunny (四川话女声)",
+            "Sunny"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "qwen3-tts-flash",
+            "qwen3-tts-flash"
+          ],
+          [
+            "qwen3-tts-instruct-flash",
+            "qwen3-tts-instruct-flash"
+          ],
+          [
+            "qwen-tts-latest",
+            "qwen-tts-latest"
+          ],
+          [
+            "qwen-tts",
+            "qwen-tts"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "中文",
+            "Chinese"
+          ],
+          [
+            "英文",
+            "English"
+          ],
+          [
+            "日文",
+            "Japanese"
+          ],
+          [
+            "韩文",
+            "Korean"
+          ],
+          [
+            "法文",
+            "French"
+          ],
+          [
+            "德文",
+            "German"
+          ],
+          [
+            "西班牙文",
+            "Spanish"
+          ],
+          [
+            "俄文",
+            "Russian"
+          ],
+          [
+            "葡萄牙文",
+            "Portuguese"
+          ],
+          [
+            "意大利文",
+            "Italian"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_tts_play": {
+    "message0": "通义TTS播放音频 %1 喇叭对象 %2 %3 Base64音频 %4",
+    "tooltip": "将通义TTS返回的Base64音频数据解码并通过I2S播放。需要先初始化I2S对象(24kHz 16bit 单声道)"
+  },
+  "qwen_omni_tts_and_play": {
+    "message0": "通义TTS合成并播放 %1 喇叭对象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 语种 %10",
+    "tooltip": "使用通义TTS流式合成语音并通过I2S播放。先收集完整音频再播放，音质稳定",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Cherry (甜美女声)",
+            "Cherry"
+          ],
+          [
+            "Ethan (阳光男声)",
+            "Ethan"
+          ],
+          [
+            "Chelsie (温柔女声)",
+            "Chelsie"
+          ],
+          [
+            "Serena (甜美小姐姐)",
+            "Serena"
+          ],
+          [
+            "Dylan (北京话男声)",
+            "Dylan"
+          ],
+          [
+            "Jada (上海话女声)",
+            "Jada"
+          ],
+          [
+            "Sunny (四川话女声)",
+            "Sunny"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "qwen3-tts-flash",
+            "qwen3-tts-flash"
+          ],
+          [
+            "qwen3-tts-instruct-flash",
+            "qwen3-tts-instruct-flash"
+          ],
+          [
+            "qwen-tts-latest",
+            "qwen-tts-latest"
+          ],
+          [
+            "qwen-tts",
+            "qwen-tts"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "中文",
+            "Chinese"
+          ],
+          [
+            "英文",
+            "English"
+          ],
+          [
+            "日文",
+            "Japanese"
+          ],
+          [
+            "韩文",
+            "Korean"
+          ],
+          [
+            "法文",
+            "French"
+          ],
+          [
+            "德文",
+            "German"
+          ],
+          [
+            "西班牙文",
+            "Spanish"
+          ],
+          [
+            "俄文",
+            "Russian"
+          ],
+          [
+            "葡萄牙文",
+            "Portuguese"
+          ],
+          [
+            "意大利文",
+            "Italian"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_tts_stream_play": {
+    "message0": "通义TTS流式合成并播放 %1 喇叭对象 %2 %3 文本 %4 %5 音色 %6 %7 模型 %8 %9 语种 %10",
+    "tooltip": "使用通义TTS流式合成语音并通过I2S播放。边接收边解码播放，延迟更低，语音连续流畅",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Cherry (甜美女声)",
+            "Cherry"
+          ],
+          [
+            "Ethan (阳光男声)",
+            "Ethan"
+          ],
+          [
+            "Chelsie (温柔女声)",
+            "Chelsie"
+          ],
+          [
+            "Serena (甜美小姐姐)",
+            "Serena"
+          ],
+          [
+            "Dylan (北京话男声)",
+            "Dylan"
+          ],
+          [
+            "Jada (上海话女声)",
+            "Jada"
+          ],
+          [
+            "Sunny (四川话女声)",
+            "Sunny"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "qwen3-tts-flash",
+            "qwen3-tts-flash"
+          ],
+          [
+            "qwen3-tts-instruct-flash",
+            "qwen3-tts-instruct-flash"
+          ],
+          [
+            "qwen-tts-latest",
+            "qwen-tts-latest"
+          ],
+          [
+            "qwen-tts",
+            "qwen-tts"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "中文",
+            "Chinese"
+          ],
+          [
+            "英文",
+            "English"
+          ],
+          [
+            "日文",
+            "Japanese"
+          ],
+          [
+            "韩文",
+            "Korean"
+          ],
+          [
+            "法文",
+            "French"
+          ],
+          [
+            "德文",
+            "German"
+          ],
+          [
+            "西班牙文",
+            "Spanish"
+          ],
+          [
+            "俄文",
+            "Russian"
+          ],
+          [
+            "葡萄牙文",
+            "Portuguese"
+          ],
+          [
+            "意大利文",
+            "Italian"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_omni_text": {
+    "message0": "通义全模态对话(仅文字) %1 用户消息 %2 %3 模型 %4",
+    "tooltip": "使用全模态模型进行对话，仅返回文字回复",
+    "args0": [
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen3.5-omni-flash",
+            "qwen3.5-omni-flash"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_omni_and_play": {
+    "message0": "通义全模态对话并播放 %1 喇叭对象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
+    "tooltip": "全模态对话返回文字和语音，边接收边解码并通过I2S小缓冲流式播放",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen3.5-omni-flash",
+            "qwen3.5-omni-flash"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "Tina (甜甜)",
+            "Tina"
+          ],
+          [
+            "Ethan (晨煦)",
+            "Ethan"
+          ],
+          [
+            "Serena (苏瑶)",
+            "Serena"
+          ],
+          [
+            "Raymond (林川野)",
+            "Raymond"
+          ],
+          [
+            "Cindy (林欣宜)",
+            "Cindy"
+          ],
+          [
+            "Liora Mira (清欢)",
+            "Liora Mira"
+          ],
+          [
+            "Sunnybobi (知芝)",
+            "Sunnybobi"
+          ],
+          [
+            "Theo Calm (予安)",
+            "Theo Calm"
+          ],
+          [
+            "Harvey (厚)",
+            "Harvey"
+          ],
+          [
+            "Maia (四月)",
+            "Maia"
+          ],
+          [
+            "Evan (江晨)",
+            "Evan"
+          ],
+          [
+            "Momo (茉兔)",
+            "Momo"
+          ],
+          [
+            "Dylan (晓东)",
+            "Dylan"
+          ],
+          [
+            "Sunny (晴儿)",
+            "Sunny"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_omni_stream_play": {
+    "message0": "通义全模态流式对话并播放 %1 喇叭对象 %2 %3 消息 %4 %5 模型 %6 %7 音色 %8",
+    "tooltip": "全模态流式对话，文字实时输出，语音边接收边解码并通过I2S小缓冲播放",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen3.5-omni-flash",
+            "qwen3.5-omni-flash"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ]
+        ]
+      },
+      null,
+      {
+        "options": [
+          [
+            "Tina (甜甜)",
+            "Tina"
+          ],
+          [
+            "Ethan (晨煦)",
+            "Ethan"
+          ],
+          [
+            "Serena (苏瑶)",
+            "Serena"
+          ],
+          [
+            "Raymond (林川野)",
+            "Raymond"
+          ],
+          [
+            "Cindy (林欣宜)",
+            "Cindy"
+          ],
+          [
+            "Liora Mira (清欢)",
+            "Liora Mira"
+          ],
+          [
+            "Sunnybobi (知芝)",
+            "Sunnybobi"
+          ],
+          [
+            "Theo Calm (予安)",
+            "Theo Calm"
+          ],
+          [
+            "Harvey (厚)",
+            "Harvey"
+          ],
+          [
+            "Maia (四月)",
+            "Maia"
+          ],
+          [
+            "Evan (江晨)",
+            "Evan"
+          ],
+          [
+            "Momo (茉兔)",
+            "Momo"
+          ],
+          [
+            "Dylan (晓东)",
+            "Dylan"
+          ],
+          [
+            "Sunny (晴儿)",
+            "Sunny"
+          ]
+        ]
+      }
+    ]
+  },
+  "qwen_omni_omni_get_audio": {
+    "message0": "获取通义全模态音频数据",
+    "tooltip": "获取全模态对话返回的Base64音频数据(在全模态对话后使用)"
+  },
+  "qwen_omni_tts_voice_design": {
+    "message0": "通义TTS音色设计合成 %1 喇叭对象 %2 %3 文本 %4 %5 音色描述 %6",
+    "tooltip": "使用音色设计模型，通过文字描述自定义音色并合成播放。例如:温柔的年轻女声，语速稍快"
+  },
+  "qwen_omni_omni_voice_chat": {
+    "message0": "通义全模态语音对话 麦克风对象 %1 喇叭对象 %2 %3 录音 %4 秒 %5 模型 %6 音色 %7 提示音 %8 %9 提问(可选) %10",
+    "tooltip": "使用独立麦克风I2S对象录音、独立喇叭I2S对象边接收边解码播放回复。勾选提示音会在录音开始和结束各滴一声。录音格式为16kHz 16bit单声道",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen3.5-omni-flash",
+            "qwen3.5-omni-flash"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "Tina (甜甜)",
+            "Tina"
+          ],
+          [
+            "Ethan (晨煦)",
+            "Ethan"
+          ],
+          [
+            "Serena (苏瑶)",
+            "Serena"
+          ],
+          [
+            "Raymond (林川野)",
+            "Raymond"
+          ],
+          [
+            "Cindy (林欣宜)",
+            "Cindy"
+          ],
+          [
+            "Liora Mira (清欢)",
+            "Liora Mira"
+          ],
+          [
+            "Sunnybobi (知芝)",
+            "Sunnybobi"
+          ],
+          [
+            "Theo Calm (予安)",
+            "Theo Calm"
+          ],
+          [
+            "Harvey (厚)",
+            "Harvey"
+          ],
+          [
+            "Maia (四月)",
+            "Maia"
+          ],
+          [
+            "Evan (江晨)",
+            "Evan"
+          ],
+          [
+            "Momo (茉兔)",
+            "Momo"
+          ],
+          [
+            "Dylan (晓东)",
+            "Dylan"
+          ],
+          [
+            "Sunny (晴儿)",
+            "Sunny"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "qwen_omni_omni_record_text": {
+    "message0": "通义全模态录音转文字 麦克风对象 %1 %2 录音 %3 秒 %4 模型 %5 %6 转写提示(可选) %7",
+    "tooltip": "使用I2S麦克风录音并调用通义全模态模型，只返回识别/转写后的文字，不播放语音。默认录音格式为16kHz 16bit单声道",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "qwen3.5-omni-plus",
+            "qwen3.5-omni-plus"
+          ],
+          [
+            "qwen3.5-omni-flash",
+            "qwen3.5-omni-flash"
+          ],
+          [
+            "qwen3-omni-flash",
+            "qwen3-omni-flash"
+          ],
+          [
+            "qwen-omni-turbo",
+            "qwen-omni-turbo"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "qwen_omni_k10_audio_init": {
+    "message0": "K10内置麦克风+喇叭初始化 对象 %1 %2 采样率 %3",
+    "tooltip": "初始化UNIHIKER K10板载麦克风和喇叭。Qwen语音对话的麦克风和喇叭对象都选择这个对象即可。"
+  },
+  "qwen_omni_i2s_prompt_tone": {
+    "message0": "播放提示音 对象 %1 %2 频率Hz %3 时长ms %4",
+    "tooltip": "通过当前I2S/ES8311喇叭对象播放一段短提示音，用于开始录音、结束录音或检查喇叭输出"
+  }
+}

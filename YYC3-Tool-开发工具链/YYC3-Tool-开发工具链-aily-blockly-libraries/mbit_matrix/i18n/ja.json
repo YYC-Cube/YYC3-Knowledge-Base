@@ -1,0 +1,164 @@
+{
+  "toolbox_name": "micro:bit LEDマトリックス",
+  "toolbox_labels": {
+    "初始化": "初期化",
+    "基本操作": "基本操作",
+    "绘图": "図面",
+    "图标显示": "アイコン表示",
+    "文本显示": "テキスト表示",
+    "位图": "ビットマップ"
+  },
+  "microbit_matrix_begin": {
+    "message0": "micro:bit LEDマトリックスを初期化",
+    "tooltip": "micro:bitの5x5 LEDマトリックスを初期化します"
+  },
+  "microbit_matrix_clear": {
+    "message0": "LEDマトリックスをクリア",
+    "tooltip": "マトリックス上のすべてのLEDをクリアします"
+  },
+  "microbit_matrix_fill": {
+    "message0": "LEDマトリックスを塗りつぶし %1",
+    "tooltip": "すべてのLEDをオンまたはオフにします",
+    "args0": [
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_pixel": {
+    "message0": "ピクセルを描画 x %1 y %2 %3",
+    "tooltip": "位置 (x, y) に単一ピクセルを描画します。x と y の範囲は 0〜4",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_line": {
+    "message0": "線を描画 (%1, %2) から (%3, %4) %5",
+    "tooltip": "(x0, y0) から (x1, y1) へ線を描画します",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_rect": {
+    "message0": "矩形を描画 (%1, %2) 幅 %3 高さ %4 %5",
+    "tooltip": "矩形の輪郭を描画します",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_rect": {
+    "message0": "矩形を塗りつぶし (%1, %2) 幅 %3 高さ %4 %5",
+    "tooltip": "塗りつぶされた矩形を描画します",
+    "args0": [
+      null, null, null, null,
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_circle": {
+    "message0": "円を描画 中心 (%1, %2) 半径 %3 %4",
+    "tooltip": "円の輪郭を描画します",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_circle": {
+    "message0": "円を塗りつぶし 中心 (%1, %2) 半径 %3 %4",
+    "tooltip": "塗りつぶされた円を描画します",
+    "args0": [
+      null, null, null,
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_draw_triangle": {
+    "message0": "三角形を描画 (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "三角形の輪郭を描画します",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_fill_triangle": {
+    "message0": "三角形を塗りつぶし (%1,%2) (%3,%4) (%5,%6) %7",
+    "tooltip": "塗りつぶされた三角形を描画します",
+    "args0": [
+      null, null, null, null, null, null,
+      {
+        "options": [["オン", "1"], ["オフ", "0"]]
+      }
+    ]
+  },
+  "microbit_matrix_show_icon": {
+    "message0": "アイコンを表示 %1",
+    "tooltip": "LEDマトリックスにプリセットアイコンを表示します",
+    "args0": [
+      {
+        "options": [
+          ["❤️ ハート", "HEART"],
+          ["🤍 空のハート", "EMPTYHEART"],
+          ["✓ はい（チェック）", "YES"],
+          ["✕ いいえ（バツ）", "NO"],
+          ["😊 スマイル", "SMILE"]
+        ]
+      }
+    ]
+  },
+  "microbit_matrix_show_bitmap": {
+    "message0": "ビットマップを表示 %1",
+    "tooltip": "LEDマトリックスに5バイトのビットマップを表示します"
+  },
+  "microbit_matrix_print_text": {
+    "message0": "テキストを表示 %1",
+    "tooltip": "LEDマトリックスにテキストを表示します（1文字以上の場合はスクロール）"
+  },
+  "microbit_matrix_print_number": {
+    "message0": "数字を表示 %1",
+    "tooltip": "LEDマトリックスに数字を表示します"
+  },
+  "microbit_matrix_scroll_text": {
+    "message0": "テキストをスクロール %1 速度 %2 ミリ秒",
+    "tooltip": "LEDマトリックスでテキストをスクロール表示します"
+  },
+  "microbit_matrix_bitmap_create": {
+    "message0": "ビットマップ 行1 %1 行2 %2 行3 %3 行4 %4 行5 %5",
+    "tooltip": "5バイトのLEDマトリックスビットマップを作成します。各行は1バイト (0-255)"
+  },
+  "microbit_matrix_bitmap_heart": {
+    "message0": "❤️ ハートビットマップ",
+    "tooltip": "ハートアイコンビットマップ"
+  },
+  "microbit_matrix_bitmap_empty_heart": {
+    "message0": "🤍 空のハートビットマップ",
+    "tooltip": "空のハートアイコンビットマップ"
+  },
+  "microbit_matrix_bitmap_yes": {
+    "message0": "✓ はい ビットマップ",
+    "tooltip": "はい（チェック）アイコンビットマップ"
+  },
+  "microbit_matrix_bitmap_no": {
+    "message0": "✕ いいえ ビットマップ",
+    "tooltip": "いいえ（バツ）アイコンビットマップ"
+  },
+  "microbit_matrix_bitmap_smile": {
+    "message0": "😊 スマイルビットマップ",
+    "tooltip": "スマイルアイコンビットマップ"
+  }
+}

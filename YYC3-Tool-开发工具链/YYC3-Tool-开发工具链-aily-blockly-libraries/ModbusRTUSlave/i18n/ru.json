@@ -1,0 +1,138 @@
+{
+  "toolbox_name": "Modbus RTU从站",
+  "toolbox_labels": {
+    "初始化": "инициализация",
+    "数据配置": "Конфигурация данных",
+    "线圈与离散量": "Катушки и дискретные величины",
+    "寄存器": "зарегистрироваться",
+    "运行": "бежать"
+  },
+  "modbus_rtu_slave_create": {
+    "message0": "创建Modbus RTU从站 %1 串口 %2 发送使能引脚 %3 接收使能引脚 %4",
+    "tooltip": "创建Modbus RTU从站实例，DE/RE引脚填-1表示硬件自动切换",
+    "args0": [
+      null,
+      {
+        "options": "${board.serialPort}"
+      },
+      null,
+      null
+    ]
+  },
+  "modbus_rtu_slave_set_response_delay": {
+    "message0": "Modbus从站 %1 设置响应延时 %2 毫秒",
+    "tooltip": "设置响应延时，避免主机DE引脚释放过慢"
+  },
+  "modbus_rtu_slave_begin": {
+    "message0": "Modbus从站 %1 启动 设备ID %2 波特率 %3 串口格式 %4",
+    "tooltip": "设置从站地址、波特率和串口校验格式",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "9600",
+            "9600"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "115200",
+            "115200"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "8N1",
+            "SERIAL_8N1"
+          ],
+          [
+            "8N2",
+            "SERIAL_8N2"
+          ],
+          [
+            "8E1",
+            "SERIAL_8E1"
+          ],
+          [
+            "8E2",
+            "SERIAL_8E2"
+          ],
+          [
+            "8O1",
+            "SERIAL_8O1"
+          ],
+          [
+            "8O2",
+            "SERIAL_8O2"
+          ]
+        ]
+      }
+    ]
+  },
+  "modbus_rtu_slave_poll": {
+    "message0": "Modbus从站 %1 轮询请求",
+    "tooltip": "频繁调用以处理主站读写请求"
+  },
+  "modbus_rtu_slave_bind_coils": {
+    "message0": "Modbus从站 %1 配置线圈数组 %2 长度 %3",
+    "tooltip": "创建布尔线圈数组并告知库其长度"
+  },
+  "modbus_rtu_slave_bind_discrete": {
+    "message0": "Modbus从站 %1 配置离散输入数组 %2 长度 %3",
+    "tooltip": "创建布尔离散输入数组用于向主站上报"
+  },
+  "modbus_rtu_slave_bind_holding": {
+    "message0": "Modbus从站 %1 配置保持寄存器 %2 长度 %3",
+    "tooltip": "创建16位保持寄存器数组，用于主站读写"
+  },
+  "modbus_rtu_slave_bind_input": {
+    "message0": "Modbus从站 %1 配置输入寄存器 %2 长度 %3",
+    "tooltip": "创建16位输入寄存器数组，用于上报模拟量"
+  },
+  "modbus_rtu_slave_coils_set": {
+    "message0": "线圈数组 %1 索引 %2 写入 %3",
+    "tooltip": "写入指定线圈值，可用于初始化或本地强制"
+  },
+  "modbus_rtu_slave_coils_get": {
+    "message0": "线圈数组 %1 索引 %2 的值",
+    "tooltip": "读取线圈状态，用于驱动输出"
+  },
+  "modbus_rtu_slave_discrete_set": {
+    "message0": "离散输入数组 %1 索引 %2 写入 %3",
+    "tooltip": "更新离散输入状态，上报开关量"
+  },
+  "modbus_rtu_slave_discrete_get": {
+    "message0": "离散输入数组 %1 索引 %2 的值",
+    "tooltip": "读取离散输入数组，多用于调试"
+  },
+  "modbus_rtu_slave_holding_set": {
+    "message0": "保持寄存器数组 %1 索引 %2 写入 %3",
+    "tooltip": "写入16位保持寄存器，可提供默认值"
+  },
+  "modbus_rtu_slave_holding_get": {
+    "message0": "保持寄存器数组 %1 索引 %2 的值",
+    "tooltip": "读取保持寄存器值，用于模拟量输出"
+  },
+  "modbus_rtu_slave_input_set": {
+    "message0": "输入寄存器数组 %1 索引 %2 写入 %3",
+    "tooltip": "写入16位输入寄存器，上报模拟量"
+  },
+  "modbus_rtu_slave_input_get": {
+    "message0": "输入寄存器数组 %1 索引 %2 的值",
+    "tooltip": "读取输入寄存器值，方便调试"
+  }
+}

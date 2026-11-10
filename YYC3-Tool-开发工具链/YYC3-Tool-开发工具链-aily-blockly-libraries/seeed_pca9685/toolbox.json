@@ -1,0 +1,119 @@
+{
+  "kind": "category",
+  "name": "PCA9685",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "PWM 控制"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_pca9685_init"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_pca9685_set_frequency",
+      "inputs": {
+        "FREQ": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "seeed_pca9685_set_pwm",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "ON": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        },
+        "OFF": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1024
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "舵机控制"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_pca9685_servo_init"
+    },
+    {
+      "kind": "block",
+      "type": "seeed_pca9685_servo_set_pulse_range",
+      "inputs": {
+        "MIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 500
+            }
+          }
+        },
+        "MAX": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2500
+            }
+          }
+        },
+        "DEGREE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 180
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "seeed_pca9685_servo_set_angle",
+      "inputs": {
+        "PIN": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        },
+        "ANGLE": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 90
+            }
+          }
+        }
+      }
+    }
+  ]
+}

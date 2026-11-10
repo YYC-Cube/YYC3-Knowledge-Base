@@ -1,0 +1,51 @@
+{
+  "name": "@fig/complete-commander",
+  "version": "3.2.0",
+  "description": "Export commander command as a Fig spec",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx test/index.ts",
+    "test:overwrite": "OVERWRITE=true yarn test",
+    "clean:test": "git clean -Xf test",
+    "prepack": "pnpm build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/withfig/autocomplete-tools.git"
+  },
+  "keywords": [
+    "commander",
+    "fig",
+    "spec",
+    "generator",
+    "plugin",
+    "integration"
+  ],
+  "files": [
+    "lib/"
+  ],
+  "author": "Federico Ciardi <fed.ciardi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/withfig/autocomplete-tools/issues"
+  },
+  "homepage": "https://github.com/withfig/autocomplete-tools#readme",
+  "peerDependencies": {
+    "commander": "^11.1.0"
+  },
+  "dependencies": {
+    "prettier": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.2",
+    "@withfig/autocomplete-types": "workspace:^",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

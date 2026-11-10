@@ -1,0 +1,855 @@
+{
+  "toolbox_name": "小智AI",
+  "toolbox_labels": {
+    "说明:小智事件中禁用delay阻塞编程，简单定时器不如多线程": "참고: Xiaozhi 이벤트에서 지연 차단 프로그래밍을 비활성화합니다. 단순 타이머는 멀티스레드만큼 좋지 않습니다.",
+    "说明:1. 预内置和自定义不可混用": "참고: 1. 사전 내장형과 맞춤형을 혼합할 수 없습니다.",
+    "   2. 自定义需要自己画界面,内容可自定，灵活但麻烦": "2. 커스터마이징은 인터페이스를 직접 그려야 하고, 내용도 커스터마이징이 가능하기 때문에 유연하지만 번거롭습니다.",
+    "   3. 预内置是定死的，但直接可用": "3. 사전 내장된 기능은 고정되어 있지만 직접 사용할 수 있습니다.",
+    "*特别声明1. 屏显功能需要加载LVGL库": "*특별 설명 1. 화면 표시 기능은 LVGL 라이브러리를 로드해야 합니다.",
+    "*特别声明2. 在LVGL库初始化中需‘设置图像字体开启’": "*특수문 2. LVGL 라이브러리 초기화 시 '이미지 글꼴 설정'이 필요합니다.",
+    "*特别声明3. 需自绘界面的，一般用TFT_eSPI库，按例程": "*특별 설명 3. 자신만의 인터페이스를 그려야 하는 경우 일반적으로 TFT_eSPI 라이브러리를 사용하고 루틴을 따르십시오.",
+    " 就行，这里的自定义一般不需要，单色屏时可考虑使用": "괜찮습니다. 여기서 사용자 정의는 일반적으로 필요하지 않습니다. 흑백 화면을 사용할 때 사용을 고려해 볼 수 있습니다.",
+    "说明:操作设备代码放设置，服务器读取代码放上报": "설명: 작동 장치 코드가 설정되고, 서버는 코드를 읽고 이를 보고합니다."
+  },
+  "toolbox_categories": ["초기화", "디스플레이", "내장", "사용자 정의", "제어", "AI 버튼", "상태 및 활성화", "이모티콘 및 채팅", "MCP"],
+  "esp32_task": {
+    "message0": "ESP32 task%1 Core%2 空间分配%3",
+    "tooltip": "设置线程在哪个内核上运行",
+    "args0": [
+      {
+        "options": [
+          [
+            "任务1",
+            "1"
+          ],
+          [
+            "任务2",
+            "2"
+          ],
+          [
+            "任务3",
+            "3"
+          ],
+          [
+            "任务4",
+            "4"
+          ],
+          [
+            "任务5",
+            "5"
+          ],
+          [
+            "任务6",
+            "6"
+          ],
+          [
+            "任务7",
+            "7"
+          ],
+          [
+            "任务8",
+            "8"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "核心0",
+            "0"
+          ],
+          [
+            "核心1",
+            "1"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32_serial_init": {
+    "message0": "ESP32 串口初始化 %1 RX针脚%2 TX针脚%3 波特率%4",
+    "tooltip": "初始化ESP32指定串口及引脚配置",
+    "args0": [
+      {
+        "options": [
+          [
+            "Serial",
+            "Serial"
+          ],
+          [
+            "Serial1",
+            "Serial1"
+          ],
+          [
+            "Serial2",
+            "Serial2"
+          ]
+        ]
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": [
+          [
+            "9600",
+            "9600"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "115200",
+            "115200"
+          ],
+          [
+            "256000",
+            "256000"
+          ],
+          [
+            "500000",
+            "500000"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_button_setup": {
+    "message0": "AI触发按钮引脚 %1 模式 %2 低电平有效 %3",
+    "tooltip": "创建并初始化ESP32 AI语音交互按钮（适配Espressif按钮库）",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": [
+          [
+            "普通输入",
+            "INPUT"
+          ],
+          [
+            "上拉输入",
+            "INPUT_PULLUP"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "是",
+            "TRUE"
+          ],
+          [
+            "否",
+            "FALSE"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_init_wifi": {
+    "message0": "初始化 ESP32_小智AI WIFI模式 %1",
+    "args0": [
+      {
+        "options": [
+          [
+            "手动配网",
+            "Manual"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_button_click": {
+    "message0": "AI触发按钮单击时",
+    "tooltip": "按钮单击事件触发时执行的操作"
+  },
+  "esp32ai_button_double_click": {
+    "message0": "AI触发按钮双击时",
+    "tooltip": "按钮双击事件触发时执行的操作"
+  },
+  "esp32ai_button_long_pressing": {
+    "message0": "AI触发按钮长按中",
+    "tooltip": "按钮长按过程中持续触发的操作"
+  },
+  "esp32_i2s_mic_setup": {
+    "message0": "AI麦克风类型 %1",
+    "tooltip": "初始化I2S/PDM麦克风（适配ai_vox_engine音频输入）",
+    "args0": [
+      {
+        "options": [
+          [
+            "I2S标准",
+            "AUDIO_INPUT_DEVICE_TYPE_I2S_STD"
+          ],
+          [
+            "PDM",
+            "AUDIO_INPUT_DEVICE_TYPE_PDM"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_i2s_speaker_setup": {
+    "message0": "AI扬声器 SCK/BCLK %1 WS/LRCLK %2 SD/DIN %3",
+    "tooltip": "初始化I2S扬声器（引脚对应main.cpp中的kSpeakerPin*常量）",
+    "args0": [
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "esp32ai_init_display": {
+    "message0": "原界面初始化显示屏: %1",
+    "tooltip": "初始化指定类型的显示屏",
+    "args0": [
+      {
+        "options": [
+          [
+            "ST7789 (SPI，240x240)",
+            "ST7789"
+          ],
+          [
+            "SSD1306 (I2C, 128x64)",
+            "SSD1306"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_init_nlvgl_display": {
+    "message0": "自定lVGL初始化显示屏: %1  旋转角度: %2  ",
+    "tooltip": "初始化指定类型的显示屏",
+    "args0": [
+      {
+        "options": [
+          [
+            "ST7789 (SPI)",
+            "nST7789"
+          ],
+          [
+            "SSD1306 (I2C)",
+            "nSSD1306"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "0°",
+            "LV_DISPLAY_ROTATION_0"
+          ],
+          [
+            "90°",
+            "LV_DISPLAY_ROTATION_90"
+          ],
+          [
+            "180°",
+            "LV_DISPLAY_ROTATION_180"
+          ],
+          [
+            "270°",
+            "LV_DISPLAY_ROTATION_270"
+          ]
+        ]
+      }
+    ]
+  },
+  "aivox_config_ota_url": {
+    "message0": "自定义OTA链接 %1 ",
+    "tooltip": "使用虾哥服务器不需要调用此块，自建兼容虾哥服务器协议调用此块"
+  },
+  "aivox_config_websocket": {
+    "message0": "自定义websocket链接 %1",
+    "tooltip": "使用虾哥服务器不需要调用此块，自建兼容虾哥服务器协议调用此块"
+  },
+  "esp32ai_start_engine": {
+    "message0": "启动ESP32-AI引擎 "
+  },
+  "aivox_display_mode": {
+    "message0": "初始化会话显示样式为 %1 ",
+    "args0": [
+      {
+        "options": [
+          [
+            "普通",
+            "normal"
+          ],
+          [
+            "微信对话",
+            "wechat"
+          ]
+        ]
+      }
+    ]
+  },
+  "aivox3_set_es8311_volume": {
+    "message0": "设置AI音量为 %1 ",
+    "tooltip": "设置AI设备音量大小"
+  },
+  "aivox3_set_screen_light": {
+    "message0": "设置ST7789屏幕亮度为 %1 ",
+    "tooltip": "设置ST7789屏幕亮度"
+  },
+  "esp32ai_wake_engine": {
+    "message0": "唤醒ESP32-AI"
+  },
+  "esp32ai_sendtext": {
+    "message0": "主动发送消息 %1 ",
+    "tooltip": "主动给小智发送消息，让他干活"
+  },
+  "aivox_lcd_show_status": {
+    "message0": "在 %1显示 %2 ",
+    "args0": [
+      {
+        "options": [
+          [
+            "状态框",
+            "ShowStatus"
+          ],
+          [
+            "表情框",
+            "SetEmotion"
+          ],
+          [
+            "内容框",
+            "SetChatMessage"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "esp32ai_state_change_root": {
+    "message0": "当AI设备状态变化时",
+    "tooltip": "处理AI设备所有状态变化事件的总入口"
+  },
+  "esp32ai_state_change_case": {
+    "message0": "当状态为 %1 时",
+    "tooltip": "当AI设备进入指定状态时，执行这里的代码",
+    "args0": [
+      {
+        "options": [
+          [
+            "空闲 (Idle)",
+            "kIdle"
+          ],
+          [
+            "已初始化 (Initted)",
+            "kInitted"
+          ],
+          [
+            "加载中 (Loading)",
+            "kLoading"
+          ],
+          [
+            "加载失败 (LoadingFailed)",
+            "kLoadingFailed"
+          ],
+          [
+            "待命 (Standby)",
+            "kStandby"
+          ],
+          [
+            "连接中 (Connecting)",
+            "kConnecting"
+          ],
+          [
+            "聆听中 (Listening)",
+            "kListening"
+          ],
+          [
+            "说话中 (Speaking)",
+            "kSpeaking"
+          ]
+        ]
+      }
+    ]
+  },
+  "aivox3_ST77789TurnOnBacklight_engine": {
+    "message0": "点亮ST77789屏 "
+  },
+  "aivox3_ST77789TurnOffBacklight_engine": {
+    "message0": "熄灭ST77789屏 "
+  },
+  "esp32ai_loop_activation": {
+    "message0": "当AI收到激活信息",
+    "tooltip": "AI激活事件的逻辑"
+  },
+  "get_aivox_activation_message": {
+    "message0": "收到的 %1",
+    "tooltip": "获取设备的激活码",
+    "args0": [
+      {
+        "options": [
+          [
+            "激活码",
+            "code"
+          ],
+          [
+            "激活网址",
+            "message"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_loop_emotion": {
+    "message0": "当AI收到表情码",
+    "tooltip": "AI-VOX表情事件的逻辑"
+  },
+  "get_aivox_emotion_result": {
+    "message0": "收到的表情码",
+    "tooltip": "获取当前情绪表情"
+  },
+  "aivox_emotion": {
+    "message0": "收到的表情为 %1?",
+    "tooltip": "情绪表情",
+    "args0": [
+      {
+        "options": [
+          [
+            "高兴",
+            "happy"
+          ],
+          [
+            "酷炫",
+            "cool"
+          ],
+          [
+            "大笑",
+            "laughing"
+          ],
+          [
+            "搞笑",
+            "funny"
+          ],
+          [
+            "忧伤",
+            "sad"
+          ],
+          [
+            "生气",
+            "angry"
+          ],
+          [
+            "哭泣",
+            "crying"
+          ],
+          [
+            "喜欢",
+            "loving"
+          ],
+          [
+            "尴尬",
+            "embarrassed"
+          ],
+          [
+            "惊讶",
+            "surprised"
+          ],
+          [
+            "震惊",
+            "shocked"
+          ],
+          [
+            "思考",
+            "thinking"
+          ],
+          [
+            "调皮",
+            "winking"
+          ],
+          [
+            "放松",
+            "relaxed"
+          ],
+          [
+            "享受",
+            "delicious"
+          ],
+          [
+            "亲亲",
+            "kissy"
+          ],
+          [
+            "自信",
+            "confident"
+          ],
+          [
+            "困倦",
+            "sleepy"
+          ],
+          [
+            "搞怪",
+            "silly"
+          ],
+          [
+            "困惑",
+            "confused"
+          ]
+        ]
+      }
+    ]
+  },
+  "aivox_emotion_list": {
+    "message0": "表情包 %1",
+    "tooltip": "情绪表情",
+    "args0": [
+      {
+        "options": [
+          [
+            "高兴",
+            "happy"
+          ],
+          [
+            "酷炫",
+            "cool"
+          ],
+          [
+            "大笑",
+            "laughing"
+          ],
+          [
+            "搞笑",
+            "funny"
+          ],
+          [
+            "忧伤",
+            "sad"
+          ],
+          [
+            "生气",
+            "angry"
+          ],
+          [
+            "哭泣",
+            "crying"
+          ],
+          [
+            "喜欢",
+            "loving"
+          ],
+          [
+            "尴尬",
+            "embarrassed"
+          ],
+          [
+            "惊讶",
+            "surprised"
+          ],
+          [
+            "震惊",
+            "shocked"
+          ],
+          [
+            "思考",
+            "thinking"
+          ],
+          [
+            "调皮",
+            "winking"
+          ],
+          [
+            "放松",
+            "relaxed"
+          ],
+          [
+            "享受",
+            "delicious"
+          ],
+          [
+            "亲亲",
+            "kissy"
+          ],
+          [
+            "自信",
+            "confident"
+          ],
+          [
+            "困倦",
+            "sleepy"
+          ],
+          [
+            "搞怪",
+            "silly"
+          ],
+          [
+            "困惑",
+            "confused"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_loop_chat_message": {
+    "message0": "当AI收到聊天消息",
+    "tooltip": "处理AI-VOX交互消息事件"
+  },
+  "aivox_loop_chat_message_role_var": {
+    "message0": "收到%1的消息？",
+    "tooltip": "AI-VOX设备当前消息的角色",
+    "args0": [
+      {
+        "options": [
+          [
+            "助手回复",
+            "Assistant"
+          ],
+          [
+            "用户询问",
+            "User"
+          ]
+        ]
+      }
+    ]
+  },
+  "aivox_mcp_register_control_command": {
+    "message0": "%1注册MCP控制服务%2",
+    "args0": [
+      {
+        "options": [
+          [
+            "常规",
+            "regular"
+          ],
+          [
+            "只设置",
+            "set_only"
+          ],
+          [
+            "只上报",
+            "report_only"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "aivox_mcp_control_param": {
+    "message0": "MCP服务参数%1 参数类型%2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "布尔值 (Boolean)",
+            "Boolean"
+          ],
+          [
+            "数值 (Number)",
+            "Number"
+          ],
+          [
+            "字符串 (String)",
+            "String"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_mcp_control_param": {
+    "message0": "MCP服务参数%1 参数类型%2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "布尔值 (Boolean)",
+            "Boolean"
+          ],
+          [
+            "数值 (Number)",
+            "Number"
+          ],
+          [
+            "字符串 (String)",
+            "String"
+          ]
+        ]
+      }
+    ]
+  },
+  "aivox_mcp_control": {
+    "message0": "MCP服务名称%1 描述%2"
+  },
+  "aivox_loop_chat_message_msg_var": {
+    "message0": "收到的消息内容",
+    "tooltip": "AI-VOX设备当前聊天的信息内容"
+  },
+  "esp32ai_loop_mcp": {
+    "message0": "当AI收到MCP消息",
+    "tooltip": "处理AI-VOX MCP信息"
+  },
+  "esp32ai_loop_mcp_new": {
+    "message0": "%1 注册MCP控制服务",
+    "tooltip": "MCP服务注册及消息处理",
+    "args0": [
+      {
+        "options": [
+          [
+            "常规",
+            "regular"
+          ],
+          [
+            "只设置",
+            "set_only"
+          ],
+          [
+            "只上报",
+            "report_only"
+          ]
+        ]
+      }
+    ]
+  },
+  "aivox_get_iot_message_event_name": {
+    "message0": "设备名称为 %1"
+  },
+  "aivox_get_iot_message_event_name_new": {
+    "message0": "MCP服务名称为 %1?"
+  },
+  "aivox_state_control_message_event_fuction": {
+    "message0": "获取设备名称 %1 状态参数 %2 的结果"
+  },
+  "aivox_control_message_event_fuction": {
+    "message0": "获取MCP服务名称 %1 参数 %2 的结果"
+  },
+  "aivox_response_mcp_control_result": {
+    "message0": "上报设备 %1 控制结果"
+  },
+  "aivox_response_mcp_control_result_new": {
+    "message0": "上报MCP服务名称 %1 执行完成"
+  },
+  "aivox_update_mcp_control_state_new": {
+    "message0": "简单上报MCP服务名称 %1 参数 %2 的值为 %3"
+  },
+  "aivox_calculateupdate_mcp_control_state": {
+    "message0": "计算上报MCP服务名称 %1 参数 %2"
+  },
+  "esp32ai_selget_mcp_control": {
+    "message0": "MCP服务名称 %1"
+  },
+  "lvgl_port_lock": {
+    "message0": "获取LVGL锁 超时%1ms",
+    "tooltip": "获取LVGL互斥锁"
+  },
+  "lvgl_port_unlock": {
+    "message0": "释放LVGL锁",
+    "tooltip": "释放LVGL互斥锁"
+  },
+  "esp32ai_lvgl_obj_set_style_text_font": {
+    "message0": "设置 %1 小智字体 %2",
+    "tooltip": "设置对象的文本字体",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "单色屏文本14号字体",
+            "font_puhui_14_1"
+          ],
+          [
+            "单色屏30号大图标",
+            "font_awesome_30_1"
+          ],
+          [
+            "单色屏14号小图标",
+            "font_awesome_14_1"
+          ],
+          [
+            "彩屏文本16号字体",
+            "font_puhui_16_4"
+          ],
+          [
+            "彩屏黑色功能图标30号",
+            "font_awesome_30_4"
+          ],
+          [
+            "彩屏黑色功能图标16号",
+            "font_awesome_16_4"
+          ],
+          [
+            "彩屏情绪32号",
+            "font_emoji_32_init()"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32ai_emotion_select": {
+    "message0": "返回图片字体 分类：%1",
+    "tooltip": "选择分类和图标，返回对应的图形字体宏",
+    "args0": [
+      {
+        "options": [
+          [
+            "表情类",
+            "EMOJI"
+          ],
+          [
+            "电池类",
+            "BATTERY"
+          ],
+          [
+            "WiFi类",
+            "WIFI"
+          ],
+          [
+            "信号类",
+            "SIGNAL"
+          ],
+          [
+            "音量类",
+            "VOLUME"
+          ],
+          [
+            "媒体控制类",
+            "MEDIA"
+          ],
+          [
+            "箭头类",
+            "ARROW"
+          ],
+          [
+            "功能图标类",
+            "FUNCTION"
+          ]
+        ]
+      }
+    ]
+  },
+  "lvgl_label_set_text_emotion": {
+    "message0": "设置标签 %1 图标文本为 %2",
+    "tooltip": "设置标签显示的图标"
+  },
+  "lvgl_label_set_text_cpemotion": {
+    "message0": "设置标签 %1 小智彩屏表情 %2",
+    "tooltip": "设置标签显示的小智彩屏表情"
+  },
+  "aivox3_init_es8311": {
+    "tooltip": "初始化AI-VOX3引擎ES8311模块"
+  },
+  "esp32ai_init_es8388": {
+    "tooltip": "初始化小智语音引擎ES8388模块"
+  }
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "type": "time_delay",
+    "message0": "延时 %1 毫秒(ms)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DELAY_TIME",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "暂停程序执行指定的毫秒数",
+    "helpUrl": "",
+    "icon": "fa-regular fa-timer"
+  },
+  {
+    "type": "time_millis",
+    "message0": "设备运行时间毫秒(ms)",
+    "output": "Number",
+    "colour": 230,
+    "tooltip": "time_millis",
+    "helpUrl": "",
+    "icon": "fa-regular fa-timer"
+  },
+  {
+    "type": "system_time",
+    "message0": "系统时间",
+    "output": "Any",
+    "colour": 230,
+    "tooltip": "system_time",
+    "helpUrl": "",
+    "icon": "fa-regular fa-timer"
+  },
+  {
+    "type": "system_date",
+    "message0": "系统日期",
+    "output": "Any",
+    "colour": 230,
+    "tooltip": "system_date",
+    "helpUrl": "",
+    "icon": "fa-regular fa-timer"
+  },
+  {
+    "type": "time_delay_microseconds",
+    "message0": "延时 %1 微秒(μs)",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "DELAY_TIME",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "暂停程序执行指定的微秒数",
+    "helpUrl": "",
+    "icon": "fa-regular fa-timer"
+  },
+  {
+    "type": "time_micros",
+    "message0": "设备运行微秒数(μs)",
+    "output": "Number",
+    "colour": 230,
+    "tooltip": "返回Arduino启动后运行的微秒数",
+    "helpUrl": "",
+    "icon": "fa-regular fa-timer"
+  }
+]

@@ -1,0 +1,47 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-fingerprint",
+  "name": "指纹模块",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "fingerprint_begin"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_verify"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_get_image"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_image2Tz"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_create_model"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_store_model"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_delete_model"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_finger_fast_search"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_LEDcontrol"
+    },
+    {
+      "kind": "block",
+      "type": "fingerprint_get_template_count"
+    }
+  ]
+}

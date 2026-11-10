@@ -1,0 +1,60 @@
+{
+  "toolbox_name": "도플러 레이더",
+  "doppler_radar_init": {
+    "message0": "도플러 레이더 초기화 %1\n시리얼 %2\n모드 %3",
+    "tooltip": "BGT24LTR11 도플러 레이더 센서를 초기화하고 시리얼 포트와 모드를 지정합니다",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["대상 감지 모드", "0"],
+          ["I/Q ADC 모드", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_set_mode": {
+    "message0": "도플러 레이더 %1 모드를 %2 (으)로 설정",
+    "tooltip": "도플러 레이더의 작동 모드를 설정: 대상 감지 또는 I/Q ADC",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["대상 감지 모드", "0"],
+          ["I/Q ADC 모드", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_target_is": {
+    "message0": "도플러 레이더 %1 대상 상태가 %2",
+    "tooltip": "도플러 레이더가 감지한 대상의 상태를 확인",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["접근 중", "APPROACH"],
+          ["이탈 중", "LEAVE"],
+          ["대상 없음", "NONE"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_get_speed": {
+    "message0": "도플러 레이더 %1 대상 속도",
+    "tooltip": "도플러 레이더가 감지한 대상의 속도를 가져옵니다"
+  },
+  "doppler_radar_set_threshold": {
+    "message0": "도플러 레이더 %1 감지 임계값을 %2 (으)로 설정",
+    "tooltip": "도플러 레이더의 감지 임계값을 설정합니다 (0-65535)"
+  },
+  "doppler_radar_get_threshold": {
+    "message0": "도플러 레이더 %1 현재 임계값",
+    "tooltip": "도플러 레이더의 현재 감지 임계값을 가져옵니다"
+  },
+  "doppler_radar_set_speed_scope": {
+    "message0": "도플러 레이더 %1 속도 범위 설정\n최대 속도 %2\n최소 속도 %3",
+    "tooltip": "도플러 레이더의 속도 감지 범위를 설정합니다 (0-65535)"
+  }
+}

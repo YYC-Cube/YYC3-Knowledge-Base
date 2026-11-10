@@ -1,0 +1,177 @@
+{
+  "toolbox_name": "Modbus通信",
+  "toolbox_labels": {
+    "客户端初始化": "客户端初始化",
+    "服务器初始化": "服务器初始化",
+    "服务器配置": "服务器配置",
+    "客户端读写操作": "客户端读写操作",
+    "服务器读写操作": "服务器读写操作",
+    "错误处理": "错误处理",
+    "快速操作": "快速操作"
+  },
+  "modbus_rtu_client_begin": {
+    "message0": "初始化Modbus RTU客户端 波特率%1",
+    "tooltip": "初始化Modbus RTU客户端，设置波特率",
+    "args0": [
+      {
+        "options": [
+          [
+            "9600",
+            "9600"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "115200",
+            "115200"
+          ]
+        ]
+      }
+    ]
+  },
+  "modbus_rtu_server_begin": {
+    "message0": "初始化Modbus RTU服务器 设备ID%1波特率%2",
+    "tooltip": "初始化Modbus RTU服务器，设置设备ID和波特率",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "9600",
+            "9600"
+          ],
+          [
+            "19200",
+            "19200"
+          ],
+          [
+            "38400",
+            "38400"
+          ],
+          [
+            "57600",
+            "57600"
+          ],
+          [
+            "115200",
+            "115200"
+          ]
+        ]
+      }
+    ]
+  },
+  "modbus_tcp_client_begin": {
+    "message0": "初始化Modbus TCP客户端 IP地址%1端口%2",
+    "tooltip": "初始化Modbus TCP客户端，连接到指定IP和端口"
+  },
+  "modbus_tcp_server_begin": {
+    "message0": "初始化Modbus TCP服务器 设备ID%1",
+    "tooltip": "初始化Modbus TCP服务器"
+  },
+  "modbus_coil_read": {
+    "message0": "读取线圈 设备ID%1地址%2",
+    "tooltip": "读取指定地址的线圈状态，返回0或1，失败返回-1"
+  },
+  "modbus_coil_write": {
+    "message0": "写入线圈 设备ID%1地址%2值%3",
+    "tooltip": "向指定地址写入线圈值（0或1）"
+  },
+  "modbus_discrete_input_read": {
+    "message0": "读取离散输入 设备ID%1地址%2",
+    "tooltip": "读取指定地址的离散输入状态，返回0或1，失败返回-1"
+  },
+  "modbus_holding_register_read": {
+    "message0": "读取保持寄存器 设备ID%1地址%2",
+    "tooltip": "读取指定地址的保持寄存器值，失败返回-1"
+  },
+  "modbus_holding_register_write": {
+    "message0": "写入保持寄存器 设备ID%1地址%2值%3",
+    "tooltip": "向指定地址写入保持寄存器值（0-65535）"
+  },
+  "modbus_input_register_read": {
+    "message0": "读取输入寄存器 设备ID%1地址%2",
+    "tooltip": "读取指定地址的输入寄存器值，失败返回-1"
+  },
+  "modbus_server_configure_coils": {
+    "message0": "配置服务器线圈 起始地址%1数量%2",
+    "tooltip": "配置Modbus服务器的线圈地址范围"
+  },
+  "modbus_server_configure_discrete_inputs": {
+    "message0": "配置服务器离散输入 起始地址%1数量%2",
+    "tooltip": "配置Modbus服务器的离散输入地址范围"
+  },
+  "modbus_server_configure_holding_registers": {
+    "message0": "配置服务器保持寄存器 起始地址%1数量%2",
+    "tooltip": "配置Modbus服务器的保持寄存器地址范围"
+  },
+  "modbus_server_configure_input_registers": {
+    "message0": "配置服务器输入寄存器 起始地址%1数量%2",
+    "tooltip": "配置Modbus服务器的输入寄存器地址范围"
+  },
+  "modbus_server_poll": {
+    "message0": "Modbus服务器轮询",
+    "tooltip": "轮询Modbus服务器是否有请求，有请求返回true"
+  },
+  "modbus_server_coil_read": {
+    "message0": "服务器读取线圈 地址%1",
+    "tooltip": "读取服务器线圈的当前值"
+  },
+  "modbus_server_coil_write": {
+    "message0": "服务器写入线圈 地址%1值%2",
+    "tooltip": "设置服务器线圈的值"
+  },
+  "modbus_server_discrete_input_write": {
+    "message0": "服务器写入离散输入 地址%1值%2",
+    "tooltip": "设置服务器离散输入的值"
+  },
+  "modbus_server_holding_register_read": {
+    "message0": "服务器读取保持寄存器 地址%1",
+    "tooltip": "读取服务器保持寄存器的当前值"
+  },
+  "modbus_server_holding_register_write": {
+    "message0": "服务器写入保持寄存器 地址%1值%2",
+    "tooltip": "设置服务器保持寄存器的值"
+  },
+  "modbus_server_input_register_write": {
+    "message0": "服务器写入输入寄存器 地址%1值%2",
+    "tooltip": "设置服务器输入寄存器的值"
+  },
+  "modbus_last_error": {
+    "message0": "获取Modbus最后错误信息",
+    "tooltip": "获取最后一次Modbus操作的错误信息"
+  },
+  "modbus_quick_coil_control": {
+    "message0": "Modbus快速控制线圈 设备ID%1地址%2值%3",
+    "tooltip": "快速控制Modbus设备的线圈，自动处理初始化",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          [
+            "开启",
+            "1"
+          ],
+          [
+            "关闭",
+            "0"
+          ]
+        ]
+      }
+    ]
+  },
+  "modbus_quick_register_read": {
+    "message0": "Modbus快速读取寄存器 设备ID%1地址%2",
+    "tooltip": "快速读取Modbus设备的保持寄存器值"
+  }
+}

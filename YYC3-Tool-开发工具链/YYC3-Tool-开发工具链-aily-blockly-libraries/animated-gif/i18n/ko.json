@@ -1,0 +1,52 @@
+{
+  "toolbox_name": "GIF 애니메이션 플레이어",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "打开GIF": "GIF 열기",
+    "播放控制": "재생 제어",
+    "信息获取": "정보 획득"
+  },
+  "gif_init": {
+    "message0": "GIF 플레이어 초기화 %1",
+    "tooltip": "AnimatedGIF 플레이어 객체를 초기화합니다. TFT 디스플레이가 필요합니다"
+  },
+  "gif_open_memory": {
+    "message0": "GIF %1 메모리 데이터 열기 헤더 %2 배열명 %3",
+    "message1": "표시 위치 X %1 Y %2",
+    "tooltip": "메모리(FLASH)에서 GIF 데이터를 엽니다. GIF 데이터를 포함하는 헤더 파일명과 배열 변수명, 표시 위치를 지정합니다"
+  },
+  "gif_open_sd": {
+    "message0": "GIF %1 SD카드 파일 열기 %2",
+    "message1": "표시 위치 X %1 Y %2",
+    "tooltip": "SD카드에서 GIF 파일을 엽니다. 파일 경로와 표시 위치를 지정합니다"
+  },
+  "gif_play_frame": {
+    "message0": "GIF %1 한 프레임 재생 동기화 %2",
+    "tooltip": "GIF 애니메이션의 한 프레임을 재생하고 남은 프레임이 있는지 반환합니다. 동기화가 '예'이면 프레임 지연을 기다립니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["예", "true"],
+          ["아니오", "false"]
+        ]
+      }
+    ]
+  },
+  "gif_play_all": {
+    "message0": "GIF %1 전체 프레임 재생",
+    "tooltip": "GIF 애니메이션의 모든 프레임을 재생하고 완료 후 다음 블록을 실행합니다"
+  },
+  "gif_close": {
+    "message0": "GIF %1 닫기",
+    "tooltip": "현재 열려있는 GIF 파일을 닫고 리소스를 해제합니다"
+  },
+  "gif_get_width": {
+    "message0": "GIF %1 캔버스 너비",
+    "tooltip": "현재 GIF 애니메이션의 캔버스 너비를 가져옵니다(픽셀)"
+  },
+  "gif_get_height": {
+    "message0": "GIF %1 캔버스 높이",
+    "tooltip": "현재 GIF 애니메이션의 캔버스 높이를 가져옵니다(픽셀)"
+  }
+}

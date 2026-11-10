@@ -1,0 +1,375 @@
+[
+  {
+    "type": "max7219_matrix_init",
+    "message0": "MAX7219点阵初始化 %1 DIN(MOSI) 管脚 # %2 %3 CS 管脚 # %4 %5 CLK(SCK) 管脚 # %6 %7 水平点阵屏数 %8 %9 垂直点阵屏数 %10",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "DATA_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CS_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "CLK_PIN",
+        "options": "${board.digitalPins}"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_number",
+        "name": "HORIZONTAL",
+        "value": 1,
+        "min": 1,
+        "max": 8,
+        "precision": 1
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_number",
+        "name": "VERTICAL",
+        "value": 1,
+        "min": 1,
+        "max": 8,
+        "precision": 1
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AA6A6",
+    "tooltip": "初始化 MAX7219 8x8 点阵屏，可设置 DIN、CS、CLK 引脚和水平/垂直级联数量",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_set_pixel",
+    "message0": "点阵类型 %1 X轴 %2 Y轴 %3 设为 %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "MAX7219",
+            "MAX7219"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "STATE",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AA6A6",
+    "tooltip": "按整体点阵坐标设置一个像素，高为点亮，低为熄灭",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_set_rotation",
+    "message0": "点阵类型 %1 屏幕序号 %2 旋转 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "MAX7219",
+            "MAX7219"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DEVICE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "ROTATION",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AA6A6",
+    "tooltip": "设置指定 8x8 屏幕的显示旋转方向，屏幕序号从 0 开始",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_draw_screen_pixel",
+    "message0": "点阵类型 %1 屏幕序号 %2 X %3 Y %4",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "MAX7219",
+            "MAX7219"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DEVICE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "X",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "Y",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AA6A6",
+    "tooltip": "点亮指定屏幕内的一个像素",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_scroll_text",
+    "message0": "点阵类型 %1 显示文本 %2 速度 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "MAX7219",
+            "MAX7219"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "SPEED",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AA6A6",
+    "tooltip": "在 MAX7219 点阵上从右向左滚动显示文本，速度为每帧延时毫秒数",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_display_pattern",
+    "message0": "点阵类型 %1 屏幕序号 %2 图案数组 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "MAX7219",
+            "MAX7219"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "DEVICE",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "PATTERN",
+        "check": "Array"
+      }
+    ],
+    "inputsInline": false,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AA6A6",
+    "tooltip": "在指定屏幕显示一个 8x8 图案数组",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_matrix_pattern",
+    "message0": "数组变量 %1 %2",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "LedArray1",
+        "variableTypes": [
+          "MAX7219Pattern"
+        ],
+        "defaultType": "MAX7219Pattern"
+      },
+      {
+        "type": "field_led_matrix",
+        "name": "MATRIX",
+        "width": 8,
+        "height": 8,
+        "fieldHeight": 128,
+        "colours": {
+          "empty": "#5AA6A6",
+          "filled": "#E7F5F2",
+          "border": "#B7D8DC"
+        }
+      }
+    ],
+    "inputsInline": false,
+    "output": "Array",
+    "colour": "#5AA6A6",
+    "tooltip": "使用 8x8 点阵编辑器生成 MAX7219 图案数组",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_preset_pattern",
+    "message0": "点阵预设图案 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PATTERN",
+        "options": [
+          [
+            "↑",
+            "ARROW_UP"
+          ],
+          [
+            "↓",
+            "ARROW_DOWN"
+          ],
+          [
+            "←",
+            "ARROW_LEFT"
+          ],
+          [
+            "→",
+            "ARROW_RIGHT"
+          ],
+          [
+            "心形",
+            "HEART"
+          ],
+          [
+            "笑脸",
+            "SMILE"
+          ],
+          [
+            "对勾",
+            "CHECK"
+          ],
+          [
+            "叉号",
+            "CROSS"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "output": "Array",
+    "colour": "#5AA6A6",
+    "tooltip": "选择一个内置 8x8 点阵图案",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_fill",
+    "message0": "点阵类型 %1 设为 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "MAX7219",
+            "MAX7219"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "STATE",
+        "check": "Boolean"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AA6A6",
+    "tooltip": "将所有 MAX7219 点阵屏设置为全亮或全灭",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  },
+  {
+    "type": "max7219_set_brightness",
+    "message0": "点阵类型 %1 亮度 %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "TYPE",
+        "options": [
+          [
+            "MAX7219",
+            "MAX7219"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "BRIGHTNESS",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#5AA6A6",
+    "tooltip": "设置 MAX7219 点阵亮度，范围 0-15",
+    "helpUrl": "",
+    "icon": "iconfont icon-a-8x8lattice"
+  }
+]

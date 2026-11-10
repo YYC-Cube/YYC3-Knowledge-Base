@@ -1,0 +1,11 @@
+{
+  "toolbox_name": "Sensor de Poeira",
+  "gp2y1010au0f_init": {
+    "message0": "Inicializar sensor de poeira pin LED %1 pin de medição %2",
+    "tooltip": "Inicializar o sensor de poeira e configurar os pinos de LED e medição"
+  },
+  "gp2y1010au0f_read": {
+    "message0": "Ler concentração de poeira",
+    "tooltip": "Ler os dados do sensor de poeira, unidade em μg/m³"
+  }
+}

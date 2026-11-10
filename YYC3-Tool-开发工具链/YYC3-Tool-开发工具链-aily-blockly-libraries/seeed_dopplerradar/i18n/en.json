@@ -1,0 +1,60 @@
+{
+  "toolbox_name": "Doppler Radar",
+  "doppler_radar_init": {
+    "message0": "Initialize Doppler radar %1\nSerial %2\nMode %3",
+    "tooltip": "Initialize BGT24LTR11 Doppler radar sensor with specified serial port and mode",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["Target detection mode", "0"],
+          ["I/Q ADC mode", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_set_mode": {
+    "message0": "Set Doppler radar %1 mode to %2",
+    "tooltip": "Set the Doppler radar working mode: target detection or I/Q ADC",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Target detection mode", "0"],
+          ["I/Q ADC mode", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_target_is": {
+    "message0": "Doppler radar %1 target state is %2",
+    "tooltip": "Check the target state detected by the Doppler radar",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Approaching", "APPROACH"],
+          ["Leaving", "LEAVE"],
+          ["No target", "NONE"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_get_speed": {
+    "message0": "Doppler radar %1 target speed",
+    "tooltip": "Get the target speed detected by the Doppler radar"
+  },
+  "doppler_radar_set_threshold": {
+    "message0": "Set Doppler radar %1 detection threshold to %2",
+    "tooltip": "Set the detection threshold of the Doppler radar (0-65535)"
+  },
+  "doppler_radar_get_threshold": {
+    "message0": "Doppler radar %1 current threshold",
+    "tooltip": "Get the current detection threshold of the Doppler radar"
+  },
+  "doppler_radar_set_speed_scope": {
+    "message0": "Set Doppler radar %1 speed range\nMax speed %2\nMin speed %3",
+    "tooltip": "Set the speed detection range of the Doppler radar (0-65535)"
+  }
+}

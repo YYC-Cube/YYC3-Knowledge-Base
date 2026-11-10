@@ -1,0 +1,132 @@
+{
+  "toolbox_name": "ESP32实时时钟",
+  "toolbox_labels": {
+    "时间设置": "时间设置",
+    "时间获取": "时间获取",
+    "时间分量": "时间分量"
+  },
+  "esp32time_set_time": {
+    "message0": "设置RTC时间为 %1 年 %2 月 %3 日 %4 时 %5 分 %6 秒",
+    "tooltip": "设置RTC时间的年月日时分秒"
+  },
+  "esp32time_set_time_epoch": {
+    "message0": "设置RTC时间为Unix时间戳 %1",
+    "tooltip": "使用Unix时间戳设置RTC时间"
+  },
+  "esp32time_get_time": {
+    "message0": "获取RTC时间的时间字符串(HH:MM:SS)",
+    "tooltip": "获取格式化的时间字符串 (HH:MM:SS)"
+  },
+  "esp32time_get_date": {
+    "message0": "获取RTC时间的日期字符串 %1",
+    "tooltip": "获取格式化的日期字符串",
+    "args0": [
+      {
+        "options": [
+          [
+            "短格式",
+            "false"
+          ],
+          [
+            "长格式",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32time_get_datetime": {
+    "message0": "获取RTC时间的日期时间字符串 %1",
+    "tooltip": "获取格式化的日期时间字符串",
+    "args0": [
+      {
+        "options": [
+          [
+            "短格式",
+            "false"
+          ],
+          [
+            "长格式",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32time_get_formatted_time": {
+    "message0": "获取RTC时间的自定义格式时间 %1",
+    "tooltip": "使用自定义格式获取时间字符串"
+  },
+  "esp32time_get_epoch": {
+    "message0": "获取RTC时间的Unix时间戳",
+    "tooltip": "获取Unix时间戳"
+  },
+  "esp32time_get_second": {
+    "message0": "获取RTC时间的秒数 (0-59)",
+    "tooltip": "获取秒数 (0-59)"
+  },
+  "esp32time_get_minute": {
+    "message0": "获取RTC时间的分钟数 (0-59)",
+    "tooltip": "获取分钟数 (0-59)"
+  },
+  "esp32time_get_hour": {
+    "message0": "获取RTC时间的小时数 %1",
+    "tooltip": "获取小时数",
+    "args0": [
+      {
+        "options": [
+          [
+            "12小时制",
+            "false"
+          ],
+          [
+            "24小时制",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32time_get_wday": {
+    "message0": "获取RTC时间的星期几 (0-6)",
+    "tooltip": "获取星期几 (0-6)"
+  },
+  "esp32time_get_day": {
+    "message0": "获取RTC时间的日期 (1-31)",
+    "tooltip": "获取日期 (1-31)"
+  },
+  "esp32time_get_month": {
+    "message0": "获取RTC时间的月份 (0-11)",
+    "tooltip": "获取月份 (0-11)"
+  },
+  "esp32time_get_year": {
+    "message0": "获取RTC时间的年份",
+    "tooltip": "获取年份"
+  },
+  "esp32time_get_ampm": {
+    "message0": "获取RTC时间的上午/下午 %1",
+    "tooltip": "获取上午/下午标识",
+    "args0": [
+      {
+        "options": [
+          [
+            "大写",
+            "false"
+          ],
+          [
+            "小写",
+            "true"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32time_set_offset": {
+    "message0": "设置RTC时间的时区偏移为 %1 秒",
+    "tooltip": "设置时区偏移（秒）"
+  },
+  "esp32time_get_yday": {
+    "message0": "获取RTC时间的年份中的第几天 (0-365)",
+    "tooltip": "获取年份中的第几天 (0-365)"
+  }
+}

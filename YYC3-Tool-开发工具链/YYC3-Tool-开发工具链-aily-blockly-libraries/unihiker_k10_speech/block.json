@@ -1,0 +1,166 @@
+[
+  {
+    "type": "k10_asr_init",
+    "message0": "初始化语音识别 模式 %1 语言 %2 唤醒有效期 %3 毫秒",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "MODE",
+        "options": [
+          [
+            "连续识别",
+            "CONTINUOUS"
+          ],
+          [
+            "单次识别",
+            "ONCE"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LANGUAGE",
+        "options": [
+          [
+            "中文",
+            "CN_MODE"
+          ],
+          [
+            "英文",
+            "EN_MODE"
+          ]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "WAKEUP_TIME",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "初始化K10语音识别；中文需选择Hi_eps模型，英文需选择Ni_hao_xiao_zhi模型",
+    "icon": "fa-light fa-microphone"
+  },
+  {
+    "type": "k10_asr_add_command",
+    "message0": "添加语音命令 ID %1 关键词 %2",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "KEYWORD",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "添加语音识别命令词",
+    "icon": "fa-light fa-microphone"
+  },
+  {
+    "type": "k10_asr_is_wakeup",
+    "message0": "语音助手已唤醒",
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#00BCD4",
+    "tooltip": "检测语音助手是否已被唤醒",
+    "icon": "fa-light fa-microphone"
+  },
+  {
+    "type": "k10_asr_is_detected",
+    "message0": "识别到语音命令 ID为 %1",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "ID",
+        "check": "Number"
+      }
+    ],
+    "inputsInline": true,
+    "output": "Boolean",
+    "colour": "#00BCD4",
+    "tooltip": "检测是否识别到指定ID的语音命令",
+    "icon": "fa-light fa-microphone"
+  },
+  {
+    "type": "k10_asr_speak",
+    "message0": "语音播报 %1 间隔 %2 秒",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "TEXT",
+        "check": [
+          "String",
+          "Number"
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "INTERVAL",
+        "value": 1,
+        "min": 0,
+        "max": 4294967
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "使用TTS语音播报文字，积木内可直接设置重复播报间隔，默认1秒",
+    "icon": "fa-light fa-microphone",
+    "extensions": [
+      "k10_asr_speak_legacy_interval"
+    ]
+  },
+  {
+    "type": "k10_asr_set_speed",
+    "message0": "设置语音播报速度 %1",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "SPEED",
+        "options": [
+          [
+            "极慢",
+            "0"
+          ],
+          [
+            "很慢",
+            "1"
+          ],
+          [
+            "慢",
+            "2"
+          ],
+          [
+            "正常",
+            "3"
+          ],
+          [
+            "快",
+            "4"
+          ],
+          [
+            "很快",
+            "5"
+          ]
+        ]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "#00BCD4",
+    "tooltip": "设置TTS语音播报速度",
+    "icon": "fa-light fa-microphone"
+  }
+]

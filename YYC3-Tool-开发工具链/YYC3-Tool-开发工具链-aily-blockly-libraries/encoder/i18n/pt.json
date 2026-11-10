@@ -1,0 +1,99 @@
+{
+  "toolbox_name": "旋转编码器",
+  "encoder_init": {
+    "message0": "初始化编码器 %1 连接到引脚A %2 引脚B %3",
+    "tooltip": "初始化一个旋转编码器对象，连接到指定的两个引脚",
+    "args0": [
+      null,
+      {
+        "options": "${board.digitalPins}"
+      },
+      {
+        "options": "${board.digitalPins}"
+      }
+    ]
+  },
+  "encoder_set_property": {
+    "message0": "将编码器 %1 的 %2 设为 %3",
+    "tooltip": "设置编码器的各种属性值",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "位置",
+            "position"
+          ],
+          [
+            "上限",
+            "upper_limit"
+          ],
+          [
+            "下限",
+            "lower_limit"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "encoder_value_changed": {
+    "message0": "旋转编码器值变化",
+    "tooltip": "判断旋转编码器的值是否发生了变化"
+  },
+  "encoder_state_change": {
+    "message0": "当编码器状态 %1 时 %2 执行 %3",
+    "tooltip": "当编码器发生特定状态变化时执行相应操作",
+    "args0": [
+      {
+        "options": [
+          [
+            "向左旋转",
+            "LEFT"
+          ],
+          [
+            "向右旋转",
+            "RIGHT"
+          ],
+          [
+            "高于上限",
+            "ABOVE_LIMIT"
+          ],
+          [
+            "低于下限",
+            "BELOW_LIMIT"
+          ]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "encoder_get_property": {
+    "message0": "获取编码器 %1 的 %2",
+    "tooltip": "获取编码器的各种属性值",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "位置",
+            "POSITION"
+          ],
+          [
+            "方向",
+            "DIRECTION"
+          ],
+          [
+            "上限",
+            "UPPER_LIMIT"
+          ],
+          [
+            "下限",
+            "LOWER_LIMIT"
+          ]
+        ]
+      }
+    ]
+  }
+}

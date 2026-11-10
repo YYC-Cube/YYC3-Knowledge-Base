@@ -1,0 +1,108 @@
+{
+  "toolbox_name": "Bio Sensor Hub",
+  "biohub_init": {
+    "message0": "Инициализировать Bio Sensor Hub %1 сброс %2 mfio %3",
+    "tooltip": "Инициализировать Bio Sensor Hub %1 сброс %2 mfio %3"
+  },
+  "biohub_is_ready": {
+    "message0": "Bio Sensor Hub %1 инициализирован",
+    "tooltip": "Bio Sensor Hub %1 инициализирован"
+  },
+  "biohub_config_bpm": {
+    "message0": "Bio Sensor Hub %1 настроить режим BPM %2",
+    "tooltip": "Bio Sensor Hub %1 настроить режим BPM %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Режим 1",
+            "MODE_ONE"
+          ],
+          [
+            "Режим 2",
+            "MODE_TWO"
+          ]
+        ]
+      }
+    ]
+  },
+  "biohub_config_sensor_bpm": {
+    "message0": "Bio Sensor Hub %1 настроить датчик и режим BPM %2",
+    "tooltip": "Bio Sensor Hub %1 настроить датчик и режим BPM %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Режим 1",
+            "MODE_ONE"
+          ],
+          [
+            "Режим 2",
+            "MODE_TWO"
+          ]
+        ]
+      }
+    ]
+  },
+  "biohub_read_bpm": {
+    "message0": "Bio Sensor Hub %1 читать данные BPM",
+    "tooltip": "Bio Sensor Hub %1 читать данные BPM"
+  },
+  "biohub_read_sensor_bpm": {
+    "message0": "Bio Sensor Hub %1 читать данные датчика и BPM",
+    "tooltip": "Bio Sensor Hub %1 читать данные датчика и BPM"
+  },
+  "biohub_value": {
+    "message0": "Bio Sensor Hub %1 значение %2",
+    "tooltip": "Bio Sensor Hub %1 значение %2",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "Пульс",
+            "BIOHUB_HEART_RATE"
+          ],
+          [
+            "SpO2",
+            "BIOHUB_SPO2"
+          ],
+          [
+            "Уверенность",
+            "BIOHUB_CONFIDENCE"
+          ],
+          [
+            "Статус",
+            "BIOHUB_STATUS"
+          ],
+          [
+            "ИК LED",
+            "BIOHUB_IR"
+          ],
+          [
+            "Красный LED",
+            "BIOHUB_RED"
+          ],
+          [
+            "R-значение",
+            "BIOHUB_R_VALUE"
+          ]
+        ]
+      }
+    ]
+  },
+  "biohub_set_pulse_width": {
+    "message0": "Установить Bio Sensor Hub %1 ширина импульса %2",
+    "tooltip": "Установить Bio Sensor Hub %1 ширина импульса %2"
+  },
+  "biohub_set_sample_rate": {
+    "message0": "Установить Bio Sensor Hub %1 частота выборки %2",
+    "tooltip": "Установить Bio Sensor Hub %1 частота выборки %2"
+  },
+  "biohub_set_adc_range": {
+    "message0": "Установить Bio Sensor Hub %1 диапазон ADC %2",
+    "tooltip": "Установить Bio Sensor Hub %1 диапазон ADC %2"
+  }
+}

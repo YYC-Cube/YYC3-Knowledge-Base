@@ -1,0 +1,51 @@
+{
+    "kind": "category",
+    "icon": "fa-light fa-gauge",
+    "name": "ADXL345加速度",
+    "contents": [
+        {
+            "kind": "block",
+            "type": "adxl345_init"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_read_x"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_read_y"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_read_z"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_read_xyz"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_set_range"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_set_data_rate"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_get_range"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_get_data_rate"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_display_sensor_details"
+        },
+        {
+            "kind": "block",
+            "type": "adxl345_check_connection"
+        }
+    ]
+}

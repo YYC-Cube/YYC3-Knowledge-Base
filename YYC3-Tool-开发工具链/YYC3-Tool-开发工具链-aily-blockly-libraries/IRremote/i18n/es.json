@@ -1,0 +1,347 @@
+{
+  "toolbox_name": "Control Remoto IR",
+  "toolbox_categories": [
+    "Recepción",
+    "Envío",
+    "Avanzado"
+  ],
+  "irremote_library_config": {
+    "message0": "config biblioteca IR longitud búfer %1 habilitar decodificación universal %2 mantener protocolos especiales %3",
+    "tooltip": "Configurar RAW_BUFFER_LENGTH y si se mantiene el análisis de protocolos universales/especiales mediante macros de compilación"
+  },
+  "irremote_receiver_begin": {
+    "message0": "inicializar receptor IR pin %1 retroalimentación LED %2",
+    "tooltip": "Inicializar el receptor IR; al habilitar la retroalimentación LED, el LED integrado parpadea al recibir señales para facilitar la depuración"
+  },
+  "irremote_sender_begin": {
+    "message0": "inicializar emisor IR pin %1",
+    "tooltip": "Inicializar el emisor IR y configurar el pin de transmisión"
+  },
+  "irremote_on_receive": {
+    "message0": "cuando IR recibido ignorar repetición %1 %2",
+    "tooltip": "Ejecutar el código interno cuando se recibe una señal IR; marcar ignorar repetición para evitar múltiples activaciones con una sola pulsación"
+  },
+  "irremote_receiver_available": {
+    "message0": "receptor IR tiene nuevos datos",
+    "tooltip": "Comprobar si hay nuevos datos IR disponibles"
+  },
+  "irremote_get_value": {
+    "message0": "datos IR %1",
+    "tooltip": "Leer el campo especificado de los datos IR recibidos",
+    "args0": [
+      {
+        "options": [
+          [
+            "Dirección",
+            "ADDRESS"
+          ],
+          [
+            "Comando",
+            "COMMAND"
+          ],
+          [
+            "Extra",
+            "EXTRA"
+          ],
+          [
+            "Crudo",
+            "RAW"
+          ],
+          [
+            "Bits",
+            "BITS"
+          ],
+          [
+            "Banderas",
+            "FLAGS"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_get_protocol": {
+    "message0": "protocolo IR %1",
+    "tooltip": "Devolver el nombre o valor enum del protocolo IR recibido",
+    "args0": [
+      {
+        "options": [
+          [
+            "Nombre",
+            "NAME"
+          ],
+          [
+            "Valor enum",
+            "ID"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_check_flag": {
+    "message0": "bandera IR %1",
+    "tooltip": "Comprobar el estado de la bandera de los datos IR recibidos",
+    "args0": [
+      {
+        "options": [
+          [
+            "Repetición",
+            "REPEAT"
+          ],
+          [
+            "Repetición automática",
+            "AUTO_REPEAT"
+          ],
+          [
+            "Fallo de paridad",
+            "PARITY"
+          ],
+          [
+            "Bit de alternancia",
+            "TOGGLE"
+          ],
+          [
+            "Protocolo repetición diferente",
+            "DIFF_REPEAT"
+          ],
+          [
+            "Tiene info adicional",
+            "EXTRA_INFO"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_is_preset_key": {
+    "message0": "tecla preconfigurada pulsada %1",
+    "tooltip": "Coincidir con una tecla preconfigurada del mini control remoto NEC del kit Arduino",
+    "args0": [
+      {
+        "options": [
+          [
+            "CH_MINUS",
+            "69"
+          ],
+          [
+            "CHANNEL",
+            "70"
+          ],
+          [
+            "CH_PLUS",
+            "71"
+          ],
+          [
+            "PREV",
+            "68"
+          ],
+          [
+            "NEXT",
+            "64"
+          ],
+          [
+            "PLAY_PAUSE",
+            "67"
+          ],
+          [
+            "VOL_DOWN",
+            "7"
+          ],
+          [
+            "VOL_UP",
+            "21"
+          ],
+          [
+            "EQ",
+            "9"
+          ],
+          [
+            "NUM_0",
+            "22"
+          ],
+          [
+            "NUM_1",
+            "12"
+          ],
+          [
+            "NUM_2",
+            "24"
+          ],
+          [
+            "NUM_3",
+            "94"
+          ],
+          [
+            "NUM_4",
+            "8"
+          ],
+          [
+            "NUM_5",
+            "28"
+          ],
+          [
+            "NUM_6",
+            "90"
+          ],
+          [
+            "NUM_7",
+            "66"
+          ],
+          [
+            "NUM_8",
+            "82"
+          ],
+          [
+            "NUM_9",
+            "74"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_get_preset_name": {
+    "message0": "obtener nombre de tecla preconfigurada",
+    "tooltip": "Devuelve el nombre de la tecla preconfigurada del control remoto; devuelve cadena vacía si no coincide"
+  },
+  "irremote_resume": {
+    "message0": "receptor IR preparar siguiente trama",
+    "tooltip": "Preparar manualmente la próxima recepción; solo necesario cuando no se usa el bloque \"cuando IR recibido\""
+  },
+  "irremote_send_command": {
+    "message0": "enviar IR protocolo %1 dirección %2 comando %3 repeticiones %4",
+    "tooltip": "Enviar señal IR con el protocolo especificado, con dirección, comando y número de repeticiones configurables",
+    "args0": [
+      {
+        "options": [
+          [
+            "NEC",
+            "NEC"
+          ],
+          [
+            "NEC2",
+            "NEC2"
+          ],
+          [
+            "SAMSUNG",
+            "SAMSUNG"
+          ],
+          [
+            "SAMSUNG48",
+            "SAMSUNG48"
+          ],
+          [
+            "SAMSUNGLG",
+            "SAMSUNGLG"
+          ],
+          [
+            "SONY",
+            "SONY"
+          ],
+          [
+            "PANASONIC",
+            "PANASONIC"
+          ],
+          [
+            "DENON",
+            "DENON"
+          ],
+          [
+            "SHARP",
+            "SHARP"
+          ],
+          [
+            "LG",
+            "LG"
+          ],
+          [
+            "JVC",
+            "JVC"
+          ],
+          [
+            "RC5",
+            "RC5"
+          ],
+          [
+            "RC6",
+            "RC6"
+          ],
+          [
+            "KASEIKYO_JVC",
+            "KASEIKYO_JVC"
+          ],
+          [
+            "KASEIKYO_DENON",
+            "KASEIKYO_DENON"
+          ],
+          [
+            "KASEIKYO_SHARP",
+            "KASEIKYO_SHARP"
+          ],
+          [
+            "KASEIKYO_MITSUBISHI",
+            "KASEIKYO_MITSUBISHI"
+          ],
+          [
+            "ONKYO",
+            "ONKYO"
+          ],
+          [
+            "APPLE",
+            "APPLE"
+          ],
+          [
+            "BOSEWAVE",
+            "BOSEWAVE"
+          ],
+          [
+            "FAST",
+            "FAST"
+          ],
+          [
+            "LEGO_PF",
+            "LEGO_PF"
+          ]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "irremote_print_result": {
+    "message0": "imprimir resultado IR por serie formato %1",
+    "tooltip": "Imprimir resultados de recepción IR por puerto serie; resumen muestra protocolo/dirección/comando, código de envío muestra cómo reproducir la señal",
+    "args0": [
+      {
+        "options": [
+          [
+            "Resumen",
+            "SHORT"
+          ],
+          [
+            "Código de envío",
+            "SEND_USAGE"
+          ],
+          [
+            "Timing crudo",
+            "RAW"
+          ]
+        ]
+      }
+    ]
+  },
+  "irremote_command_equals": {
+    "message0": "valor comando IR igual a %1",
+    "tooltip": "Comprobar si el valor del comando IR recibido es igual a un valor especificado; funciona con cualquier control remoto"
+  },
+  "irremote_send_nec": {
+    "message0": "enviar IR NEC dirección %1 comando %2 repeticiones %3",
+    "tooltip": "Enviar señal IR usando protocolo NEC, el protocolo IR más comúnmente utilizado"
+  },
+  "irremote_send_raw": {
+    "message0": "enviar IR Raw datos %1 frecuencia(kHz) %2",
+    "tooltip": "Enviar datos de temporización IR crudos para reproducir señales de protocolos desconocidos; formato de datos en valores de microsegundos separados por comas"
+  },
+  "irremote_send_pronto": {
+    "message0": "enviar IR código Pronto %1 repeticiones %2",
+    "tooltip": "Enviar señal IR en formato Pronto; los códigos Pronto se pueden encontrar en bases de datos de códigos IR en línea"
+  }
+}

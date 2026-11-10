@@ -1,0 +1,147 @@
+{
+  "toolbox_name": "K10 Pantalla",
+  "toolbox_labels": {
+    "初始化": "inicialización",
+    "绘图": "Dibujo",
+    "文字": "texto",
+    "图片": "fotos",
+    "画布控制": "control de lienzo"
+  },
+  "k10_init_screen": {
+    "message0": "inicializar pantalla K10 dirección %1",
+    "tooltip": "Inicializar pantalla UNIHIKER K10 y crear lienzo",
+    "args0": [
+      {
+        "options": [
+          [
+            "Normal",
+            "2"
+          ],
+          [
+            "Invertido",
+            "0"
+          ],
+          [
+            "Paisaje izquierdo",
+            "1"
+          ],
+          [
+            "Paisaje derecho",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_set_background": {
+    "message0": "establecer color de fondo %1",
+    "tooltip": "Establecer color de fondo de pantalla"
+  },
+  "k10_draw_point": {
+    "message0": "dibujar punto X %1 Y %2 color %3",
+    "tooltip": "Dibujar un punto en la pantalla"
+  },
+  "k10_draw_line": {
+    "message0": "dibujar línea desde X %1 Y %2 hasta X %3 Y %4 color %5",
+    "tooltip": "Dibujar una línea en la pantalla"
+  },
+  "k10_set_line_width": {
+    "message0": "establecer ancho de línea %1",
+    "tooltip": "Establecer ancho de línea"
+  },
+  "k10_draw_circle": {
+    "message0": "dibujar círculo centro X %1 Y %2 radio %3 color borde %4 color relleno %5 rellenar %6",
+    "tooltip": "Dibujar un círculo en la pantalla"
+  },
+  "k10_draw_rectangle": {
+    "message0": "dibujar rectángulo X %1 Y %2 ancho %3 alto %4 color borde %5 color relleno %6 rellenar %7",
+    "tooltip": "Dibujar un rectángulo en la pantalla"
+  },
+  "k10_draw_text_simple": {
+    "message0": "mostrar texto %2 en la línea %1 color %3",
+    "tooltip": "Mostrar texto en la línea indicada (1~7) con distribución automática"
+  },
+  "k10_draw_text": {
+    "message0": "mostrar texto %1 X %2 Y %3 color %4 fuente %5 caracteres por línea %6",
+    "tooltip": "Mostrar texto en la posición indicada. caracteres por línea controla el salto automático: 25 para fuente 16, 10 para fuente 24.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Fuente 16",
+            "eCNAndENFont16"
+          ],
+          [
+            "Fuente 24",
+            "eCNAndENFont24"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "k10_draw_bitmap": {
+    "message0": "mostrar imagen integrada %1 X %2 Y %3 ancho %4 alto %5",
+    "tooltip": "Mostrar imagen integrada (proporcione arduino_image_cache.h y el arreglo de imagen, por ejemplo image_data1)"
+  },
+  "k10_draw_image": {
+    "message0": "mostrar imagen tarjeta TF ruta %1 X %2 Y %3",
+    "tooltip": "Cargar y mostrar imagen de tarjeta TF"
+  },
+  "k10_draw_qrcode": {
+    "message0": "mostrar código QR contenido %1",
+    "tooltip": "Mostrar código QR en pantalla"
+  },
+  "k10_update_canvas": {
+    "message0": "actualizar lienzo",
+    "tooltip": "Actualizar visualización del lienzo"
+  },
+  "k10_clear_canvas": {
+    "message0": "limpiar lienzo %1",
+    "tooltip": "Limpiar lienzo (actualícelo después)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Limpiar todo",
+            "0"
+          ],
+          [
+            "Limpiar línea 1",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_clear_canvas_row": {
+    "message0": "limpiar línea %1 del lienzo",
+    "tooltip": "Limpiar una línea del lienzo (1-7) y actualizarlo si es necesario"
+  },
+  "k10_clear_qrcode": {
+    "message0": "limpiar código QR",
+    "tooltip": "Limpiar el código QR mostrado en la pantalla"
+  },
+  "k10_screen_size": {
+    "message0": "pantalla %1",
+    "tooltip": "Resolución de pantalla K10: 240x320 (vertical)",
+    "args0": [
+      {
+        "options": [
+          [
+            "ancho",
+            "W"
+          ],
+          [
+            "alto",
+            "H"
+          ]
+        ]
+      }
+    ]
+  }
+}

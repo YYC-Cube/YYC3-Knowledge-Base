@@ -1,0 +1,26 @@
+{
+"toolbox_name": "Прерывание",
+"io_attach_interrupt": {
+    "message0": "Аппаратное прерывание Пин # %1",
+    "args0": [
+        {
+            "options": "${board.interruptPins}"
+        }
+    ],
+    "message1": "Режим %1",
+    "args1": [
+        {
+            "options": "${board.interruptMode}"
+        }
+    ],
+    "message2": "%1"
+},
+"io_detach_interrupt": {
+    "message0": "Отключить аппаратное прерывание Пин # %1",
+    "args0": [
+        {
+            "options": "${board.interruptPins}"
+        }
+    ]
+}
+}

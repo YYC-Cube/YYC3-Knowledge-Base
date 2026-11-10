@@ -1,0 +1,91 @@
+{
+  "toolbox_name": "LIS3DHTR Accéléromètre",
+  "toolbox_labels": {
+    "初始化与配置": "Init & Config",
+    "加速度读取": "Accélération",
+    "敲击检测": "Détection de tap",
+    "温度传感器": "Capteur de température",
+    "ADC 读取": "Lecture ADC",
+    "状态与信息": "État & Infos"
+  },
+  "lis3dhtr_init": {
+    "message0": "initialiser accéléromètre LIS3DHTR I2C %1 adresse %2",
+    "tooltip": "Initialiser le capteur d'accélération LIS3DHTR (mode I2C), adresse par défaut 0x18. ⚠️ Wio Terminal doit utiliser Wire1"
+  },
+  "lis3dhtr_init_simplified": {
+    "message0": "initialisation tout-en-un LIS3DHTR I2C %1 adresse %2 débit %3 plage %4 haute résolution %5",
+    "tooltip": "Initialisation et configuration LIS3DHTR en une étape. Intervalle de lecture recommandé ≥ 50ms"
+  },
+  "lis3dhtr_set_datarate": {
+    "message0": "définir débit de données %1",
+    "tooltip": "Définir le débit de données de sortie de l'accéléromètre"
+  },
+  "lis3dhtr_set_full_scale_range": {
+    "message0": "définir plage de mesure %1",
+    "tooltip": "Définir la plage de mesure de l'accéléromètre"
+  },
+  "lis3dhtr_set_resolution": {
+    "message0": "définir mode haute résolution %1",
+    "tooltip": "Activer/désactiver le mode de sortie haute résolution"
+  },
+  "lis3dhtr_set_power_mode": {
+    "message0": "définir mode d'alimentation %1",
+    "tooltip": "Définir le mode d'alimentation du capteur"
+  },
+  "lis3dhtr_get_acceleration": {
+    "message0": "lire accélération axe %1 (g)",
+    "tooltip": "Lire la valeur d'accélération de l'axe spécifié (unité : g)"
+  },
+  "lis3dhtr_get_acceleration_x": {
+    "message0": "lire accélération axe X (g)",
+    "tooltip": "Lire la valeur d'accélération de l'axe X"
+  },
+  "lis3dhtr_get_acceleration_y": {
+    "message0": "lire accélération axe Y (g)",
+    "tooltip": "Lire la valeur d'accélération de l'axe Y"
+  },
+  "lis3dhtr_get_acceleration_z": {
+    "message0": "lire accélération axe Z (g)",
+    "tooltip": "Lire la valeur d'accélération de l'axe Z"
+  },
+  "lis3dhtr_get_acceleration_xyz": {
+    "message0": "obtenir accélération 3 axes X : %1 Y : %2 Z : %3",
+    "tooltip": "Lire les trois axes en une fois et stocker dans les variables spécifiées"
+  },
+  "lis3dhtr_available": {
+    "message0": "données d'accélération prêtes",
+    "tooltip": "Vérifier si de nouvelles données d'accélération sont disponibles"
+  },
+  "lis3dhtr_open_temp": {
+    "message0": "activer capteur de température",
+    "tooltip": "Activer le capteur de température intégré du LIS3DHTR"
+  },
+  "lis3dhtr_close_temp": {
+    "message0": "désactiver capteur de température",
+    "tooltip": "Désactiver le capteur de température intégré du LIS3DHTR"
+  },
+  "lis3dhtr_get_temperature": {
+    "message0": "lire température (°C)",
+    "tooltip": "Lire les données de température, activer d'abord le capteur de température"
+  },
+  "lis3dhtr_read_adc": {
+    "message0": "lire canal ADC %1",
+    "tooltip": "Lire les données du canal ADC spécifié"
+  },
+  "lis3dhtr_is_connection": {
+    "message0": "capteur connecté",
+    "tooltip": "Vérifier si le capteur LIS3DHTR est correctement connecté (ID appareil == 0x33)"
+  },
+  "lis3dhtr_get_device_id": {
+    "message0": "obtenir ID appareil",
+    "tooltip": "Lire l'ID du dispositif LIS3DHTR (valeur normale 0x33)"
+  },
+  "lis3dhtr_reset": {
+    "message0": "réinitialiser capteur",
+    "tooltip": "Réinitialiser le capteur LIS3DHTR à l'état par défaut"
+  },
+  "lis3dhtr_on_tap": {
+    "message0": "lorsque tap %1 détecté seuil %2 broche d'interruption %3",
+    "tooltip": "Configurer la détection de tap et le gestionnaire d'interruption. Seuils recommandés : plage 2G 40-80, 4G 20-40, 8G 10-20, 16G 5-10"
+  }
+}

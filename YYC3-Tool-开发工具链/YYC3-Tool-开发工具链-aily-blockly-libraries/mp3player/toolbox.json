@@ -1,0 +1,64 @@
+
+{
+  "kind": "category",
+  "icon": "fa-light fa-music",
+  "name": "GD3800音频播放",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "gd3800_init",
+      "inputs": {
+        "PIN_TX": {
+          "block": {
+            "type": "io_pin_digi"
+          }
+        },
+        "PIN_RX": {
+          "block": {
+            "type": "io_pin_digi"
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "gd3800_set"
+    },
+    {
+      "kind": "block",
+      "type": "gd3800_play",
+      "inputs": {
+        "MUSICNUM": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "gd3800_cyclemode"
+    },
+    {
+      "kind": "block",
+      "type": "gd3800_equalizer"
+    },
+    {
+      "kind": "block",
+      "type": "gd3800_setvolume",
+      "inputs": {
+        "SETVOLUME": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 20
+            }
+          }
+        }
+      }
+    }
+  ]
+}

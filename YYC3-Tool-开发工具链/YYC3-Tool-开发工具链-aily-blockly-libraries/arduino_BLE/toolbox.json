@@ -1,0 +1,31 @@
+{
+  "kind": "category",
+  "icon": "fa-light fa-bluetooth",
+  "name": "BLE",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "ble_begin"
+    },
+    {
+      "kind": "block",
+      "type": "ble_scan"
+    },
+    {
+      "kind": "block",
+      "type": "ble_connect"
+    },
+    {
+      "kind": "block",
+      "type": "ble_disconnect"
+    },
+    {
+      "kind": "block",
+      "type": "ble_read_characteristic"
+    },
+    {
+      "kind": "block",
+      "type": "ble_write_characteristic"
+    }
+  ]
+}

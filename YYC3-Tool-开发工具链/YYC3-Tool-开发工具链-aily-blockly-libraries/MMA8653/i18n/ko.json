@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "MMA8653 가속도 센서",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "读取加速度": "가속도 읽기",
+    "倾角计": "경사계",
+    "设置": "설정",
+    "状态": "상태"
+  },
+  "mma8653_init": {
+    "message0": "MMA8653 가속도 센서 초기화 범위 %1 해상도 %2 데이터 속도 %3",
+    "tooltip": "MMA8653 3축 가속도 센서를 범위, 해상도, 데이터 속도로 초기화",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["10비트", "MMA8653_10BIT_RES"],
+          ["8비트", "MMA8653_8BIT_RES"]
+        ]
+      },
+      null
+    ]
+  },
+  "mma8653_set_mode": {
+    "message0": "MMA8653 오버샘플링 모드 설정 %1",
+    "tooltip": "MMA8653 센서의 오버샘플링 모드 설정",
+    "args0": [
+      {
+        "options": [
+          ["일반", "MMA8653_MODS_NORMAL"],
+          ["저소음 저전력", "MMA8653_MODS_LOW_NOISE_LOW_POWER"],
+          ["고해상도", "MMA8653_MODS_HIGH_RES"],
+          ["저전력", "MMA8653_MODS_LOW_POWER"]
+        ]
+      }
+    ]
+  },
+  "mma8653_begin": {
+    "message0": "MMA8653 가속도 센서 시작",
+    "tooltip": "MMA8653 센서 데이터 수집 시작"
+  },
+  "mma8653_read_x": {
+    "message0": "MMA8653 X축 가속도 읽기",
+    "tooltip": "MMA8653 센서 X축 가속도 값 읽기"
+  },
+  "mma8653_read_y": {
+    "message0": "MMA8653 Y축 가속도 읽기",
+    "tooltip": "MMA8653 센서 Y축 가속도 값 읽기"
+  },
+  "mma8653_read_z": {
+    "message0": "MMA8653 Z축 가속도 읽기",
+    "tooltip": "MMA8653 센서 Z축 가속도 값 읽기"
+  },
+  "mma8653_read_xyz": {
+    "message0": "MMA8653 전체 축 데이터를 변수에 읽기 X %1 Y %2 Z %3",
+    "tooltip": "MMA8653 센서의 3축 가속도 데이터를 한 번에 읽기"
+  },
+  "mma8653_set_range": {
+    "message0": "MMA8653 측정 범위 설정 %1",
+    "tooltip": "MMA8653 센서의 측정 범위 설정"
+  },
+  "mma8653_set_data_rate": {
+    "message0": "MMA8653 데이터 속도 설정 %1",
+    "tooltip": "MMA8653 센서의 데이터 출력 속도 설정"
+  },
+  "mma8653_set_resolution": {
+    "message0": "MMA8653 해상도 설정 %1",
+    "tooltip": "MMA8653 센서의 데이터 해상도 설정",
+    "args0": [
+      {
+        "options": [
+          ["10비트", "MMA8653_10BIT_RES"],
+          ["8비트", "MMA8653_8BIT_RES"]
+        ]
+      }
+    ]
+  },
+  "mma8653_is_active": {
+    "message0": "MMA8653 센서 활성화됨",
+    "tooltip": "MMA8653 센서가 활성화 상태인지 확인"
+  },
+  "mma8653_check_connection": {
+    "message0": "MMA8653 센서 연결 상태 확인",
+    "tooltip": "MMA8653 센서가 올바르게 연결되었는지 확인"
+  },
+  "mma8653_get_roll": {
+    "message0": "MMA8653 롤 각도 읽기 Roll (°)",
+    "tooltip": "MMA8653 센서의 롤 각도(X축 회전 각도) 읽기"
+  },
+  "mma8653_get_pitch": {
+    "message0": "MMA8653 피치 각도 읽기 Pitch (°)",
+    "tooltip": "MMA8653 센서의 피치 각도(Y축 회전 각도) 읽기"
+  },
+  "mma8653_get_tilt": {
+    "message0": "MMA8653 기울기 각도 읽기 (°)",
+    "tooltip": "MMA8653 센서의 수직 방향 대비 기울기 각도 읽기"
+  }
+}

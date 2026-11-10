@@ -1,0 +1,104 @@
+{
+  "toolbox_name": "TB6612FNG Pilote de moteur",
+  "toolbox_labels": {
+    "初始化": "initialisation",
+    "直流电机": "Moteur à courant continu",
+    "步进电机": "moteur pas à pas",
+    "电源管理": "Gestion de l'alimentation"
+  },
+  "tb6612fng_init": {
+    "message0": "Initialiser %1 pilote de moteur adresse I2C %2",
+    "tooltip": "Initialiser le module pilote de moteur Grove TB6612FNG, définir l'adresse I2C"
+  },
+  "tb6612fng_dc_run": {
+    "message0": "%1 entraîner moteur CC %2 vitesse %3",
+    "tooltip": "Entraîner le moteur CC sur le canal spécifié, plage de vitesse -255~255, positif pour CW, négatif pour CCW",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Canal A", "MOTOR_CHA"],
+          ["Canal B", "MOTOR_CHB"]
+        ]
+      },
+      null
+    ]
+  },
+  "tb6612fng_dc_brake": {
+    "message0": "%1 freiner moteur CC %2",
+    "tooltip": "Freiner immédiatement le moteur CC sur le canal spécifié",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Canal A", "MOTOR_CHA"],
+          ["Canal B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_dc_stop": {
+    "message0": "%1 arrêter moteur CC %2",
+    "tooltip": "Arrêter lentement le moteur CC sur le canal spécifié",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Canal A", "MOTOR_CHA"],
+          ["Canal B", "MOTOR_CHB"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_stepper_run": {
+    "message0": "%1 entraîner moteur pas à pas mode %2\npas %3 RPM %4",
+    "tooltip": "Entraîner le moteur pas à pas, pas positifs pour CW, négatifs pour CCW, plage RPM 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Pas complet", "FULL_STEP"],
+          ["Entraînement par ondes", "WAVE_DRIVE"],
+          ["Demi-pas", "HALF_STEP"],
+          ["Micro-pas", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "tb6612fng_stepper_stop": {
+    "message0": "%1 arrêter moteur pas à pas",
+    "tooltip": "Arrêter le moteur pas à pas"
+  },
+  "tb6612fng_stepper_keep_run": {
+    "message0": "%1 moteur pas à pas en continu mode %2\nRPM %3 direction %4",
+    "tooltip": "Faire tourner le moteur pas à pas en continu, plage RPM 1~300",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Pas complet", "FULL_STEP"],
+          ["Entraînement par ondes", "WAVE_DRIVE"],
+          ["Demi-pas", "HALF_STEP"],
+          ["Micro-pas", "MICRO_STEPPING"]
+        ]
+      },
+      null,
+      {
+        "options": [
+          ["Sens horaire", "true"],
+          ["Sens antihoraire", "false"]
+        ]
+      }
+    ]
+  },
+  "tb6612fng_standby": {
+    "message0": "%1 activer mode veille",
+    "tooltip": "Le pilote de moteur entre en mode veille, tous les moteurs s'arrêtent"
+  },
+  "tb6612fng_not_standby": {
+    "message0": "%1 désactiver mode veille",
+    "tooltip": "Le pilote de moteur quitte le mode veille, reprise du fonctionnement normal"
+  }
+}

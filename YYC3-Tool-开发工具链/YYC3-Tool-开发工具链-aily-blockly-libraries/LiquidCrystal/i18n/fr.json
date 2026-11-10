@@ -1,0 +1,66 @@
+{
+    "toolbox_name": "LCD1602",
+    "lcd_init": {
+        "message0": "Initialiser l'écran LCD Colonnes %1 Lignes %2 Broches RS %3 EN %4 D4 %5 D5 %6 D6 %7 D7 %8 Rétroéclairage %9"
+    },
+    "lcd_clear": {
+        "message0": "Effacer l'écran LCD"
+    },
+    "lcd_set_cursor": {
+        "message0": "Définir le curseur LCD à la colonne %1 ligne %2"
+    },
+    "lcd_print": {
+        "message0": "Afficher sur LCD %1"
+    },
+    "lcd_print_position": {
+        "message0": "LCD afficher à la colonne %1 ligne %2 %3"
+    },
+    "lcd_backlight_on": {
+        "message0": "Allumer le rétroéclairage LCD"
+    },
+    "lcd_backlight_off": {
+        "message0": "Éteindre le rétroéclairage LCD"
+    },
+    "lcd_custom_char": {
+        "message0": "Caractère personnalisé %1 numéro %2",
+        "args0": [
+            null,
+            {
+                "options": [
+                    [
+                        "0",
+                        "0"
+                    ],
+                    [
+                        "1",
+                        "1"
+                    ],
+                    [
+                        "2",
+                        "2"
+                    ],
+                    [
+                        "3",
+                        "3"
+                    ],
+                    [
+                        "4",
+                        "4"
+                    ],
+                    [
+                        "5",
+                        "5"
+                    ],
+                    [
+                        "6",
+                        "6"
+                    ],
+                    [
+                        "7",
+                        "7"
+                    ]
+                ]
+            }
+        ]
+    }
+}

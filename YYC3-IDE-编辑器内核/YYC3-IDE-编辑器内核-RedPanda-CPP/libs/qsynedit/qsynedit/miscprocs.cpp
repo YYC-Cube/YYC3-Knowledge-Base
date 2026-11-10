@@ -1,0 +1,93 @@
+/*
+ * Copyright (C) 2020-2022 Roy Qu (royqh1979@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+#include "miscprocs.h"
+#include <QFile>
+#include <QPainter>
+#include <QTextStream>
+#include <algorithm>
+#include <QApplication>
+#include <QScreen>
+
+namespace QSynedit {
+int minMax(int x, int mi, int ma)
+{
+    x = std::min(x, ma );
+    return std::max( x, mi );
+}
+
+int getEOL(const QString &Line, int start)
+{
+    if (start<0 || start>=Line.size()) {
+        return start;
+    }
+    for (int i=start;i<Line.size();i++) {
+        if (Line[i] == '\n' || Line[i] == '\r') {
+            return i;
+        }
+    }
+    return Line.size();
+}
+
+FontStyles getFontStyles(const QFont &font)
+{
+    FontStyles styles;
+    styles.setFlag(FontStyle::fsBold, font.bold());
+    styles.setFlag(FontStyle::fsItalic, font.italic());
+    styles.setFlag(FontStyle::fsUnderline, font.underline());
+    styles.setFlag(FontStyle::fsStrikeOut, font.strikeOut());
+    return styles;
+}
+
+void ensureNotAfter(CharPos &cord1, CharPos &cord2)
+{
+    if((cord1.line > cord2.line) || (
+                cord1.line == cord2.line &&
+                cord1.ch > cord2.ch)) {
+        std::swap(cord1,cord2);
+    }
+}
+
+QStringList splitStrings(const QString &text)
+{
+    QStringList list;
+    int start=0,i=0;
+    while(i<text.length()) {
+        if (text[i]=='\n' || text[i]=='\r') {
+            list.append(text.mid(start,i-start));
+            if (text[i]=='\r') {
+                i++;
+                if (i<text.length() && text[i]=='\n')
+                    i++;
+            } else {
+                i++;
+            }
+            start=i;
+        } else {
+            i++;
+        }
+    }
+    if (i>=start)
+        list.append(text.mid(start,i));
+    return list;
+}
+
+int calSpanLines(const CharPos &startPos, const CharPos &endPos)
+{
+    return std::abs(endPos.line - startPos.line+1);
+}
+
+}

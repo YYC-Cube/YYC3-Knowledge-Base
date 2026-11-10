@@ -1,0 +1,2546 @@
+{
+  "files": [
+    {
+      "file": "src/components/MkAbuseReport.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAbuseReportWindow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAccountMoved.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAchievements.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAnalogClock.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAnimBg.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAnnouncementDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAntennaEditor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAntennaEditorDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAsUi.vue",
+      "diagnostics": [
+        "error:14:285 [TS2345] Argument of type '((evId: string) => Promise<void>) | undefined' is not assignable to parameter of type '($event: Event) => unknown'.\nType 'undefined' is not assignable to type '($event: Event) => unknown'.\nProperty 'primary' does not exist on type 'AsUiButtons'.\nProperty 'rounded' does not exist on type 'AsUiButtons'.\nProperty 'disabled' does not exist on type 'AsUiButtons'.",
+        "error:15:150 [TS2345] Argument of type '(() => Promise<void>) | undefined' is not assignable to parameter of type '(payload: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '(payload: PointerEvent) => unknown'.",
+        "error:17:162 [TS2345] Argument of type '(() => Promise<void>) | undefined' is not assignable to parameter of type '(payload: PointerEvent) => unknown'.\nType 'undefined' is not assignable to type '(payload: PointerEvent) => unknown'.\nProperty 'default' does not exist on type 'AsUiButton'.",
+        "error:23:100 [TS2345] Argument of type '((v: string) => Promise<void>) | undefined' is not assignable to parameter of type '(value: string) => unknown'.\nType 'undefined' is not assignable to type '(value: string) => unknown'.\nProperty 'default' does not exist on type 'AsUiButton'.",
+        "error:27:124 [TS2345] Argument of type '((v: string) => Promise<void>) | undefined' is not assignable to parameter of type '(value: string) => unknown'.\nType 'undefined' is not assignable to type '(value: string) => unknown'.\nProperty 'default' does not exist on type 'AsUiButton'.",
+        "error:31:140 [TS2345] Argument of type '((v: number) => Promise<void>) | undefined' is not assignable to parameter of type '(value: number) => unknown'.\nType 'undefined' is not assignable to type '(value: number) => unknown'.\nProperty 'primary' does not exist on type 'AsUiButtons'.\nProperty 'rounded' does not exist on type 'AsUiButtons'."
+      ]
+    },
+    {
+      "file": "src/components/MkAuthConfirm.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAutocomplete.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkAvatars.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkCaptcha.vue",
+      "diagnostics": [
+        "error:57:1 [TS1234] An ambient module declaration is only allowed at the top level in a file."
+      ]
+    },
+    {
+      "file": "src/components/MkChannelFollowButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkChannelList.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkChannelPreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkChart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkChartLegend.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkChartTooltip.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkChatHistories.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkClickerGame.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkClipPreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkCode.core.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkCode.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkCodeEditor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkCodeInline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkColorInput.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkContainer.vue",
+      "diagnostics": [
+        "error:26:11 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:27:16 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:28:11 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:29:16 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more."
+      ]
+    },
+    {
+      "file": "src/components/MkContextMenu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkCropperDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkCustomEmojiDetailedDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkCwButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDigitalClock.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDisableSection.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDivider.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDonation.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDraggable.vue",
+      "diagnostics": [
+        "error:39:47 [TS7006] Parameter 'ev' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/components/MkDrive.file.vue",
+      "diagnostics": [
+        "error:11:21 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkDrive.folder.vue",
+      "diagnostics": [
+        "error:11:21 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkDrive.navFolder.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDrive.vue",
+      "diagnostics": [
+        "error:61:23 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkDriveFileSelectDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDriveFileThumbnail.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDriveFolderSelectDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkDriveWindow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkEmbedCodeGenDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkEmojiPicker.section.vue",
+      "diagnostics": [
+        "error:38:42 [TS2339] Property 'filter' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'.",
+        "error:38:49 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:38:89 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:38:108 [TS2339] Property 'filter' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'.",
+        "error:38:108 [TS7006] Parameter 'e' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/components/MkEmojiPicker.vue",
+      "diagnostics": [
+        "error:95:43 [TS2339] Property 'filter' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'.",
+        "error:95:50 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:95:91 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:95:98 [TS2339] Property 'filter' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'.",
+        "error:95:105 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:95:110 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:96:51 [TS2339] Property 'filter' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'.",
+        "error:96:58 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:96:102 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:96:114 [TS2339] Property 'filter' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'.",
+        "error:96:121 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:96:125 [TS7006] Parameter 'e' implicitly has an 'any' type.",
+        "error:96:144 [TS7006] Parameter 'e' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/components/MkEmojiPickerDialog.vue",
+      "diagnostics": [
+        "error:25:3 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/components/MkExtensionInstaller.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFeatureBanner.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFeaturedPhotos.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFileCaptionEditWindow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFileListForAdmin.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFlashPreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFoldableSection.vue",
+      "diagnostics": [
+        "error:21:11 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:22:16 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:23:11 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:24:16 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more."
+      ]
+    },
+    {
+      "file": "src/components/MkFolder.vue",
+      "diagnostics": [
+        "error:63:13 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:64:18 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:65:13 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:66:18 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.\nProperty 'step' does not exist on type 'ArrayFormItem'.\nProperty 'manualSave' does not exist on type 'ArrayFormItem'.\nProperty 'treatAsMfm' does not exist on type 'ArrayFormItem'.\nProperty 'manualSave' does not exist on type 'ArrayFormItem'.\nProperty 'treatAsMfm' does not exist on type 'ArrayFormItem'.\nProperty 'treatAsMfm' does not exist on type 'ArrayFormItem'.\nProperty 'manualSave' does not exist on type 'ArrayFormItem'.\nProperty 'defaultFileId' does not exist on type 'ArrayFormItem'.\nProperty 'validate' does not exist on type 'ArrayFormItem'.\nProperty 'validate' does not exist on type 'ArrayFormItem'."
+      ]
+    },
+    {
+      "file": "src/components/MkFolderPage.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFollowButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkForgotPassword.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkForm.file.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkForm.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFormDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFormFooter.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkFukidashi.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkGalleryPostPreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkGoogle.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkHeatmap.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkImageEffectorDialog.Layer.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkImageEffectorDialog.vue",
+      "diagnostics": [
+        "error:202:25 [TS7006] Parameter 'blob' implicitly has an 'any' type.\nProperty 'min' does not exist on type 'AlignParamDef'.\nProperty 'max' does not exist on type 'AlignParamDef'.\nProperty 'step' does not exist on type 'AlignParamDef'.\nProperty 'toViewValue' does not exist on type 'AlignParamDef'."
+      ]
+    },
+    {
+      "file": "src/components/MkImageEffectorFxForm.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkImageFrameEditorDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkImgPreviewDialog.vue",
+      "diagnostics": [
+        "error:38:15 [TS2339] Property 'close' does not exist on type '__VizeComponentConstructor & __VizeVueComponentOptions & { __vizeEmitProps?: __VizeStaticEmitProps | undefined; }'."
+      ]
+    },
+    {
+      "file": "src/components/MkImgWithBlurhash.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkInfo.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkInput.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkInstanceCardMini.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkInstanceStats.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkInstanceTicker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkInviteCode.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkKeyValue.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkLaunchPad.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkLink.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkMarqueeText.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkMediaAudio.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkMediaBanner.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkMediaImage.vue",
+      "diagnostics": [
+        "error:7:167 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkMediaList.vue",
+      "diagnostics": [
+        "error:24:105 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/components/MkMediaRange.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkMediaVideo.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkMention.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkMenu.child.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkMenu.vue",
+      "diagnostics": [
+        "error:409:36 [TS2769] No overload matches this call.\nThe last overload gave the following error.\nArgument of type '(input: MaybeHTMLElement | null | undefined) => input is HTMLElement' is not assignable to parameter of type '(value: unknown, index: number, array: unknown[]) => unknown'.\nTypes of parameters 'input' and 'value' are incompatible.\nType 'unknown' is not assignable to type 'MaybeHTMLElement | null | undefined'.",
+        "error:421:36 [TS2769] No overload matches this call.\nThe last overload gave the following error.\nArgument of type '(input: MaybeHTMLElement | null | undefined) => input is HTMLElement' is not assignable to parameter of type '(value: unknown, index: number, array: unknown[]) => unknown'.\nTypes of parameters 'input' and 'value' are incompatible.\nType 'unknown' is not assignable to type 'MaybeHTMLElement | null | undefined'."
+      ]
+    },
+    {
+      "file": "src/components/MkMiniChart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkModal.vue",
+      "diagnostics": [
+        "error:298:36 [TS7006] Parameter 'ev' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/components/MkModalWindow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNote.vue",
+      "diagnostics": [
+        "error:48:61 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkNoteDetailed.vue",
+      "diagnostics": [
+        "error:50:52 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkNoteDraftsDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNoteHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNoteMediaGrid.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNotePreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNoteSimple.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNoteSub.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNotesTimeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNotification.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNotificationSelectWindow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNumber.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkNumberDiff.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkObjectView.value.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkObjectView.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkOmit.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPagePreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPageWindow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPagination.vue",
+      "diagnostics": [
+        "error:7:155 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkPaginationControl.vue",
+      "diagnostics": [
+        "error:13:117 [TS2322] Type 'boolean' is not assignable to type '__U<[Exclude<__LooseRequired<__DefineProps<{ paginator: T; canFilter?: boolean | undefined; filterOpened?: boolean | undefined; }, \"canFilter\" | \"filterOpened\" | ([T] extends [boolean | undefined] ? \"paginator\" : never)>>[\"filterOpened\"], undefined>] extends [...] ? IfAny<...> : Ref<...>>'.\nThe last overload gave the following error.\nArgument of type 'number | null' is not assignable to parameter of type 'string | number'.\nType 'null' is not assignable to type 'string | number'."
+      ]
+    },
+    {
+      "file": "src/components/MkPagingButtons.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPasswordDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPlusOneEffect.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPolkadots.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPoll.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPollEditor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPopupMenu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPositionSelector.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPostForm.TextCounter.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPostForm.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPostFormAttaches.vue",
+      "diagnostics": [
+        "error:22:51 [TS2345] Argument of type 'MouseEvent' is not assignable to parameter of type 'KeyboardEvent | PointerEvent'.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkPostFormDialog.vue",
+      "diagnostics": [
+        "error:17:3 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/components/MkPreferenceContainer.vue",
+      "diagnostics": [
+        "error:7:63 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkPreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPreviewWithControls.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPullToRefresh.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkPushNotificationAllowButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkRadios.vue",
+      "diagnostics": [
+        "error:74:7 [TS2322] Type '{}' is not assignable to type 'string | number | bigint | boolean | null | undefined'."
+      ]
+    },
+    {
+      "file": "src/components/MkRange.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkReactionEffect.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkReactionIcon.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkReactionTooltip.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkReactionsViewer.details.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkReactionsViewer.reaction.vue",
+      "diagnostics": [
+        "error:13:29 [TS2345] Argument of type '(ev: PointerEvent) => Promise<void>' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkReactionsViewer.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkRemoteCaution.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkRemoteEmojiEditDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkRetentionHeatmap.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkRetentionLineChart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkRippleEffect.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkRolePreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkRoleSelectDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSelect.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkServerSetupWizard.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkServerSetupWizardDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSignin.input.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSignin.passkey.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSignin.password.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSignin.totp.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSignin.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSigninDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSignupDialog.form.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSignupDialog.rules.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSignupDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSortOrderEditor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSourceCodeAvailablePopup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSparkle.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSpot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkStreamingNotesTimeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkStreamingNotificationsTimeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSubNoteContent.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSuperMenu.vue",
+      "diagnostics": [
+        "error:220:19 [TS2347] Untyped function calls may not accept type arguments."
+      ]
+    },
+    {
+      "file": "src/components/MkSwiper.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSwitch.button.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSwitch.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkSystemWebhookEditor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTab.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTabs.vue",
+      "diagnostics": [
+        "error:11:11 [TS7006] Parameter 'el' implicitly has an 'any' type.",
+        "error:33:14 [TS2345] Argument of type '(el: Element) => Promise<void>' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:34:19 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:35:14 [TS2345] Argument of type '(el: Element) => Promise<void>' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:36:19 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more."
+      ]
+    },
+    {
+      "file": "src/components/MkTagCloud.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTagItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTextarea.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkThemePreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTl.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkToast.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTokenGenerateWindow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTooltip.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTutorialDialog.Note.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTutorialDialog.PostNote.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTutorialDialog.Sensitive.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTutorialDialog.Timeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkTutorialDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUpdated.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUploaderDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUploaderItems.vue",
+      "diagnostics": [
+        "error:17:50 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkUrlPreview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUrlPreviewPopup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserAnnouncementEditDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserCardMini.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserInfo.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserList.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserOnlineIndicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserPopup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserSelectDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserSetupDialog.Follow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserSetupDialog.Privacy.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserSetupDialog.Profile.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserSetupDialog.User.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUserSetupDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkUsersTooltip.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkVisibilityPicker.vue",
+      "diagnostics": [
+        "error:138:11 [TS2339] Property 'type' does not exist on type 'unknown'."
+      ]
+    },
+    {
+      "file": "src/components/MkVisitorDashboard.ActiveUsersChart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkVisitorDashboard.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkWaitingDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkWatermarkEditorDialog.Layer.vue",
+      "diagnostics": [
+        "error:318:10 [TS2339] Property 'align' does not exist on type '{ id: string; type: \"text\"; text: string; repeat: boolean; noBoundingBoxExpansion: boolean; scale: number; angle: number; align: Align; opacity: number; } | { id: string; type: \"image\"; imageUrl: string | null; ... 7 more ...; opacity: number; } | { ...; } | { ...; } | { ...; } | { ...; }'.\nProperty 'align' does not exist on type '{ id: string; type: \"stripe\"; angle: number; frequency: number; threshold: number; color: [r: number, g: number, b: number]; opacity: number; }'.",
+        "error:322:23 [TS7006] Parameter 'v' implicitly has an 'any' type.\nProperty 'align' does not exist on type '{ id: string; type: \"stripe\"; angle: number; frequency: number; threshold: number; color: [r: number, g: number, b: number]; opacity: number; }'.\nProperty 'align' does not exist on type '{ id: string; type: \"stripe\"; angle: number; frequency: number; threshold: number; color: [r: number, g: number, b: number]; opacity: number; }'."
+      ]
+    },
+    {
+      "file": "src/components/MkWatermarkEditorDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkWidgetSettingsDialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/MkWidgets.vue",
+      "diagnostics": [
+        "error:32:269 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkWindow.vue",
+      "diagnostics": [
+        "error:17:86 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/MkYouTubePlayer.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/form/link.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/form/section.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/form/slot.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/form/split.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/I18n.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkA.vue",
+      "diagnostics": [
+        "error:7:101 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/global/MkAcct.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkAd.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkAvatar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkCondensedLine.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkCustomEmoji.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkEllipsis.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkEmoji.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkError.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkLazy.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkLoading.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkPageHeader.tabs.vue",
+      "diagnostics": [
+        "error:11:11 [TS7006] Parameter 'el' implicitly has an 'any' type.",
+        "error:31:35 [TS2345] Argument of type '(el: Element) => Promise<void>' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:31:55 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:31:75 [TS2345] Argument of type '(el: Element) => Promise<void>' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more.",
+        "error:32:19 [TS2345] Argument of type '(el: Element) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'el' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'Element': attributes, classList, className, clientHeight, and 183 more."
+      ]
+    },
+    {
+      "file": "src/components/global/MkPageHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkResult.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkStickyContainer.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkSuspense.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkSystemIcon.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkTime.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkTip.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkUrl.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/MkUserName.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/NestedRouterView.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/PageWithAnimBg.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/PageWithHeader.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/RouterView.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/SearchIcon.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/SearchLabel.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/SearchMarker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/SearchText.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/global/StackingRouterView.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/grid/MkCellTooltip.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/grid/MkDataCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/grid/MkDataRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/grid/MkGrid.vue",
+      "diagnostics": [
+        "error:17:29 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/components/grid/MkHeaderCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/grid/MkHeaderRow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/grid/MkNumberCell.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/page/page.block.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/page/page.dynamic.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/page/page.image.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/page/page.note.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/page/page.section.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/page/page.text.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/components/page/page.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/_empty_.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/_error_.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/_loading_.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/about-misskey.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/about.emojis.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/about.federation.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/about.overview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/about.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/achievements.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin-file.chat.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin-file.root.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin-file.vue",
+      "diagnostics": [
+        "error:7:83 [TS2339] Property 'file' does not exist on type 'Event'."
+      ]
+    },
+    {
+      "file": "src/pages/admin-user.vue",
+      "diagnostics": [
+        "error:190:43 [TS2322] Type 'string' is not assignable to type '\"active-users\" | \"ap-request\" | \"drive\" | \"drive-files\" | \"federation\" | \"instance-drive-files\" | \"instance-drive-files-total\" | \"instance-drive-usage\" | \"instance-drive-usage-total\" | ... 17 more ... | \"users-total\"'.",
+        "error:192:43 [TS2322] Type 'string' is not assignable to type '\"active-users\" | \"ap-request\" | \"drive\" | \"drive-files\" | \"federation\" | \"instance-drive-files\" | \"instance-drive-files-total\" | \"instance-drive-usage\" | \"instance-drive-usage-total\" | ... 17 more ... | \"users-total\"'."
+      ]
+    },
+    {
+      "file": "src/pages/admin/RolesEditorFormula.vue",
+      "diagnostics": [
+        "error:11:106 [TS2345] Argument of type '((ev: DragEvent) => void) | undefined' is not assignable to parameter of type '($event: DragEvent) => unknown'.\nType 'undefined' is not assignable to type '($event: DragEvent) => unknown'.",
+        "error:35:61 [TS2345] Argument of type 'Event' is not assignable to parameter of type '{ id: string; type: \"and\" | \"or\"; values: (... | { id: string; type: \"not\"; value: ... | ... | { id: string; type: \"isLocal\" | \"isRemote\"; } | { id: string; type: \"isBot\" | \"isCat\" | \"isExplorable\" | \"isLocked\" | \"isSuspended\"; } | { ...; } | { ...; } | { ...; }; } | ... 4 more ... | { ...; })[]; } | ... 5 more ... ...'.\nType 'Event' is missing the following properties from type '{ id: string; type: \"followersLessThanOrEq\" | \"followersMoreThanOrEq\" | \"followingLessThanOrEq\" | \"followingMoreThanOrEq\" | \"notesLessThanOrEq\" | \"notesMoreThanOrEq\"; value: number; }': id, value"
+      ]
+    },
+    {
+      "file": "src/pages/admin/abuse-report/notification-recipient.editor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/abuse-report/notification-recipient.item.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/abuse-report/notification-recipient.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/abuses.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/ads.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/announcements.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/bot-protection.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/branding.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/custom-emojis-manager.local.list.logs.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/custom-emojis-manager.local.list.search.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/custom-emojis-manager.local.list.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/custom-emojis-manager.logs.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/custom-emojis-manager.register.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/custom-emojis-manager.remote.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/custom-emojis-manager2.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/database.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/email-settings.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/external-services.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/federation-job-queue.chart.chart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/federation-job-queue.chart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/federation-job-queue.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/federation.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/files.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/invites.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/job-queue.chart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/job-queue.job.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/job-queue.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/moderation.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/modlog.ModLog.vue",
+      "diagnostics": [
+        "error:232:26 [TS7016] Could not find a declaration file for module 'v-code-diff'. '<project>/node_modules/.pnpm/v-code-diff@1.13.1_vue@3.5.28_typescript@5.9.3_/node_modules/v-code-diff/index.js' implicitly has an 'any' type.\nTry `npm i --save-dev @types/v-code-diff` if it exists or add a new declaration (.d.ts) file containing `declare module 'v-code-diff';`"
+      ]
+    },
+    {
+      "file": "src/pages/admin/modlog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/object-storage.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.active-users.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.ap-requests.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.federation.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.heatmap.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.instances.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.moderators.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.pie.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.queue.chart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.queue.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.retention.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.stats.vue",
+      "diagnostics": [
+        "error:44:38 [TS2339] Property 'length' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'.",
+        "error:44:39 [TS2339] Property 'length' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'.",
+        "error:44:44 [TS2339] Property 'length' does not exist on type 'ShallowRef<{ aliases: string[]; name: string; category: string | null; url: string; localOnly?: boolean | undefined; isSensitive?: boolean | undefined; roleIdsThatCanBeUsedThisEmojiAsReaction?: string[] | undefined; }[], { ...; }[]>'."
+      ]
+    },
+    {
+      "file": "src/pages/admin/overview.users.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/overview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/performance.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/relays.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/roles.edit.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/roles.editor.vue",
+      "diagnostics": [
+        "error:467:124 [TS7006] Parameter 'v' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/pages/admin/roles.role.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/roles.vue",
+      "diagnostics": [
+        "error:208:23 [TS7006] Parameter 'v' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/pages/admin/security.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/server-rules.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/settings.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/system-webhook.item.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/system-webhook.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/admin/users.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/ads.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/announcement.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/announcements.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/antenna-timeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/api-console.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/auth.form.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/auth.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/avatar-decoration-edit-dialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/avatar-decorations.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/channel-editor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/channel.vue",
+      "diagnostics": [
+        "error:12:101 [TS1117] An object literal cannot have multiple properties with the same name.",
+        "error:13:81 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/pages/channels.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/XMessage.vue",
+      "diagnostics": [
+        "error:9:97 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/pages/chat/XRoom.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/home.home.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/home.invitations.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/home.joiningRooms.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/home.ownedRooms.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/home.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/message.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/room.form.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/room.info.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/room.members.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/room.search.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/chat/room.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/clicker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/clip.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/contact.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/custom-emojis-manager.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/debug.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/drive.file.info.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/drive.file.notes.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/drive.file.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/drive.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/drop-and-fusion.game.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/drop-and-fusion.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/emoji-edit-dialog.vue",
+      "diagnostics": [
+        "error:39:67 [TS2339] Property 'filter' does not exist on type 'ComputedRef<[...string[], null]>'.",
+        "error:39:74 [TS7006] Parameter 'x' implicitly has an 'any' type.",
+        "error:39:88 [TS2339] Property 'filter' does not exist on type 'ComputedRef<[...string[], null]>'.",
+        "error:39:88 [TS7006] Parameter 'x' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/pages/emojis.emoji.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/explore.featured.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/explore.roles.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/explore.users.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/explore.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/favorites.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/flash/flash-edit.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/flash/flash-index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/flash/flash.vue",
+      "diagnostics": [
+        "error:25:91 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/pages/follow-requests.vue",
+      "diagnostics": [
+        "error:9:29 [TS2454] Variable 'paginator' is used before being assigned.",
+        "error:9:30 [TS2454] Variable 'paginator' is used before being assigned.",
+        "error:9:38 [TS2454] Variable 'paginator' is used before being assigned."
+      ]
+    },
+    {
+      "file": "src/pages/gallery/edit.root.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/gallery/edit.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/gallery/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/gallery/post.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/games.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/install-extensions.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/instance-info.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/invite.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/list.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/lookup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/miauth.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/my-antennas/create.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/my-antennas/edit.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/my-antennas/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/my-clips/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/my-lists/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/my-lists/list.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/not-found.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/note.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/notifications.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/oauth.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/page-editor/els/page-editor.el.image.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/page-editor/els/page-editor.el.note.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/page-editor/els/page-editor.el.section.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/page-editor/els/page-editor.el.text.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/page-editor/page-editor.blocks.vue",
+      "diagnostics": [
+        "error:18:91 [TS2345] Argument of type '(v: { id: string; type: \"text\"; text: string; } | { id: string; type: \"section\"; title: string; children: ({ id: string; type: \"text\"; text: string; } | ... | { id: string; type: \"image\"; fileId: string | null; } | { ...; })[]; } | { ...; } | { ...; }) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'v' and '$event' are incompatible.\nType 'Event' is not assignable to type '{ id: string; type: \"text\"; text: string; } | { id: string; type: \"section\"; title: string; children: ({ id: string; type: \"text\"; text: string; } | ... | { id: string; type: \"image\"; fileId: string | null; } | { ...; })[]; } | { ...; } | { ...; }'.\nType 'Event' is missing the following properties from type '{ id: string; type: \"note\"; detailed: boolean; note: string | null; }': id, detailed, note"
+      ]
+    },
+    {
+      "file": "src/pages/page-editor/page-editor.container.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/page-editor/page-editor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/page.vue",
+      "diagnostics": [
+        "error:87:103 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/pages/pages.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/preview.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/qr.read.raw-viewer.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/qr.read.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/qr.show.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/qr.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/registry.keys.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/registry.value.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/registry.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/reset-password.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/reversi/game.board.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/reversi/game.setting.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/reversi/game.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/reversi/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/role.vue",
+      "diagnostics": [
+        "error:14:90 [TS7006] Parameter 'item' implicitly has an 'any' type."
+      ]
+    },
+    {
+      "file": "src/pages/scratchpad.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/search.note.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/search.user.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/search.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/2fa.qrdialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/2fa.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/account-data.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/accounts.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/apps.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/avatar-decoration.decoration.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/avatar-decoration.dialog.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/avatar-decoration.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/connect.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/custom-css.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/deck.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/drive-cleaner.vue",
+      "diagnostics": [
+        "error:18:49 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/pages/settings/drive.ImageFrameItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/drive.WatermarkItem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/drive.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/email.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/emoji-palette.palette.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/emoji-palette.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/migration.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/mute-block.emoji-mute.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/mute-block.instance-mute.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/mute-block.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/mute-block.word-mute.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/navbar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/notifications.notification-config.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/notifications.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/other.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/plugin.install.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/plugin.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/preferences.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/privacy.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/profile.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/profiles.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/security.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/sounds.sound.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/sounds.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/statusbar.statusbar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/statusbar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/theme.install.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/theme.manage.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/theme.vue",
+      "diagnostics": [
+        "error:65:250 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more.",
+        "error:85:211 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more.",
+        "error:105:211 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more.",
+        "error:136:247 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more.",
+        "error:156:211 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more.",
+        "error:176:211 [TS2740] Type 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/pages/settings/webhook.edit.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/settings/webhook.new.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/share.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/signup-complete.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/tag.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/theme-editor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/timeline.vue",
+      "diagnostics": [
+        "error:12:80 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/pages/user-list-timeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user-tag.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/achievements.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/activity.following.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/activity.notes.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/activity.pv.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/activity.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/clips.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/files.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/flashs.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/follow-list.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/followers.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/following.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/gallery.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/home.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/index.activity.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/index.files.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/index.timeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/lists.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/notes.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/pages.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/raw.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/user/reactions.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/verify-email.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/welcome.entrance.classic.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/welcome.entrance.simple.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/welcome.setup.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/welcome.timeline.note.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/welcome.timeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/pages/welcome.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/PreferenceRestore.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/ReloadSuggestion.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/announcements.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/common.vue",
+      "diagnostics": [
+        "error:61:13 [TS2339] Property 'component' does not exist on type 'true | { id: number; component: ComponentPublicInstanceConstructor<any, any, any, any, ComputedOptions, MethodOptions> | FunctionalComponent<...> | { ...; }; props: Record<...>; events: Record<...>; }[]'.\nProperty 'component' does not exist on type 'true'.",
+        "error:63:14 [TS2339] Property 'id' does not exist on type 'true | { id: number; component: ComponentPublicInstanceConstructor<any, any, any, any, ComputedOptions, MethodOptions> | FunctionalComponent<...> | { ...; }; props: Record<...>; events: Record<...>; }[]'.\nProperty 'id' does not exist on type 'true'.",
+        "error:64:16 [TS2339] Property 'props' does not exist on type 'true | { id: number; component: ComponentPublicInstanceConstructor<any, any, any, any, ComputedOptions, MethodOptions> | FunctionalComponent<...> | { ...; }; props: Record<...>; events: Record<...>; }[]'.\nProperty 'props' does not exist on type 'true'.",
+        "error:65:14 [TS2339] Property 'events' does not exist on type 'true | { id: number; component: ComponentPublicInstanceConstructor<any, any, any, any, ComputedOptions, MethodOptions> | FunctionalComponent<...> | { ...; }; props: Record<...>; events: Record<...>; }[]'.\nProperty 'events' does not exist on type 'true'.",
+        "error:92:12 [TS2365] Operator '>' cannot be applied to types 'Ref<number, number>' and 'number'."
+      ]
+    },
+    {
+      "file": "src/ui/_common_/mobile-footer-menu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/navbar-h.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/navbar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/notification.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/statusbar-federation.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/statusbar-rss.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/statusbar-user-list.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/statusbars.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/stream-indicator.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/titlebar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/_common_/widgets.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck.vue",
+      "diagnostics": [
+        "error:22:182 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more.",
+        "error:27:23 [TS2339] Property 'filter' does not exist on type 'Ref<{ id: string; type: \"antenna\" | \"channel\" | \"chat\" | \"direct\" | \"list\" | \"main\" | \"mentions\" | \"notifications\" | \"roleTimeline\" | \"tl\" | \"widgets\"; name: string | null; width: number; ... 14 more ...; timelineNameCache?: string | undefined; }[], Column[] | { ...; }[]>'.",
+        "error:27:30 [TS7006] Parameter 'c' implicitly has an 'any' type.",
+        "error:27:39 [TS2339] Property 'includes' does not exist on type 'true | string[][]'.\nProperty 'includes' does not exist on type 'true'.",
+        "error:27:60 [TS7006] Parameter 'c' implicitly has an 'any' type.",
+        "error:27:141 [TS2339] Property 'filter' does not exist on type 'Ref<{ id: string; type: \"antenna\" | \"channel\" | \"chat\" | \"direct\" | \"list\" | \"main\" | \"mentions\" | \"notifications\" | \"roleTimeline\" | \"tl\" | \"widgets\"; name: string | null; width: number; ... 14 more ...; timelineNameCache?: string | undefined; }[], Column[] | { ...; }[]>'.",
+        "error:27:148 [TS7006] Parameter 'c' implicitly has an 'any' type.",
+        "error:27:157 [TS2339] Property 'includes' does not exist on type 'true | string[][]'.\nProperty 'includes' does not exist on type 'true'.",
+        "error:27:177 [TS7006] Parameter 'c' implicitly has an 'any' type.",
+        "error:31:13 [TS7053] Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ main: __VizeComponentConstructor & __VizeVueComponentOptions; widgets: __VizeComponentConstructor & __VizeVueComponentOptions; ... 8 more ...; chat: __VizeComponentConstructor & __VizeVueComponentOptions; }'.",
+        "error:31:38 [TS2339] Property 'find' does not exist on type 'Ref<{ id: string; type: \"antenna\" | \"channel\" | \"chat\" | \"direct\" | \"list\" | \"main\" | \"mentions\" | \"notifications\" | \"roleTimeline\" | \"tl\" | \"widgets\"; name: string | null; width: number; ... 14 more ...; timelineNameCache?: string | undefined; }[], Column[] | { ...; }[]>'.",
+        "error:31:43 [TS7006] Parameter 'c' implicitly has an 'any' type.",
+        "error:36:25 [TS2339] Property 'find' does not exist on type 'Ref<{ id: string; type: \"antenna\" | \"channel\" | \"chat\" | \"direct\" | \"list\" | \"main\" | \"mentions\" | \"notifications\" | \"roleTimeline\" | \"tl\" | \"widgets\"; name: string | null; width: number; ... 14 more ...; timelineNameCache?: string | undefined; }[], Column[] | { ...; }[]>'.",
+        "error:36:30 [TS7006] Parameter 'c' implicitly has an 'any' type.",
+        "error:37:24 [TS2339] Property 'length' does not exist on type 'true | string[][]'.\nProperty 'length' does not exist on type 'true'.",
+        "error:38:22 [TS2345] Argument of type '(ev: WheelEvent) => void' is not assignable to parameter of type '($event: Event) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'Event' is missing the following properties from type 'WheelEvent': deltaMode, deltaX, deltaY, deltaZ, and 30 more.",
+        "error:41:24 [TS2339] Property 'length' does not exist on type 'Ref<string[][], string[][]>'.",
+        "error:295:11 [TS2339] Property 'length' does not exist on type 'Ref<string[][], string[][]>'.",
+        "error:300:22 [TS2339] Property 'length' does not exist on type 'Ref<string[][], string[][]>'.",
+        "error:300:64 [TS2339] Property 'length' does not exist on type 'Ref<string[][], string[][]>'.",
+        "error:309:18 [TS2339] Property 'length' does not exist on type 'Ref<string[][], string[][]>'.",
+        "error:314:23 [TS2339] Property 'length' does not exist on type 'Ref<string[][], string[][]>'.",
+        "error:324:7 [TS2339] Property 'length' does not exist on type 'Ref<string[][], string[][]>'."
+      ]
+    },
+    {
+      "file": "src/ui/deck/antenna-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/channel-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/chat-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/column.vue",
+      "diagnostics": [
+        "error:20:30 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/ui/deck/direct-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/list-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/main-column.vue",
+      "diagnostics": [
+        "error:22:93 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more.",
+        "error:23:41 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more.",
+        "error:82:19 [TS2347] Untyped function calls may not accept type arguments."
+      ]
+    },
+    {
+      "file": "src/ui/deck/mentions-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/notifications-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/role-timeline-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/tl-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/deck/widgets-column.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/minimum.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/universal.vue",
+      "diagnostics": [
+        "error:13:135 [TS2345] Argument of type '(ev: PointerEvent) => void' is not assignable to parameter of type '($event: MouseEvent) => unknown'.\nTypes of parameters 'ev' and '$event' are incompatible.\nType 'MouseEvent' is missing the following properties from type 'PointerEvent': altitudeAngle, azimuthAngle, height, isPrimary, and 11 more."
+      ]
+    },
+    {
+      "file": "src/ui/visitor.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/ui/zen.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetActivity.calendar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetActivity.chart.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetActivity.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetAichan.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetAiscript.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetAiscriptApp.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetBirthdayFollowings.user.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetBirthdayFollowings.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetButton.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetCalendar.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetChat.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetClicker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetClock.vue",
+      "diagnostics": [
+        "error:25:126 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/widgets/WidgetDigitalClock.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetFederation.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetInstanceCloud.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetInstanceInfo.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetJobQueue.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetMemo.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetNotifications.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetOnlineUsers.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetPhotos.vue",
+      "diagnostics": [
+        "error:7:182 [TS1117] An object literal cannot have multiple properties with the same name."
+      ]
+    },
+    {
+      "file": "src/widgets/WidgetPostForm.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetProfile.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetRss.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetRssTicker.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetSlideshow.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetTimeline.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetTrends.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetUnixClock.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/WidgetUserList.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/server-metric/cpu-mem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/server-metric/cpu.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/server-metric/disk.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/server-metric/index.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/server-metric/mem.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/server-metric/net.vue",
+      "diagnostics": []
+    },
+    {
+      "file": "src/widgets/server-metric/pie.vue",
+      "diagnostics": []
+    }
+  ],
+  "errorCount": 145,
+  "warningCount": 0,
+  "fileCount": 583
+}

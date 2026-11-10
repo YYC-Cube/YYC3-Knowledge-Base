@@ -1,0 +1,31 @@
+{
+  "toolbox_name": "Sensor de ángulo TLx5012B",
+  "tlx5012_init": {
+    "message0": "Inicializar sensor de ángulo TLx5012B %1\nPin CS %2",
+    "tooltip": "Inicializar el sensor de ángulo magnético TLx5012B mediante interfaz SPI"
+  },
+  "tlx5012_read_angle": {
+    "message0": "Leer ángulo (°) del TLx5012B %1",
+    "tooltip": "Leer valor de ángulo del sensor TLx5012B, retorna 0°~360°"
+  },
+  "tlx5012_read_speed": {
+    "message0": "Leer velocidad angular del TLx5012B %1",
+    "tooltip": "Leer velocidad angular del sensor TLx5012B"
+  },
+  "tlx5012_read_revolutions": {
+    "message0": "Leer revoluciones del TLx5012B %1",
+    "tooltip": "Leer número acumulado de revoluciones del sensor TLx5012B, rango -256~256"
+  },
+  "tlx5012_read_temperature": {
+    "message0": "Leer temperatura (℃) del TLx5012B %1",
+    "tooltip": "Leer temperatura del sensor TLx5012B en Celsius"
+  },
+  "tlx5012_read_angle_range": {
+    "message0": "Leer rango de ángulo del TLx5012B %1",
+    "tooltip": "Leer configuración de rango de ángulo del sensor TLx5012B"
+  },
+  "tlx5012_reset": {
+    "message0": "Reiniciar sensor TLx5012B %1",
+    "tooltip": "Reiniciar el sensor TLx5012B a valores de fábrica"
+  }
+}

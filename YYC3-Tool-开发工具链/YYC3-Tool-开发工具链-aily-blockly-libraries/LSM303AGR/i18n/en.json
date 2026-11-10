@@ -1,0 +1,45 @@
+{
+  "toolbox_name": "LSM303AGR Accelerometer & Magnetometer",
+  "toolbox_labels": {
+    "加速度计": "accelerometer",
+    "磁力计": "Magnetometer",
+    "姿态解算(AHRS)": "Attitude Resolution (AHRS)"
+  },
+  "lsm303agr_acc_init": {
+    "message0": "Initialize accelerometer %1\nusing %2",
+    "tooltip": "Initialize LSM303AGR accelerometer sensor via I2C interface"
+  },
+  "lsm303agr_mag_init": {
+    "message0": "Initialize magnetometer %1\nusing %2",
+    "tooltip": "Initialize LSM303AGR magnetometer sensor via I2C interface"
+  },
+  "lsm303agr_acc_get_axis": {
+    "message0": "Read accelerometer %1 %2 axis acceleration (mg)",
+    "tooltip": "Read LSM303AGR accelerometer X/Y/Z axis acceleration value in mg"
+  },
+  "lsm303agr_mag_get_axis": {
+    "message0": "Read magnetometer %1 %2 axis magnetic field (mGauss)",
+    "tooltip": "Read LSM303AGR magnetometer X/Y/Z axis magnetic field value in mGauss"
+  },
+  "lsm303agr_acc_get_temperature": {
+    "message0": "Read accelerometer %1 temperature (°C)",
+    "tooltip": "Read LSM303AGR accelerometer temperature value in °C"
+  },
+  "lsm303agr_ahrs_update": {
+    "message0": "Update AHRS\naccelerometer %1 magnetometer %2",
+    "tooltip": "Update attitude estimation using accelerometer and magnetometer data, computing roll, pitch and heading"
+  },
+  "lsm303agr_ahrs_get_angle": {
+    "message0": "Get attitude angle %1 (°)",
+    "tooltip": "Get attitude estimation result. Roll/Pitch range: -180~180°, Heading range: 0~360°",
+    "args0": [
+      {
+        "options": [
+          ["Roll", "ROLL"],
+          ["Pitch", "PITCH"],
+          ["Heading", "HEADING"]
+        ]
+      }
+    ]
+  }
+}

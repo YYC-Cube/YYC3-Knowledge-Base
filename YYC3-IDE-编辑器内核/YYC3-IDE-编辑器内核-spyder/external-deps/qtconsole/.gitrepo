@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/spyder-ide/qtconsole.git
+	branch = main
+	commit = 0fd9cae9bebf2ee4c88390b007edbd4e0c0994b5
+	parent = 62663dbfa7843e07ff492c5d99a3e123a91da430
+	method = merge
+	cmdver = 0.4.9

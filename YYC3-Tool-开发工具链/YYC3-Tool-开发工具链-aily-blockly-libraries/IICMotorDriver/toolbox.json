@@ -1,0 +1,103 @@
+{
+  "kind": "category",
+  "icon": "iconfont icon-motor",
+  "name": "IICMotorDriver",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "iicmd_init"
+    },
+    {
+      "kind": "block",
+      "type": "iicmd_dirinit"
+    },
+    {
+      "kind": "block",
+      "type": "iicmd_stop"
+    },
+    {
+      "kind": "block",
+      "type": "iicmd_runone",
+      "inputs": {
+        "RUNONR_SP": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "iicmd_runall",
+      "inputs": {
+        "RUNALL_SP": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "iicmd_runall2",
+      "inputs": {
+        "M1_SP": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2000
+            }
+          }
+        },
+        "M2_SP": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2000
+            }
+          }
+        },
+        "M3_SP": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2000
+            }
+          }
+        },
+        "M4_SP": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 2000
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "iicmd_digitout"
+    },
+    {
+      "kind": "block",
+      "type": "iicmd_servo",
+      "inputs": {
+        "SERANGLE": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 90
+            }
+          }
+        }
+      }
+    }
+  ]
+}

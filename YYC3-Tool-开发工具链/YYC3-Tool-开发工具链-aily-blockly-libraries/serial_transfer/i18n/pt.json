@@ -1,0 +1,126 @@
+{
+  "toolbox_name": "SerialTransfer",
+  "toolbox_labels": {
+    "初始化": "inicialização",
+    "发送数据": "Enviar dados",
+    "接收数据": "receber dados",
+    "状态": "Estado"
+  },
+  "toolbox_categories": ["Transferência serial", "Transferência I2C", "Transferência SPI"],
+  "serial_transfer_init": {
+    "message0": "Inicializar SerialTransfer %1 porta %2 taxa %3",
+    "tooltip": "Inicializar o objeto SerialTransfer com porta serial e taxa de transmissão"
+  },
+  "serial_transfer_send_int": {
+    "message0": "SerialTransfer %1 enviar inteiro %2 ID pacote %3",
+    "tooltip": "Enviar um valor inteiro via SerialTransfer"
+  },
+  "serial_transfer_send_float": {
+    "message0": "SerialTransfer %1 enviar decimal %2 ID pacote %3",
+    "tooltip": "Enviar um valor decimal via SerialTransfer"
+  },
+  "serial_transfer_send_string": {
+    "message0": "SerialTransfer %1 enviar texto %2 ID pacote %3",
+    "tooltip": "Enviar uma string via SerialTransfer"
+  },
+  "serial_transfer_available": {
+    "message0": "SerialTransfer %1 novos dados recebidos",
+    "tooltip": "Verificar se o SerialTransfer recebeu novos dados válidos"
+  },
+  "serial_transfer_receive_int": {
+    "message0": "SerialTransfer %1 receber inteiro",
+    "tooltip": "Receber um valor inteiro do SerialTransfer"
+  },
+  "serial_transfer_receive_float": {
+    "message0": "SerialTransfer %1 receber decimal",
+    "tooltip": "Receber um valor decimal do SerialTransfer"
+  },
+  "serial_transfer_receive_string": {
+    "message0": "SerialTransfer %1 receber texto comprimento %2",
+    "tooltip": "Receber uma string de comprimento especificado do SerialTransfer"
+  },
+  "serial_transfer_status": {
+    "message0": "SerialTransfer %1 estado da transferência",
+    "tooltip": "Obter o código de estado do SerialTransfer (2=novos dados, 1=sem dados, 0=erro CRC)"
+  },
+  "serial_transfer_current_packet_id": {
+    "message0": "SerialTransfer %1 ID pacote atual",
+    "tooltip": "Obter o ID do pacote mais recentemente recebido"
+  },
+  "i2c_transfer_init_master": {
+    "message0": "Inicializar I2CTransfer mestre %1 I2C %2",
+    "tooltip": "Inicializar objeto I2CTransfer mestre com interface I2C"
+  },
+  "i2c_transfer_init_slave": {
+    "message0": "Inicializar I2CTransfer escravo %1 I2C %2 endereço %3",
+    "tooltip": "Inicializar objeto I2CTransfer escravo com interface I2C e endereço"
+  },
+  "i2c_transfer_send_int": {
+    "message0": "I2CTransfer %1 enviar inteiro %2 para endereço %3 ID pacote %4",
+    "tooltip": "Enviar um valor inteiro para um endereço I2C específico"
+  },
+  "i2c_transfer_send_float": {
+    "message0": "I2CTransfer %1 enviar decimal %2 para endereço %3 ID pacote %4",
+    "tooltip": "Enviar um valor decimal para um endereço I2C específico"
+  },
+  "i2c_transfer_send_string": {
+    "message0": "I2CTransfer %1 enviar texto %2 para endereço %3 ID pacote %4",
+    "tooltip": "Enviar uma string para um endereço I2C específico"
+  },
+  "i2c_transfer_receive_int": {
+    "message0": "I2CTransfer %1 receber inteiro",
+    "tooltip": "Receber um valor inteiro do I2C"
+  },
+  "i2c_transfer_receive_float": {
+    "message0": "I2CTransfer %1 receber decimal",
+    "tooltip": "Receber um valor decimal do I2C"
+  },
+  "i2c_transfer_receive_string": {
+    "message0": "I2CTransfer %1 receber texto comprimento %2",
+    "tooltip": "Receber uma string de comprimento especificado do I2C"
+  },
+  "i2c_transfer_status": {
+    "message0": "I2CTransfer %1 estado da transferência",
+    "tooltip": "Obter o código de estado do I2CTransfer"
+  },
+  "spi_transfer_init_master": {
+    "message0": "Inicializar SPITransfer mestre %1 pino SS %2",
+    "tooltip": "Inicializar objeto SPITransfer mestre com pino SS"
+  },
+  "spi_transfer_init_slave": {
+    "message0": "Inicializar SPITransfer escravo %1",
+    "tooltip": "Inicializar objeto SPITransfer escravo com interrupção SPI"
+  },
+  "spi_transfer_send_int": {
+    "message0": "SPITransfer %1 enviar inteiro %2 ID pacote %3",
+    "tooltip": "Enviar um valor inteiro via SPI"
+  },
+  "spi_transfer_send_float": {
+    "message0": "SPITransfer %1 enviar decimal %2 ID pacote %3",
+    "tooltip": "Enviar um valor decimal via SPI"
+  },
+  "spi_transfer_send_string": {
+    "message0": "SPITransfer %1 enviar texto %2 ID pacote %3",
+    "tooltip": "Enviar uma string via SPI"
+  },
+  "spi_transfer_available": {
+    "message0": "SPITransfer %1 novos dados recebidos",
+    "tooltip": "Verificar se o SPITransfer recebeu novos dados por interrupção"
+  },
+  "spi_transfer_receive_int": {
+    "message0": "SPITransfer %1 receber inteiro",
+    "tooltip": "Receber um valor inteiro do SPI"
+  },
+  "spi_transfer_receive_float": {
+    "message0": "SPITransfer %1 receber decimal",
+    "tooltip": "Receber um valor decimal do SPI"
+  },
+  "spi_transfer_receive_string": {
+    "message0": "SPITransfer %1 receber texto comprimento %2",
+    "tooltip": "Receber uma string de comprimento especificado do SPI"
+  },
+  "spi_transfer_status": {
+    "message0": "SPITransfer %1 estado da transferência",
+    "tooltip": "Obter o código de estado do SPITransfer"
+  }
+}

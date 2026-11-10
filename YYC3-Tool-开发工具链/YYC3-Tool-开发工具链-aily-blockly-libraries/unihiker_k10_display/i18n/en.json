@@ -1,0 +1,147 @@
+{
+  "toolbox_name": "K10 Display",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "绘图": "Drawing",
+    "文字": "text",
+    "图片": "pictures",
+    "画布控制": "Canvas control"
+  },
+  "k10_init_screen": {
+    "message0": "init K10 screen direction %1",
+    "tooltip": "Initialize UNIHIKER K10 screen and create canvas",
+    "args0": [
+      {
+        "options": [
+          [
+            "Forward",
+            "2"
+          ],
+          [
+            "Reverse",
+            "0"
+          ],
+          [
+            "Left landscape",
+            "1"
+          ],
+          [
+            "Right landscape",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_set_background": {
+    "message0": "set screen background color %1",
+    "tooltip": "Set screen background color"
+  },
+  "k10_draw_point": {
+    "message0": "draw point X %1 Y %2 color %3",
+    "tooltip": "Draw a point on screen"
+  },
+  "k10_draw_line": {
+    "message0": "draw line from X %1 Y %2 to X %3 Y %4 color %5",
+    "tooltip": "Draw a line on screen"
+  },
+  "k10_set_line_width": {
+    "message0": "set line width %1",
+    "tooltip": "Set line width for drawing"
+  },
+  "k10_draw_circle": {
+    "message0": "draw circle center X %1 Y %2 radius %3 border color %4 fill color %5 fill %6",
+    "tooltip": "Draw a circle on screen"
+  },
+  "k10_draw_rectangle": {
+    "message0": "draw rectangle X %1 Y %2 width %3 height %4 border color %5 fill color %6 fill %7",
+    "tooltip": "Draw a rectangle on screen"
+  },
+  "k10_draw_text_simple": {
+    "message0": "on line %1 show text %2 color %3",
+    "tooltip": "Show text on the specified line (1~7), auto-laid out"
+  },
+  "k10_draw_text": {
+    "message0": "show text %1 X %2 Y %3 color %4 font %5 chars per line %6",
+    "tooltip": "Show text at specified position. chars per line: 25 for font 16, 10 for font 24.",
+    "args0": [
+      null,
+      null,
+      null,
+      null,
+      {
+        "options": [
+          [
+            "Font 16",
+            "eCNAndENFont16"
+          ],
+          [
+            "Font 24",
+            "eCNAndENFont24"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "k10_draw_bitmap": {
+    "message0": "show built-in image %1 X %2 Y %3 width %4 height %5",
+    "tooltip": "Show built-in image (provide arduino_image_cache.h with the image array, e.g. image_data1)"
+  },
+  "k10_draw_image": {
+    "message0": "show TF card image path %1 X %2 Y %3",
+    "tooltip": "Load and show image from TF card"
+  },
+  "k10_draw_qrcode": {
+    "message0": "show QR code content %1",
+    "tooltip": "Show QR code on screen"
+  },
+  "k10_update_canvas": {
+    "message0": "refresh canvas",
+    "tooltip": "Refresh canvas display"
+  },
+  "k10_clear_canvas": {
+    "message0": "clear canvas %1",
+    "tooltip": "Clear canvas (refresh canvas afterwards)",
+    "args0": [
+      {
+        "options": [
+          [
+            "Clear all",
+            "0"
+          ],
+          [
+            "Clear row 1",
+            "1"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_clear_canvas_row": {
+    "message0": "clear canvas row %1",
+    "tooltip": "Clear one canvas row (1-7), then refresh the canvas if needed"
+  },
+  "k10_clear_qrcode": {
+    "message0": "clear QR code",
+    "tooltip": "Clear the QR code shown on the screen"
+  },
+  "k10_screen_size": {
+    "message0": "screen %1",
+    "tooltip": "K10 screen resolution: 240x320 (portrait)",
+    "args0": [
+      {
+        "options": [
+          [
+            "width",
+            "W"
+          ],
+          [
+            "height",
+            "H"
+          ]
+        ]
+      }
+    ]
+  }
+}

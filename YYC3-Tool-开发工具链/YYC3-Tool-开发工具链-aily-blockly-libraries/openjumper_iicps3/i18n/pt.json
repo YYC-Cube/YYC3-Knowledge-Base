@@ -1,0 +1,49 @@
+{
+"toolbox_name": "IICPS3",
+"openjumper_iicps3_init": {
+    "message0": "Inicializar módulo do controle IICPS3 %1"
+},
+"openjumper_iicps3_run": {
+    "message0": "%1 iniciar análise de dados"
+},
+"openjumper_iicps3_butstate": {
+    "message0": "%1 Estado do botão %2 do controle IIC",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Mão Esquerda-Cima", "up"],
+                ["Mão Esquerda-Baixo", "down"],
+                ["Mão Esquerda-Esquerda", "left"],
+                ["Mão Esquerda-Direita", "right"],
+                ["Mão Direita-Cima", "triangle"],
+                ["Mão Direita-Baixo", "cross"],
+                ["Mão Direita-Esquerda", "square"],
+                ["Mão Direita-Direita", "circle"],
+                ["Frontal Esquerdo-1", "l1"],
+                ["Frontal Esquerdo-2", "l2"],
+                ["Alavanca Esquerda", "l3"],
+                ["Frontal Direito-1", "r1"],
+                ["Frontal Direito-2", "r2"],
+                ["Alavanca Direita", "r3"],
+                ["Selecionar", "select"],
+                ["Iniciar", "start"]
+            ]
+        }
+    ]
+},
+"openjumper_iicps3_xy": {
+    "message0": "%1 Dados do joystick %2 do controle IIC",
+    "args0": [
+        null,
+        {
+            "options": [
+                ["Alavanca Esquerda-Eixo X", "lx"],
+                ["Alavanca Esquerda-Eixo Y", "ly"],
+                ["Alavanca Direita-Eixo X", "rx"],
+                ["Alavanca Direita-Eixo Y", "ry"]
+            ]
+        }
+    ]
+}
+}

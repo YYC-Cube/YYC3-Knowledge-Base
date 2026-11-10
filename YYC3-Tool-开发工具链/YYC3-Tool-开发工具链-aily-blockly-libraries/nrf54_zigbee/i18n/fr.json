@@ -1,0 +1,155 @@
+{
+  "toolbox_name": "Zigbee",
+  "toolbox_labels": {
+    "初始化与连接": "Initialisation et connexion",
+    "灯光控制": "Contrôle de la lumière",
+    "传感器": "capteur",
+    "属性报告": "Rapport immobilier",
+    "事件回调": "rappel d'événement",
+    "状态查询": "Requête d'état",
+    "持久化": "persistance"
+  },
+  "zigbee_init": {
+    "message0": "Initialiser l'appareil Zigbee %1 rôle %2 type d'appareil %3 canal %4 PAN ID %5",
+    "tooltip": "Initialiser l'appareil Zigbee, définir le rôle, le type d'appareil, le canal et le PAN ID",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Terminal", "END_DEVICE"],
+          ["Routeur", "ROUTER"]
+        ]
+      },
+      {
+        "options": [
+          ["Lumière On/Off", "ON_OFF_LIGHT"],
+          ["Lumière graduable", "DIMMABLE_LIGHT"],
+          ["Lumière couleur", "COLOR_LIGHT"],
+          ["Lumière couleur étendue", "EXTENDED_COLOR_LIGHT"],
+          ["Interrupteur On/Off", "ON_OFF_SWITCH"],
+          ["Capteur de température", "TEMPERATURE_SENSOR"],
+          ["Capteur temp. et humidité", "TEMPERATURE_HUMIDITY_SENSOR"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "zigbee_set_basic_info": {
+    "message0": "Définir les infos de base de %1 fabricant %2 modèle %3 version %4",
+    "tooltip": "Définir les informations de base de l'appareil Zigbee (nom du fabricant, modèle et version logicielle)"
+  },
+  "zigbee_set_install_code": {
+    "message0": "Définir le code d'installation de %1 %2",
+    "tooltip": "Définir le code d'installation de l'appareil Zigbee (pour la mise en service sécurisée), format : chaîne hexadécimale"
+  },
+  "zigbee_start": {
+    "message0": "Démarrer le réseau Zigbee de %1",
+    "tooltip": "Démarrer l'appareil Zigbee, commencer le scan et la mise en service"
+  },
+  "zigbee_loop": {
+    "message0": "%1 traitement Zigbee",
+    "tooltip": "Appeler dans loop() pour gérer la communication réseau Zigbee et la maintenance d'état"
+  },
+  "zigbee_is_joined": {
+    "message0": "%1 connecté au réseau ?",
+    "tooltip": "Vérifier si l'appareil Zigbee a rejoint le réseau avec succès"
+  },
+  "zigbee_set_on_off": {
+    "message0": "Définir l'état on/off de %1 à %2",
+    "tooltip": "Définir l'état de l'interrupteur On/Off de la lumière",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["ALLUMÉ", "TRUE"],
+          ["ÉTEINT", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "zigbee_get_on_off": {
+    "message0": "%1 état on/off",
+    "tooltip": "Obtenir l'état actuel de l'interrupteur On/Off"
+  },
+  "zigbee_set_level": {
+    "message0": "Définir la luminosité de %1 à %2",
+    "tooltip": "Définir le niveau de luminosité de la lumière graduable (0-254)"
+  },
+  "zigbee_get_level": {
+    "message0": "%1 luminosité",
+    "tooltip": "Obtenir le niveau de luminosité actuel de la lumière graduable"
+  },
+  "zigbee_set_color_hs": {
+    "message0": "Définir la couleur de %1 teinte %2 saturation %3",
+    "tooltip": "Définir la teinte (0-254) et la saturation (0-254) de la lumière couleur"
+  },
+  "zigbee_set_color_temp": {
+    "message0": "Définir la température de couleur de %1 à %2 Mireds",
+    "tooltip": "Définir la température de couleur de la lumière couleur étendue (Mireds, 153=6500K blanc froid, 500=2000K jaune chaud)"
+  },
+  "zigbee_set_temperature": {
+    "message0": "Définir la température de %1 %2 ℃",
+    "tooltip": "Définir la valeur du capteur de température (Celsius, précision 0,01℃)"
+  },
+  "zigbee_set_humidity": {
+    "message0": "Définir l'humidité de %1 %2 %",
+    "tooltip": "Définir la valeur du capteur d'humidité (pourcentage, précision 0,01%)"
+  },
+  "zigbee_set_battery": {
+    "message0": "Définir la batterie de %1 tension %2 dV niveau %3 %",
+    "tooltip": "Définir l'état de la batterie (tension : décivolts ; niveau : pourcentage 0-100)"
+  },
+  "zigbee_is_identifying": {
+    "message0": "%1 en identification ?",
+    "tooltip": "Vérifier si l'appareil est en mode identification (Identify)"
+  },
+  "zigbee_configure_reporting": {
+    "message0": "Configurer le rapport d'attribut de %1 cluster %2 ID attribut %3 intervalle min. %4 s intervalle max. %5 s",
+    "tooltip": "Configurer la politique de rapport automatique d'attribut Zigbee (intervalle min./max.)",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["On/Off", "ON_OFF"],
+          ["Luminosité (Level Control)", "LEVEL_CONTROL"],
+          ["Couleur (Color Control)", "COLOR_CONTROL"],
+          ["Température", "TEMPERATURE"],
+          ["Humidité", "HUMIDITY"],
+          ["Alimentation (Power Config)", "POWER_CONFIG"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "zigbee_on_state_change": {
+    "message0": "Quand l'état on/off de %1 change %2 %3",
+    "tooltip": "Exécuter du code lorsque l'état on/off est modifié via le réseau Zigbee"
+  },
+  "zigbee_on_level_change": {
+    "message0": "Quand la luminosité de %1 change %2 %3",
+    "tooltip": "Exécuter du code lorsque la luminosité est modifiée via le réseau Zigbee"
+  },
+  "zigbee_on_color_change": {
+    "message0": "Quand la couleur de %1 change %2 %3",
+    "tooltip": "Exécuter du code lorsque la couleur est modifiée via le réseau Zigbee"
+  },
+  "zigbee_on_join": {
+    "message0": "Quand %1 rejoint le réseau %2 %3",
+    "tooltip": "Exécuter du code lorsque l'appareil Zigbee rejoint le réseau avec succès"
+  },
+  "zigbee_persist_save": {
+    "message0": "Sauvegarder l'état réseau de %1 en flash",
+    "tooltip": "Sauvegarder l'état actuel du réseau Zigbee en flash (infos réseau, clés, etc.), récupérable après coupure de courant"
+  },
+  "zigbee_persist_clear": {
+    "message0": "Effacer l'état réseau sauvegardé de %1",
+    "tooltip": "Effacer l'état du réseau Zigbee sauvegardé en flash, l'appareil devra rejoindre le réseau après redémarrage"
+  },
+  "zigbee_rejoin": {
+    "message0": "%1 rejoindre le réseau",
+    "tooltip": "Tenter de rejoindre le réseau Zigbee de manière sécurisée"
+  }
+}

@@ -1,0 +1,274 @@
+{
+  "toolbox_name": "ESP32 SPI",
+  "toolbox_labels": {
+    "初始化": "初始化",
+    "事务控制": "事务控制",
+    "数据传输": "数据传输",
+    "参数设置": "参数设置",
+    "参数获取": "参数获取"
+  },
+  "esp32_spi_create": {
+    "message0": "创建SPI对象 %1 总线 %2",
+    "tooltip": "创建SPI通信对象",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "VSPI",
+            "VSPI"
+          ],
+          [
+            "HSPI",
+            "HSPI"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_spi_begin": {
+    "message0": "初始化SPI %1 使用 %2 默认引脚",
+    "tooltip": "初始化SPI总线 使用默认引脚",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "硬件SPI",
+            "HSPI"
+          ],
+          [
+            "虚拟SPI",
+            "VSPI"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_spi_begin_custom": {
+    "message0": "初始化SPI %1 使用 %2  自定义引脚 SCK:%3 MISO:%4 MOSI:%5 SS:%6",
+    "tooltip": "初始化SPI总线并设置引脚",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "硬件SPI",
+            "HSPI"
+          ],
+          [
+            "虚拟SPI",
+            "VSPI"
+          ]
+        ]
+      },
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "esp32_spi_settings": {
+    "message0": "SPI %1 设置频率:%2Hz 位序:%3 模式:%4",
+    "tooltip": "设置SPI通信参数",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      null,
+      {
+        "options": [
+          [
+            "MSB优先",
+            "MSBFIRST"
+          ],
+          [
+            "LSB优先",
+            "LSBFIRST"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "MODE0",
+            "0"
+          ],
+          [
+            "MODE1",
+            "1"
+          ],
+          [
+            "MODE2",
+            "2"
+          ],
+          [
+            "MODE3",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_spi_begin_transaction": {
+    "message0": "开始SPI %1 事务 频率:%2Hz 位序:%3 模式:%4",
+    "tooltip": "开始SPI事务",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      null,
+      {
+        "options": [
+          [
+            "MSB优先",
+            "MSBFIRST"
+          ],
+          [
+            "LSB优先",
+            "LSBFIRST"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "MODE0",
+            "0"
+          ],
+          [
+            "MODE1",
+            "1"
+          ],
+          [
+            "MODE2",
+            "2"
+          ],
+          [
+            "MODE3",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_spi_end_transaction": {
+    "message0": "结束SPI %1 事务",
+    "tooltip": "结束SPI事务",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      }
+    ]
+  },
+  "esp32_spi_transfer": {
+    "message0": "SPI %1 传输数据:%2",
+    "tooltip": "传输一个字节数据并返回接收到的数据",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      null
+    ]
+  },
+  "esp32_spi_transfer16": {
+    "message0": "SPI %1 传输16位数据:%2",
+    "tooltip": "传输16位数据并返回接收到的数据",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      null
+    ]
+  },
+  "esp32_spi_write": {
+    "message0": "SPI %1 写入数据:%2",
+    "tooltip": "写入一个字节数据",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      null
+    ]
+  },
+  "esp32_spi_write_bytes": {
+    "message0": "SPI %1 写入字节数组 数据:%2 长度:%3",
+    "tooltip": "写入字节数组数据",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      null,
+      null
+    ]
+  },
+  "esp32_spi_set_frequency": {
+    "message0": "设置SPI %1 频率:%2Hz",
+    "tooltip": "设置SPI通信频率",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      null
+    ]
+  },
+  "esp32_spi_set_bit_order": {
+    "message0": "设置SPI %1 位序:%2",
+    "tooltip": "设置SPI数据位序",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      {
+        "options": [
+          [
+            "MSB优先",
+            "MSBFIRST"
+          ],
+          [
+            "LSB优先",
+            "LSBFIRST"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_spi_set_data_mode": {
+    "message0": "设置SPI %1 模式:%2",
+    "tooltip": "设置SPI时钟极性和相位模式",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      },
+      {
+        "options": [
+          [
+            "MODE0",
+            "0"
+          ],
+          [
+            "MODE1",
+            "1"
+          ],
+          [
+            "MODE2",
+            "2"
+          ],
+          [
+            "MODE3",
+            "3"
+          ]
+        ]
+      }
+    ]
+  },
+  "esp32_spi_get_ss_pin": {
+    "message0": "获取SPI %1 片选引脚",
+    "tooltip": "获取SPI片选引脚编号",
+    "args0": [
+      {
+        "options": "${board.spi}"
+      }
+    ]
+  }
+}

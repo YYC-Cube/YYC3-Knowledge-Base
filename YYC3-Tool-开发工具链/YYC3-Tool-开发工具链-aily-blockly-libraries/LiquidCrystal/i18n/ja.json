@@ -1,0 +1,66 @@
+{
+    "toolbox_name": "LCD1602",
+    "lcd_init": {
+        "message0": "LCDディスプレイを初期化 列数%1 行数%2 ピン設定RS %3 EN %4 D4 %5 D5 %6 D6 %7 D7 %8 バックライト %9"
+    },
+    "lcd_clear": {
+        "message0": "LCDディスプレイをクリア"
+    },
+    "lcd_set_cursor": {
+        "message0": "LCDカーソルを列%1 行%2に設定"
+    },
+    "lcd_print": {
+        "message0": "LCDに出力 %1"
+    },
+    "lcd_print_position": {
+        "message0": "LCDの列%1 行%2に%3を出力"
+    },
+    "lcd_backlight_on": {
+        "message0": "LCDバックライトをオン"
+    },
+    "lcd_backlight_off": {
+        "message0": "LCDバックライトをオフ"
+    },
+    "lcd_custom_char": {
+        "message0": "カスタム文字 %1 番号 %2",
+        "args0": [
+            null,
+            {
+                "options": [
+                    [
+                        "0",
+                        "0"
+                    ],
+                    [
+                        "1",
+                        "1"
+                    ],
+                    [
+                        "2",
+                        "2"
+                    ],
+                    [
+                        "3",
+                        "3"
+                    ],
+                    [
+                        "4",
+                        "4"
+                    ],
+                    [
+                        "5",
+                        "5"
+                    ],
+                    [
+                        "6",
+                        "6"
+                    ],
+                    [
+                        "7",
+                        "7"
+                    ]
+                ]
+            }
+        ]
+    }
+}

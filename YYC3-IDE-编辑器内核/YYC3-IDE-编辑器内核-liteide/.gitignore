@@ -1,0 +1,38 @@
+/build-liteidex-Desktop*
+# C++ objects and libs
+
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.so
+*.dll
+*.dylib
+*.7z
+
+#Emacs
+*~
+
+# Qt-es
+
+*.pro.user
+*.pro.user.*
+moc_*.cpp
+qrc_*.cpp
+Makefile
+*-build-*
+
+# hg
+.hg*
+
+#liteide
+*.exe
+liteidex/bin
+liteidex/liteide
+liteidex/src/github.com
+liteidex/src/golang.org/
+
+#macosx
+.DS_Store

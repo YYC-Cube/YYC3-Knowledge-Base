@@ -1,0 +1,98 @@
+{
+  "toolbox_name": "MMA8653 Beschleunigung",
+  "toolbox_labels": {
+    "初始化": "Initialisierung",
+    "读取加速度": "Beschleunigung lesen",
+    "倾角计": "Neigungsmesser",
+    "设置": "Einstellungen",
+    "状态": "Status"
+  },
+  "mma8653_init": {
+    "message0": "MMA8653 Beschleunigungssensor initialisieren Bereich %1 Auflösung %2 Datenrate %3",
+    "tooltip": "MMA8653 Dreiachsen-Beschleunigungssensor mit Bereich, Auflösung und Datenrate initialisieren",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["10-Bit", "MMA8653_10BIT_RES"],
+          ["8-Bit", "MMA8653_8BIT_RES"]
+        ]
+      },
+      null
+    ]
+  },
+  "mma8653_set_mode": {
+    "message0": "MMA8653 Überabtastungsmodus setzen %1",
+    "tooltip": "Überabtastungsmodus des MMA8653-Sensors einstellen",
+    "args0": [
+      {
+        "options": [
+          ["Normal", "MMA8653_MODS_NORMAL"],
+          ["Rauscharm Energiesparend", "MMA8653_MODS_LOW_NOISE_LOW_POWER"],
+          ["Hohe Auflösung", "MMA8653_MODS_HIGH_RES"],
+          ["Energiesparend", "MMA8653_MODS_LOW_POWER"]
+        ]
+      }
+    ]
+  },
+  "mma8653_begin": {
+    "message0": "MMA8653 Beschleunigungssensor starten",
+    "tooltip": "MMA8653-Sensor starten, um mit der Datenerfassung zu beginnen"
+  },
+  "mma8653_read_x": {
+    "message0": "MMA8653 X-Achse Beschleunigung lesen",
+    "tooltip": "X-Achsen-Beschleunigungswert des MMA8653-Sensors lesen"
+  },
+  "mma8653_read_y": {
+    "message0": "MMA8653 Y-Achse Beschleunigung lesen",
+    "tooltip": "Y-Achsen-Beschleunigungswert des MMA8653-Sensors lesen"
+  },
+  "mma8653_read_z": {
+    "message0": "MMA8653 Z-Achse Beschleunigung lesen",
+    "tooltip": "Z-Achsen-Beschleunigungswert des MMA8653-Sensors lesen"
+  },
+  "mma8653_read_xyz": {
+    "message0": "Alle MMA8653 Achsendaten in Variablen lesen X %1 Y %2 Z %3",
+    "tooltip": "Alle drei Achsen-Beschleunigungsdaten des MMA8653-Sensors gleichzeitig lesen"
+  },
+  "mma8653_set_range": {
+    "message0": "MMA8653 Messbereich setzen %1",
+    "tooltip": "Messbereich des MMA8653-Sensors einstellen"
+  },
+  "mma8653_set_data_rate": {
+    "message0": "MMA8653 Datenrate setzen %1",
+    "tooltip": "Datenausgaberate des MMA8653-Sensors einstellen"
+  },
+  "mma8653_set_resolution": {
+    "message0": "MMA8653 Auflösung setzen %1",
+    "tooltip": "Datenauflösung des MMA8653-Sensors einstellen",
+    "args0": [
+      {
+        "options": [
+          ["10-Bit", "MMA8653_10BIT_RES"],
+          ["8-Bit", "MMA8653_8BIT_RES"]
+        ]
+      }
+    ]
+  },
+  "mma8653_is_active": {
+    "message0": "MMA8653-Sensor ist aktiv",
+    "tooltip": "Prüfen, ob der MMA8653-Sensor aktiv ist"
+  },
+  "mma8653_check_connection": {
+    "message0": "MMA8653-Sensor Verbindung prüfen",
+    "tooltip": "Prüfen, ob der MMA8653-Sensor korrekt verbunden ist"
+  },
+  "mma8653_get_roll": {
+    "message0": "MMA8653 Rollwinkel lesen Roll (°)",
+    "tooltip": "Rollwinkel des MMA8653-Sensors lesen (Drehung um X-Achse)"
+  },
+  "mma8653_get_pitch": {
+    "message0": "MMA8653 Nickwinkel lesen Pitch (°)",
+    "tooltip": "Nickwinkel des MMA8653-Sensors lesen (Drehung um Y-Achse)"
+  },
+  "mma8653_get_tilt": {
+    "message0": "MMA8653 Neigungswinkel lesen (°)",
+    "tooltip": "Neigungswinkel des MMA8653-Sensors relativ zur Vertikalen lesen"
+  }
+}

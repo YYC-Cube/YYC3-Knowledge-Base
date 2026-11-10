@@ -1,0 +1,128 @@
+{
+  "toolbox_name": "RadioLib LoRa",
+  "toolbox_labels": {
+    "初始化": "initialization",
+    "参数设置": "Parameter settings",
+    "阻塞式通信": "blocking communication",
+    "中断式通信": "interruptive communication",
+    "状态查询": "Status query",
+    "电源管理": "Power management"
+  },
+  "radiolib_lora_init": {
+    "message0": "Init LoRa %1 name %2",
+    "message1": "Pins CS %1 IRQ %2 RST %3 GPIO %4",
+    "message2": "Freq(MHz) %1 Power(dBm) %2",
+    "tooltip": "Initialize LoRa radio module. SX127x: IRQ=DIO0, GPIO=DIO1; SX126x: IRQ=DIO1, GPIO=BUSY"
+  },
+  "radiolib_set_bandwidth": {
+    "message0": "%1 set bandwidth(kHz) %2",
+    "tooltip": "Set LoRa bandwidth. Higher bandwidth = faster speed but shorter range",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["7.8", "7.8"],
+          ["10.4", "10.4"],
+          ["15.6", "15.6"],
+          ["20.8", "20.8"],
+          ["31.25", "31.25"],
+          ["41.7", "41.7"],
+          ["62.5", "62.5"],
+          ["125", "125.0"],
+          ["250", "250.0"],
+          ["500", "500.0"]
+        ]
+      }
+    ]
+  },
+  "radiolib_set_spreading_factor": {
+    "message0": "%1 set spreading factor %2",
+    "tooltip": "Set LoRa spreading factor (6-12). Higher = longer range but slower speed",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["6", "6"],
+          ["7", "7"],
+          ["8", "8"],
+          ["9", "9"],
+          ["10", "10"],
+          ["11", "11"],
+          ["12", "12"]
+        ]
+      }
+    ]
+  },
+  "radiolib_set_coding_rate": {
+    "message0": "%1 set coding rate %2",
+    "tooltip": "Set LoRa coding rate. Higher = better error correction but slower speed",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["4/5", "5"],
+          ["4/6", "6"],
+          ["4/7", "7"],
+          ["4/8", "8"]
+        ]
+      }
+    ]
+  },
+  "radiolib_set_frequency": {
+    "message0": "%1 set frequency(MHz) %2",
+    "tooltip": "Set carrier frequency. SX127x: 137-525MHz, SX126x: 150-960MHz, SX1280: 2400-2500MHz"
+  },
+  "radiolib_set_power": {
+    "message0": "%1 set TX power(dBm) %2",
+    "tooltip": "Set transmit power. SX127x: 2~17dBm, SX126x: -9~22dBm"
+  },
+  "radiolib_set_sync_word": {
+    "message0": "%1 set sync word %2",
+    "tooltip": "Set LoRa sync word. TX and RX must match. Default 0x12, LoRaWAN uses 0x34"
+  },
+  "radiolib_transmit": {
+    "message0": "%1 transmit message %2",
+    "tooltip": "Send text message (blocking mode), waits until transmission is complete"
+  },
+  "radiolib_receive": {
+    "message0": "%1 receive message",
+    "tooltip": "Receive message (blocking mode), waits until data received or timeout"
+  },
+  "radiolib_on_receive": {
+    "message0": "When %1 receives data",
+    "message1": "do %1",
+    "tooltip": "Triggered when LoRa module receives a packet, uses interrupt-driven reception"
+  },
+  "radiolib_start_receive": {
+    "message0": "%1 start receiving",
+    "tooltip": "Start async receive mode, use with interrupt callback"
+  },
+  "radiolib_received_data": {
+    "message0": "%1 received data",
+    "tooltip": "Get received data content inside receive callback"
+  },
+  "radiolib_received_rssi": {
+    "message0": "%1 received RSSI",
+    "tooltip": "Get RSSI of received packet inside callback, in dBm"
+  },
+  "radiolib_received_snr": {
+    "message0": "%1 received SNR",
+    "tooltip": "Get SNR of received packet inside callback, in dB"
+  },
+  "radiolib_get_rssi": {
+    "message0": "%1 get RSSI",
+    "tooltip": "Get RSSI of last received packet, in dBm"
+  },
+  "radiolib_get_snr": {
+    "message0": "%1 get SNR",
+    "tooltip": "Get SNR of last received packet, in dB"
+  },
+  "radiolib_sleep": {
+    "message0": "%1 enter sleep mode",
+    "tooltip": "Put LoRa module into low-power sleep mode"
+  },
+  "radiolib_standby": {
+    "message0": "%1 enter standby mode",
+    "tooltip": "Put LoRa module into standby mode for quick wake-up"
+  }
+}

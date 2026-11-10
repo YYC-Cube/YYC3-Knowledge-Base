@@ -1,0 +1,68 @@
+{
+  "toolbox_name": "IOBOX电机",
+  "toolbox_labels": {
+    "电机初始化": "电机初始化",
+    "电机控制": "电机控制"
+  },
+  "iobox_motor_init": {
+    "message0": "初始化IOBOX电机驱动",
+    "tooltip": "初始化IOBOX电机驱动模块，支持M1和M2两个电机"
+  },
+  "iobox_motor_run": {
+    "message0": "IOBOX电机 %1 %2 速度 %3",
+    "tooltip": "控制IOBOX电机运行，速度范围0-255",
+    "args0": [
+      {
+        "options": [
+          [
+            "M1",
+            "0"
+          ],
+          [
+            "M2",
+            "1"
+          ],
+          [
+            "全部",
+            "2"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "顺时针",
+            "0"
+          ],
+          [
+            "逆时针",
+            "1"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "iobox_motor_stop": {
+    "message0": "IOBOX电机 %1 停止",
+    "tooltip": "停止指定的IOBOX电机",
+    "args0": [
+      {
+        "options": [
+          [
+            "M1",
+            "0"
+          ],
+          [
+            "M2",
+            "1"
+          ],
+          [
+            "全部",
+            "2"
+          ]
+        ]
+      }
+    ]
+  }
+}

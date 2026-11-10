@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+/*.local
+.eslintcache
+.fig/
+build/
+*.log
+.python-version
+__pycache__/
+*.egg-info/

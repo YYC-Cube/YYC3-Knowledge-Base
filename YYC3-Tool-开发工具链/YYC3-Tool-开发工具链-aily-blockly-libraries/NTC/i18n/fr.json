@@ -1,0 +1,43 @@
+{
+  "toolbox_name": "NTC热敏温度",
+  "ntc_init": {
+    "message0": "NTC热敏温度传感器连接到引脚%1参考电阻%2Ω 标称电阻%3Ω 标称温度%4°C B值%5",
+    "tooltip": "初始化NTC热敏温度传感器，设置引脚和参数",
+    "args0": [
+      {
+        "options": "${board.analogPins}"
+      },
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "ntc_read_celsius": {
+    "message0": "从引脚%1读取NTC摄氏温度",
+    "tooltip": "读取NTC传感器的摄氏温度值",
+    "args0": [
+      {
+        "options": "${board.analogPins}"
+      }
+    ]
+  },
+  "ntc_read_fahrenheit": {
+    "message0": "从引脚%1读取NTC华氏温度",
+    "tooltip": "读取NTC传感器的华氏温度值",
+    "args0": [
+      {
+        "options": "${board.analogPins}"
+      }
+    ]
+  },
+  "ntc_read_kelvin": {
+    "message0": "从引脚%1读取NTC开尔文温度",
+    "tooltip": "读取NTC传感器的开尔文温度值",
+    "args0": [
+      {
+        "options": "${board.analogPins}"
+      }
+    ]
+  }
+}

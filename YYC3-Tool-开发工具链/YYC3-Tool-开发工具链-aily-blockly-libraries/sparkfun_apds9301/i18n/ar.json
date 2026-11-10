@@ -1,0 +1,111 @@
+{
+  "toolbox_name": "APDS9301",
+  "apds9301_init": {
+    "message0": "تهيئة APDS9301 %1 العنوان %2",
+    "tooltip": "تهيئة APDS9301 %1 العنوان %2"
+  },
+  "apds9301_is_ready": {
+    "message0": "APDS9301 %1 مهيأ",
+    "tooltip": "APDS9301 %1 مهيأ"
+  },
+  "apds9301_read_lux": {
+    "message0": "APDS9301 %1 قراءة lux",
+    "tooltip": "APDS9301 %1 قراءة lux"
+  },
+  "apds9301_read_channel": {
+    "message0": "APDS9301 %1 قراءة قناة خام %2",
+    "tooltip": "APDS9301 %1 قراءة قناة خام %2",
+    "args0": [
+      {
+        "options": [
+          [
+            "CH0 مرئي+IR",
+            "APDS9301_CHANNEL_0"
+          ],
+          [
+            "CH1 IR",
+            "APDS9301_CHANNEL_1"
+          ]
+        ]
+      }
+    ]
+  },
+  "apds9301_set_gain": {
+    "message0": "ضبط APDS9301 %1 الكسب %2",
+    "tooltip": "ضبط APDS9301 %1 الكسب %2",
+    "args0": [
+      {
+        "options": [
+          [
+            "منخفض (1x)",
+            "APDS9301_GAIN_LOW"
+          ],
+          [
+            "مرتفع (16x)",
+            "APDS9301_GAIN_HIGH"
+          ]
+        ]
+      }
+    ]
+  },
+  "apds9301_set_integration_time": {
+    "message0": "ضبط APDS9301 %1 زمن التحويل %2",
+    "tooltip": "ضبط APDS9301 %1 زمن التحويل %2"
+  },
+  "apds9301_enable_interrupt": {
+    "message0": "APDS9301 %1 مقاطعة %2",
+    "tooltip": "APDS9301 %1 مقاطعة %2 الاستمرار %3",
+    "args0": [
+      {
+        "options": [
+          [
+            "تمكين",
+            "ENABLE"
+          ],
+          [
+            "تعطيل",
+            "DISABLE"
+          ]
+        ]
+      }
+    ]
+  },
+  "apds9301_set_threshold": {
+    "message0": "ضبط APDS9301 %1 %2 العتبة %3",
+    "tooltip": "ضبط APDS9301 %1 %2 العتبة %3",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "السفلي",
+            "APDS9301_THRESHOLD_LOW"
+          ],
+          [
+            "العلوي",
+            "APDS9301_THRESHOLD_HIGH"
+          ]
+        ]
+      },
+      null
+    ]
+  },
+  "apds9301_power": {
+    "message0": "APDS9301 %1 الطاقة %2",
+    "tooltip": "APDS9301 %1 الطاقة %2",
+    "args0": [
+      {
+        "options": [
+          [
+            "تشغيل",
+            "ON"
+          ],
+          [
+            "إيقاف",
+            "OFF"
+          ]
+        ]
+      }
+    ]
+  }
+}

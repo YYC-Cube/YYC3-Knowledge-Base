@@ -1,0 +1,45 @@
+{
+  "toolbox_name": "LSM303AGR Acelerómetro y Magnetómetro",
+  "toolbox_labels": {
+    "加速度计": "acelerómetro",
+    "磁力计": "Magnetómetro",
+    "姿态解算(AHRS)": "Resolución de actitud (AHRS)"
+  },
+  "lsm303agr_acc_init": {
+    "message0": "Inicializar acelerómetro %1\nusando %2",
+    "tooltip": "Inicializar el sensor acelerómetro LSM303AGR mediante interfaz I2C"
+  },
+  "lsm303agr_mag_init": {
+    "message0": "Inicializar magnetómetro %1\nusando %2",
+    "tooltip": "Inicializar el sensor magnetómetro LSM303AGR mediante interfaz I2C"
+  },
+  "lsm303agr_acc_get_axis": {
+    "message0": "Leer acelerómetro %1 aceleración eje %2 (mg)",
+    "tooltip": "Leer el valor de aceleración X/Y/Z del acelerómetro LSM303AGR, unidad: mg"
+  },
+  "lsm303agr_mag_get_axis": {
+    "message0": "Leer magnetómetro %1 campo magnético eje %2 (mGauss)",
+    "tooltip": "Leer el valor del campo magnético X/Y/Z del magnetómetro LSM303AGR, unidad: mGauss"
+  },
+  "lsm303agr_acc_get_temperature": {
+    "message0": "Leer temperatura del acelerómetro %1 (°C)",
+    "tooltip": "Leer el valor de temperatura del acelerómetro LSM303AGR, unidad: °C"
+  },
+  "lsm303agr_ahrs_update": {
+    "message0": "Actualizar estimación de actitud\nacelerómetro %1 magnetómetro %2",
+    "tooltip": "Actualizar la estimación de actitud con datos del acelerómetro y magnetómetro, calcular alabeo, cabeceo y rumbo"
+  },
+  "lsm303agr_ahrs_get_angle": {
+    "message0": "Obtener ángulo de actitud %1 (°)",
+    "tooltip": "Obtener resultado de estimación de actitud. Alabeo/Cabeceo: -180~180°, Rumbo: 0~360°",
+    "args0": [
+      {
+        "options": [
+          ["Alabeo (Roll)", "ROLL"],
+          ["Cabeceo (Pitch)", "PITCH"],
+          ["Rumbo (Heading)", "HEADING"]
+        ]
+      }
+    ]
+  }
+}

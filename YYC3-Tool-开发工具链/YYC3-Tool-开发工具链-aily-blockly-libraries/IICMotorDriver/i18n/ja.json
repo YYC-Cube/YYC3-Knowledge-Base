@@ -1,0 +1,111 @@
+{
+"toolbox_name": "IICMotorDriver",
+"iicmd_init": {
+    "message0": "モータードライバ初期化"
+},
+"iicmd_dirinit": {
+    "message0": "モーター基準方向初期化 モーター1%1 モーター2%2 モーター3%3 モーター4%4",
+    "args0": [
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        },
+        {
+            "options": [
+                ["DIR1", "DIRP"],
+                ["DIR2", "DIRN"]
+            ]
+        }
+    ]
+},
+"iicmd_stop": {
+    "message0": "%1 を停止する",
+    "args0": [
+        {
+            "options": [
+                ["モーター1","M1"],
+                ["モーター2","M2"],
+                ["モーター3","M3"],
+                ["モーター4","M4"],
+                ["全てのモーター","MALL"]
+            ]
+        }
+    ]
+},
+"iicmd_runone": {
+    "message0": "モーター %1 の速度を%2に設定する",
+    "args0": [
+        {
+            "options": [
+                ["モーター1","M1"],
+                ["モーター2","M2"],
+                ["モーター3","M3"],
+                ["モーター4","M4"]
+            ]
+        },
+        null
+    ]
+},
+"iicmd_runall": {
+    "message0": "全てのモーターの速度を%1に設定する",
+    "args0": [
+        null
+    ]
+},
+"iicmd_runall2": {
+    "message0": "全てのモーター速度設定 モーター1%1 モーター2%2 モーター3%3 モーター4%4",
+    "args0": [
+        null,
+        null,
+        null,
+        null
+    ]
+},
+"iicmd_digitout": {
+    "message0": "ポート%1 を %2 出力",
+    "args0": [
+        {
+            "options": [
+                ["S1","S1"],
+                ["S2","S2"],
+                ["S3","S3"],
+                ["S4","S4"]
+            ]
+        },
+        {
+            "options": [
+                ["HIGH","HIGH"],
+                ["LOW","LOW"]
+            ]
+        }
+    ]
+},
+"iicmd_servo": {
+    "message0": "サーボポート%1 を(0-180) %2°に回転",
+    "args0": [
+        {
+            "options": [
+                ["S1","S1"],
+                ["S2","S2"],
+                ["S3","S3"],
+                ["S4","S4"]
+            ]
+        },
+        null
+    ]
+}
+}

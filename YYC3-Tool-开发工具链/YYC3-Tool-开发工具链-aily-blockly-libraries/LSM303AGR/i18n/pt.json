@@ -1,0 +1,45 @@
+{
+  "toolbox_name": "LSM303AGR Acelerômetro e Magnetômetro",
+  "toolbox_labels": {
+    "加速度计": "acelerômetro",
+    "磁力计": "Magnetômetro",
+    "姿态解算(AHRS)": "Resolução de atitude (AHRS)"
+  },
+  "lsm303agr_acc_init": {
+    "message0": "Inicializar acelerômetro %1\nusando %2",
+    "tooltip": "Inicializar o sensor acelerômetro LSM303AGR via interface I2C"
+  },
+  "lsm303agr_mag_init": {
+    "message0": "Inicializar magnetômetro %1\nusando %2",
+    "tooltip": "Inicializar o sensor magnetômetro LSM303AGR via interface I2C"
+  },
+  "lsm303agr_acc_get_axis": {
+    "message0": "Ler acelerômetro %1 aceleração eixo %2 (mg)",
+    "tooltip": "Ler o valor de aceleração X/Y/Z do acelerômetro LSM303AGR, unidade: mg"
+  },
+  "lsm303agr_mag_get_axis": {
+    "message0": "Ler magnetômetro %1 campo magnético eixo %2 (mGauss)",
+    "tooltip": "Ler o valor do campo magnético X/Y/Z do magnetômetro LSM303AGR, unidade: mGauss"
+  },
+  "lsm303agr_acc_get_temperature": {
+    "message0": "Ler temperatura do acelerômetro %1 (°C)",
+    "tooltip": "Ler o valor de temperatura do acelerômetro LSM303AGR, unidade: °C"
+  },
+  "lsm303agr_ahrs_update": {
+    "message0": "Atualizar estimativa de atitude\nacelerômetro %1 magnetômetro %2",
+    "tooltip": "Atualizar a estimativa de atitude com dados do acelerômetro e magnetômetro, calcular rolagem, arfagem e proa"
+  },
+  "lsm303agr_ahrs_get_angle": {
+    "message0": "Obter ângulo de atitude %1 (°)",
+    "tooltip": "Obter resultado da estimativa de atitude. Rolagem/Arfagem: -180~180°, Proa: 0~360°",
+    "args0": [
+      {
+        "options": [
+          ["Rolagem (Roll)", "ROLL"],
+          ["Arfagem (Pitch)", "PITCH"],
+          ["Proa (Heading)", "HEADING"]
+        ]
+      }
+    ]
+  }
+}

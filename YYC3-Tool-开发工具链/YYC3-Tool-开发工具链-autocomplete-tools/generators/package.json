@@ -1,0 +1,27 @@
+{
+  "name": "@fig/autocomplete-generators",
+  "version": "2.4.0",
+  "description": "A set of prebuilt generators for Fig Autocomplete",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "pretest": "pnpm build",
+    "test": "vitest --run",
+    "prepack": "pnpm build"
+  },
+  "author": "Federico Ciardi <fed.ciardi@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "lib/"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.5.2",
+    "@withfig/autocomplete-types": "workspace:^",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

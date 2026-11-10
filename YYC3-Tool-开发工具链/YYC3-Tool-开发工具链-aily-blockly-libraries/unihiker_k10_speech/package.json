@@ -1,0 +1,34 @@
+{
+  "name": "@aily-project/lib-unihiker-k10-speech",
+  "nickname": "K10语音识别/合成",
+  "nickname_zh_cn": "K10语音识别/合成",
+  "nickname_en": "K10 Speech Recognition & Synthesis",
+  "author": "Vonweller",
+  "description": "UNIHIKER K10语音识别与合成库，支持中英文语音识别、命令词检测和语音合成播报",
+  "description_zh_cn": "UNIHIKER K10语音识别与合成库，支持中英文语音识别、命令词检测和语音合成播报",
+  "description_en": "UNIHIKER K10 speech recognition and synthesis library, supports Chinese/English speech recognition, command detection and TTS",
+  "version": "0.3.3",
+  "compatibility": {
+    "core": [
+      "UNIHIKER:esp32:k10"
+    ],
+    "voltage": [
+      3.3
+    ]
+  },
+  "keywords": [
+    "aily",
+    "blockly",
+    "unihiker",
+    "k10",
+    "speech",
+    "asr",
+    "tts",
+    "voice"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "tags": [
+    "speech"
+  ]
+}

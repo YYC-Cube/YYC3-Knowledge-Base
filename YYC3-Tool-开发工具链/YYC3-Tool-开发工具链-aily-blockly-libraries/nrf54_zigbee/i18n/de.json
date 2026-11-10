@@ -1,0 +1,155 @@
+{
+  "toolbox_name": "Zigbee",
+  "toolbox_labels": {
+    "初始化与连接": "Initialisierung und Verbindung",
+    "灯光控制": "Lichtsteuerung",
+    "传感器": "Sensor",
+    "属性报告": "Immobilienbericht",
+    "事件回调": "Ereignisrückruf",
+    "状态查询": "Statusabfrage",
+    "持久化": "Beharrlichkeit"
+  },
+  "zigbee_init": {
+    "message0": "Zigbee-Gerät initialisieren %1 Rolle %2 Gerätetyp %3 Kanal %4 PAN-ID %5",
+    "tooltip": "Zigbee-Gerät initialisieren, Rolle, Gerätetyp, Kanal und PAN-ID einstellen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Endgerät", "END_DEVICE"],
+          ["Router", "ROUTER"]
+        ]
+      },
+      {
+        "options": [
+          ["Ein/Aus-Licht", "ON_OFF_LIGHT"],
+          ["Dimmbares Licht", "DIMMABLE_LIGHT"],
+          ["Farblicht", "COLOR_LIGHT"],
+          ["Erweitertes Farblicht", "EXTENDED_COLOR_LIGHT"],
+          ["Ein/Aus-Schalter", "ON_OFF_SWITCH"],
+          ["Temperatursensor", "TEMPERATURE_SENSOR"],
+          ["Temperatur- & Feuchtigkeitssensor", "TEMPERATURE_HUMIDITY_SENSOR"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "zigbee_set_basic_info": {
+    "message0": "%1 Basisinformationen setzen Hersteller %2 Modell %3 Version %4",
+    "tooltip": "Zigbee-Gerät Basisinformationen setzen (Herstellername, Modell und Softwareversion)"
+  },
+  "zigbee_set_install_code": {
+    "message0": "%1 Installationscode setzen %2",
+    "tooltip": "Zigbee-Gerät Installationscode setzen (für sichere Inbetriebnahme), Hex-String-Format"
+  },
+  "zigbee_start": {
+    "message0": "%1 Zigbee-Netzwerk starten",
+    "tooltip": "Zigbee-Gerät starten, Scan- und Inbetriebnahme beginnen"
+  },
+  "zigbee_loop": {
+    "message0": "%1 Zigbee-Verarbeitung",
+    "tooltip": "In loop() aufrufen, um Zigbee-Netzwerkkommunikation und Statuswartung zu verarbeiten"
+  },
+  "zigbee_is_joined": {
+    "message0": "%1 mit Netzwerk verbunden?",
+    "tooltip": "Prüfen, ob das Zigbee-Gerät erfolgreich dem Netzwerk beigetreten ist"
+  },
+  "zigbee_set_on_off": {
+    "message0": "%1 Ein/Aus-Status auf %2 setzen",
+    "tooltip": "Ein/Aus-Licht Schaltstatus setzen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["EIN", "TRUE"],
+          ["AUS", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "zigbee_get_on_off": {
+    "message0": "%1 Ein/Aus-Status",
+    "tooltip": "Aktuellen Ein/Aus-Licht Schaltstatus abrufen"
+  },
+  "zigbee_set_level": {
+    "message0": "%1 Helligkeit auf %2 setzen",
+    "tooltip": "Helligkeit des dimmbaren Lichts einstellen (0-254)"
+  },
+  "zigbee_get_level": {
+    "message0": "%1 Helligkeit",
+    "tooltip": "Aktuelle Helligkeit des dimmbaren Lichts abrufen"
+  },
+  "zigbee_set_color_hs": {
+    "message0": "%1 Farbe setzen Farbton %2 Sättigung %3",
+    "tooltip": "Farblicht Farbton (0-254) und Sättigung (0-254) einstellen"
+  },
+  "zigbee_set_color_temp": {
+    "message0": "%1 Farbtemperatur auf %2 Mireds setzen",
+    "tooltip": "Farbtemperatur des erweiterten Farblichts einstellen (Mireds-Wert, 153=6500K kaltweiß, 500=2000K warmgelb)"
+  },
+  "zigbee_set_temperature": {
+    "message0": "%1 Temperaturwert setzen %2 ℃",
+    "tooltip": "Temperatursensor-Wert setzen (Celsius, Genauigkeit 0,01℃)"
+  },
+  "zigbee_set_humidity": {
+    "message0": "%1 Feuchtigkeitswert setzen %2 %",
+    "tooltip": "Feuchtigkeitssensor-Wert setzen (Prozent, Genauigkeit 0,01%)"
+  },
+  "zigbee_set_battery": {
+    "message0": "%1 Batteriespannung %2 dV Ladung %3 % setzen",
+    "tooltip": "Batteriestatus setzen (Spannung: Dezivolt; Ladung: Prozent 0-100)"
+  },
+  "zigbee_is_identifying": {
+    "message0": "%1 wird identifiziert?",
+    "tooltip": "Prüfen, ob sich das Gerät im Identifizierungsmodus (Identify) befindet"
+  },
+  "zigbee_configure_reporting": {
+    "message0": "%1 Attribut-Berichterstattung konfigurieren Cluster %2 Attribut-ID %3 Min.-Intervall %4 s Max.-Intervall %5 s",
+    "tooltip": "Zigbee-Attribut Auto-Berichterstattung konfigurieren (Min./Max. Berichtsintervall)",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Ein/Aus (OnOff)", "ON_OFF"],
+          ["Helligkeit (Level Control)", "LEVEL_CONTROL"],
+          ["Farbe (Color Control)", "COLOR_CONTROL"],
+          ["Temperatur", "TEMPERATURE"],
+          ["Feuchtigkeit", "HUMIDITY"],
+          ["Stromversorgung (Power Config)", "POWER_CONFIG"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "zigbee_on_state_change": {
+    "message0": "Wenn %1 Ein/Aus-Status sich ändert %2 %3",
+    "tooltip": "Code ausführen, wenn der Ein/Aus-Status über das Zigbee-Netzwerk geändert wird"
+  },
+  "zigbee_on_level_change": {
+    "message0": "Wenn %1 Helligkeit sich ändert %2 %3",
+    "tooltip": "Code ausführen, wenn die Helligkeit über das Zigbee-Netzwerk geändert wird"
+  },
+  "zigbee_on_color_change": {
+    "message0": "Wenn %1 Farbe sich ändert %2 %3",
+    "tooltip": "Code ausführen, wenn die Farbe über das Zigbee-Netzwerk geändert wird"
+  },
+  "zigbee_on_join": {
+    "message0": "Wenn %1 dem Netzwerk beitritt %2 %3",
+    "tooltip": "Code ausführen, wenn das Zigbee-Gerät erfolgreich dem Netzwerk beitritt"
+  },
+  "zigbee_persist_save": {
+    "message0": "%1 Netzwerkstatus im Flash speichern",
+    "tooltip": "Aktuellen Zigbee-Netzwerkstatus im Flash speichern (Netzwerkinfo, Schlüssel usw.), nach Stromausfall wiederherstellbar"
+  },
+  "zigbee_persist_clear": {
+    "message0": "%1 gespeicherten Netzwerkstatus löschen",
+    "tooltip": "Im Flash gespeicherten Zigbee-Netzwerkstatus löschen, Gerät muss nach Neustart erneut beitreten"
+  },
+  "zigbee_rejoin": {
+    "message0": "%1 Netzwerk erneut beitreten",
+    "tooltip": "Sicheren Wiederbeitritt zum Zigbee-Netzwerk versuchen"
+  }
+}

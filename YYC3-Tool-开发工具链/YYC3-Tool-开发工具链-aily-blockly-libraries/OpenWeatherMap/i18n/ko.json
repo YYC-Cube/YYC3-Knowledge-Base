@@ -1,0 +1,219 @@
+{
+  "toolbox_name": "기상 데이터",
+  "toolbox_labels": {
+    "初始化与配置": "초기화 및 구성",
+    "当前天气": "현재 날씨",
+    "天气预报": "일기 예보",
+    "空气质量": "공기질",
+    "地理编码": "지오코딩",
+    "工具": "도구"
+  },
+  "owm_init": {
+    "message0": "날씨 서비스 초기화 %1 API 키 %2",
+    "tooltip": "OpenWeatherMap 서비스를 초기화합니다. API 키가 필요합니다"
+  },
+  "owm_set_units": {
+    "message0": "날씨 %1 단위를 %2 로 설정",
+    "tooltip": "온도와 풍속의 단위 시스템을 설정합니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["미터법 (섭씨)", "OWM_UNITS_METRIC"],
+          ["야드파운드법 (화씨)", "OWM_UNITS_IMPERIAL"],
+          ["표준 (켈빈)", "OWM_UNITS_STANDARD"]
+        ]
+      }
+    ]
+  },
+  "owm_set_language": {
+    "message0": "날씨 %1 언어를 %2 로 설정",
+    "tooltip": "날씨 설명의 언어를 설정합니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["중국어", "zh_cn"],
+          ["영어", "en"],
+          ["일본어", "ja"],
+          ["한국어", "kr"],
+          ["독일어", "de"],
+          ["프랑스어", "fr"],
+          ["스페인어", "es"],
+          ["러시아어", "ru"]
+        ]
+      }
+    ]
+  },
+  "owm_set_debug": {
+    "message0": "날씨 %1 디버그 모드 %2",
+    "tooltip": "디버그 출력을 활성화 또는 비활성화합니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["켜기", "true"],
+          ["끄기", "false"]
+        ]
+      }
+    ]
+  },
+  "owm_get_weather_by_city": {
+    "message0": "날씨 %1 도시 날씨 요청 도시 %2 국가 코드 %3",
+    "tooltip": "도시명으로 현재 날씨 데이터를 요청합니다"
+  },
+  "owm_get_weather_by_coords": {
+    "message0": "날씨 %1 좌표 날씨 요청 위도 %2 경도 %3",
+    "tooltip": "위도·경도로 현재 날씨 데이터를 요청합니다"
+  },
+  "owm_request_success": {
+    "message0": "날씨 %1 요청 성공?",
+    "tooltip": "마지막 요청이 성공했는지 확인합니다"
+  },
+  "owm_weather_data": {
+    "message0": "날씨 %1 의 %2",
+    "tooltip": "현재 날씨 데이터를 가져옵니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["도시명", "name"],
+          ["국가 코드", "country"],
+          ["날씨 주요 유형", "weather_main"],
+          ["날씨 설명", "weather_description"],
+          ["날씨 아이콘", "weather_icon"],
+          ["현재 온도", "temp"],
+          ["체감 온도", "feels_like"],
+          ["최저 온도", "temp_min"],
+          ["최고 온도", "temp_max"],
+          ["습도(%)", "humidity"],
+          ["기압(hPa)", "pressure"],
+          ["풍속", "wind_speed"],
+          ["풍향(도)", "wind_deg"],
+          ["구름량(%)", "clouds"],
+          ["가시거리(m)", "visibility"],
+          ["일출 시간", "sunrise"],
+          ["일몰 시간", "sunset"]
+        ]
+      }
+    ]
+  },
+  "owm_get_forecast": {
+    "message0": "날씨 %1 일기예보 요청 위도 %2 경도 %3 시점 수 %4",
+    "tooltip": "5일/3시간 일기예보를 요청합니다. 시점 수 0은 전체 가져오기(최대 40개)"
+  },
+  "owm_get_forecast_by_city": {
+    "message0": "날씨 %1 도시 예보 요청 도시 %2 국가 코드 %3 시점 수 %4",
+    "tooltip": "도시명으로 5일 일기예보를 요청합니다"
+  },
+  "owm_forecast_request_success": {
+    "message0": "날씨 %1 예보 요청 성공?",
+    "tooltip": "마지막 일기예보 요청이 성공했는지 확인합니다"
+  },
+  "owm_forecast_count": {
+    "message0": "날씨 %1 예보 시점 수",
+    "tooltip": "예보 데이터의 시점 수를 가져옵니다"
+  },
+  "owm_forecast_data": {
+    "message0": "날씨 %1 제 %2 예보의 %3",
+    "tooltip": "지정된 시점의 예보 데이터를 가져옵니다(인덱스는 0부터 시작)",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["날짜/시간 텍스트", "dt_txt"],
+          ["날씨 주요 유형", "weather_main"],
+          ["날씨 설명", "weather_description"],
+          ["온도", "temp"],
+          ["체감 온도", "feels_like"],
+          ["최저 온도", "temp_min"],
+          ["최고 온도", "temp_max"],
+          ["습도(%)", "humidity"],
+          ["기압(hPa)", "pressure"],
+          ["풍속", "wind_speed"],
+          ["구름량(%)", "clouds"],
+          ["강수 확률", "pop"],
+          ["3시간 강우량", "rain_3h"],
+          ["3시간 강설량", "snow_3h"]
+        ]
+      }
+    ]
+  },
+  "owm_get_air_pollution": {
+    "message0": "날씨 %1 대기질 요청 위도 %2 경도 %3",
+    "tooltip": "지정 위치의 대기오염 데이터를 요청합니다"
+  },
+  "owm_air_pollution_request_success": {
+    "message0": "날씨 %1 대기질 요청 성공?",
+    "tooltip": "마지막 대기오염 요청이 성공했는지 확인합니다"
+  },
+  "owm_air_pollution_data": {
+    "message0": "날씨 %1 의 대기 %2",
+    "tooltip": "대기오염 데이터를 가져옵니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["대기질 지수(1-5)", "aqi"],
+          ["일산화탄소(μg/m³)", "co"],
+          ["일산화질소(μg/m³)", "no"],
+          ["이산화질소(μg/m³)", "no2"],
+          ["오존(μg/m³)", "o3"],
+          ["이산화황(μg/m³)", "so2"],
+          ["PM2.5(μg/m³)", "pm2_5"],
+          ["PM10(μg/m³)", "pm10"],
+          ["암모니아(μg/m³)", "nh3"]
+        ]
+      }
+    ]
+  },
+  "owm_aqi_description": {
+    "message0": "대기질 설명 지수 %1",
+    "tooltip": "대기질 지수(1-5)를 설명 텍스트로 변환합니다"
+  },
+  "owm_get_coords_by_city": {
+    "message0": "날씨 %1 도시 좌표 요청 도시 %2 국가 코드 %3",
+    "tooltip": "도시명으로 지리 좌표를 요청합니다"
+  },
+  "owm_get_coords_by_zip": {
+    "message0": "날씨 %1 우편번호 좌표 요청 우편번호 %2 국가 코드 %3",
+    "tooltip": "우편번호로 지리 좌표를 요청합니다"
+  },
+  "owm_get_location_by_coords": {
+    "message0": "날씨 %1 역지오코딩 위도 %2 경도 %3",
+    "tooltip": "위도·경도로 역지오코딩을 요청합니다"
+  },
+  "owm_geo_request_success": {
+    "message0": "날씨 %1 지오코딩 요청 성공?",
+    "tooltip": "마지막 지오코딩 요청이 성공했는지 확인합니다"
+  },
+  "owm_geo_data": {
+    "message0": "날씨 %1 의 위치 %2",
+    "tooltip": "지오코딩 위치 데이터를 가져옵니다",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["도시명", "name"],
+          ["국가 코드", "country"],
+          ["주/도", "state"],
+          ["위도", "lat"],
+          ["경도", "lon"]
+        ]
+      }
+    ]
+  },
+  "owm_get_icon_url": {
+    "message0": "날씨 아이콘 URL 아이콘 코드 %1",
+    "tooltip": "날씨 아이콘 코드로 아이콘 URL을 가져옵니다"
+  },
+  "owm_get_last_error": {
+    "message0": "날씨 %1 마지막 오류 메시지",
+    "tooltip": "마지막 작업의 오류 메시지를 가져옵니다"
+  },
+  "owm_get_http_code": {
+    "message0": "날씨 %1 마지막 HTTP 코드",
+    "tooltip": "마지막 HTTP 요청의 응답 코드를 가져옵니다"
+  }
+}

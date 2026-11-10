@@ -1,0 +1,313 @@
+{
+  "kind": "category",
+  "name": "Text",
+  "icon": "fa-light fa-input-text",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "char"
+    },
+    {
+      "kind": "block",
+      "type": "text"
+    },
+    {
+      "kind": "block",
+      "type": "string_add_string",
+      "inputs": {
+        "STRING1": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "hello"
+            }
+          }
+        },
+        "STRING2": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "world"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "string_to_something",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "123"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "string_startsWith",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "abc"
+            }
+          }
+        },
+        "PREFIX": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "string_endsWith",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "abc"
+            }
+          }
+        },
+        "SUFFIX": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "number_to",
+      "inputs": {
+        "NUM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 65
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "toascii",
+      "inputs": {
+        "CHAR": {
+          "shadow": {
+            "type": "char",
+            "fields": {
+              "CHAR": "A"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "number_to_string",
+      "inputs": {
+        "NUM": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_join"
+    },
+    {
+      "kind": "block",
+      "type": "text_length",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "abc"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_isEmpty",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_indexOf",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello world"
+            }
+          }
+        },
+        "FIND": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "world"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_charAt",
+      "inputs": {
+        "VALUE": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello world"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "tt_getSubstring",
+      "inputs": {
+        "STRING": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello world"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_changeCase",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "abc"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_trim",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "abc"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_count",
+      "inputs": {
+        "SUB": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "is"
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "This is a test. This is only a test."
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_replace",
+      "inputs": {
+        "FROM": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "cat"
+            }
+          }
+        },
+        "TO": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "dog"
+            }
+          }
+        },
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "the cat sat on the mat"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "text_reverse",
+      "inputs": {
+        "TEXT": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "abc"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

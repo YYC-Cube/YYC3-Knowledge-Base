@@ -1,0 +1,236 @@
+{
+  "toolbox_name": "K10カメラとAI",
+  "toolbox_labels": {
+    "摄像头": "カメラ",
+    "AI视觉": "AIビジョン",
+    "人脸识别": "顔認識"
+  },
+  "k10_camera_init": {
+    "message0": "カメラを初期化",
+    "tooltip": "プレビューを非表示のままK10カメラを初期化"
+  },
+  "k10_camera_show": {
+    "message0": "カメラ映像を表示",
+    "tooltip": "スクリーンにカメラライブ映像を表示"
+  },
+  "k10_photo_save": {
+    "message0": "TFカードに写真を保存 ファイル名 %1",
+    "tooltip": "写真を撮影しTFカードに保存"
+  },
+  "k10_photo_base64": {
+    "message0": "写真を撮影してBase64に変換",
+    "tooltip": "写真を撮影し、Qwen画像対話のBase64画像入力に接続できるJPEG画像Base64文字列を返します"
+  },
+  "k10_ai_init": {
+    "message0": "AI機能を初期化 モード %1",
+    "tooltip": "カメラプレビューを非表示のままAIビジョンを初期化",
+    "args0": [
+      {
+        "options": [
+          [
+            "顔検出/認識",
+            "Face"
+          ],
+          [
+            "猫顔検出",
+            "Cat"
+          ],
+          [
+            "動体検出",
+            "Move"
+          ],
+          [
+            "QRコード認識",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_switch_mode": {
+    "message0": "AIモードを切替 %1",
+    "tooltip": "AI検出モードを切替",
+    "args0": [
+      {
+        "options": [
+          [
+            "顔検出/認識",
+            "Face"
+          ],
+          [
+            "猫顔検出",
+            "Cat"
+          ],
+          [
+            "動体検出",
+            "Move"
+          ],
+          [
+            "QRコード認識",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_is_detected": {
+    "message0": "AI検出 %1",
+    "tooltip": "AIがターゲットを検出したか返す",
+    "args0": [
+      {
+        "options": [
+          [
+            "顔",
+            "Face"
+          ],
+          [
+            "猫顔",
+            "Cat"
+          ],
+          [
+            "動き",
+            "Move"
+          ],
+          [
+            "QRコード",
+            "Code"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_face_data": {
+    "message0": "顔の %1 データを取得",
+    "tooltip": "顔検出データを取得",
+    "args0": [
+      {
+        "options": [
+          [
+            "中心X座標",
+            "CenterX"
+          ],
+          [
+            "中心Y座標",
+            "CenterY"
+          ],
+          [
+            "幅",
+            "Length"
+          ],
+          [
+            "高さ",
+            "Width"
+          ],
+          [
+            "左目X座標",
+            "LeftEyeX"
+          ],
+          [
+            "左目Y座標",
+            "LeftEyeY"
+          ],
+          [
+            "右目X座標",
+            "RightEyeX"
+          ],
+          [
+            "右目Y座標",
+            "RightEyeY"
+          ],
+          [
+            "鼻X座標",
+            "NoseX"
+          ],
+          [
+            "鼻Y座標",
+            "NoseY"
+          ],
+          [
+            "左口角X座標",
+            "LeftMouthX"
+          ],
+          [
+            "左口角Y座標",
+            "LeftMouthY"
+          ],
+          [
+            "右口角X座標",
+            "RightMouthX"
+          ],
+          [
+            "右口角Y座標",
+            "RightMouthY"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_cat_data": {
+    "message0": "猫の顔 %1 データを取得",
+    "tooltip": "猫顔検出データを取得",
+    "args0": [
+      {
+        "options": [
+          [
+            "中心X座標",
+            "CenterX"
+          ],
+          [
+            "中心Y座標",
+            "CenterY"
+          ],
+          [
+            "幅",
+            "Length"
+          ],
+          [
+            "高さ",
+            "Width"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_ai_get_qrcode": {
+    "message0": "QRコード内容を取得",
+    "tooltip": "AIが認識したQRコード内容を取得"
+  },
+  "k10_ai_set_motion_threshold": {
+    "message0": "動体検出閾値を設定 %1",
+    "tooltip": "動体検出の感度閾値を設定"
+  },
+  "k10_ai_face_recognized": {
+    "message0": "顔認識が完了",
+    "tooltip": "顔認識コマンドが完了して結果が得られたかを返す"
+  },
+  "k10_ai_get_face_id": {
+    "message0": "認識された顔IDを取得",
+    "tooltip": "認識された顔IDを取得"
+  },
+  "k10_ai_face_cmd": {
+    "message0": "顔操作 %1",
+    "tooltip": "顔の学習、1回の顔認識、または学習済み顔データの全消去",
+    "args0": [
+      {
+        "options": [
+          [
+            "顔を学習",
+            "ENROLL"
+          ],
+          [
+            "顔を認識",
+            "RECOGNIZE"
+          ],
+          [
+            "学習済みの顔をすべて消去",
+            "DELETEALL"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_camera_hide": {
+    "message0": "Hide camera preview",
+    "tooltip": "Hide the K10 live camera preview to reduce screen refresh load during audio playback"
+  }
+}

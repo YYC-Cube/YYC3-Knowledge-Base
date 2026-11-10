@@ -1,0 +1,141 @@
+{
+    "toolbox_name": "DFPlayer",
+    "dfplayer_begin": {
+        "message0": "初始化DFPlayer模組 %1 RX引腳 %2 TX引腳 %3"
+    },
+    "dfplayer_play": {
+        "message0": "DFPlayer %1 播放檔案編號 %2"
+    },
+    "dfplayer_pause": {
+        "message0": "DFPlayer %1 暫停播放"
+    },
+    "dfplayer_start": {
+        "message0": "DFPlayer %1 繼續播放"
+    },
+    "dfplayer_stop": {
+        "message0": "DFPlayer %1 停止播放"
+    },
+    "dfplayer_next": {
+        "message0": "DFPlayer %1 播放下一首"
+    },
+    "dfplayer_previous": {
+        "message0": "DFPlayer %1 播放上一首"
+    },
+    "dfplayer_volume": {
+        "message0": "DFPlayer %1 設置音量為 %2"
+    },
+    "dfplayer_volume_up": {
+        "message0": "DFPlayer %1 增大音量"
+    },
+    "dfplayer_volume_down": {
+        "message0": "DFPlayer %1 減小音量"
+    },
+    "dfplayer_eq": {
+        "message0": "DFPlayer %1 設置均衡器 %2",
+        "options": [
+            [
+                "Normal",
+                "0"
+            ],
+            [
+                "Pop",
+                "1"
+            ],
+            [
+                "Rock",
+                "2"
+            ],
+            [
+                "Jazz",
+                "3"
+            ],
+            [
+                "Classic",
+                "4"
+            ],
+            [
+                "Bass",
+                "5"
+            ]
+        ]
+    },
+    "dfplayer_output_device": {
+        "message0": "DFPlayer %1 設置輸出設備為 %2",
+        "options": [
+            [
+                "DEVICE1",
+                "1"
+            ],
+            [
+                "DEVICE2",
+                "2"
+            ]
+        ]
+    },
+    "dfplayer_loop": {
+        "message0": "DFPlayer %1 循環播放檔案編號 %2"
+    },
+    "dfplayer_play_folder": {
+        "message0": "DFPlayer %1 播放資料夾 %2 中的檔案 %3"
+    },
+    "dfplayer_enable_loop_all": {
+        "message0": "DFPlayer %1 開啟全部循環"
+    },
+    "dfplayer_disable_loop_all": {
+        "message0": "DFPlayer %1 關閉全部循環"
+    },
+    "dfplayer_play_mp3_folder": {
+        "message0": "DFPlayer %1 播放MP3資料夾中的檔案 %2"
+    },
+    "dfplayer_advertise": {
+        "message0": "DFPlayer %1 播放廣告 %2"
+    },
+    "dfplayer_stop_advertise": {
+        "message0": "DFPlayer %1 停止廣告"
+    },
+    "dfplayer_play_large_folder": {
+        "message0": "DFPlayer %1 播放大資料夾 %2 中的檔案 %3"
+    },
+    "dfplayer_loop_folder": {
+        "message0": "DFPlayer %1 循環播放資料夾 %2"
+    },
+    "dfplayer_random_all": {
+        "message0": "DFPlayer %1 隨機播放全部檔案"
+    },
+    "dfplayer_enable_loop": {
+        "message0": "DFPlayer %1 開啟循環"
+    },
+    "dfplayer_disable_loop": {
+        "message0": "DFPlayer %1 關閉循環"
+    },
+    "dfplayer_read_state": {
+        "message0": "DFPlayer %1 讀取狀態"
+    },
+    "dfplayer_read_volume": {
+        "message0": "DFPlayer %1 讀取音量"
+    },
+    "dfplayer_read_eq": {
+        "message0": "DFPlayer %1 讀取均衡器"
+    },
+    "dfplayer_read_file_counts": {
+        "message0": "DFPlayer %1 讀取檔案數量"
+    },
+    "dfplayer_read_current_file_number": {
+        "message0": "DFPlayer %1 讀取當前檔案編號"
+    },
+    "dfplayer_read_file_counts_in_folder": {
+        "message0": "DFPlayer %1 讀取資料夾 %2 中的檔案數量"
+    },
+    "dfplayer_available": {
+        "message0": "DFPlayer %1 檢查是否有可用訊息"
+    },
+    "dfplayer_read_type": {
+        "message0": "DFPlayer %1 讀取訊息類型"
+    },
+    "dfplayer_read": {
+        "message0": "DFPlayer %1 讀取訊息參數"
+    },
+    "dfplayer_simple_play": {
+        "message0": "簡單播放：初始化DFPlayer (RX: %1, TX: %2) 並播放檔案 %3"
+    }
+}

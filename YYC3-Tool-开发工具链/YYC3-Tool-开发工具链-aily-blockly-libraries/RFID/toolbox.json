@@ -1,0 +1,115 @@
+{
+  "kind": "category",
+  "name": "MFRC522 RFID",
+  "icon": "fa-light fa-nfc-signal",
+  "colour": "#4CAF50",
+  "contents": [
+    {
+      "kind": "label",
+      "text": "初始化"
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_setup"
+    },
+    {
+      "kind": "label",
+      "text": "卡片检测"
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_when_card_detected"
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_is_new_card_present",
+      "inputs": {}
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_read_card_serial",
+      "inputs": {}
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_read_uid",
+      "inputs": {}
+    },
+    {
+      "kind": "label",
+      "text": "数据操作"
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_authenticate",
+      "inputs": {
+        "SECTOR": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "1"
+            }
+          }
+        },
+        "KEY": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "0xFF,0xFF,0xFF,0xFF,0xFF,0xFF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_read_block",
+      "inputs": {
+        "BLOCK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_get_data_string",
+      "inputs": {}
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_write_block",
+      "inputs": {
+        "DATA": {
+          "shadow": {
+            "type": "text",
+            "fields": {
+              "TEXT": "Hello RFID"
+            }
+          }
+        },
+        "BLOCK": {
+          "shadow": {
+            "type": "math_number",
+            "fields": {
+              "NUM": "4"
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "label",
+      "text": "控制"
+    },
+    {
+      "kind": "block",
+      "type": "mfrc522_halt_card",
+      "inputs": {}
+    }
+  ]
+}

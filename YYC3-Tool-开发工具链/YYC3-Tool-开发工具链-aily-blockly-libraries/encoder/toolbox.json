@@ -1,0 +1,36 @@
+{
+  "kind": "category",
+  "name": "旋转编码器",
+  "contents": [
+    {
+      "kind": "block",
+      "type": "encoder_init"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_set_property",
+      "inputs": {        
+        "VALUE": {
+          "block": {
+            "type": "math_number",
+            "fields": {
+              "NUM": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "block",
+      "type": "encoder_value_changed"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_state_change"
+    },
+    {
+      "kind": "block",
+      "type": "encoder_get_property"
+    }
+  ]
+}

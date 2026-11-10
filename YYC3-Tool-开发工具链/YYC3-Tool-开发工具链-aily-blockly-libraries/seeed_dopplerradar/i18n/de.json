@@ -1,0 +1,60 @@
+{
+  "toolbox_name": "Doppler-Radar",
+  "doppler_radar_init": {
+    "message0": "Doppler-Radar initialisieren %1\nSeriell %2\nModus %3",
+    "tooltip": "BGT24LTR11 Doppler-Radarsensor initialisieren mit seriellem Anschluss und Modus",
+    "args0": [
+      null,
+      null,
+      {
+        "options": [
+          ["Zielerkennungsmodus", "0"],
+          ["I/Q ADC-Modus", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_set_mode": {
+    "message0": "Doppler-Radar %1 Modus auf %2 setzen",
+    "tooltip": "Den Arbeitsmodus des Doppler-Radars einstellen: Zielerkennung oder I/Q ADC",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Zielerkennungsmodus", "0"],
+          ["I/Q ADC-Modus", "1"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_target_is": {
+    "message0": "Doppler-Radar %1 Zielstatus ist %2",
+    "tooltip": "Den vom Doppler-Radar erkannten Zielstatus überprüfen",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["Nähert sich", "APPROACH"],
+          ["Entfernt sich", "LEAVE"],
+          ["Kein Ziel", "NONE"]
+        ]
+      }
+    ]
+  },
+  "doppler_radar_get_speed": {
+    "message0": "Doppler-Radar %1 Zielgeschwindigkeit",
+    "tooltip": "Die vom Doppler-Radar erkannte Zielgeschwindigkeit abrufen"
+  },
+  "doppler_radar_set_threshold": {
+    "message0": "Doppler-Radar %1 Erkennungsschwelle auf %2 setzen",
+    "tooltip": "Die Erkennungsschwelle des Doppler-Radars einstellen (0-65535)"
+  },
+  "doppler_radar_get_threshold": {
+    "message0": "Doppler-Radar %1 aktuelle Schwelle",
+    "tooltip": "Die aktuelle Erkennungsschwelle des Doppler-Radars abrufen"
+  },
+  "doppler_radar_set_speed_scope": {
+    "message0": "Doppler-Radar %1 Geschwindigkeitsbereich setzen\nMax. Geschwindigkeit %2\nMin. Geschwindigkeit %3",
+    "tooltip": "Den Geschwindigkeitserkennungsbereich des Doppler-Radars einstellen (0-65535)"
+  }
+}

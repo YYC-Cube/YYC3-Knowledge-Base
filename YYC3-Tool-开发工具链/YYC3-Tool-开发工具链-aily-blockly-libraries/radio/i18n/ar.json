@@ -1,0 +1,46 @@
+{
+  "toolbox_name": "RadioLib LoRa",
+  "toolbox_labels": {
+    "初始化": "التهيئة",
+    "参数设置": "إعدادات المعلمة",
+    "阻塞式通信": "منع الاتصالات",
+    "中断式通信": "الاتصالات المتقطعة",
+    "状态查询": "الاستعلام عن الحالة",
+    "电源管理": "إدارة الطاقة"
+  },
+  "radiolib_lora_init": {
+    "message0": "تهيئة LoRa %1 الاسم %2",
+    "message1": "الأطراف CS %1 IRQ %2 RST %3 GPIO %4",
+    "message2": "التردد(MHz) %1 القدرة(dBm) %2",
+    "tooltip": "تهيئة وحدة LoRa اللاسلكية. SX127x: IRQ=DIO0, GPIO=DIO1; SX126x: IRQ=DIO1, GPIO=BUSY"
+  },
+  "radiolib_set_bandwidth": {
+    "message0": "%1 تعيين عرض النطاق(kHz) %2",
+    "tooltip": "تعيين عرض نطاق LoRa. أعرض = أسرع لكن مدى أقصر",
+    "args0": [null, {"options": [["7.8","7.8"],["10.4","10.4"],["15.6","15.6"],["20.8","20.8"],["31.25","31.25"],["41.7","41.7"],["62.5","62.5"],["125","125.0"],["250","250.0"],["500","500.0"]]}]
+  },
+  "radiolib_set_spreading_factor": {
+    "message0": "%1 تعيين معامل الانتشار %2",
+    "tooltip": "تعيين معامل انتشار LoRa (6-12). أعلى = مدى أبعد لكن أبطأ",
+    "args0": [null, {"options": [["6","6"],["7","7"],["8","8"],["9","9"],["10","10"],["11","11"],["12","12"]]}]
+  },
+  "radiolib_set_coding_rate": {
+    "message0": "%1 تعيين معدل الترميز %2",
+    "tooltip": "تعيين معدل ترميز LoRa. أعلى = تصحيح أفضل لكن أبطأ",
+    "args0": [null, {"options": [["4/5","5"],["4/6","6"],["4/7","7"],["4/8","8"]]}]
+  },
+  "radiolib_set_frequency": { "message0": "%1 تعيين التردد(MHz) %2", "tooltip": "تعيين تردد الحامل" },
+  "radiolib_set_power": { "message0": "%1 تعيين قدرة الإرسال(dBm) %2", "tooltip": "تعيين قدرة الإرسال" },
+  "radiolib_set_sync_word": { "message0": "%1 تعيين كلمة المزامنة %2", "tooltip": "تعيين كلمة مزامنة LoRa. يجب أن يتطابق المرسل والمستقبل" },
+  "radiolib_transmit": { "message0": "%1 إرسال رسالة %2", "tooltip": "إرسال رسالة نصية (وضع حظر)" },
+  "radiolib_receive": { "message0": "%1 استقبال رسالة", "tooltip": "استقبال رسالة (وضع حظر)" },
+  "radiolib_on_receive": { "message0": "عندما يستقبل %1 بيانات", "message1": "نفذ %1", "tooltip": "يُفعّل عندما تستقبل وحدة LoRa حزمة" },
+  "radiolib_start_receive": { "message0": "%1 بدء الاستقبال", "tooltip": "بدء وضع الاستقبال غير المتزامن" },
+  "radiolib_received_data": { "message0": "%1 البيانات المستلمة", "tooltip": "الحصول على البيانات المستلمة في رد الاتصال" },
+  "radiolib_received_rssi": { "message0": "%1 RSSI المستلم", "tooltip": "الحصول على RSSI للحزمة المستلمة" },
+  "radiolib_received_snr": { "message0": "%1 SNR المستلم", "tooltip": "الحصول على SNR للحزمة المستلمة" },
+  "radiolib_get_rssi": { "message0": "%1 الحصول على RSSI", "tooltip": "الحصول على RSSI لآخر استقبال" },
+  "radiolib_get_snr": { "message0": "%1 الحصول على SNR", "tooltip": "الحصول على SNR لآخر استقبال" },
+  "radiolib_sleep": { "message0": "%1 وضع السكون", "tooltip": "وضع الطاقة المنخفضة" },
+  "radiolib_standby": { "message0": "%1 وضع الاستعداد", "tooltip": "وضع الاستعداد، استيقاظ سريع" }
+}

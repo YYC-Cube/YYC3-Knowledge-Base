@@ -1,0 +1,155 @@
+{
+  "toolbox_name": "Zigbee",
+  "toolbox_labels": {
+    "初始化与连接": "Initialization and connection",
+    "灯光控制": "Light control",
+    "传感器": "sensor",
+    "属性报告": "Property report",
+    "事件回调": "event callback",
+    "状态查询": "Status query",
+    "持久化": "persistence"
+  },
+  "zigbee_init": {
+    "message0": "Initialize Zigbee device %1 role %2 device type %3 channel %4 PAN ID %5",
+    "tooltip": "Initialize Zigbee device, set role, device type, channel and PAN ID",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["End Device", "END_DEVICE"],
+          ["Router", "ROUTER"]
+        ]
+      },
+      {
+        "options": [
+          ["On/Off Light", "ON_OFF_LIGHT"],
+          ["Dimmable Light", "DIMMABLE_LIGHT"],
+          ["Color Light", "COLOR_LIGHT"],
+          ["Extended Color Light", "EXTENDED_COLOR_LIGHT"],
+          ["On/Off Switch", "ON_OFF_SWITCH"],
+          ["Temperature Sensor", "TEMPERATURE_SENSOR"],
+          ["Temp & Humidity Sensor", "TEMPERATURE_HUMIDITY_SENSOR"]
+        ]
+      },
+      null,
+      null
+    ]
+  },
+  "zigbee_set_basic_info": {
+    "message0": "Set %1 basic info manufacturer %2 model %3 version %4",
+    "tooltip": "Set Zigbee device basic information (manufacturer name, model and software version)"
+  },
+  "zigbee_set_install_code": {
+    "message0": "Set %1 install code %2",
+    "tooltip": "Set Zigbee device install code (for secure commissioning), format: hex string"
+  },
+  "zigbee_start": {
+    "message0": "Start %1 Zigbee network",
+    "tooltip": "Start Zigbee device, begin scanning and commissioning"
+  },
+  "zigbee_loop": {
+    "message0": "%1 Zigbee process",
+    "tooltip": "Call in loop() to handle Zigbee network communication and state maintenance"
+  },
+  "zigbee_is_joined": {
+    "message0": "%1 joined network?",
+    "tooltip": "Check if Zigbee device has successfully joined the network"
+  },
+  "zigbee_set_on_off": {
+    "message0": "Set %1 on/off state to %2",
+    "tooltip": "Set On/Off light switch state",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["ON", "TRUE"],
+          ["OFF", "FALSE"]
+        ]
+      }
+    ]
+  },
+  "zigbee_get_on_off": {
+    "message0": "%1 on/off state",
+    "tooltip": "Get current On/Off light switch state"
+  },
+  "zigbee_set_level": {
+    "message0": "Set %1 brightness to %2",
+    "tooltip": "Set dimmable light brightness level (0-254)"
+  },
+  "zigbee_get_level": {
+    "message0": "%1 brightness",
+    "tooltip": "Get current dimmable light brightness level"
+  },
+  "zigbee_set_color_hs": {
+    "message0": "Set %1 color hue %2 saturation %3",
+    "tooltip": "Set color light hue (0-254) and saturation (0-254)"
+  },
+  "zigbee_set_color_temp": {
+    "message0": "Set %1 color temperature to %2 Mireds",
+    "tooltip": "Set extended color light color temperature (Mireds, 153=6500K cool, 500=2000K warm)"
+  },
+  "zigbee_set_temperature": {
+    "message0": "Set %1 temperature %2 ℃",
+    "tooltip": "Set temperature sensor value (Celsius, precision 0.01℃)"
+  },
+  "zigbee_set_humidity": {
+    "message0": "Set %1 humidity %2 %",
+    "tooltip": "Set humidity sensor value (percentage, precision 0.01%)"
+  },
+  "zigbee_set_battery": {
+    "message0": "Set %1 battery voltage %2 dV level %3 %",
+    "tooltip": "Set battery status (voltage: decivolts; level: percentage 0-100)"
+  },
+  "zigbee_is_identifying": {
+    "message0": "%1 identifying?",
+    "tooltip": "Check if device is in Identify mode"
+  },
+  "zigbee_configure_reporting": {
+    "message0": "Configure %1 attribute reporting cluster %2 attribute ID %3 min interval %4 s max interval %5 s",
+    "tooltip": "Configure Zigbee attribute auto-reporting policy (min/max report interval)",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["OnOff", "ON_OFF"],
+          ["Level Control", "LEVEL_CONTROL"],
+          ["Color Control", "COLOR_CONTROL"],
+          ["Temperature", "TEMPERATURE"],
+          ["Humidity", "HUMIDITY"],
+          ["Power Config", "POWER_CONFIG"]
+        ]
+      },
+      null,
+      null,
+      null
+    ]
+  },
+  "zigbee_on_state_change": {
+    "message0": "When %1 on/off state changes %2 %3",
+    "tooltip": "Execute code when on/off state is changed via Zigbee network"
+  },
+  "zigbee_on_level_change": {
+    "message0": "When %1 brightness changes %2 %3",
+    "tooltip": "Execute code when brightness is changed via Zigbee network"
+  },
+  "zigbee_on_color_change": {
+    "message0": "When %1 color changes %2 %3",
+    "tooltip": "Execute code when color is changed via Zigbee network"
+  },
+  "zigbee_on_join": {
+    "message0": "When %1 joins network %2 %3",
+    "tooltip": "Execute code when Zigbee device successfully joins the network"
+  },
+  "zigbee_persist_save": {
+    "message0": "Save %1 network state to flash",
+    "tooltip": "Save current Zigbee network state to flash (commissioning info, keys, etc.), recoverable after power loss"
+  },
+  "zigbee_persist_clear": {
+    "message0": "Clear %1 saved network state",
+    "tooltip": "Clear saved Zigbee network state from flash, device will need to rejoin after restart"
+  },
+  "zigbee_rejoin": {
+    "message0": "%1 rejoin network",
+    "tooltip": "Attempt to securely rejoin the Zigbee network"
+  }
+}

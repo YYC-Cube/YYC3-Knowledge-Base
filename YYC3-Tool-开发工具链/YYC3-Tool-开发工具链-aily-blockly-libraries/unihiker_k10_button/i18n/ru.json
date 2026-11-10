@@ -1,0 +1,59 @@
+{
+  "toolbox_name": "K10 Кнопка",
+  "k10_button_pressed": {
+    "message0": "кнопка K10 %1 нажата",
+    "tooltip": "Проверить нажата ли кнопка K10",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      }
+    ]
+  },
+  "k10_button_callback": {
+    "message0": "когда кнопка K10 %1 будет %2",
+    "tooltip": "Выполнить когда кнопка K10 нажата или отпущена",
+    "args0": [
+      {
+        "options": [
+          [
+            "A",
+            "buttonA"
+          ],
+          [
+            "B",
+            "buttonB"
+          ],
+          [
+            "A+B",
+            "buttonAB"
+          ]
+        ]
+      },
+      {
+        "options": [
+          [
+            "нажата",
+            "pressed"
+          ],
+          [
+            "отпущена",
+            "released"
+          ]
+        ]
+      }
+    ]
+  }
+}

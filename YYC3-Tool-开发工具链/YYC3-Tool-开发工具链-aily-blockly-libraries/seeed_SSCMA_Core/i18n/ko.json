@@ -1,0 +1,242 @@
+{
+  "toolbox_name": "SSCMA Core",
+  "toolbox_labels": {
+    "初始化": "초기화",
+    "推理处理": "추론 처리",
+    "回调注册": "콜백 등록",
+    "检测结果": "테스트 결과",
+    "分类结果": "분류 결과",
+    "关键点结果": "핵심 결과",
+    "关键点组结果": "키포인트 그룹 결과",
+    "性能指标": "성과 지표"
+  },
+  "sscma_core_begin": {
+    "message0": "初始化SSCMA使用XIAO ESP32S3默认配置",
+    "tooltip": "初始化SSCMA实例"
+  },
+  "sscma_core_set_loop_task_stack_size": {
+    "message0": "设置SSCMA循环任务栈大小 %1 字节",
+    "tooltip": "设置SSCMA循环任务栈大小"
+  },
+  "sscma_core_invoke": {
+    "message0": "SSCMA推理处理帧 %1",
+    "tooltip": "执行AI推理"
+  },
+  "sscma_core_get_managed_frame": {
+    "message0": "获取管理帧",
+    "tooltip": "从视频捕获获取管理帧"
+  },
+  "sscma_core_register_boxes_callback": {
+    "message0": "SSCMA目标检测回调",
+    "tooltip": "注册目标检测回调"
+  },
+  "sscma_core_register_classes_callback": {
+    "message0": "SSCMA分类检测回调",
+    "tooltip": "注册分类检测回调"
+  },
+  "sscma_core_register_points_callback": {
+    "message0": "SSCMA关键点检测回调",
+    "tooltip": "注册关键点检测回调"
+  },
+  "sscma_core_register_keypoints_callback": {
+    "message0": "SSCMA关键点组检测回调",
+    "tooltip": "注册关键点组检测回调"
+  },
+  "sscma_core_register_perf_callback": {
+    "message0": "SSCMA性能回调",
+    "tooltip": "注册性能指标回调"
+  },
+  "sscma_core_get_boxes": {
+    "message0": "SSCMA遍历获取目标检测结果",
+    "tooltip": "遍历获取检测到的目标框结果"
+  },
+  "sscma_core_get_boxes_info": {
+    "message0": "获取目标检测信息 属性 %1",
+    "tooltip": "遍历获取目标检测信息",
+    "args0": [
+      {
+        "options": [
+          [
+            "X坐标",
+            "x"
+          ],
+          [
+            "Y坐标",
+            "y"
+          ],
+          [
+            "宽度",
+            "w"
+          ],
+          [
+            "高度",
+            "h"
+          ],
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_core_get_classes": {
+    "message0": "SSCMA遍历获取分类检测结果",
+    "tooltip": "获取分类检测结果"
+  },
+  "sscma_core_get_classes_info": {
+    "message0": "获取分类检测信息 属性 %1",
+    "tooltip": "获取分类检测信息",
+    "args0": [
+      {
+        "options": [
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_core_get_points": {
+    "message0": "SSCMA遍历获取关键点检测结果",
+    "tooltip": "遍历获取关键点检测结果"
+  },
+  "sscma_core_get_points_info": {
+    "message0": "获取关键点信息 属性 %1",
+    "tooltip": "获取关键点信息",
+    "args0": [
+      {
+        "options": [
+          [
+            "X坐标",
+            "x"
+          ],
+          [
+            "Y坐标",
+            "y"
+          ],
+          [
+            "Z坐标",
+            "z"
+          ],
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_core_get_keypoints": {
+    "message0": "SSCMA遍历获取关键点组检测结果",
+    "tooltip": "遍历获取关键点组检测结果"
+  },
+  "sscma_core_get_keypoints_info": {
+    "message0": "获取关键点组信息 属性 %1",
+    "tooltip": "获取关键点组信息",
+    "args0": [
+      {
+        "options": [
+          [
+            "X坐标",
+            "x"
+          ],
+          [
+            "Y坐标",
+            "y"
+          ],
+          [
+            "高度",
+            "h"
+          ],
+          [
+            "宽度",
+            "w"
+          ],
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_core_get_keypoints_points": {
+    "message0": "遍历获取关键点组中的点信息",
+    "tooltip": "遍历获取关键点组中的点信息"
+  },
+  "sscma_core_get_keypoints_points_info": {
+    "message0": "获取关键点组中的点信息 属性 %1",
+    "tooltip": "获取关键点组中的点信息",
+    "args0": [
+      {
+        "options": [
+          [
+            "X坐标",
+            "x"
+          ],
+          [
+            "Y坐标",
+            "y"
+          ],
+          [
+            "Z坐标",
+            "z"
+          ],
+          [
+            "置信度",
+            "score"
+          ],
+          [
+            "目标类别",
+            "target"
+          ]
+        ]
+      }
+    ]
+  },
+  "sscma_core_get_perf": {
+    "message0": "SSCMA获取性能指标到 %1",
+    "tooltip": "获取性能指标到变量"
+  },
+  "sscma_core_get_perf_info": {
+    "message0": "获取 %1 性能信息 属性 %2",
+    "tooltip": "获取性能信息",
+    "args0": [
+      null,
+      {
+        "options": [
+          [
+            "预处理时间",
+            "preprocess"
+          ],
+          [
+            "推理时间",
+            "inference"
+          ],
+          [
+            "后处理时间",
+            "postprocess"
+          ]
+        ]
+      }
+    ]
+  }
+}

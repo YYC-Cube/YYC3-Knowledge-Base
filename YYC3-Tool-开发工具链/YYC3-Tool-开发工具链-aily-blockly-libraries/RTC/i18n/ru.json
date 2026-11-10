@@ -1,0 +1,79 @@
+{
+  "toolbox_name": "Часы RTC",
+  "toolbox_labels": {
+    "初始化": "инициализация",
+    "时间设置": "Установка времени",
+    "时间读取": "Время чтения",
+    "时间组件": "временная составляющая",
+    "状态控制": "контроль статуса",
+    "DS3231专用": "Посвящается DS3231.",
+    "DS1302专用": "Специально для DS1302"
+  },
+  "rtc_init": {
+    "message0": "Инициализировать RTC %1 тип чипа %2",
+    "tooltip": "Инициализировать модуль часов реального времени RTC, выбрать тип чипа",
+    "args0": [
+      null,
+      {
+        "options": [
+          ["DS3231 (I2C)", "DS3231"],
+          ["DS1307 (I2C)", "DS1307"],
+          ["DS1302 (3-проводной)", "DS1302"],
+          ["PCF8563 (I2C)", "PCF8563"]
+        ]
+      }
+    ]
+  },
+  "rtc_set_datetime": {
+    "message0": "%1 установить год %2 месяц %3 день %4 час %5 мин %6 сек %7",
+    "tooltip": "Установить дату и время RTC"
+  },
+  "rtc_set_compile_datetime": {
+    "message0": "%1 установить время компиляции",
+    "tooltip": "Установить RTC на время компиляции программы (быстрая калибровка)"
+  },
+  "rtc_get_datetime": {
+    "message0": "%1 получить текущее время",
+    "tooltip": "Прочитать текущие дату и время с RTC"
+  },
+  "rtc_is_datetime_valid": {
+    "message0": "%1 время корректно",
+    "tooltip": "Проверить, корректно ли время, хранящееся в RTC"
+  },
+  "rtc_get_is_running": {
+    "message0": "%1 работает",
+    "tooltip": "Проверить, работает ли осциллятор RTC"
+  },
+  "rtc_set_is_running": {
+    "message0": "%1 установить состояние работы %2",
+    "tooltip": "Запустить или остановить осциллятор RTC",
+    "args0": [ null, { "options": [["Работа", "TRUE"], ["Стоп", "FALSE"]] } ]
+  },
+  "rtc_get_year": { "message0": "год времени %1", "tooltip": "Получить год из RtcDateTime (2000-2099)" },
+  "rtc_get_month": { "message0": "месяц времени %1", "tooltip": "Получить месяц из RtcDateTime (1-12)" },
+  "rtc_get_day": { "message0": "день времени %1", "tooltip": "Получить день из RtcDateTime (1-31)" },
+  "rtc_get_hour": { "message0": "час времени %1", "tooltip": "Получить час из RtcDateTime (0-23)" },
+  "rtc_get_minute": { "message0": "минута времени %1", "tooltip": "Получить минуты из RtcDateTime (0-59)" },
+  "rtc_get_second": { "message0": "секунда времени %1", "tooltip": "Получить секунды из RtcDateTime (0-59)" },
+  "rtc_get_day_of_week": { "message0": "день недели времени %1", "tooltip": "Получить день недели из RtcDateTime (0=Вс, 1=Пн, ..., 6=Сб)" },
+  "rtc_format_datetime": { "message0": "форматировать время %1 как текст", "tooltip": "Преобразовать RtcDateTime в текстовый формат ГГГГ/ММ/ДД ЧЧ:ММ:СС" },
+  "rtc_ds3231_get_temperature": {
+    "message0": "%1 прочитать температуру %2",
+    "tooltip": "Прочитать температуру со встроенного датчика DS3231",
+    "args0": [ null, { "options": [["°C (Цельсий)", "C"], ["°F (Фаренгейт)", "F"]] } ]
+  },
+  "rtc_ds1302_set_write_protect": {
+    "message0": "%1 защита от записи %2",
+    "tooltip": "Включить или отключить защиту от записи DS1302",
+    "args0": [ null, { "options": [["Включить", "TRUE"], ["Отключить", "FALSE"]] } ]
+  },
+  "extensions": {
+    "rtc_init_dynamic": {
+      "dat_pin": "Пин DAT",
+      "clk_pin": "Пин CLK",
+      "rst_pin": "Пин RST",
+      "sda_pin": "Пин SDA",
+      "scl_pin": "Пин SCL"
+    }
+  }
+}
