@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # GitHub Actions：每周分组更新，避免 PR 风暴
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns:
+          - "*"
