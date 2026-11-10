@@ -3,3 +3,50 @@
 .env*
 !.env.example
 !.env.template
+
+# ═══ OS / 编辑器 / 本地工具状态（无需提交） ═══
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.mimosa/
+.v2c/
+.video_agent/
+.trae-html-share-packages/
+*.swp
+*.swo
+
+# ═══ 依赖与缓存 ═══
+node_modules/
+.pnpm-store/
+.vv__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# ═══ 构建产物 / 覆盖率 ═══
+dist/
+build/
+target/
+.next/
+.nuxt/
+.svelte-kit/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+
+# ═══ 日志与临时文件 ═══
+*.log
+logs/
+*.tmp
+*.pid
+*.seed
+*.cache
+.cache/
+
+# ═══ 大型归档包（如需留档请使用 Releases / LFS） ═══
+*.7z
+*.rar
