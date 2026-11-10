@@ -80,6 +80,19 @@ complexity: intermediate
 | 4 | 密钥扫描 | 未发现 GitHub Token / AWS Key / 私钥 / OpenAI Key 等模式 |
 | 5 | 依赖产物隔离 | `.gitignore` 排除 `node_modules`、`.venv`、`dist`、`build`、归档包等 |
 
+
+### 3.1 按项目升级执行结果（2026-11-10）
+
+| 生态 | 执行方式 | 结果 | 明细 |
+| --- | --- | --- | --- |
+| pip（uv.lock） | `uv lock --upgrade-package pillow/certifi/anyio/brotli/pyjwt` | **31/31 成功** | Pillow → 13.0.0、certifi → 2026.10.23、PyJWT → 2.15.1；部分项目受 `pillow<13` 约束仍解析到 12.3.0 |
+| go | `go get golang.org/x/crypto@v0.52.0 && go mod tidy` | **2/2 成功** | one-api、ollama 的 `go.mod/go.sum` 已更新（x/sys、x/text、x/term 同步升级） |
+| npm | `npm install <pkg>@<修复版> --package-lock-only` | **3 组成功** | ragflow/web（dompurify、storybook、tinypool、shell-quote）、nanobot/bridge（baileys）、gateway（form-data） |
+| npm | 同上 | **4 组受阻** | ollama/app/ui/app：registry 代理拒绝拉取 `@tailwindcss/oxide-wasm32-wasi` tarball；new-api/web/default：使用 pnpm `catalog:` 协议；litellm ui_unit_tests：`overrides` 与直接依赖冲突；shannon/vercel：pnpm 传递依赖不在升级范围 |
+| rust | `cargo update -p wasmtime/zip` | **受阻** | 本机未安装 Rust 工具链（无 `cargo`/`rustup`），Cargo.lock 未改动 |
+
+> Pillow 13 为大版本升级，个别项目 `pyproject.toml` 仍限制 `<13`，需上游放宽约束后才能彻底消除对应告警。
+
 ## 四、待治理项（需按项目升级）
 
 | 优先级 | 对象 | 建议动作 |
@@ -111,6 +124,7 @@ gh api repos/YYC-Cube/YYC3-Knowledge-Base/automated-security-fixes
 
 | 版本 | 日期 | 变更内容 | 作者 |
 | --- | --- | --- | --- |
+| v1.1.0 | 2026-11-10 | 执行按项目升级：pip 31/31、go 2/2、npm 3 组；受阻项与原因入库 | YYC³ Team |
 | v1.0.0 | 2026-11-10 | 首次漏洞基线：3,795 条告警统计、启用自动修复、HTML 加固与设备基线 | YYC³ Team |
 
 ---
