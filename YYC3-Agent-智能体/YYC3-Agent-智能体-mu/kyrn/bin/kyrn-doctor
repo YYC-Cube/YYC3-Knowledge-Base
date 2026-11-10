@@ -1,0 +1,341 @@
+#!/usr/bin/env node
+// `mu doctor`: is this installation able to run, and what is it configured to do?
+//
+// Reads configuration, never credentials: for the login it only checks that the
+// file exists, and for a judge's key only that the variable is set.
+import { existsSync, readFileSync, readlinkSync, statSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
+import {
+	dependenciesInstalled,
+	detectWsl,
+	envFilePath,
+	findOnPath,
+	layoutOf,
+	linkState,
+	localJudgeSupport,
+	packageEntries,
+	parseEnvFile,
+	platformName,
+} from "./mu.mjs";
+
+const [root, link] = process.argv.slice(2);
+/** `MU_<name>`, or the `KYRN_<name>` spelling from before the rename. */
+const env = (name) => process.env[`MU_${name}`] || process.env[`KYRN_${name}`];
+// Until ~/.kyrn is moved to ~/.mu by hand, the old home stays in use.
+const home = existsSync(join(homedir(), ".mu")) || !existsSync(join(homedir(), ".kyrn")) ? ".mu" : ".kyrn";
+const agentDir = env("AGENT_DIR") ?? env("CODING_AGENT_DIR") ?? join(homedir(), home, "agent");
+// A checkout of the repository, or the npm package mu-agent.
+const layout = layoutOf({ root, platform: process.platform, exists: existsSync });
+const envFile = envFilePath({ layout, root, muDir: join(homedir(), home), platform: process.platform });
+const rows = [];
+const row = (state, name, text) => rows.push([state, name, text]);
+const tilde = (path) => (path.startsWith(homedir()) ? `~${path.slice(homedir().length)}` : path);
+
+function readJson(path) {
+	try {
+		return JSON.parse(readFileSync(path, "utf8"));
+	} catch {
+		return undefined;
+	}
+}
+
+let procVersion = "";
+try {
+	if (process.platform === "linux") procVersion = readFileSync("/proc/version", "utf8");
+} catch {}
+const wsl = detectWsl({ platform: process.platform, env: process.env, procVersion });
+row("--", "platform", `${platformName({ platform: process.platform, wsl })} (${process.platform} ${process.arch})`);
+
+const [major, minor] = process.versions.node.split(".").map(Number);
+row(major > 22 || (major === 22 && minor >= 19) ? "ok" : "fix", "node", `v${process.versions.node} (needs >= 22.19)`);
+
+if (layout === "package") {
+	const pkg = readJson(join(root, "package.json")) ?? {};
+	const complete = Object.values(packageEntries({ root, platform: process.platform })).every((file) => existsSync(file));
+	row(
+		complete ? "ok" : "fix",
+		"package",
+		complete ? `${pkg.name} ${pkg.version} (pi ${pkg.muBuild?.pi ?? "?"}) · ${tilde(root)}` : `incomplete: reinstall with npm i -g mu-agent`,
+	);
+	// npm puts the command in its global bin folder, which has to be on PATH.
+	const onPath = findOnPath({
+		name: "mu",
+		platform: process.platform,
+		env: process.env,
+		isFile: (path) => existsSync(path),
+	});
+	row(onPath ? "ok" : "fix", "command", onPath ? tilde(onPath) : "`mu` is not on PATH: add npm's global bin folder (npm prefix -g) to it");
+} else {
+	const installed = dependenciesInstalled({ root, platform: process.platform, exists: existsSync });
+	row(
+		installed ? "ok" : "fix",
+		"dependencies",
+		installed
+			? "installed"
+			: `missing: cd ${root} && npm ci --ignore-scripts && npm run hydrate:model-data`,
+	);
+
+	// A link on POSIX, a small mu.cmd on Windows, where a link to a script cannot be run.
+	const linked = linkState({
+		platform: process.platform,
+		link,
+		bin: join(root, "kyrn", "bin"),
+		fs: { readFile: (path) => readFileSync(path, "utf8"), readlink: readlinkSync },
+	});
+	row(
+		linked ? "ok" : "--",
+		"command",
+		linked ? linked.replaceAll(homedir(), "~") : `not on PATH yet: ${join(root, "kyrn", "bin", process.platform === "win32" ? "mu.cmd" : "mu")} link`,
+	);
+}
+
+row("--", "home", tilde(agentDir));
+if (home === ".kyrn" && agentDir.startsWith(join(homedir(), ".kyrn"))) {
+	row("--", "", "this home is from before the rename: `mu migrate` moves it to ~/.mu (`--dry-run` to look first)");
+}
+// Only the size is looked at: pi writes an empty `{}` at its first start, and any stored login is far longer.
+let authBytes = 0;
+try {
+	authBytes = statSync(join(agentDir, "auth.json")).size;
+} catch {}
+row(
+	authBytes > 8 ? "ok" : "fix",
+	"login",
+	authBytes > 8 ? "credentials stored (not read here)" : "none yet: run mu setup (or /login inside mu)",
+);
+
+const settings = readJson(join(agentDir, "settings.json")) ?? {};
+row(
+	settings.defaultModel ? "ok" : "--",
+	"model",
+	settings.defaultModel
+		? `${settings.defaultProvider ?? "?"}/${settings.defaultModel}${settings.defaultThinkingLevel ? ` · thinking ${settings.defaultThinkingLevel}` : ""}`
+		: "no default: the first provider with credentials is used. Pick one with /model, save with ctrl+s",
+);
+
+const config = readJson(join(agentDir, "mu.json")) ?? readJson(join(agentDir, "kyrn.json"));
+const tiers = (env("JUDGE") ? env("JUDGE").split(",") : (config?.tiers ?? ["jev"])).map((tier) => tier.trim());
+const mode = env("JUDGE_MODE") ?? config?.modes?.default ?? "active";
+row("--", "judges", `${tiers.join(" > ")} · decisions ${mode}${env("JUDGE") ? " (from MU_JUDGE)" : ""}`);
+const overrides = Object.entries(config?.modes ?? {}).filter(([id]) => id !== "default");
+if (overrides.length > 0) row("--", "modes", overrides.map(([id, value]) => `${id}=${value}`).join(" "));
+const ladder = config?.features?.swarm?.models ?? [];
+row("--", "sub-agents", ladder.length > 0 ? `model ladder ${ladder.join(" < ")}` : "use the session's model (no ladder configured)");
+
+const judgeSupport = localJudgeSupport({ platform: process.platform, env: process.env, wsl });
+if (tiers.some((tier) => tier.startsWith("laya")) && !judgeSupport.runs && !judgeSupport.url) {
+	// Not a failure of this installation: the sidecar is Core ML, and there is none for this platform.
+	row("--", "local judge", `not available on ${platformName({ platform: process.platform, wsl })}: the Laya sidecar is Core ML (macOS, Apple Silicon).`);
+	row("--", "", "laya's decisions fall back to the next judge or to pi's behaviour. Use jev, an llm judge, or MU_LOCAL_JUDGE_URL=<a server with the same contract>");
+} else if (tiers.some((tier) => tier.startsWith("laya"))) {
+	const base = env("LOCAL_JUDGE_URL") ?? `http://127.0.0.1:${env("LOCAL_JUDGE_PORT") ?? 47823}`;
+	const startedAt = performance.now();
+	try {
+		const response = await fetch(`${base}/health`, { signal: AbortSignal.timeout(2000) });
+		const health = await response.json();
+		const ms = Math.round(performance.now() - startedAt);
+		row(health.status === "ok" ? "ok" : "--", "local judge", `${base} · ${health.status} · ${health.model ?? "laya"} · ${ms} ms`);
+	} catch {
+		row(
+			"fix",
+			"local judge",
+			judgeSupport.runs
+				? `${base} does not answer: mu judge start   (first time: mu judge setup)`
+				: `${base} (MU_LOCAL_JUDGE_URL) does not answer`,
+		);
+	}
+}
+// The built-in ways to Jev, as packages/kyrn-judge/src/config.ts has them; mu.json may name others.
+const JEV_ROUTES = {
+	jev: { type: "jev" },
+	"jev-direct": { type: "typesafe" },
+	"jev-openrouter": { type: "typesafe", baseUrl: "https://openrouter.ai/api/v1/systemone", apiKeyEnv: "MU_JUDGE_OPENROUTER_API_KEY" },
+	"jev-gateway": { type: "gateway" },
+	gateway: { type: "gateway" },
+	"jev-opencode": { type: "classifier", model: "opencode/jev-1.13" },
+	"jev-opencode-free": { type: "classifier", model: "opencode/jev-1.13-free" },
+	"jev-cloudflare": { type: "classifier", model: "cloudflare-workers-ai/typesafe/jev" },
+	clef: { type: "classifier", model: "cloudflare-workers-ai/@cf/cloudflare/clef" },
+	"clef-flash": { type: "classifier", model: "cloudflare-workers-ai/@cf/cloudflare/clef-flash" },
+};
+// The variables pi reads a classifier provider's credentials from (packages/ai/src/env-api-keys.ts); a key stored
+// with /login or `mu auth` works as well. llama.cpp on this machine needs none.
+const CLASSIFIER_KEYS = {
+	opencode: ["OPENCODE_API_KEY"],
+	"cloudflare-workers-ai": ["CLOUDFLARE_API_KEY", "CLOUDFLARE_ACCOUNT_ID"],
+	openrouter: ["OPENROUTER_API_KEY"],
+	typesafe: ["TYPESAFE_API_KEY"],
+	"vercel-ai-gateway": ["AI_GATEWAY_API_KEY"],
+	"llama.cpp": [],
+};
+// Parsed the way the launcher parses it (quotes, `export `), and only asked whether a name has a value.
+const fromFile = existsSync(envFile) ? parseEnvFile(readFileSync(envFile, "utf8")).entries : [];
+const has = (name) => Boolean(process.env[name]) || fromFile.some(([key, value]) => key === name && value !== "");
+const where = `to ${tilde(envFile)} or to your environment`;
+const jevTier = tiers.find((tier) => ["jev", "typesafe", "gateway"].includes((config?.judges?.[tier] ?? JEV_ROUTES[tier])?.type));
+if (jevTier) {
+	const judge = config?.judges?.[jevTier] ?? JEV_ROUTES[jevTier];
+	if (judge.type === "jev") {
+		// The order the registry tries: TypeSafe directly, Jev on OpenRouter, the Vercel AI Gateway, OpenCode Zen,
+		// Cloudflare Workers AI (key and account). With none of them, a gateway key kept with /login, else the free Jev.
+		const route = [
+			["TYPESAFE_API_KEY", "Jev is called directly at api.typesafe.ai"],
+			["MU_JUDGE_OPENROUTER_API_KEY", "Jev is called through OpenRouter"],
+			["AI_GATEWAY_API_KEY", "Jev is called through the Vercel AI Gateway"],
+			["OPENCODE_API_KEY", "Jev is called on OpenCode Zen (jev-1.13)"],
+			["CLOUDFLARE_API_KEY", "Jev is called on Cloudflare Workers AI", "CLOUDFLARE_ACCOUNT_ID"],
+		].find(([name, , also]) => has(name) && (!also || has(also)));
+		row(
+			route ? "ok" : "--",
+			"jev key",
+			route
+				? `${route[0]} is set: ${route[1]} (value not shown)`
+				: `none set: Jev 1.13 on OpenCode Zen answers, free for a limited time (what it judges goes to OpenCode). For your own key, add TYPESAFE_API_KEY (or MU_JUDGE_OPENROUTER_API_KEY, AI_GATEWAY_API_KEY, OPENCODE_API_KEY) ${where}`,
+		);
+	} else {
+		const name = judge.apiKeyEnv ?? (judge.type === "gateway" ? "AI_GATEWAY_API_KEY" : "TYPESAFE_API_KEY");
+		const host = judge.baseUrl && URL.canParse(judge.baseUrl) ? new URL(judge.baseUrl).host : "api.typesafe.ai";
+		const via = judge.type === "gateway" ? "through the Vercel AI Gateway" : `at ${host}`;
+		// Keys for another service than TypeSafe are refused without an address of their own (kyrn-judge/src/registry.ts).
+		const unsent =
+			judge.type === "typesafe" &&
+		["MU_JUDGE_OPENROUTER_API_KEY", "MU_JUDGE_CUSTOM_API_KEY", "MU_JUDGE_CLM_API_KEY"].includes(name) &&
+		!judge.baseUrl;
+		row(
+			has(name) && !unsent ? "ok" : "fix",
+			"jev key",
+			unsent
+				? `${jevTier} has no baseUrl: its key ${name} is only sent to the address it was set up for`
+				: has(name)
+					? `${name} is set: Jev is called ${via} (value not shown)`
+					: `missing: add ${name} ${where} (Jev is called ${via})`,
+		);
+	}
+}
+
+// Classifier models of pi's catalog (Jev on OpenCode Zen or Cloudflare, Clef, …), for the tiers and routes that use them.
+const classifierOf = (tier) =>
+	tier.startsWith("classifier:")
+		? { type: "classifier", model: tier.slice("classifier:".length) }
+		: (config?.judges?.[tier] ?? JEV_ROUTES[tier]);
+const askedTiers = [
+	...tiers,
+	...Object.values(config?.routes ?? {}).flatMap((value) => (Array.isArray(value) ? value : String(value).split(","))),
+].map((tier) => String(tier).trim());
+for (const model of new Set(askedTiers.map(classifierOf).filter((judge) => judge?.type === "classifier").map((judge) => judge.model))) {
+	const provider = String(model ?? "").split("/")[0];
+	// OpenCode's free models answer without a key (the client sends "public", as OpenCode's own does).
+	const names = provider === "opencode" && String(model).endsWith("-free") ? [] : CLASSIFIER_KEYS[provider];
+	if (!model?.includes("/")) {
+		row("fix", "classifier", `${model ?? "a classifier judge"} needs a model written "provider/model-id"`);
+	} else if (!names) {
+		row("--", "classifier", `${model}: a provider of your own; its key is the one models.json names`);
+	} else if (names.every(has)) {
+		row("ok", "classifier", `${model}: ${names.length > 0 ? `${names.join(", ")} set (value not shown)` : "no key needed"}`);
+	} else {
+		const unset = names.filter((name) => !has(name));
+		row(
+			authBytes > 8 ? "--" : "fix",
+			"classifier",
+			`${model}: ${unset.join(" and ")} not set${authBytes > 8 ? `; a key stored with /login ${provider} works too (not read here)` : `: add ${unset.join(", ")} ${where}, or store a key with /login ${provider}`}`,
+		);
+	}
+}
+
+// CLM-8B behind `clm-serve` (github.com/Contrastive-LM/CLM), for the tiers and routes that use it.
+/** As packages/kyrn-judge/src/providers/typesafe.ts reads a CLM address: `http://host:8700` is enough. */
+function clmEndpoint(baseUrl) {
+	const url = (baseUrl || "http://127.0.0.1:8700").replace(/\/+$/, "");
+	if (!URL.canParse(url)) return url;
+	const path = new URL(url).pathname;
+	return path === "/" ? `${url}/v1/systemone` : path === "/v1" ? `${url}/systemone` : url;
+}
+const judgeOf = (tier) => config?.judges?.[tier] ?? JEV_ROUTES[tier] ?? (tier === "clm" ? { type: "clm" } : undefined);
+const routeTiers = Object.values(config?.routes ?? {}).flatMap((value) => (Array.isArray(value) ? value : String(value).split(",")));
+const clmJudges = [...new Set([...tiers, ...routeTiers].map((tier) => String(tier).trim()))]
+	.map(judgeOf)
+	.filter((judge) => judge?.type === "clm");
+for (const endpoint of new Set(clmJudges.map((judge) => clmEndpoint(judge.baseUrl)))) {
+	const judges = clmJudges.filter((judge) => clmEndpoint(judge.baseUrl) === endpoint);
+	const base = endpoint.replace(/\/v1\/systemone$/, "");
+	const host = URL.canParse(endpoint) ? new URL(endpoint).host : endpoint;
+	const startedAt = performance.now();
+	let health;
+	try {
+		health = await (await fetch(`${base}/health`, { signal: AbortSignal.timeout(3000) })).json();
+	} catch {}
+	const ms = Math.round(performance.now() - startedAt);
+	if (health?.ok !== true) {
+		row("fix", "clm", `${base} does not answer: start clm-serve there, or point the judge's baseUrl in mu.json at one`);
+		continue;
+	}
+	const served = Array.isArray(health.models) ? health.models : [];
+	const missing = [...new Set(judges.map((judge) => judge.model || "clm-latest"))].filter((model) => !served.includes(model));
+	if (health.embedder === false) {
+		row("fix", "clm", `${host} answers, but its encoder does not: every question fails until the embedding server is up`);
+	} else if (missing.length > 0) {
+		row("fix", "clm", `${host} does not serve ${missing.join(", ")} (it serves ${served.join(", ")})`);
+	} else {
+		row("ok", "clm", `${host} · ${served.join(", ")} · ${ms} ms`);
+	}
+	if (health.mock) row("--", "", "this server runs CLM's mock encoder: its answers are noise, not CLM's");
+	// /health is open to anyone; /v1/models asks for the key when the server was started with one.
+	let status = 0;
+	try {
+		status = (await fetch(`${base}/v1/models`, { signal: AbortSignal.timeout(3000) })).status;
+	} catch {}
+	const keyNames = [...new Set(judges.map((judge) => judge.apiKeyEnv ?? "MU_JUDGE_CLM_API_KEY"))];
+	const unset = keyNames.filter((name) => !has(name));
+	if (status === 401) {
+		row(
+			unset.length > 0 ? "fix" : "--",
+			"",
+			unset.length > 0
+				? `it asks for a key: add ${unset.join(", ")} ${where}`
+				: `it asks for a key: ${keyNames.join(", ")} is set (value not shown)`,
+		);
+	}
+}
+
+// A file URL: Windows cannot import "C:\\..." as it stands. The package carries this module built to JavaScript.
+const { browserAdvice, findBrowser, thisBrowserHost } = await import(
+	pathToFileURL(
+		layout === "package"
+			? join(root, "judge", "dist", "chrome.js")
+			: join(root, "packages", "kyrn-judge", "src", "browser", "chrome.ts"),
+	).href
+);
+const browserHost = thisBrowserHost();
+const chrome = findBrowser(browserHost);
+const [advice, ...moreAdvice] = chrome ? [] : browserAdvice(browserHost).split("\n");
+row(
+	chrome ? "ok" : "fix",
+	"browser",
+	chrome ? `${chrome.executable}${chrome.side === "windows" ? "  (on the Windows side, reached over mirrored networking)" : ""}` : advice,
+);
+for (const line of moreAdvice) row("--", "", line);
+const canRelate = (tier) =>
+	tier.startsWith("jev") ||
+	tier === "gateway" ||
+	tier.startsWith("llm:") ||
+	tier.startsWith("classifier:") ||
+	["llm", "clm", "classifier"].includes(judgeOf(tier)?.type);
+const browseTiers = config?.routes?.["browser.step"] ?? tiers;
+const routed = Object.entries(config?.routes ?? {});
+if (routed.length > 0) row("--", "routes", routed.map(([id, value]) => `${id} -> ${[value].flat().join(" > ")}`).join(" · "));
+row(
+	[browseTiers].flat().some(canRelate) ? "ok" : "--",
+	"browse",
+	[browseTiers].flat().some(canRelate)
+		? `driven by ${[browseTiers].flat().join(" > ")}`
+		: 'needs a judge that can relate a goal to a page. In mu.json: "routes": { "browser.step": ["luna"] }',
+);
+
+const marks = { ok: "\x1b[32m ok\x1b[0m", fix: "\x1b[33mfix\x1b[0m", "--": "\x1b[2m  ·\x1b[0m" };
+const plain = !process.stdout.isTTY;
+for (const [state, name, text] of rows) {
+	console.log(`${plain ? state.padStart(3) : marks[state]}  ${name.padEnd(13)}${text}`);
+}
+process.exit(rows.some(([state]) => state === "fix") ? 1 : 0);

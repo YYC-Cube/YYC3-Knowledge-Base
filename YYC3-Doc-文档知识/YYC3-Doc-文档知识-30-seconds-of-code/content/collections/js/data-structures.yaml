@@ -1,0 +1,32 @@
+slug: js/data-structures
+title: JavaScript Data Structures
+miniTitle: Data Structures
+parent: js
+listed: true
+snippetIds:
+  - js/s/native-data-structures
+  - js/s/data-structures-queue
+  - js/s/data-structures-stack
+  - js/s/data-structures-linked-list
+  - js/s/data-structures-doubly-linked-list
+  - js/s/data-structures-graph
+  - js/s/data-structures-tree
+  - js/s/data-structures-binary-tree
+  - js/s/data-structures-binary-search-tree
+  - js/s/undirected-tree-from-edges
+  - js/s/undirected-tree-dfs-bfs
+  - js/s/undirected-tree-bipartite-coloring
+  - js/s/undirected-tree-diameter
+  - js/s/undirected-tree-degree-min-height-tree
+  - js/s/modeling-money-currency-exchange-rates
+  - js/s/matrix-data-structure
+  - js/s/big-o-cheatsheet
+splash: purple-flower
+description: >-
+  The JavaScript data structures collection includes implementations and
+  examples of some of the most commonly-used data structures. Code presented in
+  these articls is **best used as a learning resource**, as it might require
+  optimizations to run in production.
+shortDescription: >-
+  A guide to some of the most commonly-used data structures, along with
+  JavaScript implementations and examples.

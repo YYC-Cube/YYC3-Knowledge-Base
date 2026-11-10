@@ -1,0 +1,48 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.2, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+rootdir: /tmp/synthetic/pytest
+plugins: typeguard-4.5.1, anyio-4.9.0, cov-7.1.0, hydra-core-1.3.2
+collecting ... collected 29 items
+
+test_users.py::test_normalizes_name[ann] PASSED                          [  3%]
+test_users.py::test_normalizes_name[bob] PASSED                          [  6%]
+test_users.py::test_normalizes_name[cy] PASSED                           [ 10%]
+test_users.py::test_normalizes_name[dee] PASSED                          [ 13%]
+test_users.py::test_normalizes_name[eli] PASSED                          [ 17%]
+test_users.py::test_normalizes_name[fay] PASSED                          [ 20%]
+test_users.py::test_normalizes_name[gus] PASSED                          [ 24%]
+test_users.py::test_normalizes_name[hal] PASSED                          [ 27%]
+test_users.py::test_normalizes_name[ida] PASSED                          [ 31%]
+test_users.py::test_normalizes_name[jo] PASSED                           [ 34%]
+test_users.py::test_normalizes_name[kim] PASSED                          [ 37%]
+test_users.py::test_normalizes_name[lee] PASSED                          [ 41%]
+test_users.py::test_normalizes_name[mo] PASSED                           [ 44%]
+test_users.py::test_normalizes_name[ned] PASSED                          [ 48%]
+test_users.py::test_normalizes_name[ola] PASSED                          [ 51%]
+test_users.py::test_normalizes_name[pam] PASSED                          [ 55%]
+test_users.py::test_normalizes_name[quin] PASSED                         [ 58%]
+test_users.py::test_normalizes_name[ray] PASSED                          [ 62%]
+test_users.py::test_normalizes_name[sue] PASSED                          [ 65%]
+test_users.py::test_normalizes_name[ted] PASSED                          [ 68%]
+test_users.py::test_normalizes_name[uma] PASSED                          [ 72%]
+test_users.py::test_normalizes_name[vic] PASSED                          [ 75%]
+test_users.py::test_normalizes_name[wes] PASSED                          [ 79%]
+test_users.py::test_normalizes_name[xia] PASSED                          [ 82%]
+test_users.py::test_normalizes_name[yul] PASSED                          [ 86%]
+test_users.py::test_normalizes_name[zed] PASSED                          [ 89%]
+test_users.py::test_loads_user_from_db ERROR                             [ 93%]
+test_users.py::test_syncs_with_ldap SKIPPED (needs the staging LDAP ...) [ 96%]
+test_users.py::test_rejects_empty_name PASSED                            [100%]
+
+==================================== ERRORS ====================================
+__________________ ERROR at setup of test_loads_user_from_db ___________________
+
+    @pytest.fixture
+    def db():
+>       raise ConnectionError("could not connect to postgres at localhost:5432")
+E       ConnectionError: could not connect to postgres at localhost:5432
+
+conftest.py:4: ConnectionError
+=========================== short test summary info ============================
+ERROR test_users.py::test_loads_user_from_db - ConnectionError: could not con...
+==================== 27 passed, 1 skipped, 1 error in 0.04s ====================

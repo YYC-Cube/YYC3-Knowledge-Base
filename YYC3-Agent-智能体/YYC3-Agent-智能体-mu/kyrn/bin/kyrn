@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# The command was renamed to `mu` on 2026-09-21. This name stays so that old links and the desktop adapter keep working.
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -L "$SOURCE" ]]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+exec "$(cd -P "$(dirname "$SOURCE")" && pwd)/mu" "$@"

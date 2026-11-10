@@ -1,0 +1,514 @@
+ionic-app-wizard {
+  width: 100%;
+}
+
+#app-wizard {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  .form-area {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  hgroup {
+    text-align: center;
+    margin-bottom: 32px;
+
+    h2 {
+      font-size: 32px;
+      line-height: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      font-weight: normal;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      margin-top: 16px;
+      color: #414D5C;
+    }
+  }
+
+  button ion-icon {
+    vertical-align: middle;
+    margin-top: -1px
+  }
+
+  label {
+    font-size: 12px;
+    line-height: 15px;
+    font-weight: normal;
+    color: var(--c-carbon-200);
+    margin-bottom: 14px;
+  }
+
+  ui-floating-input {
+    margin-bottom: 25px;
+  }
+
+  .next-button-wrapper {
+    margin-top: 20px;
+  }
+
+  .app-icon-group {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    column-gap: 56px;
+    margin-bottom: 15px;
+
+    input[type="file"] {
+      visibility: hidden;
+      width: 0;
+    }
+
+    .app-icon-wrapper {
+      width: 96px;
+      height: 96px;
+      min-width: 96px;
+      min-height: 96px;
+
+      .app-icon-dropping-icon {
+        display: none;
+        color: white;
+        svg {
+          fill: white;
+          stroke: white;
+        }
+      }
+
+      &.app-icon-dropping {
+        border: 2px solid var(--c-blue-800);
+        border-radius: 32px;
+        padding: 2px;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        .app-icon-dropping-wrapper {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 32px;
+          background-color: rgba(255, 255, 255, 0.4);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 2;
+        }
+
+        .app-icon-dropping-icon {
+          display: block;
+          background-color: var(--c-blue-800);
+          border-radius: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 32px;
+          height: 32px;
+          font-size: 22px;
+          color: white;
+        }
+
+        .app-icon-hover {
+          display: none;
+        }
+
+        .app-icon {
+          border-radius: 28px;
+          width: 88px;
+          height: 88px;
+          min-width: 88px;
+          min-height: 88px;
+
+          .app-icon-image {
+            width: 58px;
+            height: 58px;
+          }
+        }
+      }
+    }
+
+    .app-icon {
+      width: 96px;
+      height: 96px;
+      min-width: 96px;
+      min-height: 96px;
+      position: relative;
+      border-radius: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 64px;
+      user-select: none;
+      margin-bottom: 12px;
+
+      .app-icon-hover {
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        background: rgba(0,0,0,0.3);
+        color: white;
+        align-items: flex-end;
+        justify-content: center;
+      }
+
+      .app-icon-hover-icons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 14px;
+        margin-bottom: 4px;
+        font-size: 26px;
+        justify-content: center;
+        align-items: center;
+        color: var(--c-grey-300);
+
+        .icon {
+          text-align: center;
+          svg {
+            stroke: var(--c-grey-300);
+          }
+        }
+
+        .icon:hover {
+          cursor: pointer;
+          svg {
+            stroke: white;
+          }
+        }
+      }
+
+      &:hover {
+        .app-icon-hover {
+          display: flex;
+        }
+      }
+
+      .app-icon-image {
+        width: 64px;
+        height: 64px;
+      }
+      .app-icon-image-uploaded {
+        background-size: 100%;
+        width: 96px;
+        height: 96px;
+        border-radius: 32px;
+      }
+    }
+
+    .app-icon-upload {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px;
+    }
+  }
+
+  .info-circle {
+    font-size: 16px;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  .finish {
+    text-align: center;
+    hgroup {
+      margin: 76px 0 24px 0;
+      .icon {
+        font-size: 36px;
+        margin-bottom: 8px;
+      }
+    }
+
+    .creating-app {
+      code {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 65px;
+        text-align: center;
+      }
+    }
+
+    pre {
+      text-align: left;
+      background: #0E151F;
+      border-radius: 6px;
+      border: none;
+      padding: 0px 16px;
+      color: white;
+      width: 400px;
+      margin: auto;
+
+      code {
+        border: none;
+        font-size: 16px
+      }
+    }
+
+    .info {
+      margin-top: 12px;
+      margin-bottom: 16px;
+    }
+
+    hr {
+      width: 50%;
+      margin: 50px auto 0;
+    }
+
+    .social {
+      max-width: 80%;
+      margin: auto;
+      margin-top: 16px;
+      display: flex;
+      column-gap: 16px;
+      justify-content: center;
+    }
+  }
+
+  .frameworks {
+    user-select: none;
+
+    .framework {
+      text-align: center;
+
+      &.soon {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+
+    .framework-logo {
+      background: url('/img/start/js-framework-sprite.png') no-repeat transparent;
+      background-size: 56px;
+      margin: 15px auto;
+      width: 56px;
+      height: 56px;
+    }
+
+    .framework-angular { background-position: 0 -56px; }
+    .framework-react { background-position: 0 -168px; }
+    .framework-vue { background-position: 0 -280px; }
+
+    .selected {
+      border: 2px solid #3880FF !important;
+
+      h5 {
+        color: #4D8DFF;
+      }
+      .framework-angular { background-position: 0 0; }
+      .framework-react { background-position: 0 -112px; }
+      .framework-vue { background-position: 0 -224px; }
+    }
+
+  }
+
+  .themes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(34px, 1fr));
+    column-gap: 5px;
+    row-gap: 5px;
+    align-items: center;
+    margin-bottom: 16px;
+    user-select: none;
+    .theme {
+      width: 34px;
+      height: 34px;
+      line-height: 34px;
+      text-align: center;
+
+      border-radius: 100%;
+
+      user-select: none;
+
+      opacity: 0.6;
+
+      cursor: pointer;
+
+      &.selected {
+        opacity: 1;
+
+        svg {
+          vertical-align: middle;
+          margin-top: -1px;
+        }
+      }
+
+      &.pick-theme {
+        position: relative;
+        margin-top: -2px;
+        margin-left: -2px;
+        width: 38px;
+        height: 38px;
+        border: 2px solid #E9EDF3;
+        padding: 0;
+        color: #5B708B;
+        font-size: 20px;
+        text-align: center;
+        ion-icon {
+          vertical-align: middle;
+          margin-top: -2px;
+        }
+
+        .color-picker {
+          position: absolute;
+          left: 0;
+          visibility: collapse;
+          bottom: 10px;
+        }
+      }
+    }
+  }
+
+  .templates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 120px);
+    column-gap: 10px;
+    row-gap: 10px;
+    justify-content: space-between;
+
+    .template {
+      flex-shrink: 1;
+      cursor: pointer;
+
+      &.selected {
+        .template-image {
+          border: 2px solid #3880FF !important;
+        }
+
+        h5 {
+          color: #4D8DFF;
+        }
+      }
+
+      .template-image {
+        background-size: 100%;
+        background-color: transparent;
+        margin: auto;
+        width: 120px;
+        height: 140px;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        box-shadow: 0px 2px 4px rgba(0, 13, 36, 0.04), 0px 2px 8px rgba(0, 13, 36, 0.1);
+      }
+
+      .template-tabs {
+        background-image: url('/img/start/starter-template-tabs.png');
+      }
+
+      .template-sidemenu {
+        background-image: url('/img/start/starter-template-menu.png');
+      }
+
+      .template-list {
+        background-image: url('/img/start/starter-template-list.png');
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+      h5 {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-size: 9px;
+        line-height: 11px;
+        text-align: center;
+        letter-spacing: 0.1em;
+      }
+    }
+  }
+
+  .frameworks {
+    display: flex;
+    grid-template-columns: repeat(auto-fit, 120px);
+    column-gap: 10px;
+    row-gap: 10px;
+    justify-content: space-between;
+
+    .framework {
+      flex: 0;
+      min-width: 120px;
+      cursor: pointer;
+      height: 120px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      box-shadow: 0px 2px 4px rgba(0, 13, 36, 0.04), 0px 2px 8px rgba(0, 13, 36, 0.1);
+      font-size: 14px;
+
+      h5 {
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: -0.01em;
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .notice {
+      position: static;
+      border: 0;
+    }
+    .wrapper {
+      max-width: 100%;
+      margin: 0;
+      padding: 16px;
+    }
+    .form {
+      padding: 0;
+    }
+    .templates {
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      .template {
+        flex-grow: 0;
+      }
+    }
+    .frameworks {
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      .framework {
+        flex-grow: 0;
+      }
+    }
+
+    .finish {
+      pre {
+        width: 100%;
+        code {
+          font-size: 13px;
+        }
+      }
+
+      hgroup {
+        margin-top: 32px;
+        .icon {
+          font-size: 24px;
+        }
+        h2 {
+          font-size: 28px;
+        }
+      }
+    }
+  }
+}

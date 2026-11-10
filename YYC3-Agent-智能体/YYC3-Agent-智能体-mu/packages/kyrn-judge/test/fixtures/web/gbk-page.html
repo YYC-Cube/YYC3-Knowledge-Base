@@ -1,0 +1,15 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>Node.js 读取 GBK 编码文件的方法 - 示例技术博客</title>
+</head>
+<body>
+<div class="nav"><a href="/">首页</a> | <a href="/archive">归档</a></div>
+<div id="post">
+<h1>Node.js 读取 GBK 编码文件的方法</h1>
+<p>很多老网站仍然使用 GB2312 或 GBK 编码。Node.js 自带的 <code>TextDecoder</code> 可以直接解码：</p>
+<pre>const text = new TextDecoder("gbk").decode(buffer);</pre>
+<p>注意：繁体页面常用 Big5，做法相同。更多内容见<a href="/posts/encoding.html">编码专题</a>。</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+debug: slugify('你好 world') -> "world"
+▶ slugify
+  ✔ slugifies "Hello World" (1.047167ms)
+  ✔ slugifies "Crème brûlée" (0.183458ms)
+  ✔ slugifies "  padded  " (0.0625ms)
+  ✔ slugifies "a_b" (0.052666ms)
+  ✔ slugifies "100% sure" (0.047375ms)
+  ✔ slugifies "Ünïcödé" (0.106666ms)
+  ✔ slugifies "dots.in.name" (0.057958ms)
+  ✔ slugifies "UPPER" (0.041583ms)
+  ✔ slugifies "tabs\tand\nlines" (0.050333ms)
+  ✔ slugifies "emoji 🎉 party" (0.109459ms)
+  ✔ slugifies "already-slugged" (0.706792ms)
+  ✔ slugifies "trailing-" (0.043625ms)
+  ✔ preserves number 0 (0.048709ms)
+  ✔ preserves number 1 (0.027125ms)
+  ✔ preserves number 2 (0.021042ms)
+  ✔ preserves number 3 (0.039709ms)
+  ✔ preserves number 4 (0.032042ms)
+  ✔ preserves number 5 (0.017958ms)
+  ✔ preserves number 6 (0.02025ms)
+  ✔ preserves number 7 (0.016459ms)
+  ✔ preserves number 8 (0.018375ms)
+  ✔ preserves number 9 (0.016708ms)
+  ✔ preserves number 10 (0.014792ms)
+  ✔ preserves number 11 (0.022333ms)
+  ✔ preserves number 12 (0.017541ms)
+  ✔ preserves number 13 (0.014833ms)
+  ✔ preserves number 14 (0.018916ms)
+  ✔ preserves number 15 (0.014334ms)
+  ✔ preserves number 16 (0.014375ms)
+  ✔ preserves number 17 (0.013959ms)
+  ✔ preserves number 18 (0.013917ms)
+  ✔ preserves number 19 (0.018875ms)
+  ✔ preserves number 20 (0.014ms)
+  ✔ preserves number 21 (0.013959ms)
+  ✔ preserves number 22 (0.014083ms)
+  ✔ preserves number 23 (0.018709ms)
+  ✔ preserves number 24 (0.020333ms)
+  ✔ preserves number 25 (0.015125ms)
+  ✔ preserves number 26 (0.0155ms)
+  ✔ preserves number 27 (0.021625ms)
+  ✔ preserves number 28 (0.024708ms)
+  ✔ preserves number 29 (0.017459ms)
+  ✖ keeps CJK characters (0.887167ms)
+✖ slugify (4.97225ms)
+ℹ tests 43
+ℹ suites 1
+ℹ pass 42
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 56.47275
+
+✖ failing tests:
+
+test at slug.test.mjs:9:2
+✖ keeps CJK characters (0.887167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'world'
+  - '你好-world'
+  
+      at TestContext.<anonymous> (file:///tmp/synthetic/node-test/slug.test.mjs:11:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Suite.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'world',
+    expected: '你好-world',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

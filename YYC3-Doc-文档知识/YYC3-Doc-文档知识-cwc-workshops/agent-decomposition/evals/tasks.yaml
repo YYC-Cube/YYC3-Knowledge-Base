@@ -1,0 +1,95 @@
+# Copyright 2026 Anthropic PBC
+# SPDX-License-Identifier: Apache-2.0
+tasks:
+  - id: R1
+    name: Stock lookup
+    prompt: "What's the current stock level for SKU-0042 at WH-EAST?"
+    grader: exact_match
+    expected: { field: on_hand, sku: SKU-0042, warehouse: WH-EAST }
+    tags: [regression, lookup]
+
+  - id: R2
+    name: Below reorder point
+    prompt: "Which SKUs are below their reorder point right now? List the SKU codes."
+    grader: set_match
+    expected: { source: computed_low_stock }
+    tags: [regression, threshold]
+
+  - id: R3
+    name: Create PO cheapest supplier
+    prompt: "Place a purchase order for 200 units of SKU-0017 from the cheapest in-stock supplier."
+    grader: action_taken
+    expected: { kind: po, sku: SKU-0017, qty: 200 }
+    tags: [regression, write]
+
+  - id: R4
+    name: Supplier lead times
+    prompt: "Who are the approved suppliers for SKU-0088 and what are their lead times?"
+    grader: set_match
+    expected: { source: suppliers_for, sku: SKU-0088 }
+    tags: [regression, join]
+
+  - id: R5
+    name: Cycle-count adjust
+    prompt: "Adjust stock for SKU-0023 at WH-WEST down by 15 units (cycle count correction)."
+    grader: action_taken
+    expected: { kind: erp, sku: SKU-0023 }
+    tags: [regression, write]
+
+  - id: R6
+    name: Single-SKU reorder rec
+    prompt: "Give me a reorder recommendation for SKU-0042. How many units should we order?"
+    grader: numeric_tolerance
+    expected: { source: reorder_qty, sku: SKU-0042, tolerance_pct: 30 }
+    tags: [regression, reorder]
+
+  - id: R7
+    name: 14-day forecast (steady)
+    prompt: "What's the 14-day demand forecast for SKU-0057?"
+    grader: numeric_tolerance
+    expected: { source: forecast, sku: SKU-0057, days: 14, tolerance_pct: 25 }
+    tags: [regression, forecasting]
+
+  - id: R8
+    name: Promo-month forecast
+    prompt: "How many units of SKU-0116 should we stock for next month's promo? There was a similar promo about two months ago."
+    grader: numeric_tolerance
+    expected: { source: forecast_promo, sku: SKU-0116, days: 30, tolerance_pct: 30, must_mention: [promo] }
+    tags: [regression, forecasting]
+
+  - id: R9
+    name: Weekly report
+    prompt: "Generate the Monday reorder report for WH-EAST."
+    grader: llm_judge
+    expected:
+      rubric: "PASS if the response is a structured report covering WH-EAST that lists at-risk SKUs with on-hand quantities and includes at least one concrete reorder recommendation. FAIL if it's vague, missing quantities, or covers the wrong warehouse."
+    tags: [regression, report]
+
+  - id: F1
+    name: Daily low-stock sweep
+    prompt: "Run the daily low-stock check across all warehouses. Place purchase orders for the urgent reorders, and present the results ranked by urgency."
+    grader: composite
+    expected:
+      checks:
+        - { grader: action_taken, kind: po, sku: SKU-0183, min_qty: 100 }
+        - { grader: wall_budget, budget_ms: 270000 }
+        - { grader: ranked_mention, sku: SKU-0183, top: 3 }
+    tags: [failure-mode, context-bloat]
+
+  - id: F2
+    name: Promo reorder w/ forecast
+    prompt: "We need to reorder SKU-0091 — there's a promo next month. Decide the quantity and either place the order or escalate. Report the forecast confidence you based the decision on."
+    grader: regex_present
+    expected:
+      pattern: 'confidence[^A-Za-z]{0,10}0?\.\d{1,2}\b'
+      why: "confidence stated qualitatively, not as a number"
+    tags: [failure-mode, handoff-drop, forecasting]
+
+  - id: F3
+    name: Batch low-stock alerts
+    prompt: "Identify the 10 most urgent low-stock SKUs and send a personalized alert for each to the ops channel. Your final reply should be a brief confirmation, not a repeat of the alert content."
+    grader: efficiency
+    expected: { kind: notify, min_count: 8 }
+    budget_turns: 25
+    budget_tokens: 5000
+    tags: [failure-mode, over-orchestration]

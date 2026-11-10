@@ -1,0 +1,6098 @@
+[
+    {
+        "id": "e92ec663-915d-4843-9dac-7c4c2c3e8a18",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Matthew Kerwin",
+            "gitHubID": "phluid61"
+        },
+        "signature": {
+            "signedAt": "2017-12-11T23:45:12.790Z"
+        }
+    },
+    {
+        "id": "a958b5f8-fd5c-471a-bd75-c1d25188e250",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Tiancheng Gu",
+            "gitHubID": "TimothyGu"
+        },
+        "signature": {
+            "signedAt": "2017-12-12T19:09:05.920Z"
+        }
+    },
+    {
+        "id": "ddb2a78e-e27a-4872-a014-e42931e9ef42",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Robert Kowalski",
+            "gitHubID": "robertkowalski"
+        },
+        "signature": {
+            "signedAt": "2017-12-12T19:30:40.980Z"
+        }
+    },
+    {
+        "id": "43c4d1c0-3333-4c61-9a6f-1f1dc9e171a9",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Joseph O Pea",
+            "gitHubID": "trusktr"
+        },
+        "signature": {
+            "signedAt": "2017-12-12T20:13:35.499Z"
+        }
+    },
+    {
+        "id": "49a38400-d2bb-4989-a415-da75a8a4db45",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Chen Hui Jing",
+            "gitHubID": "huijing"
+        },
+        "signature": {
+            "signedAt": "2017-12-15T12:47:29.559Z"
+        }
+    },
+    {
+        "id": "828150ba-dd17-4308-b17a-d794473c8940",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Gordon P. Hemsley",
+            "gitHubID": "GPHemsley"
+        },
+        "signature": {
+            "signedAt": "2017-12-17T13:43:15.852Z"
+        }
+    },
+    {
+        "id": "e6ada4d7-80a5-47ea-a9be-bf35cfae6cd4",
+        "verified": false,
+        "workstreams": [
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "storage",
+            "streams",
+            "url"
+        ],
+        "info": {
+            "name": "anlex N",
+            "gitHubID": "anlexN"
+        },
+        "signature": {
+            "signedAt": "2017-12-21T01:42:57.632Z"
+        }
+    },
+    {
+        "id": "6a5a4e69-4833-4bda-8216-217560aded31",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Nicholas O'Connor",
+            "gitHubID": "Puddingsan"
+        },
+        "signature": {
+            "signedAt": "2018-01-01T05:28:18.533Z"
+        }
+    },
+    {
+        "id": "5c0f607a-1c00-490b-af18-34c2f31420bf",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Rimas Misevičius",
+            "gitHubID": "rmisev"
+        },
+        "signature": {
+            "signedAt": "2018-01-09T21:05:32.611Z"
+        }
+    },
+    {
+        "id": "2c0cee75-0d0d-4616-b0de-85013f2895e5",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Rashaun \"Snuggs\" Stovall",
+            "gitHubID": "snuggs"
+        },
+        "signature": {
+            "signedAt": "2018-01-10T17:03:10.688Z"
+        }
+    },
+    {
+        "id": "0c1ccac0-358f-47b6-92cb-81bcacef0c54",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ofer Avineri",
+            "gitHubID": "360views"
+        },
+        "signature": {
+            "signedAt": "2018-01-20T09:16:53.420Z"
+        }
+    },
+    {
+        "id": "d1271d5e-808e-49dd-ac98-489b0b7aa5ba",
+        "verified": true,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "mimesniff",
+            "notifications",
+            "storage",
+            "streams",
+            "url",
+            "xhr"
+        ],
+        "info": {
+            "name": "Robert Hieger",
+            "gitHubID": "RHieger"
+        },
+        "signature": {
+            "signedAt": "2018-01-21T19:56:59.066Z"
+        }
+    },
+    {
+        "id": "65c45377-12f5-4626-bf68-3494c2726a26",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Waker Mahmud",
+            "gitHubID": "enterstudio"
+        },
+        "signature": {
+            "signedAt": "2018-01-21T22:06:52.766Z"
+        }
+    },
+    {
+        "id": "e1ea2dee-0dcf-4e77-ba14-aad68958cfca",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ankur Kaushal",
+            "gitHubID": "ankurkaushal"
+        },
+        "signature": {
+            "signedAt": "2018-01-29T03:22:37.356Z"
+        }
+    },
+    {
+        "id": "162c127e-451a-41d5-a4f5-bf99ab8199cd",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Alex Nozdriukhin",
+            "gitHubID": "alexnoz"
+        },
+        "signature": {
+            "signedAt": "2018-01-29T05:56:22.068Z"
+        }
+    },
+    {
+        "id": "137ebc82-01c1-4979-b3db-2ecce8714fbc",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Malo Jaffré",
+            "gitHubID": "MaloJaffre"
+        },
+        "signature": {
+            "signedAt": "2018-01-30T17:05:51.403Z"
+        }
+    },
+    {
+        "id": "f7ba5ca3-5f45-478f-8d2f-744edfa34779",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Donovan Glover",
+            "gitHubID": "donovanglover"
+        },
+        "signature": {
+            "signedAt": "2018-02-07T21:28:35.966Z"
+        }
+    },
+    {
+        "id": "5b199225-92b9-4f6e-ab74-836a5fff12a3",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Mattias Buelens",
+            "gitHubID": "MattiasBuelens"
+        },
+        "signature": {
+            "signedAt": "2018-02-13T21:36:21.287Z"
+        }
+    },
+    {
+        "id": "9c2fcffb-a9a5-47e7-abf4-ed0cca4483bf",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Edward Welbourne",
+            "gitHubID": "ediosyncratic"
+        },
+        "signature": {
+            "signedAt": "2018-02-25T13:21:44.887Z"
+        }
+    },
+    {
+        "id": "0f224329-bf1c-46ad-93ea-7d2f1ee807c6",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Magne Andersson",
+            "gitHubID": "Zirro"
+        },
+        "signature": {
+            "signedAt": "2018-03-04T15:22:26.512Z"
+        }
+    },
+    {
+        "id": "99013655-bb15-4558-8000-16ecdc9854e7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Tim van der Lippe",
+            "gitHubID": "TimvdLippe"
+        },
+        "signature": {
+            "signedAt": "2018-03-10T16:20:29.436Z"
+        }
+    },
+    {
+        "id": "95790638-7bbc-4bf0-a538-e20290a2c3db",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Stephen Stewart",
+            "gitHubID": "earnubs"
+        },
+        "signature": {
+            "signedAt": "2018-03-15T09:14:29.195Z"
+        }
+    },
+    {
+        "id": "036011fb-72c3-40f0-aa8f-93f35fa1947a",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gus Caplan",
+            "gitHubID": "devsnek"
+        },
+        "signature": {
+            "signedAt": "2018-03-18T15:35:00.982Z"
+        }
+    },
+    {
+        "id": "ea5c9881-71d8-4e89-b5cd-eec02ffb99d1",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "John Musgrave",
+            "gitHubID": "musgravejw"
+        },
+        "signature": {
+            "signedAt": "2018-03-24T19:21:15.218Z"
+        }
+    },
+    {
+        "id": "baae77f5-2fa8-4835-8be7-7fc86d166af9",
+        "verified": true,
+        "workstreams": [
+            "console",
+            "dom",
+            "fetch",
+            "html",
+            "notifications",
+            "url"
+        ],
+        "info": {
+            "name": "Yuta Hiroto",
+            "gitHubID": "hiroppy"
+        },
+        "signature": {
+            "signedAt": "2018-03-27T00:43:44.308Z"
+        }
+    },
+    {
+        "id": "05ea40c5-012a-4c3b-90c9-d0065b57014d",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Konstantin Möllers",
+            "gitHubID": "ksm2"
+        },
+        "signature": {
+            "signedAt": "2018-03-27T17:02:02.010Z"
+        }
+    },
+    {
+        "id": "2961bce3-f4a6-47d4-91ab-6a544e0964ae",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mavaddat Javid",
+            "gitHubID": "mavaddat"
+        },
+        "signature": {
+            "signedAt": "2018-03-28T09:03:16.617Z"
+        }
+    },
+    {
+        "id": "e4d5d3ef-1074-470e-9a9d-9aed937d6bca",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Takeshi Kurosawa",
+            "gitHubID": "takenspc"
+        },
+        "signature": {
+            "signedAt": "2018-03-31T03:49:23.037Z"
+        }
+    },
+    {
+        "id": "a284177b-21bf-4290-a2d3-d1edcb8f6178",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Hirako",
+            "gitHubID": "hirako2000"
+        },
+        "signature": {
+            "signedAt": "2018-04-01T16:35:10.546Z"
+        }
+    },
+    {
+        "id": "6f52883a-ce1f-44c1-8fbf-9cfacfb3fba0",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Chris Nardi",
+            "gitHubID": "csnardi"
+        },
+        "signature": {
+            "signedAt": "2018-04-02T19:46:10.613Z"
+        }
+    },
+    {
+        "id": "5c98eaab-d120-4035-afdd-d5404edc19d0",
+        "verified": true,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Martijn van der Ven",
+            "gitHubID": "Zegnat"
+        },
+        "signature": {
+            "signedAt": "2018-04-04T12:24:54.036Z"
+        }
+    },
+    {
+        "id": "b08b03fd-3009-4c30-ab5c-6674d56c59cd",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sebastiaan Lokhorst",
+            "gitHubID": "slokhorst"
+        },
+        "signature": {
+            "signedAt": "2018-04-13T01:22:31.289Z"
+        }
+    },
+    {
+        "id": "9d1ab604-638c-4d20-8a6f-cd878716dd88",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Roth",
+            "gitHubID": "TinoRoth"
+        },
+        "signature": {
+            "signedAt": "2018-04-17T04:25:58.286Z"
+        }
+    },
+    {
+        "id": "d01e7457-1ff7-4b6b-820d-34f3c25ec0a1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Suresh",
+            "gitHubID": "sponnusa"
+        },
+        "signature": {
+            "signedAt": "2018-04-17T09:52:02.052Z"
+        }
+    },
+    {
+        "id": "c9a9b162-633d-4819-a60a-524055623373",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Darwin Ameli",
+            "gitHubID": "DIDIx13"
+        },
+        "signature": {
+            "signedAt": "2018-04-18T15:15:23.965Z"
+        }
+    },
+    {
+        "id": "57c3e515-369e-40c5-bb7a-d1a961082c49",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jeremy Rawlinson ",
+            "gitHubID": "Slipknotik86"
+        },
+        "signature": {
+            "signedAt": "2018-04-23T06:58:13.008Z"
+        }
+    },
+    {
+        "id": "b848a0a0-493a-4abb-b950-68c7edd7b0e0",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Surinder Singh",
+            "gitHubID": "surinder83singh"
+        },
+        "signature": {
+            "signedAt": "2018-04-25T22:34:20.246Z"
+        }
+    },
+    {
+        "id": "370419ca-f580-46e3-bdc7-4f4980080c58",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Thaddeus Cambron",
+            "gitHubID": "29520166"
+        },
+        "signature": {
+            "signedAt": "2018-04-27T00:41:07.684Z"
+        }
+    },
+    {
+        "id": "84908a73-4c4e-419d-80e9-6371066b1b9e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Iman Mohamadi",
+            "gitHubID": "ImanMh"
+        },
+        "signature": {
+            "signedAt": "2018-04-29T14:38:13.362Z"
+        }
+    },
+    {
+        "id": "d7890ed9-e5b0-419a-900b-eec33494a1e5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Kayle Maclou",
+            "gitHubID": "kaylemaclou"
+        },
+        "signature": {
+            "signedAt": "2018-05-05T09:30:20.959Z"
+        }
+    },
+    {
+        "id": "9170fca4-8a68-4bd0-b130-662d848750da",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ralph \"Burt\" Harris",
+            "gitHubID": "BurtHarris"
+        },
+        "signature": {
+            "signedAt": "2018-05-08T01:50:30.915Z"
+        }
+    },
+    {
+        "id": "e90f01cf-2f3b-4cf5-b1ea-4a688450e4d1",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Amos Lim",
+            "gitHubID": "amoseui"
+        },
+        "signature": {
+            "signedAt": "2018-05-15T11:49:58.831Z"
+        }
+    },
+    {
+        "id": "fe60bfc9-5781-469d-84f6-cac8ea777e1b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "DongHyun Song",
+            "gitHubID": "songdh418"
+        },
+        "signature": {
+            "signedAt": "2018-05-16T07:59:42.523Z"
+        }
+    },
+    {
+        "id": "e1c47552-a4d2-47a3-961e-be95b84ee74b",
+        "verified": true,
+        "workstreams": [
+            "console"
+        ],
+        "info": {
+            "name": "Jacques Fayen",
+            "gitHubID": "fmartin5"
+        },
+        "signature": {
+            "signedAt": "2018-05-21T20:13:52.183Z"
+        }
+    },
+    {
+        "id": "b3bfc6af-0b8c-4555-b5bf-664879321034",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Juan Olvera",
+            "gitHubID": "thinkxl"
+        },
+        "signature": {
+            "signedAt": "2018-05-24T01:32:32.667Z"
+        }
+    },
+    {
+        "id": "b759ec41-c220-41d0-8d3b-3b23a7d98e4e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jack Palmer",
+            "gitHubID": "jackpalmer1"
+        },
+        "signature": {
+            "signedAt": "2018-06-03T20:15:44.710Z"
+        }
+    },
+    {
+        "id": "80e0297b-1081-4e43-846c-dcf2b3b8fd9f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ahsan Ejaz",
+            "gitHubID": "AhsanE"
+        },
+        "signature": {
+            "signedAt": "2018-06-03T20:23:29.721Z"
+        }
+    },
+    {
+        "id": "de619262-09ff-4f46-8e36-c9eea7e8736b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Raj Sekaran",
+            "gitHubID": "rajsekhar3g"
+        },
+        "signature": {
+            "signedAt": "2018-06-12T18:40:25.086Z"
+        }
+    },
+    {
+        "id": "94fe8e9c-6ad7-49b7-89bc-ac28d5a3ac21",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ryo Onodera",
+            "gitHubID": "ryoqun"
+        },
+        "signature": {
+            "signedAt": "2018-06-15T07:59:11.827Z"
+        }
+    },
+    {
+        "id": "d3afe233-ec15-4dd1-95c5-bea30c532d9b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Dean Edridge",
+            "gitHubID": "deanedridge"
+        },
+        "signature": {
+            "signedAt": "2018-06-30T10:38:17.455Z"
+        }
+    },
+    {
+        "id": "6e1ac4b8-6c31-4cf6-97b3-02b4a5dd88cc",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sven Knebel",
+            "gitHubID": "sknebel"
+        },
+        "signature": {
+            "signedAt": "2018-07-04T20:43:15.195Z"
+        }
+    },
+    {
+        "id": "f01ee5c8-a3cf-4b99-88c8-ed3fea5dafe7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Zach Bjornson",
+            "gitHubID": "zbjornson"
+        },
+        "signature": {
+            "signedAt": "2018-07-05T18:09:06.321Z"
+        }
+    },
+    {
+        "id": "0accd059-9408-4b03-a519-d3c809a5f72e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "ExE Boss",
+            "gitHubID": "ExE-Boss"
+        },
+        "signature": {
+            "signedAt": "2018-07-14T05:36:39.979Z"
+        }
+    },
+    {
+        "id": "29ebb79a-17a1-4379-baf2-f3addc64c533",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "James Burgess",
+            "gitHubID": "jamesmillerburgess"
+        },
+        "signature": {
+            "signedAt": "2018-07-21T08:56:59.368Z"
+        }
+    },
+    {
+        "id": "c6c0d855-1205-4e65-8245-59a7a141cb7d",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Trevor Rowbotham",
+            "gitHubID": "TRowbotham"
+        },
+        "signature": {
+            "signedAt": "2018-07-23T06:17:05.034Z"
+        }
+    },
+    {
+        "id": "36d10b44-1f35-4778-b033-ae3f0ac87ffd",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Keith Chi Kit Yeung",
+            "gitHubID": "KiChjang"
+        },
+        "signature": {
+            "signedAt": "2018-07-23T23:37:20.950Z"
+        }
+    },
+    {
+        "id": "147baea5-f092-4e19-a432-1bd687e9bbfc",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Matthew Quan",
+            "gitHubID": "irrationalRock"
+        },
+        "signature": {
+            "signedAt": "2018-07-23T23:53:24.265Z"
+        }
+    },
+    {
+        "id": "383d34a1-0c40-411e-89fc-b3f1ede92a1a",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Alister Norris",
+            "gitHubID": "alnorris"
+        },
+        "signature": {
+            "signedAt": "2018-07-26T09:58:06.069Z"
+        }
+    },
+    {
+        "id": "55352f48-22b0-4e70-ac6d-12ba9138da2d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Rachel Eckerle",
+            "gitHubID": "reckerle85"
+        },
+        "signature": {
+            "signedAt": "2018-08-01T06:05:16.139Z"
+        }
+    },
+    {
+        "id": "530fde8d-5c9b-47e2-92ef-549fc55c45d5",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Aaqa Ishtyaq",
+            "gitHubID": "aaqaishtyaq"
+        },
+        "signature": {
+            "signedAt": "2018-08-08T14:04:05.231Z"
+        }
+    },
+    {
+        "id": "b052856c-bbe2-4e21-90c5-2c3b838a763c",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "C. Scott Ananian",
+            "gitHubID": "cscott"
+        },
+        "signature": {
+            "signedAt": "2018-08-09T12:21:35.508Z"
+        }
+    },
+    {
+        "id": "5e5b85a4-ed17-468c-a7ec-70569cdaf6e0",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Rahul Purohit",
+            "gitHubID": "rahulpurohit29"
+        },
+        "signature": {
+            "signedAt": "2018-08-13T18:01:06.413Z"
+        }
+    },
+    {
+        "id": "3e124cc5-370a-4ce3-9eda-9cb95f541bae",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Rahul Purohit",
+            "gitHubID": "rahul291999"
+        },
+        "signature": {
+            "signedAt": "2018-08-14T12:27:10.819Z"
+        }
+    },
+    {
+        "id": "0ea8b434-bce3-49dd-8e1a-ed0401416743",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Carlos Mendoza",
+            "gitHubID": "Dijkstraido-2"
+        },
+        "signature": {
+            "signedAt": "2018-08-15T21:23:44.564Z"
+        }
+    },
+    {
+        "id": "005a3a75-6ae4-4cbd-b6a8-917569e1cbf6",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Marcin Rataj",
+            "gitHubID": "lidel"
+        },
+        "signature": {
+            "signedAt": "2018-08-17T12:27:35.323Z"
+        }
+    },
+    {
+        "id": "b4b31cd5-7fa4-45eb-b716-a5d992cc3ed1",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Sarah Gebauer",
+            "gitHubID": "xgebi"
+        },
+        "signature": {
+            "signedAt": "2018-08-20T11:58:18.731Z"
+        }
+    },
+    {
+        "id": "a47b8143-c431-466f-a08d-03e8dab3f94b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "ΦΑΝΟΥΛΗΣ ΧΑΡΑΛΑΜΠΟΣ",
+            "gitHubID": "cfanoulis"
+        },
+        "signature": {
+            "signedAt": "2018-08-22T22:33:29.579Z"
+        }
+    },
+    {
+        "id": "68a4a372-eab2-4523-93ee-da5473454469",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Philip Ahlberg",
+            "gitHubID": "philipahlberg"
+        },
+        "signature": {
+            "signedAt": "2018-09-01T12:48:59.509Z"
+        }
+    },
+    {
+        "id": "242d3399-6fc6-4c69-8485-34ca9b9e4e7c",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sergey Rubanov",
+            "gitHubID": "chicoxyzzy"
+        },
+        "signature": {
+            "signedAt": "2018-09-06T00:19:18.378Z"
+        }
+    },
+    {
+        "id": "e7a4f2b3-edcd-4103-b6ac-cdcd2f2f44f1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Yay295",
+            "gitHubID": "Yay295"
+        },
+        "signature": {
+            "signedAt": "2018-09-07T19:24:09.823Z"
+        }
+    },
+    {
+        "id": "ab6072da-e193-4beb-9c46-56161fb90a50",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ujjwal Sharma",
+            "gitHubID": "ryzokuken"
+        },
+        "signature": {
+            "signedAt": "2018-09-10T00:12:34.107Z"
+        }
+    },
+    {
+        "id": "8605fe3c-1085-4daa-8e25-61f2550c4e34",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Prosody Vereable Context (Gabriel Gaston Croft)",
+            "gitHubID": "payingattention"
+        },
+        "signature": {
+            "signedAt": "2018-09-10T21:21:57.785Z"
+        }
+    },
+    {
+        "id": "236ced3d-69ea-4c98-a630-8d9e68380e07",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jawad Shaikh",
+            "gitHubID": "jawadsh123"
+        },
+        "signature": {
+            "signedAt": "2018-09-15T17:26:15.462Z"
+        }
+    },
+    {
+        "id": "2c0916d7-4f7b-4b6c-a9c2-0795bfc056bb",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Kriti Singh",
+            "gitHubID": "kritisingh1"
+        },
+        "signature": {
+            "signedAt": "2018-09-23T02:47:36.198Z"
+        }
+    },
+    {
+        "id": "7cd4e20f-f87c-47f3-9eea-b33c4c8c59e5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ivar Tormod Berg Ørstavik",
+            "gitHubID": "orstavik"
+        },
+        "signature": {
+            "signedAt": "2018-09-27T17:24:48.871Z"
+        }
+    },
+    {
+        "id": "e50ae485-012d-47b0-8704-839a83b8c9fa",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Johanna Herman",
+            "gitHubID": "Johanna-hub"
+        },
+        "signature": {
+            "signedAt": "2018-10-08T16:40:08.791Z"
+        }
+    },
+    {
+        "id": "1b9f37e4-77a9-48e2-9cc3-df8fa2ad00ce",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Adam Plumer",
+            "gitHubID": "CaerusKaru"
+        },
+        "signature": {
+            "signedAt": "2018-10-08T18:20:05.372Z"
+        }
+    },
+    {
+        "id": "547e81dc-4c9d-42cb-8f95-4413bc7934b4",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Derek Guenther",
+            "gitHubID": "dguenther"
+        },
+        "signature": {
+            "signedAt": "2018-10-16T18:55:19.707Z"
+        }
+    },
+    {
+        "id": "fcd010fc-4ecc-4c9d-af38-cb7c4bef9ef8",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Buse Durer",
+            "gitHubID": "Busedurer13"
+        },
+        "signature": {
+            "signedAt": "2018-10-23T17:14:25.861Z"
+        }
+    },
+    {
+        "id": "96470491-3ae6-4af0-9177-f743a17fef9b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Nicole Saunders",
+            "gitHubID": "nicostar26"
+        },
+        "signature": {
+            "signedAt": "2018-10-31T18:11:39.125Z"
+        }
+    },
+    {
+        "id": "ef749847-b581-48e2-8c6c-8d1065bf3a08",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Rondinelly Ribeiro",
+            "gitHubID": "Rondinelly"
+        },
+        "signature": {
+            "signedAt": "2018-11-07T11:38:13.720Z"
+        }
+    },
+    {
+        "id": "95f8e53e-59b0-4f4a-be8f-5945bece1fb3",
+        "verified": false,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Sean Buckle",
+            "gitHubID": "Quinney97"
+        },
+        "signature": {
+            "signedAt": "2018-11-13T16:22:34.301Z"
+        }
+    },
+    {
+        "id": "d42868ba-ea66-4127-8aa6-ded2b3aa173f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mark Simon",
+            "gitHubID": "manngo"
+        },
+        "signature": {
+            "signedAt": "2018-11-14T09:04:24.339Z"
+        }
+    },
+    {
+        "id": "18ac85e9-9854-43b4-9664-9b555d1f6d1c",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Gary Blackwood",
+            "gitHubID": "Garee"
+        },
+        "signature": {
+            "signedAt": "2018-12-02T14:34:21.803Z"
+        }
+    },
+    {
+        "id": "36131515-95f7-489c-81d3-5c27b017de4c",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gino Nicholas LaGuardia-LoBianco",
+            "gitHubID": "cafetechne"
+        },
+        "signature": {
+            "signedAt": "2018-12-10T08:02:46.100Z"
+        }
+    },
+    {
+        "id": "50aad9b4-f0ba-4191-938a-745b42156924",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "J. S. Choi",
+            "gitHubID": "js-choi"
+        },
+        "signature": {
+            "signedAt": "2018-12-11T03:03:50.972Z"
+        }
+    },
+    {
+        "id": "a7ec59f9-fc88-41e9-842e-2d91f3a04a28",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Noman Riffat",
+            "gitHubID": "pak0s"
+        },
+        "signature": {
+            "signedAt": "2019-01-02T19:54:55.508Z"
+        }
+    },
+    {
+        "id": "7d30d7a4-906c-4ef0-b4d2-d155fb659968",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Nery Ortez",
+            "gitHubID": "neryortez"
+        },
+        "signature": {
+            "signedAt": "2019-01-11T20:02:30.906Z"
+        }
+    },
+    {
+        "id": "a21eb298-414c-4894-8632-539848c01d8f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Bruno Barbieri",
+            "gitHubID": "brunobar79"
+        },
+        "signature": {
+            "signedAt": "2019-01-13T19:27:01.945Z"
+        }
+    },
+    {
+        "id": "a546e6f6-61fd-404f-ae40-99e415ab193f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Osint Opsec",
+            "gitHubID": "Osintopsec"
+        },
+        "signature": {
+            "signedAt": "2019-01-14T15:19:50.763Z"
+        }
+    },
+    {
+        "id": "342d38ad-c165-4c1c-9822-44b9ff164dc8",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Cheng You Bai",
+            "gitHubID": "CYBAI"
+        },
+        "signature": {
+            "signedAt": "2019-01-20T06:44:42.796Z"
+        }
+    },
+    {
+        "id": "ece0fe36-7bf3-488d-afb1-335c2376bdc1",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Michał Górny",
+            "gitHubID": "drastus"
+        },
+        "signature": {
+            "signedAt": "2019-01-24T08:48:45.945Z"
+        }
+    },
+    {
+        "id": "68d5a940-fd9b-4ecd-b192-88df1468a998",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Stephan Paul",
+            "gitHubID": "alexistderking"
+        },
+        "signature": {
+            "signedAt": "2019-02-04T07:17:26.005Z"
+        }
+    },
+    {
+        "id": "919abbb4-dd9e-4590-8463-1ba7c0dacd67",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Sidak Singh Aulakh",
+            "gitHubID": "co16353sidak"
+        },
+        "signature": {
+            "signedAt": "2019-02-08T19:00:01.069Z"
+        }
+    },
+    {
+        "id": "039134a6-7d91-4159-badc-ca9362b371af",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jennifer Meade",
+            "gitHubID": "jmeade11"
+        },
+        "signature": {
+            "signedAt": "2019-02-17T14:23:12.661Z"
+        }
+    },
+    {
+        "id": "fd6a1ea0-e858-4a10-89ca-1caefec76abe",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Mohammed Zubair Ahmed",
+            "gitHubID": "M-ZubairAhmed"
+        },
+        "signature": {
+            "signedAt": "2019-02-21T19:45:59.488Z"
+        }
+    },
+    {
+        "id": "9d8aa970-b254-4a45-a91b-0b9d085a8f1d",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Changwan Hong",
+            "gitHubID": "ChangWanHong"
+        },
+        "signature": {
+            "signedAt": "2019-02-25T02:51:52.300Z"
+        }
+    },
+    {
+        "id": "8bbcaa77-e284-4133-aa3a-b69b4ff2feb5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Anthony Maton",
+            "gitHubID": "MatonAnthony"
+        },
+        "signature": {
+            "signedAt": "2019-02-25T09:59:29.512Z"
+        }
+    },
+    {
+        "id": "90753141-ffaa-4010-a032-9a76d84b5e73",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Peter A Van Auken",
+            "gitHubID": "petervanauken89"
+        },
+        "signature": {
+            "signedAt": "2019-03-04T04:21:58.639Z"
+        }
+    },
+    {
+        "id": "4eeddfcf-c2c5-42c4-ac91-f0dda850fee7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Suriyaa Sundararuban",
+            "gitHubID": "SuriyaaKudoIsc"
+        },
+        "signature": {
+            "signedAt": "2019-04-03T09:16:40.523Z"
+        }
+    },
+    {
+        "id": "ae48d784-280c-4bce-8a47-fe7351897fe5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Özgür Özçıtak",
+            "gitHubID": "oozcitak"
+        },
+        "signature": {
+            "signedAt": "2019-04-05T09:32:51.331Z"
+        }
+    },
+    {
+        "id": "7cdb0b1c-0fbe-401c-975f-a4a1d12e3f4e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Max Harmony",
+            "gitHubID": "teh-maxh"
+        },
+        "signature": {
+            "signedAt": "2019-04-08T04:06:10.803Z"
+        }
+    },
+    {
+        "id": "e0961877-4075-4620-9cc9-715dd66a3df5",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "PhistucK",
+            "gitHubID": "phistuck"
+        },
+        "signature": {
+            "signedAt": "2019-04-12T21:17:43.067Z"
+        }
+    },
+    {
+        "id": "dbac18f2-68dc-4d1d-bf0b-60c8ac9c25f1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jonathan Neal",
+            "gitHubID": "jonathantneal"
+        },
+        "signature": {
+            "signedAt": "2019-04-16T13:48:10.312Z"
+        }
+    },
+    {
+        "id": "e5f5caef-c029-4eee-92f8-a8749df706e0",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Adrian Roach",
+            "gitHubID": "TheGrimSilence"
+        },
+        "signature": {
+            "signedAt": "2019-04-17T02:20:01.167Z"
+        }
+    },
+    {
+        "id": "bf52f044-ad0d-47bd-933d-34ac33ded423",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Andy Davies",
+            "gitHubID": "andydavies"
+        },
+        "signature": {
+            "signedAt": "2019-05-10T09:48:51.698Z"
+        }
+    },
+    {
+        "id": "adb5468a-5871-4f5b-a166-961201d20917",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "John Law",
+            "gitHubID": "poyea"
+        },
+        "signature": {
+            "signedAt": "2019-05-13T08:46:31.401Z"
+        }
+    },
+    {
+        "id": "8de6ff1d-f487-4829-9195-e7da0f552d27",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "何志翔",
+            "gitHubID": "b9a1"
+        },
+        "signature": {
+            "signedAt": "2019-05-20T15:28:07.128Z"
+        }
+    },
+    {
+        "id": "4bf12196-483d-45b6-ba7a-71969c58baca",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ian Henderson",
+            "gitHubID": "ianh"
+        },
+        "signature": {
+            "signedAt": "2019-05-22T09:37:00.320Z"
+        }
+    },
+    {
+        "id": "6d81a2f3-f8de-424d-a692-9ed2bd2e3603",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Derek Wood",
+            "gitHubID": "sheriffderek"
+        },
+        "signature": {
+            "signedAt": "2019-05-24T16:51:35.549Z"
+        }
+    },
+    {
+        "id": "0bc9ef67-32a5-4b37-bc2c-8211ed9986e6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Titus Wormer",
+            "gitHubID": "wooorm"
+        },
+        "signature": {
+            "signedAt": "2019-05-25T13:48:04.853Z"
+        }
+    },
+    {
+        "id": "7735a780-53cf-4cf6-8cf3-9a7444784422",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Russel Porosky",
+            "gitHubID": "metaloha"
+        },
+        "signature": {
+            "signedAt": "2019-05-31T05:28:50.666Z"
+        }
+    },
+    {
+        "id": "81ba3f88-1123-4c85-b2ae-1bd8b9d7b8ec",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Dan Mulvey",
+            "gitHubID": "danmulvey"
+        },
+        "signature": {
+            "signedAt": "2019-06-09T21:41:46.522Z"
+        }
+    },
+    {
+        "id": "6e59eaf8-4366-486b-b83d-fa83a8430407",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Allan Wirth",
+            "gitHubID": "allanlw"
+        },
+        "signature": {
+            "signedAt": "2019-06-10T17:40:28.199Z"
+        }
+    },
+    {
+        "id": "ed1203c1-4ab6-41d2-8324-9fa0a5770088",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Corey Daley",
+            "gitHubID": "coreydaley"
+        },
+        "signature": {
+            "signedAt": "2019-06-10T17:43:53.569Z"
+        }
+    },
+    {
+        "id": "b74dd2d4-8fc5-4117-bfd6-7a33fb6a4b38",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Andreas Deuschlinger",
+            "gitHubID": "AndyOGo"
+        },
+        "signature": {
+            "signedAt": "2019-06-13T20:30:40.657Z"
+        }
+    },
+    {
+        "id": "9aae8723-0fdf-4368-9299-680999bfa575",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Michael Dyck",
+            "gitHubID": "jmdyck"
+        },
+        "signature": {
+            "signedAt": "2019-06-17T18:22:41.659Z"
+        }
+    },
+    {
+        "id": "6e5d2cbc-7f72-48c1-8c20-e1fcecedc8ff",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Pavel Kurochkin",
+            "gitHubID": "al-arz"
+        },
+        "signature": {
+            "signedAt": "2019-06-25T19:26:19.282Z"
+        }
+    },
+    {
+        "id": "5ef07e8c-1b14-4cfa-bd85-001fdd8fcb49",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Robert Linder",
+            "gitHubID": "Malvoz"
+        },
+        "signature": {
+            "signedAt": "2019-06-27T15:04:15.220Z"
+        }
+    },
+    {
+        "id": "85b5bc49-0453-47d2-8076-9e80277a62c3",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "priyanshu mishra",
+            "gitHubID": "cedcoss-priyanshu"
+        },
+        "signature": {
+            "signedAt": "2019-06-28T04:35:59.085Z"
+        }
+    },
+    {
+        "id": "33f8ab84-58aa-424f-8774-4a58622bb457",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gaurav Gupta",
+            "gitHubID": "tango025"
+        },
+        "signature": {
+            "signedAt": "2019-07-07T07:11:27.649Z"
+        }
+    },
+    {
+        "id": "78c6d88f-c2dc-44fe-ad7c-e5a2e990a4a8",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Daniel Michaelis",
+            "gitHubID": "easilyBaffled"
+        },
+        "signature": {
+            "signedAt": "2019-07-10T17:34:06.753Z"
+        }
+    },
+    {
+        "id": "190f7310-e5e0-4329-bdfd-7bdd5ddf7ba0",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Samuel Bronson",
+            "gitHubID": "SamB"
+        },
+        "signature": {
+            "signedAt": "2019-07-14T20:37:51.042Z"
+        }
+    },
+    {
+        "id": "77e69730-a047-4cd4-ac9b-8cb9b79bc4cf",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Alexandre Dieulot",
+            "gitHubID": "dieulot"
+        },
+        "signature": {
+            "signedAt": "2019-08-16T15:49:46.349Z"
+        }
+    },
+    {
+        "id": "d189d1f8-94bc-46b4-90ac-4b455e1aa0b6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Matiss Treinis",
+            "gitHubID": "Addvilz"
+        },
+        "signature": {
+            "signedAt": "2019-08-16T21:39:15.575Z"
+        }
+    },
+    {
+        "id": "11adb0d5-8604-4930-bec4-3673939b64a0",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Lawal Adedapo Gafar",
+            "gitHubID": "jamal2012"
+        },
+        "signature": {
+            "signedAt": "2019-08-28T16:27:45.051Z"
+        }
+    },
+    {
+        "id": "6939fc08-bb98-4a2f-8bd9-30320523aeda",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Tomasz Wytrębowicz",
+            "gitHubID": "tomalec"
+        },
+        "signature": {
+            "signedAt": "2019-09-16T01:28:53.807Z"
+        }
+    },
+    {
+        "id": "a27b5206-0009-4876-a11a-8bc1b18cb23c",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Gurjot Singh",
+            "gitHubID": "gurjotsingh4398"
+        },
+        "signature": {
+            "signedAt": "2019-09-23T11:45:31.942Z"
+        }
+    },
+    {
+        "id": "3507ebf8-1eb8-48bb-964d-f29f467495c3",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Kagami Sascha Rosylight",
+            "gitHubID": "autokagami"
+        },
+        "signature": {
+            "signedAt": "2019-09-24T09:31:24.691Z"
+        }
+    },
+    {
+        "id": "5dc33a0f-bfe2-426e-b88d-4982430c3df5",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Willy Martin Aguirre Rodriguez",
+            "gitHubID": "marti1125"
+        },
+        "signature": {
+            "signedAt": "2019-09-25T13:58:59.893Z"
+        }
+    },
+    {
+        "id": "e44180c6-f8a9-4a6d-a0e0-9407a1e3dee3",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Juan Duran",
+            "gitHubID": "JuanDuran88"
+        },
+        "signature": {
+            "signedAt": "2019-09-25T23:40:31.790Z"
+        }
+    },
+    {
+        "id": "44518709-13f1-4d8f-a936-800884c2562a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Tom ten Thij",
+            "gitHubID": "tomtt"
+        },
+        "signature": {
+            "signedAt": "2019-10-04T12:05:50.038Z"
+        }
+    },
+    {
+        "id": "53f1a3c3-9b07-4a2d-872d-dd6ab0a25653",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Alexander J. Moon",
+            "gitHubID": "moonmeister"
+        },
+        "signature": {
+            "signedAt": "2019-10-14T02:57:21.067Z"
+        }
+    },
+    {
+        "id": "d515f1f5-d4c8-4d9c-a340-68fdd39bcb95",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "almir",
+            "gitHubID": "almir-brazil"
+        },
+        "signature": {
+            "signedAt": "2019-10-18T04:06:27.948Z"
+        }
+    },
+    {
+        "id": "fe94ee04-5db8-40f3-a642-ee49c6a47ca6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Brady Kondek",
+            "gitHubID": "bradykondek"
+        },
+        "signature": {
+            "signedAt": "2019-10-28T20:21:51.807Z"
+        }
+    },
+    {
+        "id": "ce4a0ca2-2153-4108-af15-038b44347d0a",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Taylor Hunt",
+            "gitHubID": "tigt"
+        },
+        "signature": {
+            "signedAt": "2019-10-30T14:00:07.354Z"
+        }
+    },
+    {
+        "id": "71b6f051-2497-4e8d-b454-38a80ad4f3fb",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Foromo Daniel Soromou",
+            "gitHubID": "grandfather1"
+        },
+        "signature": {
+            "signedAt": "2019-11-23T00:44:48.318Z"
+        }
+    },
+    {
+        "id": "12a3cf1b-ff20-4484-b456-a6b6c1c1735d",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Alexander Walter",
+            "gitHubID": "ArgonAlex"
+        },
+        "signature": {
+            "signedAt": "2019-12-03T23:28:46.202Z"
+        }
+    },
+    {
+        "id": "073c8f24-e533-4f94-b38e-4378e42481e2",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ian Lamb",
+            "gitHubID": "ianlamb"
+        },
+        "signature": {
+            "signedAt": "2019-12-06T22:08:41.717Z"
+        }
+    },
+    {
+        "id": "8bd557ee-4646-4bac-8a2f-9436008352d4",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Yongsheng Zhang",
+            "gitHubID": "ZYSzys"
+        },
+        "signature": {
+            "signedAt": "2019-12-12T05:32:39.016Z"
+        }
+    },
+    {
+        "id": "b141e6df-e973-41ad-8d11-a719c78a79c5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Chris Morgan",
+            "gitHubID": "chris-morgan"
+        },
+        "signature": {
+            "signedAt": "2019-12-16T06:34:56.296Z"
+        }
+    },
+    {
+        "id": "76eb88ea-17e4-4098-8ee1-d67a1bb08021",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Alex Schmidt",
+            "gitHubID": "zyeri"
+        },
+        "signature": {
+            "signedAt": "2019-12-16T20:15:20.338Z"
+        }
+    },
+    {
+        "id": "4633c4a3-78ed-42c1-b4c5-db1197d6176f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Eduardo P. Gomez",
+            "gitHubID": "EduApps-CDG"
+        },
+        "signature": {
+            "signedAt": "2019-12-24T06:32:55.767Z"
+        }
+    },
+    {
+        "id": "260d9625-3334-4a21-9e46-1af750e4bd62",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "surachai foythong",
+            "gitHubID": "surachai0"
+        },
+        "signature": {
+            "signedAt": "2019-12-30T18:16:38.561Z"
+        }
+    },
+    {
+        "id": "2b6fafca-3772-4ce3-879f-77bfe70a3cd2",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Bhupendra Singh Hada",
+            "gitHubID": "themoonbender"
+        },
+        "signature": {
+            "signedAt": "2020-01-01T05:55:32.215Z"
+        }
+    },
+    {
+        "id": "e93c4da0-ace9-4a59-9d8f-82e3f525c3ba",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Janice Shiu",
+            "gitHubID": "janiceshiu"
+        },
+        "signature": {
+            "signedAt": "2020-01-08T05:21:33.086Z"
+        }
+    },
+    {
+        "id": "69c0df66-a99c-4b69-98c1-7faf317f0c13",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Maria Christabella Terrenal",
+            "gitHubID": "mdterrenal"
+        },
+        "signature": {
+            "signedAt": "2020-01-14T02:23:53.755Z"
+        }
+    },
+    {
+        "id": "2ff06e63-8e61-47aa-b424-ef2f53f55f52",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "thinkpadder1",
+            "gitHubID": "thinkpadder1"
+        },
+        "signature": {
+            "signedAt": "2020-01-19T20:32:44.071Z"
+        }
+    },
+    {
+        "id": "beb375d9-f84c-43a4-a90a-178c63942e1f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ahmed Radi",
+            "gitHubID": "0xradi"
+        },
+        "signature": {
+            "signedAt": "2020-02-06T14:58:19.364Z"
+        }
+    },
+    {
+        "id": "a99f2e06-0a1c-4430-876f-7d5cd76e25a8",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Michael Champion",
+            "gitHubID": "michaelchampion"
+        },
+        "signature": {
+            "signedAt": "2020-02-12T15:44:34.500Z"
+        }
+    },
+    {
+        "id": "99bdc1f7-5080-49ab-80b0-6c2aa66b2982",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Josh Hufford",
+            "gitHubID": "ostomachion"
+        },
+        "signature": {
+            "signedAt": "2020-02-18T13:16:42.788Z"
+        }
+    },
+    {
+        "id": "3c68956a-07c1-41fe-8690-2ebb64eea03d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Usama",
+            "gitHubID": "Usamaliaquat123"
+        },
+        "signature": {
+            "signedAt": "2020-02-27T04:56:38.062Z"
+        }
+    },
+    {
+        "id": "9ea8fa61-9a85-4dbc-8ab4-ec8f2097ec40",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Dmitry Lazutkin",
+            "gitHubID": "lazdmx"
+        },
+        "signature": {
+            "signedAt": "2020-02-28T09:59:39.794Z"
+        }
+    },
+    {
+        "id": "731af9ee-dd44-4403-bd1b-56f0326027b1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Johnny",
+            "gitHubID": "johnnyglauber"
+        },
+        "signature": {
+            "signedAt": "2020-02-28T15:26:26.490Z"
+        }
+    },
+    {
+        "id": "cb9bbde9-4e25-4031-8d66-ec3090167955",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Jamie Liu",
+            "gitHubID": "jamieliu386"
+        },
+        "signature": {
+            "signedAt": "2020-03-03T18:30:58.912Z"
+        }
+    },
+    {
+        "id": "0fce8e16-b24c-4f49-8897-fa5d8e36e5c9",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Maxwell Winkler",
+            "gitHubID": "adroitwhiz"
+        },
+        "signature": {
+            "signedAt": "2020-03-19T16:35:19.510Z"
+        }
+    },
+    {
+        "id": "3bee72cc-78bd-40ff-aacd-128cc26a4684",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Joaquim Medeiros",
+            "gitHubID": "medeirosjoaquim"
+        },
+        "signature": {
+            "signedAt": "2020-03-23T14:17:59.115Z"
+        }
+    },
+    {
+        "id": "ca17c5c0-b849-4145-8d71-c5406be071fc",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Pedro Fragoso Maldonado",
+            "gitHubID": "tw1ttt3r"
+        },
+        "signature": {
+            "signedAt": "2020-03-24T01:42:11.248Z"
+        }
+    },
+    {
+        "id": "f9aa46a2-3e3d-4bcf-ac68-03c0f8db2439",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ajay Poshak",
+            "gitHubID": "AjayPoshak"
+        },
+        "signature": {
+            "signedAt": "2020-03-25T13:30:01.281Z"
+        }
+    },
+    {
+        "id": "9d67c942-5f87-4340-997d-2cc1a2b1a5b7",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Tammy griffin",
+            "gitHubID": "tagriffin"
+        },
+        "signature": {
+            "signedAt": "2020-03-28T17:00:41.208Z"
+        }
+    },
+    {
+        "id": "3471bf89-e99a-451c-8c96-93a8c7b29043",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Pedro Martins Zamboni",
+            "gitHubID": "Zambonifofex"
+        },
+        "signature": {
+            "signedAt": "2020-03-30T22:26:43.384Z"
+        }
+    },
+    {
+        "id": "d2dc6920-239c-402f-8a79-42784e6014d7",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Bradley Allen",
+            "gitHubID": "bradleyallen"
+        },
+        "signature": {
+            "signedAt": "2020-04-05T20:19:05.163Z"
+        }
+    },
+    {
+        "id": "e5ddd4ab-32fb-4b83-b168-72334bb5e820",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Yash Handa",
+            "gitHubID": "Yash-Handa"
+        },
+        "signature": {
+            "signedAt": "2020-04-23T17:38:19.474Z"
+        }
+    },
+    {
+        "id": "291e4070-4135-4077-822c-ad75aaf22454",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Pedro Jesus Ochoa Martínez",
+            "gitHubID": "pedrojochoa"
+        },
+        "signature": {
+            "signedAt": "2020-04-27T23:57:03.843Z"
+        }
+    },
+    {
+        "id": "43f90032-4e8c-40ab-ab29-e4b5838c4040",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mareyam",
+            "gitHubID": "Mareyam"
+        },
+        "signature": {
+            "signedAt": "2020-04-29T02:45:24.875Z"
+        }
+    },
+    {
+        "id": "36c50c7c-18d5-4f79-96e6-bba98c7e6606",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Julian Clot",
+            "gitHubID": "jclot"
+        },
+        "signature": {
+            "signedAt": "2020-05-10T05:57:40.954Z"
+        }
+    },
+    {
+        "id": "5cf94d38-2c8b-4601-a5de-21b57eecdb25",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "René Schwarz",
+            "gitHubID": "DigNative"
+        },
+        "signature": {
+            "signedAt": "2020-05-15T09:24:46.738Z"
+        }
+    },
+    {
+        "id": "deceed69-f8d6-45df-8346-d08698f1827e",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Benji Bilheimer",
+            "gitHubID": "benjibee"
+        },
+        "signature": {
+            "signedAt": "2020-05-20T08:54:26.867Z"
+        }
+    },
+    {
+        "id": "25570ed8-c78d-47be-bca1-8c5d7428f529",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Hasnat Aslam",
+            "gitHubID": "HasnatJutt"
+        },
+        "signature": {
+            "signedAt": "2020-05-24T22:25:34.055Z"
+        }
+    },
+    {
+        "id": "e6f5aed2-870d-495b-aba4-fba5af57ed94",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Darryl Pogue",
+            "gitHubID": "dpogue"
+        },
+        "signature": {
+            "signedAt": "2020-05-26T15:43:58.223Z"
+        }
+    },
+    {
+        "id": "36812f9d-dfff-4ba9-925c-e144bf8dbb44",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Antoni Kepinski",
+            "gitHubID": "xxczaki"
+        },
+        "signature": {
+            "signedAt": "2020-05-26T21:21:22.184Z"
+        }
+    },
+    {
+        "id": "1e5f88c2-7e1a-454c-af11-1b6c93eb64f0",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Karl Wagner",
+            "gitHubID": "karwa"
+        },
+        "signature": {
+            "signedAt": "2020-06-02T13:07:07.292Z"
+        }
+    },
+    {
+        "id": "8f824213-5154-4f48-afbd-3a91b32d964f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Vipul Sinha",
+            "gitHubID": "vsasvipul0605"
+        },
+        "signature": {
+            "signedAt": "2020-06-07T12:27:25.655Z"
+        }
+    },
+    {
+        "id": "d3a3512d-0824-4363-9a64-e61041add70c",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Jordan Harband",
+            "gitHubID": "LJHarb"
+        },
+        "signature": {
+            "signedAt": "2020-06-18T21:22:54.938Z"
+        }
+    },
+    {
+        "id": "4276576b-ac8f-44af-bb7b-52edee076de2",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Beatriz Rezener Dourado Matos",
+            "gitHubID": "beatrizrezener"
+        },
+        "signature": {
+            "signedAt": "2020-06-20T21:03:38.169Z"
+        }
+    },
+    {
+        "id": "ac58c84b-800a-4573-9b96-1220193acf97",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "LiShaoyang",
+            "gitHubID": "ShawnLee2018"
+        },
+        "signature": {
+            "signedAt": "2020-07-01T11:04:36.769Z"
+        }
+    },
+    {
+        "id": "12593733-b233-45b9-91cc-1daedb3d65e2",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "James Browning",
+            "gitHubID": "Jamesernator"
+        },
+        "signature": {
+            "signedAt": "2020-07-07T11:49:17.146Z"
+        }
+    },
+    {
+        "id": "58d6ffa2-897e-496b-b356-b7cbd6630e17",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Martin Janecke",
+            "gitHubID": "prlbr"
+        },
+        "signature": {
+            "signedAt": "2020-07-10T22:10:28.497Z"
+        }
+    },
+    {
+        "id": "b6f84eb1-2cf4-4903-a6c8-f656914b320e",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Soichiro Hayashi",
+            "gitHubID": "grgr-dkrk"
+        },
+        "signature": {
+            "signedAt": "2020-07-13T01:01:57.660Z"
+        }
+    },
+    {
+        "id": "f8519dd5-2af2-4dfa-b824-385c1289923f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Maxim Tsoy",
+            "gitHubID": "muodov"
+        },
+        "signature": {
+            "signedAt": "2020-07-16T22:14:18.463Z"
+        }
+    },
+    {
+        "id": "80d71855-52e6-4d1e-bb19-7055d601a7ec",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "udhaykumar",
+            "gitHubID": "udhaykumarbala"
+        },
+        "signature": {
+            "signedAt": "2020-07-28T09:43:04.258Z"
+        }
+    },
+    {
+        "id": "9fb35d5d-0a30-4d9a-a12a-34e7946cb0df",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Toru Kobayashi",
+            "gitHubID": "koba04"
+        },
+        "signature": {
+            "signedAt": "2020-07-30T11:46:32.932Z"
+        }
+    },
+    {
+        "id": "e3d631c7-e137-4331-ac00-eb9ebffe03f9",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Sean B. Palmer",
+            "gitHubID": "sbp"
+        },
+        "signature": {
+            "signedAt": "2020-08-05T14:16:58.095Z"
+        }
+    },
+    {
+        "id": "035f475c-645e-4e6e-bc77-547c888a0e27",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Christoph Päper",
+            "gitHubID": "Crissov"
+        },
+        "signature": {
+            "signedAt": "2020-08-09T13:42:35.259Z"
+        }
+    },
+    {
+        "id": "727233d8-1233-4254-8a3a-ffe7f763ac72",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Jesse Mykolyn",
+            "gitHubID": "jrmykolyn"
+        },
+        "signature": {
+            "signedAt": "2020-08-12T16:15:57.550Z"
+        }
+    },
+    {
+        "id": "0f755e84-11b0-4043-aab8-c0df7e37b1b2",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Daphne Preston-Kendal",
+            "gitHubID": "dpk"
+        },
+        "signature": {
+            "signedAt": "2020-08-14T19:18:03.802Z"
+        }
+    },
+    {
+        "id": "b428b3e4-26b3-4e81-860f-ad57928eb5a4",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Raphael LANG",
+            "gitHubID": "nostalic"
+        },
+        "signature": {
+            "signedAt": "2020-08-17T00:43:08.203Z"
+        }
+    },
+    {
+        "id": "a0d3ec62-7586-4ba3-9b24-e3dc72ab5870",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "André Bezerra Lira",
+            "gitHubID": "fearandtrembling"
+        },
+        "signature": {
+            "signedAt": "2020-08-24T14:53:19.758Z"
+        }
+    },
+    {
+        "id": "956e4a75-60c7-4a56-b605-2669d3c24bc4",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Jordan Stephens",
+            "gitHubID": "jordanstephens"
+        },
+        "signature": {
+            "signedAt": "2020-09-07T12:53:40.420Z"
+        }
+    },
+    {
+        "id": "53197d31-6458-48ab-b499-ded8faf5c823",
+        "verified": false,
+        "workstreams": [
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "notifications",
+            "storage",
+            "url",
+            "xhr"
+        ],
+        "info": {
+            "name": "Nishu Goel",
+            "gitHubID": "nishugoel"
+        },
+        "signature": {
+            "signedAt": "2020-09-11T20:00:56.496Z"
+        }
+    },
+    {
+        "id": "d92a40d4-a6a8-4d58-a379-2aa90400f994",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Shaofei Cheng",
+            "gitHubID": "wintercn"
+        },
+        "signature": {
+            "signedAt": "2020-09-16T12:32:12.050Z"
+        }
+    },
+    {
+        "id": "297d29e1-1987-42ea-89a0-9a7f891b814d",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Oisín Nolan",
+            "gitHubID": "oisinnolan"
+        },
+        "signature": {
+            "signedAt": "2020-09-17T11:43:59.413Z"
+        }
+    },
+    {
+        "id": "29ee424e-1bcd-4058-9f41-d65f503f6073",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Anand Chowdhary",
+            "gitHubID": "AnandChowdhary"
+        },
+        "signature": {
+            "signedAt": "2020-09-21T05:49:35.384Z"
+        }
+    },
+    {
+        "id": "4453d53f-7879-4707-8e73-7a3d32d6fc77",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Fraipont Tristan",
+            "gitHubID": "Kaiido"
+        },
+        "signature": {
+            "signedAt": "2020-09-21T12:02:45.773Z"
+        }
+    },
+    {
+        "id": "a1ed868b-5771-4175-b7c6-4547b8cfa4d5",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Aman Ansari",
+            "gitHubID": "aman-atg"
+        },
+        "signature": {
+            "signedAt": "2020-09-21T13:13:08.486Z"
+        }
+    },
+    {
+        "id": "87b5b2df-9458-4d01-b16d-844a8a9500b3",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Alwin Blok",
+            "gitHubID": "alwinb"
+        },
+        "signature": {
+            "signedAt": "2020-09-23T14:31:54.139Z"
+        }
+    },
+    {
+        "id": "a2788638-57fe-4e96-a760-5ea1e8457233",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Eric Skoglund",
+            "gitHubID": "EricIO"
+        },
+        "signature": {
+            "signedAt": "2020-09-25T18:02:11.493Z"
+        }
+    },
+    {
+        "id": "2f51abd3-94c5-43f3-a2cb-00a657fd3b20",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mohammad Arsalan",
+            "gitHubID": "arsalanhub"
+        },
+        "signature": {
+            "signedAt": "2020-09-28T10:29:08.231Z"
+        }
+    },
+    {
+        "id": "fcd974bd-4299-4fd7-a48a-567cd14d10bc",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Javes Bastatas",
+            "gitHubID": "JavesBastatas"
+        },
+        "signature": {
+            "signedAt": "2020-10-02T01:45:46.637Z"
+        }
+    },
+    {
+        "id": "60b97900-a6be-4e4c-b80c-3965ff69e840",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Michael Stone",
+            "gitHubID": "stonemic2293"
+        },
+        "signature": {
+            "signedAt": "2020-10-04T12:11:12.729Z"
+        }
+    },
+    {
+        "id": "60b27cc8-413a-42fd-a107-2cd259b56007",
+        "verified": true,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "url",
+            "xhr"
+        ],
+        "info": {
+            "name": "Thomas Hori",
+            "gitHubID": "harjitmoe"
+        },
+        "signature": {
+            "signedAt": "2020-10-05T13:47:54.871Z"
+        }
+    },
+    {
+        "id": "53d1ab6f-00c9-469b-b9e1-85bd3d44315a",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Baptiste Destombes",
+            "gitHubID": "t1st3"
+        },
+        "signature": {
+            "signedAt": "2020-10-07T13:59:00.474Z"
+        }
+    },
+    {
+        "id": "d8b71522-e909-476b-9fbf-9d416ebe42db",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Taha Dharamsi",
+            "gitHubID": "tahanzania"
+        },
+        "signature": {
+            "signedAt": "2020-10-07T16:25:55.145Z"
+        }
+    },
+    {
+        "id": "4d002ef9-9996-4597-91bf-c85d5679524c",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Andrew Macpherson",
+            "gitHubID": "fuzzbomb"
+        },
+        "signature": {
+            "signedAt": "2020-10-18T10:15:08.668Z"
+        }
+    },
+    {
+        "id": "f1dbf1cc-01cc-479a-9486-83eaeacfee89",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Art Bergquist",
+            "gitHubID": "abergquist"
+        },
+        "signature": {
+            "signedAt": "2020-10-22T02:27:15.056Z"
+        }
+    },
+    {
+        "id": "8ef2a9f3-a16a-443f-ac4e-f5e6d913be35",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Cem Turesoy",
+            "gitHubID": "ctur"
+        },
+        "signature": {
+            "signedAt": "2020-10-22T11:25:45.196Z"
+        }
+    },
+    {
+        "id": "efd8aef9-40b0-489f-9127-657adafd2f95",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sunit Govind",
+            "gitHubID": "Invictus4155"
+        },
+        "signature": {
+            "signedAt": "2020-11-05T15:26:29.443Z"
+        }
+    },
+    {
+        "id": "d2c92a44-cb7b-4552-ba71-d298b8ec8484",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Yu Huojiang",
+            "gitHubID": "jddxf"
+        },
+        "signature": {
+            "signedAt": "2020-11-06T20:32:11.295Z"
+        }
+    },
+    {
+        "id": "c517f7d0-856a-4ee4-ac76-be093741f6f0",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Benjamin Gruenbaum",
+            "gitHubID": "benjamingr"
+        },
+        "signature": {
+            "signedAt": "2020-11-10T08:18:02.092Z"
+        }
+    },
+    {
+        "id": "41f66417-2fa3-4b5f-ab71-84508ca4d3a0",
+        "verified": true,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Olushesi Toheeb",
+            "gitHubID": "olushesitoheeb"
+        },
+        "signature": {
+            "signedAt": "2020-11-13T17:36:58.881Z"
+        }
+    },
+    {
+        "id": "a637a4e2-e4a2-46d5-95ed-fb4bac59e697",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Franklin Shirley",
+            "gitHubID": "145recordings"
+        },
+        "signature": {
+            "signedAt": "2020-11-15T05:34:32.747Z"
+        }
+    },
+    {
+        "id": "5f7bd9c4-e3dd-4d96-911e-46c92aa173bf",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Yusuke Abe",
+            "gitHubID": "chansuke"
+        },
+        "signature": {
+            "signedAt": "2020-11-17T10:03:22.244Z"
+        }
+    },
+    {
+        "id": "d8810163-9b87-4ef4-8e51-3809e40bced5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Kyle Koceski",
+            "gitHubID": "koceskik"
+        },
+        "signature": {
+            "signedAt": "2020-11-19T02:37:50.536Z"
+        }
+    },
+    {
+        "id": "50166ca2-f73f-49dc-9291-e86e08c931fd",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Yukai Chou",
+            "gitHubID": "muzimuzhi"
+        },
+        "signature": {
+            "signedAt": "2020-11-19T10:58:55.427Z"
+        }
+    },
+    {
+        "id": "b4830b4f-b8ca-4818-821d-ce03306e1565",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Lic. Kai Olaf K e t e l h u t sic",
+            "gitHubID": "SCpSCp"
+        },
+        "signature": {
+            "signedAt": "2020-11-22T08:38:10.895Z"
+        }
+    },
+    {
+        "id": "4d04e16b-35ae-4bd1-b652-98e057666a2d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sara Tasche",
+            "gitHubID": "sa-tasche"
+        },
+        "signature": {
+            "signedAt": "2020-11-23T17:26:55.106Z"
+        }
+    },
+    {
+        "id": "c0c33427-28ba-458b-93e0-e1e419610397",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Max Schulte",
+            "gitHubID": "MaxOSchulte"
+        },
+        "signature": {
+            "signedAt": "2020-12-08T09:38:49.461Z"
+        }
+    },
+    {
+        "id": "cfe51bf7-558e-44ea-8552-d54c8995eea7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Anna Sidwell",
+            "gitHubID": "takkaria"
+        },
+        "signature": {
+            "signedAt": "2020-12-14T13:53:37.196Z"
+        }
+    },
+    {
+        "id": "7e9e89c0-92c2-4c92-8e44-a336efb3f143",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Andre Luiz Ferreira do Nascimento",
+            "gitHubID": "andreluiz28"
+        },
+        "signature": {
+            "signedAt": "2020-12-17T22:39:54.967Z"
+        }
+    },
+    {
+        "id": "1aa6a07e-159c-4b80-8845-f4bf82bbc2ec",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Tetsuharu Ohzeki",
+            "gitHubID": "tetsuharuohzeki"
+        },
+        "signature": {
+            "signedAt": "2020-12-24T08:35:36.314Z"
+        }
+    },
+    {
+        "id": "01982d02-64e7-4942-b07e-e8fa6cb46908",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Burawi",
+            "gitHubID": "burawi"
+        },
+        "signature": {
+            "signedAt": "2021-01-15T15:26:38.682Z"
+        }
+    },
+    {
+        "id": "7267ccb4-f6c7-49ce-88fb-319be1ef2a81",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Mayeul Cantan",
+            "gitHubID": "MayeulC"
+        },
+        "signature": {
+            "signedAt": "2021-01-21T18:28:54.516Z"
+        }
+    },
+    {
+        "id": "446ca469-7b79-4544-a23c-818227a79a96",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Rashika Jaggi",
+            "gitHubID": "Rashika101"
+        },
+        "signature": {
+            "signedAt": "2021-01-24T13:11:18.045Z"
+        }
+    },
+    {
+        "id": "1826867f-c50c-44b4-9a8f-9bba49dac3b4",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Frank Prins",
+            "gitHubID": "PrinsFrank"
+        },
+        "signature": {
+            "signedAt": "2021-01-27T13:56:40.045Z"
+        }
+    },
+    {
+        "id": "2eb74d7c-8211-4ca5-af98-35ef1c89982a",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gabriel Whigham",
+            "gitHubID": "MrBrain295"
+        },
+        "signature": {
+            "signedAt": "2021-02-02T02:32:37.018Z"
+        }
+    },
+    {
+        "id": "5760a319-eb2a-476c-946e-1d23f05f430f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "захарыч_андрюха _айварович",
+            "gitHubID": "crypto-mantra"
+        },
+        "signature": {
+            "signedAt": "2021-02-06T13:02:43.281Z"
+        }
+    },
+    {
+        "id": "c39189a5-06b1-494c-88bb-5475fc61f716",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ikko Ashimine",
+            "gitHubID": "eltociear"
+        },
+        "signature": {
+            "signedAt": "2021-02-08T09:39:49.215Z"
+        }
+    },
+    {
+        "id": "23aa2f5c-75e8-4752-87c8-09a200511443",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Dylan Harris",
+            "gitHubID": "devongarde"
+        },
+        "signature": {
+            "signedAt": "2021-02-09T09:17:42.979Z"
+        }
+    },
+    {
+        "id": "c16d4d23-73d7-48ce-9d77-bf7ee08d98af",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Chulki Lee",
+            "gitHubID": "chulkilee"
+        },
+        "signature": {
+            "signedAt": "2021-02-11T02:56:59.656Z"
+        }
+    },
+    {
+        "id": "e88120b1-80db-4f6b-b7f6-5aad7764444d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jason Yundt",
+            "gitHubID": "Jayman2000"
+        },
+        "signature": {
+            "signedAt": "2021-02-13T16:06:21.599Z"
+        }
+    },
+    {
+        "id": "86988558-e610-4272-985a-352114bb782a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Alex Soncodi",
+            "gitHubID": "soncodi"
+        },
+        "signature": {
+            "signedAt": "2021-02-18T20:21:51.412Z"
+        }
+    },
+    {
+        "id": "75b49364-bf03-4949-acb4-225b56dd96e2",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Abhishek Ghaskata",
+            "gitHubID": "Abhishek01039"
+        },
+        "signature": {
+            "signedAt": "2021-02-20T05:48:31.305Z"
+        }
+    },
+    {
+        "id": "165a83c9-1718-4c5f-9090-26e4f95b9d65",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Satrujit Behera",
+            "gitHubID": "satrujit11"
+        },
+        "signature": {
+            "signedAt": "2021-02-20T09:17:52.820Z"
+        }
+    },
+    {
+        "id": "e6d0b767-09b2-4ad0-b656-99cdda9a26f5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Eric Bollens",
+            "gitHubID": "ebollens"
+        },
+        "signature": {
+            "signedAt": "2021-02-20T18:47:48.045Z"
+        }
+    },
+    {
+        "id": "c9f6f636-1ef6-4f85-88ff-5c8f4b33f9e6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Alexandre Morgaut",
+            "gitHubID": "AMorgaut"
+        },
+        "signature": {
+            "signedAt": "2021-02-25T10:07:58.693Z"
+        }
+    },
+    {
+        "id": "7dfa0255-bef6-4e9d-bdf2-226f4c89e1e7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ivan Panchenko",
+            "gitHubID": "ivan-pan"
+        },
+        "signature": {
+            "signedAt": "2021-02-28T01:01:37.245Z"
+        }
+    },
+    {
+        "id": "eeea3487-03fb-4cd9-a3c3-7f26b87977dd",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "James M Snell",
+            "gitHubID": "jasnell"
+        },
+        "signature": {
+            "signedAt": "2021-03-11T15:55:52.945Z"
+        }
+    },
+    {
+        "id": "256cfd88-2141-4e14-a789-4b4a9505ea9f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Yukio Hirose",
+            "gitHubID": "triple-underscore"
+        },
+        "signature": {
+            "signedAt": "2021-03-16T14:18:33.667Z"
+        }
+    },
+    {
+        "id": "4309810b-b07b-44e0-b578-c87b1e1e86cb",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jason Gronn",
+            "gitHubID": "jasonthekitten"
+        },
+        "signature": {
+            "signedAt": "2021-03-18T16:42:23.701Z"
+        }
+    },
+    {
+        "id": "dc94e05a-dbf7-43ac-a3b0-85a918983ca5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Shogo Sensui",
+            "gitHubID": "1000ch"
+        },
+        "signature": {
+            "signedAt": "2021-03-20T11:04:41.315Z"
+        }
+    },
+    {
+        "id": "2cb1f7c0-e646-4493-a562-ac4aab9d8ccc",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ryan Wilson",
+            "gitHubID": "deopdeop"
+        },
+        "signature": {
+            "signedAt": "2021-03-24T13:28:00.259Z"
+        }
+    },
+    {
+        "id": "f32428c3-3387-4501-921a-f76a66c81818",
+        "verified": true,
+        "workstreams": [
+            "dom",
+            "html",
+            "infra",
+            "url"
+        ],
+        "info": {
+            "name": "Yuki Okushi",
+            "gitHubID": "JohnTitor"
+        },
+        "signature": {
+            "signedAt": "2021-04-01T04:19:05.514Z"
+        }
+    },
+    {
+        "id": "ce44be23-2875-430f-9da0-76a38221ef5d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Osric Wilkinson",
+            "gitHubID": "moosemorals"
+        },
+        "signature": {
+            "signedAt": "2021-04-22T19:22:45.408Z"
+        }
+    },
+    {
+        "id": "89c7cf60-47f1-46d1-bb0e-913082bd6d99",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mitchell John McLaughlin",
+            "gitHubID": "mitc-mcla"
+        },
+        "signature": {
+            "signedAt": "2021-04-24T01:48:40.236Z"
+        }
+    },
+    {
+        "id": "4f944969-5d96-4cf6-9231-6bf729deea30",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Dominique Hazaël-Massieux",
+            "gitHubID": "dontcallmedom"
+        },
+        "signature": {
+            "signedAt": "2021-04-29T06:15:01.734Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "ceedb57a-b96e-4d33-88d8-fdc5249c1cf6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Michal Vašíček",
+            "gitHubID": "vasimi"
+        },
+        "signature": {
+            "signedAt": "2021-05-05T22:44:01.237Z"
+        }
+    },
+    {
+        "id": "0711da6e-0461-43ec-bce8-f0e620accfac",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Kai Hollberg",
+            "gitHubID": "Schweinepriester"
+        },
+        "signature": {
+            "signedAt": "2021-05-08T04:42:12.484Z"
+        }
+    },
+    {
+        "id": "16358791-f805-444c-b62f-b22e26206cb7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Jens Oliver Meiert",
+            "gitHubID": "j9t"
+        },
+        "signature": {
+            "signedAt": "2021-05-10T11:44:28.691Z"
+        }
+    },
+    {
+        "id": "dd9347e5-741e-4387-aa8b-27d42da3fe2f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Plamen Dragiyski",
+            "gitHubID": "Dragiyski"
+        },
+        "signature": {
+            "signedAt": "2021-05-10T15:55:55.301Z"
+        }
+    },
+    {
+        "id": "cf0893cb-9064-4afa-b4dc-28bf797e7b03",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ajeet Singh",
+            "gitHubID": "AjeetSingh2016"
+        },
+        "signature": {
+            "signedAt": "2021-05-22T03:25:31.906Z"
+        }
+    },
+    {
+        "id": "c6e4f6f5-208d-4255-86e1-2c472949d7d8",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Pankaj Patil",
+            "gitHubID": "patil2099"
+        },
+        "signature": {
+            "signedAt": "2021-05-27T06:37:38.676Z"
+        }
+    },
+    {
+        "id": "fe92921c-38b4-4512-a514-95bf33211464",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Chris de Almeida",
+            "gitHubID": "ctcpip"
+        },
+        "signature": {
+            "signedAt": "2021-05-27T16:26:19.786Z"
+        }
+    },
+    {
+        "id": "69aff179-ebbf-4982-8a69-df0fe4dd9f94",
+        "verified": true,
+        "workstreams": [
+            "mimesniff"
+        ],
+        "info": {
+            "name": "Gacel Perfinian",
+            "gitHubID": "gacelperfinian"
+        },
+        "signature": {
+            "signedAt": "2021-05-28T16:52:04.119Z"
+        }
+    },
+    {
+        "id": "f7f11200-d3b0-401e-9d99-de3d5105dfd0",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Paul Strobach",
+            "gitHubID": "luap42"
+        },
+        "signature": {
+            "signedAt": "2021-05-30T17:22:43.070Z"
+        }
+    },
+    {
+        "id": "53e878a1-6860-463c-a569-d02dc90f9fd1",
+        "verified": false,
+        "workstreams": "Verifier: replace this with the array of workstreams the SG has invited this individual to, or replace it with \"all\" if they're invited to all workstreams.",
+        "info": {
+            "name": "Sherri Nicole",
+            "gitHubID": "redspoonfed"
+        },
+        "signature": {
+            "signedAt": "2021-06-06T00:50:41.089Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "48379a2e-80eb-414c-992f-666641a895ae",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "url",
+            "xhr"
+        ],
+        "info": {
+            "name": "Chance Shofner",
+            "gitHubID": "xchancex"
+        },
+        "signature": {
+            "signedAt": "2021-06-08T03:33:46.890Z"
+        }
+    },
+    {
+        "id": "af924737-b17e-4c87-af81-b17c8eaa42eb",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sora Morimoto",
+            "gitHubID": "smorimoto"
+        },
+        "signature": {
+            "signedAt": "2021-06-25T10:18:39.784Z"
+        }
+    },
+    {
+        "id": "7c58410e-d852-4fc5-9ad0-e069b0afaa4a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "ninevra walden",
+            "gitHubID": "ninevra"
+        },
+        "signature": {
+            "signedAt": "2021-06-30T20:31:02.796Z"
+        }
+    },
+    {
+        "id": "6dd81ce7-1483-41df-ba97-7d1c0da15d9c",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Dennis German",
+            "gitHubID": "DG12"
+        },
+        "signature": {
+            "signedAt": "2021-07-16T19:30:51.458Z"
+        }
+    },
+    {
+        "id": "42ba1b38-c501-4320-bdee-a277d7121518",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Aryan Mohanty",
+            "gitHubID": "Aryan-Mohanty"
+        },
+        "signature": {
+            "signedAt": "2021-07-23T06:07:52.477Z"
+        }
+    },
+    {
+        "id": "dee6d764-7330-4856-89ca-381c5c887944",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "방성범",
+            "gitHubID": "bangseongbeom"
+        },
+        "signature": {
+            "signedAt": "2021-08-03T16:11:53.119Z"
+        }
+    },
+    {
+        "id": "15eeae98-faaf-4729-805e-6b4f8d2a5636",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Philip Brembeck",
+            "gitHubID": "philipbrembeck"
+        },
+        "signature": {
+            "signedAt": "2021-08-04T18:50:46.781Z"
+        }
+    },
+    {
+        "id": "2257c477-7729-46d4-b7bb-b7ea6c03599e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Zhangyuan Nie",
+            "gitHubID": "zhangyuannie"
+        },
+        "signature": {
+            "signedAt": "2021-08-06T16:20:49.431Z"
+        }
+    },
+    {
+        "id": "b30c6035-0c51-4d32-99b6-cf581574a7b7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "王华",
+            "gitHubID": "PaperStrike"
+        },
+        "signature": {
+            "signedAt": "2021-08-11T07:00:57.680Z"
+        }
+    },
+    {
+        "id": "ebcee7a8-7658-4e77-bde3-1b5ce90d1e77",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Terence Eden",
+            "gitHubID": "edent"
+        },
+        "signature": {
+            "signedAt": "2021-08-12T13:51:51.166Z"
+        }
+    },
+    {
+        "id": "64e4514b-3d76-4e51-aae3-7a0c13e50183",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Tomoaki Kawada",
+            "gitHubID": "yvt"
+        },
+        "signature": {
+            "signedAt": "2021-08-20T12:17:15.855Z"
+        }
+    },
+    {
+        "id": "7c56612d-37b8-41b9-b224-37a71b48f4c5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Justin Lee-Ong",
+            "gitHubID": "J-Human"
+        },
+        "signature": {
+            "signedAt": "2021-08-29T01:16:46.943Z"
+        }
+    },
+    {
+        "id": "14bb7e1b-00ca-47df-b93f-d82124dd0f2d",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Hiroya Uga",
+            "gitHubID": "hiroya-uga"
+        },
+        "signature": {
+            "signedAt": "2021-09-16T20:10:55.632Z"
+        }
+    },
+    {
+        "id": "86ae5053-8870-448d-9523-c74104963af6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "esam kanadily",
+            "gitHubID": "ekanadily"
+        },
+        "signature": {
+            "signedAt": "2021-10-06T02:21:09.030Z"
+        }
+    },
+    {
+        "id": "55eace9c-6213-4e03-b8cd-b746e2a413d1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "esam kanadily",
+            "gitHubID": "doctoresam1"
+        },
+        "signature": {
+            "signedAt": "2021-10-06T03:09:39.653Z"
+        }
+    },
+    {
+        "id": "d0b054ee-d3f8-4f66-b9b1-8012939bdea4",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "PJ Fancher",
+            "gitHubID": "pjfancher"
+        },
+        "signature": {
+            "signedAt": "2021-10-06T13:22:04.889Z"
+        }
+    },
+    {
+        "id": "06052445-08b1-443a-81a0-cc3198ebeba8",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Michael Weissbacher",
+            "gitHubID": "mweissbacher"
+        },
+        "signature": {
+            "signedAt": "2021-10-07T03:22:24.675Z"
+        }
+    },
+    {
+        "id": "ea50ae0b-81b5-422a-9de6-c7c297feda8d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gerald Wodni",
+            "gitHubID": "GeraldWodni"
+        },
+        "signature": {
+            "signedAt": "2021-10-07T18:05:06.822Z"
+        }
+    },
+    {
+        "id": "fa84ae70-b012-4076-be84-666cd6a8e743",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Moby",
+            "gitHubID": "mahanstreamer"
+        },
+        "signature": {
+            "signedAt": "2021-10-11T15:53:33.870Z"
+        }
+    },
+    {
+        "id": "144ae74a-4e3f-40ad-be39-22944c633ec7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Chirag S Kumar",
+            "gitHubID": "Fictionistique"
+        },
+        "signature": {
+            "signedAt": "2021-10-16T09:31:25.402Z"
+        }
+    },
+    {
+        "id": "74ee2013-fb4c-4061-9b2a-11f0a5780881",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Ashleigh Walker",
+            "gitHubID": "Freequeenc"
+        },
+        "signature": {
+            "signedAt": "2021-10-23T23:13:43.947Z"
+        }
+    },
+    {
+        "id": "07ec6d28-9ffc-48c2-a7dc-724fe8e43782",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Dan Cătălin Burzo",
+            "gitHubID": "danburzo"
+        },
+        "signature": {
+            "signedAt": "2021-10-27T07:27:40.202Z"
+        }
+    },
+    {
+        "id": "aca6095a-1bf5-454d-8515-cb811d49d838",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Fung King Pui",
+            "gitHubID": "derek2357"
+        },
+        "signature": {
+            "signedAt": "2021-10-28T14:23:48.752Z"
+        }
+    },
+    {
+        "id": "b476e76a-81b9-40b9-926d-5d73b0d7692e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Afroze Amjad",
+            "gitHubID": "afroze9"
+        },
+        "signature": {
+            "signedAt": "2021-10-29T05:18:00.462Z"
+        }
+    },
+    {
+        "id": "7be7395d-7307-4802-8af2-75db47645b43",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "CR",
+            "gitHubID": "GH-Last-Son-of-Krypton"
+        },
+        "signature": {
+            "signedAt": "2021-11-22T20:21:00.098Z"
+        }
+    },
+    {
+        "id": "5a23d16a-efec-4c84-8fbf-a5fd1a23bdc0",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "James Pryor",
+            "gitHubID": "dubiousjim"
+        },
+        "signature": {
+            "signedAt": "2021-11-28T18:59:04.686Z"
+        }
+    },
+    {
+        "id": "6b856369-6fd8-4cc7-8502-e184860aa141",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Kaleidea",
+            "gitHubID": "Kaleidea"
+        },
+        "signature": {
+            "signedAt": "2021-11-29T12:16:22.899Z"
+        }
+    },
+    {
+        "id": "7eca313b-7ba3-4574-8e39-efa8e4ca7f1a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Issei Horie",
+            "gitHubID": "is2ei"
+        },
+        "signature": {
+            "signedAt": "2021-12-19T04:43:42.419Z"
+        }
+    },
+    {
+        "id": "679b49a6-74ee-4483-9361-8c2c58078599",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Markus Unterwaditzer",
+            "gitHubID": "untitaker"
+        },
+        "signature": {
+            "signedAt": "2021-12-19T22:05:15.382Z"
+        }
+    },
+    {
+        "id": "e98f3c58-8b4b-4c05-99b4-3b79ac10d215",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "James May",
+            "gitHubID": "fowl2"
+        },
+        "signature": {
+            "signedAt": "2022-01-10T02:18:57.237Z"
+        }
+    },
+    {
+        "id": "3c030c62-f17d-4d79-a930-3189a55e9deb",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ali Mansoor",
+            "gitHubID": "TheAli711"
+        },
+        "signature": {
+            "signedAt": "2022-01-11T17:49:39.896Z"
+        }
+    },
+    {
+        "id": "dca01e80-d2e4-4808-a150-4c068efbd885",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Vas Sudanagunta",
+            "gitHubID": "vassudanagunta"
+        },
+        "signature": {
+            "signedAt": "2022-01-14T21:53:14.216Z"
+        }
+    },
+    {
+        "id": "cf34e876-e69b-4677-aed6-8cf47cc4fb73",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Juan Miguel Huertas Delgado",
+            "gitHubID": "juanmihd"
+        },
+        "signature": {
+            "signedAt": "2022-01-31T20:50:57.066Z"
+        }
+    },
+    {
+        "id": "cf429d10-998c-474f-9c35-2b4d0c95698f",
+        "verified": true,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Jeremy Saklad",
+            "gitHubID": "Saklad5"
+        },
+        "signature": {
+            "signedAt": "2022-02-03T20:31:21.135Z"
+        }
+    },
+    {
+        "id": "2977bd05-9e3c-4070-86ff-5ac245177d93",
+        "verified": false,
+        "workstreams": [
+            "url"
+        ],
+        "info": {
+            "name": "James Addison",
+            "gitHubID": "jayaddison"
+        },
+        "signature": {
+            "signedAt": "2022-02-07T13:33:44.949Z"
+        }
+    },
+    {
+        "id": "076e1bd7-06e6-457a-a24a-39cdeb36572b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Hardik Soni",
+            "gitHubID": "iamhardikat11"
+        },
+        "signature": {
+            "signedAt": "2022-02-18T23:56:03.175Z"
+        }
+    },
+    {
+        "id": "49cd2afe-c091-417a-9bd6-e65ea8b378d1",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Gokhan Kabar",
+            "gitHubID": "GokhanKabar"
+        },
+        "signature": {
+            "signedAt": "2022-03-09T17:15:14.162Z"
+        }
+    },
+    {
+        "id": "250c0aee-ca0f-4793-a443-15d11546bee3",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Andres Miranda",
+            "gitHubID": "andresmo01"
+        },
+        "signature": {
+            "signedAt": "2022-03-13T11:38:11.599Z"
+        }
+    },
+    {
+        "id": "2382e5ad-51a9-46a2-985e-56c5a5b5c142",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Hidde de Vries",
+            "gitHubID": "hidde"
+        },
+        "signature": {
+            "signedAt": "2022-03-14T14:22:02.185Z"
+        }
+    },
+    {
+        "id": "c5b199a4-0038-4ed3-b8f4-b02fdf018d55",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ryo Kajiwara",
+            "gitHubID": "sylph01"
+        },
+        "signature": {
+            "signedAt": "2022-03-15T12:41:50.453Z"
+        }
+    },
+    {
+        "id": "49790448-fb95-4bc1-92d1-0185a9767a6d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mario Toledo",
+            "gitHubID": "mariotoledo"
+        },
+        "signature": {
+            "signedAt": "2022-03-20T18:01:46.670Z"
+        }
+    },
+    {
+        "id": "d9264a98-1268-4fd9-a58a-c0427dc1fc45",
+        "verified": false,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Ilias Dewachter",
+            "gitHubID": "IliasDewachter"
+        },
+        "signature": {
+            "signedAt": "2022-03-21T13:19:21.286Z"
+        }
+    },
+    {
+        "id": "6efabb2f-54eb-4892-b7e3-8cd60934109e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "R. A. Caudle",
+            "gitHubID": "0XAU007"
+        },
+        "signature": {
+            "signedAt": "2022-03-22T04:19:36.640Z"
+        }
+    },
+    {
+        "id": "a2566163-d791-414e-b864-a2967c80e139",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "João Orlando Botion de Sousa",
+            "gitHubID": "Botion"
+        },
+        "signature": {
+            "signedAt": "2022-04-02T08:47:11.787Z"
+        }
+    },
+    {
+        "id": "f62d49bc-2dad-49ea-b95c-49b5309c551b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Melissa Ann Sorrells",
+            "gitHubID": "melsorrells23"
+        },
+        "signature": {
+            "signedAt": "2022-04-06T14:57:44.566Z"
+        }
+    },
+    {
+        "id": "a7fed9f0-bec4-4757-99c0-84a95aa2f67b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Nan Jiang",
+            "gitHubID": "nan-bmth"
+        },
+        "signature": {
+            "signedAt": "2022-04-26T08:57:27.011Z"
+        }
+    },
+    {
+        "id": "57c93868-a910-40bd-acbc-238010220798",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Aminu Abdul Manaf",
+            "gitHubID": "yaaminu"
+        },
+        "signature": {
+            "signedAt": "2022-04-27T16:25:39.570Z"
+        }
+    },
+    {
+        "id": "f903a202-4680-46d4-a2ac-2d9c9bb7ccd2",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Aaron Lowe",
+            "gitHubID": "CyberFlameGO"
+        },
+        "signature": {
+            "signedAt": "2022-05-09T05:16:08.185Z"
+        }
+    },
+    {
+        "id": "8f55a95e-4ff5-499b-a2fd-eac1145ea6e7",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Hengki Ardika",
+            "gitHubID": "Wednesday743ish"
+        },
+        "signature": {
+            "signedAt": "2022-05-15T07:51:52.200Z"
+        }
+    },
+    {
+        "id": "0dbb71a2-4f8d-4c60-80dc-caee691073fb",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Salaheddin AbuEin",
+            "gitHubID": "sabuein"
+        },
+        "signature": {
+            "signedAt": "2022-05-19T13:57:49.239Z"
+        }
+    },
+    {
+        "id": "9dc21680-06e5-45d3-a104-65245086e841",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Randy D White",
+            "gitHubID": "RANDYDWHITEPHOTOGRAPHY"
+        },
+        "signature": {
+            "signedAt": "2022-05-19T16:17:55.155Z"
+        }
+    },
+    {
+        "id": "3601205a-16b6-47c2-9d78-5d0592d86729",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ryo Ogawa",
+            "gitHubID": "negibokken"
+        },
+        "signature": {
+            "signedAt": "2022-05-22T06:23:51.956Z"
+        }
+    },
+    {
+        "id": "1c9dc265-305b-4eab-844f-c6b9bf4c385d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Bin Hua",
+            "gitHubID": "huabin"
+        },
+        "signature": {
+            "signedAt": "2022-05-23T23:50:42.130Z"
+        }
+    },
+    {
+        "id": "10fa6ac0-3973-414b-ad9c-8eec66b703a7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "David Michael Hale Jr",
+            "gitHubID": "dmhalejr"
+        },
+        "signature": {
+            "signedAt": "2022-05-26T00:59:58.389Z"
+        }
+    },
+    {
+        "id": "3afb26ba-670c-4657-98b6-93abc0bf3e94",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Knute Sears",
+            "gitHubID": "knutesears"
+        },
+        "signature": {
+            "signedAt": "2022-05-28T19:36:22.751Z"
+        }
+    },
+    {
+        "id": "7fda7cb0-72ac-4383-8e75-84483906099b",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Linus Groh",
+            "gitHubID": "linusg"
+        },
+        "signature": {
+            "signedAt": "2022-05-29T12:04:35.715Z"
+        }
+    },
+    {
+        "id": "4c357ca9-686b-4c09-873b-142edc767e6f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Yonathan Randolph",
+            "gitHubID": "yonran"
+        },
+        "signature": {
+            "signedAt": "2022-05-31T04:03:42.682Z"
+        }
+    },
+    {
+        "id": "842eab89-26eb-4b1a-9ec8-c9c842be9296",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Reuben Willson",
+            "gitHubID": "reububble"
+        },
+        "signature": {
+            "signedAt": "2022-05-31T07:48:23.638Z"
+        }
+    },
+    {
+        "id": "dac060d2-646a-4394-b86c-7f96d5238112",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Abin K Paul",
+            "gitHubID": "abinpaul1"
+        },
+        "signature": {
+            "signedAt": "2022-06-02T15:03:58.143Z"
+        }
+    },
+    {
+        "id": "9a05e67f-f245-4f83-82b5-ef056007e248",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Livia Medeiros",
+            "gitHubID": "LiviaMedeiros"
+        },
+        "signature": {
+            "signedAt": "2022-06-30T12:49:52.100Z"
+        }
+    },
+    {
+        "id": "1cd94297-1140-474a-99f2-5b465904f9b6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Tim Sartoris",
+            "gitHubID": "Timsartoris"
+        },
+        "signature": {
+            "signedAt": "2022-07-01T07:20:59.273Z"
+        }
+    },
+    {
+        "id": "58434048-7b50-4fdc-b026-8a54129e6c52",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Markus Cadonau",
+            "gitHubID": "cadonau"
+        },
+        "signature": {
+            "signedAt": "2022-07-01T15:54:23.417Z"
+        }
+    },
+    {
+        "id": "12f2cd69-5447-44db-9008-b1e73f51f2f3",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Debanjana Sarkar",
+            "gitHubID": "debanjana-a11y"
+        },
+        "signature": {
+            "signedAt": "2022-07-06T07:23:18.235Z"
+        }
+    },
+    {
+        "id": "b842ed81-3cf6-46bc-99c5-187d6064a789",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Jon frutos",
+            "gitHubID": "Wyze5280"
+        },
+        "signature": {
+            "signedAt": "2022-07-23T20:20:52.923Z"
+        }
+    },
+    {
+        "id": "161b3d55-a0d9-4d7e-9502-f0fd98a257d4",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Joe DeLuca",
+            "gitHubID": "joedeluca"
+        },
+        "signature": {
+            "signedAt": "2022-07-25T19:08:00.746Z"
+        }
+    },
+    {
+        "id": "94475f40-41d2-42ac-8bf9-aaf521ee3701",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Ryan Gosdin",
+            "gitHubID": "Rgosdin"
+        },
+        "signature": {
+            "signedAt": "2022-07-30T20:05:48.078Z"
+        }
+    },
+    {
+        "id": "97e84cdb-27f1-4f0b-bb61-3c91293bcd22",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Giovanni Benussi",
+            "gitHubID": "giovannibenussi"
+        },
+        "signature": {
+            "signedAt": "2022-08-04T00:22:19.888Z"
+        }
+    },
+    {
+        "id": "2dd9fcc0-bf27-41f9-835d-0e5f084f9679",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Paulo Freitas",
+            "gitHubID": "paulofreitas"
+        },
+        "signature": {
+            "signedAt": "2022-08-13T06:46:01.682Z"
+        }
+    },
+    {
+        "id": "a067e4b0-1596-4292-ad6b-627e6225f85d",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Arthur Miler",
+            "gitHubID": "amno1"
+        },
+        "signature": {
+            "signedAt": "2022-09-02T05:48:05.115Z"
+        }
+    },
+    {
+        "id": "5f72cda6-2d9e-4d31-880c-ce7649fb871e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gihyeon Sung",
+            "gitHubID": "gihyeonsung"
+        },
+        "signature": {
+            "signedAt": "2022-09-05T14:56:54.214Z"
+        }
+    },
+    {
+        "id": "c2abae37-464a-4e21-af16-45402286c06b",
+        "verified": false,
+        "workstreams": [
+            "dom",
+            "html",
+            "url"
+        ],
+        "info": {
+            "name": "Joshua David Flynn",
+            "gitHubID": "jdflynn1985"
+        },
+        "signature": {
+            "signedAt": "2022-09-13T23:13:56.482Z"
+        }
+    },
+    {
+        "id": "0896bbe0-6b4c-4991-8f15-8590e865b684",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Tasha Syarifah",
+            "gitHubID": "tashasyarifah"
+        },
+        "signature": {
+            "signedAt": "2022-09-15T03:08:52.320Z"
+        }
+    },
+    {
+        "id": "8ca11c25-0d2c-45ff-9e3a-41b0fa67e96d",
+        "verified": false,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Teik Guan Tan",
+            "gitHubID": "tanteikg"
+        },
+        "signature": {
+            "signedAt": "2022-09-19T02:44:54.364Z"
+        }
+    },
+    {
+        "id": "1c8a8dd8-7c42-4d88-ae6e-37cd6cbfc2f5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gavin John",
+            "gitHubID": "Pandapip1"
+        },
+        "signature": {
+            "signedAt": "2022-09-27T13:09:32.858Z"
+        }
+    },
+    {
+        "id": "52c16e91-1951-4fe3-af5e-eb74dcfe5a79",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Micah Nerren",
+            "gitHubID": "gitcyco"
+        },
+        "signature": {
+            "signedAt": "2022-09-28T02:31:48.000Z"
+        }
+    },
+    {
+        "id": "a148045f-35b3-4fbe-ac48-bd3965f8f994",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Nelson Guya",
+            "gitHubID": "nelsonkimani63"
+        },
+        "signature": {
+            "signedAt": "2022-09-30T13:47:55.340Z"
+        }
+    },
+    {
+        "id": "a5ff1478-f11a-40c8-8a62-1aab790ebbeb",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Nereida Rondon",
+            "gitHubID": "NereidaRondon"
+        },
+        "signature": {
+            "signedAt": "2022-10-03T15:52:41.962Z"
+        }
+    },
+    {
+        "id": "e72d0c2a-68fd-49f8-a416-0715da371ae8",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Michał Niedziółka",
+            "gitHubID": "NiedziolkaMichal"
+        },
+        "signature": {
+            "signedAt": "2022-10-13T09:46:40.514Z"
+        }
+    },
+    {
+        "id": "f7f9de64-8bbf-431c-922e-079f27b928af",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sebastian Krüger",
+            "gitHubID": "mathe42"
+        },
+        "signature": {
+            "signedAt": "2022-10-23T16:46:21.215Z"
+        }
+    },
+    {
+        "id": "ee4c931a-7c63-4f6b-a904-b2fe0e8679ec",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Logan Moore",
+            "gitHubID": "ThoseGrapefruits"
+        },
+        "signature": {
+            "signedAt": "2022-10-25T19:49:37.693Z"
+        }
+    },
+    {
+        "id": "47c632cd-c6a2-4342-904e-604f6278fc19",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Iván Edgardo de la vara morales",
+            "gitHubID": "Livan690"
+        },
+        "signature": {
+            "signedAt": "2022-11-04T01:32:29.558Z"
+        }
+    },
+    {
+        "id": "a562e31f-375f-4978-bccf-5b8b9513ab99",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mohit Marathe",
+            "gitHubID": "Mohit2758"
+        },
+        "signature": {
+            "signedAt": "2022-11-04T07:59:22.146Z"
+        }
+    },
+    {
+        "id": "b7499eb2-127d-4277-b492-81ebb95c4daf",
+        "verified": false,
+        "workstreams": "Verifier: replace this with the array of workstreams the SG has invited this individual to, or replace it with \"all\" if they're invited to all workstreams.",
+        "info": {
+            "name": "Jorge Bautista ",
+            "gitHubID": "Jbo100"
+        },
+        "signature": {
+            "signedAt": "2022-11-06T13:40:35.116Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "cbc9b654-3775-468a-8ebd-483a0ac20e33",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Guillaume Lebas",
+            "gitHubID": "cdoublev"
+        },
+        "signature": {
+            "signedAt": "2022-11-10T03:29:50.289Z"
+        }
+    },
+    {
+        "id": "c4ba41e7-01dd-4652-b77c-1f3d90b90a86",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Toni Williams",
+            "gitHubID": "toniwilliams1"
+        },
+        "signature": {
+            "signedAt": "2022-11-12T09:32:59.672Z"
+        }
+    },
+    {
+        "id": "70a59cec-8c32-4404-8bd8-8c90dfb3c577",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Abhinav Achha",
+            "gitHubID": "AbhinavAchha"
+        },
+        "signature": {
+            "signedAt": "2022-11-17T07:03:36.339Z"
+        }
+    },
+    {
+        "id": "22ef0fe6-316b-4614-969a-caa58d9fe643",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mohammed Keyvanzadeh",
+            "gitHubID": "VoltrexMaster"
+        },
+        "signature": {
+            "signedAt": "2022-11-17T20:17:54.733Z"
+        }
+    },
+    {
+        "id": "ba03eb9f-efea-43b9-90ac-3f4d9e6c5fa9",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Samantha Nguyen",
+            "gitHubID": "neoncitylights"
+        },
+        "signature": {
+            "signedAt": "2022-11-27T02:50:21.322Z"
+        }
+    },
+    {
+        "id": "67537ed8-a70e-4718-9443-0e2b514197fa",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sandeep Puri",
+            "gitHubID": "lexlapax"
+        },
+        "signature": {
+            "signedAt": "2022-11-29T02:34:12.169Z"
+        }
+    },
+    {
+        "id": "0934046a-3af1-4067-a139-f4f4f462e8e6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Christoffer Ramsland",
+            "gitHubID": "Stufur"
+        },
+        "signature": {
+            "signedAt": "2022-12-07T00:02:27.866Z"
+        }
+    },
+    {
+        "id": "7dc584b2-24ea-4874-b0a4-12d37424e595",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Dawei Wang",
+            "gitHubID": "dawei-wang"
+        },
+        "signature": {
+            "signedAt": "2022-12-08T18:01:06.274Z"
+        }
+    },
+    {
+        "id": "7c3d0719-2ace-4283-a581-14c7b9d81b85",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Adnan Ahmed Khan",
+            "gitHubID": "adnahmed"
+        },
+        "signature": {
+            "signedAt": "2022-12-09T12:02:23.089Z"
+        }
+    },
+    {
+        "id": "0584cc59-b006-408c-9a51-4ef7313af3f7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Christopher Fritz",
+            "gitHubID": "ChristopherFritz"
+        },
+        "signature": {
+            "signedAt": "2023-01-09T18:48:25.136Z"
+        }
+    },
+    {
+        "id": "a1f28347-3a38-4a5a-b1f3-7d2f57e61b53",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Yashwanth",
+            "gitHubID": "YASHWANTHKESAGONI"
+        },
+        "signature": {
+            "signedAt": "2023-01-26T08:26:31.416Z"
+        }
+    },
+    {
+        "id": "918aa138-41e3-4970-9d49-d207dac86ff6",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Yagiz Nizipli",
+            "gitHubID": "anonrig"
+        },
+        "signature": {
+            "signedAt": "2023-02-08T13:52:47.409Z"
+        }
+    },
+    {
+        "id": "6dd9bf23-2529-492b-a87e-39eb51a5e820",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "David Zero",
+            "gitHubID": "Zer0-One"
+        },
+        "signature": {
+            "signedAt": "2023-02-13T04:27:41.503Z"
+        }
+    },
+    {
+        "id": "a678078a-3e4c-4373-aeb4-97d96bb02cc9",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ben van Hartingsveldt",
+            "gitHubID": "ben221199"
+        },
+        "signature": {
+            "signedAt": "2023-03-13T12:57:53.039Z"
+        }
+    },
+    {
+        "id": "37effc45-b9a7-49f0-af38-1dfc01d870da",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Christian Grothoff",
+            "gitHubID": "grothoff"
+        },
+        "signature": {
+            "signedAt": "2023-03-27T06:49:54.478Z"
+        }
+    },
+    {
+        "id": "4b962247-5eae-4727-8b64-9650874b66a0",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Andreas Englisch",
+            "gitHubID": "JAWS-test"
+        },
+        "signature": {
+            "signedAt": "2023-03-28T04:34:24.643Z"
+        }
+    },
+    {
+        "id": "c26df2ff-ae10-4c83-a056-8fc0a76b00ff",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "vaibhav",
+            "gitHubID": "Mrvab"
+        },
+        "signature": {
+            "signedAt": "2023-03-28T12:03:18.271Z"
+        }
+    },
+    {
+        "id": "a4de55be-4319-47a1-8dbb-7fe751d13c07",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gabriel Nick Pivovarov",
+            "gitHubID": "gnpivo"
+        },
+        "signature": {
+            "signedAt": "2023-04-04T03:54:25.366Z"
+        }
+    },
+    {
+        "id": "0198b0d0-3734-4761-9827-24c1213f51b2",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Miki Lombardi",
+            "gitHubID": "TheJoin95"
+        },
+        "signature": {
+            "signedAt": "2023-04-07T13:19:06.872Z"
+        }
+    },
+    {
+        "id": "117aaae1-aae1-4514-a1d1-16f73fd76f34",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Rastislav Vašička",
+            "gitHubID": "rastislavcore"
+        },
+        "signature": {
+            "signedAt": "2023-04-13T06:44:14.715Z"
+        }
+    },
+    {
+        "id": "27c4dc16-ef10-4dae-9882-267f1b996d6f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sohom Datta",
+            "gitHubID": "sohomdatta1"
+        },
+        "signature": {
+            "signedAt": "2023-04-17T12:40:20.128Z"
+        }
+    },
+    {
+        "id": "8f9122ff-0421-4bdb-af74-a4319f65351c",
+        "verified": false,
+        "workstreams": "Verifier: replace this with the array of workstreams the SG has invited this individual to, or replace it with \"all\" if they're invited to all workstreams.",
+        "info": {
+            "name": "Robert Tiffin",
+            "gitHubID": "ret334"
+        },
+        "signature": {
+            "signedAt": "2023-04-19T13:59:37.735Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "1c28b690-f796-4a8f-8c74-dec360703b69",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Matthew Olsson",
+            "gitHubID": "mattco98"
+        },
+        "signature": {
+            "signedAt": "2023-04-20T01:00:18.596Z"
+        }
+    },
+    {
+        "id": "bf46fe8c-40f8-4ff7-843b-462cf5140736",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Kenneth Laskoski",
+            "gitHubID": "kennethlaskoski"
+        },
+        "signature": {
+            "signedAt": "2023-05-31T22:24:48.933Z"
+        }
+    },
+    {
+        "id": "012783d4-1dda-4ae0-8d70-77e42b3b491b",
+        "verified": true,
+        "workstreams": [
+            "dom",
+            "html"
+        ],
+        "info": {
+            "name": "Sayan Sivakumaran",
+            "gitHubID": "sivakusayan"
+        },
+        "signature": {
+            "signedAt": "2023-06-02T14:02:42.968Z"
+        }
+    },
+    {
+        "id": "282f39a0-a201-4741-9cc0-d5187f9a545f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Caleb A. Olojo",
+            "gitHubID": "kaf-lamed-beyt"
+        },
+        "signature": {
+            "signedAt": "2023-06-05T10:20:04.411Z"
+        }
+    },
+    {
+        "id": "2d0638ba-8a5e-4df1-832e-c19f6c2af3a2",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Benjamin Shuster",
+            "gitHubID": "bentzi-shuster"
+        },
+        "signature": {
+            "signedAt": "2023-06-05T16:56:54.744Z"
+        }
+    },
+    {
+        "id": "bb219262-88f9-4dc0-88ac-cd431d2579cc",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Atanu Majumder",
+            "gitHubID": "Atanu0341"
+        },
+        "signature": {
+            "signedAt": "2023-06-11T15:53:34.431Z"
+        }
+    },
+    {
+        "id": "f5eace19-b18c-47e4-99a4-6b8f63b4da1a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Patrick H. Lauke",
+            "gitHubID": "patrickhlauke"
+        },
+        "signature": {
+            "signedAt": "2023-07-23T21:13:45.167Z"
+        }
+    },
+    {
+        "id": "ee089371-eaa3-444e-b104-16f444d17d44",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Artyom Bologov",
+            "gitHubID": "aartaka"
+        },
+        "signature": {
+            "signedAt": "2023-08-15T08:20:13.550Z"
+        }
+    },
+    {
+        "id": "3567a423-8709-413a-b952-dcc251741e53",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Denny Seidel",
+            "gitHubID": "Krype"
+        },
+        "signature": {
+            "signedAt": "2023-08-15T11:04:40.465Z"
+        }
+    },
+    {
+        "id": "4b4e546f-5a12-4208-b312-0baa88e1ee0a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Henrik Lievonen",
+            "gitHubID": "henkkuli"
+        },
+        "signature": {
+            "signedAt": "2023-08-21T09:23:28.001Z"
+        }
+    },
+    {
+        "id": "4adf95ce-cb58-4729-ac28-a40d174163f0",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Trevor Spiniolas",
+            "gitHubID": "lilyspiniolas"
+        },
+        "signature": {
+            "signedAt": "2023-08-29T15:11:40.661Z"
+        }
+    },
+    {
+        "id": "12e4a63c-9d6a-460f-8020-99c45b9ad490",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Achuth Iruku",
+            "gitHubID": "airuku"
+        },
+        "signature": {
+            "signedAt": "2023-08-31T20:29:48.049Z"
+        }
+    },
+    {
+        "id": "d230e0dd-8be9-4a75-b46c-ec8ac2def89c",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jamieson Roberts",
+            "gitHubID": "JamiesonRoberts"
+        },
+        "signature": {
+            "signedAt": "2023-09-03T01:43:16.877Z"
+        }
+    },
+    {
+        "id": "b405a64b-e029-4019-9012-ffcb4afbe996",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "aniket",
+            "gitHubID": "zyachel"
+        },
+        "signature": {
+            "signedAt": "2023-09-08T17:30:21.833Z"
+        }
+    },
+    {
+        "id": "69093176-3bdf-4352-97fb-5d34a35f6881",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Christine Belzie ",
+            "gitHubID": "CBID2"
+        },
+        "signature": {
+            "signedAt": "2023-09-09T23:48:23.183Z"
+        }
+    },
+    {
+        "id": "faee38dd-eb63-4064-8008-7daa01bcad97",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "İsmail Arılık",
+            "gitHubID": "ismailarilik"
+        },
+        "signature": {
+            "signedAt": "2023-09-14T11:14:21.677Z"
+        }
+    },
+    {
+        "id": "60563a9c-baa3-4f1f-b8aa-b9b680845a6e",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Martin Fischer",
+            "gitHubID": "not-my-profile"
+        },
+        "signature": {
+            "signedAt": "2023-09-23T13:39:39.421Z"
+        }
+    },
+    {
+        "id": "7888999b-29cc-4677-af3d-20e1e2c7df6a",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Harun Oz",
+            "gitHubID": "harunoz"
+        },
+        "signature": {
+            "signedAt": "2023-10-24T12:42:39.761Z"
+        }
+    },
+    {
+        "id": "01a5c0f5-974c-4d35-a98e-e58a95835cca",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Julien Cretel",
+            "gitHubID": "jub0bs"
+        },
+        "signature": {
+            "signedAt": "2023-10-24T16:00:12.036Z"
+        }
+    },
+    {
+        "id": "fc9d0827-8e05-485a-96ff-3c7384248bd8",
+        "verified": true,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Ujjwal Das",
+            "gitHubID": "gfggithubleet"
+        },
+        "signature": {
+            "signedAt": "2023-10-27T17:02:26.774Z"
+        }
+    },
+    {
+        "id": "efc0264c-8b90-4648-b2b8-02968db7feb1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Varun Varada",
+            "gitHubID": "getsnoopy"
+        },
+        "signature": {
+            "signedAt": "2023-11-03T02:01:56.588Z"
+        }
+    },
+    {
+        "id": "c055a699-c56f-4de1-b37c-f752973b7503",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Pradeep Kumar Saraswathi",
+            "gitHubID": "pradeepin2"
+        },
+        "signature": {
+            "signedAt": "2023-11-05T19:22:30.607Z"
+        }
+    },
+    {
+        "id": "969af0be-636d-482a-b51f-e03930b4e0d2",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Artem Zakharchenko",
+            "gitHubID": "kettanaito"
+        },
+        "signature": {
+            "signedAt": "2023-11-15T21:03:40.151Z"
+        }
+    },
+    {
+        "id": "0f897c08-7250-4e28-aa40-151e3cf3710d",
+        "verified": false,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Darius Miksys",
+            "gitHubID": "Technomama"
+        },
+        "signature": {
+            "signedAt": "2023-11-27T10:31:49.360Z"
+        }
+    },
+    {
+        "id": "0d539377-e583-4388-9943-0e8110394fb8",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Hermann Stanew",
+            "gitHubID": "junaga"
+        },
+        "signature": {
+            "signedAt": "2023-11-27T10:52:34.453Z"
+        }
+    },
+    {
+        "id": "d5eaeb73-8f0c-4ac1-9200-8efd22335f08",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Kaveen Amarasekara",
+            "gitHubID": "KaveenAmarasekara"
+        },
+        "signature": {
+            "signedAt": "2023-12-12T17:36:33.846Z"
+        }
+    },
+    {
+        "id": "8f885a82-5a41-42c0-bd05-dfa45995c017",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "a",
+            "gitHubID": "a"
+        },
+        "signature": {
+            "signedAt": "2023-12-23T22:54:18.564Z"
+        }
+    },
+    {
+        "id": "a298b640-2526-44d3-894c-ad58fcc33242",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Evan Kirkiles",
+            "gitHubID": "evankirkiles"
+        },
+        "signature": {
+            "signedAt": "2024-01-01T10:46:53.357Z"
+        }
+    },
+    {
+        "id": "bb3d1630-503c-402b-b2bd-b7ac11d673e8",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Marco Ippolito",
+            "gitHubID": "marco-ippolito"
+        },
+        "signature": {
+            "signedAt": "2024-01-02T14:52:17.365Z"
+        }
+    },
+    {
+        "id": "17c9f287-cdda-4905-b9ce-38240f8b0be6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Abimael Barea",
+            "gitHubID": "abimaelbarea"
+        },
+        "signature": {
+            "signedAt": "2024-01-04T10:26:16.345Z"
+        }
+    },
+    {
+        "id": "4f9fc66b-a84d-4b2d-9303-a99c556ffa1e",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "T.J. Crowder",
+            "gitHubID": "tjcrowder"
+        },
+        "signature": {
+            "signedAt": "2024-01-10T11:45:44.395Z"
+        }
+    },
+    {
+        "id": "5834688b-4303-447a-9cd5-f01016b0e485",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "T.J. Crowder",
+            "gitHubID": "farsightsoftware"
+        },
+        "signature": {
+            "signedAt": "2024-01-10T11:47:23.308Z"
+        }
+    },
+    {
+        "id": "b911b18a-b475-4b9b-8b0c-d14f74e50c8e",
+        "verified": true,
+        "workstreams": [
+            "infra"
+        ],
+        "info": {
+            "name": "Rami Daoud",
+            "gitHubID": "rami-daoud"
+        },
+        "signature": {
+            "signedAt": "2024-01-11T16:53:02.446Z"
+        }
+    },
+    {
+        "id": "a4818326-d0e7-4a6a-9d2b-10d7e92d6a1d",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Marcus Otterström",
+            "gitHubID": "MarcusOtter"
+        },
+        "signature": {
+            "signedAt": "2024-01-26T16:57:14.234Z"
+        }
+    },
+    {
+        "id": "bce67e41-8260-4497-9cb4-69013f8cce96",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Chase Burkdoll",
+            "gitHubID": "chaburk"
+        },
+        "signature": {
+            "signedAt": "2024-01-29T13:38:50.503Z"
+        }
+    },
+    {
+        "id": "6f29ac60-3231-444c-8c92-0aa858cda3b7",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Addison Phillips",
+            "gitHubID": "aphillips"
+        },
+        "signature": {
+            "signedAt": "2024-02-02T17:16:29.303Z"
+        }
+    },
+    {
+        "id": "732af3d3-9086-4c2e-9509-db6dd2dbe2f4",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Arko Sen",
+            "gitHubID": "nesquarx"
+        },
+        "signature": {
+            "signedAt": "2024-02-16T06:25:31.912Z"
+        }
+    },
+    {
+        "id": "a5c0a7a7-aca9-4236-9a2d-7564a53674b1",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Tawanda Moyo",
+            "gitHubID": "tawandamoyo"
+        },
+        "signature": {
+            "signedAt": "2024-02-29T06:40:19.495Z"
+        }
+    },
+    {
+        "id": "d86227da-80ac-4ac4-b8c9-b939daeace1a",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Stas",
+            "gitHubID": "stasoid"
+        },
+        "signature": {
+            "signedAt": "2024-03-03T10:11:34.897Z"
+        }
+    },
+    {
+        "id": "f884602e-2ca8-4218-a8b7-6b3e0cefbfa8",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Yves-Marie K. Rinquin",
+            "gitHubID": "rubycon"
+        },
+        "signature": {
+            "signedAt": "2024-03-21T10:58:54.433Z"
+        }
+    },
+    {
+        "id": "70793e48-70fd-42a5-b3dd-09e572d33332",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Jeroen Zwartepoorte",
+            "gitHubID": "jpzwarte"
+        },
+        "signature": {
+            "signedAt": "2024-03-30T11:50:16.036Z"
+        }
+    },
+    {
+        "id": "6d56689d-19d2-4a51-93ac-9d8a0b6e3e63",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Sakina Maezawa",
+            "gitHubID": "mae616"
+        },
+        "signature": {
+            "signedAt": "2024-03-31T02:58:32.563Z"
+        }
+    },
+    {
+        "id": "d6b92d2b-5573-460c-a3fe-6125b8e95595",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Simon Wülker",
+            "gitHubID": "simonwuelker"
+        },
+        "signature": {
+            "signedAt": "2024-04-02T16:44:05.291Z"
+        }
+    },
+    {
+        "id": "385df423-359c-4bf6-a211-35ae0bdbfb49",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Andrea Fan",
+            "gitHubID": "AndreaFan123"
+        },
+        "signature": {
+            "signedAt": "2024-04-30T09:30:02.654Z"
+        }
+    },
+    {
+        "id": "51fc25c1-91ed-4ad9-9b31-8c2e59137735",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Jamie Mansfield",
+            "gitHubID": "jamierocks"
+        },
+        "signature": {
+            "signedAt": "2024-05-05T23:29:01.406Z"
+        }
+    },
+    {
+        "id": "a24a2775-e303-4909-aa14-c6d9e1166902",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Tyler Morgan",
+            "gitHubID": "TylerJMorg"
+        },
+        "signature": {
+            "signedAt": "2024-05-18T07:15:15.053Z"
+        }
+    },
+    {
+        "id": "1a47f4a6-698c-4090-92cd-a9e032fb91ae",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Matthew Aitken",
+            "gitHubID": "KhafraDev"
+        },
+        "signature": {
+            "signedAt": "2024-05-20T17:54:02.202Z"
+        }
+    },
+    {
+        "id": "b5668bba-57b0-43af-a8dc-06855b51f417",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Mikey Esteban",
+            "gitHubID": "mikey-esteban"
+        },
+        "signature": {
+            "signedAt": "2024-05-21T13:48:53.601Z"
+        }
+    },
+    {
+        "id": "c1c53110-c10b-4d9a-a6c9-d805f1e16092",
+        "verified": false,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Adam Eisenreich",
+            "gitHubID": "Akxe"
+        },
+        "signature": {
+            "signedAt": "2024-05-21T23:18:01.629Z"
+        }
+    },
+    {
+        "id": "08ae2289-2c62-4cd8-94e0-85e5824039b2",
+        "verified": true,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Fabijan Čorak",
+            "gitHubID": "FabijanC"
+        },
+        "signature": {
+            "signedAt": "2024-05-31T06:38:22.356Z"
+        }
+    },
+    {
+        "id": "14867ff3-d77c-4f70-bcfd-350454a298b5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Arka Pratim Chaudhuri",
+            "gitHubID": "bianca1326456"
+        },
+        "signature": {
+            "signedAt": "2024-07-18T14:39:04.234Z"
+        }
+    },
+    {
+        "id": "215e4fd2-06f3-42d6-be7e-81fcda646e53",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Shane Handley",
+            "gitHubID": "shanehandley"
+        },
+        "signature": {
+            "signedAt": "2024-07-21T04:44:36.194Z"
+        }
+    },
+    {
+        "id": "b94fbf97-ea04-48aa-8d60-59035307c87c",
+        "verified": false,
+        "workstreams": "Verifier: replace this with the array of workstreams the SG has invited this individual to, or replace it with \"all\" if they're invited to all workstreams.",
+        "info": {
+            "name": "احمد جوده احمد محمد",
+            "gitHubID": "ahmed1106666"
+        },
+        "signature": {
+            "signedAt": "2024-07-25T09:24:06.490Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "2bca2f7e-c0cb-46b8-8ee9-65d5a6d7344e",
+        "verified": false,
+        "workstreams": "Verifier: replace this with the array of workstreams the SG has invited this individual to, or replace it with \"all\" if they're invited to all workstreams.",
+        "info": {
+            "name": "Leon",
+            "gitHubID": "LeoXplore"
+        },
+        "signature": {
+            "signedAt": "2024-08-04T19:06:47.342Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "c8bfa241-43ca-4a50-b198-25b3710edf76",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Samuel Weinig",
+            "gitHubID": "weinig"
+        },
+        "signature": {
+            "signedAt": "2024-08-09T22:04:16.280Z"
+        }
+    },
+    {
+        "id": "ecb00bc8-ec78-4a32-be49-4f42dc888e0e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Gasim Gasimzada",
+            "gitHubID": "GasimGasimzada"
+        },
+        "signature": {
+            "signedAt": "2024-08-11T11:03:07.538Z"
+        }
+    },
+    {
+        "id": "6d3ad8a9-278f-46bb-a265-71b1b2b180b1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Ri Xu",
+            "gitHubID": "xuri"
+        },
+        "signature": {
+            "signedAt": "2024-08-12T06:27:53.015Z"
+        }
+    },
+    {
+        "id": "a7664577-0f6b-454b-a907-8c5e0814f866",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Matt Harding",
+            "gitHubID": "majaha"
+        },
+        "signature": {
+            "signedAt": "2024-08-15T06:23:32.122Z"
+        }
+    },
+    {
+        "id": "81db5dbe-19c5-4051-ab34-c442ee9f446e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Pawan Udassi",
+            "gitHubID": "Udassi-Pawan"
+        },
+        "signature": {
+            "signedAt": "2024-09-04T05:34:41.902Z"
+        }
+    },
+    {
+        "id": "08ed0d3c-ff26-48fe-9b38-a611e7948fd0",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Anthony Brian Mallgren",
+            "gitHubID": "anthonymallgren"
+        },
+        "signature": {
+            "signedAt": "2024-09-11T19:33:33.543Z"
+        }
+    },
+    {
+        "id": "97ed0d5d-4c06-4119-831c-e19e0a63ab92",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Matthew Mario Di Pasquale",
+            "gitHubID": "ma11hew28"
+        },
+        "signature": {
+            "signedAt": "2024-09-24T00:57:55.605Z"
+        }
+    },
+    {
+        "id": "e41339b3-267b-4d28-a627-d5bef5352db1",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Kemal Zebari",
+            "gitHubID": "kemzeb"
+        },
+        "signature": {
+            "signedAt": "2024-09-30T16:25:16.245Z"
+        }
+    },
+    {
+        "id": "1a66802d-cbae-4be6-907b-ee5f078d929b",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Akash Balenalli",
+            "gitHubID": "qu1chu5"
+        },
+        "signature": {
+            "signedAt": "2024-09-30T17:31:40.550Z"
+        }
+    },
+    {
+        "id": "03cf11f6-b432-4f37-9647-6ae4581fde0e",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Tristan Parisot",
+            "gitHubID": "quadristan"
+        },
+        "signature": {
+            "signedAt": "2024-10-14T10:47:31.348Z"
+        }
+    },
+    {
+        "id": "b28a74dd-4804-4891-9c72-c192c5bd3171",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "足立哲哉",
+            "gitHubID": "AdachiTetsuya"
+        },
+        "signature": {
+            "signedAt": "2024-10-24T07:03:17.155Z"
+        }
+    },
+    {
+        "id": "9f953721-fd5b-45a9-b0e3-46f5a6b667df",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Larry Johnson",
+            "gitHubID": "sitedata"
+        },
+        "signature": {
+            "signedAt": "2024-11-09T19:00:06.383Z"
+        }
+    },
+    {
+        "id": "0cf39921-ba3d-4b3e-b7f5-01e8516c2f3f",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Alexander Petros",
+            "gitHubID": "alexpetros"
+        },
+        "signature": {
+            "signedAt": "2024-11-11T17:08:10.577Z"
+        }
+    },
+    {
+        "id": "523ed2b6-6089-4fb9-b898-a10416054615",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Espen Hovlandsdal",
+            "gitHubID": "rexxars"
+        },
+        "signature": {
+            "signedAt": "2024-11-19T03:07:24.571Z"
+        }
+    },
+    {
+        "id": "42c104f0-3a08-471d-b706-6f561f7629fa",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Oliver Medhurst",
+            "gitHubID": "CanadaHonk"
+        },
+        "signature": {
+            "signedAt": "2024-11-20T09:10:22.630Z"
+        }
+    },
+    {
+        "id": "2adcb156-889d-4057-afaa-84485b6b2861",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Victor l Washington ",
+            "gitHubID": "nova01"
+        },
+        "signature": {
+            "signedAt": "2024-11-30T09:22:07.171Z"
+        }
+    },
+    {
+        "id": "f27551a9-3cb8-4944-9bd2-0aef28ca3b05",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Yash Raj Bharti",
+            "gitHubID": "yashrajbharti"
+        },
+        "signature": {
+            "signedAt": "2024-12-01T13:07:30.520Z"
+        }
+    },
+    {
+        "id": "afab4bce-52e5-4979-97d4-331c76b66f02",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Shannon Booth",
+            "gitHubID": "shannonbooth"
+        },
+        "signature": {
+            "signedAt": "2024-12-01T21:35:23.893Z"
+        }
+    },
+    {
+        "id": "fa62999d-e7d3-418a-baf6-e5f44b1b749f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Kristian Spangsege",
+            "gitHubID": "kspangsege"
+        },
+        "signature": {
+            "signedAt": "2024-12-03T11:05:45.685Z"
+        }
+    },
+    {
+        "id": "419a1bbe-c732-40d3-a483-d50db7e42de4",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "张恩铭",
+            "gitHubID": "zhangenming"
+        },
+        "signature": {
+            "signedAt": "2024-12-10T06:27:37.728Z"
+        }
+    },
+    {
+        "id": "f99644d0-0854-40a4-84e6-cf5476a129cd",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Daniel Ethridge",
+            "gitHubID": "wlib"
+        },
+        "signature": {
+            "signedAt": "2024-12-15T04:58:29.942Z"
+        }
+    },
+    {
+        "id": "ee3750b1-8143-414d-a378-3cb1450c16d2",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Andre Schackier",
+            "gitHubID": "AMS21"
+        },
+        "signature": {
+            "signedAt": "2024-12-20T16:09:28.398Z"
+        }
+    },
+    {
+        "id": "f471ecc9-13d1-4476-acda-163acca36125",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "idrees",
+            "gitHubID": "idrees1"
+        },
+        "signature": {
+            "signedAt": "2024-12-31T11:09:29.559Z"
+        }
+    },
+    {
+        "id": "fcbfe879-ee69-44cb-b920-2d6568da2ad5",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "justin alson",
+            "gitHubID": "cloudi"
+        },
+        "signature": {
+            "signedAt": "2025-01-10T00:12:57.432Z"
+        }
+    },
+    {
+        "id": "43ea6b10-ecf3-48cb-94e9-03dcf70d17b0",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Bentaimia Haddadi",
+            "gitHubID": "Taym95"
+        },
+        "signature": {
+            "signedAt": "2025-01-20T09:19:08.774Z"
+        }
+    },
+    {
+        "id": "93d1d0b9-7f28-459d-a493-7a7e7a73464d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Roger King",
+            "gitHubID": "rgking"
+        },
+        "signature": {
+            "signedAt": "2025-02-02T20:01:38.819Z"
+        }
+    },
+    {
+        "id": "b7d764cc-64ed-448f-9f75-1371a53b5917",
+        "verified": false,
+        "workstreams": "Verifier: replace this with the array of workstreams the SG has invited this individual to, or replace it with \"all\" if they're invited to all workstreams.",
+        "info": {
+            "name": "Lachlan Prior",
+            "gitHubID": "Lockmister"
+        },
+        "signature": {
+            "signedAt": "2025-02-08T22:26:39.367Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "abe45689-bff5-4c86-925a-252b7ae17249",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Saara Bilyour",
+            "gitHubID": "SaaraBilyour"
+        },
+        "signature": {
+            "signedAt": "2025-02-12T05:37:14.101Z"
+        }
+    },
+    {
+        "id": "159d7168-b128-49cb-8315-93cf31e490be",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Alexander Shaw",
+            "gitHubID": "Symbitic"
+        },
+        "signature": {
+            "signedAt": "2025-02-17T14:35:15.512Z"
+        }
+    },
+    {
+        "id": "5a32e136-661f-449c-8fcd-4bb60be8a123",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Bernard Ryhede Bengtsson",
+            "gitHubID": "bernardrb"
+        },
+        "signature": {
+            "signedAt": "2025-02-24T13:17:29.914Z"
+        }
+    },
+    {
+        "id": "1d6e16b5-9c67-44cf-b0ee-07d420ab189f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Richard Torres",
+            "gitHubID": "richardtorres314"
+        },
+        "signature": {
+            "signedAt": "2025-03-09T23:21:47.895Z"
+        }
+    },
+    {
+        "id": "aa207b82-3598-4106-be0c-25d4d85f3fce",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Abhishek Sharma",
+            "gitHubID": "Abhisii"
+        },
+        "signature": {
+            "signedAt": "2025-03-16T06:05:10.909Z"
+        }
+    },
+    {
+        "id": "3a8a8f9b-3dab-4de2-8f3c-63f371bbfbb6",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Timothy Flynn",
+            "gitHubID": "trflynn89"
+        },
+        "signature": {
+            "signedAt": "2025-03-26T11:52:58.195Z"
+        }
+    },
+    {
+        "id": "f486ab97-dab0-4322-abff-652946a21451",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Roberto Furlani",
+            "gitHubID": "rfurlani61"
+        },
+        "signature": {
+            "signedAt": "2025-04-02T14:37:29.703Z"
+        }
+    },
+    {
+        "id": "d4d3f7ea-a60e-4cbb-abb4-5d9f0edf7ea3",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "sawi choukikar",
+            "gitHubID": "choukikars16"
+        },
+        "signature": {
+            "signedAt": "2025-04-03T10:34:59.589Z"
+        }
+    },
+    {
+        "id": "d51612f7-35fb-400e-ad57-eaf59e039c68",
+        "verified": false,
+        "workstreams": "Verifier: replace this with the array of workstreams the SG has invited this individual to, or replace it with \"all\" if they're invited to all workstreams.",
+        "info": {
+            "name": "Victor l Washington ",
+            "gitHubID": "vnova01"
+        },
+        "signature": {
+            "signedAt": "2025-05-07T06:27:16.546Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "d5a33ff1-8d61-423c-9d1a-a8af385027f6",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Kaito Suzuki",
+            "gitHubID": "shiomiyan"
+        },
+        "signature": {
+            "signedAt": "2025-05-14T04:44:18.769Z"
+        }
+    },
+    {
+        "id": "f939997d-eb8d-4394-9268-2cecbc108976",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Benjamin Eugene Eidson",
+            "gitHubID": "Prospero23"
+        },
+        "signature": {
+            "signedAt": "2025-05-16T12:49:00.623Z"
+        }
+    },
+    {
+        "id": "38c89d11-b40d-4b0c-895a-3493b7fa3a28",
+        "verified": false,
+        "workstreams": [
+            "compat",
+            "console",
+            "dom",
+            "encoding",
+            "fetch",
+            "fullscreen",
+            "html",
+            "infra",
+            "mimesniff",
+            "notifications",
+            "quirks",
+            "storage",
+            "streams",
+            "testutils",
+            "url",
+            "webidl",
+            "xhr"
+        ],
+        "info": {
+            "name": "Paola Guerra Sánchez ",
+            "gitHubID": "2425508"
+        },
+        "signature": {
+            "signedAt": "2025-06-21T00:33:19.091Z"
+        }
+    },
+    {
+        "id": "d791b97a-bfee-4154-97f7-ed220bad92b3",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Abdelatef Ali",
+            "gitHubID": "AbdelatefElshafei"
+        },
+        "signature": {
+            "signedAt": "2025-06-28T12:41:04.426Z"
+        }
+    },
+    {
+        "id": "8b86eabd-3445-40f6-aff6-40f8774dab86",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Ryan Liptak",
+            "gitHubID": "squeek502"
+        },
+        "signature": {
+            "signedAt": "2025-06-29T05:52:02.711Z"
+        }
+    },
+    {
+        "id": "f62af479-f6ef-4898-8942-c2f3081be58b",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Jin Dongxun",
+            "gitHubID": "JinDX"
+        },
+        "signature": {
+            "signedAt": "2025-07-14T07:07:26.977Z"
+        }
+    },
+    {
+        "id": "b4490f05-77f2-453b-b74f-6fb23ca60a65",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Daniel Sierpiński",
+            "gitHubID": "513ry"
+        },
+        "signature": {
+            "signedAt": "2025-07-25T10:12:49.478Z"
+        }
+    },
+    {
+        "id": "79cbdc4b-57a0-4a28-80d4-5214f3c06952",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Zoltán Kondér",
+            "gitHubID": "zoltan-konder"
+        },
+        "signature": {
+            "signedAt": "2025-07-26T00:28:40.528Z"
+        }
+    },
+    {
+        "id": "ffe9d18e-975f-4893-9a89-be7c1c657bea",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "ADITYA CHAUHAN",
+            "gitHubID": "hooiv"
+        },
+        "signature": {
+            "signedAt": "2025-07-27T10:27:36.593Z"
+        }
+    },
+    {
+        "id": "cfabb4c8-e38d-4a6e-aacc-0938b9c1bddf",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Linus Tucker",
+            "gitHubID": "MrStarfleetCommand"
+        },
+        "signature": {
+            "signedAt": "2025-07-29T08:06:03.343Z"
+        }
+    },
+    {
+        "id": "c8793bd2-db04-46d1-a74f-0b6f40f3d62a",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Bogdan Chadkin",
+            "gitHubID": "TrySound"
+        },
+        "signature": {
+            "signedAt": "2025-08-04T11:05:04.733Z"
+        }
+    },
+    {
+        "id": "57c189f1-dd4a-4fd4-af02-c81ae721be0c",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Bekalu Teshome Terefe Zenebe",
+            "gitHubID": "alethkit"
+        },
+        "signature": {
+            "signedAt": "2025-08-20T21:54:53.696Z"
+        }
+    },
+    {
+        "id": "81993927-3411-43ca-9076-2d097bb139cb",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Lorenzo Lomartire",
+            "gitHubID": "LL-10"
+        },
+        "signature": {
+            "signedAt": "2025-09-16T11:18:01.882Z"
+        }
+    },
+    {
+        "id": "0390181e-0877-4c60-ab6b-45d17ca40929",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Canrong Lan",
+            "gitHubID": "Chanran"
+        },
+        "signature": {
+            "signedAt": "2025-09-16T14:43:43.142Z"
+        }
+    },
+    {
+        "id": "c07cf648-3351-4d8c-ae09-b69af62454c7",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Shivendra Kumar",
+            "gitHubID": "dvlpr-shivendra"
+        },
+        "signature": {
+            "signedAt": "2025-09-21T12:33:21.783Z"
+        }
+    },
+    {
+        "id": "6a60cb33-4058-4821-a390-3861a4191ee1",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Elias Sjögreen",
+            "gitHubID": "eliassjogreen"
+        },
+        "signature": {
+            "signedAt": "2025-10-08T18:22:22.241Z"
+        }
+    },
+    {
+        "id": "795dc41f-2772-471d-a305-2eeb720431ba",
+        "verified": false,
+        "workstreams": "Verifier: replace this with the array of workstreams the SG has invited this individual to, or replace it with \"all\" if they're invited to all workstreams.",
+        "info": {
+            "name": "Dean Srebnik",
+            "gitHubID": "load1n9"
+        },
+        "signature": {
+            "signedAt": "2025-10-08T18:25:00.043Z"
+        },
+        "invited": true
+    },
+    {
+        "id": "34b65f65-d330-4af0-a4f2-dcdf21710c4e",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Lino Le Van",
+            "gitHubID": "lino-levan"
+        },
+        "signature": {
+            "signedAt": "2025-10-08T19:18:40.224Z"
+        }
+    },
+    {
+        "id": "3032d039-c498-4719-b96e-d0be9f9fd185",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Martin McEvoy",
+            "gitHubID": "WebOrganics"
+        },
+        "signature": {
+            "signedAt": "2025-10-20T09:01:17.898Z"
+        }
+    },
+    {
+        "id": "4a004f57-9397-48fc-9e8a-3d5a403fbf7d",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Duba Sirisha",
+            "gitHubID": "SirishaDuba"
+        },
+        "signature": {
+            "signedAt": "2025-10-28T11:00:49.675Z"
+        }
+    },
+    {
+        "id": "8bb68a8c-7d61-48ed-b04e-446e7c9dd116",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Kendrick Anderson ",
+            "gitHubID": "SlyFoxxx00"
+        },
+        "signature": {
+            "signedAt": "2025-10-29T12:43:29.619Z"
+        }
+    },
+    {
+        "id": "e99d041e-82af-4fc7-a57a-640d19fc9cd9",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Wonho Shin",
+            "gitHubID": "ShinWonho"
+        },
+        "signature": {
+            "signedAt": "2025-11-10T12:19:00.355Z"
+        }
+    },
+    {
+        "id": "61d5c5f3-1db0-4156-84fb-b328d0d6d497",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "kanakala saikiran",
+            "gitHubID": "saikirankanakala"
+        },
+        "signature": {
+            "signedAt": "2025-11-13T04:44:56.509Z"
+        }
+    },
+    {
+        "id": "19eea992-0975-41e6-851b-0847340ea3c9",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Lorenz Ackermann",
+            "gitHubID": "lpas"
+        },
+        "signature": {
+            "signedAt": "2025-11-19T23:59:16.658Z"
+        }
+    },
+    {
+        "id": "1f980291-71cf-4589-bcad-3013e8f3a5fa",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Maxwell Torres",
+            "gitHubID": "maxwellcotto"
+        },
+        "signature": {
+            "signedAt": "2025-11-20T22:32:31.616Z"
+        }
+    },
+    {
+        "id": "101818c0-9b12-4a5c-be84-aea8c452a92f",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Domenic Denicola",
+            "gitHubID": "domenic"
+        },
+        "signature": {
+            "signedAt": "2026-01-02T13:39:54.719Z"
+        }
+    },
+    {
+        "id": "acac06ac-2730-4bbc-bef9-927fd629cb43",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Maxwell Winkler",
+            "gitHubID": "valadaptive"
+        },
+        "signature": {
+            "signedAt": "2026-01-04T13:53:48.031Z"
+        }
+    },
+    {
+        "id": "51ba7eb9-3ba7-406e-b821-33617a87e5e9",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Meghan Denny",
+            "gitHubID": "nektro"
+        },
+        "signature": {
+            "signedAt": "2026-01-10T08:46:36.296Z"
+        }
+    },
+    {
+        "id": "f9aff7f8-882b-46f5-9bcd-cf41a8893db5",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Joseph Michael",
+            "gitHubID": "byteforge38"
+        },
+        "signature": {
+            "signedAt": "2026-01-12T13:50:44.872Z"
+        }
+    },
+    {
+        "id": "d78fa6bb-3f91-4f2a-963e-fce21b373ca7",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Monica Chintala",
+            "gitHubID": "Monica-ch"
+        },
+        "signature": {
+            "signedAt": "2026-01-20T18:19:55.197Z"
+        }
+    },
+    {
+        "id": "870a576b-c8ca-4168-894c-de6cad97b153",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Chase Knowlden",
+            "gitHubID": "ChaseKnowlden"
+        },
+        "signature": {
+            "signedAt": "2026-02-16T18:53:28.047Z"
+        }
+    },
+    {
+        "id": "bc99d0db-9a8d-4aef-9f4e-9d5264dff114",
+        "verified": false,
+        "workstreams": [
+            "html"
+        ],
+        "info": {
+            "name": "Aleksandr Boiarnikov",
+            "gitHubID": "gmvrpw"
+        },
+        "signature": {
+            "signedAt": "2026-02-28T13:53:33.746Z"
+        }
+    },
+    {
+        "id": "d79aaff8-08fb-4c91-906d-ffc4df745970",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Usama Nadeem",
+            "gitHubID": "usamanadeemdeveloper"
+        },
+        "signature": {
+            "signedAt": "2026-03-01T12:36:49.008Z"
+        }
+    },
+    {
+        "id": "0c4e1417-1ff6-43a0-83c5-e11c6e3580ec",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Helmut Januschka",
+            "gitHubID": "hjanuschka"
+        },
+        "signature": {
+            "signedAt": "2026-03-02T08:14:10.648Z"
+        }
+    },
+    {
+        "id": "7c846ded-4e19-4596-a5d9-70981e8ab21b",
+        "verified": true,
+        "workstreams": "all",
+        "info": {
+            "name": "Oleksandr Pavliuk",
+            "gitHubID": "opavlyuk"
+        },
+        "signature": {
+            "signedAt": "2026-03-11T09:27:35.248Z"
+        }
+    },
+    {
+        "id": "11f3d665-c01e-427e-b96e-ce88670432c6",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Lachlan Hunt",
+            "gitHubID": "lachlanhunt"
+        },
+        "signature": {
+            "signedAt": "2026-03-17T13:10:58.113Z"
+        }
+    },
+    {
+        "id": "b71fadc7-25d0-4564-8d59-f78477f1b81b",
+        "verified": false,
+        "workstreams": "all",
+        "info": {
+            "name": "Fabian Singer",
+            "gitHubID": "daxpedda"
+        },
+        "signature": {
+            "signedAt": "2026-03-20T08:16:58.801Z"
+        }
+    }
+]

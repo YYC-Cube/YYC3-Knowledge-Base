@@ -1,0 +1,17 @@
+slug: css/visual
+title: CSS Visual Articles
+shortTitle: CSS Visual
+miniTitle: Visual
+listed: true
+parent: css
+languageMatcher: css
+tagMatcher: visual
+description: >-
+  The CSS article collection contains utilities and interactive examples for
+  CSS3. It includes modern techniques for creating commonly-used layouts,
+  styling and animating elements, as well as articles for handling user
+  interactions.
+shortDescription: >-
+  An article collection of interactive CSS3 visual code articles with
+  interactive examples.
+splash: camera

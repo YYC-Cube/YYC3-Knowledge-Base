@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# mu command line on macOS, Linux and WSL. (The project was called KYRN until 2026-09-21.)
+#
+# Everything the launcher does is in mu.mjs, next to this file, so that it also runs on Windows (mu.cmd).
+# `mu help` lists the commands.
+#
+# Only one job is left here: finding a Node >= 22.19 (pi's minimum), from PATH or else from nvm. It has to
+# happen before any JavaScript runs, because a machine whose default Node is older cannot be trusted to run
+# the launcher itself.
+set -euo pipefail
+
+# The command is usually a symlink in ~/.local/bin: follow it back to the repository.
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -L "$SOURCE" ]]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+BIN="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+
+# True for "24.16.0", "v22.19.0"; false for "22.18.0", "20.20.1" and for anything that is not a version.
+new_enough() {
+  local version="${1#v}" major minor
+  major="${version%%.*}"
+  minor="${version#*.}"
+  minor="${minor%%.*}"
+  [[ "$major" =~ ^[0-9]+$ && "$minor" =~ ^[0-9]+$ ]] || return 1
+  ((major > 22 || (major == 22 && minor >= 19)))
+}
+
+# `node --version` costs a third of `node -p ...`: it answers before the runtime is started.
+if ! new_enough "$(node --version 2>/dev/null || true)"; then
+  for dir in $(ls -d "$HOME"/.nvm/versions/node/v* 2>/dev/null | sort -rV); do
+    if new_enough "${dir##*/}"; then
+      # First on PATH too, so that what the agent starts (node, npm, npx) is the same Node.
+      export PATH="$dir/bin:$PATH"
+      break
+    fi
+  done
+fi
+if ! new_enough "$(node --version 2>/dev/null || true)"; then
+  echo "mu needs Node >= 22.19 (found $(node --version 2>/dev/null || echo none)). Try: nvm install 24" >&2
+  exit 1
+fi
+
+exec node "$BIN/mu.mjs" "$@"

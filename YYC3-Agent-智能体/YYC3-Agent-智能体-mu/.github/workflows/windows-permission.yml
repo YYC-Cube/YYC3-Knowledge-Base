@@ -1,0 +1,84 @@
+name: Windows permission check
+
+# mu's permission round trip on Windows, headless, as the desktop app runs it: the desktop's ACP adapter started the
+# way AionCore starts it (desktop/scripts/kyrn/acp.cmd through `cmd /d /c`), the harness from this checkout over RPC,
+# a stub model (a local OpenAI-style endpoint) and the mock judge. It answers mu's question as the app does (allow
+# once, don't allow, an answer that is none of the choices) and checks the conversation still works afterwards, on the
+# same adapter process. No key, no real model. The steps are desktop/scripts/kyrn/start-check/check.mjs.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'desktop/packages/desktop/src/process/agent/kyrn/**'
+      - 'desktop/scripts/kyrn/**'
+      - 'packages/kyrn-judge/src/extension/features/permissions.ts'
+      - 'packages/kyrn-judge/src/permissions/**'
+      - 'packages/coding-agent/src/modes/rpc/**'
+      - 'kyrn/bin/**'
+      - '.github/workflows/windows-permission.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'desktop/packages/desktop/src/process/agent/kyrn/**'
+      - 'desktop/scripts/kyrn/**'
+      - 'packages/kyrn-judge/src/extension/features/permissions.ts'
+      - 'packages/kyrn-judge/src/permissions/**'
+      - 'packages/coding-agent/src/modes/rpc/**'
+      - 'kyrn/bin/**'
+      - '.github/workflows/windows-permission.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-permission-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  permission:
+    name: Windows · start chain and permission round trip
+    runs-on: windows-2022
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Node 24, as on the developers' machines and in the packaged app.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install the harness
+        run: npm ci --ignore-scripts
+
+      # The model catalog pi reads at start is generated per checkout (npm run build does it in CI's harness job).
+      - name: Hydrate the model catalog
+        run: npm --prefix packages/ai run hydrate-model-data
+
+      - name: Install the desktop
+        working-directory: desktop
+        run: bun install --frozen-lockfile
+
+      # An older desktop snapshot has no permission step and would pass without running it.
+      - name: The check has the permission step
+        shell: node {0}
+        run: |
+          const script = require('fs').readFileSync('desktop/scripts/kyrn/start-check/check.mjs', 'utf8');
+          if (!script.includes('permissionRoundTrip')) {
+            console.error('desktop/scripts/kyrn/start-check/check.mjs has no --permission step yet; sync the desktop first');
+            process.exit(1);
+          }
+
+      # Throwaway home, stub model, mock judge: nothing of the runner's is read and no model is called.
+      - name: Start chain and permission round trip
+        env:
+          MU_ROOT: ${{ github.workspace }}
+        run: node desktop/scripts/kyrn/start-check/check.mjs --permission

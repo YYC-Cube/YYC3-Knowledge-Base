@@ -1,0 +1,24 @@
+---
+const { title, description, cover, coverSrcset, secondary } = Astro.props;
+
+const Heading = secondary ? 'h2' : 'h1';
+---
+
+<section class="hero">
+  <div>
+    <Heading set:html={title} />
+    <Fragment set:html={description} />
+  </div>
+  {
+    cover ? (
+      <img
+        src={cover}
+        srcset={coverSrcset}
+        alt=""
+        height="240"
+        width="240"
+        fetchpriority="high"
+      />
+    ) : null
+  }
+</section>

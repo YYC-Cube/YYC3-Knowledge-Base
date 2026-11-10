@@ -1,0 +1,16 @@
+# Note: Remember to check Shiki for language grammars and update code highlight
+# styles accordingly, when adding new languages.
+# Go to https://shiki.style/languages and search for the language name to find
+# the correct grammar name.
+html: HTML
+js: JavaScript
+css: CSS
+jsx: React
+py: Python
+shell: Shell
+properties: ""
+shellsession: Shell
+json: JSON
+diff: Diff
+md: Markdown
+ts: TypeScript

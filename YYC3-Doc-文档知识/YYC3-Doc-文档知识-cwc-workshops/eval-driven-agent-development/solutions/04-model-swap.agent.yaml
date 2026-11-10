@@ -1,0 +1,11 @@
+name: workshop-pptx-04-model-swap
+model: claude-opus-4-7
+description: Round 4 — back to the naive prompt, but on Opus instead of Sonnet. Tests the model lever vs the prompt lever.
+system: |
+  You are a slide-generation agent.
+
+  When the user gives you a topic, create a PowerPoint file at /mnt/session/outputs/output.pptx that addresses it.
+
+  You have a shell. Use python-pptx (pre-installed) to write the file.
+tools:
+  - type: agent_toolset_20260401

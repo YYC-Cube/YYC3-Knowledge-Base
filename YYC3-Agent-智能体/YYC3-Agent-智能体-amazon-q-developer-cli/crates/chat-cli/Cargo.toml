@@ -1,0 +1,156 @@
+[package]
+name = "chat_cli"
+authors.workspace = true
+edition.workspace = true
+homepage.workspace = true
+publish.workspace = true
+version.workspace = true
+license.workspace = true
+default-run = "chat_cli"
+
+[lints]
+workspace = true
+
+[features]
+default = []
+wayland = ["arboard/wayland-data-control"]
+
+[dependencies]
+agent.workspace = true
+amzn-codewhisperer-client.workspace = true
+amzn-codewhisperer-streaming-client.workspace = true
+amzn-consolas-client.workspace = true
+amzn-qdeveloper-streaming-client.workspace = true
+amzn-toolkit-telemetry-client.workspace = true
+anstream.workspace = true
+arboard.workspace = true
+async-trait.workspace = true
+aws-config.workspace = true
+aws-credential-types.workspace = true
+aws-runtime.workspace = true
+aws-sdk-cognitoidentity.workspace = true
+aws-sdk-ssooidc.workspace = true
+aws-smithy-async.workspace = true
+aws-smithy-runtime-api.workspace = true
+aws-smithy-types.workspace = true
+aws-types.workspace = true
+base64.workspace = true
+bitflags.workspace = true
+bstr.workspace = true
+bytes.workspace = true
+camino.workspace = true
+cfg-if.workspace = true
+chrono.workspace = true
+clap.workspace = true
+clap_complete.workspace = true
+clap_complete_fig.workspace = true
+color-eyre.workspace = true
+color-print.workspace = true
+convert_case.workspace = true
+cookie.workspace = true
+crossterm.workspace = true
+ctrlc.workspace = true
+dialoguer.workspace = true
+dirs.workspace = true
+eyre.workspace = true
+fd-lock.workspace = true
+futures.workspace = true
+glob.workspace = true
+globset.workspace = true
+hex.workspace = true
+http.workspace = true
+http-body-util.workspace = true
+hyper.workspace = true
+hyper-util.workspace = true
+indicatif.workspace = true
+indoc.workspace = true
+insta.workspace = true
+libc.workspace = true
+mimalloc.workspace = true
+nix.workspace = true
+owo-colors.workspace = true
+parking_lot.workspace = true
+paste.workspace = true
+percent-encoding.workspace = true
+image.workspace = true
+r2d2.workspace = true
+r2d2_sqlite.workspace = true
+rand.workspace = true
+regex.workspace = true
+reqwest.workspace = true
+ring.workspace = true
+rusqlite.workspace = true
+rustls.workspace = true
+rustls-native-certs.workspace = true
+rustls-pemfile.workspace = true
+rustyline.workspace = true
+semantic_search_client.workspace = true
+semver.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+shell-color.workspace = true
+shell-words.workspace = true
+shellexpand.workspace = true
+shlex.workspace = true
+similar.workspace = true
+spinners.workspace = true
+strip-ansi-escapes.workspace = true
+strum.workspace = true
+syntect.workspace = true
+sysinfo.workspace = true
+tempfile.workspace = true
+thiserror.workspace = true
+time.workspace = true
+tokio.workspace = true
+tokio-stream.workspace = true
+tokio-tungstenite.workspace = true
+tokio-util.workspace = true
+toml.workspace = true
+tracing.workspace = true
+tracing-appender.workspace = true
+tracing-subscriber.workspace = true
+typed-path.workspace = true
+unicode-width.workspace = true
+url.workspace = true
+uuid.workspace = true
+walkdir.workspace = true
+webpki-roots.workspace = true
+whoami.workspace = true
+winnow.workspace = true
+schemars.workspace = true
+jsonschema.workspace = true
+zip.workspace = true
+rmcp.workspace = true
+chat-cli-ui.workspace = true 
+
+[target.'cfg(unix)'.dependencies]
+nix.workspace = true
+skim.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2.workspace = true
+objc2-app-kit.workspace = true
+objc2-foundation.workspace = true
+security-framework.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows.workspace = true
+winreg.workspace = true
+
+[dev-dependencies]
+assert_cmd.workspace = true
+criterion.workspace = true
+mockito.workspace = true
+paste.workspace = true
+predicates.workspace = true
+tracing-test.workspace = true
+
+[build-dependencies]
+convert_case.workspace = true
+prettyplease.workspace = true
+quote.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+syn.workspace = true
+schemars.workspace = true

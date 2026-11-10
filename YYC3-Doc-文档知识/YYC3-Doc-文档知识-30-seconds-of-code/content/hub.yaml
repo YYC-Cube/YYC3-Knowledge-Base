@@ -1,0 +1,49 @@
+slug: collections
+title: Article Collections
+splash: widescreen
+description: >-
+  30 seconds of code contains a variety of article collections, covering a wide
+  range of development needs. Explore individual language collections or browse
+  through collections about specific topics and programming concepts.
+shortDescription: >-
+  Browse through collections of articles about specific topics and programming concepts.
+featuredListings:
+- js
+- css
+- js/algorithm
+- react/hooks
+- js/node
+- git
+- js/interviews
+- python
+- js/data-structures
+- js/promises
+- js/functional-programming
+- js/comparison
+- html/head-basics
+- css/centering
+- js/css-manipulation
+- js/url
+- js/proxy
+- js/tokenizers-interpreters
+- js/complex-objects
+- js/dom-querying
+- js/dom-manipulation
+- js/event-handling
+- js/arrow-functions
+- js/performance
+- js/colors
+- js/array-methods
+- react/testing
+- css/hover-effects
+- js/generators
+- css/button-transitions
+- js/random-value-generators
+- js/web-storage-essentials
+- js/scroll
+- js/array-initialization
+- css/background-patterns
+- react/components
+- js/http-requests
+- web-development
+- cheatsheets

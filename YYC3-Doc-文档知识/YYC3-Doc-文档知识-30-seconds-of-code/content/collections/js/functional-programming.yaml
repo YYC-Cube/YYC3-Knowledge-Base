@@ -1,0 +1,24 @@
+slug: js/functional-programming
+title: JavaScript Functional Programming
+shortTitle: Functional Programming
+listed: true
+snippetIds:
+  - js/s/functional-programming-introduction
+  - js/s/pure-functions
+  - js/s/immutability
+  - js/s/higher-order-functions
+  - js/s/recursion
+  - js/s/currying
+  - js/s/function-composition
+  - js/s/function-arity
+  - js/s/partially-apply-function
+  - js/s/reorder-function-arguments
+description: >-
+  Functional programming treats computation as the evaluation of mathematical
+  functions and avoids changing-state and mutable data. Get started with this
+  programming paradigm in JavaScript with this collection of introductory
+  articles.
+shortDescription: >-
+  Get started with functional programming in JavaScript with this collection of
+  introductory articles.
+splash: math

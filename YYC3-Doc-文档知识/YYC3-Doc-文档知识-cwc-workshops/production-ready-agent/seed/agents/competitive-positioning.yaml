@@ -1,0 +1,19 @@
+name: competitive-positioning
+model: claude-haiku-4-5
+system: |
+  You assess moat, customer concentration, and competitive dynamics for the
+  targets. Before forming a view, query the Deal Committee's Linear workspace
+  for open diligence items labeled per target (acme / bridgewell / norwood).
+  Incorporate any open red-flags or unanswered questions into your assessment
+  and reference the Linear issue identifiers you considered.
+mcp_servers:
+  - type: url
+    name: linear
+    url: https://mcp.linear.app/mcp
+tools:
+  - type: agent_toolset_20260401
+  - type: mcp_toolset
+    mcp_server_name: linear
+    default_config:
+      enabled: true
+      permission_policy: { type: always_allow }

@@ -1,0 +1,61 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.9 [39m[90m/tmp/synthetic/vitest[39m
+
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 0[32m 1[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 1[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 2[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 3[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 4[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 5[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 6[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 7[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 8[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 9[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 10[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 11[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 12[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 13[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 14[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 15[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 16[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 17[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 18[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 19[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 20[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 21[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 22[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 23[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 24[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 25[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 26[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 27[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 28[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 29[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 30[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 31[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 32[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 33[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 34[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 35[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 36[32m 1[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 37[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 38[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 39[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 40[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 41[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 42[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 43[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 44[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 45[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 46[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mpads minute 47[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22maccepts UTC[32m 0[2mms[22m[39m
+ [32m✓[39m test/format.test.ts[2m > [22mformatDate[2m > [22mrejects invalid input[32m 0[2mms[22m[39m
+ [32m✓[39m test/slow.test.ts[2m > [22mrebuilds the search index[33m 423[2mms[22m[39m
+ [32m✓[39m test/slow.test.ts[2m > [22mreads the index header[32m 0[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m52 passed[39m[22m[90m (52)[39m
+[2m   Start at [22m 22:05:32
+[2m   Duration [22m 534ms[2m (transform 23ms, setup 0ms, import 36ms, tests 429ms, environment 0ms)[22m
+

@@ -1,0 +1,77 @@
+main > article > footer {
+  // Override generic `footer` styles here.
+  grid-row: auto;
+  display: block;
+  padding: 0;
+  color: var(--color-text-lighter);
+
+  // Add some spacing below, based on the layout area spacing.
+  margin-block-end: var(--layout-area-spacing);
+
+  p {
+    // Make the text smaller and align it to the right.
+    font-size: var(--font-sm);
+    text-align: right;
+    max-width: unset;
+
+    time {
+      // Make sure date is displayed in one line on small viewports.
+      display: inline-block;
+    }
+
+    // Select the direct child of the footer, as it can be either a single link
+    // or a `span` element containing two links.
+    // NOTE: Currently the two links case is not in use, but is left as a way
+    // to support further customization in the future (Discussions leftover).
+    > *:is(a, span) {
+      // Make sure actions are displayed in one line on small viewports.
+      display: block;
+    }
+
+    // Query depending on how many characters can fit in a line, assuming that
+    // the user may change the default font size.
+    @media (min-width: 28rem) {
+      > a {
+        // Display the actions in one line on larger viewports.
+        display: inline;
+
+        &::before {
+          // Add a separator on larger viewports.
+          content: '\00B7';
+          // Add spacing after the separator (only needed for single link).
+          padding-inline-end: var(--spacing-2);
+        }
+      }
+    }
+
+    // Query depending on how many characters can fit in a line, assuming that
+    // the user may change the default font size.
+    @media (min-width: 38rem) {
+      > span {
+        // Display the actions in one line on larger viewports.
+        display: inline;
+
+        &::before {
+          // Add a separator on larger viewports.
+          content: '\00B7';
+        }
+      }
+    }
+  }
+
+  a {
+    // Remove underline from links.
+    --link_color-underline: transparent;
+    // Ensure that the links are displayed as inline blocks.
+    display: inline-block;
+
+    transition: color var(--animation-duration-short) ease;
+
+    @media (hover: hover) {
+      // Only apply hover styles on devices that support hover.
+      &:is(:hover, :focus) {
+        color: var(--color-text);
+      }
+    }
+  }
+}

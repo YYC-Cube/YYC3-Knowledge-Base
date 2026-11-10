@@ -1,0 +1,163 @@
+@use '../mixins';
+
+header {
+  // Use the correct grid area (spans 3 columns).
+  grid-area: header;
+  display: grid;
+
+  // Add a column on either side to align with the main area's bleed spacing.
+  // These side columns will not shrink below the bleed size, but will expand
+  // as needed on mobile devices, allowing the header to be centered.
+  // The 2 content columns will be either the rest of the space divided by 2
+  // on smaller viewports or half the main area's width (including bleed) on
+  // desktop, whichever is smaller.
+  grid-template-columns:
+    minmax(var(--layout-bleed-width), 1fr)
+    repeat(
+      2,
+      min(
+        calc(var(--layout-main-column-width) / 2),
+        calc(50% - var(--layout-bleed-width))
+      )
+    )
+    minmax(var(--layout-bleed-width), 1fr);
+
+  // Add some vertical padding to avoid sticking to the edge of the screen.
+  padding-block: var(--spacing-10);
+
+  h1 {
+    // Place the logo in the first content column (skip left spacing column).
+    grid-column: 2;
+    // Align to start of the grid row to avoid stretching the clickable area.
+    justify-self: start;
+
+    img {
+      // Make the logo respond to the user's font size.
+      width: 8.75rem;
+    }
+  }
+
+  nav {
+    // Place the nav in the second content column.
+    grid-column: 3;
+    // Display as flex and align items correctly.
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    // Set the color for all links inside the nav.
+    color: var(--color-text-lighter);
+
+    :is(a, button) {
+      // Remove underline from links.
+      --link_color-underline: transparent;
+      // Ensure elements display correctly and don't shrink below their content.
+      display: inline-block;
+      flex-shrink: 0;
+      // Make clickable area large enough for coarse pointers (44x44).
+      padding: var(--spacing-6);
+      border-radius: var(--border-radius-small);
+      // Apply a transition on hover.
+      transition: color var(--animation-duration-medium) ease;
+
+      svg {
+        // Apply a transition on hover.
+        transition: scale var(--animation-duration-short) ease;
+        // Add a slight delay for the scale animation, on exit only.
+        transition-delay: 100ms;
+      }
+
+      @media (hover: hover) {
+        &:is(:hover, :focus) {
+          // Only apply hover styles on devices that support hover.
+          color: var(--color-text);
+
+          @media (prefers-reduced-motion: no-preference) {
+            // Only scale up if the user prefers motion.
+            svg {
+              // Scale up (to the next font-size) on hover.
+              scale: 1.2;
+              // Override the delay on hover.
+              transition-delay: 0ms;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 25rem) {
+      // Respond to user's font size, changing the layout only when needed.
+      a {
+        // Visually hide links on small viewports, only show the search button.
+        @include mixins.visually-hidden;
+      }
+    }
+
+    &[data-nav-action-container] {
+      // Set default values for the navigation action hotkeys.
+      --nav-action-opacity: 0;
+      --nav-action-transform-y: 70%;
+    }
+
+    [data-nav-action] {
+      &::before {
+        // Show the navigation action hotkey as a small kbd-like block.
+        display: block;
+        position: absolute;
+        content: var(--nav-action-hotkey);
+        opacity: var(--nav-action-opacity);
+
+        // Setup Roboto Mono as the font and give it a tiny size.
+        font-family: 'Roboto Mono', Menlo, Consolas, monospace;
+        font-size: var(--font-xs);
+
+        // Give the element styles similar to kbd.
+        background: var(--color-code-background);
+        border-radius: var(--border-radius-small);
+
+        // Size the element and position it correctly, adjust alignment.
+        width: 1rem;
+        height: 1rem;
+        line-height: 1rem;
+        text-align: center;
+
+        // Add a custom border to make the hotkey more visible.
+        border: var(--border-width-hairline) solid var(--color-border-light);
+        border-bottom-width: var(--border-width-thin);
+
+        // Position at the bottom middle (10% corresponds to the left padding).
+        transform: translate(10%, var(--nav-action-transform-y));
+
+        // Add a transition to make the hotkey appear smoothly.
+        transition:
+          opacity var(--animation-duration-short) ease,
+          transform var(--animation-duration-short) ease;
+      }
+
+      &:hover::before {
+        // Hide the hotkey on hover, as it's not needed.
+        --nav-action-opacity: 0;
+        --nav-action-transform-y: 150%;
+      }
+    }
+
+    // Set up icons for the navigation actions.
+    [data-nav-action='home'] {
+      --nav-action-hotkey: 'H';
+    }
+    [data-nav-action='collections'] {
+      --nav-action-hotkey: 'J';
+    }
+    [data-nav-action='search'] {
+      --nav-action-hotkey: 'K';
+    }
+
+    @media (pointer: fine) and (scripting: enabled) and (hover: hover) {
+      // Only enable navigation action hotkeys if available (desktop with JS).
+      &[data-nav-action-container][data-nav-actions-shown] {
+        // Show the navigation action hotkeys.
+        --nav-action-opacity: 1;
+        --nav-action-transform-y: 85%;
+      }
+    }
+  }
+}

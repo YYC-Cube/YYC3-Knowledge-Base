@@ -1,0 +1,84 @@
+{
+	"name": "@kyrn/judge",
+	"version": "0.1.0",
+	"private": true,
+	"description": "KYRN judgment kernel: typed decisions backed by a System One judge model (Jev), with fail-open fallbacks and a decision ledger",
+	"keywords": [
+		"pi-package",
+		"pi-extension",
+		"judge",
+		"jev",
+		"browser",
+		"subagents"
+	],
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"source": "./src/index.ts",
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./extension": {
+			"source": "./src/extension/kyrn-judge.ts",
+			"types": "./dist/extension/kyrn-judge.d.ts",
+			"import": "./dist/extension/kyrn-judge.js"
+		},
+		"./extension/browser": {
+			"source": "./src/extension/kyrn-browser.ts",
+			"types": "./dist/extension/kyrn-browser.d.ts",
+			"import": "./dist/extension/kyrn-browser.js"
+		},
+		"./extension/swarm": {
+			"source": "./src/extension/kyrn-swarm.ts",
+			"types": "./dist/extension/kyrn-swarm.d.ts",
+			"import": "./dist/extension/kyrn-swarm.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"sideEffects": false,
+	"files": [
+		"dist",
+		"src",
+		"agents",
+		"skills",
+		"prompts",
+		"README.md",
+		"THIRD_PARTY_NOTICES.md"
+	],
+	"pi": {
+		"extensions": [
+			"./src/extension/kyrn-judge.ts"
+		]
+	},
+	"scripts": {
+		"clean": "shx rm -rf dist",
+		"build": "tsc -p tsconfig.build.json",
+		"test": "vitest --run",
+		"prepublishOnly": "npm run clean && npm run build"
+	},
+	"license": "MIT",
+	"engines": {
+		"node": ">=22.19.0"
+	},
+	"dependencies": {
+		"undici": "8.10.2"
+	},
+	"peerDependencies": {
+		"@earendil-works/pi-coding-agent": "^1.0.2",
+		"@earendil-works/pi-tui": "^1.0.2"
+	},
+	"peerDependenciesMeta": {
+		"@earendil-works/pi-coding-agent": {
+			"optional": true
+		},
+		"@earendil-works/pi-tui": {
+			"optional": true
+		}
+	},
+	"devDependencies": {
+		"shx": "0.4.0",
+		"vitest": "4.1.11"
+	}
+}

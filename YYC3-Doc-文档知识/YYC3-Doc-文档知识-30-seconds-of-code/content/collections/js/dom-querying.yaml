@@ -1,0 +1,21 @@
+slug: js/dom-querying
+title: JavaScript DOM Querying
+listed: true
+snippetIds:
+  - js/s/get-ancestors-parents-siblings-children
+  - js/s/get-images
+  - js/s/query-selector-shorthand
+  - js/s/element-is-visible-in-viewport
+  - js/s/select-focused-dom-element
+  - js/s/get-elements-wider-than-viewport
+  - js/s/element-from-point
+  - js/s/get-vertical-offset
+  - js/s/store-dom-items
+splash: laptop-plants-1
+description: >-
+  Querying the DOM is an essential skill every web developer should have. Learn
+  how to query the DOM quickly and efficiently with this collection of
+  JavaScript tips and tricks.
+shortDescription: >-
+  Learn how to query the DOM quickly and efficiently with this collection of
+  JavaScript tips and tricks.

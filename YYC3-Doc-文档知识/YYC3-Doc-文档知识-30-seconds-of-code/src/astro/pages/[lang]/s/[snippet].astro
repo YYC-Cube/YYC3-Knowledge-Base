@@ -1,0 +1,57 @@
+---
+import '../../../styles/pages/snippet.scss';
+
+import { promises as fs } from 'fs';
+import path from 'path';
+
+import Layout from '#src/astro/layouts/Layout.astro';
+import Breadcrumb from '#src/astro/components/Breadcrumb.astro';
+import SnippetContent from '#src/astro/components/SnippetContent.astro';
+import TableOfContents from '#src/astro/components/TableOfContents.astro';
+import Pagination from '#src/astro/components/Pagination.astro';
+import PreviewList from '#src/astro/components/PreviewList.astro';
+import ContentComponentsFallback from '#src/astro/components/ContentComponentsFallback.astro';
+
+export async function getStaticPaths() {
+  const pagePath = path.join(
+    process.cwd(),
+    '.content',
+    'pages',
+    '[lang]',
+    's',
+    '[snippet].json'
+  );
+  const pageData = await fs.readFile(pagePath, 'utf8').then(JSON.parse);
+  return Object.values(pageData);
+}
+
+const {
+  snippet,
+  recommendations,
+  breadcrumbs,
+  journey,
+  pageDescription,
+  structuredData,
+} = Astro.props;
+---
+
+<Layout
+  title={structuredData ? structuredData.name : snippet.title}
+  description={pageDescription}
+  logoSrc={snippet.cover}
+  structuredData={structuredData}
+  breadcrumbsData={breadcrumbs}
+  canonical={snippet.slug}
+  pageType="article"
+>
+  <main slot="main-content">
+    <Breadcrumb breadcrumbs={breadcrumbs} />
+    <SnippetContent snippet={snippet} />
+    {journey && <Pagination journey={journey} />}
+    <PreviewList contentItems={recommendations}>
+      <h2 slot="title">More like this</h2>
+    </PreviewList>
+    <ContentComponentsFallback />
+  </main>
+  <TableOfContents tableOfContents={snippet.tableOfContents} slot="side-bar" />
+</Layout>

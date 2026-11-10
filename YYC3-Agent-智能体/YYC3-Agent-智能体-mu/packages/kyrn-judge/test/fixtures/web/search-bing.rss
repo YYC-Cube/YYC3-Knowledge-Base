@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Written by hand for the parser tests, after the shape of cn.bing.com/search?format=rss. Not a saved response. -->
+<rss version="2.0"><channel><title>Bing: vitest mock fetch</title><link>https://cn.bing.com:443/search?q=vitest+mock+fetch</link><description>Search results</description>
+<item><title>Mocking | Guide | Vitest</title><link>https://vitest.dev/guide/mocking</link><description>Mock modules, timers &amp; the global fetch with vi.stubGlobal().</description><pubDate>Mon, 21 Sep 2026 10:00:00 GMT</pubDate></item>
+<item><title><![CDATA[vitest-fetch-mock - npm]]></title><link>https://www.npmjs.com/package/vitest-fetch-mock?activeTab=readme&amp;x=1</link><description>Fetch mock for vitest.</description></item>
+</channel></rss>

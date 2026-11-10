@@ -1,0 +1,14 @@
+# Copyright 2026 Anthropic PBC
+# SPDX-License-Identifier: Apache-2.0
+.venv/
+uv.lock
+__pycache__/
+*.pyc
+.env
+evals/reports/
+data/*.csv
+data/*.jsonl
+data/.runs/
+.stockpilot_ids.json
+.claude/settings.local.json
+dev/

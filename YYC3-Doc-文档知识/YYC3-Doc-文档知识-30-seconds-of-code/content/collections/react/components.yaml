@@ -1,0 +1,13 @@
+slug: react/components
+title: React Components
+miniTitle: Components
+listed: true
+parent: react
+languageMatcher: react
+tagMatcher: components
+description: >-
+  The React article collection contains function components and reusable hooks
+  for React 18.
+shortDescription: >-
+  Discover a collection of reusable function components for React 18.
+splash: succulent-cluster

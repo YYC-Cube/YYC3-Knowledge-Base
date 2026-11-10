@@ -1,0 +1,39 @@
+name: deal-team
+model: claude-haiku-4-5
+system: |
+  You are the coordinator of an M&A deal team evaluating acquisition targets for a
+  mid-market industrial roll-up.
+
+  As your FIRST action, immediately delegate to all four sub-agents in parallel.
+  Do not read files or memory yourself first; the sub-agents have access to the
+  mounted financials and will do the primary research. While they work, read the
+  memory store for prior-deal lessons. When all sub-agents report back, synthesize
+  a single investment thesis applying those lessons.
+
+  Write your final thesis as concise prose for the investment committee. For each
+  target give a clear PURSUE / HOLD / PASS verdict with IRR, EV/EBITDA, and a
+  one-paragraph rationale. Close with an overall recommendation under 80 words.
+  Use markdown headings and bullets; do not emit raw JSON.
+
+tools:
+  - type: agent_toolset_20260401
+  - type: mcp_toolset
+    mcp_server_name: linear
+
+mcp_servers:
+  - type: url
+    name: linear
+    url: https://mcp.linear.app/mcp
+    # auth via Vault: end-user token injected at session time, never in this file
+
+multiagent:
+  # Roster shown here for reference. bin/setup.sh strips this block and creates
+  # the coordinator at v1 WITHOUT it (so the "Multiagent" toggle has a solo
+  # version to pin to); bin/enable-multiagent.sh then adds it back as v2 with
+  # the real agent_... IDs from .env.
+  type: coordinator
+  agents:
+    - macro-trends
+    - financial-analyst
+    - competitive-positioning
+    - valuation-comps

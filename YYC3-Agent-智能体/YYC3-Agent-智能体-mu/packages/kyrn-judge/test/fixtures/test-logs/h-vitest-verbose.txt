@@ -1,0 +1,123 @@
+
+ RUN  v4.1.9 /tmp/synthetic/vitest
+
+stdout | test/inventory.test.ts > reserve > reserves 1 apples
+[inventory] reserve sku=apple qty=1 available=3
+
+stdout | test/inventory.test.ts > reserve > reserves 2 apples
+[inventory] reserve sku=apple qty=2 available=3
+
+stdout | test/inventory.test.ts > reserve > reserves 3 apples
+[inventory] reserve sku=apple qty=3 available=3
+
+stdout | test/inventory.test.ts > reserve > caps at the available stock
+[inventory] reserve sku=apple qty=9 available=3
+
+stderr | test/inventory.test.ts > reserve > caps at the available stock
+[inventory] backorder created for apple
+
+stdout | test/inventory.test.ts > reserve > creates a backorder for an empty shelf
+[inventory] reserve sku=pear qty=2 available=0
+
+stderr | test/inventory.test.ts > reserve > creates a backorder for an empty shelf
+[inventory] backorder created for pear
+
+stdout | test/inventory.test.ts > reserve > reserves a banana
+[inventory] reserve sku=banana qty=1 available=undefined
+
+ ✓ test/inventory.test.ts > reserve > reserves 1 apples 1ms
+ ✓ test/inventory.test.ts > reserve > reserves 2 apples 0ms
+ ✓ test/inventory.test.ts > reserve > reserves 3 apples 0ms
+ ✓ test/inventory.test.ts > reserve > caps at the available stock 0ms
+ ✓ test/inventory.test.ts > reserve > creates a backorder for an empty shelf 0ms
+ × test/inventory.test.ts > reserve > reserves a banana 1ms
+   → unknown sku banana
+ ↓ test/inventory.test.ts > reserve > reserves across warehouses
+ ✓ test/pricing.test.ts > price > multiplies quantity 1 1ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 2 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 3 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 4 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 5 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 6 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 7 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 8 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 9 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 10 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 11 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 12 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 13 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 14 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 15 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 16 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 17 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 18 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 19 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 20 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 21 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 22 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 23 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 24 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 25 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 26 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 27 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 28 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 29 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 30 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 31 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 32 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 33 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 34 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 35 0ms
+ ✓ test/pricing.test.ts > price > multiplies quantity 36 0ms
+ ✓ test/pricing.test.ts > price > adds tax 0ms
+ ✓ test/pricing.test.ts > price > rounds half cents up 0ms
+stdout | test/checkout.test.ts > checkout > retries a flaky gateway once
+[checkout] gateway attempt 1
+[checkout] gateway attempt 2
+
+ ✓ test/checkout.test.ts > checkout > pays quickly 7ms
+ ✓ test/checkout.test.ts > checkout > retries a flaky gateway once 10ms
+ × test/checkout.test.ts > checkout > waits for the bank callback 260ms
+   → Test timed out in 250ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ✓ test/checkout.test.ts > checkout > accepts visa 1ms
+ ✓ test/checkout.test.ts > checkout > accepts mastercard 0ms
+ ✓ test/checkout.test.ts > checkout > accepts amex 0ms
+ ✓ test/checkout.test.ts > checkout > accepts unionpay 0ms
+ ✓ test/checkout.test.ts > checkout > accepts jcb 0ms
+ ✓ test/checkout.test.ts > checkout > accepts discover 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/checkout.test.ts > checkout > waits for the bank callback
+Error: Test timed out in 250ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ test/checkout.test.ts:9:2
+      7|   expect(await pay(10)).toBe("paid");
+      8|  });
+      9|  it("waits for the bank callback", async () => expect(await pay(600)).…
+       |  ^
+     10|  it.each(["visa", "mastercard", "amex", "unionpay", "jcb", "discover"]…
+     11| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/inventory.test.ts > reserve > reserves a banana
+RangeError: unknown sku banana
+ ❯ reserve test/inventory.test.ts:6:37
+      4|  console.log(`[inventory] reserve sku=${sku} qty=${qty} available=${st…
+      5|  const available = stock.get(sku);
+      6|  if (available === undefined) throw new RangeError(`unknown sku ${sku}…
+       |                                     ^
+      7|  if (available < qty) console.error(`[inventory] backorder created for…
+      8|  return Math.min(available, qty);
+ ❯ test/inventory.test.ts:14:39
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  2 failed | 51 passed | 1 skipped (54)
+   Start at  22:33:52
+   Duration  412ms (transform 49ms, setup 0ms, import 73ms, tests 286ms, environment 0ms)
+

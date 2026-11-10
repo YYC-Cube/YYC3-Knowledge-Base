@@ -1,0 +1,117 @@
+name: CI
+
+# Checks every push and pull request: the harness (pi and mu's judgment layer) and the desktop app.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  harness:
+    name: Harness · check and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev fd-find ripgrep
+          sudo ln -sf "$(which fdfind)" /usr/local/bin/fd
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      # Builds every package and refreshes the model catalog that the type check reads.
+      - name: Build
+        run: npm run build
+
+      - name: Check (lint, format, types)
+        run: npm run check
+
+      # Tests that need a real provider skip themselves without API keys. mu's own tests use a mock judge
+      # and a fake model, and never call a real one.
+      - name: Test
+        run: npm test
+
+  desktop:
+    name: Desktop · checks and unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Node 24, as on the developers' machines: the duration and list formats in the tests follow its ICU.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run postinstall
+        run: bun run postinstall || true
+
+      # What AionUi checked before every commit (desktop/.pre-commit-config.yaml): oxlint's errors (its warnings stay
+      # advisory), oxfmt's formatting, and the locale files against the generated i18n-keys.d.ts.
+      - name: Lint
+        run: bun run lint
+
+      - name: Format
+        run: bun run format:check
+
+      - name: Locales
+        run: node scripts/check-i18n.js
+
+      - name: Type check
+        run: bunx tsc --noEmit
+
+      - name: Unit tests
+        run: bunx vitest run
+
+  mcp-conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      # Runs pi's MCP client from source against the pinned official conformance suite and fails on
+      # regressions against packages/coding-agent/test/mcp-conformance/baseline.json.
+      - name: MCP client conformance
+        run: npm run test:mcp-conformance

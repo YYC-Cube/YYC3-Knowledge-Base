@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Kept for older notes and scripts: `kyrn-dev` is `mu`.
+exec "$(dirname "${BASH_SOURCE[0]}")/mu" "$@"

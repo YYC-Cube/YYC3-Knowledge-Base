@@ -1,0 +1,360 @@
+{
+  "colors": {
+    "editor.background": "var(--color-code-background)",
+    "editor.foreground": "var(--color-code-highlight-white)"
+  },
+  "displayName": "Cosmos",
+  "name": "cosmos",
+  "semanticHighlighting": true,
+  "tokenColors": [
+    {
+      "scope": [
+        "comment",
+        "punctuation.definition.comment",
+        "string.comment"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-gray)"
+      }
+    },
+    {
+      "scope": [
+        "constant",
+        "entity.name.constant",
+        "variable.other.constant",
+        "variable.other.enummember",
+        "variable.language"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": [
+        "entity",
+        "entity.name"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-purple)"
+      }
+    },
+    {
+      "scope": "variable.parameter.function",
+      "settings": {
+        "foreground": "var(--color-code-highlight-white)"
+      }
+    },
+    {
+      "scope": "entity.name.tag",
+      "settings": {
+        "foreground": "var(--color-code-highlight-green)"
+      }
+    },
+    {
+      "scope": "keyword",
+      "settings": {
+        "foreground": "var(--color-code-highlight-red)"
+      }
+    },
+    {
+      "scope": [
+        "storage",
+        "storage.type"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-red)"
+      }
+    },
+    {
+      "scope": [
+        "storage.modifier.package",
+        "storage.modifier.import",
+        "storage.type.java"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-white)"
+      }
+    },
+    {
+      "scope": [
+        "string",
+        "punctuation.definition.string",
+        "string punctuation.section.embedded source"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-indigo)"
+      }
+    },
+    {
+      "scope": "support",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": "meta.property-name",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": "variable",
+      "settings": {
+        "foreground": "var(--color-code-highlight-brown)"
+      }
+    },
+    {
+      "scope": "variable.other",
+      "settings": {
+        "foreground": "var(--color-code-highlight-white)"
+      }
+    },
+    {
+      "scope": "invalid.broken",
+      "settings": {
+        "fontStyle": "italic",
+        "foreground": "var(--color-code-highlight-orange)"
+      }
+    },
+    {
+      "scope": "invalid.deprecated",
+      "settings": {
+        "fontStyle": "italic",
+        "foreground": "var(--color-code-highlight-orange)"
+      }
+    },
+    {
+      "scope": "invalid.illegal",
+      "settings": {
+        "fontStyle": "italic",
+        "foreground": "var(--color-code-highlight-orange)"
+      }
+    },
+    {
+      "scope": "invalid.unimplemented",
+      "settings": {
+        "fontStyle": "italic",
+        "foreground": "var(--color-code-highlight-orange)"
+      }
+    },
+    {
+      "scope": "carriage-return",
+      "settings": {
+        "background": "var(--color-code-highlight-red)",
+        "content": "^M",
+        "fontStyle": "italic underline",
+        "foreground": "var(--color-code-background)"
+      }
+    },
+    {
+      "scope": "message.error",
+      "settings": {
+        "foreground": "var(--color-code-highlight-orange)"
+      }
+    },
+    {
+      "scope": "string variable",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": [
+        "source.regexp",
+        "string.regexp"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-indigo)"
+      }
+    },
+    {
+      "scope": [
+        "string.regexp.character-class",
+        "string.regexp constant.character.escape",
+        "string.regexp source.ruby.embedded",
+        "string.regexp string.regexp.arbitrary-repitition"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-indigo)"
+      }
+    },
+    {
+      "scope": "string.regexp constant.character.escape",
+      "settings": {
+        "fontStyle": "bold",
+        "foreground": "var(--color-code-highlight-green)"
+      }
+    },
+    {
+      "scope": "support.constant",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": "support.variable",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": "meta.module-reference",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": "punctuation.definition.list.begin.markdown",
+      "settings": {
+        "foreground": "var(--color-code-highlight-brown)"
+      }
+    },
+    {
+      "scope": [
+        "markup.heading",
+        "markup.heading entity.name"
+      ],
+      "settings": {
+        "fontStyle": "bold",
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": "markup.quote",
+      "settings": {
+        "foreground": "var(--color-code-highlight-green)"
+      }
+    },
+    {
+      "scope": "markup.italic",
+      "settings": {
+        "fontStyle": "italic",
+        "foreground": "var(--color-code-highlight-white)"
+      }
+    },
+    {
+      "scope": "markup.bold",
+      "settings": {
+        "fontStyle": "bold",
+        "foreground": "var(--color-code-highlight-white)"
+      }
+    },
+    {
+      "scope": [
+        "markup.underline"
+      ],
+      "settings": {
+        "fontStyle": "underline"
+      }
+    },
+    {
+      "scope": [
+        "markup.strikethrough"
+      ],
+      "settings": {
+        "fontStyle": "strikethrough"
+      }
+    },
+    {
+      "scope": "markup.inline.raw",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": [
+        "markup.deleted",
+        "meta.diff.header.from-file",
+        "punctuation.definition.deleted"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-orange)"
+      }
+    },
+    {
+      "scope": [
+        "markup.inserted",
+        "meta.diff.header.to-file",
+        "punctuation.definition.inserted"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-green)"
+      }
+    },
+    {
+      "scope": [
+        "markup.changed",
+        "punctuation.definition.changed"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-brown)"
+      }
+    },
+    {
+      "scope": [
+        "markup.ignored",
+        "markup.untracked"
+      ],
+      "settings": {
+        "background": "var(--color-code-highlight-blue)",
+        "foreground": "var(--color-code-background-light)"
+      }
+    },
+    {
+      "scope": "meta.diff.range",
+      "settings": {
+        "fontStyle": "bold",
+        "foreground": "var(--color-code-highlight-purple)"
+      }
+    },
+    {
+      "scope": "meta.diff.header",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": "meta.separator",
+      "settings": {
+        "fontStyle": "bold",
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": "meta.output",
+      "settings": {
+        "foreground": "var(--color-code-highlight-blue)"
+      }
+    },
+    {
+      "scope": [
+        "brackethighlighter.tag",
+        "brackethighlighter.curly",
+        "brackethighlighter.round",
+        "brackethighlighter.square",
+        "brackethighlighter.angle",
+        "brackethighlighter.quote"
+      ],
+      "settings": {
+        "foreground": "var(--color-code-highlight-white)"
+      }
+    },
+    {
+      "scope": "brackethighlighter.unmatched",
+      "settings": {
+        "foreground": "var(--color-code-highlight-orange)"
+      }
+    },
+    {
+      "scope": [
+        "constant.other.reference.link",
+        "string.other.link"
+      ],
+      "settings": {
+        "fontStyle": "underline",
+        "foreground": "var(--color-code-highlight-indigo)"
+      }
+    }
+  ],
+  "type": "dark"
+}

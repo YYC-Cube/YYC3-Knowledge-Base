@@ -1,0 +1,16 @@
+slug: js/array
+title: JavaScript Array Articles
+shortTitle: JavaScript Arrays
+miniTitle: Array
+listed: true
+parent: js
+languageMatcher: javascript
+tagMatcher: array
+description: >-
+  The JavaScript article collection contains a wide variety of ES6 helper
+  functions. It includes helpers for dealing with primitives, arrays and
+  objects, as well as algorithms, DOM manipulation functions and Node.js
+  utilities.
+shortDescription: >-
+  Master array manipulation in JavaScript with this ES6 article collection.
+splash: plant-screen

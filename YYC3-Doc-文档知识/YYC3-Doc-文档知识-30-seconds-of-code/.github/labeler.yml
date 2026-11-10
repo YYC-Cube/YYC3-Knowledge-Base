@@ -1,0 +1,48 @@
+js:
+  - content/snippets/js/s/*.md
+  - content/collections/js/*.yaml
+css:
+  - content/snippets/css/s/*.md
+  - content/collections/css/*.yaml
+html:
+  - content/snippets/html/s/*.md
+  - content/collections/html/*.yaml
+git:
+  - content/snippets/git/s/*.md
+  - content/collections/git/*.yaml
+python:
+  - content/snippets/python/s/*.md
+  - content/collections/python/*.yaml
+react:
+  - content/snippets/react/s/*.md
+  - content/collections/react/*.yaml
+snippet:
+  - content/snippets/**/*.md
+collection:
+  - content/collections/**/*.yaml
+content:
+  - content/**
+web:
+  - src/**
+  - .babelrc
+  - astro.config.mjs
+  - netlify.toml
+  - package-lock.json
+  - package.json
+  - .github/**
+  - .vscode/**
+  - .eslintrc.json
+  - .gitattributes
+  - .gitignore
+  - .prettierignore
+  - .prettierrc
+  - jsconfig.json
+ci/cd:
+  - .github/**
+  - netlify.toml
+dependencies:
+  - package-lock.json
+tests:
+  - spec/**
+
+

@@ -1,0 +1,15 @@
+slug: js/http-requests
+title: HTTP Requests in JavaScript
+listed: true
+snippetIds:
+  - js/s/http-get-post-put-delete
+  - articles/s/http-status-codes-cheatsheet
+  - js/s/cors-explained
+splash: laptop-plants-1
+description: >-
+  Making network requests is a crucial part of most web applications. This
+  article collection introduces core concepts related to HTTP requests, as well
+  as how to make them in JavaScript.
+shortDescription: >-
+  Easily perform HTTP requests in JavaScript and elevate your web development
+  skills.

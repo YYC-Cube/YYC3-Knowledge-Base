@@ -1,0 +1,71 @@
+@import '../../vars';
+@import 'bootstrap-sass/assets/stylesheets/bootstrap/variables';
+@import 'shared';
+
+img {
+  height: auto;
+}
+#experiences {
+  .content {
+    max-width: 500px;
+  }
+
+  .graphics {
+    width: 580px;
+    margin-right: 28px;
+    float: left;
+
+    img {
+      width: 757px;
+      float: right;
+    }
+
+    @media (max-width: $screen-md-max) {
+      width: 320px;
+      padding-right: 20px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: 100%;
+      margin-right: 0;
+
+      img {
+        width: 100%;
+        float: none;
+        max-width: 757px;
+      }
+    }
+  }
+}
+
+#streamline .graphics {
+  padding-left: 20px;
+}
+
+#talent .graphics {
+  width: 500px;
+
+  @media (max-width: $screen-md-max) {
+    width: calc(100% - 520px);
+  }
+
+  @media (max-width: $screen-xs-max) {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto 20px;
+  }
+}
+
+#create .graphics {
+  width: 593px;
+  padding-left: 20px;
+  max-width: 100%;
+}
+
+#developers {
+
+  .graphics {
+    padding-right: 20px
+  }
+
+}

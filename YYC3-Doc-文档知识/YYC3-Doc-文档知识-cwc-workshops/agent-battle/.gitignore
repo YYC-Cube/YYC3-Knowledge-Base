@@ -1,0 +1,16 @@
+node_modules/
+bot/server/
+bot/server-*/
+bot/server.jar
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+logs/
+recordings/
+.claude/settings.local.json
+.host-state/
+.venv/
+.agent_cache*.json
+.agent_running*.lock
+.env.setup

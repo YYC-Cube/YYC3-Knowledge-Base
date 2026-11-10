@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.2, pytest-9.1.1, pluggy-1.6.0
+rootdir: /tmp/synthetic/pytest
+plugins: typeguard-4.5.1, anyio-4.9.0, cov-7.1.0, hydra-core-1.3.2
+collected 45 items
+
+test_orders.py ...........................................F.             [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_pct50_keeps_cents ____________________________
+
+    def test_pct50_keeps_cents():
+        print("debug: total([(5, 1)], 'PCT50') =", total([(5, 1)], "PCT50"))
+>       assert total([(5, 1)], "PCT50") == 2.5
+E       AssertionError: assert 2 == 2.5
+E        +  where 2 = total([(5, 1)], 'PCT50')
+
+test_orders.py:23: AssertionError
+----------------------------- Captured stdout call -----------------------------
+debug: total([(5, 1)], 'PCT50') = 2
+=============================== warnings summary ===============================
+test_orders.py::test_half_coupon[HALF0]
+test_orders.py::test_half_coupon[HALF1]
+test_orders.py::test_half_coupon[HALF2]
+  /tmp/synthetic/pytest/test_orders.py:7: DeprecationWarning: coupon HALF is deprecated; use PCT50
+    warnings.warn("coupon HALF is deprecated; use PCT50", DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED test_orders.py::test_pct50_keeps_cents - AssertionError: assert 2 == 2.5
+=================== 1 failed, 44 passed, 3 warnings in 0.05s ===================

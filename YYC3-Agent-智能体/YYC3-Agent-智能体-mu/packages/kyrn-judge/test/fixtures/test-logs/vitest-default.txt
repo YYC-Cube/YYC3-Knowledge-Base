@@ -1,0 +1,150 @@
+
+ RUN  v4.1.9 /tmp/synthetic/vitest
+
+stdout | test/auth.test.ts > token verification > rejects scope read with 403
+[auth] warm cache entry 0 for read
+[auth] warm cache entry 1 for read
+[auth] warm cache entry 2 for read
+[auth] warm cache entry 3 for read
+[auth] verifying token scope=read exp=200 now=100
+
+stdout | test/auth.test.ts > token verification > rejects scope write with 403
+[auth] warm cache entry 0 for write
+[auth] warm cache entry 1 for write
+[auth] warm cache entry 2 for write
+[auth] warm cache entry 3 for write
+[auth] verifying token scope=write exp=200 now=100
+
+stderr | test/cache.test.ts > cache > caches lookup a
+WARN cache directory unavailable; using memory
+
+stderr | test/cache.test.ts > cache > caches lookup b
+WARN cache directory unavailable; using memory
+
+stdout | test/auth.test.ts > token verification > rejects scope billing with 403
+[auth] warm cache entry 0 for billing
+[auth] warm cache entry 1 for billing
+[auth] warm cache entry 2 for billing
+[auth] warm cache entry 3 for billing
+[auth] verifying token scope=billing exp=200 now=100
+
+stderr | test/cache.test.ts > cache > caches lookup c
+WARN cache directory unavailable; using memory
+
+stdout | test/auth.test.ts > token verification > rejects scope audit with 403
+[auth] warm cache entry 0 for audit
+[auth] warm cache entry 1 for audit
+[auth] warm cache entry 2 for audit
+[auth] warm cache entry 3 for audit
+[auth] verifying token scope=audit exp=200 now=100
+
+stderr | test/cache.test.ts > cache > caches lookup d
+WARN cache directory unavailable; using memory
+
+stdout | test/auth.test.ts > token verification > rejects scope deploy with 403
+[auth] warm cache entry 0 for deploy
+[auth] warm cache entry 1 for deploy
+[auth] warm cache entry 2 for deploy
+[auth] warm cache entry 3 for deploy
+[auth] verifying token scope=deploy exp=200 now=100
+
+stderr | test/cache.test.ts > cache > caches lookup e
+WARN cache directory unavailable; using memory
+
+stdout | test/auth.test.ts > token verification > rejects scope support with 403
+[auth] warm cache entry 0 for support
+[auth] warm cache entry 1 for support
+[auth] warm cache entry 2 for support
+[auth] warm cache entry 3 for support
+[auth] verifying token scope=support exp=200 now=100
+
+stderr | test/cache.test.ts > cache > caches lookup f
+WARN cache directory unavailable; using memory
+
+stdout | test/auth.test.ts > token verification > accepts an admin token
+[auth] verifying token scope=admin exp=200 now=100
+
+stderr | test/cache.test.ts > cache > caches lookup g
+WARN cache directory unavailable; using memory
+
+stderr | test/cache.test.ts > cache > caches lookup h
+WARN cache directory unavailable; using memory
+
+stderr | test/cache.test.ts > cache > returns fallback data
+WARN cache directory unavailable; using memory
+
+stdout | test/auth.test.ts > token verification > rejects an expired token
+[auth] verifying token scope=admin exp=50 now=100
+
+ ✓ test/cache.test.ts (9 tests) 3ms
+ ❯ test/snapshot.test.ts (2 tests | 1 failed) 5ms
+   × renders selected state 4ms
+   ✓ renders idle state 0ms
+ ✓ test/format.test.ts (50 tests) 4ms
+ ❯ test/auth.test.ts (8 tests | 1 failed) 5ms
+     ✓ rejects scope read with 403 1ms
+     ✓ rejects scope write with 403 0ms
+     ✓ rejects scope billing with 403 0ms
+     ✓ rejects scope audit with 403 0ms
+     ✓ rejects scope deploy with 403 0ms
+     ✓ rejects scope support with 403 0ms
+     ✓ accepts an admin token 0ms
+     × rejects an expired token 2ms
+ ✓ test/slow.test.ts (2 tests) 425ms
+   ✓ rebuilds the search index  423ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  test/auth.test.ts > token verification > rejects an expired token
+AssertionError: expected 401 to be 403 // Object.is equality
+
+- Expected
++ Received
+
+- 403
++ 401
+
+ ❯ test/auth.test.ts:14:52
+     12|  it("accepts an admin token", () => expect(verify({ exp: 200, scope: "…
+     13|  it("rejects an expired token", () => {
+     14|   expect(verify({ exp: 50, scope: "admin" }, 100)).toBe(403);
+       |                                                    ^
+     15|  });
+     16| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  test/snapshot.test.ts > renders selected state
+AssertionError: expected { Object (id, selected, ...) } to deeply equal { id: 'toolbar', selected: true, …(3) }
+
+- Expected
++ Received
+
+@@ -3,8 +3,8 @@
+      "save",
+      "undo",
+    ],
+    "id": "toolbar",
+    "label": "✓ Done",
+-   "selected": true,
+-   "width": 120,
++   "selected": false,
++   "width": 118,
+  }
+
+ ❯ test/snapshot.test.ts:4:19
+      2| it("renders selected state", () => {
+      3|  const rendered = { id: "toolbar", selected: false, label: "✓ Done", w…
+      4|  expect(rendered).toEqual({ id: "toolbar", selected: true, label: "✓ D…
+       |                   ^
+      5| });
+      6| it("renders idle state", () => expect({ selected: false }).toEqual({ s…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 3 passed (5)
+      Tests  2 failed | 69 passed (71)
+   Start at  22:05:31
+   Duration  556ms (transform 76ms, setup 0ms, import 125ms, tests 441ms, environment 0ms)
+

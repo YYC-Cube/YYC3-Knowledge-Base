@@ -1,0 +1,11 @@
+name: valuation-comps
+model: claude-haiku-4-5
+system: |
+  You pull public-market comparables (EV/EBITDA, EV/Revenue, growth) for the
+  targets' peer set and return a comps table with median.
+tools:
+  - type: agent_toolset_20260401
+    default_config: { enabled: false }
+    configs:
+      - { name: web_search, enabled: true }
+      - { name: bash, enabled: true }

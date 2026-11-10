@@ -1,0 +1,364 @@
+short: css
+long: css
+name: CSS
+additionalReferences: [javascript, html]
+references:
+  ':root': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:root
+  prefers-color-scheme: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
+  '@property': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/@property
+  '::before': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/::before
+  '::after': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/::after
+  ':hover': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:hover
+  ':focus': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:focus
+  ':focus-within': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-within
+  '::first-letter': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/::first-letter
+  ':first-child': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:first-child
+  ':last-child': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:last-child
+  ':link': https://developer.mozilla.org/en-US/docs/Web/CSS/:link
+  ':visited': https://developer.mozilla.org/en-US/docs/Web/CSS/:visited
+  ':active': https://developer.mozilla.org/en-US/docs/Web/CSS/:active
+  ':any-link': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:any-link
+  '::invalid': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/::invalid
+  position: https://developer.mozilla.org/en-US/docs/Web/CSS/position
+  'position: relative': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/position#relative
+  'position: absolute': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/position#absolute
+  'position: fixed': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/position#fixed
+  'position: sticky': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/position#sticky
+  'position: static': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/position#static
+  var(): https://developer.mozilla.org/en-US/docs/Web/CSS/var
+  scroll-snap-type: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-snap-type
+  scroll-snap-align: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-snap-align
+  overscroll-behavior: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior
+  overscroll-behavior-x: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior-x
+  overscroll-behavior-y: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior-y
+  'clear: both': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/clear
+  float: https://developer.mozilla.org/en-US/docs/Web/CSS/float
+  'object-fit': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
+  'object-fit: contain': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit#contain
+  'object-fit: cover': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit#cover
+  'object-position': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/object-position
+  clamp(): https://developer.mozilla.org/en-US/docs/Web/CSS/clamp
+  ':not()': https://developer.mozilla.org/en-US/docs/Web/CSS/:not
+  ':has()': https://developer.mozilla.org/en-US/docs/Web/CSS/:has
+  transition: https://developer.mozilla.org/en-US/docs/Web/CSS/transition
+  transition-delay: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/transition-delay
+  transition-duration: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/transition-duration
+  opacity: https://developer.mozilla.org/en-US/docs/Web/CSS/opacity
+  transform: https://developer.mozilla.org/en-US/docs/Web/CSS/transform
+  transform-origin: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin
+  'transform-style: preserve-3d': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style#preserve-3d
+  'will-change: transform': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/will-change#transform
+  height: https://developer.mozilla.org/en-US/docs/Web/CSS/height
+  width: https://developer.mozilla.org/en-US/docs/Web/CSS/width
+  border-radius: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
+  border-width: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-width
+  border-style: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-style
+  border-color: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-color
+  border-collapse: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse
+  border-spacing: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-spacing
+  caption-side: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/caption-side
+  border: https://developer.mozilla.org/en-US/docs/Web/CSS/border
+  attr(): https://developer.mozilla.org/en-US/docs/Web/CSS/attr
+  calc(): https://developer.mozilla.org/en-US/docs/Web/CSS/calc
+  minmax(): https://developer.mozilla.org/en-US/docs/Web/CSS/minmax
+  max-width: https://developer.mozilla.org/en-US/docs/Web/CSS/max-width
+  min-width: https://developer.mozilla.org/en-US/docs/Web/CSS/min-width
+  max-height: https://developer.mozilla.org/en-US/docs/Web/CSS/max-height
+  min-height: https://developer.mozilla.org/en-US/docs/Web/CSS/min-height
+  margin: https://developer.mozilla.org/en-US/docs/Web/CSS/margin
+  padding: https://developer.mozilla.org/en-US/docs/Web/CSS/padding
+  font-family: https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
+  font-size: https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
+  font-weight: https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
+  font-style: https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
+  font-variant: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant
+  font-size-adjust: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/font-size-adjust
+  font-stretch: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
+  line-height: https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
+  text-align: https://developer.mozilla.org/en-US/docs/Web/CSS/text-align
+  text-align-last: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/text-align-last
+  'text-align: center': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/text-align#center
+  text-decoration: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
+  text-decoration-color: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-color
+  text-indent: https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent
+  text-justify: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/text-justify
+  text-shadow: https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow
+  text-transform: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform
+  color: https://developer.mozilla.org/en-US/docs/Web/CSS/color
+  background-color: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/background-color
+  background-position: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/background-position
+  background-size: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
+  url(): https://developer.mozilla.org/en-US/docs/Web/CSS/url_function
+  vertical-align: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
+  'vertical-align: middle': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align#middle
+  display: https://developer.mozilla.org/en-US/docs/Web/CSS/display
+  'display: flex': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#flex
+  'display: grid': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#grid
+  'display: inline-block': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#inline-block
+  'display: inline-flex': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#inline-flex
+  'display: inline-grid': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#inline-grid
+  'display: inline': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#inline
+  'display: none': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#none
+  'display: block': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#block
+  'display: table': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#table
+  'display: table-cell': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#table-cell
+  'display: contents': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/display#contents
+  align-items: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/align-items
+  align-content: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/align-content
+  'align-items: center': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/align-items#center
+  justify-content: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content
+  'justify-content: center': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#center
+  'justify-content: space-between': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#space-between
+  'justify-content: space-around': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#space-around
+  flex-direction: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction
+  'flex-direction: row': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction#row
+  'flex-direction: column': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction#column
+  flex-wrap: https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap
+  flex-flow: https://developer.mozilla.org/en-US/docs/Web/CSS/flex-flow
+  system-ui: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/font-family#system-ui
+  sans-serif: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/font-family#generic-font-families
+  word-wrap: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/word-wrap
+  word-spacing: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/word-spacing
+  word-break: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/word-break
+  white-space: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/white-space
+  'white-space: nowrap': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/white-space#nowrap
+  'text-overflow: ellipsis': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow#ellipsis
+  overflow: https://developer.mozilla.org/en-US/docs/Web/CSS/overflow
+  'overflow: auto': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#auto
+  'overflow: hidden': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#hidden
+  'overflow-y: auto': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-y#auto
+  '@media print': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/@media/print
+  '@page': https://developer.mozilla.org/en-US/docs/Web/CSS/@page
+  box-shadow: https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
+  box-sizing: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing
+  'box-sizing: border-box': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing#border-box
+  'box-sizing: inherit': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing#inherit
+  currentColor: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#currentColor
+  '@keyframes': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes
+  animation: https://developer.mozilla.org/en-US/docs/Web/CSS/animation
+  animation-duration: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration
+  animation-delay: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/animation-delay
+  'animation-direction: alternate': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/animation-direction#alternate
+  scale: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/scale
+  visibility: https://developer.mozilla.org/en-US/docs/Web/CSS/visibility
+  'visibility: hidden': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/visibility#hidden
+  'visibility: visible': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/visibility#visible
+  ':nth-child()': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+  ':nth-last-child()': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-last-child
+  ':nth-child(odd)': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child#odd
+  ':nth-child(even)': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child#even
+  ':checked': https://developer.mozilla.org/en-US/docs/Web/CSS/:checked
+  ':lang()': https://developer.mozilla.org/en-US/docs/Web/CSS/:lang
+  ':disabled': https://developer.mozilla.org/en-US/docs/Web/CSS/:disabled
+  stroke-dasharray: >-
+    https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray
+  stroke-dashoffset: >-
+    https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset
+  z-index: https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
+  background: https://developer.mozilla.org/en-US/docs/Web/CSS/background
+  background-image: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/background-image
+  linear-gradient(): >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient
+  backface-visibility: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/backface-visibility
+  list-style-type: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type
+  list-style-position: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-position
+  list-style-image: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-image
+  list-style: https://developer.mozilla.org/en-US/docs/Web/CSS/list-style
+  ':fullscreen': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/:fullscreen
+  'pointer-events': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events
+  'pointer-events: none': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events#none
+  backdrop-filter: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter
+  :empty: https://developer.mozilla.org/en-US/docs/Web/CSS/:empty
+  ::selection: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/::selection
+  ::placeholder: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
+  blur(): https://developer.mozilla.org/en-US/docs/Web/CSS/filter-function/blur
+  perspective(): >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/perspective
+  translate(): >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translate
+  brightness(): >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/filter-function/brightness
+  rotateX(): >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotateX
+  rotateY(): >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotateY
+  -webkit-text-fill-color: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-fill-color
+  background-clip: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip
+  inset-inline: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/inset-inline
+  inset-block: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/inset-block
+  inset-block-start: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/inset-block-start
+  inset-block-end: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/inset-block-end
+  inset-inline-start: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/inset-inline-start
+  inset-inline-end: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/inset-inline-end
+  margin-inline: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/margin-inline
+  margin-block: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/margin-block
+  margin-block-start: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/margin-block-start
+  margin-block-end: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/margin-block-end
+  margin-inline-start: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/margin-inline-start
+  margin-inline-end: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/margin-inline-end
+  padding-inline: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline
+  padding-block: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/padding-block
+  padding-block-start: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/padding-block-start
+  padding-block-end: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/padding-block-end
+  padding-inline-start: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline-start
+  padding-inline-end: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline-end
+  border-inline: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-inline
+  border-block: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-block
+  border-block-start: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-start
+  border-block-end: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-block-end
+  border-inline-start: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-inline-start
+  border-inline-end: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/border-inline-end
+  inline-size: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/inline-size
+  block-size: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/block-size
+  min-inline-size: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/min-inline-size
+  min-block-size: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/min-block-size
+  max-inline-size: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/max-inline-size
+  max-block-size: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/max-block-size
+  inset: >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/inset
+  '::details-content': >-
+    https://developer.mozilla.org/en-US/docs/Web/CSS/::details-content

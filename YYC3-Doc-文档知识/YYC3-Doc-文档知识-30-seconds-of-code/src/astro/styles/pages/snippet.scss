@@ -1,0 +1,72 @@
+// Styles for code blocks in the snippet page. As these styles are only ever
+// used as part of the snippet page for code highlighting, it's better to keep
+// them in a separate file and import them only in the page to reduce the
+// overall bundle size.
+:root {
+  --color-code-highlight-white: hsl(210, 17%, 82%);
+  --color-code-highlight-red: hsl(4, 87%, 68%);
+  --color-code-highlight-gray: hsl(212, 9%, 58%);
+  --color-code-highlight-green: hsl(125, 69%, 70%);
+  --color-code-highlight-blue: hsl(208, 100%, 74%);
+  --color-code-highlight-indigo: hsl(207, 100%, 82%);
+  --color-code-highlight-purple: hsl(269, 100%, 83%);
+  --color-code-highlight-brown: hsl(28, 100%, 67%);
+  --color-code-highlight-orange: hsl(4, 92%, 80%);
+  // Note: In a future iteration, a media query for high contrast could be used
+  // to define an even higher contrast palette for code blocks.
+}
+
+// CSS overrides.
+.language-css {
+  [style*='--hex-color'] {
+    // Select hex color tokens and display a color swatch before them.
+    &:before {
+      display: inline-block;
+      content: '';
+      // Set the size of the swatch.
+      height: var(--font-xs);
+      width: var(--font-xs);
+      // Create a hairline border around the swatch.
+      border-radius: var(--border-radius-medium);
+      border: var(--border-width-hairline) solid var(--color-border-light);
+      // Use the color value from the token to fill the swatch.
+      background-color: var(--hex-color);
+      // Position the swatch to the left of the token and align it vertically.
+      line-height: 0;
+      transform: translate(-2px, 1px);
+    }
+  }
+}
+
+// Special styles for web components are loaded by the web components. However,
+// for non-interactive components (e.g. disabled JS), we need some fallback
+// styles, as the web components themselves can't import the necessary style
+// modules (these load via JS). Web components have an `interactive` attribute
+// that is set to "false" when the component is not interactive. This can be
+// used to select the non-interactive version of the component.
+step-visualizer {
+  // Make the component full width, regardless of interactivity.
+  grid-column: 1 / -1;
+
+  &[interactive='false'] {
+    // Give some gap to the elements, if the component is not interactive.
+    display: grid;
+    grid-gap: var(--layout-row-spacing);
+  }
+}
+
+code-tabs {
+  &[full-width='true'] {
+    // Make the component full width, regardless of interactivity.
+    grid-column: 1 / -1;
+  }
+}
+
+latex-expression {
+  &[interactive='false'],
+  &[interactive='error'],
+  &:has(.katex-error) {
+    // Hide the component if JS doesn't load or if there is a parsing error.
+    display: none;
+  }
+}

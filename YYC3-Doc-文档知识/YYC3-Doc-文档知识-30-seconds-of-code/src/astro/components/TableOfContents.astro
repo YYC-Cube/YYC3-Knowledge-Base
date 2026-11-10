@@ -1,0 +1,27 @@
+---
+import Icon from '#src/astro/components/Icon.astro';
+
+const { tableOfContents } = Astro.props;
+
+// Check if the default slot has content to prevent rendering the component
+// when there is no content to display.
+const hasSlotContent = Astro.slots.has('default');
+
+// Instead of returning `null`, an empty string is returned to prevent issues
+// with the named slot. This is a workaround for a bug in Astro.
+if (!tableOfContents && !hasSlotContent) return '';
+---
+
+<nav aria-label="Table of contents">
+  <div>
+    <h2>Contents</h2>
+    <slot>
+      <Fragment set:html={tableOfContents} />
+    </slot>
+    <a href="#start-of-content">
+      <Icon name="arrow-up" size="1.25em" aria-hidden="true" /> Top
+    </a>
+  </div>
+</nav>
+
+<script src="../scripts/toc.js"></script>

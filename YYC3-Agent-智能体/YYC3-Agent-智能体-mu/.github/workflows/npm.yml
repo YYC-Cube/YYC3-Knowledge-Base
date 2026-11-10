@@ -1,0 +1,111 @@
+name: npm package
+
+# Builds the npm package mu-agent (kyrn/npm/build.mjs), then installs the tarball on Linux, macOS and Windows
+# and checks that the installed `mu` runs and loads the judgment layer (kyrn/npm/smoke.mjs). No model is called.
+# Publishing is not done here: whoever is logged in to npm publishes the checked tarball by hand.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'kyrn/**'
+      - 'packages/**'
+      - 'package-lock.json'
+      - '.github/workflows/npm.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pack:
+    name: Build and pack
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build pi
+        run: npm run build
+
+      - name: Build and pack mu-agent
+        run: node kyrn/npm/build.mjs --pack
+
+      - name: List the tarball
+        run: |
+          cd .artifacts/npm
+          tar -tzf mu-agent-*.tgz | sort > mu-agent-files.txt
+          wc -l < mu-agent-files.txt
+          sed -E 's#^package/##; s#/.*##' mu-agent-files.txt | sort | uniq -c
+          ls -l mu-agent-*.tgz
+
+      - name: Upload the tarball
+        uses: actions/upload-artifact@v4
+        with:
+          name: mu-agent-tarball
+          path: |
+            .artifacts/npm/mu-agent-*.tgz
+            .artifacts/npm/mu-agent-files.txt
+          if-no-files-found: error
+          retention-days: 14
+
+  smoke:
+    name: Install and run on ${{ matrix.name }}
+    needs: pack
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # The oldest Node mu supports, and the current one.
+          - { name: Linux (Node 22.19), os: ubuntu-latest, node: '22.19.0' }
+          - { name: macOS, os: macos-14, node: '24' }
+          - { name: Windows, os: windows-2022, node: '24' }
+          - { name: Windows on Arm, os: windows-11-arm, node: '24' }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: kyrn/npm
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Download the tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: mu-agent-tarball
+          path: tarball
+
+      # A prefix of its own, as `npm i -g` would use, without touching the runner's global packages.
+      - name: Install
+        shell: bash
+        run: |
+          prefix="$RUNNER_TEMP/mu-prefix"
+          npm i -g --prefix "$prefix" ./tarball/mu-agent-*.tgz
+          if [ "$RUNNER_OS" = "Windows" ]; then echo "$prefix" >> "$GITHUB_PATH"; else echo "$prefix/bin" >> "$GITHUB_PATH"; fi
+
+      - name: Smoke test
+        shell: bash
+        run: node kyrn/npm/smoke.mjs mu

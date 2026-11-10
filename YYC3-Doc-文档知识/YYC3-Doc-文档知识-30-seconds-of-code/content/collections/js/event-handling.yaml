@@ -1,0 +1,24 @@
+slug: js/event-handling
+title: JavaScript Event Handling
+listed: true
+snippetIds:
+  - js/s/add-remove-event-listener
+  - js/s/event-listener-once
+  - js/s/listen-click-outside-event
+  - js/s/event-bubbling-capturing-delegation
+  - js/s/add-remove-multiple-event-listeners-single-element
+  - js/s/add-remove-event-listener-multiple-elements
+  - js/s/passive-scroll-listener-performance
+  - js/s/on-scroll-stop
+  - js/s/arrow-function-event-listeners
+  - js/s/detect-caps-lock-is-on
+  - js/s/trigger-event
+splash: monsterra
+description: >-
+  Handling events in the browser is a pretty common task with many nuances.
+  Getting it right can save you a lot of frustration and make the user
+  experience much more enjoyable. This collection will help you get started with
+  event handling using JavaScript.
+shortDescription: >-
+  Event handling needs to be done right in JavaScript. Pick up some tips and
+  tricks to create a better user experience.

@@ -1,0 +1,108 @@
+---
+import settings from '#src/astro/settings.js';
+
+const {
+  title,
+  description = '',
+  logoSrc = '/assets/logo.png',
+  pageType = 'website',
+  structuredData,
+  breadcrumbsData,
+  canonical = '',
+} = Astro.props;
+
+const metaDescription = description || settings.websiteDescription;
+const titleString = title
+  ? `${title} - ${settings.websiteName}`
+  : settings.websiteName;
+
+// Load scripts
+const scripts = [];
+
+if (structuredData) {
+  scripts.push({
+    type: 'application/ld+json',
+    innerHTML: JSON.stringify(structuredData),
+  });
+}
+
+if (breadcrumbsData) {
+  scripts.push({
+    type: 'application/ld+json',
+    innerHTML: JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbsData.map((breadcrumb, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@id': `${settings.websiteUrl}${breadcrumb.url}`,
+          name: `${breadcrumb.name}`,
+        },
+      })),
+    }),
+  });
+}
+---
+
+<title>{titleString}</title>
+<meta name="description" content={metaDescription} />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8" />
+<meta property="og:title" content={titleString} />
+<meta property="og:description" content={metaDescription} />
+<meta property="og:type" content={pageType} />
+<meta property="og:image" content={`${settings.websiteUrl}${logoSrc}`} />
+<meta name="twitter:card" content="summary_large_image" />
+{
+  scripts.map(({ innerHTML, ...rest }) => (
+    <script {...rest} set:html={innerHTML} />
+  ))
+}
+<link rel="sitemap" href="/sitemap.xml" type="application/xml" />
+<link
+  rel="alternate"
+  href="/feed"
+  type="application/rss+xml"
+  title="30secondsofcode.org"
+/>
+<link
+  rel="preload"
+  type="font/woff2"
+  href="/assets/Inter.var.woff2"
+  as="font"
+  crossorigin
+/>
+<link
+  rel="preload"
+  type="font/woff2"
+  href="/assets/RobotoMono-Regular.woff2"
+  as="font"
+  crossorigin
+/>
+<link
+  rel="icon"
+  href={`/assets/icons/favicon-32x32.png?v=${settings.manifestCacheKey}`}
+  type="image/png"
+/>
+<link
+  rel="stylesheet"
+  href={`/assets/print.css?v=${settings.manifestCacheKey}`}
+  media="print"
+/>
+<link rel="manifest" href="/manifest.webmanifest" crossorigin />
+<meta name="theme-color" content="#07071c" />
+<link
+  rel="icon"
+  sizes="192x192"
+  href={`/assets/icons/icon-192x192.png?v=${settings.manifestCacheKey}`}
+/>
+<link
+  rel="apple-touch-icon"
+  href={`/assets/icons/icon-180x180.png?v=${settings.manifestCacheKey}`}
+/>
+{
+  canonical ? (
+    <link rel="canonical" href={`${settings.websiteUrl}${canonical}`} />
+  ) : null
+}

@@ -1,0 +1,16 @@
+slug: js/math
+title: JavaScript Math Articles
+shortTitle: JavaScript Math
+miniTitle: Math
+listed: true
+parent: js
+languageMatcher: javascript
+tagMatcher: math
+description: >-
+  The JavaScript article collection contains a wide variety of ES6 helper
+  functions. It includes helpers for dealing with primitives, arrays and
+  objects, as well as algorithms, DOM manipulation functions and Node.js
+  utilities.
+shortDescription: >-
+  An article collection of math helpers and algorithms implemented in JavaScript.
+splash: mobile

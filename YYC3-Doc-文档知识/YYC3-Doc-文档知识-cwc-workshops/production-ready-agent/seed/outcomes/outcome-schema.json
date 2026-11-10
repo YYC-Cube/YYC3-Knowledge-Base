@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["deal_name", "recommendation", "thesis_grade", "targets"],
+  "additionalProperties": false,
+  "properties": {
+    "deal_name": { "type": "string" },
+    "recommendation": { "type": "string" },
+    "thesis_grade": { "type": "number", "minimum": 0, "maximum": 1 },
+    "rubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "clarity": { "type": "number" },
+        "assumptions": { "type": "number" },
+        "risks": { "type": "number" },
+        "priors_applied": { "type": "number" }
+      }
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "verdict", "irr"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "verdict": { "enum": ["PURSUE", "HOLD", "PASS"] },
+          "irr": { "type": "number" },
+          "ev_ebitda": { "type": "number" },
+          "rationale": { "type": "string" }
+        }
+      }
+    },
+    "comps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "peer": { "type": "string" },
+          "ev_ebitda": { "type": "number" },
+          "rev_growth": { "type": "number" }
+        }
+      }
+    },
+    "prior_deals_consulted": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

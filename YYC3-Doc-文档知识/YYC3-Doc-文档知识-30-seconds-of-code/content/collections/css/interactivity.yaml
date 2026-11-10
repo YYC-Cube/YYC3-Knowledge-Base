@@ -1,0 +1,17 @@
+slug: css/interactivity
+title: CSS Interactivity Articles
+shortTitle: CSS Interactivity
+miniTitle: Interactivity
+listed: true
+parent: css
+languageMatcher: css
+tagMatcher: interactivity
+description: >-
+  The CSS article collection contains utilities and interactive examples for
+  CSS3. It includes modern techniques for creating commonly-used layouts,
+  styling and animating elements, as well as articles for handling user
+  interactions.
+shortDescription: >-
+  An article collection of CSS3 code articles and examples covering common user
+  interactions.
+splash: camera

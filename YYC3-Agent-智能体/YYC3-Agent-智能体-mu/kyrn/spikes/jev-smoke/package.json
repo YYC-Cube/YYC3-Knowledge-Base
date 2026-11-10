@@ -1,0 +1,12 @@
+{
+  "name": "kyrn-jev-smoke",
+  "private": true,
+  "type": "module",
+  "description": "Spike: verify the Jev (typesafe-ai/jev) call path through the Vercel AI Gateway",
+  "scripts": {
+    "smoke": "node --env-file=../../../.env smoke.mjs"
+  },
+  "dependencies": {
+    "ai": "7.0.107"
+  }
+}

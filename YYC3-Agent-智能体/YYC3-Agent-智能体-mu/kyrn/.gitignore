@@ -1,0 +1,7 @@
+# Local judge: the virtualenv and downloaded weights are rebuilt by `kyrn/bin/kyrn-judge-local setup`
+local-judge/.venv/
+local-judge/models/
+__pycache__/
+
+# Spike outputs
+spikes/*/results/
