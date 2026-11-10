@@ -1,4 +1,0 @@
-module Foo
-end
-
-Foo

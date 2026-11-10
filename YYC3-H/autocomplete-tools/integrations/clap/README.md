@@ -1,1 +1,0 @@
-See the integration source code in the [Clap](https://github.com/clap-rs/clap/tree/master/clap_complete_fig) repo.

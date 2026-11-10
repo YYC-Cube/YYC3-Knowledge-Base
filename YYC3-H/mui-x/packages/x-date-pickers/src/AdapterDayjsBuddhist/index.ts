@@ -1,1 +1,0 @@
-export { AdapterDayjsBuddhist } from './AdapterDayjsBuddhist';

@@ -1,8 +1,0 @@
-#!/bin/bash -e
-
-apt update -y
-apt upgrade -y
-apt autoremove -y
-
-echo "Etc/UTC" > /etc/timezone
-dpkg-reconfigure -f noninteractive tzdata

@@ -1,1 +1,0 @@
-object.length('it should be function type')

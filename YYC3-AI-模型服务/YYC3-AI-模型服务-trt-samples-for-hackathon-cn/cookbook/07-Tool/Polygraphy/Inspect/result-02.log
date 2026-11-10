@@ -1,0 +1,404 @@
+[V] Loaded Module: polygraphy | Version: 0.49.26 | Path: ['/usr/local/lib/python3.12/dist-packages/polygraphy']
+[V] Loaded Module: tensorrt | Version: 10.16.0.72 | Path: ['/usr/local/lib/python3.12/dist-packages/tensorrt']
+[V] [MemUsageChange] Init CUDA: CPU +27, GPU +0, now: CPU 40, GPU 1975 (MiB)
+[V] Starting shape inference
+[V] Loaded Module: onnx | Version: 1.18.0 | Path: ['/usr/local/lib/python3.12/dist-packages/onnx']
+[I] Loading model: /work/github/trt-samples-for-hackathon-cn-wili/cookbook/00-Data/model/model-trained.onnx
+[V] Loaded Module: onnxruntime.tools.symbolic_shape_infer
+[V] Inferred shapes in the model with `onnxruntime.tools.symbolic_shape_infer`.
+    Note: To force Polygraphy to use `onnx.shape_inference` instead, set `allow_onnxruntime=False` or use the `--no-onnxruntime-shape-inference` command-line option.
+[V] Shape inference completed successfully
+[V] ----------------------------------------------------------------
+[V] ONNX IR version:  0.0.10
+[V] Opset version:    18
+[V] Producer name:    pytorch
+[V] Producer version: 2.11.0a0+a6c236b9fd.nv26.03.46836102
+[V] Domain:
+[V] Model version:    0
+[V] Doc string:
+[V] ----------------------------------------------------------------
+[W] ModelImporter.cpp:994: Make sure output z has Int64 binding.
+[V] Loaded Module: polygraphy.backend.trt.util
+[W] hasImplicitBatchDimension is deprecated and always return false.
+[I] ==== TensorRT Network ====
+    Name: Unnamed Network 0 | Explicit Batch Network
+
+    ---- 1 Network Input(s) ----
+    {x [dtype=float32, shape=(-1, 1, 28, 28)]}
+
+    ---- 2 Network Output(s) ----
+    {y [dtype=float32, shape=(-1, 10)],
+     z [dtype=int64, shape=(-1,)]}
+
+    ---- 27 Layer(s) ----
+    Layer 0    | node_conv2d [Op: LayerType.CONVOLUTION]
+        {x [dtype=float32, shape=(-1, 1, 28, 28)]}
+         -> {conv2d [dtype=float32, shape=(-1, 32, 28, 28)]}
+        ---- Attributes ----
+        node_conv2d.bias = [ 0.1581641  -0.07401273 -0.19404012 -0.18741624  0.1599998  -0.15240106
+         -0.10360127 -0.19443303  0.09682197 -0.03490824 -0.15501732  0.16717377
+          0.12332135 -0.18911728  0.1773059  -0.08308118  0.19622888 -0.03860844
+         -0.01180898 -0.06562616 -0.07096887  0.10713689 -0.09868818 -0.05794285
+         -0.07337479  0.17912035 -0.04740842  0.12951751  0.0659231   0.15656002
+          0.04279087  0.03223195]
+        node_conv2d.dilation_nd = (1, 1)
+        node_conv2d.kernel = [ 0.14425282  0.03081407 -0.02416015 -0.06947041 -0.19486248 -0.09189754
+         -0.04502386  0.1555867   0.02366813 -0.07508937 -0.00873843  0.03245685
+         -0.01166937  0.06245925  0.12455671  0.0805057  -0.16044344 -0.05051542
+         -0.04733379 -0.1616041   0.1162689  -0.05308666 -0.0545565   0.16796722
+          0.14994991 -0.07441145 -0.08002929  0.00966871  0.01655604  0.05910624
+         -0.05946665 -0.15475139 -0.03987052  0.13021031 -0.0855554   0.03611694
+          0.04002866 -0.09510061 -0.20396443  0.18082912  0.05752397  0.00934512
+          0.13791183  0.09075736  0.16620603  0.04394277 -0.17644992 -0.15114944
+          0.18147646  0.15185954  0.0302399   0.05444716  0.09080621  0.09442156
+          0.05213569  0.06730334  0.06903815 -0.13160148  0.02480152 -0.07899552
+          0.08928407 -0.16261853  0.01209893  0.18343396 -0.02440339  0.14457816
+         -0.0755442   0.1124642   0.00722808  0.1228167  -0.0425144  -0.1453703
+         -0.10602223  0.12261089 -0.01637546  0.11851022  0.03193019 -0.13416626
+         -0.14568117  0.1536003   0.09355986  0.16150673  0.11671722 -0.11606225
+         -0.1426991  -0.02398166 -0.07659823 -0.1812055   0.13623205  0.02015638
+          0.12995578  0.08394317  0.08595502 -0.20764406  0.09671833 -0.18790622
+          0.13869165  0.01924257  0.16262782 -0.00113583  0.00964719  0.05175461
+          0.11090761  0.02444894  0.14053984 -0.18730508  0.07579289  0.16388884
+          0.03143666  0.01006187  0.13445204  0.13089755 -0.03908398  0.08498631
+         -0.1566188  -0.04066504  0.12938148  0.10954206  0.05951571 -0.16465117
+          0.05599231  0.14546049  0.07239287 -0.06301797  0.00432135 -0.19107392
+          0.0441206  -0.03341445 -0.10631569 -0.12492903  0.1924938   0.07473275
+          0.01667244 -0.06429993  0.02577032  0.04965679 -0.08482939 -0.16834374
+         -0.13631624  0.03914315  0.06693116  0.08830803 -0.01219961  0.02070021
+         -0.01633256 -0.11298478 -0.00513143  0.18245243  0.04333309 -0.17808509
+         -0.058391    0.07998843 -0.16845812  0.13417159 -0.09995432  0.17060986
+         -0.10127294  0.05851128 -0.06758066  0.10650416 -0.19790687 -0.1943803
+          0.05074203  0.16498588  0.06924319 -0.17068087  0.12190729 -0.02455842
+          0.1915007  -0.08060297 -0.19022834 -0.12081265 -0.15292302  0.15048161
+         -0.01959212  0.10419311  0.04216521 -0.01891586 -0.08897699 -0.06973722
+          0.1523191   0.08962473 -0.17620793 -0.15059558 -0.0232451   0.03481229
+         -0.09283965 -0.01950067  0.18621553 -0.00203169  0.02229015 -0.03135863
+          0.03026377 -0.13186821  0.14103456  0.14099371 -0.06793347 -0.08669949
+         -0.10972948  0.12789632 -0.17025393 -0.19090487  0.15204692  0.0608443
+          0.1313025   0.05673534 -0.05338625  0.09854962 -0.17206545  0.0640987
+         -0.17829357 -0.19920526  0.1770271  -0.11814744  0.01352963 -0.06592569
+          0.02774375 -0.07438777  0.07505504  0.15209101  0.08413131  0.05589673
+          0.0976511  -0.09477634  0.09721307 -0.08633786 -0.1732414  -0.09851999
+          0.11730063  0.09930054  0.08068558 -0.01649228 -0.17956498  0.04587994
+         -0.05648703  0.17308646  0.02233123 -0.04593518 -0.14264353 -0.05411969
+         -0.10574545 -0.12270225  0.04665987 -0.08978064  0.18346146  0.17969377
+         -0.14894375  0.13985184  0.08432984 -0.06474614 -0.15420471 -0.17348956
+         -0.04930456  0.14285667  0.15601873  0.12806943  0.05775981  0.05480211
+         -0.0267793   0.03019285 -0.14415434  0.13543771  0.07147694 -0.1950204
+         -0.01911923 -0.02256913  0.08733106  0.02392757  0.12614112  0.12806049
+         -0.13890131 -0.11948892  0.06607555  0.01901359  0.02825411 -0.12968925
+          0.06761334  0.06911188  0.04493332 -0.00792375 -0.03528545  0.10509666
+          0.19022618 -0.05052    -0.05171182 -0.11807849 -0.07736304 -0.14368698
+         -0.01570441 -0.2125057   0.03940231  0.17052855 -0.133038    0.03746315
+         -0.0563019  -0.03482213 -0.1390278  -0.20011955  0.11714426 -0.20042442
+         -0.0008901  -0.11236269  0.12325708  0.11144616  0.11315043  0.11952204
+         -0.1298847   0.11347328  0.01510363 -0.05382494  0.19321816  0.03231477
+         -0.01633933 -0.18075484 -0.11338403  0.14114301 -0.12011243 -0.03418132
+          0.04606739  0.10735396 -0.18961096  0.11132982  0.02902446  0.14930888
+          0.12503222  0.00264005  0.15137297 -0.1697209  -0.11383604  0.15793772
+          0.15862088  0.03208398  0.17685859  0.00356118  0.13808526 -0.06179293
+         -0.17616965 -0.01911087  0.11394881 -0.05818127  0.11025114 -0.0567187
+         -0.10068461  0.07226893 -0.05853197  0.11240812 -0.18771993  0.10355481
+         -0.08992516 -0.07584194  0.11091    -0.03451851 -0.05251344 -0.14768858
+         -0.0727263   0.05990321 -0.08569975 -0.15516819  0.10552225  0.1799216
+         -0.14768927  0.13687359 -0.0852733   0.18366578 -0.02143768  0.09484589
+         -0.16791004  0.06164661  0.10670413  0.09290326 -0.06523886 -0.082689
+         -0.19971076  0.04215461 -0.02374644  0.04978172 -0.17262779 -0.00685658
+          0.12709044  0.05498222  0.01294356  0.04278529 -0.15631935  0.06462396
+          0.14475521  0.14554417 -0.19130014 -0.00289543  0.18385272 -0.18230696
+         -0.12526055 -0.16227822 -0.18920709  0.18412957 -0.07312218  0.12840284
+          0.10531874 -0.16005802 -0.19525108  0.08151335  0.04435281 -0.10250961
+         -0.15544122  0.11479104  0.07057145  0.12500957  0.14232089 -0.01034542
+          0.08755418 -0.0717393  -0.19767265 -0.14695977 -0.12239128  0.06277544
+          0.04240776 -0.16822572 -0.07420219 -0.10277781 -0.10269134  0.13348764
+          0.02775368  0.02104014 -0.00451007 -0.05390533 -0.02769598  0.02583902
+          0.06320181 -0.19569935 -0.12643653 -0.21153471 -0.10388945  0.16479808
+         -0.01436224  0.07184526  0.04829328  0.10250734 -0.18875489 -0.07017475
+         -0.02856798  0.17403923 -0.12001524  0.18583232 -0.10209888 -0.02946541
+          0.08154937  0.15357481  0.03400023  0.13186052  0.11814203  0.11299025
+         -0.14343123 -0.13391313  0.0547872  -0.02424901 -0.06959514  0.06379515
+          0.12801011 -0.02864758  0.02747405  0.0155181   0.15903497  0.14729646
+          0.06239903 -0.18885767  0.05813265 -0.02044106  0.1679981   0.16924284
+          0.19897258 -0.07710188 -0.05964605  0.10601771 -0.05335466 -0.11431275
+         -0.15759365 -0.15621728  0.07615364 -0.16068296  0.09742999 -0.06445023
+          0.16452457  0.10300316 -0.04109864  0.08335853  0.14418472  0.1257692
+          0.02408479 -0.11506044  0.15329763 -0.07542302  0.00801869  0.1358012
+          0.03619754 -0.03338963  0.05129185 -0.01815172  0.15294711 -0.19577426
+          0.16359276 -0.0523824  -0.03690514 -0.16444822 -0.02971151 -0.09024965
+         -0.00102861  0.02450238  0.17492853 -0.10653906  0.0512055  -0.00999587
+          0.15887031  0.11019862  0.09978054 -0.2015024   0.08946257  0.00460602
+         -0.14383712 -0.0757842  -0.0319541  -0.15083429 -0.10972644 -0.01735141
+         -0.0608013  -0.07205384 -0.08356895 -0.1331012   0.04163788 -0.03054661
+          0.17838573  0.04858993 -0.06300108 -0.18202944 -0.08486772 -0.17739871
+          0.11900686  0.12524283 -0.08440027  0.02669327 -0.15157007 -0.05141405
+          0.08861151  0.0514372   0.12103266 -0.20679186 -0.0861498  -0.0433207
+         -0.13675241  0.13303122 -0.10472857 -0.0512228   0.11312411 -0.06991201
+          0.06550527  0.14359117  0.16418314 -0.01274509  0.0347931   0.18254103
+          0.0901549   0.08713739 -0.12058884 -0.04018387  0.02577188 -0.12804365
+         -0.13405177  0.03842887  0.05447734 -0.17457466  0.11624817  0.02988506
+         -0.15789701 -0.16429539  0.11230686  0.15324104  0.02590947 -0.04581563
+         -0.02131739 -0.03257929  0.17960142 -0.04283795 -0.07202734 -0.03824501
+          0.09299576 -0.09046603  0.08609043 -0.03176484 -0.09204311 -0.14266612
+          0.03377213  0.09021737 -0.10555022 -0.12243704  0.09878281  0.03770204
+          0.03909952  0.00302176 -0.10060209 -0.0238419   0.18497331  0.09191703
+          0.1847596  -0.17589942 -0.22730541  0.09742879 -0.0866944   0.1249221
+         -0.21808371  0.17177469  0.06046144  0.0562873   0.11181486 -0.21591268
+         -0.17700228  0.05167498 -0.03896567 -0.16136916 -0.00378738  0.00431094
+         -0.05436169 -0.12466489  0.07001053 -0.04377805 -0.12866569 -0.05388778
+          0.09191538  0.14228185 -0.07871459 -0.1294737  -0.0240183   0.07183874
+         -0.17799652 -0.01918267 -0.10459498  0.18805093  0.09237836  0.19087942
+          0.18467411 -0.07357857 -0.15317489  0.13454472 -0.18337084 -0.12801635
+          0.09381859 -0.06358491 -0.04622918 -0.05269884 -0.00303295 -0.16315235
+          0.16904254  0.09149736  0.18414623 -0.11982335 -0.08666941 -0.06623553
+         -0.07952574 -0.01448659  0.07302782  0.13714655 -0.04669792 -0.10739399
+          0.00928307 -0.16330433 -0.03443458 -0.15906553 -0.09793219  0.03510545
+          0.04516509  0.16994049 -0.0882698   0.13942507  0.14192015  0.18552555
+          0.02741427  0.14710352 -0.08674407 -0.17930123  0.0025113  -0.1405029
+         -0.04960911 -0.1531285   0.09787304 -0.00886059  0.0311961  -0.07813294
+          0.17394735  0.11230453 -0.14887084 -0.07542244  0.01792399  0.0891032
+          0.05628292 -0.00305272 -0.0337092   0.08131197 -0.15670109  0.15159406
+         -0.16865899 -0.07271928 -0.0874296   0.07152368 -0.17936902  0.1252656
+          0.02512808 -0.13481651 -0.15244333 -0.05188125  0.19858289  0.00545395
+          0.13489047 -0.1499957  -0.02384226 -0.07426227 -0.05097818  0.0876802
+         -0.05057753 -0.05356035 -0.19685921  0.02412518  0.17765678  0.15786149
+         -0.07791149 -0.00818951 -0.18729793 -0.15894829 -0.01068251  0.17793468
+         -0.15415964 -0.08813025  0.08383763 -0.16089582  0.08681487  0.15796922
+          0.1372425   0.0632715   0.04576242 -0.01722695 -0.05634532 -0.02503698
+         -0.03979776 -0.02931404 -0.16128862 -0.06614592 -0.0396903  -0.0912701
+         -0.05690993  0.05875747 -0.01332157 -0.14307612  0.03646329  0.16104795
+          0.08496179 -0.07089327  0.01769594  0.12348383  0.04363694 -0.05694974
+          0.16365515  0.07889457 -0.07222793  0.15972076 -0.07738275  0.01730447
+         -0.13099816  0.0378904  -0.1450533  -0.14842904  0.12616873 -0.13192298
+         -0.13189742 -0.01932022  0.00313264 -0.01392226  0.07403439  0.10785083
+          0.04304883  0.13093147 -0.19582295 -0.18325503  0.13115032  0.07824204
+          0.11038148  0.11445022 -0.05905423  0.00277609  0.16348921  0.18497962
+          0.14708102 -0.04230077 -0.1481597  -0.12534021  0.13729833  0.15609042
+         -0.17938358 -0.05983749 -0.2052961   0.06620519  0.0509433   0.17672801
+          0.0040861  -0.07866966]
+        node_conv2d.kernel_size_nd = (5, 5)
+        node_conv2d.num_groups = 1
+        node_conv2d.num_output_maps = 32
+        node_conv2d.padding_mode = PaddingMode.EXPLICIT_ROUND_DOWN
+        node_conv2d.padding_nd = (2, 2)
+        node_conv2d.post_padding = (2, 2)
+        node_conv2d.pre_padding = (2, 2)
+        node_conv2d.stride_nd = (1, 1)
+
+    Layer 1    | node_relu [Op: ActivationType.RELU]
+        {conv2d [dtype=float32, shape=(-1, 32, 28, 28)]}
+         -> {relu [dtype=float32, shape=(-1, 32, 28, 28)]}
+        ---- Attributes ----
+        node_relu.alpha = 0.0
+        node_relu.beta = 0.0
+
+    Layer 2    | node_max_pool2d [Op: PoolingType.MAX]
+        {relu [dtype=float32, shape=(-1, 32, 28, 28)]}
+         -> {max_pool2d [dtype=float32, shape=(-1, 32, 14, 14)]}
+        ---- Attributes ----
+        node_max_pool2d.average_count_excludes_padding = True
+        node_max_pool2d.blend_factor = 0.0
+        node_max_pool2d.padding_mode = PaddingMode.EXPLICIT_ROUND_DOWN
+        node_max_pool2d.padding_nd = (0, 0)
+        node_max_pool2d.post_padding = (0, 0)
+        node_max_pool2d.pre_padding = (0, 0)
+        node_max_pool2d.stride_nd = (2, 2)
+        node_max_pool2d.window_size_nd = (2, 2)
+
+    Layer 3    | node_conv2d_1 [Op: LayerType.CONVOLUTION]
+        {max_pool2d [dtype=float32, shape=(-1, 32, 14, 14)]}
+         -> {conv2d_1 [dtype=float32, shape=(-1, 64, 14, 14)]}
+        ---- Attributes ----
+        node_conv2d_1.bias = [-0.02410109 -0.00584437  0.01847673  0.02081132  0.00722984  0.007786
+          0.0224679  -0.00443171  0.00135595 -0.0315102   0.02169964  0.02166308
+         -0.00863803  0.00874607 -0.02624565  0.01850608  0.00924999 -0.03635722
+         -0.03036553 -0.01185372 -0.02638381 -0.04082923 -0.01173185 -0.03771091
+          0.01386444  0.01769098  0.00677237  0.00222087  0.00537753 -0.01674102
+          0.02197954  0.01232709 -0.02448868 -0.0190452  -0.01617556 -0.02234222
+         -0.00453532 -0.02549173  0.01602521  0.00176622  0.00489102 -0.04472909
+          0.02311371  0.00759377 -0.018499   -0.03424083 -0.03557787  0.01985692
+         -0.00056718 -0.00812761 -0.02128181  0.01961499 -0.02558335 -0.04419667
+          0.01485035 -0.02029825 -0.01258452  0.00570182 -0.03327196 -0.02377531
+         -0.04467496 -0.00721386 -0.04415416 -0.04504582]
+        node_conv2d_1.dilation_nd = (1, 1)
+        node_conv2d_1.kernel = [-0.04293734  0.02304612 -0.00336697 ... -0.01126176  0.01645277
+         -0.02316838]
+        node_conv2d_1.kernel_size_nd = (5, 5)
+        node_conv2d_1.num_groups = 1
+        node_conv2d_1.num_output_maps = 64
+        node_conv2d_1.padding_mode = PaddingMode.EXPLICIT_ROUND_DOWN
+        node_conv2d_1.padding_nd = (2, 2)
+        node_conv2d_1.post_padding = (2, 2)
+        node_conv2d_1.pre_padding = (2, 2)
+        node_conv2d_1.stride_nd = (1, 1)
+
+    Layer 4    | node_relu_1 [Op: ActivationType.RELU]
+        {conv2d_1 [dtype=float32, shape=(-1, 64, 14, 14)]}
+         -> {relu_1 [dtype=float32, shape=(-1, 64, 14, 14)]}
+        ---- Attributes ----
+        node_relu_1.alpha = 0.0
+        node_relu_1.beta = 0.0
+
+    Layer 5    | node_max_pool2d_1 [Op: PoolingType.MAX]
+        {relu_1 [dtype=float32, shape=(-1, 64, 14, 14)]}
+         -> {max_pool2d_1 [dtype=float32, shape=(-1, 64, 7, 7)]}
+        ---- Attributes ----
+        node_max_pool2d_1.average_count_excludes_padding = True
+        node_max_pool2d_1.blend_factor = 0.0
+        node_max_pool2d_1.padding_mode = PaddingMode.EXPLICIT_ROUND_DOWN
+        node_max_pool2d_1.padding_nd = (0, 0)
+        node_max_pool2d_1.post_padding = (0, 0)
+        node_max_pool2d_1.pre_padding = (0, 0)
+        node_max_pool2d_1.stride_nd = (2, 2)
+        node_max_pool2d_1.window_size_nd = (2, 2)
+
+    Layer 6    | node_view [Op: LayerType.SHUFFLE]
+        {max_pool2d_1 [dtype=float32, shape=(-1, 64, 7, 7)]}
+         -> {view [dtype=float32, shape=(-1, 3136)]}
+        ---- Attributes ----
+        node_view.first_transpose = (0, 1, 2, 3, 4, 5, 6, 7)
+        node_view.reshape_dims = (-1, 3136)
+        node_view.second_transpose = (0, 1, 2, 3, 4, 5, 6, 7)
+        node_view.zero_is_placeholder = False
+
+    Layer 7    | gemm1.weight [Op: LayerType.CONSTANT]
+        {} -> {gemm1.weight_output [dtype=float32, shape=(1024, 3136)]}
+        ---- Attributes ----
+        gemm1.weight.shape = (1024, 3136)
+        gemm1.weight.weights = [-0.01045778 -0.01465555 -0.00485128 ...  0.00594392  0.00337656
+          0.00400964]
+
+    Layer 8    | node_linear [Op: LayerType.MATRIX_MULTIPLY]
+        {view [dtype=float32, shape=(-1, 3136)],
+         gemm1.weight_output [dtype=float32, shape=(1024, 3136)]}
+         -> {node_linear_output [dtype=float32, shape=(-1, 1024)]}
+        ---- Attributes ----
+        node_linear.op0 = MatrixOperation.NONE
+        node_linear.op1 = MatrixOperation.TRANSPOSE
+
+    Layer 9    | gemm1.bias [Op: LayerType.CONSTANT]
+        {} -> {gemm1.bias_output [dtype=float32, shape=(1024,)]}
+        ---- Attributes ----
+        gemm1.bias.shape = (1024,)
+        gemm1.bias.weights = [-0.01501185 -0.00883514  0.00950982 ... -0.00835608 -0.00887325
+          0.00826178]
+
+    Layer 10   | ONNXTRT_Broadcast [Op: LayerType.SHUFFLE]
+        {gemm1.bias_output [dtype=float32, shape=(1024,)]}
+         -> {ONNXTRT_Broadcast_output [dtype=float32, shape=(1, 1024)]}
+        ---- Attributes ----
+        ONNXTRT_Broadcast.first_transpose = (0, 1, 2, 3, 4, 5, 6, 7)
+        ONNXTRT_Broadcast.reshape_dims = (1, 1024)
+        ONNXTRT_Broadcast.second_transpose = (0, 1, 2, 3, 4, 5, 6, 7)
+        ONNXTRT_Broadcast.zero_is_placeholder = False
+
+    Layer 11   | node_linear_1 [Op: LayerType.ELEMENTWISE]
+        {node_linear_output [dtype=float32, shape=(-1, 1024)],
+         ONNXTRT_Broadcast_output [dtype=float32, shape=(1, 1024)]}
+         -> {linear [dtype=float32, shape=(-1, 1024)]}
+        ---- Attributes ----
+        node_linear_1.op = ElementWiseOperation.SUM
+
+    Layer 12   | node_relu_2 [Op: ActivationType.RELU]
+        {linear [dtype=float32, shape=(-1, 1024)]}
+         -> {relu_2 [dtype=float32, shape=(-1, 1024)]}
+        ---- Attributes ----
+        node_relu_2.alpha = 0.0
+        node_relu_2.beta = 0.0
+
+    Layer 13   | gemm2.weight [Op: LayerType.CONSTANT]
+        {} -> {gemm2.weight_output [dtype=float32, shape=(10, 1024)]}
+        ---- Attributes ----
+        gemm2.weight.shape = (10, 1024)
+        gemm2.weight.weights = [-0.01533203 -0.03088357 -0.03187701 ... -0.00530903  0.01839099
+         -0.00606354]
+
+    Layer 14   | node_linear_1_2 [Op: LayerType.MATRIX_MULTIPLY]
+        {relu_2 [dtype=float32, shape=(-1, 1024)],
+         gemm2.weight_output [dtype=float32, shape=(10, 1024)]}
+         -> {node_linear_1_2_output [dtype=float32, shape=(-1, 10)]}
+        ---- Attributes ----
+        node_linear_1_2.op0 = MatrixOperation.NONE
+        node_linear_1_2.op1 = MatrixOperation.TRANSPOSE
+
+    Layer 15   | gemm2.bias [Op: LayerType.CONSTANT]
+        {} -> {gemm2.bias_output [dtype=float32, shape=(10,)]}
+        ---- Attributes ----
+        gemm2.bias.shape = (10,)
+        gemm2.bias.weights = [ 0.01403506 -0.00809759  0.00486339  0.00857257 -0.00679241 -0.00019929
+         -0.03755541  0.00772439 -0.00847439 -0.00423296]
+
+    Layer 16   | ONNXTRT_Broadcast_4 [Op: LayerType.SHUFFLE]
+        {gemm2.bias_output [dtype=float32, shape=(10,)]}
+         -> {ONNXTRT_Broadcast_4_output [dtype=float32, shape=(1, 10)]}
+        ---- Attributes ----
+        ONNXTRT_Broadcast_4.first_transpose = (0, 1, 2, 3, 4, 5, 6, 7)
+        ONNXTRT_Broadcast_4.reshape_dims = (1, 10)
+        ONNXTRT_Broadcast_4.second_transpose = (0, 1, 2, 3, 4, 5, 6, 7)
+        ONNXTRT_Broadcast_4.zero_is_placeholder = False
+
+    Layer 17   | node_linear_1_5 [Op: LayerType.ELEMENTWISE]
+        {node_linear_1_2_output [dtype=float32, shape=(-1, 10)],
+         ONNXTRT_Broadcast_4_output [dtype=float32, shape=(1, 10)]}
+         -> {y [dtype=float32, shape=(-1, 10)]}
+        ---- Attributes ----
+        node_linear_1_5.op = ElementWiseOperation.SUM
+
+    Layer 18   | node_softmax [Op: LayerType.SOFTMAX]
+        {y [dtype=float32, shape=(-1, 10)]}
+         -> {node_softmax_output [dtype=float32, shape=(-1, 10)]}
+        ---- Attributes ----
+        node_softmax.axes = 2
+
+    Layer 19   | ONNXTRT_ShapeShuffle_7 [Op: LayerType.SHUFFLE]
+        {node_softmax_output [dtype=float32, shape=(-1, 10)],
+         ONNXTRT_castHelper_output [dtype=int64, shape=(2,)]}
+         -> {softmax [dtype=float32, shape=(-1, 10)]}
+        ---- Attributes ----
+        ONNXTRT_ShapeShuffle_7.first_transpose = (0, 1, 2, 3, 4, 5, 6, 7)
+        ONNXTRT_ShapeShuffle_7.reshape_dims = (81)
+        ONNXTRT_ShapeShuffle_7.second_transpose = (0, 1, 2, 3, 4, 5, 6, 7)
+        ONNXTRT_ShapeShuffle_7.zero_is_placeholder = False
+
+    Layer 20   | ONNXTRT_ShapeTensor [Op: LayerType.SHAPE]
+        {y [dtype=float32, shape=(-1, 10)]}
+         -> {ONNXTRT_ShapeTensor_output [dtype=int64, shape=(2,)]}
+
+    Layer 21   | ONNXTRT_castHelper [Op: LayerType.CAST]
+        {ONNXTRT_ShapeTensor_output [dtype=int64, shape=(2,)]}
+         -> {ONNXTRT_castHelper_output [dtype=int64, shape=(2,)]}
+        ---- Attributes ----
+        ONNXTRT_castHelper.to_type = DataType.INT64
+
+    Layer 22   | node_argmax [Op: LayerType.TOPK]
+        {softmax [dtype=float32, shape=(-1, 10)]}
+         -> {node_argmax_output [dtype=float32, shape=(-1, 1)],
+             node_argmax_output (1) [dtype=int32, shape=(-1, 1)]}
+        ---- Attributes ----
+        node_argmax.axes = 2
+        node_argmax.indices_type = DataType.INT32
+        node_argmax.k = 1
+        node_argmax.op = TopKOperation.MAX
+
+    Layer 23   | ONNXTRT_castHelper_8 [Op: LayerType.CAST]
+        {node_argmax_output (1) [dtype=int32, shape=(-1, 1)]}
+         -> {ONNXTRT_castHelper_8_output [dtype=int64, shape=(-1, 1)]}
+        ---- Attributes ----
+        ONNXTRT_castHelper_8.to_type = DataType.INT64
+
+    Layer 24   | (Unnamed Layer* 24) [Constant] [Op: LayerType.CONSTANT]
+        {} -> {(Unnamed Layer* 24) [Constant]_output [dtype=int32, shape=(1,)]}
+        ---- Attributes ----
+        (Unnamed Layer* 24) [Constant].shape = (1,)
+        (Unnamed Layer* 24) [Constant].weights = [1]
+
+    Layer 25   | ONNXTRT_squeezeTensor [Op: LayerType.SQUEEZE]
+        {ONNXTRT_castHelper_8_output [dtype=int64, shape=(-1, 1)],
+         (Unnamed Layer* 24) [Constant]_output [dtype=int32, shape=(1,)]}
+         -> {ONNXTRT_squeezeTensor_output [dtype=int64, shape=(-1,)]}
+
+    Layer 26   | ONNXTRT_castHelper_9 [Op: LayerType.CAST]
+        {ONNXTRT_squeezeTensor_output [dtype=int64, shape=(-1,)]}
+         -> {z [dtype=int64, shape=(-1,)]}
+        ---- Attributes ----
+        ONNXTRT_castHelper_9.to_type = DataType.INT64

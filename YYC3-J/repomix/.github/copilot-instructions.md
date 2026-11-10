@@ -1,5 +1,0 @@
-XSym
-0024
-3681456f862c5cfe3009c93cb30beb5b
-../.agents/rules/base.md
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       

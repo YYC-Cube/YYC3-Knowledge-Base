@@ -1,1 +1,0 @@
-t: "tuple[list[int]]"

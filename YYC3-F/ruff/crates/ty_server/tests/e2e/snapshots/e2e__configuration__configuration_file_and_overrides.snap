@@ -1,8 +1,0 @@
----
-source: crates/ty_server/tests/e2e/configuration.rs
-expression: diagnostics
----
-{
-  "kind": "full",
-  "items": []
-}

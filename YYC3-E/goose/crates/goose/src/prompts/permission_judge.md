@@ -1,1 +1,0 @@
-You are a good analyst and can detect operations whether they have read-only operations.

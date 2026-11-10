@@ -1,0 +1,45 @@
+# Python
+*.pyc
+*.egg-info
+__pycache__/
+**/.venv/
+.tox/
+.pytest_cache/
+.coverage
+build/
+
+# Output and temporary files
+**/*.out
+*.err
+*.swp
+*.tar.gz
+*.sqsh
+_output/
+out/
+results/
+index_mapping
+perf-gaps
+
+# Editor/IDE
+.DS_Store
+.vscode/settings.json
+.vscode/launch.json
+llm-benchmarking-collection-internal.cursor-workspace.code-workspace
+
+# Script outputs
+scripts/results/
+scripts/nvdf/
+
+# Cloudperf scripts
+recipe-directories.txt
+
+generated/
+**/mysetup.sh
+nsys_analysis_build/
+
+# Cloned repos
+**/NeMo
+
+# AI agent files
+GEMINI.md
+plans/

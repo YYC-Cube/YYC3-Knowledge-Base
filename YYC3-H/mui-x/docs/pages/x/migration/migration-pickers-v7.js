@@ -1,6 +1,0 @@
-import MarkdownDocs from 'docs/src/modules/components/MarkdownDocs';
-import * as pageProps from 'docsx/data/migration/migration-pickers-v7/migration-pickers-v7.md?muiMarkdown';
-
-export default function Page() {
-  return <MarkdownDocs {...pageProps} />;
-}

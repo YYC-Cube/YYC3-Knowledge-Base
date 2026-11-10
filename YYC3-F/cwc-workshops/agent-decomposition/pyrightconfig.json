@@ -1,9 +1,0 @@
-{
-  "include": ["agents", "evals", "data"],
-  "exclude": ["**/__pycache__", ".venv"],
-  "reportMissingImports": "none",
-  "reportOperatorIssue": "none",
-  "reportArgumentType": "none",
-  "reportAttributeAccessIssue": "none",
-  "reportCallIssue": "none"
-}

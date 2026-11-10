@@ -1,5 +1,0 @@
-XSym
-0042
-c3f29649ffc1045beeb8b741f3dc8885
-../../../tests/config/regions_names_en.txt
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     

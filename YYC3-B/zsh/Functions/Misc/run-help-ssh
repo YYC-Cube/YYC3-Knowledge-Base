@@ -1,6 +1,0 @@
-if [[ $# < 2 ]]
-then
-    man ssh
-else
-    run-help $2
-fi

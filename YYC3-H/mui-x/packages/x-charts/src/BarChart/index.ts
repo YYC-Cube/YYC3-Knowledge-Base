@@ -1,9 +1,0 @@
-export * from './BarChart';
-export * from './BarPlot';
-export * from './BarElement';
-export * from './BarLabel';
-export * from './FocusedBar';
-export * from './BarChart.plugins';
-export { type BarProps } from './AnimatedBarElement';
-export { barClasses } from './barClasses';
-export type { BarClassKey, BarClasses } from './barClasses';

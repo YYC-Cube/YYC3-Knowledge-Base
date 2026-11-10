@@ -1,1 +1,0 @@
-object.attributes["name"] = "something"

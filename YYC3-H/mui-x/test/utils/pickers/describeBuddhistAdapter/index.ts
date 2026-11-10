@@ -1,1 +1,0 @@
-export { describeBuddhistAdapter } from './describeBuddhistAdapter';

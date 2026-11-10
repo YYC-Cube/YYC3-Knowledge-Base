@@ -1,3 +1,0 @@
-requests>=2.28.0
-google-analytics-data>=0.18.0
-google-auth>=2.22.0

@@ -1,1 +1,0 @@
-type A = typeof a extends number ? 0 : 1;

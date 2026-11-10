@@ -1,3 +1,0 @@
-@dec<{}>()
-class Test {
-}

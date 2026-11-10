@@ -1,2 +1,0 @@
-MyClass.prototype.method = function () {
-}

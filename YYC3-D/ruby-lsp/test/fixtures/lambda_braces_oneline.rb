@@ -1,1 +1,0 @@
-lambda { |item| puts item }

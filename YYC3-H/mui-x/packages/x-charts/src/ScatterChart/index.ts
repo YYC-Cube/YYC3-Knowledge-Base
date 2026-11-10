@@ -1,9 +1,0 @@
-export * from './ScatterChart';
-export * from './ScatterPlot';
-export * from './Scatter';
-export * from './ScatterMarker.types';
-export * from './ScatterMarker';
-export * from './FocusedScatterMark';
-export * from './ScatterChart.plugins';
-export { scatterClasses } from './scatterClasses';
-export type { ScatterClassKey, ScatterClasses } from './scatterClasses';

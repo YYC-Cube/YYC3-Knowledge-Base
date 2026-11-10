@@ -1,5 +1,0 @@
----
-source: crates/ruff_linter/src/rules/flake8_builtins/mod.rs
----
-A005 Module `xml` shadows a Python standard-library module
---> xml.py:1:1

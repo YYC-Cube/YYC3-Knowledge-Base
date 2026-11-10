@@ -1,2 +1,0 @@
-com.ctrip.framework.apollo.audit.configuration.ApolloAuditAutoConfiguration
-com.ctrip.framework.apollo.audit.configuration.ApolloAuditNoOpAutoConfiguration

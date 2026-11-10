@@ -1,5 +1,0 @@
-.gitignore
-.vscode-test/**
-.vscode/**
-rust.tmLanguage.yaml
-vsc-extension-quickstart.md

@@ -1,4 +1,0 @@
-class RenameMe
-end
-
-RenameMe

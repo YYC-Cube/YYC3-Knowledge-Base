@@ -1,6 +1,0 @@
-packages:
-  - '../../packages/agent-gateway-client'
-  - '../../packages/device-gateway-client'
-  - '../../packages/local-file-shell'
-  - '../../packages/file-loaders'
-  - '.'

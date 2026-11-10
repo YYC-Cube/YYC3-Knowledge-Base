@@ -1,5 +1,0 @@
-.DS_Store
-.yarn/*
-!.yarn/patches
-.pnp.*
-yarn-error.log

@@ -52,7 +52,9 @@
 | 🌓 **暗亮双主题** | 自适应主题系统，持久化用户偏好 |
 | 📋 **进度可视化** | 全局进度条 + 卡片级步骤计数器，学习路径清晰可控 |
 | 📤 **导出/导入** | 进度数据可导出备份或跨设备迁移 |
-| 🗂️ **工作区总览** | [YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) 展示 16 大领域、54 个开源项目的全量工作区卡片看板 |
+| 🗂️ **工作区总览** | [YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) 展示 **24 个分类、386 个项目、670,941 个文件** 的全量资产看板 |
+| 🧭 **分类架构索引** | [docs/YYC3-Knowledge-Base/index.html](docs/YYC3-Knowledge-Base/index.html) 逐类可视化架构（技术构成 / 迁移来源 / 项目清单） |
+| 🗺️ **全局汇总映射** | [docs/YYC3-项目治理-全局汇总映射.md](docs/YYC3-项目治理-全局汇总映射.md) 386 个项目的「当前目录 ↔ 原始路径」全量对照 |
 
 ---
 
@@ -94,14 +96,15 @@
 │  └──────────────────────────────────────────────────────────────┘           │
 │                                    │                                        │
 │  ┌──────────────────────────────────────────────────────────────┐           │
-│  │                   KNOWLEDGE BASE LAYER                        │           │
-│  │  ┌────────┐ ┌──────────┐ ┌────────┐ ┌────────┐ ┌────────┐  │           │
-│  │  │YYC3-A  │ │ YYC3-B   │ │ YYC3-C │ │ YYC3-D │ │ YYC3-E │  │           │
-│  │  │Types   │ │ Standards│ │ Tools  │ │ UI/ICU│ │ i18n   │  │           │
-│  │  ├────────┤ ├──────────┤ ├────────┤ ├────────┤ ├────────┤  │           │
-│  │  │YYC3-F  │ │ YYC3-H   │ │ YYC3-J │ │ YYC3-N │ │ docs   │  │           │
-│  │  │Skills  │ │ Agent/K8s│ │ Skills │ │ Python │ │ 指南    │  │           │
-│  │  └────────┘ └──────────┘ └────────┘ └────────┘ └────────┘  │           │
+│  │                 KNOWLEDGE BASE · 24 分类目录                 │           │
+│  │ AI-应用工具  AI-模型服务  Agent-智能体                       │           │
+│  │ UI-界面组件  Frontend-前端框架  Desktop-桌面应用             │           │
+│  │ IDE-编辑器内核  Editor-编辑器扩展  Syntax-语法高亮           │           │
+│  │ LSP-语言服务  TypeDef-类型定义  Tool-开发工具链              │           │
+│  │ Shell-终端  Cloud-云原生  Data-数据存储                      │           │
+│  │ Security-安全合规  Finance-金融量化  WebSpec-Web标准         │           │
+│  │ Runtime-标准库  Skills-技能包  Plugin-插件协议               │           │
+│  │ Design-设计资源  Business-商业应用  Doc-文档知识             │           │
 │  └──────────────────────────────────────────────────────────────┘           │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -127,56 +130,36 @@
 ```
 YYC3 Knowledge Base
 │
-├── 🅰️ YYC3-A — 类型定义生态
-│   └── DefinitelyTyped 类型定义库（TypeScript 类型声明）
-│
-├── 🅱️ YYC3-B — Web 标准与智能体生态
-│   ├── Web 标准：HTML / DOM / Fetch / URL / XHR / Streams / Encoding 等
-│   ├── 智能体：Agent 文档、Skill 框架、浏览器自动化
-│   ├── VS Code 扩展生态：主题、语言、工具链
-│   └── 社区插件市场：CodeBuddy、BuildWithClaude 等
-│
-├── ©️ YYC3-C — 开发者工具生态
-│   ├── Docker (Moby) 容器引擎
-│   ├── Lucide 图标库 / Emmet 代码补全
-│   └── VS Code 编辑器核心
-│
-├── 🇩 YYC3-D — UI 框架与国际化
-│   ├── ICU 国际化组件
-│   └── 前端 UI 框架与组件库
-│
-├── 🇪 YYC3-E — 边缘部署与本地化
-│   ├── Goose 边缘执行引擎
-│   ├── Edict 轻量部署工具
-│   └── i18n 国际化数据
-│
-├── 🇫 YYC3-F — AI 平台与技能生态
-│   ├── Khoj AI 搜索引擎
-│   ├── Ruff Python 静态分析
-│   ├── Shannon / Pi 智能体平台
-│   ├── Gstack GPU 栈管理
-│   └── Zeroclaw 部署工具
-│
-├── 🇭 YYC3-H — 底层运行与编排
-│   ├── Agent (Rust) 高性能智能体运行时
-│   ├── Kubernetes 容器编排
-│   ├── MUI-X 企业级 UI 组件
-│   └── Spotube 音视频工具
-│
-├── 🇯 YYC3-J — 技能与集成市场
-│   ├── Antigravity Awesome Skills 技能集合
-│   ├── LobeHub / Serena 智能体平台
-│   ├── Redux / Vuex 状态管理
-│   ├── One-API / New-API 统一网关
-│   └── MagicPython / Code-Skills 开发工具
-│
-├── 🇳 YYC3-N — Python 运行时生态
-│   ├── Python 标准库实现
-│   ├── Conda 包管理环境
-│   └── 数据科学/AI 框架依赖
+├── 🤖 YYC3-Agent-智能体 — 自主任务编排、编码智能体与多智能体框架
+├── 🧠 YYC3-AI-模型服务 — LLM 网关、推理、训练/蒸馏、RAG
+├── ✨ YYC3-AI-应用工具 — 面向终端用户的 AI 应用与提示词工程
+├── 🎨 YYC3-UI-界面组件 — 组件库、设计系统、主题包
+├── 🧱 YYC3-Frontend-前端框架 — 应用级前端框架与模板站
+├── 🖥️ YYC3-Desktop-桌面应用 — Electron / Flutter 桌面端成品
+├── 🛠️ YYC3-IDE-编辑器内核 — 编辑器/IDE 主体实现与发行版
+├── 🧩 YYC3-Editor-编辑器扩展 — 编辑器插件、语言扩展与主题 UI
+├── 🎨 YYC3-Syntax-语法高亮 — TextMate bundle、tmLanguage 语法定义
+├── 🗣️ YYC3-LSP-语言服务 — 语言服务器、语言工具链与代码分析
+├── 📐 YYC3-TypeDef-类型定义 — TypeScript 类型声明与类型仓库
+├── 🔧 YYC3-Tool-开发工具链 — 格式化、构建、CLI、包管理、文档工具
+├── ⌨️ YYC3-Shell-终端 — Shell 实现、终端增强与命令补全
+├── ☁️ YYC3-Cloud-云原生 — 容器、Kubernetes、Serverless、CI/CD
+├── 🗄️ YYC3-Data-数据存储 — 数据库、存储引擎、数据处理
+├── 🛡️ YYC3-Security-安全合规 — 安全扫描、规则库、攻防与合规
+├── 📈 YYC3-Finance-金融量化 — 量化交易、风控与金融数据建模
+├── 🌐 YYC3-WebSpec-Web标准 — WHATWG/W3C 规范与配套工具链
+├── 🐍 YYC3-Runtime-标准库 — 语言运行时与标准库实现
+├── 🧰 YYC3-Skills-技能包 — Agent Skill 集合与技能市场
+├── 🔌 YYC3-Plugin-插件协议 — MCP 协议、插件宿主与注册表
+├── 🖼️ YYC3-Design-设计资源 — 图标、主题、视觉素材与设计规范
+├── 💼 YYC3-Business-商业应用 — 商业场景应用与行业模板
+├── 📚 YYC3-Doc-文档知识 — 书籍、课程与规范解读
 │
 └── 📚 docs — 项目文档
-    ├── YYC3-KNOWLEDGE-BASE.html — 工作区总览（可脱机分享的 HTML 看板）
+    ├── YYC3-KNOWLEDGE-BASE.html — 资产看板（24 类 / 386 项目，可脱机分享）
+    ├── YYC3-Knowledge-Base/ — 24 类可视化架构索引（index.html + 24 张分类页）
+    ├── YYC3-项目治理-全局汇总映射.md — 386 项目「当前目录 ↔ 原始路径」全量对照
+    ├── YYC3-项目治理-资产盘点 — 全局资产扫描、重复项与版本裁决
     ├── DGX-SPARK-HUB.html — DGX Spark 操作中心（在线版）
     ├── DGX-SPARK-HUB-OFFLINE.html — DGX Spark 操作中心（离线版）
     ├── 技术实现边界.md — 架构设计与延伸路径
@@ -256,7 +239,9 @@ python3 -m http.server 8080
 ### 使用场景
 
 ```
-�️ 浏览工作区总览 → 通过 YYC3-KNOWLEDGE-BASE.html 查看全部 54 个项目卡片
+�️ 浏览工作区总览 → 通过 YYC3-KNOWLEDGE-BASE.html 查看全部 386 个项目卡片
+🧭 按分类查看架构 → 通过 docs/YYC3-Knowledge-Base/index.html 进入 24 类可视化架构页
+🗺️ 追溯项目来源 → 通过「全局汇总映射」查看当前目录与迁移前原始路径
 � 学习 NVIDIA AI 全栈技术 → 通过 DGX-SPARK-HUB 看板浏览 40+ 实践指南
 🎯 按步骤操作 AI 基础设施 → 利用深度链接直达任意步骤
 📊 追踪学习进度 → 自动保存每一步的完成状态
@@ -291,6 +276,9 @@ GUIDES.push(newGuide);
 |------|------|
 | 📦 GitHub 仓库 | [YYC3-Knowledge-Base](https://github.com/YYC-Cube/YYC3-Knowledge-Base.git) |
 | 🗂️ 工作区总览 | [docs/YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) |
+| 🧭 分类架构索引 | [docs/YYC3-Knowledge-Base/index.html](docs/YYC3-Knowledge-Base/index.html) |
+| 🗺️ 全局汇总映射 | [docs/YYC3-项目治理-全局汇总映射.md](docs/YYC3-项目治理-全局汇总映射.md) |
+| 🧾 治理报告 | [docs/YYC3-项目治理-资产盘点/README.md](docs/YYC3-项目治理-资产盘点/README.md) |
 | 🚀 DGX Spark 操作中心 | [docs/DGX-SPARK-HUB.html](docs/DGX-SPARK-HUB.html) |
 | 📖 项目文档 | [docs/](docs/) |
 | 🖼️ 品牌资源 | [public/](public/) |

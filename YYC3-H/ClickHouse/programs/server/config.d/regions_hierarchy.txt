@@ -1,5 +1,0 @@
-XSym
-0043
-087f939409abd5aef28baa968777e712
-../../../tests/config/regions_hierarchy.txt
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    

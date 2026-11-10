@@ -1,5 +1,0 @@
-XSym
-0032
-afec7e79d0f1e45ec30d85cafd6b2cf1
-../../../tests/config/ext-en.txt
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               

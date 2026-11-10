@@ -1,2 +1,0 @@
-system.createHash()
-system.createHash!()

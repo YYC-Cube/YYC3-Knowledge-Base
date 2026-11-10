@@ -1,9 +1,0 @@
-{
-  "$schema": "../config.schema.json",
-  "options": {
-    "token": "data",
-    "name": "fig teams",
-    "specPath": "spec.ts",
-    "team": "team-name"
-  }
-}

@@ -1,7 +1,0 @@
-bin
-obj
-.ionide/
-.idea/
-nupkg/
-.vs/
-release/

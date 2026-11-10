@@ -1,5 +1,0 @@
-resolver: ghc-9.8.4
-system-ghc: true
-install-ghc: false
-packages:
-  - .

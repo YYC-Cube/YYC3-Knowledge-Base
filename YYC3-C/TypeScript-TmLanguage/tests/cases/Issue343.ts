@@ -1,1 +1,0 @@
-console.log(`${Math.round(responseTime / requests)} ns (${Math.round(requests / ( responseTime / 1e9))}/sec)`);

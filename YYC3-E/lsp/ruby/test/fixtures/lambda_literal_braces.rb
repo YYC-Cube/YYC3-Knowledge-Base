@@ -1,3 +1,0 @@
-lambda = ->(item) {
-  puts item
-}

@@ -1,7 +1,0 @@
-{
-    "verbose": false,
-    "watch": [
-        "src/*.yml"
-    ],
-    "ext": "yml"
-}

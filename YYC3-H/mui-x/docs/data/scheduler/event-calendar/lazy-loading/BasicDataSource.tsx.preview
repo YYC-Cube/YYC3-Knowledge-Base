@@ -1,6 +1,0 @@
-<EventCalendarPremium
-  dataSource={{ getEvents, updateEvents }}
-  resources={resources}
-  defaultVisibleDate={defaultVisibleDate}
-  defaultPreferences={{ isSidePanelOpen: false }}
-/>

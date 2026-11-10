@@ -1,1 +1,0 @@
-export { useRichTreeViewProApiRef } from './useRichTreeViewProApiRef';

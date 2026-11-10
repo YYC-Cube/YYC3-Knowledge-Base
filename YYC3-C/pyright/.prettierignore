@@ -1,8 +1,0 @@
-**/package-lock.json
-**/dist/**
-**/out/**
-**/typeshed-fallback/**
-
-*.json
-*.md
-**/.github/ISSUE_TEMPLATE/**

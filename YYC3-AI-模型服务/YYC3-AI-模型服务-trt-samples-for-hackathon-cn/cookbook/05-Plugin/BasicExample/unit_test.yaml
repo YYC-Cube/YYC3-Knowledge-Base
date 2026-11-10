@@ -1,0 +1,13 @@
+version: 1
+name: 05-Plugin/BasicExample
+enabled: true
+tags:
+  - plugin
+  - compile
+run:
+  - make build > /dev/null 2>&1
+  - python3 main.py > log-main.py.log
+  - ./main.exe > log-main.exe.log
+clean:
+  - make clean
+  - rm -rf *.log

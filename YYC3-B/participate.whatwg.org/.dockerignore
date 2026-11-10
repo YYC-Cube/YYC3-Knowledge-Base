@@ -1,8 +1,0 @@
-## Ignore everything and list only what should be included.
-**
-!layouts
-!lib
-!views
-!config.json
-!package-lock.json
-!package.json

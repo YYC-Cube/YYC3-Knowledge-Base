@@ -1,1 +1,0 @@
-Methods are named **Abc**_ObjectAction_, where _Object_ describes the object and _Action_ indicates what the function does. For example, [**AbcDeviceCreate**](http://msdn.microsoft.com) creates a device object.

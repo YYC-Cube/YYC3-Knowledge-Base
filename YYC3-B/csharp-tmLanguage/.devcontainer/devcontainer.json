@@ -1,5 +1,0 @@
-{
-	"name": "C# tmLanguage",
-	"image": "mcr.microsoft.com/devcontainers/javascript-node:ubuntu",
-	"postCreateCommand": "npm ci"
-}

@@ -1,8 +1,0 @@
-{
-    "mcpServers": {
-        "lexiang": {
-            "timeout": 600,
-            "url": "https://mcp.lexiang-app.com/mcp?company_from=csig"
-        }
-    }
-}

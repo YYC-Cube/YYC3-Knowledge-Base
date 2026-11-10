@@ -1,1 +1,0 @@
-export { BatchBarPlot } from './BatchBarPlot';

@@ -1,4 +1,0 @@
-*.rs       text eol=lf
-Cargo.toml text eol=lf
-Cargo.lock text eol=lf
-.gitignore text eol=lf

@@ -1,1 +1,0 @@
-let a = tag<string | number> `${100} ${"hello"}`;

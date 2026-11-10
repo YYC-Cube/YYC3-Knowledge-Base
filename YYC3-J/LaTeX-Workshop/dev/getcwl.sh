@@ -1,1 +1,0 @@
-open https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2Ftexstudio-org%2Ftexstudio%2Ftree%2Fmaster%2Fcompletion

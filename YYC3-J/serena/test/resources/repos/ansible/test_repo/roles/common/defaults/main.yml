@@ -1,3 +1,0 @@
----
-nginx_listen_port: 80
-deploy_user: deploy

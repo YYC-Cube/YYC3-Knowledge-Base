@@ -1,1 +1,0 @@
-class C[T, T]: pass

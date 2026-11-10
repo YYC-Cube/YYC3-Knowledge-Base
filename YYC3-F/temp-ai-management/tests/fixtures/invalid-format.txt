@@ -1,3 +1,0 @@
-This is not a valid CSV file.
-It contains invalid data format.
-Should be rejected during import.
