@@ -1,0 +1,16 @@
+{
+  "name": "security-rules",
+  "version": "1.0.0",
+  "description": "安全 rules 插件内置由CSIG代码安全专家根据实际经验编写的规则，使 CodeBuddy 生成的代码更安全",
+  "keywords": ["security", "code-security", "rules", "vulnerability"],
+  "category": "security",
+  "features": [
+    "SQL Injection Protection Rules for AI Code Generation",
+    "Command/Code Injection Protection Rules for AI Code Generation",
+    "Path Traversal Protection Rules for AI Code Generation",
+    "Sensitive Information Protection Rules for AI Code Generation"
+  ], 
+  "owner": {
+    "name": "Tencent Yunding Lab"
+  }
+}

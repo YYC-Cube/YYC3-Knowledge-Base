@@ -1,0 +1,137 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TimelineItem > props > :content[function] 1`] = `
+<li
+  class="t-timeline-item t-timeline-item-top"
+>
+  <!---->
+  <div
+    class="t-timeline-item__wrapper"
+  >
+    <div
+      class="t-timeline-item__dot t-timeline-item__dot--primary"
+    >
+      <!---->
+      <!---->
+    </div>
+    <div
+      class="t-timeline-item__tail t-timeline-item__tail--theme-default"
+    />
+  </div>
+  <div
+    class="t-timeline-item__content"
+  >
+    <span
+      class="custom-node"
+    >
+      TNode
+    </span>
+    <!---->
+  </div>
+</li>
+`;
+
+exports[`TimelineItem > props > :content[slot] 1`] = `
+<li
+  class="t-timeline-item t-timeline-item-top"
+>
+  <!---->
+  <div
+    class="t-timeline-item__wrapper"
+  >
+    <div
+      class="t-timeline-item__dot t-timeline-item__dot--primary"
+    >
+      <!---->
+      <!---->
+    </div>
+    <div
+      class="t-timeline-item__tail t-timeline-item__tail--theme-default"
+    />
+  </div>
+  <div
+    class="t-timeline-item__content"
+  >
+    
+    <span
+      class="custom-node"
+    >
+      TNode
+    </span>
+    
+    <!---->
+  </div>
+</li>
+`;
+
+exports[`TimelineItem > props > :label[function] 1`] = `
+<li
+  class="t-timeline-item t-timeline-item-top"
+>
+  <div
+    class="t-timeline-item__label t-timeline-item__label--alternate"
+  >
+    <span
+      class="custom-node"
+    >
+      TNode
+    </span>
+  </div>
+  <div
+    class="t-timeline-item__wrapper"
+  >
+    <div
+      class="t-timeline-item__dot t-timeline-item__dot--primary"
+    >
+      <!---->
+      <!---->
+    </div>
+    <div
+      class="t-timeline-item__tail t-timeline-item__tail--theme-default"
+    />
+  </div>
+  <div
+    class="t-timeline-item__content"
+  >
+    <!---->
+    <!---->
+  </div>
+</li>
+`;
+
+exports[`TimelineItem > props > :label[slot] 1`] = `
+<li
+  class="t-timeline-item t-timeline-item-top"
+>
+  <div
+    class="t-timeline-item__label t-timeline-item__label--alternate"
+  >
+    
+    <span
+      class="custom-node"
+    >
+      TNode
+    </span>
+    
+  </div>
+  <div
+    class="t-timeline-item__wrapper"
+  >
+    <div
+      class="t-timeline-item__dot t-timeline-item__dot--primary"
+    >
+      <!---->
+      <!---->
+    </div>
+    <div
+      class="t-timeline-item__tail t-timeline-item__tail--theme-default"
+    />
+  </div>
+  <div
+    class="t-timeline-item__content"
+  >
+    <!---->
+    <!---->
+  </div>
+</li>
+`;

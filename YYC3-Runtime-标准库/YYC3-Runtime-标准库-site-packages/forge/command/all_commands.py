@@ -1,0 +1,22 @@
+# pylint: disable=unused-import
+import forge.command.allocation  # noqa: F401
+import forge.command.constraint  # noqa: F401
+import forge.command.forge  # noqa: F401
+import forge.command.infiniband  # noqa: F401
+import forge.command.instance  # noqa: F401
+import forge.command.instance_type  # noqa: F401
+import forge.command.ipblock  # noqa: F401
+import forge.command.machine  # noqa: F401
+import forge.command.operating_system  # noqa: F401
+import forge.command.provider  # noqa: F401
+import forge.command.rule  # noqa: F401
+import forge.command.security_group  # noqa: F401
+import forge.command.site  # noqa: F401
+import forge.command.ssh_key  # noqa: E401
+import forge.command.ssh_key_group  # noqa: E401
+import forge.command.subnet  # noqa: F401
+import forge.command.tenant  # noqa: F401
+import forge.command.tenant_account  # noqa: F401
+import forge.command.user  # noqa: F401
+import forge.command.vpc  # noqa: F401
+import forge.command.vpc_prefix  # noqa: F401

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YYC³ Tool-开发工具链 — 可视化架构 | YYC³ Knowledge Base</title>
+<meta name="description" content="格式化、构建、CLI、包管理、文档工具">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-size='30' font-family='sans-serif' font-weight='700' fill='%23fff' text-anchor='middle'%3EY%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a2e;--surface:rgba(255,255,255,.03);--surface-hover:rgba(255,255,255,.06);
+--border:rgba(255,255,255,.08);--border-hover:rgba(255,255,255,.15);--text:#f1f1f6;--text2:rgba(255,255,255,.65);
+--text3:rgba(255,255,255,.35);--v:#8b5cf6;--c:#06b6d4;--e:#22c55e;--r:#ef4444;--o:#f59e0b;--p:#ec4899;
+--radius:14px;--radius-sm:8px;--shadow:0 4px 24px rgba(0,0,0,.3);
+--font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+--font-mono:'SF Mono','Fira Code','Cascadia Code',Consolas,monospace}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(139,92,246,.35)}::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--border-hover);border-radius:8px}
+a{color:var(--c);text-decoration:none}
+.app{display:flex;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:var(--bg2);border-right:1px solid var(--border);
+display:flex;flex-direction:column;z-index:100;transition:transform .3s}
+.sidebar.hidden{transform:translateX(-100%)}
+.sb-head{padding:20px 18px 14px;border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--v),var(--c));
+display:grid;place-items:center;font-weight:800;color:#fff;font-size:18px;flex:none}
+.logo-t1{font-size:15px;font-weight:700}.logo-t2{font-size:11px;color:var(--text3)}
+.sb-nav{flex:1;overflow-y:auto;padding:10px}
+.nav-group{font-size:10px;letter-spacing:1px;color:var(--text3);padding:10px 8px 6px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;color:var(--text2);font-size:12.5px;transition:.2s}
+.nav-item:hover{background:var(--surface-hover);color:var(--text)}
+.nav-item.active{background:var(--surface-hover);color:var(--text);font-weight:600}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex:none}
+.nav-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-count{font-size:10px;color:var(--text3);font-family:var(--font-mono)}
+.sb-foot{padding:12px 18px;border-top:1px solid var(--border);font-size:10.5px;color:var(--text3)}
+.main{flex:1;margin-left:280px;min-width:0;transition:margin-left .3s}
+.main.wide{margin-left:0}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:12px 22px;
+background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.icon-btn{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:var(--surface);
+color:var(--text2);display:grid;place-items:center;cursor:pointer;font-size:15px;transition:.2s}
+.icon-btn:hover{background:var(--surface-hover);color:var(--text)}
+.tb-title{flex:1;min-width:0}
+.tb-title h1{margin:0;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-title p{margin:0;font-size:11px;color:var(--text3)}
+.content{max-width:1440px;margin:0 auto;padding:24px 22px 60px}
+.hero{position:relative;overflow:hidden;border-radius:var(--radius);padding:30px 28px;margin-bottom:22px;
+background:linear-gradient(135deg,color-mix(in srgb,var(--c) 18%,transparent),transparent 62%);border:1px solid var(--border)}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;
+background:radial-gradient(circle,color-mix(in srgb,var(--c) 35%,transparent),transparent 70%);animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.hero .kicker{font-size:11px;letter-spacing:2px;color:var(--c);font-weight:700;margin-bottom:8px}
+.hero h2{margin:0 0 6px;font-size:26px;font-weight:750;letter-spacing:.3px}
+.hero p{margin:0;color:var(--text2);font-size:13px;max-width:760px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:20px;position:relative;z-index:1}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+.stat .k{font-size:11px;color:var(--text3)}
+.stat .v{font-size:22px;font-weight:700;font-family:var(--font-mono)}
+.stat .u{font-size:11px;color:var(--text3);margin-left:2px}
+.sec{margin-bottom:26px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sec-bar{width:4px;height:20px;border-radius:4px;background:var(--c)}
+.sec-head h3{margin:0;font-size:16px;font-weight:650}
+.sec-meta{margin-left:auto;font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;
+transition:.25s;animation:fadeUp .4s ease both;overflow:hidden}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-2px);border-color:var(--border-hover);box-shadow:var(--shadow)}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--c)}
+.c-head{display:flex;gap:10px;align-items:flex-start;margin-top:4px}
+.c-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex:none;
+background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
+.c-name{font-size:13.5px;font-weight:600;word-break:break-word;line-height:1.35}
+.c-sub{font-size:10.5px;color:var(--text3);margin-top:2px}
+.c-meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 8px}
+.badge{font-size:10px;padding:2px 8px;border-radius:999px;background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.badge.tech{background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);border-color:transparent}
+.badge.warn{background:color-mix(in srgb,var(--o) 14%,transparent);color:var(--o);border-color:transparent}
+.c-sub-list{border-top:1px dashed var(--border);margin-top:8px;padding-top:8px;display:flex;flex-direction:column;gap:5px}
+.sub-row{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);min-width:0}
+.sub-dot{width:5px;height:5px;border-radius:50%;background:var(--c);opacity:.7;flex:none}
+.sub-k{color:var(--text3);flex:none}
+.sub-v{font-family:var(--font-mono);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bars{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:22px}
+.bar-row{display:flex;align-items:center;gap:12px;margin:9px 0}
+.bar-name{width:90px;flex:none;font-size:12px;color:var(--text2);font-family:var(--font-mono)}
+.bar-track{flex:1;height:8px;border-radius:6px;background:var(--bg3);overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--c),var(--v))}
+.bar-num{width:70px;text-align:right;font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.prov{display:flex;flex-wrap:wrap;gap:8px}
+.prov-item{font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text2)}
+.prov-item b{color:var(--text)}
+.foot{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.btn{padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);
+color:var(--text);font-size:12px;cursor:pointer;transition:.2s}
+.btn:hover{border-color:var(--border-hover);background:var(--surface-hover)}
+.btn.primary{background:linear-gradient(135deg,var(--v),var(--c));border-color:transparent;color:#fff;font-weight:600}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.show{transform:translateX(0)}
+.main{margin-left:0}.content{padding:18px 14px 50px}.hero{padding:22px 18px}.hero h2{font-size:20px}
+.card-grid{grid-template-columns:1fr}.bar-name{width:70px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head">
+      <div class="logo"><div class="logo-mark">Y</div>
+        <div><div class="logo-t1">YYC³ 知识库</div><div class="logo-t2">Visual Architecture · 24 类</div></div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-group">总览</div>
+      <a class="nav-item" href="index.html"><span class="nav-dot" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4)"></span><span class="nav-name">分类索引</span><span class="nav-count">24</span></a>
+      <a class="nav-item" href="../YYC3-KNOWLEDGE-BASE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">资产看板</span><span class="nav-count">386</span></a>
+      <div class="nav-group">分类架构</div>
+      <a class="nav-item " href="YYC3-AI-应用工具-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ec4899"></span><span class="nav-name">AI-应用工具</span><span class="nav-count">22</span></a><a class="nav-item " href="YYC3-AI-模型服务-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">AI-模型服务</span><span class="nav-count">16</span></a><a class="nav-item " href="YYC3-Agent-智能体-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">Agent-智能体</span><span class="nav-count">21</span></a><a class="nav-item " href="YYC3-Business-商业应用-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">Business-商业应用</span><span class="nav-count">5</span></a><a class="nav-item " href="YYC3-Cloud-云原生-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">Cloud-云原生</span><span class="nav-count">8</span></a><a class="nav-item " href="YYC3-Data-数据存储-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">Data-数据存储</span><span class="nav-count">5</span></a><a class="nav-item " href="YYC3-Design-设计资源-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ec4899"></span><span class="nav-name">Design-设计资源</span><span class="nav-count">10</span></a><a class="nav-item " href="YYC3-Desktop-桌面应用-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">Desktop-桌面应用</span><span class="nav-count">3</span></a><a class="nav-item " href="YYC3-Doc-文档知识-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">Doc-文档知识</span><span class="nav-count">8</span></a><a class="nav-item " href="YYC3-Editor-编辑器扩展-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">Editor-编辑器扩展</span><span class="nav-count">14</span></a><a class="nav-item " href="YYC3-Finance-金融量化-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">Finance-金融量化</span><span class="nav-count">4</span></a><a class="nav-item " href="YYC3-Frontend-前端框架-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">Frontend-前端框架</span><span class="nav-count">9</span></a><a class="nav-item " href="YYC3-IDE-编辑器内核-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">IDE-编辑器内核</span><span class="nav-count">13</span></a><a class="nav-item " href="YYC3-LSP-语言服务-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">LSP-语言服务</span><span class="nav-count">16</span></a><a class="nav-item " href="YYC3-Plugin-插件协议-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">Plugin-插件协议</span><span class="nav-count">17</span></a><a class="nav-item " href="YYC3-Runtime-标准库-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">Runtime-标准库</span><span class="nav-count">36</span></a><a class="nav-item " href="YYC3-Security-安全合规-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ef4444"></span><span class="nav-name">Security-安全合规</span><span class="nav-count">4</span></a><a class="nav-item " href="YYC3-Shell-终端-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">Shell-终端</span><span class="nav-count">5</span></a><a class="nav-item " href="YYC3-Skills-技能包-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ec4899"></span><span class="nav-name">Skills-技能包</span><span class="nav-count">22</span></a><a class="nav-item " href="YYC3-Syntax-语法高亮-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ec4899"></span><span class="nav-name">Syntax-语法高亮</span><span class="nav-count">56</span></a><a class="nav-item active" href="YYC3-Tool-开发工具链-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">Tool-开发工具链</span><span class="nav-count">45</span></a><a class="nav-item " href="YYC3-TypeDef-类型定义-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">TypeDef-类型定义</span><span class="nav-count">2</span></a><a class="nav-item " href="YYC3-UI-界面组件-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">UI-界面组件</span><span class="nav-count">10</span></a><a class="nav-item " href="YYC3-WebSpec-Web标准-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">WebSpec-Web标准</span><span class="nav-count">35</span></a>
+    </nav>
+    <div class="sb-foot">数据快照：2026-11-10<br>24 类 · 386 个项目</div>
+  </aside>
+  <main class="main" id="main">
+    <header class="topbar">
+      <button class="icon-btn" id="btnMenu">☰</button>
+      <div class="tb-title"><h1>YYC³ Tool-开发工具链 — 可视化架构</h1><p>格式化、构建、CLI、包管理、文档工具</p></div>
+      <a class="icon-btn" href="index.html" title="返回索引">⌂</a>
+    </header>
+    <section class="content">
+<div class="hero" style="--c:#f59e0b">
+  <div class="kicker">Tool-开发工具链 · VISUAL ARCHITECTURE</div>
+  <h2>🔧 Tool-开发工具链</h2>
+  <p>格式化、构建、CLI、包管理、文档工具</p>
+  <div class="stats">
+    <div class="stat"><div class="k">项目数</div><div class="v">45<span class="u">个</span></div></div>
+    <div class="stat"><div class="k">文件总量</div><div class="v">95,998</div></div>
+    <div class="stat"><div class="k">资产体积</div><div class="v">1010.6 MB</div></div>
+    <div class="stat"><div class="k">技术栈</div><div class="v">28<span class="u">种</span></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sec-bar"></span><h3>技术构成</h3><span class="sec-meta">按项目覆盖数统计 TOP 10</span></div>
+  <div class="bars"><div class="bar-row"><span class="bar-name">.json</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-num">25 项目</span></div><div class="bar-row"><span class="bar-name">.md</span><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><span class="bar-num">22 项目</span></div><div class="bar-row"><span class="bar-name">.js</span><div class="bar-track"><div class="bar-fill" style="width:52%"></div></div><span class="bar-num">13 项目</span></div><div class="bar-row"><span class="bar-name">.ts</span><div class="bar-track"><div class="bar-fill" style="width:52%"></div></div><span class="bar-num">13 项目</span></div><div class="bar-row"><span class="bar-name">.txt</span><div class="bar-track"><div class="bar-fill" style="width:24%"></div></div><span class="bar-num">6 项目</span></div><div class="bar-row"><span class="bar-name">.py</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">5 项目</span></div><div class="bar-row"><span class="bar-name">.yml</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">5 项目</span></div><div class="bar-row"><span class="bar-name">.sh</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">5 项目</span></div><div class="bar-row"><span class="bar-name">.cs</span><div class="bar-track"><div class="bar-fill" style="width:12%"></div></div><span class="bar-num">3 项目</span></div><div class="bar-row"><span class="bar-name">.cshtml</span><div class="bar-track"><div class="bar-fill" style="width:12%"></div></div><span class="bar-num">3 项目</span></div></div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sec-bar"></span><h3>迁移来源</h3><span class="sec-meta">原字母桶 / 领域桶</span></div>
+  <div class="bars"><div class="prov"><span class="prov-item">YYC3-Tool-开发工具 <b>30</b></span><span class="prov-item">YYC3-G <b>5</b></span><span class="prov-item">YYC3-B <b>3</b></span><span class="prov-item">YYC3-E <b>1</b></span><span class="prov-item">YYC3-Framework-框架 <b>1</b></span><span class="prov-item">YYC3-H <b>1</b></span><span class="prov-item">YYC3-I <b>1</b></span><span class="prov-item">YYC3-Business-商业 <b>1</b></span><span class="prov-item">YYC3-Spec-规范工具 <b>1</b></span><span class="prov-item">YYC3-Syntax-语法定义 <b>1</b></span></div></div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sec-bar"></span><h3>项目清单（45）</h3>
+    <span class="sec-meta">95,998 文件 · 1010.6 MB</span></div>
+  <div class="card-grid"><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-dotnet</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">13,710 文件</span><span class="badge">34.1 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-E/dotnet</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">txt · cs · cshtml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-razor-v2</div>
+        <div class="c-sub">Tool-开发工具链 · 版本变体</div></div></div>
+      <div class="c-meta"><span class="badge">13,710 文件</span><span class="badge">34.1 MB</span>
+      <span class="badge warn">变体</span></div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-B/razor</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">txt · cs · cshtml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-razor</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">13,154 文件</span><span class="badge">32.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Framework-框架/razor</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">txt · cs · cshtml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-ruff</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">9,824 文件</span><span class="badge">73.5 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/ruff</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">snap · py · rs</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">Cargo.toml, pyproject.toml, Dockerfile</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-prettier</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">9,255 文件</span><span class="badge">22.1 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/prettier</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">js · snap · ts</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-aily-blockly-libraries</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">7,616 文件</span><span class="badge">92.3 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-G/aily-blockly-libraries</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">json · md · js</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-Core-files</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">7,474 文件</span><span class="badge">60.2 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/Core-files</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">json · tsx · ts</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-vize</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">4,647 文件</span><span class="badge">49.7 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-G/vize</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">rs · snap · ts</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json, Cargo.toml</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-content</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">4,524 文件</span><span class="badge">212.2 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/content</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">svg · png · js</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-tools</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">2,814 文件</span><span class="badge">18.8 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/tools</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">go · txt · golden</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">go.mod</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-EasySpider</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">1,721 文件</span><span class="badge">90.4 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/EasySpider</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">json · png · js</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-autocomplete</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">1,566 文件</span><span class="badge">98.3 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/autocomplete</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · png · yml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-repomix</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">1,054 文件</span><span class="badge">7.1 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/repomix</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · ts · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json, Dockerfile</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-aily-blockly</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">1,002 文件</span><span class="badge">105.5 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-G/aily-blockly</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · scss · html</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-swagger-ui</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">961 文件</span><span class="badge">5.4 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-H/swagger-ui</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">js · jsx · yaml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json, composer.json, Dockerfile</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-archify</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">514 文件</span><span class="badge">42.9 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-G/archify</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">mjs · md · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-marked</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">419 文件</span><span class="badge">1.2 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/marked</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · html · js</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-autocomplete-tools</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">417 文件</span><span class="badge">2.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/autocomplete-tools</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · json · md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-platformio-core</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">353 文件</span><span class="badge">1.5 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-G/platformio-core</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">py · tpl · yml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">setup.py</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-js-beautify</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">192 文件</span><span class="badge">2.7 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/js-beautify</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">js · py · md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-node-semver</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">151 文件</span><span class="badge">0.3 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/node-semver</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">js · yml · md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-version</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">151 文件</span><span class="badge">0.3 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/version</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">js · yml · md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-superpowers</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">147 文件</span><span class="badge">0.9 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-I/superpowers</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · sh · txt</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-graphify</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">131 文件</span><span class="badge">1.5 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Business-商业/graphify</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">py · md · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">pyproject.toml</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-emmet</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">106 文件</span><span class="badge">0.7 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/emmet</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · json · js</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-Raphael-Publish</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">48 文件</span><span class="badge">16.3 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/Raphael-Publish</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · tsx · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-superpowers-v3</div>
+        <div class="c-sub">Tool-开发工具链 · 版本变体</div></div></div>
+      <div class="c-meta"><span class="badge">48 文件</span><span class="badge">0.3 MB</span>
+      <span class="badge warn">变体</span></div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-B/superpowers</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · json · sh</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-git-commit-message-plus</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">44 文件</span><span class="badge">3.5 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/git-commit-message-plus</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · json · js</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-json-server</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">33 文件</span><span class="badge">0.1 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/json-server</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · json · yml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-superpowers-chrome</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">32 文件</span><span class="badge">0.2 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-B/superpowers-chrome</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · sh · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-build_tools</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">25 文件</span><span class="badge">0.1 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/build_tools</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">sh · fish · xml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-Handlebars</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">23 文件</span><span class="badge">0.1 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/Handlebars</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">sublime-snippet · json · md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-markdown-it-katex</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">19 文件</span><span class="badge">0.2 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/markdown-it-katex</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">json · txt · md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-spec-factory</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">19 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Spec-规范工具/spec-factory</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">template · py · template-part</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-development-essentials</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">18 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/development-essentials</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-expand-abbreviation</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">18 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Syntax-语法定义/expand-abbreviation</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">js · json · md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-pr-review-toolkit</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">10 文件</span><span class="badge">0.1 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/pr-review-toolkit</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-cn-optimizer</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">9 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/cn-optimizer</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-ralph-loop</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">9 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/ralph-loop</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · json · sh</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-assert</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">7 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/assert</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">js · json · html</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-feature-dev</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">7 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/feature-dev</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-commit-commands</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">6 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/commit-commands</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-ppt-writer</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">6 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/ppt-writer</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-code-simplifier</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">2 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/code-simplifier</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · json</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#f59e0b">
+      <div class="c-head"><div class="c-icon">🔧</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Tool-开发工具链-examples</div>
+        <div class="c-sub">Tool-开发工具链 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">2 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/examples</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">tsx · ts</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article></div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sec-bar"></span><h3>关联入口</h3></div>
+  <div class="foot">
+    <a class="btn primary" href="../YYC3-KNOWLEDGE-BASE.html">打开资产看板</a>
+    <a class="btn" href="index.html">分类索引</a>
+    <a class="btn" href="../../YYC3-Tool-开发工具链/README.md">分类 README</a>
+    <a class="btn" href="../YYC3-项目治理-全局汇总映射.md">全局映射文档</a>
+  </div>
+</div></section>
+  </main>
+</div>
+<script>
+var btn=document.getElementById('btnMenu');
+btn.onclick=function(){
+  var s=document.getElementById('sidebar');
+  if(window.innerWidth<=768){s.classList.toggle('show');}
+  else{s.classList.toggle('hidden');document.getElementById('main').classList.toggle('wide');}
+};
+</script>
+</body>
+</html>

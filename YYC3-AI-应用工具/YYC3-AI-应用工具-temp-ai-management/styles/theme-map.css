@@ -1,0 +1,26 @@
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-sans);
+  --text-base: var(--text-base);
+  --leading-normal: var(--leading-normal);
+  /* ...其他 sidebar 映射 */
+}
+
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+}
+
+[data-theme="dark"] {
+  --background: #1a1a1a;
+  --foreground: #ffffff;
+}

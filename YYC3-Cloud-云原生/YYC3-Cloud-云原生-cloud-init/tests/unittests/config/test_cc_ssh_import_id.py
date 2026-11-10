@@ -1,0 +1,170 @@
+# This file is part of cloud-init. See LICENSE file for license information.
+
+import logging
+from unittest import mock
+
+import pytest
+
+from cloudinit.config import cc_ssh_import_id
+from cloudinit.subp import ProcessExecutionError
+from tests.unittests.util import get_cloud
+
+LOG = logging.getLogger(__name__)
+
+MODPATH = "cloudinit.config.cc_ssh_import_id."
+
+
+class TestIsKeyInNestedDict:
+    @pytest.mark.parametrize(
+        "cfg,expected",
+        (
+            ({}, False),
+            ({"users": [{"name": "bob"}]}, False),
+            ({"ssh_import_id": ["yep"]}, True),
+            ({"ssh_import_id": ["yep"], "users": [{"name": "bob"}]}, True),
+            (
+                {
+                    "apt": {"preserve_sources_list": True},
+                    "ssh_import_id": ["yep"],
+                    "users": [{"name": "bob"}],
+                },
+                True,
+            ),
+            (
+                {
+                    "apt": [{}],
+                    "ssh_import_id": ["yep"],
+                    "users": [{"name": "bob"}],
+                },
+                True,
+            ),
+            (
+                {
+                    "apt": {"preserve_sources_list": True},
+                    "users": [
+                        {"name": "bob"},
+                        {"name": "judy", "ssh_import_id": ["yep"]},
+                    ],
+                },
+                True,
+            ),
+        ),
+    )
+    def test_find_ssh_import_id_directives(self, cfg, expected):
+        assert expected is cc_ssh_import_id.is_key_in_nested_dict(
+            cfg, "ssh_import_id"
+        )
+
+
+class TestHandleSshImportIDs:
+    """Test cc_ssh_import_id handling of config."""
+
+    @pytest.mark.parametrize(
+        "cfg,log",
+        (
+            ({}, "no 'ssh_import_id' directives found"),
+            (
+                {"users": [{"name": "bob"}]},
+                "no 'ssh_import_id' directives found",
+            ),
+            ({"ssh_import_id": ["bobkey"]}, "ssh-import-id is not installed"),
+        ),
+    )
+    @mock.patch(MODPATH + "subp.which")
+    def test_skip_inapplicable_configs(self, m_which, cfg, log, caplog):
+        """Skip config without ssh_import_id"""
+        m_which.return_value = None
+        cloud = get_cloud("ubuntu")
+        cc_ssh_import_id.handle("name", cfg, cloud, [])
+        assert log in caplog.text
+
+    @mock.patch(MODPATH + "pwd.getpwnam")
+    @mock.patch(MODPATH + "subp.subp")
+    @mock.patch(MODPATH + "subp.which")
+    def test_use_sudo(self, m_which, m_subp, m_getpwnam):
+        """Check that sudo is available and use that"""
+        m_which.return_value = "/usr/bin/ssh-import-id"
+        ids = ["waffle"]
+        user = "bob"
+        cc_ssh_import_id.import_ssh_ids(ids, user)
+        m_subp.assert_called_once_with(
+            [
+                "sudo",
+                "--preserve-env=https_proxy",
+                "-Hu",
+                user,
+                "ssh-import-id",
+            ]
+            + ids,
+            capture=False,
+        )
+
+    @mock.patch(MODPATH + "pwd.getpwnam")
+    @mock.patch(MODPATH + "subp.subp")
+    @mock.patch(MODPATH + "subp.which")
+    def test_use_doas(self, m_which, m_subp, m_getpwnam):
+        """Check that doas is available and use that"""
+        m_which.side_effect = [None, "/usr/bin/doas"]
+        ids = ["waffle"]
+        user = "bob"
+        cc_ssh_import_id.import_ssh_ids(ids, user)
+        m_subp.assert_called_once_with(
+            ["doas", "-u", user, "ssh-import-id"] + ids, capture=False
+        )
+
+    @mock.patch(MODPATH + "pwd.getpwnam")
+    @mock.patch(MODPATH + "subp.subp")
+    @mock.patch(MODPATH + "subp.which")
+    def test_use_neither_sudo_nor_doas(
+        self, m_which, m_subp, m_getpwnam, caplog
+    ):
+        """Test when neither sudo nor doas is available"""
+        m_which.return_value = None
+        ids = ["waffle"]
+        user = "bob"
+        cc_ssh_import_id.import_ssh_ids(ids, user)
+        assert (
+            "Neither sudo nor doas available! Unable to import SSH ids"
+        ) in caplog.text
+
+    @mock.patch(MODPATH + "time.sleep")
+    @mock.patch(MODPATH + "pwd.getpwnam")
+    @mock.patch(MODPATH + "subp.which")
+    def test_retry_once_on_exit_code_1(
+        self, m_which, m_getpwnam, m_sleep, mocker
+    ):
+        """Only attempt one retry when ssh-import-id exits with code 1."""
+        m_subp = mocker.patch(
+            "cloudinit.config.cc_ssh_import_id.subp.subp",
+            side_effect=[
+                ProcessExecutionError(exit_code=1, stderr="try1"),
+                ProcessExecutionError(exit_code=1, stderr="try2"),
+            ],
+        )
+        m_which.return_value = "/usr/bin/ssh-import-id"
+        with pytest.raises(
+            ProcessExecutionError,
+            match=r"(?s)Unexpected error while running command.*try2",
+        ):
+            cc_ssh_import_id.import_ssh_ids(["waffle"], "bob")
+
+        assert m_subp.call_count == 2
+        assert m_sleep.call_count == 1
+
+    @mock.patch(MODPATH + "time.sleep")
+    @mock.patch(MODPATH + "pwd.getpwnam")
+    @mock.patch(MODPATH + "subp.which")
+    def test_retry_with_success(self, m_which, m_getpwnam, m_sleep, mocker):
+        """Retry succeeds on ssh-import-id with a retry."""
+        m_subp = mocker.patch(
+            "cloudinit.config.cc_ssh_import_id.subp.subp",
+            side_effect=[
+                ProcessExecutionError(exit_code=1, stderr="try1"),
+                None,
+            ],
+        )
+        m_which.return_value = "/usr/bin/ssh-import-id"
+        cc_ssh_import_id.import_ssh_ids(["waffle"], "bob")
+
+        assert m_subp.call_count == 2
+        assert m_sleep.call_count == 1

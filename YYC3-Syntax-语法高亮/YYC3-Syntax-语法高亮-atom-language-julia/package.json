@@ -1,0 +1,31 @@
+{
+  "name": "language-julia",
+  "version": "0.23.0",
+  "description": "Julia language support for Atom.",
+  "keywords": [],
+  "repository": "https://github.com/JuliaEditorSupport/atom-language-julia",
+  "main": "./lib/julia",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/JuliaEditorSupport/atom-language-julia/issues"
+  },
+  "homepage": "https://github.com/JuliaEditorSupport/atom-language-julia",
+  "scripts": {
+    "generate": "node ./scripts/generate.js && git add grammars/julia.json && git add grammars/julia.cson && git add variants/julia_vscode.json",
+    "test": "npm run generate && mocha"
+  },
+  "devDependencies": {
+    "@fastify/pre-commit": "^2.2",
+    "chai": "^6",
+    "cson": "^8",
+    "mocha": "^11",
+    "vscode-oniguruma": "^2",
+    "vscode-textmate": "^9"
+  },
+  "pre-commit": [
+    "generate"
+  ]
+}

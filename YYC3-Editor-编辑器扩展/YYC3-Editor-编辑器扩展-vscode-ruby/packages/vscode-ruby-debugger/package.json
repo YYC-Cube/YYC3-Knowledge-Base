@@ -1,0 +1,50 @@
+{
+	"name": "vscode-ruby-debugger",
+	"version": "0.28.1",
+	"description": "Debugger implementation for vscode-ruby",
+	"main": "src/index.ts",
+	"repository": "https://github.com/rubyide/vscode-ruby",
+	"author": "Stafford Brunk <stafford.brunk@gmail.com>",
+	"license": "MIT",
+	"private": true,
+	"capabilities": {
+		"virtualWorkspaces": false,
+		"untrustedWorkspaces": {
+			"supported": false,
+			"description": "Trust is required to debug code in this workspace."
+		}
+	},
+	"scripts": {
+		"lint": "eslint src/**/*.ts",
+		"test": "nyc mocha --timeout 5000 -r ts-node/register -r source-map-support/register spec/**/*.ts",
+		"build": "yarn compile --minify",
+		"compile": "esbuild ./src/main.ts --bundle --outfile=dist/main.js --external:vscode --format=cjs --platform=node",
+		"watch": "yarn compile --sourcemap --watch"
+	},
+	"dependencies": {
+		"vscode-debugadapter": "^1.35.0",
+		"vscode-debugprotocol": "^1.35.0",
+		"xmldom": "^0.1.27"
+	},
+	"devDependencies": {
+		"@types/mocha": "^5.2.7",
+		"@types/xmldom": "^0.1.29",
+		"@typescript-eslint/eslint-plugin": "^2.8.0",
+		"@typescript-eslint/parser": "^2.8.0",
+		"chai": "^4.2.0",
+		"eslint": ">=6.6.0",
+		"eslint-config-standard": "^14.1.0",
+		"eslint-config-standard-with-typescript": "^11.0.1",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-node": "^10.0.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.1",
+		"mocha": "^6.2.2",
+		"nyc": "^14.1.1",
+		"prettier": "^1.19.1",
+		"source-map-support": "^0.5.16",
+		"ts-node": "^10.4.0",
+		"typescript": "^4.5.4",
+		"vscode-debugadapter-testsupport": "^1.35.0"
+	}
+}

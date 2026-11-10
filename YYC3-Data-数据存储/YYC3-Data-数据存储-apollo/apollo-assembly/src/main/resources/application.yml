@@ -1,0 +1,78 @@
+#
+# Copyright 2024 Apollo Authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+spring:
+  profiles:
+    active: ${apollo_profile}
+  cloud:
+    consul:
+      enabled: false
+    zookeeper:
+      enabled: false
+  session:
+    store-type: none
+  jpa:
+    properties:
+      hibernate:
+        metadata_builder_contributor: com.ctrip.framework.apollo.common.jpa.SqlFunctionsMetadataBuilderContributor
+  lifecycle:
+    timeout-per-shutdown-phase: ${GRACEFUL_SHUTDOWN_TIMEOUT:10s}
+
+logging:
+  file:
+    name: /opt/logs/apollo-assembly.log
+
+management:
+  health:
+    status:
+      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP
+    ldap:
+      enabled: false
+
+eureka:
+  instance:
+    hostname: ${hostname:localhost}
+    prefer-ip-address: true
+    status-page-url-path: /info
+    health-check-url-path: /health
+  server:
+    peer-eureka-nodes-update-interval-ms: 60000
+    enable-self-preservation: false
+  client:
+    service-url:
+      # This setting will be overridden by eureka.service.url setting from ApolloConfigDB.ServerConfig or System Property
+      # see com.ctrip.framework.apollo.biz.eureka.ApolloEurekaClientConfig
+      defaultZone: http://${eureka.instance.hostname}:8080/eureka/
+    # assembly classpath contains eureka server dependencies, so force eureka client to avoid jersey transport mode
+    jersey:
+      enabled: false
+    healthcheck:
+      enabled: true
+    eureka-service-url-poll-interval-seconds: 60
+    fetch-registry: false
+    register-with-eureka: false
+
+server:
+  shutdown: graceful
+  compression:
+    enabled: true
+  tomcat:
+    use-relative-redirects: true
+  servlet:
+    session:
+      cookie:
+        name: SESSION
+        # prevent csrf
+        same-site: Lax

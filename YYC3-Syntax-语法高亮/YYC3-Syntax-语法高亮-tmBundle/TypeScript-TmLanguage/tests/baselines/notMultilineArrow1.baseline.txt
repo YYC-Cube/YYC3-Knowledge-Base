@@ -1,0 +1,124 @@
+original file
+-----------------------------------
+// @onlyOwnGrammar - As this has type assertion
+                                useResult =
+                                    lastLocation.kind === SyntaxKind.Parameter ||
+                                    (
+                                        lastLocation === (<FunctionLikeDeclaration>location).type &&
+                                        result.valueDeclaration.kind === SyntaxKind.Parameter
+                                    );
+
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>// @onlyOwnGrammar - As this has type assertion
+ ^^
+ source.ts comment.line.double-slash.ts punctuation.definition.comment.ts
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   source.ts comment.line.double-slash.ts
+>                                useResult =
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ source.ts
+                                 ^^^^^^^^^
+                                 source.ts variable.other.readwrite.ts
+                                          ^
+                                          source.ts
+                                           ^
+                                           source.ts keyword.operator.assignment.ts
+>                                    lastLocation.kind === SyntaxKind.Parameter ||
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ source.ts
+                                     ^^^^^^^^^^^^
+                                     source.ts variable.other.object.ts
+                                                 ^
+                                                 source.ts punctuation.accessor.ts
+                                                  ^^^^
+                                                  source.ts variable.other.property.ts
+                                                      ^
+                                                      source.ts
+                                                       ^^^
+                                                       source.ts keyword.operator.comparison.ts
+                                                          ^
+                                                          source.ts
+                                                           ^^^^^^^^^^
+                                                           source.ts variable.other.object.ts
+                                                                     ^
+                                                                     source.ts punctuation.accessor.ts
+                                                                      ^^^^^^^^^
+                                                                      source.ts variable.other.property.ts
+                                                                               ^
+                                                                               source.ts
+                                                                                ^^
+                                                                                source.ts keyword.operator.logical.ts
+>                                    (
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ source.ts
+                                     ^
+                                     source.ts meta.brace.round.ts
+>                                        lastLocation === (<FunctionLikeDeclaration>location).type &&
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ source.ts
+                                         ^^^^^^^^^^^^
+                                         source.ts variable.other.readwrite.ts
+                                                     ^
+                                                     source.ts
+                                                      ^^^
+                                                      source.ts keyword.operator.comparison.ts
+                                                         ^
+                                                         source.ts
+                                                          ^
+                                                          source.ts meta.brace.round.ts
+                                                           ^
+                                                           source.ts cast.expr.ts meta.brace.angle.ts
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^
+                                                            source.ts cast.expr.ts entity.name.type.ts
+                                                                                   ^
+                                                                                   source.ts cast.expr.ts meta.brace.angle.ts
+                                                                                    ^^^^^^^^
+                                                                                    source.ts variable.other.readwrite.ts
+                                                                                            ^
+                                                                                            source.ts meta.brace.round.ts
+                                                                                             ^
+                                                                                             source.ts punctuation.accessor.ts
+                                                                                              ^^^^
+                                                                                              source.ts support.variable.property.dom.ts
+                                                                                                  ^
+                                                                                                  source.ts
+                                                                                                   ^^
+                                                                                                   source.ts keyword.operator.logical.ts
+>                                        result.valueDeclaration.kind === SyntaxKind.Parameter
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ source.ts
+                                         ^^^^^^
+                                         source.ts variable.other.object.ts
+                                               ^
+                                               source.ts punctuation.accessor.ts
+                                                ^^^^^^^^^^^^^^^^
+                                                source.ts variable.other.object.property.ts
+                                                                ^
+                                                                source.ts punctuation.accessor.ts
+                                                                 ^^^^
+                                                                 source.ts variable.other.property.ts
+                                                                     ^
+                                                                     source.ts
+                                                                      ^^^
+                                                                      source.ts keyword.operator.comparison.ts
+                                                                         ^
+                                                                         source.ts
+                                                                          ^^^^^^^^^^
+                                                                          source.ts variable.other.object.ts
+                                                                                    ^
+                                                                                    source.ts punctuation.accessor.ts
+                                                                                     ^^^^^^^^^
+                                                                                     source.ts variable.other.property.ts
+>                                    );
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ source.ts
+                                     ^
+                                     source.ts meta.brace.round.ts
+                                      ^
+                                      source.ts punctuation.terminator.statement.ts
+>
+ ^
+ source.ts

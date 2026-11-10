@@ -1,0 +1,135 @@
+.ios {
+  --f7-navbarLeftTextOffset: calc(4px + 12px + var(--f7-navbar-inner-padding-left));
+  --f7-navbarTitleLargeOffset: var(--f7-navbar-large-title-padding-left);
+  .navbar {
+    .title-large {
+      align-items: flex-end;
+    }
+
+    a.link {
+      height: 100%;
+      padding: 0 12px;
+    }
+    a:is(.icon-only, :has(i:only-child), :has(svg:only-child)) {
+      width: 44px;
+      margin: 0;
+      justify-content: center;
+    }
+    .left,
+    .right {
+      a + a {
+        .ltr({
+          margin-left: 16px;
+        });
+        .rtl({
+          margin-right: 16px;
+        });
+      }
+    }
+    b {
+      font-weight: 600;
+    }
+    .left {
+      .ltr({
+        margin-right: 10px;
+      });
+      .rtl({
+        margin-left: 10px;
+      });
+    }
+    .right {
+      .ltr({
+        margin-left: 10px;
+      });
+      .rtl({
+        margin-right: 10px;
+      });
+    }
+    .right:first-child {
+      .ltr({
+        right: calc(8px + var(--f7-safe-area-right));
+      });
+      .rtl({
+        left: calc(8px + var(--f7-safe-area-left));
+      });
+    }
+  }
+  .navbar-bg {
+    height: 100%;
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(2px);
+      mask-image: linear-gradient(
+        to bottom,
+        black calc(50% + var(--f7-safe-area-top, 0px)),
+        transparent 100%
+      );
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(
+        to bottom,
+        var(--f7-navbar-bg-color, var(--f7-bars-bg-color)) var(--f7-safe-area-top, 0px),
+        transparent 100%
+      );
+    }
+  }
+  .navbar-inner {
+    justify-content: space-between;
+    padding-top: calc(16px + var(--f7-safe-area-top));
+    padding-bottom: 16px;
+  }
+  .navbar {
+    .left,
+    .right,
+    .navbar-pane {
+      height: 100%;
+      .ios-glass();
+      border-radius: 64px;
+      min-width: 44px;
+    }
+  }
+  .navbar-pane {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar-inner-left-title {
+    justify-content: flex-start;
+    .right {
+      .ltr({
+        margin-left: auto;
+      });
+      .rtl({
+        margin-right: auto;
+      });
+    }
+    .title {
+      text-align: left;
+      .ltr({
+        margin-right: 10px;
+      });
+      .rtl({
+        margin-left: 10px;
+      });
+    }
+  }
+  // Transparent navbar
+  .navbar-transparent:not(.navbar-large):not(.navbar-transparent-visible):not(
+      .with-searchbar-expandable-enabled
+    ) {
+    .title {
+      opacity: 0;
+    }
+  }
+}
+
+.view-master-detail {
+  .page-master {
+    z-index: 525;
+  }
+}

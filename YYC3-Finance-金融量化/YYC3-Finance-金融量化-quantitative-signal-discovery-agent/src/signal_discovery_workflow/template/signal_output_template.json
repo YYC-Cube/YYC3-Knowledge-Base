@@ -1,0 +1,51 @@
+{
+    "schema_version": "1.0",
+    "description": "Output template for generated quantitative signals",
+    "signal_template": {
+        "name": "<signal_name>",
+        "formula": "<formula_using_operators>",
+        "meaning": "<economic_intuition>",
+        "category": "<momentum|volatility|volume|reversal|quality|other>",
+        "data_fields_used": ["<list_of_data_fields>"],
+        "operators_used": ["<list_of_operators>"],
+        "lookback_periods": ["<list_of_lookback_days>"]
+    },
+    "output_format": {
+        "type": "json_array",
+        "example": [
+            {
+                "name": "Volume-Weighted Momentum",
+                "formula": "Div(TS_Return(Close, 20), Decay_Linear(Volume, 20))",
+                "meaning": "20-day return normalized by linearly decaying volume, capturing momentum adjusted for trading activity",
+                "category": "momentum",
+                "data_fields_used": ["Close", "Volume"],
+                "operators_used": ["Div", "TS_Return", "Decay_Linear"],
+                "lookback_periods": [20]
+            },
+            {
+                "name": "Volatility-Adjusted Price Range",
+                "formula": "Div(Sub(High, Low), TS_Std(Close, 10))",
+                "meaning": "Daily price range normalized by 10-day volatility, measuring relative intraday movement",
+                "category": "volatility",
+                "data_fields_used": ["High", "Low", "Close"],
+                "operators_used": ["Div", "Sub", "TS_Std"],
+                "lookback_periods": [10]
+            },
+            {
+                "name": "Volume Surge Indicator",
+                "formula": "Div(Volume, TS_Mean(Volume, 20))",
+                "meaning": "Current volume relative to 20-day average, identifying unusual trading activity",
+                "category": "volume",
+                "data_fields_used": ["Volume"],
+                "operators_used": ["Div", "TS_Mean"],
+                "lookback_periods": [20]
+            }
+        ]
+    },
+    "validation_rules": {
+        "required_fields": ["name", "formula", "meaning"],
+        "formula_must_use_valid_operators": true,
+        "formula_must_use_valid_data_fields": true
+    }
+}
+

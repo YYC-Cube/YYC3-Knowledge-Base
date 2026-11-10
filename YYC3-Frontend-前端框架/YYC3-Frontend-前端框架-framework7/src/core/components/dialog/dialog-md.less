@@ -1,0 +1,66 @@
+.md {
+  .dialog {
+    &.modal-out {
+      transform: translate3d(0, -50%, 0) scale(0.815);
+    }
+  }
+  .dialog-title {
+    + .dialog-text {
+      margin-top: 20px;
+    }
+  }
+  .dialog-text {
+    line-height: 1.5;
+  }
+  .dialog-buttons {
+    padding: 0px 24px 24px;
+    overflow: hidden;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .dialog-button {
+    width: auto;
+  }
+
+  .dialog-buttons-vertical {
+    .dialog-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+  }
+
+  // Inputs
+  .dialog-input {
+    padding: 0;
+    transition-duration: 200ms;
+    position: relative;
+    + .dialog-input {
+      margin-top: 16px;
+    }
+  }
+
+  // Preloader
+  .dialog-preloader,
+  .dialog-progress {
+    .dialog-title,
+    .dialog-inner {
+      text-align: center;
+    }
+  }
+  .dialog-preloader {
+    .dialog-title ~ .preloader,
+    .dialog-text ~ .preloader {
+      margin-top: 20px;
+    }
+  }
+  .dialog-progress {
+    .dialog-title ~ .progressbar,
+    .dialog-text ~ .progressbar,
+    .dialog-title ~ .progressbar-infinite,
+    .dialog-text ~ .progressbar-infinite {
+      margin-top: 16px;
+    }
+  }
+}

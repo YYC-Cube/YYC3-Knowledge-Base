@@ -1,0 +1,162 @@
+from typing import Any, Self
+
+from pydantic import AliasChoices, Field
+from werkzeug.exceptions import Forbidden
+
+from configs import dify_config
+from controllers.common.schema import register_response_schema_models
+from controllers.web import web_ns
+from controllers.web.wraps import WebApiResource
+from enums import DeploymentEdition
+from extensions.ext_application_services import application_services
+from fields.base import ResponseModel
+from libs.helper import build_icon_url, dump_response
+from models.account import Tenant
+from models.model import App, AppMode, EndUser, Site
+from services.entities.feature_entities import FeatureModel
+from services.web_app_runtime_query_service import WebAppRuntimeUnavailableError
+
+
+class WebSiteResponse(ResponseModel):
+    title: str
+    chat_color_theme: str | None = None
+    chat_color_theme_inverted: bool
+    icon_type: str | None = None
+    icon: str | None = None
+    icon_background: str | None = None
+    description: str | None = None
+    copyright: str | None = None
+    privacy_policy: str | None = None
+    input_placeholder: str | None = None
+    custom_disclaimer: str | None = None
+    default_language: str | None = None
+    prompt_public: bool | None = None
+    show_workflow_steps: bool | None = None
+    use_icon_as_answer_icon: bool | None = None
+    icon_url: str | None = None
+
+
+class WebModelConfigResponse(ResponseModel):
+    opening_statement: str | None = None
+    suggested_questions: Any = Field(
+        default=None,
+        validation_alias=AliasChoices("suggested_questions_list", "suggested_questions"),
+    )
+    suggested_questions_after_answer: Any = Field(
+        default=None,
+        validation_alias=AliasChoices("suggested_questions_after_answer_dict", "suggested_questions_after_answer"),
+    )
+    more_like_this: Any = Field(
+        default=None,
+        validation_alias=AliasChoices("more_like_this_dict", "more_like_this"),
+    )
+    model: Any = Field(default=None, validation_alias=AliasChoices("model_dict", "model"))
+    user_input_form: Any = Field(
+        default=None,
+        validation_alias=AliasChoices("user_input_form_list", "user_input_form"),
+    )
+    pre_prompt: str | None = None
+
+
+class WebAppCustomConfigResponse(ResponseModel):
+    remove_webapp_brand: bool
+    replace_webapp_logo: str | None = None
+
+
+class WebAppSiteResponse(ResponseModel):
+    app_id: str
+    mode: AppMode
+    end_user_id: str | None = None
+    enable_site: bool
+    site: WebSiteResponse
+    model_config_: WebModelConfigResponse | None = Field(
+        default=None, validation_alias="model_config", serialization_alias="model_config"
+    )
+    plan: str
+    can_replace_logo: bool
+    custom_config: WebAppCustomConfigResponse | None = None
+
+    @classmethod
+    def from_app_site(
+        cls,
+        *,
+        tenant: Tenant,
+        app_model: App,
+        mode: AppMode,
+        site: Site,
+        end_user_id: str | None,
+        features: FeatureModel,
+        can_replace_logo: bool,
+        icon_url: str | None = None,
+    ) -> Self:
+        custom_config = None
+        if can_replace_logo:
+            replace_webapp_logo = (
+                f"{dify_config.FILES_URL}/files/workspaces/{tenant.id}/webapp-logo"
+                if tenant.custom_config_dict.get("replace_webapp_logo")
+                else None
+            )
+            custom_config = WebAppCustomConfigResponse(
+                remove_webapp_brand=tenant.custom_config_dict.get("remove_webapp_brand", False),
+                replace_webapp_logo=replace_webapp_logo,
+            )
+
+        site_response = WebSiteResponse.model_validate(site, from_attributes=True)
+        site_response.icon_url = icon_url if icon_url is not None else build_icon_url(site.icon_type, site.icon)
+        if dify_config.DEPLOYMENT_EDITION == DeploymentEdition.CLOUD and not features.webapp_copyright_enabled:
+            site_response.copyright = None
+            site_response.input_placeholder = None
+
+        return cls(
+            app_id=app_model.id,
+            mode=mode,
+            end_user_id=end_user_id,
+            enable_site=app_model.enable_site,
+            site=site_response,
+            model_config_=None,
+            plan=tenant.plan,
+            can_replace_logo=can_replace_logo,
+            custom_config=custom_config,
+        )
+
+
+register_response_schema_models(
+    web_ns, WebSiteResponse, WebModelConfigResponse, WebAppCustomConfigResponse, WebAppSiteResponse
+)
+
+
+@web_ns.route("/site")
+class AppSiteApi(WebApiResource):
+    @web_ns.doc("Get App Site Info")
+    @web_ns.doc(description="Retrieve app site information and configuration.")
+    @web_ns.doc(
+        responses={
+            200: "Success",
+            400: "Bad Request",
+            401: "Unauthorized",
+            403: "Forbidden",
+            404: "App Not Found",
+            500: "Internal Server Error",
+        }
+    )
+    @web_ns.response(200, "Success", web_ns.models[WebAppSiteResponse.__name__])
+    def get(self, app_model: App, end_user: EndUser):
+        """Retrieve app site info."""
+        try:
+            bootstrap = application_services().web_app_runtime.get_bootstrap(app_model.id)
+        except WebAppRuntimeUnavailableError:
+            raise Forbidden() from None
+
+        return dump_response(
+            WebAppSiteResponse,
+            {
+                "app_id": bootstrap.app_id,
+                "mode": bootstrap.mode,
+                "end_user_id": end_user.id,
+                "enable_site": bootstrap.enable_site,
+                "site": bootstrap.site,
+                "plan": bootstrap.plan,
+                "can_replace_logo": bootstrap.can_replace_logo,
+                "custom_config": bootstrap.custom_config,
+            },
+        )

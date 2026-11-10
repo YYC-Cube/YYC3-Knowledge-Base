@@ -1,0 +1,94 @@
+name: Issue Labeled
+
+on:
+  issues:
+    types: [labeled]
+
+permissions: {}
+
+jobs:
+  issue-labeled-with-status:
+    name: status/{confirmed,reviewed} label added
+    if: github.event.label.name == 'status/confirmed' || github.event.label.name == 'status/reviewed'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Generate GitHub App token
+        uses: electron/github-app-auth-action@5f70a3726af01b612f29aac96d05aa524389c9e9 # v2.1.0
+        id: generate-token
+        with:
+          creds: ${{ secrets.ISSUE_TRIAGE_GH_APP_CREDS }}
+          org: electron
+      - name: Set status
+        uses: dsanders11/project-actions/edit-item@4b06452b0128cf601dac14399aa668a8eed2d684 # v2.0.1
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          project-number: 90
+          field: Status
+          field-value: ✅ Triaged
+          fail-if-item-not-found: false
+  issue-labeled-blocked:
+    name: blocked/* label added
+    if: startsWith(github.event.label.name, 'blocked/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Generate GitHub App token
+        uses: electron/github-app-auth-action@5f70a3726af01b612f29aac96d05aa524389c9e9 # v2.1.0
+        id: generate-token
+        with:
+          creds: ${{ secrets.ISSUE_TRIAGE_GH_APP_CREDS }}
+          org: electron
+      - name: Set status
+        uses: dsanders11/project-actions/edit-item@4b06452b0128cf601dac14399aa668a8eed2d684 # v2.0.1
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          project-number: 90
+          field: Status
+          field-value: 🛑 Blocked
+          fail-if-item-not-found: false
+  issue-labeled-blocked-need-repro:
+    name: blocked/need-repro label added
+    if: github.event.label.name == 'blocked/need-repro'
+    permissions:
+      issues: write  # for gh issue comment to update issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if comment needed
+        id: check-for-comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: electron/electron
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -eo pipefail
+          COMMENT_COUNT=$(gh issue view "$ISSUE_NUMBER" --comments --json comments | jq '[ .comments[] | select(.author.login == "electron-issue-triage" or .authorAssociation == "OWNER" or .authorAssociation == "MEMBER") | select(.body | startswith("<!-- blocked/need-repro -->")) ] | length')
+          if [[ $COMMENT_COUNT -eq 0 ]]; then
+            echo "SHOULD_COMMENT=1" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Generate GitHub App token
+        if: ${{ steps.check-for-comment.outputs.SHOULD_COMMENT }}
+        uses: electron/github-app-auth-action@5f70a3726af01b612f29aac96d05aa524389c9e9 # v2.1.0
+        id: generate-token
+        with:
+          creds: ${{ secrets.ISSUE_TRIAGE_GH_APP_CREDS }}
+      - name: Create comment
+        if: ${{ steps.check-for-comment.outputs.SHOULD_COMMENT }}
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          GH_REPO: electron/electron
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          gh issue comment "$ISSUE_NUMBER" --body-file - <<'EOF'
+          <!-- blocked/need-repro -->
+
+          Hello @${{ github.event.issue.user.login }}. Thanks for reporting this and helping to make Electron better!
+
+          Would it be possible for you to make a standalone testcase with only the code necessary to reproduce the issue? For example, [Electron Fiddle](https://www.electronjs.org/fiddle) is a great tool for making small test cases and makes it easy to publish your test case to a [gist](https://gist.github.com) that Electron maintainers can use.
+
+          Stand-alone test cases make fixing issues go more smoothly: it ensure everyone's looking at the same issue, it removes all unnecessary variables from the equation, and it can also provide the basis for automated regression tests.
+
+          Now adding the https://github.com/electron/electron/labels/blocked%2Fneed-repro label for this reason. After you make a test case, please link to it in a followup comment. This issue will be closed in 10 days if the above is not addressed.
+          EOF

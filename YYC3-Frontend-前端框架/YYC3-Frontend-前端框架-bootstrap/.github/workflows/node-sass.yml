@@ -1,0 +1,48 @@
+name: CSS (node-sass)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+env:
+  FORCE_COLOR: 2
+
+permissions:
+  contents: read
+
+jobs:
+  css:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: ".nvmrc"
+
+      - name: Build CSS with node-sass
+        run: |
+          npx --package node-sass@latest node-sass --version
+          npx --package node-sass@latest node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 scss/ -o dist-sass/css/
+          ls -Al dist-sass/css
+
+      - name: Check built CSS files for Sass variables
+        shell: bash
+        run: |
+          SASS_VARS_FOUND=$(find "dist-sass/css/" -type f -name "*.css" -print0 | xargs -0 --no-run-if-empty grep -F "\$" || true)
+          if [[ -z "$SASS_VARS_FOUND" ]]; then
+            echo "All good, no Sass variables found!"
+            exit 0
+          else
+            echo "Found $(echo "$SASS_VARS_FOUND" | wc -l | bc) Sass variables:"
+            echo "$SASS_VARS_FOUND"
+            exit 1
+          fi

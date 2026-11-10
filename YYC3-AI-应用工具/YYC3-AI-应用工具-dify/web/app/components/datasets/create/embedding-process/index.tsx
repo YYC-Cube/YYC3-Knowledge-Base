@@ -1,0 +1,170 @@
+import type { FC } from 'react'
+import type { FullDocumentDetail } from '@/models/datasets'
+import type { RETRIEVE_METHOD } from '@/types/app'
+import { buttonVariants } from '@langgenius/dify-ui/button'
+import { cn } from '@langgenius/dify-ui/cn'
+import { RiArrowRightLine, RiLoader2Fill, RiTerminalBoxLine } from '@remixicon/react'
+import { useQuery } from '@tanstack/react-query'
+import { useAtomValue } from 'jotai'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import Divider from '@/app/components/base/divider'
+import VectorSpaceAdmissionAlert from '@/app/components/datasets/common/vector-space-admission-alert'
+import { deploymentEditionAtom } from '@/features/system-features/state'
+import { useDatasetApiAccessUrl } from '@/hooks/use-api-access-url'
+import Link from '@/next/link'
+import { consoleQuery } from '@/service/console'
+import { useProcessRule } from '@/service/knowledge/use-dataset'
+import { useInvalidDocumentList } from '@/service/knowledge/use-document'
+import IndexingProgressItem from './indexing-progress-item'
+import RuleDetail from './rule-detail'
+import UpgradeBanner from './upgrade-banner'
+import { useIndexingStatusPolling } from './use-indexing-status-polling'
+import { createDocumentLookup } from './utils'
+
+type EmbeddingProcessProps = {
+  datasetId: string
+  batchId: string
+  documents?: FullDocumentDetail[]
+  indexingType?: string
+  retrievalMethod?: RETRIEVE_METHOD
+}
+
+// Status header component
+const StatusHeader: FC<{ isEmbedding: boolean; isCompleted: boolean }> = ({
+  isEmbedding,
+  isCompleted,
+}) => {
+  const { t } = useTranslation()
+
+  return (
+    <div className="flex items-center gap-x-1 system-md-semibold-uppercase text-text-secondary">
+      {isEmbedding && (
+        <>
+          <RiLoader2Fill className="size-4 animate-spin" />
+          <span>{t(($) => $['embedding.processing'], { ns: 'datasetDocuments' })}</span>
+        </>
+      )}
+      {isCompleted && t(($) => $['embedding.completed'], { ns: 'datasetDocuments' })}
+    </div>
+  )
+}
+
+// Action buttons component
+const ActionButtons: FC<{
+  apiReferenceUrl: string
+  documentsHref: string
+  onNavigateToDocuments: () => void
+}> = ({ apiReferenceUrl, documentsHref, onNavigateToDocuments }) => {
+  const { t } = useTranslation()
+
+  return (
+    <div className="mt-6 flex items-center gap-x-2 py-2">
+      <Link
+        href={apiReferenceUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(buttonVariants(), 'w-fit')}
+      >
+        <RiTerminalBoxLine className="size-4" />
+        <span>Access the API</span>
+      </Link>
+      <Link
+        href={documentsHref}
+        className={cn(buttonVariants({ variant: 'primary' }), 'w-fit')}
+        onClick={onNavigateToDocuments}
+      >
+        <span>{t(($) => $['stepThree.navTo'], { ns: 'datasetCreation' })}</span>
+        <RiArrowRightLine className="size-4 stroke-current stroke-1" />
+      </Link>
+    </div>
+  )
+}
+
+const EmbeddingProcess: FC<EmbeddingProcessProps> = ({
+  datasetId,
+  batchId,
+  documents = [],
+  indexingType,
+  retrievalMethod,
+}) => {
+  const deploymentEdition = useAtomValue(deploymentEditionAtom)
+  const { data: plan } = useQuery(
+    consoleQuery.features.get.queryOptions({
+      enabled: deploymentEdition === 'CLOUD',
+      select: (data) => data.billing.subscription.plan,
+    }),
+  )
+  const invalidDocumentList = useInvalidDocumentList()
+  const apiReferenceUrl = useDatasetApiAccessUrl()
+
+  // Polling hook for indexing status
+  const { statusList, isEmbedding, isEmbeddingCompleted } = useIndexingStatusPolling({
+    datasetId,
+    batchId,
+  })
+
+  // Get process rule for the first document
+  const firstDocumentId = documents[0]?.id
+  const { data: ruleDetail } = useProcessRule(firstDocumentId)
+
+  // Document lookup utilities - memoized for performance
+  const documentLookup = useMemo(() => createDocumentLookup(documents), [documents])
+
+  const documentsHref = `/datasets/${datasetId}/documents`
+
+  const showUpgradeBanner =
+    deploymentEdition === 'CLOUD' && (plan === 'sandbox' || plan === 'professional')
+  const showVectorSpaceUpgrade =
+    deploymentEdition === 'CLOUD' && (plan === 'sandbox' || plan === 'professional')
+  const vectorSpaceAdmissionError = statusList.find(
+    (detail) => detail.error_code === 'vector_space_estimate_exceeded',
+  )
+
+  return (
+    <>
+      <div className="flex flex-col gap-y-3">
+        <StatusHeader isEmbedding={isEmbedding} isCompleted={isEmbeddingCompleted} />
+
+        {vectorSpaceAdmissionError?.estimated_vector_space_mb != null &&
+          vectorSpaceAdmissionError.vector_space_limit_mb != null && (
+            <VectorSpaceAdmissionAlert
+              showUpgrade={showVectorSpaceUpgrade}
+              estimatedMb={vectorSpaceAdmissionError.estimated_vector_space_mb}
+              planLimitMb={vectorSpaceAdmissionError.vector_space_limit_mb}
+            />
+          )}
+
+        {showUpgradeBanner && <UpgradeBanner />}
+
+        <div className="flex flex-col gap-0.5 pb-2">
+          {statusList.map((detail) => (
+            <IndexingProgressItem
+              key={detail.id}
+              detail={detail}
+              name={documentLookup.getName(detail.id)}
+              sourceType={documentLookup.getSourceType(detail.id)}
+              notionIcon={documentLookup.getNotionIcon(detail.id)}
+            />
+          ))}
+        </div>
+
+        <Divider type="horizontal" className="my-0 bg-divider-subtle" />
+
+        <RuleDetail
+          sourceData={ruleDetail}
+          indexingType={indexingType}
+          retrievalMethod={retrievalMethod}
+        />
+      </div>
+
+      <ActionButtons
+        apiReferenceUrl={apiReferenceUrl}
+        documentsHref={documentsHref}
+        onNavigateToDocuments={invalidDocumentList}
+      />
+    </>
+  )
+}
+
+export default EmbeddingProcess

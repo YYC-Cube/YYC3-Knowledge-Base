@@ -1,0 +1,13 @@
+.vscode/**/*
+.gitignore
+packages/**/*
+*.vsix
+appveyor.yml
+.travis.yml
+.prettierrc
+tsconfig.base.json
+tsconfig.json
+tslint.json
+lerna.json
+*.zip
+*.tar.gz

@@ -1,0 +1,342 @@
+// Copyright (c) 2014 GitHub, Inc.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+
+#include "shell/browser/api/electron_api_global_shortcut.h"
+
+#include <string>
+#include <vector>
+
+#include "base/containers/map_util.h"
+#include "base/functional/bind.h"
+#include "base/strings/utf_string_conversions.h"
+#include "base/uuid.h"
+#include "components/prefs/pref_service.h"
+#include "electron/shell/browser/electron_browser_context.h"
+#include "electron/shell/common/electron_constants.h"
+#include "extensions/common/command.h"
+#include "gin/object_template_builder.h"
+#include "gin/persistent.h"
+#include "shell/browser/api/electron_api_system_preferences.h"
+#include "shell/browser/browser.h"
+#include "shell/common/gin_converters/accelerator_converter.h"
+#include "shell/common/gin_converters/callback_converter.h"
+#include "shell/common/gin_helper/dictionary.h"
+#include "shell/common/gin_helper/wrappable_pointer_tags.h"
+#include "shell/common/node_includes.h"
+#include "v8/include/cppgc/allocation.h"
+#include "v8/include/v8-cppgc.h"
+
+#if BUILDFLAG(IS_MAC)
+#include "base/mac/mac_util.h"
+#endif
+
+using extensions::Command;
+using ui::GlobalAcceleratorListener;
+
+namespace {
+
+#if BUILDFLAG(IS_MAC)
+bool RegisteringMediaKeyForUntrustedClient(const ui::Accelerator& accelerator) {
+  return accelerator.IsMediaKey() &&
+         !electron::api::SystemPreferences::IsTrustedAccessibilityClient(false);
+}
+
+bool MapHasMediaKeys(
+    const std::map<ui::Accelerator, base::RepeatingClosure>& accelerator_map) {
+  return std::ranges::any_of(
+      accelerator_map, [](const auto& ac) { return ac.first.IsMediaKey(); });
+}
+#endif
+
+}  // namespace
+
+namespace electron::api {
+
+const gin::WrapperInfo GlobalShortcut::kWrapperInfo =
+    electron::MakeWrapperInfo(electron::kElectronGlobalShortcut);
+
+GlobalShortcut::GlobalShortcut(v8::Isolate* isolate) {
+  gin::PerIsolateData* data = gin::PerIsolateData::From(isolate);
+  data->AddDisposeObserver(this);
+}
+
+GlobalShortcut::~GlobalShortcut() = default;
+
+void GlobalShortcut::Dispose() {
+  is_disposed_ = true;
+
+  auto* instance = ui::GlobalAcceleratorListener::GetInstance();
+  if (instance && instance->IsRegistrationHandledExternally()) {
+    // Eagerly cancel callbacks so PruneStaleCommands() can clear them before
+    // the WeakPtrFactory destructor runs.
+    weak_factory_.Invalidate();
+    instance->PruneStaleCommands();
+  }
+
+  UnregisterAllInternal();
+}
+
+void GlobalShortcut::OnKeyPressed(const ui::Accelerator& accelerator) {
+  if (auto* cb = base::FindOrNull(accelerator_callback_map_, accelerator)) {
+    cb->Run();
+  } else {
+    // This should never occur, because if it does,
+    // ui::GlobalAcceleratorListener notifies us with wrong accelerator.
+    if (!is_disposed_) {
+      NOTREACHED();
+    }
+  }
+}
+
+void GlobalShortcut::ExecuteCommand(const extensions::ExtensionId& extension_id,
+                                    const std::string& command_id) {
+  if (auto* cb = base::FindOrNull(command_callback_map_, command_id)) {
+    cb->Run();
+  } else {
+    // This should never occur, because if it does, GlobalAcceleratorListener
+    // notifies us with wrong command.
+    if (!is_disposed_) {
+      NOTREACHED();
+    }
+  }
+}
+
+bool GlobalShortcut::RegisterAll(
+    const std::vector<ui::Accelerator>& accelerators,
+    const base::RepeatingClosure& callback) {
+  if (!electron::Browser::Get()->is_ready()) {
+    gin_helper::ErrorThrower(JavascriptEnvironment::GetIsolate())
+        .ThrowError("globalShortcut cannot be used before the app is ready");
+    return false;
+  }
+  std::vector<ui::Accelerator> registered;
+
+  for (auto& accelerator : accelerators) {
+    if (!Register(accelerator, callback)) {
+      // Unregister all shortcuts if any failed.
+      UnregisterSome(registered);
+      return false;
+    }
+
+    registered.push_back(accelerator);
+  }
+  return true;
+}
+
+bool GlobalShortcut::Register(const ui::Accelerator& accelerator,
+                              const base::RepeatingClosure& callback) {
+  v8::Isolate* const isolate = JavascriptEnvironment::GetIsolate();
+
+  if (!electron::Browser::Get()->is_ready()) {
+    gin_helper::ErrorThrower(isolate).ThrowError(
+        "globalShortcut cannot be used before the app is ready");
+    return false;
+  }
+
+#if BUILDFLAG(IS_MAC)
+  if (accelerator.IsMediaKey()) {
+    if (RegisteringMediaKeyForUntrustedClient(accelerator))
+      return false;
+
+    ui::GlobalAcceleratorListener::SetShouldUseInternalMediaKeyHandling(false);
+  }
+#endif
+
+  auto* instance = ui::GlobalAcceleratorListener::GetInstance();
+  if (!instance) {
+    return false;
+  }
+
+  if (instance->IsRegistrationHandledExternally()) {
+    auto* context = ElectronBrowserContext::GetDefaultBrowserContext();
+    PrefService* prefs = context->prefs();
+
+    // Need a unique profile id. Set one if not generated yet, otherwise re-use
+    // the same so that the session for the globalShortcuts is able to get
+    // already registered shortcuts from the previous session. This will be used
+    // by GlobalAcceleratorListenerLinux as a session key.
+    std::string profile_id = prefs->GetString(kElectronGlobalShortcutsUuid);
+    if (profile_id.empty()) {
+      profile_id = base::Uuid::GenerateRandomV4().AsLowercaseString();
+      prefs->SetString(kElectronGlobalShortcutsUuid, profile_id);
+    }
+
+    // There is no way to get command id for the accelerator as it's extensions'
+    // thing. Instead, we can convert it to string in a following example form
+    // - std::string("Alt+Shift+K"). That must be sufficient enough for us to
+    // map this accelerator with registered commands.
+    const std::string command_str =
+        extensions::Command::AcceleratorToString(accelerator);
+    ui::CommandMap commands;
+    extensions::Command command(
+        command_str,
+        base::UTF8ToUTF16(electron::Browser::Get()->GetName() +
+                          " shortcut: " + command_str),
+        /*accelerator=*/std::string(), /*global=*/true);
+    command.set_accelerator(accelerator);
+    commands[command_str] = command;
+
+    // In order to distinguish the shortcuts, we must register multiple commands
+    // as different extensions. Otherwise, each shortcut will be an alternative
+    // for the very first registered and we'll not be able to distinguish them.
+    // For example, if Alt+Shift+K is registered first, registering and pressing
+    // Alt+Shift+M will trigger global shortcuts, but the command id that is
+    // received by GlobalShortcut will correspond to Alt+Shift+K as our command
+    // id is basically a stringified accelerator.
+    const std::string fake_extension_id = command_str + "+" + profile_id;
+    instance->OnCommandsChanged(
+        fake_extension_id, profile_id, commands, gfx::kNullAcceleratedWidget,
+        base::BindRepeating(
+            &GlobalShortcut::ExecuteCommand,
+            gin::WrapPersistent(weak_factory_.GetWeakCell(
+                isolate->GetCppHeap()->GetAllocationHandle()))));
+    command_callback_map_[command_str] = callback;
+    return true;
+  } else {
+    if (instance->RegisterAccelerator(accelerator, this)) {
+      accelerator_callback_map_[accelerator] = callback;
+      return true;
+    }
+  }
+  return false;
+}
+
+void GlobalShortcut::Unregister(const ui::Accelerator& accelerator) {
+  if (!electron::Browser::Get()->is_ready()) {
+    gin_helper::ErrorThrower(JavascriptEnvironment::GetIsolate())
+        .ThrowError("globalShortcut cannot be used before the app is ready");
+    return;
+  }
+  if (!accelerator_callback_map_.contains(accelerator))
+    return;
+
+  if (ui::GlobalAcceleratorListener::GetInstance()) {
+    ui::GlobalAcceleratorListener::GetInstance()->UnregisterAccelerator(
+        accelerator, this);
+  }
+
+  // Remove from local callback map after unregistering from UI listener to
+  // avoid reentrancy races where in-flight key notifications arrive while the
+  // platform listener is stopping.
+  accelerator_callback_map_.erase(accelerator);
+
+#if BUILDFLAG(IS_MAC)
+  if (accelerator.IsMediaKey() && !MapHasMediaKeys(accelerator_callback_map_)) {
+    ui::GlobalAcceleratorListener::SetShouldUseInternalMediaKeyHandling(true);
+  }
+#endif
+}
+
+void GlobalShortcut::UnregisterSome(
+    const std::vector<ui::Accelerator>& accelerators) {
+  for (auto& accelerator : accelerators) {
+    Unregister(accelerator);
+  }
+}
+
+bool GlobalShortcut::IsRegistered(const ui::Accelerator& accelerator) {
+  if (accelerator_callback_map_.contains(accelerator)) {
+    return true;
+  }
+  const std::string command_str =
+      extensions::Command::AcceleratorToString(accelerator);
+  return command_callback_map_.contains(command_str);
+}
+
+void GlobalShortcut::UnregisterAll() {
+  if (!electron::Browser::Get()->is_ready()) {
+    gin_helper::ErrorThrower(JavascriptEnvironment::GetIsolate())
+        .ThrowError("globalShortcut cannot be used before the app is ready");
+    return;
+  }
+  UnregisterAllInternal();
+}
+
+void GlobalShortcut::UnregisterAllInternal() {
+  if (ui::GlobalAcceleratorListener::GetInstance()) {
+    ui::GlobalAcceleratorListener::GetInstance()->UnregisterAccelerators(this);
+  }
+  accelerator_callback_map_.clear();
+  command_callback_map_.clear();
+}
+
+void GlobalShortcut::SetSuspended(bool suspend) {
+  if (!electron::Browser::Get()->is_ready()) {
+    gin_helper::ErrorThrower(JavascriptEnvironment::GetIsolate())
+        .ThrowError("globalShortcut cannot be used before the app is ready");
+    return;
+  }
+  if (ui::GlobalAcceleratorListener::GetInstance()) {
+    ui::GlobalAcceleratorListener::GetInstance()->SetShortcutHandlingSuspended(
+        suspend);
+  }
+}
+
+bool GlobalShortcut::IsSuspended() {
+  if (!electron::Browser::Get()->is_ready()) {
+    gin_helper::ErrorThrower(JavascriptEnvironment::GetIsolate())
+        .ThrowError("globalShortcut cannot be used before the app is ready");
+    return false;
+  }
+  if (ui::GlobalAcceleratorListener::GetInstance())
+    return ui::GlobalAcceleratorListener::GetInstance()
+        ->IsShortcutHandlingSuspended();
+  return false;
+}
+
+// static
+GlobalShortcut* GlobalShortcut::Create(v8::Isolate* isolate) {
+  return cppgc::MakeGarbageCollected<GlobalShortcut>(
+      isolate->GetCppHeap()->GetAllocationHandle(), isolate);
+}
+
+// static
+gin::ObjectTemplateBuilder GlobalShortcut::GetObjectTemplateBuilder(
+    v8::Isolate* isolate) {
+  return gin::Wrappable<GlobalShortcut>::GetObjectTemplateBuilder(isolate)
+      .SetMethod("registerAll", &GlobalShortcut::RegisterAll)
+      .SetMethod("register", &GlobalShortcut::Register)
+      .SetMethod("isRegistered", &GlobalShortcut::IsRegistered)
+      .SetMethod("unregister", &GlobalShortcut::Unregister)
+      .SetMethod("unregisterAll", &GlobalShortcut::UnregisterAll)
+      .SetMethod("setSuspended", &GlobalShortcut::SetSuspended)
+      .SetMethod("isSuspended", &GlobalShortcut::IsSuspended);
+}
+
+void GlobalShortcut::Trace(cppgc::Visitor* visitor) const {
+  gin::Wrappable<GlobalShortcut>::Trace(visitor);
+  visitor->Trace(weak_factory_);
+}
+
+const gin::WrapperInfo* GlobalShortcut::wrapper_info() const {
+  return &kWrapperInfo;
+}
+
+const char* GlobalShortcut::GetHumanReadableName() const {
+  return "Electron / GlobalShortcut";
+}
+
+void GlobalShortcut::OnBeforeMicrotasksRunnerDispose(v8::Isolate* isolate) {
+  gin::PerIsolateData* data = gin::PerIsolateData::From(isolate);
+  data->RemoveDisposeObserver(this);
+  Dispose();
+}
+
+}  // namespace electron::api
+
+namespace {
+
+void Initialize(v8::Local<v8::Object> exports,
+                v8::Local<v8::Value> unused,
+                v8::Local<v8::Context> context,
+                void* priv) {
+  v8::Isolate* const isolate = electron::JavascriptEnvironment::GetIsolate();
+  gin_helper::Dictionary dict{isolate, exports};
+  dict.SetMethod("createGlobalShortcut",
+                 base::BindRepeating(&electron::api::GlobalShortcut::Create));
+}
+
+}  // namespace
+
+NODE_LINKED_BINDING_CONTEXT_AWARE(electron_browser_global_shortcut, Initialize)

@@ -1,0 +1,52 @@
+{
+  "name": "@yyc3/skills-registry",
+  "version": "1.0.0",
+  "description": "YYC³ Skills注册中心 - 支持146个渐进式技能的注册、发现和执行",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types.js",
+    "./registry": "./dist/registry.js",
+    "./executor": "./dist/executor.js",
+    "./progressive": "./dist/progressive.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "yyc3",
+    "skills",
+    "ai",
+    "progressive-disclosure",
+    "cageerf"
+  ],
+  "dependencies": {
+    "zod": "^3.22.4",
+    "eventemitter3": "^5.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yyc3/yyc3-ai-family"
+  }
+}

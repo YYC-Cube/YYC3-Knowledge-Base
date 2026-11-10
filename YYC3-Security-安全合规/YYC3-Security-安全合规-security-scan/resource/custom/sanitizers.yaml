@@ -1,0 +1,26 @@
+# 自定义安全函数配置
+# 定义项目中可以阻断污点传播的安全函数
+
+# ========== 方式一：代码注释标记（推荐） ==========
+# 在代码中添加 @safe 注释，AI 分析时自动识别为安全函数
+#
+Go:      // @safe
+Java:    // @safe 或 /* @safe */
+Python:  # @safe
+JS/TS:   // @safe 或 /* @safe */
+#
+# 示例：
+#   // @safe
+#   func SafeHttpGet(url string) (*Response, error) { ... }
+#
+#   # @safe
+#   def safe_query(sql, params): ...
+
+# ========== 方式二：包路径配置 ==========
+sanitizers:
+  - package: "git.woa.com/sec-api/go/scurl/v2"
+    risk_type: ssrf
+
+# ========== 方式三：函数名配置 ==========
+  # - function: "utils.EscapeSQL"
+  #   risk_type: sql_injection

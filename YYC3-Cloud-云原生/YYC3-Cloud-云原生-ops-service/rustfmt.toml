@@ -1,0 +1,50 @@
+# Rust Formatter 配置
+# https://rust-lang.github.io/rustfmt/
+
+# 最大行宽
+max_width = 100
+
+# 硬制表符
+hard_tabs = false
+
+# 制表符空格数
+tab_spaces = 4
+
+# 使用字段初始化简写（如果适用）
+use_field_init_shorthand = true
+
+# 使用尝试简写
+use_try_shorthand = true
+
+# 函数调用参数的缩进
+fn_call_width = 80
+
+# 函数参数的布局
+fn_params_layout = "Tall"
+
+# 重排序导入
+reorder_imports = true
+
+# 重排序模块
+reorder_modules = true
+
+# 移除嵌套的 if else
+remove_nested_parens = true
+
+# 合并派生宏
+merge_derives = true
+
+# 使用小写启发式
+use_small_heuristics = "Default"
+
+# 单行 if else 最大宽度
+single_line_if_else_max_width = 50
+
+# 链式格式化宽度
+chain_width = 60
+
+# match 分支引导符
+match_arm_leading_pipes = "Never"
+
+# 新行风格
+newline_style = "Unix"

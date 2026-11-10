@@ -1,0 +1,128 @@
+// Copyright (c) 2013 GitHub, Inc.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+
+#include "shell/browser/api/electron_api_power_monitor.h"
+
+#include <vector>
+
+#include "base/functional/bind.h"
+#include "base/functional/callback.h"
+#import "shell/browser/mac/electron_application.h"
+#include "shell/common/gc_plugin.h"
+
+#import <ApplicationServices/ApplicationServices.h>
+#import <Cocoa/Cocoa.h>
+
+@interface MacLockMonitor : NSObject {
+ @private
+  GC_PLUGIN_IGNORE("ObjC class cannot participate in cppgc tracing")
+  std::vector<electron::api::PowerMonitor*> emitters;
+}
+
+- (void)addEmitter:(electron::api::PowerMonitor*)monitor_;
+- (void)removeEmitter:(electron::api::PowerMonitor*)monitor_;
+
+@end
+
+@implementation MacLockMonitor
+
+- (id)init {
+  if ((self = [super init])) {
+    NSDistributedNotificationCenter* distributed_center =
+        [NSDistributedNotificationCenter defaultCenter];
+    // A notification that the screen was locked.
+    [distributed_center addObserver:self
+                           selector:@selector(onScreenLocked:)
+                               name:@"com.apple.screenIsLocked"
+                             object:nil];
+    // A notification that the screen was unlocked by the user.
+    [distributed_center addObserver:self
+                           selector:@selector(onScreenUnlocked:)
+                               name:@"com.apple.screenIsUnlocked"
+                             object:nil];
+
+    NSNotificationCenter* shared_center =
+        [[NSWorkspace sharedWorkspace] notificationCenter];
+
+    // A notification that the workspace posts when the user session becomes
+    // active.
+    [shared_center addObserver:self
+                      selector:@selector(onUserDidBecomeActive:)
+                          name:NSWorkspaceSessionDidBecomeActiveNotification
+                        object:nil];
+    // A notification that the workspace posts when the user session becomes
+    // inactive.
+    [shared_center addObserver:self
+                      selector:@selector(onUserDidResignActive:)
+                          name:NSWorkspaceSessionDidResignActiveNotification
+                        object:nil];
+  }
+  return self;
+}
+
+- (void)dealloc {
+  [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)addEmitter:(electron::api::PowerMonitor*)monitor_ {
+  self->emitters.push_back(monitor_);
+}
+
+- (void)removeEmitter:(electron::api::PowerMonitor*)monitor_ {
+  std::erase(self->emitters, monitor_);
+}
+
+- (void)onScreenLocked:(NSNotification*)notification {
+  for (auto* emitter : self->emitters) {
+    emitter->Emit("lock-screen");
+  }
+}
+
+- (void)onScreenUnlocked:(NSNotification*)notification {
+  for (auto* emitter : self->emitters) {
+    emitter->Emit("unlock-screen");
+  }
+}
+
+- (void)onUserDidBecomeActive:(NSNotification*)notification {
+  for (auto* emitter : self->emitters) {
+    emitter->Emit("user-did-become-active");
+  }
+}
+
+- (void)onUserDidResignActive:(NSNotification*)notification {
+  for (auto* emitter : self->emitters) {
+    emitter->Emit("user-did-resign-active");
+  }
+}
+
+@end
+
+namespace electron::api {
+
+static MacLockMonitor* g_lock_monitor = nil;
+
+void PowerMonitor::InitPlatformSpecificMonitors() {
+  if (!g_lock_monitor)
+    g_lock_monitor = [[MacLockMonitor alloc] init];
+  [g_lock_monitor addEmitter:this];
+
+  [[AtomApplication sharedApplication]
+      setShutdownHandler:base::BindRepeating(&PowerMonitor::ShouldShutdown,
+                                             base::Unretained(this))];
+}
+
+void PowerMonitor::DestroyPlatformSpecificMonitors() {
+  if (g_lock_monitor)
+    [g_lock_monitor removeEmitter:this];
+
+  // The NSApplication singleton outlives this object, so the handler must be
+  // cleared or it would retain a dangling pointer to us. Note this runs during
+  // cppgc heap teardown, so it must not depend on anything torn down earlier in
+  // ElectronBrowserMainParts::PostMainMessageLoopRun (such as the Browser).
+  [[AtomApplication sharedApplication]
+      setShutdownHandler:base::RepeatingCallback<bool()>()];
+}
+
+}  // namespace electron::api

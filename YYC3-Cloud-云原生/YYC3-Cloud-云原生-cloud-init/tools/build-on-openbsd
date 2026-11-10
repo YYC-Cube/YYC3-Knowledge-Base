@@ -1,0 +1,27 @@
+#!/bin/sh
+# This script provides a quick and dirty way of building and installing
+# cloud-init on OpenBSD.
+
+set -eux
+
+fail() {
+    echo "FAILED:" "$@" 1>&2
+    exit 1
+}
+
+PYTHON=${PYTHON:-python3}
+if ! command -v ${PYTHON} > /dev/null 2>&1; then
+    echo "Please install python first."
+    exit 1
+fi
+
+# Check dependencies:
+depschecked=/tmp/c-i.dependencieschecked
+[ -f "$depschecked" ] || ./tools/read-dependencies --distro openbsd -t || fail "install packages"
+touch "$depschecked"
+
+# Build the code and install in /usr/local/:
+meson setup builddir -Dinit_system=sysvinit_openbsd -Dsysconfdir=/etc
+meson install -C builddir
+
+echo "Installation completed."

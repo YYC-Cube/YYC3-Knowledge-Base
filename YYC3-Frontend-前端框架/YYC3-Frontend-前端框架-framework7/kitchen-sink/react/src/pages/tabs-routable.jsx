@@ -1,0 +1,26 @@
+import React from 'react';
+import { Navbar, Page, Tabs, Tab, Link, Toolbar, ToolbarPane } from 'framework7-react';
+
+export default () => (
+  <Page pageContent={false}>
+    <Navbar title="Tabs Routable" backLink></Navbar>
+    <Toolbar bottom tabbar>
+      <ToolbarPane>
+        <Link tabLink href="./" routeTabId="tab1">
+          Tab 1
+        </Link>
+        <Link tabLink href="tab2/" routeTabId="tab2">
+          Tab 2
+        </Link>
+        <Link tabLink href="tab3/" routeTabId="tab3">
+          Tab 3
+        </Link>
+      </ToolbarPane>
+    </Toolbar>
+    <Tabs routable>
+      <Tab className="page-content" id="tab1" />
+      <Tab className="page-content" id="tab2" />
+      <Tab className="page-content" id="tab3" />
+    </Tabs>
+  </Page>
+);

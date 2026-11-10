@@ -1,0 +1,835 @@
+// Copyright (c) 2019 GitHub, Inc.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+
+#include "shell/common/gin_converters/net_converter.h"
+
+#include <map>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+
+#include "base/containers/span.h"
+#include "base/memory/raw_ptr.h"
+#include "base/strings/string_util.h"
+#include "base/values.h"
+#include "gin/converter.h"
+#include "gin/data_object_builder.h"
+#include "gin/dictionary.h"
+#include "gin/object_template_builder.h"
+#include "gin/wrappable.h"
+#include "net/cert/x509_certificate.h"
+#include "net/cert/x509_util.h"
+#include "net/http/http_response_headers.h"
+#include "net/http/http_util.h"
+#include "net/http/http_version.h"
+#include "net/url_request/redirect_info.h"
+#include "services/network/public/cpp/data_element.h"
+#include "services/network/public/cpp/resource_request.h"
+#include "services/network/public/cpp/resource_request_body.h"
+#include "services/network/public/mojom/chunked_data_pipe_getter.mojom.h"
+#include "services/network/public/mojom/fetch_api.mojom.h"
+#include "services/network/public/mojom/url_request.mojom.h"
+#include "shell/browser/api/electron_api_data_pipe_holder.h"
+#include "shell/common/gc_plugin.h"
+#include "shell/common/gin_converters/gurl_converter.h"
+#include "shell/common/gin_converters/std_converter.h"
+#include "shell/common/gin_converters/value_converter.h"
+#include "shell/common/gin_helper/promise.h"
+#include "shell/common/gin_helper/self_keep_alive.h"
+#include "shell/common/gin_helper/wrappable_pointer_tags.h"
+#include "shell/common/node_includes.h"
+#include "shell/common/node_util.h"
+#include "shell/common/v8_util.h"
+#include "v8/include/cppgc/allocation.h"
+#include "v8/include/v8-cppgc.h"
+#include "v8/include/v8-traced-handle.h"
+
+namespace gin {
+
+namespace {
+
+bool CertFromData(const std::string& data,
+                  scoped_refptr<net::X509Certificate>* out) {
+  auto cert_list = net::X509Certificate::CreateCertificateListFromBytes(
+      base::as_byte_span(data),
+      net::X509Certificate::FORMAT_SINGLE_CERTIFICATE);
+  if (cert_list.empty())
+    return false;
+
+  auto leaf_cert = cert_list.front();
+  if (!leaf_cert)
+    return false;
+
+  *out = leaf_cert;
+
+  return true;
+}
+
+}  // namespace
+
+// static
+v8::Local<v8::Value> Converter<net::AuthChallengeInfo>::ToV8(
+    v8::Isolate* isolate,
+    const net::AuthChallengeInfo& val) {
+  return gin::DataObjectBuilder(isolate)
+      .Set("isProxy", val.is_proxy)
+      .Set("scheme", val.scheme)
+      .Set("host", val.challenger.host())
+      .Set("port", static_cast<uint32_t>(val.challenger.port()))
+      .Set("realm", val.realm)
+      .Build();
+}
+
+// static
+v8::Local<v8::Value> Converter<scoped_refptr<net::X509Certificate>>::ToV8(
+    v8::Isolate* isolate,
+    const scoped_refptr<net::X509Certificate>& val) {
+  std::string encoded_data;
+  net::X509Certificate::GetPEMEncoded(val->cert_buffer(), &encoded_data);
+
+  gin::DataObjectBuilder builder(isolate);
+  builder.Set("data", encoded_data)
+      .Set("issuer", val->issuer())
+      .Set("issuerName", val->issuer().GetDisplayName())
+      .Set("subject", val->subject())
+      .Set("subjectName", val->subject().GetDisplayName())
+      .Set("serialNumber", base::HexEncode(val->serial_number()))
+      .Set("validStart", val->valid_start().InSecondsFSinceUnixEpoch())
+      .Set("validExpiry", val->valid_expiry().InSecondsFSinceUnixEpoch())
+      .Set("fingerprint",
+           net::HashValue(net::HASH_VALUE_SHA256,
+                          val->CalculateFingerprint256(val->cert_buffer()))
+               .ToString());
+
+  const auto& intermediate_buffers = val->intermediate_buffers();
+  if (!intermediate_buffers.empty()) {
+    std::vector<bssl::UniquePtr<CRYPTO_BUFFER>> issuer_intermediates;
+    issuer_intermediates.reserve(intermediate_buffers.size() - 1);
+    for (size_t i = 1; i < intermediate_buffers.size(); ++i) {
+      issuer_intermediates.push_back(
+          bssl::UpRef(intermediate_buffers[i].get()));
+    }
+    const scoped_refptr<net::X509Certificate>& issuer_cert =
+        net::X509Certificate::CreateFromBuffer(
+            bssl::UpRef(intermediate_buffers[0].get()),
+            std::move(issuer_intermediates));
+    builder.Set("issuerCert", issuer_cert);
+  }
+
+  return builder.Build();
+}
+
+bool Converter<scoped_refptr<net::X509Certificate>>::FromV8(
+    v8::Isolate* isolate,
+    v8::Local<v8::Value> val,
+    scoped_refptr<net::X509Certificate>* out) {
+  gin::Dictionary dict(nullptr);
+  if (!ConvertFromV8(isolate, val, &dict))
+    return false;
+
+  std::string data;
+  dict.Get("data", &data);
+  scoped_refptr<net::X509Certificate> leaf_cert;
+  if (!CertFromData(data, &leaf_cert))
+    return false;
+
+  scoped_refptr<net::X509Certificate> issuer_cert;
+  if (dict.Get("issuerCert", &issuer_cert)) {
+    std::vector<bssl::UniquePtr<CRYPTO_BUFFER>> intermediates;
+    intermediates.push_back(bssl::UpRef(issuer_cert->cert_buffer()));
+    auto cert = net::X509Certificate::CreateFromBuffer(
+        bssl::UpRef(leaf_cert->cert_buffer()), std::move(intermediates));
+    if (!cert)
+      return false;
+
+    *out = cert;
+  } else {
+    *out = leaf_cert;
+  }
+
+  return true;
+}
+
+// static
+v8::Local<v8::Value> Converter<net::CertPrincipal>::ToV8(
+    v8::Isolate* isolate,
+    const net::CertPrincipal& val) {
+  return gin::DataObjectBuilder(isolate)
+      .Set("commonName", val.common_name)
+      .Set("organizations", val.organization_names)
+      .Set("organizationUnits", val.organization_unit_names)
+      .Set("locality", val.locality_name)
+      .Set("state", val.state_or_province_name)
+      .Set("country", val.country_name)
+      .Build();
+}
+
+// static
+v8::Local<v8::Value> Converter<net::HttpResponseHeaders*>::ToV8(
+    v8::Isolate* isolate,
+    net::HttpResponseHeaders* headers) {
+  // std::map preserves the sorted key order the previous base::DictValue
+  // implementation produced.
+  std::map<std::string, std::vector<std::string>> grouped;
+  if (headers) {
+    size_t iter = 0;
+    std::string key;
+    std::string value;
+    while (headers->EnumerateHeaderLines(&iter, &key, &value))
+      grouped[base::ToLowerASCII(key)].push_back(std::move(value));
+  }
+
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
+  v8::Local<v8::Object> result = v8::Object::New(isolate);
+  for (const auto& [key, values] : grouped) {
+    v8::Local<v8::Array> arr =
+        v8::Array::New(isolate, static_cast<int>(values.size()));
+    for (uint32_t i = 0; i < values.size(); ++i)
+      arr->CreateDataProperty(context, i, StringToV8(isolate, values[i]))
+          .Check();
+    result->CreateDataProperty(context, StringToSymbol(isolate, key), arr)
+        .Check();
+  }
+  return result;
+}
+
+bool Converter<net::HttpResponseHeaders*>::FromV8(
+    v8::Isolate* isolate,
+    v8::Local<v8::Value> val,
+    net::HttpResponseHeaders* out) {
+  if (!val->IsObject()) {
+    return false;
+  }
+
+  auto addHeaderFromValue = [&isolate, &out](
+                                const std::string& key,
+                                const v8::Local<v8::Value>& localVal) {
+    auto context = isolate->GetCurrentContext();
+    v8::Local<v8::String> localStrVal;
+    if (!localVal->ToString(context).ToLocal(&localStrVal)) {
+      return false;
+    }
+    std::string value;
+    gin::ConvertFromV8(isolate, localStrVal, &value);
+    if (!net::HttpUtil::IsValidHeaderName(key) ||
+        !net::HttpUtil::IsValidHeaderValue(value)) {
+      return false;
+    }
+    out->AddHeader(key, value);
+    return true;
+  };
+
+  auto context = isolate->GetCurrentContext();
+  auto headers = val.As<v8::Object>();
+  auto keys = headers->GetOwnPropertyNames(context).ToLocalChecked();
+  for (uint32_t i = 0; i < keys->Length(); i++) {
+    v8::Local<v8::Value> keyVal;
+    if (!keys->Get(context, i).ToLocal(&keyVal)) {
+      return false;
+    }
+    std::string key;
+    gin::ConvertFromV8(isolate, keyVal, &key);
+
+    auto localVal = headers->Get(context, keyVal).ToLocalChecked();
+    if (localVal->IsArray()) {
+      auto values = localVal.As<v8::Array>();
+      for (uint32_t j = 0; j < values->Length(); j++) {
+        if (!addHeaderFromValue(key,
+                                values->Get(context, j).ToLocalChecked())) {
+          return false;
+        }
+      }
+    } else {
+      if (!addHeaderFromValue(key, localVal)) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+// static
+v8::Local<v8::Value> Converter<net::HttpRequestHeaders>::ToV8(
+    v8::Isolate* isolate,
+    const net::HttpRequestHeaders& val) {
+  gin::Dictionary headers(isolate, v8::Object::New(isolate));
+  gin::DataObjectBuilder builder(isolate);
+  for (net::HttpRequestHeaders::Iterator it(val); it.GetNext();)
+    builder.Set(it.name(), it.value());
+  return builder.Build();
+}
+
+// static
+bool Converter<net::HttpRequestHeaders>::FromV8(v8::Isolate* isolate,
+                                                v8::Local<v8::Value> val,
+                                                net::HttpRequestHeaders* out) {
+  if (!val->IsObject() || val->IsArray() || val->IsFunction())
+    return false;
+  auto context = isolate->GetCurrentContext();
+  auto obj = val.As<v8::Object>();
+  v8::Local<v8::Array> keys;
+  if (!obj->GetOwnPropertyNames(context,
+                                static_cast<v8::PropertyFilter>(
+                                    v8::ONLY_ENUMERABLE | v8::SKIP_SYMBOLS),
+                                v8::KeyConversionMode::kConvertToString)
+           .ToLocal(&keys))
+    return false;
+  const uint32_t length = keys->Length();
+  std::string key, value;
+  for (uint32_t i = 0; i < length; ++i) {
+    v8::Local<v8::Value> v8key;
+    if (!keys->Get(context, i).ToLocal(&v8key))
+      return false;
+    v8::TryCatch try_catch{isolate};
+    v8::Local<v8::Value> v8value;
+    if (!obj->Get(context, v8key).ToLocal(&v8value) || !v8value->IsString())
+      continue;
+    if (!gin::ConvertFromV8(isolate, v8key, &key) ||
+        !gin::ConvertFromV8(isolate, v8value, &value))
+      return false;
+    if (net::HttpUtil::IsValidHeaderName(key) &&
+        net::HttpUtil::IsValidHeaderValue(value))
+      out->SetHeader(key, std::move(value));
+  }
+  return true;
+}
+
+namespace {
+
+class ChunkedDataPipeReadableStream final
+    : public gin::Wrappable<ChunkedDataPipeReadableStream> {
+ public:
+  static ChunkedDataPipeReadableStream* Create(
+      v8::Isolate* isolate,
+      network::ResourceRequestBody* request,
+      network::DataElementChunkedDataPipe* data_element) {
+    return cppgc::MakeGarbageCollected<ChunkedDataPipeReadableStream>(
+        isolate->GetCppHeap()->GetAllocationHandle(), isolate, request,
+        data_element);
+  }
+
+  // gin::Wrappable
+  gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
+      v8::Isolate* isolate) override {
+    return gin::Wrappable<
+               ChunkedDataPipeReadableStream>::GetObjectTemplateBuilder(isolate)
+        .SetMethod("read", &ChunkedDataPipeReadableStream::Read);
+  }
+
+  const gin::WrapperInfo* wrapper_info() const override {
+    return &kWrapperInfo;
+  }
+  const char* GetHumanReadableName() const override {
+    return "Electron / ChunkedDataPipeReadableStream";
+  }
+  void Trace(cppgc::Visitor* visitor) const override {
+    gin::Wrappable<ChunkedDataPipeReadableStream>::Trace(visitor);
+    visitor->Trace(buf_);
+  }
+
+  static const gin::WrapperInfo kWrapperInfo;
+
+  ChunkedDataPipeReadableStream(
+      v8::Isolate* isolate,
+      network::ResourceRequestBody* request,
+      network::DataElementChunkedDataPipe* data_element)
+      : isolate_(isolate),
+        resource_request_body_(request),
+        data_element_(data_element),
+        handle_watcher_(FROM_HERE,
+                        mojo::SimpleWatcher::ArmingPolicy::MANUAL,
+                        base::SequencedTaskRunner::GetCurrentDefault()) {
+    // SelfKeepAlive roots from construction, but this stream is normally owned
+    // by JS (it is exposed as the upload body's `body`). We only want to root
+    // ourselves while a read is actually in flight, so start out unrooted.
+    keep_alive_.Clear();
+  }
+
+  ~ChunkedDataPipeReadableStream() override = default;
+
+ private:
+  int Init() {
+    chunked_data_pipe_getter_.Bind(
+        data_element_->ReleaseChunkedDataPipeGetter());
+    for (auto& element : *resource_request_body_->elements_mutable()) {
+      if (element.type() ==
+              network::mojom::DataElement::Tag::kChunkedDataPipe &&
+          data_element_ == &element.As<network::DataElementChunkedDataPipe>()) {
+        element = network::DataElement(
+            network::DataElementBytes(std::vector<uint8_t>()));
+        break;
+      }
+    }
+    chunked_data_pipe_getter_.set_disconnect_handler(
+        base::BindOnce(&ChunkedDataPipeReadableStream::OnDataPipeGetterClosed,
+                       base::Unretained(this)));
+    chunked_data_pipe_getter_->GetSize(
+        base::BindOnce(&ChunkedDataPipeReadableStream::OnSizeReceived,
+                       base::Unretained(this)));
+    mojo::ScopedDataPipeProducerHandle data_pipe_producer;
+    mojo::ScopedDataPipeConsumerHandle data_pipe_consumer;
+    MojoResult result =
+        mojo::CreateDataPipe(nullptr, data_pipe_producer, data_pipe_consumer);
+    if (result != MOJO_RESULT_OK)
+      return net::ERR_INSUFFICIENT_RESOURCES;
+    chunked_data_pipe_getter_->StartReading(std::move(data_pipe_producer));
+    data_pipe_ = std::move(data_pipe_consumer);
+    return net::OK;
+  }
+
+  v8::Local<v8::Promise> Read(v8::Local<v8::ArrayBufferView> buf) {
+    gin_helper::Promise<int> promise(isolate_);
+    v8::Local<v8::Promise> handle = promise.GetHandle();
+
+    int status = ReadInternal(buf);
+
+    if (status == net::ERR_IO_PENDING) {
+      promise_ = std::move(promise);
+      // Keep ourselves alive until the read settles, even if JS drops its
+      // reference to the body mid-read. Cleared in OnReadCompleted().
+      keep_alive_ = this;
+    } else {
+      if (status < 0)
+        std::move(promise).RejectWithErrorMessage(net::ErrorToString(status));
+      else
+        std::move(promise).Resolve(status);
+    }
+
+    return handle;
+  }
+
+  int ReadInternal(v8::Local<v8::ArrayBufferView> buf) {
+    if (!data_pipe_)
+      status_ = Init();
+    // If there was an error either passed to the ReadCallback or as a result of
+    // closing the DataPipeGetter pipe, fail the read.
+    if (status_ != net::OK)
+      return status_;
+
+    // Nothing else to do, if the entire body was read.
+    if (size_ && bytes_read_ == *size_) {
+      // This shouldn't be called if the stream was already completed.
+      DCHECK(!is_eof_);
+
+      is_eof_ = true;
+      return net::OK;
+    }
+
+    if (!handle_watcher_.IsWatching()) {
+      handle_watcher_.Watch(
+          data_pipe_.get(),
+          MOJO_HANDLE_SIGNAL_READABLE | MOJO_HANDLE_SIGNAL_PEER_CLOSED,
+          base::BindRepeating(&ChunkedDataPipeReadableStream::OnHandleReadable,
+                              base::Unretained(this)));
+    }
+
+    size_t num_bytes = buf->ByteLength();
+    if (size_ && num_bytes > *size_ - bytes_read_)
+      num_bytes = *size_ - bytes_read_;
+    MojoResult rv = data_pipe_->ReadData(
+        MOJO_READ_DATA_FLAG_NONE,
+        electron::util::as_byte_span(buf).first(num_bytes), num_bytes);
+    if (rv == MOJO_RESULT_OK) {
+      bytes_read_ += num_bytes;
+      // Not needed for correctness, but this allows the consumer to send the
+      // final chunk and the end of stream message together, for protocols that
+      // allow it.
+      if (size_ && *size_ == bytes_read_)
+        is_eof_ = true;
+      return num_bytes;
+    }
+
+    if (rv == MOJO_RESULT_SHOULD_WAIT) {
+      handle_watcher_.ArmOrNotify();
+      buf_.Reset(isolate_, buf);
+      return net::ERR_IO_PENDING;
+    }
+
+    // The pipe was closed. If the size isn't known yet, could be a success or a
+    // failure.
+    if (!size_) {
+      // Need to keep the buffer around because its presence is used to indicate
+      // that there's a pending UploadDataStream read.
+      buf_.Reset(isolate_, buf);
+
+      handle_watcher_.Cancel();
+      data_pipe_.reset();
+      return net::ERR_IO_PENDING;
+    }
+
+    // |size_| was checked earlier, so if this point is reached, the pipe was
+    // closed before receiving all bytes.
+    DCHECK_LT(bytes_read_, *size_);
+
+    return net::ERR_FAILED;
+  }
+
+  void OnSizeReceived(int32_t status, uint64_t size) {
+    DCHECK(!size_);
+    DCHECK_EQ(net::OK, status_);
+
+    status_ = status;
+    if (status == net::OK) {
+      size_ = size;
+      if (size == bytes_read_) {
+        // Only set this as a final chunk if there's a read in progress. Setting
+        // it asynchronously could result in confusing consumers.
+        if (!buf_.IsEmpty())
+          is_eof_ = true;
+      } else if (size < bytes_read_ ||
+                 (!buf_.IsEmpty() && !data_pipe_.is_valid())) {
+        // If more data was received than was expected, or there's a pending
+        // read and data pipe was closed without passing in as many bytes as
+        // expected, the upload can't continue.  If there's no pending read but
+        // the pipe was closed, the closure and size difference will be noticed
+        // on the next read attempt.
+        status_ = net::ERR_FAILED;
+      }
+    }
+
+    // If this is done, and there's a pending read, complete the pending read.
+    // If there's not a pending read, either |status_| will be reported on the
+    // next read, the file will be marked as done, so ReadInternal() won't be
+    // called again.
+    if (!buf_.IsEmpty() && (is_eof_ || status_ != net::OK)) {
+      // |data_pipe_| isn't needed any more, and if it's still open, a close
+      // pipe message would cause issues, since this class normally only watches
+      // the pipe when there's a pending read.
+      handle_watcher_.Cancel();
+      data_pipe_.reset();
+      // Clear |buf_| as well, so it's only non-null while there's a pending
+      // read.
+      buf_.Reset();
+      chunked_data_pipe_getter_.reset();
+
+      OnReadCompleted(status_);
+
+      // |this| may have been deleted at this point.
+    }
+  }
+
+  void OnHandleReadable(MojoResult result) {
+    DCHECK(!buf_.IsEmpty());
+
+    v8::HandleScope handle_scope(isolate_);
+
+    v8::Local<v8::ArrayBufferView> buf = buf_.Get(isolate_);
+    buf_.Reset();
+
+    int rv = ReadInternal(buf);
+
+    if (rv != net::ERR_IO_PENDING)
+      OnReadCompleted(rv);
+
+    // |this| may have been deleted at this point.
+  }
+
+  void OnReadCompleted(int result) {
+    if (result < 0)
+      std::move(promise_).RejectWithErrorMessage(net::ErrorToString(result));
+    else
+      std::move(promise_).Resolve(result);
+    keep_alive_.Clear();
+  }
+
+  void OnDataPipeGetterClosed() {
+    // If the size hasn't been received yet, treat this as receiving an error.
+    // Otherwise, this will only be a problem if/when InitInternal() tries to
+    // start reading again, so do nothing.
+    if (status_ == net::OK && !size_)
+      OnSizeReceived(net::ERR_FAILED, 0);
+  }
+
+  raw_ptr<v8::Isolate> isolate_;
+  int status_ = net::OK;
+  scoped_refptr<network::ResourceRequestBody> resource_request_body_;
+  raw_ptr<network::DataElementChunkedDataPipe> data_element_;
+  GC_PLUGIN_IGNORE("Context tracking of remote is not needed.")
+  mojo::Remote<network::mojom::ChunkedDataPipeGetter> chunked_data_pipe_getter_;
+  mojo::ScopedDataPipeConsumerHandle data_pipe_;
+  mojo::SimpleWatcher handle_watcher_;
+  std::optional<uint64_t> size_;
+  uint64_t bytes_read_ = 0;
+  bool is_eof_ = false;
+  v8::TracedReference<v8::ArrayBufferView> buf_;
+  gin_helper::Promise<int> promise_;
+  gin_helper::SelfKeepAlive<ChunkedDataPipeReadableStream> keep_alive_{this};
+};
+
+const gin::WrapperInfo ChunkedDataPipeReadableStream::kWrapperInfo =
+    electron::MakeWrapperInfo(electron::kElectronChunkedDataPipeReadableStream);
+
+}  // namespace
+
+// static
+v8::Local<v8::Value> Converter<network::ResourceRequestBody>::ToV8(
+    v8::Isolate* isolate,
+    const network::ResourceRequestBody& val) {
+  const auto& elements = *val.elements();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
+  v8::Local<v8::Array> arr = v8::Array::New(isolate, elements.size());
+  for (size_t i = 0; i < elements.size(); ++i) {
+    const auto& element = elements[i];
+    gin::Dictionary upload_data(isolate, v8::Object::New(isolate));
+    switch (element.type()) {
+      case network::mojom::DataElement::Tag::kFile: {
+        const auto& element_file = element.As<network::DataElementFile>();
+        upload_data.Set("type", "file");
+        upload_data.Set("file", element_file.path().value());
+        upload_data.Set("filePath",
+                        base::Value(element_file.path().AsUTF8Unsafe()));
+        upload_data.Set("offset", static_cast<int>(element_file.offset()));
+        upload_data.Set("length", static_cast<int>(element_file.length()));
+        upload_data.Set("modificationTime",
+                        element_file.expected_modification_time()
+                            .InSecondsFSinceUnixEpoch());
+        break;
+      }
+      case network::mojom::DataElement::Tag::kBytes: {
+        upload_data.Set("type", "rawData");
+        upload_data.Set(
+            "bytes",
+            electron::Buffer::Copy(
+                isolate, element.As<network::DataElementBytes>().bytes())
+                .ToLocalChecked());
+        break;
+      }
+      case network::mojom::DataElement::Tag::kDataPipe: {
+        upload_data.Set("type", "blob");
+        // TODO(zcbenz): After the NetworkService refactor, the old blobUUID API
+        // becomes unnecessarily complex, we should deprecate the getBlobData
+        // API and return the DataPipeHolder wrapper directly.
+        auto* holder = electron::api::DataPipeHolder::Create(isolate, element);
+        upload_data.Set("blobUUID", holder->id());
+        // The lifetime of data pipe is bound to the uploadData object.
+        upload_data.Set("dataPipe", holder);
+        break;
+      }
+      case network::mojom::DataElement::Tag::kChunkedDataPipe: {
+        upload_data.Set("type", "stream");
+        // ReleaseChunkedDataPipeGetter mutates the element, but unfortunately
+        // gin converters are only allowed const references, so we need to cast
+        // off the const here.
+        auto& mutable_element =
+            const_cast<network::DataElementChunkedDataPipe&>(
+                element.As<network::DataElementChunkedDataPipe>());
+        upload_data.Set(
+            "body",
+            ChunkedDataPipeReadableStream::Create(
+                isolate, const_cast<network::ResourceRequestBody*>(&val),
+                &mutable_element));
+        break;
+      }
+      default:
+        NOTREACHED() << "Found unsupported data element";
+    }
+    arr->CreateDataProperty(context, static_cast<uint32_t>(i),
+                            ConvertToV8(isolate, upload_data))
+        .Check();
+  }
+  return arr;
+}
+
+// static
+v8::Local<v8::Value>
+Converter<scoped_refptr<network::ResourceRequestBody>>::ToV8(
+    v8::Isolate* isolate,
+    const scoped_refptr<network::ResourceRequestBody>& val) {
+  if (!val)
+    return v8::Null(isolate);
+  return ConvertToV8(isolate, *val);
+}
+
+// static
+bool Converter<scoped_refptr<network::ResourceRequestBody>>::FromV8(
+    v8::Isolate* isolate,
+    v8::Local<v8::Value> val,
+    scoped_refptr<network::ResourceRequestBody>* out) {
+  base::Value list_value;
+  if (!ConvertFromV8(isolate, val, &list_value) || !list_value.is_list())
+    return false;
+  base::ListValue& list = list_value.GetList();
+  *out = base::MakeRefCounted<network::ResourceRequestBody>();
+  for (base::Value& dict_value : list) {
+    if (!dict_value.is_dict())
+      return false;
+    base::DictValue& dict = dict_value.GetDict();
+    std::string* type = dict.FindString("type");
+    if (!type)
+      return false;
+    if (*type == "rawData") {
+      (*out)->AppendBytes(std::move(*dict.Find("bytes")).TakeBlob());
+    } else if (*type == "file") {
+      const std::string* file = dict.FindString("filePath");
+      if (!file)
+        return false;
+      if (std::any_of(file->begin(), file->end(),
+                      [](char c) { return c >= 0 && c < 0x20; }))
+        return false;
+      double modification_time =
+          dict.FindDouble("modificationTime").value_or(0.0);
+      int offset = dict.FindInt("offset").value_or(0);
+      int length = dict.FindInt("length").value_or(-1);
+      (*out)->AppendFileRange(
+          base::FilePath::FromUTF8Unsafe(*file), static_cast<uint64_t>(offset),
+          static_cast<uint64_t>(length),
+          base::Time::FromSecondsSinceUnixEpoch(modification_time));
+    }
+  }
+  return true;
+}
+
+// static
+v8::Local<v8::Value> Converter<network::ResourceRequest>::ToV8(
+    v8::Isolate* isolate,
+    const network::ResourceRequest& val) {
+  gin::DataObjectBuilder builder(isolate);
+  builder.Set("method", val.method)
+      .Set("url", val.url.spec())
+      .Set("referrer", val.referrer.spec())
+      .Set("headers", val.headers);
+  if (val.request_body)
+    builder.Set("uploadData", ConvertToV8(isolate, *val.request_body));
+  return builder.Build();
+}
+
+// static
+v8::Local<v8::Value> Converter<electron::VerifyRequestParams>::ToV8(
+    v8::Isolate* isolate,
+    const electron::VerifyRequestParams& val) {
+  return gin::DataObjectBuilder(isolate)
+      .Set("hostname", val.hostname)
+      .Set("certificate", val.certificate)
+      .Set("validatedCertificate", val.validated_certificate)
+      .Set("isIssuedByKnownRoot", val.is_issued_by_known_root)
+      .Set("verificationResult", val.default_result)
+      .Set("errorCode", val.error_code)
+      .Build();
+}
+
+// static
+v8::Local<v8::Value> Converter<net::HttpVersion>::ToV8(
+    v8::Isolate* isolate,
+    const net::HttpVersion& val) {
+  return gin::DataObjectBuilder(isolate)
+      .Set("major", static_cast<uint32_t>(val.major_value()))
+      .Set("minor", static_cast<uint32_t>(val.minor_value()))
+      .Build();
+}
+
+// static
+v8::Local<v8::Value> Converter<net::RedirectInfo>::ToV8(
+    v8::Isolate* isolate,
+    const net::RedirectInfo& val) {
+  return gin::DataObjectBuilder(isolate)
+      .Set("statusCode", val.status_code)
+      .Set("newMethod", val.new_method)
+      .Set("newUrl", val.new_url)
+      .Set("newSiteForCookies", val.new_site_for_cookies.RepresentativeUrl())
+      .Set("newReferrer", val.new_referrer)
+      .Set("insecureSchemeWasUpgraded", val.insecure_scheme_was_upgraded)
+      .Set("isSignedExchangeFallbackRedirect",
+           val.is_signed_exchange_fallback_redirect)
+      .Build();
+}
+
+// static
+v8::Local<v8::Value> Converter<net::IPEndPoint>::ToV8(
+    v8::Isolate* isolate,
+    const net::IPEndPoint& val) {
+  std::string_view family;
+  switch (val.GetFamily()) {
+    case net::ADDRESS_FAMILY_IPV4:
+      family = "ipv4";
+      break;
+    case net::ADDRESS_FAMILY_IPV6:
+      family = "ipv6";
+      break;
+    case net::ADDRESS_FAMILY_UNSPECIFIED:
+      family = "unspec";
+      break;
+  }
+  return gin::DataObjectBuilder(isolate)
+      .Set("address", val.ToStringWithoutPort())
+      .Set("family", family)
+      .Build();
+}
+
+// static
+bool Converter<net::DnsQueryType>::FromV8(v8::Isolate* isolate,
+                                          v8::Local<v8::Value> val,
+                                          net::DnsQueryType* out) {
+  static constexpr auto Lookup =
+      base::MakeFixedFlatMap<std::string_view, net::DnsQueryType>({
+          {"A", net::DnsQueryType::A},
+          {"AAAA", net::DnsQueryType::AAAA},
+      });
+  return FromV8WithLookup(isolate, val, Lookup, out);
+}
+
+// static
+bool Converter<net::HostResolverSource>::FromV8(v8::Isolate* isolate,
+                                                v8::Local<v8::Value> val,
+                                                net::HostResolverSource* out) {
+  using Val = net::HostResolverSource;
+  static constexpr auto Lookup = base::MakeFixedFlatMap<std::string_view, Val>({
+      {"any", Val::ANY},
+      {"dns", Val::DNS},
+      {"localOnly", Val::LOCAL_ONLY},
+      {"mdns", Val::MULTICAST_DNS},
+      {"system", Val::SYSTEM},
+  });
+  return FromV8WithLookup(isolate, val, Lookup, out);
+}
+
+// static
+bool Converter<network::mojom::ResolveHostParameters::CacheUsage>::FromV8(
+    v8::Isolate* isolate,
+    v8::Local<v8::Value> val,
+    network::mojom::ResolveHostParameters::CacheUsage* out) {
+  using Val = network::mojom::ResolveHostParameters::CacheUsage;
+  static constexpr auto Lookup = base::MakeFixedFlatMap<std::string_view, Val>({
+      {"allowed", Val::ALLOWED},
+      {"disallowed", Val::DISALLOWED},
+      {"staleAllowed", Val::STALE_ALLOWED},
+  });
+  return FromV8WithLookup(isolate, val, Lookup, out);
+}
+
+// static
+bool Converter<network::mojom::SecureDnsPolicy>::FromV8(
+    v8::Isolate* isolate,
+    v8::Local<v8::Value> val,
+    network::mojom::SecureDnsPolicy* out) {
+  using Val = network::mojom::SecureDnsPolicy;
+  static constexpr auto Lookup = base::MakeFixedFlatMap<std::string_view, Val>({
+      {"allow", Val::ALLOW},
+      {"disable", Val::DISABLE},
+  });
+  return FromV8WithLookup(isolate, val, Lookup, out);
+}
+
+// static
+bool Converter<network::mojom::ResolveHostParametersPtr>::FromV8(
+    v8::Isolate* isolate,
+    v8::Local<v8::Value> val,
+    network::mojom::ResolveHostParametersPtr* out) {
+  gin::Dictionary dict(nullptr);
+  if (!ConvertFromV8(isolate, val, &dict))
+    return false;
+
+  network::mojom::ResolveHostParametersPtr params =
+      network::mojom::ResolveHostParameters::New();
+
+  dict.Get("queryType", &(params->dns_query_type));
+  dict.Get("source", &(params->source));
+  dict.Get("cacheUsage", &(params->cache_usage));
+  dict.Get("secureDnsPolicy", &(params->secure_dns_policy));
+
+  *out = std::move(params);
+  return true;
+}
+
+}  // namespace gin

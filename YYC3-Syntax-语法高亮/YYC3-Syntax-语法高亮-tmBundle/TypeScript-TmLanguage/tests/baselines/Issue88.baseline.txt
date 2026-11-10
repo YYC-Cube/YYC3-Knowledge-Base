@@ -1,0 +1,196 @@
+original file
+-----------------------------------
+// @onlyOwnGrammar - As this has jsx
+function foo() {
+ return (
+     <div className="panel panel-default">
+        <div className="panel-heading">
+            <h3 className="panel-title"><i className="fa fa-user"></i> Log In</h3>
+        </div>
+        <div className="panel-body">
+        </div>
+    </div>);
+}
+-----------------------------------
+
+Grammar: TypeScriptReact.tmLanguage
+-----------------------------------
+>// @onlyOwnGrammar - As this has jsx
+ ^^
+ source.tsx comment.line.double-slash.tsx punctuation.definition.comment.tsx
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   source.tsx comment.line.double-slash.tsx
+>function foo() {
+ ^^^^^^^^
+ source.tsx meta.function.tsx storage.type.function.tsx
+         ^
+         source.tsx meta.function.tsx
+          ^^^
+          source.tsx meta.function.tsx meta.definition.function.tsx entity.name.function.tsx
+             ^
+             source.tsx meta.function.tsx meta.parameters.tsx punctuation.definition.parameters.begin.tsx
+              ^
+              source.tsx meta.function.tsx meta.parameters.tsx punctuation.definition.parameters.end.tsx
+               ^
+               source.tsx meta.function.tsx
+                ^
+                source.tsx meta.function.tsx meta.block.tsx punctuation.definition.block.tsx
+> return (
+ ^
+ source.tsx meta.function.tsx meta.block.tsx
+  ^^^^^^
+  source.tsx meta.function.tsx meta.block.tsx keyword.control.flow.tsx
+        ^
+        source.tsx meta.function.tsx meta.block.tsx
+         ^
+         source.tsx meta.function.tsx meta.block.tsx meta.brace.round.tsx
+>     <div className="panel panel-default">
+ ^^^^^
+ source.tsx meta.function.tsx meta.block.tsx
+      ^
+      source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+       ^^^
+       source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx entity.name.tag.tsx
+          ^
+          source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.tag.attributes.tsx
+           ^^^^^^^^^
+           source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.tag.attributes.tsx entity.other.attribute-name.tsx
+                    ^
+                    source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.tag.attributes.tsx keyword.operator.assignment.tsx
+                     ^
+                     source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.begin.tsx
+                      ^^^^^^^^^^^^^^^^^^^
+                      source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx
+                                         ^
+                                         source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.end.tsx
+                                          ^
+                                          source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+>        <div className="panel-heading">
+ ^^^^^^^^
+ source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx
+         ^
+         source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+          ^^^
+          source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx entity.name.tag.tsx
+             ^
+             source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx
+              ^^^^^^^^^
+              source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx entity.other.attribute-name.tsx
+                       ^
+                       source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx keyword.operator.assignment.tsx
+                        ^
+                        source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.begin.tsx
+                         ^^^^^^^^^^^^^
+                         source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx
+                                      ^
+                                      source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.end.tsx
+                                       ^
+                                       source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+>            <h3 className="panel-title"><i className="fa fa-user"></i> Log In</h3>
+ ^^^^^^^^^^^^
+ source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx
+             ^
+             source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+              ^^
+              source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx entity.name.tag.tsx
+                ^
+                source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx
+                 ^^^^^^^^^
+                 source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx entity.other.attribute-name.tsx
+                          ^
+                          source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx keyword.operator.assignment.tsx
+                           ^
+                           source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.begin.tsx
+                            ^^^^^^^^^^^
+                            source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx
+                                       ^
+                                       source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.end.tsx
+                                        ^
+                                        source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+                                         ^
+                                         source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+                                          ^
+                                          source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx entity.name.tag.tsx
+                                           ^
+                                           source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx
+                                            ^^^^^^^^^
+                                            source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx entity.other.attribute-name.tsx
+                                                     ^
+                                                     source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx keyword.operator.assignment.tsx
+                                                      ^
+                                                      source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.begin.tsx
+                                                       ^^^^^^^^^^
+                                                       source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx
+                                                                 ^
+                                                                 source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.end.tsx
+                                                                  ^
+                                                                  source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+                                                                   ^^
+                                                                   source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+                                                                     ^
+                                                                     source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx entity.name.tag.tsx
+                                                                      ^
+                                                                      source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+                                                                       ^^^^^^^
+                                                                       source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx
+                                                                              ^^
+                                                                              source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+                                                                                ^^
+                                                                                source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx entity.name.tag.tsx
+                                                                                  ^
+                                                                                  source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+>        </div>
+ ^^^^^^^^
+ source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx
+         ^^
+         source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+           ^^^
+           source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx entity.name.tag.tsx
+              ^
+              source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+>        <div className="panel-body">
+ ^^^^^^^^
+ source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx
+         ^
+         source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+          ^^^
+          source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx entity.name.tag.tsx
+             ^
+             source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx
+              ^^^^^^^^^
+              source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx entity.other.attribute-name.tsx
+                       ^
+                       source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx keyword.operator.assignment.tsx
+                        ^
+                        source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.begin.tsx
+                         ^^^^^^^^^^
+                         source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx
+                                   ^
+                                   source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.tag.attributes.tsx string.quoted.double.tsx punctuation.definition.string.end.tsx
+                                    ^
+                                    source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+>        </div>
+ ^^^^^^^^
+ source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx meta.jsx.children.tsx
+         ^^
+         source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+           ^^^
+           source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx entity.name.tag.tsx
+              ^
+              source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+>    </div>);
+ ^^^^
+ source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx meta.jsx.children.tsx
+     ^^
+     source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx punctuation.definition.tag.begin.tsx
+       ^^^
+       source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx entity.name.tag.tsx
+          ^
+          source.tsx meta.function.tsx meta.block.tsx meta.tag.tsx punctuation.definition.tag.end.tsx
+           ^
+           source.tsx meta.function.tsx meta.block.tsx meta.brace.round.tsx
+            ^
+            source.tsx meta.function.tsx meta.block.tsx punctuation.terminator.statement.tsx
+>}
+ ^
+ source.tsx meta.function.tsx meta.block.tsx punctuation.definition.block.tsx

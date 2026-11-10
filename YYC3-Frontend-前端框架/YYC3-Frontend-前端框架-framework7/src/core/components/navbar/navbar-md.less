@@ -1,0 +1,105 @@
+.md {
+  .navbar {
+    .title-large {
+      align-items: center;
+      overflow: hidden;
+    }
+    .left {
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+    a.link {
+      padding: 0 12px;
+      min-width: 48px;
+      height: var(--f7-navbar-link-height, var(--f7-navbar-height));
+    }
+    a:is(.icon-only, :has(i:only-child), :has(svg:only-child)) {
+      min-width: 0;
+      flex-shrink: 0;
+      width: 48px;
+    }
+    .right {
+      .ltr({
+        margin-left: auto;
+        margin-right: 4px;
+      });
+      .rtl({
+        margin-left: 4px;
+        margin-right: auto;
+      });
+    }
+    .right:first-child {
+      .ltr({
+        right: var(--f7-safe-area-right)
+      });
+      .rtl({
+        left: var(--f7-safe-area-left)
+      });
+    }
+  }
+  .navbar-pane {
+    display: contents;
+  }
+  .navbar-bg {
+    background: var(--f7-navbar-bg-color);
+    background-color: var(--f7-navbar-bg-color, var(--f7-bars-bg-color));
+    &:after,
+    &:before {
+      backface-visibility: hidden;
+    }
+    .hairline(bottom, var(--f7-navbar-border-color, var(--f7-bars-border-color)));
+    &:after {
+      z-index: 1;
+    }
+  }
+  .navbar-inner {
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+  .navbar-large:not(.navbar-large-collapsed) .navbar-inner {
+    overflow: visible;
+  }
+  .page.page-with-subnavbar .navbar-inner {
+    overflow: visible;
+  }
+  .navbar-inner:not(.navbar-inner-centered-title) .title:first-child {
+    margin-left: 16px;
+  }
+  .navbar-inner-centered-title {
+    justify-content: space-between;
+    .right {
+      .ltr({
+        margin-left: 0;
+      });
+      .rtl({
+        margin-right: 0;
+      });
+    }
+    .title {
+      text-align: center;
+    }
+  }
+  // Transparent navbar
+  .navbar-transparent:not(.navbar-large):not(.navbar-transparent-visible):not(
+      .with-searchbar-expandable-enabled
+    ) {
+    .navbar-bg,
+    .title {
+      opacity: 0;
+    }
+  }
+
+  // Large Title Navbar
+  .navbar-large .navbar-bg {
+    height: calc(100% + var(--f7-navbar-large-title-height));
+    transform: translate3d(
+      0px,
+      calc(-1 * var(--f7-navbar-large-collapse-progress) * var(--f7-navbar-large-title-height)),
+      0
+    );
+  }
+  .navbar-large-transparent .navbar-bg,
+  .navbar-large.navbar-transparent .navbar-bg {
+    opacity: var(--f7-navbar-large-collapse-progress);
+  }
+}

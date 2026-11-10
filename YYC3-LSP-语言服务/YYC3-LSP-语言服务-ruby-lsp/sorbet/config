@@ -1,0 +1,11 @@
+--dir
+.
+--ignore=vendor/
+--ignore=tmp/
+--ignore=test/fixtures/
+--ignore=test/expectations/
+--ignore=jekyll/
+--enable-experimental-requires-ancestor
+--enable-experimental-rbs-comments
+--suppress-error-code=7019
+--cache-dir=sorbet/cache

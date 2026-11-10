@@ -1,0 +1,186 @@
+import { Input } from '@langgenius/dify-ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectTrigger,
+  SelectValue,
+} from '@langgenius/dify-ui/select'
+import { Textarea } from '@langgenius/dify-ui/textarea'
+import * as React from 'react'
+import { memo, useCallback, useId } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FileUploaderInAttachmentWrapper } from '@/app/components/base/file-uploader'
+import BoolInput from '@/app/components/workflow/nodes/_base/components/before-run-form/bool-input'
+import CodeEditor from '@/app/components/workflow/nodes/_base/components/editor/code-editor'
+import { CodeLanguage } from '@/app/components/workflow/nodes/code/types'
+import { InputVarType } from '@/app/components/workflow/types'
+import { useEmbeddedChatbotContext } from '../context'
+
+type Props = Readonly<{
+  showTip?: boolean
+}>
+
+const InputsFormContent = ({ showTip }: Props) => {
+  const { t } = useTranslation()
+  const baseId = useId()
+  const {
+    appParams,
+    inputsForms,
+    currentConversationId,
+    currentConversationInputs,
+    setCurrentConversationInputs,
+    newConversationInputs,
+    newConversationInputsRef,
+    handleNewConversationInputsChange,
+  } = useEmbeddedChatbotContext()
+  const inputsFormValue = currentConversationId ? currentConversationInputs : newConversationInputs
+
+  const handleFormChange = useCallback(
+    (variable: string, value: any) => {
+      setCurrentConversationInputs({
+        ...currentConversationInputs,
+        [variable]: value,
+      })
+      handleNewConversationInputsChange({
+        ...newConversationInputsRef.current,
+        [variable]: value,
+      })
+    },
+    [
+      newConversationInputsRef,
+      handleNewConversationInputsChange,
+      currentConversationInputs,
+      setCurrentConversationInputs,
+    ],
+  )
+
+  const visibleInputsForms = inputsForms.filter((form) => form.hide !== true)
+
+  return (
+    <div className="space-y-4">
+      {visibleInputsForms.map((form) => (
+        <div
+          key={form.variable}
+          className="space-y-1"
+          data-testid={`inputs-form-item-${form.variable}`}
+        >
+          {form.type !== InputVarType.checkbox && (
+            <div className="flex h-6 items-center gap-1">
+              <div
+                id={`${baseId}-${form.variable}-label`}
+                className="system-md-semibold text-text-secondary"
+              >
+                {form.label}
+              </div>
+              {!form.required && (
+                <div className="system-xs-regular text-text-tertiary">
+                  {t(($) => $['panel.optional'], { ns: 'workflow' })}
+                </div>
+              )}
+            </div>
+          )}
+          {form.type === InputVarType.textInput && (
+            <Input
+              aria-labelledby={`${baseId}-${form.variable}-label`}
+              value={inputsFormValue?.[form.variable] || ''}
+              onValueChange={(value) => handleFormChange(form.variable, value)}
+              placeholder={form.label}
+            />
+          )}
+          {form.type === InputVarType.number && (
+            <Input
+              aria-labelledby={`${baseId}-${form.variable}-label`}
+              type="number"
+              value={inputsFormValue?.[form.variable] || ''}
+              onValueChange={(value) => handleFormChange(form.variable, value)}
+              placeholder={form.label}
+            />
+          )}
+          {form.type === InputVarType.paragraph && (
+            <Textarea
+              aria-labelledby={`${baseId}-${form.variable}-label`}
+              value={inputsFormValue?.[form.variable] || ''}
+              onValueChange={(value) => handleFormChange(form.variable, value)}
+              placeholder={form.label}
+            />
+          )}
+          {form.type === InputVarType.checkbox && (
+            <BoolInput
+              name={form.label}
+              value={inputsFormValue?.[form.variable]}
+              required={form.required}
+              onChange={(value) => handleFormChange(form.variable, value)}
+            />
+          )}
+          {form.type === InputVarType.select && (
+            <Select<string>
+              value={(inputsFormValue?.[form.variable] ?? form.default ?? '') || null}
+              onValueChange={(value) => value && handleFormChange(form.variable, value)}
+            >
+              <SelectTrigger
+                aria-labelledby={`${baseId}-${form.variable}-label`}
+                className="w-full"
+              >
+                <SelectValue placeholder={form.label} />
+              </SelectTrigger>
+              <SelectContent>
+                {form.options.map((option: string) => (
+                  <SelectItem key={option} value={option}>
+                    <SelectItemText>{option}</SelectItemText>
+                    <SelectItemIndicator />
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+          {form.type === InputVarType.singleFile && (
+            <FileUploaderInAttachmentWrapper
+              value={inputsFormValue?.[form.variable] ? [inputsFormValue?.[form.variable]] : []}
+              onChange={(files) => handleFormChange(form.variable, files[0])}
+              fileConfig={{
+                allowed_file_types: form.allowed_file_types,
+                allowed_file_extensions: form.allowed_file_extensions,
+                allowed_file_upload_methods: form.allowed_file_upload_methods,
+                number_limits: 1,
+                fileUploadConfig: (appParams as any).system_parameters,
+              }}
+            />
+          )}
+          {form.type === InputVarType.multiFiles && (
+            <FileUploaderInAttachmentWrapper
+              value={inputsFormValue?.[form.variable] || []}
+              onChange={(files) => handleFormChange(form.variable, files)}
+              fileConfig={{
+                allowed_file_types: form.allowed_file_types,
+                allowed_file_extensions: form.allowed_file_extensions,
+                allowed_file_upload_methods: form.allowed_file_upload_methods,
+                number_limits: form.max_length,
+                fileUploadConfig: (appParams as any).system_parameters,
+              }}
+            />
+          )}
+          {form.type === InputVarType.jsonObject && (
+            <CodeEditor
+              language={CodeLanguage.json}
+              value={inputsFormValue?.[form.variable] || ''}
+              onChange={(v) => handleFormChange(form.variable, v)}
+              noWrapper
+              className="h-20 overflow-y-auto rounded-[10px] bg-components-input-bg-normal p-1"
+              placeholder={<div className="whitespace-pre">{form.json_schema}</div>}
+            />
+          )}
+        </div>
+      ))}
+      {showTip && (
+        <div className="system-xs-regular text-text-tertiary">
+          {t(($) => $['chat.chatFormTip'], { ns: 'share' })}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default memo(InputsFormContent)

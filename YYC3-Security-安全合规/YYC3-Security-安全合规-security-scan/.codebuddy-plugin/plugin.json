@@ -1,0 +1,19 @@
+{
+  "name": "security-scan",
+  "version": "2.3.6",
+  "description": "腾讯云鼎实验室出品，专业的代码安全审计插件。支持多语言、跨仓库分析、报告导出和自动修复。采用 Agent 团队架构，包含 5 个安全专用 agent：reconnaissance、quick-scan、deep-scan、verification、remediation。让安全工作简单可信赖。",
+  "keywords": ["security", "code-review", "vulnerability", "audit", "agent-teams"],
+  "category": "security",
+  "features": [
+    "分级扫描 - 自动识别项目规模，选择最优扫描策略（Light ≤15文件/Standard 16-80/Deep >80）",
+    "模式匹配 - 快速检测密钥、凭证、CVE、危险 sink",
+    "语义分析 - 通过 Agent 团队进行基于 LSP 的深度漏洞审计",
+    "流式验证 - 边扫描边验证，减少串行等待",
+    "针对高置信度漏洞的自动修复",
+    "质量挑战 - 独立的覆盖率和盲区评估"
+  ],
+  "agents": "./agents/",
+  "commands": "./commands/",
+  "references": "./references/",
+  "skills": "./skills/"
+}

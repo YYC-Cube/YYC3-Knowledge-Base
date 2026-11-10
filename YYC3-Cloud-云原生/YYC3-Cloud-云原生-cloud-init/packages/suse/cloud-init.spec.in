@@ -1,0 +1,116 @@
+## template: jinja
+
+# See: http://www.zarb.org/~jasonc/macros.php
+# Or: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets
+# Or: http://www.rpm.org/max-rpm/ch-rpm-inside.html
+
+Name:           cloud-init
+Version:        {{rpm_upstream_version}}
+Release:        1{{subrelease}}%{?dist}
+Summary:        Cloud instance init scripts
+
+Group:          System/Management
+License:        Dual licensed GPLv3 or Apache 2.0
+URL:            http://launchpad.net/cloud-init
+
+Source0:        {{archive_name}}
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+
+BuildArch:      noarch
+
+
+{% for r in buildrequires %}
+BuildRequires:        {{r}}
+{% endfor %}
+
+# Install pypi 'dynamic' requirements
+{% for r in requires %}
+Requires:       {{r}}
+{% endfor %}
+
+# Custom patches
+{% for p in patches %}
+Patch{{loop.index0}}: {{p}}
+{% endfor %}
+
+%description
+Cloud-init is a set of init scripts for cloud instances.  Cloud instances
+need special scripts to run during initialization to retrieve and install
+ssh keys and to let the user run various scripts.
+
+%prep
+%setup -q -n {{source_name}}
+
+# Custom patches activation
+{% for p in patches %}
+%patch{{loop.index0}} -p1
+end for
+{% endfor %}
+
+%build
+%meson -Dinit_system=systemd --libexecdir=/usr/lib -Ddistro_templates=chef_client.rb.tmpl,chrony.conf.opensuse.tmpl,hosts.suse.tmpl,ntp.conf.opensuse.tmpl,resolv.conf.tmpl,timesyncd.conf.tmpl -Ddownstream_version=%{version}-%{release}
+%meson_build
+
+%install
+%meson_install
+
+# Move documentation
+mkdir -p %{buildroot}/%{_defaultdocdir}
+mkdir -p %{buildroot}/%{_sysconfdir}/cloud/clean.d
+mv %{buildroot}/usr/share/doc/cloud-init %{buildroot}/%{_defaultdocdir}
+for doc in LICENSE ChangeLog requirements.txt; do
+   cp ${doc} %{buildroot}/%{_defaultdocdir}/cloud-init
+done
+
+# Remove duplicate files
+%if 0%{?suse_version}
+   %fdupes %{buildroot}/%{python_sitelib}
+%endif
+
+mkdir -p %{buildroot}/var/lib/cloud
+
+%postun
+%insserv_cleanup
+
+%files
+
+# Program binaries
+%{_bindir}/cloud-init*
+%{_bindir}/cloud-id*
+
+# systemd files
+/usr/lib/systemd/system-generators/*
+/usr/lib/systemd/system/*
+
+# There doesn't seem to be an agreed upon place for these
+# although it appears the standard says /usr/lib but rpmbuild
+# will try /usr/lib64 ??
+/usr/lib/%{name}/hook-hotplug
+/usr/lib/%{name}/uncloud-init
+/usr/lib/%{name}/write-ssh-key-fingerprints
+/usr/lib/%{name}/ds-identify
+
+# udev rules
+/usr/lib/udev/rules.d/66-azure-ephemeral.rules
+
+
+# Docs
+%doc %{_defaultdocdir}/cloud-init/*
+
+# Configs
+%dir               %{_sysconfdir}/cloud/clean.d
+%config(noreplace) %{_sysconfdir}/cloud/cloud.cfg
+%dir               %{_sysconfdir}/cloud/cloud.cfg.d
+%config(noreplace) %{_sysconfdir}/cloud/cloud.cfg.d/*.cfg
+%config(noreplace) %{_sysconfdir}/cloud/cloud.cfg.d/README
+%dir               %{_sysconfdir}/cloud/templates
+%config(noreplace) %{_sysconfdir}/cloud/templates/*
+
+# Bash completion script
+%{_datadir}/bash-completion/completions/cloud-init
+/usr/share/man/man1/cloud-*gz
+
+# Python code is here...
+%{python_sitelib}/*
+
+/var/lib/cloud

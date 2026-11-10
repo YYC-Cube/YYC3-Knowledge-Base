@@ -1,0 +1,70 @@
+{
+  "name": "@yyc3/core",
+  "version": "1.0.0",
+  "description": "YYC³ Core - 核心功能包",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./auth": {
+      "import": "./dist/auth/index.js",
+      "types": "./dist/auth/index.d.ts"
+    },
+    "./mcp": {
+      "import": "./dist/mcp/index.js",
+      "types": "./dist/mcp/index.d.ts"
+    },
+    "./session": {
+      "import": "./dist/session/index.js",
+      "types": "./dist/session/index.d.ts"
+    },
+    "./store": {
+      "import": "./dist/store/global-store.js",
+      "types": "./dist/store/global-store.d.ts"
+    },
+    "./websocket": {
+      "import": "./dist/websocket/index.js",
+      "types": "./dist/websocket/index.d.ts"
+    },
+    "./error-handling": {
+      "import": "./dist/error-handling/index.js",
+      "types": "./dist/error-handling/index.d.ts"
+    },
+    "./monitoring": {
+      "import": "./dist/monitoring/index.js",
+      "types": "./dist/monitoring/index.d.ts"
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["yyc3", "core", "ai", "mcp", "agent"],
+  "author": "YanYuCloudCube Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YYC-Cube/yyc3-claw"
+  },
+  "dependencies": {
+    "openai": "^4.24.0",
+    "ollama": "^0.5.0",
+    "zod": "^3.22.4",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  }
+}

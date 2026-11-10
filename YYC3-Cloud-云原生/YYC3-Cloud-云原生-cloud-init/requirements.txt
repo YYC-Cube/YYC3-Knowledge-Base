@@ -1,0 +1,26 @@
+# Pypi requirements for cloud-init to work
+
+# Used for untemplating any files or strings with parameters.
+jinja2
+
+# This one is currently only used by the MAAS datasource and the Event
+# reporting feature when configured to use webhooks.
+oauthlib
+
+# This is only needed for places where we need to support configs in a manner
+# that the built-in config parser is not sufficient (ie
+# when we need to preserve comments, or do not have a top-level
+# section)...
+configobj
+
+# All new style configurations are in the yaml format
+pyyaml
+
+# Requests handles ssl correctly!
+requests
+
+# For patching pieces of cloud-config together
+jsonpatch
+
+# For validating cloud-config sections per schema definitions
+jsonschema

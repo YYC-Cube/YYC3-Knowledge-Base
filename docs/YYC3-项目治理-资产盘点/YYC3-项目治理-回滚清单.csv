@@ -1,0 +1,869 @@
+﻿动作,原路径,目标路径,分类,指纹SHA1,说明
+P2-删除重复副本,YYC3-A/Accumulo 3.0.0,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-A/html,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-A/language-clojure,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-A/language-coffee-script,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-A/language-sass,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-A/language-xml,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-A/web-history,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/agent-team-agile-workflow,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/algorithmic-art,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/atuin,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/background-sync,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/books,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/build.whatwg.org,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/clangd-lsp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/cloudbase,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/cn-optimizer,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/code-simplifier,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/commit-commands,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/compat,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/compression,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/console,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/context7,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/cookiestore,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/csharp-lsp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/development-essentials,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/dom,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/encoding,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/feature-dev,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/fetch,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/figures,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/firebase,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/frontend-design,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/fs,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/fullscreen,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/git-commit-message-plus,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/gitlab,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/gopls-lsp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/hookify,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/hot-skills,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/html,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/infra,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/jdtls-lsp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/lexiang-knowledge-plugins,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/loader,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/lua-lsp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/mcp-client,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/mcp-server,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/meta,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/mimesniff,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/notifications,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/participant-data,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/participate.whatwg.org,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/platform.html5.org,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/plugin-dev,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/plugin-finder,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/ppt-writer,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/pr-review-toolkit,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/pyright-lsp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/quirks,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/ralph-loop,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/rust-analyzer-lsp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/security-guidance,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/security-rules,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/security-scan,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/sg,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/skills-registry,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/spec-factory,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/storage,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/streams,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/swift-lsp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/testutils,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/url,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/urlpattern,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/wattsi,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/websockets,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/whattweetbot-keys,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/wiki.whatwg.org,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-B/xhr,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/EditorSyntax,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/assert,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/atom-language-julia,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/cuda-cpp-grammar,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/emmet,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/expand-abbreviation,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/fish-shell,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/language-batchfile,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/language-php,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-C/marked,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-D/Button,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-D/asp.vb.net.tmbundle,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-D/language-ruby,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-D/lsp-integration,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-D/node-semver,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-D/shadcn-ui.tnasdownload,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-D/shaders-tmLanguage,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-D/web-ui,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-E/claude-plugins-official,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-E/examples,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-E/version,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/Clone-Wars,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/CowAgent,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/ai_completion,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/awesome-design-md,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/claude-howto,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/cuFOLIO,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/json-server,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/logohero-carouse,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/marketingskills,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/pskoett-ai-skills,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/quantitative-signal-discovery-agent,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/self-improving-agent,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-F/shadcn-ui,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-G/YYC3-SKILL,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/AI,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/B2B-SKills,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/ClickHouse,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/GLM-skills,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/GenerativeAIExamples,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/The-Deconstructors,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/YYC3-SKILL,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/agent,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/archived-components,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/b2b-sdr-agent-template,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/build_tools,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/chatAgentTools,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/claude-prompts-mcp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/mcp,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-H/spotube,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-I/dify,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-I/one-api,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/EditorSyntax,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/LaTeX-Workshop,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/MagicPython,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/Raphael-Publish,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/TypeScript-TmLanguage,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/all-skills,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/atom-language-julia,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/code-skills,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/csharp-language-server,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/css.tmbundle,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/cuda-cpp-grammar,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/emmet,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/expand-abbreviation,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/fish-shell,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/git-tmbundle,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/go-syntax,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/ionide-fsgrammar,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/js-beautify,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/language-batchfile,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/language-php,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/last30days-skill,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/latex.tmbundle,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/lua-language-server,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/lucide,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/make.tmbundle,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/nanobot,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/superpowers,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-J/tools,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/__phello__,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/_pyrepl,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/asyncio,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/collections,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/concurrent,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/curses,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/dbm,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/email,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/encodings,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/ensurepip,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/html,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/http,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/importlib,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/json,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/logging,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/multiprocessing,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/pathlib,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/pydoc_data,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/re,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/sqlite3,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/sysconfig,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/test,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/tkinter,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/tomllib,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/turtledemo,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/unittest,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/urllib,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/xml,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/xmlrpc,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/zipfile,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-N/zoneinfo,,,,与保留副本内容一致，可由 git 恢复
+P2-删除重复副本,YYC3-UI-用户界面/shadcn-ui.tnasdownload,,,,与保留副本内容一致，可由 git 恢复
+P3-迁移改名,YYC3-A/Colorsublime-Themes,YYC3-Design-设计资源/YYC3-Design-设计资源-Colorsublime-Themes-v2,Design-设计资源,a65cd680fac63580e0bf829d61836db52c6e6421,内容未变更
+P3-迁移改名,YYC3-A/DefinitelyTyped,YYC3-TypeDef-类型定义/YYC3-TypeDef-类型定义-DefinitelyTyped-v2,TypeDef-类型定义,8616e26c48f41df1524b1fbbdf02904476d4a898,内容未变更
+P3-迁移改名,YYC3-A/Handlebars,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-Handlebars-v2,Tool-开发工具链,5236d6324654be12f4b895cc394620800903566b,内容未变更
+P3-迁移改名,YYC3-A/SASS.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-SASS.tmbundle,Syntax-语法高亮,9d13c66c1e9c003a1a95602d391661be3ad714ea,内容未变更
+P3-迁移改名,YYC3-A/amazon-q-developer-cli,YYC3-Agent-智能体/YYC3-Agent-智能体-amazon-q-developer-cli-v2,Agent-智能体,16f8813491ae63aeb184f76d24fec10ee1b619ef,内容未变更
+P3-迁移改名,YYC3-A/autocomplete,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-autocomplete-v2,Tool-开发工具链,6185bf0d00d1c1bcd3a316a593ddaae721d2330d,内容未变更
+P3-迁移改名,YYC3-A/coffee-script-tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-coffee-script-tmbundle,Syntax-语法高亮,fbe8631ce6f693d4db11f09f0c8e7fc0ae931d9e,内容未变更
+P3-迁移改名,YYC3-A/dart-syntax-highlight,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-dart-syntax-highlight-v2,Syntax-语法高亮,c3841f99ec96a91a28b5077c435a1f9ff4db74ca,内容未变更
+P3-迁移改名,YYC3-A/domparsing,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-domparsing-v2,WebSpec-Web标准,411e2fc361e3a0c6d2db9a949acb990953055a70,内容未变更
+P3-迁移改名,YYC3-A/markdown-it-katex,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-markdown-it-katex-v2,Tool-开发工具链,ffa4f7588180d3ada0cb84aa8b98e88ff3290fb8,内容未变更
+P3-迁移改名,YYC3-A/old-google-code-html5,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-old-google-code-html5-v2,WebSpec-Web标准,bd8da67aaa57b61f9226a1c0a6ebb3e50c036ae3,内容未变更
+P3-迁移改名,YYC3-A/pug-tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-pug-tmbundle,Syntax-语法高亮,114ad006503a0ad885e3ed3769df01dab9b308e8,内容未变更
+P3-迁移改名,YYC3-A/shadcn-ui.tnasdownload,YYC3-UI-界面组件/YYC3-UI-界面组件-shadcn-ui.tnasdownload,UI-界面组件,357757be025e3bf8ee6313059c43266f89de8efb,内容未变更
+P3-迁移改名,YYC3-A/textmate-clojure,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-textmate-clojure,Syntax-语法高亮,364ef6d219d0e3cfa9aa7b59f01d312c7ebbc8ca,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/AI,YYC3-AI-应用工具/YYC3-AI-应用工具-AI,AI-应用工具,ae8d4cffba6274a4b4926507f44d8c9f5ab9daeb,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/Everything-claude-code,YYC3-AI-应用工具/YYC3-AI-应用工具-Everything-claude-code,AI-应用工具,4a2d0f35e5b1490ced7e4a0d37ae3ef7193f88dc,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/GenerativeAI-Starter-Kit,YYC3-AI-模型服务/YYC3-AI-模型服务-GenerativeAI-Starter-Kit,AI-模型服务,ba6f095b695dc7de18290f19f3401e4e1a2672b7,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/GenerativeAIExamples,YYC3-AI-模型服务/YYC3-AI-模型服务-GenerativeAIExamples,AI-模型服务,0e4ca4e180def5d1c478437431ec1b510808269d,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/Qwen-Agent,YYC3-Agent-智能体/YYC3-Agent-智能体-Qwen-Agent,Agent-智能体,074e6dc73f1aa62350e296af024033abaa20f9fa,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/Understand-Anything,YYC3-AI-应用工具/YYC3-AI-应用工具-Understand-Anything,AI-应用工具,d6e307dbbf9693e660b3307ae3f2324196066676,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/ai_completion,YYC3-AI-应用工具/YYC3-AI-应用工具-ai_completion,AI-应用工具,1db02ece17229e56eea5a315c4894af19df934b1,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/buildwithclaude,YYC3-AI-应用工具/YYC3-AI-应用工具-buildwithclaude,AI-应用工具,0034a28c4ab15731b6f74ac8a26fbeffe7cd3ae9,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/claude-code-templates-main,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-code-templates-main,AI-应用工具,da5716231d516bec6a9fa671265c2b99f04f1523,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/claude-howto,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-howto,AI-应用工具,1a1cb89636fd45acb166ae206ed26b114cf88a1d,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/claude-mem-main,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-mem-main,AI-应用工具,664f4754dd7201cc8357e44e079319c2ee717f04,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/claude-plugins-official,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-plugins-official,AI-应用工具,1b29a9e900fe2f8219f466ac65621848c85d1181,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/claude-prompts-mcp,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-prompts-mcp,AI-应用工具,56e9ab350d05393e72f81951684b69f62b717a1f,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/free-claude-code,YYC3-AI-应用工具/YYC3-AI-应用工具-free-claude-code,AI-应用工具,0c69bb5dfc998106bbfdecdbd74f8b13887c513e,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/khoj,YYC3-AI-应用工具/YYC3-AI-应用工具-khoj,AI-应用工具,520a7bd540f432060727f59d406be954dab972f1,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/lobehub,YYC3-AI-应用工具/YYC3-AI-应用工具-lobehub,AI-应用工具,a1dc579d1ca44677e3f92baa445434a854410c1a,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/ms-swift,YYC3-AI-模型服务/YYC3-AI-模型服务-ms-swift,AI-模型服务,c9421305cc18af46eb1fcd77d61b4b4afd47e6f8,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/nanobot,YYC3-AI-模型服务/YYC3-AI-模型服务-nanobot,AI-模型服务,4c4fbc9e6c548e888fa01cb0ecb8b175e3fd9a25,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/new-api,YYC3-AI-模型服务/YYC3-AI-模型服务-new-api,AI-模型服务,44d6d5fdf5af2c419ecc2ddaec198b56943bb5f8,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/ollama-llm-platform,YYC3-AI-模型服务/YYC3-AI-模型服务-ollama-llm-platform,AI-模型服务,6293ff476e3a0e7431bcd67b028357faabff3de2,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/one-api,YYC3-AI-模型服务/YYC3-AI-模型服务-one-api,AI-模型服务,6a02236d6784f6e80351b956014fbd98e5e9378f,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/openclaude,YYC3-Agent-智能体/YYC3-Agent-智能体-openclaude,Agent-智能体,bd8f92c5b1aef77280dd6acf108ccbac711efa9a,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/screenshot-to-code,YYC3-AI-应用工具/YYC3-AI-应用工具-screenshot-to-code,AI-应用工具,2da4430439d7db6c0d56bb1d261092575afc26be,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/server-main,YYC3-AI-模型服务/YYC3-AI-模型服务-server-main,AI-模型服务,489e6003d3c14fafa6f50c419d8015ee00a1c04b,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/shannon,YYC3-AI-模型服务/YYC3-AI-模型服务-shannon,AI-模型服务,e00e85bf5e5135689003c6e3627dd24863327208,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/system_prompts_leaks,YYC3-AI-应用工具/YYC3-AI-应用工具-system_prompts_leaks,AI-应用工具,00e827f2aae1ffe6c9283a7d0061d081921f14e5,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/temp-ai-management,YYC3-AI-应用工具/YYC3-AI-应用工具-temp-ai-management,AI-应用工具,4164581a09aee83ad13ba69f9b37394349ad7be0,内容未变更
+P3-迁移改名,YYC3-AI-人工智能/trt-samples-for-hackathon-cn,YYC3-AI-模型服务/YYC3-AI-模型服务-trt-samples-for-hackathon-cn,AI-模型服务,aceb2094bcc06841a4a5f058d84fcee50b04b504,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/AgentBench-main,YYC3-Agent-智能体/YYC3-Agent-智能体-AgentBench-main,Agent-智能体,67ed9eba29e1b521259d69a94445ed216ac32a76,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/Cherry-Studio,YYC3-AI-应用工具/YYC3-AI-应用工具-Cherry-Studio,AI-应用工具,8c05c81e912aa4b5d0d547b48d54672b4546891d,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/CowAgent,YYC3-Agent-智能体/YYC3-Agent-智能体-CowAgent,Agent-智能体,7b52f0043087066f3563f8b782df62d00ae3baa3,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/agent,YYC3-Agent-智能体/YYC3-Agent-智能体-agent,Agent-智能体,2263510e3331979e0646601b1dcc8dc0bc1114b1,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/agent-browser,YYC3-Agent-智能体/YYC3-Agent-智能体-agent-browser,Agent-智能体,c5940ed29602ddf65a8a22fd7613acac39daf221,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/agent-team-agile-workflow,YYC3-Agent-智能体/YYC3-Agent-智能体-agent-team-agile-workflow,Agent-智能体,bf597205d9e496d8cf532a3ced12288b933f4333,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/agents,YYC3-Agent-智能体/YYC3-Agent-智能体-agents,Agent-智能体,e098635a66dca48ad8ce4b9cb8937ed36f26e65f,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/ai-agent,YYC3-Agent-智能体/YYC3-Agent-智能体-ai-agent,Agent-智能体,d084b913545592167b66259fb460128b163eabab,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/chatAgentTools,YYC3-Agent-智能体/YYC3-Agent-智能体-chatAgentTools,Agent-智能体,fb785ba09ca9f11a1802e420bbde6b7b02616c64,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/goose,YYC3-Agent-智能体/YYC3-Agent-智能体-goose,Agent-智能体,f2caa2662bfb6e954347a4a377936e6cb9085cf5,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/gstack,YYC3-AI-应用工具/YYC3-AI-应用工具-gstack,AI-应用工具,f173c0894d7bbf964b09eea335590d92455175bf,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/self-improving-agent,YYC3-Agent-智能体/YYC3-Agent-智能体-self-improving-agent,Agent-智能体,25b6bdb9f7ec627e9852f2ac4d205018f9a051d3,内容未变更
+P3-迁移改名,YYC3-Agent-智能体/serena,YYC3-Agent-智能体/YYC3-Agent-智能体-serena,Agent-智能体,5fc1e54553675d26219c4ff1d09dcd0ba0a52cd2,内容未变更
+P3-迁移改名,YYC3-B/Agent,YYC3-Skills-技能包/YYC3-Skills-技能包-Agent,Skills-技能包,43fdc3145ff130b5125b4a03edb91fdbb9fbf692,内容未变更
+P3-迁移改名,YYC3-B/Better-Less,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-Better-Less-v2,Syntax-语法高亮,c34aacf383114c86127da123306453289214acfc,内容未变更
+P3-迁移改名,YYC3-B/Core-files,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-Core-files-v2,Tool-开发工具链,215bf92542d4db5e40be7e83f0ad513504d77d39,内容未变更
+P3-迁移改名,YYC3-B/acc-marketplace,YYC3-Business-商业应用/YYC3-Business-商业应用-acc-marketplace-v2,Business-商业应用,b95c1a6f3a939c2bb953309e734072a9ab1179c6,内容未变更
+P3-迁移改名,YYC3-B/agent-browser,YYC3-Agent-智能体/YYC3-Agent-智能体-agent-browser-v2,Agent-智能体,35f5601599fd538c90fdd032798665cb822906a2,内容未变更
+P3-迁移改名,YYC3-B/agents,YYC3-Agent-智能体/YYC3-Agent-智能体-agents-v3,Agent-智能体,73cded339afffdb6567dd0af2ceca0f3f9b87d88,内容未变更
+P3-迁移改名,YYC3-B/ant-design,YYC3-UI-界面组件/YYC3-UI-界面组件-ant-design-v2,UI-界面组件,ec853e0f6302e43067b638f6cb963008347a15a0,内容未变更
+P3-迁移改名,YYC3-B/asp.vb.net.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-asp.vb.net.tmbundle,Syntax-语法高亮,7ff4902c5b7ef859b147d266d3bc13843f4c6f69,内容未变更
+P3-迁移改名,YYC3-B/blog.whatwg.org,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-blog.whatwg.org-v2,WebSpec-Web标准,18aba4c20426fbf964baf24c1bfe0177a028d9e4,内容未变更
+P3-迁移改名,YYC3-B/buildwithclaude,YYC3-AI-应用工具/YYC3-AI-应用工具-buildwithclaude-v2,AI-应用工具,7016748674c9f6ce605fe113a0610a0f9e1ee219,内容未变更
+P3-迁移改名,YYC3-B/cb_teams_marketplace,YYC3-Business-商业应用/YYC3-Business-商业应用-cb_teams_marketplace-v2,Business-商业应用,d2a0490d5cc313d42759fc581a6aadda668ddc87,内容未变更
+P3-迁移改名,YYC3-B/core,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-core-v3,Plugin-插件协议,ae41d63f43b823ce67f00dd1486099ebd8688905,内容未变更
+P3-迁移改名,YYC3-B/csharp-tmLanguage,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-csharp-tmLanguage-v2,Syntax-语法高亮,0a361b4799c9bd7aa0e0ffa1cb1a73ac1acb09ce,内容未变更
+P3-迁移改名,YYC3-B/extensions,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-extensions,Plugin-插件协议,a9e3f014c4410e1888266864fba115d05d47a8f4,内容未变更
+P3-迁移改名,YYC3-B/external_plugins,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-external_plugins-v2,Plugin-插件协议,bf48b04bb07cc2113dd2beb06d45ccf7781f2248,内容未变更
+P3-迁移改名,YYC3-B/html-build,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-html-build-v2,WebSpec-Web标准,076a08ec6bd7e6aec3c4695a99a34320ff238366,内容未变更
+P3-迁移改名,YYC3-B/misc-server,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-misc-server-v2,Plugin-插件协议,ee7b201f34fad91a5b64e57478cf5783bae79f1b,内容未变更
+P3-迁移改名,YYC3-B/plugins,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-plugins-v2,Plugin-插件协议,dc8837983537af777f620bb787f982349f5f942c,内容未变更
+P3-迁移改名,YYC3-B/razor,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-razor-v2,Tool-开发工具链,a490ec2f12a8371f4342cffbf468b9679527e15b,内容未变更
+P3-迁移改名,YYC3-B/serena,YYC3-Agent-智能体/YYC3-Agent-智能体-serena-v3,Agent-智能体,b023adc4fba1b164ae48d542f5d55f740aefa6e1,内容未变更
+P3-迁移改名,YYC3-B/skills,YYC3-Skills-技能包/YYC3-Skills-技能包-skills-v5,Skills-技能包,faf54e4f286bbff86dcacb1c26b9ba27cdbe3884,内容未变更
+P3-迁移改名,YYC3-B/superpowers,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-superpowers-v3,Tool-开发工具链,767b8330e327aad93fbb3dfa4f7ff4a43f1a8e81,内容未变更
+P3-迁移改名,YYC3-B/superpowers-chrome,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-superpowers-chrome,Tool-开发工具链,a99d8944721851ae1a5e59c410ee4c54ed1db304,内容未变更
+P3-迁移改名,YYC3-B/vscode-codicons,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-codicons,Editor-编辑器扩展,114a31df6bc47ee01446ba31677850905ce9d8b2,内容未变更
+P3-迁移改名,YYC3-B/vscode-logfile-highlighter,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-logfile-highlighter-v2,Editor-编辑器扩展,33a9fa163dd494fdccc6fa6abc6fe57d4596aab1,内容未变更
+P3-迁移改名,YYC3-B/vscode-swift,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-swift-v2,Editor-编辑器扩展,97b95b33a7874aaf8f7f6cd506f272ca0c288797,内容未变更
+P3-迁移改名,YYC3-B/vscode-win32-app-container-tokens,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-win32-app-container-tokens,Editor-编辑器扩展,d568b4fb8c231573e536d0377c8ebb2dc1c1627e,内容未变更
+P3-迁移改名,YYC3-B/zsh,YYC3-Shell-终端/YYC3-Shell-终端-zsh-v2,Shell-终端,67b2e00231fbe83adcf256782d214331bc91fc2a,内容未变更
+P3-迁移改名,YYC3-Business-商业/The-Deconstructors,YYC3-Business-商业应用/YYC3-Business-商业应用-The-Deconstructors,Business-商业应用,6de4894d8ae6a8c68d1259f091562105c7eaa3a1,内容未变更
+P3-迁移改名,YYC3-Business-商业/acc-marketplace,YYC3-Business-商业应用/YYC3-Business-商业应用-acc-marketplace,Business-商业应用,eae98b06d887a242ee69dcf9b4ef6689094840ae,内容未变更
+P3-迁移改名,YYC3-Business-商业/b2b-sdr-agent-template,YYC3-Business-商业应用/YYC3-Business-商业应用-b2b-sdr-agent-template,Business-商业应用,48bd76450a2d5d2c4d410c89d5f5edd387c66450,内容未变更
+P3-迁移改名,YYC3-Business-商业/career-ops,YYC3-Business-商业应用/YYC3-Business-商业应用-career-ops,Business-商业应用,a72becb5a57cd6305f87c8f5dbee8da8258f8e69,内容未变更
+P3-迁移改名,YYC3-Business-商业/cb_teams_marketplace,YYC3-Business-商业应用/YYC3-Business-商业应用-cb_teams_marketplace,Business-商业应用,91522d781cd158e8d9dd121eaf235bef751c4326,内容未变更
+P3-迁移改名,YYC3-Business-商业/graphify,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-graphify,Tool-开发工具链,8f84565da817b27dd756f0c2653ba239d995cc42,内容未变更
+P3-迁移改名,YYC3-C/LaTeX-Workshop,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-LaTeX-Workshop-v2,Editor-编辑器扩展,2af250827f59b72403cf9cde03d1af3db02e896c,内容未变更
+P3-迁移改名,YYC3-C/MagicPython,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-MagicPython-v2,Syntax-语法高亮,ebcef5402d15d0a7f7c3606980f63030fce5f8af,内容未变更
+P3-迁移改名,YYC3-C/TypeScript-TmLanguage,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-TypeScript-TmLanguage,Syntax-语法高亮,9c699208e6858f8db9dcb6768219c7b34b658cee,内容未变更
+P3-迁移改名,YYC3-C/better-c-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-c-syntax-v2,Syntax-语法高亮,99905511754f4ce4bff9f9973eadb697278c20cb,内容未变更
+P3-迁移改名,YYC3-C/better-cpp-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-cpp-syntax-v2,Syntax-语法高亮,1f2e3fc07d076d5af289847e0f37fb3ce7fddd07,内容未变更
+P3-迁移改名,YYC3-C/better-objc-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-objc-syntax-v2,Syntax-语法高亮,c5ffe9d583d3954ff22e288fe7d89c8893bc1814,内容未变更
+P3-迁移改名,YYC3-C/better-objcpp-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-objcpp-syntax-v2,Syntax-语法高亮,73a32a52c4ce139d0f257594f89e3daf233cf0e4,内容未变更
+P3-迁移改名,YYC3-C/better-shell-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-shell-syntax-v2,Syntax-语法高亮,cb8a080132a4036ee89097c63c737518d7ea499a,内容未变更
+P3-迁移改名,YYC3-C/better-snippet-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-snippet-syntax-v2,Syntax-语法高亮,cb5c74b3dd8c16354996f954ef4e330990af32ab,内容未变更
+P3-迁移改名,YYC3-C/csharp-language-server,YYC3-LSP-语言服务/YYC3-LSP-语言服务-csharp-language-server-v2,LSP-语言服务,c6fc9eb3cd4ccc9958d34e16e161ca4705a879eb,内容未变更
+P3-迁移改名,YYC3-C/css.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-css.tmbundle,Syntax-语法高亮,5fdb49e4cb4637c98ecbc3ff5dd4342613b814c2,内容未变更
+P3-迁移改名,YYC3-C/git-tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-git-tmbundle,Syntax-语法高亮,1cce3822653d9154f5cd3853d480254bac031f21,内容未变更
+P3-迁移改名,YYC3-C/go-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-go-syntax-v2,Syntax-语法高亮,39b7087107372482bc47b248502a30ea92cdb518,内容未变更
+P3-迁移改名,YYC3-C/ionic-site,YYC3-Doc-文档知识/YYC3-Doc-文档知识-ionic-site-v2,Doc-文档知识,ab38eccc5d2de9beae1cf5fcee84441675f9d193,内容未变更
+P3-迁移改名,YYC3-C/ionide-fsgrammar,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-ionide-fsgrammar-v2,Syntax-语法高亮,42486f6f3ede34069068e76d73c9239fa89e5b49,内容未变更
+P3-迁移改名,YYC3-C/js-beautify,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-js-beautify-v2,Tool-开发工具链,42398e42c8b56843d183f8ccbcaedf737d51636a,内容未变更
+P3-迁移改名,YYC3-C/latex.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-latex.tmbundle,Syntax-语法高亮,ebf162b552f9b9c290766293968e548f5d149641,内容未变更
+P3-迁移改名,YYC3-C/lua-language-server,YYC3-LSP-语言服务/YYC3-LSP-语言服务-lua-language-server-v2,LSP-语言服务,fb6279bb6e90a2ba422a300758b1d158411ac4b0,内容未变更
+P3-迁移改名,YYC3-C/lua.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-lua.tmbundle-v2,Syntax-语法高亮,017eedf5bd68e0b7fb819035c8af68f419f01391,内容未变更
+P3-迁移改名,YYC3-C/lucide,YYC3-Design-设计资源/YYC3-Design-设计资源-lucide-v2,Design-设计资源,79bb10fab07a6417eebc0e4f6f5eff1a0dacac66,内容未变更
+P3-迁移改名,YYC3-C/make.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-make.tmbundle,Syntax-语法高亮,69a8815e5988bf02d6ce9ac569a14f571410f205,内容未变更
+P3-迁移改名,YYC3-C/moby,YYC3-Cloud-云原生/YYC3-Cloud-云原生-moby-v2,Cloud-云原生,d97b6f69e454ddec54b4632cf11eb2c9a4f2e9ae,内容未变更
+P3-迁移改名,YYC3-C/php.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-php.tmbundle,Syntax-语法高亮,2c89afb9fb1b85a7c9d02a12cc8c7360b5c4927a,内容未变更
+P3-迁移改名,YYC3-C/playwright-mcp,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-playwright-mcp-v2,Plugin-插件协议,52d78f0a332c9ae93abf6ecea87d7c958f7bcfdf,内容未变更
+P3-迁移改名,YYC3-C/pyright,YYC3-LSP-语言服务/YYC3-LSP-语言服务-pyright-v2,LSP-语言服务,90f54d1ac39264cc3a0af0f74a24deec270e7445,内容未变更
+P3-迁移改名,YYC3-C/swift-tmlanguage,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-swift-tmlanguage-v2,Syntax-语法高亮,140f00e609b7dc48c61b6fc88a60e1d56c84c90a,内容未变更
+P3-迁移改名,YYC3-C/tools,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-tools-v2,Tool-开发工具链,e7cc9c914b062686fcdcde6dd8a554c5067ee7fc,内容未变更
+P3-迁移改名,YYC3-C/vscode,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-vscode-v2,IDE-编辑器内核,a4d127cc18016cb53d5429ca2fa048df53956db7,内容未变更
+P3-迁移改名,YYC3-C/vscode-JSON.tmLanguage,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-vscode-JSON.tmLanguage,Syntax-语法高亮,66bd79fc1e2e6a5ccfb70bba6abb009be2be9e58,内容未变更
+P3-迁移改名,YYC3-C/vscode-css,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-css,Editor-编辑器扩展,9a7288f70d99f280bf447c9ce5512a466fe103ec,内容未变更
+P3-迁移改名,YYC3-C/vscode-latex-basics,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-latex-basics,Editor-编辑器扩展,a1a91899929e9164121b21c39ccb4277f8710f16,内容未变更
+P3-迁移改名,YYC3-C/vscode-markdown-tm-grammar,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-vscode-markdown-tm-grammar,Syntax-语法高亮,12fc774b65e795ff88a67a51f94063e05049c24a,内容未变更
+P3-迁移改名,YYC3-C/vscode-mssql,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-mssql,Editor-编辑器扩展,5d894d7334b47f0da15d1ca4a9413982f10ef5ce,内容未变更
+P3-迁移改名,YYC3-Cloud-云原生/amazon-q-developer-cli,YYC3-Agent-智能体/YYC3-Agent-智能体-amazon-q-developer-cli,Agent-智能体,d1ac72b10bbcbdbad9a69835e62e49b5a087da6d,内容未变更
+P3-迁移改名,YYC3-Cloud-云原生/cloudbase,YYC3-Cloud-云原生/YYC3-Cloud-云原生-cloudbase,Cloud-云原生,a2d94fa2668c07f522569dec6680a99d0aef3a36,内容未变更
+P3-迁移改名,YYC3-Cloud-云原生/containers,YYC3-Cloud-云原生/YYC3-Cloud-云原生-containers,Cloud-云原生,138f5dcf25fef15ae155cfbed2b5b837d50bd845,内容未变更
+P3-迁移改名,YYC3-Cloud-云原生/firebase,YYC3-Cloud-云原生/YYC3-Cloud-云原生-firebase,Cloud-云原生,5f18771941ac45312413c10cc7bf249b304cc1a1,内容未变更
+P3-迁移改名,YYC3-Cloud-云原生/gitlab,YYC3-Cloud-云原生/YYC3-Cloud-云原生-gitlab,Cloud-云原生,38975d4a4ebdcdafec5184e477414a252cb38211,内容未变更
+P3-迁移改名,YYC3-Cloud-云原生/kubernetes,YYC3-Cloud-云原生/YYC3-Cloud-云原生-kubernetes,Cloud-云原生,a3a5569165ca9e83b41437376bdd87f3581cd917,内容未变更
+P3-迁移改名,YYC3-Cloud-云原生/moby,YYC3-Cloud-云原生/YYC3-Cloud-云原生-moby,Cloud-云原生,b169bfc3fbd9d8193f8ccfe25940d7e1f2ad66f9,内容未变更
+P3-迁移改名,YYC3-D/Qwen-Agent,YYC3-Agent-智能体/YYC3-Agent-智能体-Qwen-Agent-v2,Agent-智能体,ffefadc8934a30119c3ee7ac91c5c0a6fdecffd5,内容未变更
+P3-迁移改名,YYC3-D/TypeScript-TmLanguage,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-TypeScript-TmLanguage-v2,Syntax-语法高亮,f8900256fa52fb02f3e3c126b60928558c34be67,内容未变更
+P3-迁移改名,YYC3-D/YAML-Syntax-Highlighter,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-YAML-Syntax-Highlighter-v2,Syntax-语法高亮,98437d7636fa225b103d1e4a434a67ffa44518d1,内容未变更
+P3-迁移改名,YYC3-D/c.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-c.tmbundle,Syntax-语法高亮,19003f8063f2042980c564b72116238ee11eed6d,内容未变更
+P3-迁移改名,YYC3-D/diff.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-diff.tmbundle,Syntax-语法高亮,72bfbebbf17d42f3da1f1260080295516aacebfc,内容未变更
+P3-迁移改名,YYC3-D/git.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-git.tmbundle,Syntax-语法高亮,6636a0eeccc7b1dddd96920f5b2f3b5770e5b7e0,内容未变更
+P3-迁移改名,YYC3-D/groovy.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-groovy.tmbundle,Syntax-语法高亮,bfe19ba0db151946d03bac258424f6127851af96,内容未变更
+P3-迁移改名,YYC3-D/html.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-html.tmbundle,Syntax-语法高亮,c502a000aa7900fb4d5496f73a2bc93100d365bc,内容未变更
+P3-迁移改名,YYC3-D/icu,YYC3-Data-数据存储/YYC3-Data-数据存储-icu-v2,Data-数据存储,0ce2cc8e08e3e24d0cb5b4d285dc1e6e80947676,内容未变更
+P3-迁移改名,YYC3-D/ini.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-ini.tmbundle,Syntax-语法高亮,8f9ed54965ba7f4de8f4dcd3a5490ddbaeb3a46f,内容未变更
+P3-迁移改名,YYC3-D/java.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-java.tmbundle,Syntax-语法高亮,308555c536bc7134b5302473ccabeac594ec3f8e,内容未变更
+P3-迁移改名,YYC3-D/javascript.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-javascript.tmbundle,Syntax-语法高亮,bfa7b68006a64b91921ac442ac46618e55af04c6,内容未变更
+P3-迁移改名,YYC3-D/lua.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-lua.tmbundle,Syntax-语法高亮,bf83c41ad5a3b23138f59e5df0db2b507ca18b6f,内容未变更
+P3-迁移改名,YYC3-D/markdown.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-markdown.tmbundle,Syntax-语法高亮,8b1fadbc87cae5937f6fb31a7b7b4e0b6bd8cd82,内容未变更
+P3-迁移改名,YYC3-D/perl.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-perl.tmbundle,Syntax-语法高亮,d6773cbea8b6eee7c8156be08430931a95cfbff8,内容未变更
+P3-迁移改名,YYC3-D/ruby-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-ruby-lsp-v2,LSP-语言服务,b5d2463ce4b5407bea78f4b6f1c53906bbac142e,内容未变更
+P3-迁移改名,YYC3-D/ruby.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-ruby.tmbundle,Syntax-语法高亮,563466e767a3f19cba66a499ddc8aca0437b31a0,内容未变更
+P3-迁移改名,YYC3-D/rust-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-rust-syntax-v2,Syntax-语法高亮,aa8f1e935da1bf738631d70db30c3f361bb64895,内容未变更
+P3-迁移改名,YYC3-D/seti-ui,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-seti-ui,Editor-编辑器扩展,a4d339c4294686e3e8ca667767739b704129aaba,内容未变更
+P3-迁移改名,YYC3-D/ui,YYC3-UI-界面组件/YYC3-UI-界面组件-ui-v2,UI-界面组件,912b783408eea3c78d3102e07965ceaddf6215b1,内容未变更
+P3-迁移改名,YYC3-D/vscode,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-vscode,IDE-编辑器内核,0e2749d695b2cd59c8ee471096a10e11633f78fc,内容未变更
+P3-迁移改名,YYC3-D/vscode-R,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-R,Editor-编辑器扩展,00b0e703d6da274f7c736737bd915cb92c5f0113,内容未变更
+P3-迁移改名,YYC3-D/vscode-java,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-java,Editor-编辑器扩展,0d464e31acfefd4913089963e266c1dbc01f59be,内容未变更
+P3-迁移改名,YYC3-D/vscode-rst,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-rst,Editor-编辑器扩展,a9bdc637f637772c60f246e2adb72dc8df7f8c05,内容未变更
+P3-迁移改名,YYC3-D/vscode-ruby,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-ruby,Editor-编辑器扩展,54ca5070bffccd7056032d5f6245a16f2f54dc14,内容未变更
+P3-迁移改名,YYC3-D/xml.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-xml.tmbundle,Syntax-语法高亮,6844e59541dcc8f37499542b92469e3fbaf91ca4,内容未变更
+P3-迁移改名,YYC3-Data-数据存储/Accumulo 3.0.0,YYC3-Data-数据存储/YYC3-Data-数据存储-Accumulo-3.0.0,Data-数据存储,f977fb52a1ddebb090773c5c88c6b0067108b791,内容未变更
+P3-迁移改名,YYC3-Data-数据存储/ClickHouse,YYC3-Data-数据存储/YYC3-Data-数据存储-ClickHouse,Data-数据存储,248a40571f8c14aa81e5ab299b0787a1cdbe3190,内容未变更
+P3-迁移改名,YYC3-Data-数据存储/icu,YYC3-Data-数据存储/YYC3-Data-数据存储-icu,Data-数据存储,298123a11dc4c14b32a998d07b119f0b12659b2a,内容未变更
+P3-迁移改名,YYC3-Design-设计资源/Clone-Wars,YYC3-Design-设计资源/YYC3-Design-设计资源-Clone-Wars,Design-设计资源,e6e4a33d3604d150b58d23b2f744f7c56fdf4bb2,内容未变更
+P3-迁移改名,YYC3-Design-设计资源/Colorsublime-Themes,YYC3-Design-设计资源/YYC3-Design-设计资源-Colorsublime-Themes,Design-设计资源,126b81f6a7f0d2166ab95e50d85a9043e93be504,内容未变更
+P3-迁移改名,YYC3-Design-设计资源/algorithmic-art,YYC3-Design-设计资源/YYC3-Design-设计资源-algorithmic-art,Design-设计资源,cbc822453804065ecc7fa0061f442d6afb1ad7fc,内容未变更
+P3-迁移改名,YYC3-Design-设计资源/app-ideas,YYC3-Design-设计资源/YYC3-Design-设计资源-app-ideas,Design-设计资源,01eae25ad8545d75cbcfb261952d3a874ea76d4c,内容未变更
+P3-迁移改名,YYC3-Design-设计资源/awesome-design-md,YYC3-Design-设计资源/YYC3-Design-设计资源-awesome-design-md,Design-设计资源,9cf705b1aa77f74e82d526d85ec50071555d15f2,内容未变更
+P3-迁移改名,YYC3-Design-设计资源/logohero-carouse,YYC3-Design-设计资源/YYC3-Design-设计资源-logohero-carouse,Design-设计资源,8b744c9fa6bb169a226b7ed2b8a169126cdce541,内容未变更
+P3-迁移改名,YYC3-Design-设计资源/open-design,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design,Design-设计资源,f6830a480463f19cf3b02aacdb013ca47f8c62ed,内容未变更
+P3-迁移改名,YYC3-Doc-文档资源/books,YYC3-Doc-文档知识/YYC3-Doc-文档知识-books,Doc-文档知识,149e7008fce8ab0f8cc958cc6fe9b6b7b8ebfac5,内容未变更
+P3-迁移改名,YYC3-Doc-文档资源/sg,YYC3-Doc-文档知识/YYC3-Doc-文档知识-sg,Doc-文档知识,00c4e522e72d3961f515fb092901a90f34d5c1ce,内容未变更
+P3-迁移改名,YYC3-E/claude-prompts-mcp,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-prompts-mcp-v2,AI-应用工具,543a3495ba5365e1a08db681791f0cd2ff5968b5,内容未变更
+P3-迁移改名,YYC3-E/containers,YYC3-Cloud-云原生/YYC3-Cloud-云原生-containers-v2,Cloud-云原生,51913d5655c2da6c3c23683806b7fc73b98ac040,内容未变更
+P3-迁移改名,YYC3-E/content,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-content-v2,Tool-开发工具链,b6a9cec5533de2910966fadcb17f6ec5b84f1eaf,内容未变更
+P3-迁移改名,YYC3-E/core,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-core-v2,Plugin-插件协议,4178f00dc89287aec0a2b9937e161adef648fef3,内容未变更
+P3-迁移改名,YYC3-E/dotnet,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-dotnet,Tool-开发工具链,9fa98e62d5071f4d9d17858f319c40609d9ed5a4,内容未变更
+P3-迁移改名,YYC3-E/edict,YYC3-Agent-智能体/YYC3-Agent-智能体-edict-v2,Agent-智能体,46b3c6a036bc9ae5721944fe54eb4b4b0ab25dd9,内容未变更
+P3-迁移改名,YYC3-E/goose,YYC3-Agent-智能体/YYC3-Agent-智能体-goose-v2,Agent-智能体,f6383945b8802d93678f54f0573533b47b7dadf7,内容未变更
+P3-迁移改名,YYC3-E/i18n,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-i18n-v2,WebSpec-Web标准,4e9f825636e3dd9ba6098b61ad9c844ae0b73544,内容未变更
+P3-迁移改名,YYC3-E/lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-lsp-v2,LSP-语言服务,b3bb5f89b061935f500b571e48d1dc75a3754638,内容未变更
+P3-迁移改名,YYC3-E/open-design,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design-v3,Design-设计资源,2fe817c17b4c4e713568d53ca13cd5515b1305b5,内容未变更
+P3-迁移改名,YYC3-E/rust-analyzer,YYC3-LSP-语言服务/YYC3-LSP-语言服务-rust-analyzer-v2,LSP-语言服务,92c13d8c3e4cdb951cfda8141d2c63970c9dc780,内容未变更
+P3-迁移改名,YYC3-E/shell,YYC3-Shell-终端/YYC3-Shell-终端-shell-v2,Shell-终端,3eb0735e02be71366c3a5989ae68dac76071574b,内容未变更
+P3-迁移改名,YYC3-E/sourcekit-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-sourcekit-lsp-v2,LSP-语言服务,6a91b9c0e8e0141bcfcd6d1a74d5e42d002b263b,内容未变更
+P3-迁移改名,YYC3-E/standards,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-standards-v2,WebSpec-Web标准,3219ac7531d839952e3ffdf310bd823bdd125458,内容未变更
+P3-迁移改名,YYC3-E/syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-syntax-v2,Syntax-语法高亮,162fff279c2b813965e2d8a443fbe409b21c39d2,内容未变更
+P3-迁移改名,YYC3-E/types,YYC3-TypeDef-类型定义/YYC3-TypeDef-类型定义-types-v2,TypeDef-类型定义,d13c95cce2cddc15acc992d2d43e09188408ef14,内容未变更
+P3-迁移改名,YYC3-Editor-编辑器/LaTeX-Workshop,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-LaTeX-Workshop,Editor-编辑器扩展,672cefefbdaf0f049ac74db80e7f336081b9ab92,内容未变更
+P3-迁移改名,YYC3-Editor-编辑器/vscode-logfile-highlighter,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-logfile-highlighter,Editor-编辑器扩展,da39a3ee5e6b4b0d3255bfef95601890afd80709,内容未变更
+P3-迁移改名,YYC3-Editor-编辑器/vscode-swift,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-swift,Editor-编辑器扩展,f167f536bfd8a5e4f8f21e3f4282fe52782a0479,内容未变更
+P3-迁移改名,YYC3-F/Cherry-Studio,YYC3-AI-应用工具/YYC3-AI-应用工具-Cherry-Studio-v2,AI-应用工具,b9d5b23c43ae2f9e12311c52f7b63c93e7a557e5,内容未变更
+P3-迁移改名,YYC3-F/EasySpider,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-EasySpider-v2,Tool-开发工具链,5285fb6850cd55d0e96dc4ac9dd7a28f882603b5,内容未变更
+P3-迁移改名,YYC3-F/Open-AI-studio,YYC3-AI-应用工具/YYC3-AI-应用工具-Open-AI-studio,AI-应用工具,6fdf45058a93f57995cbf26829e2d141172feda4,内容未变更
+P3-迁移改名,YYC3-F/Understand-Anything,YYC3-AI-应用工具/YYC3-AI-应用工具-Understand-Anything-v2,AI-应用工具,7fa21d2ae0c17a32067db23721d34047012a747c,内容未变更
+P3-迁移改名,YYC3-F/agent-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-agent-skills,Skills-技能包,7e57c524facfd9ada4c565bf6706eb7ac28514ed,内容未变更
+P3-迁移改名,YYC3-F/ai-model-distillation-for-financial-data,YYC3-Finance-金融量化/YYC3-Finance-金融量化-ai-model-distillation-for-financial-data-v2,Finance-金融量化,0df4c8ffdff9d75817bd08321c8c84956771f54a,内容未变更
+P3-迁移改名,YYC3-F/app-ideas,YYC3-Design-设计资源/YYC3-Design-设计资源-app-ideas-v2,Design-设计资源,d20e1a0705b3478ea26ad855f040f7c9e00d51a8,内容未变更
+P3-迁移改名,YYC3-F/awesome-openclaw-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-awesome-openclaw-skills-v2,Skills-技能包,4495975b9d5b1af544d2dee8930ebd7182ccbaf4,内容未变更
+P3-迁移改名,YYC3-F/cc-switch,YYC3-AI-应用工具/YYC3-AI-应用工具-cc-switch-v2,AI-应用工具,d1deb5717ad52d28bd6ce14332cabef7e5640f7f,内容未变更
+P3-迁移改名,YYC3-F/claude-code-templates-main,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-code-templates-main-v2,AI-应用工具,aed96a0fb6e5d9c3a93c018c14f78ac1600d7f5c,内容未变更
+P3-迁移改名,YYC3-F/claude-mem-main,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-mem-main-v2,AI-应用工具,a0ae74e8e9ea80798d5fd5bf469e02547a1ba886,内容未变更
+P3-迁移改名,YYC3-F/claude-prompts-mcp,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-prompts-mcp-v3,AI-应用工具,4ab2dc6d3ba009bcb317441ada2df8a95147675a,内容未变更
+P3-迁移改名,YYC3-F/code-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-code-skills-v2,Skills-技能包,adbd42491f89d7ad04bf4a7e2596764f8a046d3f,内容未变更
+P3-迁移改名,YYC3-F/cwc-workshops,YYC3-Doc-文档知识/YYC3-Doc-文档知识-cwc-workshops-v2,Doc-文档知识,731ecf365f9a8b06df3e1a89f04a22350eea1c98,内容未变更
+P3-迁移改名,YYC3-F/edict,YYC3-Agent-智能体/YYC3-Agent-智能体-edict-v3,Agent-智能体,676eae0063bbd7969258c48faa05ac2ab40768c0,内容未变更
+P3-迁移改名,YYC3-F/financial-fraud-detection,YYC3-Finance-金融量化/YYC3-Finance-金融量化-financial-fraud-detection-v2,Finance-金融量化,36589b971b4a5c1424fe556b7b479cdf22760016,内容未变更
+P3-迁移改名,YYC3-F/free-claude-code,YYC3-AI-应用工具/YYC3-AI-应用工具-free-claude-code-v2,AI-应用工具,9d33a796e5228657364d9d0daa2214d931211b93,内容未变更
+P3-迁移改名,YYC3-F/gstack,YYC3-AI-应用工具/YYC3-AI-应用工具-gstack-v2,AI-应用工具,57e968de6747e6c266a205600385e862c50f5d6a,内容未变更
+P3-迁移改名,YYC3-F/khoj,YYC3-AI-应用工具/YYC3-AI-应用工具-khoj-v2,AI-应用工具,9e24cc9f159f8c1a7e7200eaeaac70535d85ec69,内容未变更
+P3-迁移改名,YYC3-F/ms-swift,YYC3-AI-模型服务/YYC3-AI-模型服务-ms-swift-v2,AI-模型服务,ad8dc09e57add088b2271c64c353308c29ae3638,内容未变更
+P3-迁移改名,YYC3-F/open-design,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design-v4,Design-设计资源,1ffb54e338b9606ca5f784effe472020dc30dc22,内容未变更
+P3-迁移改名,YYC3-F/pi,YYC3-Agent-智能体/YYC3-Agent-智能体-pi-v2,Agent-智能体,a20bcb2ae623918751bda2af4172232fc8726373,内容未变更
+P3-迁移改名,YYC3-F/practicalEthicalHacking,YYC3-Security-安全合规/YYC3-Security-安全合规-practicalEthicalHacking-v2,Security-安全合规,0a26d8dbdb2741739e269d35f4c97963add83b30,内容未变更
+P3-迁移改名,YYC3-F/prettier,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-prettier-v2,Tool-开发工具链,fb8178b5448936cc9f71ccaf4887962edb0a4937,内容未变更
+P3-迁移改名,YYC3-F/ruff,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-ruff-v2,Tool-开发工具链,d8e092d3ca0a3e61159d40259211883baf93a9d0,内容未变更
+P3-迁移改名,YYC3-F/screenshot-to-code,YYC3-AI-应用工具/YYC3-AI-应用工具-screenshot-to-code-v3,AI-应用工具,707d5bf4b85139416c3a264afbb3de6c54c98990,内容未变更
+P3-迁移改名,YYC3-F/shannon,YYC3-AI-模型服务/YYC3-AI-模型服务-shannon-v2,AI-模型服务,ceff4f6db897ae6290d2e9cf1525c6e58658f957,内容未变更
+P3-迁移改名,YYC3-F/skills,YYC3-Skills-技能包/YYC3-Skills-技能包-skills-v2,Skills-技能包,fbdfe42bf0c8e716ecf85d0fce6747488b1c762e,内容未变更
+P3-迁移改名,YYC3-F/system_prompts_leaks,YYC3-AI-应用工具/YYC3-AI-应用工具-system_prompts_leaks-v2,AI-应用工具,a6664c72b7b639e305b1dbe0b64375bc2024fb1a,内容未变更
+P3-迁移改名,YYC3-F/temp-ai-management,YYC3-AI-应用工具/YYC3-AI-应用工具-temp-ai-management-v2,AI-应用工具,7fe41a651c1393d3a7db0545db67f270aa47f5da,内容未变更
+P3-迁移改名,YYC3-F/trt-samples-for-hackathon-cn,YYC3-AI-模型服务/YYC3-AI-模型服务-trt-samples-for-hackathon-cn-v2,AI-模型服务,b446d5b55472d3010936cc6c89470d1058cfd5e2,内容未变更
+P3-迁移改名,YYC3-F/zeroclaw,YYC3-AI-模型服务/YYC3-AI-模型服务-zeroclaw-v2,AI-模型服务,99905481de03a5cf57fcb8bd25415e22ad04eb31,内容未变更
+P3-迁移改名,YYC3-Finance-金融量化/ai-model-distillation-for-financial-data,YYC3-Finance-金融量化/YYC3-Finance-金融量化-ai-model-distillation-for-financial-data,Finance-金融量化,6d0a70b25bf39c0db8bc278c2665be0f5b669756,内容未变更
+P3-迁移改名,YYC3-Finance-金融量化/cuFOLIO,YYC3-Finance-金融量化/YYC3-Finance-金融量化-cuFOLIO,Finance-金融量化,87e9f4609513da46fd559b2b0a57b5659b55b9de,内容未变更
+P3-迁移改名,YYC3-Finance-金融量化/financial-fraud-detection,YYC3-Finance-金融量化/YYC3-Finance-金融量化-financial-fraud-detection,Finance-金融量化,115ade7ae89a87bee9678c0bd13fd3faa59c49bc,内容未变更
+P3-迁移改名,YYC3-Finance-金融量化/quantitative-signal-discovery-agent,YYC3-Finance-金融量化/YYC3-Finance-金融量化-quantitative-signal-discovery-agent,Finance-金融量化,e346b614eb75a571341f7305aa603f3382a6ca3c,内容未变更
+P3-迁移改名,YYC3-Framework-框架/razor,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-razor,Tool-开发工具链,0ba85d2bef5421ba31e272d5c4cc9c5bd4e1ca1a,内容未变更
+P3-迁移改名,YYC3-G/ClickHouse,YYC3-Data-数据存储/YYC3-Data-数据存储-ClickHouse-v2,Data-数据存储,ddf711b990cfc9e9640903a754defda60efd94f9,内容未变更
+P3-迁移改名,YYC3-G/GenerativeAIExamples,YYC3-AI-模型服务/YYC3-AI-模型服务-GenerativeAIExamples-v2,AI-模型服务,9b084fd16bb777ae2c4856752457add5325c135d,内容未变更
+P3-迁移改名,YYC3-G/RedPanda-CPP,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-RedPanda-CPP,IDE-编辑器内核,ab43430c86547441ef5679d7b67dfd4238d91dd8,内容未变更
+P3-迁移改名,YYC3-G/aily-blockly,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-aily-blockly,Tool-开发工具链,eebff6fbb37aa9722a8c335fce7acb87e9e8c691,内容未变更
+P3-迁移改名,YYC3-G/aily-blockly-libraries,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-aily-blockly-libraries,Tool-开发工具链,fb0f26f2b84653fa8aeac9129a0d92fd45c073d0,内容未变更
+P3-迁移改名,YYC3-G/archify,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-archify,Tool-开发工具链,4538799dfea4cf6be96208d03330b7fc797cf98a,内容未变更
+P3-迁移改名,YYC3-G/arduino-ide,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-arduino-ide,IDE-编辑器内核,c5ffded43785e9c1e0450ef5822988f00020c132,内容未变更
+P3-迁移改名,YYC3-G/code-server,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-code-server,IDE-编辑器内核,2f4201b8b3601d5c65daaae2dfdab79af3327c03,内容未变更
+P3-迁移改名,YYC3-G/dify,YYC3-AI-应用工具/YYC3-AI-应用工具-dify,AI-应用工具,c43e3ff3bda97aa4023c5be7462785621d3d21e8,内容未变更
+P3-迁移改名,YYC3-G/ide,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-ide,IDE-编辑器内核,2d980202a757e96911026c0b86326916d170cb33,内容未变更
+P3-迁移改名,YYC3-G/lapce,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-lapce,IDE-编辑器内核,507901dfaec0b6c02a59e5bc68efa372eefb0d13,内容未变更
+P3-迁移改名,YYC3-G/liteide,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-liteide,IDE-编辑器内核,ea65bd548c5b1601702bc7730e13eff6c992682c,内容未变更
+P3-迁移改名,YYC3-G/new-api,YYC3-AI-模型服务/YYC3-AI-模型服务-new-api-v2,AI-模型服务,99e2dec397a7e85498c326f16e2ecf90b8a4a903,内容未变更
+P3-迁移改名,YYC3-G/openvscode-server,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-openvscode-server,IDE-编辑器内核,08e4c0cc7a1daf32d7c184228267ee597d26d6e8,内容未变更
+P3-迁移改名,YYC3-G/ops-service,YYC3-Cloud-云原生/YYC3-Cloud-云原生-ops-service,Cloud-云原生,6d37e0aea8e8f12ed31132870622d8e92c05bcf0,内容未变更
+P3-迁移改名,YYC3-G/platformio-core,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-platformio-core,Tool-开发工具链,650af880ddfd2ed2883fc9e8c1b65920d891a73a,内容未变更
+P3-迁移改名,YYC3-G/pydantic-ai,YYC3-Agent-智能体/YYC3-Agent-智能体-pydantic-ai,Agent-智能体,7f17f147a6fc2942e865133388be0aec4e4017ee,内容未变更
+P3-迁移改名,YYC3-G/ragflow,YYC3-AI-模型服务/YYC3-AI-模型服务-ragflow,AI-模型服务,dc47bcf177ec75046849ca780b22cb4965f185b7,内容未变更
+P3-迁移改名,YYC3-G/spotube,YYC3-Desktop-桌面应用/YYC3-Desktop-桌面应用-spotube,Desktop-桌面应用,214915e0587aee5414d9be1f86999d6f6f1d7295,内容未变更
+P3-迁移改名,YYC3-G/spyder,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-spyder,IDE-编辑器内核,ea59243001c18bdc20d2c976303302a63ef3ffd0,内容未变更
+P3-迁移改名,YYC3-G/theia,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-theia,IDE-编辑器内核,ca095e6f07da3a03971f1f3648ce9f90ea160753,内容未变更
+P3-迁移改名,YYC3-G/vize,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-vize,Tool-开发工具链,bfbdfe3910090f6c21061d1e6dae391a71450758,内容未变更
+P3-迁移改名,YYC3-G/vscodium,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-vscodium,IDE-编辑器内核,7bfdaa4089b40bcd491ec26aeda4712e47899f1b,内容未变更
+P3-迁移改名,YYC3-G/zed,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-zed,IDE-编辑器内核,14d48d6c1bfdbf176685e591d0b7777cf15b516c,内容未变更
+P3-迁移改名,YYC3-H/GenerativeAI-Starter-Kit,YYC3-AI-模型服务/YYC3-AI-模型服务-GenerativeAI-Starter-Kit-v2,AI-模型服务,f16a61eb62c2f356a643eeefcaf8123429a1e0dd,内容未变更
+P3-迁移改名,YYC3-H/ai-agent,YYC3-Agent-智能体/YYC3-Agent-智能体-ai-agent-v2,Agent-智能体,d96ba538386b1c3e10891cf31c085eb3823b138d,内容未变更
+P3-迁移改名,YYC3-H/autocomplete-specs,YYC3-Shell-终端/YYC3-Shell-终端-autocomplete-specs-v2,Shell-终端,fa508d0a3c4c2443a9b7752ccf0a9bdef3ff103a,内容未变更
+P3-迁移改名,YYC3-H/autocomplete-tools,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-autocomplete-tools-v2,Tool-开发工具链,0a8e91bf0c42be10a58d83f35b89578a668aa7f6,内容未变更
+P3-迁移改名,YYC3-H/bootstrap,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-bootstrap,Frontend-前端框架,f850aeff534d3a2033c2581921800605d26a10d8,内容未变更
+P3-迁移改名,YYC3-H/cloud-init,YYC3-Cloud-云原生/YYC3-Cloud-云原生-cloud-init,Cloud-云原生,7c648c6a31277e32b74e2ecca47b7f258a91fb37,内容未变更
+P3-迁移改名,YYC3-H/d3,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-d3,Frontend-前端框架,8e8869a4fca218ca600097c7d11f71517e2e4581,内容未变更
+P3-迁移改名,YYC3-H/dqlite,YYC3-Data-数据存储/YYC3-Data-数据存储-dqlite,Data-数据存储,9666d33c0c40901c6a7a1c4bf2ffd736067850e7,内容未变更
+P3-迁移改名,YYC3-H/electron,YYC3-Desktop-桌面应用/YYC3-Desktop-桌面应用-electron,Desktop-桌面应用,8df19d642cf5ef57d273fc8955cf566abff61c37,内容未变更
+P3-迁移改名,YYC3-H/framework7,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-framework7,Frontend-前端框架,8f4c1f0f6083225202e8f7584b959bb7a44e64ec,内容未变更
+P3-迁移改名,YYC3-H/html5-boilerplate,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-html5-boilerplate,Frontend-前端框架,96ed6aa5da506ee801ba9e7438928a15241a4c63,内容未变更
+P3-迁移改名,YYC3-H/htmx,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-htmx,Frontend-前端框架,157d0b8f11300410a3922c2a5e78c166a2d9e784,内容未变更
+P3-迁移改名,YYC3-H/ionic-framework,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-ionic-framework,Frontend-前端框架,ab48969d914f30d9ed32d489836c1e964d1c487e,内容未变更
+P3-迁移改名,YYC3-H/kubernetes,YYC3-Cloud-云原生/YYC3-Cloud-云原生-kubernetes-v2,Cloud-云原生,aa5c7ac58c9947e697dfdb81d5e3cb1569b092ab,内容未变更
+P3-迁移改名,YYC3-H/mui-x,YYC3-UI-界面组件/YYC3-UI-界面组件-mui-x-v2,UI-界面组件,458f5863a1cb03fb5de068ef6c39fead25fe3e34,内容未变更
+P3-迁移改名,YYC3-H/ollama-llm-platform,YYC3-AI-模型服务/YYC3-AI-模型服务-ollama-llm-platform-v2,AI-模型服务,7d9ddce748d8f44b3bc72f2cd02635d00761a519,内容未变更
+P3-迁移改名,YYC3-H/onlook,YYC3-UI-界面组件/YYC3-UI-界面组件-onlook-v2,UI-界面组件,f3eff25e7b4d53e0069f8576a7d26c1455a0508c,内容未变更
+P3-迁移改名,YYC3-H/open-design,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design-v2,Design-设计资源,daed18770e305f0494facef4bd088626d3162942,内容未变更
+P3-迁移改名,YYC3-H/plugins,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-plugins-v3,Plugin-插件协议,1b6d9cdfb598a07ac7ca988a22ee119c4b7b7440,内容未变更
+P3-迁移改名,YYC3-H/reveal.js,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-reveal.js,Frontend-前端框架,72c6fb5825db3b5e529bc003c036248b1d214e08,内容未变更
+P3-迁移改名,YYC3-H/screenshot-to-code,YYC3-AI-应用工具/YYC3-AI-应用工具-screenshot-to-code-v2,AI-应用工具,a9c45b312c546c5b6620d1a9be7bc2c4eb642490,内容未变更
+P3-迁移改名,YYC3-H/skills,YYC3-Skills-技能包/YYC3-Skills-技能包-skills-v4,Skills-技能包,cc3f48709b868dde1e0319c9b2f3820705e74a09,内容未变更
+P3-迁移改名,YYC3-H/swagger-ui,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-swagger-ui,Tool-开发工具链,f796d4e67ea2f2cc94a069b1eda416f6d72add9c,内容未变更
+P3-迁移改名,YYC3-H/tdesign-vue-next,YYC3-UI-界面组件/YYC3-UI-界面组件-tdesign-vue-next-v2,UI-界面组件,a0819de30b4a96ad66d35ed846b57b0269a664ca,内容未变更
+P3-迁移改名,YYC3-I/30-seconds-of-code,YYC3-Doc-文档知识/YYC3-Doc-文档知识-30-seconds-of-code,Doc-文档知识,3ca09f6f28d6361c3c23303c5a12618ec4cc97a1,内容未变更
+P3-迁移改名,YYC3-I/Toonflow-app,YYC3-AI-应用工具/YYC3-AI-应用工具-Toonflow-app,AI-应用工具,38c11252fc2c1734033e2679805ce524470fbd4f,内容未变更
+P3-迁移改名,YYC3-I/YYC3-Music-Desktop,YYC3-Desktop-桌面应用/YYC3-Desktop-桌面应用-YYC3-Music-Desktop,Desktop-桌面应用,a5b1205b3517abf9043b213e3f675ff41cebf665,内容未变更
+P3-迁移改名,YYC3-I/gateway,YYC3-AI-模型服务/YYC3-AI-模型服务-gateway,AI-模型服务,6de1b60cc75b55a32bd6639bffa0f18ed2ff1baa,内容未变更
+P3-迁移改名,YYC3-I/langgraph,YYC3-Agent-智能体/YYC3-Agent-智能体-langgraph,Agent-智能体,d9f2c9b9a06c5a970f4ed7040e3be82cf807f861,内容未变更
+P3-迁移改名,YYC3-I/litellm,YYC3-AI-模型服务/YYC3-AI-模型服务-litellm,AI-模型服务,98b6aaceeb7cbf984ea2b90d21319fd1f3664657,内容未变更
+P3-迁移改名,YYC3-I/llama_index,YYC3-AI-模型服务/YYC3-AI-模型服务-llama_index,AI-模型服务,2c1405458e05f0fa78248620b6cd412b90020635,内容未变更
+P3-迁移改名,YYC3-I/nim-go-release,YYC3-Skills-技能包/YYC3-Skills-技能包-nim-go-release,Skills-技能包,99957ad2c7f3f7e3f2c68b4e36b6e0368d80ad52,内容未变更
+P3-迁移改名,YYC3-I/ollama,YYC3-AI-模型服务/YYC3-AI-模型服务-ollama,AI-模型服务,da688b3753a7546f49f285bef34c7b0b44d70d3f,内容未变更
+P3-迁移改名,YYC3-I/skills,YYC3-Skills-技能包/YYC3-Skills-技能包-skills-v3,Skills-技能包,69fd5f03e2f9644e37b78c17b1d87b5644660417,内容未变更
+P3-迁移改名,YYC3-I/superpowers,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-superpowers-v2,Tool-开发工具链,746f77bbfaa055a0d410d20bf2dc765ee903bb93,内容未变更
+P3-迁移改名,YYC3-Icon-图标资源/figures,YYC3-Design-设计资源/YYC3-Design-设计资源-figures,Design-设计资源,42b648262952cfcd17a9219415084e8f816b8597,内容未变更
+P3-迁移改名,YYC3-Icon-图标资源/lucide,YYC3-Design-设计资源/YYC3-Design-设计资源-lucide,Design-设计资源,1c3320e067c8e480349ef327471bcb52240f471b,内容未变更
+P3-迁移改名,YYC3-J/Agent-Skills,YYC3-Skills-技能包/YYC3-Skills-技能包-Agent-Skills-v2,Skills-技能包,71a50eaffd8b2297569c4ad183c2ba8219efe0e2,内容未变更
+P3-迁移改名,YYC3-J/AgentBench-main,YYC3-Agent-智能体/YYC3-Agent-智能体-AgentBench-main-v2,Agent-智能体,0ffe5287b2e3a6442131e8d5dfdeefd202c4b456,内容未变更
+P3-迁移改名,YYC3-J/CowAgent,YYC3-Agent-智能体/YYC3-Agent-智能体-CowAgent-v2,Agent-智能体,d3e3d171c178268e5c083f72cbcdc4a249a0f849,内容未变更
+P3-迁移改名,YYC3-J/Everything-claude-code,YYC3-AI-应用工具/YYC3-AI-应用工具-Everything-claude-code-v2,AI-应用工具,39266eb3abc14b0fcac0fc297b9a12309d34e60c,内容未变更
+P3-迁移改名,YYC3-J/YYC3-Yunshu Multidimensional Intelligent Document,YYC3-Doc-文档知识/YYC3-Doc-文档知识-YYC3-Yunshu-Multidimensional-Intelligent-Document,Doc-文档知识,4c1492eab3a54b5176390f41817a99e3eb33c952,内容未变更
+P3-迁移改名,YYC3-J/agents,YYC3-Agent-智能体/YYC3-Agent-智能体-agents-v2,Agent-智能体,e6e516dedc5ed539a20d2e6a749aac630ac85ae3,内容未变更
+P3-迁移改名,YYC3-J/antigravity-awesome-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-antigravity-awesome-skills-v2,Skills-技能包,ff9f1cf72067fe8f16ff18c2df3c6f6da8230c81,内容未变更
+P3-迁移改名,YYC3-J/apollo,YYC3-Data-数据存储/YYC3-Data-数据存储-apollo,Data-数据存储,fa59fe072965ae316bcfcd9fe4803276f8721ec6,内容未变更
+P3-迁移改名,YYC3-J/better-c-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-c-syntax,Syntax-语法高亮,202a2b642569b7ae14fe0944cef6b86c58430782,内容未变更
+P3-迁移改名,YYC3-J/better-cpp-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-cpp-syntax,Syntax-语法高亮,e78f5a3532fcdaadf7bdd943f091acb819ed87ff,内容未变更
+P3-迁移改名,YYC3-J/better-objc-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-objc-syntax,Syntax-语法高亮,e45f95c2e25b1f034dda32ae0155308a97f8f5a9,内容未变更
+P3-迁移改名,YYC3-J/better-objcpp-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-objcpp-syntax,Syntax-语法高亮,30d11ade392578e7885ed5268cad6892584438c2,内容未变更
+P3-迁移改名,YYC3-J/better-shell-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-shell-syntax,Syntax-语法高亮,a2083e5fb2662bb3292ec561971a98bf5e50be9e,内容未变更
+P3-迁移改名,YYC3-J/better-snippet-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-snippet-syntax,Syntax-语法高亮,40e8562c1df36b0be1435a1bec407630ab1f2017,内容未变更
+P3-迁移改名,YYC3-J/career-ops,YYC3-Business-商业应用/YYC3-Business-商业应用-career-ops-v2,Business-商业应用,3d4942fba83c93d8a279c66c5ee0912faea288f2,内容未变更
+P3-迁移改名,YYC3-J/caveman,YYC3-Skills-技能包/YYC3-Skills-技能包-caveman,Skills-技能包,3ddb4f44848e2e460aa5d576f92d37093b4bd7ae,内容未变更
+P3-迁移改名,YYC3-J/claude-howto,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-howto-v2,AI-应用工具,6c1d303233a8ae7db89d81cec52d4bf9669518b4,内容未变更
+P3-迁移改名,YYC3-J/graphify,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-graphify-v2,Tool-开发工具链,27b782864b7b89268c7916b19f89d449fb454628,内容未变更
+P3-迁移改名,YYC3-J/ionic-site,YYC3-Doc-文档知识/YYC3-Doc-文档知识-ionic-site-v3,Doc-文档知识,443417c34447f6ebc1227d01f68d7a172356ecd3,内容未变更
+P3-迁移改名,YYC3-J/lobehub,YYC3-AI-应用工具/YYC3-AI-应用工具-lobehub-v2,AI-应用工具,7f0332427a65763ca5e72572fdd7a6c1fdc73530,内容未变更
+P3-迁移改名,YYC3-J/lua.tmbundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-lua.tmbundle-v3,Syntax-语法高亮,828adc74b9b0d63e911b99d4a96c3e34973a4316,内容未变更
+P3-迁移改名,YYC3-J/marked,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-marked-v2,Tool-开发工具链,932d0ff1ecbe41b417ffebf6e0d5ecf4cead602f,内容未变更
+P3-迁移改名,YYC3-J/mu,YYC3-Agent-智能体/YYC3-Agent-智能体-mu,Agent-智能体,363dbc2e2a23417c8b8833deee1aab8ae53802ab,内容未变更
+P3-迁移改名,YYC3-J/new-api,YYC3-AI-模型服务/YYC3-AI-模型服务-new-api-v3,AI-模型服务,f49ffe3c5a1fd7f4cdbb31c151b44c7f02650921,内容未变更
+P3-迁移改名,YYC3-J/one-api,YYC3-AI-模型服务/YYC3-AI-模型服务-one-api-v2,AI-模型服务,500c99880c6d5cc2eabee350fc197c5a0405a43a,内容未变更
+P3-迁移改名,YYC3-J/openclaude,YYC3-Agent-智能体/YYC3-Agent-智能体-openclaude-v2,Agent-智能体,7effe4831111299f16820301cf222970cff85eb8,内容未变更
+P3-迁移改名,YYC3-J/redux,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-redux,Frontend-前端框架,70599a15335c0eadf78ebf0d26bde68a7282b6a6,内容未变更
+P3-迁移改名,YYC3-J/repomix,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-repomix-v2,Tool-开发工具链,f0ef5ad985ba2c401b4f9affa418872e88ad04eb,内容未变更
+P3-迁移改名,YYC3-J/ruflo,YYC3-Agent-智能体/YYC3-Agent-智能体-ruflo,Agent-智能体,25bbf32edeb365196f5647f1e70f1c74a9dfab5f,内容未变更
+P3-迁移改名,YYC3-J/serena,YYC3-Agent-智能体/YYC3-Agent-智能体-serena-v2,Agent-智能体,2b8937ba13d90b4942a7d2f6759f1f83e76d7cf5,内容未变更
+P3-迁移改名,YYC3-J/server-main,YYC3-AI-模型服务/YYC3-AI-模型服务-server-main-v2,AI-模型服务,866a5875d0ef87b86b58ae8ae4b4a3c3202a8432,内容未变更
+P3-迁移改名,YYC3-J/system_prompts_leaks,YYC3-AI-应用工具/YYC3-AI-应用工具-system_prompts_leaks-v3,AI-应用工具,11c00aadf70da9f7fd3af4c20053e3ec4b5d1794,内容未变更
+P3-迁移改名,YYC3-J/ui-ux-pro-max-skill,YYC3-Skills-技能包/YYC3-Skills-技能包-ui-ux-pro-max-skill-v2,Skills-技能包,928439e6a0d26879821d0e0682367b06507b10f3,内容未变更
+P3-迁移改名,YYC3-J/void,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-void-v2,IDE-编辑器内核,45ca1ec7e02bd47623c8f72ed90fb9b8b53fa72f,内容未变更
+P3-迁移改名,YYC3-J/vuex,YYC3-Frontend-前端框架/YYC3-Frontend-前端框架-vuex,Frontend-前端框架,a4d96137caefe85dbc24cb5dcefe26cb041577ff,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/clangd-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-clangd-lsp,LSP-语言服务,f541af3fd056310c9299309bd2ab70430c48eadc,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/csharp-language-server,YYC3-LSP-语言服务/YYC3-LSP-语言服务-csharp-language-server,LSP-语言服务,f660dc3af07d9e48c8d151ad93ae2cf9b85a8247,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/csharp-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-csharp-lsp,LSP-语言服务,f14b65a44d674bfa7184ec5a84e71859ccb9b57c,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/gopls-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-gopls-lsp,LSP-语言服务,61c4adc2aac5043fb05cf0234cfc2e97ffd48550,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/jdtls-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-jdtls-lsp,LSP-语言服务,4c862d1a3989a8b58f4d4691d41e0fad60cb49da,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-lsp,LSP-语言服务,ceaf14630850719ca5315173f754f0a059f2dccd,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/lsp-integration,YYC3-LSP-语言服务/YYC3-LSP-语言服务-lsp-integration,LSP-语言服务,df96fe8b5b016f838539a2027f25ca126b9e4dd5,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/lua-language-server,YYC3-LSP-语言服务/YYC3-LSP-语言服务-lua-language-server,LSP-语言服务,3d943aecc7954ba5b773553a00d3117c0cec5b67,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/lua-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-lua-lsp,LSP-语言服务,b01eb487aace4977699c5da062f7580c7bee1001,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/pyright,YYC3-LSP-语言服务/YYC3-LSP-语言服务-pyright,LSP-语言服务,8463d0ffe1709d16b55d66a1e6070dcbfea393f5,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/pyright-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-pyright-lsp,LSP-语言服务,494312d444d6721827d02421e10303fe09b403bf,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/ruby-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-ruby-lsp,LSP-语言服务,53a567562360dcc0fa02293ebe7b88b980ecacf4,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/rust-analyzer,YYC3-LSP-语言服务/YYC3-LSP-语言服务-rust-analyzer,LSP-语言服务,2d653171cb4ee0d50317cca086b1a1d4d209875b,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/rust-analyzer-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-rust-analyzer-lsp,LSP-语言服务,5a97114fc482110dd9c23bf6220ce97faeae79fe,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/sourcekit-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-sourcekit-lsp,LSP-语言服务,41e4ed78edc6dafcb3f501143807916f77bffc72,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/swift-lsp,YYC3-LSP-语言服务/YYC3-LSP-语言服务-swift-lsp,LSP-语言服务,61ffd121cec410fcc7da63981b2a8cd9796a8bd4,内容未变更
+P3-迁移改名,YYC3-LSP-语言服务/syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-syntax,Syntax-语法高亮,4c13b6972e4e1fff534b5aa988134135b4e345e0,内容未变更
+P3-迁移改名,YYC3-MCP-MCP协议/context7,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-context7,Plugin-插件协议,e83589171e7078c9255f30ca11d46c9a0b017b32,内容未变更
+P3-迁移改名,YYC3-MCP-MCP协议/mcp,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-mcp,Plugin-插件协议,1c638c4c159f187142ba27382f915b7c361cdeb8,内容未变更
+P3-迁移改名,YYC3-MCP-MCP协议/mcp-client,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-mcp-client,Plugin-插件协议,3ce53e7e767c6796632111e7b813cf3a7b2556ca,内容未变更
+P3-迁移改名,YYC3-MCP-MCP协议/mcp-server,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-mcp-server,Plugin-插件协议,ee16ae811459e4e33570b58b6241c4156d2b9b7f,内容未变更
+P3-迁移改名,YYC3-MCP-MCP协议/misc-server,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-misc-server,Plugin-插件协议,8613c973076268b924ee4c65205c4140b2529255,内容未变更
+P3-迁移改名,YYC3-MCP-MCP协议/playwright-mcp,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-playwright-mcp,Plugin-插件协议,e9c85891cf3c96d0cda07bc6d3a6a634c1b9543c,内容未变更
+P3-迁移改名,YYC3-MCP-MCP协议/plugin-dev,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-plugin-dev,Plugin-插件协议,1b25f4b571659ee755bbe4f1dbcddd572b2f8935,内容未变更
+P3-迁移改名,YYC3-N/NVIDA,YYC3-Runtime-标准库/YYC3-Runtime-标准库-NVIDA-v2,Runtime-标准库,7e8f04d02d0ae3b5e24204903c8d1f7b7499224a,内容未变更
+P3-迁移改名,YYC3-N/config-3.13-darwin,YYC3-Runtime-标准库/YYC3-Runtime-标准库-config-3.13-darwin-v2,Runtime-标准库,c718001fb66ea0d13eb4b4689232e73955a7114a,内容未变更
+P3-迁移改名,YYC3-N/ctypes,YYC3-Runtime-标准库/YYC3-Runtime-标准库-ctypes-v2,Runtime-标准库,b203528d44ad160bcb491e3d966309bdcb9ecd49,内容未变更
+P3-迁移改名,YYC3-N/idlelib,YYC3-Runtime-标准库/YYC3-Runtime-标准库-idlelib-v2,Runtime-标准库,71ab3c3602513be6438d843c30c460414a46f7a2,内容未变更
+P3-迁移改名,YYC3-N/site-packages,YYC3-Runtime-标准库/YYC3-Runtime-标准库-site-packages-v2,Runtime-标准库,84da6bf30edcdc388903bea9e4c89d62201a4a98,内容未变更
+P3-迁移改名,YYC3-Plugin-插件体系/external_plugins,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-external_plugins,Plugin-插件协议,e88a9dbc4a24008e6da5494a4cd51a06d1596301,内容未变更
+P3-迁移改名,YYC3-Plugin-插件体系/lexiang-knowledge-plugins,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-lexiang-knowledge-plugins,Plugin-插件协议,10d73366a3202d1062e22dc90d63c25cd541b19f,内容未变更
+P3-迁移改名,YYC3-Plugin-插件体系/plugin-finder,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-plugin-finder,Plugin-插件协议,4da66d06a61ab276ae0cfa9dcbe7fc645088cff5,内容未变更
+P3-迁移改名,YYC3-Plugin-插件体系/plugins,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-plugins,Plugin-插件协议,45c0a0862b9d59e4f5eb22ca184608e64439fcf0,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/NVIDA,YYC3-Runtime-标准库/YYC3-Runtime-标准库-NVIDA,Runtime-标准库,d8ad4d08341311d1782a90f7f0abb15e0bb85846,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/__phello__,YYC3-Runtime-标准库/YYC3-Runtime-标准库-__phello__,Runtime-标准库,f667bc333ad707fd5390ae461918aa88986f83ff,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/_pyrepl,YYC3-Runtime-标准库/YYC3-Runtime-标准库-_pyrepl,Runtime-标准库,633520c493e1e784287565c44edeeeff83cd3042,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/asyncio,YYC3-Runtime-标准库/YYC3-Runtime-标准库-asyncio,Runtime-标准库,fc7ac6547bb20f52c5d583bf6fbd4c7b71a48933,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/collections,YYC3-Runtime-标准库/YYC3-Runtime-标准库-collections,Runtime-标准库,31f1d0017b8b2089aea77ee4df5964a6b4b03e5b,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/concurrent,YYC3-Runtime-标准库/YYC3-Runtime-标准库-concurrent,Runtime-标准库,3791ba6bcd2549ef728bf9beec223224ad31c8a9,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/config-3.13-darwin,YYC3-Runtime-标准库/YYC3-Runtime-标准库-config-3.13-darwin,Runtime-标准库,344aa3e4a29ad58f1ebf1591cc078988f5c65da2,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/ctypes,YYC3-Runtime-标准库/YYC3-Runtime-标准库-ctypes,Runtime-标准库,82a2f30c8f11bb8475a32fee34c41575d30878aa,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/curses,YYC3-Runtime-标准库/YYC3-Runtime-标准库-curses,Runtime-标准库,ae372a0b360ae487a8f259bbcbdbcc00c743ec7b,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/dbm,YYC3-Runtime-标准库/YYC3-Runtime-标准库-dbm,Runtime-标准库,46c30f52ae7b44ddf74a9bd7b2b0b7456f611f36,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/email,YYC3-Runtime-标准库/YYC3-Runtime-标准库-email,Runtime-标准库,ba381dd28ad6386232daba5cbc32999ca0814724,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/encodings,YYC3-Runtime-标准库/YYC3-Runtime-标准库-encodings,Runtime-标准库,8b540bd18f643502056b98fd42207464774bc9ac,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/ensurepip,YYC3-Runtime-标准库/YYC3-Runtime-标准库-ensurepip,Runtime-标准库,06f692302c9a95978b48f9c03cc6946045c2046e,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/html,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-html-v2,WebSpec-Web标准,a48795968cc515b0f0a489be3bddf53069618ac7,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/http,YYC3-Runtime-标准库/YYC3-Runtime-标准库-http,Runtime-标准库,13deec22f8a949266817b44b65695b1b825e783b,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/idlelib,YYC3-Runtime-标准库/YYC3-Runtime-标准库-idlelib,Runtime-标准库,1334feb53e84480065881d47426d8a53a3a8d204,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/importlib,YYC3-Runtime-标准库/YYC3-Runtime-标准库-importlib,Runtime-标准库,1213b41143c78030860dbc7285af07005b90ea8e,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/json,YYC3-Runtime-标准库/YYC3-Runtime-标准库-json,Runtime-标准库,17b8b00c2b4a2c5da1f602bf467710afe2fd1ce0,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/lib-dynload,YYC3-Runtime-标准库/YYC3-Runtime-标准库-lib-dynload,Runtime-标准库,289ffaa9afeb58d5e2d39614e1894d8679fc8176,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/logging,YYC3-Runtime-标准库/YYC3-Runtime-标准库-logging,Runtime-标准库,b8883b7350a678e091087734a6ab36b3e3044a79,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/multiprocessing,YYC3-Runtime-标准库/YYC3-Runtime-标准库-multiprocessing,Runtime-标准库,aa254e5551afbabeaba158fc95278aadc544de2f,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/pathlib,YYC3-Runtime-标准库/YYC3-Runtime-标准库-pathlib,Runtime-标准库,6b5a85e1b0c3974dee2c6b8b402240f2cef30893,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/pydoc_data,YYC3-Runtime-标准库/YYC3-Runtime-标准库-pydoc_data,Runtime-标准库,50c36067e2ac5c42995f96626f03e7226d5d2fbe,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/re,YYC3-Runtime-标准库/YYC3-Runtime-标准库-re,Runtime-标准库,366bb263baec897e5d435af09e56bcf3578d2df5,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/site-packages,YYC3-Runtime-标准库/YYC3-Runtime-标准库-site-packages,Runtime-标准库,fc1fd8a6bbaaa44322e1c0b8ff0a8f0639bf3894,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/sqlite3,YYC3-Runtime-标准库/YYC3-Runtime-标准库-sqlite3,Runtime-标准库,1dcbb437fb47811adfcfe612bec67ea9ae5bd6d2,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/sysconfig,YYC3-Runtime-标准库/YYC3-Runtime-标准库-sysconfig,Runtime-标准库,824351baa6636be9b3429fc9a24e89ed44293742,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/test,YYC3-Runtime-标准库/YYC3-Runtime-标准库-test,Runtime-标准库,7c73f4ec858dd4ff20d9790fd0c87f88021c7858,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/tkinter,YYC3-Runtime-标准库/YYC3-Runtime-标准库-tkinter,Runtime-标准库,3cee66abefc74ecc74c95582fb27650e127a6896,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/tomllib,YYC3-Runtime-标准库/YYC3-Runtime-标准库-tomllib,Runtime-标准库,c7274a7de7a099206694d67124222a0f9d4aa8b5,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/turtledemo,YYC3-Runtime-标准库/YYC3-Runtime-标准库-turtledemo,Runtime-标准库,47addcd2726242b4699ea6c916b352f6b6fd8307,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/unittest,YYC3-Runtime-标准库/YYC3-Runtime-标准库-unittest,Runtime-标准库,404870a62000c0efec3c0a3c987edc4889677c62,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/urllib,YYC3-Runtime-标准库/YYC3-Runtime-标准库-urllib,Runtime-标准库,bc1c6c5b5e84cfdc011ac8cf0d11719f72ce4d6b,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/xml,YYC3-Runtime-标准库/YYC3-Runtime-标准库-xml,Runtime-标准库,447a80e29b0d0ac37506bc04d64540168c06418e,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/xmlrpc,YYC3-Runtime-标准库/YYC3-Runtime-标准库-xmlrpc,Runtime-标准库,4eadf5e2e4d1cc21d5eb4e5a367cc5548f3b4eac,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/zipfile,YYC3-Runtime-标准库/YYC3-Runtime-标准库-zipfile,Runtime-标准库,833d1b7d4dbb7ec96f496066c85bc4d27eb89dd0,内容未变更
+P3-迁移改名,YYC3-Python-Python标准库/zoneinfo,YYC3-Runtime-标准库/YYC3-Runtime-标准库-zoneinfo,Runtime-标准库,d067cca51de6a6c690aae94755a491a4ba2b136f,内容未变更
+P3-迁移改名,YYC3-Security-安全/practicalEthicalHacking,YYC3-Security-安全合规/YYC3-Security-安全合规-practicalEthicalHacking,Security-安全合规,327ca2f1c8958bc22a64b8646adcf98bac6dcd6c,内容未变更
+P3-迁移改名,YYC3-Security-安全/security-guidance,YYC3-Security-安全合规/YYC3-Security-安全合规-security-guidance,Security-安全合规,652290a0f6a22a0b18f65b6d7c0b0fa7d2891f14,内容未变更
+P3-迁移改名,YYC3-Security-安全/security-rules,YYC3-Security-安全合规/YYC3-Security-安全合规-security-rules,Security-安全合规,3c4aa61b29240efb9da36ae22b73b404b7da408f,内容未变更
+P3-迁移改名,YYC3-Security-安全/security-scan,YYC3-Security-安全合规/YYC3-Security-安全合规-security-scan,Security-安全合规,373cb39447e1272446db7ff44dd3536234fb6c75,内容未变更
+P3-迁移改名,YYC3-Shell-终端/atuin,YYC3-Shell-终端/YYC3-Shell-终端-atuin,Shell-终端,d735c5644de2dfc1e4f66413f3e9d05473d6bee3,内容未变更
+P3-迁移改名,YYC3-Shell-终端/autocomplete-specs,YYC3-Shell-终端/YYC3-Shell-终端-autocomplete-specs,Shell-终端,7a067be0fd96eee539043f1fa617e0b2a308ae30,内容未变更
+P3-迁移改名,YYC3-Shell-终端/fish-shell,YYC3-Shell-终端/YYC3-Shell-终端-fish-shell,Shell-终端,03be7ca88227183c21a709fdfcdfd1f8accd1a83,内容未变更
+P3-迁移改名,YYC3-Shell-终端/shell,YYC3-Shell-终端/YYC3-Shell-终端-shell,Shell-终端,0b0790b1afbf91e5b2ceaae2760530d79748d966,内容未变更
+P3-迁移改名,YYC3-Shell-终端/zsh,YYC3-Shell-终端/YYC3-Shell-终端-zsh,Shell-终端,00e8eb0acfae18d7b740825dcfb9bdc1c5a74104,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/B2B-SKills,YYC3-Skills-技能包/YYC3-Skills-技能包-B2B-SKills,Skills-技能包,94e0bf75b88e69ce5db9bd223107613f63b27f0d,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/GLM-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-GLM-skills,Skills-技能包,6aef34739aec543b108096b4322543011e1a85a7,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/YYC3-SKILL,YYC3-Skills-技能包/YYC3-Skills-技能包-YYC3-SKILL,Skills-技能包,4c5786f901c85a60a2ca7ce5129ba14619d2b044,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/all-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-all-skills,Skills-技能包,26621f58db1f41e0427cb039af4553c7fb615637,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/antigravity-awesome-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-antigravity-awesome-skills,Skills-技能包,ced9e0e8cc52720b573c3c52e388580b4bc3b6b6,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/awesome-openclaw-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-awesome-openclaw-skills,Skills-技能包,822ce1899541d48a08fdda0e60531ed8b8c96b31,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/code-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-code-skills,Skills-技能包,319c15c76eb9e5ab6315f745d196863739ed9272,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/hookify,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-hookify,Plugin-插件协议,c9b0e074612a9ed09b9e0d7b1a78e04380e20287,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/hot-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-hot-skills,Skills-技能包,039e961a9ee5c5da98845567d4854741e9653d00,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/last30days-skill,YYC3-Skills-技能包/YYC3-Skills-技能包-last30days-skill,Skills-技能包,9c1473dab128977af90170e21784390b0e8f4848,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/marketingskills,YYC3-Skills-技能包/YYC3-Skills-技能包-marketingskills,Skills-技能包,fb7c65c66a2767f8c659ac0cbdf1516057379791,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/pskoett-ai-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-pskoett-ai-skills,Skills-技能包,3d9c0990d7b7b73745ef098422c2f0092672e012,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/skills,YYC3-Skills-技能包/YYC3-Skills-技能包-skills,Skills-技能包,82a92c123891fe7b4d0b778b1c469fbab0b9f342,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/skills-registry,YYC3-Skills-技能包/YYC3-Skills-技能包-skills-registry,Skills-技能包,9e9d16d67dfe122d0c0a3765a0cf76c3006e48fd,内容未变更
+P3-迁移改名,YYC3-Skills-技能包/ui-ux-pro-max-skill,YYC3-Skills-技能包/YYC3-Skills-技能包-ui-ux-pro-max-skill,Skills-技能包,8c543109bb69b0b921e1f1c2aa16a324a6d1ce72,内容未变更
+P3-迁移改名,YYC3-Spec-规范工具/meta,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-meta,Plugin-插件协议,846cce150babc0fc10ffcdaa9a1ceefb16ef4796,内容未变更
+P3-迁移改名,YYC3-Spec-规范工具/spec-factory,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-spec-factory,Tool-开发工具链,57df88463cdefa8f4c05165e1c77c159075e6357,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/Better-Less,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-Better-Less,Syntax-语法高亮,86c4fd6f5c9ea708b53dd5a6b6be0933e3f5119b,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/EditorSyntax,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-EditorSyntax,Editor-编辑器扩展,9c28500cd3e74e8312a24c9fb64d7e98ff623749,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/MagicPython,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-MagicPython,Syntax-语法高亮,3e9d43ad8bcf3fcc3f042cca1cfa3793971fc9d1,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/YAML-Syntax-Highlighter,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-YAML-Syntax-Highlighter,Syntax-语法高亮,dc199c04e10e737be3b9f4deba0cde0576e87942,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/atom-language-julia,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-atom-language-julia,Syntax-语法高亮,a353cc12355aed7a5816d5e95c2c29014cad0138,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/better-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-syntax,Syntax-语法高亮,1ff45391918cda0eb2c57c228eaba66b11665c01,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/csharp-tmLanguage,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-csharp-tmLanguage,Syntax-语法高亮,e1d85f4af74eb386e5a59a062f967a910b81bad3,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/cuda-cpp-grammar,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-cuda-cpp-grammar,Syntax-语法高亮,a2fee244718611641eb6d151a21d5050d96cfc6e,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/dart-syntax-highlight,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-dart-syntax-highlight,Syntax-语法高亮,d288b568359e4bd53c1ab75dfefef75dbe6ed603,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/expand-abbreviation,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-expand-abbreviation,Tool-开发工具链,a6c7240f25eaae33d0be6c0b6e09080e09fb175c,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/go-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-go-syntax,Syntax-语法高亮,8c0643f0e979ee72640882ae5d36c1c0e635f09b,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/ionide-fsgrammar,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-ionide-fsgrammar,Syntax-语法高亮,b70edc23d151d847559408ff5aa3b545dd375bfc,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/language-batchfile,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-language-batchfile,Syntax-语法高亮,58325407c176cf282bad32b4933be12dbe324e0e,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/language-clojure,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-language-clojure,Syntax-语法高亮,1cf7f6fbbed5ef2b7df6542b553c6f555464cfcc,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/language-coffee-script,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-language-coffee-script,Syntax-语法高亮,b14c8123f59e462483a59cce192c38b246cf0b29,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/language-php,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-language-php,Syntax-语法高亮,cea7b7e9b1ecd2b052dd22c1dc3169660b2db544,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/language-ruby,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-language-ruby,Syntax-语法高亮,06ae76e5544d7402fc354a32d698e29679fd1acd,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/language-sass,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-language-sass,Syntax-语法高亮,ae3e3b58d46d93241f2b68dd5ecfdafc07ee77aa,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/language-xml,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-language-xml,Syntax-语法高亮,466ac5fb69e5fd89032da5afbf87d1518847ac74,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/old-google-code-html5,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-old-google-code-html5,WebSpec-Web标准,d847c3ec68216032680c020c0b292f68ce35e105,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/rust-syntax,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-rust-syntax,Syntax-语法高亮,27c5a424ae6dd12c0657fa1c6355313393f0eb45,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/shaders-tmLanguage,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-shaders-tmLanguage,Syntax-语法高亮,ffb200041ee3840301e3384dd76cb12b2acda63a,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/swift-tmlanguage,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-swift-tmlanguage,Syntax-语法高亮,39c47c141fc397bc900efdfa3d94dbff9b18a23c,内容未变更
+P3-迁移改名,YYC3-Syntax-语法定义/tmBundle,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-tmBundle,Syntax-语法高亮,18f00e2e01416bda81699d70d4914c4e47603af1,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/Core-files,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-Core-files,Tool-开发工具链,5c0658038e5de02845b007fb41bfe08041581c46,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/EasySpider,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-EasySpider,Tool-开发工具链,4cfd101bf4b580557b3fdbd1652177b4c4052a9c,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/Handlebars,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-Handlebars,Tool-开发工具链,7387e91fa0057961543be718c674cf43e084c31c,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/Raphael-Publish,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-Raphael-Publish,Tool-开发工具链,45cd6ba731003b7175b1927dbe26e2b3a904df39,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/assert,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-assert,Tool-开发工具链,f55695cd340489b37d8a55a74e2838aa0481f3ca,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/autocomplete,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-autocomplete,Tool-开发工具链,b4ea6a6714d6d24adf91401eeb321e973098f926,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/autocomplete-tools,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-autocomplete-tools,Tool-开发工具链,ba054bb24cf547c09a51904b1fd61f340d9abd4f,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/build_tools,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-build_tools,Tool-开发工具链,74b67e10f4459fc1a06d53e9d6d5747ec09d0384,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/cc-switch,YYC3-AI-应用工具/YYC3-AI-应用工具-cc-switch,AI-应用工具,03d4d67a50f5e2ccaa80d71c05d78105da980a00,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/cn-optimizer,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-cn-optimizer,Tool-开发工具链,80933ecfd0b200cf956672a672d4180b4e045d8d,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/code-simplifier,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-code-simplifier,Tool-开发工具链,7c5b04c41052b39442630fe918e15ee928ef4f94,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/commit-commands,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-commit-commands,Tool-开发工具链,1a3cd86a45dbfdc2b00b60821b58627e96f0994b,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/content,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-content,Tool-开发工具链,ae4f44a9dc5b095a671a1928c6b1aa5fb59a8fb8,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/core,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-core,Plugin-插件协议,de9e200cec39131ba981919089d6c4e4eddf591c,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/cwc-workshops,YYC3-Doc-文档知识/YYC3-Doc-文档知识-cwc-workshops,Doc-文档知识,aebfbee0d7c72a43384f7617a73d5e97e6848399,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/development-essentials,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-development-essentials,Tool-开发工具链,bab6b8516c75123f36501c921a21ba3e4192a12e,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/edict,YYC3-Agent-智能体/YYC3-Agent-智能体-edict,Agent-智能体,582d4d9afb5361c890dfcdd2dbbd3b93f4b8d787,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/emmet,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-emmet,Tool-开发工具链,2cd99dd4d23d1754ef286c3e70108acc0737af60,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/examples,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-examples,Tool-开发工具链,0627cca183a88f33d48dbef8b13974f437212895,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/feature-dev,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-feature-dev,Tool-开发工具链,edaa8ac936dd46150d2d8276f1996af0ffff6835,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/git-commit-message-plus,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-git-commit-message-plus,Tool-开发工具链,f912b20959231f6834df24a46063eb8ce35680cf,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/ionic-site,YYC3-Doc-文档知识/YYC3-Doc-文档知识-ionic-site,Doc-文档知识,ea2c604955131edb28ff8bb52cc00217a1236f69,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/js-beautify,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-js-beautify,Tool-开发工具链,22788b8636cd22584187afa6e4724777f6edbfb4,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/json-server,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-json-server,Tool-开发工具链,7d13073d4a7f84e36fdbbfc7153eea8de2af20a6,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/markdown-it-katex,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-markdown-it-katex,Tool-开发工具链,c09dfb4e7b8e2654c6b8f785fae78f706b3920d4,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/marked,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-marked,Tool-开发工具链,af0089340f359f66b2550176979ccae8a41a4c20,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/node-semver,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-node-semver,Tool-开发工具链,11656abd22a876fd95dde14d363c672e471c8fbd,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/participant-data,YYC3-Doc-文档知识/YYC3-Doc-文档知识-participant-data,Doc-文档知识,2d0f126c1c7fbeac8d1a6f3640355dcdd808db4a,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/pi,YYC3-Agent-智能体/YYC3-Agent-智能体-pi,Agent-智能体,80a5f0d337f83d47f6706f736ceb939a604d9a13,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/ppt-writer,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-ppt-writer,Tool-开发工具链,b1a8cb867586f74938340e3dea6e6b82f4dc2573,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/pr-review-toolkit,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-pr-review-toolkit,Tool-开发工具链,06137e4f86b4db9c1b401a31d7f27327ef8c92b1,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/prettier,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-prettier,Tool-开发工具链,a15b1fb046bae5fbb472aa99410e8501bd13277d,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/ralph-loop,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-ralph-loop,Tool-开发工具链,fbd018b255550512b5f4a6dfe7cdfa9b1a3734c2,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/repomix,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-repomix,Tool-开发工具链,9c6525e8890b9658e8426b8840505a0832314cb9,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/ruff,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-ruff,Tool-开发工具链,7f548075cf04e61972114970d9718883758f6830,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/superpowers,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-superpowers,Tool-开发工具链,bf3e1bbcd11037e99d2f6be933bf5496f495f3be,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/tools,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-tools,Tool-开发工具链,a8bc73b38379ce3b194d6d4cdf4ec3e9d2b820b4,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/version,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-version,Tool-开发工具链,26506d6e555bbdf10ed5f52d830140b7931bbd8a,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/void,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-void,IDE-编辑器内核,609bb059df3bdd6f1684f1c514c77d86d4819ad4,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/web-history,YYC3-Doc-文档知识/YYC3-Doc-文档知识-web-history,Doc-文档知识,e19c4a8a74a63f098e5060bdfbe05843d240caee,内容未变更
+P3-迁移改名,YYC3-Tool-开发工具/zeroclaw,YYC3-AI-模型服务/YYC3-AI-模型服务-zeroclaw,AI-模型服务,6aec9ca6951b13736a3b810b6a8c0e71628ef0dd,内容未变更
+P3-迁移改名,YYC3-TypeDef-类型定义/DefinitelyTyped,YYC3-TypeDef-类型定义/YYC3-TypeDef-类型定义-DefinitelyTyped,TypeDef-类型定义,bd01786a32e11c0c637e635baa4f1213ecfeb854,内容未变更
+P3-迁移改名,YYC3-TypeDef-类型定义/types,YYC3-TypeDef-类型定义/YYC3-TypeDef-类型定义-types,TypeDef-类型定义,f9340be57ae37df38eb29fcd1ad372c292f4f5dd,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/Button,YYC3-UI-界面组件/YYC3-UI-界面组件-Button,UI-界面组件,3657823b4ed30efb9128a20941f6e680029dd25a,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/ant-design,YYC3-UI-界面组件/YYC3-UI-界面组件-ant-design,UI-界面组件,9d7752b9aa45d95e63191ede12901fa97fce9a0f,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/archived-components,YYC3-UI-界面组件/YYC3-UI-界面组件-archived-components,UI-界面组件,1070cfa7554b09ceaa38e01a14fe250b9f453858,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/frontend-design,YYC3-Design-设计资源/YYC3-Design-设计资源-frontend-design,Design-设计资源,21d53f14e72c3365ed762953d1631960fbd107d3,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/mui-x,YYC3-UI-界面组件/YYC3-UI-界面组件-mui-x,UI-界面组件,9a66a18edb7d4e8d5a9b841b6b10623867cc267c,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/onlook,YYC3-UI-界面组件/YYC3-UI-界面组件-onlook,UI-界面组件,1fcc76d7a0705cc2b6e400d38e2f0f6635e95cef,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/shadcn-ui,YYC3-UI-界面组件/YYC3-UI-界面组件-shadcn-ui,UI-界面组件,3bfebc26140d38bf364d6c56940a84157e32e277,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/tdesign-vue-next,YYC3-UI-界面组件/YYC3-UI-界面组件-tdesign-vue-next,UI-界面组件,2811c004044b72db814f74e34c34a1e638294f12,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/ui,YYC3-UI-界面组件/YYC3-UI-界面组件-ui,UI-界面组件,ebeef4a3cc4c1240278fe539e6ee105fc19cd7ac,内容未变更
+P3-迁移改名,YYC3-UI-用户界面/web-ui,YYC3-UI-界面组件/YYC3-UI-界面组件-web-ui,UI-界面组件,24be816bef5e9c262619527deb07e806219973f4,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/background-sync,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-background-sync,WebSpec-Web标准,7871916575b2029aea792f69fa1ab1a46ed288b5,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/blog.whatwg.org,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-blog.whatwg.org,WebSpec-Web标准,3d247074f84f64f2ea52af990ec6bb549f68fe44,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/build.whatwg.org,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-build.whatwg.org,WebSpec-Web标准,5f726d13c7949a7e0034d3f0a9647896f2f32c6e,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/compat,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-compat,WebSpec-Web标准,bdc327c98d25a31dc956c7327174b9add3eb652c,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/compression,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-compression,WebSpec-Web标准,6bd48332ce9824c73ba84eb3dc06b91d61740162,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/console,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-console,WebSpec-Web标准,e257881179ef23d5c4f533b8a9f87ad640f7a287,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/cookiestore,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-cookiestore,WebSpec-Web标准,c933b2e331fa1169c9a4bea48cc586241b1579f5,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/dom,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-dom,WebSpec-Web标准,5667aeed63b97d6142ffdad60a56e97a4471f68e,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/domparsing,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-domparsing,WebSpec-Web标准,1801b72cc6e390622dc9d2dc4b56229f00629fb2,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/encoding,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-encoding,WebSpec-Web标准,433806804b53074ca39a8f40e137959fd3591841,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/fetch,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-fetch,WebSpec-Web标准,1398667a5175408debfda5cf707ad6b5f1def6c6,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/fs,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-fs,WebSpec-Web标准,3a73198b15d57071f6a92f84cd8307b51f8e65b5,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/fullscreen,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-fullscreen,WebSpec-Web标准,b89695612ea8abbe17bd1920f65da4b71f3ec16d,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/html,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-html,WebSpec-Web标准,ae7283b383df9a7dee5d7b14d9f73c7d6810744d,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/html-build,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-html-build,WebSpec-Web标准,c199eb7082cd19480a6a80c0e2d575f416a8295e,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/i18n,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-i18n,WebSpec-Web标准,45955ff98268a61b2cd11200630c2a6f4c4a20cf,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/infra,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-infra,WebSpec-Web标准,0e39ad4052f118ecb48afc69229b757ad47dc0f4,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/loader,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-loader,WebSpec-Web标准,371800d068c3b359407d9127c463c58a0bf80904,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/mimesniff,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-mimesniff,WebSpec-Web标准,afbb83b1d73eb463f35d8535b99e17612dff26db,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/notifications,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-notifications,WebSpec-Web标准,b86ae29de9a9399d024438c12f36ed722e1d24eb,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/participate.whatwg.org,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-participate.whatwg.org,WebSpec-Web标准,0716355c6adbd7d05d196e965fc0675d91f481eb,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/platform.html5.org,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-platform.html5.org,WebSpec-Web标准,a2901d04ca9f76c6616e9dc449a9642cca766b28,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/quirks,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-quirks,WebSpec-Web标准,4c8fdae2172fdf5568b38c8845b59ae3d41f3643,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/standards,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-standards,WebSpec-Web标准,3d817e8a8d97d3432d9dd8a25f4dcead6e94f6a4,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/storage,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-storage,WebSpec-Web标准,b70f86fc45869b7e71f879dff3d2c77ed9f94750,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/streams,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-streams,WebSpec-Web标准,0873c91a43ada1579a52746691668710255d4fa0,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/testutils,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-testutils,WebSpec-Web标准,e3672a6545e86f58499695ed13c89269f07d47f7,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/url,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-url,WebSpec-Web标准,8e00e660cda003ffffb3e925af3c4cb9b511f06d,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/urlpattern,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-urlpattern,WebSpec-Web标准,6d6398b5e9a774f6f040a91100053ed9192089b7,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/wattsi,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-wattsi,WebSpec-Web标准,24d1e468e24a51c0638d7670066904599bb39f0d,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/websockets,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-websockets,WebSpec-Web标准,57bd8012b6c6e9fe5794c2b93c05d705770a0631,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/whattweetbot-keys,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-whattweetbot-keys,WebSpec-Web标准,caa93a140290b7178f1b43fac143248c206bbed6,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/wiki.whatwg.org,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-wiki.whatwg.org,WebSpec-Web标准,df7fa20ba12bef8c8dc993a21fccc3a4a1a2f6bd,内容未变更
+P3-迁移改名,YYC3-WebSpec-Web标准/xhr,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-xhr,WebSpec-Web标准,8ff11cc23778ec04052e278c35bb0526d31fa20f,内容未变更
+P3-迁移改名,YYC3-I/everything-claude-code,YYC3-AI-应用工具/YYC3-AI-应用工具-everything-claude-code-v3,AI-应用工具,,APFS 大小写不敏感，追加 -v3
+P3-迁移改名,YYC3-Skills-技能包/Agent-Skills,YYC3-Skills-技能包/YYC3-Skills-技能包-Agent-Skills-v3,Skills-技能包,,APFS 大小写不敏感，追加 -v3
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-Cherry-Studio-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-Cherry-Studio 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-Everything-claude-code-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-Everything-claude-code 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-Understand-Anything-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-Understand-Anything 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-buildwithclaude-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-buildwithclaude 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-cc-switch-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-cc-switch 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-code-templates-main-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-claude-code-templates-main 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-mem-main-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-claude-mem-main 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-prompts-mcp-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-claude-prompts-mcp 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-prompts-mcp-v3,,AI-应用工具,,与基名 YYC3-AI-应用工具-claude-prompts-mcp 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-free-claude-code-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-free-claude-code 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-gstack-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-gstack 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-khoj-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-khoj 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-lobehub-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-lobehub 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-screenshot-to-code-v3,,AI-应用工具,,与基名 YYC3-AI-应用工具-screenshot-to-code 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-system_prompts_leaks-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-system_prompts_leaks 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-应用工具/YYC3-AI-应用工具-temp-ai-management-v2,,AI-应用工具,,与基名 YYC3-AI-应用工具-temp-ai-management 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-GenerativeAI-Starter-Kit-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-GenerativeAI-Starter-Kit 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-GenerativeAIExamples-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-GenerativeAIExamples 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-ms-swift-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-ms-swift 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-new-api-v3,,AI-模型服务,,与基名 YYC3-AI-模型服务-new-api 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-ollama-llm-platform-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-ollama-llm-platform 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-one-api-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-one-api 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-server-main-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-server-main 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-shannon-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-shannon 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-trt-samples-for-hackathon-cn-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-trt-samples-for-hackathon-cn 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-AI-模型服务/YYC3-AI-模型服务-zeroclaw-v2,,AI-模型服务,,与基名 YYC3-AI-模型服务-zeroclaw 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-AgentBench-main-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-AgentBench-main 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-CowAgent-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-CowAgent 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-Qwen-Agent-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-Qwen-Agent 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-agent-browser-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-agent-browser 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-agents-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-agents 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-ai-agent-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-ai-agent 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-amazon-q-developer-cli-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-amazon-q-developer-cli 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-edict-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-edict 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-goose-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-goose 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-openclaude-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-openclaude 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-pi-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-pi 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Agent-智能体/YYC3-Agent-智能体-serena-v2,,Agent-智能体,,与基名 YYC3-Agent-智能体-serena 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Business-商业应用/YYC3-Business-商业应用-acc-marketplace-v2,,Business-商业应用,,与基名 YYC3-Business-商业应用-acc-marketplace 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Business-商业应用/YYC3-Business-商业应用-career-ops-v2,,Business-商业应用,,与基名 YYC3-Business-商业应用-career-ops 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Business-商业应用/YYC3-Business-商业应用-cb_teams_marketplace-v2,,Business-商业应用,,与基名 YYC3-Business-商业应用-cb_teams_marketplace 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Cloud-云原生/YYC3-Cloud-云原生-containers-v2,,Cloud-云原生,,与基名 YYC3-Cloud-云原生-containers 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Cloud-云原生/YYC3-Cloud-云原生-moby-v2,,Cloud-云原生,,与基名 YYC3-Cloud-云原生-moby 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Data-数据存储/YYC3-Data-数据存储-ClickHouse-v2,,Data-数据存储,,与基名 YYC3-Data-数据存储-ClickHouse 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Data-数据存储/YYC3-Data-数据存储-icu-v2,,Data-数据存储,,与基名 YYC3-Data-数据存储-icu 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Design-设计资源/YYC3-Design-设计资源-Colorsublime-Themes-v2,,Design-设计资源,,与基名 YYC3-Design-设计资源-Colorsublime-Themes 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Design-设计资源/YYC3-Design-设计资源-app-ideas-v2,,Design-设计资源,,与基名 YYC3-Design-设计资源-app-ideas 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Design-设计资源/YYC3-Design-设计资源-lucide-v2,,Design-设计资源,,与基名 YYC3-Design-设计资源-lucide 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design-v3,,Design-设计资源,,与基名 YYC3-Design-设计资源-open-design 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Doc-文档知识/YYC3-Doc-文档知识-cwc-workshops-v2,,Doc-文档知识,,与基名 YYC3-Doc-文档知识-cwc-workshops 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Doc-文档知识/YYC3-Doc-文档知识-ionic-site-v2,,Doc-文档知识,,与基名 YYC3-Doc-文档知识-ionic-site 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Doc-文档知识/YYC3-Doc-文档知识-ionic-site-v3,,Doc-文档知识,,与基名 YYC3-Doc-文档知识-ionic-site 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-LaTeX-Workshop-v2,,Editor-编辑器扩展,,与基名 YYC3-Editor-编辑器扩展-LaTeX-Workshop 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-swift-v2,,Editor-编辑器扩展,,与基名 YYC3-Editor-编辑器扩展-vscode-swift 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Finance-金融量化/YYC3-Finance-金融量化-ai-model-distillation-for-financial-data-v2,,Finance-金融量化,,与基名 YYC3-Finance-金融量化-ai-model-distillation-for-financial-data 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Finance-金融量化/YYC3-Finance-金融量化-financial-fraud-detection-v2,,Finance-金融量化,,与基名 YYC3-Finance-金融量化-financial-fraud-detection 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-void-v2,,IDE-编辑器内核,,与基名 YYC3-IDE-编辑器内核-void 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-LSP-语言服务/YYC3-LSP-语言服务-csharp-language-server-v2,,LSP-语言服务,,与基名 YYC3-LSP-语言服务-csharp-language-server 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-LSP-语言服务/YYC3-LSP-语言服务-lsp-v2,,LSP-语言服务,,与基名 YYC3-LSP-语言服务-lsp 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-LSP-语言服务/YYC3-LSP-语言服务-lua-language-server-v2,,LSP-语言服务,,与基名 YYC3-LSP-语言服务-lua-language-server 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-LSP-语言服务/YYC3-LSP-语言服务-pyright-v2,,LSP-语言服务,,与基名 YYC3-LSP-语言服务-pyright 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-LSP-语言服务/YYC3-LSP-语言服务-ruby-lsp-v2,,LSP-语言服务,,与基名 YYC3-LSP-语言服务-ruby-lsp 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-LSP-语言服务/YYC3-LSP-语言服务-rust-analyzer-v2,,LSP-语言服务,,与基名 YYC3-LSP-语言服务-rust-analyzer 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-LSP-语言服务/YYC3-LSP-语言服务-sourcekit-lsp-v2,,LSP-语言服务,,与基名 YYC3-LSP-语言服务-sourcekit-lsp 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-core-v2,,Plugin-插件协议,,与基名 YYC3-Plugin-插件协议-core 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-external_plugins-v2,,Plugin-插件协议,,与基名 YYC3-Plugin-插件协议-external_plugins 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-misc-server-v2,,Plugin-插件协议,,与基名 YYC3-Plugin-插件协议-misc-server 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-playwright-mcp-v2,,Plugin-插件协议,,与基名 YYC3-Plugin-插件协议-playwright-mcp 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-plugins-v2,,Plugin-插件协议,,与基名 YYC3-Plugin-插件协议-plugins 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Runtime-标准库/YYC3-Runtime-标准库-NVIDA-v2,,Runtime-标准库,,与基名 YYC3-Runtime-标准库-NVIDA 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Runtime-标准库/YYC3-Runtime-标准库-config-3.13-darwin-v2,,Runtime-标准库,,与基名 YYC3-Runtime-标准库-config-3.13-darwin 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Runtime-标准库/YYC3-Runtime-标准库-ctypes-v2,,Runtime-标准库,,与基名 YYC3-Runtime-标准库-ctypes 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Runtime-标准库/YYC3-Runtime-标准库-idlelib-v2,,Runtime-标准库,,与基名 YYC3-Runtime-标准库-idlelib 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Runtime-标准库/YYC3-Runtime-标准库-site-packages-v2,,Runtime-标准库,,与基名 YYC3-Runtime-标准库-site-packages 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Security-安全合规/YYC3-Security-安全合规-practicalEthicalHacking-v2,,Security-安全合规,,与基名 YYC3-Security-安全合规-practicalEthicalHacking 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Shell-终端/YYC3-Shell-终端-autocomplete-specs-v2,,Shell-终端,,与基名 YYC3-Shell-终端-autocomplete-specs 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Shell-终端/YYC3-Shell-终端-shell-v2,,Shell-终端,,与基名 YYC3-Shell-终端-shell 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Shell-终端/YYC3-Shell-终端-zsh-v2,,Shell-终端,,与基名 YYC3-Shell-终端-zsh 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Skills-技能包/YYC3-Skills-技能包-antigravity-awesome-skills-v2,,Skills-技能包,,与基名 YYC3-Skills-技能包-antigravity-awesome-skills 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Skills-技能包/YYC3-Skills-技能包-awesome-openclaw-skills-v2,,Skills-技能包,,与基名 YYC3-Skills-技能包-awesome-openclaw-skills 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Skills-技能包/YYC3-Skills-技能包-code-skills-v2,,Skills-技能包,,与基名 YYC3-Skills-技能包-code-skills 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Skills-技能包/YYC3-Skills-技能包-skills-v2,,Skills-技能包,,与基名 YYC3-Skills-技能包-skills 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Skills-技能包/YYC3-Skills-技能包-ui-ux-pro-max-skill-v2,,Skills-技能包,,与基名 YYC3-Skills-技能包-ui-ux-pro-max-skill 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-Better-Less-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-Better-Less 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-MagicPython-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-MagicPython 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-TypeScript-TmLanguage-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-TypeScript-TmLanguage 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-YAML-Syntax-Highlighter-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-YAML-Syntax-Highlighter 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-c-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-better-c-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-cpp-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-better-cpp-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-objc-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-better-objc-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-objcpp-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-better-objcpp-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-shell-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-better-shell-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-better-snippet-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-better-snippet-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-csharp-tmLanguage-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-csharp-tmLanguage 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-dart-syntax-highlight-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-dart-syntax-highlight 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-go-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-go-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-ionide-fsgrammar-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-ionide-fsgrammar 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-rust-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-rust-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-swift-tmlanguage-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-swift-tmlanguage 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Syntax-语法高亮/YYC3-Syntax-语法高亮-syntax-v2,,Syntax-语法高亮,,与基名 YYC3-Syntax-语法高亮-syntax 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-Core-files-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-Core-files 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-EasySpider-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-EasySpider 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-Handlebars-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-Handlebars 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-autocomplete-tools-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-autocomplete-tools 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-autocomplete-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-autocomplete 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-content-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-content 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-graphify-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-graphify 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-js-beautify-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-js-beautify 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-markdown-it-katex-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-markdown-it-katex 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-marked-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-marked 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-prettier-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-prettier 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-repomix-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-repomix 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-ruff-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-ruff 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-tools-v2,,Tool-开发工具链,,与基名 YYC3-Tool-开发工具链-tools 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-TypeDef-类型定义/YYC3-TypeDef-类型定义-DefinitelyTyped-v2,,TypeDef-类型定义,,与基名 YYC3-TypeDef-类型定义-DefinitelyTyped 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-TypeDef-类型定义/YYC3-TypeDef-类型定义-types-v2,,TypeDef-类型定义,,与基名 YYC3-TypeDef-类型定义-types 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-UI-界面组件/YYC3-UI-界面组件-ant-design-v2,,UI-界面组件,,与基名 YYC3-UI-界面组件-ant-design 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-UI-界面组件/YYC3-UI-界面组件-mui-x-v2,,UI-界面组件,,与基名 YYC3-UI-界面组件-mui-x 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-UI-界面组件/YYC3-UI-界面组件-onlook-v2,,UI-界面组件,,与基名 YYC3-UI-界面组件-onlook 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-UI-界面组件/YYC3-UI-界面组件-tdesign-vue-next-v2,,UI-界面组件,,与基名 YYC3-UI-界面组件-tdesign-vue-next 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-UI-界面组件/YYC3-UI-界面组件-ui-v2,,UI-界面组件,,与基名 YYC3-UI-界面组件-ui 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-blog.whatwg.org-v2,,WebSpec-Web标准,,与基名 YYC3-WebSpec-Web标准-blog.whatwg.org 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-domparsing-v2,,WebSpec-Web标准,,与基名 YYC3-WebSpec-Web标准-domparsing 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-html-build-v2,,WebSpec-Web标准,,与基名 YYC3-WebSpec-Web标准-html-build 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-i18n-v2,,WebSpec-Web标准,,与基名 YYC3-WebSpec-Web标准-i18n 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-old-google-code-html5-v2,,WebSpec-Web标准,,与基名 YYC3-WebSpec-Web标准-old-google-code-html5 内容完全重合（无独有文件）
+P2-清除编号变体,YYC3-WebSpec-Web标准/YYC3-WebSpec-Web标准-standards-v2,,WebSpec-Web标准,,与基名 YYC3-WebSpec-Web标准-standards 内容完全重合（无独有文件）
+P3-版本裁决删除,YYC3-Agent-智能体/YYC3-Agent-智能体-edict-v3,,Agent-智能体,,保留 edict（215 文件/含核心架构文档），v3 为旧快照
+P3-版本裁决删除,YYC3-AI-模型服务/YYC3-AI-模型服务-new-api,,AI-模型服务,,保留 new-api-v2（2219 文件，新增 electron/.agents），旧版缺 1629 文件
+P3-版本裁决删除,YYC3-AI-应用工具/YYC3-AI-应用工具-claude-howto-v2,,AI-应用工具,,保留 claude-howto（660 文件），v2 缺 127 文件
+P3-版本裁决删除,YYC3-AI-应用工具/YYC3-AI-应用工具-Everything-claude-code,,AI-应用工具,,保留 v3（2.0.0-rc.1），旧版 1.10.0
+P3-版本裁决删除,YYC3-AI-应用工具/YYC3-AI-应用工具-screenshot-to-code,,AI-应用工具,,保留 v2（316 文件/63 独有），旧版缺 evals 等模块
+P3-版本裁决删除,YYC3-Cloud-云原生/YYC3-Cloud-云原生-kubernetes,,Cloud-云原生,,保留 v2（23692 文件），旧版缺 7731 文件
+P3-版本裁决删除,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design,,Design-设计资源,,保留 v2（0.16.2），旧版 0.10.0
+P3-版本裁决删除,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design-v4,,Design-设计资源,,保留 v2（0.16.2），v4 内容被完全覆盖
+P3-版本裁决删除,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-logfile-highlighter,,Editor-编辑器扩展,,空目录（0 文件），保留 v2
+P3-版本裁决删除,YYC3-IDE-编辑器内核/YYC3-IDE-编辑器内核-vscode-v2,,IDE-编辑器内核,,保留 vscode 1.124.0，v2 为 1.113.0
+P3-版本裁决删除,YYC3-Skills-技能包/YYC3-Skills-技能包-Agent-Skills-v3,,Skills-技能包,,与 v2 完全一致，保留一份
+P3-版本裁决删除,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-superpowers,,Tool-开发工具链,,保留 v2（5.1.0），旧版 5.0.7
+P3-版本改名,YYC3-AI-模型服务/YYC3-AI-模型服务-new-api-v2,YYC3-AI-模型服务/YYC3-AI-模型服务-new-api,AI-模型服务,,规范名回归/语义化命名
+P3-版本改名,YYC3-AI-应用工具/YYC3-AI-应用工具-everything-claude-code-v3,YYC3-AI-应用工具/YYC3-AI-应用工具-Everything-claude-code,AI-应用工具,,规范名回归/语义化命名
+P3-版本改名,YYC3-AI-应用工具/YYC3-AI-应用工具-screenshot-to-code-v2,YYC3-AI-应用工具/YYC3-AI-应用工具-screenshot-to-code,AI-应用工具,,规范名回归/语义化命名
+P3-版本改名,YYC3-Cloud-云原生/YYC3-Cloud-云原生-kubernetes-v2,YYC3-Cloud-云原生/YYC3-Cloud-云原生-kubernetes,Cloud-云原生,,规范名回归/语义化命名
+P3-版本改名,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design-v2,YYC3-Design-设计资源/YYC3-Design-设计资源-open-design,Design-设计资源,,规范名回归/语义化命名
+P3-版本改名,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-logfile-highlighter-v2,YYC3-Editor-编辑器扩展/YYC3-Editor-编辑器扩展-vscode-logfile-highlighter,Editor-编辑器扩展,,规范名回归/语义化命名
+P3-版本改名,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-plugins-v3,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-plugins-claude,Plugin-插件协议,,规范名回归/语义化命名
+P3-版本改名,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-core-v3,YYC3-Plugin-插件协议/YYC3-Plugin-插件协议-core-sdk,Plugin-插件协议,,规范名回归/语义化命名
+P3-版本改名,YYC3-Skills-技能包/YYC3-Skills-技能包-agent-skills,YYC3-Skills-技能包/YYC3-Skills-技能包-agent-skills-framework,Skills-技能包,,规范名回归/语义化命名
+P3-版本改名,YYC3-Skills-技能包/YYC3-Skills-技能包-Agent-Skills-v2,YYC3-Skills-技能包/YYC3-Skills-技能包-Agent-Skills,Skills-技能包,,规范名回归/语义化命名
+P3-版本改名,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-superpowers-v2,YYC3-Tool-开发工具链/YYC3-Tool-开发工具链-superpowers,Tool-开发工具链,,规范名回归/语义化命名

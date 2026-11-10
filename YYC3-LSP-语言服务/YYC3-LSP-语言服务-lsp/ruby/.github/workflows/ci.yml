@@ -1,0 +1,155 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  spelling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Node
+        env:
+          DISABLE_V8_COMPILE_CACHE: "1"
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: "22.21"
+
+      - name: Run cspell
+        run: |
+          yarn global add cspell
+          cspell
+  lint_ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          submodules: "recursive"
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
+        with:
+          bundler-cache: true
+
+      - name: Typecheck
+        run: bundle exec srb tc
+
+      - name: Run check-shims
+        run: bin/tapioca check-shims
+
+      - name: Lint Ruby files and RBI shims
+        run: bundle exec rubocop
+  build_ruby:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        ruby: ["3.3", "3.4", "4.0"]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    name: Ruby ${{ matrix.ruby }} on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          submodules: "recursive"
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+          cache-version: 2
+
+      - name: Run tests
+        run: bundle exec rake
+  lint_node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Node
+        env:
+          DISABLE_V8_COMPILE_CACHE: "1"
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: "22.21"
+          cache: "yarn"
+          cache-dependency-path: "vscode"
+
+      - name: Lint
+        working-directory: ./vscode
+        run: |
+          yarn --frozen-lockfile
+          yarn run lint
+  build_node:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Node
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        env:
+          DISABLE_V8_COMPILE_CACHE: 1
+        with:
+          node-version: "22.21"
+          cache: "yarn"
+          cache-dependency-path: "vscode"
+
+      # We need some Ruby installed for the environment activation tests
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
+        with:
+          bundler-cache: true
+          cache-version: 3
+
+      - name: Download shadowenv
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ matrix.os }}" == "ubuntu-latest" ]; then
+            pattern="shadowenv-x86_64-unknown-linux-gnu"
+          else
+            pattern="shadowenv-x86_64-apple-darwin"
+          fi
+
+          gh release download --pattern $pattern --repo=Shopify/shadowenv --output shadowenv
+          chmod +x shadowenv
+          sudo mv shadowenv /usr/local/bin/shadowenv
+
+      - name: Install gems for node tests
+        shell: bash
+        run: |
+          gem install debug
+          gem build ruby-lsp.gemspec
+          build_path=$(find . -name "ruby-lsp-*.gem")
+          gem install "$build_path"
+
+      - name: Run tests
+        working-directory: ./vscode
+        env:
+          DISPLAY: ":99.0"
+        run: |
+          yarn --frozen-lockfile
+          /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          yarn run test
+  verify_docs:
+    runs-on: ubuntu-latest
+    name: Verify Jekyll website builds
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@dffb23f65a78bba8db45d387d5ea1bbd6be3ef18 # v1.293.0
+        with:
+          bundler-cache: true
+          working-directory: ./jekyll
+
+      - name: Generate documentation
+        working-directory: ./jekyll
+        run: bundle exec jekyll build

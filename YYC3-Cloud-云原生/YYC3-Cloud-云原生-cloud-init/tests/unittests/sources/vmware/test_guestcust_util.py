@@ -1,0 +1,109 @@
+# Copyright (C) 2019 Canonical Ltd.
+# Copyright (C) 2019 VMware INC.
+#
+# Author: Xiaofeng Wang <xiaofengw@vmware.com>
+#
+# This file is part of cloud-init. See LICENSE file for license information.
+
+from unittest import mock
+
+from cloudinit import subp
+from cloudinit.sources.helpers.vmware.imc.config import Config
+from cloudinit.sources.helpers.vmware.imc.config_file import ConfigFile
+from cloudinit.sources.helpers.vmware.imc.guestcust_util import (
+    get_tools_config,
+    set_gc_status,
+)
+from cloudinit.subp import SubpResult
+
+
+class TestGuestCustUtil:
+    def test_get_tools_config_not_installed(self):
+        """
+        This test is designed to verify the behavior if vmware-toolbox-cmd
+        is not installed.
+        """
+        with mock.patch.object(subp, "which", return_value=None):
+            assert (
+                get_tools_config("section", "key", "defaultVal")
+                == "defaultVal"
+            )
+
+    def test_get_tools_config_internal_exception(self):
+        """
+        This test is designed to verify the behavior if internal exception
+        is raised.
+        """
+        with mock.patch.object(subp, "which", return_value="/dummy/path"):
+            with mock.patch.object(
+                subp,
+                "subp",
+                return_value=SubpResult("key=value", b""),
+                side_effect=subp.ProcessExecutionError(
+                    "subp failed", exit_code=99
+                ),
+            ):
+                # verify return value is 'defaultVal', not 'value'.
+                assert (
+                    get_tools_config("section", "key", "defaultVal")
+                    == "defaultVal"
+                )
+
+    def test_get_tools_config_normal(self):
+        """
+        This test is designed to verify the value could be parsed from
+        key = value of the given [section]
+        """
+        with mock.patch.object(subp, "which", return_value="/dummy/path"):
+            # value is not blank
+            with mock.patch.object(
+                subp, "subp", return_value=SubpResult("key =   value  ", b"")
+            ):
+                assert (
+                    get_tools_config("section", "key", "defaultVal") == "value"
+                )
+            # value is blank
+            with mock.patch.object(
+                subp, "subp", return_value=SubpResult("key = ", b"")
+            ):
+                assert get_tools_config("section", "key", "defaultVal") == ""
+            # value contains =
+            with mock.patch.object(
+                subp, "subp", return_value=SubpResult("key=Bar=Wark", b"")
+            ):
+                assert (
+                    get_tools_config("section", "key", "defaultVal")
+                    == "Bar=Wark"
+                )
+
+            # value contains specific characters
+            with mock.patch.object(
+                subp, "subp", return_value=SubpResult("[a] b.c_d=e-f", b"")
+            ):
+                assert (
+                    get_tools_config("section", "key", "defaultVal") == "e-f"
+                )
+
+    def test_set_gc_status(self):
+        """
+        This test is designed to verify the behavior of set_gc_status
+        """
+        # config is None, return None
+        assert set_gc_status(None, "Successful") is None
+
+        # post gc status is NO, return None
+        cf = ConfigFile("tests/data/vmware/cust-dhcp-2nic.cfg")
+        conf = Config(cf)
+        assert set_gc_status(conf, "Successful") is None
+
+        # post gc status is YES, subp is called to execute command
+        cf._insertKey("MISC|POST-GC-STATUS", "YES")
+        conf = Config(cf)
+        with mock.patch.object(
+            subp, "subp", return_value=SubpResult("ok", b"")
+        ) as mockobj:
+            assert set_gc_status(conf, "Successful") == ("ok", b"")
+            mockobj.assert_called_once_with(
+                ["vmware-rpctool", "info-set guestinfo.gc.status Successful"],
+                rcs=[0],
+            )

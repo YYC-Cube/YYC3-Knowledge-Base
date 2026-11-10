@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+
+import os
+import subprocess
+import sys
+
+from dbusmock import DBusTestCase
+
+from lib.config import is_verbose_mode
+
+
+def stop():
+    if hasattr(DBusTestCase, 'stop_dbus'):
+        if DBusTestCase.system_bus_pid is not None:
+            DBusTestCase.stop_dbus(DBusTestCase.system_bus_pid)
+        if DBusTestCase.session_bus_pid is not None:
+            DBusTestCase.stop_dbus(DBusTestCase.session_bus_pid)
+    else:
+        DBusTestCase.tearDownClass()
+
+
+def start():
+    with sys.stdout if is_verbose_mode() \
+            else open(os.devnull, 'w', encoding='utf-8') as log:
+        DBusTestCase.start_system_bus()
+        DBusTestCase.spawn_server_template('logind', None, log)
+
+        DBusTestCase.start_session_bus()
+        DBusTestCase.spawn_server_template('notification_daemon', None, log)
+        DBusTestCase.spawn_server_template(
+            os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         'dbusmock_xdg_file_chooser_portal.py'), None, log)
+
+
+if __name__ == '__main__':
+    start()
+    try:
+        subprocess.check_call(sys.argv[1:])
+    finally:
+        stop()

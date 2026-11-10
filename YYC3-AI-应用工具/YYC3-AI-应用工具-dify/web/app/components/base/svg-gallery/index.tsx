@@ -1,0 +1,76 @@
+import { SVG } from '@svgdotjs/svg.js'
+import DOMPurify from 'dompurify'
+import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import ImagePreview from '@/app/components/base/image-uploader/image-preview'
+
+const SVGRenderer = ({ content }: { content: string }) => {
+  const { t } = useTranslation('common')
+  const svgRef = useRef<HTMLDivElement>(null)
+  const [imagePreview, setImagePreview] = useState('')
+
+  const svgToDataURL = (svgElement: Element): string => {
+    const svgString = new XMLSerializer().serializeToString(svgElement)
+    const bytes = new TextEncoder().encode(svgString)
+    const base64String = btoa(Array.from(bytes, (byte) => String.fromCodePoint(byte)).join(''))
+    return `data:image/svg+xml;base64,${base64String}`
+  }
+
+  useEffect(() => {
+    /* v8 ignore next 2 -- ref is expected after mount, but null can occur during rapid mount/unmount timing in React lifecycle edges. @preserve */
+    if (!svgRef.current) return
+
+    try {
+      svgRef.current.innerHTML = ''
+      const draw = SVG().addTo(svgRef.current)
+
+      const parser = new DOMParser()
+      const svgDoc = parser.parseFromString(content, 'image/svg+xml')
+      const svgElement = svgDoc.documentElement
+
+      if (!(svgElement instanceof SVGElement)) throw new Error('Invalid SVG content')
+
+      const originalWidth = Number.parseInt(svgElement.getAttribute('width') || '400', 10)
+      const originalHeight = Number.parseInt(svgElement.getAttribute('height') || '600', 10)
+      draw.viewbox(0, 0, originalWidth, originalHeight)
+
+      svgRef.current.style.width = `${Math.min(originalWidth, 298)}px`
+
+      const rootElement = draw.svg(DOMPurify.sanitize(content))
+
+      rootElement.click(() => {
+        setImagePreview(svgToDataURL(svgElement as Element))
+      })
+    } catch {
+      /* v8 ignore next 2 -- if unmounted while handling parser/render errors, ref becomes null; guard avoids writing to a detached node. @preserve */
+      if (!svgRef.current) return
+      const generatingMessage = document.createElement('span')
+      generatingMessage.style.padding = '1rem'
+      generatingMessage.textContent = t(($) => $['svgRenderer.generatingImage'])
+      svgRef.current.replaceChildren(generatingMessage)
+    }
+  }, [content, t])
+
+  return (
+    <>
+      <div
+        ref={svgRef}
+        style={{
+          maxHeight: '80vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          cursor: 'pointer',
+          wordBreak: 'break-word',
+          whiteSpace: 'normal',
+          margin: '0 auto',
+        }}
+      />
+      {imagePreview && (
+        <ImagePreview url={imagePreview} title="Preview" onCancel={() => setImagePreview('')} />
+      )}
+    </>
+  )
+}
+
+export default SVGRenderer

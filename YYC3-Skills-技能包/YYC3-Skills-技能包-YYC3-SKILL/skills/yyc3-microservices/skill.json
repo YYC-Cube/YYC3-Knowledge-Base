@@ -1,0 +1,21 @@
+{
+  "name": "yyc3-microservices",
+  "displayName": "微服务架构专家",
+  "description": "Docker容器化、微服务拆分策略、API设计(RESTful + GraphQL)、服务间通信、分布式事务处理",
+  "version": "1.0.0",
+  "author": "YYC3 AI Team",
+  "tags": ["microservices", "docker", "api", "architecture", "distributed"],
+  "capabilities": [
+    "微服务架构设计",
+    "Docker容器化",
+    "API设计规范",
+    "服务间通信",
+    "分布式事务"
+  ],
+  "metadata": {
+    "createdAt": "2026-01-29",
+    "updatedAt": "2026-01-29",
+    "category": "architecture",
+    "priority": "medium"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "name": "@yyc3/mcp-server",
+  "version": "1.0.0",
+  "description": "YYC³ MCP服务器核心 - 支持4500+ MCP服务器的协议实现",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types.js",
+    "./registry": "./dist/registry.js",
+    "./auth": "./dist/auth.js",
+    "./tools": "./dist/tools.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "yyc3",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "agent",
+    "tools"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.4",
+    "eventemitter3": "^5.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yyc3/yyc3-ai-family"
+  }
+}

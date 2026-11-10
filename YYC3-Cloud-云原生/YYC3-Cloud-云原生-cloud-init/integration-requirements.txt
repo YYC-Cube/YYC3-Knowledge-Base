@@ -1,0 +1,14 @@
+-r requirements.txt
+# PyPI requirements for cloud-init integration testing
+# https://docs.cloud-init.io/en/latest/development/integration_tests.html
+#
+pycloudlib>=1!10.0.2,<1!12
+
+pytest-timeout
+
+# Even when xdist is not actively used, we have fixtures that require it
+pytest-xdist
+
+packaging
+passlib
+coverage

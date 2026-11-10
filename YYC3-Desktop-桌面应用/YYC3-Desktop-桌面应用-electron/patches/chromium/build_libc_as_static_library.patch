@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: VerteDinde <keeleymhammond@gmail.com>
+Date: Wed, 12 May 2021 13:19:19 -0700
+Subject: build_libc++_as_static_library
+
+Build libc++ as static library to compile and pass
+nan tests
+
+diff --git a/buildtools/third_party/libc++/BUILD.gn b/buildtools/third_party/libc++/BUILD.gn
+index f141b74375e1c0b02462d9eb0406539616e4566c..ee6a656382365869489e8c5f95c112ef96baae2b 100644
+--- a/buildtools/third_party/libc++/BUILD.gn
++++ b/buildtools/third_party/libc++/BUILD.gn
+@@ -403,6 +403,7 @@ target(libcxx_target_type, "libc++") {
+   # need to explicitly depend on libc++.
+   visibility = [
+     "//build/config:common_deps",
++    "//electron:libcxx_objects_zip",
+     "//third_party/catapult/devil",
+   ]
+   if (is_linux) {

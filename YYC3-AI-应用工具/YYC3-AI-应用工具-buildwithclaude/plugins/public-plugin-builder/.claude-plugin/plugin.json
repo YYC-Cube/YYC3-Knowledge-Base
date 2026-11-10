@@ -1,0 +1,12 @@
+{
+  "name": "public-plugin-builder",
+  "description": "Build complete Claude plugins in 23 guided steps — from idea to GitHub push. Interviews you, classifies skill vs agent, generates all files, pushes to your repo.",
+  "version": "1.1.0",
+  "author": {
+    "name": "Santhosh Gandhi",
+    "url": "https://github.com/isanthoshgandhi"
+  },
+  "homepage": "https://github.com/isanthoshgandhi/claude-plugin-builder",
+  "repository": "https://github.com/isanthoshgandhi/claude-plugin-builder",
+  "license": "MIT"
+}

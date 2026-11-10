@@ -1,0 +1,586 @@
+- source: '#!'
+  scopesBegin:
+    - comment.line.number-sign
+    - meta.shebang
+  scopes:
+    - punctuation.definition.comment.shebang
+- source: /bin/bash
+  scopesEnd:
+    - comment.line.number-sign
+    - meta.shebang
+- source: command_args
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: (
+  scopes:
+    - punctuation.definition.array
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: /usr/bin/test-program
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: arg1
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: arg2
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: )
+  scopes:
+    - punctuation.definition.array
+- source: posts
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: (
+  scopes:
+    - punctuation.definition.array
+- source: '1'
+  scopesBegin:
+    - constant.numeric
+    - constant.numeric.integer
+- source: '3'
+- source: '4'
+- source: '10'
+  scopesEnd:
+    - constant.numeric
+    - constant.numeric.integer
+- source: )
+  scopes:
+    - punctuation.definition.array
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: Start
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: for
+  scopesBegin:
+    - meta.for.in
+  scopes:
+    - keyword.control.for
+- source: post
+  scopes:
+    - variable.other.for
+- source: in
+  scopes:
+    - keyword.control.in
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: posts
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.for.in
+    - string.quoted.double
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: do
+  scopes:
+    - keyword.control.do
+- source: '"'
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: command_args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: post
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: '"'
+  scopesBegin:
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: command_args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: post
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: done
+  scopes:
+    - keyword.control.done
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: End
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: '"'
+  scopesBegin:
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: command_args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: post
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: '"'
+  scopesBegin:
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: command_args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: post
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.argument
+    - string.quoted.double
+- source: '"'
+  scopesBegin:
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: command_args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: post
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: $
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: command_args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: post
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end

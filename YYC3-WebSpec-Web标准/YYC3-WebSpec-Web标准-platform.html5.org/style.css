@@ -1,0 +1,205 @@
+a[href*=whatwg]:not([href*=github]):before {
+  content: url('//images.whatwg.org/icon');
+  padding-right: 4px;
+}
+a[href*=dev\.w3\.org]:before,
+a[href*=www\.w3\.org]:not(.tests):before,
+a[href*=dvcs\.w3\.org]:before,
+a[href*=heycam\.github\.io]:before,
+a[href*=slightlyoff\.github\.io]:before,
+a[href*=w3c\.github\.io]:before,
+a[href*=webassembly\.github\.io]:before,
+a[href*=webaudio\.github\.io]:before,
+a[href*=openpeer]:before,
+a[href*=wiki\.csswg\.org]:before,
+a[href*=drafts\.csswg\.org]:before,
+a[href*=drafts\.fxtf\.org]:before,
+a[href*=svgwg\.org]:before {
+  content: "ⓦ";
+  font-weight: bold;
+  font-size: 16px;
+  color: #347cb0;
+  padding-right: 4px;
+}
+a[href*=ietf\.org]:before {
+  content: "Ⓘ";
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+  padding-right: 4px;
+}
+a[href*=khronos\.org]:before {
+  content: "Ⓚ";
+  font-weight: bold;
+  font-size: 16px;
+  color: darkred;
+  padding-right: 4px;
+}
+a[href*=tc39\.github\.io]:before,
+a[href*=people\.mozilla\.org]:before,
+a[href*=littledan\.github\.io]:before {
+  content: "Ⓔ";
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+  padding-right: 4px;
+}
+a[href*=unicode\.org]:before {
+  content: "Ⓤ";
+  font-weight: bold;
+  font-size: 16px;
+  color: black;
+  padding-right: 4px;
+}
+html {
+  background: fixed #DDE5D9 url(data:image/gif;base64,R0lGODlhBAAEAIAAANra2v///yH5BAAAAAAALAAAAAAEAAQAAAIFTGB4xlcAOw==) repeat;
+  font-family: "Lucida Sans Unicode", "Lucida Sans", verdana, arial, helvetica;
+}
+#contentCols, #content, #footer, #legend {
+  font-size: 90%;
+  border: solid 1px #CED4CA;
+  background-color: #FFF;
+  padding: 4px 4px 4px 20px;
+  margin: 4px 10px 4px 10px;
+}
+#contentCols {
+  margin-top: 20px;
+  padding: 20px;
+  column-count: 3; 
+  column-gap: 10px;
+  column-fill: balance;
+  -moz-column-count: 3; 
+  -moz-column-gap: 10px;
+  -moz-column-fill: balance; 
+  -webkit-column-count: 3; 
+  -webkit-column-gap: 10px;
+  -webkit-column-fill: balance;   
+}
+a, a:hover {
+  color: #BF4F00;
+  text-decoration: none;
+}
+a:hover, a:focus {
+   color: #5F6D7A;
+}
+a.caniuse,
+a.mdn,
+a.tests
+{
+  color: #5F6D7A;
+}
+a.caniuse:hover, a.caniuse:focus,
+a.mdn:hover, a.mdn:focus,
+a.tests:hover, a.tests:focus
+{
+  color: #000000;
+}
+#github {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+}
+h1 {
+  background: #fff;
+}
+#contentCols h1 {
+  padding: 10px;
+  margin-top: 4px;
+  border: 1px dashed #ccc;
+  column-span: all;
+  -moz-column-span: all;
+  -webkit-column-span: all;
+}
+p {
+  column-span: all;
+  -moz-column-span: all;
+  -webkit-column-span: all;
+}
+body > a + a{
+  position: fixed;
+  top: 0;
+  right: 0;
+} 
+dl{
+  margin-top: 0;
+  padding-top: 0;
+  break-inside: avoid;
+}
+dt {
+  color: #0b5b9d;
+  font-weight: bold;
+  margin-top: 0;
+  padding-top: 0;
+  break-after: avoid;
+}
+dd {
+  margin-left: 2em;
+}
+#legend dt, #legend dd {
+  float: left;
+}
+#legend dd + dt {
+  clear: left;
+}
+div {
+  clear: left;
+}
+#legend dt {
+}
+#legend dd {
+  margin-left: 8px;
+}
+#legend dl:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+h2 {
+  font-size: 14px;
+  color: #0B5B9D;
+}
+.pleaseUse,
+.pleaseCaution {
+  font-size: 120%;
+}
+.pleaseUse {
+  color: #60AC39;
+}
+.pleaseCaution {
+  color: #FA0;
+}
+.apiname {
+  font-size: 80%;
+}
+@media all and (max-width : 1200px) {
+  #contentCols {
+    column-count: 2; 
+    column-gap: 20px;
+    column-fill: balance;
+
+    -moz-column-count: 2; 
+    -moz-column-gap: 20px;
+    -moz-column-fill: balance; 
+
+    -webkit-column-count: 2; 
+    -webkit-column-gap: 20px;
+    -webkit-column-fill: balance;   
+  }
+}
+
+@media all and (max-width : 800px) {
+  #contentCols {
+    column-count: 1; 
+    column-gap: 10px;
+    column-fill: balance;
+
+    -moz-column-count: 1; 
+    -moz-column-gap: 10px;
+    -moz-column-fill: balance; 
+
+    -webkit-column-count: 1; 
+    -webkit-column-gap: 10px;
+    -webkit-column-fill: balance;   
+  }
+}

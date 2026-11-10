@@ -1,0 +1,45 @@
+{
+  "name": "pskoett-ai-skills",
+  "version": "2.0.0",
+  "description": "Two-loop skill pipeline for Codex. Inner loop skills catch failures in-session; outer loop skills turn recurring gaps into durable rules and evals.",
+  "author": {
+    "name": "Peter Skøtt Pedersen",
+    "email": "pskoett@users.noreply.github.com",
+    "url": "https://github.com/pskoett"
+  },
+  "homepage": "https://github.com/pskoett/pskoett-skills",
+  "repository": "https://github.com/pskoett/pskoett-skills",
+  "license": "MIT",
+  "keywords": [
+    "skill-pipeline",
+    "two-loop",
+    "verify-gate",
+    "learning-aggregator",
+    "eval-creator",
+    "pre-flight-check",
+    "context-management",
+    "self-improvement",
+    "code-quality",
+    "security",
+    "agent-teams",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "pskoett AI Skills",
+    "shortDescription": "Two-loop quality pipeline for Codex",
+    "longDescription": "Bundle reusable Codex skills for planning, execution, verification, hardening, and cross-session learning.",
+    "developerName": "Peter Skøtt Pedersen",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/pskoett/pskoett-skills",
+    "defaultPrompt": [
+      "Use pskoett-ai-skills to run a plan interview before this refactor.",
+      "Use pskoett-ai-skills to verify, simplify, and harden this change.",
+      "Use pskoett-ai-skills to capture this failure as a learning and eval."
+    ]
+  }
+}

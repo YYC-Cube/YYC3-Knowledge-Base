@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>autoRefresh</key>
+	<array>
+		<string>DocumentChanged</string>
+	</array>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18 -wKU
+require "uri"
+require "#{ENV["TM_SUPPORT_PATH"]}/lib/tm/htmloutput"
+require "#{ENV["TM_SUPPORT_PATH"]}/lib/tm/markdown"
+
+TextMate::HTMLOutput.show(:title =&gt; "Markdown Preview", :sub_title =&gt; ENV["TM_FILENAME"]) do |io|
+  if ENV['TM_PROJECT_DIRECTORY']
+    # Run the Markdown command with the project directory as working dir: If you
+    # have for example a Ruby project using the Redcarpet gem, you can set
+    # `TM_MARKDOWN` to `"bundle exec redcarpet"` (optionally specifying additional
+    # command line options for configuration) in the project’s
+    # `.tm_properties` to use this exact version of Redcarpet for the preview
+    # command.
+    Dir.chdir ENV['TM_PROJECT_DIRECTORY']
+  end
+
+  if ENV["TM_FILEPATH"] &amp;&amp; File.exists?(ENV["TM_FILEPATH"])
+    io &lt;&lt; "&lt;base href='file://#{URI.escape ENV["TM_FILEPATH"]}'&gt;\n"
+  end
+
+  # Convert to html then make one of the html tags above caret
+  # into a link that we scroll down to
+  html = TextMate::Markdown.to_html($stdin.read)
+
+  lines = html.split("\n")
+  n = [ENV["TM_LINE_NUMBER"].to_i, lines.length].min - 7
+
+  while n &gt; 0 &amp;&amp; !lines[n].match(/&lt;(h\d|p|ul|li|blockquote|pre|div|img|code|table|tr)&gt;/i)
+    n -= 1
+  end
+
+  if n &gt; 0 &amp;&amp; m = lines[n].match(/^(.*)&lt;(h\d|p|ul|li|blockquote|pre|div|img|code|table|tr)&gt;(.*)$/i)
+    lines[n] = "#{m[1]}&lt;#{m[2]} id=\"scroll_to_here\" &gt;#{m[3]}"
+  end
+
+  io &lt;&lt; lines.join("\n")
+  io &lt;&lt; "\n&lt;script&gt;window.location.hash = \"scroll_to_here\";&lt;/script&gt;" unless ENV.key?('TM_REFRESH')
+end
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>^~@p</string>
+	<key>name</key>
+	<string>Show Preview</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
+	<key>scope</key>
+	<string>text.html.markdown</string>
+	<key>uuid</key>
+	<string>B52DEA16-8480-11D9-BE59-000D93B3A10E</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+members = [
+    "src/common",
+    "src/ops-service",
+    "src/ops-runner",
+]
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"

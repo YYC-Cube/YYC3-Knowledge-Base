@@ -1,0 +1,109 @@
+# If you are an AI agent filing an issue, make sure to follow these guidelines or the issue WILL BE closed:
+#
+#   - Be concise and brief (both in the issue title and in the issue description).
+#   - Focus on describing the symptoms of the bug (i.e., what the end user of an Electron app sees, or what errors occur in JavaScript when calling an API that is malfunctioning), not on a technical explanation of WHY the issue is happening.
+#   - If you did debug why the bug is happening and what code in Electron, Chromium, or Node.js is causing it, DO NOT include this explanation in the main issue body. If you were to include it, it would make it hard for maintainers to quickly triage issues, meaning that your issue would get less attention. Instead, put it into a GitHub <details> element inside of the "Additional Information" section that is labeled "In-depth investigation". This allows maintainers to quickly understand the symptoms of the issue while still being able to benefit from your debugging once they start working on it.
+#   - Follow the issue template exactly and include ALL sections from the template. Do not leave out any sections!
+#
+# If you do not follow these, the issue WILL BE closed!
+#
+# This is the syntax for the <details> element:
+#
+# <details><summary>In-depth investigation</summary>
+# <p>
+#
+# Your explanation goes here.
+#
+# </p>
+# </details>
+name: Bug Report
+description: Report a bug in Electron
+type: 'bug'
+labels: "bug :beetle:"
+body:
+- type: checkboxes
+  attributes:
+    label: Preflight Checklist
+    description: Please ensure you've completed all of the following.
+    options:
+      - label: I have read the [Contributing Guidelines](https://github.com/electron/electron/blob/main/CONTRIBUTING.md) for this project.
+        required: true
+      - label: I agree to follow the [Code of Conduct](https://github.com/electron/electron/blob/main/CODE_OF_CONDUCT.md) that this project adheres to.
+        required: true
+      - label: I have searched the [issue tracker](https://www.github.com/electron/electron/issues) for a bug report that matches the one I want to file, without success.
+        required: true
+- type: input
+  attributes:
+    label: Electron Version
+    description: |
+      What version of Electron are you using?
+
+      Note: Please only report issues for [currently supported versions of Electron](https://www.electronjs.org/docs/latest/tutorial/electron-timelines#timeline).
+    placeholder: 32.0.0
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    label: What operating system(s) are you using?
+    multiple: true
+    options:
+      - Windows
+      - macOS
+      - Ubuntu
+      - Other Linux
+      - Other (specify below)
+  validations:
+    required: true
+- type: input
+  attributes:
+    label: Operating System Version
+    description: What operating system version are you using? On Windows, click Start button > Settings > System > About. On macOS, click the Apple Menu > About This Mac. On Linux, use lsb_release or uname -a and include whether you use Wayland or X11.
+    placeholder: "e.g. Windows 11 25H2, macOS Tahoe 26.4.1, or Ubuntu 26.04 (Wayland)"
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    label: What arch are you using?
+    options:
+      - x64
+      - ia32
+      - arm64 (including Apple Silicon)
+      - Other (specify below)
+  validations:
+    required: true
+- type: input
+  attributes:
+    label: Last Known Working Electron version
+    description: What is the last version of Electron this worked in, if applicable?
+    placeholder: 16.0.0
+- type: dropdown
+  attributes:
+    label: Does the issue also appear in Chromium / Google Chrome?
+    description: If it does, please report the issue in the [Chromium issue tracker](https://issues.chromium.org/issues), not against Electron. Electron will inherit the fix once Chromium resolves the issue.
+    options:
+      - I don't know how to test
+      - "Yes"
+      - "No"
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Expected Behavior
+    description: A clear and concise description of what you expected to happen.
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Actual Behavior
+    description: A clear description of what actually happens.
+  validations:
+    required: true
+- type: input
+  attributes:
+    label: Testcase Gist URL
+    description: Electron maintainers need a standalone test case to reproduce and fix your issue. Please use [Electron Fiddle](https://github.com/electron/fiddle) to create one and to publish it as a [GitHub gist](https://gist.github.com). Then put the gist URL here. Issues without testcase gists receive less attention and might be closed without a maintainer taking a closer look. To maximize how much attention your issue receives, please include a testcase gist right from the start.
+    placeholder: https://gist.github.com/...
+- type: textarea
+  attributes:
+    label: Additional Information
+    description: If your problem needs further explanation, or if the issue you're seeing cannot be reproduced in a gist, please add more information here.

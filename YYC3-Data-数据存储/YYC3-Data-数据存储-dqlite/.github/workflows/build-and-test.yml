@@ -1,0 +1,152 @@
+name: CI Tests
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-22.04
+          - ubuntu-24.04
+          - ubuntu-22.04-arm
+          - ubuntu-24.04-arm
+        compiler:
+          - gcc
+          - clang
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Set up dependencies
+      run: |
+          sudo apt update
+          sudo apt install -y libsqlite3-dev liblz4-dev libuv1-dev xfslibs-dev \
+                              linux-libc-dev btrfs-progs xfsprogs zfsutils-linux \
+                              lcov sqlite3
+          sudo snap install --classic dqlite-utils
+
+    - name: Build dqlite
+      env:
+        CC: ${{ matrix.compiler }}
+      run: |
+          autoreconf -i
+          ./configure --enable-debug --enable-code-coverage --enable-sanitize \
+                      --enable-build-raft
+          make -j$(nproc) check-norun
+
+    - name: Generate test snapshots
+      run: |
+          (mkdir test-snapshots &&
+            cd test-snapshots && \
+            # Simple cases
+            ../.github/scripts/generate-snapshot.sh --main-only --row-count 1000 small-no-wal && \
+            ../.github/scripts/generate-snapshot.sh --main-only --row-count 100000 medium-no-wal && \
+            ../.github/scripts/generate-snapshot.sh --main-only --row-count 5000000 large-no-wal && \
+            # With WAL
+            ../.github/scripts/generate-snapshot.sh --wal-limit 1000 --row-count 1000 small-with-wal && \
+            ../.github/scripts/generate-snapshot.sh --wal-limit 1000 --row-count 100000 medium-with-wal && \
+            ../.github/scripts/generate-snapshot.sh --wal-limit 1000 --row-count 5000000 large-with-wal && \
+            # With huge WAL
+            ../.github/scripts/generate-snapshot.sh --row-count 1000 small-huge-wal && \
+            ../.github/scripts/generate-snapshot.sh --row-count 100000 medium-huge-wal && \
+            ../.github/scripts/generate-snapshot.sh --row-count 5000000 large-huge-wal \
+          )
+
+    - name: Test
+      env:
+        CC: ${{ matrix.compiler }}
+        LIBDQLITE_TRACE: 1
+        ASAN_OPTIONS: fast_unwind_on_malloc=0
+      run: |
+          ./test/raft/lib/fs.sh setup
+          export $(./test/raft/lib/fs.sh detect)
+          sudo \
+              DQLITE_TEST_SNAPSHOT_DIRS=$(shopt -s nullglob; echo test-snapshots/*/ | tr ' ' :) \
+              UV_THREADPOOL_SIZE=$(($(nproc) * 2)) \
+            make check || (cat test-suite.log && false)
+          ./test/raft/lib/fs.sh teardown
+
+    - name: Coverage
+      env:
+        CC: ${{ matrix.compiler }}
+      if: ${{ matrix.os == 'ubuntu-22.04' && matrix.compiler == 'gcc' }}
+      run: |
+        make code-coverage-capture
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v7
+      with:
+        verbose: true
+  
+  crossbuild:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - i386
+          - arm64
+          - armhf
+          - ppc64el
+          - riscv64
+          - s390x
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Set up cross-compilation for ${{ matrix.arch }}
+      if: ${{ matrix.arch != 'i386' }}
+      env:
+        ARCH: ${{ matrix.arch }}
+      run: |
+        set -e
+        NATIVE_ARCH=$(dpkg --print-architecture)
+        UBUNTU_CODENAME=$(lsb_release -cs)
+
+        # Replace default sources with an arch-specific one
+        sudo rm /etc/apt/sources.list.d/*
+
+        sudo tee "/etc/apt/sources.list.d/ubuntu-native.sources" <<EOF
+        Types: deb
+        URIs: http://archive.ubuntu.com/ubuntu
+        Suites: ${UBUNTU_CODENAME} ${UBUNTU_CODENAME}-updates ${UBUNTU_CODENAME}-backports
+        Components: main restricted universe multiverse
+        Architectures: ${NATIVE_ARCH}
+        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+        Types: deb
+        URIs: http://security.ubuntu.com/ubuntu
+        Suites: ${UBUNTU_CODENAME}-security
+        Components: main restricted universe multiverse
+        Architectures: ${NATIVE_ARCH}
+        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+        EOF
+
+        # Add the ports repository for the foreign architecture
+        sudo tee "/etc/apt/sources.list.d/ubuntu-ports-$ARCH.sources" <<EOF
+        Types: deb
+        URIs: http://ports.ubuntu.com/ubuntu-ports
+        Suites: ${UBUNTU_CODENAME} ${UBUNTU_CODENAME}-updates ${UBUNTU_CODENAME}-backports ${UBUNTU_CODENAME}-security
+        Components: main restricted universe multiverse
+        Architectures: $ARCH
+        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+        EOF
+    - name: Set up dependencies
+      env:
+        ARCH: ${{ matrix.arch }}
+      run: |
+        set -e
+        sudo dpkg --add-architecture $ARCH
+        sudo apt update
+        sudo apt install -y crossbuild-essential-$ARCH libsqlite3-dev libsqlite3-dev:$ARCH liblz4-dev liblz4-dev:$ARCH libuv1-dev libuv1-dev:$ARCH \
+                            linux-libc-dev:$ARCH xfslibs-dev:$ARCH lcov pkg-config libtool-bin
+    - name: Build dqlite
+      env:
+        ARCH: ${{ matrix.arch }}
+      run: |
+          autoreconf -i
+          ./configure --host=$(dpkg-architecture -a $ARCH -qDEB_HOST_GNU_TYPE 2>/dev/null)
+          make -j$(nproc) all check-norun

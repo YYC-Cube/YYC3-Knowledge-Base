@@ -1,0 +1,11 @@
+# Cargo configuration for cross-compilation
+
+# ARM64 (aarch64) target configuration
+[target.aarch64-unknown-linux-gnu]
+linker = "aarch64-linux-gnu-gcc"
+
+# Build optimizer settings (optional, for faster builds)
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

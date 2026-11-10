@@ -1,0 +1,47 @@
+#!/bin/sh
+
+fail() {
+    echo "FAILED:" "$@" 1>&2
+    exit 1
+}
+
+PYTHON="${PYTHON:-python3}"
+if [ ! $(which ${PYTHON}) ]; then
+    echo "Please install python first."
+    exit 1
+fi
+py_prefix=$(${PYTHON} -c 'import sys; print("py%d%d" % (sys.version_info.major, sys.version_info.minor))')
+
+# Check dependencies:
+depschecked=/tmp/c-i.dependencieschecked
+pkgs="
+   bash
+   dmidecode
+   ${py_prefix}-configobj
+   ${py_prefix}-jinja2
+   ${py_prefix}-oauthlib
+   ${py_prefix}-requests
+   ${py_prefix}-setuptools
+   ${py_prefix}-yaml
+   ${py_prefix}-jsonschema
+   sudo
+"
+[ -f "$depschecked" ] || pkg_add ${pkgs} || fail "install packages"
+
+touch $depschecked
+
+# Build the code and install in /usr/pkg/:
+${PYTHON} setup.py build
+${PYTHON} setup.py install -O1 --distro netbsd --skip-build --init-system sysvinit_netbsd
+mv -v /usr/local/etc/rc.d/cloud* /etc/rc.d
+
+# Enable cloud-init in /etc/rc.conf:
+sed -i.bak -e "/^cloud.*=.*/d" /etc/rc.conf
+echo '
+# You can safely remove the following lines starting with "cloud"
+cloudinitlocal="YES"
+cloudinit="YES"
+cloudconfig="YES"
+cloudfinal="YES"' >> /etc/rc.conf
+
+echo "Installation completed."

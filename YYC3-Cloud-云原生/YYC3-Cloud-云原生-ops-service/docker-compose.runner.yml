@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.ops-runner
+    container_name: ops-runner
+    restart: "no"
+    command: ["--version"]

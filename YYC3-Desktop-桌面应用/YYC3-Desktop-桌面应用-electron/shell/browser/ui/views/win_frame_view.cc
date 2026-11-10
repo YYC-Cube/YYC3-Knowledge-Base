@@ -1,0 +1,312 @@
+// Copyright (c) 2014 GitHub, Inc.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+//
+// Portions of this file are sourced from
+// chrome/browser/ui/views/frame/glass_browser_frame_view.cc,
+// Copyright (c) 2012 The Chromium Authors,
+// which is governed by a BSD-style license
+
+#include "shell/browser/ui/views/win_frame_view.h"
+
+#include <dwmapi.h>
+#include <memory>
+
+#include "shell/browser/native_window_views.h"
+#include "shell/browser/ui/views/win_caption_button_container.h"
+#include "ui/base/metadata/metadata_impl_macros.h"
+#include "ui/base/win/hwnd_metrics.h"
+#include "ui/display/win/dpi.h"
+#include "ui/display/win/screen_win.h"
+#include "ui/gfx/geometry/dip_util.h"
+#include "ui/views/background.h"
+#include "ui/views/widget/widget.h"
+#include "ui/views/win/hwnd_util.h"
+
+namespace electron {
+
+WinFrameView::WinFrameView(NativeWindowViews* window, views::Widget* frame)
+    : FramelessView{window, frame} {
+  if (window->IsWindowControlsOverlayEnabled()) {
+    caption_button_container_ =
+        AddChildView(std::make_unique<WinCaptionButtonContainer>(this));
+  }
+}
+
+WinFrameView::~WinFrameView() = default;
+
+void WinFrameView::InvalidateCaptionButtons() {
+  if (!caption_button_container_)
+    return;
+
+  caption_button_container_->UpdateBackground();
+  caption_button_container_->InvalidateLayout();
+  caption_button_container_->SchedulePaint();
+}
+
+gfx::Rect WinFrameView::GetWindowBoundsForClientBounds(
+    const gfx::Rect& client_bounds) const {
+  return views::GetWindowBoundsForClientBounds(
+      static_cast<views::View*>(const_cast<WinFrameView*>(this)),
+      client_bounds);
+}
+
+int WinFrameView::FrameBorderThickness() const {
+  if (frame()->IsFullscreen() || IsMaximized())
+    return 0;
+
+  return display::win::GetScreenWin()->GetSystemMetricsInDIP(SM_CXSIZEFRAME);
+}
+
+views::View* WinFrameView::TargetForRect(views::View* root,
+                                         const gfx::Rect& rect) {
+  if (NonClientHitTest(rect.origin()) != HTCLIENT) {
+    // Custom system titlebar returns non HTCLIENT value, however event should
+    // be handled by the view, not by the system, because there are no system
+    // buttons underneath.
+    if (!window()->IsWindowControlsOverlayEnabled())
+      return this;
+
+    auto local_point = rect.origin();
+    ConvertPointToTarget(parent(), caption_button_container_, &local_point);
+    if (!caption_button_container_->HitTestPoint(local_point))
+      return this;
+  }
+
+  return FrameView::TargetForRect(root, rect);
+}
+
+int WinFrameView::NonClientHitTest(const gfx::Point& point) {
+  if (window()->has_frame())
+    return frame_->client_view()->NonClientHitTest(point);
+
+  if (window()->IsWindowControlsOverlayEnabled()) {
+    // See if the point is within any of the window controls.
+    if (caption_button_container_) {
+      gfx::Point local_point = point;
+
+      ConvertPointToTarget(parent(), caption_button_container_, &local_point);
+      if (caption_button_container_->HitTestPoint(local_point)) {
+        const int hit_test_result =
+            caption_button_container_->NonClientHitTest(local_point);
+        if (hit_test_result != HTNOWHERE)
+          return hit_test_result;
+      }
+    }
+
+    // On Windows 8+, the caption buttons are almost butted up to the top right
+    // corner of the window. This code ensures the mouse isn't set to a size
+    // cursor while hovering over the caption buttons, thus giving the incorrect
+    // impression that the user can resize the window.
+    RECT button_bounds = {0};
+    if (SUCCEEDED(DwmGetWindowAttribute(
+            views::HWNDForWidget(frame()), DWMWA_CAPTION_BUTTON_BOUNDS,
+            &button_bounds, sizeof(button_bounds)))) {
+      gfx::Rect button_bounds_px(button_bounds);
+      // There is a small one-pixel strip right above the caption buttons in
+      // which the resize border "peeks" through. Inset in physical pixels
+      // before converting to DIPs so the resize strip remains exposed at
+      // fractional scale factors.
+      button_bounds_px.Inset(gfx::Insets::TLBR(1, 0, 0, 0));
+
+      const gfx::RectF button_bounds_in_dips =
+          gfx::ConvertRectToDips(button_bounds_px, display::win::GetDPIScale());
+      // GetMirroredRect() requires an integer rect. Use ToEnclosedRect() so
+      // the top inset is preserved (rounded up) at fractional scale factors.
+      gfx::Rect buttons =
+          GetMirroredRect(gfx::ToEnclosedRect(button_bounds_in_dips));
+      if (buttons.Contains(point))
+        return HTNOWHERE;
+    }
+
+    int top_border_thickness = FrameTopBorderThickness(false);
+    // At the window corners the resize area is not actually bigger, but the 16
+    // pixels at the end of the top and bottom edges trigger diagonal resizing.
+    constexpr int kResizeCornerWidth = 16;
+    int window_component = GetHTComponentForFrame(
+        point, gfx::Insets::TLBR(top_border_thickness, 0, 0, 0),
+        top_border_thickness, kResizeCornerWidth - FrameBorderThickness(),
+        frame()->widget_delegate()->CanResize());
+    if (window_component != HTNOWHERE)
+      return window_component;
+  }
+
+  // Use the parent class's hittest last
+  return FramelessView::NonClientHitTest(point);
+}
+
+bool WinFrameView::IsMaximized() const {
+  return frame()->IsMaximized();
+}
+
+void WinFrameView::Layout(PassKey) {
+  LayoutCaptionButtons();
+  if (window()->IsWindowControlsOverlayEnabled()) {
+    LayoutWindowControlsOverlay();
+  }
+  LayoutSuperclass<FrameView>(this);
+}
+
+int WinFrameView::FrameTopBorderThickness(bool restored) const {
+  // Mouse and touch locations are floored but GetSystemMetricsInDIP is rounded,
+  // so we need to floor instead or else the difference will cause the hittest
+  // to fail when it ought to succeed.
+  return std::floor(
+      FrameTopBorderThicknessPx(restored) /
+      display::win::GetScreenWin()->GetScaleFactorForHWND(HWNDForView(this)));
+}
+
+int WinFrameView::FrameTopBorderThicknessPx(bool restored) const {
+  // Distinct from FrameBorderThickness() because we can't inset the top
+  // border, otherwise Windows will give us a standard titlebar.
+  // For maximized windows this is not true, and the top border must be
+  // inset in order to avoid overlapping the monitor above.
+
+  // See comments in BrowserDesktopWindowTreeHostWin::GetClientAreaInsets().
+  const bool needs_no_border =
+      (window()->IsWindowControlsOverlayEnabled() && frame()->IsMaximized()) ||
+      frame()->IsFullscreen();
+  if (needs_no_border && !restored)
+    return 0;
+
+  // Note that this method assumes an equal resize handle thickness on all
+  // sides of the window.
+  // TODO(dfried): Consider having it return a gfx::Insets object instead.
+  return ui::GetFrameThicknessFromWindow(HWNDForView(this),
+                                         MONITOR_DEFAULTTONEAREST);
+}
+
+int WinFrameView::TitlebarMaximizedVisualHeight() const {
+  int maximized_height =
+      display::win::GetScreenWin()->GetSystemMetricsInDIP(SM_CYCAPTION);
+  return maximized_height;
+}
+
+// NOTE(@mlaurencin): Usage of IsWebUITabStrip simplified out from Chromium
+int WinFrameView::TitlebarHeight(int custom_height) const {
+  if (frame()->IsFullscreen() && !IsMaximized())
+    return 0;
+
+  int height = TitlebarMaximizedVisualHeight() +
+               FrameTopBorderThickness(false) - WindowTopY();
+  if (custom_height > TitlebarMaximizedVisualHeight())
+    height = custom_height - WindowTopY();
+
+  return height;
+}
+
+// NOTE(@mlaurencin): Usage of IsWebUITabStrip simplified out from Chromium
+int WinFrameView::WindowTopY() const {
+  // The window top is SM_CYSIZEFRAME pixels when maximized (see the comment in
+  // FrameTopBorderThickness()) and floor(system dsf) pixels when restored.
+  // Unfortunately we can't represent either of those at hidpi without using
+  // non-integral dips, so we return the closest reasonable values instead.
+  if (IsMaximized())
+    return FrameTopBorderThickness(false);
+
+  return 1;
+}
+
+void WinFrameView::LayoutCaptionButtons() {
+  if (!caption_button_container_)
+    return;
+
+  // Non-custom system titlebar already contains caption buttons.
+  if (!window()->IsWindowControlsOverlayEnabled()) {
+    caption_button_container_->SetVisible(false);
+    return;
+  }
+
+  caption_button_container_->SetVisible(true);
+  const gfx::Size preferred_size =
+      caption_button_container_->GetPreferredSize();
+
+  int custom_height = window()->titlebar_overlay_height();
+  int height = TitlebarHeight(custom_height);
+
+  // Insets place the resize hit targets outside of the frame, so the caption
+  // buttons can go right at the edge. Without insets, the resize hit
+  // targets are inside the frame, and a 1px margin is needed to click and drag
+  // next to the button container. The margin can be removed if support is added
+  // for insets on non-thick frames.
+  int variable_width = !RestoredFrameBorderInsets().IsEmpty()
+                           ? preferred_size.width()
+                           : (IsMaximized() ? preferred_size.width()
+                                            : preferred_size.width() - 1);
+  caption_button_container_->SetBounds(width() - preferred_size.width(),
+                                       WindowTopY(), variable_width, height);
+
+  // Needed for heights larger than default
+  caption_button_container_->SetButtonSize(gfx::Size(0, height));
+}
+
+void WinFrameView::LayoutWindowControlsOverlay() {
+  int overlay_height = window()->titlebar_overlay_height();
+  if (overlay_height == 0) {
+    // Accounting for the 1 pixel margin at the top of the button container
+    overlay_height = IsMaximized()
+                         ? caption_button_container_->size().height()
+                         : caption_button_container_->size().height() + 1;
+  }
+  int overlay_width = caption_button_container_->size().width();
+  int bounding_rect_width = width() - overlay_width;
+  auto bounding_rect =
+      GetMirroredRect(gfx::Rect(0, 0, bounding_rect_width, overlay_height));
+
+  window()->SetWindowControlsOverlayRect(bounding_rect);
+  window()->NotifyLayoutWindowControlsOverlay();
+}
+
+bool WinFrameView::GetShouldPaintAsActive() const {
+  return ShouldPaintAsActive();
+}
+
+gfx::Size WinFrameView::GetMinimumSize() const {
+  if (!window_)
+    return gfx::Size();
+  // Chromium expects minimum size to be in content dimensions on Windows.
+  // If WidgetSizeIsClientSize() is true, it will account for frame borders and
+  // insets automatically.
+  return window_->GetContentMinimumSize();
+}
+
+gfx::Size WinFrameView::GetMaximumSize() const {
+  if (!window_)
+    return gfx::Size();
+  // See comment in GetMinimumSize().
+  gfx::Size size = window_->GetContentMaximumSize();
+  // Electron public APIs returns (0, 0) when maximum size is not set, but it
+  // would break internal window APIs like HWNDMessageHandler::SetAspectRatio.
+  return size.IsEmpty() ? gfx::Size(INT_MAX, INT_MAX) : size;
+}
+
+int WinFrameView::ResizingBorderHitTest(const gfx::Point& point) {
+  if (RestoredFrameBorderInsets().IsEmpty())
+    return FramelessView::ResizingBorderHitTest(point);
+
+  // With insets, side/bottom resize targets sit outside the frame and are
+  // handled by WM_NCHITTEST, so the internal hit test can be zero-ed out.
+  // The exception is the top edge for frameless windows, which still need
+  // an inner resize band since there is no non-client titlebar to provide one.
+  const gfx::Insets inside =
+      window_->has_frame()
+          ? gfx::Insets()
+          : gfx::Insets::TLBR(kResizeInsideBoundsSize, 0, 0, 0);
+  return ResizingBorderHitTestImpl(point, inside);
+}
+
+gfx::Insets WinFrameView::RestoredFrameBorderInsets() const {
+  if (window_->has_frame() || !window_->has_thick_frame())
+    return {};
+
+  // TODO(mitchchn): despite the name, this method gives the correct
+  // DPI-adjusted insets for the sides, not the top, when restored.
+  const int thickness = FrameTopBorderThickness(/*restored=*/true);
+  // Inverse of ResizingBorderHitTest: resize insets go on sides but not top.
+  return gfx::Insets::TLBR(0, thickness, thickness, thickness);
+}
+
+BEGIN_METADATA(WinFrameView)
+END_METADATA
+
+}  // namespace electron

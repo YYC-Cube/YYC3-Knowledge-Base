@@ -1,0 +1,1144 @@
+- source: out
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $(
+  scopesBegin:
+    - meta.scope.subshell
+  scopes:
+    - punctuation.definition.subshell.single
+- source: netstat
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: tn
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - string.unquoted.argument
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: while
+  scopesBegin:
+    - meta.scope.while-loop
+  scopes:
+    - keyword.control
+- source: read
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: r
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: x
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: do
+  scopes:
+    - keyword.control.do
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: sample
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+- source: done
+  scopes:
+    - keyword.control
+  scopesEnd:
+    - meta.scope.while-loop
+- source: )
+  scopes:
+    - punctuation.definition.subshell.single
+  scopesEnd:
+    - meta.scope.subshell
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.expression.assignment
+    - string.quoted.double
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' the rest of the file is treated as if it''s in a string'
+  scopesEnd:
+    - comment.line.number-sign
+- source: x
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: it runs just fine
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.expression.assignment
+    - string.quoted.double
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: $
+  scopesBegin:
+    - meta.argument
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: x
+  scopes:
+    - variable.other.normal
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+- source: '#!'
+  scopesBegin:
+    - comment.line.number-sign
+    - meta.shebang
+  scopes:
+    - punctuation.definition.comment.shebang
+- source: /usr/bin/env bash
+  scopesEnd:
+    - comment.line.number-sign
+    - meta.shebang
+- source: some
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: something with spaces
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: foo
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $(
+  scopesBegin:
+    - meta.scope.subshell
+  scopes:
+    - punctuation.definition.subshell.single
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: some
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: tr
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+- source: ''''
+  scopes:
+    - punctuation.definition.string.begin
+- source: X
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: )
+  scopes:
+    - punctuation.definition.subshell.single
+  scopesEnd:
+    - meta.scope.subshell
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.expression.assignment
+    - string.quoted.double
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: foo=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: foo
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: pip
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $(
+  scopesBegin:
+    - meta.scope.subshell
+  scopes:
+    - punctuation.definition.subshell.single
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: some
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: while
+  scopesBegin:
+    - meta.scope.while-loop
+  scopes:
+    - keyword.control
+- source: IFS
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: read
+  scopesBegin:
+    - meta.statement.command.env
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: r
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: pip_thing
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.expression.assignment
+    - meta.statement.command.env
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: do
+  scopes:
+    - keyword.control.do
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: 'n'
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: pip_thing=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: pip_thing
+  scopes:
+    - meta.parameter-expansion
+    - variable.other.normal
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: done
+  scopes:
+    - keyword.control
+  scopesEnd:
+    - meta.scope.while-loop
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: tr
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+- source: ''''
+  scopes:
+    - punctuation.definition.string.begin
+- source: X
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: )
+  scopes:
+    - punctuation.definition.subshell.single
+  scopesEnd:
+    - meta.scope.subshell
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.expression.assignment
+    - string.quoted.double
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: pip=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: pip
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: one
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $(
+  scopesBegin:
+    - meta.scope.subshell
+  scopes:
+    - punctuation.definition.subshell.single
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: some
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: while
+  scopesBegin:
+    - meta.scope.while-loop
+  scopes:
+    - keyword.control
+- source: IFS
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: read
+  scopesBegin:
+    - meta.statement.command.env
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: r
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: one_thing
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.expression.assignment
+    - meta.statement.command.env
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: do
+  scopes:
+    - keyword.control.do
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: 'n'
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: one_thing=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: one_thing
+  scopes:
+    - meta.parameter-expansion
+    - variable.other.normal
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: done
+  scopes:
+    - keyword.control
+  scopesEnd:
+    - meta.scope.while-loop
+- source: )
+  scopes:
+    - punctuation.definition.subshell.single
+  scopesEnd:
+    - meta.scope.subshell
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.expression.assignment
+    - string.quoted.double
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: one=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: one
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: pip
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $(
+  scopesBegin:
+    - meta.scope.subshell
+  scopes:
+    - punctuation.definition.subshell.single
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: some
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: while
+  scopesBegin:
+    - meta.scope.while-loop
+  scopes:
+    - keyword.control
+- source: IFS
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: read
+  scopesBegin:
+    - meta.statement.command.env
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: r
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: pip_thing
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.expression.assignment
+    - meta.statement.command.env
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: do
+  scopes:
+    - keyword.control.do
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: 'n'
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: pip_thing=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: pip_thing
+  scopes:
+    - meta.parameter-expansion
+    - variable.other.normal
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: done
+  scopes:
+    - keyword.control
+  scopesEnd:
+    - meta.scope.while-loop
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: tr
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+- source: ''''
+  scopes:
+    - punctuation.definition.string.begin
+- source: X
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: )
+  scopes:
+    - punctuation.definition.subshell.single
+  scopesEnd:
+    - meta.scope.subshell
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.expression.assignment
+    - string.quoted.double
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: pip=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: pip
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: two
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $(
+  scopesBegin:
+    - meta.scope.subshell
+  scopes:
+    - punctuation.definition.subshell.single
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: some
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: '|'
+  scopes:
+    - keyword.operator.pipe
+- source: while
+  scopesBegin:
+    - meta.scope.while-loop
+  scopes:
+    - keyword.control
+- source: IFS
+  scopesBegin:
+    - meta.expression.assignment
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: read
+  scopesBegin:
+    - meta.statement.command.env
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: r
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: two_thing
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.expression.assignment
+    - meta.statement.command.env
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: do
+  scopes:
+    - keyword.control.do
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: 'n'
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: two_thing=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: two_thing
+  scopes:
+    - meta.parameter-expansion
+    - variable.other.normal
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: ;
+  scopes:
+    - punctuation.terminator.statement.semicolon
+- source: done
+  scopes:
+    - keyword.control
+  scopesEnd:
+    - meta.scope.while-loop
+- source: )
+  scopes:
+    - punctuation.definition.subshell.single
+  scopesEnd:
+    - meta.scope.subshell
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.expression.assignment
+    - string.quoted.double
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: two=
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: two
+  scopes:
+    - variable.other.normal
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end

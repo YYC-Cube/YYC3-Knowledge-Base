@@ -1,0 +1,132 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Shelley Vohr <shelley.vohr@gmail.com>
+Date: Mon, 25 Oct 2021 21:45:57 +0200
+Subject: fix: adapt exclusive_access for electron needs
+
+This patch is necessary in order to properly enable
+navigator.keyboard.{(un)?lock}() functionality. We don't have a concept
+of PermissionManager nor of a Profile, so this would not affect usage of
+the API.
+
+We also need to ensure that NotifyExclusiveTabAccessLost is called
+on all platforms in FullscreenController::ExitFullscreenModeInternal()
+and not just macOS, since Electron's native window impls report state
+change fairly instantly as well, and so pressing escape won't work on
+Linux or Windows to un-fullscreen in some circumstances without this
+change.
+
+diff --git a/chrome/browser/ui/exclusive_access/fullscreen_controller.cc b/chrome/browser/ui/exclusive_access/fullscreen_controller.cc
+index f597f2282a9e9c1167390bbc1b81c8a3cad1de5d..e6bb280d5c5acd14ff5ff3414e4b8530cff1c570 100644
+--- a/chrome/browser/ui/exclusive_access/fullscreen_controller.cc
++++ b/chrome/browser/ui/exclusive_access/fullscreen_controller.cc
+@@ -45,7 +45,7 @@
+ #include "components/prefs/pref_service.h"
+ #endif
+ 
+-#if !BUILDFLAG(IS_ANDROID)
++#if 0
+ #include "chrome/browser/ui/blocked_content/popunder_preventer.h"
+ #endif  // !BUILDFLAG(IS_ANDROID)
+ 
+@@ -193,7 +193,7 @@ void FullscreenController::EnterFullscreenModeForTab(
+     return;
+   }
+ 
+-#if !BUILDFLAG(IS_ANDROID)
++#if 0
+   if (!popunder_preventer_) {
+     popunder_preventer_ = std::make_unique<PopunderPreventer>(web_contents);
+   } else {
+@@ -325,12 +325,14 @@ void FullscreenController::ExitFullscreenModeForTab(WebContents* web_contents) {
+ void FullscreenController::FullscreenTabOpeningPopup(
+     content::WebContents* opener,
+     content::WebContents* popup) {
++#if 0
+   if (!popunder_preventer_) {
+     return;
+   }
+ 
+   DCHECK_EQ(exclusive_access_tab(), opener);
+   popunder_preventer_->AddPotentialPopunder(popup);
++#endif
+ }
+ #endif  // !BUILDFLAG(IS_ANDROID)
+ 
+@@ -405,8 +407,7 @@ void FullscreenController::WindowFullscreenStateChanged() {
+ #endif  // DCHECK_IS_ON()
+   tab_fullscreen_target_display_id_ = display::kInvalidDisplayId;
+   started_fullscreen_transition_ = false;
+-
+-#if !BUILDFLAG(IS_ANDROID)
++#if 0
+   if (!IsTabFullscreen()) {
+     // Activate any popup windows created while content fullscreen, after exit.
+     popunder_preventer_.reset();
+@@ -549,9 +550,12 @@ void FullscreenController::EnterFullscreenModeInternal(
+   fullscreen_parameters_ = fullscreen_tab_params;
+   started_fullscreen_transition_ = true;
+   toggled_into_fullscreen_ = true;
++#if 0
+   bool entering_tab_fullscreen =
+       option == FullscreenInternalOption::kTab && !tab_fullscreen_;
++#endif
+   url::Origin origin;
++#if 0
+   if (option == FullscreenInternalOption::kTab) {
+     origin = GetRequestingOrigin();
+     tab_fullscreen_ = true;
+@@ -589,6 +593,7 @@ void FullscreenController::EnterFullscreenModeInternal(
+       origin = url::Origin::Create(extension_url_.value());
+     }
+   }
++#endif
+ 
+   fullscreen_start_time_ = base::TimeTicks::Now();
+   if (option == FullscreenInternalOption::kBrowser) {
+@@ -610,6 +615,7 @@ void FullscreenController::ExitFullscreenModeInternal() {
+     return;
+   }
+ 
++#if 0
+   // `fullscreen_start_time_` is null if a fullscreen tab moves to a new window.
+   if (fullscreen_start_time_ && exclusive_access_tab()) {
+     ukm::SourceId source_id =
+@@ -621,13 +627,14 @@ void FullscreenController::ExitFullscreenModeInternal() {
+         .Record(ukm::UkmRecorder::Get());
+     fullscreen_start_time_.reset();
+   }
++#endif
+ 
+   fullscreen_parameters_.reset();
+   toggled_into_fullscreen_ = false;
+   started_fullscreen_transition_ = true;
+   auto weak_ptr = weak_ptr_factory_.GetWeakPtr();
+-#if BUILDFLAG(IS_MAC) || BUILDFLAG(IS_ANDROID)
+-  // Mac windows report a state change instantly, and so we must also clear
++
++  // Electron native windows report a state change instantly, and so we must also clear
+   // state_prior_to_tab_fullscreen_ to match them else other logic using
+   // state_prior_to_tab_fullscreen_ will be incorrect.
+   // On Android the state of fullscreen is keep in the Java Fullscreen
+@@ -637,7 +644,7 @@ void FullscreenController::ExitFullscreenModeInternal() {
+   if (!weak_ptr) {
+     return;
+   }
+-#endif
++
+   exclusive_access_manager()->context()->ExitFullscreen();
+   if (!weak_ptr) {
+     return;
+diff --git a/chrome/browser/ui/exclusive_access/fullscreen_controller.h b/chrome/browser/ui/exclusive_access/fullscreen_controller.h
+index 89604f90f824d2671e35576d5d506ec39d56b2f9..e5fd96e4ec7c551f1d966ddb7ce48d0ffa1bdc85 100644
+--- a/chrome/browser/ui/exclusive_access/fullscreen_controller.h
++++ b/chrome/browser/ui/exclusive_access/fullscreen_controller.h
+@@ -262,7 +262,7 @@ class FullscreenController : public ExclusiveAccessControllerBase {
+   // Set of parameters used to enter fullscreen
+   std::optional<FullscreenTabParams> fullscreen_parameters_;
+ 
+-#if !BUILDFLAG(IS_ANDROID)
++#if 0
+   // Tracks related popups that lost activation or were shown without activation
+   // during content fullscreen sessions. This also activates the popups when
+   // fullscreen exits, to prevent sites from creating persistent popunders.

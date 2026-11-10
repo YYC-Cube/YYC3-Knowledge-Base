@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "noEmit": false,
+    "incremental": false,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@yyc3/core": ["../core/src"],
+      "@yyc3/ai-family": ["../ai-family/src"],
+      "@yyc3/skills": ["../skills/src"],
+      "@yyc3/agents": ["../agents/src"],
+      "@yyc3/mcp-client": ["../mcp-client/src"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

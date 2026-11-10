@@ -1,0 +1,1557 @@
+- source: '#!'
+  scopesBegin:
+    - comment.line.number-sign
+    - meta.shebang
+  scopes:
+    - punctuation.definition.comment.shebang
+- source: /bin/bash
+  scopesEnd:
+    - comment.line.number-sign
+    - meta.shebang
+- source: function
+  scopesBegin:
+    - meta.function
+  scopes:
+    - storage.type.function
+- source: run_args
+  scopes:
+    - entity.name.function
+- source: (
+  scopesBegin:
+    - punctuation.definition.arguments
+- source: )
+  scopesEnd:
+    - punctuation.definition.arguments
+- source: '{'
+  scopesBegin:
+    - meta.function.body
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition
+- source: args
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: (
+  scopes:
+    - punctuation.definition.array
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: date
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+- source: '"'
+  scopes:
+    - punctuation.definition.string.begin
+- source: '--utc'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: )
+  scopes:
+    - punctuation.definition.array
+  scopesEnd:
+    - meta.statement
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' double quoted command'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '"'
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' double quoted command with prefix'
+  scopesEnd:
+    - comment.line.number-sign
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' double quoted command with postfix'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '"'
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' double quoted command with postfix and prefix'
+  scopesEnd:
+    - comment.line.number-sign
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted multiline command with postfix and prefix and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+- source: ' echo hi'
+- source: "\techo "
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: argument1
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' double quoted command and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: '"'
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' double quoted command with prefix and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' double quoted command with postfix and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: '"'
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' double quoted command with postfix and prefix and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.double
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: $
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+  scopes:
+    - punctuation.definition.variable
+- source: '{'
+  scopes:
+    - punctuation.section.bracket.curly.variable.begin
+    - punctuation.definition.variable
+- source: args
+  scopesBegin:
+    - meta.parameter-expansion
+  scopes:
+    - variable.other.normal
+- source: '['
+  scopes:
+    - punctuation.section.array
+- source: '@'
+  scopes:
+    - keyword.operator.expansion
+- source: ']'
+  scopes:
+    - punctuation.section.array
+  scopesEnd:
+    - meta.parameter-expansion
+- source: '}'
+  scopes:
+    - punctuation.section.bracket.curly.variable.end
+    - punctuation.definition.variable
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.double
+    - entity.name.function.call
+    - entity.name.command
+- source: '"'
+  scopes:
+    - string.quoted.double
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted command'
+  scopesEnd:
+    - comment.line.number-sign
+- source: ''''
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]}'
+  scopes:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted command with prefix'
+  scopesEnd:
+    - comment.line.number-sign
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]}'
+  scopes:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted command with postfix'
+  scopesEnd:
+    - comment.line.number-sign
+- source: ''''
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]}'
+  scopes:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted command with postfix and prefix'
+  scopesEnd:
+    - comment.line.number-sign
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]}'
+  scopes:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted command and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: ''''
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]}'
+  scopes:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted command with prefix and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]}'
+  scopes:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted command with postfix and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: ''''
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]}'
+  scopes:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted command with postfix and prefix and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]}'
+  scopes:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: echo
+  scopesBegin:
+    - meta.argument
+    - string.unquoted.argument
+- source: hi
+  scopesEnd:
+    - meta.argument
+    - string.unquoted.argument
+- source: echo
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: ''''
+  scopesBegin:
+    - meta.argument
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: use "quota" here
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.single
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: ' single quoted multiline command with postfix and prefix and prefix operator'
+  scopesEnd:
+    - comment.line.number-sign
+- source: '!'
+  scopesBegin:
+    - meta.statement
+  scopes:
+    - keyword.operator.pipe
+- source: imma_prefix
+  scopesBegin:
+    - meta.statement.command
+    - meta.statement.command.name
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - meta.statement.command.name.quoted
+    - string.quoted.single
+    - punctuation.definition.string.begin
+    - entity.name.function.call
+    - entity.name.command
+- source: '${args[@]} echo hi'
+  scopesBegin:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: "\techo "
+  scopesEnd:
+    - meta.statement.command.name.continuation
+    - string.quoted.single
+    - entity.name.function.call
+    - entity.name.command
+- source: ''''
+  scopes:
+    - string.quoted.single
+    - punctuation.definition.string.end
+    - entity.name.function.call
+    - entity.name.command
+- source: imma_postfix
+  scopes:
+    - entity.name.function.call
+    - entity.name.command
+  scopesEnd:
+    - meta.statement.command.name
+- source: argument1
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+- source: '}'
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition
+  scopesEnd:
+    - meta.function
+    - meta.function.body
+- source: run_args
+  scopes:
+    - meta.statement
+    - meta.statement.command
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command

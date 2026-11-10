@@ -1,0 +1,710 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+import * as vscode from "vscode";
+import { ReactWebviewPanelController } from "../controllers/reactWebviewPanelController";
+import { SchemaDesigner } from "../sharedInterfaces/schemaDesigner";
+import VscodeWrapper from "../controllers/vscodeWrapper";
+import * as LocConstants from "../constants/locConstants";
+import { TreeNodeInfo } from "../objectExplorer/nodes/treeNodeInfo";
+import MainController from "../controllers/mainController";
+import { homedir } from "os";
+import { getErrorMessage, getUniqueFilePath } from "../utils/utils";
+import { sendActionEvent, startActivity } from "../telemetry/telemetry";
+import { ActivityStatus, TelemetryActions, TelemetryViews } from "../sharedInterfaces/telemetry";
+import { configSchemaDesignerEnableExpandCollapseButtons } from "../constants/constants";
+import { IConnectionInfo } from "vscode-mssql";
+import { AuthenticationType } from "../sharedInterfaces/connectionDialog";
+import { ConnectionStrategy } from "../controllers/sqlDocumentService";
+import { UserSurvey } from "../nps/userSurvey";
+import { DabService } from "../services/dabService";
+import { Dab } from "../sharedInterfaces/dab";
+import { CopilotChat } from "../sharedInterfaces/copilotChat";
+import { addMcpServerToWorkspace } from "../copilot/copilotUtils";
+
+function isExpandCollapseButtonsEnabled(): boolean {
+    return vscode.workspace
+        .getConfiguration()
+        .get<boolean>(configSchemaDesignerEnableExpandCollapseButtons) as boolean;
+}
+
+function isCopilotChatInstalled(): boolean {
+    return !!vscode.extensions.getExtension("github.copilot-chat");
+}
+
+const SCHEMA_DESIGNER_VIEW_ID = "schemaDesigner";
+
+function getCopilotChatDiscoveryDismissedState(
+    context: vscode.ExtensionContext,
+): CopilotChat.DiscoveryDismissedState {
+    return {
+        schemaDesigner: context.globalState.get(
+            CopilotChat.getDiscoveryDismissedStateKey("schemaDesigner"),
+            false,
+        ),
+        dab: context.globalState.get(CopilotChat.getDiscoveryDismissedStateKey("dab"), false),
+    };
+}
+
+export class SchemaDesignerWebviewController extends ReactWebviewPanelController<
+    SchemaDesigner.SchemaDesignerWebviewState,
+    SchemaDesigner.SchemaDesignerReducers
+> {
+    private _sessionId: string = "";
+    private _key: string = "";
+    private _serverName: string | undefined;
+    private _sqlServerContainerName: string | undefined;
+    private _dabService = new DabService();
+    public schemaDesignerDetails: SchemaDesigner.CreateSessionResponse | undefined = undefined;
+    public baselineSchema: SchemaDesigner.Schema | undefined = undefined;
+
+    constructor(
+        context: vscode.ExtensionContext,
+        vscodeWrapper: VscodeWrapper,
+        private mainController: MainController,
+        private schemaDesignerService: SchemaDesigner.ISchemaDesignerService,
+        private connectionString: string,
+        private accessToken: string | undefined,
+        private databaseName: string,
+        private schemaDesignerCache: Map<string, SchemaDesigner.SchemaDesignerCacheItem>,
+        private treeNode?: TreeNodeInfo,
+        private connectionUri?: string,
+    ) {
+        super(
+            context,
+            vscodeWrapper,
+            SCHEMA_DESIGNER_VIEW_ID,
+            SCHEMA_DESIGNER_VIEW_ID,
+            {
+                enableExpandCollapseButtons: isExpandCollapseButtonsEnabled(),
+                isCopilotChatInstalled: isCopilotChatInstalled(),
+                copilotChatDiscoveryDismissed: getCopilotChatDiscoveryDismissedState(context),
+                activeView: SchemaDesigner.SchemaDesignerActiveView.SchemaDesigner,
+            },
+            {
+                title: `${LocConstants.SchemaDesigner.PanelTitle} - ${databaseName}`,
+                viewColumn: vscode.ViewColumn.One,
+                iconPath: {
+                    light: vscode.Uri.joinPath(
+                        context.extensionUri,
+                        "media",
+                        "applicationQuickStart_light.svg",
+                    ),
+                    dark: vscode.Uri.joinPath(
+                        context.extensionUri,
+                        "media",
+                        "applicationQuickStart_dark.svg",
+                    ),
+                },
+                showRestorePromptAfterClose: false,
+            },
+        );
+
+        this._key = `${this.connectionString}-${this.databaseName}`;
+        this._serverName = this.resolveServerName();
+        this._sqlServerContainerName = this.resolveSqlServerContainerName();
+
+        this.updateState({
+            ...this.state,
+            isDabDeploymentSupported: this.resolveIsDabDeploymentSupported(),
+        });
+
+        this.setupRequestHandlers();
+        this.setupReducers();
+        this.setupConfigurationListener();
+    }
+
+    /**
+     * Sets the initial filter tables for the Schema Designer.
+     * When set, the FilterTablesButton will apply this filter after initialization.
+     * @param tables Array of fully qualified table names (e.g., ["dbo.Students"])
+     */
+    public setInitialFilterTables(tables: string[]): void {
+        this.updateState({
+            ...this.state,
+            initialFilterTables: tables,
+        });
+    }
+
+    private setupRequestHandlers() {
+        this.onRequest(SchemaDesigner.InitializeSchemaDesignerRequest.type, async () => {
+            const schemaDesignerInitActivity = startActivity(
+                TelemetryViews.SchemaDesigner,
+                TelemetryActions.Initialize,
+                undefined,
+                undefined,
+                undefined,
+                true, // include callstack in telemetry
+            );
+            try {
+                let sessionResponse: SchemaDesigner.CreateSessionResponse;
+                if (!this.schemaDesignerCache.has(this._key)) {
+                    sessionResponse = await this.schemaDesignerService.createSession({
+                        connectionString: this.connectionString,
+                        accessToken: this.accessToken,
+                        databaseName: this.databaseName,
+                    });
+                    this.baselineSchema = sessionResponse.schema;
+                    this.schemaDesignerCache.set(this._key, {
+                        schemaDesignerDetails: sessionResponse,
+                        baselineSchema: sessionResponse.schema,
+                        isDirty: false,
+                    });
+                } else {
+                    const cacheItem = this.schemaDesignerCache.get(this._key)!;
+                    sessionResponse = cacheItem.schemaDesignerDetails;
+                    this.baselineSchema = cacheItem.baselineSchema;
+                }
+                this.schemaDesignerDetails = sessionResponse;
+                this._sessionId = sessionResponse.sessionId;
+                schemaDesignerInitActivity.end(ActivityStatus.Succeeded, undefined, {
+                    tableCount: sessionResponse?.schema?.tables?.length,
+                });
+                return sessionResponse;
+            } catch (error) {
+                schemaDesignerInitActivity.endFailed(error, false);
+                throw error;
+            }
+        });
+
+        this.onRequest(SchemaDesigner.GetDefinitionRequest.type, async (payload) => {
+            const definitionActivity = startActivity(
+                TelemetryViews.SchemaDesigner,
+                TelemetryActions.GetDefinition,
+                undefined,
+                {
+                    tableCount: payload.updatedSchema.tables.length.toString(),
+                },
+            );
+            const script = await this.schemaDesignerService.getDefinition({
+                updatedSchema: payload.updatedSchema,
+                sessionId: this._sessionId,
+            });
+            definitionActivity.end(ActivityStatus.Succeeded, undefined, {
+                tableCount: payload.updatedSchema.tables.length,
+            });
+            this.updateCacheItem(payload.updatedSchema);
+            return script;
+        });
+
+        this.onRequest(SchemaDesigner.GetReportWebviewRequest.type, async (payload) => {
+            const reportActivity = startActivity(
+                TelemetryViews.SchemaDesigner,
+                TelemetryActions.GetReport,
+                undefined,
+                {
+                    tableCount: payload.updatedSchema.tables.length.toString(),
+                },
+            );
+            try {
+                const result = await vscode.window.withProgress(
+                    {
+                        location: vscode.ProgressLocation.Notification,
+                        title: LocConstants.SchemaDesigner.GeneratingReport,
+                        cancellable: false,
+                    },
+                    async () => {
+                        // Wait for the report to be generated
+                        const report = await this.schemaDesignerService.getReport({
+                            updatedSchema: payload.updatedSchema,
+                            sessionId: this._sessionId,
+                        });
+                        this.updateCacheItem(payload.updatedSchema);
+                        return {
+                            report,
+                        };
+                    },
+                );
+
+                reportActivity.end(
+                    ActivityStatus.Succeeded,
+                    {
+                        hasSchemaChanged: result.report?.hasSchemaChanged?.toString(),
+                        possibleDataLoss: result.report?.dacReport?.possibleDataLoss?.toString(),
+                        requireTableRecreation:
+                            result.report.dacReport?.requireTableRecreation?.toString(),
+                        hasWarnings: result.report?.dacReport?.hasWarnings?.toString(),
+                    },
+                    {
+                        tableCount: payload.updatedSchema?.tables?.length,
+                    },
+                );
+
+                return result;
+            } catch (error) {
+                reportActivity.endFailed(error, false);
+                return {
+                    error: error.toString(),
+                };
+            }
+        });
+
+        this.onRequest(SchemaDesigner.PublishSessionRequest.type, async (payload) => {
+            const publishActivity = startActivity(
+                TelemetryViews.SchemaDesigner,
+                TelemetryActions.PublishSession,
+                undefined,
+            );
+            try {
+                await this.schemaDesignerService.publishSession({
+                    sessionId: this._sessionId,
+                });
+                publishActivity.end(ActivityStatus.Succeeded, undefined, {
+                    tableCount: payload.schema?.tables?.length,
+                });
+                this.updateCacheItem(undefined, false);
+
+                // After publishing, reset baseline to current (published) schema so change count clears.
+                const publishedSchema = this.schemaDesignerDetails?.schema;
+                if (publishedSchema) {
+                    this.baselineSchema = publishedSchema;
+                    const cacheItem = this.schemaDesignerCache.get(this._key);
+                    if (cacheItem) {
+                        cacheItem.baselineSchema = publishedSchema;
+                        this.schemaDesignerCache.set(this._key, cacheItem);
+                    }
+                }
+
+                void UserSurvey.getInstance().promptUserForNPSFeedback(SCHEMA_DESIGNER_VIEW_ID);
+                return {
+                    success: true,
+                    error: undefined,
+                    updatedSchema: this.schemaDesignerDetails?.schema ?? payload.schema,
+                };
+            } catch (error) {
+                publishActivity.endFailed(error, false);
+                return {
+                    success: false,
+                    error: error.toString(),
+                    updatedSchema: this.schemaDesignerDetails?.schema ?? payload.schema,
+                };
+            }
+        });
+
+        this.onNotification(SchemaDesigner.ExportToFileNotification.type, async (payload) => {
+            // Determine the base folder for saving the file
+            const baseFolder =
+                vscode.workspace.workspaceFolders?.[0]?.uri ?? vscode.Uri.file(homedir());
+
+            // Prompt the user with a Save dialog
+            const outputPath = await vscode.window.showSaveDialog({
+                filters: { [payload.format]: [payload.format] },
+                defaultUri: await getUniqueFilePath(
+                    baseFolder,
+                    `schema-${this.databaseName}`,
+                    payload.format,
+                ),
+                saveLabel: LocConstants.SchemaDesigner.Save,
+                title: LocConstants.SchemaDesigner.SaveAs,
+            });
+
+            if (!outputPath) {
+                // User cancelled the save dialog
+                return;
+            }
+
+            sendActionEvent(TelemetryViews.SchemaDesigner, TelemetryActions.ExportToImage, {
+                format: payload?.format,
+            });
+
+            void UserSurvey.getInstance().promptUserForNPSFeedback(SCHEMA_DESIGNER_VIEW_ID);
+
+            if (payload.format === "svg") {
+                let fileContents = new Uint8Array(
+                    Buffer.from(decodeURIComponent(payload.fileContents.split(",")[1]), "utf8"),
+                );
+                await vscode.workspace.fs.writeFile(outputPath, fileContents);
+            } else {
+                let fileContents = new Uint8Array(
+                    Buffer.from(payload.fileContents.split(",")[1], "base64"),
+                );
+                vscode.workspace.fs.writeFile(outputPath, fileContents);
+            }
+        });
+
+        this.onNotification(SchemaDesigner.CopyToClipboardNotification.type, async (params) => {
+            await vscode.env.clipboard.writeText(params.text);
+            await vscode.window.showInformationMessage(LocConstants.scriptCopiedToClipboard);
+        });
+
+        this.onNotification(SchemaDesigner.OpenInEditorNotification.type, async () => {
+            const definition = await this.schemaDesignerService.getDefinition({
+                updatedSchema: this.schemaDesignerDetails!.schema,
+                sessionId: this._sessionId,
+            });
+            await this.mainController.sqlDocumentService.newQuery({
+                content: definition.script,
+                connectionStrategy: ConnectionStrategy.DoNotConnect,
+            });
+        });
+
+        this.onNotification(SchemaDesigner.OpenInEditorWithConnectionNotification.type, () => {
+            const generateScriptActivity = startActivity(
+                TelemetryViews.SchemaDesigner,
+                TelemetryActions.GenerateScript,
+                undefined,
+            );
+            vscode.window.withProgress(
+                {
+                    location: vscode.ProgressLocation.Notification,
+                    title: LocConstants.SchemaDesigner.OpeningPublishScript,
+                    cancellable: false,
+                },
+                async () => {
+                    try {
+                        const result = await this.schemaDesignerService.generateScript({
+                            sessionId: this._sessionId,
+                        });
+                        generateScriptActivity.end(
+                            ActivityStatus.Succeeded,
+                            undefined,
+                            result?.script
+                                ? { scriptLength: result?.script?.length }
+                                : { scriptLength: 0 },
+                        );
+                        let connectionCredentials: IConnectionInfo;
+                        // Open the document in the editor with the connection
+                        if (this.treeNode) {
+                            connectionCredentials = this.treeNode.connectionProfile;
+                        } else if (this.connectionUri) {
+                            connectionCredentials =
+                                this.mainController.connectionManager.getConnectionInfo(
+                                    this.connectionUri,
+                                ).credentials;
+                        }
+                        await this.mainController.sqlDocumentService.newQuery({
+                            content: result?.script,
+                            connectionStrategy: ConnectionStrategy.CopyConnectionFromInfo,
+                            connectionInfo: connectionCredentials,
+                        });
+                    } catch (error) {
+                        generateScriptActivity.endFailed(error, false);
+                        vscode.window.showErrorMessage(
+                            LocConstants.SchemaDesigner.PublishScriptFailed(getErrorMessage(error)),
+                        );
+                    }
+                },
+            );
+        });
+
+        this.onNotification(SchemaDesigner.CloseSchemaDesignerNotification.type, () => {
+            // Close the schema designer panel
+            this.panel.dispose();
+        });
+
+        this.onNotification(SchemaDesigner.SchemaDesignerDirtyStateNotification.type, (payload) => {
+            this.updateCacheItem(undefined, payload.hasChanges);
+        });
+
+        this.onRequest(SchemaDesigner.GetBaselineSchemaRequest.type, async () => {
+            const cacheItem = this.schemaDesignerCache.get(this._key);
+            // Prefer cached baseline so it survives controller recreation (webview restore)
+            if (cacheItem?.baselineSchema) {
+                this.baselineSchema = cacheItem.baselineSchema;
+                return cacheItem.baselineSchema;
+            }
+
+            // Fallback (should be rare): use controller field or current schema
+            return (
+                this.baselineSchema ??
+                this.schemaDesignerDetails?.schema ?? {
+                    tables: [],
+                }
+            );
+        });
+
+        // DAB request handlers
+        this.onRequest(Dab.GenerateConfigRequest.type, async (payload) => {
+            return this._dabService.generateConfig(payload.config, {
+                connectionString: this.connectionString,
+                sqlServerContainerName: this._sqlServerContainerName,
+            });
+        });
+
+        this.onNotification(Dab.OpenConfigInEditorNotification.type, async (payload) => {
+            const doc = await vscode.workspace.openTextDocument({
+                content: payload.configContent,
+                language: "json",
+            });
+
+            sendActionEvent(TelemetryViews.SchemaDesigner, TelemetryActions.ExportDabConfig, {
+                language: "json",
+            });
+
+            await vscode.window.showTextDocument(doc);
+        });
+
+        this.onNotification(Dab.OpenLogsInNewTabNotification.type, async (payload) => {
+            const doc = await vscode.workspace.openTextDocument({
+                content: payload.logsContent,
+                language: "log",
+            });
+
+            await vscode.window.showTextDocument(doc, { preview: false });
+        });
+
+        this.onNotification(Dab.OpenUrlNotification.type, async (payload) => {
+            const uri = vscode.Uri.parse(payload.url, true);
+            if (uri.scheme !== "http" && uri.scheme !== "https") {
+                return;
+            }
+
+            sendActionEvent(TelemetryViews.SchemaDesigner, TelemetryActions.OpenDabApiUrl, {
+                apiType: payload.apiType ?? "",
+            });
+
+            try {
+                await vscode.commands.executeCommand("simpleBrowser.show", uri.toString());
+            } catch {
+                void vscode.window.showErrorMessage(LocConstants.SchemaDesigner.failedToOpenUrl);
+            }
+        });
+
+        this.onNotification(Dab.CopyTextNotification.type, async (payload) => {
+            await vscode.env.clipboard.writeText(payload.text);
+            let message = "";
+            switch (payload.copyTextType) {
+                case Dab.CopyTextType.Url:
+                    message = LocConstants.SchemaDesigner.urlCopiedToClipboard;
+                    break;
+                case Dab.CopyTextType.Logs:
+                    message = LocConstants.SchemaDesigner.logsCopiedToClipboard;
+                    break;
+                case Dab.CopyTextType.Config:
+                    message = LocConstants.SchemaDesigner.configCopiedToClipboard;
+                    break;
+            }
+
+            sendActionEvent(TelemetryViews.SchemaDesigner, TelemetryActions.CopyDabText, {
+                copyTextType: payload.copyTextType,
+            });
+
+            await vscode.window.showInformationMessage(message);
+        });
+
+        // DAB deployment request handlers
+        this.onRequest(Dab.RunDeploymentStepRequest.type, async (payload) => {
+            const deploymentStepActivity = startActivity(
+                TelemetryViews.SchemaDesigner,
+                TelemetryActions.RunDabDeploymentStep,
+                undefined,
+                {
+                    step: payload.step.toString(),
+                },
+            );
+            if (!this.resolveIsDabDeploymentSupported()) {
+                const message = LocConstants.SchemaDesigner.dabDeploymentNotSupported;
+                void vscode.window.showErrorMessage(message);
+                deploymentStepActivity.endFailed(undefined, false, undefined, undefined, {
+                    hasContainerLogs: "false",
+                });
+                return {
+                    success: false,
+                    error: message,
+                };
+            }
+            try {
+                const result = await this._dabService.runDeploymentStep(
+                    payload.step,
+                    payload.params,
+                    payload.config,
+                    this.connectionString
+                        ? {
+                              connectionString: this.connectionString,
+                              sqlServerContainerName: this._sqlServerContainerName,
+                          }
+                        : undefined,
+                );
+                if (result.success) {
+                    deploymentStepActivity.end(ActivityStatus.Succeeded);
+                } else {
+                    deploymentStepActivity.endFailed(undefined, false, undefined, undefined, {
+                        hasContainerLogs: (!!result.containerLogs).toString(),
+                    });
+                }
+                return result;
+            } catch (error) {
+                deploymentStepActivity.endFailed(undefined, false, undefined, undefined, {
+                    hasContainerLogs: "false",
+                });
+                throw error;
+            }
+        });
+
+        this.onRequest(Dab.ValidateDeploymentParamsRequest.type, async (payload) => {
+            return this._dabService.validateDeploymentParams(payload.containerName, payload.port);
+        });
+
+        this.onRequest(Dab.StopDeploymentRequest.type, async (payload) => {
+            return this._dabService.stopDeployment(payload.containerName);
+        });
+
+        this.onRequest(Dab.AddMcpServerRequest.type, async (payload) => {
+            sendActionEvent(TelemetryViews.SchemaDesigner, TelemetryActions.AddDabMcpServer);
+
+            return addMcpServerToWorkspace(payload.serverName, payload.serverUrl);
+        });
+    }
+
+    private setupReducers() {
+        this.registerReducer("dismissCopilotChatDiscovery", async (state, payload) => {
+            if (!payload?.scenario) {
+                return state;
+            }
+
+            await this._context.globalState.update(
+                CopilotChat.getDiscoveryDismissedStateKey(payload.scenario),
+                true,
+            );
+
+            return {
+                ...state,
+                copilotChatDiscoveryDismissed: {
+                    ...state.copilotChatDiscoveryDismissed,
+                    [payload.scenario]: true,
+                },
+            };
+        });
+    }
+
+    private setupConfigurationListener() {
+        const configChangeDisposable = vscode.workspace.onDidChangeConfiguration((e) => {
+            if (e.affectsConfiguration(configSchemaDesignerEnableExpandCollapseButtons)) {
+                const newValue = isExpandCollapseButtonsEnabled();
+
+                this.updateState({
+                    ...this.state,
+                    enableExpandCollapseButtons: newValue,
+                });
+            }
+        });
+        this.registerDisposable(configChangeDisposable);
+    }
+
+    private updateCacheItem(
+        updatedSchema?: SchemaDesigner.Schema,
+        isDirty?: boolean,
+    ): SchemaDesigner.SchemaDesignerCacheItem {
+        let schemaDesignerCacheItem = this.schemaDesignerCache.get(this._key)!;
+        if (updatedSchema) {
+            this.schemaDesignerDetails!.schema = updatedSchema;
+            schemaDesignerCacheItem.schemaDesignerDetails.schema = updatedSchema;
+        }
+        // if isDirty is not provided, set it to schemaDesignerCacheItem.isDirty
+        // else, set it to the provided value
+        schemaDesignerCacheItem.isDirty = isDirty ?? schemaDesignerCacheItem.isDirty;
+        this.schemaDesignerCache.set(this._key, schemaDesignerCacheItem);
+        return schemaDesignerCacheItem;
+    }
+
+    override async dispose(): Promise<void> {
+        if (this.schemaDesignerDetails) {
+            this.updateCacheItem(this.schemaDesignerDetails!.schema);
+        }
+        super.dispose();
+    }
+
+    /**
+     * Gets the current schema state from the webview.
+     */
+    public async getSchemaState(): Promise<SchemaDesigner.Schema> {
+        await this.whenWebviewReady();
+        const result = await this.sendRequest(SchemaDesigner.GetSchemaStateRequest.type, undefined);
+        return result.schema;
+    }
+
+    /**
+     * Applies a batch of semantic schema edits in the webview (used by the schema designer LM tool).
+     * This method must never be treated as a transcript schema source; it is only used to compute receipts.
+     */
+    public async applyEdits(
+        params: SchemaDesigner.ApplyEditsWebviewParams,
+    ): Promise<SchemaDesigner.ApplyEditsWebviewResponse> {
+        await this.whenWebviewReady();
+        return this.sendRequest(SchemaDesigner.ApplyEditsWebviewRequest.type, params);
+    }
+
+    public async getDabToolState(): Promise<Dab.GetDabToolStateResponse> {
+        await this.whenWebviewReady();
+        return this.sendRequest(Dab.GetDabToolStateRequest.type, undefined);
+    }
+
+    public async applyDabToolChanges(
+        params: Dab.ApplyDabToolChangesParams,
+    ): Promise<Dab.ApplyDabToolChangesResponse> {
+        await this.whenWebviewReady();
+        return this.sendRequest(Dab.ApplyDabToolChangesRequest.type, params);
+    }
+
+    public showView(view: SchemaDesigner.SchemaDesignerActiveView): void {
+        this.updateState({
+            ...this.state,
+            activeView: view,
+        });
+    }
+
+    public get designerKey(): string {
+        return this._key;
+    }
+
+    public get database(): string {
+        return this.databaseName;
+    }
+
+    public get server(): string | undefined {
+        return this._serverName;
+    }
+
+    private resolveServerName(): string | undefined {
+        if (this.treeNode) {
+            return this.treeNode.connectionProfile?.server;
+        }
+
+        if (this.connectionUri) {
+            return this.mainController.connectionManager.getConnectionInfo(this.connectionUri)
+                ?.credentials?.server;
+        }
+
+        return undefined;
+    }
+
+    /**
+     * Determines whether the DAB (Data API Builder) feature is supported for this connection.
+     * Currently only SQL Login connections are supported because DAB runs in a local
+     * Docker container that cannot perform interactive Azure AD authentication.
+     */
+    private resolveIsDabDeploymentSupported(): boolean {
+        const authType = this.resolveAuthenticationType();
+        return authType === AuthenticationType.SqlLogin;
+    }
+
+    private resolveAuthenticationType(): string | undefined {
+        if (this.treeNode) {
+            return this.treeNode.connectionProfile?.authenticationType;
+        }
+        if (this.connectionUri) {
+            return this.mainController.connectionManager.getConnectionInfo(this.connectionUri)
+                ?.credentials?.authenticationType;
+        }
+        return undefined;
+    }
+
+    /**
+     * Resolves the SQL Server container name from the connection profile.
+     * Returns undefined if the SQL Server is not running in a Docker container.
+     */
+    private resolveSqlServerContainerName(): string | undefined {
+        if (this.treeNode) {
+            return this.treeNode.connectionProfile?.containerName;
+        }
+
+        if (this.connectionUri) {
+            return this.mainController.connectionManager.getConnectionInfo(this.connectionUri)
+                ?.credentials?.containerName;
+        }
+
+        return undefined;
+    }
+}

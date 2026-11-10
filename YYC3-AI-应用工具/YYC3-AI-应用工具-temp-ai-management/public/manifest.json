@@ -1,0 +1,58 @@
+{
+  "name": "YanYu Cloud³ Cube",
+  "short_name": "YYC Cube",
+  "description": "万象归元于云枢，深栈智启新纪元 —— YanYu Cloud³ AI Family，打造企业级智能管理新范式。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/placeholder.jpg",
+      "sizes": "390x844",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "移动端界面"
+    },
+    {
+      "src": "/placeholder.jpg",
+      "sizes": "1920x1080",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "桌面端界面"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "数据分析",
+      "short_name": "分析",
+      "description": "查看数据分析仪表板",
+      "url": "/data-visualization-demo",
+      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "系统设置",
+      "short_name": "设置",
+      "description": "配置系统参数",
+      "url": "/settings",
+      "icons": [{ "src": "/logo.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

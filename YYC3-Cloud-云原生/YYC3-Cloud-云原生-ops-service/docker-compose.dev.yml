@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 数据库（仅开发环境）
+  postgres:
+    image: postgres:16-bookworm
+    container_name: ops-postgres-dev
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ops_service}
+      POSTGRES_USER: ${POSTGRES_USER:-ops_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dev_password}
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+
+    ports:
+      - "127.0.0.1:5432:5432"  # 绑定 localhost，cargo run 可以直接连接
+
+    networks:
+      - ops_dev
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ops_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  ops_dev:
+    driver: bridge
+
+volumes:
+  postgres_dev_data:
+    driver: local

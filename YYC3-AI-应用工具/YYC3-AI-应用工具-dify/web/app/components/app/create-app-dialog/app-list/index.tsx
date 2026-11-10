@@ -1,0 +1,315 @@
+'use client'
+
+import type { CreateAppModalProps } from '@/app/components/explore/create-app-modal'
+import type { App } from '@/models/explore'
+import { cn } from '@langgenius/dify-ui/cn'
+import { IconButton } from '@langgenius/dify-ui/icon-button'
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@langgenius/dify-ui/input-group'
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query'
+import { useDebouncedValue } from 'foxact/use-debounced-value'
+import { useAtomValue } from 'jotai'
+import * as React from 'react'
+import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import AppTypeSelector from '@/app/components/app/type-selector'
+import Divider from '@/app/components/base/divider'
+import { LoadingPlaceholder } from '@/app/components/base/loading-placeholder'
+import CreateAppModal from '@/app/components/explore/create-app-modal'
+import { usePluginDependencies } from '@/app/components/workflow/plugin-dependency/hooks'
+import { toast } from '@/app/notifications'
+import { workspacePermissionKeysAtom } from '@/context/permission-state'
+import { userProfileQueryOptions } from '@/features/account-profile/client'
+import { systemFeaturesQueryOptions } from '@/features/system-features/client'
+import { useRouter } from '@/next/navigation'
+import { consoleQuery } from '@/service/console'
+import { fetchAppDetail } from '@/service/explore'
+import { useExploreAppList } from '@/service/use-explore'
+import { AppModeEnum } from '@/types/app'
+import { getRedirection } from '@/utils/app-redirection'
+import { trackCreateApp } from '@/utils/create-app-tracking'
+import { hasPermission } from '@/utils/permission'
+import AppCard from '../app-card'
+import Sidebar, { AppCategories, AppCategoryLabel } from './sidebar'
+
+type AppsProps = {
+  onClose: () => void
+  onCreateFromBlank?: () => void
+}
+
+// export enum PageType {
+//   EXPLORE = 'explore',
+//   CREATE = 'create',
+// }
+
+const Apps = ({ onClose, onCreateFromBlank }: AppsProps) => {
+  const { t } = useTranslation()
+  const { data: systemFeatures } = useSuspenseQuery(systemFeaturesQueryOptions())
+  const { data: currentUserId } = useSuspenseQuery({
+    ...userProfileQueryOptions(),
+    select: (data) => data.profile.id,
+  })
+  const workspacePermissionKeys = useAtomValue(workspacePermissionKeysAtom)
+  const isRbacEnabled = systemFeatures.rbac_enabled
+  const canCreateAppFromTemplate = hasPermission(
+    workspacePermissionKeys,
+    'app.create_and_management',
+  )
+  const { push } = useRouter()
+  const { mutateAsync: importApp } = useMutation(consoleQuery.apps.imports.post.mutationOptions())
+  const allCategoriesEn = AppCategories.RECOMMENDED
+
+  const [keywords, setKeywords] = useState('')
+  const debouncedKeywords = useDebouncedValue(keywords, 500)
+  const searchKeywords = keywords ? debouncedKeywords : ''
+  const searchInputRef = React.useRef<HTMLInputElement>(null)
+
+  const handleClearSearch = () => {
+    setKeywords('')
+    searchInputRef.current?.focus()
+  }
+
+  const [currentType, setCurrentType] = useState<AppModeEnum[]>([])
+  const [currCategory, setCurrCategory] = useState<AppCategories | string>(allCategoriesEn)
+
+  const { data, isLoading } = useExploreAppList()
+
+  const visibleCategories = useMemo(() => {
+    if (!data) return []
+
+    const categoriesWithApps = new Set<string>()
+    data.allList.forEach((app) => {
+      app.categories.forEach((category) => categoriesWithApps.add(category))
+    })
+
+    return data.categories.filter((category) => categoriesWithApps.has(category))
+  }, [data])
+
+  const activeCategory = visibleCategories.includes(currCategory) ? currCategory : allCategoriesEn
+
+  const filteredList = useMemo(() => {
+    if (!data) return []
+    const { allList } = data
+    const filteredByCategory = allList.filter((item) => {
+      if (activeCategory === allCategoriesEn) return true
+      return item.categories?.includes(activeCategory) ?? false
+    })
+    if (currentType.length === 0) return filteredByCategory
+    return filteredByCategory.filter((item) => {
+      if (currentType.includes(AppModeEnum.CHAT) && item.app.mode === AppModeEnum.CHAT) return true
+      if (
+        currentType.includes(AppModeEnum.ADVANCED_CHAT) &&
+        item.app.mode === AppModeEnum.ADVANCED_CHAT
+      )
+        return true
+      if (currentType.includes(AppModeEnum.AGENT_CHAT) && item.app.mode === AppModeEnum.AGENT_CHAT)
+        return true
+      if (currentType.includes(AppModeEnum.COMPLETION) && item.app.mode === AppModeEnum.COMPLETION)
+        return true
+      if (currentType.includes(AppModeEnum.WORKFLOW) && item.app.mode === AppModeEnum.WORKFLOW)
+        return true
+      return false
+    })
+  }, [currentType, activeCategory, allCategoriesEn, data])
+
+  const searchFilteredList = useMemo(() => {
+    if (!searchKeywords || !filteredList || filteredList.length === 0) return filteredList
+
+    const lowerCaseSearchKeywords = searchKeywords.toLowerCase()
+
+    return filteredList.filter(
+      (item) =>
+        item.app && item.app.name && item.app.name.toLowerCase().includes(lowerCaseSearchKeywords),
+    )
+  }, [searchKeywords, filteredList])
+
+  const [currApp, setCurrApp] = React.useState<App | null>(null)
+  const [isShowCreateModal, setIsShowCreateModal] = React.useState(false)
+  const { handleCheckPluginDependencies } = usePluginDependencies()
+  const onCreate: CreateAppModalProps['onConfirm'] = async ({
+    name,
+    icon_type,
+    icon,
+    icon_background,
+    description,
+  }) => {
+    const { export_data, mode } = await fetchAppDetail(currApp?.app.id as string)
+    try {
+      const app = await importApp({
+        body: {
+          mode: 'yaml-content',
+          yaml_content: export_data,
+          name,
+          icon_type,
+          icon,
+          icon_background,
+          description,
+        },
+      })
+      if (!app.app_id || !app.app_mode) throw new Error('Completed import is missing app metadata')
+
+      trackCreateApp({ source: 'studio_template_list', appMode: mode, templateId: currApp?.app_id })
+
+      setIsShowCreateModal(false)
+      toast.success(t(($) => $['newApp.appCreated'], { ns: 'app' }))
+      onClose()
+      await handleCheckPluginDependencies(app.app_id)
+      getRedirection(
+        { id: app.app_id, mode: app.app_mode, permission_keys: app.permission_keys },
+        push,
+        {
+          currentUserId,
+          resourceMaintainer: currentUserId,
+          workspacePermissionKeys,
+          isRbacEnabled,
+        },
+      )
+    } catch {
+      toast.error(t(($) => $['newApp.appCreateFailed'], { ns: 'app' }))
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full items-center">
+        <LoadingPlaceholder />
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="flex items-center justify-between border-b border-divider-burn py-3">
+        <div className="min-w-45 pl-5">
+          <span className="title-xl-semi-bold text-text-primary">
+            {t(($) => $['newApp.startFromTemplate'], { ns: 'app' })}
+          </span>
+        </div>
+        <div className="flex max-w-137 flex-1 items-center rounded-xl border border-components-panel-border bg-components-panel-bg-blur p-1.5 shadow-md">
+          <AppTypeSelector value={currentType} onChange={setCurrentType} />
+          <div className="h-3.5">
+            <Divider type="vertical" />
+          </div>
+          <InputGroup className="flex-1 bg-transparent hover:border-transparent hover:bg-transparent">
+            <InputGroupInput
+              ref={searchInputRef}
+              type="search"
+              name="query"
+              autoComplete="off"
+              enterKeyHint="search"
+              aria-label={t(($) => $['newAppFromTemplate.searchAllTemplate'], { ns: 'app' })}
+              className="[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none"
+              placeholder={t(($) => $['newAppFromTemplate.searchAllTemplate'], { ns: 'app' })}
+              value={keywords}
+              onValueChange={setKeywords}
+            />
+            {keywords && (
+              <InputGroupAddon align="inline-end" className="ps-0.75 pe-1.25">
+                <IconButton
+                  size="sm"
+                  aria-label={t(($) => $['operation.clear'], { ns: 'common' })}
+                  className="text-text-quaternary hover:bg-transparent hover:text-text-tertiary focus-visible:bg-components-input-bg-hover focus-visible:ring-inset"
+                  onClick={handleClearSearch}
+                >
+                  <span aria-hidden className="i-ri-close-circle-fill size-3.5" />
+                </IconButton>
+              </InputGroupAddon>
+            )}
+          </InputGroup>
+        </div>
+        <div className="h-8 w-45"></div>
+      </div>
+      <div className="relative flex flex-1 overflow-y-auto">
+        {!searchKeywords && (
+          <div className="h-full w-50 p-4">
+            <Sidebar
+              current={activeCategory as AppCategories}
+              categories={visibleCategories}
+              onClick={(category) => {
+                setCurrCategory(category)
+              }}
+              onCreateFromBlank={onCreateFromBlank}
+            />
+          </div>
+        )}
+        <div className="h-full flex-1 shrink-0 grow overflow-auto border-l border-divider-burn p-6 pt-2">
+          {searchFilteredList && searchFilteredList.length > 0 && (
+            <>
+              <div className="pt-4 pb-1">
+                {searchKeywords ? (
+                  <p className="title-md-semi-bold text-text-tertiary">
+                    {searchFilteredList.length > 1
+                      ? t(($) => $['newApp.foundResults'], {
+                          ns: 'app',
+                          count: searchFilteredList.length,
+                        })
+                      : t(($) => $['newApp.foundResult'], {
+                          ns: 'app',
+                          count: searchFilteredList.length,
+                        })}
+                  </p>
+                ) : (
+                  <div className="flex h-5.5 items-center">
+                    <AppCategoryLabel
+                      category={activeCategory as AppCategories}
+                      className="title-md-semi-bold text-text-primary"
+                    />
+                  </div>
+                )}
+              </div>
+              <div
+                className={cn(
+                  'grid shrink-0 grid-cols-[repeat(auto-fill,minmax(296px,1fr))] content-start gap-3',
+                )}
+              >
+                {searchFilteredList.map((app) => (
+                  <AppCard
+                    key={app.app_id}
+                    app={app}
+                    canCreate={canCreateAppFromTemplate}
+                    onCreate={() => {
+                      setCurrApp(app)
+                      setIsShowCreateModal(true)
+                    }}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          {(!searchFilteredList || searchFilteredList.length === 0) && <NoTemplateFound />}
+        </div>
+      </div>
+      {isShowCreateModal && (
+        <CreateAppModal
+          appIconType={currApp?.app.icon_type || 'emoji'}
+          appIcon={currApp?.app.icon || ''}
+          appIconBackground={currApp?.app.icon_background || ''}
+          appIconUrl={currApp?.app.icon_url}
+          appName={currApp?.app.name || ''}
+          appDescription={currApp?.app.description || ''}
+          show={isShowCreateModal}
+          onConfirm={onCreate}
+          onHide={() => setIsShowCreateModal(false)}
+        />
+      )}
+    </div>
+  )
+}
+
+export default React.memo(Apps)
+
+function NoTemplateFound() {
+  const { t } = useTranslation()
+  return (
+    <div className="w-full rounded-lg bg-workflow-process-bg p-4">
+      <div className="mb-2 inline-flex size-8 items-center justify-center rounded-lg bg-components-card-bg shadow-lg">
+        <span aria-hidden className="i-ri-robot-2-line size-5 text-text-tertiary" />
+      </div>
+      <p className="title-md-semi-bold text-text-primary">
+        {t(($) => $['newApp.noTemplateFound'], { ns: 'app' })}
+      </p>
+      <p className="system-sm-regular text-text-tertiary">
+        {t(($) => $['newApp.noTemplateFoundTip'], { ns: 'app' })}
+      </p>
+    </div>
+  )
+}

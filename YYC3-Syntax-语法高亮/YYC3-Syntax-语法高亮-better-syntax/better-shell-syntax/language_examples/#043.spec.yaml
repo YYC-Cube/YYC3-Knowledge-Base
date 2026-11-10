@@ -1,0 +1,140 @@
+- source: function
+  scopesBegin:
+    - meta.function
+  scopes:
+    - storage.type.function
+- source: foo
+  scopes:
+    - entity.name.function
+- source: '{'
+  scopesBegin:
+    - meta.function.body
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition
+- source: local
+  scopesBegin:
+    - meta.statement
+    - meta.statement
+    - meta.expression.assignment.modified
+  scopes:
+    - storage.modifier.local
+- source: '-a'
+  scopes:
+    - string.unquoted.argument
+    - constant.other.option
+- source: arr
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: (
+  scopes:
+    - punctuation.definition.array
+- source: ''''
+  scopesBegin:
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: '#'
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.single
+- source: )
+  scopes:
+    - punctuation.definition.array
+  scopesEnd:
+    - meta.statement
+    - meta.expression.assignment.modified
+- source: echo
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: blah
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+- source: '}'
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition
+  scopesEnd:
+    - meta.function.body
+- source: function
+  scopes:
+    - storage.type.function
+- source: bar
+  scopes:
+    - entity.name.function
+- source: '{'
+  scopesBegin:
+    - meta.function.body
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition
+- source: local
+  scopesBegin:
+    - meta.statement
+    - meta.statement
+    - meta.expression.assignment.modified
+  scopes:
+    - storage.modifier.local
+- source: '-a'
+  scopes:
+    - string.unquoted.argument
+    - constant.other.option
+- source: arr
+  scopes:
+    - variable.other.assignment
+- source: '='
+  scopes:
+    - keyword.operator.assignment
+- source: (
+  scopes:
+    - punctuation.definition.array
+- source: ''''
+  scopesBegin:
+    - string.quoted.single
+  scopes:
+    - punctuation.definition.string.begin
+- source: '#'
+- source: ''''
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.single
+- source: )
+  scopes:
+    - punctuation.definition.array
+  scopesEnd:
+    - meta.statement
+    - meta.expression.assignment.modified
+- source: echo
+  scopesBegin:
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: blah
+  scopes:
+    - meta.argument
+    - string.unquoted.argument
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+- source: '}'
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition

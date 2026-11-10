@@ -1,0 +1,115 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  fmt:
+    name: Formatting
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+        components: rustfmt
+    - name: Run fmt check
+      run: cargo fmt --all -- --check
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+        components: clippy
+    - name: Run clippy
+      run: cargo clippy --workspace -- -D warnings
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    - name: Run tests
+      run: cargo test --workspace --verbose
+
+    - name: Build release
+      run: cargo build --release --workspace
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [fmt, clippy, test]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@stable
+      with:
+        toolchain: stable
+
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo index
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Cache cargo build
+      uses: actions/cache@v4
+      with:
+        path: target
+        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Install build dependencies
+      run: sudo apt-get update && sudo apt-get install -y pkg-config libssl-dev
+
+    - name: Build package
+      run: make package-x86_64
+
+    - name: Validate package
+      run: make package-validate
+
+    - name: Upload binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: ops-binaries
+        path: |
+          target/release/ops-service
+          target/release/ops-runner
+
+    - name: Upload package
+      uses: actions/upload-artifact@v4
+      with:
+        name: ops-package
+        path: build/linux-x86_64/
+        retention-days: 7

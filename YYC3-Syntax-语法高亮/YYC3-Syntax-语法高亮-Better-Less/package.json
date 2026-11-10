@@ -1,0 +1,44 @@
+{
+    "name": "better-less",
+    "displayName": "Better Less",
+    "version": "0.7.0",
+    "description": "Cross-compatible syntax highlighting for Less",
+    "publisher": "radium-v",
+    "categories": [
+        "Programming Languages"
+    ],
+    "keywords": [
+        "language",
+        "less",
+        "grammar",
+        "css",
+        "syntax"
+    ],
+    "repository": "https://github.com/radium-v/better-less",
+    "license": "MIT",
+    "engines": {
+        "vscode": "^1.12.0"
+    },
+    "contributes": {
+        "languages": [
+            {
+                "id": "less",
+                "aliases": [
+                    "Better Less",
+                    "less"
+                ],
+                "extensions": [
+                    ".less"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "less",
+                "scopeName": "source.less",
+                "path": "./Syntaxes/Better Less.tmLanguage"
+            }
+        ]
+    }
+}

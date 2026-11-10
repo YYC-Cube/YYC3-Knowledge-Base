@@ -1,0 +1,91 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: deepak1556 <hop2deep@gmail.com>
+Date: Thu, 17 Oct 2019 18:00:32 -0700
+Subject: feat: add hook to notify script ready from WorkerScriptController
+
+In Off-the-main-thread fetch, the WorkerGlobalScope will be in a half
+initialized state until the script is finished downloading.
+
+Doc: https://docs.google.com/document/d/1JCv8TD2nPLNC2iRCp_D1OM4I3uTS0HoEobuTymaMqgw/edit
+
+During this stage if the global object is transformed for ex: copying properties
+in DidInitializeWorkerContextOnWorkerThread hook then an access to property like
+location will result in a crash WorkerGlobalScope::Url() because the script has
+not been set with response URL yet.
+
+This issue cannot happen in chromium with existing usage, but can surface when an
+embedder tries to integrate Node.js in the worker. Hence, this new hook is proposed
+that clearly establishes the worker script is ready for evaluation with the scope
+initialized.
+
+diff --git a/content/public/renderer/content_renderer_client.h b/content/public/renderer/content_renderer_client.h
+index 030154a6fb7f88778fc8e29353c2ff9a43c17fb2..66439a8449d214e9b526d4e139324ce68ec04149 100644
+--- a/content/public/renderer/content_renderer_client.h
++++ b/content/public/renderer/content_renderer_client.h
+@@ -409,6 +409,11 @@ class CONTENT_EXPORT ContentRendererClient {
+   virtual void DidInitializeWorkerContextOnWorkerThread(
+       v8::Local<v8::Context> context) {}
+ 
++  // Notifies that a worker script has been downloaded, scope initialized and
++  // ready for evaluation. This function is called from the worker thread.
++  virtual void WorkerScriptReadyForEvaluationOnWorkerThread(
++      v8::Local<v8::Context> context) {}
++
+   // Notifies that a worker context will be destroyed. This function is called
+   // from the worker thread.
+   virtual void WillDestroyWorkerContextOnWorkerThread(
+diff --git a/content/renderer/renderer_blink_platform_impl.cc b/content/renderer/renderer_blink_platform_impl.cc
+index c21c4e06384866f91e87ce3ff2f5753ca1df6912..6dcc2f20a418c8c639a06f045fe3c4182981dc5f 100644
+--- a/content/renderer/renderer_blink_platform_impl.cc
++++ b/content/renderer/renderer_blink_platform_impl.cc
+@@ -950,6 +950,12 @@ void RendererBlinkPlatformImpl::WorkerContextCreated(
+       worker);
+ }
+ 
++void RendererBlinkPlatformImpl::WorkerScriptReadyForEvaluation(
++    const v8::Local<v8::Context>& worker) {
++  GetContentClient()->renderer()->WorkerScriptReadyForEvaluationOnWorkerThread(
++      worker);
++}
++
+ blink::ProtocolHandlerSecurityLevel
+ RendererBlinkPlatformImpl::GetProtocolHandlerSecurityLevel(
+     const blink::WebSecurityOrigin& origin) {
+diff --git a/content/renderer/renderer_blink_platform_impl.h b/content/renderer/renderer_blink_platform_impl.h
+index 1fff6d5b78fce0e10e3e87dd1b56c4994b7b9ee0..1a21b977500820f1e34eb028c4aaa7addb279c65 100644
+--- a/content/renderer/renderer_blink_platform_impl.h
++++ b/content/renderer/renderer_blink_platform_impl.h
+@@ -216,6 +216,8 @@ class CONTENT_EXPORT RendererBlinkPlatformImpl : public BlinkPlatformImpl {
+   void DidStartWorkerThread() override;
+   void WillStopWorkerThread() override;
+   void WorkerContextCreated(const v8::Local<v8::Context>& worker) override;
++  void WorkerScriptReadyForEvaluation(
++      const v8::Local<v8::Context>& worker) override;
+   void WorkerContextWillDestroy(const v8::Local<v8::Context>& worker) override;
+   blink::ProtocolHandlerSecurityLevel GetProtocolHandlerSecurityLevel(
+       const blink::WebSecurityOrigin& origin) override;
+diff --git a/third_party/blink/public/platform/platform.h b/third_party/blink/public/platform/platform.h
+index 6eef1315ebe70ce614426d847674e1be8c7d9c09..d9b25e76c3bff560e5246d1664562a98a7040a7f 100644
+--- a/third_party/blink/public/platform/platform.h
++++ b/third_party/blink/public/platform/platform.h
+@@ -699,6 +699,8 @@ class BLINK_PLATFORM_EXPORT Platform {
+   virtual void DidStartWorkerThread() {}
+   virtual void WillStopWorkerThread() {}
+   virtual void WorkerContextCreated(const v8::Local<v8::Context>& worker) {}
++  virtual void WorkerScriptReadyForEvaluation(
++      const v8::Local<v8::Context>& worker) {}
+   virtual void WorkerContextWillDestroy(const v8::Local<v8::Context>& worker) {}
+   virtual ProtocolHandlerSecurityLevel GetProtocolHandlerSecurityLevel(
+       const WebSecurityOrigin& origin) {
+diff --git a/third_party/blink/renderer/bindings/core/v8/worker_or_worklet_script_controller.cc b/third_party/blink/renderer/bindings/core/v8/worker_or_worklet_script_controller.cc
+index f7fcc71c12d08c49f9bc8a266610a1b6803e31d6..9c9bebe9d2072e7d3b399620dfec78b90901bc37 100644
+--- a/third_party/blink/renderer/bindings/core/v8/worker_or_worklet_script_controller.cc
++++ b/third_party/blink/renderer/bindings/core/v8/worker_or_worklet_script_controller.cc
+@@ -288,6 +288,7 @@ void WorkerOrWorkletScriptController::PrepareForEvaluation() {
+   V8PerContextData* per_context_data = script_state_->PerContextData();
+   std::ignore =
+       per_context_data->ConstructorForType(global_scope_->GetWrapperTypeInfo());
++  Platform::Current()->WorkerScriptReadyForEvaluation(script_state_->GetContext());
+   // Inform V8 that origin trial information is now connected with the context,
+   // and V8 can extend the context with origin trial features.
+   isolate_->InstallConditionalFeatures(script_state_->GetContext());

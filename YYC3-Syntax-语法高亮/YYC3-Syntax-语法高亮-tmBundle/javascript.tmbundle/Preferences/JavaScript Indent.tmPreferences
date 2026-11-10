@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Indentation</string>
+	<key>scope</key>
+	<string>source.js</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>(?x)
+	    ^ \s* ( (?! \S.* /[*] ) .* [*]/ \s* )? [})\]]
+	|   ^ \s* (case\b.*|default): \s* ( // .* | /[*] .* [*]/ \s* )? $
+	</string>
+		<key>increaseIndentPattern</key>
+		<string>(?x)
+	(   \{ [^}"']*
+	|   \( [^)"']*
+	|   \[ [^\]"']*
+	|   ^ \s* ( \{ \} | \( \) | \[ \]
+	          | (case\b.*|default):
+	          )
+	)
+	\s* ( // .* | /[*] .* [*]/ \s* )? $
+	</string>
+		<key>indentNextLinePattern</key>
+		<string>(?x)
+        ^ \s* (for|while|if|else)\b
+        # Disregard if line ends with semi-colon or braces
+	    (?! .* [;{}] \s* ( // .* | /[*] .* [*]/ \s* )? $ )
+	</string>
+		<key>unIndentedLinePattern</key>
+		<string>(?x)^
+	    # Ignore lines that do not end with (semi-)colon or braces
+	    (?! .* ([;{}] | \S:) \s* ( // .* | /[*] .* [*]/ \s* )? $ )
+
+		# Unless the line is matched by any of the rules above
+	    (?! .*
+	        # increaseIndentPattern
+            (   \{ [^}"']*
+            |   \( [^)"']*
+            |   \[ [^\]"']*
+            |   ^ \s* ( \{ \} | \( \) | \[ \]
+                      | (case\b.*|default):
+                      )
+            )
+            \s* ( // .* | /[*] .* [*]/ \s* )? $
+	    )
+
+	    (?!
+	        # decreaseIndentPattern
+                ^ \s* ( (?! \S.* /[*] ) .* [*]/ \s* )? [})\]]
+            |   ^ \s* (case\b.*|default): \s* ( // .* | /[*] .* [*]/ \s* )? $
+	    )
+
+	    (?!
+	        # indentNextLinePattern
+            ^ \s* (for|while|if|else)\b
+            (?! .* [;{}] \s* ( // .* | /[*] .* [*]/ \s* )? $ )
+	    )
+	</string>
+	</dict>
+	<key>uuid</key>
+	<string>BC062860-3346-4D3B-8421-C5543F83D11F</string>
+</dict>
+</plist>

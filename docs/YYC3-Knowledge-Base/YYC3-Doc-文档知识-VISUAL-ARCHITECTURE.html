@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YYC³ Doc-文档知识 — 可视化架构 | YYC³ Knowledge Base</title>
+<meta name="description" content="书籍、课程与规范解读">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-size='30' font-family='sans-serif' font-weight='700' fill='%23fff' text-anchor='middle'%3EY%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a2e;--surface:rgba(255,255,255,.03);--surface-hover:rgba(255,255,255,.06);
+--border:rgba(255,255,255,.08);--border-hover:rgba(255,255,255,.15);--text:#f1f1f6;--text2:rgba(255,255,255,.65);
+--text3:rgba(255,255,255,.35);--v:#8b5cf6;--c:#06b6d4;--e:#22c55e;--r:#ef4444;--o:#f59e0b;--p:#ec4899;
+--radius:14px;--radius-sm:8px;--shadow:0 4px 24px rgba(0,0,0,.3);
+--font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+--font-mono:'SF Mono','Fira Code','Cascadia Code',Consolas,monospace}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(139,92,246,.35)}::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--border-hover);border-radius:8px}
+a{color:var(--c);text-decoration:none}
+.app{display:flex;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:280px;background:var(--bg2);border-right:1px solid var(--border);
+display:flex;flex-direction:column;z-index:100;transition:transform .3s}
+.sidebar.hidden{transform:translateX(-100%)}
+.sb-head{padding:20px 18px 14px;border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--v),var(--c));
+display:grid;place-items:center;font-weight:800;color:#fff;font-size:18px;flex:none}
+.logo-t1{font-size:15px;font-weight:700}.logo-t2{font-size:11px;color:var(--text3)}
+.sb-nav{flex:1;overflow-y:auto;padding:10px}
+.nav-group{font-size:10px;letter-spacing:1px;color:var(--text3);padding:10px 8px 6px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;color:var(--text2);font-size:12.5px;transition:.2s}
+.nav-item:hover{background:var(--surface-hover);color:var(--text)}
+.nav-item.active{background:var(--surface-hover);color:var(--text);font-weight:600}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex:none}
+.nav-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-count{font-size:10px;color:var(--text3);font-family:var(--font-mono)}
+.sb-foot{padding:12px 18px;border-top:1px solid var(--border);font-size:10.5px;color:var(--text3)}
+.main{flex:1;margin-left:280px;min-width:0;transition:margin-left .3s}
+.main.wide{margin-left:0}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:12px 22px;
+background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.icon-btn{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:var(--surface);
+color:var(--text2);display:grid;place-items:center;cursor:pointer;font-size:15px;transition:.2s}
+.icon-btn:hover{background:var(--surface-hover);color:var(--text)}
+.tb-title{flex:1;min-width:0}
+.tb-title h1{margin:0;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-title p{margin:0;font-size:11px;color:var(--text3)}
+.content{max-width:1440px;margin:0 auto;padding:24px 22px 60px}
+.hero{position:relative;overflow:hidden;border-radius:var(--radius);padding:30px 28px;margin-bottom:22px;
+background:linear-gradient(135deg,color-mix(in srgb,var(--c) 18%,transparent),transparent 62%);border:1px solid var(--border)}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;
+background:radial-gradient(circle,color-mix(in srgb,var(--c) 35%,transparent),transparent 70%);animation:pulse 8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.hero .kicker{font-size:11px;letter-spacing:2px;color:var(--c);font-weight:700;margin-bottom:8px}
+.hero h2{margin:0 0 6px;font-size:26px;font-weight:750;letter-spacing:.3px}
+.hero p{margin:0;color:var(--text2);font-size:13px;max-width:760px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:20px;position:relative;z-index:1}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+.stat .k{font-size:11px;color:var(--text3)}
+.stat .v{font-size:22px;font-weight:700;font-family:var(--font-mono)}
+.stat .u{font-size:11px;color:var(--text3);margin-left:2px}
+.sec{margin-bottom:26px}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sec-bar{width:4px;height:20px;border-radius:4px;background:var(--c)}
+.sec-head h3{margin:0;font-size:16px;font-weight:650}
+.sec-meta{margin-left:auto;font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;
+transition:.25s;animation:fadeUp .4s ease both;overflow:hidden}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-2px);border-color:var(--border-hover);box-shadow:var(--shadow)}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--c)}
+.c-head{display:flex;gap:10px;align-items:flex-start;margin-top:4px}
+.c-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex:none;
+background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
+.c-name{font-size:13.5px;font-weight:600;word-break:break-word;line-height:1.35}
+.c-sub{font-size:10.5px;color:var(--text3);margin-top:2px}
+.c-meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 8px}
+.badge{font-size:10px;padding:2px 8px;border-radius:999px;background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.badge.tech{background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);border-color:transparent}
+.badge.warn{background:color-mix(in srgb,var(--o) 14%,transparent);color:var(--o);border-color:transparent}
+.c-sub-list{border-top:1px dashed var(--border);margin-top:8px;padding-top:8px;display:flex;flex-direction:column;gap:5px}
+.sub-row{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);min-width:0}
+.sub-dot{width:5px;height:5px;border-radius:50%;background:var(--c);opacity:.7;flex:none}
+.sub-k{color:var(--text3);flex:none}
+.sub-v{font-family:var(--font-mono);font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bars{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:22px}
+.bar-row{display:flex;align-items:center;gap:12px;margin:9px 0}
+.bar-name{width:90px;flex:none;font-size:12px;color:var(--text2);font-family:var(--font-mono)}
+.bar-track{flex:1;height:8px;border-radius:6px;background:var(--bg3);overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--c),var(--v))}
+.bar-num{width:70px;text-align:right;font-size:11px;color:var(--text3);font-family:var(--font-mono)}
+.prov{display:flex;flex-wrap:wrap;gap:8px}
+.prov-item{font-size:11px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text2)}
+.prov-item b{color:var(--text)}
+.foot{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.btn{padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);
+color:var(--text);font-size:12px;cursor:pointer;transition:.2s}
+.btn:hover{border-color:var(--border-hover);background:var(--surface-hover)}
+.btn.primary{background:linear-gradient(135deg,var(--v),var(--c));border-color:transparent;color:#fff;font-weight:600}
+@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.show{transform:translateX(0)}
+.main{margin-left:0}.content{padding:18px 14px 50px}.hero{padding:22px 18px}.hero h2{font-size:20px}
+.card-grid{grid-template-columns:1fr}.bar-name{width:70px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-head">
+      <div class="logo"><div class="logo-mark">Y</div>
+        <div><div class="logo-t1">YYC³ 知识库</div><div class="logo-t2">Visual Architecture · 24 类</div></div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="nav-group">总览</div>
+      <a class="nav-item" href="index.html"><span class="nav-dot" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4)"></span><span class="nav-name">分类索引</span><span class="nav-count">24</span></a>
+      <a class="nav-item" href="../YYC3-KNOWLEDGE-BASE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">资产看板</span><span class="nav-count">386</span></a>
+      <div class="nav-group">分类架构</div>
+      <a class="nav-item " href="YYC3-AI-应用工具-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ec4899"></span><span class="nav-name">AI-应用工具</span><span class="nav-count">22</span></a><a class="nav-item " href="YYC3-AI-模型服务-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">AI-模型服务</span><span class="nav-count">16</span></a><a class="nav-item " href="YYC3-Agent-智能体-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">Agent-智能体</span><span class="nav-count">21</span></a><a class="nav-item " href="YYC3-Business-商业应用-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">Business-商业应用</span><span class="nav-count">5</span></a><a class="nav-item " href="YYC3-Cloud-云原生-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">Cloud-云原生</span><span class="nav-count">8</span></a><a class="nav-item " href="YYC3-Data-数据存储-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">Data-数据存储</span><span class="nav-count">5</span></a><a class="nav-item " href="YYC3-Design-设计资源-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ec4899"></span><span class="nav-name">Design-设计资源</span><span class="nav-count">10</span></a><a class="nav-item " href="YYC3-Desktop-桌面应用-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">Desktop-桌面应用</span><span class="nav-count">3</span></a><a class="nav-item active" href="YYC3-Doc-文档知识-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">Doc-文档知识</span><span class="nav-count">8</span></a><a class="nav-item " href="YYC3-Editor-编辑器扩展-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">Editor-编辑器扩展</span><span class="nav-count">14</span></a><a class="nav-item " href="YYC3-Finance-金融量化-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">Finance-金融量化</span><span class="nav-count">4</span></a><a class="nav-item " href="YYC3-Frontend-前端框架-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">Frontend-前端框架</span><span class="nav-count">9</span></a><a class="nav-item " href="YYC3-IDE-编辑器内核-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">IDE-编辑器内核</span><span class="nav-count">13</span></a><a class="nav-item " href="YYC3-LSP-语言服务-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">LSP-语言服务</span><span class="nav-count">16</span></a><a class="nav-item " href="YYC3-Plugin-插件协议-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">Plugin-插件协议</span><span class="nav-count">17</span></a><a class="nav-item " href="YYC3-Runtime-标准库-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#8b5cf6"></span><span class="nav-name">Runtime-标准库</span><span class="nav-count">36</span></a><a class="nav-item " href="YYC3-Security-安全合规-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ef4444"></span><span class="nav-name">Security-安全合规</span><span class="nav-count">4</span></a><a class="nav-item " href="YYC3-Shell-终端-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#22c55e"></span><span class="nav-name">Shell-终端</span><span class="nav-count">5</span></a><a class="nav-item " href="YYC3-Skills-技能包-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ec4899"></span><span class="nav-name">Skills-技能包</span><span class="nav-count">22</span></a><a class="nav-item " href="YYC3-Syntax-语法高亮-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#ec4899"></span><span class="nav-name">Syntax-语法高亮</span><span class="nav-count">56</span></a><a class="nav-item " href="YYC3-Tool-开发工具链-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">Tool-开发工具链</span><span class="nav-count">45</span></a><a class="nav-item " href="YYC3-TypeDef-类型定义-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">TypeDef-类型定义</span><span class="nav-count">2</span></a><a class="nav-item " href="YYC3-UI-界面组件-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#f59e0b"></span><span class="nav-name">UI-界面组件</span><span class="nav-count">10</span></a><a class="nav-item " href="YYC3-WebSpec-Web标准-VISUAL-ARCHITECTURE.html"><span class="nav-dot" style="background:#06b6d4"></span><span class="nav-name">WebSpec-Web标准</span><span class="nav-count">35</span></a>
+    </nav>
+    <div class="sb-foot">数据快照：2026-11-10<br>24 类 · 386 个项目</div>
+  </aside>
+  <main class="main" id="main">
+    <header class="topbar">
+      <button class="icon-btn" id="btnMenu">☰</button>
+      <div class="tb-title"><h1>YYC³ Doc-文档知识 — 可视化架构</h1><p>书籍、课程与规范解读</p></div>
+      <a class="icon-btn" href="index.html" title="返回索引">⌂</a>
+    </header>
+    <section class="content">
+<div class="hero" style="--c:#22c55e">
+  <div class="kicker">Doc-文档知识 · VISUAL ARCHITECTURE</div>
+  <h2>📚 Doc-文档知识</h2>
+  <p>书籍、课程与规范解读</p>
+  <div class="stats">
+    <div class="stat"><div class="k">项目数</div><div class="v">8<span class="u">个</span></div></div>
+    <div class="stat"><div class="k">文件总量</div><div class="v">7,511</div></div>
+    <div class="stat"><div class="k">资产体积</div><div class="v">605.2 MB</div></div>
+    <div class="stat"><div class="k">技术栈</div><div class="v">13<span class="u">种</span></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sec-bar"></span><h3>技术构成</h3><span class="sec-meta">按项目覆盖数统计 TOP 10</span></div>
+  <div class="bars"><div class="bar-row"><span class="bar-name">.md</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-num">5 项目</span></div><div class="bar-row"><span class="bar-name">.svg</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div><div class="bar-row"><span class="bar-name">.png</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div><div class="bar-row"><span class="bar-name">.scss</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div><div class="bar-row"><span class="bar-name">.webp</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div><div class="bar-row"><span class="bar-name">.jpg</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div><div class="bar-row"><span class="bar-name">.ts</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div><div class="bar-row"><span class="bar-name">.tsx</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div><div class="bar-row"><span class="bar-name">.py</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div><div class="bar-row"><span class="bar-name">.txt</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1 项目</span></div></div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sec-bar"></span><h3>迁移来源</h3><span class="sec-meta">原字母桶 / 领域桶</span></div>
+  <div class="bars"><div class="prov"><span class="prov-item">YYC3-Tool-开发工具 <b>4</b></span><span class="prov-item">YYC3-Doc-文档资源 <b>2</b></span><span class="prov-item">YYC3-I <b>1</b></span><span class="prov-item">YYC3-J <b>1</b></span></div></div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sec-bar"></span><h3>项目清单（8）</h3>
+    <span class="sec-meta">7,511 文件 · 605.2 MB</span></div>
+  <div class="card-grid"><article class="card" style="--c:#22c55e">
+      <div class="c-head"><div class="c-icon">📚</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Doc-文档知识-ionic-site</div>
+        <div class="c-sub">Doc-文档知识 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">3,784 文件</span><span class="badge">207.6 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/ionic-site</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">svg · png · scss</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json, Dockerfile</span></div>
+      </div>
+    </article><article class="card" style="--c:#22c55e">
+      <div class="c-head"><div class="c-icon">📚</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Doc-文档知识-30-seconds-of-code</div>
+        <div class="c-sub">Doc-文档知识 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">3,300 文件</span><span class="badge">394.6 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-I/30-seconds-of-code</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">webp · md · jpg</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">package.json</span></div>
+      </div>
+    </article><article class="card" style="--c:#22c55e">
+      <div class="c-head"><div class="c-icon">📚</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Doc-文档知识-cwc-workshops</div>
+        <div class="c-sub">Doc-文档知识 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">321 文件</span><span class="badge">1.4 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/cwc-workshops</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">ts · tsx · py</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#22c55e">
+      <div class="c-head"><div class="c-icon">📚</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Doc-文档知识-YYC3-Yunshu-Multidimensional-Intelligent-Document</div>
+        <div class="c-sub">Doc-文档知识 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">75 文件</span><span class="badge">1.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-J/YYC3-Yunshu Multidimensional Intelligent Document</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#22c55e">
+      <div class="c-head"><div class="c-icon">📚</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Doc-文档知识-sg</div>
+        <div class="c-sub">Doc-文档知识 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">22 文件</span><span class="badge">0.2 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Doc-文档资源/sg</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md · txt · yml</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#22c55e">
+      <div class="c-head"><div class="c-icon">📚</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Doc-文档知识-participant-data</div>
+        <div class="c-sub">Doc-文档知识 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">4 文件</span><span class="badge">0.2 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/participant-data</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">json · md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#22c55e">
+      <div class="c-head"><div class="c-icon">📚</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Doc-文档知识-books</div>
+        <div class="c-sub">Doc-文档知识 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">3 文件</span><span class="badge">0.2 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Doc-文档资源/books</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">html</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article><article class="card" style="--c:#22c55e">
+      <div class="c-head"><div class="c-icon">📚</div>
+        <div style="flex:1;min-width:0"><div class="c-name">YYC3-Doc-文档知识-web-history</div>
+        <div class="c-sub">Doc-文档知识 · 主版本</div></div></div>
+      <div class="c-meta"><span class="badge">2 文件</span><span class="badge">0.0 MB</span>
+      </div>
+      <div class="c-sub-list">
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">原始</span><span class="sub-v">YYC3-Tool-开发工具/web-history</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">技术</span><span class="sub-v">md</span></div>
+        <div class="sub-row"><span class="sub-dot"></span><span class="sub-k">清单</span><span class="sub-v">—</span></div>
+      </div>
+    </article></div>
+</div>
+
+<div class="sec">
+  <div class="sec-head"><span class="sec-bar"></span><h3>关联入口</h3></div>
+  <div class="foot">
+    <a class="btn primary" href="../YYC3-KNOWLEDGE-BASE.html">打开资产看板</a>
+    <a class="btn" href="index.html">分类索引</a>
+    <a class="btn" href="../../YYC3-Doc-文档知识/README.md">分类 README</a>
+    <a class="btn" href="../YYC3-项目治理-全局汇总映射.md">全局映射文档</a>
+  </div>
+</div></section>
+  </main>
+</div>
+<script>
+var btn=document.getElementById('btnMenu');
+btn.onclick=function(){
+  var s=document.getElementById('sidebar');
+  if(window.innerWidth<=768){s.classList.toggle('show');}
+  else{s.classList.toggle('hidden');document.getElementById('main').classList.toggle('wide');}
+};
+</script>
+</body>
+</html>

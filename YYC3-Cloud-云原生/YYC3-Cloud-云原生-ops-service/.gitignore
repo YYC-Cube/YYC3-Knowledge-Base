@@ -1,0 +1,43 @@
+# Rust
+/target
+**/*.rs.bk
+*.pdb
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Database
+*.db
+*.sqlite
+
+# SSL certificates (user provides their own)
+# nginx/ssl/*.pem
+
+# Docker
+.dockerignore
+
+# SQLx offline mode data (optional, may be committed)
+# sqlx-data.json
+
+# Build artifacts
+/build/*
+.claude/*
+/dev-plan/*
+
+

@@ -1,0 +1,39 @@
+name: 'Install Dependencies'
+description: 'Installs yarn depdencies using cache when available'
+runs:
+  using: "composite"
+  steps:
+  - name: Get yarn cache directory path
+    shell: bash
+    id: yarn-cache-dir-path
+    run: echo "dir=$(node src/electron/script/yarn.js config get cacheFolder)" >> $GITHUB_OUTPUT
+  - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+    id: yarn-cache
+    with:
+      path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+      key: ${{ runner.os }}-yarn-${{ hashFiles('src/electron/yarn.lock') }}
+      restore-keys: |
+        ${{ runner.os }}-yarn-
+  - name: Install Dependencies
+    shell: bash
+    run: |
+      cd src/electron
+      node script/yarn.js install --immutable --mode=skip-build
+      # Pre-seed the node-gyp header cache so the parallel native-addon
+      # builds below don't race on a cold cache. Linux build containers
+      # already ship a warm cache (electron/build-images#68), so only do
+      # this on macOS / Windows runners.
+      if [ "$(uname -s)" != "Linux" ]; then
+        for i in 1 2 3; do
+          if node node_modules/node-gyp/bin/node-gyp.js install; then
+            break
+          fi
+          if [ "$i" = "3" ]; then
+            echo "node-gyp header pre-seed failed after 3 attempts" >&2
+            exit 1
+          fi
+          echo "node-gyp header pre-seed failed (attempt $i), retrying in 5s..." >&2
+          sleep 5
+        done
+      fi
+      node script/yarn.js install --immutable

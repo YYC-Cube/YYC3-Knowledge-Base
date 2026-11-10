@@ -1,0 +1,69 @@
+import type { HandleAddCondition } from '../types'
+import type { NodeOutPutVar, ValueSelector, Var } from '@/app/components/workflow/types'
+import { Button } from '@langgenius/dify-ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@langgenius/dify-ui/popover'
+import { RiAddLine } from '@remixicon/react'
+import { useCallback, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import VarReferenceVars from '@/app/components/workflow/nodes/_base/components/variable/var-reference-vars'
+
+type ConditionAddProps = {
+  className?: string
+  caseId: string
+  variables: NodeOutPutVar[]
+  onSelectVariable: HandleAddCondition
+  disabled?: boolean
+}
+
+const ConditionAdd = ({
+  className,
+  caseId,
+  variables,
+  onSelectVariable,
+  disabled,
+}: ConditionAddProps) => {
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const { t } = useTranslation()
+  const [open, setOpen] = useState(false)
+
+  const handleSelectVariable = useCallback(
+    (valueSelector: ValueSelector, varItem: Var) => {
+      onSelectVariable(caseId, valueSelector, varItem)
+      setOpen(false)
+    },
+    [caseId, onSelectVariable],
+  )
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger
+        render={
+          <Button size="small" className={className} disabled={disabled}>
+            <RiAddLine className="size-3.5" />
+            {t(($) => $['nodes.ifElse.addCondition'], { ns: 'workflow' })}
+          </Button>
+        }
+        onClick={(e) => {
+          if (disabled) e.preventDefault()
+        }}
+      />
+      <PopoverContent
+        initialFocus={searchInputRef}
+        placement="bottom-start"
+        sideOffset={4}
+        className="border-none bg-transparent p-0 shadow-none backdrop-blur-none"
+      >
+        <div className="w-74 rounded-lg border-[0.5px] border-components-panel-border bg-components-panel-bg-blur shadow-lg">
+          <VarReferenceVars
+            searchInputRef={searchInputRef}
+            vars={variables}
+            isSupportFileVar
+            onChange={handleSelectVariable}
+          />
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default ConditionAdd

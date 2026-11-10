@@ -1,0 +1,25 @@
+name: Accept Baselines
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+    - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+
+    - name: Configure Git, Run Tests, Update Baselines
+      run: |
+        git config user.email "typescriptbot@microsoft.com"
+        git config user.name "TypeScript Bot"
+        npm install
+        git rm -r --quiet tests/baselines
+        npm test
+        npm run accept
+        git add ./tests/baselines
+        git diff --cached
+        git commit -m "Update Baselines"
+        git push

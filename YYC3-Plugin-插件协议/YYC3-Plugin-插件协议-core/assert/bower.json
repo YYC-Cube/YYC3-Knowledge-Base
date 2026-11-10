@@ -1,0 +1,33 @@
+{
+  "name": "node-assert",
+  "description": "browser porting of assert.js in node.js",
+  "authors": [
+    "Jxck"
+  ],
+  "contributors": [
+    "David Bruant <bruant.d@gmail.com>",
+    "Oscar Godson <oscargodson@gmail.com>",
+    "Remy Sharp <remy@remysharp.com>",
+    "Salehen Shovon Rahman <salehen.rahman@gmail.com>",
+    "Takuto Wada <takuto.wada@gmail.com",
+    "Teppei Sato <teppeis@gmail.com>"
+  ],
+  "homepage": "https://github.com/Jxck/assert",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "npm-debug.log",
+    "test",
+    "tests"
+  ],
+  "keywords": [
+    "assert"
+  ],
+  "license": "MIT (same as node.js)",
+  "main": "assert.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Jxck/assert.git"
+  }
+}

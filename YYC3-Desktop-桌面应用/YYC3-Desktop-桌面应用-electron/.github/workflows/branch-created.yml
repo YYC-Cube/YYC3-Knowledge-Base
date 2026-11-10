@@ -1,0 +1,297 @@
+name: Branch Created
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch-name:
+        description: Branch name (e.g. `29-x-y`)
+        required: true
+        type: string
+  create:
+
+permissions: {}
+
+jobs:
+  release-branch-created:
+    name: Release Branch Created
+    if: ${{ github.repository == 'electron/electron' && (github.event_name == 'workflow_dispatch' || (github.event.ref_type == 'branch' && endsWith(github.event.ref, '-x-y') && !startsWith(github.event.ref, 'roller'))) }}
+    permissions:
+      contents: read
+      pull-requests: write
+      repository-projects: write  # Required for labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine Major Version
+        id: check-major-version
+        env:
+          BRANCH_NAME: ${{ github.event.inputs.branch-name || github.event.ref }}
+        run: |
+          if [[ "$BRANCH_NAME" =~ ^([0-9]+)-x-y$ ]]; then
+            echo "MAJOR=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+          else
+            echo "Not a release branch: $BRANCH_NAME"
+          fi
+      - name: Determine Next Unsupported Major Version
+        id: determine-next-unsupported-major
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        env:
+          MAJOR: ${{ steps.check-major-version.outputs.MAJOR }}
+        run: |
+          # Fetch the release schedule
+          SCHEDULE=$(curl -s https://releases.electronjs.org/schedule.json)
+
+          # Get the stableDate for the current major version
+          STABLE_DATE=$(echo "$SCHEDULE" | jq -r --arg major "${MAJOR}.0.0" '.[] | select(.version == $major) | .stableDate')
+
+          if [[ -z "$STABLE_DATE" || "$STABLE_DATE" == "null" ]]; then
+            echo "Could not find stableDate for version $MAJOR"
+            exit 1
+          fi
+
+          # Find the oldest version where eolDate >= stableDate of the new major
+          # This gives us the oldest supported version when the new major goes stable
+          NEXT_UNSUPPORTED_MAJOR=$(echo "$SCHEDULE" | jq -r --arg stableDate "$STABLE_DATE" '
+            [.[] | select(.eolDate != null and .eolDate >= $stableDate)] | sort_by(.version | split(".")[0] | tonumber) | first | .version | split(".")[0]
+          ')
+
+          if [[ -z "$NEXT_UNSUPPORTED_MAJOR" || "$NEXT_UNSUPPORTED_MAJOR" == "null" ]]; then
+            echo "Could not determine oldest supported version"
+            exit 1
+          fi
+
+          echo "SCHEDULE=$SCHEDULE" >> "$GITHUB_OUTPUT"
+          echo "NEXT_UNSUPPORTED_MAJOR=$NEXT_UNSUPPORTED_MAJOR" >> "$GITHUB_OUTPUT"
+      - name: New Release Branch Tasks
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: electron/electron
+          MAJOR: ${{ steps.check-major-version.outputs.MAJOR }}
+          NEXT_UNSUPPORTED_MAJOR: ${{ steps.determine-next-unsupported-major.outputs.NEXT_UNSUPPORTED_MAJOR }}
+        run: |
+          PREVIOUS_MAJOR=$((MAJOR - 1))
+          NEXT_MAJOR=$((MAJOR + 1))
+          UNSUPPORTED_MAJOR=$((NEXT_UNSUPPORTED_MAJOR - 1))
+
+          # Create new labels
+          gh label create ${NEXT_MAJOR}-x-y --color 8d9ee8 || true
+          gh label create target/$MAJOR-x-y --color ad244f --description "PR should also be added to the \"${MAJOR}-x-y\" branch." || true
+          gh label create merged/$MAJOR-x-y --color 61a3c6 --description "PR was merged to the \"${MAJOR}-x-y\" branch." || true
+          gh label create in-flight/$MAJOR-x-y --color db69a6 || true
+          gh label create needs-manual-bp/$MAJOR-x-y --color 8b5dba || true
+
+          # Change color of old labels
+          gh label edit $UNSUPPORTED_MAJOR-x-y --color ededed || true
+          gh label edit target/$UNSUPPORTED_MAJOR-x-y --color ededed || true
+          gh label edit merged/$UNSUPPORTED_MAJOR-x-y --color ededed || true
+          gh label edit in-flight/$UNSUPPORTED_MAJOR-x-y --color ededed || true
+          gh label edit needs-manual-bp/$UNSUPPORTED_MAJOR-x-y --color ededed || true
+
+          # Add the new target label to any PRs which:
+          #   * target the previous major
+          #   * are in-flight for the previous major
+          #   * need manual backport for the previous major
+          for PREVIOUS_MAJOR_LABEL in target/$PREVIOUS_MAJOR-x-y in-flight/$PREVIOUS_MAJOR-x-y needs-manual-bp/$PREVIOUS_MAJOR-x-y; do
+            PULL_REQUESTS=$(gh pr list --label $PREVIOUS_MAJOR_LABEL --jq .[].number --json number --limit 500)
+            if [[ $PULL_REQUESTS ]]; then
+              echo $PULL_REQUESTS | xargs -n 1 gh pr edit --add-label target/$MAJOR-x-y || true
+            fi
+          done
+      - name: Generate GitHub App token
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        uses: electron/github-app-auth-action@5f70a3726af01b612f29aac96d05aa524389c9e9 # v2.1.0
+        id: generate-token
+        with:
+          creds: ${{ secrets.RELEASE_BOARD_GH_APP_CREDS }}
+          org: electron
+      - name: Generate Release Project Board Metadata
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        id: generate-project-metadata
+        env:
+          MAJOR: ${{ steps.check-major-version.outputs.MAJOR }}
+          NEXT_UNSUPPORTED_MAJOR: ${{ steps.determine-next-unsupported-major.outputs.NEXT_UNSUPPORTED_MAJOR }}
+          SCHEDULE: ${{ steps.determine-next-unsupported-major.outputs.SCHEDULE }}
+        with:
+          script: |
+            const schedule = JSON.parse(process.env.SCHEDULE)
+
+            const major = parseInt(process.env.MAJOR)
+            const nextMajor = major + 1
+            const prevMajor = major - 1
+
+            const { betaDate, stableDate } = schedule.find(v => v.version === `${major}.0.0`)
+
+            const betaPrepWeek = new Date(betaDate)
+            betaPrepWeek.setDate(betaPrepWeek.getDate() - 8)
+            const betaPrepWeekEnd = new Date(betaPrepWeek)
+            betaPrepWeekEnd.setDate(betaPrepWeekEnd.getDate() + 4)
+
+            const stablePrepWeek = new Date(stableDate)
+            stablePrepWeek.setDate(stablePrepWeek.getDate() - 8)
+            const stablePrepWeekEnd = new Date(stablePrepWeek)
+            stablePrepWeekEnd.setDate(stablePrepWeekEnd.getDate() + 4)
+
+            const stableWeek = new Date(stableDate)
+            stableWeek.setDate(stableWeek.getDate() - 1)
+
+            const nextAlphaDate = new Date(stableDate)
+            nextAlphaDate.setDate(nextAlphaDate.getDate() + 2)
+
+            core.setOutput("major", major)
+            core.setOutput("next-major", nextMajor)
+            core.setOutput("prev-major", prevMajor)
+            core.setOutput("prev-prev-major", prevMajor - 1)
+            core.setOutput("template-view", JSON.stringify({
+                major,
+                "next-major": nextMajor,
+                "prev-major": prevMajor,
+                "ending-support-major": parseInt(process.env.NEXT_UNSUPPORTED_MAJOR),
+                "beta-date": betaDate,
+                "beta-prep-week": betaPrepWeek.toISOString().split('T')[0],
+                "beta-prep-week-end": betaPrepWeekEnd.toISOString().split('T')[0],
+                "stable-week": stableWeek.toISOString().split('T')[0],
+                "stable-prep-week": stablePrepWeek.toISOString().split('T')[0],
+                "stable-prep-week-end": stablePrepWeekEnd.toISOString().split('T')[0],
+                "stable-date": stableDate,
+                "next-alpha-date": nextAlphaDate.toISOString().split('T')[0],
+            }))
+      - name: Create Release Project Board
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        uses: dsanders11/project-actions/copy-project@4b06452b0128cf601dac14399aa668a8eed2d684 # v2.0.1
+        id: create-release-board
+        with:
+          drafts: true
+          project-number: 64
+          # TODO - Set to public once GitHub fixes their GraphQL bug
+          # public: true
+          # TODO - Enable once GitHub doesn't require overly broad, read
+          #        and write permission for repo "Contents" to link
+          # link-to-repository: electron/electron
+          template-view: ${{ steps.generate-project-metadata.outputs.template-view }}
+          title: ${{ steps.generate-project-metadata.outputs.major }}-x-y
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Randomly Assign Draft Issues to Release WG Members
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        uses: dsanders11/project-actions/github-script@4b06452b0128cf601dac14399aa668a8eed2d684 # v2.0.1
+        env:
+          PROJECT_ID: ${{ steps.create-release-board.outputs.id }}
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          script: |
+            const { data: members } = await github.rest.teams.listMembersInOrg({
+              org: 'electron',
+              team_slug: 'wg-releases',
+            });
+
+            const excludedLogins = ['nikwen'];
+            const memberLogins = new Set(members.map(m => m.login));
+            for (const login of excludedLogins) {
+              if (!memberLogins.has(login)) {
+                core.warning(`Excluded member "${login}" is not in @electron/wg-releases`);
+              }
+            }
+
+            const eligible = members.filter(m => !excludedLogins.includes(m.login));
+
+            if (eligible.length === 0) {
+              core.warning('No eligible members found in @electron/wg-releases team');
+              return;
+            }
+
+            const projectId = process.env.PROJECT_ID;
+            const draftIssues = await actions.getDraftIssues(projectId);
+
+            if (draftIssues.length === 0) {
+              core.info('No draft issues found in the project');
+              return;
+            }
+
+            // Fisher-Yates shuffle for uniform random assignment
+            const shuffled = [...eligible];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            // Assign draft issues round-robin across team members
+            for (let i = 0; i < draftIssues.length; i++) {
+              const member = shuffled[i % shuffled.length];
+              const draftIssue = draftIssues[i];
+              core.info(`Assigning "${draftIssue.content.title}" to ${member.login}`);
+              await actions.editItem(projectId, draftIssue.content.id, {
+                assignees: [member.login],
+              });
+            }
+
+            core.info(`Assigned ${draftIssues.length} draft issues to ${eligible.length} team members`);
+      - name: Add Merged PRs to Release Project Board
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        uses: dsanders11/project-actions/github-script@4b06452b0128cf601dac14399aa668a8eed2d684 # v2.0.1
+        env:
+          PROJECT_ID: ${{ steps.create-release-board.outputs.id }}
+          PROJECT_NUMBER: ${{ steps.create-release-board.outputs.number }}
+          MAJOR: ${{ steps.check-major-version.outputs.MAJOR }}
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          script: |
+            const projectId = process.env.PROJECT_ID;
+            const projectNumber = process.env.PROJECT_NUMBER;
+            const major = process.env.MAJOR;
+
+            // Maps the `semver/*` label to the matching "Semver" field option
+            const semverLabelToField = {
+              'semver/major': 'Major',
+              'semver/minor': 'Minor',
+              'semver/patch': 'Patch',
+              'semver/none': 'None',
+            };
+
+            const pullRequests = await github.paginate(github.rest.issues.listForRepo, {
+              owner: 'electron',
+              repo: 'electron',
+              labels: `${major}-x-y`,
+              state: 'closed',
+              per_page: 100,
+            });
+
+            for (const pr of pullRequests) {
+              // `listForRepo` returns both issues and pull requests, and we only
+              // want pull requests which have actually been merged
+              if (!pr.pull_request?.merged_at) continue;
+
+              core.info(`Adding #${pr.number} to the release project board`);
+              const itemId = await actions.addItem('electron', projectNumber, pr.html_url);
+
+              const semverLabel = pr.labels
+                .map(label => (typeof label === 'string' ? label : label.name))
+                .find(name => name in semverLabelToField);
+
+              if (semverLabel) {
+                const fieldValue = semverLabelToField[semverLabel];
+                core.info(`Setting Semver to "${fieldValue}" for #${pr.number}`);
+                await actions.editItem(projectId, itemId, {
+                  field: 'Semver',
+                  fieldValue,
+                });
+              }
+            }
+      - name: Dump Release Project Board Contents
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        run: gh project item-list ${{ steps.create-release-board.outputs.number }} --owner electron --format json | jq
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+      - name: Find Previous Release Project Board
+        if: ${{ steps.check-major-version.outputs.MAJOR }}
+        uses: dsanders11/project-actions/find-project@4b06452b0128cf601dac14399aa668a8eed2d684 # v2.0.1
+        id: find-prev-release-board
+        with:
+          fail-if-project-not-found: false
+          title: ${{ steps.generate-project-metadata.outputs.prev-prev-major }}-x-y
+          token: ${{ steps.generate-token.outputs.token }}
+      - name: Close Previous Release Project Board
+        if: ${{ steps.find-prev-release-board.outputs.number }}
+        uses: dsanders11/project-actions/close-project@4b06452b0128cf601dac14399aa668a8eed2d684 # v2.0.1
+        with:
+          project-number: ${{ steps.find-prev-release-board.outputs.number }}
+          token: ${{ steps.generate-token.outputs.token }}

@@ -1,0 +1,94 @@
+// Copyright (c) 2018 GitHub, Inc.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+
+#ifndef ELECTRON_SHELL_BROWSER_API_ELECTRON_API_NET_LOG_H_
+#define ELECTRON_SHELL_BROWSER_API_ELECTRON_API_NET_LOG_H_
+
+#include <optional>
+
+#include "base/memory/raw_ptr.h"
+#include "base/values.h"
+#include "gin/weak_cell.h"
+#include "gin/wrappable.h"
+#include "mojo/public/cpp/bindings/remote.h"
+#include "net/log/net_log_capture_mode.h"
+#include "services/network/public/mojom/net_log.mojom.h"
+#include "shell/common/gc_plugin.h"
+#include "shell/common/gin_helper/promise.h"
+
+namespace base {
+class FilePath;
+class TaskRunner;
+}  // namespace base
+
+namespace gin {
+class Arguments;
+}  // namespace gin
+
+namespace gin_helper {
+template <typename T>
+class Handle;
+}  // namespace gin_helper
+
+namespace electron {
+
+class ElectronBrowserContext;
+
+namespace api {
+
+// The code is referenced from the net_log::NetExportFileWriter class.
+class NetLog final : public gin::Wrappable<NetLog> {
+ public:
+  static NetLog* Create(v8::Isolate* isolate,
+                        ElectronBrowserContext* browser_context);
+
+  // Make public for cppgc::MakeGarbageCollected.
+  explicit NetLog(ElectronBrowserContext* browser_context);
+  ~NetLog() override;
+
+  // disable copy
+  NetLog(const NetLog&) = delete;
+  NetLog& operator=(const NetLog&) = delete;
+
+  // gin_helper::Wrappable
+  static gin::WrapperInfo kWrapperInfo;
+  gin::ObjectTemplateBuilder GetObjectTemplateBuilder(
+      v8::Isolate* isolate) override;
+  const gin::WrapperInfo* wrapper_info() const override;
+  const char* GetHumanReadableName() const override;
+  void Trace(cppgc::Visitor*) const override;
+
+  v8::Local<v8::Promise> StartLogging(base::FilePath log_path,
+                                      gin::Arguments* args);
+  v8::Local<v8::Promise> StopLogging(v8::Isolate* isolate);
+  bool IsCurrentlyLogging() const;
+
+ protected:
+  void OnConnectionError();
+
+  void StartNetLogAfterCreateFile(net::NetLogCaptureMode capture_mode,
+                                  uint64_t max_file_size,
+                                  base::DictValue custom_constants,
+                                  base::File output_file);
+  void NetLogStarted(int32_t error);
+
+ private:
+  raw_ptr<ElectronBrowserContext> browser_context_;
+
+  GC_PLUGIN_IGNORE(
+      "Context tracking of remote is not needed in the browser process.")
+  mojo::Remote<network::mojom::NetLogExporter> net_log_exporter_;
+
+  std::optional<gin_helper::Promise<void>> pending_start_promise_;
+
+  scoped_refptr<base::TaskRunner> file_task_runner_;
+
+  gin::WeakCellFactory<NetLog> weak_factory_{this};
+};
+
+}  // namespace api
+
+}  // namespace electron
+
+#endif  // ELECTRON_SHELL_BROWSER_API_ELECTRON_API_NET_LOG_H_

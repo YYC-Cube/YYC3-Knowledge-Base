@@ -1,0 +1,112 @@
+# 全栈部署: PostgreSQL + RabbitMQ + API + Nginx + Runner
+services:
+  postgres:
+    image: postgres:16-bookworm
+    container_name: ops-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ops_service}
+      POSTGRES_USER: ${POSTGRES_USER:-ops_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ops_pass}
+    networks:
+      - ops_internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ops_user}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ops-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-ops}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-ops123}
+    networks:
+      - ops_internal
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ops-api
+    restart: unless-stopped
+    environment:
+      OPS_SERVER__ADDR: 0.0.0.0:3000
+      OPS_SERVER__GRACEFUL_SHUTDOWN_TIMEOUT_SECS: 30
+      OPS_DATABASE__URL: postgresql://${POSTGRES_USER:-ops_user}:${POSTGRES_PASSWORD:-ops_pass}@postgres:5432/${POSTGRES_DB:-ops_service}
+      OPS_DATABASE__MAX_CONNECTIONS: 10
+      OPS_DATABASE__MIN_CONNECTIONS: 2
+      OPS_DATABASE__ACQUIRE_TIMEOUT_SECS: 30
+      OPS_DATABASE__IDLE_TIMEOUT_SECS: 600
+      OPS_DATABASE__MAX_LIFETIME_SECS: 1800
+      OPS_DATABASE__AUTO_CREATE_IF_MISSING: "true"
+      OPS_LOGGING__LEVEL: info
+      OPS_LOGGING__FORMAT: json
+      OPS_SECURITY__JWT_SECRET: ${JWT_SECRET}
+      OPS_SECURITY__RATE_LIMIT_RPS: "100"
+      OPS_SECURITY__TRUST_PROXY: "true"
+      OPS_SECURITY__RUNNER_API_KEY: ${RUNNER_API_KEY}
+      OPS_SECURITY__RUNNER_WEBHOOK_HMAC_SECRET: ${RUNNER_WEBHOOK_HMAC_SECRET}
+      OPS_SECURITY__LOGIN_RATE_LIMIT_MAX_ATTEMPTS: "10"
+      OPS_SECURITY__LOGIN_RATE_LIMIT_WINDOW_SECS: "300"
+      OPS_RABBITMQ__AMQP_URL: amqp://${RABBITMQ_USER:-ops}:${RABBITMQ_PASS:-ops123}@rabbitmq:5672/%2F
+      OPS_RABBITMQ__VHOST: /
+      OPS_RABBITMQ__BUILD_EXCHANGE: ops.build
+      OPS_RABBITMQ__RUNNER_EXCHANGE: ops.runner
+      OPS_RABBITMQ__POOL_SIZE: "5"
+      OPS_RABBITMQ__PUBLISH_TIMEOUT_SECS: "10"
+      OPS_CONCURRENCY__GLOBAL_LIMIT: "50"
+      OPS_CONCURRENCY__STRATEGY: wait
+      OPS_METRICS__ENABLED: "true"
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - ops_internal
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+
+  runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.ops-runner
+    container_name: ops-runner
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      RUNNER_NAME: docker-runner-01
+      RUNNER_CAPABILITIES: rust,node,docker
+      RUNNER_DOCKER_SUPPORTED: "true"
+      RUNNER_MAX_CONCURRENT_JOBS: "2"
+      CONTROL_PLANE_API_URL: http://api:3000
+      RUNNER_API_KEY: ${RUNNER_API_KEY}
+      RABBITMQ_AMQP_URL: amqp://${RABBITMQ_USER:-ops}:${RABBITMQ_PASS:-ops123}@rabbitmq:5672/%2F
+      RABBITMQ_VHOST: /
+      RABBITMQ_EXCHANGE: ops.build
+      RUNNER_WORKSPACE_DIR: /tmp/ops-runner/workspace
+      RUST_LOG: info
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - ops_internal
+
+networks:
+  ops_internal:
+    driver: bridge

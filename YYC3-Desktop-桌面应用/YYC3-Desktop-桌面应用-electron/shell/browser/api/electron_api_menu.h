@@ -1,0 +1,167 @@
+// Copyright (c) 2013 GitHub, Inc.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+
+#ifndef ELECTRON_SHELL_BROWSER_API_ELECTRON_API_MENU_H_
+#define ELECTRON_SHELL_BROWSER_API_ELECTRON_API_MENU_H_
+
+#include <memory>
+#include <string>
+
+#include "gin/wrappable.h"
+#include "shell/browser/event_emitter_mixin.h"
+#include "shell/browser/ui/electron_menu_model.h"
+#include "shell/common/gin_helper/constructible.h"
+#include "shell/common/gin_helper/self_keep_alive.h"
+#include "ui/base/mojom/menu_source_type.mojom-forward.h"
+#include "v8/include/cppgc/member.h"
+
+namespace gin {
+class Arguments;
+}  // namespace gin
+
+namespace electron::api {
+
+class BaseWindow;
+class WebFrameMain;
+
+class Menu : public gin::Wrappable<Menu>,
+             public gin_helper::EventEmitterMixin<Menu>,
+             public gin_helper::Constructible<Menu>,
+             public ElectronMenuModel::Delegate,
+             private ElectronMenuModel::Observer {
+ public:
+  static Menu* New(gin::Arguments* args);
+
+  // Make public for cppgc::MakeGarbageCollected.
+  explicit Menu(gin::Arguments* args);
+  ~Menu() override;
+
+  // disable copy
+  Menu(const Menu&) = delete;
+  Menu& operator=(const Menu&) = delete;
+
+  // gin::Wrappable
+  static const gin::WrapperInfo kWrapperInfo;
+  const gin::WrapperInfo* wrapper_info() const override;
+  const char* GetHumanReadableName() const override;
+  void Trace(cppgc::Visitor*) const override;
+
+  // gin_helper::Constructible
+  static void FillObjectTemplate(v8::Isolate*, v8::Local<v8::ObjectTemplate>);
+  static const char* GetClassName() { return "Menu"; }
+
+#if BUILDFLAG(IS_MAC)
+  // Set the global menubar.
+  static void SetApplicationMenu(Menu* menu);
+
+  // Fake sending an action from the application menu.
+  static void SendActionToFirstResponder(const std::string& action);
+#endif
+
+  ElectronMenuModel* model() const { return model_.get(); }
+
+ protected:
+  // Remove this instance as an observer from the model. Called by derived
+  // class destructors to ensure observer is removed before platform-specific
+  // cleanup that may trigger model callbacks.
+  void RemoveModelObserver();
+  // Returns a new callback which keeps references of the JS wrapper until the
+  // passed |callback| is called.
+  base::OnceClosure BindSelfToClosure(base::OnceClosure callback);
+
+  // ui::SimpleMenuModel::Delegate:
+  bool IsCommandIdChecked(int command_id) const override;
+  bool IsCommandIdEnabled(int command_id) const override;
+  bool IsCommandIdVisible(int command_id) const override;
+  std::u16string GetLabelForCommandId(int command_id) const override;
+  std::u16string GetAccessibilityLabelForCommandId(
+      int command_id) const override;
+  std::u16string GetSecondaryLabelForCommandId(int command_id) const override;
+  ui::ImageModel GetIconForCommandId(int command_id) const override;
+  bool ShouldCommandIdWorkWhenHidden(int command_id) const override;
+  bool GetAcceleratorForCommandIdWithParams(
+      int command_id,
+      bool use_default_accelerator,
+      ui::Accelerator* accelerator) const override;
+  bool ShouldRegisterAcceleratorForCommandId(int command_id) const override;
+#if BUILDFLAG(IS_MAC)
+  bool GetSharingItemForCommandId(
+      int command_id,
+      ElectronMenuModel::SharingItem* item) const override;
+  v8::Local<v8::Value> GetUserAcceleratorAt(int command_id) const;
+  virtual void SimulateSubmenuCloseSequenceForTesting();
+#endif
+  void ExecuteCommand(int command_id, int event_flags) override;
+  void OnMenuWillShow(ui::SimpleMenuModel* source) override;
+
+  virtual void PopupAt(BaseWindow* window,
+                       std::optional<WebFrameMain*> frame,
+                       int x,
+                       int y,
+                       int positioning_item,
+                       ui::mojom::MenuSourceType source_type,
+                       base::OnceClosure callback) = 0;
+  virtual void ClosePopupAt(int32_t window_id) = 0;
+  virtual std::u16string GetAcceleratorTextAtForTesting(int index) const;
+
+  // Observable:
+  void OnMenuWillClose() override;
+  void OnMenuWillShow() override;
+
+ private:
+  void InsertItemAt(int index, int command_id, const std::u16string& label);
+  void InsertSeparatorAt(int index);
+  void InsertCheckItemAt(int index,
+                         int command_id,
+                         const std::u16string& label);
+  void InsertRadioItemAt(int index,
+                         int command_id,
+                         const std::u16string& label,
+                         int group_id);
+  void InsertSubMenuAt(int index,
+                       int command_id,
+                       const std::u16string& label,
+                       Menu* menu);
+  void SetIcon(int index, const gfx::Image& image);
+  void SetSublabel(int index, const std::u16string& sublabel);
+  void SetToolTip(int index, const std::u16string& toolTip);
+  void SetRole(int index, const std::u16string& role);
+  void SetCustomType(int index, const std::u16string& customType);
+  void Clear();
+  int GetIndexOfCommandId(int command_id) const;
+  int GetItemCount() const;
+
+  std::unique_ptr<ElectronMenuModel> model_;
+  cppgc::Member<Menu> parent_;
+
+  // Keep active menus alive even if they've been replaced.
+  gin_helper::SelfKeepAlive<Menu> keep_alive_{nullptr};
+};
+
+}  // namespace electron::api
+
+namespace gin {
+
+template <>
+struct Converter<electron::ElectronMenuModel*> {
+  static bool FromV8(v8::Isolate* isolate,
+                     v8::Local<v8::Value> val,
+                     electron::ElectronMenuModel** out) {
+    // null would be transferred to nullptr.
+    if (val->IsNull()) {
+      *out = nullptr;
+      return true;
+    }
+
+    electron::api::Menu* menu;
+    if (!Converter<electron::api::Menu*>::FromV8(isolate, val, &menu))
+      return false;
+    *out = menu->model();
+    return true;
+  }
+};
+
+}  // namespace gin
+
+#endif  // ELECTRON_SHELL_BROWSER_API_ELECTRON_API_MENU_H_

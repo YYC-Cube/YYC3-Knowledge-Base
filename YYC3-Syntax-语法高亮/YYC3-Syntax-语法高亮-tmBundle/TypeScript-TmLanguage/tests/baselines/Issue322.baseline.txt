@@ -1,0 +1,200 @@
+original file
+-----------------------------------
+export enum TokenType {
+    StartCommentTag,
+    Comment,
+    EndCommentTag,
+    StartTagOpen,
+    StartTagClose,
+    StartTagSelfClose,
+    StartTag,
+    EndTagOpen,
+    EndTagClose,
+    EndTag,
+    DelimiterAssign,
+    AttributeName,
+    AttributeValue,
+    StartDoctypeTag,
+    Doctype,
+    EndDoctypeTag,
+    Content,
+    Whitespace,
+    Unknown,
+    Script,
+    Styles,
+    EOS
+}
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>export enum TokenType {
+ ^^^^^^
+ source.ts meta.enum.declaration.ts keyword.control.export.ts
+       ^
+       source.ts meta.enum.declaration.ts
+        ^^^^
+        source.ts meta.enum.declaration.ts storage.type.enum.ts
+            ^
+            source.ts meta.enum.declaration.ts
+             ^^^^^^^^^
+             source.ts meta.enum.declaration.ts entity.name.type.enum.ts
+                      ^
+                      source.ts meta.enum.declaration.ts
+                       ^
+                       source.ts meta.enum.declaration.ts punctuation.definition.block.ts
+>    StartCommentTag,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                    ^
+                    source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    Comment,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+            ^
+            source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    EndCommentTag,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                  ^
+                  source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    StartTagOpen,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                 ^
+                 source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    StartTagClose,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                  ^
+                  source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    StartTagSelfClose,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                      ^
+                      source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    StartTag,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+             ^
+             source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    EndTagOpen,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+               ^
+               source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    EndTagClose,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                ^
+                source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    EndTag,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+           ^
+           source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    DelimiterAssign,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                    ^
+                    source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    AttributeName,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                  ^
+                  source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    AttributeValue,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                   ^
+                   source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    StartDoctypeTag,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                    ^
+                    source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    Doctype,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+            ^
+            source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    EndDoctypeTag,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+                  ^
+                  source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    Content,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+            ^
+            source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    Whitespace,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+               ^
+               source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    Unknown,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+            ^
+            source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    Script,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+           ^
+           source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    Styles,
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+           ^
+           source.ts meta.enum.declaration.ts punctuation.separator.comma.ts
+>    EOS
+ ^^^^
+ source.ts meta.enum.declaration.ts
+     ^^^
+     source.ts meta.enum.declaration.ts variable.other.enummember.ts
+>}
+ ^
+ source.ts meta.enum.declaration.ts punctuation.definition.block.ts

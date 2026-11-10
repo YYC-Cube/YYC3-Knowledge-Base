@@ -1,0 +1,104 @@
+.md {
+  .range-knob-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .range-knob {
+    transition-duration: 200ms;
+    transition-property: transform, background-color;
+    width: 4px;
+    height: var(--f7-range-knob-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .range-knob-active-state .range-knob {
+    transform: scaleX(0.5);
+  }
+  .range-slider-vertical .range-knob {
+    width: var(--f7-range-knob-height);
+    height: 4px;
+  }
+  .range-slider-vertical .range-knob-active-state .range-knob {
+    transform: scaleY(0.5);
+  }
+  .range-slider-min:not(.range-slider-dual) {
+    .range-knob {
+      background: #fff !important;
+      border: 2px solid var(--f7-range-bar-bg-color);
+    }
+  }
+  .range-knob-label {
+    width: var(--f7-range-label-size);
+    margin-left: calc(-1 * var(--f7-range-label-size) / 2);
+    margin-bottom: 8px;
+    &:before {
+      content: '';
+      left: 50%;
+      top: 0px;
+      margin-left: calc(-1 * var(--f7-range-label-size) / 2);
+      position: absolute;
+      z-index: -1;
+      width: var(--f7-range-label-size);
+      height: var(--f7-range-label-size);
+      background: var(--f7-range-label-bg-color, var(--f7-theme-color));
+      transform: rotate(-45deg);
+      border-radius: 50% 50% 50% 0;
+    }
+  }
+  .range-knob-active-state .range-knob-label {
+    transform: translateY(0%) scale(1);
+  }
+  .range-bar-active,
+  .range-bar-inactive {
+    border-radius: 4px;
+  }
+  .range-slider {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--f7-range-knob-color);
+      top: calc(50% - 2px);
+      z-index: 1;
+      pointer-events: none;
+      transition-duration: 200ms;
+    }
+    &::before {
+      left: calc(var(--f7-range-knob-width) / 2 - 2px);
+    }
+    &::after {
+      right: calc(var(--f7-range-knob-width) / 2 - 2px);
+    }
+    &:not(.range-slider-dual)::before {
+      content: none;
+      display: none;
+    }
+    &:has(.range-knob-active-state) {
+      &::before,
+      &::after {
+        transform: scale(0.5);
+      }
+    }
+    &.range-slider-vertical {
+      &::before,
+      &::after {
+        top: auto;
+        left: calc(50% - 2px);
+        right: auto;
+      }
+      &::before {
+        bottom: calc(var(--f7-range-knob-width) / 2 - 2px);
+      }
+      &::after {
+        top: calc(var(--f7-range-knob-width) / 2 - 2px);
+      }
+    }
+  }
+}

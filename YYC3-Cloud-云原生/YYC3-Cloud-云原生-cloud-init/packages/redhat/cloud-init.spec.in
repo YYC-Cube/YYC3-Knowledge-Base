@@ -1,0 +1,132 @@
+## template: jinja
+
+# See: http://www.zarb.org/~jasonc/macros.php
+# Or: http://fedoraproject.org/wiki/Packaging:ScriptletSnippets
+# Or: http://www.rpm.org/max-rpm/ch-rpm-inside.html
+
+Name:           cloud-init
+Version:        {{rpm_upstream_version}}
+Release:        1{{subrelease}}%{?dist}
+Summary:        Cloud instance initialization tool
+
+Group:          System Environment/Base
+License:        Dual-licesed GPLv3 or Apache 2.0
+URL:            https://github.com/canonical/cloud-init
+
+Source0:        {{archive_name}}
+BuildArch:      noarch
+BuildRoot:      %{_tmppath}
+
+Requires:       systemd
+BuildRequires:  pkgconfig(systemd)
+Requires:       systemd-units
+BuildRequires:  systemd-units
+
+{% for r in buildrequires %}
+BuildRequires:  {{r}}
+{% endfor %}
+
+# System util packages needed
+%ifarch %{?ix86} x86_64 ia64
+Requires:       dmidecode
+%endif
+
+
+# Install 'dynamic' runtime reqs from *requirements.txt and pkg-deps.json.
+# Install them as BuildRequires too as they're used for testing.
+{% for r in requires %}
+BuildRequires:  {{r}}
+Requires:       {{r}}
+{% endfor %}
+
+# Custom patches
+{% for p in patches %}
+Patch{{loop.index0}}: {{p}}
+{% endfor %}
+
+Requires(post):       systemd
+Requires(preun):      systemd
+Requires(postun):     systemd
+
+%description
+Cloud-init is a set of init scripts for cloud instances.  Cloud instances
+need special scripts to run during initialization to retrieve and install
+ssh keys and to let the user run various scripts.
+
+%prep
+%setup -q -n {{source_name}}
+
+# Custom patches activation
+{% for p in patches %}
+%patch{{loop.index0}} -p1
+{% endfor %}
+
+%build
+%meson -Dinit_system=systemd -Ddistro_templates=chef_client.rb.tmpl,chrony.conf.rhel.tmpl,hosts.redhat.tmpl,ntp.conf.rhel.tmpl,resolv.conf.tmpl,timesyncd.conf.tmpl -Ddisable_sshd_keygen=true -Ddownstream_version=%{version}-%{release}
+%meson_build
+
+%install
+%meson_install
+
+# Note that /etc/rsyslog.d didn't exist by default until F15.
+# el6 request: https://bugzilla.redhat.com/show_bug.cgi?id=740420
+mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/rsyslog.d
+cp -p tools/21-cloudinit.conf \
+      $RPM_BUILD_ROOT/%{_sysconfdir}/rsyslog.d/21-cloudinit.conf
+
+# Required dirs...
+mkdir -p $RPM_BUILD_ROOT/%{_sharedstatedir}/cloud
+mkdir -p $RPM_BUILD_ROOT/%{_libexecdir}/%{name}
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%post
+%systemd_post cloud-init-main.service cloud-config.service cloud-config.target cloud-final.service cloud-init-network.service cloud-init.target cloud-init-local.service
+
+
+%preun
+%systemd_preun cloud-init-main.service cloud-config.service cloud-config.target cloud-final.service cloud-init-network.service cloud-init.target cloud-init-local.service
+
+
+%postun
+%systemd_postun cloud-init-main.service cloud-config.service cloud-config.target cloud-final.service cloud-init-network.service cloud-init.target cloud-init-local.service
+
+%files
+
+%{_udevrulesdir}/66-azure-ephemeral.rules
+
+/usr/lib/systemd/system-generators/cloud-init-generator
+%{_unitdir}/cloud-*
+
+# Program binaries
+%{_bindir}/cloud-init*
+%{_bindir}/cloud-id*
+
+# Docs
+%doc LICENSE ChangeLog requirements.txt
+%doc %{_defaultdocdir}/cloud-init/*
+
+# Configs
+%config(noreplace)      %{_sysconfdir}/cloud/cloud.cfg
+%dir                    %{_sysconfdir}/cloud/cloud.cfg.d
+%config(noreplace)      %{_sysconfdir}/cloud/cloud.cfg.d/*.cfg
+%config(noreplace)      %{_sysconfdir}/cloud/cloud.cfg.d/README
+%dir                    %{_sysconfdir}/cloud/templates
+%config(noreplace)      %{_sysconfdir}/cloud/templates/*
+%config(noreplace) %{_sysconfdir}/rsyslog.d/21-cloudinit.conf
+%config(noreplace) %{_unitdir}/sshd-keygen@.service.d/disable-sshd-keygen-if-cloud-init-active.conf
+
+# Bash completion script
+%dir %{_datadir}/bash-completion/completions
+%{_datadir}/bash-completion/completions/cloud-init
+
+# Man pages
+%dir %{_mandir}/man1
+%{_mandir}/man1/*.gz
+
+%{_libexecdir}/%{name}
+%dir %{_sharedstatedir}/cloud
+
+# Python code is here...
+%{python3_sitelib}/*

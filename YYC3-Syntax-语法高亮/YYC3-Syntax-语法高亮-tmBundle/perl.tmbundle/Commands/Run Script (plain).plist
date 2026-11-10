@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveModifiedFiles</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18
+
+require "#{ENV["TM_SUPPORT_PATH"]}/lib/tm/executor"
+require "#{ENV["TM_SUPPORT_PATH"]}/lib/tm/save_current_document"
+
+TextMate.save_if_untitled('pl')
+TextMate::Executor.make_project_master_current_document
+
+TextMate::Executor.run(ENV["TM_PERL"] || "perl", "-I#{ENV["TM_BUNDLE_SUPPORT"]}",
+     "-Mexception_handler", ENV["TM_FILEPATH"], :create_error_pipe =&gt; true, :version_args =&gt; ["-e", 'printf "Perl v%vd", $^V;'])
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>keyEquivalent</key>
+	<string>@r</string>
+	<key>name</key>
+	<string>Run Script</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>html</string>
+	<key>outputLocation</key>
+	<string>newWindow</string>
+	<key>scope</key>
+	<string>source.perl</string>
+	<key>semanticClass</key>
+	<string>process.run.script.perl</string>
+	<key>uuid</key>
+	<string>2F3DB2EF-6B9E-4E5F-87A8-3675680E5C0D</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

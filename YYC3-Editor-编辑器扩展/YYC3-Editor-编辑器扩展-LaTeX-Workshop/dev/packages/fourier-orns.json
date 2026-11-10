@@ -1,0 +1,154 @@
+{
+  "deps": [
+    {
+      "name": "iftex"
+    }
+  ],
+  "macros": [
+    {
+      "name": "eurologo"
+    },
+    {
+      "name": "noway"
+    },
+    {
+      "name": "warning"
+    },
+    {
+      "name": "caution"
+    },
+    {
+      "name": "oldpilcrowone"
+    },
+    {
+      "name": "oldpilcrowtwo"
+    },
+    {
+      "name": "oldpilcrowthree"
+    },
+    {
+      "name": "oldpilcrowfour"
+    },
+    {
+      "name": "oldpilcrowfive"
+    },
+    {
+      "name": "oldpilcrowsix"
+    },
+    {
+      "name": "bomb"
+    },
+    {
+      "name": "grimace"
+    },
+    {
+      "name": "textthing"
+    },
+    {
+      "name": "textxswup"
+    },
+    {
+      "name": "textxswdown"
+    },
+    {
+      "name": "decoone"
+    },
+    {
+      "name": "decothreeleft"
+    },
+    {
+      "name": "decothreeright"
+    },
+    {
+      "name": "decofourleft"
+    },
+    {
+      "name": "decofourright"
+    },
+    {
+      "name": "decosix"
+    },
+    {
+      "name": "decotwo"
+    },
+    {
+      "name": "floweroneleft"
+    },
+    {
+      "name": "floweroneright"
+    },
+    {
+      "name": "starredbullet"
+    },
+    {
+      "name": "leafNE"
+    },
+    {
+      "name": "leafSE"
+    },
+    {
+      "name": "leafNW"
+    },
+    {
+      "name": "leafSW"
+    },
+    {
+      "name": "leafleft"
+    },
+    {
+      "name": "leafright"
+    },
+    {
+      "name": "aldinesmall"
+    },
+    {
+      "name": "aldinesmallup"
+    },
+    {
+      "name": "aldinesmallrevert"
+    },
+    {
+      "name": "aldineleft"
+    },
+    {
+      "name": "aldineright"
+    },
+    {
+      "name": "aldine"
+    },
+    {
+      "name": "lefthand"
+    },
+    {
+      "name": "righthand"
+    },
+    {
+      "name": "leftblackhand"
+    },
+    {
+      "name": "rightblackhand"
+    },
+    {
+      "name": "grappe"
+    },
+    {
+      "name": "leftgrappe"
+    },
+    {
+      "name": "rightgrappe"
+    },
+    {
+      "name": "FourierOrns",
+      "unusual": true
+    }
+  ],
+  "envs": [],
+  "keys": {
+    "\\usepackage/fourier-orns#c": [
+      "noOTF"
+    ]
+  },
+  "args": [
+    "\\usepackage/fourier-orns#c"
+  ]
+}

@@ -1,0 +1,142 @@
+// Copyright (c) 2015 GitHub, Inc.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+
+#include "shell/browser/login_handler.h"
+
+#include <utility>
+
+#include "base/task/sequenced_task_runner.h"
+#include "content/public/browser/browser_thread.h"
+#include "gin/arguments.h"
+#include "gin/dictionary.h"
+#include "net/http/http_response_headers.h"
+#include "shell/browser/api/electron_api_app.h"
+#include "shell/browser/api/electron_api_utility_process.h"
+#include "shell/browser/api/electron_api_web_contents.h"
+#include "shell/browser/javascript_environment.h"
+#include "shell/common/gin_converters/callback_converter.h"
+#include "shell/common/gin_converters/gurl_converter.h"
+#include "shell/common/gin_converters/net_converter.h"
+
+using content::BrowserThread;
+
+namespace electron {
+
+LoginHandler::LoginHandler(
+    const net::AuthChallengeInfo& auth_info,
+    content::WebContents* web_contents,
+    bool is_request_for_primary_main_frame,
+    bool is_request_for_navigation,
+    base::ProcessId process_id,
+    const GURL& url,
+    scoped_refptr<net::HttpResponseHeaders> response_headers,
+    bool first_auth_attempt,
+    content::LoginDelegate::LoginAuthRequiredCallback auth_required_callback)
+    : auth_required_callback_(std::move(auth_required_callback)) {
+  DCHECK_CURRENTLY_ON(BrowserThread::UI);
+
+  base::SequencedTaskRunner::GetCurrentDefault()->PostTask(
+      FROM_HERE,
+      base::BindOnce(&LoginHandler::EmitEvent, weak_factory_.GetWeakPtr(),
+                     auth_info, web_contents, is_request_for_primary_main_frame,
+                     is_request_for_navigation, process_id, url,
+                     response_headers, first_auth_attempt));
+}
+
+LoginHandler::LoginHandler(
+    const net::AuthChallengeInfo& auth_info,
+    content::WebContents* web_contents,
+    base::ProcessId process_id,
+    const GURL& url,
+    scoped_refptr<net::HttpResponseHeaders> response_headers,
+    content::LoginDelegate::LoginAuthRequiredCallback auth_required_callback)
+    : LoginHandler(auth_info,
+                   web_contents,
+                   /*is_request_for_primary_main_frame=*/false,
+                   /*is_request_for_navigation=*/false,
+                   process_id,
+                   url,
+                   std::move(response_headers),
+                   /*first_auth_attempt=*/false,
+                   std::move(auth_required_callback)) {}
+
+void LoginHandler::EmitEvent(
+    net::AuthChallengeInfo auth_info,
+    content::WebContents* web_contents,
+    bool is_request_for_primary_main_frame,
+    bool is_request_for_navigation,
+    base::ProcessId process_id,
+    const GURL& url,
+    scoped_refptr<net::HttpResponseHeaders> response_headers,
+    bool first_auth_attempt) {
+  v8::Isolate* isolate = JavascriptEnvironment::GetIsolate();
+  v8::HandleScope scope(isolate);
+
+  raw_ptr<api::WebContents> api_web_contents = nullptr;
+  if (web_contents) {
+    api_web_contents = api::WebContents::From(web_contents);
+    if (!api_web_contents) {
+      std::move(auth_required_callback_).Run(std::nullopt);
+      return;
+    }
+  }
+
+  auto details = gin::Dictionary::CreateEmpty(isolate);
+  details.Set("url", url);
+  details.Set("pid", process_id);
+  details.Set("isRequestForNavigation", is_request_for_navigation);
+  details.Set("firstAuthAttempt", first_auth_attempt);
+  details.Set("responseHeaders", response_headers.get());
+
+  // This parameter isn't documented in the Electron API because:
+  // https://github.com/electron/electron/pull/46630#pullrequestreview-2862305353
+  details.Set("isMainFrame", is_request_for_primary_main_frame);
+
+  auto weak_this = weak_factory_.GetWeakPtr();
+  bool default_prevented = false;
+  if (api_web_contents) {
+    default_prevented =
+        api_web_contents->Emit("login", std::move(details), auth_info,
+                               base::BindOnce(&LoginHandler::CallbackFromJS,
+                                              weak_factory_.GetWeakPtr()));
+  } else if (auto* utility_process =
+                 api::UtilityProcessWrapper::FromProcessId(process_id);
+             utility_process && utility_process->has_session()) {
+    // Route auth to the utility process wrapper when the request originated
+    // from a utility process with a session and
+    // respondToAuthRequestsFromMainProcess. Without a session, auth falls
+    // through to app.on('login') for backward compatibility.
+    default_prevented =
+        utility_process->Emit("login", std::move(details), auth_info,
+                              base::BindOnce(&LoginHandler::CallbackFromJS,
+                                             weak_factory_.GetWeakPtr()));
+  } else {
+    default_prevented =
+        api::App::Get()->Emit("login", nullptr, std::move(details), auth_info,
+                              base::BindOnce(&LoginHandler::CallbackFromJS,
+                                             weak_factory_.GetWeakPtr()));
+  }
+  // ⚠️ NB, if CallbackFromJS is called during Emit(), |this| will have been
+  // deleted. Check the weak ptr before accessing any member variables to
+  // prevent UAF.
+  if (weak_this && !default_prevented && auth_required_callback_) {
+    std::move(auth_required_callback_).Run(std::nullopt);
+  }
+}
+
+LoginHandler::~LoginHandler() = default;
+
+void LoginHandler::CallbackFromJS(gin::Arguments* args) {
+  if (auth_required_callback_) {
+    std::u16string username, password;
+    if (!args->GetNext(&username) || !args->GetNext(&password)) {
+      std::move(auth_required_callback_).Run(std::nullopt);
+      return;
+    }
+    std::move(auth_required_callback_)
+        .Run(net::AuthCredentials(username, password));
+  }
+}
+
+}  // namespace electron

@@ -1,0 +1,3 @@
+[console_scripts]
+set_sdk_env=scripts.set_environ_name:update_poetry_project_name
+

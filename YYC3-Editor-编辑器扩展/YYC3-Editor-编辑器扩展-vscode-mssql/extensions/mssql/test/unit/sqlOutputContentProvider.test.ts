@@ -1,0 +1,691 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+import {
+    QueryRunnerState,
+    SqlOutputContentProvider,
+} from "../../src/models/sqlOutputContentProvider";
+import VscodeWrapper from "../../src/controllers/vscodeWrapper";
+import StatusView from "../../src/views/statusView";
+import * as stubs from "./stubs";
+import * as Constants from "../../src/constants/constants";
+import * as vscode from "vscode";
+import * as sinon from "sinon";
+import * as chai from "chai";
+import sinonChai from "sinon-chai";
+import { ISelectionData } from "../../src/models/interfaces";
+import { ExecutionPlanService } from "../../src/services/executionPlanService";
+import QueryRunner from "../../src/controllers/queryRunner";
+import store from "../../src/queryResult/singletonStore";
+
+const { expect } = chai;
+
+chai.use(sinonChai);
+
+suite("SqlOutputProvider Tests using mocks", () => {
+    const testUri = "Test_URI";
+
+    type MockRunnerEntry = {
+        queryRunner: { isExecutingQuery: boolean };
+        flaggedForDeletion?: boolean;
+    };
+
+    let sandbox: sinon.SinonSandbox;
+    let vscodeWrapper: sinon.SinonStubbedInstance<VscodeWrapper>;
+    let contentProvider: SqlOutputContentProvider;
+    let mockContentProvider: sinon.SinonStubbedInstance<SqlOutputContentProvider>;
+    let context: vscode.ExtensionContext;
+    let statusView: sinon.SinonStubbedInstance<StatusView>;
+    let statusViewInstance: StatusView;
+    let executionPlanService: sinon.SinonStubbedInstance<ExecutionPlanService>;
+    let mockMap: Map<string, MockRunnerEntry>;
+    let setSplitPaneSelectionConfig: (value: string) => void;
+    let setCurrentEditorColumn: (column: number) => void;
+
+    setup(() => {
+        sandbox = sinon.createSandbox();
+        vscodeWrapper = sandbox.createStubInstance(VscodeWrapper);
+        statusView = sandbox.createStubInstance(StatusView);
+        statusViewInstance = statusView as unknown as StatusView;
+        executionPlanService = sandbox.createStubInstance(ExecutionPlanService);
+        context = {
+            extensionPath: "test_uri",
+            subscriptions: [],
+        } as unknown as vscode.ExtensionContext;
+        mockMap = new Map();
+
+        const disposable = { dispose: () => {} } as vscode.Disposable;
+        sandbox.stub(vscode.window, "registerWebviewViewProvider").returns(disposable);
+        sandbox.stub(vscode.commands, "registerCommand").returns(disposable);
+
+        sandbox.stub(vscodeWrapper, "onDidOpenTextDocument").get(() => () => disposable);
+        sandbox.stub(vscodeWrapper, "onDidChangeConfiguration").get(() => () => disposable);
+
+        contentProvider = new SqlOutputContentProvider(
+            context,
+            statusViewInstance,
+            vscodeWrapper as unknown as VscodeWrapper,
+            executionPlanService as unknown as ExecutionPlanService,
+        );
+        contentProvider.setVscodeWrapper = vscodeWrapper as unknown as VscodeWrapper;
+        vscodeWrapper.getConfiguration.callsFake(() => stubs.createWorkspaceConfiguration({}));
+
+        setSplitPaneSelectionConfig = (value: string): void => {
+            const configResult: { [key: string]: unknown } = {};
+            configResult[Constants.configSplitPaneSelection] = value;
+            const config = stubs.createWorkspaceConfiguration(configResult);
+            vscodeWrapper.getConfiguration.callsFake(() => config);
+        };
+
+        let currentEditor: vscode.TextEditor | undefined;
+        sandbox.stub(vscodeWrapper, "activeTextEditor").get(() => currentEditor);
+
+        setCurrentEditorColumn = (column: number): void => {
+            currentEditor = { viewColumn: column } as vscode.TextEditor;
+        };
+
+        mockContentProvider = sandbox.createStubInstance(SqlOutputContentProvider);
+        sandbox.stub(mockContentProvider, "getResultsMap").get(() => mockMap);
+
+        const ensureRunnerState = (uri: string): MockRunnerEntry => {
+            let entry = mockMap.get(uri);
+            if (!entry) {
+                entry = { queryRunner: { isExecutingQuery: false } };
+                mockMap.set(uri, entry);
+            }
+            return entry;
+        };
+
+        mockContentProvider.runQuery.callsFake(async (_status, uri) => {
+            const entry = ensureRunnerState(uri);
+            entry.queryRunner.isExecutingQuery = true;
+        });
+
+        mockContentProvider.onDidCloseTextDocument.callsFake(async (doc: vscode.TextDocument) => {
+            const uri = doc.uri.toString();
+            const entry = ensureRunnerState(uri);
+            entry.flaggedForDeletion = true;
+        });
+
+        mockContentProvider.isRunningQuery.callsFake((uri: string) => {
+            const entry = mockMap.get(uri);
+            return Boolean(entry?.queryRunner.isExecutingQuery);
+        });
+
+        mockContentProvider.cancelQuery.callsFake(async (uri: string) => {
+            statusView.cancelingQuery(uri);
+            const entry = ensureRunnerState(uri);
+            entry.queryRunner.isExecutingQuery = false;
+        });
+
+        mockContentProvider.getQueryRunner.callsFake((uri: string) => {
+            return mockMap.get(uri)?.queryRunner as unknown as QueryRunner;
+        });
+    });
+
+    teardown(() => {
+        mockMap.clear();
+        sandbox.restore();
+    });
+
+    test("Correctly outputs the new result pane view column", () => {
+        const cases = [
+            { position: 1, config: "next", expectedColumn: 2 },
+            { position: 2, config: "next", expectedColumn: 3 },
+            { position: 3, config: "next", expectedColumn: 3 },
+            { position: 1, config: "current", expectedColumn: 1 },
+            { position: 2, config: "current", expectedColumn: 2 },
+            { position: 3, config: "current", expectedColumn: 3 },
+            { position: 1, config: "end", expectedColumn: 3 },
+            { position: 2, config: "end", expectedColumn: 3 },
+            { position: 3, config: "end", expectedColumn: 3 },
+        ];
+
+        cases.forEach((testCase) => {
+            setSplitPaneSelectionConfig(testCase.config);
+            setCurrentEditorColumn(testCase.position);
+
+            const resultColumn = contentProvider.newResultPaneViewColumn("test_uri");
+
+            expect(resultColumn).to.equal(testCase.expectedColumn);
+        });
+    });
+
+    test("RunQuery properly sets up two queries to be run", async () => {
+        // Run function with properties declared below
+        let title = "Test_Title";
+        let uri = testUri;
+        let querySelection: ISelectionData = {
+            endColumn: 0,
+            endLine: 0,
+            startColumn: 0,
+            startLine: 0,
+        };
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+
+        // Run function with properties declared below
+        let title2 = "Test_Title2";
+        let uri2 = "Test_URI2";
+        await mockContentProvider.runQuery(statusViewInstance, uri2, querySelection, title2);
+
+        // Ensure both uris are executing
+        expect(mockMap.get(uri)?.queryRunner.isExecutingQuery).to.be.true;
+        expect(mockMap.get(uri2)?.queryRunner.isExecutingQuery).to.be.true;
+        expect(mockMap.size).to.equal(2);
+        mockMap.clear();
+    });
+
+    test("RunQuery only sets up one uri with the same name", async () => {
+        let title = "Test_Title";
+        let uri = testUri;
+        let querySelection: ISelectionData = {
+            endColumn: 0,
+            endLine: 0,
+            startColumn: 0,
+            startLine: 0,
+        };
+
+        // Setup the function to call base and run it
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+
+        // Ensure all side effects occurred as intended
+        expect(mockMap.get(uri)?.queryRunner.isExecutingQuery).to.be.true;
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+        expect(mockMap.get(uri)?.queryRunner.isExecutingQuery).to.be.true;
+        expect(mockMap.size).to.equal(1);
+        mockMap.clear();
+    });
+
+    test("updateQueryRunnerUri should rekey query runner map entries", async () => {
+        const oldUri = "untitled:Untitled-99";
+        const newUri = "file:///renamed.sql";
+        const queryRunner = {
+            updateQueryRunnerUri: sandbox.stub(),
+        } as unknown as QueryRunner;
+        const queryRunnerState = new QueryRunnerState(queryRunner);
+        const queryResultsMap = new Map<string, QueryRunnerState>([[oldUri, queryRunnerState]]);
+        contentProvider.setResultsMap = queryResultsMap;
+
+        await contentProvider.updateQueryRunnerUri(oldUri, newUri);
+
+        expect(queryRunner.updateQueryRunnerUri).to.have.been.calledOnceWith(oldUri, newUri);
+        expect(contentProvider.getResultsMap.has(oldUri)).to.be.false;
+        expect(contentProvider.getResultsMap.has(newUri)).to.be.true;
+        expect(contentProvider.getResultsMap.get(newUri)).to.equal(queryRunnerState);
+    });
+
+    test("updateQueryRunnerUri should not throw when query result state does not exist", async () => {
+        const oldUri = "untitled:Untitled-1";
+        const newUri = "file:///test.sql";
+        const sendNotificationStub = sandbox
+            .stub(contentProvider.queryResultWebviewController, "sendNotification")
+            .resolves();
+
+        await contentProvider.updateQueryRunnerUri(oldUri, newUri);
+
+        expect(sendNotificationStub).to.not.have.been.called;
+    });
+
+    test("updateQueryRunnerUri should transfer state when query result state exists", async () => {
+        const oldUri = "untitled:Untitled-2";
+        const newUri = "file:///transferred.sql";
+        const mockState = { uri: oldUri, messages: [] };
+
+        // Add state for the old URI
+        contentProvider.queryResultWebviewController.addQueryResultState(oldUri, mockState as any);
+
+        await contentProvider.updateQueryRunnerUri(oldUri, newUri);
+
+        // The old URI state should be deleted
+        expect(contentProvider.queryResultWebviewController.hasQueryResultState(oldUri)).to.be
+            .false;
+        // The new URI state should exist with updated uri
+        expect(contentProvider.queryResultWebviewController.hasQueryResultState(newUri)).to.be.true;
+        expect(
+            contentProvider.queryResultWebviewController.getQueryResultState(newUri).uri,
+        ).to.equal(newUri);
+    });
+
+    test("updateQueryRunnerUri should migrate panel mapping to new URI", async () => {
+        const oldUri = "file:///old-panel.sql";
+        const newUri = "file:///new-panel.sql";
+        const panelController = {
+            updateUri: sandbox.stub(),
+        };
+
+        contentProvider.queryResultWebviewController["_queryResultWebviewPanelControllerMap"].set(
+            oldUri,
+            panelController as any,
+        );
+
+        await contentProvider.updateQueryRunnerUri(oldUri, newUri);
+
+        expect(contentProvider.queryResultWebviewController.hasPanel(oldUri)).to.be.false;
+        expect(contentProvider.queryResultWebviewController.hasPanel(newUri)).to.be.true;
+        expect(panelController.updateUri).to.have.been.calledOnceWith(newUri);
+    });
+
+    test("updateQueryRunnerUri should migrate throttled timers to new URI", async () => {
+        const oldUri = "file:///old-timer.sql";
+        const newUri = "file:///new-timer.sql";
+
+        const oldThrottledUpdate = Object.assign(() => {}, {
+            cancel: sandbox.stub(),
+        });
+        contentProvider["_stateUpdateThrottles"].set(oldUri, oldThrottledUpdate as any);
+
+        await contentProvider.updateQueryRunnerUri(oldUri, newUri);
+
+        expect(oldThrottledUpdate.cancel).to.have.been.calledOnce;
+        expect(contentProvider["_stateUpdateThrottles"].has(oldUri)).to.be.false;
+        expect(contentProvider["_stateUpdateThrottles"].has(newUri)).to.be.true;
+
+        contentProvider["_stateUpdateThrottles"].get(newUri)?.cancel();
+        contentProvider["_stateUpdateThrottles"].delete(newUri);
+    });
+
+    test("onDidCloseTextDocument properly mark the uri for deletion", async () => {
+        let title = "Test_Title";
+        let uri = testUri;
+        let querySelection: ISelectionData = {
+            endColumn: 0,
+            endLine: 0,
+            startColumn: 0,
+            startLine: 0,
+        };
+
+        // Setup the function to call base and run it
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+
+        // Ensure all side effects occured as intended
+        expect(mockMap.has(uri)).to.be.true;
+
+        let doc = <vscode.TextDocument>{
+            uri: {
+                toString(skipEncoding?: boolean): string {
+                    return uri;
+                },
+            },
+            languageId: "sql",
+        };
+        await mockContentProvider.onDidCloseTextDocument(doc);
+
+        // This URI should now be flagged for deletion later on
+        expect(mockMap.get(uri)?.flaggedForDeletion).to.be.true;
+        mockMap.clear();
+    });
+
+    test("isRunningQuery should return the correct state for the query", async () => {
+        let title = "Test_Title";
+        let uri = testUri;
+        let notRunUri = "Test_URI_New";
+        let querySelection: ISelectionData = {
+            endColumn: 0,
+            endLine: 0,
+            startColumn: 0,
+            startLine: 0,
+        };
+
+        // Setup the function to call base and run it
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+
+        // Ensure all side effects occured as intended
+        expect(mockMap.has(testUri)).to.be.true;
+
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+
+        // Check that the first one was replaced by the new one and that there is only one in the map
+        expect(mockContentProvider.isRunningQuery(uri)).to.be.true;
+        expect(mockContentProvider.isRunningQuery(notRunUri)).to.be.false;
+        expect(mockMap.size).to.equal(1);
+        mockMap.clear();
+    });
+
+    test("cancelQuery should cancel the execution of a query by result pane URI", async () => {
+        let title = "Test_Title";
+        let uri = testUri;
+        let resultUri = testUri;
+        let querySelection: ISelectionData = {
+            endColumn: 0,
+            endLine: 0,
+            startColumn: 0,
+            startLine: 0,
+        };
+
+        // Setup the function to call base and run it
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+        await mockContentProvider.cancelQuery(resultUri);
+
+        // Ensure all side effects occured as intended
+        expect(mockMap.has(resultUri)).to.be.true;
+
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+
+        // Check that the first one was ran and that a canceling dialogue was opened
+        expect(mockContentProvider.isRunningQuery(resultUri)).to.be.true;
+        expect(statusView.cancelingQuery).to.have.been.calledOnceWithExactly(resultUri);
+        expect(mockMap.size).to.equal(1);
+    });
+
+    test("cancelQuery should cancel the execution of a query by SQL pane URI", async () => {
+        let title = "Test_Title";
+        let uri = testUri;
+        let querySelection: ISelectionData = {
+            endColumn: 0,
+            endLine: 0,
+            startColumn: 0,
+            startLine: 0,
+        };
+
+        // Setup the function to call base and run it
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+        await mockContentProvider.cancelQuery(uri);
+
+        // Ensure all side effects occured as intended
+        expect(mockMap.has(testUri)).to.be.true;
+
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+
+        // Check that the first one was ran and that a canceling dialogue was opened
+        expect(mockContentProvider.isRunningQuery(uri)).to.be.true;
+        expect(statusView.cancelingQuery).to.have.been.calledOnceWithExactly(uri);
+        expect(mockMap.size).to.equal(1);
+    });
+
+    test("getQueryRunner should return the appropriate query runner", async () => {
+        let title = "Test_Title";
+        let uri = testUri;
+        let querySelection: ISelectionData = {
+            endColumn: 0,
+            endLine: 0,
+            startColumn: 0,
+            startLine: 0,
+        };
+
+        // Setup the function to call base and run it
+        await mockContentProvider.runQuery(statusViewInstance, uri, querySelection, title);
+        let testedRunner = mockContentProvider.getQueryRunner(uri);
+
+        // Ensure that the runner returned is the one inteneded
+        expect(mockMap.get(testUri)?.queryRunner).to.equal(testedRunner);
+    });
+
+    test("cancelQuery with no query running should show information message about it", async () => {
+        vscodeWrapper.showInformationMessage.resolves("error");
+        await contentProvider.cancelQuery("test_input");
+        expect(vscodeWrapper.showInformationMessage).to.have.been.calledOnce;
+    });
+
+    test("getQueryRunner should return undefined for new URI", () => {
+        let queryRunner = contentProvider.getQueryRunner("test_uri");
+        expect(queryRunner).to.be.undefined;
+    });
+
+    test("toggleSqlCmd should do nothing if no queryRunner exists", async () => {
+        let result = await contentProvider.toggleSqlCmd("test_uri");
+        expect(result).to.be.false;
+    });
+
+    test("Test queryResultsMap getters and setters", () => {
+        let queryResultsMap = contentProvider.getResultsMap;
+        // Query Results Map should be empty
+        expect(queryResultsMap.size).to.equal(0);
+        let newQueryResultsMap = new Map();
+        newQueryResultsMap.set("test_uri", { queryRunner: {} });
+        contentProvider.setResultsMap = newQueryResultsMap;
+        expect(contentProvider.getQueryRunner("test_uri")).to.not.be.undefined;
+    });
+
+    test("showErrorRequestHandler should call vscodeWrapper to show error message", () => {
+        contentProvider.showErrorRequestHandler("test_error");
+        expect(vscodeWrapper.showErrorMessage).to.have.been.calledOnceWithExactly("test_error");
+    });
+
+    test("showWarningRequestHandler should call vscodeWrapper to show warning message", () => {
+        contentProvider.showWarningRequestHandler("test_warning");
+        expect(vscodeWrapper.showWarningMessage).to.have.been.calledOnceWithExactly("test_warning");
+    });
+
+    test("A query runner should only exist if a query is run", async () => {
+        vscodeWrapper.getConfiguration.callsFake(() => {
+            const configResult: { [key: string]: unknown } = {};
+            configResult[Constants.configPersistQueryResultTabs] = false;
+            return stubs.createWorkspaceConfiguration(configResult);
+        });
+
+        contentProvider.queryResultWebviewController.createPanelController = sandbox
+            .stub()
+            .resolves();
+
+        sandbox.stub(QueryRunner.prototype, "runQuery").resolves();
+
+        let testQueryRunner = contentProvider.getQueryRunner("test_uri");
+        expect(testQueryRunner).to.be.undefined;
+        await contentProvider.runQuery(statusViewInstance, "test_uri", undefined, "test_title");
+        testQueryRunner = contentProvider.getQueryRunner("test_uri");
+        expect(testQueryRunner).to.not.be.undefined;
+    });
+
+    test("runCurrentStatement calls runStatement with correct options when actual plan is enabled", async () => {
+        const uri = "test_uri";
+        const title = "test_title";
+        const selection: ISelectionData = {
+            startLine: 1,
+            startColumn: 1,
+            endLine: 1,
+            endColumn: 1,
+        };
+
+        const mockQueryRunner = {
+            runStatement: sandbox.stub().resolves(),
+            onComplete: new vscode.EventEmitter<void>().event,
+        };
+
+        sandbox
+            .stub(contentProvider as any, "initializeRunnerAndWebviewState")
+            .resolves(mockQueryRunner);
+        contentProvider["_actualPlanStatuses"] = [uri];
+
+        await contentProvider.runCurrentStatement(statusViewInstance, uri, selection, title);
+
+        expect(mockQueryRunner.runStatement).to.have.been.calledWith(
+            selection.startLine,
+            selection.startColumn,
+            { includeActualExecutionPlanXml: true },
+        );
+    });
+
+    test("runCurrentStatement calls runStatement with correct options when actual plan is disabled", async () => {
+        const uri = "test_uri";
+        const title = "test_title";
+        const selection: ISelectionData = {
+            startLine: 1,
+            startColumn: 1,
+            endLine: 1,
+            endColumn: 1,
+        };
+
+        const mockQueryRunner = {
+            runStatement: sandbox.stub().resolves(),
+            onComplete: new vscode.EventEmitter<void>().event,
+        };
+
+        sandbox
+            .stub(contentProvider as any, "initializeRunnerAndWebviewState")
+            .resolves(mockQueryRunner);
+        contentProvider["_actualPlanStatuses"] = [];
+
+        await contentProvider.runCurrentStatement(statusViewInstance, uri, selection, title);
+
+        expect(mockQueryRunner.runStatement).to.have.been.calledWith(
+            selection.startLine,
+            selection.startColumn,
+            { includeActualExecutionPlanXml: false },
+        );
+    });
+
+    test("initializeRunnerAndWebviewState clears grid state", async () => {
+        const uri = "test_uri";
+        const title = "test_title";
+        const deleteUriStateSpy = sandbox.spy(store, "deleteUriState");
+
+        // Stub createQueryRunner to return a dummy runner
+        const mockRunner = {
+            uri: uri,
+            runStatement: sandbox.stub().resolves(),
+            runQuery: sandbox.stub().resolves(),
+            isExecutingQuery: false,
+            resetHasCompleted: sandbox.stub(),
+            onStartFailed: sandbox.stub(),
+            onStart: sandbox.stub(),
+            onResultSetAvailable: sandbox.stub(),
+            onResultSetUpdated: sandbox.stub(),
+            onExecutionPlan: sandbox.stub(),
+            onSummaryChanged: sandbox.stub(),
+            onComplete: new vscode.EventEmitter<void>().event,
+        } as unknown as QueryRunner;
+
+        sandbox.stub(contentProvider, "createQueryRunner").resolves(mockRunner);
+
+        // Stub _queryResultWebviewController methods to avoid errors
+        const webviewController = contentProvider["_queryResultWebviewController"];
+        sandbox.stub(webviewController, "addQueryResultState");
+        sandbox.stub(webviewController, "createPanelController").resolves();
+
+        // Call runCurrentStatement which calls initializeRunnerAndWebviewState
+        await contentProvider.runCurrentStatement(
+            statusViewInstance,
+            uri,
+            { startLine: 0, startColumn: 0, endLine: 0, endColumn: 0 },
+            title,
+        );
+
+        expect(deleteUriStateSpy).to.have.been.calledWith(uri);
+    });
+
+    test("runQuery should prevent concurrent execution dispatch for same URI", async () => {
+        const uri = "test_uri";
+        const title = "test_title";
+
+        let resolveRunner: (value: QueryRunner) => void;
+        const runnerPromise = new Promise<QueryRunner>((resolve) => {
+            resolveRunner = resolve;
+        });
+
+        const onCompleteEmitter = new vscode.EventEmitter<void>();
+        const mockRunner = {
+            uri: uri,
+            runQuery: sandbox.stub().resolves(),
+            onComplete: onCompleteEmitter.event,
+        } as unknown as QueryRunner;
+
+        const initializeStub = sandbox
+            .stub(contentProvider as any, "initializeRunnerAndWebviewState")
+            .returns(runnerPromise);
+
+        const firstRunPromise = contentProvider.runQuery(statusViewInstance, uri, undefined, title);
+        const secondRunPromise = contentProvider.runQuery(
+            statusViewInstance,
+            uri,
+            undefined,
+            title,
+        );
+
+        expect(initializeStub).to.have.been.calledOnce;
+        expect(vscodeWrapper.showInformationMessage).to.have.been.calledOnce;
+
+        resolveRunner!(mockRunner);
+
+        await Promise.all([firstRunPromise, secondRunPromise]);
+
+        expect((mockRunner.runQuery as sinon.SinonStub).calledOnce).to.be.true;
+
+        // Slot should still be held until query completes
+        const thirdRunPromise = contentProvider.runQuery(statusViewInstance, uri, undefined, title);
+        await thirdRunPromise;
+        expect(initializeStub).to.have.been.calledOnce; // Still only once
+        expect(vscodeWrapper.showInformationMessage).to.have.been.calledTwice;
+
+        // Simulate query completion - should release the slot
+        onCompleteEmitter.fire(undefined as any);
+
+        // Now a new query should be allowed
+        const resolvedRunner2 = {
+            uri: uri,
+            runQuery: sandbox.stub().resolves(),
+            onComplete: new vscode.EventEmitter<void>().event,
+        } as unknown as QueryRunner;
+        initializeStub.resolves(resolvedRunner2);
+
+        await contentProvider.runQuery(statusViewInstance, uri, undefined, title);
+        expect(initializeStub).to.have.been.calledTwice;
+
+        onCompleteEmitter.dispose();
+    });
+
+    test("runQuery should release execution slot when initialization throws", async () => {
+        const uri = "test_uri";
+        const title = "test_title";
+        const onCompleteEmitter = new vscode.EventEmitter<void>();
+        const mockRunner = {
+            uri: uri,
+            runQuery: sandbox.stub().resolves(),
+            onComplete: onCompleteEmitter.event,
+        } as unknown as QueryRunner;
+
+        const initializeStub = sandbox
+            .stub(contentProvider as any, "initializeRunnerAndWebviewState")
+            .onFirstCall()
+            .rejects(new Error("init failed"))
+            .onSecondCall()
+            .resolves(mockRunner);
+
+        await contentProvider.runQuery(statusViewInstance, uri, undefined, title);
+        await contentProvider.runQuery(statusViewInstance, uri, undefined, title);
+
+        expect(initializeStub).to.have.been.calledTwice;
+        expect(vscodeWrapper.showInformationMessage).to.not.have.been.called;
+        expect((mockRunner.runQuery as sinon.SinonStub).calledOnce).to.be.true;
+
+        onCompleteEmitter.dispose();
+    });
+
+    test("runCurrentStatement should release execution slot when initialization throws", async () => {
+        const uri = "test_uri";
+        const title = "test_title";
+        const selection: ISelectionData = {
+            startLine: 1,
+            startColumn: 1,
+            endLine: 1,
+            endColumn: 1,
+        };
+        const mockRunner = {
+            uri: uri,
+            runStatement: sandbox.stub().resolves(),
+            onComplete: new vscode.EventEmitter<void>().event,
+        } as unknown as QueryRunner;
+
+        const initializeStub = sandbox
+            .stub(contentProvider as any, "initializeRunnerAndWebviewState")
+            .onFirstCall()
+            .rejects(new Error("init failed"))
+            .onSecondCall()
+            .resolves(mockRunner);
+
+        let thrown = false;
+        try {
+            await contentProvider.runCurrentStatement(statusViewInstance, uri, selection, title);
+        } catch {
+            thrown = true;
+        }
+
+        await contentProvider.runCurrentStatement(statusViewInstance, uri, selection, title);
+
+        expect(thrown).to.be.true;
+        expect(initializeStub).to.have.been.calledTwice;
+        expect(vscodeWrapper.showInformationMessage).to.not.have.been.called;
+        expect((mockRunner.runStatement as sinon.SinonStub).calledOnce).to.be.true;
+    });
+});

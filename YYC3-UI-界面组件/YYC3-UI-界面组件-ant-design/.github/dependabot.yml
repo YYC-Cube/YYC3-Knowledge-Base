@@ -1,0 +1,40 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/about-dependabot-version-updates
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: daily
+      time: "05:00"
+      timezone: Asia/Shanghai
+    groups:
+      dependencies:
+        dependency-type: production
+        update-types: [major, minor]
+      dev-dependencies:
+        dependency-type: development
+        update-types: [major]
+    ignore:
+      - dependency-name: "rc-*"
+      - dependency-name: "@rc-component*"
+      - dependency-name: "@ant-design*"
+      - dependency-name: dayjs
+        versions: [1.x]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+    labels:
+      - github-actions
+      - dependencies
+      - skip-verify-files
+    ignore:
+      # `actions/upload-artifact` modify the upload logic
+      # which can not correct download by `dawidd6/action-download-artifact`
+      - dependency-name: actions/upload-artifact
+      - dependency-name: dawidd6/action-download-artifact

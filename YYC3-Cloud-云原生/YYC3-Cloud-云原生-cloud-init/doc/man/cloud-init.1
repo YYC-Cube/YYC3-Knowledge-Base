@@ -1,0 +1,100 @@
+.TH CLOUD-INIT 1
+
+.SH NAME
+cloud-init \- Cloud instance initialization
+
+.SH SYNOPSIS
+.BR "cloud-init" " [-h] [-d] [--force] [-v] [SUBCOMMAND]"
+
+.SH DESCRIPTION
+Cloud-init provides a mechanism for cloud instance initialization.
+This is done by identifying the cloud platform that is in use, reading
+cloud meta-data, vendor-data and user-data, and then initializing the
+instance as requested.
+
+.SH OPTIONS
+.TP
+.B "-h, --help"
+Show help message and exit.
+
+.TP
+.B "-v, --version"
+Show program's version number and exit.
+
+.TP
+.B "--all-stages"
+INTERNAL: Run cloud-init's stages under a single process using a synchronization protocol. This is not intended for CLI usage.
+
+.SH SUBCOMMANDS
+Please see the help output for each subcommand for additional details,
+flags, and subcommands.
+
+.TP
+.B "analyze"
+Analyze cloud-init logs and data.
+
+.TP
+.B "collect-logs"
+Collect and tar all cloud-init debug info.
+
+.TP
+.B "clean"
+Remove logs and artifacts so cloud-init can re-run.
+
+.TP
+.B "devel"
+Run development tools. See help output for subcommand details.
+
+.TP
+.B "features"
+List defined features.
+
+.TP
+.B "query"
+Query standardized instance metadata from the command line.
+
+.TP
+.B "schema"
+Validate cloud-config files using jsonschema.
+
+.TP
+.B "single"
+Manually run a single module. Useful for testing during development.
+
+.TP
+.B "status"
+Report cloud-init status or wait on completion.
+
+.SH DEPRECATED
+
+.TP
+.B "-d, --debug"
+Show additional pre-action logging (default: False).
+
+.TP
+.B "--force"
+Force running even if no datasource is found (use at your own risk).
+
+.TP
+.B "init"
+Initialize cloud-init and execute initial modules.
+
+.TP
+.B "modules"
+Activate modules using a given configuration key.
+
+.SH EXIT STATUS
+
+.IP
+0 - Success
+.IP
+1 - Error - Cloud-init failed.
+.IP
+2 - Recoverable error - Cloud-init completed but experienced errors.
+
+
+.SH COPYRIGHT
+Copyright (C) 2020 Canonical Ltd. License GPL-3 or Apache-2.0
+
+.SH SEE ALSO
+Full documentation at: <https://docs.cloud-init.io>

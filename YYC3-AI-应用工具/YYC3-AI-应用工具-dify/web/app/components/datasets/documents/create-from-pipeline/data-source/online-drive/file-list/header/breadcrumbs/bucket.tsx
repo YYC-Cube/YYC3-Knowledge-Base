@@ -1,0 +1,76 @@
+import { cn } from '@langgenius/dify-ui/cn'
+import { IconButton } from '@langgenius/dify-ui/icon-button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@langgenius/dify-ui/tooltip'
+import * as React from 'react'
+import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
+
+type BucketProps = {
+  bucketName: string
+  isActive?: boolean
+  disabled?: boolean
+  showSeparator?: boolean
+  handleBackToBucketList: () => void
+  handleClickBucketName: () => void
+}
+
+const Bucket = ({
+  bucketName,
+  handleBackToBucketList,
+  handleClickBucketName,
+  disabled = false,
+  isActive = false,
+  showSeparator = true,
+}: BucketProps) => {
+  const { t } = useTranslation()
+  const handleClickItem = useCallback(() => {
+    if (!disabled) handleClickBucketName()
+  }, [disabled, handleClickBucketName])
+  const allBucketsLabel = t(($) => $['onlineDrive.breadcrumbs.allBuckets'], {
+    ns: 'datasetPipeline',
+  })
+
+  return (
+    <>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <IconButton
+              type="button"
+              variant="ghost"
+              size="md"
+              aria-label={allBucketsLabel}
+              className="shrink-0"
+              onClick={handleBackToBucketList}
+            >
+              <span
+                aria-hidden
+                className="i-custom-public-knowledge-online-drive-buckets-gray h-4.75 w-4.5"
+              />
+            </IconButton>
+          }
+        />
+        <TooltipContent>{allBucketsLabel}</TooltipContent>
+      </Tooltip>
+      <span className="system-xs-regular text-divider-deep">/</span>
+      <button
+        type="button"
+        className={cn(
+          'max-w-full shrink truncate rounded-md px-1.25 py-1',
+          isActive
+            ? 'system-sm-medium text-text-secondary'
+            : 'system-sm-regular text-text-tertiary',
+          !disabled && 'hover:bg-state-base-hover',
+        )}
+        disabled={disabled}
+        onClick={handleClickItem}
+        title={bucketName}
+      >
+        {bucketName}
+      </button>
+      {showSeparator && <span className="shrink-0 system-xs-regular text-divider-deep">/</span>}
+    </>
+  )
+}
+
+export default React.memo(Bucket)

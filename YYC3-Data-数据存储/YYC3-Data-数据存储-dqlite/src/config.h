@@ -1,0 +1,39 @@
+#ifndef CONFIG_H_
+#define CONFIG_H_
+
+#include "logger.h"
+#include "vfs.h"
+
+/**
+ * Value object holding dqlite configuration.
+ */
+struct config {
+	dqlite_node_id id;                 /* Unique instance ID */
+	char *address;                     /* Instance address */
+	unsigned heartbeat_timeout;        /* In milliseconds */
+	unsigned busy_timeout;             /* In milliseconds */
+	struct vfsConfig vfs;              /* VFS configuration */
+	struct logger logger;              /* Custom logger */
+	unsigned long long failure_domain; /* User-provided failure domain */
+	unsigned long long int weight;     /* User-provided node weight */
+	char raft_dir[1024];               /* Directory used by raft */
+	int voters;                        /* Target number of voters */
+	int standbys;                      /* Target number of standbys */
+	unsigned pool_thread_count; /* Number of threads in thread pool */
+};
+
+/**
+ * Initialize the config object with required values and set the rest to sane
+ * defaults. A copy will be made of the given @address.
+ */
+int config__init(struct config *c,
+		 dqlite_node_id id,
+		 const char *address,
+		 const char *raft_dir);
+
+/**
+ * Release any memory held by the config object.
+ */
+void config__close(struct config *c);
+
+#endif /* DQLITE_OPTIONS_H */

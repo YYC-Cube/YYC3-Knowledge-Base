@@ -1,0 +1,28 @@
+name: Issue Transferred
+
+on:
+  issues:
+    types: [transferred]
+
+permissions: {}
+
+jobs:
+  issue-transferred:
+    name: Issue Transferred
+    runs-on: ubuntu-latest
+    permissions: {}
+    if: ${{ !github.event.changes.new_repository.private }}
+    steps:
+      - name: Generate GitHub App token
+        uses: electron/github-app-auth-action@5f70a3726af01b612f29aac96d05aa524389c9e9 # v2.1.0
+        id: generate-token
+        with:
+          creds: ${{ secrets.ISSUE_TRIAGE_GH_APP_CREDS }}
+          org: electron
+      - name: Remove from issue triage
+        uses: dsanders11/project-actions/delete-item@4b06452b0128cf601dac14399aa668a8eed2d684 # v2.0.1
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          project-number: 90
+          item: ${{ github.event.changes.new_issue.html_url }}
+          fail-if-item-not-found: false

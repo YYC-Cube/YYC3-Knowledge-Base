@@ -1,0 +1,94 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Cheng Zhao <zcbenz@gmail.com>
+Date: Thu, 4 Oct 2018 14:57:02 -0700
+Subject: fix: also propagate fullscreen state for outer frame
+
+When entering fullscreen with Element.requestFullscreen in child frames,
+the parent frame should also enter fullscreen mode too. Chromium handles
+this for iframes, but not for webviews as they are essentially main
+frames instead of child frames.
+
+This patch makes webviews propagate the fullscreen state to embedder.It also handles a
+DCHECK preventing guest webcontents from becoming the focused webContents.
+
+Note that we also need to manually update embedder's
+`api::WebContents::IsFullscreenForTabOrPending` value.
+
+diff --git a/content/browser/renderer_host/render_frame_host_impl.cc b/content/browser/renderer_host/render_frame_host_impl.cc
+index e0b4f417c37f012b14476e62acb0fa66c991de91..3938359abdd379cc7a8f485841850898516499b5 100644
+--- a/content/browser/renderer_host/render_frame_host_impl.cc
++++ b/content/browser/renderer_host/render_frame_host_impl.cc
+@@ -9481,6 +9481,17 @@ void RenderFrameHostImpl::EnterFullscreen(
+     }
+   }
+ 
++  // Entering fullscreen from webview should also notify its outer frame.
++  if (frame_tree_node()->render_manager()->IsMainFrameForInnerDelegate()) {
++    RenderFrameProxyHost* outer_proxy =
++        frame_tree_node()->render_manager()->GetProxyToOuterDelegate();
++    DCHECK(outer_proxy);
++    if (outer_proxy->is_render_frame_proxy_live()) {
++      outer_proxy->GetAssociatedRemoteFrame()->WillEnterFullscreen(
++          options.Clone());
++    }
++  }
++
+   // Focus the window if another frame may have delegated the capability.
+   if (had_fullscreen_token && !GetView()->HasFocus()) {
+     GetView()->Focus();
+diff --git a/content/browser/web_contents/web_contents_impl.cc b/content/browser/web_contents/web_contents_impl.cc
+index a5069c5e2182c158d522baff32dc8b5ce8ed7089..4dff5667d5ff0bccb233d6db3286c04686c20403 100644
+--- a/content/browser/web_contents/web_contents_impl.cc
++++ b/content/browser/web_contents/web_contents_impl.cc
+@@ -4670,21 +4670,25 @@ KeyboardEventProcessingResult WebContentsImpl::PreHandleKeyboardEvent(
+     const input::NativeWebKeyboardEvent& event) {
+   OPTIONAL_TRACE_EVENT0(TRACE_DISABLED_BY_DEFAULT("content.verbose"),
+                         "WebContentsImpl::PreHandleKeyboardEvent");
+-  auto* outermost_contents = GetOutermostWebContents();
+-  // TODO(wjmaclean): Generalize this to forward all key events to the outermost
+-  // delegate's handler.
+-  if (outermost_contents != this && IsFullscreen() &&
+-      event.windows_key_code == ui::VKEY_ESCAPE) {
+-    // When an inner WebContents has focus and is fullscreen, redirect <esc>
+-    // key events to the outermost WebContents so it can be handled by that
+-    // WebContents' delegate.
+-    if (outermost_contents->PreHandleKeyboardEvent(event) ==
+-        KeyboardEventProcessingResult::HANDLED) {
+-      return KeyboardEventProcessingResult::HANDLED;
+-    }
+-  }
+-  return delegate_ ? delegate_->PreHandleKeyboardEvent(this, event)
++
++  auto handled = delegate_ ? delegate_->PreHandleKeyboardEvent(this, event)
+                    : KeyboardEventProcessingResult::NOT_HANDLED;
++
++  if (IsFullscreen() && event.windows_key_code == ui::VKEY_ESCAPE) {
++    if (handled == KeyboardEventProcessingResult::HANDLED)
++       return KeyboardEventProcessingResult::HANDLED;
++
++    // When an inner WebContents has focus and is fullscreen, traverse through
++    // containing webcontents to any that may handle the escape key.
++    while (auto* outer_web_contents = GetOuterWebContents()) {
++      auto result = outer_web_contents->PreHandleKeyboardEvent(event);
++      if (result == KeyboardEventProcessingResult::HANDLED) {
++        return KeyboardEventProcessingResult::HANDLED;
++      }
++    }
++  }
++
++  return handled;
+ }
+ 
+ bool WebContentsImpl::HandleMouseEvent(const blink::WebMouseEvent& event) {
+diff --git a/third_party/blink/renderer/core/fullscreen/fullscreen.cc b/third_party/blink/renderer/core/fullscreen/fullscreen.cc
+index eac4cc103a8276e7d6c37c11a788579a1d052b9e..f6700361d848021d423983a8f2b65f4a5ea8c4ef 100644
+--- a/third_party/blink/renderer/core/fullscreen/fullscreen.cc
++++ b/third_party/blink/renderer/core/fullscreen/fullscreen.cc
+@@ -106,7 +106,6 @@ void FullscreenElementChanged(Document& document,
+     // is the iframe element for the out-of-process frame that contains the
+     // fullscreen element. Hence, it must match :-webkit-full-screen-ancestor.
+     if (new_request_type & FullscreenRequestType::kForCrossProcessDescendant) {
+-      DCHECK(IsA<HTMLIFrameElement>(new_element));
+       new_element->SetContainsFullScreenElement(true);
+     }
+     new_element->SetContainsFullScreenElementOnAncestorsCrossingFrameBoundaries(

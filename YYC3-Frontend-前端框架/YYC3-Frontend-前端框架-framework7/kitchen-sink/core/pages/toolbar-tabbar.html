@@ -1,0 +1,62 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a class="link back">
+            <i class="icon icon-back"></i>
+
+          </a>
+        </div>
+        <div class="title">Toolbar & Tabbar</div>
+      </div>
+    </div>
+    <div class="toolbar toolbar-${toolbarPosition}">
+      <div class="toolbar-inner">
+        <div class="toolbar-pane">
+          <a class="link">Link 1</a>
+          <a class="link">Link 2</a>
+        </div>
+        <div class="toolbar-pane">
+          <a class="link">Link 3</a>
+        </div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="list list-strong inset list-dividers-ios links-list">
+        <ul>
+          <li>
+            <a href="./tabbar/">Tabbar</a>
+          </li>
+          <li>
+            <a href="./tabbar-icons/">Tabbar With Icons</a>
+          </li>
+          <li>
+            <a href="./tabbar-scrollable/">Tabbar Scrollable</a>
+          </li>
+          <li>
+            <a href="./toolbar-hide-scroll/">Hide Toolbar On Scroll</a>
+          </li>
+        </ul>
+      </div>
+      <div class="block-title">Toolbar Position</div>
+      <div class="block block-strong inset">
+        <p>Toolbar supports both top and bottom positions. Click the following button to change its position.</p>
+        <p><a class="button button-fill button-round" @click=${toggleToolbarPosition}>Toggle Toolbar Position</a></p>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  export default (props, { $update }) => {
+    let toolbarPosition = 'bottom';
+
+    const toggleToolbarPosition = () => {
+      toolbarPosition = toolbarPosition === 'top' ? 'bottom' : 'top';
+      $update();
+    }
+
+    return $render;
+  };
+</script>

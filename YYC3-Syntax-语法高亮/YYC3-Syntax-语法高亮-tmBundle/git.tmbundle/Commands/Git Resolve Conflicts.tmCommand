@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby18
+
+# Resolve conflicts command for git/FileMerge
+# By Tim Harper
+# http://code.leadmediapartners.com/
+
+require "fileutils"
+FM="#{`"$TM_SUPPORT_PATH/bin/find_app" FileMerge.app`}/Contents/MacOS/FileMerge"
+require ENV['TM_BUNDLE_SUPPORT'] + '/environment.rb'
+require ENV['TM_SUPPORT_PATH'] + '/lib/escape.rb'
+
+state = :both
+
+input_file_path = ENV['TM_FILEPATH']
+input_filename = File.basename(input_file_path)
+
+input = $&lt;.read
+
+left = ""
+right = ""
+
+
+input.each { |line|
+  if /^(&lt;{7}|={7}|&gt;{7})($| )/.match(line)
+    state = 
+      case $1
+      when "&lt;&lt;&lt;&lt;&lt;&lt;&lt;" then :left
+      when "=======" then :right
+      when "&gt;&gt;&gt;&gt;&gt;&gt;&gt;" then :both
+      end
+    next
+  end
+  left &lt;&lt; line if state == :left || state == :both
+  right &lt;&lt; line if state == :right || state == :both
+}
+
+if left==right
+  puts "No conflicts to resolve in #{input_file_path}."
+  exit
+end
+
+filename = "git-conflict-resolve"
+tmp_path = "#{ENV['TMPDIR']}/git-conflict-resolve/"
+
+FileUtils.rm_rf(tmp_path)
+FileUtils.mkdir_p(tmp_path)
+
+left_file =  "#{tmp_path}left-#{input_filename}.rb"
+right_file = "#{tmp_path}right-#{input_filename}.rb"
+File.open(left_file, "w") { |f| f.puts left }
+File.open(right_file, "w") { |f| f.puts right }
+
+%x{#{FM} -left #{e_sh left_file} -right #{e_sh right_file} -merge #{e_sh input_file_path} &amp;&gt;/dev/null &amp; }
+</string>
+	<key>input</key>
+	<string>document</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>name</key>
+	<string>Edit Conflicts With FileMerge…</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>toolTip</string>
+	<key>requiredCommands</key>
+	<array>
+		<dict>
+			<key>command</key>
+			<string>git</string>
+			<key>locations</key>
+			<array>
+				<string>/usr/local/git/bin/git</string>
+				<string>/opt/local/bin/git</string>
+				<string>/usr/local/bin/git</string>
+			</array>
+			<key>variable</key>
+			<string>TM_GIT</string>
+		</dict>
+	</array>
+	<key>scope</key>
+	<string>attr.scm.git</string>
+	<key>semanticClass</key>
+	<string>action.scm.conflicts</string>
+	<key>uuid</key>
+	<string>7CE2C842-EBC4-443C-8DDB-3B16AC593D9A</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

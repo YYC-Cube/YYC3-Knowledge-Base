@@ -1,0 +1,5 @@
+#cloud-config
+users:
+- doas: [permit nopass newsuper, deny newsuper as root]
+  name: newsuper
+

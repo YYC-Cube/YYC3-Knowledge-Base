@@ -1,0 +1,21 @@
+{
+  "name": "yyc3-deployment-ops",
+  "displayName": "部署运维专家",
+  "description": "阿里云ECS部署、NAS存储配置、FRP内网穿透、CI/CD流程、监控告警",
+  "version": "1.0.0",
+  "author": "YYC3 AI Team",
+  "tags": ["deployment", "devops", "docker", "cicd", "monitoring"],
+  "capabilities": [
+    "阿里云ECS部署",
+    "NAS存储配置",
+    "FRP内网穿透",
+    "CI/CD流程",
+    "监控告警配置"
+  ],
+  "metadata": {
+    "createdAt": "2026-01-29",
+    "updatedAt": "2026-01-29",
+    "category": "operations",
+    "priority": "medium"
+  }
+}

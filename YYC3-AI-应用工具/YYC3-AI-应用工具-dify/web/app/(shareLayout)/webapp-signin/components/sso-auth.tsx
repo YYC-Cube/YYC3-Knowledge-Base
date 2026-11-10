@@ -1,0 +1,90 @@
+'use client'
+import type { SsoProtocol } from '@dify/contracts/api/console/system-features/types.gen'
+import { zSsoProtocol } from '@dify/contracts/api/console/system-features/zod.gen'
+import { Button } from '@langgenius/dify-ui/button'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { resolveWebAppLoginRedirect } from '@/app/(shareLayout)/webapp-signin/login-redirect'
+import { Lock01 } from '@/app/components/base/icons/src/vender/solid/security'
+import { toast } from '@/app/notifications'
+import { useRouter, useSearchParams } from '@/next/navigation'
+import {
+  fetchMembersOAuth2SSOUrl,
+  fetchMembersOIDCSSOUrl,
+  fetchMembersSAMLSSOUrl,
+} from '@/service/share'
+import { getClientLoginFallback } from '@/utils/login-redirect'
+import { replaceLoginRedirect } from '@/utils/login-redirect.client'
+import { basePath } from '@/utils/var'
+
+type SSOAuthProps = {
+  protocol: SsoProtocol
+}
+
+function SSOAuth({ protocol }: SSOAuthProps) {
+  const router = useRouter()
+  const { t } = useTranslation()
+  const searchParams = useSearchParams()
+
+  const redirectUrl = searchParams.get('redirect_url')
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (!resolveWebAppLoginRedirect(redirectUrl, window.location.origin))
+      replaceLoginRedirect(getClientLoginFallback(), router.replace, basePath)
+  }, [redirectUrl, router])
+
+  const handleSSOLogin = () => {
+    const loginRedirect = resolveWebAppLoginRedirect(redirectUrl, window.location.origin)
+    if (!loginRedirect) {
+      replaceLoginRedirect(getClientLoginFallback(), router.replace, basePath)
+      return
+    }
+    setIsLoading(true)
+    if (protocol === zSsoProtocol.enum.saml) {
+      fetchMembersSAMLSSOUrl(loginRedirect.appCode, loginRedirect.target.href)
+        .then((res) => {
+          router.push(res.url)
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    } else if (protocol === zSsoProtocol.enum.oidc) {
+      fetchMembersOIDCSSOUrl(loginRedirect.appCode, loginRedirect.target.href)
+        .then((res) => {
+          router.push(res.url)
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    } else if (protocol === zSsoProtocol.enum.oauth2) {
+      fetchMembersOAuth2SSOUrl(loginRedirect.appCode, loginRedirect.target.href)
+        .then((res) => {
+          router.push(res.url)
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    } else {
+      toast.error(t(($) => $['error.invalidSSOProtocol'], { ns: 'login' }))
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <Button
+      tabIndex={0}
+      onClick={() => {
+        handleSSOLogin()
+      }}
+      disabled={isLoading}
+      className="w-full"
+    >
+      <Lock01 className="size-5 text-text-accent-light-mode-only" />
+      <span className="truncate">{t(($) => $.withSSO, { ns: 'login' })}</span>
+    </Button>
+  )
+}
+
+export default SSOAuth

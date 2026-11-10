@@ -1,0 +1,49 @@
+// Copyright (c) 2018 GitHub, Inc.
+// Use of this source code is governed by the MIT license that can be
+// found in the LICENSE file.
+
+#ifndef ELECTRON_SHELL_BROWSER_UI_COCOA_ELECTRON_NS_WINDOW_H_
+#define ELECTRON_SHELL_BROWSER_UI_COCOA_ELECTRON_NS_WINDOW_H_
+
+#include "base/memory/raw_ptr.h"
+#include "components/remote_cocoa/app_shim/native_widget_mac_nswindow.h"
+
+namespace electron {
+
+class NativeWindowMac;
+
+// Prevents window from resizing during the scope.
+class ScopedDisableResize {
+ public:
+  ScopedDisableResize() { disable_resize_++; }
+  ~ScopedDisableResize() { disable_resize_--; }
+
+  // True if there are 1+ nested ScopedDisableResize objects in the scope
+  static bool IsResizeDisabled() { return disable_resize_ > 0; }
+
+ private:
+  static int disable_resize_;
+};
+
+}  // namespace electron
+
+@interface ElectronNSWindow : NativeWidgetMacNSWindow {
+ @private
+  raw_ptr<electron::NativeWindowMac> shell_;
+}
+@property BOOL acceptsFirstMouse;
+@property BOOL enableLargerThanScreen;
+@property BOOL disableAutoHideCursor;
+@property BOOL disableKeyOrMainWindow;
+@property(nonatomic, retain) NSVisualEffectView* vibrantView;
+- (id)initWithShell:(electron::NativeWindowMac*)shell
+          styleMask:(NSUInteger)styleMask;
+- (void)cleanup;
+- (electron::NativeWindowMac*)shell;
+- (id)accessibilityFocusedUIElement;
+- (NSRect)originalContentRectForFrameRect:(NSRect)frameRect;
+- (BOOL)toggleFullScreenMode:(id)sender;
+- (void)disableHeadlessMode;
+@end
+
+#endif  // ELECTRON_SHELL_BROWSER_UI_COCOA_ELECTRON_NS_WINDOW_H_

@@ -1,0 +1,20 @@
+{
+  "reject": [
+    "@astrojs/mdx",
+    "@babel/cli",
+    "@babel/core",
+    "@babel/preset-env",
+    "@docsearch/js",
+    "astro",
+    "eslint",
+    "eslint-config-xo",
+    "eslint-plugin-unicorn",
+    "hammer-simulator",
+    "jquery",
+    "karma-browserstack-launcher",
+    "karma-rollup-preprocessor",
+    "sass",
+    "stylelint",
+    "vnu-jar"
+  ]
+}

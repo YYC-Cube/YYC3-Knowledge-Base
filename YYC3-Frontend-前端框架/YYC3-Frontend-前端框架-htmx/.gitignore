@@ -1,0 +1,8 @@
+.idea
+*.iml
+/node_modules
+_site
+test/scratch/scratch.html
+.DS_Store
+.vscode
+/coverage

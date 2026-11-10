@@ -1,0 +1,147 @@
+- source: '[['
+  scopesBegin:
+    - meta.scope.logical-expression
+  scopes:
+    - punctuation.definition.logical-expression
+- source: $
+  scopes:
+    - punctuation.definition.variable
+    - variable.other.normal
+- source: T
+  scopes:
+    - variable.other.normal
+- source: '=~'
+  scopes:
+    - keyword.operator.logical.regex
+- source: '"'
+  scopesBegin:
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: a string
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - string.quoted.double
+- source: ']]'
+  scopes:
+    - punctuation.definition.logical-expression
+  scopesEnd:
+    - meta.scope.logical-expression
+- source: '&&'
+  scopes:
+    - punctuation.separator.statement.and
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'yes'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: '|'
+  scopesBegin:
+    - keyword.operator.pipe
+- source: '|'
+  scopesEnd:
+    - keyword.operator.pipe
+- source: echo
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+- source: '"'
+  scopesBegin:
+    - meta.argument
+    - string.quoted.double
+  scopes:
+    - punctuation.definition.string.begin
+- source: 'no'
+- source: '"'
+  scopes:
+    - punctuation.definition.string.end
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+    - meta.argument
+    - string.quoted.double
+- source: function
+  scopesBegin:
+    - meta.function
+  scopes:
+    - storage.type.function
+- source: testo
+  scopes:
+    - entity.name.function
+- source: (
+  scopesBegin:
+    - punctuation.definition.arguments
+- source: )
+  scopesEnd:
+    - punctuation.definition.arguments
+- source: '{'
+  scopesBegin:
+    - meta.function.body
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition
+- source: '#'
+  scopesBegin:
+    - comment.line.number-sign
+  scopes:
+    - punctuation.definition.comment
+- source: '## this loses highlighting due to the space in "a string" above'
+  scopesEnd:
+    - comment.line.number-sign
+- source: ls
+  scopesBegin:
+    - meta.statement
+    - meta.statement.command
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+- source: '-'
+  scopesBegin:
+    - string.unquoted.argument
+  scopes:
+    - constant.other.option.dash
+- source: la
+  scopes:
+    - constant.other.option
+  scopesEnd:
+    - string.unquoted.argument
+- source: pwd
+  scopes:
+    - meta.statement.command.name
+    - entity.name.function.call
+    - entity.name.command
+    - support.function.builtin
+  scopesEnd:
+    - meta.statement
+    - meta.statement.command
+- source: '}'
+  scopes:
+    - punctuation.definition.group
+    - punctuation.section.function.definition

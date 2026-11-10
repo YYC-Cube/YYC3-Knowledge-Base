@@ -1,0 +1,386 @@
+[
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.preamble.latex keyword.control.preamble.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "documentclass",
+		"t": "text.tex.latex meta.preamble.latex keyword.control.preamble.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.preamble.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "article",
+		"t": "text.tex.latex meta.preamble.latex support.class.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.preamble.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.begin-document.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex meta.function.begin-document.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.begin-document.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "document",
+		"t": "text.tex.latex meta.function.begin-document.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.begin-document.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "begin",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "[",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.begin.latex"
+	},
+	{
+		"c": "linenos",
+		"t": "text.tex.latex meta.parameter.optional.latex"
+	},
+	{
+		"c": "]",
+		"t": "text.tex.latex meta.parameter.optional.latex punctuation.definition.arguments.optional.end.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "yaml",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "YAML Resources",
+		"t": "text.tex.latex source.yaml meta.map.yaml meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.yaml punctuation.separator.map.value.yaml"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML Specifications",
+		"t": "text.tex.latex source.yaml meta.map.yaml meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.yaml punctuation.separator.map.value.yaml"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex source.yaml punctuation.definition.block.sequence.item.yaml"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML 1.2",
+		"t": "text.tex.latex source.yaml meta.map.yaml meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.yaml punctuation.separator.map.value.yaml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex source.yaml punctuation.definition.block.sequence.item.yaml"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "Revision 1.2.2",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "      ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "#",
+		"t": "text.tex.latex source.yaml comment.line.number-sign.yaml punctuation.definition.comment.yaml"
+	},
+	{
+		"c": " Oct 1, 2021 *New*",
+		"t": "text.tex.latex source.yaml comment.line.number-sign.yaml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex source.yaml punctuation.definition.block.sequence.item.yaml"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "Revision 1.2.1",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "      ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "#",
+		"t": "text.tex.latex source.yaml comment.line.number-sign.yaml punctuation.definition.comment.yaml"
+	},
+	{
+		"c": " Oct 1, 2009",
+		"t": "text.tex.latex source.yaml comment.line.number-sign.yaml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex source.yaml punctuation.definition.block.sequence.item.yaml"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "Revision 1.2.0",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "      ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "#",
+		"t": "text.tex.latex source.yaml comment.line.number-sign.yaml punctuation.definition.comment.yaml"
+	},
+	{
+		"c": " Jul 21, 2009",
+		"t": "text.tex.latex source.yaml comment.line.number-sign.yaml"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex source.yaml punctuation.definition.block.sequence.item.yaml"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML 1.1",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "-",
+		"t": "text.tex.latex source.yaml punctuation.definition.block.sequence.item.yaml"
+	},
+	{
+		"c": " ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML 1.0",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML on GitHub",
+		"t": "text.tex.latex source.yaml meta.map.yaml meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.yaml punctuation.separator.map.value.yaml"
+	},
+	{
+		"c": "                        ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "#",
+		"t": "text.tex.latex source.yaml comment.line.number-sign.yaml punctuation.definition.comment.yaml"
+	},
+	{
+		"c": " github.com/yaml/",
+		"t": "text.tex.latex source.yaml comment.line.number-sign.yaml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML Specs",
+		"t": "text.tex.latex source.yaml meta.map.yaml meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.yaml punctuation.separator.map.value.yaml"
+	},
+	{
+		"c": "        ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "yaml-spec/",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML 1.2 Grammar",
+		"t": "text.tex.latex source.yaml meta.map.yaml meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.yaml punctuation.separator.map.value.yaml"
+	},
+	{
+		"c": "  ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "yaml-grammar/",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML Test Suite",
+		"t": "text.tex.latex source.yaml meta.map.yaml meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.yaml punctuation.separator.map.value.yaml"
+	},
+	{
+		"c": "   ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "yaml-test-suite/",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "    ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "YAML Issues",
+		"t": "text.tex.latex source.yaml meta.map.yaml meta.map.key.yaml string.unquoted.plain.yaml entity.name.tag.yaml"
+	},
+	{
+		"c": ":",
+		"t": "text.tex.latex source.yaml punctuation.separator.map.value.yaml"
+	},
+	{
+		"c": "       ",
+		"t": "text.tex.latex source.yaml punctuation.whitespace.separator.yaml"
+	},
+	{
+		"c": "issues/",
+		"t": "text.tex.latex source.yaml string.unquoted.plain.out.yaml"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "minted",
+		"t": "text.tex.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex punctuation.definition.arguments.end.latex"
+	},
+	{
+		"c": "\\",
+		"t": "text.tex.latex meta.function.end-document.latex support.function.be.latex punctuation.definition.function.latex"
+	},
+	{
+		"c": "end",
+		"t": "text.tex.latex meta.function.end-document.latex support.function.be.latex"
+	},
+	{
+		"c": "{",
+		"t": "text.tex.latex meta.function.end-document.latex punctuation.definition.arguments.begin.latex"
+	},
+	{
+		"c": "document",
+		"t": "text.tex.latex meta.function.end-document.latex variable.parameter.function.latex"
+	},
+	{
+		"c": "}",
+		"t": "text.tex.latex meta.function.end-document.latex punctuation.definition.arguments.end.latex"
+	}
+]

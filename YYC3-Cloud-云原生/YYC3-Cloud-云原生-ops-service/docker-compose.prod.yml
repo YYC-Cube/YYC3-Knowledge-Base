@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  # 1. 数据库服务
+  postgres:
+    image: postgres:16-bookworm
+    container_name: ops-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ops_system}
+      POSTGRES_USER: ${POSTGRES_USER:-ops_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_in_production}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ops_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. Ops Service (后端 API)
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ops-service
+    restart: always
+    environment:
+      # 数据库连接
+      OPS_DATABASE__URL: postgres://${POSTGRES_USER:-ops_user}:${POSTGRES_PASSWORD:-change_me_in_production}@postgres:5432/${POSTGRES_DB:-ops_system}
+      OPS_DATABASE__MAX_CONNECTIONS: 20
+      
+      # 服务监听
+      OPS_SERVER__ADDR: 0.0.0.0:3000
+      
+      # 安全配置 (生产环境请务必修改)
+      OPS_SECURITY__JWT_SECRET: ${JWT_SECRET:-please_change_this_to_a_very_long_random_string}
+      OPS_SECURITY__RUNNER_API_KEY: ${RUNNER_API_KEY:-runner_secret}
+      OPS_SECURITY__TRUST_PROXY: "true"
+      
+      # SSH 配置
+      OPS_SSH__DEFAULT_USERNAME: root
+      OPS_SSH__HOST_KEY_VERIFICATION: accept
+      
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # 3. Nginx 反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: ops-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl.conf:/etc/nginx/conf.d/ssl.conf:ro
+      # 如果有 SSL 证书，请解开以下注释并映射
+      # - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:

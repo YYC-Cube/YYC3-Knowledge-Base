@@ -1,0 +1,12 @@
+\.py$
+\.sources$
+\.list$
+\.yml$
+\.yaml$
+cloud-init
+ami\-
+ubuntu\:
+^/
+$/
+ecdsa-sha2-nistp
+1.0/config/user

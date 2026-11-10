@@ -1,0 +1,50 @@
+#!/bin/sh
+# The official way to install cloud-init on FreeBSD is via the net/cloud-init
+# port or the (appropriately py-flavoured) package.
+# This script provides a communication medium between the cloud-init maintainers
+# and the cloud-init port maintainers as to what dependencies have changed.
+# It also provides a quick and dirty way of building and installing, and will
+# optionally make a first run at the end.
+
+set -eux
+
+fail() {
+    echo "FAILED:" "$@" 1>&2
+    exit 1
+}
+
+PYTHON="${PYTHON:-python3}"
+if [ ! $(which ${PYTHON}) ]; then
+    echo "Please install python first."
+    exit 1
+fi
+
+# Check dependencies:
+depschecked=/tmp/c-i.dependencieschecked
+[ -f "$depschecked" ] || ./tools/read-dependencies --distro freebsd -t || fail "install packages"
+touch $depschecked
+
+# Build the code and install in /usr/local/:
+meson setup builddir -Dinit_system=sysvinit_freebsd
+meson install -C builddir
+
+echo "Installation completed."
+
+if [ "$#" -gt 1 ] && [ "$1" = "run" ]; then
+    echo "Ok, now let's see if it works."
+
+    # Backup SSH keys
+    mv /etc/ssh/ssh_host_* /tmp/
+
+    # Remove old metadata
+    rm -rf /var/lib/cloud
+
+    # Just log everything, quick&dirty
+    rm /usr/local/etc/cloud/cloud.cfg.d/05_logging.cfg
+
+    # Start:
+    /usr/local/etc/rc.d/cloudinit start
+
+    # Restore SSH keys
+    mv /tmp/ssh_host_* /etc/ssh/
+fi

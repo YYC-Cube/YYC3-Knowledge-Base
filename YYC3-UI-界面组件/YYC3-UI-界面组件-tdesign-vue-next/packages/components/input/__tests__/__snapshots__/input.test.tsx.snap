@@ -1,0 +1,282 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Input > props > :align[string] 1`] = `
+<div
+  class="t-input t-align-right"
+>
+  <!---->
+  <!---->
+  <input
+    class="t-input__inner"
+    placeholder="请输入"
+    spellcheck="false"
+    type="text"
+    unselectable="off"
+  />
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+</div>
+`;
+
+exports[`Input > props > :label[TNode] 1`] = `
+<div
+  class="t-input__wrap"
+>
+  <div
+    class="t-input t-input--prefix"
+  >
+    <!---->
+    <div
+      class="t-input__prefix"
+    >
+      <span
+        class="custom-node"
+      >
+        TNode
+      </span>
+    </div>
+    <input
+      class="t-input__inner"
+      placeholder="请输入"
+      spellcheck="false"
+      type="text"
+      unselectable="off"
+    />
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`Input > props > :label[slot] 1`] = `
+<div
+  class="t-input__wrap"
+>
+  <div
+    class="t-input t-input--prefix"
+  >
+    <!---->
+    <div
+      class="t-input__prefix"
+    >
+      
+      <span
+        class="custom-node"
+      >
+        TNode
+      </span>
+      
+    </div>
+    <input
+      class="t-input__inner"
+      placeholder="请输入"
+      spellcheck="false"
+      type="text"
+      unselectable="off"
+    />
+    <!---->
+    <!---->
+    <!---->
+    <!---->
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`Input > props > :status[string] 1`] = `
+<div
+  class="t-input t-is-error"
+>
+  <!---->
+  <!---->
+  <input
+    class="t-input__inner"
+    placeholder="请输入"
+    spellcheck="false"
+    type="text"
+    unselectable="off"
+  />
+  <!---->
+  <!---->
+  <!---->
+  <!---->
+</div>
+`;
+
+exports[`Input > props > :suffix[TNode] 1`] = `
+<div
+  class="t-input__wrap"
+>
+  <div
+    class="t-input t-input--suffix"
+  >
+    <!---->
+    <!---->
+    <input
+      class="t-input__inner"
+      placeholder="请输入"
+      spellcheck="false"
+      type="text"
+      unselectable="off"
+    />
+    <!---->
+    <div
+      class="t-input__suffix"
+    >
+      <span
+        class="custom-node"
+      >
+        TNode
+      </span>
+      <!---->
+    </div>
+    <!---->
+    <!---->
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`Input > props > :suffix[slot] 1`] = `
+<div
+  class="t-input__wrap"
+>
+  <div
+    class="t-input t-input--suffix"
+  >
+    <!---->
+    <!---->
+    <input
+      class="t-input__inner"
+      placeholder="请输入"
+      spellcheck="false"
+      type="text"
+      unselectable="off"
+    />
+    <!---->
+    <div
+      class="t-input__suffix"
+    >
+      
+      <span
+        class="custom-node"
+      >
+        TNode
+      </span>
+      
+      <!---->
+    </div>
+    <!---->
+    <!---->
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`Input > props > :suffixIcon[TNode] 1`] = `
+<div
+  class="t-input__wrap"
+>
+  <div
+    class="t-input t-input--suffix"
+  >
+    <!---->
+    <!---->
+    <input
+      class="t-input__inner"
+      placeholder="请输入"
+      spellcheck="false"
+      type="text"
+      unselectable="off"
+    />
+    <!---->
+    <!---->
+    <!---->
+    <span
+      class="t-input__suffix t-input__suffix-icon"
+    >
+      <span
+        class="custom-node"
+      >
+        TNode
+      </span>
+    </span>
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`Input > props > :suffixIcon[slot suffix-icon] 1`] = `
+<div
+  class="t-input__wrap"
+>
+  <div
+    class="t-input t-input--suffix"
+  >
+    <!---->
+    <!---->
+    <input
+      class="t-input__inner"
+      placeholder="请输入"
+      spellcheck="false"
+      type="text"
+      unselectable="off"
+    />
+    <!---->
+    <!---->
+    <!---->
+    <span
+      class="t-input__suffix t-input__suffix-icon"
+    >
+      
+      <span
+        class="custom-node"
+      >
+        TNode
+      </span>
+      
+    </span>
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`Input > props > :suffixIcon[slot] 1`] = `
+<div
+  class="t-input__wrap"
+>
+  <div
+    class="t-input t-input--suffix"
+  >
+    <!---->
+    <!---->
+    <input
+      class="t-input__inner"
+      placeholder="请输入"
+      spellcheck="false"
+      type="text"
+      unselectable="off"
+    />
+    <!---->
+    <!---->
+    <!---->
+    <span
+      class="t-input__suffix t-input__suffix-icon"
+    >
+      
+      <span
+        class="custom-node"
+      >
+        TNode
+      </span>
+      
+    </span>
+  </div>
+  <!---->
+</div>
+`;

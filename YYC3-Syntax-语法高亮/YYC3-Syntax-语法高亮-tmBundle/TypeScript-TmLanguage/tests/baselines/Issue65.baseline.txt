@@ -1,0 +1,120 @@
+original file
+-----------------------------------
+class Foo() {
+  get something(): any/*Something*/ {
+    throw new Error('Error...');
+  }
+
+  foo() {
+    'string';
+  }
+}
+-----------------------------------
+
+Grammar: TypeScript.tmLanguage
+-----------------------------------
+>class Foo() {
+ ^^^^^
+ source.ts meta.class.ts storage.type.class.ts
+      ^
+      source.ts meta.class.ts
+       ^^^
+       source.ts meta.class.ts entity.name.type.class.ts
+          ^^^
+          source.ts meta.class.ts
+             ^
+             source.ts meta.class.ts punctuation.definition.block.ts
+>  get something(): any/*Something*/ {
+ ^^
+ source.ts meta.class.ts
+   ^^^
+   source.ts meta.class.ts meta.method.declaration.ts storage.type.property.ts
+      ^
+      source.ts meta.class.ts meta.method.declaration.ts
+       ^^^^^^^^^
+       source.ts meta.class.ts meta.method.declaration.ts meta.definition.method.ts entity.name.function.ts
+                ^
+                source.ts meta.class.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.begin.ts
+                 ^
+                 source.ts meta.class.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.end.ts
+                  ^
+                  source.ts meta.class.ts meta.method.declaration.ts meta.return.type.ts keyword.operator.type.annotation.ts
+                   ^
+                   source.ts meta.class.ts meta.method.declaration.ts meta.return.type.ts
+                    ^^^
+                    source.ts meta.class.ts meta.method.declaration.ts meta.return.type.ts support.type.primitive.ts
+                       ^^
+                       source.ts meta.class.ts meta.method.declaration.ts meta.return.type.ts comment.block.ts punctuation.definition.comment.ts
+                         ^^^^^^^^^
+                         source.ts meta.class.ts meta.method.declaration.ts meta.return.type.ts comment.block.ts
+                                  ^^
+                                  source.ts meta.class.ts meta.method.declaration.ts meta.return.type.ts comment.block.ts punctuation.definition.comment.ts
+                                    ^
+                                    source.ts meta.class.ts meta.method.declaration.ts meta.return.type.ts
+                                     ^
+                                     source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.definition.block.ts
+>    throw new Error('Error...');
+ ^^^^
+ source.ts meta.class.ts meta.method.declaration.ts meta.block.ts
+     ^^^^^
+     source.ts meta.class.ts meta.method.declaration.ts meta.block.ts keyword.control.trycatch.ts
+          ^
+          source.ts meta.class.ts meta.method.declaration.ts meta.block.ts
+           ^^^
+           source.ts meta.class.ts meta.method.declaration.ts meta.block.ts new.expr.ts keyword.operator.new.ts
+              ^
+              source.ts meta.class.ts meta.method.declaration.ts meta.block.ts new.expr.ts
+               ^^^^^
+               source.ts meta.class.ts meta.method.declaration.ts meta.block.ts new.expr.ts meta.function-call.ts support.class.error.ts
+                    ^
+                    source.ts meta.class.ts meta.method.declaration.ts meta.block.ts new.expr.ts meta.brace.round.ts
+                     ^
+                     source.ts meta.class.ts meta.method.declaration.ts meta.block.ts new.expr.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+                      ^^^^^^^^
+                      source.ts meta.class.ts meta.method.declaration.ts meta.block.ts new.expr.ts string.quoted.single.ts
+                              ^
+                              source.ts meta.class.ts meta.method.declaration.ts meta.block.ts new.expr.ts string.quoted.single.ts punctuation.definition.string.end.ts
+                               ^
+                               source.ts meta.class.ts meta.method.declaration.ts meta.block.ts new.expr.ts meta.brace.round.ts
+                                ^
+                                source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.terminator.statement.ts
+>  }
+ ^^
+ source.ts meta.class.ts meta.method.declaration.ts meta.block.ts
+   ^
+   source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.definition.block.ts
+>
+ ^
+ source.ts meta.class.ts
+>  foo() {
+ ^^
+ source.ts meta.class.ts meta.method.declaration.ts
+   ^^^
+   source.ts meta.class.ts meta.method.declaration.ts meta.definition.method.ts entity.name.function.ts
+      ^
+      source.ts meta.class.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.begin.ts
+       ^
+       source.ts meta.class.ts meta.method.declaration.ts meta.parameters.ts punctuation.definition.parameters.end.ts
+        ^
+        source.ts meta.class.ts meta.method.declaration.ts
+         ^
+         source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.definition.block.ts
+>    'string';
+ ^^^^
+ source.ts meta.class.ts meta.method.declaration.ts meta.block.ts
+     ^
+     source.ts meta.class.ts meta.method.declaration.ts meta.block.ts string.quoted.single.ts punctuation.definition.string.begin.ts
+      ^^^^^^
+      source.ts meta.class.ts meta.method.declaration.ts meta.block.ts string.quoted.single.ts
+            ^
+            source.ts meta.class.ts meta.method.declaration.ts meta.block.ts string.quoted.single.ts punctuation.definition.string.end.ts
+             ^
+             source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.terminator.statement.ts
+>  }
+ ^^
+ source.ts meta.class.ts meta.method.declaration.ts meta.block.ts
+   ^
+   source.ts meta.class.ts meta.method.declaration.ts meta.block.ts punctuation.definition.block.ts
+>}
+ ^
+ source.ts meta.class.ts punctuation.definition.block.ts

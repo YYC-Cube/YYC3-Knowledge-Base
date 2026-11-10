@@ -1,0 +1,43 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: John Kleinschmidt <jkleinsc@electronjs.org>
+Date: Fri, 6 Oct 2023 14:15:20 -0400
+Subject: feat: allow passing of ObjectTemplate to ObjectTemplateBuilder
+
+https://chromium-review.googlesource.com/c/chromium/src/+/4905829 removed the
+ObjectTemplateBuilder constructor which allows passing in an ObjectTemplate.
+
+Electron needs this constructor, namely for gin_helper::Constructible
+objects.
+
+diff --git a/gin/object_template_builder.cc b/gin/object_template_builder.cc
+index 4033b8ac80d28d5e7af3cd57b8670922a72f84cf..b07da3a191cd0424fe76ee762de091a9ec24d5a4 100644
+--- a/gin/object_template_builder.cc
++++ b/gin/object_template_builder.cc
+@@ -143,6 +143,13 @@ ObjectTemplateBuilder::ObjectTemplateBuilder(v8::Isolate* isolate,
+                     "constructor"))),
+       template_(constructor_template_->InstanceTemplate()) {}
+ 
++ObjectTemplateBuilder::ObjectTemplateBuilder(v8::Isolate* isolate,
++                                             const char* type_name,
++                                             v8::Local<v8::ObjectTemplate> tmpl)
++    : isolate_(isolate), type_name_(type_name), template_(tmpl) {
++  template_->SetInternalFieldCount(kNumberOfInternalFields);
++}
++
+ ObjectTemplateBuilder::ObjectTemplateBuilder(
+     const ObjectTemplateBuilder& other) = default;
+ 
+diff --git a/gin/object_template_builder.h b/gin/object_template_builder.h
+index c633282925cb0652f5b205d6b600c3af078c4bfe..3dfe60f83bf18f2fe0ad625a4e82a8621f100efe 100644
+--- a/gin/object_template_builder.h
++++ b/gin/object_template_builder.h
+@@ -48,6 +48,9 @@ class GIN_EXPORT ObjectTemplateBuilder {
+  public:
+   explicit ObjectTemplateBuilder(v8::Isolate* isolate);
+   ObjectTemplateBuilder(v8::Isolate* isolate, const char* type_name);
++  ObjectTemplateBuilder(v8::Isolate* isolate,
++                        const char* type_name,
++                        v8::Local<v8::ObjectTemplate> tmpl);
+   ObjectTemplateBuilder(const ObjectTemplateBuilder& other);
+   ~ObjectTemplateBuilder();
+ 

@@ -1,0 +1,5 @@
+#cloud-config
+write_files:
+-   content: blah
+    path: /etc/blah.ini
+    permissions: 493

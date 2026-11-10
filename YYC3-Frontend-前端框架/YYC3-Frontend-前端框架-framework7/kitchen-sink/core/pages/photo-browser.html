@@ -1,0 +1,104 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a class="link back">
+            <i class="icon icon-back"></i>
+
+          </a>
+        </div>
+        <div class="title">Photo Browser</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="block block-strong inset">
+        <p>Photo Browser is a standalone and highly configurable component that allows to open window with photo viewer
+          and navigation elements with the following features:</p>
+        <ul>
+          <li>Swiper between photos</li>
+          <li>Multi-gestures support for zooming</li>
+          <li>Toggle zoom by double tap on photo</li>
+          <li>Single click on photo to toggle Exposition mode</li>
+        </ul>
+      </div>
+      <div class="block block-strong inset">
+        <p>Photo Browser could be opened in a three ways - as a Standalone component (Popup modification), in Popup, and
+          as separate Page:</p>
+        <div class="grid grid-cols-3 grid-gap">
+          <a class="button button-fill button-round" @click=${openStandalone}>Standalone</a>
+          <a class="button button-fill button-round" @click=${openPopup}>Popup</a>
+          <a class="button button-fill button-round" @click=${openPage}>Page</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+<script>
+  export default (props, { $f7, $on }) => {
+    const photos = [
+      {
+        url: 'img/beach.jpg',
+        caption: 'Amazing beach in Goa, India'
+      },
+      'http://placekitten.com/1024/1024',
+      'img/lock.jpg',
+      {
+        url: 'img/monkey.jpg',
+        caption: 'I met this monkey in Chinese mountains'
+      },
+      {
+        url: 'img/mountains.jpg',
+        caption: 'Beautiful mountains in Zhangjiajie, China'
+      }
+    ];
+    const thumbs = [
+      'img/beach.jpg',
+      'http://placekitten.com/1024/1024',
+      'img/lock.jpg',
+      'img/monkey.jpg',
+      'img/mountains.jpg'
+    ]
+
+    let standalone;
+    let popup;
+    let page;
+
+    const openStandalone = () => {
+      standalone.open();
+    }
+    const openPopup = () => {
+      popup.open();
+    }
+    const openPage = () => {
+      page.open();
+    }
+    $on('pageInit', () => {
+      // Create PBs when page init
+      standalone = $f7.photoBrowser.create({
+        photos: photos,
+        thumbs: thumbs,
+      });
+      popup = $f7.photoBrowser.create({
+        photos: photos,
+        thumbs: thumbs,
+        type: 'popup',
+      });
+      page = $f7.photoBrowser.create({
+        photos: photos,
+        thumbs: thumbs,
+        type: 'page',
+      });
+    });
+    $on('pageBeforeRemove', () => {
+      // Destroy PBs on page remove
+      standalone.destroy();
+      popup.destroy();
+      page.destroy();
+    });
+
+    return $render;
+  };
+</script>

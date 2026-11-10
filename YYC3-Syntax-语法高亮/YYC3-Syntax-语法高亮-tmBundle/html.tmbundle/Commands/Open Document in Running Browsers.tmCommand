@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveActiveFile</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby20
+# 
+# Open Document in Running Browser(s)
+# 
+# Now supports multiple running versions of a single browser along
+# with a range of new/old browsers.
+# 
+# Options: Set TM_PROJECT_SITEURL in your TM Project Window Info Button
+# in the following form: "http://example.com/"
+
+require "#{ENV['TM_SUPPORT_PATH']}/lib/escape.rb"
+
+if ENV['TM_PROJECT_SITEURL']
+  url = "#{ENV['TM_PROJECT_SITEURL']}" + ENV['TM_FILEPATH'].sub(/^#{Regexp.escape(ENV['TM_PROJECT_DIRECTORY'])}\//, '') 
+else
+  url = "file://#{ENV['TM_FILEPATH']}"
+end
+
+proclist = `ps -x -o command`
+active = []
+
+browsers = %w[ Safari OmniWeb Camino Shiira firefox(-bin)? Xyle\ scope Opera Internet\ Explorer flock-bin Sunrise seamonkey-bin navigator-bin Google\ Chrome Safari\ Technology\ Preview].join('|')
+
+# Build paths to each active browser
+#
+# Notes:
+#   - 'Technology Preview' look ahead is to not false match Safari against Safari Technology Preview.
+#   - 'Helper' look ahead is to exclude Chrome components.
+proclist.scan(%r{^(/.*\.app)(?=/Contents/MacOS/(?:#{browsers})\b(?! Technology Preview| Helper))}) { |b,n|
+  `open -g -a #{e_sh(b)} #{e_sh(url)}`
+}
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>inputFormat</key>
+	<string>text</string>
+	<key>name</key>
+	<string>Open Document in Running Browser(s)</string>
+	<key>outputCaret</key>
+	<string>afterOutput</string>
+	<key>outputFormat</key>
+	<string>text</string>
+	<key>outputLocation</key>
+	<string>discard</string>
+	<key>scope</key>
+	<string>text.html</string>
+	<key>uuid</key>
+	<string>970EE6B4-A091-11D9-A5A2-000D93C8BE28</string>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>

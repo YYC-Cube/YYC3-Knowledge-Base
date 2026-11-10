@@ -1,0 +1,42 @@
+'use client'
+import type { FC } from 'react'
+import { cn } from '@langgenius/dify-ui/cn'
+
+type Props = Readonly<{
+  value: boolean
+  onChange: (value: boolean) => void
+}>
+
+const FormInputBoolean: FC<Props> = ({ value, onChange }) => {
+  return (
+    <div className="flex w-full space-x-1">
+      <button
+        type="button"
+        className={cn(
+          'flex h-8 grow cursor-default appearance-none items-center justify-center rounded-md border border-components-option-card-option-border bg-components-option-card-option-bg px-2 system-sm-regular text-text-secondary',
+          !value &&
+            'cursor-pointer hover:border-components-option-card-option-border-hover hover:bg-components-option-card-option-bg-hover hover:shadow-xs',
+          value &&
+            'border-[1.5px] border-components-option-card-option-selected-border bg-components-option-card-option-selected-bg system-sm-medium shadow-xs',
+        )}
+        onClick={() => onChange(true)}
+      >
+        True
+      </button>
+      <button
+        type="button"
+        className={cn(
+          'flex h-8 grow cursor-default appearance-none items-center justify-center rounded-md border border-components-option-card-option-border bg-components-option-card-option-bg px-2 system-sm-regular text-text-secondary',
+          value &&
+            'cursor-pointer hover:border-components-option-card-option-border-hover hover:bg-components-option-card-option-bg-hover hover:shadow-xs',
+          !value &&
+            'border-[1.5px] border-components-option-card-option-selected-border bg-components-option-card-option-selected-bg system-sm-medium shadow-xs',
+        )}
+        onClick={() => onChange(false)}
+      >
+        False
+      </button>
+    </div>
+  )
+}
+export default FormInputBoolean

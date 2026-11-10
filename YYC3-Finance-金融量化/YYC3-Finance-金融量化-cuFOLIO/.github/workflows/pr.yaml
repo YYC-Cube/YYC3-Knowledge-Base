@@ -1,0 +1,100 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lockfile-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.11.7"
+
+      - name: Verify lockfile resolves across all extras and Python range
+        run: uv lock --locked
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.11.7"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: uv sync --extra dev
+
+      - name: Check formatting
+        run: uv run ruff format --check src/
+
+      - name: Lint
+        run: uv run ruff check src/
+
+  install-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.11.7"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: uv sync --extra dev --python ${{ matrix.python-version }}
+
+      - name: Verify import
+        run: uv run python -c "import cufolio"
+
+      - name: Run tests
+        run: uv run pytest tests/ -v
+
+  validate-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate agent skills and plugin manifests
+        run: ./ci/utils/validate_skills.sh
+
+  pr-builder:
+    if: always()
+    needs: [lockfile-check, lint, install-and-test, validate-skills]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check job results
+        run: |
+          if [[ "${{ needs.lockfile-check.result }}" != "success" || "${{ needs.lint.result }}" != "success" || "${{ needs.install-and-test.result }}" != "success" || "${{ needs.validate-skills.result }}" != "success" ]]; then
+            echo "One or more required jobs failed."
+            exit 1
+          fi
