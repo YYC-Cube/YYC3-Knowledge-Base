@@ -61,3 +61,11 @@ YYC3-NVIDIA-官方文库/*
 !YYC3-NVIDIA-官方文库/README.md
 YYC3-Model-训练数据/*
 !YYC3-Model-训练数据/README.md
+
+# UI 只读快照：锁文件移出依赖图（保留 package.json 与源码）
+YYC3-UI-界面组件/**/package-lock.json
+YYC3-UI-界面组件/**/pnpm-lock.yaml
+YYC3-UI-界面组件/**/yarn.lock
+YYC3-UI-界面组件/**/bun.lock
+YYC3-UI-界面组件/**/bun.lockb
+YYC3-UI-界面组件/**/npm-shrinkwrap.json
