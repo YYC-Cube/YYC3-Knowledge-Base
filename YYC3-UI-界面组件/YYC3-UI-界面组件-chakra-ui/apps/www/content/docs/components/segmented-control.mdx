@@ -1,0 +1,127 @@
+---
+title: Segmented Control
+description: Used to pick one choice from a linear set of options
+links:
+  storybook: components-segmented-control--basic
+  recipe: segment-group
+  ark: https://ark-ui.com/docs/components/segment-group
+---
+
+<ExampleTabs name="segmented-control-basic" />
+
+## Usage
+
+```tsx
+import { SegmentGroup } from "@chakra-ui/react"
+```
+
+```tsx
+<SegmentGroup.Root>
+  <SegmentGroup.Indicator />
+  <SegmentGroup.Item>
+    <SegmentGroup.ItemText />
+    <SegmentGroup.ItemHiddenInput />
+  </SegmentGroup.Item>
+</SegmentGroup.Root>
+```
+
+## Shortcuts
+
+The `SegmentGroup` component also provides a set of shortcuts for common use
+cases.
+
+### SegmentGroupItems
+
+The `SegmentGroupItems` shortcut renders a list of items based on the `items`
+prop.
+
+This works:
+
+```tsx
+<>
+  {items.map((item) => (
+    <SegmentGroup.Item key={item.value} value={item.value}>
+      <SegmentGroup.ItemText>{item.label}</SegmentGroup.ItemText>
+      <SegmentGroup.ItemHiddenInput />
+    </SegmentGroup.Item>
+  ))}
+</>
+```
+
+This might be more concise, if you don't need to customize the items:
+
+```tsx
+<SegmentGroup.Items items={items} />
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the segmented control.
+
+<ExampleTabs name="segmented-control-with-sizes" />
+
+### Controlled
+
+Use the `value` and `onValueChange` props to control the selected item.
+
+<ExampleTabs name="segmented-control-controlled" />
+
+### Hook Form
+
+Here's an example of how to use the `SegmentedControl` with `react-hook-form`.
+
+<ExampleTabs name="segmented-control-with-hook-form" />
+
+### Vertical
+
+By default, the segmented control is horizontal. Set the `orientation` prop to
+`vertical` to change the orientation of the segmented control.
+
+<ExampleTabs name="segmented-control-vertical" />
+
+### Disabled
+
+Use the `disabled` prop to disable the segmented control.
+
+<ExampleTabs name="segmented-control-with-disabled" />
+
+### Disabled Item
+
+Use the `disabled` prop on the item to disable it.
+
+<ExampleTabs name="segmented-control-with-disabled-item" />
+
+### Custom Indicator
+
+Customize the indicator appearance using CSS variables like
+`--segment-indicator-bg` and `--segment-indicator-shadow`.
+
+<ExampleTabs name="segmented-control-with-custom-indicator" />
+
+### Color Palette
+
+By default, the segment control doesn't support changing the design via the
+`colorPalette` prop. This example shows how to customize the segmented control
+to make the `colorPalette` prop work.
+
+<ExampleTabs name="segmented-control-with-color-palette" />
+
+### Icon
+
+Render the `label` as a `ReactNode` to render an icon.
+
+<ExampleTabs name="segmented-control-with-icon" />
+
+### Card
+
+Here's an example of how to use the `SegmentedControl` within a `Card`.
+
+<ExampleTabs name="segmented-control-in-card" />
+
+## Props
+
+### Root
+
+<PropTable component="SegmentGroup" part="Root" />

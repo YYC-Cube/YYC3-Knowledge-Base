@@ -1,0 +1,46 @@
+name: 'Build Ionic Vue'
+description: 'Build Ionic Vue'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version: 24.x
+    - uses: ./.github/workflows/actions/download-archive
+      with:
+        name: ionic-core
+        path: ./core
+        filename: CoreBuild.zip
+    - name: 🕸️ Install Vue Dependencies
+      run: npm ci
+      shell: bash
+      working-directory: ./packages/vue
+    - name: 🔄 Sync
+      run: npm run sync
+      shell: bash
+      working-directory: ./packages/vue
+    - name: 🖌️ Lint
+      run: npm run lint
+      shell: bash
+      working-directory: ./packages/vue
+    # The rollup build reports type errors as warnings and still succeeds, so
+    # this step is what keeps the package type-clean.
+    - name: 🔎 Typecheck
+      run: npm run typecheck
+      shell: bash
+      working-directory: ./packages/vue
+    - name: 🏗️ Build
+      run: npm run build
+      shell: bash
+      working-directory: ./packages/vue
+    - name: Clean package.json updates
+      run: git checkout ./core/package.json ./packages/react/package.json
+      shell: bash
+    - name: 🔍 Check Diff
+      run: git diff --exit-code
+      shell: bash
+    - uses: ./.github/workflows/actions/upload-archive
+      with:
+        name: ionic-vue
+        output: packages/vue/VueBuild.zip
+        paths: packages/vue/dist packages/vue/css

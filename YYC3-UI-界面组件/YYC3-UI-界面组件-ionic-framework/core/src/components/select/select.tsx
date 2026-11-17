@@ -1,0 +1,1740 @@
+import type { ComponentInterface, EventEmitter } from '@stencil/core';
+import {
+  Build,
+  Component,
+  Element,
+  Event,
+  Host,
+  Listen,
+  Method,
+  Prop,
+  State,
+  Watch,
+  h,
+  forceUpdate,
+} from '@stencil/core';
+import { ENABLE_HTML_CONTENT_DEFAULT } from '@utils/config';
+import type { ClickController, NotchController, StartEndContainerController } from '@utils/forms';
+import {
+  compareOptions,
+  createClickController,
+  createNotchController,
+  createStartEndContainerController,
+  getSlottedClickContent,
+  isOptionSelected,
+  checkInvalidState,
+} from '@utils/forms';
+import { focusVisibleElement, renderHiddenInput, inheritAttributes } from '@utils/helpers';
+import type { Attributes } from '@utils/helpers';
+import { printIonWarning } from '@utils/logging';
+import { actionSheetController, alertController, popoverController, modalController } from '@utils/overlays';
+import type { OverlaySelect } from '@utils/overlays-interface';
+import { isRTL } from '@utils/rtl';
+import { blockedTags, reflectPropertiesToAttributes, sanitizeDOMTree } from '@utils/sanitization';
+import { createSlotMutationController } from '@utils/slot-mutation-controller';
+import type { SlotMutationController } from '@utils/slot-mutation-controller';
+import { createColorClasses, hostContext } from '@utils/theme';
+import { watchForOptions } from '@utils/watch-options';
+import { caretDownSharp, chevronExpand } from 'ionicons/icons';
+
+import { config } from '../../global/config';
+import { getIonMode } from '../../global/ionic-global';
+import type {
+  ActionSheetOptions,
+  AlertOptions,
+  Color,
+  CssClassMap,
+  PopoverOptions,
+  StyleEventDetail,
+  ModalOptions,
+} from '../../interface';
+
+import type {
+  SelectChangeEventDetail,
+  SelectInterface,
+  SelectCompareFn,
+  SelectActionSheetButton,
+  SelectAlertInput,
+  SelectOverlayOption,
+} from './select-interface';
+
+// TODO(FW-2832): types
+
+/**
+ * @virtualProp {"ios" | "md"} mode - The mode determines which platform styles to use.
+ *
+ * @slot label - The label text to associate with the select. Use the `labelPlacement` property to control where the label is placed relative to the select. Use this if you need to render a label with custom HTML.
+ * @slot start - Content to display at the leading edge of the select.
+ * @slot end - Content to display at the trailing edge of the select.
+ *
+ * @part placeholder - The text displayed in the select when there is no value.
+ * @part text - The displayed value of the select.
+ * @part icon - The select icon container.
+ * @part container - The container for the selected text or placeholder.
+ * @part label - The label text describing the select.
+ * @part supporting-text - Supporting text displayed beneath the select.
+ * @part helper-text - Supporting text displayed beneath the select when the select is valid.
+ * @part error-text - Supporting text displayed beneath the select when the select is invalid and touched.
+ * @part bottom - The container element for helper text, error text, and counter.
+ * @part wrapper - The clickable label element that wraps the entire form field (label text, slots, selected values or placeholder, and toggle icons).
+ * @part start - The wrapper element for the content in the start slot.
+ * @part control - The wrapper element containing the label and native select control. When the label is not floating or stacked, this part also contains the dropdown icon.
+ * @part end - The wrapper element for the content in the end slot. When the label is floating or stacked, this part also contains the dropdown icon.
+ */
+@Component({
+  tag: 'ion-select',
+  styleUrls: {
+    ios: 'select.ios.scss',
+    md: 'select.md.scss',
+  },
+  shadow: true,
+})
+export class Select implements ComponentInterface {
+  private inputId = `ion-sel-${selectIds++}`;
+  private helperTextId = `${this.inputId}-helper-text`;
+  private errorTextId = `${this.inputId}-error-text`;
+  private overlay?: OverlaySelect;
+  private focusEl?: HTMLButtonElement;
+  private mutationO?: MutationObserver;
+  private inheritedAttributes: Attributes = {};
+  private slotMutationController?: SlotMutationController;
+  private nativeWrapperEl: HTMLElement | undefined;
+  private notchSpacerEl: HTMLElement | undefined;
+  private validationObserver?: MutationObserver;
+  private notchController?: NotchController;
+  private startEndContainerController?: StartEndContainerController;
+  private startContainerEl: HTMLElement | undefined;
+  private endContainerEl: HTMLElement | undefined;
+  private customHTMLEnabled = config.get('innerHTMLTemplatesEnabled', ENABLE_HTML_CONTENT_DEFAULT);
+
+  private clickController?: ClickController;
+
+  @Element() el!: HTMLIonSelectElement;
+
+  @State() isExpanded = false;
+
+  /**
+   * The `hasFocus` state ensures the focus class is
+   * added regardless of how the element is focused.
+   * The `ion-focused` class only applies when focused
+   * via tabbing, not by clicking.
+   * The `has-focus` logic was added to ensure the class
+   * is applied in both cases.
+   */
+  @State() hasFocus = false;
+
+  /**
+   * Track validation state for proper aria-live announcements.
+   */
+  @State() isInvalid = false;
+
+  @State() private hintTextId?: string;
+
+  /**
+   * The text to display on the cancel button.
+   */
+  @Prop() cancelText = 'Cancel';
+
+  /**
+   * The color to use from your application's color palette.
+   * Default options are: `"primary"`, `"secondary"`, `"tertiary"`, `"success"`, `"warning"`, `"danger"`, `"light"`, `"medium"`, and `"dark"`.
+   * For more information on colors, see [theming](/docs/theming/basics).
+   *
+   * This property is only available when using the modern select syntax.
+   */
+  @Prop({ reflect: true }) color?: Color;
+
+  /**
+   * This property allows developers to specify a custom function or property
+   * name for comparing objects when determining the selected option in the
+   * ion-select. When not specified, the default behavior will use strict
+   * equality (===) for comparison.
+   */
+  @Prop() compareWith?: string | SelectCompareFn | null;
+
+  /**
+   * If `true`, the user cannot interact with the select.
+   */
+  @Prop() disabled = false;
+
+  /**
+   * The fill for the item. If `"solid"` the item will have a background. If
+   * `"outline"` the item will be transparent with a border. Only available in `md` mode.
+   */
+  @Prop() fill?: 'outline' | 'solid';
+
+  /**
+   * Text that is placed under the select and displayed when an error is detected.
+   */
+  @Prop() errorText?: string;
+
+  /**
+   * Text that is placed under the select and displayed when no error is detected.
+   */
+  @Prop() helperText?: string;
+
+  /**
+   * The interface the select should use: `action-sheet`, `popover`, `alert`, or `modal`.
+   */
+  @Prop() interface: SelectInterface = 'alert';
+
+  /**
+   * Any additional options that the `alert`, `action-sheet` or `popover` interface
+   * can take. See the [ion-alert docs](./alert), the
+   * [ion-action-sheet docs](./action-sheet), the
+   * [ion-popover docs](./popover), and the [ion-modal docs](./modal) for the
+   * create options for each interface.
+   *
+   * Note: `interfaceOptions` will not override `inputs` or `buttons` with the `alert` interface.
+   */
+  @Prop() interfaceOptions: any = {};
+
+  /**
+   * How to pack the label and select within a line.
+   * `justify` does not apply when the label and select
+   * are on different lines when `labelPlacement` is set to
+   * `"floating"` or `"stacked"`.
+   * `"start"`: The label and select will appear on the left in LTR and
+   * on the right in RTL.
+   * `"end"`: The label and select will appear on the right in LTR and
+   * on the left in RTL.
+   * `"space-between"`: The label and select will appear on opposite
+   * ends of the line with space between the two elements.
+   */
+  @Prop() justify?: 'start' | 'end' | 'space-between';
+
+  /**
+   * The visible label associated with the select.
+   *
+   * Use this if you need to render a plaintext label.
+   *
+   * The `label` property will take priority over the `label` slot if both are used.
+   */
+  @Prop() label?: string;
+
+  /**
+   * Where to place the label relative to the select.
+   * `"start"`: The label will appear to the left of the select in LTR and to the right in RTL.
+   * `"end"`: The label will appear to the right of the select in LTR and to the left in RTL.
+   * `"floating"`: The label will appear smaller and above the select when the select is focused or it has a value. Otherwise it will appear on top of the select.
+   * `"stacked"`: The label will appear smaller and above the select regardless even when the select is blurred or has no value.
+   * `"fixed"`: The label has the same behavior as `"start"` except it also has a fixed width. Long text will be truncated with ellipses ("...").
+   * When using `"floating"` or `"stacked"` we recommend initializing the select with either a `value` or a `placeholder`.
+   */
+  @Prop() labelPlacement?: 'start' | 'end' | 'floating' | 'stacked' | 'fixed' = 'start';
+
+  /**
+   * If `true`, the select can accept multiple values.
+   */
+  @Prop() multiple = false;
+
+  /**
+   * The name of the control, which is submitted with the form data.
+   */
+  @Prop() name: string = this.inputId;
+
+  /**
+   * The text to display on the ok button.
+   */
+  @Prop() okText = 'OK';
+
+  /**
+   * The text to display when the select is empty.
+   */
+  @Prop() placeholder?: string;
+
+  /**
+   * The text to display instead of the selected option's value.
+   */
+  @Prop() selectedText?: string | null;
+
+  /**
+   * The toggle icon to use. Defaults to `chevronExpand` for `ios` mode,
+   * or `caretDownSharp` for `md` mode.
+   */
+  @Prop() toggleIcon?: string;
+
+  /**
+   * The toggle icon to show when the select is open. If defined, the icon
+   * rotation behavior in `md` mode will be disabled. If undefined, `toggleIcon`
+   * will be used for when the select is both open and closed.
+   */
+  @Prop() expandedIcon?: string;
+
+  /**
+   * The shape of the select. If "round" it will have an increased border radius.
+   */
+  @Prop() shape?: 'round';
+
+  /**
+   * The value of the select.
+   */
+  @Prop({ mutable: true }) value?: any | null;
+
+  /**
+   * If true, screen readers will announce it as a required field. This property
+   * works only for accessibility purposes, it will not prevent the form from
+   * submitting if the value is invalid.
+   */
+  @Prop() required = false;
+
+  /**
+   * Emitted when the value has changed.
+   *
+   * This event will not emit when programmatically setting the `value` property.
+   */
+  @Event() ionChange!: EventEmitter<SelectChangeEventDetail>;
+
+  /**
+   * Emitted when the selection is cancelled.
+   */
+  @Event() ionCancel!: EventEmitter<void>;
+
+  /**
+   * Emitted when the overlay is dismissed.
+   */
+  @Event() ionDismiss!: EventEmitter<void>;
+
+  /**
+   * Emitted when the select has focus.
+   */
+  @Event() ionFocus!: EventEmitter<void>;
+
+  /**
+   * Emitted when the select loses focus.
+   */
+  @Event() ionBlur!: EventEmitter<void>;
+
+  /**
+   * Emitted when the styles change.
+   * @internal
+   */
+  @Event() ionStyle!: EventEmitter<StyleEventDetail>;
+
+  @Watch('disabled')
+  @Watch('isExpanded')
+  @Watch('placeholder')
+  @Watch('value')
+  protected styleChanged() {
+    this.emitStyle();
+  }
+
+  private setValue(value?: any | null) {
+    if (this.isValueEqual(this.value, value)) {
+      return;
+    }
+    this.value = value;
+    this.ionChange.emit({ value });
+  }
+
+  private isValueEqual(currentValue: any, newValue: any): boolean {
+    if (this.multiple) {
+      const currentArr = Array.isArray(currentValue) ? currentValue : [];
+      const newArr = Array.isArray(newValue) ? newValue : [];
+      if (currentArr.length !== newArr.length) {
+        return false;
+      }
+      // Multiset compare: each new value must match a distinct current value.
+      // A plain `every(isOptionSelected)` would accept ['a','a'] as equal to
+      // ['a','b'] when both 'a' and 'b' map to options whose values overlap.
+      const remaining = currentArr.slice();
+      return newArr.every((val: any) => {
+        const idx = remaining.findIndex((c: any) => compareOptions(c, val, this.compareWith));
+        if (idx === -1) {
+          return false;
+        }
+        remaining.splice(idx, 1);
+        return true;
+      });
+    }
+
+    if (currentValue == null && newValue == null) {
+      return true;
+    }
+    if (currentValue == null || newValue == null) {
+      return false;
+    }
+    return compareOptions(currentValue, newValue, this.compareWith);
+  }
+
+  async connectedCallback() {
+    const { el } = this;
+
+    this.slotMutationController = createSlotMutationController(el, ['label', 'start', 'end'], () => {
+      this.startEndContainerController?.calculateContainerWidths();
+
+      forceUpdate(this);
+    });
+
+    this.notchController = createNotchController(
+      el,
+      () => this.notchSpacerEl,
+      () => this.labelSlot
+    );
+
+    this.startEndContainerController = createStartEndContainerController(
+      el,
+      () => this.startContainerEl,
+      () => this.endContainerEl,
+      () => {
+        return Build.isBrowser && getIonMode(this) === 'md' && this.fill === 'outline';
+      }
+    );
+
+    this.startEndContainerController.calculateContainerWidths();
+
+    this.clickController = createClickController(el);
+
+    this.updateOverlayOptions();
+    this.emitStyle();
+
+    this.mutationO = watchForOptions<HTMLIonSelectOptionElement>(this.el, 'ion-select-option', async () => {
+      this.updateOverlayOptions();
+
+      /**
+       * We need to re-render the component
+       * because one of the new ion-select-option
+       * elements may match the value. In this case,
+       * the rendered selected text should be updated.
+       */
+      forceUpdate(this);
+    });
+
+    // Watch for class changes to update validation state.
+    if (Build.isBrowser && typeof MutationObserver !== 'undefined') {
+      this.validationObserver = new MutationObserver(() => {
+        const newIsInvalid = checkInvalidState(this.el);
+        if (this.isInvalid !== newIsInvalid) {
+          this.isInvalid = newIsInvalid;
+          /**
+           * Screen readers tend to announce changes
+           * to `aria-describedby` when the attribute
+           * is changed during a blur event for a
+           * native form control.
+           * However, the announcement can be spotty
+           * when using a non-native form control
+           * and `forceUpdate()`.
+           * This is due to `forceUpdate()` internally
+           * rescheduling the DOM update to a lower
+           * priority queue regardless if it's called
+           * inside a Promise or not, thus causing
+           * the screen reader to potentially miss the
+           * change.
+           * By using a State variable inside a Promise,
+           * it guarantees a re-render immediately at
+           * a higher priority.
+           */
+          Promise.resolve().then(() => {
+            this.hintTextId = this.getHintTextId();
+          });
+        }
+      });
+
+      this.validationObserver.observe(el, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    }
+
+    // Always set initial state
+    this.isInvalid = checkInvalidState(this.el);
+  }
+
+  componentWillLoad() {
+    this.inheritedAttributes = inheritAttributes(this.el, ['aria-label']);
+
+    this.hintTextId = this.getHintTextId();
+  }
+
+  componentDidLoad() {
+    /**
+     * If any of the conditions that trigger the styleChanged callback
+     * are met on component load, it is possible the event emitted
+     * prior to a parent web component registering an event listener.
+     *
+     * To ensure the parent web component receives the event, we
+     * emit the style event again after the component has loaded.
+     *
+     * This is often seen in Angular with the `dist` output target.
+     */
+    this.emitStyle();
+  }
+
+  disconnectedCallback() {
+    if (this.mutationO) {
+      this.mutationO.disconnect();
+      this.mutationO = undefined;
+    }
+
+    if (this.slotMutationController) {
+      this.slotMutationController.destroy();
+      this.slotMutationController = undefined;
+    }
+
+    if (this.notchController) {
+      this.notchController.destroy();
+      this.notchController = undefined;
+    }
+
+    if (this.startEndContainerController) {
+      this.startEndContainerController.destroy();
+      this.startEndContainerController = undefined;
+    }
+
+    // Clean up validation observer to prevent memory leaks.
+    if (this.validationObserver) {
+      this.validationObserver.disconnect();
+      this.validationObserver = undefined;
+    }
+  }
+
+  /**
+   * Open the select overlay. The overlay is either an alert, action sheet, or popover,
+   * depending on the `interface` property on the `ion-select`.
+   *
+   * @param event The user interface event that called the open.
+   */
+  @Method()
+  async open(event?: UIEvent): Promise<any> {
+    if (this.disabled || this.isExpanded) {
+      return undefined;
+    }
+    this.isExpanded = true;
+    const overlay = (this.overlay = await this.createOverlay(event));
+
+    // Add logic to scroll selected item into view before presenting
+    const scrollSelectedIntoView = () => {
+      const indexOfSelected = this.childOpts.findIndex((o) => o.value === this.value);
+      if (indexOfSelected > -1) {
+        const selectedItem = overlay.querySelector<HTMLElement>(
+          `.select-interface-option:nth-of-type(${indexOfSelected + 1})`
+        );
+
+        if (selectedItem) {
+          /**
+           * Browsers such as Firefox do not
+           * correctly delegate focus when manually
+           * focusing an element with delegatesFocus.
+           * We work around this by manually focusing
+           * the interactive element.
+           * ion-radio and ion-checkbox are the only
+           * elements that ion-select-popover uses, so
+           * we only need to worry about those two components
+           * when focusing.
+           */
+          const interactiveEl = selectedItem.querySelector<HTMLElement>('ion-radio, ion-checkbox') as
+            | HTMLIonRadioElement
+            | HTMLIonCheckboxElement
+            | null;
+          if (interactiveEl) {
+            selectedItem.scrollIntoView({ block: 'nearest' });
+            // Needs to be called before `focusVisibleElement` to prevent issue with focus event bubbling
+            // and removing `ion-focused` style
+            interactiveEl.setFocus();
+          }
+
+          focusVisibleElement(selectedItem);
+        }
+      } else {
+        /**
+         * If no value is set then focus the first enabled option.
+         */
+        const firstEnabledOption = overlay.querySelector<HTMLElement>(
+          'ion-radio:not(.radio-disabled), ion-checkbox:not(.checkbox-disabled)'
+        ) as HTMLIonRadioElement | HTMLIonCheckboxElement | null;
+
+        if (firstEnabledOption) {
+          /**
+           * Focus the option for the same reason as we do above.
+           *
+           * Needs to be called before `focusVisibleElement` to prevent issue with focus event bubbling
+           * and removing `ion-focused` style
+           */
+          firstEnabledOption.setFocus();
+
+          focusVisibleElement(firstEnabledOption.closest('ion-item')!);
+        }
+      }
+    };
+
+    // For modals and popovers, we can scroll before they're visible
+    if (this.interface === 'modal') {
+      overlay.addEventListener('ionModalWillPresent', scrollSelectedIntoView, { once: true });
+    } else if (this.interface === 'popover') {
+      overlay.addEventListener('ionPopoverWillPresent', scrollSelectedIntoView, { once: true });
+    } else {
+      /**
+       * For alerts and action sheets, we need to wait a frame after willPresent
+       * because these overlays don't have their content in the DOM immediately
+       * when willPresent fires. By waiting a frame, we ensure the content is
+       * rendered and can be properly scrolled into view.
+       */
+      const scrollAfterRender = () => {
+        requestAnimationFrame(() => {
+          scrollSelectedIntoView();
+        });
+      };
+      if (this.interface === 'alert') {
+        overlay.addEventListener('ionAlertWillPresent', scrollAfterRender, { once: true });
+      } else if (this.interface === 'action-sheet') {
+        overlay.addEventListener('ionActionSheetWillPresent', scrollAfterRender, { once: true });
+      }
+    }
+
+    overlay.onDidDismiss().then(() => {
+      this.overlay = undefined;
+      this.isExpanded = false;
+      this.ionDismiss.emit();
+      this.setFocus();
+    });
+
+    await overlay.present();
+    return overlay;
+  }
+
+  private createOverlay(ev?: UIEvent): Promise<OverlaySelect> {
+    let selectInterface = this.interface;
+    if (selectInterface === 'action-sheet' && this.multiple) {
+      printIonWarning(
+        `[ion-select] - Interface cannot be "${selectInterface}" with a multi-value select. Using the "alert" interface instead.`
+      );
+      selectInterface = 'alert';
+    }
+
+    if (selectInterface === 'popover' && !ev) {
+      printIonWarning(
+        `[ion-select] - Interface cannot be a "${selectInterface}" without passing an event. Using the "alert" interface instead.`
+      );
+      selectInterface = 'alert';
+    }
+
+    if (selectInterface === 'action-sheet') {
+      return this.openActionSheet();
+    }
+    if (selectInterface === 'popover') {
+      return this.openPopover(ev!);
+    }
+    if (selectInterface === 'modal') {
+      return this.openModal();
+    }
+    return this.openAlert();
+  }
+
+  private updateOverlayOptions(): void {
+    const overlay = this.overlay as any;
+    if (!overlay) {
+      return;
+    }
+    const childOpts = this.childOpts;
+    const value = this.value;
+    switch (this.interface) {
+      case 'action-sheet':
+        overlay.buttons = this.createActionSheetButtons(childOpts, value);
+        break;
+      case 'popover':
+        const popover = overlay.querySelector('ion-select-popover');
+        if (popover) {
+          popover.options = this.createOverlaySelectOptions(childOpts, value);
+        }
+        break;
+      case 'modal':
+        const modal = overlay.querySelector('ion-select-modal');
+        if (modal) {
+          modal.options = this.createOverlaySelectOptions(childOpts, value);
+        }
+        break;
+      case 'alert':
+        const inputType = this.multiple ? 'checkbox' : 'radio';
+        overlay.inputs = this.createAlertInputs(childOpts, inputType, value);
+        break;
+    }
+  }
+
+  private createActionSheetButtons(data: HTMLIonSelectOptionElement[], selectValue: any): SelectActionSheetButton[] {
+    const actionSheetButtons = data.map((option) => {
+      const value = getOptionValue(option);
+
+      // Remove hydrated before copying over classes
+      const copyClasses = Array.from(option.classList)
+        .filter((cls) => cls !== 'hydrated')
+        .join(' ');
+      const optClass = `${OPTION_CLASS} ${copyClasses}`;
+      const isSelected = isOptionSelected(selectValue, value, this.compareWith);
+      const { content, startContent, endContent } = extractOptionContent(option, this.customHTMLEnabled);
+
+      return {
+        text: content ?? '',
+        cssClass: optClass,
+        disabled: option.disabled,
+        handler: () => {
+          this.setValue(value);
+        },
+        htmlAttributes: {
+          'aria-checked': isSelected ? 'true' : 'false',
+          role: 'radio',
+        },
+        startContent,
+        endContent,
+        description: option.description,
+      } as SelectActionSheetButton;
+    });
+
+    // Add "cancel" button
+    actionSheetButtons.push({
+      text: this.cancelText,
+      role: 'cancel',
+      handler: () => {
+        this.ionCancel.emit();
+      },
+    });
+
+    return actionSheetButtons;
+  }
+
+  private createAlertInputs(
+    data: HTMLIonSelectOptionElement[],
+    inputType: 'checkbox' | 'radio',
+    selectValue: any
+  ): SelectAlertInput[] {
+    const alertInputs = data.map((option) => {
+      const value = getOptionValue(option);
+
+      // Remove hydrated before copying over classes
+      const copyClasses = Array.from(option.classList)
+        .filter((cls) => cls !== 'hydrated')
+        .join(' ');
+      const optClass = `${OPTION_CLASS} ${copyClasses}`;
+      const { content, startContent, endContent } = extractOptionContent(option, this.customHTMLEnabled);
+
+      return {
+        type: inputType,
+        cssClass: optClass,
+        label: content ?? '',
+        value,
+        checked: isOptionSelected(selectValue, value, this.compareWith),
+        disabled: option.disabled,
+        startContent,
+        endContent,
+        description: option.description,
+        labelPlacement: option.labelPlacement,
+        justify: option.justify,
+      };
+    });
+
+    return alertInputs;
+  }
+
+  private createOverlaySelectOptions(data: HTMLIonSelectOptionElement[], selectValue: any): SelectOverlayOption[] {
+    const popoverOptions = data.map((option) => {
+      const value = getOptionValue(option);
+
+      // Remove hydrated before copying over classes
+      const copyClasses = Array.from(option.classList)
+        .filter((cls) => cls !== 'hydrated')
+        .join(' ');
+      const optClass = `${OPTION_CLASS} ${copyClasses}`;
+      const { content, startContent, endContent } = extractOptionContent(option, this.customHTMLEnabled);
+
+      return {
+        text: content ?? '',
+        cssClass: optClass,
+        value,
+        checked: isOptionSelected(selectValue, value, this.compareWith),
+        disabled: option.disabled,
+        handler: (selected: any) => {
+          this.setValue(selected);
+          if (!this.multiple) {
+            this.close();
+          }
+        },
+        startContent,
+        endContent,
+        description: option.description,
+        labelPlacement: option.labelPlacement,
+        justify: option.justify,
+      };
+    });
+
+    return popoverOptions;
+  }
+
+  private async openPopover(ev: UIEvent) {
+    const { fill, labelPlacement } = this;
+    const interfaceOptions = this.interfaceOptions;
+    const mode = getIonMode(this);
+    const showBackdrop = mode === 'md' ? false : true;
+    const multiple = this.multiple;
+    const value = this.value;
+
+    let event: Event | CustomEvent = ev;
+    let size = 'auto';
+
+    const hasFloatingOrStackedLabel = labelPlacement === 'floating' || labelPlacement === 'stacked';
+    /**
+     * The popover should take up the full width
+     * when using a fill in MD mode or if the
+     * label is floating/stacked.
+     */
+    if (hasFloatingOrStackedLabel || (mode === 'md' && fill !== undefined)) {
+      size = 'cover';
+
+      /**
+       * Otherwise the popover
+       * should be positioned relative
+       * to the native element.
+       */
+    } else {
+      event = {
+        ...ev,
+        detail: {
+          ionShadowTarget: this.nativeWrapperEl,
+        },
+      };
+    }
+
+    const options = this.createOverlaySelectOptions(this.childOpts, value);
+    const hasRichContent = options.some(
+      (opt) => Boolean(opt.startContent) || Boolean(opt.endContent) || Boolean(opt.description)
+    );
+
+    const popoverOpts: PopoverOptions = {
+      mode,
+      event,
+      alignment: 'center',
+      size,
+      showBackdrop,
+      ...interfaceOptions,
+
+      component: 'ion-select-popover',
+      cssClass: [
+        'select-popover',
+        hasRichContent ? 'select-popover-rich-content' : undefined,
+        interfaceOptions.cssClass,
+      ],
+      componentProps: {
+        header: interfaceOptions.header,
+        subHeader: interfaceOptions.subHeader,
+        message: interfaceOptions.message,
+        multiple,
+        value,
+        options,
+      },
+    };
+
+    /**
+     * Workaround for Stencil to autodefine
+     * ion-select-popover and ion-popover when
+     * using Custom Elements build.
+     */
+
+    if (false) {
+      // @ts-ignore
+      document.createElement('ion-select-popover');
+      document.createElement('ion-popover');
+    }
+
+    return popoverController.create(popoverOpts);
+  }
+
+  private async openActionSheet() {
+    const mode = getIonMode(this);
+    const interfaceOptions = this.interfaceOptions;
+    const actionSheetOpts: ActionSheetOptions = {
+      mode,
+      ...interfaceOptions,
+
+      buttons: this.createActionSheetButtons(this.childOpts, this.value),
+      cssClass: ['select-action-sheet', interfaceOptions.cssClass],
+    };
+
+    /**
+     * Workaround for Stencil to autodefine
+     * ion-action-sheet when
+     * using Custom Elements build.
+     */
+
+    if (false) {
+      // @ts-ignore
+      document.createElement('ion-action-sheet');
+    }
+
+    return actionSheetController.create(actionSheetOpts);
+  }
+
+  private async openAlert() {
+    const interfaceOptions = this.interfaceOptions;
+    const inputType = this.multiple ? 'checkbox' : 'radio';
+    const mode = getIonMode(this);
+
+    const alertOpts: AlertOptions = {
+      mode,
+      ...interfaceOptions,
+
+      header: interfaceOptions.header ? interfaceOptions.header : this.labelText,
+      inputs: this.createAlertInputs(this.childOpts, inputType, this.value),
+      buttons: [
+        {
+          text: this.cancelText,
+          role: 'cancel',
+          handler: () => {
+            this.ionCancel.emit();
+          },
+        },
+        {
+          text: this.okText,
+          handler: (selectedValues: any) => {
+            this.setValue(selectedValues);
+          },
+        },
+      ],
+      cssClass: [
+        'select-alert',
+        interfaceOptions.cssClass,
+        this.multiple ? 'multiple-select-alert' : 'single-select-alert',
+      ],
+    };
+
+    /**
+     * Workaround for Stencil to autodefine
+     * ion-alert when
+     * using Custom Elements build.
+     */
+
+    if (false) {
+      // @ts-ignore
+      document.createElement('ion-alert');
+    }
+
+    return alertController.create(alertOpts);
+  }
+
+  private openModal() {
+    const { multiple, value, interfaceOptions } = this;
+    const mode = getIonMode(this);
+
+    const modalOpts: ModalOptions = {
+      ...interfaceOptions,
+      mode,
+
+      cssClass: ['select-modal', interfaceOptions.cssClass],
+      component: 'ion-select-modal',
+      componentProps: {
+        header: interfaceOptions.header,
+        cancelText: this.cancelText,
+        multiple,
+        value,
+        options: this.createOverlaySelectOptions(this.childOpts, value),
+      },
+    };
+
+    /**
+     * Workaround for Stencil to autodefine
+     * ion-select-modal and ion-modal when
+     * using Custom Elements build.
+     */
+
+    if (false) {
+      // @ts-ignore
+      document.createElement('ion-select-modal');
+      document.createElement('ion-modal');
+    }
+
+    return modalController.create(modalOpts);
+  }
+
+  /**
+   * Close the select interface.
+   */
+  private close(): Promise<boolean> {
+    if (!this.overlay) {
+      return Promise.resolve(false);
+    }
+    return this.overlay.dismiss();
+  }
+
+  private hasValue(): boolean {
+    return this.getText() !== '';
+  }
+
+  private get childOpts() {
+    return Array.from(this.el.querySelectorAll('ion-select-option'));
+  }
+
+  /**
+   * Returns any plaintext associated with
+   * the label (either prop or slot).
+   * Note: This will not return any custom
+   * HTML. Use the `hasLabel` getter if you
+   * want to know if any slotted label content
+   * was passed.
+   */
+  private get labelText() {
+    const { label } = this;
+
+    if (label !== undefined) {
+      return label;
+    }
+
+    const { labelSlot } = this;
+
+    if (labelSlot !== null) {
+      return labelSlot.textContent;
+    }
+
+    return;
+  }
+
+  /**
+   * Returns the text to display in the select based on the selected value.
+   *
+   * @param useHTML If `true`, the returned text will include any custom HTML content from the selected option. If `false`, the returned text will be plain text without any HTML. Defaults to `false`.
+   * @returns The text to display in the select, either with or without HTML based on the `useHTML` parameter.
+   */
+  private getText(useHTML = false): string {
+    const selectedText = this.selectedText;
+    if (selectedText != null && selectedText !== '') {
+      return selectedText;
+    }
+    return generateText(this.childOpts, this.value, this.compareWith, useHTML);
+  }
+
+  private setFocus() {
+    if (this.focusEl) {
+      this.focusEl.focus();
+    }
+  }
+
+  private emitStyle() {
+    const { disabled } = this;
+
+    const style: StyleEventDetail = {
+      'interactive-disabled': disabled,
+    };
+
+    this.ionStyle.emit(style);
+  }
+
+  /**
+   * The label wrapping the slots has no `for` attribute, so the browser
+   * forwards a click on slotted content to the label's first labelable
+   * descendant, the internal button. That forwarded click bubbles back out of
+   * the shadow root targeting the host, where it would be emitted a second
+   * time and open the select. The controller swallows it during the capture
+   * phase, leaving the click on the slotted content itself alone so slotted
+   * links, checkboxes and buttons keep their default behavior.
+   */
+  @Listen('click', { capture: true })
+  onClickCapture(ev: Event) {
+    this.clickController?.handleClickCapture(ev);
+  }
+
+  private onClick = (ev: UIEvent) => {
+    const slotted = getSlottedClickContent(ev, this.el);
+
+    /**
+     * Interactive slotted content, such as a button or a checkbox, handles its
+     * own click, so it should not open the select as well. Any other slotted
+     * content is decorative and behaves the same as clicking the select
+     * itself.
+     */
+    if (slotted !== null) {
+      const interactive = (ev.target as HTMLElement).closest(INTERACTIVE_SLOTTED_CONTENT);
+
+      if (interactive !== null && slotted.contains(interactive)) {
+        return;
+      }
+    }
+
+    this.setFocus();
+    this.open(ev);
+  };
+
+  private onFocus = () => {
+    this.hasFocus = true;
+
+    this.ionFocus.emit();
+  };
+
+  private onBlur = () => {
+    this.hasFocus = false;
+
+    this.ionBlur.emit();
+  };
+
+  private renderLabel() {
+    const { label } = this;
+
+    return (
+      <div
+        class={{
+          'label-text-wrapper': true,
+          'label-text-wrapper-hidden': !this.hasLabel,
+        }}
+        part="label"
+      >
+        {label === undefined ? <slot name="label"></slot> : <div class="label-text">{label}</div>}
+      </div>
+    );
+  }
+
+  componentDidRender() {
+    this.notchController?.calculateNotchWidth();
+    this.startEndContainerController?.calculateContainerWidths();
+  }
+
+  /**
+   * Gets any content passed into the `label` slot,
+   * not the <slot> definition.
+   */
+  private get labelSlot() {
+    return this.el.querySelector('[slot="label"]');
+  }
+
+  /**
+   * Returns `true` if label content is provided
+   * either by a prop or a content. If you want
+   * to get the plaintext value of the label use
+   * the `labelText` getter instead.
+   */
+  private get hasLabel() {
+    return this.label !== undefined || this.labelSlot !== null;
+  }
+
+  /**
+   * Stops propagation for re-dispatched clicks (when already expanded) to
+   * prevent double-click events. Allows initial button clicks (from keyboard
+   * or mouse) and slotted content clicks to propagate so event delegation
+   * works for parent handlers.
+   */
+  private onLabelClick = (ev: MouseEvent) => {
+    if (ev.target === this.focusEl && this.isExpanded) {
+      ev.stopPropagation();
+    }
+  };
+
+  /**
+   * Renders the outline border with a notch for the label.
+   */
+  private renderOutlineContainer() {
+    return (
+      <div class="select-outline-container">
+        <div class="select-outline-start"></div>
+        <div
+          class={{
+            'select-outline-notch': true,
+            'select-outline-notch-hidden': !this.hasLabel,
+          }}
+        >
+          <div class="notch-spacer" aria-hidden="true" ref={(el) => (this.notchSpacerEl = el)}>
+            {this.label}
+          </div>
+        </div>
+        <div class="select-outline-end"></div>
+      </div>
+    );
+  }
+
+  /**
+   * Wraps text nodes in the select text with span elements
+   * so spacing can be added between elements without
+   * changing the display to prevent losing the ellipses
+   * behavior.
+   *
+   * Only wraps when the string contains HTML elements
+   * alongside text.
+   */
+  private wrapSelectTextNodes(html: string): string {
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+
+    const hasElements = Array.from(temp.childNodes).some((n) => n.nodeType === Node.ELEMENT_NODE);
+
+    // Return the plain text
+    if (!hasElements) {
+      return html;
+    }
+
+    Array.from(temp.childNodes).forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+        const text = node.textContent;
+
+        /**
+         * Split comma separator from the text content
+         * e.g., ", Bacon" becomes ", " text node + <span>Bacon</span>.
+         */
+        const commaMatch = text.match(/^(,\s*)(.*)/);
+        if (commaMatch) {
+          const commaNode = document.createTextNode(commaMatch[1]);
+          const wrapper = document.createElement('span');
+
+          wrapper.textContent = commaMatch[2];
+          node.parentNode?.replaceChild(wrapper, node);
+          wrapper.parentNode?.insertBefore(commaNode, wrapper);
+
+          return;
+        }
+
+        const wrapper = document.createElement('span');
+
+        node.parentNode?.replaceChild(wrapper, node);
+        wrapper.appendChild(node);
+      }
+    });
+
+    return temp.innerHTML;
+  }
+
+  /**
+   * Renders either the placeholder
+   * or the selected values based on
+   * the state of the select.
+   */
+  private renderSelectText() {
+    const { placeholder } = this;
+
+    const displayValue = this.getText(true);
+
+    let addPlaceholderClass = false;
+    let selectText = displayValue;
+    if (selectText === '' && placeholder !== undefined) {
+      selectText = placeholder;
+      addPlaceholderClass = true;
+    }
+
+    const selectTextClasses: CssClassMap = {
+      'select-text': true,
+      'select-placeholder': addPlaceholderClass,
+    };
+
+    const textPart = addPlaceholderClass ? 'placeholder' : 'text';
+
+    if (this.customHTMLEnabled) {
+      const wrapped = this.wrapSelectTextNodes(selectText);
+      return <div aria-hidden="true" class={selectTextClasses} part={textPart} innerHTML={wrapped}></div>;
+    }
+
+    return (
+      <div aria-hidden="true" class={selectTextClasses} part={textPart}>
+        {selectText}
+      </div>
+    );
+  }
+
+  /**
+   * Renders the chevron icon
+   * next to the select text.
+   */
+  private renderSelectIcon() {
+    const mode = getIonMode(this);
+    const { isExpanded, toggleIcon, expandedIcon } = this;
+    let icon: string;
+
+    if (isExpanded && expandedIcon !== undefined) {
+      icon = expandedIcon;
+    } else {
+      const defaultIcon = mode === 'ios' ? chevronExpand : caretDownSharp;
+      icon = toggleIcon ?? defaultIcon;
+    }
+
+    return <ion-icon class="select-icon" part="icon" aria-hidden="true" icon={icon}></ion-icon>;
+  }
+
+  private get ariaLabel() {
+    const { placeholder, inheritedAttributes } = this;
+    // Get the plain text from the selected text
+    const displayValue = this.getText();
+
+    // The aria label should be preferred over visible text if both are specified
+    const definedLabel = inheritedAttributes['aria-label'] ?? this.labelText;
+
+    /**
+     * If developer has specified a placeholder
+     * and there is nothing selected, the selectText
+     * should have the placeholder value.
+     */
+    let renderedLabel = displayValue;
+    if (renderedLabel === '' && placeholder !== undefined) {
+      renderedLabel = placeholder;
+    }
+
+    /**
+     * If there is a developer-defined label,
+     * then we need to concatenate the developer label
+     * string with the current current value.
+     * The label for the control should be read
+     * before the values of the control.
+     */
+    if (definedLabel !== undefined) {
+      renderedLabel = renderedLabel === '' ? definedLabel : `${definedLabel}, ${renderedLabel}`;
+    }
+
+    return renderedLabel;
+  }
+
+  private renderListbox() {
+    const { disabled, inputId, isExpanded, required } = this;
+
+    return (
+      <button
+        disabled={disabled}
+        id={inputId}
+        aria-label={this.ariaLabel}
+        aria-haspopup="dialog"
+        aria-expanded={`${isExpanded}`}
+        aria-describedby={this.hintTextId}
+        aria-invalid={this.isInvalid ? 'true' : undefined}
+        aria-required={`${required}`}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
+        ref={(focusEl) => (this.focusEl = focusEl)}
+      ></button>
+    );
+  }
+
+  private getHintTextId(): string | undefined {
+    const { helperText, errorText, helperTextId, errorTextId, isInvalid } = this;
+
+    if (isInvalid && errorText) {
+      return errorTextId;
+    }
+
+    if (helperText) {
+      return helperTextId;
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Renders the helper text or error text values
+   */
+  private renderHintText() {
+    const { helperText, errorText, helperTextId, errorTextId, isInvalid } = this;
+
+    return [
+      <div id={helperTextId} class="helper-text" part="supporting-text helper-text" aria-live="polite">
+        {!isInvalid ? helperText : null}
+      </div>,
+      <div id={errorTextId} class="error-text" part="supporting-text error-text" role="alert">
+        {isInvalid ? errorText : null}
+      </div>,
+    ];
+  }
+
+  /**
+   * Responsible for rendering helper text, and error text. This element
+   * should only be rendered if hint text is set.
+   */
+  private renderBottomContent() {
+    const { helperText, errorText } = this;
+
+    /**
+     * undefined and empty string values should
+     * be treated as not having helper/error text.
+     */
+    const hasHintText = !!helperText || !!errorText;
+    if (!hasHintText) {
+      return;
+    }
+
+    return (
+      <div class="select-bottom" part="bottom">
+        {this.renderHintText()}
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      disabled,
+      el,
+      isExpanded,
+      expandedIcon,
+      labelPlacement,
+      justify,
+      placeholder,
+      fill,
+      shape,
+      name,
+      value,
+      hasFocus,
+    } = this;
+    const mode = getIonMode(this);
+    const hasFloatingOrStackedLabel = labelPlacement === 'floating' || labelPlacement === 'stacked';
+    const justifyEnabled = !hasFloatingOrStackedLabel && justify !== undefined;
+    const rtl = isRTL(el) ? 'rtl' : 'ltr';
+    const inItem = hostContext('ion-item', this.el);
+    const shouldRenderHighlight = mode === 'md' && fill !== 'outline' && !inItem;
+
+    const hasValue = this.hasValue();
+    const hasOutlineFill = mode === 'md' && fill === 'outline';
+
+    renderHiddenInput(true, el, name, parseValue(value), disabled);
+
+    const labelShouldFloat =
+      labelPlacement === 'stacked' || (labelPlacement === 'floating' && (hasValue || hasFocus || isExpanded));
+
+    return (
+      <Host
+        onClick={this.onClick}
+        class={createColorClasses(this.color, {
+          [mode]: true,
+          'in-item': inItem,
+          'in-item-color': hostContext('ion-item.ion-color', el),
+          'select-disabled': disabled,
+          'select-expanded': isExpanded,
+          'has-expanded-icon': expandedIcon !== undefined,
+          'has-value': hasValue,
+          'label-floating': labelShouldFloat,
+          'has-placeholder': placeholder !== undefined,
+          'has-focus': hasFocus,
+          // TODO(FW-6451): Remove `ion-focusable` class in favor of `has-focus`.
+          'ion-focusable': true,
+          [`select-${rtl}`]: true,
+          [`select-fill-${fill}`]: fill !== undefined,
+          [`select-justify-${justify}`]: justifyEnabled,
+          [`select-shape-${shape}`]: shape !== undefined,
+          [`select-label-placement-${labelPlacement}`]: true,
+        })}
+      >
+        <label class="select-wrapper" id="select-label" onClick={this.onLabelClick} part="wrapper">
+          {hasOutlineFill && this.renderOutlineContainer()}
+          <div class="select-start" part="start" ref={(el) => (this.startContainerEl = el)}>
+            <slot name="start"></slot>
+          </div>
+          <div class="select-control" part="control">
+            {this.renderLabel()}
+            <div class="native-wrapper" ref={(el) => (this.nativeWrapperEl = el)} part="container">
+              {this.renderSelectText()}
+              {this.renderListbox()}
+              {/**
+               * The icon is rendered inside the native wrapper when the
+               * label is not floating or stacked so it stays grouped with
+               * the control. This keeps it positioned correctly when the
+               * justify property is set.
+               */}
+              {!hasFloatingOrStackedLabel && this.renderSelectIcon()}
+            </div>
+          </div>
+          <div class="select-end" part="end" ref={(el) => (this.endContainerEl = el)}>
+            {/**
+             * The icon is rendered in the end container when the
+             * select has a floating or stacked label so it is
+             * centered vertically relative to the entire select.
+             */}
+            {hasFloatingOrStackedLabel && this.renderSelectIcon()}
+            <slot name="end"></slot>
+          </div>
+          {shouldRenderHighlight && <div class="select-highlight"></div>}
+        </label>
+        {this.renderBottomContent()}
+      </Host>
+    );
+  }
+}
+
+const getOptionValue = (el: HTMLIonSelectOptionElement) => {
+  const value = el.value;
+  return value === undefined ? el.textContent || '' : value;
+};
+
+const parseValue = (value: any) => {
+  if (value == null) {
+    return undefined;
+  }
+  if (Array.isArray(value)) {
+    return value.join(',');
+  }
+  return value.toString();
+};
+
+const generateText = (
+  opts: HTMLIonSelectOptionElement[],
+  value: any | any[],
+  compareWith?: string | SelectCompareFn | null,
+  useHTML = false
+) => {
+  if (value === undefined) {
+    return '';
+  }
+  if (Array.isArray(value)) {
+    return value
+      .map((v) => textForValue(opts, v, compareWith, useHTML))
+      .filter((opt) => opt !== null)
+      .join(', ');
+  } else {
+    return textForValue(opts, value, compareWith, useHTML) || '';
+  }
+};
+
+/**
+ * Returns the display text for a given value from the list of options.
+ * When `useHTML` is true, returns sanitized HTML for the select text.
+ * When `useHTML` is false, returns plain text for aria-label and other
+ * text-only contexts.
+ *
+ * @param opts - The list of ion-select-option elements.
+ * @param value - The value to find the matching option for.
+ * @param compareWith - Custom comparison function or property name.
+ * @param useHTML - If true, returns HTML string. If false, returns plain text.
+ */
+const textForValue = (
+  opts: HTMLIonSelectOptionElement[],
+  value: any,
+  compareWith?: string | SelectCompareFn | null,
+  useHTML = false
+): string | null => {
+  const selectOpt = opts.find((opt) => {
+    return compareOptions(value, getOptionValue(opt), compareWith);
+  });
+  const customHTMLEnabled = config.get('innerHTMLTemplatesEnabled', ENABLE_HTML_CONTENT_DEFAULT);
+
+  if (!selectOpt) {
+    return null;
+  }
+
+  // Return sanitized HTML for the select text
+  if (customHTMLEnabled && useHTML) {
+    return getOptionContent(selectOpt, undefined, true) as string | null;
+  }
+
+  /**
+   * Every text-only context reads only the default slot, so the start
+   * and end slots stay out of the `aria-label` and the overlay labels.
+   * Both config paths derive that text through the same helper, so they
+   * cannot disagree about what an option's text is. `null` marks an
+   * option with no text, which is dropped from the joined text of a
+   * `multiple` select rather than joined in as an empty entry.
+   */
+  return getDefaultSlotPlainText(selectOpt) || null;
+};
+
+/**
+ * Trims whitespace from all text nodes within a DOM tree.
+ * This prevents invisible layout shifts and unwanted gaps between
+ * elements when HTML content is injected via innerHTML or cloneNode,
+ * as browsers preserve whitespace (tabs, newlines, spaces) from
+ * the original source markup.
+ *
+ * @param node The root node to start trimming text nodes from.
+ */
+const trimTextNodes = (node: Node): void => {
+  node.childNodes.forEach((child) => {
+    if (child.nodeType === Node.TEXT_NODE) {
+      child.textContent = child.textContent?.trim() || '';
+    } else if (child.nodeType === Node.ELEMENT_NODE) {
+      trimTextNodes(child);
+    }
+  });
+};
+
+/**
+ * Extracts and clones content from an `ion-select-option` element
+ * for rendering within overlay interfaces or the select text when `customHTMLEnabled` is `true`.
+ *
+ * @param option - The `ion-select-option` element to extract content from.
+ * @param slotName - Optional slot name to extract. If omitted, extracts the default slot content.
+ * @param useHTML - If `true`, the returned string will include any custom HTML content. If `false`, the returned string will be plain text without any HTML.
+ * @returns When `useHTML` is `true`, a sanitized HTML string. When `false`, a
+ * div element containing cloned child nodes. Returns `null` if no matching
+ * content is found.
+ */
+const getOptionContent = (
+  option: HTMLIonSelectOptionElement,
+  slotName?: string,
+  useHTML: boolean = false
+): HTMLElement | string | null => {
+  let nodes: Node[];
+
+  if (slotName) {
+    // Named slot: get elements with matching slot attribute
+    nodes = Array.from(option.children).filter((el) => el.getAttribute('slot') === slotName);
+  } else {
+    // Default slot: get nodes without a slot attribute
+    const defaultSlot = getOptionDefaultSlot(option) || [];
+    nodes = defaultSlot.filter((node) => {
+      /**
+       * Exclude whitespace-only text nodes (newline noise between
+       * markup elements). Element nodes are always kept, even when
+       * their textContent is empty (e.g. <svg>, <img>).
+       */
+      if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent?.trim().length !== 0;
+      }
+      return true;
+    });
+  }
+
+  if (nodes.length === 0) {
+    return null;
+  }
+
+  /**
+   * Return plain text if no elements are found. This reads the option the
+   * same way the non-custom-HTML path does, so the two do not disagree
+   * about what an option's text is.
+   */
+  if (!slotName && nodes.every((n) => n.nodeType === Node.TEXT_NODE)) {
+    return getDefaultSlotPlainText(option) || null;
+  }
+
+  /**
+   * Mirror known custom-element properties (e.g. ion-icon's `icon`)
+   * onto attributes before cloning. Frameworks like Vue set these as
+   * DOM properties, which `cloneNode` doesn't copy, so without this
+   * step the cloned overlay copy renders without the prop's value.
+   */
+  nodes.forEach((n) => {
+    if (n.nodeType === Node.ELEMENT_NODE) {
+      reflectPropertiesToAttributes(n as Element);
+    }
+  });
+
+  // Clone each node into a temporary container
+  const container = document.createElement('div');
+  nodes.forEach((n) => {
+    const clone = n.cloneNode(true);
+    if (clone.nodeType === Node.TEXT_NODE) {
+      clone.textContent = clone.textContent?.trim() || '';
+    } else {
+      trimTextNodes(clone);
+    }
+    container.appendChild(clone);
+  });
+
+  /**
+   * Sanitize the cloned DOM in place. Trusted attributes (size, color,
+   * shape, etc.) are preserved; event handlers, javascript: URLs, and
+   * blocked tags are stripped.
+   */
+  sanitizeDOMTree(container);
+
+  if (useHTML) {
+    return container.innerHTML.trim() || null;
+  }
+
+  return container;
+};
+
+/**
+ * Returns the child nodes that belong to the default slot of an
+ * option element, excluding any nodes that are assigned to named
+ * slots.
+ *
+ * @param option - The `ion-select-option` element to extract default-slot nodes from.
+ * @returns An array of default slot nodes, or `null` if none are found.
+ */
+const getOptionDefaultSlot = (option: HTMLIonSelectOptionElement): Node[] | null => {
+  const defaultSlotNodes = Array.from(option.childNodes).filter((node) => {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      return !(node as HTMLElement).hasAttribute('slot');
+    }
+    return node.nodeType === Node.TEXT_NODE;
+  });
+
+  if (defaultSlotNodes.length === 0) {
+    return null;
+  }
+
+  return defaultSlotNodes;
+};
+
+/**
+ * Concatenates the text a node renders, skipping the subtrees of tags
+ * whose contents the browser never paints (`script`, `style`, and the
+ * rest of `blockedTags`). `textContent` includes those, so reading it
+ * directly would put stylesheet or script source into the select text
+ * and the `aria-label`.
+ *
+ * @param node - The node to read text from.
+ * @returns The node's rendered text.
+ */
+const getRenderedTextContent = (node: Node): string => {
+  if (node.nodeType === Node.TEXT_NODE) {
+    return node.textContent ?? '';
+  }
+
+  if (node.nodeType !== Node.ELEMENT_NODE) {
+    return '';
+  }
+
+  if (blockedTags.includes((node as Element).tagName.toLowerCase())) {
+    return '';
+  }
+
+  return Array.from(node.childNodes)
+    .map((child) => getRenderedTextContent(child))
+    .join('');
+};
+
+/**
+ * Extracts plain text from only the default slot of an option,
+ * excluding content assigned to named slots (start/end). Text is
+ * concatenated with no separator and collapsible whitespace is
+ * collapsed, approximating how the browser renders the option.
+ * NBSP is not collapsible, so it is preserved.
+ *
+ * @param option - The `ion-select-option` element to read text from.
+ * @returns The option's default slot text.
+ */
+const getDefaultSlotPlainText = (option: HTMLIonSelectOptionElement): string => {
+  const text = (getOptionDefaultSlot(option) ?? []).map((node) => getRenderedTextContent(node)).join('');
+  return text.replace(/[ \t\n\r\f]+/g, ' ').replace(/^[ \t\n\r\f]+|[ \t\n\r\f]+$/g, '');
+};
+
+/**
+ * Extracts the rich content from an `ion-select-option`.
+ * When `customHTMLEnabled` is `false`, only the plain text from the
+ * default slot is read and the start and end slots are skipped.
+ *
+ * @param option - The `ion-select-option` element to extract content from.
+ * @param customHTMLEnabled - Whether custom HTML rendering is enabled
+ * via the `innerHTMLTemplatesEnabled` config.
+ */
+const extractOptionContent = (option: HTMLIonSelectOptionElement, customHTMLEnabled: boolean) => {
+  if (!customHTMLEnabled) {
+    return {
+      content: getDefaultSlotPlainText(option),
+      startContent: undefined as HTMLElement | undefined,
+      endContent: undefined as HTMLElement | undefined,
+    };
+  }
+
+  return {
+    content: getOptionContent(option),
+    startContent: (getOptionContent(option, 'start') as HTMLElement | null) ?? undefined,
+    endContent: (getOptionContent(option, 'end') as HTMLElement | null) ?? undefined,
+  };
+};
+
+let selectIds = 0;
+
+const OPTION_CLASS = 'select-interface-option';
+
+/**
+ * Slotted content that handles its own click, so clicking it should not also
+ * open the select.
+ *
+ * This deliberately does not reuse `focusableQueryString`. That selector
+ * answers whether an element can take focus right now, which is a different
+ * question: an ion-radio outside a radio group carries tabindex="-1" from the
+ * group's roving tabindex, and disabled controls are excluded, yet both still
+ * handle their own clicks.
+ */
+const INTERACTIVE_SLOTTED_CONTENT = [
+  'a[href]',
+  'button',
+  'input[type="checkbox"]',
+  'input[type="radio"]',
+  'ion-button',
+  'ion-checkbox',
+  'ion-radio',
+  'ion-toggle',
+  '[tabindex]:not([tabindex^="-"])',
+  /**
+   * Covers the remaining Ionic controls. The tags above are still listed
+   * because ion-checkbox and ion-radio only carry this class when they are
+   * outside an item, so a select inside an item would lose the match.
+   */
+  '.ion-focusable',
+].join(', ');

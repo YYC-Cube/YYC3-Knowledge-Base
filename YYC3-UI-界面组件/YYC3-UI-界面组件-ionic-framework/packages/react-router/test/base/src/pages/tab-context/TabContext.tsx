@@ -1,0 +1,89 @@
+import {
+  IonTabs,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonIcon,
+  IonLabel,
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonMenuButton,
+  IonTitle,
+  IonContent,
+  IonTabsContext,
+  IonButton,
+} from '@ionic/react';
+import { triangle, square } from 'ionicons/icons';
+import React, { useContext } from 'react';
+import { Route, Navigate } from 'react-router';
+
+import TestDescription from '../../components/TestDescription';
+
+const TabsContext: React.FC = () => {
+  return (
+    <IonTabs>
+      <IonRouterOutlet id="tabs">
+        <Route index element={<Navigate to="/tab-context/tab1" replace />} />
+        <Route path="tab1" element={<Tab1 />} />
+        <Route path="tab2" element={<Tab2 />} />
+      </IonRouterOutlet>
+      <IonTabBar slot="bottom">
+        <IonTabButton tab="tab1" href="/tab-context/tab1">
+          <IonIcon icon={triangle} />
+          <IonLabel>Tab1</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="tab2" href="/tab-context/tab2">
+          <IonIcon icon={square} />
+          <IonLabel>Tab2</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
+  );
+};
+
+const Tab1 = () => {
+  const tabContext = useContext(IonTabsContext);
+
+  return (
+    <IonPage id="home" data-pageid="tab1">
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Tab1</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <div>Page: {tabContext.activeTab}</div>
+        <IonButton onClick={() => tabContext.selectTab('tab2')}>Go to tab2</IonButton>
+        <TestDescription>Verify the "Page:" label shows the correct active tab name (tab1 or tab2). Use the "Go to tab2"/"Go to tab1" buttons to switch tabs programmatically via IonTabsContext.selectTab. The displayed tab name should update to match the selected tab.</TestDescription>
+      </IonContent>
+    </IonPage>
+  );
+};
+
+const Tab2 = () => {
+  const tabContext = useContext(IonTabsContext);
+
+  return (
+    <IonPage id="home" data-pageid="tab2">
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Tab2</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <div>Page: {tabContext.activeTab}</div>
+        <IonButton onClick={() => tabContext.selectTab('tab1')}>Go to tab1</IonButton>
+      </IonContent>
+    </IonPage>
+  );
+};
+
+export default TabsContext;

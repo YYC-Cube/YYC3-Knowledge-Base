@@ -1,0 +1,143 @@
+export default {
+  isoName: 'ms',
+  nativeName: 'Bahasa Melayu',
+  label: {
+    clear: 'Semula',
+    ok: 'OK',
+    cancel: 'Batal',
+    close: 'Tutup',
+    set: 'Set',
+    select: 'Pilih',
+    reset: 'Reset',
+    remove: 'Keluarkan',
+    update: 'Kemaskini',
+    create: 'Tambah',
+    search: 'Cari',
+    filter: 'Saring',
+    refresh: 'Muat semula',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Julat',
+    noValue: 'Tiada nilai',
+    resize: 'Ubah saiz',
+    expand: label => (label ? `Kembangkan "${label}"` : 'Kembangkan'),
+    collapse: label => (label ? `Runtuhkan "${label}"` : 'Runtuh')
+  },
+  date: {
+    days: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jummat_Sabtu'.split('_'),
+    daysShort: 'Aha_Isn_Sel_Rab_Kha_Jum_Sab'.split('_'),
+    months:
+      'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split(
+        '_'
+      ),
+    monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogos_Sep_Okt_Nov_Dis'.split('_'),
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+    format24h: false,
+    pluralDay: 'hari',
+    prevMonth: 'Bulan sebelumnya',
+    nextMonth: 'Bulan depan',
+    prevYear: 'Tahun sebelumnya',
+    nextYear: 'Tahun depan',
+    today: 'Hari ini',
+    prevRangeYears: range => `${range} tahun sebelumnya`,
+    nextRangeYears: range => `${range} tahun seterusnya`,
+    hour: 'Jam',
+    minute: 'Minit',
+    second: 'Saat',
+    now: 'Masa semasa'
+  },
+  table: {
+    noData: 'Tiada data tersedia',
+    noResults: 'Tiada rekod sepadan yang dijumpai',
+    loading: 'Sedang dalam proses..',
+    selectedRecords: rows =>
+      rows > 1
+        ? rows + ' rekod terpilih.'
+        : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.',
+    recordsPerPage: 'Rekod per halaman:',
+    allRows: 'Semua',
+    pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
+    columns: 'Kolum',
+    selectAllRows: 'Pilih semua baris',
+    selectRow: 'Pilih baris'
+  },
+  pagination: {
+    label: 'Penomboran halaman',
+    first: 'Halaman pertama',
+    prev: 'Halaman sebelumnya',
+    next: 'Halaman seterusnya',
+    last: 'Halaman terakhir'
+  },
+  carousel: {
+    prevSlide: 'Slaid sebelumnya',
+    nextSlide: 'Slaid seterusnya'
+  },
+  colorPicker: {
+    spectrum: 'Spektrum',
+    tune: 'Pelarasan',
+    palette: 'Palet',
+    value: 'Nilai warna',
+    hue: 'Rona',
+    alpha: 'Kelegapan',
+    saturation: 'Ketepuan',
+    brightness: 'Kecerahan'
+  },
+  uploader: {
+    addFiles: 'Pilih fail',
+    upload: 'Muat naik fail',
+    abort: 'Batalkan muat naik',
+    removeQueued: 'Buang fail dalam giliran',
+    removeUploaded: 'Buang fail yang dimuat naik',
+    removeFile: 'Buang fail'
+  },
+  editor: {
+    toolbar: 'Bar alat penyunting',
+    url: 'URL',
+    bold: 'Tebal',
+    italic: 'Italik',
+    strikethrough: 'Garis Tengah',
+    underline: 'Garis Bawah',
+    unorderedList: 'Daftar Tidak Tersusun',
+    orderedList: 'Daftar Tersusun',
+    subscript: 'Subskrip',
+    superscript: 'Superskrip',
+    hyperlink: 'Hyperlink',
+    toggleFullscreen: 'Alihkan Layar Penuh',
+    quote: 'Petikan',
+    left: 'Selaras Kiri',
+    center: 'Selaras Tengah',
+    right: 'Selaras Kanan',
+    justify: 'Selaras Sisi',
+    print: 'Cetak',
+    outdent: 'Kurangkan Indentasi',
+    indent: 'Tambah indentasi',
+    removeFormat: 'Buang Format',
+    formatting: 'Format',
+    fontSize: 'Saiz Tulisan',
+    align: 'Selaras',
+    hr: 'Masukkan Aturan Horizontal',
+    undo: 'Buat asal',
+    redo: 'Buat semula',
+    heading1: 'Tajuk 1',
+    heading2: 'Tajuk 2',
+    heading3: 'Tajuk 3',
+    heading4: 'Tajuk 4',
+    heading5: 'Tajuk 5',
+    heading6: 'Tajuk 6',
+    paragraph: 'Paragraf',
+    code: 'Kod',
+    size1: 'Paling Kecil',
+    size2: 'Agak Kecil',
+    size3: 'Normal',
+    size4: 'Sederhana',
+    size5: 'Besar',
+    size6: 'Paling Besar',
+    size7: 'Maksimum',
+    defaultFont: 'Tulisan Asal',
+    viewSource: 'Lihat sumber'
+  },
+  tree: {
+    noNodes: 'Tiada nod tersedia',
+    noResults: 'Tiada nod yang sesuai dijumpai'
+  }
+}

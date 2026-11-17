@@ -1,0 +1,129 @@
+---
+title: Drawer
+description:
+  Used to render a content that slides in from the side of the screen.
+links:
+  source: components/drawer
+  storybook: components-drawer--basic
+  recipe: drawer
+  ark: https://ark-ui.com/docs/components/dialog
+---
+
+<ExampleTabs name="drawer-basic" />
+
+## Usage
+
+```tsx
+import { Drawer } from "@chakra-ui/react"
+```
+
+```tsx
+<Drawer.Root>
+  <Drawer.Backdrop />
+  <Drawer.Trigger />
+  <Drawer.Positioner>
+    <Drawer.Content>
+      <Drawer.CloseTrigger />
+      <Drawer.Header>
+        <Drawer.Title />
+      </Drawer.Header>
+      <Drawer.Body />
+      <Drawer.Footer />
+    </Drawer.Content>
+  </Drawer.Positioner>
+</Drawer.Root>
+```
+
+## Examples
+
+### Controlled
+
+Use the `open` and `onOpenChange` props to control the drawer component.
+
+<ExampleTabs name="drawer-controlled" />
+
+### Sizes
+
+Use the `size` prop to change the size of the drawer component.
+
+<ExampleTabs name="drawer-with-sizes" />
+
+### Context
+
+Use the `DrawerContext` component to access the drawer state and methods from
+outside the drawer.
+
+<ExampleTabs name="drawer-with-context" />
+
+### Offset
+
+Use the `padding` CSS property on `Drawer.Positioner` to adjust the offset of
+the drawer component.
+
+<ExampleTabs name="drawer-with-offset" />
+
+### Placement
+
+Use the `placement` prop to change the placement of the drawer component.
+
+<ExampleTabs name="drawer-with-placement" />
+
+### Initial Focus
+
+Use the `initialFocusEl` prop to set the initial focus of the drawer component.
+
+<ExampleTabs name="drawer-with-initial-focus" />
+
+Without `initialFocusEl`, focus moves to the first element marked
+`data-autofocus`, falling back to the first tabbable element that is not marked
+`data-no-autofocus`.
+
+```tsx
+<Input data-autofocus />
+```
+
+### Custom Container
+
+Here's an example of how to render the drawer component in a custom container.
+
+Consider setting `closeOnInteractOutside` to `false` to prevent the drawer from
+closing when interacting outside the drawer.
+
+<ExampleTabs name="drawer-with-custom-container" />
+
+### Header Actions
+
+Here's an example of rendering actions in the header of the drawer component.
+
+<ExampleTabs name="drawer-with-header-actions" />
+
+### Drawer with conditional variants
+
+Here is an example of how to change variants based on the different breakpoints.
+
+This example uses the `mdDown` breakpoint to change the drawer's placement on
+smaller screens. This approach is recommended because both conditions are
+translated into CSS media queries, which helps avoid base style merging issues.
+
+If you really want to use the base condition instead, you’ll also need to define
+corresponding sizes. For example:
+`<Drawer.Root placement={{ base: "bottom", md: "end" }} size={{ base: "xs", md: "md" }}>`
+
+<ExampleTabs name="drawer-with-conditional-variants" />
+
+### Non-Modal Drawer
+
+We don't recommend using a non-modal drawer due to the accessibility concerns
+they present. In event you need it, here's what you can do:
+
+- set the `modal` prop to `false`
+- set `pointerEvents` to `none` on the `Drawer.Positioner` component
+- (optional)set the `closeOnInteractOutside` prop to `false`
+
+<ExampleTabs name="drawer-non-modal" />
+
+## Props
+
+### Root
+
+<PropTable component="Drawer" part="Root" />

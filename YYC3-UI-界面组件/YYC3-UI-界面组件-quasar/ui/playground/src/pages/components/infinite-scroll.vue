@@ -1,0 +1,192 @@
+<template>
+  <div>
+    <div class="q-layout-padding">
+      <p class="caption">Scroll down to see it in action.</p>
+
+      <q-toggle v-model="active" label="Active" />
+      <q-toggle v-model="disable" label="Disable" class="q-mr-sm" />
+      <q-toggle v-model="reverse" label="Reverse" class="q-mr-sm" />
+      <q-toggle v-model="container" label="Container" />
+
+      <div class="scroll q-my-md" style="border: 1px solid black">
+        <q-infinite-scroll
+          @load="loadHorizontal"
+          :disable="disable"
+          :reverse="reverse"
+          :offset="250"
+          horizontal
+          v-if="active"
+        >
+          <template v-slot:loading>
+            <div class="column justify-center q-mx-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+
+          <q-card
+            v-for="(item, index) in itemsHorizontal"
+            :key="reverse ? itemsHorizontal.length - index : index"
+            class="q-ma-sm"
+            style="width: 180px"
+            flat
+            bordered
+          >
+            <q-card-section>
+              <q-chip square color="secondary" class="shadow-1">
+                {{ reverse ? itemsHorizontal.length - index : index + 1 }}
+              </q-chip>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </q-card-section>
+          </q-card>
+        </q-infinite-scroll>
+      </div>
+
+      <div ref="scrollTarget" :style="styles">
+        <q-infinite-scroll
+          @load="loadRef"
+          :disable="disable"
+          :reverse="reverse"
+          v-if="active"
+          :scroll-target="container ? $refs.scrollTarget : void 0"
+        >
+          <div v-for="(item, index) in itemsRef" :key="index" class="caption">
+            <q-chip square color="secondary" class="shadow-1">
+              {{ index + 1 }}
+            </q-chip>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur.
+          </div>
+
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" :size="40" />
+            </div>
+          </template>
+        </q-infinite-scroll>
+        <div v-else style="height: 300vh">Placeholder for scroll</div>
+      </div>
+
+      <div v-if="container" id="scroll-target" :style="styles">
+        <q-infinite-scroll
+          @load="loadId"
+          :disable="disable"
+          :reverse="reverse"
+          v-if="active"
+          scroll-target="#scroll-target"
+        >
+          <div v-for="(item, index) in itemsId" :key="index" class="caption">
+            <q-chip square color="secondary" class="shadow-1">
+              {{ index + 1 }}
+            </q-chip>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur.
+          </div>
+
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" :size="40" />
+            </div>
+          </template>
+        </q-infinite-scroll>
+        <div v-else style="height: 300vh">Placeholder for scroll</div>
+      </div>
+
+      <div v-if="container" id="reverse-target" :style="styles">
+        <q-infinite-scroll
+          @load="loadReverse"
+          :disable="disable"
+          :reverse="!reverse"
+          v-if="active"
+          scroll-target="#reverse-target"
+        >
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" size="40px" />
+            </div>
+          </template>
+
+          <div
+            v-for="(item, index) in itemsReverse"
+            :key="itemsReverse.length - index"
+            class="caption"
+          >
+            <q-chip square color="secondary" class="shadow-1">
+              {{ itemsReverse.length - index }}
+            </q-chip>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur.
+          </div>
+        </q-infinite-scroll>
+        <div v-else style="height: 300vh">Placeholder for scroll</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed, ref } from 'vue'
+
+const itemsHorizontal = ref([{}, {}, {}, {}, {}])
+const itemsReverse = ref([{}, {}, {}, {}, {}])
+const itemsRef = ref([{}, {}, {}, {}, {}])
+const itemsId = ref([{}, {}, {}, {}, {}])
+const disable = ref(false)
+const container = ref(false)
+const reverse = ref(false)
+const active = ref(true)
+
+const styles = computed(() =>
+  container.value
+    ? 'height: 300px; border: 1px solid black; overflow: auto;'
+    : ''
+)
+
+function loadHorizontal(index, done) {
+  console.log('load horizontal called', index)
+  setTimeout(() => {
+    if (reverse.value) {
+      itemsHorizontal.value.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
+    } else {
+      itemsHorizontal.value.push({}, {}, {}, {}, {}, {}, {})
+    }
+    done()
+  }, 2500)
+}
+
+function loadReverse(index, done) {
+  console.log('load reverse called', index)
+  setTimeout(() => {
+    itemsReverse.value.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2500)
+}
+
+function loadRef(index, done) {
+  console.log('load ref called', index)
+  setTimeout(() => {
+    itemsRef.value.push({}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2500)
+}
+
+function loadId(index, done) {
+  console.log('load id called', index)
+  setTimeout(() => {
+    itemsId.value.push({}, {}, {}, {}, {}, {}, {})
+    done()
+  }, 2500)
+}
+</script>

@@ -1,0 +1,165 @@
+import React from 'react';
+
+import { mergeRefs } from '../components/react-component-lib/utils';
+import { IonLifeCycleContext } from '../contexts/IonLifeCycleContext';
+import type { RouteInfo } from '../models';
+
+import { StackContext } from './StackContext';
+
+interface PageManagerProps {
+  className?: string;
+  forwardedRef?: React.ForwardedRef<HTMLDivElement>;
+  children: React.ReactNode;
+  routeInfo?: RouteInfo;
+}
+
+export class PageManager extends React.PureComponent<PageManagerProps> {
+  ionLifeCycleContext!: React.ContextType<typeof IonLifeCycleContext>;
+  declare context: React.ContextType<typeof StackContext>;
+  ionPageElementRef: React.RefObject<HTMLDivElement>;
+  stableMergedRefs: React.RefCallback<HTMLDivElement>;
+
+  constructor(props: PageManagerProps) {
+    super(props);
+    this.ionPageElementRef = React.createRef();
+    // React refs must be stable (not created inline).
+    // Wrap merged refs to add ion-page-invisible synchronously when element is created
+    const baseMergedRefs = mergeRefs(this.ionPageElementRef, this.props.forwardedRef);
+    // Guard against React 19 strict mode double-mount re-adding ion-page-invisible.
+    // The ref fires again on remount after StackManager may have already removed it.
+    let hasAppliedInvisible = false;
+    this.stableMergedRefs = (node: HTMLDivElement | null) => {
+      if (
+        node &&
+        !hasAppliedInvisible &&
+        !node.classList.contains('ion-page-invisible') &&
+        !node.classList.contains('ion-page-hidden')
+      ) {
+        // Add ion-page-invisible synchronously before first paint (if in an outlet)
+        // This prevents the flash that occurs when componentDidMount runs after paint
+        if (this.context?.isInOutlet?.()) {
+          node.classList.add('ion-page-invisible');
+          hasAppliedInvisible = true;
+        }
+      }
+      baseMergedRefs(node);
+    };
+
+    /**
+     * This binds the scope of the following methods to the class scope.
+     * The `.bind` method returns a new function, so we need to assign it
+     * in the constructor rather than when adding or removing the listeners
+     * to avoid creating a new function.
+     */
+    this.ionViewWillEnterHandler = this.ionViewWillEnterHandler.bind(this);
+    this.ionViewDidEnterHandler = this.ionViewDidEnterHandler.bind(this);
+    this.ionViewWillLeaveHandler = this.ionViewWillLeaveHandler.bind(this);
+    this.ionViewDidLeaveHandler = this.ionViewDidLeaveHandler.bind(this);
+  }
+
+  private parseClasses(className: string | undefined): Set<string> {
+    if (!className) return new Set();
+    return new Set(className.split(/\s+/).filter(Boolean));
+  }
+
+  /**
+   * Updates classList by diffing old/new className props.
+   * Preserves framework-added classes (can-go-back, ion-page-invisible, etc.).
+   */
+  private updateUserClasses(oldClassName: string | undefined, newClassName: string | undefined) {
+    if (!this.ionPageElementRef.current) return;
+
+    const oldClasses = this.parseClasses(oldClassName);
+    const newClasses = this.parseClasses(newClassName);
+
+    oldClasses.forEach((cls) => {
+      if (!newClasses.has(cls)) {
+        this.ionPageElementRef.current!.classList.remove(cls);
+      }
+    });
+
+    newClasses.forEach((cls) => {
+      if (!oldClasses.has(cls)) {
+        this.ionPageElementRef.current!.classList.add(cls);
+      }
+    });
+  }
+
+  componentDidMount() {
+    if (this.ionPageElementRef.current) {
+      // Add user classes via DOM manipulation to preserve framework-added classes.
+      // We only set "ion-page" in JSX; user classes are added here.
+      // Note: ion-page-invisible is added in the ref callback (stableMergedRefs) to prevent flash.
+      // The ref callback runs synchronously when the element is created, before the browser paints.
+      this.updateUserClasses(undefined, this.props.className);
+
+      this.context.registerIonPage(this.ionPageElementRef.current, this.props.routeInfo!);
+      this.ionPageElementRef.current.addEventListener('ionViewWillEnter', this.ionViewWillEnterHandler);
+      this.ionPageElementRef.current.addEventListener('ionViewDidEnter', this.ionViewDidEnterHandler);
+      this.ionPageElementRef.current.addEventListener('ionViewWillLeave', this.ionViewWillLeaveHandler);
+      this.ionPageElementRef.current.addEventListener('ionViewDidLeave', this.ionViewDidLeaveHandler);
+    }
+  }
+
+  componentDidUpdate(prevProps: PageManagerProps) {
+    if (prevProps.className !== this.props.className) {
+      this.updateUserClasses(prevProps.className, this.props.className);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.ionPageElementRef.current) {
+      this.ionPageElementRef.current.removeEventListener('ionViewWillEnter', this.ionViewWillEnterHandler);
+      this.ionPageElementRef.current.removeEventListener('ionViewDidEnter', this.ionViewDidEnterHandler);
+      this.ionPageElementRef.current.removeEventListener('ionViewWillLeave', this.ionViewWillLeaveHandler);
+      /**
+       * We deliberately do not remove the `ionViewDidLeave` listener.
+       * The registered callback is used to unmount and remove the page.
+       * Removing the event listener prevents the callback from being called.
+       * The browser will automatically remove the event listener when the
+       * page element is removed from the DOM and garbage collected.
+       */
+    }
+  }
+
+  ionViewWillEnterHandler() {
+    this.ionLifeCycleContext.ionViewWillEnter();
+  }
+
+  ionViewDidEnterHandler() {
+    this.ionLifeCycleContext.ionViewDidEnter();
+  }
+
+  ionViewWillLeaveHandler() {
+    this.ionLifeCycleContext.ionViewWillLeave();
+  }
+
+  ionViewDidLeaveHandler() {
+    this.ionLifeCycleContext.ionViewDidLeave();
+  }
+
+  render() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { className, children, routeInfo, forwardedRef, ...props } = this.props;
+
+    // Only set "ion-page" in JSX. User classes are managed via DOM in componentDidMount/componentDidUpdate
+    // to preserve framework-added classes (can-go-back, ion-page-invisible, etc.) when className prop changes.
+    return (
+      <IonLifeCycleContext.Consumer>
+        {(context) => {
+          this.ionLifeCycleContext = context;
+          return (
+            <div className="ion-page" ref={this.stableMergedRefs} {...props}>
+              {children}
+            </div>
+          );
+        }}
+      </IonLifeCycleContext.Consumer>
+    );
+  }
+
+  static get contextType() {
+    return StackContext;
+  }
+}
+export default PageManager;

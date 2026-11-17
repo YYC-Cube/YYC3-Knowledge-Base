@@ -1,0 +1,69 @@
+---
+title: Skeleton
+description: Used to render a placeholder while the content is loading.
+links:
+  source: components/skeleton
+  storybook: components-skeleton--basic
+  recipe: skeleton
+---
+
+<ExampleTabs name="skeleton-basic" />
+
+## Usage
+
+```jsx
+import { Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react"
+```
+
+```jsx
+<Stack gap="6" maxW="xs">
+  <HStack width="full">
+    <SkeletonCircle size="10" />
+    <SkeletonText noOfLines={2} />
+  </HStack>
+  <Skeleton height="200px" />
+</Stack>
+```
+
+## Examples
+
+### Feed
+
+Use the `Skeleton` component to create a feed skeleton.
+
+<ExampleTabs name="skeleton-for-feed" />
+
+### Text
+
+Use the `SkeletonText` component to create a skeleton for text.
+
+<ExampleTabs name="skeleton-for-text" />
+
+### With Children
+
+Use the `loading` prop to show the skeleton while the content is loading.
+
+<ExampleTabs name="skeleton-with-children" />
+
+### Variants
+
+Use the `variant` prop to change the visual style of the Skeleton.
+
+<ExampleTabs name="skeleton-with-variants" />
+
+### Content Loading
+
+When `loading` is changed to `false`, the Skeleton component will fade in.
+
+<ExampleTabs name="skeleton-with-loaded" />
+
+### Start and End Color
+
+Use the `--start-color` and `--end-color` CSS variables to change the start and
+end color of the skeleton.
+
+<ExampleTabs name="skeleton-with-start-end-color" />
+
+## Props
+
+<PropTable component="Skeleton" part="Skeleton" />

@@ -1,0 +1,159 @@
+function plurals(n, opts) {
+  return opts[
+    n % 10 === 1 && n % 100 !== 11
+      ? 0
+      : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)
+        ? 1
+        : 2
+  ]
+}
+
+export default {
+  isoName: 'uk',
+  nativeName: 'Українська',
+  label: {
+    clear: 'Очистити',
+    ok: 'OK',
+    cancel: 'Скасувати',
+    close: 'Закрити',
+    set: 'Встановити',
+    select: 'Обрати',
+    reset: 'Скинути',
+    remove: 'Видалити',
+    update: 'Оновити',
+    create: 'Створити',
+    search: 'Пошук',
+    filter: 'Фільтр',
+    refresh: 'Оновити',
+    minimum: 'Мінімум',
+    maximum: 'Максимум',
+    range: 'Діапазон',
+    noValue: 'Немає значення',
+    resize: 'Змінити розмір',
+    expand: label => (label ? `Розгорнути "${label}"` : 'Розгорнути'),
+    collapse: label => (label ? `Згорнути "${label}"` : 'Згорнути')
+  },
+  date: {
+    days: 'Неділя_Понеділок_Вівторок_Середа_Четвер_Пʼятниця_Субота'.split('_'),
+    daysShort: 'Нд_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
+    months:
+      'Січень_Лютий_Березень_Квітень_Травень_Червень_Липень_Серпень_Вересень_Жовтень_Листопад_Грудень'.split(
+        '_'
+      ),
+    monthsShort: 'Січ_Лют_Бер_Кві_Тра_Чер_Лип_Сер_Вер_Жов_Лис_Гру'.split('_'),
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+    format24h: true,
+    pluralDay: 'днів',
+    prevMonth: 'Попередній місяць',
+    nextMonth: 'Наступний місяць',
+    prevYear: 'Попередній рік',
+    nextYear: 'Наступний рік',
+    today: 'Сьогодні',
+    prevRangeYears: range =>
+      `Попередні ${range} ${plurals(range, ['рік', 'роки', 'років'])}`,
+    nextRangeYears: range =>
+      `Наступні ${range} ${plurals(range, ['рік', 'роки', 'років'])}`,
+    hour: 'Година',
+    minute: 'Хвилина',
+    second: 'Секунда',
+    now: 'Поточний час'
+  },
+  table: {
+    noData: 'Немає даних',
+    noResults: 'Збігів не знайдено',
+    loading: 'Завантаження...',
+    selectedRecords: rows =>
+      rows > 0
+        ? 'Обрано ' +
+          rows +
+          ' ' +
+          plurals(rows, ['рядок', 'рядки', 'рядків']) +
+          '.'
+        : 'Жодного рядка не обрано.',
+    recordsPerPage: 'Рядків на сторінці:',
+    allRows: 'Усі',
+    pagination: (start, end, total) => start + '-' + end + ' з ' + total,
+    columns: 'Стовпці',
+    selectAllRows: 'Вибрати всі рядки',
+    selectRow: 'Вибрати рядок'
+  },
+  pagination: {
+    label: 'Посторінкова навігація',
+    first: 'Перша сторінка',
+    prev: 'Попередня сторінка',
+    next: 'Наступна сторінка',
+    last: 'Остання сторінка'
+  },
+  carousel: {
+    prevSlide: 'Попередній слайд',
+    nextSlide: 'Наступний слайд'
+  },
+  colorPicker: {
+    spectrum: 'Спектр',
+    tune: 'Налаштування',
+    palette: 'Палітра',
+    value: 'Значення кольору',
+    hue: 'Відтінок',
+    alpha: 'Непрозорість',
+    saturation: 'Насиченість',
+    brightness: 'Яскравість'
+  },
+  uploader: {
+    addFiles: 'Вибрати файли',
+    upload: 'Завантажити файли',
+    abort: 'Перервати завантаження',
+    removeQueued: 'Видалити файли з черги',
+    removeUploaded: 'Видалити завантажені файли',
+    removeFile: 'Видалити файл'
+  },
+  editor: {
+    toolbar: 'Панель інструментів редактора',
+    url: 'URL',
+    bold: 'Напівжирний',
+    italic: 'Курсив',
+    strikethrough: 'Закреслений',
+    underline: 'Підкреслений',
+    unorderedList: 'Маркований список',
+    orderedList: 'Нумерований список',
+    subscript: 'Нижній індекс',
+    superscript: 'Верхній індекс',
+    hyperlink: 'Гіперпосилання',
+    toggleFullscreen: 'Перемкнути повноекранний режим',
+    quote: 'Цитата',
+    left: 'Вирівняти ліворуч',
+    center: 'Вирівняти за центром',
+    right: 'Вирівняти праворуч',
+    justify: 'Вирівняти за шириною',
+    print: 'Друк',
+    outdent: 'Зменшити відступ',
+    indent: 'Збільшити відступ',
+    removeFormat: 'Видалити форматування',
+    formatting: 'Форматування',
+    fontSize: 'Розмір шрифту',
+    align: 'Вирівнювання',
+    hr: 'Вставити горизонтальну лінію',
+    undo: 'Скасувати',
+    redo: 'Повторити',
+    heading1: 'Заголовок 1',
+    heading2: 'Заголовок 2',
+    heading3: 'Заголовок 3',
+    heading4: 'Заголовок 4',
+    heading5: 'Заголовок 5',
+    heading6: 'Заголовок 6',
+    paragraph: 'Абзац',
+    code: 'Код',
+    size1: 'Дуже маленький',
+    size2: 'Маленький',
+    size3: 'Нормальний',
+    size4: 'Середньо-великий',
+    size5: 'Великий',
+    size6: 'Дуже великий',
+    size7: 'Максимальний',
+    defaultFont: 'Типовий шрифт',
+    viewSource: 'Переглянути код'
+  },
+  tree: {
+    noNodes: 'Немає доступних вузлів',
+    noResults: 'Збігів не знайдено'
+  }
+}

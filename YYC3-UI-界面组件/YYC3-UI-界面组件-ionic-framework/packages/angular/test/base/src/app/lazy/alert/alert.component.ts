@@ -1,0 +1,41 @@
+import { Component, NgZone } from '@angular/core';
+import { AlertController } from '@ionic/angular/lazy';
+
+import { assertZoneContext } from '../../zone-assert.util';
+
+@Component({
+  selector: 'app-alert',
+  templateUrl: './alert.component.html',
+  standalone: false
+})
+export class AlertComponent {
+
+  changes = 0;
+
+  constructor(
+    private alertCtrl: AlertController
+  ) { }
+
+  counter() {
+    this.changes++;
+    return Math.floor(this.changes / 2);
+  }
+
+  async openAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Hello',
+      message: 'Some text',
+      buttons: [
+        {
+          role: 'cancel',
+          text: 'Cancel',
+          handler: () => {
+            console.log(NgZone.isInAngularZone());
+            assertZoneContext();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+}

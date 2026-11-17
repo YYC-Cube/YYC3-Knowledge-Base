@@ -1,0 +1,775 @@
+<template>
+  <div>
+    <div
+      class="q-layout-padding q-gutter-y-md"
+      :class="{ 'bg-grey-8 text-white': dark }"
+    >
+      <div class="q-gutter-sm">
+        <q-radio :dark="dark" v-model="type" val="filled" label="Filled" />
+        <q-radio :dark="dark" v-model="type" val="outlined" label="Outlined" />
+        <q-radio :dark="dark" v-model="type" val="standout" label="Standout" />
+        <q-radio :dark="dark" v-model="type" val="standard" label="Standard" />
+        <q-radio
+          :dark="dark"
+          v-model="type"
+          val="borderless"
+          label="Borderless"
+        />
+      </div>
+      <div>
+        <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
+        <q-toggle :dark="dark" v-model="disable" label="Disable" />
+        <q-toggle :dark="dark" v-model="dense" label="Dense" />
+        <q-toggle :dark="dark" v-model="optionsDense" label="(Options) Dense" />
+        <q-toggle :dark="dark" v-model="optionsCover" label="Options cover" />
+        <q-toggle
+          :dark="dark"
+          v-model="dark"
+          label="Dark"
+          :false-value="null"
+        />
+        <q-toggle :dark="dark" v-model="optionsDark" label="(Options) Dark" />
+      </div>
+
+      <div class="text-h6">String options</div>
+
+      <div>{{ stringSingle }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        :options="stringOptions"
+        label="Single"
+      >
+        <template v-slot:prepend><q-icon name="event" /></template>
+        <template v-slot:append><q-icon name="search" /></template>
+      </q-select>
+
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        :options="stringOptions"
+        popup-content-class="bg-amber"
+        label="Single - Colored popup"
+      >
+        <template v-slot:prepend><q-icon name="event" /></template>
+        <template v-slot:append><q-icon name="search" /></template>
+      </q-select>
+
+      <div>{{ stringMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringMultiple"
+        :options="stringOptions"
+        label="Multiple"
+        multiple
+      />
+
+      <div class="text-h6">Object options</div>
+
+      <div>{{ objectSingle }}</div>
+      <q-select
+        v-bind="props"
+        v-model="objectSingle"
+        :options="objectOptions"
+        label="Single"
+      />
+
+      <div>{{ objectMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="objectMultiple"
+        :options="objectOptions"
+        label="Multiple"
+        multiple
+      />
+
+      <div class="text-h6">Hover</div>
+
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        :options="stringOptions"
+        hover
+        label="Hover to open"
+      />
+
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        :options="stringOptions"
+        hover
+        :hover-delay="300"
+        :hover-hide-delay="600"
+        label="Hover with delays (300/600)"
+      />
+
+      <q-select
+        v-bind="props"
+        v-model="hoverFilterModel"
+        use-input
+        input-debounce="0"
+        :options="hoverFilterOptions"
+        hover
+        label="Hover with filter"
+        @filter="hoverFilterFn"
+      />
+
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        :options="stringOptions"
+        hover
+        :rules="[val => val === 'Oracle' || 'Pick Oracle']"
+        lazy-rules
+        label="Hover with lazy rules (no validation on hover-past)"
+      />
+
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        :options="stringOptions"
+        hover
+        behavior="dialog"
+        label="Hover with dialog behavior (no effect)"
+      />
+
+      <div class="text-h6">
+        Null model
+        <q-btn outline color="negative" label="Reset" @click="resetNull" />
+      </div>
+
+      <div>{{ stringNullSingle }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringNullSingle"
+        :options="stringOptions"
+        map-options
+        label="Single - string"
+      />
+      <div>{{ objectNullSingle }}</div>
+      <q-select
+        v-bind="props"
+        v-model="objectNullSingle"
+        :options="objectOptions"
+        label="Single - object"
+      />
+
+      <div>{{
+        stringEmitNullSingle === null ? 'null' : stringEmitNullSingle
+      }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringEmitNullSingle"
+        :options="objectNullOptions"
+        emit-value
+        map-options
+        label="Single - emit - map - object"
+      />
+      <div>{{ stringEmitNullMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringEmitNullMultiple"
+        :options="objectNullOptions"
+        emit-value
+        map-options
+        label="Multiple - emit - map - object"
+        multiple
+      />
+
+      <div>{{ stringNullMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringNullMultiple"
+        :options="stringOptions"
+        label="Multiple - string"
+        multiple
+      />
+
+      <div>{{ objectNullMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="objectNullMultiple"
+        :options="objectOptions"
+        label="Multiple - object"
+        multiple
+      />
+
+      <div class="text-h6">
+        Model value not in options
+        <q-btn color="negative" outline label="Reset" @click="resetBogus" />
+      </div>
+      <div>{{ bogusModel }}</div>
+      <q-select v-bind="props" v-model="bogusModel" :options="stringOptions" />
+      <div>{{ bogusMultiModel }}</div>
+      <q-select
+        v-bind="props"
+        v-model="bogusMultiModel"
+        :options="stringOptions"
+        multiple
+        options-selected-class="text-orange"
+      />
+
+      <div class="text-h6">Emit value</div>
+
+      <div>{{ stringEmitSingle }}</div>
+      <q-select
+        emit-value
+        v-bind="props"
+        v-model="stringEmitSingle"
+        :options="stringOptions"
+        label="Single - string"
+      />
+
+      <div>{{ stringEmitMultiple }}</div>
+      <q-select
+        emit-value
+        v-bind="props"
+        v-model="stringEmitMultiple"
+        :options="stringOptions"
+        label="Multiple - string"
+        multiple
+      />
+
+      <div>{{ objectEmitSingle }}</div>
+      <q-select
+        emit-value
+        v-bind="props"
+        v-model="objectEmitSingle"
+        :options="objectOptions"
+        label="Single - object"
+      />
+
+      <div>{{ objectEmitMultiple }}</div>
+      <q-select
+        emit-value
+        v-bind="props"
+        v-model="objectEmitMultiple"
+        :options="objectOptions"
+        label="Multiple - object"
+        multiple
+      />
+
+      <div class="text-h6">Scoped Slot: option (with menu on icon)</div>
+      <q-select
+        v-bind="props"
+        v-model="objectSingle"
+        label="Single"
+        :options="objectOptions"
+        options-selected-class="text-deep-orange"
+      >
+        <template v-slot:option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section avatar @click.stop>
+              <q-icon tabindex="0" :name="scope.opt.icon" />
+              <q-menu v-if="scope.opt.disable !== true">
+                <div class="bg-yellow text-black q-pa-md">Test menu</div>
+              </q-menu>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label v-if="scope.html">
+                <div v-html="scope.opt.label" />
+              </q-item-label>
+              <q-item-label v-else>
+                {{ scope.opt.label }}
+              </q-item-label>
+              <q-item-label caption>
+                {{ scope.opt.description }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <q-select
+        v-bind="props"
+        v-model="objectMultiple"
+        label="Multiple"
+        :options="objectOptions"
+        multiple
+      >
+        <template v-slot:option="scope">
+          <q-item v-bind="scope.itemProps">
+            <q-item-section avatar>
+              <q-icon tabindex="0" :name="scope.opt.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label v-if="scope.html">
+                <div v-html="scope.opt.label" />
+              </q-item-label>
+              <q-item-label v-else>
+                {{ scope.opt.label }}
+              </q-item-label>
+              <q-item-label caption>
+                {{ scope.opt.description }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <div class="text-h6">Scoped slot: selected</div>
+      <q-select
+        v-bind="props"
+        v-model="objectMultiple"
+        :options="objectOptions"
+        label="Label"
+        multiple
+      >
+        <template v-slot:selected-item="scope">
+          <q-chip
+            removable
+            :dense="dense"
+            @remove="scope.removeAtIndex(scope.index)"
+            :tabindex="scope.tabindex"
+            color="white"
+            text-color="primary"
+          >
+            <q-avatar
+              color="primary"
+              text-color="white"
+              :icon="scope.opt.icon"
+            />
+            <span v-if="scope.html" v-html="scope.opt.label" />
+            <span v-else>
+              {{ scope.opt.label }}
+            </span>
+          </q-chip>
+        </template>
+      </q-select>
+
+      <div class="text-h6">Max values (in this case 2)</div>
+      <q-select
+        v-bind="props"
+        v-model="objectMultiple"
+        :options="objectOptions"
+        multiple
+        counter
+        max-values="2"
+        color="teal"
+      />
+
+      <div class="text-h6">Heavy test (100k options)</div>
+      <q-select
+        v-bind="props"
+        v-model="heavyModel"
+        :options="heavyList"
+        label="Heavy"
+        multiple
+        use-chips
+      />
+
+      <q-select
+        v-bind="props"
+        v-model="heavyModel"
+        :options="heavyList"
+        label="Heavy"
+        multiple
+        color="teal"
+      >
+        <template v-slot:selected-item="scope">
+          <q-chip
+            removable
+            @remove="scope.removeAtIndex(scope.index)"
+            :tabindex="scope.tabindex"
+            color="white"
+            text-color="teal"
+          >
+            <span v-if="scope.html" v-html="scope.opt.label" />
+            <span v-else>
+              {{ scope.opt.label }}
+            </span>
+          </q-chip>
+        </template>
+      </q-select>
+
+      <div class="text-h6">No options</div>
+      <q-select v-bind="props" v-model="stringSingle" label="String - single" />
+      <q-select
+        v-bind="props"
+        v-model="stringMultiple"
+        label="String - multiple"
+        multiple
+      />
+      <q-select v-bind="props" v-model="objectSingle" label="Object - single" />
+      <q-select
+        v-bind="props"
+        v-model="objectMultiple"
+        label="Object - multiple"
+        multiple
+      />
+
+      <div class="text-h6">No options, slot: no-options</div>
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        use-input
+        label="String - single"
+      >
+        <template v-slot:no-option="scope">
+          <q-item>
+            <q-item-section>
+              No options slot. Input value: {{ scope.inputValue }}
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <div class="text-h6">
+        Alignment test: standard, use-input, use-input + hide-selected, normal
+        input
+      </div>
+      <div class="row q-gutter-sm">
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - standard"
+        />
+
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use input"
+          use-input
+        />
+
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - hide-selected"
+          use-input
+          hide-selected
+        />
+
+        <q-input
+          class="col-2"
+          v-bind="inputProps"
+          :model-value="stringSingle"
+          @update:model-value="val => (stringSingle = val === null ? '' : val)"
+          label="Input"
+        />
+      </div>
+
+      <div class="row q-gutter-sm">
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - standard"
+          prefix="A"
+        />
+
+        <q-input
+          v-bind="inputProps"
+          :model-value="stringSingle"
+          @update:model-value="val => (stringSingle = val === null ? '' : val)"
+          label="Input"
+          prefix="A"
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use input"
+          use-input
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - hide-selected"
+          use-input
+          hide-selected
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use-chips use-input"
+          use-chips
+          use-input
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use-chips"
+          use-chips
+        />
+      </div>
+
+      <div class="row q-gutter-sm">
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          prefix="A"
+        />
+
+        <q-input
+          v-bind="inputProps"
+          :model-value="stringSingle"
+          @update:model-value="val => (stringSingle = val === null ? '' : val)"
+          prefix="A"
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          use-input
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          use-input
+          hide-selected
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          use-chips
+          use-input
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          use-chips
+        />
+      </div>
+
+      <div class="text-h6">Display value and floating label test</div>
+      <div>
+        <q-select
+          label="Options"
+          filled
+          v-model="dispValSelection"
+          :options="dispValOptions"
+          :display-value="dispVal"
+          multiple
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed, ref } from 'vue'
+
+const heavyList = []
+for (let i = 0; i <= 100_000; i++) {
+  heavyList.push({
+    label: 'Opt ' + i,
+    value: Math.random()
+  })
+}
+
+Object.freeze(heavyList)
+
+// previously in created():
+// setInterval(() => {
+//   console.log(document.activeElement)
+// }, 3000)
+
+const dispValSelection = ref([])
+const dispValOptions = ref(['Option 1', 'Option 2', 'Option 3'])
+
+const type = ref('filled')
+const readonly = ref(false)
+const disable = ref(false)
+const dense = ref(false)
+const dark = ref(null)
+const optionsDark = ref(false)
+const optionsDense = ref(false)
+const optionsCover = ref(false)
+
+const stringSingle = ref('Facebook')
+const stringMultiple = ref(['Facebook', 'Twitter'])
+const stringOptions = ref(['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'])
+
+const hoverFilterModel = ref(null)
+const hoverFilterOptions = ref(stringOptions.value)
+
+function hoverFilterFn(val, update) {
+  update(() => {
+    const needle = val.toLowerCase()
+    hoverFilterOptions.value =
+      val === ''
+        ? stringOptions.value
+        : stringOptions.value.filter(v => v.toLowerCase().includes(needle))
+  })
+}
+
+const objectSingle = ref({
+  label: 'Facebook',
+  value: 'Facebook',
+  description: 'Social media',
+  icon: 'bluetooth'
+})
+const objectMultiple = ref([
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
+  },
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
+  }
+])
+const objectOptions = ref([
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
+  },
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
+  },
+  {
+    label: 'Twitter',
+    value: 'Twitter',
+    description: 'Quick updates',
+    icon: 'map'
+  },
+  {
+    label: 'Apple',
+    value: 'Apple',
+    description: 'iStuff',
+    icon: 'golf_course'
+  },
+  {
+    label: 'Oracle',
+    value: 'Oracle',
+    disable: true,
+    description: 'Databases',
+    icon: 'casino'
+  },
+  {
+    label: '<span class="text-primary">Safe</span> option with <b>HTML</b>',
+    value: 'safe_option_with_html',
+    description: 'It does not come from user',
+    icon: 'golf_course',
+    html: true
+  },
+  {
+    label: '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
+    value: 'unsafe_option_with_html',
+    description: 'It comes from user - you should sanitize',
+    icon: 'golf_course'
+  }
+])
+
+const objectNullOptions = ref([
+  {
+    label: 'Borg - null',
+    value: null,
+    description: 'I am null',
+    icon: 'warning'
+  },
+  {
+    label: 'Google',
+    value: 'Google',
+    description: 'Search engine',
+    icon: 'mail'
+  },
+  {
+    label: 'Facebook',
+    value: 'Facebook',
+    description: 'Social media',
+    icon: 'bluetooth'
+  }
+])
+
+const stringNullSingle = ref(null)
+const stringNullMultiple = ref(null)
+const objectNullSingle = ref(null)
+const objectNullMultiple = ref(null)
+
+const stringEmitNullSingle = ref(null)
+const stringEmitNullMultiple = ref([null])
+
+const stringEmitSingle = ref('Facebook')
+const stringEmitMultiple = ref(['Facebook'])
+const objectEmitSingle = ref('Facebook')
+const objectEmitMultiple = ref(['Facebook'])
+
+const heavyModel = ref([])
+
+const bogusModel = ref('bogus')
+const bogusMultiModel = ref(['bogus', 'gigi'])
+
+function resetNull() {
+  stringNullSingle.value = null
+  stringNullMultiple.value = null
+  stringEmitNullSingle.value = null
+  stringEmitNullMultiple.value = [null]
+  objectNullSingle.value = null
+  objectNullMultiple.value = null
+}
+
+function resetBogus() {
+  bogusModel.value = 'bogus'
+  bogusMultiModel.value = ['bogus', 'gigi']
+}
+
+const props = computed(() => ({
+  [type.value]: true,
+  readonly: readonly.value,
+  disable: disable.value,
+  dense: dense.value,
+  dark: dark.value,
+  optionsDense: optionsDense.value,
+  optionsDark: optionsDark.value,
+  optionsCover: optionsCover.value,
+  clearable: true
+}))
+
+// the q-inputs on this page share the design knobs, but the options-*
+// ones belong to QSelect alone and would end up as DOM attributes
+const inputProps = computed(() =>
+  Object.fromEntries(
+    Object.entries(props.value).filter(
+      ([key]) =>
+        ['optionsDense', 'optionsDark', 'optionsCover'].includes(key) === false
+    )
+  )
+)
+
+const dispVal = computed(() => {
+  if (dispValSelection.value.length === 1) {
+    return '1 option selected'
+  }
+
+  return dispValSelection.value.length + ' options selected'
+})
+</script>
+
+<style lang="sass">
+.select-card
+  transition: .3s background-color
+  &:not(.disabled):hover
+    background: $grey-3
+</style>

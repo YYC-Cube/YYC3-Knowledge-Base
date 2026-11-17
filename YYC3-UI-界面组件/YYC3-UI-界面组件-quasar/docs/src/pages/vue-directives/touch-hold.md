@@ -1,0 +1,75 @@
+---
+title: v-touch-hold directive
+desc: Vue directive which triggers an event when the user touches and holds on a component or element for a specified amount of time.
+keys: touch-hold,v-touch-hold
+examples: TouchHold
+related:
+  - /vue-directives/touch-swipe
+  - /vue-directives/touch-repeat
+  - /vue-directives/touch-pan
+---
+
+Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
+
+> **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.
+
+We will be describing `v-touch-hold` directive on the lines below.
+
+<DocApi file="TouchHold" />
+
+## Usage
+
+<DocExample title="Basic" file="Basic" />
+
+The default wait time is 600ms, but you can change it:
+
+<DocExample title="Custom wait time" file="CustomTimer" />
+
+> [!NOTE]
+> TouchHold also has a default sensitivity of 5px for touch events and 7px for mouse events, which means that it allows a slight movement of the finger or mouse without aborting, improving the user experience.
+
+However, you can change this sensitivity too (notice the directive argument below - `600:12:15` - 600ms wait time, 12px sensitivity for touch events, 15px sensitivity for mouse events):
+
+<DocExample title="Custom sensitivity" file="CustomSensitivity" />
+
+### Handling Mouse Events
+
+When you want to also handle mouse events too, use the `mouse` modifier:
+
+```html
+<div v-touch-hold.mouse="userHasHold">...</div>
+```
+
+### Inhibiting TouchHold
+
+When you want to inhibit TouchHold, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
+
+```html
+<div v-touch-hold.mouse="userHasHold">
+  <!-- ...content -->
+  <div @touchstart.stop @mousedown.stop>
+    <!--
+      TouchHold will not apply here because
+      we are calling stopPropagation() on touchstart
+      and mousedown events
+    -->
+  </div>
+  <!-- ...content -->
+</div>
+```
+
+However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchHold will still trigger.
+
+### Events after TouchHold triggers
+
+Once the wait time is up and TouchHold triggers, the directive consumes the event that ends the gesture, so that a long press does not also count as a tap or as a click, be it on the element itself or on any of its parents. For touch events this is `touchend` (whose default action, the emulated `click`, gets cancelled as well) and for mouse events this is `click`.
+
+This means that a `@touchend` listener on the element will not be called after TouchHold has triggered. It is still called when the user lifts the finger before the wait time is up. Should you need it in both cases, listen for it in the capture phase:
+
+```html
+<div v-touch-hold="userHasHold" @touchend.capture="userHasLifted">
+  <!-- ...content -->
+</div>
+```
+
+Mouse events are not affected the same way: `@mousedown` and `@mouseup` are always called, only the subsequent `@click` is suppressed.

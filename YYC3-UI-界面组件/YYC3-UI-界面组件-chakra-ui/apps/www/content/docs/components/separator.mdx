@@ -1,0 +1,64 @@
+---
+title: Separator
+description: Used to visually separate content
+links:
+  source: components/separator
+  storybook: components-separator--basic
+  recipe: separator
+---
+
+<ExampleTabs name="separator-basic" />
+
+## Usage
+
+```jsx
+import { Separator } from "@chakra-ui/react"
+```
+
+```jsx
+<Separator />
+```
+
+## Examples
+
+### Variants
+
+Use the `variant` prop to change the appearance of the separator.
+
+<ExampleTabs name="separator-with-variants" />
+
+### Sizes
+
+Use the `size` prop to change the size of the separator.
+
+<ExampleTabs name="separator-with-sizes" />
+
+### Label
+
+Use the `label` prop to add a label to the separator.
+
+<ExampleTabs name="separator-with-label" />
+
+### Vertical
+
+Use the `orientation` prop to change the orientation of the separator.
+
+<ExampleTabs name="separator-vertical" />
+
+### Responsive Orientation
+
+Here's an example of how to change the `orientation` property based on the
+screen size.
+
+<ExampleTabs name="separator-with-responsive-orientation" />
+
+:::note
+
+When the `orientation` prop is a responsive value, the separator will be
+rendered without `aria-orientation` and the role is set to `presentation`.
+
+:::
+
+## Props
+
+<PropTable component="Separator" part="Separator" />

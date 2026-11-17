@@ -1,0 +1,32 @@
+import { h } from 'vue'
+
+import {
+  getSpinnerClass,
+  getSpinnerSize,
+  useSpinnerProps
+} from './spinner-utils.js'
+import { createComponent } from '../../utils/private.create/create.js'
+
+const innerHTML =
+  '<g transform="scale(0.55)"><circle cx="30" cy="150" r="30" fill="currentColor"></circle><path d="M90,150h30c0-49.7-40.3-90-90-90v30C63.1,90,90,116.9,90,150z" fill="currentColor" style="animation-delay:-.9s"></path><path d="M150,150h30C180,67.2,112.8,0,30,0v30C96.3,30,150,83.7,150,150z" fill="currentColor" style="animation-delay:-.8s"></path></g>'
+
+export default /*#__PURE__*/ createComponent({
+  name: 'QSpinnerRadio',
+
+  props: useSpinnerProps,
+
+  setup(props) {
+    return () => {
+      const cSize = getSpinnerSize(props.size)
+      return h('svg', {
+        class: getSpinnerClass(props.color, 'radio'),
+        width: cSize,
+        height: cSize,
+        viewBox: '0 0 100 100',
+        preserveAspectRatio: 'xMidYMid',
+        xmlns: 'http://www.w3.org/2000/svg',
+        innerHTML
+      })
+    }
+  }
+})

@@ -1,0 +1,179 @@
+import "@testing-library/jest-dom/vitest"
+import { act, render, screen, waitFor } from "@testing-library/react"
+import { StrictMode } from "react"
+import { afterEach, beforeEach, describe, expect, it } from "vitest"
+import {
+  type CreateOverlayProps,
+  createOverlay,
+} from "../src/hooks/use-overlay"
+
+const opens: boolean[] = []
+
+const { Viewport, open, close, removeAll, getSnapshot } = createOverlay(
+  (props: { label?: string } & CreateOverlayProps) => {
+    opens.push(props.open ?? false)
+    return <div data-testid="overlay" data-open={String(props.open)} />
+  },
+)
+
+const settled = <T,>(promise: Promise<T>) =>
+  Promise.race([
+    promise.then((value) => ({ status: "settled", value })),
+    new Promise<{ status: string; value?: T }>((resolve) =>
+      setTimeout(() => resolve({ status: "pending" }), 50),
+    ),
+  ])
+
+describe("createOverlay", () => {
+  beforeEach(() => {
+    opens.length = 0
+  })
+
+  afterEach(() => {
+    removeAll()
+  })
+
+  it("does not mount the overlay as open on the first commit (StrictMode-safe)", async () => {
+    render(
+      <StrictMode>
+        <Viewport />
+      </StrictMode>,
+    )
+
+    await act(async () => {
+      open("a", {})
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId("overlay")).toHaveAttribute("data-open", "true")
+    })
+
+    expect(opens[0]).toBe(false)
+    expect(opens.some((o) => o === true)).toBe(true)
+  })
+
+  it("applies open from props after mount", async () => {
+    render(
+      <StrictMode>
+        <Viewport />
+      </StrictMode>,
+    )
+
+    await act(async () => {
+      open("a", { label: "hi" })
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId("overlay")).toHaveAttribute("data-open", "true")
+    })
+  })
+
+  it("passes open=false when the overlay is closed", async () => {
+    render(
+      <StrictMode>
+        <Viewport />
+      </StrictMode>,
+    )
+
+    await act(async () => {
+      open("a", {})
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId("overlay")).toHaveAttribute("data-open", "true")
+    })
+
+    await act(async () => {
+      void close("a")
+    })
+
+    await waitFor(() => {
+      expect(screen.getByTestId("overlay")).toHaveAttribute(
+        "data-open",
+        "false",
+      )
+    })
+  })
+
+  it("exposes a stable getSnapshot of overlay props", async () => {
+    render(
+      <StrictMode>
+        <Viewport />
+      </StrictMode>,
+    )
+
+    await act(async () => {
+      open("x", { label: "one" })
+    })
+
+    await waitFor(() => {
+      expect(getSnapshot().length).toBe(1)
+    })
+  })
+
+  it("has() returns true when overlay exists and false when it does not", async () => {
+    const overlay = createOverlay(() => <div />)
+
+    // initially does not exist
+    expect(overlay.has("my-modal")).toBe(false)
+
+    // open creates the overlay and stores it in the map
+    overlay.open("my-modal", {})
+    expect(overlay.has("my-modal")).toBe(true)
+
+    // explicitly remove the overlay
+    overlay.remove("my-modal")
+    expect(overlay.has("my-modal")).toBe(false)
+  })
+
+  it("resolves the pending open() promise when the overlay is removed", async () => {
+    const overlay = createOverlay(() => <div />)
+
+    const result = overlay.open("my-modal", {})
+    overlay.remove("my-modal")
+
+    expect(await settled(result)).toEqual({
+      status: "settled",
+      value: undefined,
+    })
+  })
+
+  it("resolves the pending open() promise when all overlays are removed", async () => {
+    const overlay = createOverlay(() => <div />)
+
+    const result = overlay.open("my-modal", {})
+    overlay.removeAll()
+
+    expect(await settled(result)).toEqual({
+      status: "settled",
+      value: undefined,
+    })
+  })
+
+  it("resolves the pending close() promise when the overlay is removed", async () => {
+    const overlay = createOverlay(() => <div />)
+
+    overlay.open("my-modal", {})
+    const closed = overlay.close("my-modal")
+    overlay.remove("my-modal")
+
+    expect(await settled(closed)).toEqual({
+      status: "settled",
+      value: undefined,
+    })
+  })
+
+  it("resolves a pending waitForExit() when all overlays are removed", async () => {
+    const overlay = createOverlay(() => <div />)
+
+    overlay.open("my-modal", {})
+    void overlay.close("my-modal")
+    const exited = overlay.waitForExit("my-modal")
+    overlay.removeAll()
+
+    expect(await settled(exited)).toEqual({
+      status: "settled",
+      value: undefined,
+    })
+  })
+})

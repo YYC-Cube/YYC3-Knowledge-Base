@@ -1,0 +1,244 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/web-storage"
+  },
+  "methods": {
+    "hasItem": {
+      "desc": "Check if storage item exists",
+      "alias": "has",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true,
+          "examples": ["'userId'"]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Does the item exist or not?"
+      }
+    },
+    "getLength": {
+      "desc": "Get storage number of entries",
+      "params": null,
+      "returns": {
+        "type": "Number",
+        "desc": "Number of entries"
+      }
+    },
+    "getItem": {
+      "tsType": "WebStorageGetItemMethodType",
+      "desc": "Get a storage item value",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true,
+          "examples": ["'userId'"]
+        }
+      },
+      "returns": {
+        "type": [
+          "Number",
+          "Boolean",
+          "Date",
+          "RegExp",
+          "Object",
+          "Array",
+          "String",
+          "null"
+        ],
+        "desc": "Storage item value; null for a missing item",
+        "examples": ["'john12'", "702"]
+      }
+    },
+    "getIndex": {
+      "tsType": "WebStorageGetIndexMethodType",
+      "desc": "Get the storage item value at specific index",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Entry index",
+          "required": true
+        }
+      },
+      "returns": {
+        "type": [
+          "Number",
+          "Boolean",
+          "Date",
+          "RegExp",
+          "Object",
+          "Array",
+          "String",
+          "null"
+        ],
+        "desc": "Storage item value at that index; null past the end"
+      }
+    },
+    "getKey": {
+      "tsType": "WebStorageGetKeyMethodType",
+      "desc": "Get the storage key at specific index",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Entry index",
+          "required": true
+        }
+      },
+      "returns": {
+        "type": ["String", "null"],
+        "desc": "Storage key; null past the end",
+        "examples": ["'userId'"]
+      }
+    },
+    "getAll": {
+      "desc": "Retrieve all items in storage",
+      "params": null,
+      "returns": {
+        "type": "Object",
+        "desc": "Object syntax: item name as Object key and its value",
+        "examples": ["{ userId: 'rstoenescu', timesLoggedIn: 14 }"]
+      }
+    },
+    "getAllKeys": {
+      "tsType": "WebStorageGetAllKeysMethodType",
+      "desc": "Retrieve all keys in storage",
+      "params": null,
+      "returns": {
+        "type": "Array",
+        "desc": "Storage keys (Array of Strings)",
+        "examples": ["['userId', 'password']"]
+      }
+    },
+    "setItem": {
+      "desc": "Set item in storage; a null or undefined value removes the item (as removeItem() does)",
+      "alias": "set",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true,
+          "examples": ["'userId'"]
+        },
+        "value": {
+          "type": [
+            "Number",
+            "Boolean",
+            "Date",
+            "RegExp",
+            "Function",
+            "Object",
+            "Array",
+            "String"
+          ],
+          "desc": "Entry value; a Function is stored as its source",
+          "required": true,
+          "params": {
+            "...params": {
+              "type": "Any",
+              "__exemption": ["desc"]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "__exemption": ["desc"]
+          },
+          "examples": ["'john12'"]
+        }
+      },
+      "returns": null
+    },
+    "removeItem": {
+      "desc": "Remove a storage item",
+      "alias": "remove",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Storage key",
+          "required": true,
+          "examples": ["'userId'"]
+        }
+      },
+      "returns": null
+    },
+    "clear": {
+      "desc": "Remove everything from the storage",
+      "params": null,
+      "returns": null
+    },
+    "isEmpty": {
+      "desc": "Determine if storage has any items",
+      "params": null,
+      "returns": {
+        "type": "Boolean",
+        "desc": "Tells if storage is empty or not"
+      }
+    },
+    "useStorage": {
+      "desc": "Get a Vue ref bound to a storage item: it reads the item value (the default, or null, while missing), assigning it persists the value (null removes the item, or resets it to the default) and a nested change of an object or Array value gets persisted too. It follows the changes made through the other methods, through other refs of the same item and from another tab/window of the same origin. It is released together with the calling scope (a component, a Pinia store, an effectScope()); outside of one, call its stop() method when done",
+      "addedIn": "v2.34",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true,
+          "examples": ["'theme'"]
+        },
+        "options": {
+          "type": "Object",
+          "desc": "Options",
+          "definition": {
+            "default": {
+              "type": "Function",
+              "desc": "Returns the value the ref reads while the item is missing; called when the ref is created and each time the ref takes the default again (a null assignment, a removal), so that an object or Array default is a fresh one every time; the value gets stored when the ref attaches to a missing item and again whenever the item is removed",
+              "params": null,
+              "returns": {
+                "type": [
+                  "Number",
+                  "Boolean",
+                  "Date",
+                  "RegExp",
+                  "Object",
+                  "Array",
+                  "String"
+                ],
+                "desc": "The default value"
+              },
+              "examples": ["() => 'light'", "() => ({ notifications: true })"]
+            },
+            "deep": {
+              "type": "Boolean",
+              "desc": "Hand out an object or Array value reactive, so that a nested change gets tracked and persisted; set it to false for a large value that you only ever assign as a whole",
+              "default": "true"
+            },
+            "disabled": {
+              "type": ["Boolean", "Object", "Function"],
+              "tsType": "MaybeRefOrGetter<boolean>",
+              "desc": "While true the ref is detached from the storage (a plain in-memory ref); once false again it attaches like a new ref: the stored value wins if the item exists, otherwise the current value gets stored",
+              "examples": ["true", "() => consent.value !== true"]
+            },
+            "onError": {
+              "type": "Function",
+              "desc": "Called when the storage cannot be written (quota exceeded, private browsing) or a stored value cannot be decoded (when the ref attaches, or when another tab stored it); without it the error is thrown",
+              "params": {
+                "err": {
+                  "type": "Error",
+                  "desc": "The error"
+                }
+              },
+              "returns": null,
+              "examples": ["err => { Notify.create(err.message) }"]
+            }
+          }
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "tsType": "WebStorageRef",
+        "desc": "A Vue ref with an extra stop() method that detaches it from the storage"
+      }
+    }
+  }
+}

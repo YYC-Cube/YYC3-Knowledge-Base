@@ -1,0 +1,484 @@
+<template>
+  <div
+    class="doc-search z-max self-center"
+    :class="classes"
+    @click.prevent="onClick"
+    @focusin="onFocusin"
+    @focusout="onFocusout"
+  >
+    <div
+      class="doc-search__field rounded-borders row items-center no-wrap q-pl-sm q-pr-md"
+    >
+      <input
+        class="col"
+        type="search"
+        name="search"
+        ref="inputRef"
+        placeholder="Search Quasar v2..."
+        aria-label="Search Quasar documentation"
+        role="combobox"
+        aria-autocomplete="list"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        :aria-expanded="popupVisible ? 'true' : 'false'"
+        :aria-controls="hasListbox ? 'doc-search-listbox' : void 0"
+        :aria-activedescendant="popupVisible ? activeId || void 0 : void 0"
+        v-model="terms"
+        @keydown="onKeydown"
+        @mousedown="onInputMousedown"
+        @focus="onInputFocus"
+        @mouseup="onInputMouseup"
+      />
+
+      <button
+        v-if="terms.length !== 0"
+        class="doc-search__icon cursor-pointer"
+        type="button"
+        aria-label="Clear search"
+        @click="resetSearch"
+      >
+        <q-icon name="clear" size="24px" />
+      </button>
+      <q-icon v-else class="doc-search__icon" name="search" size="24px" />
+      <q-no-ssr v-if="keysLabel">
+        <kbd class="doc-search__kbd q-ma-none" aria-hidden="true">{{
+          keysLabel
+        }}</kbd>
+      </q-no-ssr>
+    </div>
+
+    <div class="doc-sr-only" role="status">{{ statusMessage }}</div>
+
+    <div :class="resultsClass">
+      <template v-if="results">
+        <component
+          v-if="results.masterComponent !== void 0"
+          :is="results.masterComponent"
+        />
+        <app-search-results
+          v-else
+          :results="results"
+          :search-active-id="activeId"
+        />
+      </template>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { LoadingBar, useKeyboardShortcut, useQuasar } from 'quasar'
+import { computed, markRaw, onMounted, ref, useTemplateRef, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+import AppSearchResults from './search/SearchResults.vue'
+import ResultEmpty from './search/ResultEmpty.vue'
+import ResultError from './search/ResultError.vue'
+
+const $q = useQuasar()
+const $route = useRoute()
+const $router = useRouter()
+
+const inputRef = useTemplateRef('inputRef')
+
+const terms = ref('')
+const results = ref(null)
+const activeId = ref(null)
+
+const keysLabel = computed(() =>
+  $q.platform.is.desktop ? ($q.platform.is.mac ? '⌘K' : 'Ctrl+K') : null
+)
+
+let focusoutTimer
+const hasFocus = ref(false)
+
+function onFocusin() {
+  clearTimeout(focusoutTimer)
+  hasFocus.value = true
+}
+
+function onFocusout() {
+  clearTimeout(focusoutTimer)
+  focusoutTimer = setTimeout(() => {
+    hasFocus.value = false
+  }, 150)
+}
+
+const classes = computed(() => (hasFocus.value ? 'doc-search--focused' : null))
+
+const popupVisible = computed(() => hasFocus.value && results.value !== null)
+const hasListbox = computed(
+  () => results.value !== null && results.value.masterComponent === void 0
+)
+const statusMessage = computed(() =>
+  popupVisible.value ? results.value.status : ''
+)
+
+const resultsClass = computed(
+  () =>
+    'doc-search__results rounded-borders rounded-borders overflow-auto' +
+    ` doc-search__results--${results.value ? 'active' : 'hidden'}`
+)
+
+function closePopup() {
+  hasFocus.value = false
+  activeId.value = null
+}
+
+function resetSearch() {
+  terms.value = ''
+  results.value = null
+  activeId.value = null
+}
+
+let controller
+let fetchTimer
+
+function fetchQuery(val, onResult, onError) {
+  controller = new AbortController()
+  const { signal } = controller
+
+  fetchTimer = setTimeout(() => {
+    if (signal.aborted) return
+
+    LoadingBar.start()
+    fetch(
+      `https://search.quasar.dev/indexes/${import.meta.env.SEARCH_INDEX}/search`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization:
+            'Bearer b7a6ea9a9978a4e4d994c1f9451210327f207441adbcf04a4aada3d17d829359'
+        },
+        body: JSON.stringify({
+          q: val,
+          limit: 15,
+          cropLength: 50,
+          attributesToCrop: ['content'],
+          attributesToHighlight: ['content']
+        })
+      }
+    )
+      .then(res => res.json())
+      .then(data => {
+        if (!signal.aborted) onResult(data)
+      })
+      .catch(() => {
+        if (!signal.aborted) onError()
+      })
+      .finally(() => {
+        if (!signal.aborted) controller = null
+        LoadingBar.stop()
+      })
+  }, 400)
+}
+
+const contentRE = /(<em>|<\/em>)/
+const startsWithRE = /^[a-z0-9]/
+const endsWithRE = /[a-z0-9]$/
+
+function parseContent(content) {
+  if (!content) return
+
+  let inToken = false
+
+  const acc = []
+  const str =
+    (startsWithRE.test(content) ? '...' : '') +
+    content +
+    (endsWithRE.test(content) ? '...' : '')
+
+  str.split(contentRE).forEach(entry => {
+    if (entry === '') {
+      inToken = true
+    } else if (entry !== '<em>' && entry !== '</em>') {
+      acc.push({
+        str: entry,
+        class: inToken ? 'app-search__result-token' : null
+      })
+      inToken = !inToken
+    }
+  })
+
+  return acc
+}
+
+const supportedHitTypes = ['page-content', 'page-link']
+
+function parseResults(hits) {
+  if (hits.length === 0) {
+    return {
+      masterComponent: markRaw(ResultEmpty),
+      status: 'No results found'
+    }
+  }
+
+  const acc = {
+    entries: [],
+    ids: []
+  }
+
+  hits.forEach(hit => {
+    // if we don't know how to display this API type then just abort
+    if (!supportedHitTypes.includes(hit.type)) return
+
+    const entry = {
+      page: hit.menu.join(' » '),
+      section:
+        [hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6]
+          .filter(Boolean)
+          .join(' » ') || null,
+      content: parseContent(hit._formatted.content),
+
+      onMouseenter() {
+        activeId.value = entry.id
+      },
+      onClick() {
+        closePopup()
+        $router.push(hit.url).catch(() => {})
+      }
+    }
+
+    acc.entries.push(entry)
+  })
+
+  // ensure that the ids are assigned in the right order
+  // otherwise keyboard up/down will not work correctly
+  let globalId = 0
+  acc.entries.forEach(hit => {
+    const id = 'search--' + ++globalId
+    hit.id = id
+    acc.ids.push(id)
+  })
+
+  acc.status = `${acc.entries.length} result${acc.entries.length === 1 ? '' : 's'} available`
+
+  return acc
+}
+
+function onKeydown(evt) {
+  switch (evt.keyCode) {
+    case 27: {
+      // escape
+      evt.preventDefault()
+      if (hasFocus.value) {
+        closePopup()
+      } else {
+        resetSearch()
+      }
+      break
+    }
+    case 38: // up
+    case 40: {
+      // down
+      evt.preventDefault()
+      if (results.value !== null && results.value.ids !== void 0) {
+        if (activeId.value === null) {
+          activeId.value = results.value.ids[0]
+        } else {
+          const ids = results.value.ids
+          const index = ids.indexOf(activeId.value)
+          activeId.value =
+            ids[
+              (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length
+            ]
+        }
+
+        const target = document.getElementById(activeId.value)
+        if (target.scrollIntoViewIfNeeded !== void 0) {
+          target.scrollIntoViewIfNeeded()
+        } else {
+          target.scrollIntoView({ block: 'center' })
+        }
+      }
+      break
+    }
+    case 13: {
+      // enter
+      evt.preventDefault()
+      evt.stopPropagation()
+      if (results.value !== null) {
+        if (!hasFocus.value) {
+          hasFocus.value = true
+          return
+        }
+
+        if (activeId.value !== null) {
+          document.getElementById(activeId.value).click(evt)
+        }
+      }
+      break
+    }
+  }
+}
+
+function onResultSuccess(response) {
+  results.value = parseResults(response.hits)
+  hasFocus.value = true
+  activeId.value = results.value.ids?.[0] || null
+}
+
+function onResultError() {
+  results.value = {
+    masterComponent: markRaw(ResultError),
+    status: 'Could not connect with the search service'
+  }
+}
+
+watch(terms, val => {
+  clearTimeout(fetchTimer)
+  controller?.abort()
+  controller = null
+
+  if (!val) {
+    resetSearch()
+  } else {
+    fetchQuery(val, onResultSuccess, onResultError)
+  }
+})
+
+function onClick() {
+  inputRef.value.focus()
+  onFocusin()
+}
+
+// focusing the field selects what it holds, so a new search can be typed
+// straight away; a click that focuses it would then land its mouseup on the
+// selection and collapse it to a caret, so that one mouseup is swallowed
+let clickFocuses = false
+
+function onInputMousedown() {
+  clickFocuses = document.activeElement !== inputRef.value
+}
+
+function onInputFocus() {
+  inputRef.value.select()
+}
+
+function onInputMouseup(e) {
+  if (clickFocuses) {
+    clickFocuses = false
+    e.preventDefault()
+  }
+}
+
+// Ctrl+K works on macOS too, next to the Command key the label shows
+useKeyboardShortcut(['Mod+K', 'Ctrl+K'], () => {
+  inputRef.value.focus()
+})
+
+onMounted(() => {
+  // If we have a search string in the query (mostly from tab-to-search functionality),
+  // we need to open the drawer to fill in the search string in the input later
+  const searchQuery = $route.query.search
+
+  if (searchQuery) {
+    terms.value = searchQuery
+    inputRef.value.focus()
+  }
+})
+</script>
+
+<style lang="sass">
+body.desktop
+  .doc-search__icon
+    display: none
+
+.doc-search
+  width: 400px
+  height: 43px
+
+  // the clear control is a native <button> for accessibility
+  button.doc-search__icon
+    border: 0
+    padding: 0
+    margin: 0
+    background: none
+    color: inherit
+    line-height: 0
+
+  &__field
+    height: inherit
+    width: inherit
+    cursor: text
+    transition: box-shadow $header-quick-transition
+
+  input
+    font-size: $font-size
+    width: 1px !important // required when on narrow width window to not overflow the page
+    border: 0
+    outline: 0
+    background: none
+
+  &__kbd
+    box-shadow: none !important
+    padding: 4px
+    border: 1px solid $grey !important
+    background: transparent !important
+
+  &__results
+    max-height: 80vh
+    top: 45px
+    left: 0
+    right: 0
+    transform: scale3d(1, 0, 1)
+    transform-origin: top
+    transition: transform .14s ease-in-out, box-shadow $header-quick-transition
+
+  &--focused
+    .doc-search__results--active
+      transform: scale3d(1, 1, 1)
+
+    .doc-search__icon
+      display: inline-block !important
+    .doc-search__kbd
+      display: none
+
+@media (max-width: 445px)
+  .doc-search__results
+    position: fixed
+    top: 60px
+    left: 16px
+    right: 16px
+@media (min-width: 446px)
+  .doc-search
+    position: relative
+  .doc-search__results
+    position: absolute
+
+body.mobile
+  .doc-search__results
+    max-height: 50vh
+
+body.body--light .doc-search
+  input
+    color: $light-text
+  &__field
+    background: $grey-4
+  &__results
+    background: #fff
+    color: $light-text
+  &--focused
+    .doc-search__results--active
+      border: 1px solid $separator-color
+    .doc-search__field
+      background-color: rgba(#000, .28)
+
+body.body--dark .doc-search
+  input
+    color: #fff
+  &__field
+    background-color: rgba(#fff, .12)
+  &__icon
+    color: $brand-primary
+  &__results
+    background: $dark-bg
+    color: $dark-text
+  &--focused
+    .doc-search__results--active
+      border: 1px solid $separator-dark-color
+    .doc-search__field
+      background-color: rgba(#fff, .28)
+</style>

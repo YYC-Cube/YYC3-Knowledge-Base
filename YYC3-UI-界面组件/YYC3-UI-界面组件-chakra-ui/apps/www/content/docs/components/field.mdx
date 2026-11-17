@@ -1,0 +1,217 @@
+---
+title: Field
+description: Used to add labels, help text, and error messages to form fields.
+links:
+  source: components/field
+  storybook: components-field--basic
+  recipe: field
+  ark: https://ark-ui.com/docs/components/field
+---
+
+<ExampleTabs name="field-basic" />
+
+## Usage
+
+```tsx
+import { Field } from "@chakra-ui/react"
+```
+
+```tsx
+<Field.Root>
+  <Field.Label>
+    <Field.RequiredIndicator />
+  </Field.Label>
+  <Input />
+  <Field.HelperText />
+  <Field.ErrorText />
+</Field.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Error Text
+
+Pass the `invalid` prop to `Field.Root` and use the `Field.ErrorText` to
+indicate that the field is invalid.
+
+<ExampleTabs name="field-with-error-text" />
+
+### Error Icon
+
+`Field.ErrorIcon` inherits the surrounding text color and defaults to `1em`,
+keeping its size consistent even when `Field.ErrorText` stretches full width.
+
+<ExampleTabs name="field-with-error-icon" />
+
+### Helper Text
+
+Use the `Field.HelperText` to add helper text to the field.
+
+<ExampleTabs name="field-with-helper-text" />
+
+### Horizontal
+
+Use the `orientation="horizontal"` prop to align the label and input
+horizontally.
+
+<ExampleTabs name="field-horizontal" />
+
+### Disabled
+
+Use the `disabled` prop to disable the field.
+
+<ExampleTabs name="field-with-disabled" />
+
+### Textarea
+
+Here's how to use the field component with a textarea.
+
+<ExampleTabs name="field-with-textarea" />
+
+### Native Select
+
+Here's how to use the field component with a native select.
+
+<ExampleTabs name="field-with-native-select" />
+
+### Target Control
+
+Set the `target` prop on `Field.Root` to the item the label should point to.
+
+<ExampleTabs name="field-with-target-control" />
+
+### Required
+
+Pass the `required` prop to `Field.Root` and use the `Field.RequiredIndicator`
+to indicate that the field is required.
+
+<ExampleTabs name="field-with-required" />
+
+### Optional
+
+Pass the `fallback` prop to the `Field.RequiredIndicator` to add optional text.
+
+<ExampleTabs name="field-with-optional" />
+
+### Closed Component
+
+Here's how to setup the Field for a closed component composition.
+
+<ExampleCode name="field-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add field
+```
+
+## Customization
+
+### Customizing slots
+
+The Field component has multiple slots that can be customized. Use the
+[Explorer](#explorer) below to see all available slots.
+
+```tsx title="theme.ts"
+import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react"
+import { fieldSlotRecipe } from "@chakra-ui/react/recipes"
+
+const customFieldRecipe = fieldSlotRecipe.extend({
+  base: {
+    label: {
+      color: "blue.600",
+      fontWeight: "bold",
+    },
+    errorText: {
+      bg: "red.50",
+      p: "2",
+      borderRadius: "md",
+    },
+    helperText: {
+      fontStyle: "italic",
+    },
+    requiredIndicator: {
+      color: "orange.500",
+    },
+  },
+})
+
+const config = defineConfig({
+  theme: {
+    slotRecipes: {
+      field: customFieldRecipe,
+    },
+  },
+})
+
+export const system = createSystem(defaultConfig, config)
+```
+
+### Adding new variants
+
+Extend the Field recipe to add new layout or style variants:
+
+```tsx title="theme.ts"
+const customFieldRecipe = fieldSlotRecipe.extend({
+  variants: {
+    variant: {
+      // Add a new style variant
+      outlined: {
+        root: {
+          border: "1px solid",
+          borderColor: "border",
+          borderRadius: "md",
+          p: "3",
+        },
+        label: {
+          bg: "bg",
+          px: "2",
+          position: "absolute",
+          top: "-2",
+          left: "3",
+        },
+      },
+    },
+    size: {
+      // Add a new size variant
+      lg: {
+        root: {
+          gap: "3",
+        },
+        label: {
+          textStyle: "md",
+        },
+      },
+    },
+  },
+})
+```
+
+After customizing, run the typegen command to regenerate the types. See the
+[CLI docs](/docs/get-started/cli#chakra-typegen) for how to run typegen in
+postinstall, CI, and monorepos.
+
+```bash
+npx @chakra-ui/cli typegen ./theme.ts
+```
+
+## Props
+
+### Root
+
+<PropTable component="Field" part="Root" />
+
+## Explorer
+
+Explore the `Field` component parts interactively. Click on parts in the sidebar
+to highlight them in the preview.
+
+<Explorer name="field-explorer-demo" />

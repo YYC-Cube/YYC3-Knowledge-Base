@@ -1,0 +1,164 @@
+---
+title: Input
+description: Used to get user input in a text field.
+links:
+  source: components/input
+  storybook: components-input--basic
+  recipe: input
+---
+
+<ExampleTabs name="input-basic" />
+
+## Usage
+
+```tsx
+import { Input } from "@chakra-ui/react"
+```
+
+```tsx
+<Input />
+```
+
+## Examples
+
+### Variants
+
+Use the `variant` prop to change the visual style of the input.
+
+<ExampleTabs name="input-with-variants" />
+
+### Sizes
+
+Use the `size` prop to change the size of the input.
+
+<ExampleTabs name="input-with-sizes" />
+
+### Helper Text
+
+Pair the input with the `Field` component to add helper text.
+
+<ExampleTabs name="input-with-helper-text" />
+
+### Error Text
+
+Pair the input with the `Field` component to add error text.
+
+<ExampleTabs name="input-with-error-text" />
+
+### Field
+
+Compose the input with the `Field` component to add a label, helper text, and
+error text.
+
+<ExampleTabs name="input-with-field" />
+
+### Hook Form
+
+Here's an example of how to integrate the input with `react-hook-form`.
+
+<ExampleTabs name="input-with-hook-form" />
+
+### Element
+
+Use the `startElement` and `endElement` on the `InputGroup` component to add an
+element to the start and end of the input.
+
+#### Start Icon
+
+<ExampleTabs name="input-with-start-icon" />
+
+#### Start Text
+
+<ExampleTabs name="input-with-start-text" />
+
+#### Start and End Text
+
+<ExampleTabs name="input-with-start-and-end-text" />
+
+#### Kbd
+
+<ExampleTabs name="input-with-kbd" />
+
+#### Select
+
+<ExampleTabs name="input-with-select" />
+
+### Addon
+
+Use the `InputAddon` and `Group` components to add an addon to the input.
+
+#### Start Addon
+
+<ExampleTabs name="input-with-start-addon" />
+
+#### End Addon
+
+<ExampleTabs name="input-with-end-addon" />
+
+#### Start and End Addon
+
+<ExampleTabs name="input-with-start-and-end-addon" />
+
+### Disabled
+
+Use the `disabled` prop to disable the input.
+
+<ExampleTabs name="input-with-disabled" />
+
+### Button
+
+Use the `Group` component to attach a button to the input.
+
+<ExampleTabs name="input-with-end-button" />
+
+### Focus and Error Color
+
+Use the `--focus-color` and `--error-color` CSS custom properties to change the
+color of the input when it is focused or in an error state.
+
+<ExampleTabs name="input-with-focus-error-color" />
+
+### Placeholder Style
+
+Use the `_placeholder` prop to style the placeholder text.
+
+<ExampleTabs name="input-with-placeholder-style" />
+
+### Floating Label
+
+Here's an example of how to build a floating label to the input.
+
+<ExampleTabs name="input-with-floating-label" />
+
+### Mask
+
+Here's an example of using the `use-mask-input` library to mask the input shape.
+
+<ExampleTabs name="input-with-mask" />
+
+### Character Counter
+
+Here's an example of how to add a character counter to the input.
+
+<ExampleTabs name="input-with-character-counter" />
+
+### Card Number
+
+Here's an example of using `react-payment-inputs` to create a card number input.
+
+<ExampleTabs name="input-with-card-number" />
+
+You can create a full card inputs for a card number, expiry date, and CVC.
+
+<ExampleTabs name="input-with-card-details" />
+
+### Clear Button
+
+Combine the `Input` and `CloseButton` components to create a clear button. This
+is useful for building search inputs.
+
+<ExampleTabs name="input-with-clear-button" />
+
+## Props
+
+<PropTable component="Input" part="Input" />

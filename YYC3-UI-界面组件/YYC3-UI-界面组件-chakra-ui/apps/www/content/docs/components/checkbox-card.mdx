@@ -1,0 +1,160 @@
+---
+title: Checkbox Card
+description: Used to select or deselect options displayed within cards.
+links:
+  source: components/checkbox-card
+  storybook: components-checkbox-card--basic
+  recipe: checkbox-card
+  ark: https://ark-ui.com/docs/components/checkbox
+---
+
+<ExampleTabs name="checkbox-card-basic" />
+
+## Usage
+
+```tsx
+import { CheckboxCard } from "@chakra-ui/react"
+```
+
+```tsx
+<CheckboxCard.Root>
+  <CheckboxCard.HiddenInput />
+  <CheckboxCard.Control>
+    <CheckboxCard.Content>
+      <CheckboxCard.Label />
+      <CheckboxCard.Description />
+    </CheckboxCard.Content>
+    <CheckboxCard.Indicator />
+  </CheckboxCard.Control>
+</CheckboxCard.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Description
+
+Use the `CheckboxCard.Description` component to add a description to the
+checkbox card.
+
+<ExampleTabs name="checkbox-card-with-description" />
+
+### Group
+
+Use the `CheckboxGroup` component to group multiple checkbox cards.
+
+<ExampleTabs name="checkbox-card-with-group" />
+
+### Sizes
+
+Pass the `size` prop to the `CheckboxCard.Root` component to change the size of
+the checkbox card.
+
+<ExampleTabs name="checkbox-card-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to Pass the `variant` prop to the `CheckboxCard.Root`
+component to change the variant of the checkbox card.
+
+<ExampleTabs name="checkbox-card-with-variants" />
+
+### Disabled
+
+Pass the `disabled` prop to the `CheckboxCard.Root` component to make the
+checkbox card disabled.
+
+<ExampleTabs name="checkbox-card-disabled" />
+
+### Addon
+
+Render additional content within the `CheckboxCard.Addon` component to add some
+more context to the checkbox card.
+
+<ExampleTabs name="checkbox-card-with-addon" />
+
+### No Indicator
+
+Here's an example of how to use the checkbox card without an indicator.
+
+<ExampleTabs name="checkbox-card-no-indicator" />
+
+### Icon
+
+Here's an example of how to render custom icons within the checkbox card.
+
+<ExampleTabs name="checkbox-card-with-icon" />
+
+### Closed Component
+
+Here's how to setup the Checkbox card for a closed component composition.
+
+<ExampleCode name="checkbox-card-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add checkbox-card
+```
+
+Here's how to use the it
+
+```tsx
+<CheckboxCard label="Checkbox Card" />
+```
+
+## Guides
+
+### CheckboxGroup + Field vs Fieldset
+
+When working with multiple checkbox cards, it's important to understand the
+semantic difference between `Field` and `Fieldset`:
+
+- **Single CheckboxCard**: Can be wrapped with `Field.Root` for proper form
+  field structure with labels and helper text
+- **CheckboxGroup**: Should be wrapped with `Fieldset.Root`, not `Field.Root`
+
+A group of checkbox cards represents a collection of related options and should
+be marked up as a fieldset with a legend, not as a single field. Wrapping
+`CheckboxGroup` in `Field.Root` can cause interaction issues where only the
+first checkbox card responds to clicks.
+
+**✅ Correct Usage:**
+
+```tsx
+<Fieldset.Root>
+  <CheckboxGroup name="framework">
+    <Fieldset.Legend>Select framework(s)</Fieldset.Legend>
+    {/* ... checkbox cards ... */}
+  </CheckboxGroup>
+</Fieldset.Root>
+```
+
+**❌ Incorrect Usage:**
+
+```tsx
+// Don't wrap CheckboxGroup with Field.Root
+<Field.Root>
+  <CheckboxGroup>{/* ... checkbox cards ... */}</CheckboxGroup>
+</Field.Root>
+```
+
+## Props
+
+### Root
+
+<PropTable component="CheckboxCard" part="Root" />
+
+## Explorer
+
+Explore the `Checkbox Card` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="checkbox-card-explorer-demo" />

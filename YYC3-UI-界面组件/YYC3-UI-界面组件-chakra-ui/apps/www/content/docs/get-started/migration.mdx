@@ -1,0 +1,3137 @@
+---
+title: Migration to v3
+description: How to migrate to Chakra UI v3.x from v2.x
+---
+
+<FeaturedVideo />
+
+:::warning
+
+We recommend using the [LLMs.txt](/docs/get-started/llms) files to make the
+Chakra UI v3 documentation available to large language models.
+
+:::
+
+## Codemod (Recommended)
+
+The codemod automates the migration from Chakra UI v2 to v3. It handles
+component renames, prop changes, import updates, and compound component
+restructuring. Start here before migrating manually.
+
+```bash
+npx @chakra-ui/codemod upgrade
+```
+
+Use `--dry` to preview changes without modifying files.
+
+## Manual Steps
+
+> The minimum node version required is Node.20.x
+
+:::steps
+
+### Update Packages
+
+Remove the unused packages: `@emotion/styled` and `framer-motion`. These
+packages are no longer required in Chakra UI.
+
+```bash
+npm uninstall @emotion/styled framer-motion
+```
+
+Install updated versions of the packages: `@chakra-ui/react` and
+`@emotion/react`.
+
+```bash
+npm install @chakra-ui/react@latest @emotion/react@latest
+```
+
+Next, install component snippets using the CLI snippets. Snippets provide
+pre-built compositions of Chakra components to save you time and put you in
+charge.
+
+```bash
+npx @chakra-ui/cli snippet add
+```
+
+### Refactor Custom Theme
+
+Move your custom theme to a dedicated `theme.js` or `theme.ts` file. Use
+`createSystem` and `defaultConfig` to configure your theme.
+
+**Before**
+
+```ts
+import { extendTheme } from "@chakra-ui/react"
+
+export const theme = extendTheme({
+  fonts: {
+    heading: `'Figtree', sans-serif`,
+    body: `'Figtree', sans-serif`,
+  },
+})
+```
+
+**After**
+
+```ts {3}
+import { createSystem, defaultConfig } from "@chakra-ui/react"
+
+export const system = createSystem(defaultConfig, {
+  theme: {
+    tokens: {
+      fonts: {
+        heading: { value: `'Figtree', sans-serif` },
+        body: { value: `'Figtree', sans-serif` },
+      },
+    },
+  },
+})
+```
+
+> All token values need to be wrapped in an object with a **value** key. Learn
+> more about tokens [here](/docs/theming/tokens).
+
+### Update ChakraProvider
+
+Update the ChakraProvider import from `@chakra-ui/react` to the one from the
+snippets. Next, rename the `theme` prop to `value` to match the new system-based
+theming approach.
+
+**Before**
+
+```tsx
+import { ChakraProvider } from "@chakra-ui/react"
+
+export const App = ({ Component }) => (
+  <ChakraProvider theme={theme}>
+    <Component />
+  </ChakraProvider>
+)
+```
+
+**After**
+
+```tsx {1,3}
+import { Provider } from "@/components/ui/provider"
+import { defaultSystem } from "@chakra-ui/react"
+
+export const App = ({ Component }) => (
+  <Provider>
+    <Component />
+  </Provider>
+)
+```
+
+```tsx {1,3}
+import { ColorModeProvider } from "@/components/ui/color-mode"
+import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
+
+export function Provider(props) {
+  return (
+    <ChakraProvider value={defaultSystem}>
+      <ColorModeProvider {...props} />
+    </ChakraProvider>
+  )
+}
+```
+
+> If you have a custom theme, replace `defaultSystem` with the custom `system`
+
+The Provider component compose the `ChakraProvider` from Chakra and
+`ThemeProvider` from `next-themes`
+
+:::
+
+## Improvements
+
+- **Performance:** Improved reconciliation performance by `4x` and re-render
+  performance by `1.6x`
+
+- **Namespaced imports:** Import components using the dot notation for more
+  concise imports
+
+  ```tsx
+  import { Accordion } from "@chakra-ui/react"
+
+  const Demo = () => {
+    return (
+      <Accordion.Root>
+        <Accordion.Item>
+          <Accordion.ItemTrigger />
+          <Accordion.ItemContent />
+        </Accordion.Item>
+      </Accordion.Root>
+    )
+  }
+  ```
+
+- **TypeScript:** Improved IntelliSense and type inference for style props and
+  tokens.
+
+- **Polymorphism:** Loosened the `as` prop typings in favor of using the
+  `asChild` prop. This pattern was inspired by Radix Primitives and Ark UI.
+
+## Removed Features
+
+### Color Mode
+
+- `ColorModeProvider` and `useColorMode` have been removed in favor of
+  `next-themes`
+- `LightMode`, `DarkMode` and `ColorModeScript` components have been removed.
+  You now have to use `className="light"` or `className="dark"` to force themes.
+- `useColorModeValue` has been removed in favor of `useTheme` from `next-themes`
+
+:::note
+
+We provide snippets for color mode via the CLI to help you set up color mode
+quickly using `next-themes`
+
+:::
+
+### Hooks
+
+We removed the hooks package in favor of using dedicated, robust libraries like
+`react-use` and `usehooks-ts`
+
+The only hooks that made it from v2 are `useBreakpoint`, `useBreakpointValue`,
+`useCallbackRef`, `useConst`, `useControllableProp`, `useControllableState`,
+`useDisclosure`, `useMediaQuery`, `usePrevious`, `useSafeLayoutEffect` and
+`useUpdateEffect`.
+
+`useLatestRef` is now `useLiveRef`.
+
+`useBreakpoint` no longer accepts the fallback breakpoint as a string argument.
+Pass it as an option instead.
+
+```tsx
+// v2
+useBreakpoint("md")
+
+// v3
+useBreakpoint({ fallback: "md" })
+```
+
+### Style Config
+
+We removed the `styleConfig` and `multiStyleConfig` concept in favor of recipes
+and slot recipes. This pattern was inspired by Panda CSS.
+
+### Next.js package
+
+We've removed the `@chakra-ui/next-js` package in favor of using the `asChild`
+prop for better flexibility.
+
+To style the Next.js image component, use the `asChild` prop on the `Box`
+component.
+
+```jsx
+<Box asChild>
+  <NextImage />
+</Box>
+```
+
+To style the Next.js link component, use the `asChild` prop on the `Link`
+component
+
+```jsx
+<Link isExternal asChild>
+  <NextLink />
+</Link>
+```
+
+### Theme Tools
+
+We've removed this package in favor using CSS color mix.
+
+**Before**
+
+We used JS to resolve the colors and then apply the transparency
+
+```jsx
+defineStyle({
+  bg: transparentize("blue.200", 0.16)(theme),
+  // -> rgba(0, 0, 255, 0.16)
+})
+```
+
+**After**
+
+We now use CSS color-mix
+
+```jsx
+defineStyle({
+  bg: "blue.200/16",
+  // -> color-mix(in srgb, var(--chakra-colors-blue-200), transparent 16%)
+})
+```
+
+### forwardRef
+
+Due to the simplification of the `as` prop, we no longer provide a custom
+`forwardRef`. Prefer to use `forwardRef` from React directly.
+
+Before:
+
+```tsx {3}
+import { Button as ChakraButton, forwardRef } from "@chakra-ui/react"
+
+const Button = forwardRef<ButtonProps, "button">(function Button(props, ref) {
+  return <ChakraButton ref={ref} {...props} />
+})
+```
+
+After:
+
+```tsx {2, 4}
+import { Button as ChakraButton } from "@chakra-ui/react"
+import { forwardRef } from "react"
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(props, ref) {
+    return <ChakraButton ref={ref} {...props} />
+  },
+)
+```
+
+### Icons
+
+Removed `@chakra-ui/icons` package. Use `react-icons` (Lucide icons recommended)
+or `lucide-react` instead. Install with `npm install react-icons`.
+
+- **Icons without props** → use the react-icon directly
+- **Icons with Chakra style props** → wrap in `Icon` from `@chakra-ui/react`
+
+Before:
+
+```tsx
+import { AddIcon, CheckIcon } from "@chakra-ui/icons"
+
+<AddIcon />
+<CheckIcon boxSize={6} color="green.500" />
+```
+
+After:
+
+```tsx
+import { Icon } from "@chakra-ui/react"
+import { LuCheck, LuPlus } from "react-icons/lu"
+
+<LuPlus />
+<Icon as={LuCheck} boxSize={6} color="green.500" />
+```
+
+Common icon mappings: `AddIcon` → `LuPlus`, `CloseIcon` → `LuX`, `CheckIcon` →
+`LuCheck`, `EditIcon` → `LuPencil`, `DeleteIcon` → `LuTrash2`, `SearchIcon` →
+`LuSearch`, `ChevronDownIcon` → `LuChevronDown`, `ArrowForwardIcon` →
+`LuArrowRight`, `HamburgerIcon` → `LuMenu`, `WarningIcon` → `LuAlertTriangle`,
+`InfoIcon` → `LuInfo`, `ExternalLinkIcon` → `LuExternalLink`, `StarIcon` →
+`LuStar`
+
+### Custom SVG Icons
+
+In v2, `<Icon>` rendered an `<svg>` wrapper and you passed SVG children (like
+`<path>`) directly. In v3, when using custom SVGs, use the `asChild` prop so the
+`Icon` merges its styles onto your `<svg>` element.
+
+Before:
+
+```tsx
+import { Icon } from "@chakra-ui/react"
+
+<Icon viewBox="0 0 24 24" color="red.500" boxSize={6}>
+  <path d="M12 2L2 22h20L12 2z" fill="currentColor" />
+</Icon>
+```
+
+After:
+
+```tsx
+import { Icon } from "@chakra-ui/react"
+
+<Icon color="red.500" size="md" asChild>
+  <svg viewBox="0 0 24 24">
+    <path d="M12 2L2 22h20L12 2z" fill="currentColor" />
+  </svg>
+</Icon>
+```
+
+Alternatively, use `createIcon` to define reusable custom icons:
+
+```tsx
+import { createIcon } from "@chakra-ui/react"
+
+const TriangleIcon = createIcon({
+  displayName: "TriangleIcon",
+  viewBox: "0 0 24 24",
+  path: <path d="M12 2L2 22h20L12 2z" fill="currentColor" />,
+})
+
+// Usage
+<TriangleIcon size="lg" color="red.500" />
+```
+
+### Storybook Addon
+
+We're removed the storybook addon in favor of using `@storybook/addon-themes`
+and `withThemeByClassName` helper.
+
+```tsx
+import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
+import { withThemeByClassName } from "@storybook/addon-themes"
+import type { Preview, ReactRenderer } from "@storybook/react"
+
+const preview: Preview = {
+  decorators: [
+    withThemeByClassName<ReactRenderer>({
+      defaultTheme: "light",
+      themes: {
+        light: "",
+        dark: "dark",
+      },
+    }),
+    (Story) => (
+      <ChakraProvider value={defaultSystem}>
+        <Story />
+      </ChakraProvider>
+    ),
+  ],
+}
+
+export default preview
+```
+
+### Removed Components
+
+- **StackItem**: You don't need this anymore. Use `Box` instead.
+- **FocusLock**: We no longer ship a focus lock component. Install and use
+  `react-focus-lock` directly.
+- **AlertDialog**
+  - Replace with the `Dialog` component and set `role=alertdialog`
+  - Set `leastDestructiveRef` prop to the `initialFocusEl` to the `Dialog.Root`
+    component
+
+### CircularProgress
+
+- Renamed to `ProgressCircle` and now uses compound components
+- `isIndeterminate` becomes `value={null}`
+- `thickness` prop becomes `--thickness` CSS variable
+- `color` prop becomes `stroke` prop on `ProgressCircle.Range`
+
+Before:
+
+```tsx
+<CircularProgress
+  value={75}
+  thickness="4px"
+  color="blue.500"
+  isIndeterminate={false}
+/>
+```
+
+After:
+
+```tsx
+<ProgressCircle.Root value={75}>
+  <ProgressCircle.Circle css={{ "--thickness": "4px" }}>
+    <ProgressCircle.Track />
+    <ProgressCircle.Range stroke="blue.500" />
+  </ProgressCircle.Circle>
+</ProgressCircle.Root>
+```
+
+For indeterminate progress:
+
+```tsx
+<ProgressCircle.Root value={null}>
+  <ProgressCircle.Circle>
+    <ProgressCircle.Track />
+    <ProgressCircle.Range />
+  </ProgressCircle.Circle>
+</ProgressCircle.Root>
+```
+
+### StackDivider
+
+- No longer available as a separate component
+- Use explicit `Separator` components between stack items
+
+Before:
+
+```tsx
+<VStack divider={<StackDivider borderColor="gray.200" />} spacing={4}>
+  <Box>Item 1</Box>
+  <Box>Item 2</Box>
+  <Box>Item 3</Box>
+</VStack>
+```
+
+After:
+
+```tsx
+import { Separator, VStack, Box } from "@chakra-ui/react";
+
+<VStack gap={4}>
+  <Box>Item 1</Box>
+  <Separator borderColor="gray.200" />
+  <Box>Item 2</Box>
+  <Separator borderColor="gray.200" />
+  <Box>Item 3</Box>
+</VStack>
+```
+
+## Prop Changes
+
+### Boolean Props
+
+Changed naming convention for boolean properties from `is<X>` to `<x>`
+
+- `isOpen` -> `open`
+- `defaultIsOpen` -> `defaultOpen`
+- `isDisabled` -> `disabled`
+- `isInvalid` -> `invalid`
+- `isRequired` -> `required`
+
+### ColorScheme Prop
+
+The `colorScheme` prop has been changed to `colorPalette`
+
+**Before**
+
+- You could only use `colorScheme` in a component's theme
+- `colorScheme` clashes with the native `colorScheme` prop in HTML elements
+
+```tsx
+<Button colorScheme="blue">Click me</Button>
+```
+
+**After**
+
+- You can now use `colorPalette` anywhere
+
+```tsx
+<Button colorPalette="blue">Click me</Button>
+```
+
+Usage in any component, you can do something like:
+
+```tsx
+<Box colorPalette="red">
+  <Box bg="colorPalette.400">Some box</Box>
+  <Text color="colorPalette.600">Some text</Text>
+</Box>
+```
+
+If you are using custom colors, you must define two things to make
+`colorPalette` work:
+
+- **tokens**: For the 50-950 color palette
+- **semanticTokens**: For the `solid`, `contrast`, `fg`, `muted`, `subtle`,
+  `emphasized`, and `focusRing` color keys
+
+```tsx title="theme.ts" /brand: {/ /tokens: {/ /semanticTokens: {/
+import { createSystem, defaultConfig } from "@chakra-ui/react"
+
+export const system = createSystem(defaultConfig, {
+  theme: {
+    tokens: {
+      colors: {
+        brand: {
+          50: { value: "#e6f2ff" },
+          100: { value: "#e6f2ff" },
+          200: { value: "#bfdeff" },
+          300: { value: "#99caff" },
+          // ...
+          950: { value: "#001a33" },
+        },
+      },
+    },
+    semanticTokens: {
+      colors: {
+        brand: {
+          solid: { value: "{colors.brand.500}" },
+          contrast: { value: "{colors.brand.100}" },
+          fg: { value: "{colors.brand.700}" },
+          muted: { value: "{colors.brand.100}" },
+          subtle: { value: "{colors.brand.200}" },
+          emphasized: { value: "{colors.brand.300}" },
+          focusRing: { value: "{colors.brand.500}" },
+        },
+      },
+    },
+  },
+})
+```
+
+> Read more about it [here](/guides/theming-custom-colors).
+
+### Gradient Props
+
+Gradient style prop simplified to `gradient` and `gradientFrom` and `gradientTo`
+props. This reduces the runtime performance cost of parsing the gradient string,
+and allows for better type inference.
+
+**Before**
+
+```tsx
+<Box bgGradient="linear(to-r, red.200, pink.500)" />
+```
+
+**After**
+
+```tsx
+<Box bgGradient="to-r" gradientFrom="red.200" gradientTo="pink.500" />
+```
+
+### Color Palette
+
+- Default color palette is now `gray` for all components but you can configure
+  this in your theme.
+
+- Default theme color palette size has been increased to 11 shades to allow more
+  color variations.
+
+  **Before**
+
+  ```tsx
+  const colors = {
+    // ...
+    gray: {
+      50: "#F7FAFC",
+      100: "#EDF2F7",
+      200: "#E2E8F0",
+      300: "#CBD5E0",
+      400: "#A0AEC0",
+      500: "#718096",
+      600: "#4A5568",
+      700: "#2D3748",
+      800: "#1A202C",
+      900: "#171923",
+    },
+  }
+  ```
+
+  **After**
+
+  ```tsx
+  const colors = {
+    // ...
+    gray: {
+      50: { value: "#fafafa" },
+      100: { value: "#f4f4f5" },
+      200: { value: "#e4e4e7" },
+      300: { value: "#d4d4d8" },
+      400: { value: "#a1a1aa" },
+      500: { value: "#71717a" },
+      600: { value: "#52525b" },
+      700: { value: "#3f3f46" },
+      800: { value: "#27272a" },
+      900: { value: "#18181b" },
+      950: { value: "#09090b" },
+    },
+  }
+  ```
+
+### Style Props
+
+Changed the naming convention for some style props
+
+- `noOfLines` -> `lineClamp`
+- `truncated` -> `truncate`
+- `_activeLink` -> `_currentPage`
+- `_activeStep` -> `_currentStep`
+- `_mediaDark` -> `_osDark`
+- `_mediaLight` -> `_osLight`
+
+**Examples:**
+
+```tsx
+// Before
+<Text noOfLines={2}>
+  Long text that will be clamped to 2 lines
+</Text>
+
+<Text truncated>
+  This text will be truncated with ellipsis
+</Text>
+
+// After
+<Text lineClamp={2}>
+  Long text that will be clamped to 2 lines
+</Text>
+
+<Text truncate>
+  This text will be truncated with ellipsis
+</Text>
+```
+
+We removed the `apply` prop in favor of `textStyle` or `layerStyles`
+
+### Nested Styles
+
+We have changed the way you write nested styles in Chakra UI components.
+
+**Before**
+
+Write nested styles using the `sx` or `__css` prop, and you sometimes don't get
+auto-completion for nested styles.
+
+```tsx
+<Box
+  sx={{
+    svg: { color: "red.500" },
+  }}
+/>
+```
+
+**After**
+
+Write nested styles using the `css` prop. All nested selectors **require** the
+use of the ampersand `&` prefix
+
+```tsx
+<Box
+  css={{
+    "& svg": { color: "red.500" },
+  }}
+/>
+```
+
+This was done for two reasons:
+
+- **Faster style processing:** Before we had to check if a style key is a style
+  prop or a selector which is quite expensive overall.
+- **Better typings:** This makes it easier to type nested style props are
+  strongly typed
+
+## Component Changes
+
+### ChakraProvider
+
+- Removed `theme` prop in favor of passing the `system` prop instead. Import the
+  `defaultSystem` module instead of `theme`
+
+- Removed `resetCss` prop in favor of passing `preflight: false` to the
+  `createSystem` function
+
+Before
+
+```tsx
+<ChakraProvider resetCss={false}>
+  <Component />
+</ChakraProvider>
+```
+
+After
+
+```tsx
+const system = createSystem(defaultConfig, { preflight: false })
+
+<Provider value={system}>
+  <Component />
+</Provider>
+```
+
+- Removed support for configuring toast options. Pass it to the `createToaster`
+  function in `components/ui/toaster.tsx` file instead.
+
+### Modal
+
+Renamed to `Dialog` and uses compound components with an explicit
+`Dialog.Positioner` and `Portal` wrapper.
+
+**Component Renaming:**
+
+- `Modal` → `Dialog.Root`
+- `ModalOverlay` → `Dialog.Backdrop`
+- `ModalContent` → `Dialog.Content` (wrap in `Dialog.Positioner`)
+- `ModalHeader` → `Dialog.Header`
+- `ModalBody` → `Dialog.Body`
+- `ModalFooter` → `Dialog.Footer`
+- `ModalCloseButton` → `Dialog.CloseTrigger`
+
+**Prop Changes:**
+
+- `isOpen` → `open`
+- `onClose` → `onOpenChange` (receives `{ open }`)
+- `isCentered` → `placement="center"`
+- `closeOnOverlayClick` → `closeOnInteractOutside`
+- `closeOnEsc` → `closeOnEscape`
+- `blockScrollOnMount` → `preventScroll`
+- `onOverlayClick` → `onInteractOutside`
+- `onEsc` → `onEscapeKeyDown`
+- `onCloseComplete` → `onExitComplete`
+- `initialFocusRef` → `initialFocusEl={() => ref.current}`
+- `finalFocusRef` → `finalFocusEl={() => ref.current}`
+
+**Size Mapping:** Sizes `2xl` through `6xl` are mapped to `xl` in v3.
+
+**Removed Props:** `allowPinchZoom`, `lockFocusAcrossFrames`,
+`preserveScrollBarGap`, `returnFocusOnClose`, `useInert`, `portalProps`
+
+### Avatar
+
+Now uses a declarative composition pattern with separate `Avatar.Image` and
+`Avatar.Fallback` parts.
+
+**Component Renaming:**
+
+- `Avatar` → `Avatar.Root`
+- `AvatarBadge` → removed (use `Float` + `Circle` instead)
+- `AvatarGroup` → `AvatarGroup` (unchanged, but `max` prop removed)
+
+**Props moved to `Avatar.Image`:**
+
+- `src`, `srcSet`, `sizes`, `loading`, `referrerPolicy`, `crossOrigin`
+
+**Props moved to `Avatar.Fallback`:**
+
+- `name` — generates initials automatically
+- `icon` — render as children instead
+- `iconLabel` → `aria-label`
+
+**Props removed:**
+
+- `ignoreFallback` — no longer needed
+- `showBorder` — use `border` and `borderColor` style props instead
+- `AvatarGroup` `max` — removed, handle in userland
+- `AvatarGroup` `spacing` → `spaceX`
+
+Before:
+
+```tsx
+import { Avatar, AvatarBadge, AvatarGroup } from "@chakra-ui/react"
+
+const Demo = () => (
+  <>
+    <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" size="md" />
+
+    <Avatar bg="red.500" icon={<AiOutlineUser />} />
+
+    <Avatar>
+      <AvatarBadge boxSize="1.25em" bg="green.500" />
+    </Avatar>
+  </>
+)
+```
+
+After:
+
+```tsx
+import { Avatar, AvatarGroup, Circle, Float } from "@chakra-ui/react"
+
+const Demo = () => (
+  <>
+    <Avatar.Root size="md">
+      <Avatar.Fallback name="Dan Abrahmov" />
+      <Avatar.Image src="https://bit.ly/dan-abramov" />
+    </Avatar.Root>
+
+    <Avatar.Root bg="red.500">
+      <Avatar.Fallback>
+        <AiOutlineUser />
+      </Avatar.Fallback>
+    </Avatar.Root>
+
+    <Avatar.Root>
+      <Avatar.Image src="https://bit.ly/dan-abramov" />
+      <Float placement="bottom-end" offsetX="1" offsetY="1">
+        <Circle
+          bg="green.500"
+          size="8px"
+          outline="0.2em solid"
+          outlineColor="bg"
+        />
+      </Float>
+    </Avatar.Root>
+  </>
+)
+```
+
+### Breadcrumb
+
+Now uses compound components with explicit separators between items and a
+required `Breadcrumb.List` wrapper.
+
+**Component Renaming:**
+
+- `Breadcrumb` → `Breadcrumb.Root`
+- `BreadcrumbItem` → `Breadcrumb.Item`
+- `BreadcrumbLink` → `Breadcrumb.Link`
+- `BreadcrumbLink` with `isCurrentPage` → `Breadcrumb.CurrentLink`
+- `BreadcrumbSeparator` → `Breadcrumb.Separator`
+
+**Prop Changes:**
+
+- `separator` prop → removed, use explicit `<Breadcrumb.Separator />` between
+  items
+- `spacing` → `gap` (moved to `Breadcrumb.List`)
+- `isCurrentPage` on `BreadcrumbItem` → use `Breadcrumb.CurrentLink` instead
+- `isLastChild` → removed (not needed with explicit separators)
+- `listProps` → spread directly on `Breadcrumb.List`
+
+Before:
+
+```tsx
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Breadcrumb separator="-" spacing="8px">
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem isCurrentPage>
+      <BreadcrumbLink href="#">Current</BreadcrumbLink>
+    </BreadcrumbItem>
+  </Breadcrumb>
+)
+```
+
+After:
+
+```tsx
+import { Breadcrumb } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Breadcrumb.Root>
+    <Breadcrumb.List gap="8px">
+      <Breadcrumb.Item>
+        <Breadcrumb.Link href="#">Home</Breadcrumb.Link>
+      </Breadcrumb.Item>
+      <Breadcrumb.Separator>-</Breadcrumb.Separator>
+      <Breadcrumb.Item>
+        <Breadcrumb.CurrentLink>Current</Breadcrumb.CurrentLink>
+      </Breadcrumb.Item>
+    </Breadcrumb.List>
+  </Breadcrumb.Root>
+)
+```
+
+### Portal
+
+- Remove `appendToParentPortal` prop in favor of using the `containerRef`
+- Remove `PortalManager` component
+
+### Progress
+
+- Now uses compound components with `Progress.Root`, `Progress.Track`, and
+  `Progress.Range`
+- `hasStripe` prop renamed to `striped`
+- `isAnimated` prop renamed to `animated`
+- `colorScheme` prop renamed to `colorPalette`
+
+Before:
+
+```tsx
+<Progress hasStripe isAnimated value={75} colorScheme="blue" />
+```
+
+After:
+
+```tsx
+<Progress.Root striped animated value={75} colorPalette="blue">
+  <Progress.Track>
+    <Progress.Range />
+  </Progress.Track>
+</Progress.Root>
+```
+
+### Stack
+
+- Changed `spacing` to `gap`
+- Removed `StackItem` in favor of using the `Box` component directly
+
+### Select
+
+Now called `NativeSelect` and exposes all parts now.
+
+Before:
+
+```tsx
+<Select placeholder="Select option">
+  <option value="option1">Option 1</option>
+  <option value="option2">Option 2</option>
+  <option value="option3">Option 3</option>
+</Select>
+```
+
+After:
+
+```tsx
+<NativeSelect.Root size="sm" width="240px">
+  <NativeSelect.Field placeholder="Select option">
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </NativeSelect.Field>
+  <NativeSelect.Indicator />
+</NativeSelect.Root>
+```
+
+Changing the icon
+
+Before:
+
+```tsx
+<Select icon={<MdArrowDropDown />} placeholder="Woohoo! A new icon" />
+```
+
+After:
+
+```tsx
+<NativeSelect.Indicator>
+  <MdArrowDropDown />
+</NativeSelect.Indicator>
+```
+
+### Collapse
+
+- Rename `Collapse` to `Collapsible` namespace
+- Rename `in` to `open`
+- `animateOpacity` has been removed, use keyframes animations `expand-height`
+  and `collapse-height` instead
+
+Before
+
+```tsx
+<Collapse in={isOpen} animateOpacity>
+  Some content
+</Collapse>
+```
+
+After
+
+```tsx
+<Collapsible.Root open={isOpen}>
+  <Collapsible.Content>Some content</Collapsible.Content>
+</Collapsible.Root>
+```
+
+### Image
+
+Now renders a native `img` without built-in fallback logic. `Img` has been
+consolidated into `Image`.
+
+- `Img` → `Image`
+- `fit` → `objectFit`
+- `align` → `objectPosition`
+- `fallbackSrc`, `fallback`, `ignoreFallback`, `fallbackStrategy` → removed
+- `useImage` hook → removed
+
+Before:
+
+```tsx
+import { Img } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Img
+    src="photo.jpg"
+    fit="cover"
+    align="center"
+    fallbackSrc="placeholder.jpg"
+  />
+)
+```
+
+After:
+
+```tsx
+import { Image } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Image src="photo.jpg" objectFit="cover" objectPosition="center" />
+)
+```
+
+> For fallback behavior, use the native `onError` event to swap the `src`.
+
+### PinInput
+
+Now uses compound components. Each input requires an `index` prop and must be
+wrapped in `PinInput.Control`.
+
+**Component Renaming:**
+
+- `PinInput` → `PinInput.Root`
+- `PinInputField` → `PinInput.Input` (requires `index` prop)
+
+**Prop Changes:**
+
+- `value` / `defaultValue` → now `string[]` instead of `string`
+- `onChange` → `onValueChange` (receives `{ value, valueAsString }`)
+- `onComplete` → `onValueComplete` (receives `{ value, valueAsString }`)
+- `isDisabled` → `disabled`
+- `isInvalid` → `invalid`
+- `manageFocus` → removed
+
+Before:
+
+```tsx
+import { PinInput, PinInputField } from "@chakra-ui/react"
+
+const Demo = () => (
+  <PinInput defaultValue="23" onChange={setValue} onComplete={handleComplete}>
+    <PinInputField />
+    <PinInputField />
+    <PinInputField />
+  </PinInput>
+)
+```
+
+After:
+
+```tsx
+import { PinInput } from "@chakra-ui/react"
+
+const Demo = () => (
+  <PinInput.Root
+    defaultValue={["2", "3"]}
+    onValueChange={(e) => setValue(e.value)}
+    onValueComplete={(e) => handleComplete(e.value)}
+  >
+    <PinInput.HiddenInput />
+    <PinInput.Control>
+      <PinInput.Input index={0} />
+      <PinInput.Input index={1} />
+      <PinInput.Input index={2} />
+    </PinInput.Control>
+  </PinInput.Root>
+)
+```
+
+### Popover
+
+Now uses compound components with an explicit `Popover.Positioner` wrapper
+around content. `PopoverTrigger` now requires `asChild`.
+
+**Component Renaming:**
+
+- `Popover` → `Popover.Root`
+- `PopoverTrigger` → `Popover.Trigger` (add `asChild`)
+- `PopoverContent` → `Popover.Content` (wrap in `Popover.Positioner`)
+- `PopoverHeader` → `Popover.Title`
+- `PopoverBody` → `Popover.Body`
+- `PopoverFooter` → `Popover.Footer`
+- `PopoverArrow` → `Popover.Arrow`
+- `PopoverCloseButton` → `Popover.CloseTrigger`
+- `PopoverAnchor` → `Popover.Anchor`
+
+**Prop Changes:**
+
+- `isOpen` → `open`
+- `defaultIsOpen` → `defaultOpen`
+- `onClose` / `onOpen` → `onOpenChange` (receives `{ open }`)
+- `closeOnBlur` → `closeOnInteractOutside`
+- `closeOnEsc` → `closeOnEscape`
+- `isLazy` → `lazyMount`
+- `lazyBehavior="unmount"` → `unmountOnExit`
+- `initialFocusRef` → `initialFocusEl={() => ref.current}`
+- `trigger="hover"` → use `HoverCard` component instead
+- Positioning props (`placement`, `gutter`, `flip`, `offset`, `matchWidth`,
+  `strategy`) → grouped into `positioning` object
+- `matchWidth` → `positioning.sameWidth`
+
+**Removed Props:** `computePositionOnMount`, `returnFocusOnClose`,
+`arrowShadowColor`, `modifiers`
+
+Before:
+
+```tsx
+import {
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <Popover placement="bottom" closeOnBlur={false} isLazy>
+    <PopoverTrigger>
+      <Button>Trigger</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <PopoverArrow />
+      <PopoverCloseButton />
+      <PopoverHeader>Title</PopoverHeader>
+      <PopoverBody>Content here</PopoverBody>
+    </PopoverContent>
+  </Popover>
+)
+```
+
+After:
+
+```tsx
+import { Popover } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Popover.Root
+    positioning={{ placement: "bottom" }}
+    closeOnInteractOutside={false}
+    lazyMount
+  >
+    <Popover.Trigger asChild>
+      <Button>Trigger</Button>
+    </Popover.Trigger>
+    <Popover.Positioner>
+      <Popover.Content>
+        <Popover.Arrow />
+        <Popover.CloseTrigger />
+        <Popover.Title>Title</Popover.Title>
+        <Popover.Body>Content here</Popover.Body>
+      </Popover.Content>
+    </Popover.Positioner>
+  </Popover.Root>
+)
+```
+
+**Hover Trigger → HoverCard:**
+
+If you used `trigger="hover"`, migrate to the `HoverCard` component:
+
+Before:
+
+```tsx
+<Popover trigger="hover" openDelay={500}>
+  <PopoverTrigger>
+    <Button>Hover me</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverBody>Tooltip-like content</PopoverBody>
+  </PopoverContent>
+</Popover>
+```
+
+After:
+
+```tsx
+import { HoverCard } from "@chakra-ui/react"
+
+const Demo = () => (
+  <HoverCard.Root openDelay={500}>
+    <HoverCard.Trigger asChild>
+      <Button>Hover me</Button>
+    </HoverCard.Trigger>
+    <HoverCard.Positioner>
+      <HoverCard.Content>
+        <HoverCard.Arrow />
+        Content here
+      </HoverCard.Content>
+    </HoverCard.Positioner>
+  </HoverCard.Root>
+)
+```
+
+### NumberInput
+
+**Component Renaming:**
+
+- `NumberInput` → `NumberInput.Root`
+- `NumberInputField` → `NumberInput.Input`
+- `NumberInputStepper` → `NumberInput.Control`
+- `NumberIncrementStepper` → `NumberInput.IncrementTrigger`
+- `NumberDecrementStepper` → `NumberInput.DecrementTrigger`
+
+**Prop Changes:**
+
+- `isDisabled` → `disabled`
+- `isInvalid` → `invalid`
+- `isReadOnly` → `readOnly`
+- `isRequired` → `required`
+- `onChange` → `onValueChange` (receives `{ value, valueAsNumber }`)
+- `onInvalid` → `onValueInvalid`
+- `keepWithinRange` → `allowOverflow` (inverted: `false` → `true`)
+- `focusBorderColor` / `errorBorderColor` → use `--focus-color` /
+  `--error-color` CSS variables
+- `parse` and `format` → removed, use `formatOptions` instead
+
+Before:
+
+```tsx
+import {
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <NumberInput
+    isDisabled
+    onChange={(valStr, valNum) => {}}
+    keepWithinRange={false}
+  >
+    <NumberInputField />
+    <NumberInputStepper>
+      <NumberIncrementStepper />
+      <NumberDecrementStepper />
+    </NumberInputStepper>
+  </NumberInput>
+)
+```
+
+After:
+
+```tsx
+import { NumberInput } from "@chakra-ui/react"
+
+const Demo = () => (
+  <NumberInput.Root disabled onValueChange={(e) => {}} allowOverflow>
+    <NumberInput.Input />
+    <NumberInput.Control>
+      <NumberInput.IncrementTrigger />
+      <NumberInput.DecrementTrigger />
+    </NumberInput.Control>
+  </NumberInput.Root>
+)
+```
+
+### Divider
+
+Renamed to `Separator` to better align with semantic HTML and ARIA standards.
+The component now uses a `div` element for better layout control.
+
+- `Divider` → `Separator`
+- Relies on `borderTopWidth` and `borderInlineStartWidth` for styling
+- To change thickness, set the `--divider-border-width` CSS variable
+- All props (`orientation`, `variant`, styling) remain the same
+
+Before:
+
+```tsx
+import { Divider } from "@chakra-ui/react"
+
+const Demo = () => (
+  <>
+    <Divider orientation="horizontal" />
+    <Divider orientation="vertical" height="20px" />
+  </>
+)
+```
+
+After:
+
+```tsx
+import { Separator } from "@chakra-ui/react"
+
+const Demo = () => (
+  <>
+    <Separator orientation="horizontal" />
+    <Separator orientation="vertical" height="20px" />
+  </>
+)
+```
+
+### Card
+
+Now uses compound components with dot notation. The migration is straightforward
+— only component names change, all props remain the same.
+
+**Component Renaming:**
+
+- `Card` → `Card.Root`
+- `CardHeader` → `Card.Header`
+- `CardBody` → `Card.Body`
+- `CardFooter` → `Card.Footer`
+
+v3 also introduces `Card.Title` and `Card.Description` as new semantic
+components for better structure.
+
+Before:
+
+```tsx
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Heading,
+  Text,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <Card maxW="sm">
+    <CardHeader>
+      <Heading size="md">Living room Sofa</Heading>
+    </CardHeader>
+    <CardBody>
+      <Text>This sofa is perfect for modern tropical spaces.</Text>
+      <Text color="blue.600" fontSize="2xl">
+        $450
+      </Text>
+    </CardBody>
+    <CardFooter>
+      <Button variant="solid" colorScheme="blue">
+        Buy now
+      </Button>
+    </CardFooter>
+  </Card>
+)
+```
+
+After:
+
+```tsx
+import { Button, Card, Heading, Text } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Card.Root maxW="sm">
+    <Card.Header>
+      <Heading size="md">Living room Sofa</Heading>
+    </Card.Header>
+    <Card.Body>
+      <Text>This sofa is perfect for modern tropical spaces.</Text>
+      <Text color="blue.600" fontSize="2xl">
+        $450
+      </Text>
+    </Card.Body>
+    <Card.Footer>
+      <Button variant="solid" colorPalette="blue">
+        Buy now
+      </Button>
+    </Card.Footer>
+  </Card.Root>
+)
+```
+
+### Input, Select, Textarea
+
+- Removed `invalid` prop in favor of wrapping the component in a `Field`
+  component. This allows for adding a label, error text and asterisk easily.
+
+Before
+
+```tsx
+<Input invalid />
+```
+
+After
+
+```tsx
+<Field.Root invalid>
+  <Field.Label>Email</Field.Label>
+  <Input />
+  <Field.ErrorText>This field is required</Field.ErrorText>
+</Field.Root>
+```
+
+### Link
+
+- Removed `isExternal` prop in favor of explicitly setting the `target` and
+  `rel` props
+
+Before
+
+```tsx
+<Link isExternal>Click me</Link>
+```
+
+After
+
+```tsx
+<Link target="_blank" rel="noopener noreferrer">
+  Click me
+</Link>
+```
+
+### List
+
+Now uses compound components with dot notation. `OrderedList` and
+`UnorderedList` are no longer separate components — use `List.Root` with the
+`as` prop instead.
+
+**Component Renaming:**
+
+- `List` → `List.Root`
+- `OrderedList` → `List.Root as="ol"`
+- `UnorderedList` → `List.Root as="ul"`
+- `ListItem` → `List.Item`
+- `ListIcon` → `List.Indicator`
+
+**Prop Changes:**
+
+- `spacing` → `gap`
+- `styleType` → `listStyleType`
+- `stylePosition` → `listStylePosition`
+
+Before:
+
+```tsx
+import { ListIcon, ListItem, UnorderedList } from "@chakra-ui/react"
+import { MdCheckCircle } from "react-icons/md"
+
+const Demo = () => (
+  <UnorderedList spacing={3}>
+    <ListItem>
+      <ListIcon as={MdCheckCircle} color="green.500" />
+      Lorem ipsum dolor sit amet
+    </ListItem>
+    <ListItem>
+      <ListIcon as={MdCheckCircle} color="green.500" />
+      Consectetur adipiscing elit
+    </ListItem>
+  </UnorderedList>
+)
+```
+
+After:
+
+```tsx
+import { List } from "@chakra-ui/react"
+import { MdCheckCircle } from "react-icons/md"
+
+const Demo = () => (
+  <List.Root as="ul" gap={3}>
+    <List.Item>
+      <List.Indicator as={MdCheckCircle} color="green.500" />
+      Lorem ipsum dolor sit amet
+    </List.Item>
+    <List.Item>
+      <List.Indicator as={MdCheckCircle} color="green.500" />
+      Consectetur adipiscing elit
+    </List.Item>
+  </List.Root>
+)
+```
+
+For ordered lists:
+
+Before:
+
+```tsx
+import { ListItem, OrderedList } from "@chakra-ui/react"
+
+const Demo = () => (
+  <OrderedList styleType="lower-roman" stylePosition="inside">
+    <ListItem>First item</ListItem>
+    <ListItem>Second item</ListItem>
+  </OrderedList>
+)
+```
+
+After:
+
+```tsx
+import { List } from "@chakra-ui/react"
+
+const Demo = () => (
+  <List.Root as="ol" listStyleType="lower-roman" listStylePosition="inside">
+    <List.Item>First item</List.Item>
+    <List.Item>Second item</List.Item>
+  </List.Root>
+)
+```
+
+### Button
+
+**Prop Changes:**
+
+- `isActive` → `data-active` attribute
+- `isDisabled` → `disabled`
+- `isLoading` → `loading`
+- `colorScheme` → `colorPalette`
+- `leftIcon` / `rightIcon` → render icons as children directly
+- `iconSpacing` → `gap`
+- `variant="unstyled"` → `unstyled` boolean prop
+- `variant="link"` → `variant="plain"`
+
+Before:
+
+```tsx
+<Button colorScheme="blue" isLoading leftIcon={<Download />} iconSpacing={2}>
+  Download
+</Button>
+```
+
+After:
+
+```tsx
+<Button colorPalette="blue" loading gap={2}>
+  <Download />
+  Download
+</Button>
+```
+
+**ButtonGroup Changes:**
+
+- `isAttached` → `attached`
+- `isDisabled` → removed (propagate `disabled` to each child instead)
+
+### IconButton
+
+- `icon` → render as `children` directly
+- `isRound` → `borderRadius="full"`
+- `isDisabled` → `disabled`
+
+Before:
+
+```tsx
+<IconButton icon={<SearchIcon />} isRounded isDisabled aria-label="Search" />
+```
+
+After:
+
+```tsx
+<IconButton borderRadius="full" disabled aria-label="Search">
+  <SearchIcon />
+</IconButton>
+```
+
+### Spinner
+
+- Change the `thickness` prop to `borderWidth`
+- Change the `speed` prop to `animationDuration`
+
+Before
+
+```tsx
+<Spinner thickness="2px" speed="0.5s" />
+```
+
+After
+
+```tsx
+<Spinner borderWidth="2px" animationDuration="0.5s" />
+```
+
+### Dialog, Drawer
+
+Both `Modal` and `Drawer` now use compound components with an explicit
+`Positioner` and `Portal` wrapper.
+
+**Prop Changes (shared by Dialog and Drawer):**
+
+- `isOpen` → `open`
+- `onClose` → `onOpenChange` (receives `{ open }`)
+- `blockScrollOnMount` → `preventScroll`
+- `closeOnEsc` → `closeOnEscape`
+- `closeOnOverlayClick` → `closeOnInteractOutside`
+- `onOverlayClick` → `onInteractOutside`
+- `onEsc` → `onEscapeKeyDown`
+- `onCloseComplete` → `onExitComplete`
+- `initialFocusRef` → `initialFocusEl={() => ref.current}`
+- `finalFocusRef` → `finalFocusEl={() => ref.current}`
+- `isCentered` → `placement="center"` (Dialog only)
+- Sizes `2xl`–`6xl` → mapped to `xl`
+
+**Drawer-specific Changes:**
+
+- `placement="left"` → `placement="start"` (RTL-aware)
+- `placement="right"` → `placement="end"` (RTL-aware)
+- `isFullHeight` → add `height="100%"` to `Drawer.Content`
+- `DrawerOverlay` → `Drawer.Backdrop`
+- `DrawerContent` → `Drawer.Positioner` + `Drawer.Content`
+
+**Removed Props:** `allowPinchZoom`, `lockFocusAcrossFrames`,
+`preserveScrollBarGap`, `returnFocusOnClose`, `useInert`, `portalProps`
+
+**Dialog Example:**
+
+Before:
+
+```tsx
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <Modal isOpen={isOpen} onClose={onClose} isCentered closeOnEsc={false}>
+    <ModalOverlay />
+    <ModalContent>
+      <ModalCloseButton />
+      <ModalHeader>Title</ModalHeader>
+      <ModalBody>Content</ModalBody>
+      <ModalFooter>
+        <Button onClick={onClose}>Close</Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+)
+```
+
+After:
+
+```tsx
+import { Dialog, Portal } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Dialog.Root
+    open={isOpen}
+    onOpenChange={(e) => !e.open && onClose()}
+    placement="center"
+    closeOnEscape={false}
+  >
+    <Portal>
+      <Dialog.Backdrop />
+      <Dialog.Positioner>
+        <Dialog.Content>
+          <Dialog.CloseTrigger />
+          <Dialog.Header>Title</Dialog.Header>
+          <Dialog.Body>Content</Dialog.Body>
+          <Dialog.Footer>
+            <Button onClick={onClose}>Close</Button>
+          </Dialog.Footer>
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Portal>
+  </Dialog.Root>
+)
+```
+
+**Drawer Example:**
+
+Before:
+
+```tsx
+import {
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <Drawer isOpen={isOpen} placement="right" onClose={onClose} isFullHeight>
+    <DrawerOverlay />
+    <DrawerContent>
+      <DrawerCloseButton />
+      <DrawerHeader>Title</DrawerHeader>
+      <DrawerBody>Content</DrawerBody>
+      <DrawerFooter>
+        <Button onClick={onClose}>Close</Button>
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>
+)
+```
+
+After:
+
+```tsx
+import { Drawer, Portal } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Drawer.Root
+    open={isOpen}
+    placement="end"
+    onOpenChange={(e) => !e.open && onClose()}
+  >
+    <Portal>
+      <Drawer.Backdrop />
+      <Drawer.Positioner>
+        <Drawer.Content height="100%">
+          <Drawer.CloseTrigger />
+          <Drawer.Header>Title</Drawer.Header>
+          <Drawer.Body>Content</Drawer.Body>
+          <Drawer.Footer>
+            <Button onClick={onClose}>Close</Button>
+          </Drawer.Footer>
+        </Drawer.Content>
+      </Drawer.Positioner>
+    </Portal>
+  </Drawer.Root>
+)
+```
+
+### Editable
+
+Now uses compound components with dot notation. Custom controls use declarative
+trigger components instead of the `useEditableControls` prop-getter pattern.
+
+**Component Renaming:**
+
+- `Editable` → `Editable.Root`
+- `EditablePreview` → `Editable.Preview`
+- `EditableInput` → `Editable.Input`
+- `EditableTextarea` → `Editable.Textarea`
+- `useEditableControls` → `useEditableContext`
+
+**Prop Changes:**
+
+- `isDisabled` → `disabled`
+- `onChange` → `onValueChange` (receives `{ value }` object)
+- `onSubmit` → `onValueCommit`
+- `onCancel` → `onValueRevert`
+- `startWithEditView` → `defaultEdit`
+- `selectAllOnFocus` → `selectOnFocus`
+- `submitOnBlur={false}` → `submitMode="enter"`
+- `finalFocusRef` → `finalFocusEl` (function returning element)
+- `isPreviewFocusable={false}` → add `tabIndex={undefined}` to
+  `Editable.Preview`
+
+Before:
+
+```tsx
+import { Editable, EditableInput, EditablePreview } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Editable
+    defaultValue="Hello"
+    isDisabled
+    onSubmit={handleSubmit}
+    onChange={handleChange}
+    submitOnBlur={false}
+    startWithEditView
+  >
+    <EditablePreview />
+    <EditableInput />
+  </Editable>
+)
+```
+
+After:
+
+```tsx
+import { Editable } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Editable.Root
+    defaultValue="Hello"
+    disabled
+    onValueCommit={handleSubmit}
+    onValueChange={handleChange}
+    submitMode="enter"
+    defaultEdit
+  >
+    <Editable.Preview />
+    <Editable.Input />
+  </Editable.Root>
+)
+```
+
+**Custom Controls:**
+
+The `useEditableControls` prop-getter pattern is replaced by declarative trigger
+components.
+
+Before:
+
+```tsx
+function EditableControls() {
+  const { isEditing, getSubmitButtonProps, getCancelButtonProps } =
+    useEditableControls()
+  return isEditing ? (
+    <ButtonGroup size="sm">
+      <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+      <IconButton icon={<CloseIcon />} {...getCancelButtonProps()} />
+    </ButtonGroup>
+  ) : null
+}
+```
+
+After:
+
+```tsx
+<Editable.Control>
+  <Editable.EditTrigger asChild>
+    <IconButton variant="ghost" size="xs">
+      <LuPencilLine />
+    </IconButton>
+  </Editable.EditTrigger>
+  <Editable.CancelTrigger asChild>
+    <IconButton variant="outline" size="xs">
+      <LuX />
+    </IconButton>
+  </Editable.CancelTrigger>
+  <Editable.SubmitTrigger asChild>
+    <IconButton variant="outline" size="xs">
+      <LuCheck />
+    </IconButton>
+  </Editable.SubmitTrigger>
+</Editable.Control>
+```
+
+### FormControl
+
+Replaced by `Field` for standard form controls and `Fieldset` for grouped
+controls (radio groups, checkbox groups). The `as='fieldset'` pattern is
+replaced with a dedicated `Fieldset` component.
+
+**Component Renaming:**
+
+- `FormControl` → `Field.Root`
+- `FormLabel` → `Field.Label`
+- `FormHelperText` → `Field.HelperText`
+- `FormErrorMessage` → `Field.ErrorText`
+
+For fieldset usage:
+
+- `FormControl as='fieldset'` → `Fieldset.Root`
+- `FormLabel as='legend'` → `Fieldset.Legend`
+- `FormHelperText` → `Fieldset.HelperText`
+- `FormErrorMessage` → `Fieldset.ErrorText`
+
+**Prop Changes:**
+
+- `isInvalid` → `invalid`
+- `isRequired` → `required`
+- `isDisabled` → `disabled`
+- `isReadOnly` → `readOnly`
+
+Before:
+
+```tsx
+import {
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <FormControl isInvalid={isError}>
+    <FormLabel>Email</FormLabel>
+    <FormHelperText>We'll never share your email.</FormHelperText>
+    <FormErrorMessage>Email is required.</FormErrorMessage>
+  </FormControl>
+)
+```
+
+After:
+
+```tsx
+import { Field } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Field.Root invalid={isError}>
+    <Field.Label>Email</Field.Label>
+    <Field.HelperText>We'll never share your email.</Field.HelperText>
+    <Field.ErrorText>Email is required.</Field.ErrorText>
+  </Field.Root>
+)
+```
+
+> `Field.ErrorText` only renders when `invalid` is `true`, so no conditional
+> logic is needed.
+
+**Fieldset Usage:**
+
+Before:
+
+```tsx
+import { FormControl, FormHelperText, FormLabel } from "@chakra-ui/react"
+
+const Demo = () => (
+  <FormControl as="fieldset">
+    <FormLabel as="legend">Favorite Character</FormLabel>
+    <FormHelperText>Select only if you're a fan.</FormHelperText>
+  </FormControl>
+)
+```
+
+After:
+
+```tsx
+import { Fieldset } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Fieldset.Root>
+    <Fieldset.Legend>Favorite Character</Fieldset.Legend>
+    <Fieldset.HelperText>Select only if you're a fan.</Fieldset.HelperText>
+  </Fieldset.Root>
+)
+```
+
+### Collapse
+
+Replace with the `Collapsible` component.
+
+Before:
+
+```tsx
+<Collapse in={isOpen} animateOpacity>
+  Some content
+</Collapse>
+```
+
+After:
+
+```tsx
+<Collapsible.Root open={isOpen}>
+  <Collapsible.Content>Some content</Collapsible.Content>
+</Collapsible.Root>
+```
+
+### Fade, ScaleFade, Slide, SlideFade
+
+All transition components have been replaced by a unified `Presence` component
+that uses CSS-based animations instead of JavaScript-based transitions.
+
+**Component Mapping:**
+
+- `Fade` → `Presence` with
+  `animationName={{ _open: "fade-in", _closed: "fade-out" }}`
+- `ScaleFade` → `Presence` with
+  `animationStyle={{ _open: "scale-fade-in", _closed: "scale-fade-out" }}`
+- `SlideFade` → `Presence` with
+  `animationName={{ _open: "slide-from-bottom, fade-in", _closed: "slide-to-bottom, fade-out" }}`
+- `Slide` → `Presence` with direction-specific positioning and animation
+
+**Prop Changes:**
+
+- `in` → `present`
+- `initialScale` → removed (scale is fixed in CSS keyframes)
+- `offsetX` / `offsetY` → removed (offset is fixed in CSS keyframes)
+- `direction` → replaced by positioning props and direction-specific animation
+  names
+
+Before:
+
+```tsx
+import { Fade, Slide } from "@chakra-ui/react"
+
+const Demo = () => (
+  <>
+    <Fade in={isOpen}>
+      <Box>Fading content</Box>
+    </Fade>
+
+    <Slide direction="bottom" in={isOpen}>
+      <Box>Sliding content</Box>
+    </Slide>
+  </>
+)
+```
+
+After:
+
+```tsx
+import { Presence } from "@chakra-ui/react"
+
+const Demo = () => (
+  <>
+    <Presence
+      present={isOpen}
+      animationName={{ _open: "fade-in", _closed: "fade-out" }}
+      animationDuration="moderate"
+    >
+      <Box>Fading content</Box>
+    </Presence>
+
+    <Presence
+      present={isOpen}
+      position="fixed"
+      bottom="0"
+      insetX="0"
+      animationName={{
+        _open: "slide-from-bottom-full",
+        _closed: "slide-to-bottom-full",
+      }}
+      animationDuration="moderate"
+    >
+      <Box>Sliding content</Box>
+    </Presence>
+  </>
+)
+```
+
+**Slide Direction Mapping:**
+
+| Direction | Positioning                                  | Open Animation           | Close Animation        |
+| --------- | -------------------------------------------- | ------------------------ | ---------------------- |
+| `top`     | `position="fixed"` `top="0"` `insetX="0"`    | `slide-from-top-full`    | `slide-to-top-full`    |
+| `bottom`  | `position="fixed"` `bottom="0"` `insetX="0"` | `slide-from-bottom-full` | `slide-to-bottom-full` |
+| `left`    | `position="fixed"` `left="0"` `insetY="0"`   | `slide-from-left-full`   | `slide-to-left-full`   |
+| `right`   | `position="fixed"` `right="0"` `insetY="0"`  | `slide-from-right-full`  | `slide-to-right-full`  |
+
+### Slider / RangeSlider
+
+`RangeSlider` has been unified with `Slider` — pass an array value for range
+mode. Both now require a `Slider.Control` wrapper and `Slider.HiddenInput`
+inside each thumb.
+
+**Component Renaming:**
+
+- `Slider` / `RangeSlider` → `Slider.Root`
+- `SliderTrack` / `RangeSliderTrack` → `Slider.Track`
+- `SliderFilledTrack` / `RangeSliderFilledTrack` → `Slider.Range`
+- `SliderThumb` / `RangeSliderThumb` → `Slider.Thumb`
+
+**Prop Changes:**
+
+- `onChange` → `onValueChange` (receives `{ value }`)
+- `onChangeEnd` → `onValueChangeEnd` (receives `{ value }`)
+- `onChangeStart` → removed
+- `colorScheme` → `colorPalette`
+- `isReversed` / `reversed` → removed (use `dir="rtl"`)
+- `focusThumbOnChange` → removed
+
+Before:
+
+```tsx
+import {
+  RangeSlider,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  RangeSliderTrack,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <RangeSlider defaultValue={[10, 30]} onChange={(val) => console.log(val)}>
+    <RangeSliderTrack>
+      <RangeSliderFilledTrack />
+    </RangeSliderTrack>
+    <RangeSliderThumb index={0} />
+    <RangeSliderThumb index={1} />
+  </RangeSlider>
+)
+```
+
+After:
+
+```tsx
+import { Slider } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Slider.Root
+    defaultValue={[10, 30]}
+    onValueChange={(e) => console.log(e.value)}
+  >
+    <Slider.Control>
+      <Slider.Track>
+        <Slider.Range />
+      </Slider.Track>
+      <Slider.Thumb index={0}>
+        <Slider.HiddenInput />
+      </Slider.Thumb>
+      <Slider.Thumb index={1}>
+        <Slider.HiddenInput />
+      </Slider.Thumb>
+    </Slider.Control>
+  </Slider.Root>
+)
+```
+
+### Table
+
+- `TableContainer` is now `Table.ScrollArea`
+- `Td`(now called `Table.Cell`) `isNumeric` is now `textAlign="end"`
+- `Th` is now `Table.ColumnHeader`
+
+The compound component have been renamed slightly.
+
+Before:
+
+```tsx
+<Table variant="simple">
+  <TableCaption>Imperial to metric conversion factors</TableCaption>
+  <Thead>
+    <Tr>
+      <Th>Product</Th>
+      <Th>Category</Th>
+      <Th isNumeric>Price</Th>
+    </Tr>
+  </Thead>
+  <Tbody>
+    {items.map((item) => (
+      <Tr key={item.id}>
+        <Td>{item.name}</Td>
+        <Td>{item.category}</Td>
+        <Td isNumeric>{item.price}</Td>
+      </Tr>
+    ))}
+  </Tbody>
+  <Tfoot>
+    <Tr>
+      <Th>Product</Th>
+      <Th>Category</Th>
+      <Th isNumeric>Price</Th>
+    </Tr>
+  </Tfoot>
+</Table>
+```
+
+After:
+
+```tsx
+<Table.Root size="sm">
+  <Table.Header>
+    <Table.Row>
+      <Table.ColumnHeader>Product</Table.ColumnHeader>
+      <Table.ColumnHeader>Category</Table.ColumnHeader>
+      <Table.ColumnHeader textAlign="end">Price</Table.ColumnHeader>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    {items.map((item) => (
+      <Table.Row key={item.id}>
+        <Table.Cell>{item.name}</Table.Cell>
+        <Table.Cell>{item.category}</Table.Cell>
+        <Table.Cell textAlign="end">{item.price}</Table.Cell>
+      </Table.Row>
+    ))}
+  </Table.Body>
+</Table.Root>
+```
+
+### Tag
+
+`TagLeftIcon` and `TagRightIcon` are now `Tag.StartElement` and `Tag.EndElement`
+
+Before:
+
+```tsx
+<Tag>
+  <TagLeftIcon boxSize="12px" as={AddIcon} />
+  <TagLabel>Cyan</TagLabel>
+  <TagRightIcon boxSize="12px" as={AddIcon} />
+</Tag>
+```
+
+After:
+
+```tsx
+<Tag.Root>
+  <Tag.StartElement>
+    <AddIcon />
+  </Tag.StartElement>
+  <Tag.Label>Cyan</Tag.Label>
+  <Tag.EndElement>
+    <AddIcon />
+  </Tag.EndElement>
+</Tag.Root>
+```
+
+- `TagCloseButton` is now `Tag.CloseTrigger`
+
+Before:
+
+```tsx
+<Tag>
+  <TagLabel>Green</TagLabel>
+  <TagCloseButton />
+</Tag>
+```
+
+After:
+
+```tsx
+<Tag.Root>
+  <Tag.Label>Green</Tag.Label>
+  <Tag.CloseTrigger />
+</Tag.Root>
+```
+
+### Alert
+
+Now uses compound components with dot notation. v3 also introduces
+`Alert.Content` as a wrapper for title and description.
+
+**Component Renaming:**
+
+- `Alert` → `Alert.Root`
+- `AlertIcon` → `Alert.Indicator`
+- `AlertTitle` → `Alert.Title`
+- `AlertDescription` → `Alert.Description`
+
+**Prop Changes:**
+
+- Removed `addRole` prop (role is handled automatically in v3)
+
+Before:
+
+```tsx
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <Alert status="error">
+    <AlertIcon />
+    <AlertTitle>Your browser is outdated!</AlertTitle>
+    <AlertDescription>Your Chakra experience may be degraded.</AlertDescription>
+  </Alert>
+)
+```
+
+After:
+
+```tsx
+import { Alert } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Alert.Root status="error">
+    <Alert.Indicator />
+    <Alert.Content>
+      <Alert.Title>Your browser is outdated!</Alert.Title>
+      <Alert.Description>
+        Your Chakra experience may be degraded.
+      </Alert.Description>
+    </Alert.Content>
+  </Alert.Root>
+)
+```
+
+**Variant Changes:**
+
+The `left-accent` and `top-accent` variants have been removed. Replicate them
+using border style props on `Alert.Root`:
+
+- `left-accent` → `variant="subtle"` + `borderStartWidth="3px"` +
+  `borderStartColor="colorPalette.solid"`
+- `top-accent` → `variant="subtle"` + `borderTopWidth="3px"` +
+  `borderTopColor="colorPalette.solid"`
+
+New variants `surface` and `outline` have been added.
+
+Before:
+
+```tsx
+<Alert status="success" variant="left-accent">
+  <AlertIcon />
+  Data uploaded to the server. Fire on!
+</Alert>
+```
+
+After:
+
+```tsx
+<Alert.Root
+  status="success"
+  variant="subtle"
+  borderStartWidth="3px"
+  borderStartColor="colorPalette.solid"
+>
+  <Alert.Indicator />
+  Data uploaded to the server. Fire on!
+</Alert.Root>
+```
+
+### Skeleton
+
+- `startColor` and `endColor` props now use CSS variables
+
+Before:
+
+```tsx
+<Skeleton startColor="pink.500" endColor="orange.500" />
+```
+
+After:
+
+```tsx
+<Skeleton
+  css={{
+    "--start-color": "colors.pink.500",
+    "--end-color": "colors.orange.500",
+  }}
+/>
+```
+
+- `isLoaded` prop is now `loading`
+
+Before:
+
+```tsx
+<Skeleton isLoaded>
+  <span>Chakra ui is cool</span>
+</Skeleton>
+```
+
+After:
+
+```tsx
+<Skeleton loading={false}>
+  <span>Chakra ui is cool</span>
+</Skeleton>
+```
+
+### Stepper
+
+Renamed to `Steps` with compound component pattern. The `useSteps` hook is still
+available but with updated API.
+
+**Component Renaming:**
+
+- `Stepper` → `Steps.Root`
+- `Step` → `Steps.Item`
+- `StepIndicator` → `Steps.Indicator`
+- `StepStatus` → `Steps.Status`
+- `StepTitle` → `Steps.Title`
+- `StepDescription` → `Steps.Description`
+- `StepSeparator` → `Steps.Separator`
+
+**Prop Changes:**
+
+- `index` → `step`
+- Children must be wrapped in `Steps.List`
+
+**Hook Changes:**
+
+- `useSteps({ index })` → `useSteps({ defaultStep })`
+- When using `useSteps`, use `Steps.RootProvider` with `value={stepsApi}`
+  instead of `Steps.Root`
+
+Before:
+
+```tsx
+import {
+  Step,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  StepTitle,
+  Stepper,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <Stepper index={1}>
+    {steps.map((step, index) => (
+      <Step key={index}>
+        <StepIndicator>
+          <StepStatus complete={<StepIcon />} incomplete={<StepNumber />} />
+        </StepIndicator>
+        <StepTitle>{step.title}</StepTitle>
+        <StepSeparator />
+      </Step>
+    ))}
+  </Stepper>
+)
+```
+
+After:
+
+```tsx
+import { Steps } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Steps.Root step={1}>
+    <Steps.List>
+      {steps.map((step, index) => (
+        <Steps.Item key={index}>
+          <Steps.Indicator>
+            <Steps.Status complete={<StepIcon />} incomplete={<StepNumber />} />
+          </Steps.Indicator>
+          <Steps.Title>{step.title}</Steps.Title>
+          <Steps.Separator />
+        </Steps.Item>
+      ))}
+    </Steps.List>
+  </Steps.Root>
+)
+```
+
+### Stat
+
+Now uses compound components with dot notation.
+
+**Component Renaming:**
+
+- `Stat` → `Stat.Root`
+- `StatLabel` → `Stat.Label`
+- `StatNumber` → `Stat.ValueText`
+- `StatHelpText` → `Stat.HelpText`
+- `StatArrow type="increase"` → `Stat.UpIndicator`
+- `StatArrow type="decrease"` → `Stat.DownIndicator`
+- `StatGroup` → `Stat.Root` (nest `Stat.Root` children inside)
+
+Before:
+
+```tsx
+import {
+  Stat,
+  StatArrow,
+  StatHelpText,
+  StatLabel,
+  StatNumber,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <Stat>
+    <StatLabel>Revenue</StatLabel>
+    <StatNumber>$45,670</StatNumber>
+    <StatHelpText>
+      <StatArrow type="increase" />
+      12.5%
+    </StatHelpText>
+  </Stat>
+)
+```
+
+After:
+
+```tsx
+import { Stat } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Stat.Root>
+    <Stat.Label>Revenue</Stat.Label>
+    <Stat.ValueText>$45,670</Stat.ValueText>
+    <Stat.HelpText>
+      <Stat.UpIndicator />
+      12.5%
+    </Stat.HelpText>
+  </Stat.Root>
+)
+```
+
+### Menu
+
+- Now uses compound components everywhere
+
+Before:
+
+```tsx
+<Menu>
+  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+    Actions
+  </MenuButton>
+  <MenuList>
+    <MenuItem>Download</MenuItem>
+    <MenuItem>Create a Copy</MenuItem>
+  </MenuList>
+</Menu>
+```
+
+After:
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger asChild>
+    <Button>
+      Actions
+      <ChevronDownIcon />
+    </Button>
+  </Menu.Trigger>
+  <Portal>
+    <Menu.Positioner>
+      <Menu.Content>
+        <Menu.Item value="download">Download</Menu.Item>
+        <Menu.Item value="copy">Create a Copy</Menu.Item>
+      </Menu.Content>
+    </Menu.Positioner>
+  </Portal>
+</Menu.Root>
+```
+
+- Accesing internal state is now done via `Menu.Context` no longer render prop.
+
+Before:
+
+```tsx
+<Menu>
+  {({ isOpen }) => (
+    <>
+      <MenuButton isActive={isOpen} as={Button} rightIcon={<ChevronDownIcon />}>
+        {isOpen ? "Close" : "Open"}
+      </MenuButton>
+      <MenuList>
+        <MenuItem>Download</MenuItem>
+        <MenuItem onClick={() => alert("Kagebunshin")}>Create a Copy</MenuItem>
+      </MenuList>
+    </>
+  )}
+</Menu>
+```
+
+After:
+
+```tsx
+<Menu.Root>
+  <Menu.Context>
+    {(menu) => (
+      <Menu.Trigger asChild>
+        <Button>
+          {menu.open ? "Close" : "Open"}
+          <ChevronDownIcon />
+        </Button>
+      </Menu.Trigger>
+    )}
+  </Menu.Context>
+  <Portal>
+    <Menu.Positioner>
+      <Menu.Content>
+        <Menu.Item value="download">Download</Menu.Item>
+        <Menu.Item value="copy" onSelect={() => alert("Kagebunshin")}>
+          Create a Copy
+        </Menu.Item>
+      </Menu.Content>
+    </Menu.Positioner>
+  </Portal>
+</Menu.Root>
+```
+
+- `isLazy` prop on `Menu` is split into `lazyMount` and `unmountOnExit` on
+  `Menu.Root`
+
+- `MenuOptionGroup` is now split into `Menu.RadioItemGroup` and
+  `Menu.CheckboxItemGroup` to handle the states separately.
+
+Before:
+
+```tsx
+<Menu>
+  <MenuButton as={Button}>Trigger</MenuButton>
+  <MenuList>
+    <MenuOptionGroup defaultValue="asc" title="Order" type="radio">
+      <MenuItemOption value="asc">Ascending</MenuItemOption>
+      <MenuItemOption value="desc">Descending</MenuItemOption>
+    </MenuOptionGroup>
+    <MenuDivider />
+    <MenuOptionGroup title="Country" type="checkbox">
+      <MenuItemOption value="email">Email</MenuItemOption>
+      <MenuItemOption value="phone">Phone</MenuItemOption>
+      <MenuItemOption value="country">Country</MenuItemOption>
+    </MenuOptionGroup>
+  </MenuList>
+</Menu>
+```
+
+After:
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger asChild>
+    <Button>Trigger</Button>
+  </Menu.Trigger>
+  <Portal>
+    <Menu.Positioner>
+      <Menu.Content minW="10rem">
+        <Menu.RadioItemGroup defaultValue="asc">
+          <Menu.RadioItem value="asc">Ascending</Menu.RadioItem>
+          <Menu.RadioItem value="desc">Descending</Menu.RadioItem>
+        </Menu.RadioItemGroup>
+        <Menu.CheckboxItemGroup defaultValue={["email"]}>
+          <Menu.CheckboxItem value="email">Email</Menu.CheckboxItem>
+          <Menu.CheckboxItem value="phone">Phone</Menu.CheckboxItem>
+          <Menu.CheckboxItem value="country">Country</Menu.CheckboxItem>
+        </Menu.CheckboxItemGroup>
+      </Menu.Content>
+    </Menu.Positioner>
+  </Portal>
+</Menu.Root>
+```
+
+### Tooltip
+
+Now a **snippet** component imported from `@/components/ui/tooltip` instead of
+`@chakra-ui/react`.
+
+**Prop Changes:**
+
+- `label` → `content`
+- `hasArrow` → `showArrow`
+- `closeOnEsc` → `closeOnEscape`
+- `closeOnMouseDown` → `closeOnPointerDown`
+- `onOpen` / `onClose` → `onOpenChange` (receives `{ open }`)
+- `shouldWrapChildren` → wrap children in `<span>` manually
+- `placement`, `gutter`, `offset`, `arrowPadding` → grouped into `positioning`
+  object
+
+**Removed Props:** `modifiers`, `motionProps`, `portalProps`, `arrowSize`,
+`arrowShadowColor`
+
+Before:
+
+```tsx
+import { Tooltip } from "@chakra-ui/react"
+
+;<Tooltip label="Info" hasArrow placement="top" closeOnEsc={false}>
+  <button>Hover</button>
+</Tooltip>
+```
+
+After:
+
+```tsx
+import { Tooltip } from "@/components/ui/tooltip"
+
+;<Tooltip
+  content="Info"
+  showArrow
+  positioning={{ placement: "top" }}
+  closeOnEscape={false}
+>
+  <button>Hover</button>
+</Tooltip>
+```
+
+### Accordion
+
+Now uses compound components with dot notation. All sub-components are
+namespaced under `Accordion`.
+
+**Component Renaming:**
+
+- `Accordion` → `Accordion.Root`
+- `AccordionItem` → `Accordion.Item` (now **requires** a `value` prop)
+- `AccordionButton` → `Accordion.ItemTrigger`
+- `AccordionIcon` → `Accordion.ItemIndicator`
+- `AccordionPanel` → `Accordion.ItemContent` + `Accordion.ItemBody`
+
+**Prop Changes:**
+
+- `allowMultiple` → `multiple`
+- `allowToggle` → `collapsible`
+- `defaultIndex` → `defaultValue` (now an array of strings)
+- `index` → `value` (now an array of strings)
+- `onChange` → `onValueChange`
+
+Before:
+
+```tsx
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+} from "@chakra-ui/react"
+
+const Demo = () => (
+  <Accordion allowToggle>
+    <AccordionItem>
+      <h2>
+        <AccordionButton>
+          <Box as="span" flex="1" textAlign="left">
+            Section 1 title
+          </Box>
+          <AccordionIcon />
+        </AccordionButton>
+      </h2>
+      <AccordionPanel pb={4}>Lorem ipsum dolor sit amet.</AccordionPanel>
+    </AccordionItem>
+  </Accordion>
+)
+```
+
+After:
+
+```tsx
+import { Accordion, Box } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Accordion.Root collapsible>
+    <Accordion.Item value="section-1">
+      <h2>
+        <Accordion.ItemTrigger>
+          <Box as="span" flex="1" textAlign="left">
+            Section 1 title
+          </Box>
+          <Accordion.ItemIndicator />
+        </Accordion.ItemTrigger>
+      </h2>
+      <Accordion.ItemContent>
+        <Accordion.ItemBody pb={4}>
+          Lorem ipsum dolor sit amet.
+        </Accordion.ItemBody>
+      </Accordion.ItemContent>
+    </Accordion.Item>
+  </Accordion.Root>
+)
+```
+
+**Render Props → Context:**
+
+The `AccordionItem` render prop pattern (`{({ isExpanded }) => ...}`) has been
+replaced. Use the `Accordion.ItemContext` component or the
+`useAccordionItemContext` hook instead. The `isExpanded` property is now
+`expanded`.
+
+Before:
+
+```tsx
+<AccordionItem>
+  {({ isExpanded }) => (
+    <>
+      <AccordionButton>
+        <Box flex="1" textAlign="left">
+          Section title
+        </Box>
+        {isExpanded ? <MinusIcon /> : <AddIcon />}
+      </AccordionButton>
+      <AccordionPanel>Content</AccordionPanel>
+    </>
+  )}
+</AccordionItem>
+```
+
+After:
+
+```tsx
+<Accordion.Item value="section-1">
+  <Accordion.ItemContext>
+    {({ expanded }) => (
+      <>
+        <Accordion.ItemTrigger>
+          <Box flex="1" textAlign="left">
+            Section title
+          </Box>
+          {expanded ? <LuMinus /> : <LuPlus />}
+        </Accordion.ItemTrigger>
+        <Accordion.ItemContent>
+          <Accordion.ItemBody>Content</Accordion.ItemBody>
+        </Accordion.ItemContent>
+      </>
+    )}
+  </Accordion.ItemContext>
+</Accordion.Item>
+```
+
+### Tabs
+
+- Component structure has changed and `value` prop is now required on list and
+  panels.
+
+Before:
+
+```tsx
+<Tabs>
+  <TabList>
+    <Tab>One</Tab>
+    <Tab>Two</Tab>
+    <Tab>Three</Tab>
+  </TabList>
+  <TabPanels>
+    <TabPanel>one!</TabPanel>
+    <TabPanel>two!</TabPanel>
+    <TabPanel>three!</TabPanel>
+  </TabPanels>
+</Tabs>
+```
+
+After:
+
+```tsx
+<Tabs.Root>
+  <Tabs.List>
+    <Tabs.Trigger value="one">One</Tabs.Trigger>
+    <Tabs.Trigger value="two">Two</Tabs.Trigger>
+    <Tabs.Trigger value="three">Three</Tabs.Trigger>
+  </Tabs.List>
+  <Tabs.Content value="one">one!</Tabs.Content>
+  <Tabs.Content value="two">two!</Tabs.Content>
+  <Tabs.Content value="three">three!</Tabs.Content>
+</Tabs.Root>
+```
+
+- `defaultIndex`, `index` and `onChange` is now `defaultValue`, `value` and
+  `onValueChange` respectively
+
+Before:
+
+```tsx
+<Tabs defaultIndex={0} index={0} onChange={(index) => {}} />
+```
+
+After:
+
+```tsx
+<Tabs defaultValue={0} value={0} onValueChange={({ value }) => {}} />
+```
+
+- `isLazy` prop on `Tabs` is now `lazyMount` and `unmountOnExit` on `Tabs.Root`
+
+Before:
+
+```tsx
+<Tabs isLazy />
+```
+
+After:
+
+```tsx
+<Tabs.Root lazyMount unmountOnExit />
+```
+
+### Show and Hide
+
+- `Show` and `Hide` components are removed in favor of `hideFrom` and
+  `hideBelow`
+
+Before:
+
+```tsx
+<Show below="md">
+  This text appears only on screens md and smaller.
+</Show>
+
+<Hide below="md">
+  This text hides at the "md" value screen width and smaller.
+</Hide>
+```
+
+After:
+
+```tsx
+<Box hideBelow="md">
+  This text hides at the "md" value screen width and smaller.
+</Box>
+
+<Box hideFrom="md">
+  This text appears only on screens md and larger.
+</Box>
+```
+
+### Checkbox
+
+Refactored to use compound components. The single `<Checkbox>` is now split into
+explicit parts for full control over structure and styling.
+
+**Prop Changes:**
+
+- `isChecked` → `checked`
+- `isDisabled` → `disabled`
+- `isInvalid` → `invalid`
+- `isReadOnly` → `readOnly`
+- `isIndeterminate` → `checked="indeterminate"`
+- `onChange` → `onCheckedChange`
+- `colorScheme` → `colorPalette`
+- `icon` → render as children of `Checkbox.Control`
+- `iconColor` → `color` on `Checkbox.Indicator`
+- `iconSize` → `boxSize` on `Checkbox.Indicator`
+- `isFocusable` → removed
+
+**CheckboxGroup:**
+
+- `isDisabled` → `disabled`
+- `onChange` → `onValueChange`
+- `isNative` → removed
+
+Before:
+
+```tsx
+import { Checkbox } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Checkbox
+    isChecked={checked}
+    isIndeterminate={indeterminate}
+    onChange={(e) => setChecked(e.target.checked)}
+    colorScheme="blue"
+  >
+    Accept terms
+  </Checkbox>
+)
+```
+
+After:
+
+```tsx
+import { Checkbox } from "@chakra-ui/react"
+
+const Demo = () => (
+  <Checkbox.Root
+    checked={indeterminate ? "indeterminate" : checked}
+    onCheckedChange={(e) => setChecked(!!e.checked)}
+    colorPalette="blue"
+  >
+    <Checkbox.HiddenInput />
+    <Checkbox.Control>
+      <Checkbox.Indicator />
+    </Checkbox.Control>
+    <Checkbox.Label>Accept terms</Checkbox.Label>
+  </Checkbox.Root>
+)
+```
+
+### Radio Group
+
+Refactored to use compound components. `Radio` is now `RadioGroup.Item` with
+explicit sub-components: `ItemHiddenInput`, `ItemIndicator`, `ItemText`.
+
+**Component Renaming:**
+
+- `RadioGroup` → `RadioGroup.Root`
+- `Radio` → `RadioGroup.Item` (with required sub-components)
+
+**RadioGroup Prop Changes:**
+
+- `onChange` → `onValueChange` (receives `{ value }` object)
+- `colorScheme` → `colorPalette`
+
+**Radio Prop Changes:**
+
+- `isDisabled` → `disabled`
+- `isInvalid`, `isChecked`, `defaultChecked` → removed (controlled from Root)
+- `colorScheme` → removed from items (set `colorPalette` on Root instead)
+- `inputProps` → spread into `RadioGroup.ItemHiddenInput`
+
+Before:
+
+```tsx
+import { Radio, RadioGroup } from "@chakra-ui/react"
+
+const Demo = () => (
+  <RadioGroup defaultValue="2" onChange={(val) => setValue(val)}>
+    <Radio value="1">Option 1</Radio>
+    <Radio value="2">Option 2</Radio>
+  </RadioGroup>
+)
+```
+
+After:
+
+```tsx
+import { RadioGroup } from "@chakra-ui/react"
+
+const Demo = () => (
+  <RadioGroup.Root defaultValue="2" onValueChange={(e) => setValue(e.value)}>
+    <RadioGroup.Item value="1">
+      <RadioGroup.ItemHiddenInput />
+      <RadioGroup.ItemIndicator />
+      <RadioGroup.ItemText>Option 1</RadioGroup.ItemText>
+    </RadioGroup.Item>
+    <RadioGroup.Item value="2">
+      <RadioGroup.ItemHiddenInput />
+      <RadioGroup.ItemIndicator />
+      <RadioGroup.ItemText>Option 2</RadioGroup.ItemText>
+    </RadioGroup.Item>
+  </RadioGroup.Root>
+)
+```
+
+### Button Props
+
+- `isActive` → `data-active` attribute
+- `isDisabled` → `disabled`
+- `isLoading` → `loading`
+- `leftIcon` and `rightIcon` → passed as children
+- `iconSpacing` → removed (use gap in flex layout)
+- `colorScheme` → `colorPalette`
+
+**Example:**
+
+```tsx
+// Before
+<Button
+  isActive={true}
+  isDisabled={false}
+  isLoading={true}
+  leftIcon={<Icon />}
+  rightIcon={<Icon />}
+  colorScheme="blue"
+>
+  Submit
+</Button>
+
+// After
+<Button
+  data-active=""
+  disabled={false}
+  loading={true}
+  colorPalette="blue"
+>
+  <LeftIcon />
+  Submit
+  <RightIcon />
+</Button>
+```
+
+### Input Props
+
+- `isDisabled` → `disabled`
+- `isInvalid` → `invalid`
+- `isReadOnly` → `readOnly`
+- `isRequired` → `required`
+- `colorScheme` → `colorPalette`
+- `focusBorderColor` → use CSS variables
+- `errorBorderColor` → use CSS variables
+
+**Example:**
+
+```tsx
+// Before
+<Input
+  isDisabled={false}
+  isInvalid={true}
+  isReadOnly={false}
+  isRequired={true}
+  colorScheme="blue"
+  focusBorderColor="blue.500"
+  errorBorderColor="red.500"
+/>
+
+// After
+<Input
+  disabled={false}
+  invalid={true}
+  readOnly={false}
+  required={true}
+  colorPalette="blue"
+  style={{
+    "--focus-color": "blue.500",
+    "--error-color": "red.500"
+  }}
+/>
+```
+
+### Checkbox Props
+
+- `isChecked` → `checked`
+- `isDisabled` → `disabled`
+- `isInvalid` → `invalid`
+- `isIndeterminate` → `checked="indeterminate"`
+- `onChange` → `onCheckedChange`
+- `colorScheme` → `colorPalette`
+- `iconColor` → `color` on `Checkbox.Indicator`
+- `iconSize` → `boxSize` on `Checkbox.Indicator`
+- `isFocusable` → removed
+
+### Modal to Dialog Props
+
+- `isOpen` → `open`
+- `onClose` → `onOpenChange` (receives `{ open }`)
+- `isCentered` → `placement="center"`
+- `closeOnOverlayClick` → `closeOnInteractOutside`
+- `closeOnEsc` → `closeOnEscape`
+- `blockScrollOnMount` → `preventScroll`
+- `onOverlayClick` → `onInteractOutside`
+- `onEsc` → `onEscapeKeyDown`
+- `onCloseComplete` → `onExitComplete`
+- `initialFocusRef` → `initialFocusEl` (function returning element)
+- `finalFocusRef` → `finalFocusEl` (function returning element)
+- `scrollBehavior` → unchanged
+- `motionPreset` → unchanged
+- `trapFocus` → unchanged
+- Sizes `2xl`–`6xl` → mapped to `xl`
+- Removed: `allowPinchZoom`, `lockFocusAcrossFrames`, `preserveScrollBarGap`,
+  `returnFocusOnClose`, `useInert`, `portalProps`
+
+### Stack Props
+
+- `spacing` → `gap`
+- `divider` → `separator`
+- Other props remain the same
+
+**Example:**
+
+```tsx
+// Before
+<Stack
+  spacing="4"
+  divider={<StackDivider />}
+>
+  <Box>Item 1</Box>
+  <Box>Item 2</Box>
+</Stack>
+
+// After
+<Stack
+  gap="4"
+  separator={<Separator />}
+>
+  <Box>Item 1</Box>
+  <Box>Item 2</Box>
+</Stack>
+```

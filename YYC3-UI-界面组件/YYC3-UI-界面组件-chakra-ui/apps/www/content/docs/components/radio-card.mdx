@@ -1,0 +1,163 @@
+---
+title: Radio Card
+description: Used to select an option from list
+links:
+  source: components/radio-card
+  storybook: components-radio-card--basic
+  recipe: radio-card
+  ark: https://ark-ui.com/docs/components/radio-group
+---
+
+<ExampleTabs name="radio-card-basic" />
+
+## Usage
+
+```tsx
+import { RadioCard } from "@chakra-ui/react"
+```
+
+```tsx
+<RadioCard.Root>
+  <RadioCard.Label />
+  <RadioCard.Item>
+    <RadioCard.ItemHiddenInput />
+    <RadioCard.ItemControl>
+      <RadioCard.ItemContent>
+        <RadioCard.ItemText />
+        <RadioCard.ItemDescription />
+      </RadioCard.ItemContent>
+      <RadioCard.ItemIndicator />
+    </RadioCard.ItemControl>
+  </RadioCard.Item>
+</RadioCard.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Description
+
+Here's an example of how to add some further description to the radio card.
+
+<ExampleTabs name="radio-card-with-description" />
+
+### Sizes
+
+Pass the `size` prop to the `RadioCard.Root` component to change the size of the
+radio card.
+
+<ExampleTabs name="radio-card-with-sizes" />
+
+### Colors
+
+Pass the `colorPalette` prop to the `RadioCard.Root` component to change the
+color of the radio card.
+
+<ExampleTabs name="radio-card-with-colors" />
+
+### Variants
+
+Pass the `variant` prop to the `RadioCard.Root` component to change the visual
+style of the radio card.
+
+<ExampleTabs name="radio-card-with-variants" />
+
+### Icon
+
+Render a custom icon inside the radio card by placing it within
+`RadioCard.ItemContent`.
+
+<ExampleTabs name="radio-card-with-icon" />
+
+### Controlled
+
+Pass the `value` and `onValueChange` props to the RadioCard.Root component to
+control the selected radio card.
+
+<ExampleTabs name="radio-card-controlled" />
+
+### No Indicator
+
+Here's an example of how to use the radio card without an indicator.
+
+<ExampleTabs name="radio-card-without-indicator" />
+
+### No Indicator (Vertical)
+
+Here's an example of a radio card with no indicator and content aligned
+vertically.
+
+<ExampleTabs name="radio-card-without-indicator-vertical" />
+
+### Responsive Orientation
+
+Use `useBreakpointValue` for responsive orientation — the `orientation` prop
+doesn't support responsive object notation.
+
+:::note
+
+Alternatively, render two `RadioCard.Root` instances (one horizontal, one
+vertical) and show/hide based on breakpoint using CSS `display`.
+
+:::
+
+<ExampleTabs name="radio-card-with-responsive-orientation" />
+
+### Centered
+
+Here's an example of a radio card with centered text.
+
+<ExampleTabs name="radio-card-centered" />
+
+### Composition
+
+Here's an example of composing the RadioCard with the `Group` component.
+
+<ExampleTabs name="radio-card-composition" />
+
+### Addon
+
+Use the `RadioCard.ItemAddon` component to add metadata to the radio card.
+
+<ExampleTabs name="radio-card-with-addon" />
+
+### Closed Component
+
+Here's how to setup the Radio card for a closed component composition.
+
+<ExampleCode name="radio-card-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add radio-card
+```
+
+Here's how to use the it
+
+```tsx
+<RadioCardRoot>
+  <RadioCardLabel />
+  <RadioCardItem />
+</RadioCardRoot>
+```
+
+## Props
+
+### Root
+
+<PropTable component="RadioCard" part="Root" />
+
+## Explorer
+
+Explore the `Radio Card` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="radio-card-explorer-demo" />

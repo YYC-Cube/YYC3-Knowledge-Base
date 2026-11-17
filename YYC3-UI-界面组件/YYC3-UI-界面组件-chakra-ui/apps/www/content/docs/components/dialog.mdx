@@ -1,0 +1,207 @@
+---
+title: Dialog
+description: Used to display a dialog prompt
+links:
+  source: components/dialog
+  storybook: components-dialog--basic
+  recipe: dialog
+  ark: https://ark-ui.com/docs/components/dialog
+---
+
+<ExampleTabs name="dialog-basic" />
+
+## Usage
+
+```tsx
+import { Dialog } from "@chakra-ui/react"
+```
+
+```tsx
+<Dialog.Root>
+  <Dialog.Trigger />
+  <Dialog.Backdrop />
+  <Dialog.Positioner>
+    <Dialog.Content>
+      <Dialog.CloseTrigger />
+      <Dialog.Header>
+        <Dialog.Title />
+      </Dialog.Header>
+      <Dialog.Body />
+      <Dialog.Footer />
+    </Dialog.Content>
+  </Dialog.Positioner>
+</Dialog.Root>
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the dialog component.
+
+<ExampleTabs name="dialog-with-sizes" />
+
+### Cover
+
+Use the `size="cover"` prop to make the dialog component cover the entire screen
+while revealing a small portion of the page behind.
+
+<ExampleTabs name="dialog-with-cover" />
+
+### Fullscreen
+
+Use the `size="full"` prop to make the dialog component take up the entire
+screen.
+
+<ExampleTabs name="dialog-with-fullscreen" />
+
+### Responsive Size
+
+Use responsive values for the `size` prop to make the dialog adapt to different
+screen sizes.
+
+We recommend using exact breakpoints values instead of using a `base` to ensure
+styles are properly contained.
+
+```tsx
+// ❌ Might cause a style leak between the breakpoints
+<Dialog.Root size={{ base: "full", md: "lg" }}>{/* ... */}</Dialog.Root>
+
+// Works ✅
+<Dialog.Root size={{ mdDown: "full", md: "lg" }}>{/* ... */}</Dialog.Root>
+```
+
+<ExampleTabs name="dialog-with-responsive-size" />
+
+### Placement
+
+Use the `placement` prop to change the placement of the dialog component.
+
+<ExampleTabs name="dialog-with-placement" />
+
+### Controlled
+
+Use the `open` and `onOpenChange` prop to control the visibility of the dialog
+component.
+
+<ExampleTabs name="dialog-controlled" />
+
+### Multiple Triggers
+
+Don't mount a dialog per row. Put `value` on each `Trigger` under one `Root`.
+Read `triggerValue` from context to fill the title and body.
+
+<ExampleTabs name="dialog-with-multiple-triggers" />
+
+### Store
+
+An alternative way to control the dialog is to use the `RootProvider` component
+and the `useDialog` store hook.
+
+This way you can access the dialog state and methods from outside the dialog.
+
+<ExampleTabs name="dialog-with-store" />
+
+### Context
+
+Use the `DialogContext` component to access the dialog state and methods from
+outside the dialog.
+
+<ExampleTabs name="dialog-with-context" />
+
+### Nested Dialogs
+
+You can nest dialogs by using the `Dialog.Root` component inside another
+`Dialog.Root` component.
+
+<ExampleTabs name="dialog-nested" />
+
+### Open From Popover
+
+Dialogs can be triggered from within a popover. The dialog will appear above the
+popover thanks to the unified z-index system.
+
+<ExampleTabs name="dialog-open-from-popover" />
+
+### Open From Menu
+
+Use a controlled dialog to open it from a menu item action, like a delete
+confirmation.
+
+<ExampleTabs name="dialog-open-from-menu" />
+
+### Initial Focus
+
+Use the `initialFocusEl` prop to set the initial focus of the dialog component.
+
+<ExampleTabs name="dialog-with-initial-focus" />
+
+Without `initialFocusEl`, focus moves to the first element marked
+`data-autofocus`, falling back to the first tabbable element that is not marked
+`data-no-autofocus`.
+
+```tsx
+<Input data-autofocus />
+```
+
+### Inside Scroll
+
+Use the `scrollBehavior=inside` prop to change the scroll behavior of the dialog
+when its content overflows.
+
+<ExampleTabs name="dialog-with-inside-scroll" />
+
+### Outside Scroll
+
+Use the `scrollBehavior=outside` prop to change the scroll behavior of the
+dialog when its content overflows.
+
+<ExampleTabs name="dialog-with-outside-scroll" />
+
+### Motion Preset
+
+Use the `motionPreset` prop to change the animation of the dialog component.
+
+<ExampleTabs name="dialog-with-motion-preset" />
+
+### Alert Dialog
+
+Set the `role: "alertdialog"` prop to change the dialog component to an alert
+dialog.
+
+<ExampleTabs name="dialog-with-role" />
+
+### Close Button Outside
+
+Here's an example of how to customize the `Dialog.CloseTrigger` component to
+position the close button outside the dialog component.
+
+<ExampleTabs name="dialog-with-close-outside" />
+
+### Non-Modal Dialog
+
+We don't recommend using a non-modal dialog due to the accessibility concerns
+they present. In event you need it, here's what you can do:
+
+- set the `modal` prop to `false`
+- set `pointerEvents` to `none` on the `Dialog.Positioner` component
+- (optional)set the `closeOnInteractOutside` prop to `false`
+
+<ExampleTabs name="dialog-non-modal" />
+
+### DataList
+
+Here's an example of how to compose the dialog component with the `DataList`
+component.
+
+<ExampleTabs name="dialog-with-datalist" />
+
+## Props
+
+### Root
+
+<PropTable component="Dialog" part="Root" />
+
+### Trigger
+
+<PropTable component="Dialog" part="Trigger" />

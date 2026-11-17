@@ -1,0 +1,20 @@
+@import "../../themes/ionic.globals.ios";
+@import "../item/item.ios.vars";
+
+// iOS Radio
+// --------------------------------------------------
+
+/// @prop - Width of the radio icon
+$radio-ios-icon-width:                dynamic-font(15px);
+
+/// @prop - Height of the radio icon
+$radio-ios-icon-height:               dynamic-font(24px);
+
+/// @prop - Border width of the radio icon
+$radio-ios-icon-border-width:         dynamic-font(2px);
+
+/// @prop - Border style of the radio icon
+$radio-ios-icon-border-style:         solid;
+
+/// @prop - Opacity of the disabled radio
+$radio-ios-disabled-opacity:          $form-control-ios-disabled-opacity;

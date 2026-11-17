@@ -1,0 +1,105 @@
+---
+title: Blockquote
+description: Used to quote text content from an external source
+links:
+  source: components/blockquote
+  storybook: components-blockquote--basic
+  recipe: blockquote
+---
+
+<ExampleTabs name="blockquote-basic" />
+
+## Usage
+
+```jsx
+import { Blockquote } from "@chakra-ui/react"
+```
+
+```tsx
+<Blockquote.Root>
+  <Blockquote.Content cite="https://" />
+  <Blockquote.Caption>
+    <cite>Uzumaki Naruto</cite>
+  </Blockquote.Caption>
+</Blockquote.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### With Cite
+
+To provide reference about the blockquote:
+
+- pass the `cite` prop to `Blockquote.Content` pointing to the quote url
+- render the `Blockquote.Caption` component to display name of quote author
+
+<ExampleTabs name="blockquote-with-cite" />
+
+### Colors
+
+Use the `colorPalette` prop to change the color of the blockquote.
+
+<ExampleTabs name="blockquote-with-colors" />
+
+### Variants
+
+Use the `variant` prop to change the visual style of the blockquote.
+
+<ExampleTabs name="blockquote-with-variants" />
+
+### Icon
+
+Here's an example of how to compose the `Float` and `BlockquoteIcon` to show an
+icon on the blockquote. The default icon is a double quote.
+
+<ExampleTabs name="blockquote-with-icon" />
+
+Alternatively, you can render a custom icon.
+
+<ExampleTabs name="blockquote-with-custom-icon" />
+
+### Justify
+
+Use the `justify` prop to change the alignment of the blockquote.
+
+<ExampleTabs name="blockquote-with-justify" />
+
+### With Avatar
+
+Here's an example of how to compose the `Blockquote`, `Avatar` and `Float`
+components to create a stunning testimonial component.
+
+<ExampleTabs name="blockquote-with-avatar" />
+
+### Closed Component
+
+Here's an example of how to create a closed component composition
+
+<ExampleCode name="blockquote-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add blockquote
+```
+
+## Props
+
+### Root
+
+<PropTable component="Blockquote" part="Root" />
+
+## Explorer
+
+Explore the `Blockquote` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="blockquote-explorer-demo" />

@@ -1,0 +1,145 @@
+export default {
+  isoName: 'ro',
+  nativeName: 'Română',
+  label: {
+    clear: 'Golește',
+    ok: 'OK',
+    cancel: 'Anulează',
+    close: 'Închide',
+    set: 'Setează',
+    select: 'Alege',
+    reset: 'Resetează',
+    remove: 'Elimină',
+    update: 'Actualizează',
+    create: 'Creează',
+    search: 'Caută',
+    filter: 'Filtrează',
+    refresh: 'Actualizează',
+    minimum: 'Minim',
+    maximum: 'Maxim',
+    range: 'Interval',
+    noValue: 'Fără valoare',
+    resize: 'Redimensionează',
+    expand: label => (label ? `Deschide "${label}"` : 'Deschide'),
+    collapse: label => (label ? `Închide "${label}"` : 'Închide')
+  },
+  date: {
+    days: 'Duminică_Luni_Marți_Miercuri_Joi_Vineri_Sâmbătă'.split('_'),
+    daysShort: 'Dum_Lun_Mar_Mie_Joi_Vin_Sâm'.split('_'),
+    months:
+      'Ianuarie_Februarie_Martie_Aprilie_Mai_Iunie_Iulie_August_Septembrie_Octombrie_Noiembrie_Decembrie'.split(
+        '_'
+      ),
+    monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_'),
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+    format24h: true,
+    pluralDay: 'zile',
+    prevMonth: 'Luna anterioară',
+    nextMonth: 'Luna viitoare',
+    prevYear: 'Anul precedent',
+    nextYear: 'Anul viitor',
+    today: 'Astăzi',
+    prevRangeYears: range => `${range} de ani anteriori`,
+    nextRangeYears: range => `${range} de ani următori`,
+    hour: 'Oră',
+    minute: 'Minut',
+    second: 'Secundă',
+    now: 'Ora curentă'
+  },
+  table: {
+    noData: 'Nu sunt date disponibile',
+    noResults: 'Nu am găsit înregistrări care să corespundă',
+    loading: 'Se încarcă...',
+    selectedRecords: rows =>
+      rows > 1
+        ? rows +
+          (rows % 100 === 0 || rows % 100 >= 20 ? ' de' : '') +
+          ' înregistrări selectate.'
+        : (rows === 0 ? 'Nicio' : '1') + ' înregistrare selectată.',
+    recordsPerPage: 'Înregistrări pe pagină:',
+    allRows: 'Toate',
+    pagination: (start, end, total) => start + '-' + end + ' din ' + total,
+    columns: 'Coloane',
+    selectAllRows: 'Selectează toate rândurile',
+    selectRow: 'Selectează rândul'
+  },
+  pagination: {
+    label: 'Paginare',
+    first: 'Prima pagină',
+    prev: 'Pagina anterioară',
+    next: 'Pagina următoare',
+    last: 'Ultima pagină'
+  },
+  carousel: {
+    prevSlide: 'Diapozitivul anterior',
+    nextSlide: 'Diapozitivul următor'
+  },
+  colorPicker: {
+    spectrum: 'Spectru',
+    tune: 'Ajustare',
+    palette: 'Paletă',
+    value: 'Valoarea culorii',
+    hue: 'Nuanță',
+    alpha: 'Opacitate',
+    saturation: 'Saturație',
+    brightness: 'Luminozitate'
+  },
+  uploader: {
+    addFiles: 'Alege fișiere',
+    upload: 'Încarcă fișierele',
+    abort: 'Anulează încărcarea',
+    removeQueued: 'Elimină fișierele în așteptare',
+    removeUploaded: 'Elimină fișierele încărcate',
+    removeFile: 'Elimină fișierul'
+  },
+  editor: {
+    toolbar: 'Bara de instrumente a editorului',
+    url: 'URL',
+    bold: 'Îngroșat',
+    italic: 'Înclinat',
+    strikethrough: 'Tăiat',
+    underline: 'Subliniat',
+    unorderedList: 'Listă neordonată',
+    orderedList: 'Listă ordonată',
+    subscript: 'Indice',
+    superscript: 'Exponent',
+    hyperlink: 'Hyperlink',
+    toggleFullscreen: 'Comută ecran complet',
+    quote: 'Citat',
+    left: 'Aliniere la stânga',
+    center: 'Aliniere la centru',
+    right: 'Aliniere la dreapta',
+    justify: 'Aliniere totală',
+    print: 'Tipărește',
+    outdent: 'Micșorează indentarea',
+    indent: 'Mărește indentarea',
+    removeFormat: 'Îndepărtează formatările',
+    formatting: 'Formatare',
+    fontSize: 'Mărime font',
+    align: 'Aliniază',
+    hr: 'Adaugă linie orizontală',
+    undo: 'Anulează',
+    redo: 'Refă',
+    heading1: 'Titlu 1',
+    heading2: 'Titlu 2',
+    heading3: 'Titlu 3',
+    heading4: 'Titlu 4',
+    heading5: 'Titlu 5',
+    heading6: 'Titlu 6',
+    paragraph: 'Paragraf',
+    code: 'Cod',
+    size1: 'Foarte mic',
+    size2: 'Mic',
+    size3: 'Normal',
+    size4: 'Mediu-mare',
+    size5: 'Mare',
+    size6: 'Foarte mare',
+    size7: 'Maxim',
+    defaultFont: 'Font implicit',
+    viewSource: 'Vizualizare sursă'
+  },
+  tree: {
+    noNodes: 'Nu sunt noduri disponibile',
+    noResults: 'Nu am găsit noduri care să corespundă'
+  }
+}

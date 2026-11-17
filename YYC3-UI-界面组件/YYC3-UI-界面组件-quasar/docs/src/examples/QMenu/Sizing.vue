@@ -1,0 +1,123 @@
+<template>
+  <div class="q-pa-md">
+    <div class="q-gutter-md">
+      <q-btn
+        color="accent"
+        label="Fit Menu"
+        style="width: 280px"
+        aria-haspopup="menu"
+      >
+        <q-menu fit auto-close>
+          <q-list role="menu" style="min-width: 100px">
+            <q-item clickable>
+              <q-item-section no-wrap>New tab</q-item-section>
+            </q-item>
+            <!-- #region -->
+            <q-item clickable>
+              <q-item-section no-wrap>New incognito tab</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section no-wrap>Recent tabs</q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section>History</q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section>Downloads</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section>Settings</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section no-wrap>Help &amp; Feedback</q-item-section>
+            </q-item>
+            <!-- #endregion -->
+          </q-list>
+        </q-menu>
+      </q-btn>
+
+      <q-btn color="brown" label="Max Height Menu" aria-haspopup="menu">
+        <q-menu max-height="130px" auto-close>
+          <q-list role="menu" style="min-width: 100px">
+            <q-item clickable>
+              <q-item-section no-wrap>New tab</q-item-section>
+            </q-item>
+            <!-- #region -->
+            <q-item clickable>
+              <q-item-section no-wrap>New incognito tab</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section no-wrap>Recent tabs</q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section>History</q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section>Downloads</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section>Settings</q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section no-wrap>Help &amp; Feedback</q-item-section>
+            </q-item>
+            <!-- #endregion -->
+          </q-list>
+        </q-menu>
+      </q-btn>
+
+      <q-btn color="indigo" label="Max Width Menu" aria-haspopup="menu">
+        <q-menu max-width="80px" auto-close>
+          <q-list role="menu" style="min-width: 100px">
+            <q-item clickable>
+              <q-item-section>
+                <q-item-label lines="1">New tab</q-item-label>
+              </q-item-section>
+            </q-item>
+            <!-- #region -->
+            <q-item clickable>
+              <q-item-section>
+                <q-item-label lines="1">New incognito tab</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section>
+                <q-item-label lines="1">Recent tabs</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section>
+                <q-item-label lines="1">History</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section>
+                <q-item-label lines="1">Downloads</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section>
+                <q-item-label lines="1">Settings</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section>
+                <q-item-label lines="1">Help & Feedback</q-item-label>
+              </q-item-section>
+            </q-item>
+            <!-- #endregion -->
+          </q-list>
+        </q-menu>
+      </q-btn>
+    </div>
+  </div>
+</template>

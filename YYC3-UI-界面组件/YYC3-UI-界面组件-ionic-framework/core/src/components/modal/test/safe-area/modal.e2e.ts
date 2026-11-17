@@ -1,0 +1,842 @@
+import { expect } from '@playwright/test';
+import type { Locator } from '@playwright/test';
+import type { E2EPage } from '@utils/test/playwright';
+import { configs, detachAndReattach, test, Viewports } from '@utils/test/playwright';
+
+/**
+ * These tests verify that safe-area CSS custom properties are correctly
+ * applied to modals based on their type and position.
+ *
+ * Safe-area handling is position-based and not affected by text direction.
+ * Testing only LTR to avoid redundant test runs.
+ */
+
+/**
+ * The test page (index.html) sets these root safe-area values.
+ * Keep in sync with the :root block in test/safe-area/index.html.
+ */
+const TEST_SAFE_AREA_TOP = 47;
+const TEST_SAFE_AREA_BOTTOM = 34;
+/** Default value of --ion-padding (16px), applied via the .ion-padding class on ion-content in the test modal. */
+const TEST_ION_PADDING = 16;
+
+configs({ modes: ['ios', 'md'], directions: ['ltr'] }).forEach(({ title, config }) => {
+  test.describe(title('modal: safe-area handling'), () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/src/components/modal/test/safe-area', config);
+    });
+
+    /**
+     * The safe-area prediction is applied before the modal is shown, so
+     * reading it when the modal starts presenting captures the prediction
+     * before the position-based correction runs.
+     */
+    const getPredictedSafeArea = async (page: E2EPage, trigger: string) => {
+      await page.evaluate(() => {
+        document.addEventListener(
+          'ionModalWillPresent',
+          (ev) => {
+            const modal = ev.target as HTMLElement;
+            (window as any).predictedSafeArea = {
+              top: modal.style.getPropertyValue('--ion-safe-area-top'),
+              bottom: modal.style.getPropertyValue('--ion-safe-area-bottom'),
+              left: modal.style.getPropertyValue('--ion-safe-area-left'),
+              right: modal.style.getPropertyValue('--ion-safe-area-right'),
+            };
+          },
+          { once: true }
+        );
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+      await page.click(trigger);
+      await ionModalDidPresent.next();
+
+      return page.evaluate(() => (window as any).predictedSafeArea);
+    };
+
+    /**
+     * The safe-area values after the modal has finished presenting.
+     * These reflect the modal's actual position and are the values that
+     * the initial prediction should converge to.
+     */
+    const getSettledSafeArea = (page: E2EPage) => {
+      return page.locator('ion-modal').evaluate((el: HTMLElement) => ({
+        top: el.style.getPropertyValue('--ion-safe-area-top'),
+        bottom: el.style.getPropertyValue('--ion-safe-area-bottom'),
+        left: el.style.getPropertyValue('--ion-safe-area-left'),
+        right: el.style.getPropertyValue('--ion-safe-area-right'),
+      }));
+    };
+
+    test('fullscreen modal should inherit all safe-area values on phone', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#fullscreen-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // On phone viewport, fullscreen modal should inherit safe-area values
+      const safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      const safeAreaBottom = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-bottom');
+      });
+
+      expect(safeAreaTop).toBe('inherit');
+      expect(safeAreaBottom).toBe('inherit');
+    });
+
+    test('regular modal should predict zeroed safe-area on tablet (centered dialog)', async ({ page }) => {
+      // The viewport gives it centered dialog dimensions, so it stays clear
+      // of every edge.
+      await page.setViewportSize(Viewports.tablet.portrait);
+
+      expect(await getPredictedSafeArea(page, '#fullscreen-modal')).toEqual({
+        top: '0px',
+        bottom: '0px',
+        left: '0px',
+        right: '0px',
+      });
+    });
+
+    test('regular modal should have zeroed safe-area on tablet (centered dialog)', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      await page.setViewportSize(Viewports.tablet.portrait);
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#fullscreen-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // On tablet viewport, the CSS media query renders regular modals as
+      // centered dialogs (600x500). Since they don't touch screen edges,
+      // safe-area values should be zeroed out.
+      const safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      const safeAreaBottom = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-bottom');
+      });
+
+      expect(safeAreaTop).toBe('0px');
+      expect(safeAreaBottom).toBe('0px');
+    });
+
+    test('sheet modal should only use bottom safe-area', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#sheet-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // Sheet modals should have top safe-area zeroed (doesn't touch top edge)
+      // but bottom safe-area inherited (touches bottom edge)
+      const safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      const safeAreaBottom = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-bottom');
+      });
+
+      expect(safeAreaTop).toBe('0px');
+      expect(safeAreaBottom).toBe('inherit');
+    });
+
+    test('fullscreen modal without footer should set safe-area scroll padding on ion-content', async ({
+      page,
+    }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/31015',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#fullscreen-modal-no-footer');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // The wrapper should NOT have reduced height or padding-bottom.
+      // Safe-area compensation is handled by ion-content's scroll padding.
+      const wrapper = modal.locator('.modal-wrapper');
+      const wrapperPaddingBottom = await wrapper.evaluate((el: HTMLElement) => {
+        return el.style.getPropertyValue('padding-bottom');
+      });
+      const wrapperHeight = await wrapper.evaluate((el: HTMLElement) => {
+        return el.style.getPropertyValue('height');
+      });
+
+      expect(wrapperPaddingBottom).toBe('');
+      expect(wrapperHeight).toBe('');
+
+      // ion-content should have --internal-content-safe-area-padding-bottom set so its
+      // .inner-scroll element includes safe-area in its bottom padding.
+      const content = modal.locator('ion-content');
+      const safeAreaPadding = await content.evaluate((el: HTMLElement) => {
+        return el.style.getPropertyValue('--internal-content-safe-area-padding-bottom');
+      });
+      expect(safeAreaPadding).toBe('var(--ion-safe-area-bottom, 0px)');
+    });
+
+    test('fullscreen modal with ion-content and no footer should not reduce wrapper content area', async ({
+      page,
+    }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/31015',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#fullscreen-modal-no-footer');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+      const wrapper = modal.locator('.modal-wrapper');
+
+      // The wrapper's content area should equal the full viewport height.
+      // Safe-area compensation is handled by ion-content's scroll padding,
+      // not by reducing the wrapper. This prevents the visible white gap
+      // reported in #31015.
+      const { contentHeight, paddingBottom } = await wrapper.evaluate((el: HTMLElement) => {
+        const computed = getComputedStyle(el);
+        return {
+          contentHeight: parseFloat(computed.height),
+          paddingBottom: parseFloat(computed.paddingBottom),
+        };
+      });
+      const viewportHeight = await page.evaluate(() => window.innerHeight);
+
+      expect(paddingBottom).toBeCloseTo(0, 0);
+      expect(contentHeight).toBeCloseTo(viewportHeight, 0);
+    });
+
+    test('fullscreen modal ion-content scroll padding should include safe-area-bottom', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/31015',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#fullscreen-modal-no-footer');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+      const content = modal.locator('ion-content');
+
+      // The .inner-scroll element inside ion-content's shadow DOM should
+      // have padding-bottom that includes the safe-area-bottom value.
+      const innerScroll = content.locator('.inner-scroll');
+      const scrollPaddingBottom = await innerScroll.evaluate((el: Element) => {
+        return parseFloat(getComputedStyle(el).paddingBottom);
+      });
+
+      expect(scrollPaddingBottom).toBe(TEST_ION_PADDING + TEST_SAFE_AREA_BOTTOM);
+    });
+
+    test('sheet modal at breakpoint 1 should keep top safe-area zeroed', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#sheet-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // Initially at breakpoint 0.5 — top safe-area should be zeroed
+      let safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      expect(safeAreaTop).toBe('0px');
+
+      // Move to breakpoint 1 (fully expanded) via the public method
+      const ionBreakpointDidChange = await page.spyOnEvent('ionBreakpointDidChange');
+      await modal.evaluate((el: HTMLIonModalElement) => {
+        el.setCurrentBreakpoint(1);
+      });
+      await ionBreakpointDidChange.next();
+
+      // At breakpoint 1, top safe-area should still be 0px because the
+      // sheet height is frozen with the resolved root value. This prevents
+      // header content from getting double-offset padding.
+      safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      expect(safeAreaTop).toBe('0px');
+    });
+
+    test('sheet modal should have --ion-modal-offset-top set with resolved safe-area value', async ({
+      page,
+    }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#sheet-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // The internal --ion-modal-offset-top property should be set to the
+      // resolved root --ion-safe-area-top value. The SCSS --height formula
+      // uses this instead of --ion-safe-area-top directly.
+      const offsetTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-modal-offset-top');
+      });
+      expect(offsetTop).toBe(`${TEST_SAFE_AREA_TOP}px`);
+    });
+
+    test('sheet modal should update --ion-modal-offset-top when the safe area top changes after present', async ({
+      page,
+    }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/31337',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#sheet-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+      const offsetTop = () =>
+        modal.evaluate((el: HTMLIonModalElement) => el.style.getPropertyValue('--ion-modal-offset-top'));
+
+      expect(await offsetTop()).toBe(`${TEST_SAFE_AREA_TOP}px`);
+
+      await page.evaluate(() => document.documentElement.style.setProperty('--ion-safe-area-top', '24px'));
+
+      await expect(async () => {
+        expect(await offsetTop()).toBe('24px');
+      }).toPass({ timeout: 5000 });
+    });
+
+    /**
+     * Covers a sheet presented before the inset is known, which is the Android
+     * edge-to-edge startup order rather than the 47px the test page declares.
+     */
+    test('sheet modal should pick up the safe area top when it starts at zero', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/31337',
+      });
+
+      await page.evaluate(() => document.documentElement.style.setProperty('--ion-safe-area-top', '0px'));
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#sheet-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+      const offsetTop = () =>
+        modal.evaluate((el: HTMLIonModalElement) => el.style.getPropertyValue('--ion-modal-offset-top'));
+
+      expect(await offsetTop()).toBe('0px');
+
+      await page.evaluate(() => document.documentElement.style.setProperty('--ion-safe-area-top', '24px'));
+
+      await expect(async () => {
+        expect(await offsetTop()).toBe('24px');
+      }).toPass({ timeout: 5000 });
+    });
+
+    test('fullscreen modal safe-area should update on resize from phone to tablet', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#fullscreen-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // On phone viewport, modal should inherit safe-area
+      const safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      expect(safeAreaTop).toBe('inherit');
+
+      // Resize to tablet viewport (centered dialog breakpoint)
+      await page.setViewportSize(Viewports.tablet.portrait);
+
+      // Poll until the debounced resize handler updates safe-area overrides
+      await expect
+        .poll(async () => {
+          return modal.evaluate((el: HTMLIonModalElement) => el.style.getPropertyValue('--ion-safe-area-top'));
+        })
+        .toBe('0px');
+
+      const safeAreaBottom = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-bottom');
+      });
+
+      expect(safeAreaBottom).toBe('0px');
+    });
+
+    test('centered dialog should have all safe-area values zeroed on tablet', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      await page.setViewportSize(Viewports.tablet.portrait);
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#centered-dialog');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // Centered dialogs don't touch any edge, so all safe-areas should be zeroed
+      const safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      const safeAreaBottom = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-bottom');
+      });
+
+      expect(safeAreaTop).toBe('0px');
+      expect(safeAreaBottom).toBe('0px');
+    });
+
+    test('centered dialog with custom dimensions on phone should zero safe-area from initial prediction', async ({
+      page,
+    }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/31015',
+      });
+
+      // Stay on phone viewport. This is the path where the centered-dialog
+      // media query does NOT match but the modal still doesn't touch screen
+      // edges because cssClass sets --width/--height. Without the initial
+      // prediction catching this, safe-area flashes inherited values and
+      // then snaps to 0px after animation.
+      const ionModalWillPresent = await page.spyOnEvent('ionModalWillPresent');
+      await page.click('#centered-dialog');
+      await ionModalWillPresent.next();
+
+      // Read inline style IMMEDIATELY after will-present fires, before the
+      // animation finishes. This captures the initial prediction value.
+      const modal = page.locator('ion-modal');
+      const initial = await modal.evaluate((el: HTMLIonModalElement) => ({
+        top: el.style.getPropertyValue('--ion-safe-area-top'),
+        bottom: el.style.getPropertyValue('--ion-safe-area-bottom'),
+      }));
+
+      expect(initial.top).toBe('0px');
+      expect(initial.bottom).toBe('0px');
+    });
+
+    test('safe-area overrides should be cleared on dismiss', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      // Present modal programmatically so we control the lifecycle
+      // (the HTML page's presenters call modal.remove() after dismiss,
+      // which races with our post-dismiss evaluation)
+      await page.evaluate(async () => {
+        const modal = document.createElement('ion-modal');
+        modal.component = document.createElement('div');
+        document.body.appendChild(modal);
+        await modal.present();
+      });
+
+      const modal = page.locator('ion-modal');
+
+      // Verify overrides are set
+      let safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      expect(safeAreaTop).not.toBe('');
+
+      // Dismiss the modal but don't remove the element
+      await modal.evaluate(async (el: HTMLIonModalElement) => {
+        await el.dismiss();
+      });
+
+      // Verify overrides are cleared after dismiss
+      safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      expect(safeAreaTop).toBe('');
+
+      // Clean up
+      await modal.evaluate((el: HTMLIonModalElement) => el.remove());
+    });
+
+    test.describe('content sized dialogs', () => {
+      test('should predict a zeroed safe-area for a dialog that fits its content', async ({ page }) => {
+        expect(await getPredictedSafeArea(page, '#content-sized-dialog')).toEqual({
+          top: '0px',
+          bottom: '0px',
+          left: '0px',
+          right: '0px',
+        });
+      });
+
+      /**
+       * Overflowing content causes the dialog to be clamped to the viewport
+       * and reach the top and bottom edges, so the insets must be applied
+       * from the first frame. Predicting zero here would cause the header
+       * to change height once the modal has finished presenting.
+       */
+      test('should predict an inherited safe-area for a dialog whose content overflows', async ({ page }) => {
+        expect(await getPredictedSafeArea(page, '#content-sized-dialog-tall')).toEqual({
+          top: 'inherit',
+          bottom: 'inherit',
+          left: '0px',
+          right: '0px',
+        });
+      });
+
+      /**
+       * A full-width dialog reaches the horizontal edges while staying clear
+       * of the top and bottom, so the safe-area values differ by edge.
+       */
+      test('should predict per edge for a full width dialog that fits its content', async ({ page }) => {
+        expect(await getPredictedSafeArea(page, '#content-sized-dialog-full-width')).toEqual({
+          top: '0px',
+          bottom: '0px',
+          left: 'inherit',
+          right: 'inherit',
+        });
+      });
+
+      test('should predict an inherited safe-area for a full width dialog that overflows', async ({ page }) => {
+        expect(await getPredictedSafeArea(page, '#content-sized-dialog-full-width-tall')).toEqual({
+          top: 'inherit',
+          bottom: 'inherit',
+          left: 'inherit',
+          right: 'inherit',
+        });
+      });
+
+      /**
+       * A wide viewport gives regular modals the dimensions of a centered
+       * dialog, but a modal sized to its content can still be clamped to the
+       * viewport by `--max-height` and reach the edges.
+       */
+      test('should predict per axis on a wide viewport', async ({ page }) => {
+        await page.setViewportSize(Viewports.tablet.portrait);
+
+        expect(await getPredictedSafeArea(page, '#content-sized-dialog-tall')).toEqual({
+          top: 'inherit',
+          bottom: 'inherit',
+          left: '0px',
+          right: '0px',
+        });
+      });
+
+      test('should predict an inherited safe-area for a full width overflowing dialog on a wide viewport', async ({
+        page,
+      }) => {
+        await page.setViewportSize(Viewports.tablet.portrait);
+
+        expect(await getPredictedSafeArea(page, '#content-sized-dialog-full-width-tall')).toEqual({
+          top: 'inherit',
+          bottom: 'inherit',
+          left: 'inherit',
+          right: 'inherit',
+        });
+      });
+
+      /**
+       * A position-based pass replaces the prediction once the modal has
+       * presented. Any edge where the two disagree changes value at that
+       * point, which can cause the header to grow or shrink.
+       */
+      test('should predict what the modal settles on', async ({ page }) => {
+        const predicted = await getPredictedSafeArea(page, '#content-sized-dialog-full-width');
+
+        expect(predicted).toEqual(await getSettledSafeArea(page));
+      });
+    });
+
+    test.describe('moving a presented modal', () => {
+      const moveModal = (modal: Locator) => detachAndReattach(modal, 'ion-app');
+
+      test('should keep the safe-area overrides', async ({ page }, testInfo) => {
+        testInfo.annotations.push({
+          type: 'issue',
+          description: 'https://github.com/ionic-team/ionic-framework/issues/31389',
+        });
+
+        const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+        await page.click('#fullscreen-modal');
+        await ionModalDidPresent.next();
+
+        const modal = page.locator('ion-modal');
+        await moveModal(modal);
+
+        const overrides = await modal.evaluate((el: HTMLIonModalElement) => ({
+          top: el.style.getPropertyValue('--ion-safe-area-top'),
+          bottom: el.style.getPropertyValue('--ion-safe-area-bottom'),
+        }));
+
+        expect(overrides.top).toBe('inherit');
+        expect(overrides.bottom).toBe('inherit');
+        // The detach releases the root lock, so the re-insert has to put it back.
+        await expect(page.locator('body')).toHaveClass(/backdrop-no-scroll/);
+      });
+
+      test('should not measure the modal while it has no layout box', async ({ page }, testInfo) => {
+        testInfo.annotations.push({
+          type: 'issue',
+          description: 'https://github.com/ionic-team/ionic-framework/issues/31389',
+        });
+
+        // A hidden subtree carries `display: none`, so a move inside that
+        // window reconnects the modal with no box to measure.
+        const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+        await page.click('#fullscreen-modal');
+        await ionModalDidPresent.next();
+
+        const modal = page.locator('ion-modal');
+
+        await modal.evaluate((el: HTMLIonModalElement) => el.style.setProperty('display', 'none', 'important'));
+        await moveModal(modal);
+        // The reconnect's read is deferred a frame, so let that frame land
+        // while there is still no box. Clearing `display` from a separate
+        // round trip races it and the test stops guarding anything.
+        await modal.evaluate(async (el: HTMLIonModalElement) => {
+          await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+          el.style.removeProperty('display');
+        });
+
+        const overrides = await modal.evaluate((el: HTMLIonModalElement) => ({
+          bottom: el.style.getPropertyValue('--ion-safe-area-bottom'),
+          right: el.style.getPropertyValue('--ion-safe-area-right'),
+        }));
+
+        expect(overrides.bottom).toBe('inherit');
+        expect(overrides.right).toBe('inherit');
+      });
+
+      test('should keep the sheet offset for a sheet modal', async ({ page }, testInfo) => {
+        testInfo.annotations.push({
+          type: 'issue',
+          description: 'https://github.com/ionic-team/ionic-framework/issues/31389',
+        });
+
+        const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+        await page.click('#sheet-modal');
+        await ionModalDidPresent.next();
+
+        const modal = page.locator('ion-modal');
+        await moveModal(modal);
+
+        // The sheet's `--height` formula reads `--ion-modal-offset-top`, so
+        // losing it grows the sheet by the safe-area-top amount.
+        const offsetTop = await modal.evaluate((el: HTMLIonModalElement) =>
+          el.style.getPropertyValue('--ion-modal-offset-top')
+        );
+        const safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) =>
+          el.style.getPropertyValue('--ion-safe-area-top')
+        );
+
+        expect(offsetTop).toBe(`${TEST_SAFE_AREA_TOP}px`);
+        expect(safeAreaTop).toBe('0px');
+      });
+
+      test('should not read a mid-animation position when moved during willPresent', async ({ page }, testInfo) => {
+        testInfo.annotations.push({
+          type: 'issue',
+          description: 'https://github.com/ionic-team/ionic-framework/issues/31389',
+        });
+
+        /**
+         * Relocating from `willPresent` reconnects the overlay just before the
+         * enter animation starts, where a position-based read measures a
+         * mid-animation box. So animations stay on and the value is sampled
+         * every frame: `present()` fixes the end state either way, so only
+         * samples taken during the animation can catch the regression.
+         */
+        await page.goto('/src/components/modal/test/safe-area?ionic:_testing=false', config);
+
+        const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+        await page.evaluate(() => {
+          const samples: string[] = [];
+          (window as any).safeAreaTopSamples = samples;
+
+          document.addEventListener(
+            'ionModalWillPresent',
+            (ev) => {
+              const modal = ev.target as HTMLElement;
+              const holder = document.createElement('div');
+              document.querySelector('ion-app')!.appendChild(holder);
+              holder.appendChild(modal);
+
+              const start = performance.now();
+              const sample = () => {
+                samples.push(modal.style.getPropertyValue('--ion-safe-area-top'));
+                (window as any).samplingSpanMs = performance.now() - start;
+                if (!(window as any).stopSampling) {
+                  requestAnimationFrame(sample);
+                }
+              };
+              requestAnimationFrame(sample);
+            },
+            { once: true }
+          );
+
+          document.addEventListener('ionModalDidPresent', () => ((window as any).stopSampling = true), {
+            once: true,
+          });
+        });
+
+        await page.click('#fullscreen-modal');
+        await ionModalDidPresent.next();
+
+        const samples = await page.evaluate(() => (window as any).safeAreaTopSamples as string[]);
+        const samplingSpanMs = await page.evaluate(() => (window as any).samplingSpanMs as number);
+
+        // Elapsed time rather than a frame count, which throttles under CI
+        // load. A starved queue would otherwise leave only samples that pass.
+        expect(samplingSpanMs).toBeGreaterThan(100);
+        // Assert the positive value: an unset override is as wrong as `0px`.
+        expect(samples.every((sample) => sample === 'inherit')).toBe(true);
+      });
+
+      test('should keep the ion-content scroll padding', async ({ page }, testInfo) => {
+        testInfo.annotations.push({
+          type: 'issue',
+          description: 'https://github.com/ionic-team/ionic-framework/issues/31389',
+        });
+
+        const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+        await page.click('#fullscreen-modal-no-footer');
+        await ionModalDidPresent.next();
+
+        const modal = page.locator('ion-modal');
+        await moveModal(modal);
+
+        const innerScroll = modal.locator('ion-content .inner-scroll');
+        const scrollPaddingBottom = await innerScroll.evaluate((el: Element) =>
+          parseFloat(getComputedStyle(el).paddingBottom)
+        );
+
+        expect(scrollPaddingBottom).toBe(TEST_ION_PADDING + TEST_SAFE_AREA_BOTTOM);
+      });
+    });
+  });
+});
+
+configs({ modes: ['ios'], directions: ['ltr'] }).forEach(({ title, config }) => {
+  test.describe(title('modal: card modal safe-area (iOS only)'), () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/src/components/modal/test/safe-area', config);
+    });
+
+    test('card modal should inherit top and bottom safe-area', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#card-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // Card modals need top safe-area for height calculation
+      const safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      const safeAreaBottom = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-bottom');
+      });
+      const safeAreaLeft = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-left');
+      });
+      const safeAreaRight = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-right');
+      });
+
+      expect(safeAreaTop).toBe('inherit');
+      expect(safeAreaBottom).toBe('inherit');
+      expect(safeAreaLeft).toBe('0px');
+      expect(safeAreaRight).toBe('0px');
+    });
+
+    test('card modal on tablet should still inherit safe-area values', async ({ page }, testInfo) => {
+      testInfo.annotations.push({
+        type: 'issue',
+        description: 'https://github.com/ionic-team/ionic-framework/issues/30900',
+      });
+
+      await page.setViewportSize(Viewports.tablet.portrait);
+
+      const ionModalDidPresent = await page.spyOnEvent('ionModalDidPresent');
+
+      await page.click('#card-modal');
+      await ionModalDidPresent.next();
+
+      const modal = page.locator('ion-modal');
+
+      // Card modals use safe-area values in CSS calculations regardless of viewport,
+      // so they should inherit even on tablet where regular modals become centered dialogs.
+      const safeAreaTop = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-top');
+      });
+      const safeAreaBottom = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-bottom');
+      });
+      const safeAreaLeft = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-left');
+      });
+      const safeAreaRight = await modal.evaluate((el: HTMLIonModalElement) => {
+        return el.style.getPropertyValue('--ion-safe-area-right');
+      });
+
+      expect(safeAreaTop).toBe('inherit');
+      expect(safeAreaBottom).toBe('inherit');
+      expect(safeAreaLeft).toBe('0px');
+      expect(safeAreaRight).toBe('0px');
+    });
+  });
+});

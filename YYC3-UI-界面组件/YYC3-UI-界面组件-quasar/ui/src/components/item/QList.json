@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/list-and-list-items"
+  },
+
+  "props": {
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "separator": {
+      "type": "Boolean",
+      "desc": "Applies a separator between contained items",
+      "category": "content"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a material design-like padding on top and bottom",
+      "category": "content"
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "'div'",
+      "examples": ["'div'", "'ul'", "'ol'"]
+    },
+
+    "role": {
+      "type": "String",
+      "desc": "Overrides the default 'list' ARIA role; Contained QItems derive their own default role from it: with 'menu'/'menubar' the actionable items become 'menuitem's, while any other value stops the non-actionable items from claiming 'listitem'",
+      "examples": ["'menu'", "'listbox'", "'none'"],
+      "category": "accessibility",
+      "addedIn": "v2.25"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where the content goes; Suggestion: QItem, QExpansionItem, ..."
+    }
+  }
+}

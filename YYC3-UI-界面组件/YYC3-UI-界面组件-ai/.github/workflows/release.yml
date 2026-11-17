@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - release-v*
+    paths:
+      - '.changeset/**'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: 'release-v2-${{ github.ref_name }}'
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      pull-requests: write
+      issues: write
+    # do not attempt running in forks
+    if: github.repository_owner == 'vercel'
+    environment: npm-release
+    steps:
+      - name: Configure Git
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Checkout Repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup pnpm and Node.js
+        uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3
+        with:
+          runtime: node@24
+          require-lockfile: true
+
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        with:
+          version: pnpm ci:version
+          publish: pnpm ci:release
+          setupGitUser: false
+          # When using "github-api", all commits and tags are GPG-signed and attributed to the user or app who owns the GITHUB_TOKEN
+          commitMode: 'github-api'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Find release PR number
+        if: steps.changesets.outputs.published == 'true'
+        id: release-pr
+        run: echo "number=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/pulls --jq '.[0].number')" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release notification manifest
+        run: |
+          mkdir -p .release-notification
+          jq -n \
+            --arg publishedPackages "$PUBLISHED_PACKAGES" \
+            --arg pullRequestNumber "$PULL_REQUEST_NUMBER" \
+            '{
+              type: "release",
+              publishedPackages: ($publishedPackages | fromjson? // []),
+              pullRequestNumber: $pullRequestNumber
+            }' > .release-notification/notification.json
+        env:
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          PULL_REQUEST_NUMBER: ${{ steps.release-pr.outputs.number }}
+
+      - name: Upload release notification manifest
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-notification
+          path: .release-notification
+          include-hidden-files: true
+          retention-days: 1

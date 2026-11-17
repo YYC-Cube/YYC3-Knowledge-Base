@@ -1,0 +1,136 @@
+import { afterEach, describe, expect, test, vi } from 'vitest'
+import { flushPromises, mount } from '@vue/test-utils'
+import { defineComponent, h } from 'vue'
+
+import useTick from './use-tick.js'
+
+let wrapper
+
+afterEach(() => {
+  if (wrapper !== null) {
+    wrapper.unmount()
+    wrapper = null
+  }
+})
+
+describe('[useTick API]', () => {
+  describe('[Functions]', () => {
+    describe('[(function)default]', () => {
+      test('correctly registers a tick', async () => {
+        const fn = vi.fn()
+
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              const { registerTick } = useTick()
+
+              registerTick(fn)
+              return {}
+            }
+          })
+        )
+
+        expect(fn).not.toHaveBeenCalled()
+        await flushPromises()
+        expect(fn).toHaveBeenCalledTimes(1)
+      })
+
+      test('removeTick works correctly', async () => {
+        const fn = vi.fn()
+
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              const { registerTick, removeTick } = useTick()
+
+              registerTick(fn)
+              return { registerTick, removeTick }
+            }
+          })
+        )
+
+        expect(fn).not.toHaveBeenCalled()
+        wrapper.vm.removeTick()
+
+        await flushPromises()
+        expect(fn).not.toHaveBeenCalled()
+      })
+
+      test('unmount stops tick', async () => {
+        const fn = vi.fn()
+
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              const { registerTick } = useTick()
+
+              registerTick(fn)
+              return {}
+            }
+          })
+        )
+
+        expect(fn).not.toHaveBeenCalled()
+
+        wrapper.unmount()
+        wrapper = null
+
+        await flushPromises()
+
+        expect(fn).not.toHaveBeenCalled()
+      })
+
+      test('can override tick', async () => {
+        const fn1 = vi.fn()
+        const fn2 = vi.fn()
+
+        wrapper = mount(
+          defineComponent({
+            render: () => h('div'),
+            setup() {
+              const { registerTick } = useTick()
+              return { registerTick }
+            }
+          })
+        )
+
+        expect(fn1).not.toHaveBeenCalled()
+        wrapper.vm.registerTick(fn1)
+        expect(fn1).not.toHaveBeenCalled()
+
+        wrapper.vm.registerTick(fn2)
+        expect(fn1).not.toHaveBeenCalled()
+        expect(fn2).not.toHaveBeenCalled()
+
+        await flushPromises()
+
+        expect(fn1).not.toHaveBeenCalled()
+        expect(fn2).toHaveBeenCalledTimes(1)
+      })
+
+      test('works outside of a component instance', async () => {
+        const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+        const fn = vi.fn()
+
+        const { registerTick, removeTick } = useTick()
+
+        // no lifecycle hook gets registered without an instance
+        expect(warn).not.toHaveBeenCalled()
+
+        registerTick(fn)
+        await flushPromises()
+        expect(fn).toHaveBeenCalledTimes(1)
+
+        registerTick(fn)
+        removeTick()
+        await flushPromises()
+        expect(fn).toHaveBeenCalledTimes(1)
+
+        warn.mockRestore()
+      })
+    })
+  })
+})

@@ -1,0 +1,80 @@
+{
+  "name": "@quasar/icongenie",
+  "version": "7.0.0",
+  "description": "A Quasar tool for generating all your Quasar App's icons and splashscreens",
+  "keywords": [
+    "bex",
+    "desktop",
+    "electron",
+    "icons",
+    "js",
+    "phone",
+    "pwa",
+    "quasar",
+    "spa",
+    "tablet",
+    "vue",
+    "vuejs",
+    "website"
+  ],
+  "homepage": "https://quasar.dev/icongenie/introduction",
+  "bugs": {
+    "url": "https://github.com/quasarframework/quasar/issues"
+  },
+  "license": "MIT",
+  "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
+  "contributors": [
+    "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
+    "Daniel Thompson-Yvetot <35242872+nothingismagick@users.noreply.github.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasarframework/quasar.git",
+    "directory": "icongenie"
+  },
+  "bin": {
+    "icongenie": "./bin/icongenie.js"
+  },
+  "files": [
+    "bin",
+    "!bin/*.test.js",
+    "lib",
+    "!lib/**/*.test.js",
+    "samples",
+    "README.md",
+    "LICENSE"
+  ],
+  "type": "module",
+  "main": "bin/icongenie.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "prepublishOnly": "pnpm test"
+  },
+  "dependencies": {
+    "@quasar/art": "workspace:^",
+    "@quasar/update-notifier": "workspace:^",
+    "ci-info": "^4.4.0",
+    "cross-spawn": "^7.0.6",
+    "elementtree": "^0.1.7",
+    "fs-extra": "^11.4.1",
+    "is-png": "^3.0.1",
+    "joi": "^18.3.2",
+    "kolorist": "^1.8.0",
+    "png2icons": "^2.0.1",
+    "potrace": "^2.1.5",
+    "read-chunk": "^5.0.0",
+    "sharp": "^0.35.5",
+    "svgo": "^4.1.0",
+    "tinyglobby": "^0.2.17",
+    "untildify": "^6.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^5.1.0"
+  },
+  "engines": {
+    "node": ">= 22.22.0"
+  }
+}

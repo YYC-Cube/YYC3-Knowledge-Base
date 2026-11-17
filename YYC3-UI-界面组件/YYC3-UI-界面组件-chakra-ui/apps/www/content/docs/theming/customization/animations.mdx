@@ -1,0 +1,77 @@
+---
+title: Animations
+description: Learn how to customize animations and keyframes in Chakra UI
+---
+
+:::info
+
+Please read the [overview](/docs/theming/customization/overview) first to learn
+how to properly customize the styling engine, and get type safety.
+
+:::
+
+## Keyframes
+
+Keyframes are used to define the animation sequence. Here's how to define custom
+keyframes:
+
+```tsx title="theme.ts"
+import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react"
+
+const config = defineConfig({
+  theme: {
+    keyframes: {
+      shakeX: {
+        "0%, 100%": { transform: "translateX(-100%)" },
+        "50%": { transform: "translateX(100%)" },
+      },
+    },
+  },
+})
+
+export const system = createSystem(defaultConfig, config)
+```
+
+## Animation Tokens
+
+After defining keyframes, you can create animation tokens that reference them.
+Animation tokens can include the keyframe name, duration, timing function, and
+other animation properties.
+
+```tsx title="theme.ts"
+import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react"
+
+const config = defineConfig({
+  theme: {
+    keyframes: {
+      // ... keyframes from above
+    },
+    tokens: {
+      animations: {
+        shakeX: { value: "shakeX 1s ease-in-out infinite" },
+      },
+    },
+  },
+})
+
+export const system = createSystem(defaultConfig, config)
+```
+
+## Usage
+
+You can use the animation token directly in your component style props.
+
+```tsx
+<Box animation="shakeX" />
+```
+
+or as individual animation properties
+
+```tsx
+<Box
+  animationName="shakeX"
+  animationDuration="1s"
+  animationTimingFunction="ease-in-out"
+  animationIterationCount="infinite"
+/>
+```

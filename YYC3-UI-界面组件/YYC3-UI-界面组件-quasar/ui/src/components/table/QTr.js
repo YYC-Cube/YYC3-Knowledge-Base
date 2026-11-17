@@ -1,0 +1,36 @@
+import { h } from 'vue'
+
+import { createComponent } from '../../utils/private.create/create.js'
+import { hSlot } from '../../utils/private.render/render.js'
+
+export default /*#__PURE__*/ createComponent({
+  name: 'QTr',
+
+  props: {
+    props: Object,
+    noHover: Boolean,
+    expandable: Boolean
+  },
+
+  setup(props, { slots }) {
+    return () =>
+      h(
+        'tr',
+        {
+          style: props.props?.__trStyle,
+          class:
+            'q-tr' +
+            (props.props === void 0 ||
+            props.props.header ||
+            !props.props.__trClass
+              ? ''
+              : props.props.__trClass) +
+            (props.noHover ? ' q-tr--no-hover' : '') +
+            (props.expandable
+              ? ` q-tr--expandable q-tr--${props.props?.expand ? 'expanded' : 'collapsed'}`
+              : '')
+        },
+        hSlot(slots.default)
+      )
+  }
+})

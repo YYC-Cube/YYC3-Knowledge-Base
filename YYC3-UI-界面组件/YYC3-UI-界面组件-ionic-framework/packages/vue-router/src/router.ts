@@ -1,0 +1,1058 @@
+import type { AnimationBuilder } from "@ionic/vue";
+import type {
+  Router,
+  RouteLocationNormalized,
+  NavigationFailure,
+  RouteLocationRaw,
+} from "vue-router";
+import { parseQuery } from "vue-router";
+
+import { createLocationHistory } from "./locationHistory";
+import type {
+  ExternalNavigationOptions,
+  RouteInfo,
+  RouteParams,
+  RouteAction,
+  RouteDirection,
+  IonicVueRouterOptions,
+  NavigationInformation,
+} from "./types";
+import { generateId } from "./utils";
+
+// TODO(FW-2969): types
+
+export const createIonRouter = (
+  opts: IonicVueRouterOptions,
+  router: Router
+) => {
+  let currentNavigationInfo: NavigationInformation = {
+    direction: undefined,
+    action: undefined,
+    delta: undefined,
+  };
+  /**
+   * The navigation the staged delta belongs to, matched on identity for the
+   * same reason the params are. Two history navigations can move to the same
+   * path, and a path cannot tell them apart.
+   */
+  let currentNavigationInfoOwner: RouteLocationNormalized | undefined;
+  /**
+   * Set between the history listener staging a delta and the navigation
+   * claiming it below.
+   */
+  let currentNavigationInfoUnclaimed = false;
+
+  const clearNavigationInfo = () => {
+    currentNavigationInfo = {
+      direction: undefined,
+      action: undefined,
+      delta: undefined,
+    };
+    currentNavigationInfoOwner = undefined;
+    currentNavigationInfoUnclaimed = false;
+  };
+
+  /**
+   * Ionic Vue should only react to navigation
+   * changes once they have been confirmed and should
+   * never affect the outcome of navigation (with the
+   * exception of going back or selecting a tab).
+   * As a result, we should do our work in afterEach
+   * which is fired once navigation is confirmed
+   * and any user guards have run.
+   */
+  router.afterEach(
+    (
+      to: RouteLocationNormalized,
+      _: RouteLocationNormalized,
+      failure?: NavigationFailure | void
+    ) => {
+      if (failure) {
+        discardStagedStateFor(to);
+
+        return;
+      }
+
+      const { direction, action, delta } = currentNavigationInfo;
+
+      /**
+       * When calling router.replace, we are not informed
+       * about the replace action in opts.history.listen
+       * but we can check to see if the latest routing action
+       * was a replace action by looking at the history state.
+       * We need to use opts.history rather than window.history
+       * because window.history will be undefined when using SSR.
+       */
+
+      currentHistoryPosition = opts.history.state.position as number;
+
+      const replaceAction = opts.history.state.replaced ? "replace" : undefined;
+      handleHistoryChange(to, action || replaceAction, direction, delta);
+
+      clearNavigationInfo();
+    }
+  );
+
+  /**
+   * vue-router only logs an uncaught navigation error while no error handler
+   * is registered, so the handler below would silence it for every app that
+   * has not added one of its own. Track whether the app adds one so the log
+   * can be put back when it has not.
+   */
+  let appErrorHandlers = 0;
+  const addErrorHandler = router.onError.bind(router);
+  router.onError = (handler) => {
+    appErrorHandlers++;
+    const removeHandler = addErrorHandler(handler);
+
+    return () => {
+      appErrorHandlers--;
+      removeHandler();
+    };
+  };
+
+  /**
+   * A guard that throws, including an await on a session check that rejects,
+   * never reaches afterEach. vue-router rejects the navigation promise
+   * instead, so there is no failure to inspect there and the staged state
+   * would survive. The error is re-thrown to the app the same way it was
+   * before, so navigation outcomes are unchanged.
+   */
+  addErrorHandler((error: unknown, to: RouteLocationNormalized) => {
+    discardStagedStateFor(to);
+
+    if (appErrorHandlers === 0) {
+      console.error(error);
+    }
+  });
+
+  const locationHistory = createLocationHistory();
+
+  /**
+   * Keeping track of the history position
+   * allows us to determine if a user is pushing
+   * new pages or updating history via the forward
+   * and back browser buttons.
+   */
+  let initialHistoryPosition = opts.history.state.position as number;
+  let currentHistoryPosition = opts.history.state.position as number;
+
+  let currentRouteInfo: RouteInfo;
+  /**
+   * Params staged by a navigation helper for the upcoming route change.
+   * Cleared once `handleHistoryChange` has consumed them.
+   */
+  let incomingRouteParams: RouteParams | undefined;
+  /**
+   * The navigation the staged params belong to. vue-router hands the same
+   * location object to every hook for one navigation and builds a fresh one
+   * per navigation, so it identifies a navigation even when two of them target
+   * the same path. Kept beside the params rather than on them so it is never
+   * spread onto a RouteInfo and stored in `locationHistory`.
+   */
+  let incomingRouteParamsOwner: RouteLocationNormalized | undefined;
+  /**
+   * Set between staging the params and the navigation claiming them below.
+   * A navigation rejected as a duplicate never reaches `beforeEach`, so it
+   * never claims, and this is what tells the gate those params are still its
+   * own rather than a later navigation's.
+   */
+  let incomingRouteParamsUnclaimed = false;
+
+  /**
+   * The only place that stages route params, so an owner can never be left
+   * over from an earlier navigation.
+   */
+  const stageRouteParams = (params: RouteParams) => {
+    incomingRouteParams = params;
+    incomingRouteParamsOwner = undefined;
+    incomingRouteParamsUnclaimed = true;
+  };
+
+  /**
+   * The only place that clears them, so an owner can never outlive the params
+   * it belongs to and go on to match an unrelated navigation.
+   */
+  const clearStagedParams = () => {
+    incomingRouteParams = undefined;
+    incomingRouteParamsOwner = undefined;
+    incomingRouteParamsUnclaimed = false;
+  };
+
+  /**
+   * Whether `to` is a guard redirect of the navigation that claimed `owner`.
+   * vue-router points `redirectedFrom` at the first location in a redirect
+   * chain, so an owner that a `redirect:` record led to is matched on its own
+   * `redirectedFrom`.
+   */
+  const isGuardRedirectOf = (
+    owner: RouteLocationNormalized | undefined,
+    to: RouteLocationNormalized
+  ) =>
+    owner !== undefined &&
+    to.redirectedFrom !== undefined &&
+    (owner.redirectedFrom ?? owner) === to.redirectedFrom;
+
+  /**
+   * Whether `to` was redirected by a guard rather than a `redirect:` record.
+   * This can't tell a record redirect apart from one a leave guard redirected
+   * again afterwards.
+   */
+  const isRedirectedByGuard = (to: RouteLocationNormalized) => {
+    const origin = to.redirectedFrom;
+
+    return (
+      origin !== undefined &&
+      origin.matched[origin.matched.length - 1]?.redirect === undefined
+    );
+  };
+
+  /**
+   * The navigation that starts first after params are staged is the one they
+   * were staged for, so it takes ownership of them here. Registered before any
+   * guard the app adds so that it still runs when one of those aborts.
+   *
+   * A guard that returns a location starts a new navigation and the original
+   * never reaches afterEach or onError, so we discard what it claimed here
+   * instead. Leave guards run before this hook, so a navigation they redirect
+   * hasn't claimed anything yet and its state is discarded unclaimed.
+   */
+  router.beforeEach((to: RouteLocationNormalized) => {
+    if (isGuardRedirectOf(currentNavigationInfoOwner, to)) {
+      clearNavigationInfo();
+    }
+
+    if (isGuardRedirectOf(incomingRouteParamsOwner, to)) {
+      clearStagedParams();
+    }
+
+    const redirectedByGuard = isRedirectedByGuard(to);
+
+    if (incomingRouteParamsUnclaimed) {
+      if (redirectedByGuard) {
+        clearStagedParams();
+      } else {
+        incomingRouteParamsOwner = to;
+        incomingRouteParamsUnclaimed = false;
+      }
+    }
+
+    if (currentNavigationInfoUnclaimed) {
+      if (redirectedByGuard) {
+        clearNavigationInfo();
+      } else {
+        currentNavigationInfoOwner = to;
+        currentNavigationInfoUnclaimed = false;
+      }
+    }
+  });
+
+  /**
+   * State staged for a navigation that did not complete describes something
+   * that did not happen. handleHistoryChange normally consumes it, but it does
+   * not run for a navigation that failed, so it has to be discarded here or
+   * the next navigation picks it up instead.
+   *
+   * A delta is only staged for a history navigation, and a stale one makes the
+   * next navigation look like traversal, which stops the incoming route from
+   * being added. A stale set of params carries an action, a direction and
+   * sometimes a tab or a previous route's id into whatever runs next.
+   *
+   * Only discard state belonging to this navigation, and check the two slots
+   * separately. Another navigation can replace this one and stage its own
+   * state first, in which case discarding would strip that state from the
+   * navigation still running.
+   *
+   * Both are matched on the navigation that owns them rather than on where it
+   * was heading, because two navigations can head for the same path and a path
+   * cannot tell them apart. State still unclaimed belongs to this navigation,
+   * since nothing has started since it was staged. A guard redirect that fails
+   * before reaching beforeEach, like one to the current page, is matched
+   * through the navigation it redirected.
+   */
+  const discardStagedStateFor = (to: RouteLocationNormalized) => {
+    const deltaIsForThisNavigation =
+      currentNavigationInfoOwner === undefined
+        ? currentNavigationInfoUnclaimed
+        : currentNavigationInfoOwner === to ||
+          isGuardRedirectOf(currentNavigationInfoOwner, to);
+
+    const paramsAreForThisNavigation =
+      incomingRouteParamsOwner === undefined
+        ? incomingRouteParamsUnclaimed
+        : incomingRouteParamsOwner === to ||
+          isGuardRedirectOf(incomingRouteParamsOwner, to);
+
+    if (deltaIsForThisNavigation) {
+      clearNavigationInfo();
+    }
+
+    if (paramsAreForThisNavigation) {
+      clearStagedParams();
+    }
+  };
+
+  const historyChangeListeners: any[] = [];
+
+  if (typeof (document as any) !== "undefined") {
+    document.addEventListener("ionBackButton", (ev: Event) => {
+      (ev as any).detail.register(0, (processNextHandler: () => void) => {
+        opts.history.go(-1);
+        processNextHandler();
+      });
+    });
+  }
+
+  opts.history.listen((_to: any, _x: any, info: any) => {
+    /**
+     * history.listen only fires on certain
+     * event such as when the user clicks the
+     * browser back button. It also gives us
+     * additional information as to the type
+     * of navigation (forward, backward, etc).
+     *
+     * We can use this to better handle the
+     * `handleHistoryChange` call in
+     * router.beforeEach
+     */
+    currentNavigationInfo = {
+      delta: info.delta,
+
+      /**
+       * Both the browser forward and backward actions
+       * are considered "pop" actions, but when going forward
+       * we want to make sure the forward animation is used.
+       */
+      action: info.type === "pop" && info.delta >= 1 ? "push" : info.type,
+      direction: info.direction === "" ? "forward" : info.direction,
+    };
+
+    currentNavigationInfoOwner = undefined;
+    currentNavigationInfoUnclaimed = true;
+  });
+
+  const handleNavigateBack = (
+    defaultHref?: string,
+    routerAnimation?: AnimationBuilder
+  ) => {
+    const routeInfo = locationHistory.current(
+      initialHistoryPosition,
+      currentHistoryPosition
+    );
+    /**
+     * The fallback branches below only navigate when `defaultHref` is set,
+     * matching @ionic/react-router. Without one there is nowhere to go, so
+     * they no-op.
+     */
+    if (routeInfo && routeInfo.pushedByRoute) {
+      const prevInfo = locationHistory.findLastLocation(routeInfo);
+      if (prevInfo) {
+        stageRouteParams({
+          ...prevInfo,
+          routerAction: "pop",
+          routerDirection: "back",
+          routerAnimation: routerAnimation || routeInfo.routerAnimation,
+        });
+        if (
+          routeInfo.lastPathname === routeInfo.pushedByRoute ||
+          /**
+           * We need to exclude tab switches/tab
+           * context changes here because tabbed
+           * navigation is not linear, but router.back()
+           * will go back in a linear fashion.
+           */
+          (prevInfo.pathname === routeInfo.pushedByRoute &&
+            /**
+             * Tab info can be undefined or '' (empty string)
+             * both are false-y values, so we can just use !.
+             */
+            !routeInfo.tab &&
+            !prevInfo.tab)
+        ) {
+          router.back();
+        } else {
+          /**
+           * When going back to a child page of a tab
+           * after being on another tab, we need to use
+           * router.go() here instead of pushing or replacing.
+           * Consider the following example:
+           * /tabs/tab1 --> /tabs/tab1/child1 --> /tabs/tab1/child2
+           * --> /tabs/tab2 (via Tab 2 button) --> /tabs/tab1/child2 (via Tab 1 button)
+           *
+           * Pressing the ion-back-button on /tabs/tab1/child2 should take
+           * us back to /tabs/tab1/child1 not /tabs/tab2 because each tab
+           * is its own stack.
+           *
+           * If we called pressed the ion-back-button and this code called
+           * router.replace, then the state of /tabs/tab1/child2 would
+           * be replaced with /tabs/tab1/child1. However, this means that
+           * there would be two /tabs/tab1/child1 entries in the location
+           * history as the original /tabs/tab1/child1 entry is still there.
+           * As a result, clicking the ion-back-button on /tabs/tab1/child1 does
+           * nothing because this code would try to route to the same page
+           * we are currently on.
+           *
+           * If we called router.push instead then we would push a
+           * new /tabs/tab1/child1 entry to the location history. This
+           * is not good because we would have two /tabs/tab1/child1 entries
+           * separated by a /tabs/tab1/child2 entry.
+           */
+          const positionDelta = prevInfo.position! - routeInfo.position!;
+          if (positionDelta < 0) {
+            router.go(positionDelta);
+          } else if (prevInfo.pathname) {
+            /**
+             * prevInfo's history position was wiped when the user went
+             * back then pushed a new route, so router.go can't
+             * reach it. Replace falls through to afterEach with the
+             * pop/back `incomingRouteParams` set above, which preserves
+             * the back animation and consumes the params so they don't
+             * leak into the next navigation. We replace even when
+             * `positionDelta === 0` for the same consumption reason.
+             */
+            router.replace({
+              path: prevInfo.pathname,
+              query: parseQuery(prevInfo.search ?? ""),
+            });
+          } else if (defaultHref) {
+            /**
+             * prevInfo has no pathname (synthesized root entry). Route
+             * to `defaultHref` so the pop/back `incomingRouteParams`
+             * set above gets consumed instead of leaking into the next
+             * navigation.
+             */
+            handleNavigate(defaultHref, "pop", "back", routerAnimation);
+          } else {
+            /**
+             * There is nowhere to navigate, so drop the params rather than
+             * letting them leak into the next navigation.
+             */
+            clearStagedParams();
+          }
+        }
+      } else if (defaultHref) {
+        handleNavigate(defaultHref, "pop", "back", routerAnimation);
+      }
+    } else if (defaultHref) {
+      handleNavigate(defaultHref, "pop", "back", routerAnimation);
+    }
+  };
+
+  const handleNavigate = (
+    path: RouteLocationRaw,
+    routerAction?: RouteAction,
+    routerDirection?: RouteDirection,
+    routerAnimation?: AnimationBuilder,
+    tab?: string
+  ) => {
+    setIncomingRouteParams(routerAction, routerDirection, routerAnimation, tab);
+
+    if (routerAction === "push") {
+      router.push(path);
+    } else {
+      router.replace(path);
+    }
+  };
+
+  // TODO RouteLocationNormalized
+  const handleHistoryChange = (
+    location: any,
+    action?: RouteAction,
+    direction?: RouteDirection,
+    delta?: number
+  ) => {
+    let leavingLocationInfo: RouteInfo;
+    if (incomingRouteParams) {
+      /**
+       * If we are replacing the state of a route
+       * with another route, the "leaving" route
+       * is at the same position in location history
+       * as where the replaced route will exist.
+       */
+      if (incomingRouteParams.routerAction === "replace") {
+        leavingLocationInfo = locationHistory.current(
+          initialHistoryPosition,
+          currentHistoryPosition
+        );
+      } else if (incomingRouteParams.routerAction === "pop") {
+        /**
+         * Back can skip several entries, e.g. router.go(-3) after a
+         * tab switch, so use the delta to find the page we left. A
+         * back done with router.replace has no delta and keeps the
+         * one-step lookup.
+         */
+        leavingLocationInfo = locationHistory.current(
+          initialHistoryPosition,
+          currentHistoryPosition - (delta ?? -1)
+        );
+
+        /**
+         * If the Ionic Router action was "pop"
+         * and the browser history action was "replace", then
+         * it is the case that the user clicked an IonBackButton
+         * that is trying to go back to the route specified
+         * by the defaultHref property.
+         *
+         * The problem is that this route currently does
+         * not exist in the browser history, and we cannot
+         * prepend an item in the browser's history stack.
+         * To work around this, we replace the state of
+         * the current item instead.
+         * Given this scenario:
+         * /page2 --> /page3 --> (back) /page2 --> (defaultHref) /page1
+         * We would replace the state of /page2 with the state of /page1.
+         *
+         * When doing this, we are essentially re-writing past
+         * history which makes the future history no longer relevant.
+         * As a result, we clear out the location history so that users
+         * can begin pushing new routes to the stack.
+         *
+         * This pattern is aligned with how the browser handles
+         * pushing new routes after going back as well as how
+         * other stack based operations such as undo/redo work.
+         * For example, if you do tasks A, B, C, undo B and C, and
+         * then do task D, you cannot "redo" B and C because you
+         * rewrote the stack's past history.
+         *
+         * With browser history, it is a similar concept.
+         * Going /page1 --> /page2 --> /page3 and then doing
+         * router.go(-2) will bring you back to /page1.
+         * If you then push /page4, you have rewritten
+         * the past history and you can no longer go
+         * forward to /page2 or /page3.
+         */
+        if (action === "replace") {
+          locationHistory.clearHistory();
+        }
+      } else {
+        /**
+         * If the routerDirection was specified as "root", then
+         * we are replacing the initial state of location history
+         * with this incoming route. As a result, the leaving
+         * history info is stored at the same location as
+         * where the incoming history location will be stored.
+         *
+         * Otherwise, we can assume this is just another route
+         * that will be pushed onto the end of location history,
+         * so we can grab the previous item in history relative
+         * to where the history state currently is.
+         */
+        const position =
+          incomingRouteParams.routerDirection === "root"
+            ? currentHistoryPosition
+            : currentHistoryPosition - 1;
+        leavingLocationInfo = locationHistory.current(
+          initialHistoryPosition,
+          position
+        );
+      }
+    } else {
+      leavingLocationInfo = currentRouteInfo;
+    }
+
+    if (!leavingLocationInfo) {
+      leavingLocationInfo = {
+        pathname: "",
+        search: "",
+      };
+    }
+
+    const leavingUrl =
+      (leavingLocationInfo.pathname ?? "") + (leavingLocationInfo.search ?? "");
+    if (leavingUrl !== location.fullPath) {
+      if (!incomingRouteParams) {
+        if (action === "replace") {
+          incomingRouteParams = {
+            routerAction: "replace",
+            routerDirection: "none",
+          };
+        } else if (action === "pop") {
+          /**
+           * Without a delta there is no target position to compute, so fall
+           * back to the latest entry, which is what `current()` resolves to.
+           */
+          const routeInfo =
+            delta === undefined
+              ? locationHistory.last()
+              : locationHistory.current(
+                  initialHistoryPosition,
+                  currentHistoryPosition - delta
+                );
+
+          if (routeInfo && routeInfo.pushedByRoute) {
+            const prevRouteInfo = locationHistory.findLastLocation(
+              routeInfo,
+              delta
+            );
+            if (
+              prevRouteInfo &&
+              prevRouteInfo.pathname &&
+              prevRouteInfo.pathname !== location.path &&
+              (routeInfo.tab || prevRouteInfo.tab)
+            ) {
+              /**
+               * Browser POP destination differs from the within-tab back
+               * target (e.g. user is on a re-activated tab child and the
+               * browser's linear predecessor is in a different tab). Sync
+               * URL with the displayed page via router.replace so the back
+               * stack stays consistent with what the user sees, matching
+               * handleNavigateBack's non-linear path.
+               */
+              handleNavigate(
+                prevRouteInfo.pathname +
+                  (prevRouteInfo.search ? "?" + prevRouteInfo.search : ""),
+                "pop",
+                "back",
+                undefined,
+                prevRouteInfo.tab
+              );
+              return;
+            }
+            incomingRouteParams = {
+              ...prevRouteInfo,
+              routerAction: "pop",
+              routerDirection: "back",
+            };
+          } else {
+            incomingRouteParams = {
+              routerAction: "pop",
+              routerDirection: "none",
+            };
+          }
+        }
+
+        if (!incomingRouteParams) {
+          incomingRouteParams = {
+            routerAction: "push",
+            routerDirection: direction || "forward",
+          };
+        }
+      }
+
+      let routeInfo: RouteInfo;
+      if (incomingRouteParams?.id) {
+        routeInfo = {
+          ...incomingRouteParams,
+          lastPathname: leavingLocationInfo.pathname,
+        };
+      } else {
+        const isPushed =
+          incomingRouteParams.routerAction === "push" &&
+          incomingRouteParams.routerDirection === "forward";
+        routeInfo = {
+          id: generateId("routeInfo"),
+          ...incomingRouteParams,
+          lastPathname: leavingLocationInfo.pathname,
+          pathname: location.path,
+          search: (location.fullPath && location.fullPath.split("?")[1]) || "",
+          params: location.params && location.params,
+          prevRouteLastPathname: leavingLocationInfo.lastPathname,
+        };
+
+        if (isPushed) {
+          routeInfo.pushedByRoute =
+            leavingLocationInfo.pathname !== ""
+              ? leavingLocationInfo.pathname
+              : undefined;
+        } else if (routeInfo.routerAction === "pop") {
+          const route = locationHistory.findLastLocation(routeInfo);
+          routeInfo.pushedByRoute = route?.pushedByRoute;
+        } else if (
+          routeInfo.routerAction === "push" &&
+          routeInfo.tab !== leavingLocationInfo.tab
+        ) {
+          const lastRoute = locationHistory.getCurrentRouteInfoForTab(
+            routeInfo.tab
+          );
+          routeInfo.pushedByRoute = lastRoute?.pushedByRoute;
+        } else if (
+          routeInfo.routerAction === "push" &&
+          routeInfo.routerDirection === "none" &&
+          routeInfo.tab === leavingLocationInfo.tab
+        ) {
+          /**
+           * Same-tab push with direction "none" still needs pushedByRoute so
+           * ion-back-button uses history instead of falling back to defaultHref.
+           * Cross-tab pushes hit the branch above.
+           *
+           * Skip when the candidate equals the current pathname (e.g. /a?x=1 ->
+           * /a?x=2) to avoid a self-loop on back. Same guard as the replace
+           * branch below.
+           */
+          const candidate = leavingLocationInfo.pathname;
+          routeInfo.pushedByRoute =
+            candidate !== "" && candidate !== routeInfo.pathname
+              ? candidate
+              : undefined;
+        } else if (routeInfo.routerAction === "replace") {
+          /**
+           * When replacing a route, we want to make sure we select the current route
+           * that we are on, not the last route in the stack. The last route in the stack
+           * is not always the current route.
+           * Example:
+           * Given the following history: /page1 --> /page2
+           * Doing router.go(-1) would bring you to /page1.
+           * If you then did router.replace('/page3'), /page1 should
+           * be replaced with /page3 even though /page2 is the last
+           * item in the stack/
+           */
+          const currentRouteInfo = locationHistory.current(
+            initialHistoryPosition,
+            currentHistoryPosition
+          );
+
+          /**
+           * If going from /home to /child, then replacing from
+           * /child to /home, we don't want the route info to
+           * say that /home was pushed by /home which is not correct.
+           */
+          const currentPushedBy = currentRouteInfo?.pushedByRoute;
+          const pushedByRoute =
+            currentPushedBy !== undefined &&
+            currentPushedBy !== routeInfo.pathname
+              ? currentPushedBy
+              : routeInfo.pushedByRoute;
+
+          routeInfo.lastPathname =
+            currentRouteInfo?.pathname || routeInfo.lastPathname;
+          /**
+           * A root replace resets the stack, so keeping pushedByRoute
+           * would show a back button with nowhere to go.
+           */
+          routeInfo.pushedByRoute =
+            routeInfo.routerDirection === "root" ? undefined : pushedByRoute;
+          /**
+           * Prefer the direction/animation the caller specified on
+           * the navigate call; fall back to the leaving route's
+           * values only when none was provided.
+           */
+          routeInfo.routerDirection =
+            routeInfo.routerDirection || currentRouteInfo?.routerDirection;
+          routeInfo.routerAnimation =
+            routeInfo.routerAnimation || currentRouteInfo?.routerAnimation;
+          routeInfo.prevRouteLastPathname = currentRouteInfo?.lastPathname;
+        }
+      }
+
+      routeInfo.position = currentHistoryPosition;
+      routeInfo.delta = delta;
+      const historySize = locationHistory.size();
+      const historyDiff = currentHistoryPosition - initialHistoryPosition;
+
+      /**
+       * If the size of location history is greater
+       * than the difference between the current history
+       * position and the initial history position
+       * then we are guaranteed to already have a history
+       * item for this route. In other words, a user
+       * is navigating within the history without pushing
+       * new items within the stack.
+       *
+       * If the historySize === historyDiff,
+       * then we are still re-writing history
+       * by replacing the current route state
+       * with a new route state. The initial
+       * action when loading an app is
+       * going to be replace operation, so
+       * we want to make sure we exclude that
+       * action by ensuring historySize > 0.
+       */
+      const isReplacing =
+        historySize === historyDiff && historySize > 0 && action === "replace";
+      if (historySize > historyDiff || isReplacing) {
+        /**
+         * When navigating back through the history,
+         * if users then push a new route the future
+         * history stack is no longer relevant. As
+         * a result, we need to clear out all entries
+         * that appear after the current routeInfo
+         * so that we can then append the new history.
+         *
+         * This does not apply when using router.go
+         * as that is traversing through the history,
+         * not altering it.
+         *
+         * Previously we had only updated the existing route
+         * and then left the future history alone. That
+         * worked for some use cases but was not sufficient
+         * in other scenarios.
+         */
+
+        if (
+          (routeInfo.routerAction === "push" ||
+            routeInfo.routerAction === "replace") &&
+          delta === undefined
+        ) {
+          locationHistory.clearHistory(routeInfo);
+          locationHistory.add(routeInfo);
+        }
+      } else {
+        locationHistory.add(routeInfo);
+      }
+
+      /**
+       * If we recently reset the location history
+       * then we also need to update the initial
+       * history position.
+       */
+      if (locationHistory.size() === 1) {
+        initialHistoryPosition = routeInfo.position;
+      }
+
+      currentRouteInfo = routeInfo;
+    }
+    clearStagedParams();
+    historyChangeListeners.forEach((cb) => cb(currentRouteInfo));
+  };
+
+  const getCurrentRouteInfo = () => currentRouteInfo;
+
+  const canGoBack = (deep = 1) =>
+    locationHistory.canGoBack(
+      deep,
+      initialHistoryPosition,
+      currentHistoryPosition
+    );
+
+  const navigate = (navigationOptions: ExternalNavigationOptions) => {
+    const { routerAnimation, routerDirection, routerLink } = navigationOptions;
+
+    setIncomingRouteParams("push", routerDirection, routerAnimation);
+
+    router.push(routerLink);
+  };
+
+  const resetTab = (tab: string, originalHref?: string) => {
+    /**
+     * Resetting the tab should go back
+     * to the initial view in the tab stack.
+     * It should not push a new instance of the
+     * root tab page onto the stack.
+     *
+     * To do this, we get the initial view in the
+     * tab stack and subtract the position of that
+     * entry from our current position. From there
+     * we call router.go() to move us back the
+     * appropriate number of positions.
+     */
+    const routeInfo = locationHistory.getFirstRouteInfoForTab(tab);
+    if (routeInfo) {
+      const delta = routeInfo.position! - currentHistoryPosition;
+      /**
+       * Memory history doesn't store a position in `history.state`, so
+       * `delta` is NaN and there's nothing to traverse. Replace instead.
+       */
+      if (Number.isNaN(delta)) {
+        if (originalHref) {
+          handleNavigate(originalHref, "pop", "back", undefined, tab);
+        }
+        return;
+      }
+      if (delta !== 0) {
+        router.go(delta);
+        return;
+      }
+      /**
+       * The first history entry for this tab is the current entry,
+       * so there's nothing earlier to traverse back to. Happens
+       * after a deep load onto a tab child or an external navigation
+       * that reset the SPA history. Replace with `originalHref` so
+       * no stale child entry stays in browser history.
+       */
+      if (originalHref && routeInfo.pathname !== originalHref) {
+        handleNavigate(originalHref, "pop", "back", undefined, tab);
+      }
+      return;
+    }
+    /**
+     * No routeInfo for this tab yet. Replace the current entry
+     * with `originalHref` so the tab has a root to reset to.
+     */
+    if (originalHref) {
+      handleNavigate(originalHref, "pop", "back", undefined, tab);
+    }
+  };
+
+  const changeTab = (tab: string, path?: string) => {
+    if (!path) return;
+
+    const routeInfo = locationHistory.getCurrentRouteInfoForTab(tab);
+    /**
+     * Strip the fragment before parsing the query so that a `#frag` on the
+     * href cannot leak into the last query value or corrupt the pathname.
+     */
+    const hashIndex = path.indexOf("#");
+    const beforeHash = hashIndex >= 0 ? path.slice(0, hashIndex) : path;
+    const hrefHash =
+      hashIndex >= 0 && hashIndex < path.length - 1
+        ? path.slice(hashIndex)
+        : "";
+    const [pathname, search] = beforeHash.split("?");
+    const hrefSearch = search ? `?${search}` : "";
+
+    if (routeInfo) {
+      /**
+       * When going back to a tab
+       * you just left, it's possible
+       * for the route info to be incorrect
+       * as the tab you want is not the
+       * tab you are on.
+       *
+       * If the incoming href carries its own query string, prefer that over
+       * the previously-saved search so query params on the tab button href
+       * are honored when re-selecting the tab.
+       */
+      const effectiveSearch = hrefSearch || routeInfo.search || "";
+      const target = {
+        path: routeInfo.pathname === pathname ? routeInfo.pathname : pathname,
+        query: parseQuery(effectiveSearch),
+        ...(hrefHash ? { hash: hrefHash } : {}),
+      };
+
+      stageRouteParams({
+        ...incomingRouteParams,
+        routerAction: "push",
+        routerDirection: "none",
+        tab,
+      });
+
+      router.push(target);
+    } else {
+      handleNavigate(
+        pathname + hrefSearch + hrefHash,
+        "push",
+        "none",
+        undefined,
+        tab
+      );
+    }
+  };
+
+  /**
+   * This method is invoked by the IonTabs component
+   * during a history change callback. It is responsible
+   * for ensuring that tabbed routes have the correct
+   * "tab" field in its routeInfo object.
+   *
+   * IonTabs will determine if the current route
+   * is in tabs and assign it the correct tab.
+   * If the current route is not in tabs,
+   * then IonTabs will not invoke this.
+   */
+  const handleSetCurrentTab = (tab: string) => {
+    /**
+     * Note that the current page that we
+     * are on is not necessarily the last item
+     * in the locationHistory stack. As a result,
+     * we cannot use locationHistory.last() here.
+     */
+    const ri = {
+      ...locationHistory.current(
+        initialHistoryPosition,
+        currentHistoryPosition
+      ),
+    };
+
+    /**
+     * handleHistoryChange is tabs-agnostic by design.
+     * One side effect of this is that certain tabs
+     * routes have extraneous/incorrect information
+     * that we need to remove. To not tightly couple
+     * handleHistoryChange with tabs, we let the
+     * handleSetCurrentTab function. This function is
+     * only called by IonTabs.
+     */
+
+    if (ri.tab !== tab) {
+      ri.tab = tab;
+      locationHistory.update(ri);
+    }
+
+    /**
+     * lastPathname typically equals pushedByRoute
+     * when navigating in a linear manner. When switching between
+     * tabs, this is almost never the case.
+     *
+     * Example: /tabs/tabs1 --> /tabs/tab2 --> /tabs/tab1
+     * The latest Tab 1 route would have the following information
+     * lastPathname: '/tabs/tab2'
+     * pushedByRoute: '/tabs/tab2'
+     *
+     * A tab cannot push another tab, so we need to set
+     * pushedByRoute to `undefined`. Alternative way of thinking
+     * about this: You cannot swipe to go back from Tab 1 to Tab 2.
+     *
+     * However, there are some instances where we do want to keep
+     * the pushedByRoute. As a result, we need to ensure that
+     * we only wipe the pushedByRoute state when the both of the
+     * following conditions are met:
+     * 1. pushedByRoute is different from lastPathname
+     * 2. The tab for the pushedByRoute info is different
+     * from the current route tab.
+     *
+     * Example of when we would not want to clear pushedByRoute:
+     * /tabs/tab1 --> /tabs/tab1/child --> /tabs/tab2 --> /tabs/tab1/child
+     * The latest Tab 1 Child route would have the following information:
+     * lastPathname: '/tabs/tab2'
+     * pushedByRoute: '/tabs/tab1
+     *
+     * In this case, /tabs/tab1/child should be able to swipe to go back
+     * to /tabs/tab1 so we want to keep the pushedByRoute.
+     */
+    const pushedByRoute = locationHistory.findLastLocation(ri);
+    if (ri.pushedByRoute !== ri.lastPathname && pushedByRoute?.tab !== tab) {
+      ri.pushedByRoute = undefined;
+      locationHistory.update(ri);
+    }
+  };
+
+  const registerHistoryChangeListener = (cb: any) => {
+    historyChangeListeners.push(cb);
+  };
+
+  const setIncomingRouteParams = (
+    routerAction: RouteAction = "push",
+    routerDirection: RouteDirection = "forward",
+    routerAnimation?: AnimationBuilder,
+    tab?: string
+  ) => {
+    stageRouteParams({
+      routerAction,
+      routerDirection,
+      routerAnimation,
+      tab,
+    });
+  };
+
+  const goBack = (routerAnimation?: AnimationBuilder) => {
+    setIncomingRouteParams("pop", "back", routerAnimation);
+    router.back();
+  };
+
+  const goForward = (routerAnimation?: AnimationBuilder) => {
+    setIncomingRouteParams("push", "forward", routerAnimation);
+    router.forward();
+  };
+
+  const getLeavingRouteInfo = () => {
+    return locationHistory.current(
+      initialHistoryPosition,
+      currentHistoryPosition
+    );
+  };
+
+  return {
+    handleNavigate,
+    getLeavingRouteInfo,
+    handleNavigateBack,
+    handleSetCurrentTab,
+    getCurrentRouteInfo,
+    canGoBack,
+    navigate,
+    resetTab,
+    changeTab,
+    registerHistoryChangeListener,
+    goBack,
+    goForward,
+  };
+};

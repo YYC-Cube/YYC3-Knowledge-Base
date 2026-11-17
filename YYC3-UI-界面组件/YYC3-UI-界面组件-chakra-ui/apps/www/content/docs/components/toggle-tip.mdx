@@ -1,0 +1,78 @@
+---
+title: Toggle Tip
+description: Looks like a tooltip, but works like a popover.
+---
+
+<ExampleTabs name="toggle-tip-basic" />
+
+## Setup
+
+For ease of use, create a closed component composition for the `ToggleTip`
+component.
+
+<SnippetCode name="toggle-tip" />
+
+Alternatively, you can add it to your project using the following command.
+
+```sh
+npx @chakra-ui/cli snippet add toggle-tip
+```
+
+The snippet includes a closed component composition for the `Popover` component.
+
+## Usage
+
+```jsx
+import { InfoTip, ToggleTip } from "@/components/ui/toggle-tip"
+```
+
+```jsx
+<ToggleTip content="...">
+  <button />
+</ToggleTip>
+```
+
+## Examples
+
+### Info Tip
+
+Use the `InfoTip` component to display an info tip. This component renders an
+icon button with an info icon by default.
+
+> Useful for landing pages to display additional information about a feature.
+
+<ExampleTabs name="toggle-tip-info-tip" />
+
+### Sizes
+
+The toggle tip supports `xs`, `sm`, `md`, and `lg` size variants. Pass the
+`size` prop to both the component and the button to scale it consistently.
+
+<ExampleTabs name="toggle-tip-sizes" />
+
+### Arrow
+
+Set `showArrow` to display a directional arrow pointing from the popover content
+to the trigger element.
+
+<ExampleTabs name="toggle-tip-arrow" />
+
+### Close on Escape
+
+By default (`true`), pressing the Escape key closes the toggle tip. Set to
+`false` to keep it open on Escape.
+
+<ExampleTabs name="toggle-tip-close-on-escape" />
+
+### Close on Interact Outside
+
+By default (`true`), clicking outside the toggle tip closes it. Set to `false`
+to allow outside interaction without closing.
+
+<ExampleTabs name="toggle-tip-close-on-interact-outside" />
+
+## Props
+
+### Root
+
+<PropTable component="Popover" part="Root" />

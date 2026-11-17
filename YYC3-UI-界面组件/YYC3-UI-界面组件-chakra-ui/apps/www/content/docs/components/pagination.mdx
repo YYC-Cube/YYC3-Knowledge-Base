@@ -1,0 +1,141 @@
+---
+title: Pagination
+description: Used to navigate through a series of pages.
+links:
+  source: components/pagination
+  storybook: components-pagination--basic
+  ark: https://ark-ui.com/docs/components/pagination
+---
+
+<ExampleTabs name="pagination-basic" />
+
+## Usage
+
+```tsx
+import { Pagination } from "@chakra-ui/react"
+```
+
+```tsx
+<Pagination.Root>
+  <Pagination.PrevTrigger />
+  <Pagination.Ellipsis />
+  <Pagination.Item />
+  <Pagination.PageText />
+  <Pagination.NextTrigger />
+</Pagination.Root>
+```
+
+## Shortcuts
+
+The `Pagination` component also provides a set of shortcuts for common use
+cases.
+
+### PaginationItems
+
+This component renders the number of pages based on the `count` and `pageSize`
+props.
+
+Rendering this:
+
+```tsx
+<Pagination.Items />
+```
+
+is shorthand for this:
+
+```tsx
+<Pagination.Context>
+  {({ pages }) =>
+    pages.map((page, index) =>
+      page.type === "page" ? (
+        <Pagination.Item key={index} {...page} />
+      ) : (
+        <Pagination.Ellipsis key={index} index={index} />
+      ),
+    )
+  }
+</Pagination.Context>
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the pagination.
+
+:::info
+
+The pagination sizes are mapped to the `Button` component sizes.
+
+:::
+
+<ExampleTabs name="pagination-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to control the variant of the pagination items and
+ellipsis.
+
+> The variant matches the `Button` component variant.
+
+<ExampleTabs name="pagination-with-variants" />
+
+### Controlled
+
+Use the `page` and `onPageChange` props to control the current page.
+
+<ExampleTabs name="pagination-controlled" />
+
+### Sibling Count
+
+Use `siblingCount` to control the number of sibling pages to show before and
+after the current page.
+
+<ExampleTabs name="pagination-with-sibling-count" />
+
+### Compact
+
+Use the `Pagination.PageText` to create a compact pagination. This can be useful
+for mobile views.
+
+<ExampleTabs name="pagination-compact" />
+
+### As Link
+
+Here's an example of rendering the pagination as links.
+
+<ExampleTabs name="pagination-as-link" />
+
+### Attached
+
+Here's an example of composing the pagination with the `Group` component to
+attach the pagination items and triggers.
+
+<ExampleTabs name="pagination-attached" />
+
+### Count Text
+
+Pass `format="long"` to the `Pagination.PageText` component to show the count
+text.
+
+<ExampleTabs name="pagination-with-count-text" />
+
+### Custom Page Text
+
+Pass a function to the `format` prop of `Pagination.PageText` to customize or
+localize the page text.
+
+<ExampleTabs name="pagination-with-custom-format" />
+
+### Data Driven
+
+Here's an example of controlling the pagination state and using the state to
+chunk the data.
+
+<ExampleTabs name="pagination-with-content" />
+
+## Props
+
+### Root
+
+<PropTable component="Pagination" part="Root" />

@@ -1,0 +1,104 @@
+---
+title: Radio
+description: Used to select one option from several options
+links:
+  storybook: components-radio--basic
+  recipe: radio-group
+  ark: https://ark-ui.com/docs/components/radio-group
+---
+
+<ExampleTabs name="radio-basic" />
+
+## Usage
+
+```tsx
+import { RadioGroup } from "@chakra-ui/react"
+```
+
+```tsx
+<RadioGroup.Root>
+  <RadioGroup.Item>
+    <RadioGroup.ItemHiddenInput />
+    <RadioGroup.ItemIndicator />
+    <RadioGroup.ItemText />
+  </RadioGroup.Item>
+</RadioGroup.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Controlled
+
+Pass the `value` and `onValueChange` props to the `RadioGroup.Root` component to
+control the selected radio button.
+
+<ExampleTabs name="radio-controlled" />
+
+### Colors
+
+Pass the `colorPalette` prop to the `RadioGroup.Root` component to change the
+color scheme of the component.
+
+<ExampleTabs name="radio-with-colors" />
+
+### Sizes
+
+Pass the `size` prop to the `RadioGroup.Root` component to change the size of
+the radio component.
+
+<ExampleTabs name="radio-with-sizes" />
+
+### Variants
+
+Pass the `variant` prop to the `RadioGroup.Root` component to change the
+appearance of the radio component.
+
+<ExampleTabs name="radio-with-variants" />
+
+### Disabled
+
+Pass the `disabled` prop to the `RadioGroup.Item` component to make the radio
+disabled.
+
+<ExampleTabs name="radio-disabled" />
+
+### Hook Form
+
+Use the `Controller` component from `react-hook-form` to control the radio group
+within a form
+
+<ExampleTabs name="radio-with-hook-form" />
+
+### Closed Component
+
+Here's how to setup the Radio for a closed component composition.
+
+<ExampleCode name="radio-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add radio
+```
+
+Here's how to use it:
+
+```tsx
+<RadioGroup>
+  <Radio />
+</RadioGroup>
+```
+
+## Props
+
+### Root
+
+<PropTable component="RadioGroup" part="Root" />

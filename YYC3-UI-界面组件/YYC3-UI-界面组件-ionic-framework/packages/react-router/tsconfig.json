@@ -1,0 +1,18 @@
+{
+  "extends": "../../core/tsconfig.base.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "declarationDir": "dist/types",
+    /* rootDir set to satisfy @rollup/plugin-typescript (TS5011) for a predictable output layout. */
+    "rootDir": "src",
+    "inlineSources": true,
+    "sourceMap": true,
+    "jsx": "react"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["**/__tests__/**"],
+  "compileOnSave": false,
+  "buildOnSave": false
+}

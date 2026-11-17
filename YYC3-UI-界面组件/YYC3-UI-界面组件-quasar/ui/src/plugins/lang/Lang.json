@@ -1,0 +1,1634 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/options/quasar-language-packs"
+  },
+
+  "injection": "$q.lang",
+
+  "quasarConfOptions": {
+    "propName": "lang",
+    "type": "Object",
+    "definition": {
+      "noHtmlAttrs": {
+        "type": "Boolean",
+        "desc": "Whether to disable 'dir' and 'lang' HTML attributes getting added to the '<html>' tag. The 'dir' attribute is crucial when using RTL support. Disable this only if you need to handle these yourself for some reason."
+      }
+    }
+  },
+
+  "props": {
+    "props": {
+      "type": "Object",
+      "desc": "Quasar language pack",
+      "definition": {
+        "isoName": {
+          "type": "String",
+          "desc": "The ISO name of the Quasar language pack",
+          "examples": ["'en-US'"]
+        },
+        "nativeName": {
+          "type": "String",
+          "desc": "The native name of the Quasar language pack",
+          "examples": ["'English (US)'"]
+        },
+        "rtl": {
+          "type": "Boolean",
+          "desc": "Whether the language is RTL (right-to-left)",
+          "examples": ["false"]
+        },
+        "formatNumber": {
+          "type": "Function",
+          "desc": "Renders a number displayed by a Quasar component (QDate, QTime, QPagination) in the locale's digits; receives the ASCII digit string, zero-padded where the component pads it",
+          "params": {
+            "value": {
+              "type": "String",
+              "desc": "The ASCII digit string the component would display",
+              "examples": ["'05'", "'1403'"]
+            }
+          },
+          "returns": {
+            "type": "String",
+            "desc": "The localized digit string",
+            "examples": ["'۰۵'", "'۱۴۰۳'"]
+          },
+          "examples": [
+            "value => value.replace(/\\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit])"
+          ]
+        },
+        "label": {
+          "type": "Object",
+          "desc": "Generic labels",
+          "definition": {
+            "clear": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Clear'"]
+            },
+            "ok": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'OK'"]
+            },
+            "cancel": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Cancel'"]
+            },
+            "close": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Close'"]
+            },
+            "set": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Set'"]
+            },
+            "select": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Select'"]
+            },
+            "reset": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Reset'"]
+            },
+            "remove": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Remove'"]
+            },
+            "update": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Update'"]
+            },
+            "create": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Create'"]
+            },
+            "search": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Search'"]
+            },
+            "filter": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Filter'"]
+            },
+            "refresh": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Refresh'"]
+            },
+            "minimum": {
+              "type": "String",
+              "desc": "Aria-label for the QRange minimum-value thumb",
+              "examples": ["'Minimum'"]
+            },
+            "maximum": {
+              "type": "String",
+              "desc": "Aria-label for the QRange maximum-value thumb",
+              "examples": ["'Maximum'"]
+            },
+            "range": {
+              "type": "String",
+              "desc": "Aria-label for the QRange track when it drags the whole selected window (drag-range/drag-only-range)",
+              "examples": ["'Range'"]
+            },
+            "noValue": {
+              "type": "String",
+              "desc": "Aria-valuetext for a QSlider/QRange thumb whose model side is null",
+              "examples": ["'No value'"]
+            },
+            "resize": {
+              "type": "String",
+              "desc": "Aria-label for the QSplitter separator",
+              "examples": ["'Resize'"]
+            },
+            "expand": {
+              "type": "Function",
+              "desc": "Label function",
+              "params": {
+                "label": {
+                  "type": "String",
+                  "desc": "Item to expand"
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "Label",
+                "examples": ["'Expand'"]
+              },
+              "examples": [
+                "label => (label ? `Expand '${ label }'` : 'Expand')"
+              ]
+            },
+            "collapse": {
+              "type": "Function",
+              "desc": "Label function",
+              "params": {
+                "label": {
+                  "type": "String",
+                  "desc": "Item to collapse"
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "Label",
+                "examples": ["'Collapse'"]
+              },
+              "examples": [
+                "label => (label ? `Collapse '${ label }'` : 'Collapse')"
+              ]
+            }
+          }
+        },
+        "date": {
+          "type": "Object",
+          "desc": "QDate/QTime labels",
+          "definition": {
+            "days": {
+              "type": "Array",
+              "desc": "Label",
+              "examples": [
+                "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']"
+              ]
+            },
+            "daysShort": {
+              "type": "Array",
+              "desc": "Label",
+              "examples": ["['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']"]
+            },
+            "months": {
+              "type": "Array",
+              "desc": "Label",
+              "examples": [
+                "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']"
+              ]
+            },
+            "monthsShort": {
+              "type": "Array",
+              "desc": "Label",
+              "examples": [
+                "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']"
+              ]
+            },
+            "firstDayOfWeek": {
+              "type": "Number",
+              "desc": "0-6, 0 - Sunday, 1 Monday, ...",
+              "examples": ["0"]
+            },
+            "format24h": {
+              "type": "Boolean",
+              "desc": "Uses 24-hour format"
+            },
+            "pluralDay": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'days'"]
+            },
+            "prevMonth": {
+              "type": "String",
+              "desc": "Aria-label for the QDate previous month button",
+              "examples": ["'Previous month'"]
+            },
+            "nextMonth": {
+              "type": "String",
+              "desc": "Aria-label for the QDate next month button",
+              "examples": ["'Next month'"]
+            },
+            "prevYear": {
+              "type": "String",
+              "desc": "Aria-label for the QDate previous year button",
+              "examples": ["'Previous year'"]
+            },
+            "nextYear": {
+              "type": "String",
+              "desc": "Aria-label for the QDate next year button",
+              "examples": ["'Next year'"]
+            },
+            "today": {
+              "type": "String",
+              "desc": "Aria-label for the QDate today button",
+              "examples": ["'Today'"]
+            },
+            "prevRangeYears": {
+              "type": "Function",
+              "desc": "Aria-label for the QDate previous years range button",
+              "params": {
+                "range": {
+                  "type": "Number",
+                  "desc": "Number of years in the range",
+                  "examples": ["20"]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "The label"
+              },
+              "examples": ["range => `Previous ${ range } years`"]
+            },
+            "nextRangeYears": {
+              "type": "Function",
+              "desc": "Aria-label for the QDate next years range button",
+              "params": {
+                "range": {
+                  "type": "Number",
+                  "desc": "Number of years in the range",
+                  "examples": ["20"]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "The label"
+              },
+              "examples": ["range => `Next ${ range } years`"]
+            },
+            "hour": {
+              "type": "String",
+              "desc": "Aria-label for the QTime hour control",
+              "examples": ["'Hour'"]
+            },
+            "minute": {
+              "type": "String",
+              "desc": "Aria-label for the QTime minute control",
+              "examples": ["'Minute'"]
+            },
+            "second": {
+              "type": "String",
+              "desc": "Aria-label for the QTime second control",
+              "examples": ["'Second'"]
+            },
+            "now": {
+              "type": "String",
+              "desc": "Aria-label for the QTime 'now' button",
+              "examples": ["'Current time'"]
+            }
+          }
+        },
+        "table": {
+          "type": "Object",
+          "desc": "QTable labels",
+          "definition": {
+            "noData": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'No data available'"]
+            },
+            "noResults": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'No matching records found'"]
+            },
+            "loading": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Loading...'"]
+            },
+            "selectedRecords": {
+              "type": "Function",
+              "desc": "Label function",
+              "params": {
+                "rows": {
+                  "type": "Number",
+                  "desc": "Number of selected rows",
+                  "required": true,
+                  "examples": ["5"]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "Label",
+                "examples": ["'5 records selected'"]
+              },
+              "examples": ["rows => `${ rows } records selected`"]
+            },
+            "recordsPerPage": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Records per page:'"]
+            },
+            "allRows": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'All'"]
+            },
+            "pagination": {
+              "type": "Function",
+              "desc": "Label function",
+              "params": {
+                "start": {
+                  "type": "Number",
+                  "desc": "Page start index",
+                  "required": true,
+                  "examples": ["5"]
+                },
+                "end": {
+                  "type": "Number",
+                  "desc": "Page end index",
+                  "required": true,
+                  "examples": ["10"]
+                },
+                "total": {
+                  "type": "Number",
+                  "desc": "Total number of rows",
+                  "required": true,
+                  "examples": ["50"]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "Label",
+                "examples": ["'5–10 of 50'"]
+              },
+              "examples": [
+                "(start, end, total) => start + '–' + end + ' of ' + total"
+              ]
+            },
+            "columns": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Columns'"]
+            },
+            "selectAllRows": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the select-all-rows checkbox",
+              "examples": ["'Select all rows'"]
+            },
+            "selectRow": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of a row selection checkbox",
+              "examples": ["'Select row'"]
+            }
+          }
+        },
+        "carousel": {
+          "type": "Object",
+          "desc": "QCarousel labels",
+          "definition": {
+            "prevSlide": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the previous-slide arrow",
+              "examples": ["'Previous slide'"]
+            },
+            "nextSlide": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the next-slide arrow",
+              "examples": ["'Next slide'"]
+            }
+          }
+        },
+        "colorPicker": {
+          "type": "Object",
+          "desc": "QColor labels",
+          "definition": {
+            "spectrum": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the spectrum tab",
+              "examples": ["'Spectrum'"]
+            },
+            "tune": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the tune tab",
+              "examples": ["'Tune'"]
+            },
+            "palette": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the palette tab",
+              "examples": ["'Palette'"]
+            },
+            "value": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the color value input",
+              "examples": ["'Color value'"]
+            },
+            "hue": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the hue slider",
+              "examples": ["'Hue'"]
+            },
+            "alpha": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the opacity slider",
+              "examples": ["'Opacity'"]
+            },
+            "saturation": {
+              "type": "String",
+              "desc": "Label of the saturation axis in the spectrum panel's accessible value (aria-valuetext)",
+              "examples": ["'Saturation'"]
+            },
+            "brightness": {
+              "type": "String",
+              "desc": "Label of the brightness axis in the spectrum panel's accessible value (aria-valuetext)",
+              "examples": ["'Brightness'"]
+            }
+          }
+        },
+        "uploader": {
+          "type": "Object",
+          "desc": "QUploader labels",
+          "definition": {
+            "addFiles": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the pick-files button",
+              "examples": ["'Pick files'"]
+            },
+            "upload": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the upload button",
+              "examples": ["'Upload files'"]
+            },
+            "abort": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the abort-upload button",
+              "examples": ["'Abort upload'"]
+            },
+            "removeQueued": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the remove-queued-files button",
+              "examples": ["'Remove queued files'"]
+            },
+            "removeUploaded": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the remove-uploaded-files button",
+              "examples": ["'Remove uploaded files'"]
+            },
+            "removeFile": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of a single file removal button",
+              "examples": ["'Remove file'"]
+            }
+          }
+        },
+        "editor": {
+          "type": "Object",
+          "desc": "QEditor labels",
+          "definition": {
+            "toolbar": {
+              "type": "String",
+              "desc": "Accessible name (aria-label) of the toolbar",
+              "examples": ["'Editor toolbar'"]
+            },
+            "url": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'URL'"]
+            },
+            "bold": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Bold'"]
+            },
+            "italic": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Italic'"]
+            },
+            "strikethrough": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Strikethrough'"]
+            },
+            "underline": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Underline'"]
+            },
+            "unorderedList": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Unordered List'"]
+            },
+            "orderedList": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Ordered List'"]
+            },
+            "subscript": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Subscript'"]
+            },
+            "superscript": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Superscript'"]
+            },
+            "hyperlink": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Hyperlink'"]
+            },
+            "toggleFullscreen": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Toggle Fullscreen'"]
+            },
+            "quote": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Quote'"]
+            },
+            "left": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Left align'"]
+            },
+            "center": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Center align'"]
+            },
+            "right": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Right align'"]
+            },
+            "justify": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Justify align'"]
+            },
+            "print": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Print'"]
+            },
+            "outdent": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Decrease indentation'"]
+            },
+            "indent": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Increase indentation'"]
+            },
+            "removeFormat": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Remove formatting'"]
+            },
+            "formatting": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Formatting'"]
+            },
+            "fontSize": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Font Size'"]
+            },
+            "align": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Align'"]
+            },
+            "hr": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Insert Horizontal Rule'"]
+            },
+            "undo": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Undo'"]
+            },
+            "redo": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Redo'"]
+            },
+            "heading1": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Heading 1'"]
+            },
+            "heading2": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Heading 2'"]
+            },
+            "heading3": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Heading 3'"]
+            },
+            "heading4": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Heading 4'"]
+            },
+            "heading5": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Heading 5'"]
+            },
+            "heading6": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Heading 6'"]
+            },
+            "paragraph": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Paragraph'"]
+            },
+            "code": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Code'"]
+            },
+            "size1": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Very small'"]
+            },
+            "size2": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'A bit small'"]
+            },
+            "size3": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Normal'"]
+            },
+            "size4": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Medium-large'"]
+            },
+            "size5": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Big'"]
+            },
+            "size6": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Very big'"]
+            },
+            "size7": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Maximum'"]
+            },
+            "defaultFont": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'Default Font'"]
+            },
+            "viewSource": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'View Source'"]
+            }
+          }
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree labels",
+          "definition": {
+            "noNodes": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'No nodes available'"]
+            },
+            "noResults": {
+              "type": "String",
+              "desc": "Label",
+              "examples": ["'No matching nodes found'"]
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Set another Quasar Language Pack",
+      "params": {
+        "quasarLanguagePack": {
+          "type": "Object",
+          "desc": "Usually you will import such an object directly from quasar (eg: import qIconSet from 'quasar/lang/<lang-name>')",
+          "required": true,
+          "definition": {
+            "isoName": {
+              "type": "String",
+              "desc": "The ISO name of the Quasar language pack",
+              "required": true,
+              "examples": ["'en-US'"]
+            },
+            "nativeName": {
+              "type": "String",
+              "desc": "The native name of the Quasar language pack",
+              "required": true,
+              "examples": ["'English (US)'"]
+            },
+            "rtl": {
+              "type": "Boolean",
+              "default": "true",
+              "desc": "Whether the language is RTL (right-to-left)",
+              "examples": ["false"]
+            },
+            "formatNumber": {
+              "type": "Function",
+              "desc": "Renders a number displayed by a Quasar component (QDate, QTime, QPagination) in the locale's digits; receives the ASCII digit string, zero-padded where the component pads it",
+              "params": {
+                "value": {
+                  "type": "String",
+                  "desc": "The ASCII digit string the component would display",
+                  "examples": ["'05'", "'1403'"]
+                }
+              },
+              "returns": {
+                "type": "String",
+                "desc": "The localized digit string",
+                "examples": ["'۰۵'", "'۱۴۰۳'"]
+              },
+              "examples": [
+                "value => value.replace(/\\d/g, digit => '۰۱۲۳۴۵۶۷۸۹'[digit])"
+              ]
+            },
+            "label": {
+              "type": "Object",
+              "desc": "Generic labels",
+              "required": true,
+              "definition": {
+                "clear": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Clear'"]
+                },
+                "ok": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'OK'"]
+                },
+                "cancel": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Cancel'"]
+                },
+                "close": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Close'"]
+                },
+                "set": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Set'"]
+                },
+                "select": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Select'"]
+                },
+                "reset": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Reset'"]
+                },
+                "remove": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Remove'"]
+                },
+                "update": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Update'"]
+                },
+                "create": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Create'"]
+                },
+                "search": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Search'"]
+                },
+                "filter": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Filter'"]
+                },
+                "refresh": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Refresh'"]
+                },
+                "minimum": {
+                  "type": "String",
+                  "desc": "Aria-label for the QRange minimum-value thumb",
+                  "examples": ["'Minimum'"]
+                },
+                "maximum": {
+                  "type": "String",
+                  "desc": "Aria-label for the QRange maximum-value thumb",
+                  "examples": ["'Maximum'"]
+                },
+                "range": {
+                  "type": "String",
+                  "desc": "Aria-label for the QRange track when it drags the whole selected window (drag-range/drag-only-range)",
+                  "examples": ["'Range'"]
+                },
+                "noValue": {
+                  "type": "String",
+                  "desc": "Aria-valuetext for a QSlider/QRange thumb whose model side is null",
+                  "examples": ["'No value'"]
+                },
+                "resize": {
+                  "type": "String",
+                  "desc": "Aria-label for the QSplitter separator",
+                  "examples": ["'Resize'"]
+                },
+                "expand": {
+                  "type": "Function",
+                  "desc": "Label function",
+                  "required": true,
+                  "params": {
+                    "label": {
+                      "type": "String",
+                      "desc": "Item to expand"
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "Label",
+                    "examples": ["'Expand'"]
+                  },
+                  "examples": [
+                    "label => (label ? `Expand '${ label }'` : 'Expand')"
+                  ]
+                },
+                "collapse": {
+                  "type": "Function",
+                  "desc": "Label function",
+                  "required": true,
+                  "params": {
+                    "label": {
+                      "type": "String",
+                      "desc": "Item to collapse"
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "Label",
+                    "examples": ["'Collapse'"]
+                  },
+                  "examples": [
+                    "label => (label ? `Collapse '${ label }'` : 'Collapse')"
+                  ]
+                }
+              }
+            },
+            "date": {
+              "type": "Object",
+              "desc": "QDate/QTime labels",
+              "required": true,
+              "definition": {
+                "days": {
+                  "type": "Array",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [
+                    "['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']"
+                  ]
+                },
+                "daysShort": {
+                  "type": "Array",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [
+                    "['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']"
+                  ]
+                },
+                "months": {
+                  "type": "Array",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [
+                    "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']"
+                  ]
+                },
+                "monthsShort": {
+                  "type": "Array",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": [
+                    "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']"
+                  ]
+                },
+                "firstDayOfWeek": {
+                  "type": "Number",
+                  "desc": "0-6, 0 - Sunday, 1 Monday, ...",
+                  "required": true,
+                  "examples": ["0"]
+                },
+                "format24h": {
+                  "type": "Boolean",
+                  "desc": "Uses 24-hour format",
+                  "required": true
+                },
+                "pluralDay": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'days'"]
+                },
+                "prevMonth": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate previous month button",
+                  "examples": ["'Previous month'"]
+                },
+                "nextMonth": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate next month button",
+                  "examples": ["'Next month'"]
+                },
+                "prevYear": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate previous year button",
+                  "examples": ["'Previous year'"]
+                },
+                "nextYear": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate next year button",
+                  "examples": ["'Next year'"]
+                },
+                "today": {
+                  "type": "String",
+                  "desc": "Aria-label for the QDate today button",
+                  "examples": ["'Today'"]
+                },
+                "prevRangeYears": {
+                  "type": "Function",
+                  "desc": "Aria-label for the QDate previous years range button",
+                  "params": {
+                    "range": {
+                      "type": "Number",
+                      "desc": "Number of years in the range",
+                      "examples": ["20"]
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "The label"
+                  },
+                  "examples": ["range => `Previous ${ range } years`"]
+                },
+                "nextRangeYears": {
+                  "type": "Function",
+                  "desc": "Aria-label for the QDate next years range button",
+                  "params": {
+                    "range": {
+                      "type": "Number",
+                      "desc": "Number of years in the range",
+                      "examples": ["20"]
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "The label"
+                  },
+                  "examples": ["range => `Next ${ range } years`"]
+                },
+                "hour": {
+                  "type": "String",
+                  "desc": "Aria-label for the QTime hour control",
+                  "examples": ["'Hour'"]
+                },
+                "minute": {
+                  "type": "String",
+                  "desc": "Aria-label for the QTime minute control",
+                  "examples": ["'Minute'"]
+                },
+                "second": {
+                  "type": "String",
+                  "desc": "Aria-label for the QTime second control",
+                  "examples": ["'Second'"]
+                },
+                "now": {
+                  "type": "String",
+                  "desc": "Aria-label for the QTime 'now' button",
+                  "examples": ["'Current time'"]
+                }
+              }
+            },
+            "table": {
+              "type": "Object",
+              "desc": "QTable labels",
+              "required": true,
+              "definition": {
+                "noData": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'No data available'"]
+                },
+                "noResults": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'No matching records found'"]
+                },
+                "loading": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Loading...'"]
+                },
+                "selectedRecords": {
+                  "type": "Function",
+                  "desc": "Label function",
+                  "required": true,
+                  "params": {
+                    "rows": {
+                      "type": "Number",
+                      "desc": "Number of selected rows",
+                      "required": true,
+                      "examples": ["5"]
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "Label",
+                    "examples": ["'5 records selected'"]
+                  },
+                  "examples": ["rows => `${ rows } records selected`"]
+                },
+                "recordsPerPage": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Records per page:'"]
+                },
+                "allRows": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'All'"]
+                },
+                "pagination": {
+                  "type": "Function",
+                  "desc": "Label function",
+                  "required": true,
+                  "params": {
+                    "start": {
+                      "type": "Number",
+                      "desc": "Page start index",
+                      "required": true,
+                      "examples": ["5"]
+                    },
+                    "end": {
+                      "type": "Number",
+                      "desc": "Page end index",
+                      "required": true,
+                      "examples": ["10"]
+                    },
+                    "total": {
+                      "type": "Number",
+                      "desc": "Total number of rows",
+                      "required": true,
+                      "examples": ["50"]
+                    }
+                  },
+                  "returns": {
+                    "type": "String",
+                    "desc": "Label",
+                    "examples": ["'5–10 of 50'"]
+                  },
+                  "examples": [
+                    "(start, end, total) => start + '–' + end + ' of ' + total"
+                  ]
+                },
+                "columns": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Columns'"]
+                },
+                "selectAllRows": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the select-all-rows checkbox",
+                  "required": true,
+                  "examples": ["'Select all rows'"]
+                },
+                "selectRow": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of a row selection checkbox",
+                  "required": true,
+                  "examples": ["'Select row'"]
+                }
+              }
+            },
+            "carousel": {
+              "type": "Object",
+              "desc": "QCarousel labels",
+              "definition": {
+                "prevSlide": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the previous-slide arrow",
+                  "examples": ["'Previous slide'"]
+                },
+                "nextSlide": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the next-slide arrow",
+                  "examples": ["'Next slide'"]
+                }
+              }
+            },
+            "colorPicker": {
+              "type": "Object",
+              "desc": "QColor labels",
+              "definition": {
+                "spectrum": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the spectrum tab",
+                  "required": true,
+                  "examples": ["'Spectrum'"]
+                },
+                "tune": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the tune tab",
+                  "required": true,
+                  "examples": ["'Tune'"]
+                },
+                "palette": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the palette tab",
+                  "required": true,
+                  "examples": ["'Palette'"]
+                },
+                "value": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the color value input",
+                  "required": true,
+                  "examples": ["'Color value'"]
+                },
+                "hue": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the hue slider",
+                  "required": true,
+                  "examples": ["'Hue'"]
+                },
+                "alpha": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the opacity slider",
+                  "required": true,
+                  "examples": ["'Opacity'"]
+                },
+                "saturation": {
+                  "type": "String",
+                  "desc": "Label of the saturation axis in the spectrum panel's accessible value (aria-valuetext)",
+                  "required": true,
+                  "examples": ["'Saturation'"]
+                },
+                "brightness": {
+                  "type": "String",
+                  "desc": "Label of the brightness axis in the spectrum panel's accessible value (aria-valuetext)",
+                  "required": true,
+                  "examples": ["'Brightness'"]
+                }
+              }
+            },
+            "uploader": {
+              "type": "Object",
+              "desc": "QUploader labels",
+              "definition": {
+                "addFiles": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the pick-files button",
+                  "required": true,
+                  "examples": ["'Pick files'"]
+                },
+                "upload": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the upload button",
+                  "required": true,
+                  "examples": ["'Upload files'"]
+                },
+                "abort": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the abort-upload button",
+                  "required": true,
+                  "examples": ["'Abort upload'"]
+                },
+                "removeQueued": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the remove-queued-files button",
+                  "required": true,
+                  "examples": ["'Remove queued files'"]
+                },
+                "removeUploaded": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the remove-uploaded-files button",
+                  "required": true,
+                  "examples": ["'Remove uploaded files'"]
+                },
+                "removeFile": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of a single file removal button",
+                  "required": true,
+                  "examples": ["'Remove file'"]
+                }
+              }
+            },
+            "editor": {
+              "type": "Object",
+              "desc": "QEditor labels",
+              "required": true,
+              "definition": {
+                "toolbar": {
+                  "type": "String",
+                  "desc": "Accessible name (aria-label) of the toolbar",
+                  "examples": ["'Editor toolbar'"]
+                },
+                "url": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'URL'"]
+                },
+                "bold": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Bold'"]
+                },
+                "italic": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Italic'"]
+                },
+                "strikethrough": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Strikethrough'"]
+                },
+                "underline": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Underline'"]
+                },
+                "unorderedList": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Unordered List'"]
+                },
+                "orderedList": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Ordered List'"]
+                },
+                "subscript": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Subscript'"]
+                },
+                "superscript": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Superscript'"]
+                },
+                "hyperlink": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Hyperlink'"]
+                },
+                "toggleFullscreen": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Toggle Fullscreen'"]
+                },
+                "quote": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Quote'"]
+                },
+                "left": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Left align'"]
+                },
+                "center": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Center align'"]
+                },
+                "right": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Right align'"]
+                },
+                "justify": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Justify align'"]
+                },
+                "print": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Print'"]
+                },
+                "outdent": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Decrease indentation'"]
+                },
+                "indent": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Increase indentation'"]
+                },
+                "removeFormat": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Remove formatting'"]
+                },
+                "formatting": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Formatting'"]
+                },
+                "fontSize": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Font Size'"]
+                },
+                "align": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Align'"]
+                },
+                "hr": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Insert Horizontal Rule'"]
+                },
+                "undo": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Undo'"]
+                },
+                "redo": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Redo'"]
+                },
+                "heading1": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Heading 1'"]
+                },
+                "heading2": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Heading 2'"]
+                },
+                "heading3": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Heading 3'"]
+                },
+                "heading4": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Heading 4'"]
+                },
+                "heading5": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Heading 5'"]
+                },
+                "heading6": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Heading 6'"]
+                },
+                "paragraph": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Paragraph'"]
+                },
+                "code": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Code'"]
+                },
+                "size1": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Very small'"]
+                },
+                "size2": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'A bit small'"]
+                },
+                "size3": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Normal'"]
+                },
+                "size4": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Medium-large'"]
+                },
+                "size5": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Big'"]
+                },
+                "size6": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Very big'"]
+                },
+                "size7": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Maximum'"]
+                },
+                "defaultFont": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'Default Font'"]
+                },
+                "viewSource": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'View Source'"]
+                }
+              }
+            },
+            "tree": {
+              "type": "Object",
+              "desc": "QTree labels",
+              "required": true,
+              "definition": {
+                "noNodes": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'No nodes available'"]
+                },
+                "noResults": {
+                  "type": "String",
+                  "desc": "Label",
+                  "required": true,
+                  "examples": ["'No matching nodes found'"]
+                }
+              }
+            }
+          }
+        },
+        "ssrContent": {
+          "type": "Object",
+          "desc": "Required for SSR/SSG only",
+          "__exemption": ["examples"]
+        }
+      },
+      "returns": null
+    },
+
+    "getLocale": {
+      "desc": "Get the browser locale ISO name; Returns undefined when it cannot determine current browser locale or when running on server in SSR/SSG mode",
+      "params": null,
+      "returns": {
+        "type": ["String", "undefined"],
+        "desc": "Browser locale ISO name",
+        "examples": ["'en-US'"]
+      }
+    },
+
+    "getClosestIsoName": {
+      "addedIn": "v2.29",
+      "tsType": "LangGetClosestIsoNameMethodType",
+      "desc": "Pick, from a list of language pack names, the one that best matches a locale: an exact match, then progressively less specific tags (the script outranks the region), then the pack whose likely script and region agree best; use it to map a browser or user locale to one of the packs your app ships",
+      "params": {
+        "locale": {
+          "type": ["String", "undefined"],
+          "desc": "BCP 47 language tag (an underscore separator is accepted too); undefined yields undefined, so the result of getLocale() can be passed directly",
+          "required": true,
+          "examples": ["'es-MX'", "'sr-Cyrl-RS'", "void 0"]
+        },
+        "isoNames": {
+          "type": "Array",
+          "desc": "Language pack names (their isoName) to choose from; the entries are returned as given",
+          "required": true,
+          "examples": ["['de', 'en-US', 'es']"]
+        }
+      },
+      "returns": {
+        "type": ["String", "undefined"],
+        "desc": "The best matching entry of the list; undefined when no entry shares the locale's language",
+        "examples": ["'es'"]
+      }
+    }
+  }
+}

@@ -1,0 +1,126 @@
+---
+title: Select (Native)
+description: Used to pick a value from predefined options.
+links:
+  source: components/native-select
+  storybook: components-native-select--basic
+  recipe: native-select
+---
+
+<ExampleTabs name="native-select-basic" />
+
+## Usage
+
+```jsx
+import { NativeSelect } from "@chakra-ui/react"
+```
+
+```jsx
+<NativeSelect.Root>
+  <NativeSelect.Field>
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+  </NativeSelect.Field>
+  <NativeSelect.Indicator />
+</NativeSelect.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the select component.
+
+<ExampleTabs name="native-select-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to change the appearance of the select component.
+
+<ExampleTabs name="native-select-with-variants" />
+
+### Controlled
+
+Use the `value` and `onChange` props to control the select component.
+
+<ExampleTabs name="native-select-controlled" />
+
+### Disabled
+
+Pass the `disabled` prop to the `NativeSelect.Root` component to disable the
+select component.
+
+<ExampleTabs name="native-select-with-disabled" />
+
+### Invalid
+
+Compose the native and `Field` component to set the invalid set and show the
+error text.
+
+<ExampleTabs name="native-select-with-invalid" />
+
+Alternatively, you can use the `invalid` prop on the `NativeSelect.Root`
+component as well.
+
+<ExampleTabs name="native-select-with-invalid-root" />
+
+### Hook Form
+
+Here is an example of how to use the `NativeSelect` component with
+`react-hook-form`.
+
+<ExampleTabs name="native-select-with-hook-form" />
+
+### Ref
+
+Here's how to access the underlying element reference
+
+```tsx
+import { NativeSelect } from "@chakra-ui/react"
+
+const Demo = () => {
+  const ref = useRef<HTMLSelectElement | null>(null)
+  return (
+    <NativeSelect.Root>
+      <NativeSelect.Field ref={ref}>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+      </NativeSelect.Field>
+      <NativeSelect.Indicator />
+    </NativeSelect.Root>
+  )
+}
+```
+
+### Closed Component
+
+Here's how to setup the Native Select for a closed component composition.
+
+<ExampleCode name="native-select-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add native-select
+```
+
+## Props
+
+### Root
+
+<PropTable component="NativeSelect" part="Root" />
+
+## Explorer
+
+Explore the `Select (Native)` component parts interactively. Click on parts in
+the sidebar to highlight them in the preview.
+
+<Explorer name="native-select-basic" />

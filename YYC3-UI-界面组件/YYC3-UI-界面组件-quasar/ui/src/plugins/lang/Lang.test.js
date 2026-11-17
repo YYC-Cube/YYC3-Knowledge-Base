@@ -1,0 +1,484 @@
+import { h } from 'vue'
+import { describe, expect, test } from 'vitest'
+import { mount } from '@vue/test-utils'
+
+import langEn from '../../../lang/en-US.js'
+import Lang from './Lang.js'
+
+const mountPlugin = () => mount({ render: () => h('div') })
+
+describe('[Lang API]', () => {
+  describe('[Injection]', () => {
+    test('is injected into $q', () => {
+      const wrapper = mountPlugin()
+
+      expect(wrapper.vm.$q.lang).toBeDefined()
+      expect(wrapper.vm.$q.lang.name).toBe(Lang.props.name)
+      expect(wrapper.vm.$q.lang.set).toBe(Lang.set)
+    })
+  })
+
+  describe('[Props]', () => {
+    describe('[(prop)props]', () => {
+      test('is correct type', () => {
+        mountPlugin()
+
+        expect(Lang.props).toStrictEqual({
+          isoName: expect.any(String),
+          nativeName: expect.any(String),
+          rtl: expect.any(Boolean),
+          label: {
+            clear: expect.any(String),
+            ok: expect.any(String),
+            cancel: expect.any(String),
+            close: expect.any(String),
+            set: expect.any(String),
+            select: expect.any(String),
+            reset: expect.any(String),
+            remove: expect.any(String),
+            update: expect.any(String),
+            create: expect.any(String),
+            search: expect.any(String),
+            filter: expect.any(String),
+            refresh: expect.any(String),
+            minimum: expect.any(String),
+            maximum: expect.any(String),
+            range: expect.any(String),
+            noValue: expect.any(String),
+            resize: expect.any(String),
+            expand: expect.any(Function),
+            collapse: expect.any(Function)
+          },
+          date: {
+            days: expect.any(Array),
+            daysShort: expect.any(Array),
+            months: expect.any(Array),
+            monthsShort: expect.any(Array),
+            firstDayOfWeek: expect.any(Number),
+            format24h: expect.any(Boolean),
+            pluralDay: expect.any(String),
+            prevMonth: expect.any(String),
+            nextMonth: expect.any(String),
+            prevYear: expect.any(String),
+            nextYear: expect.any(String),
+            today: expect.any(String),
+            prevRangeYears: expect.any(Function),
+            nextRangeYears: expect.any(Function),
+            hour: expect.any(String),
+            minute: expect.any(String),
+            second: expect.any(String),
+            now: expect.any(String)
+          },
+          table: {
+            noData: expect.any(String),
+            noResults: expect.any(String),
+            loading: expect.any(String),
+            selectedRecords: expect.any(Function),
+            recordsPerPage: expect.any(String),
+            allRows: expect.any(String),
+            pagination: expect.any(Function),
+            columns: expect.any(String),
+            selectAllRows: expect.any(String),
+            selectRow: expect.any(String)
+          },
+          pagination: {
+            label: expect.any(String),
+            first: expect.any(String),
+            last: expect.any(String),
+            next: expect.any(String),
+            prev: expect.any(String)
+          },
+          carousel: {
+            prevSlide: expect.any(String),
+            nextSlide: expect.any(String)
+          },
+          colorPicker: {
+            spectrum: expect.any(String),
+            tune: expect.any(String),
+            palette: expect.any(String),
+            value: expect.any(String),
+            hue: expect.any(String),
+            alpha: expect.any(String),
+            saturation: expect.any(String),
+            brightness: expect.any(String)
+          },
+          uploader: {
+            addFiles: expect.any(String),
+            upload: expect.any(String),
+            abort: expect.any(String),
+            removeQueued: expect.any(String),
+            removeUploaded: expect.any(String),
+            removeFile: expect.any(String)
+          },
+          editor: {
+            toolbar: expect.any(String),
+            url: expect.any(String),
+            bold: expect.any(String),
+            italic: expect.any(String),
+            strikethrough: expect.any(String),
+            underline: expect.any(String),
+            unorderedList: expect.any(String),
+            orderedList: expect.any(String),
+            subscript: expect.any(String),
+            superscript: expect.any(String),
+            hyperlink: expect.any(String),
+            toggleFullscreen: expect.any(String),
+            quote: expect.any(String),
+            left: expect.any(String),
+            center: expect.any(String),
+            right: expect.any(String),
+            justify: expect.any(String),
+            print: expect.any(String),
+            outdent: expect.any(String),
+            indent: expect.any(String),
+            removeFormat: expect.any(String),
+            formatting: expect.any(String),
+            fontSize: expect.any(String),
+            align: expect.any(String),
+            hr: expect.any(String),
+            undo: expect.any(String),
+            redo: expect.any(String),
+            heading1: expect.any(String),
+            heading2: expect.any(String),
+            heading3: expect.any(String),
+            heading4: expect.any(String),
+            heading5: expect.any(String),
+            heading6: expect.any(String),
+            paragraph: expect.any(String),
+            code: expect.any(String),
+            size1: expect.any(String),
+            size2: expect.any(String),
+            size3: expect.any(String),
+            size4: expect.any(String),
+            size5: expect.any(String),
+            size6: expect.any(String),
+            size7: expect.any(String),
+            defaultFont: expect.any(String),
+            viewSource: expect.any(String)
+          },
+          tree: {
+            noNodes: expect.any(String),
+            noResults: expect.any(String)
+          }
+        })
+      })
+
+      test('can be set', () => {
+        const {
+          vm: { $q }
+        } = mountPlugin()
+
+        Lang.props.nativeName = 'new-lang'
+        expect(Lang.props.nativeName).toBe('new-lang')
+        expect($q.lang.nativeName).toBe('new-lang')
+
+        $q.lang.nativeName = 'another-lang'
+        expect(Lang.props.nativeName).toBe('another-lang')
+        expect($q.lang.nativeName).toBe('another-lang')
+      })
+    })
+  })
+
+  describe('[Methods]', () => {
+    describe('[(method)set]', () => {
+      test('drops optional root keys the new pack does not define', () => {
+        const wrapper = mountPlugin()
+
+        Lang.set({ ...langEn, formatNumber: value => value })
+        expect(wrapper.vm.$q.lang.formatNumber).toBeTypeOf('function')
+
+        Lang.set(langEn)
+        expect(wrapper.vm.$q.lang.formatNumber).toBeUndefined()
+      })
+
+      test('should be callable', () => {
+        const wrapper = mountPlugin()
+
+        expect(
+          Lang.set({
+            isoName: 'en-US',
+            nativeName: 'New Language',
+            rtl: true,
+            label: {
+              clear: 'Clear',
+              ok: 'OK',
+              cancel: 'Cancel',
+              close: 'Close',
+              set: 'Set',
+              select: 'Select',
+              reset: 'Reset',
+              remove: 'Remove',
+              update: 'Update',
+              create: 'Create',
+              search: 'Search',
+              filter: 'Filter',
+              refresh: 'Refresh',
+              expand: label => (label ? `Expand '${label}'` : 'Expand'),
+              collapse: label => (label ? `Collapse '${label}'` : 'Collapse')
+            },
+            date: {
+              days: [
+                'Sunday',
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday'
+              ],
+              daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+              months: [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+              ],
+              monthsShort: [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec'
+              ],
+              firstDayOfWeek: 0,
+              format24h: true,
+              pluralDay: 'days',
+              prevMonth: expect.any(String),
+              nextMonth: expect.any(String),
+              prevYear: expect.any(String),
+              nextYear: expect.any(String),
+              today: expect.any(String),
+              prevRangeYears: expect.any(Function),
+              nextRangeYears: expect.any(Function),
+              hour: expect.any(String),
+              minute: expect.any(String),
+              second: expect.any(String),
+              now: expect.any(String)
+            },
+            table: {
+              noData: 'No data available',
+              noResults: 'No matching records found',
+              loading: 'Loading...',
+              selectedRecords: rows => `${rows} records selected`,
+              recordsPerPage: 'Records per page:',
+              allRows: 'All',
+              pagination: (start, end, total) =>
+                start + '–' + end + ' of ' + total,
+              columns: 'Columns',
+              selectAllRows: 'Select all rows',
+              selectRow: 'Select row'
+            },
+            pagination: {
+              label: expect.any(String),
+              first: expect.any(String),
+              last: expect.any(String),
+              next: expect.any(String),
+              prev: expect.any(String)
+            },
+            carousel: {
+              prevSlide: 'Previous slide',
+              nextSlide: 'Next slide'
+            },
+            colorPicker: {
+              spectrum: 'Spectrum',
+              tune: 'Tune',
+              palette: 'Palette',
+              value: 'Color value',
+              hue: 'Hue',
+              alpha: 'Opacity',
+              saturation: 'Saturation',
+              brightness: 'Brightness'
+            },
+            uploader: {
+              addFiles: 'Pick files',
+              upload: 'Upload files',
+              abort: 'Abort upload',
+              removeQueued: 'Remove queued files',
+              removeUploaded: 'Remove uploaded files',
+              removeFile: 'Remove file'
+            },
+            editor: {
+              toolbar: 'Editor toolbar',
+              url: 'URL',
+              bold: 'Bold',
+              italic: 'Italic',
+              strikethrough: 'Strikethrough',
+              underline: 'Underline',
+              unorderedList: 'Unordered List',
+              orderedList: 'Ordered List',
+              subscript: 'Subscript',
+              superscript: 'Superscript',
+              hyperlink: 'Hyperlink',
+              toggleFullscreen: 'Toggle Fullscreen',
+              quote: 'Quote',
+              left: 'Left align',
+              center: 'Center align',
+              right: 'Right align',
+              justify: 'Justify align',
+              print: 'Print',
+              outdent: 'Decrease indentation',
+              indent: 'Increase indentation',
+              removeFormat: 'Remove formatting',
+              formatting: 'Formatting',
+              fontSize: 'Font Size',
+              align: 'Align',
+              hr: 'Insert Horizontal Rule',
+              undo: 'Undo',
+              redo: 'Redo',
+              heading1: 'Heading 1',
+              heading2: 'Heading 2',
+              heading3: 'Heading 3',
+              heading4: 'Heading 4',
+              heading5: 'Heading 5',
+              heading6: 'Heading 6',
+              paragraph: 'Paragraph',
+              code: 'Code',
+              size1: 'Very small',
+              size2: 'A bit small',
+              size3: 'Normal',
+              size4: 'Medium-large',
+              size5: 'Big',
+              size6: 'Very big',
+              size7: 'Maximum',
+              defaultFont: 'Default Font',
+              viewSource: 'View Source'
+            },
+            tree: {
+              noNodes: 'No nodes available',
+              noResults: 'No matching nodes found'
+            }
+          })
+        ).toBeUndefined()
+
+        expect(Lang.props.nativeName).toBe('New Language')
+        expect(wrapper.vm.$q.lang.nativeName).toBe('New Language')
+      })
+
+      test('should work with an imported lang pack', async () => {
+        const {
+          vm: { $q }
+        } = mountPlugin()
+        const { default: deLang } = await import('quasar/lang/de-DE.js')
+
+        Lang.set(deLang)
+        expect(Lang.props.nativeName).toBe(deLang.nativeName)
+        expect($q.lang.nativeName).toBe(deLang.nativeName)
+
+        const { default: itLang } = await import('quasar/lang/it.js')
+        $q.lang.set(itLang)
+        expect(Lang.props.nativeName).toBe(itLang.nativeName)
+        expect($q.lang.nativeName).toBe(itLang.nativeName)
+      })
+    })
+
+    describe('[(method)getLocale]', () => {
+      test('should be callable', () => {
+        const wrapper = mountPlugin()
+
+        expect(Lang.getLocale()).$any([expect.any(String), void 0])
+
+        expect(wrapper.vm.$q.lang.getLocale()).$any([
+          expect.any(String),
+          void 0
+        ])
+      })
+    })
+
+    describe('[(method)getClosestIsoName]', () => {
+      test('should be callable', () => {
+        const wrapper = mountPlugin()
+
+        expect(Lang.getClosestIsoName('es-MX', ['de', 'en-US', 'es'])).toBe(
+          'es'
+        )
+        expect(
+          wrapper.vm.$q.lang.getClosestIsoName('es-MX', ['de', 'en-US', 'es'])
+        ).toBe('es')
+      })
+
+      test('returns the exact entry regardless of casing and separator', () => {
+        expect(Lang.getClosestIsoName('en_us', ['de', 'en-US'])).toBe('en-US')
+        expect(Lang.getClosestIsoName('SR-CYRL', ['sr', 'sr-Cyrl'])).toBe(
+          'sr-Cyrl'
+        )
+        expect(Lang.getClosestIsoName('de-de', ['de', 'de_DE'])).toBe('de_DE')
+      })
+
+      test('falls back to progressively less specific tags', () => {
+        expect(Lang.getClosestIsoName('de-AT', ['de', 'de-CH', 'de-DE'])).toBe(
+          'de'
+        )
+        expect(
+          Lang.getClosestIsoName('sr-Cyrl-RS', ['sr', 'sr-Cyrl', 'sr-Latn'])
+        ).toBe('sr-Cyrl')
+        expect(Lang.getClosestIsoName('sr-Cyrl-RS', ['sr', 'sr-Latn'])).toBe(
+          'sr'
+        )
+      })
+
+      test('prefers the script over the region and can drop the script', () => {
+        expect(Lang.getClosestIsoName('sr-Latn-RS', ['sr-RS', 'sr-Latn'])).toBe(
+          'sr-Latn'
+        )
+        expect(Lang.getClosestIsoName('zh-Hant-TW', ['zh-CN', 'zh-TW'])).toBe(
+          'zh-TW'
+        )
+      })
+
+      test('infers the likely script and region when no tag is a prefix', () => {
+        expect(Lang.getClosestIsoName('zh', ['zh-CN', 'zh-TW'])).toBe('zh-CN')
+        expect(Lang.getClosestIsoName('zh-Hant', ['zh-CN', 'zh-TW'])).toBe(
+          'zh-TW'
+        )
+        expect(Lang.getClosestIsoName('zh-SG', ['zh-TW', 'zh-CN'])).toBe(
+          'zh-CN'
+        )
+        expect(Lang.getClosestIsoName('pt', ['pt-PT', 'pt-BR'])).toBe('pt-BR')
+        expect(Lang.getClosestIsoName('de-AT', ['de-CH', 'de-DE'])).toBe(
+          'de-DE'
+        )
+        expect(Lang.getClosestIsoName('es-MX', ['es-AR', 'es-ES'])).toBe(
+          'es-ES'
+        )
+      })
+
+      test('prefers the least specific pack on a tie', () => {
+        expect(Lang.getClosestIsoName('en-AU', ['en-GB', 'en'])).toBe('en')
+        expect(Lang.getClosestIsoName('fr-BE', ['fr-CA', 'fr-CH'])).toBe(
+          'fr-CA'
+        )
+      })
+
+      test('returns undefined when no entry shares the language', () => {
+        expect(Lang.getClosestIsoName('ja', ['de', 'en-US'])).toBeUndefined()
+        expect(Lang.getClosestIsoName('ja', [])).toBeUndefined()
+        expect(Lang.getClosestIsoName(void 0, ['ja'])).toBeUndefined()
+      })
+
+      test('ignores entries that are not well-formed tags', () => {
+        expect(Lang.getClosestIsoName('sr-Cyrl', ['sr-CYR', 'sr-Cyrl'])).toBe(
+          'sr-Cyrl'
+        )
+        expect(Lang.getClosestIsoName('sr', ['what ever', 'sr-Latn'])).toBe(
+          'sr-Latn'
+        )
+        expect(Lang.getClosestIsoName('my', ['mm', 'my'])).toBe('my')
+      })
+    })
+  })
+})

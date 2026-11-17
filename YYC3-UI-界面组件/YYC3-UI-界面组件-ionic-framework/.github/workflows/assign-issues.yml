@@ -1,0 +1,18 @@
+name: Assign issues to triage
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: 'Auto-assign issue'
+        uses: pozil/auto-assign-issue@d6e511896e5f1d2408e74db74416647d8ff80c8c # v4.1.0
+        with:
+          assignees: brandyscarney, thetaPC, ShaneK
+          numOfAssignee: 1
+          allowSelfAssign: false

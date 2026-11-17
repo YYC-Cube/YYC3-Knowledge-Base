@@ -1,0 +1,264 @@
+---
+title: Menu
+description: Used to create an accessible dropdown menu
+links:
+  source: components/menu
+  storybook: components-menu--basic
+  recipe: menu
+  ark: https://ark-ui.com/docs/components/menu
+---
+
+<ExampleTabs name="menu-basic" />
+
+## Usage
+
+```tsx
+import { Menu } from "@chakra-ui/react"
+```
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger />
+  <Menu.Positioner>
+    <Menu.Content>
+      <Menu.Item />
+
+      <Menu.ItemGroup>
+        <Menu.Item />
+      </Menu.ItemGroup>
+
+      <Menu.Separator />
+      <Menu.Arrow />
+
+      <Menu.CheckboxItem>
+        <Menu.ItemIndicator />
+      </Menu.CheckboxItem>
+
+      <Menu.RadioItemGroup>
+        <Menu.RadioItem>
+          <Menu.ItemIndicator />
+        </Menu.RadioItem>
+      </Menu.RadioItemGroup>
+    </Menu.Content>
+  </Menu.Positioner>
+</Menu.Root>
+```
+
+## Examples
+
+### Controlled
+
+Use the `open` and `onOpenChange` prop to control the visibility of the menu.
+
+<ExampleTabs name="menu-controlled" />
+
+### Store
+
+An alternative way to control the menu is to use the `RootProvider` component
+and the `useMenu` store hook.
+
+This way you can access the menu state and methods from outside the menu.
+
+<ExampleTabs name="menu-with-store" />
+
+### Command
+
+Use the `Menu.ItemCommand` component to display a command in the menu.
+
+<ExampleTabs name="menu-with-command" />
+
+### Context menu
+
+Use the `Menu.ContextTrigger` component to create a context menu.
+
+<ExampleTabs name="menu-with-context-trigger" />
+
+### Group
+
+Use the `Menu.ItemGroup` component to group related menu items.
+
+<ExampleTabs name="menu-with-group" />
+
+### Danger Item
+
+Here's an example of how to style a menu item that is used to delete an item.
+
+<ExampleTabs name="menu-with-danger-item" />
+
+### Submenu
+
+Here's an example of how to create a submenu.
+
+<ExampleTabs name="menu-with-submenu" />
+
+### Links
+
+Pass the `asChild` prop to the `Menu.Item` component to render a link.
+
+<ExampleTabs name="menu-with-links" />
+
+When using custom router links, you need to set the `navigate` prop on the
+`Menu.Root` component.
+
+```tsx
+"use client"
+
+import { Menu } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
+
+const Demo = () => {
+  const navigate = useNavigate()
+  return (
+    <Menu.Root navigate={({ value, node }) => navigate(`/${value}`)}>
+      {/* ... */}
+    </Menu.Root>
+  )
+}
+```
+
+### Radio Items
+
+Here's an example of how to create a menu with radio items.
+
+<ExampleTabs name="menu-with-radio-items" />
+
+### Checkbox Items
+
+Here's an example of how to create a menu with checkbox items.
+
+<ExampleTabs name="menu-with-checkbox-items" />
+
+### Icon and Command
+
+Compose the menu to include icons and commands.
+
+<ExampleTabs name="menu-with-icon-and-command" />
+
+### Placement
+
+Use the `positioning.placement` prop to control the placement of the menu.
+
+<ExampleTabs name="menu-with-placement" />
+
+### Avatar
+
+Here's an example that composes the `Menu` with the `Avatar` component to
+display a menu underneath an avatar.
+
+<ExampleTabs name="menu-with-avatar" />
+
+### Anchor Point
+
+Use the `positioning.anchorPoint` prop to control the anchor point of the menu.
+
+You can derive it from the `getBoundingClientRect` of a DOM element, or use
+something like `DOMRect.fromRect({ x: 0, y: 0, width: 1, height: 1 })` to create
+a new rect.
+
+<ExampleTabs name="menu-with-anchor-rect" />
+
+### Mixed Layout
+
+Here's an example of how to create a mixed layout of menu items. In this layout,
+the top horizontal menu includes common menu items.
+
+<ExampleTabs name="menu-with-mixed-layout" />
+
+### Overflow
+
+When you have a long list of menu items, you can set a `maxH` prop on the
+`Menu.Content` to create a scrollable menu.
+
+:::note
+
+The content has a default `maxHeight: "var(--available-height)"`, which is the
+maximum available height for the content relative to the viewport.
+
+:::
+
+<ExampleTabs name="menu-with-overflow" />
+
+### Hide When Detached
+
+When the menu is rendered in an scrolling container, set the
+`positioning.hideWhenDetached` to `true` to hide the menu when the trigger is
+scrolled out of view.
+
+<ExampleTabs name="menu-with-hide-when-detached" />
+
+### Open From Dialog
+
+To use the `Menu` within a `Dialog`, you need to avoid portalling the
+`Menu.Positioner` to the document's body.
+
+```diff
+-<Portal>
+  <Menu.Positioner>
+    <Menu.Content>
+      {/* ... */}
+    </Menu.Content>
+  </Menu.Positioner>
+-</Portal>
+```
+
+If you have set `scrollBehavior="inside"` on the `Dialog`, you need to:
+
+- Set the menu positioning to `fixed` to avoid the menu from being clipped by
+  the dialog.
+- Set `hideWhenDetached` to `true` to hide the menu when the trigger is scrolled
+  out of view.
+
+```tsx
+<Menu.Root positioning={{ strategy: "fixed", hideWhenDetached: true }}>
+  {/* ... */}
+</Menu.Root>
+```
+
+<ExampleTabs name="menu-open-from-dialog" />
+
+### Open from Dialog (Nested)
+
+When a `Menu` item opens a `Dialog` that contains another `Menu`, use
+`createOverlay` to avoid unexpected close behavior caused by event bubbling.
+
+<ExampleTabs name="overlay-with-menu-item" />
+
+## Guide
+
+### Styling highlighted items
+
+Use the `_highlighted` prop to style menu items when they are hovered or focused
+with keyboard navigation.
+
+```tsx
+<Menu.Item _highlighted={{ bg: "blue.500", color: "white" }}>
+  Custom highlighted item
+</Menu.Item>
+```
+
+### Styling open state
+
+Use the `_open` prop to style the menu trigger when the menu is open.
+
+```tsx
+<Menu.Trigger asChild>
+  <Button _open={{ bg: "blue.500", color: "white" }}>Menu</Button>
+</Menu.Trigger>
+```
+
+## Props
+
+### Root
+
+<PropTable component="Menu" part="Root" />
+
+### Item
+
+<PropTable component="Menu" part="Item" />
+
+## Explorer
+
+Explore the `Menu` component parts interactively. Click on parts in the sidebar
+to highlight them in the preview.
+
+<Explorer name="menu-explorer-demo" />

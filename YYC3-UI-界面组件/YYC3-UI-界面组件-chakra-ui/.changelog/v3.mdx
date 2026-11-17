@@ -1,0 +1,2215 @@
+---
+title: Version 3.x
+description:
+  Explore the changelog for Chakra UI version 3.x. Learn about the latest
+  features, bug fixes, and improvements.
+---
+
+## [3.38.0](./#3.38.0) - 2026-11-03
+
+### Added
+
+- **Command [NEW]**: Add a searchable command menu built on `Combobox` and
+  `Dialog`. It manages its own overlay, keyboard navigation, and the `mod+k`
+  shortcut.
+
+  ```tsx
+  <Command.Root collection={collection}>
+    <Command.Trigger>Open commands</Command.Trigger>
+    <Portal>
+      <Command.Backdrop />
+      <Command.Positioner>
+        <Command.Panel>
+          <Command.Control>
+            <Command.Indicator />
+            <Command.Input placeholder="Search commands" />
+          </Command.Control>
+          <Command.List>
+            {collection.items.map((item) => (
+              <Command.Item
+                key={item.value}
+                item={item}
+                onSelect={() => runCommand(item.value)}
+              >
+                <Command.ItemText>{item.label}</Command.ItemText>
+              </Command.Item>
+            ))}
+            <Command.Empty>No commands found</Command.Empty>
+          </Command.List>
+        </Command.Panel>
+      </Command.Positioner>
+    </Portal>
+  </Command.Root>
+  ```
+
+  Items run their `onSelect` action and close the palette by default; use
+  `closeOnSelect={false}` for nested pages or actions that keep it open. Use
+  `useCommand` with `Command.RootProvider` to control the palette from anywhere.
+  For a picker with a persistent selection, use Combobox or Listbox instead.
+
+- **Kbd**: Add `KbdGroup` to group the keys of a shortcut. Its `size` and
+  `variant` apply to every `Kbd` inside. Single keys like `K` now render square.
+
+  ```tsx
+  <KbdGroup size="sm">
+    <Kbd>⌘</Kbd>
+    <Kbd>K</Kbd>
+  </KbdGroup>
+  ```
+
+- **Combobox**: Add a `loading` prop that sets `aria-busy` on the list and holds
+  back the empty state while loading. The content stays visible, so a loading
+  indicator shows even when there are no items.
+
+- **Combobox / Menu**: Add `modifiers` to the `onSelect` details, and call
+  `onSelect` when a link item is modifier-clicked.
+
+- **Dialog / Drawer / Popover / ColorPicker / FloatingPanel**: `initialFocusEl`
+  can now return `false` to open without moving focus.
+
+- **Pagination**: Items and triggers render as anchors when `type="link"`. Add
+  `api.type` and `api.getPageUrl(page)`.
+
+- **Steps**: Add `data-current`, `data-complete` and `data-incomplete` to the
+  item.
+
+- **Codemod**
+  - Rewrite token files imported into a theme (e.g. `colors.ts`) to the v3
+    `{ value }` shape.
+  - Add transforms for `StackItem`, `Input`/`Textarea` border color props, and
+    custom SVG icons.
+  - Apply prop migrations to components imported through local barrel files.
+  - Add `list`, `--dry-run`, `--transform` and `--fail-on-warn`, plus a "Manual
+    follow-ups" report and `// TODO(chakra-v3)` comments for changes that need
+    review.
+
+### Fixed
+
+- **System**
+  - Fix variants named after a CSS shorthand, such as `rounded`, `bg` or `p`,
+    being dropped in `cva` and `sva`.
+  - Fix a `!` inside a style value being treated as `!important`, which broke
+    values like `content: '"!"'` and `url(/a!b.png)`. Only a trailing `!` or
+    `!important` is recognized now.
+  - Fix SSR hydration mismatches on `className` caused by the style cache
+    ignoring property order.
+  - Fix tokens with a value of `0` returning the fallback instead, e.g.
+    `useToken("zIndex", "base")`.
+
+- **useBreakpoint / useBreakpointValue / useMediaQuery**
+  - Fix `useBreakpoint` always returning `"base"` when the `breakpoints` option
+    is omitted.
+  - Fix the `getWindow` option being ignored, which broke media queries in
+    iframes and Shadow DOM.
+  - Fix `useMediaQuery` ignoring changes to the queries passed to it, which also
+    made `useBreakpointValue` return the wrong value once its breakpoints
+    changed.
+
+- **Field**: Fix `Field.ErrorText` not being announced by VoiceOver and
+  Narrator, and helper and error text not being announced on Select, TagsInput,
+  ColorPicker, FileUpload, RatingGroup and PinInput.
+
+- **NumberInput**: Fix `NumberInput.Control` overflowing into the label when
+  `NumberInput.Label` is used inside `NumberInput.Root`.
+
+- **Flex / Square / Circle**: Fix the array form of the `css` prop being
+  ignored.
+
+- **createOverlay**: Fix `remove` and `removeAll` leaving promises from `open`,
+  `close` and `waitForExit` pending forever. They now resolve with `undefined`.
+
+- **CheckboxCard / RadioCard / Slider**: Fix `cursor` token overrides in the
+  theme being ignored.
+
+- **FileUpload**
+  - Fix disabled delete triggers showing an active cursor and full-opacity icon.
+  - Fix `Field.Root readOnly` not making the file upload read-only.
+
+- **ScrollArea**: Fix the vertical scrollbar showing when content only overflows
+  horizontally, and vice versa.
+
+- **Overlays**: Fix <kbd>Escape</kbd> not closing content right after it opens,
+  and floating content flashing at the top-left on first open.
+
+- **Presence**: Fix elements with an exit animation staying mounted forever in
+  Safari, invisible but still blocking clicks.
+
+- **Popover**: Fix `autoFocus={false}` being ignored for modal popovers.
+
+- **Popover / Select / Menu**: Fix a stylesheet `z-index` on the positioner
+  being ignored.
+
+- **FloatingPanel**: Fix `strategy="absolute"` placing the panel outside its
+  boundary, and the panel not following its boundary when an ancestor scrolls.
+
+- **Listbox**: Fix Shift+click range selection anchoring on the highlighted item
+  instead of the clicked one.
+
+- **PinInput**: Fix keystrokes going into the hidden input after a blocked
+  native `required` validation. Focus now moves to a visible input.
+
+- **Tabs**: Fix programmatic tab selection triggering link navigation.
+
+- **Toast**: Fix `dir` and `getRootNode` being ignored, and move focus to the
+  next toast when a focused toast is dismissed.
+
+- **Progress**: Fix the formatter not updating when `formatOptions` changes.
+
+- **Splitter**: Fix slow dragging in large documents.
+
+- Fix inline style values containing semicolons, such as data URLs, being cut
+  off when props merge.
+
+- Fix an `Illegal invocation` error on setup when a tool like Storybook has
+  replaced `HTMLElement.prototype.focus`.
+
+- **CLI**: Fix installation failing on Node.js 26.
+
+### Changed
+
+- **Field**: `Field.ErrorText` is now linked to the input with
+  `aria-describedby` instead of `aria-errormessage`. Tests that assert
+  `toHaveAccessibleErrorMessage` should use `toHaveAccessibleDescription`.
+
+- **Popover**: `Popover.Title` now renders an `h2` instead of a `div`, and its
+  ref is typed as `HTMLHeadingElement`.
+
+- **Listbox / Toggle**: `Listbox.ItemText` and `Toggle.Indicator` now render a
+  `span` instead of a `div`, and their refs are typed as `HTMLSpanElement`.
+
+- **Steps**: `aria-current="step"` moved from the item to the trigger.
+
+- **Theme**: Disabled elements use `tokens.cursor.disabled` instead of a
+  hardcoded `not-allowed`, and Listbox items use `tokens.cursor.option`.
+
+- Update Ark UI to v5.40.0.
+
+## [3.37.0](./#3.37.0) - 2026-08-28
+
+### Added
+
+- **DateInput [NEW]**: Add a segmented date field for typing dates without a
+  calendar.
+
+  ```tsx
+  <DateInput.Root>
+    <DateInput.Label />
+    <DateInput.Control>
+      <DateInput.Segments />
+    </DateInput.Control>
+    <DateInput.HiddenInput />
+  </DateInput.Root>
+  ```
+
+  Each part of the date is its own keyboard-navigable segment, ordered and
+  formatted by `locale`. Supports `selectionMode="range"`, `min`/`max`, and
+  `granularity` with `formatter` for time-only input.
+
+- **Accordion / Collapsible / Dialog / Drawer / TreeView**: Add `hideMode` to
+  choose how content that stays mounted is hidden when closed. The default,
+  `"display-none"`, uses the `hidden` attribute and keeps effects running, so a
+  video keeps playing and a subscription stays open while closed. `"activity"`
+  uses React 19 `Activity` to pause those effects instead.
+
+  ```tsx
+  <Dialog.Root hideMode="activity" />
+  ```
+
+  It only applies while the content stays mounted. `unmountOnExit` removes the
+  tree on close, so `hideMode` never runs.
+
+- **Codemod**: `upgrade --dry` now lists the files that would change and, per
+  file, the components and props it touches (e.g. `Button, color palette`).
+  Large projects get the full breakdown in `chakra-codemod-report.md`, smaller
+  ones print it inline.
+
+- **createOverlay**: Add a `TReturn` generic so awaiting `open()` returns the
+  value passed to `close()` instead of `any`.
+
+  ```ts
+  const dialog = createOverlay<DialogProps, DialogResult>(Component)
+
+  const result = await dialog.open("id", props)
+  ```
+
+  `TReturn` defaults to `unknown`, so untyped `open()` calls may need narrowing
+  now. The result can also be `undefined`, since `close(id, value)` doesn't
+  require a value.
+
+- **Dialog / Drawer**: Add `data-autofocus` and `data-no-autofocus` to pick what
+  gets focus when the overlay opens, without reaching for `initialFocusEl` and a
+  ref. Mark chrome like the close button to skip it, or mark the real target
+  directly.
+
+  ```tsx
+  <Dialog.Content>
+    <Dialog.CloseTrigger data-no-autofocus />
+    <input data-autofocus />
+    <button>Save</button>
+  </Dialog.Content>
+  ```
+
+  Focus goes to `initialFocusEl`, then `[data-autofocus]`, then the first
+  tabbable element without `[data-no-autofocus]`, then the content root.
+
+- **FocusTrap**: Add `persistentElements` to keep portalled content inside the
+  trap when it isn't reachable through `aria-controls` or `aria-expanded`. Pass
+  getters so the elements resolve lazily, after they mount.
+
+  ```tsx
+  <FocusTrap
+    persistentElements={[() => document.getElementById("toast-region")]}
+  />
+  ```
+
+- **NumberInput**: Add `largeStep` and `smallStep` for keyboard stepping. Hold
+  `Shift` for `largeStep`, `Alt` for `smallStep`. They default to `10 * step`
+  and `step / 10`, which is what the arrow keys already did, so existing inputs
+  behave the same until you set them.
+
+  ```tsx
+  <NumberInput.Root step={1} largeStep={20} smallStep={0.5} />
+  ```
+
+- **Presence**: Add `onEnterComplete` for when enter animations finish,
+  mirroring the existing `onExitComplete`. Affects ColorPicker, Combobox,
+  DatePicker, Dialog, Drawer, FloatingPanel, HoverCard, Menu, Popover, Select,
+  Tooltip, and Tour.
+
+- **Slider**: Add `largeStep`, applied on `Shift` and on `PageUp`/`PageDown`.
+  Defaults to `10 * step`, matching the previous behavior.
+
+- **Toast**: `createToaster` now takes a content type parameter, so `title` and
+  `description` can be something other than `ReactNode`. It still defaults to
+  `ReactNode`.
+
+  ```tsx
+  const toaster = createToaster<Content>({ placement: "top-end" })
+  toaster.create({ title: { id: "save", text: "Saved" } })
+  ```
+
+### Fixed
+
+- **Checkbox / RadioGroup / Switch**: Fix clicking a label adding
+  `data-focus-visible` to the control. Activating the label briefly moved focus
+  to an overlay container, which was read as virtual focus.
+
+- **Codemod**
+  - Fix `.ts` files being parsed as `tsx`, so type assertions and generic arrows
+    no longer throw and get skipped.
+  - Fix the unused-package check scanning `node_modules`, which flagged
+    `framer-motion` and `@emotion/styled` as used when only a dependency
+    imported them.
+  - Fix the `color-mode` transform installing a snippet during a dry run.
+  - Fix the `steps` transform adding a stray `Steps` import to files that don't
+    use a stepper.
+
+- **ColorPicker**: Fix the channel input committing a partial value when you
+  press `Enter` to confirm an IME composition.
+
+- **Combobox / Listbox / Menu / Select**: Fix keyboard navigation losing or
+  moving the highlighted item while the pointer rests over scrollable content.
+  Scrolling an item into view moved the content under the cursor, and the
+  resulting `pointerleave` counted as a real hover.
+
+- **DateInput**
+  - Fix segment text lagging a keystroke behind when you type over an already
+    committed date, and in-progress edits being dropped while focus caught up
+    after auto-advance.
+  - Fix `CalendarDate` and `CalendarDateTime` values shifting by your local UTC
+    offset when you pass a custom `formatter` without a `timeZone`.
+  - Accept your locale's native numerals when typing, not just ASCII digits.
+    Covers Arabic-Indic `٠-٩` and Devanagari `०-९`.
+
+- **DatePicker**
+  - Fix `minView`, `maxView`, and `defaultView` being ignored when resolving the
+    initial view, which was hardcoded to day through year.
+  - Fix `defaultOpen` overriding `open`, which let a controlled picker open
+    against its own prop.
+  - Fix disabled and read-only pickers still reacting to cell clicks, the clear
+    trigger, and presets. Read-only pickers keep roving-focus navigation,
+    disabled pickers drop out of the tab order.
+  - Fix `maxSelectedDates` not being enforced on month and year cells in
+    `multiple` mode.
+  - Fix keyboard range selection drifting from pointer behavior. Picking a third
+    date restarts the range, and reopening with only a start date resumes it.
+  - Fix `translations` requiring every message. It's now `Partial`, so you can
+    override one message and let the rest fall back to the defaults.
+  - Fix the view trigger's `aria-label` naming the wrong view, and announce
+    dates inside a range as "In range" instead of the generic "Choose".
+  - Accept your locale's native numerals when typing, not just ASCII digits.
+
+- **Dialog / Drawer**
+  - Fix `Dialog.ActionTrigger` and `Drawer.ActionTrigger` ignoring the `onClick`
+    handler passed to them. The handler now runs before the dialog closes.
+  - Fix the page still scrolling behind an open overlay on layouts where
+    `<html>` is the scroll container. The scroll lock targeted `<body>`, so
+    nothing was locked.
+
+- **Dialog / Drawer / Menu / Popover**: Fix `Escape` being ignored right after
+  an overlay opens. Handlers registered a frame late, so the overlay was painted
+  and focus-trapped before it could listen. Under CPU load that gap grew well
+  past one frame and swallowed the keypress.
+
+- **Dialog / Drawer / Popover**: Fix a closing overlay pulling focus back from
+  an element your app focused in the meantime, such as a second dialog opened
+  right after closing the first. Closing a nested overlay no longer throws when
+  the outer container has no connected focusable element, and the focus ring now
+  shows on the returned-to element after you close with `Escape`.
+
+- **Fieldset**: Fix `Fieldset.Root` re-rendering whenever its subtree mutated,
+  even when helper and error text were unchanged.
+
+- **FloatingPanel**: Fix closing a panel leaving it on the stack, so the next
+  panel now becomes topmost, and fix stack order not applying to the positioner,
+  so focusing a panel raises it above its siblings.
+
+- **Marquee**: Fix scroll speed depending on content width. Duration now comes
+  from the content size and the actual translation distance, so `speed` matches
+  real pixel speed even when the content is narrower than the viewport.
+
+- **Menu**: Fix `Menu.ContextTrigger` flashing at the top-left corner on the
+  first right-click, and long-press context menus on touch opening stuck at
+  `(0,0)`. The positioner reported a placement before one had been computed,
+  which skipped the off-screen guard that hides it until the anchor point is
+  known.
+
+- **NumberInput**
+  - Fix `api.setValue` throwing when you pass a number and `formatOptions` is
+    set.
+  - Fix `Cmd`/`Ctrl` with arrow keys producing values off the `step` grid.
+
+- **Popover**: Fix tabbing out of portalled content looping back into the
+  content when the trigger was the last tabbable element on the page. Focus now
+  moves to the next tabbable element after the trigger.
+
+- **Preflight**: Fix semantic `i` and `em` elements not rendering in italics.
+
+- **QrCode**: Fix `getDataUrl()` and the download trigger dropping the overlay,
+  so a logo or badge placed over the code went missing from the export.
+
+- **RadioCard**: Fix the `outline` variant losing its border width when a card
+  is both checked and disabled. The checked ring is an inset box-shadow, which
+  `itemControl`'s disabled background painted over.
+
+- **Slider**: Fix `Cmd`/`Ctrl` with arrow keys producing values off the `step`
+  grid.
+
+- **Splitter**
+  - Fix collapsed panels sizing to `minSize` instead of `collapsedSize`, and fix
+    keyboard resizing breaking when a resize trigger got focus while hovered.
+  - Fix the resize trigger matching `:focus-visible` after a pointer drag. It
+    still takes focus, so keyboard resizing keeps working, but no longer shows
+    the focus ring.
+
+- **Steps**
+  - Fix `Steps.NextTrigger` and `Steps.PrevTrigger` submitting an ancestor form
+    on click. They carried no `type`, so they defaulted to `type="submit"`.
+  - Fix `Steps.RootProvider` rendering its children twice.
+
+- **System**: Fix Next.js 15 production builds failing to compile with
+  `Attempted import error: 'Activity' is not exported from 'react'`. React's
+  optional `Activity` export was imported statically, so webpack rejected it
+  even on React versions that expose it at runtime. It now resolves at runtime
+  and falls back to `display-none` when the React build doesn't expose it.
+
+- **Tag / ActionBar / Dialog / Drawer**: Fix `Tag.CloseTrigger`,
+  `ActionBar.SelectionTrigger`, `Dialog.ActionTrigger`, and
+  `Drawer.ActionTrigger` missing `type="button"`, which submitted the
+  surrounding `<form>` on click.
+
+- **TagsInput**
+  - Fix an XSS vector in the hidden element that measures input width. It set
+    the tag value with `innerHTML`, so a value containing markup was parsed and
+    could execute. It now uses `textContent`.
+  - Fix native form submit so `FormData` reflects the current tags. The hidden
+    input kept its initial value after you added, removed, or cleared tags.
+
+- **Toast**: Fix a height flicker when expanding the stack in overlap mode.
+  Heights are measured without the `scale` transform applied.
+
+- **TreeView**: Fix `--tree-indentation: 0px` not fully removing nested
+  indentation.
+
+### Changed
+
+- **Codemod**: Run `upgrade` transforms in-process instead of spawning a Node
+  process per transform, taking a full run from around 30s to a few seconds.
+
+- **TreeView**: `--tree-indentation` is now the full per-level indent
+  (`indent-size + half icon-size`). Custom non-zero values no longer get an
+  extra half-icon offset on top, and the internal `--tree-icon-offset` variable
+  has been removed from the recipe.
+
+## [3.36.1](./#3.36.1) - 2026-07-19
+
+### Fixed
+
+- **Bleed**: Fix incorrect `css` prop application.
+
+- **Checkmark**: Fix incorrect `css` prop application.
+
+- **CLI**: Normalize resolved tsconfig paths to native separators on Windows.
+
+- **Docs**: Fix `Stack.Separator` references in the v3 migration guide. The
+  standalone `Separator` component is now used in both the `StackDivider` and
+  `Stack Props` examples.
+
+- **Float**: Fix incorrect `css` prop application.
+
+- **Image**: Fix custom `className` removing the base `chakra-image` class.
+
+- **LinkOverlay**: Fix issue where `LinkOverlay` dropped the `rel` attribute
+  instead of forwarding it to the rendered anchor.
+
+- **RadioCard / CheckboxCard**: Fix issue where the checked ring (outline
+  variant) gets clipped when a parent has `overflow: hidden|auto|scroll`. The
+  ring is now drawn with an inset shadow instead of an outer shadow.
+
+- **System**: Fix error when merging recipes (e.g. composing a recipe-based
+  component through the `chakra` factory). Recipe merging now normalizes
+  compiled and raw configs before combining them, and no longer throws or
+  mutates the source configs.
+
+- **WrapItem**: Fix incorrect `css` prop application.
+
+### Changed
+
+- **CLI**
+  - Migrate from deprecated `tsconfck` to `get-tsconfig`. Enables installation
+    next to TypeScript version 6 and up.
+  - Replace `node-fetch` with the native `fetch` API, using undici's
+    `ProxyAgent` for `HTTPS_PROXY` support.
+
+- **Codemod**: Require Node.js >=22 (Node 18 and 20 are end-of-life).
+
+- **FloatingPanel**: Set a default `minSize` of `{ width: 240, height: 100 }` on
+  `FloatingPanel.Root` to prevent the panel from being resized to zero. Pass
+  your own `minSize` to override it.
+
+- **OverlayManager**: Expose `has()` on the return value of `createOverlay`.
+
+- **Panda Preset**: Sync theme from `@chakra-ui/react`: register the missing
+  `floatingPanel` slot recipe and update the date picker range-selection styles.
+
+- **System**: Improve render performance of recipe components (`Button`,
+  `Badge`, `Skeleton`, etc.) in large lists and tables.
+  - Cache compiled recipes per system instead of per component instance.
+  - Memoize variant style resolution so results are referentially stable.
+  - Drop the per-instance `structuredClone` of recipe configs.
+
+  In benchmarks, repeated variant resolution is ~70-90x faster and
+  compile+resolve ~30x faster. No public API changes.
+
+## [3.35.0](./#3.35.0) - 2026-04-22
+
+### Added
+
+- **CLI**: Add new CLI commands mirroring the MCP server tools:
+  - `chakra component list` — List all available Chakra UI components
+  - `chakra component props <name>` — Show props for a component
+  - `chakra component example <name>` — Show usage examples for a component
+  - `chakra theme` — Summary table of theme categories (use `--json` for full
+    data or `--filter <category>` for one section)
+  - `chakra docs <query>` — Search the Chakra UI documentation
+
+- **Dialog / Popover / HoverCard**: Add support for multiple triggers sharing
+  one dialog instance.
+
+- **Field**: Add `Field.Item` component and `target` prop on `Field.Root` for
+  multi-control fields.
+
+- **FileUpload**: Reject duplicate files with `FILE_EXISTS` error code.
+
+- **Listbox**: Add `keyboardPriority` for Home/End and arrows; add
+  `highlightFirst`, `highlightLast`, `highlightNext`, and `highlightPrevious`
+  methods.
+
+- **Menu**: Set `aria-expanded` when closed; support multiple triggers.
+
+- **Pagination**: Allow `format` prop in `Pagination.PageText` to accept a
+  function for i18n support.
+
+  ```tsx
+  <Pagination.PageText
+    format={({ page, totalPages }) => `Page ${page} de ${totalPages}`}
+  />
+  ```
+
+- **PinInput**: Add `enterKeyHint`, `autoSubmit`, and `sanitizeValue` props.
+
+- **Popover**: Add support for `translations`, `finalFocusEl`, and
+  `restoreFocus` props.
+
+- **TagsInput**: Add `allowDuplicates` and `sanitizeValue` props, plus
+  `enterKeyHint` on mobile.
+
+### Fixed
+
+- **Carousel**: Fix controlled carousel inside dialog, navigation in transformed
+  containers, scroll drift, and page sync with indicators.
+
+- **ColorPicker**: Fix vertical slider orientation on pointer updates.
+
+- **Combobox**: VoiceOver now announces highlighted options on Apple devices via
+  a live region.
+
+- **DatePicker**: Fix calendar popup clipping when constrained by available
+  height.
+
+- **Dialog / Drawer**: Fix panel sometimes showing behind the dimmed overlay
+  when opening and closing quickly or with certain global z-index styles on the
+  page.
+
+- **GridItem**: Fix incorrect `css` prop application.
+
+- **Hooks**: Fix `usePrevious` to use a React 19-safe state-based implementation
+  and compare values with `Object.is` for correct `NaN`/`-0` behavior.
+
+- **Menu**: Fix glitchy submenu "diagonal" hover flash.
+
+- **PinInput**: Fix deletion and focus behavior, and Home/End navigation.
+
+- **System**
+  - Fix `isCssUnit` utility to reject malformed values like `1a5rem` and
+    `1-5rem` by properly escaping the decimal point in the length regex.
+  - Fix array shorthand for fonts, shadows, gradients, animations, and easings
+    (no longer mistaken for responsive arrays).
+  - Fix responsive array values in `globalCss` selector rules (for example `#id`
+    or `.class`) being serialized incorrectly instead of generating responsive
+    breakpoint styles.
+
+## [3.34.0](./#3.34.0) - 2026-03-03
+
+### Added
+
+- **DatePicker [NEW]**: Add new datepicker component for date selection
+
+- **CLI**: Add `--tsconfig` flag to `chakra typegen` and automatic tsconfig
+  resolution using `tsconfck`. This fixes an issue where `typegen` failed in
+  projects with solution-style tsconfig setups (e.g. Vite's default
+  `tsconfig.json` with `references`).
+
+  ```bash
+  # Auto-resolves (works with Vite's default setup)
+  chakra typegen lib/theme/theme.ts
+
+  # Explicit tsconfig
+  chakra typegen lib/theme/theme.ts --tsconfig tsconfig.app.json
+  ```
+
+- **Combobox**: Export `ComboboxSelectionDetails` type (as
+  `Combobox.SelectionDetails` in namespace)
+
+- **Listbox**: Export `ListboxScrollToIndexDetails`, `ListboxSelectionDetails`,
+  `ListboxSelectionMode` types
+
+- **Menu**: Export `MenuValueChangeDetails` type (as `Menu.ValueChangeDetails`
+  in namespace)
+
+- **Select**: Expose `Select.List` component for virtualization support
+
+### Fixed
+
+- **Checkbox Group**: Fix TypeScript error when passing `ref` to `CheckboxGroup`
+
+- **Codemod**
+  - Fix issue where `Steps` was added to the import list
+  - Fix issue where `ChakraProvider value={defaultSystem}` was wrapped in
+    `String()`
+
+- **Field**: Fix `Field.ErrorIcon` default size so it stays aligned with error
+  text instead of expanding when the error area is full width
+
+- **Global CSS**: Fix `globalCss` silently ignoring element selectors that match
+  utility shorthands (e.g. `p`, `m`, `h`, `w`)
+
+### Changed
+
+- **Charts**: Upgrade recharts to 3.7.0 and prefer `responsive` prop over
+  `ResponsiveContainer` when using `Chart.Root`. The `responsive` prop avoids
+  React 19 compatibility issues that `ResponsiveContainer` can trigger.
+
+## [3.33.0](./#3.33.0) - 2026-02-11
+
+### Added
+
+- **Scroll Area**: Add overflow CSS variables for scroll fade effects
+  (`--scroll-area-overflow-{x,y}-{start,end}`)
+
+- **Slider**: Add `thumbCollisionBehavior` prop to control collision handling
+  between thumbs (none, push, swap)
+
+- **Steps**: Add validation support with `isStepValid`, `isStepSkippable`, and
+  `onStepInvalid` props
+
+- **Tags Input**: Add `placeholder` prop that shows when no tags exist
+
+- **Tooltip**: Add `data-instant` attribute for instant animations when
+  switching between multiple tooltip triggers
+
+### Fixed
+
+- **Checkbox**: Fix individual checkbox props being overridden by
+  `CheckboxGroup` when rendering
+
+- **CodeBlock**: Fix overlay and floating elements scrolling out of view when
+  horizontally scrolling long code lines
+
+- **Color Picker**: Fix color not updating when selecting black shades in
+  controlled mode
+
+- **Dialog/Popover**: Fix issue where closing nested dialogs/popovers would
+  incorrectly close parent layers
+
+- **Menu**: Fix glitchy submenu behavior when hovering between trigger items
+  quickly
+
+- **Number Input**: Fix cursor positioning issues after clicking label or
+  scrubbing
+
+- **Pagination**: Fix next trigger not being disabled when count is 0
+
+- **Slider**: Fix thumb drag behavior from edge in `thumbAlignment="contain"`
+  mode
+
+- **Switch**: Fix `api.toggleChecked()` not working
+
+- **Textarea**: Fix change event not being emitted after clearing controlled
+  textarea
+
+- **Tree View**: Fix initial focus when first node/branch is disabled
+
+### Changed
+
+- **Codemod**: Refactor codemod to support more component props
+
+## [3.32.0](./#3.32.0) - 2026-02-03
+
+### Added
+
+- **Codemod [NEW]**: Add `@chakra-ui/codemod` package to automate v2 to v3
+  migration
+
+  ```bash
+  npx @chakra-ui/codemod upgrade
+  npx @chakra-ui/codemod upgrade --dry
+  ```
+
+- **Marquee [NEW]**: Add `Marquee` component for scrolling content animations
+
+  ```tsx
+  <Marquee.Root>
+    <Marquee.Viewport>
+      <Marquee.Content>
+        <Marquee.Item>Item 1</Marquee.Item>
+        <Marquee.Item>Item 2</Marquee.Item>
+      </Marquee.Content>
+    </Marquee.Viewport>
+  </Marquee.Root>
+  ```
+
+### Fixed
+
+- **Collapsible**: Fix `collapse-width` keyframe animating `height` instead of
+  `width`
+
+- **Dialog, Drawer, Menu, HoverCard**: Fix z-index stacking when `Dialog` is
+  triggered from within a `Popover`
+
+- **Styled System**: Fix backdrop blur not applying with `backdropFilter="auto"`
+
+- **useBreakpointValue**: Fix `base` value not respected during SSR
+
+- **Radio Card**: Fix disabled state looking inconsistent when using
+  `variant="solid"`
+
+## [3.31.0](./#3.31.0) - 2026-01-10
+
+### Added
+
+- **ActionBar**
+  - Add `placement` variant to configure bar position: `bottom`, `bottom-start`,
+    `bottom-end`
+  - Add `--action-bar-offset` CSS variable to configure offset from edges
+
+- **Slider**
+  - Add `markerLabel` to component anatomy for theming marker labels
+  - Export `Slider.MarkerLabel` component for custom marker label rendering
+
+- **Theme**: Export the `listboxSlotRecipe` slot recipe
+
+### Fixed
+
+- **ColorPicker, Select, Combobox**: Fix z-index stacking when used inside
+  dialogs
+
+- **cva**: Normalize base styles to prevent shorthand properties from
+  overwriting variant styles
+
+- **Menu**: Fix content background not rendering by using full token path for
+  CSS variable
+
+- **Slider**: Improve focus ring styles for `Slider.Thumb`
+
+- **SkeletonText**: Fix duplicating children when `loading` is set to `false`
+
+## [3.30.0](./#3.30.0) - 2025-11-22
+
+### Added
+
+- **Carousel**: Added `autoSize` prop for variable width/height slides
+
+- **Semantic Tokens**: Add new `border` semantic token to all color palettes
+  (`gray.300`/`gray.700` for gray, `color.500`/`color.400` for colored palettes)
+  to improve outline component appearance
+
+- **Splitter [NEW]**: Introduce new resizable splitter component
+
+```tsx
+<Splitter.Root panels={[{ id: "a" }, { id: "b" }]}>
+  <Splitter.Panel id="a">Panel A</Splitter.Panel>
+  <Splitter.ResizeTrigger id="a:b" />
+  <Splitter.Panel id="b">Panel B</Splitter.Panel>
+</Splitter.Root>
+```
+
+- **Types**: Exported `InteractOutsideEvent`, `FocusOutsideEvent`,
+  `PointerDownOutsideEvent` types
+
+### Fixed
+
+- **Badge, Button, Checkbox, Tag**: Update outline variants to use
+  `colorPalette.border` instead of `colorPalette.muted` or global `border` token
+  for better appearance, especially for non-gray color palettes
+
+- **Carousel**: Fixed dragging after tab switch/scroll and mouse wheel scroll
+  with `allowMouseDrag`
+
+- **CheckboxGroup**: Fix type issue where `CheckboxGroupProps` could not be
+  passed to the `CheckboxGroup` component
+
+- **CLI**: Fix high-severity security vulnerability by replacing `sucrase`
+  dependency with Babel-based TypeScript transformation
+
+- **Combobox**
+  - Fixed `onHighlightChange` not firing when filtered to empty
+  - Fixed focus stealing in controlled mode
+  - Removed problematic `aria-hidden` behavior
+
+- **File Upload**: Fixed non-interactive children in dropzone not opening file
+  picker
+
+- **HoverCard, Popover, Tooltip**: Fix arrow direction in RTL layouts
+
+- **Radio Group**: Fixed inconsistent `data-focus-visible`/`data-focus`
+  attributes; fixed indicator showing before rect resolved
+
+- **TagsInput**: Fix overflow issue where very long tags would overflow the
+  container instead of truncating with ellipsis
+
+- **Tabs**: Fixed indicator showing before rect resolved; fixed position not
+  updating when inactive tabs resize
+
+### Changed
+
+- **useListCollection**: `initialItems` now accepts `readonly` arrays
+
+## [3.29.0](./#3.29.0) - 2025-11-05
+
+### Added
+
+- **Carousel [New]**: Add new `Carousel` component for creating slideshows and
+  image galleries with features like autoplay, pagination, and navigation
+  controls.
+
+### Fixed
+
+- **CodeBlock**: Add missing `use client` directive
+
+- **Combobox**: Refactor recipe for smarter padding management to prevent input
+  text from overflowing onto triggers
+
+## [3.28.1](./#3.28.1) - 2025-11-02
+
+### Fixed
+
+- **CodeBlock**: Fix right padding when scrolling long code lines horizontally
+
+- **MCP Server**: Fix OpenAI Codex compatibility by removing stdout logging,
+  downgrading Zod to v3.23.8, and upgrading MCP SDK to v1.20.2
+
+- **Styled System**
+  - Fix Shadow DOM selector handling in `globalCss` for `:host`,
+    `:host-context()`, and `::slotted()` pseudo-classes
+  - Improve performance with optimized token cloning (75x faster), enhanced
+    memoization with LRU cache (up to 585x faster), and efficient object
+    allocation
+
+### Changed
+
+- **SegmentGroup**: Refactor to use CSS variables for styling indicator
+  (`--segment-indicator-bg` and `--segment-indicator-shadow`) for better
+  customization
+
+- **Tabs**: Refactor to use CSS variables for styling indicator
+  (`--tabs-indicator-bg`) for better customization
+
+## [3.28.0](./#3.28.0) - 2025-10-20
+
+### Added
+
+- **TagsInput [New]**: Add new `TagsInput` component for entering multiple
+  values as tags with features like tag creation, deletion, and keyboard
+  navigation.
+
+  ```tsx
+  import { Span, TagsInput } from "@chakra-ui/react"
+
+  export const TagsInputBasic = () => {
+    return (
+      <TagsInput.Root defaultValue={["React", "Chakra", "TypeScript"]}>
+        <TagsInput.Label>Tags</TagsInput.Label>
+        <TagsInput.Control>
+          <TagsInput.Items />
+          <TagsInput.Input placeholder="Add tag..." />
+        </TagsInput.Control>
+      </TagsInput.Root>
+    )
+  }
+  ```
+
+- **Collapsible**: Add support for `collapsedHeight` and `collapsedWidth` props
+  to control the dimensions of the collapsible content when in its collapsed
+  state
+
+- **Pagination**: Add `getPageUrl` prop for generating `href` attributes when
+  using pagination as links
+
+### Changed
+
+- **Tabs, SegmentGroup**: Refactor to use `getBoundingClientRect()` for precise
+  indicator positioning
+
+- **Dialog, Popover**: In modal mode, allow elements referenced by
+  `aria-controls` to be included in the focus trap scope
+
+### Fixed
+
+- **Checkbox**: Fix issue where setting initial checked state to `indeterminate`
+  doesn't work
+
+- **Collapsible**: Fix issue where `dir` prop value doesn't get applied
+  correctly
+
+- **Combobox**: Fix issue where controlled single-select combobox does not
+  propagate its initial value to `inputValue`
+
+- **Listbox**: Fix issue where pressing Enter key when no highlighted item still
+  calls `event.preventDefault()`
+
+- **Number Input**: Fix cursor jumping to end when typing in the middle with
+  `formatOptions` like `style: "currency"`
+
+- **Pin Input**: Fix issue where keyboard shortcuts `Cmd+Backspace` and
+  `Cmd+Delete` would insert "undefined" instead of clearing the field
+
+- **Scroll Area**
+  - Fix horizontal scrollbar positioning on Safari in RTL mode
+  - Fix issue where resize tracking was not observing the root element
+
+- **Select**: Fix accessibility violation where the required state was not set
+  correctly on the trigger
+
+- **Slider**: Fix issue where slider continues dragging when disabled during
+  drag operation
+
+- **Switch**: Fix issue where `data-active` is inconsistently applied when
+  `disabled` state changes at runtime
+
+- **mergeRefs**: Add React version detection to properly handle cleanup
+  functions in React 19+ while avoiding warnings in React 18
+
+## [3.27.1](./#3.27.1) - 2025-10-06
+
+### Fixed
+
+- **Collapsible**: Expose `Collapsible.Indicator` component to provide visual
+  indicator for collapsible state
+
+- **Timeline**: Add `showLastSeparator` variant to control visibility of the
+  last separator
+
+- **Table**: Ensure stickyHeader works with outline variant
+
+- **CodeBlock**:
+  - Fix issue in diff mode where the wrong lines were being highlighted
+  - Fix `highlight.js` adapter to properly handle diff attributes for
+    added/removed lines
+
+- **Styled System**:
+  - Fix issue where bracket syntax for responsive styles didn't work in recipe
+    variants
+
+  ```jsx
+  // This now works correctly
+  const recipe = defineRecipe({
+    variants: {
+      variant: {
+        primary: {
+          color: ["red", "green"], // ✅ Now converts to breakpoints
+        },
+      },
+    },
+  })
+  ```
+
+  - Improve style resolution performance
+
+- **React 19 Compatibility**: Fix issue where refs don't support cleanup
+  function
+
+- **CLI**: Allow CLI to read new documentation blocks filtering
+
+## [3.27.0](./#3.27.0) - 2025-09-14
+
+### Added
+
+- **CLI**: Add new `blocks` command to add chakra pro blocks to your project.
+
+  This command requires valid Chakra Pro license and API key in the
+  `CHAKRA_UI_PRO_API_KEY` environment variable.
+
+  ```sh
+  # Interactive block selection
+  npx @chakra-ui/cli blocks add
+
+  # Add all variants of a specific block
+  npx @chakra-ui/cli blocks add hero
+
+  # Add a specific variant of a block
+  npx @chakra-ui/cli blocks add hero --variant "simple"
+
+  # List available blocks
+  npx @chakra-ui/cli blocks list
+
+  # List blocks in a specific category
+  npx @chakra-ui/cli blocks list --category "marketing"
+  ```
+
+- **Composition Types**: Enhanced with comprehensive CSS property support
+
+  **Text Style Properties:** Added properties to `theme.textStyles`:
+  - Basic properties (`color`, `direction`, `font`, `fontFamily`,
+    `fontFeatureSettings`, `fontKerning`, `fontLanguageOverride`,
+    `fontOpticalSizing`, `fontPalette`)
+  - Typography properties (`hangingPunctuation`, `hyphens`,
+    `hyphenateCharacter`, `hyphenateLimitChars`, `lineBreak`, `quotes`,
+    `overflowWrap`, `tabSize`)
+  - Text alignment (`textAlign`, `textAlignLast`, `textCombineUpright`,
+    `textJustify`)
+  - Text decoration (`textDecorationSkip`, `textDecorationSkipBox`,
+    `textDecorationSkipInk`, `textDecorationSkipInset`,
+    `textDecorationThickness`, `textEmphasis`)
+  - Text formatting (`textShadow`, `textStroke`, `textStrokeColor`,
+    `textStrokeWidth`, `textUnderlineOffset`, `textUnderlinePosition`,
+    `textWrap`, `textWrapMode`, `textWrapStyle`)
+  - Text layout (`unicodeBidi`, `verticalAlign`, `whiteSpace`, `wordBreak`,
+    `wordSpacing`, `writingMode`)
+
+  **Layer Style Properties:** Added properties to `theme.layerStyles`:
+  - Layout properties (`aspectRatio`, `display`, `contain`, `contentVisibility`,
+    `isolation`)
+  - Visual effects (`clipPath`, `mixBlendMode`, `maskClip`, `maskComposite`,
+    `maskImage`, `maskMode`, `maskOrigin`, `maskPosition`, `maskRepeat`,
+    `maskSize`)
+  - Modern properties (`objectFit`, `objectPosition`, `pointerEvents`, `resize`,
+    `visibility`, `willChange`)
+  - Border properties (`borderImage`, `borderImageOutset`, `borderImageRepeat`,
+    `borderImageSlice`, `borderImageSource`, `borderImageWidth`)
+  - Overflow properties (`overflow`, `overflowX`, `overflowY`)
+
+### Fixed
+
+- **CodeBlock**:
+  - Fix issue where Line numbers display incorrectly when `meta.wordWrap` is
+    true
+  - Allow horizontal scrolling when code block overflows
+
+- **Hover Card**: Change default delay values to improve accessibility
+  - `openDelay`: from `700ms` to `600ms`
+
+- **Tooltip**: Change default delay values to improve accessibility.
+  [Learn more](https://www.nngroup.com/articles/timing-exposing-content)
+  - `openDelay`: from `1000ms` to `400ms`
+  - `closeDelay`: from `500ms` to `150ms`
+
+- **Menu**:
+  - Fix issue where keyboard activation of menu items with `target="_blank"`
+    would open two tabs
+  - Fix issue where hovering a partially visible item with pointer causes it to
+    scroll into view
+
+- **Combobox**: Add `alwaysSubmitOnEnter` prop to allow forcing the form to be
+  submitted immediately on Enter press
+
+## [3.26.0](./#3.26.0) - 2025-08-28
+
+### Added
+
+- **Listbox [New]**: Add new component with support for single/multi-select,
+  grouping, virtualization, controlled state, icons, descriptions, and
+  accessibility features.
+
+  This component can be used to build command palettes, dropdowns with search,
+  and much more.
+
+```tsx
+<Listbox.Root collection={frameworks} width="320px">
+  <Listbox.Label>Select framework</Listbox.Label>
+  <Listbox.Content>
+    {frameworks.items.map((framework) => (
+      <Listbox.Item item={framework} key={framework.value}>
+        <Listbox.ItemText>{framework.label}</Listbox.ItemText>
+        <Listbox.ItemIndicator />
+      </Listbox.Item>
+    ))}
+  </Listbox.Content>
+</Listbox.Root>
+```
+
+- **Hover Card**: Add support for `disabled` prop
+
+### Changed
+
+- **CodeBlock**: Add configurable theme support and sync loading for Shiki
+  adapter
+  - **Theme configuration is now required** - The `theme` property must be
+    explicitly provided to `createShikiAdapter`
+  - **Removed hard-coded theme fallbacks** - Missing themes now throw
+    descriptive errors
+  - **Optional sync loading** with `loadSync` method for better performance
+
+  ```typescript
+  // Before
+  const adapter = createShikiAdapter({
+    async load() { /* ... */ },
+  })
+
+  // After
+  const adapter = createShikiAdapter({
+    async load() { /* ... */ },
+    theme: {
+      light: "github-light",
+      dark: "github-dark",
+    },
+  })
+  ```
+
+### Fixed
+
+- **Select, Menu**: Fix issue where disabled items could be reached via
+  typeahead
+
+- **Color Picker**: Fix issue where color picker was not working correctly in
+  RTL mode
+
+- **Number Input**
+  - Omit the input `pattern` when `formatOptions` is provided. This prevents
+    native pattern validation from conflicting with formatted values (e.g.,
+    currency or percent).
+  - Handle empty values consistently across all format options.
+  - Add `data-scrubbing` attribute to the number input parts.
+
+## [3.25.0](./#3.25.0) - 2025-08-20
+
+### Added
+
+- **Scroll Area**: Add new scroll area component
+
+  ```tsx
+  <ScrollArea.Root>
+    <ScrollArea.Viewport>
+      <ScrollArea.Content>{/* Scrolling content */}</ScrollArea.Content>
+    </ScrollArea.Viewport>
+    <ScrollArea.Scrollbar>
+      <ScrollArea.Thumb />
+    </ScrollArea.Scrollbar>
+    <ScrollArea.Corner />
+  </ScrollArea.Root>
+  ```
+
+### Changed
+
+- **System**: Implement preset for table `border-spacing` property and improve
+  documentation
+
+- **Highlight**: Add `exactMatch` prop that enables whole-word matching using
+  regex word boundaries.
+
+### Fixed
+
+- **System**: Fix nested token override issue during theme merging
+
+  ```tsx
+  const defaultConfig = {
+    theme: {
+      tokens: {
+        colors: {
+          black: { value: "#000000" },
+        },
+      },
+    },
+  }
+
+  const userConfig = {
+    theme: {
+      tokens: {
+        colors: {
+          black: {
+            100: { value: "#EE0F0F" },
+            200: { value: "#CC0C0C" },
+          },
+        },
+      },
+    },
+  }
+
+  // Before: This would return undefined
+  const system = createSystem(defaultConfig, userConfig)
+  system.token("colors.black.100") // undefined
+
+  // After: This will return merged correctly, preserving the default value
+  system.token("colors.black.100") // "#EE0F0F"
+  system.token("colors.black.200") // "#CC0C0C"
+  system.token("colors.black") // "#000000"
+  ```
+
+- **Menu**
+  - Fix issue where `onCheckedChange` could be called twice on checkbox or radio
+    item
+  - Add `data-state` attribute for context menu trigger
+  - Fix context menu positioning bug where reopening at the same coordinates
+    fails to reposition
+
+- **Radio Group**: Fixed issue where arrow key navigation doesn't apply
+  `data-focus-visible` on the newly focused item.
+
+## [3.24.2](./#3.24.2) - 2025-08-06
+
+### Fixed
+
+- **System**: Fix issue where using `asChild` with invalid child elements or
+  `React.lazy` components would throw an error. This issue more commonly occurs
+  when composing with Next.js `Link` component.
+
+  ```tsx
+  import { Breadcrumb } from "@chakra-ui/react"
+  import Link from "next/link"
+
+  export default function Page() {
+    return (
+      <Breadcrumb.Root>
+        {/* ✅ Now works correctly */}
+        <Breadcrumb.Link asChild>
+          <Link href="#">aaaa</Link>
+        </Breadcrumb.Link>
+      </Breadcrumb.Root>
+    )
+  }
+  ```
+
+## [3.24.1](./#3.24.1) - 2025-08-05
+
+### Changed
+
+- **Prose**: Provide a way to exclude components from prose styling by using
+  `not-prose` class
+
+### Fixed
+
+- **System**: Fix issue where `fullscreen` condition returns the wrong css
+  selector
+
+## [3.24.0](./#3.24.0) - 2025-07-31
+
+### Added
+
+- **CodeBlock**: Add new codeblock component with support for highlight.js and
+  shiki.
+
+  ```tsx
+  <CodeBlock.AdapterProvider value={shikiAdapter}>
+    <CodeBlock.Root code="console.log('Hello, world!')" language="tsx">
+      <CodeBlock.Content>
+        <CodeBlock.Code>
+          <CodeBlock.CodeText />
+        </CodeBlock.Code>
+      </CodeBlock.Content>
+    </CodeBlock.Root>
+  </CodeBlock.AdapterProvider>
+  ```
+
+### Fixed
+
+- **Breadcrumb**: Fix invalid HTML structure
+
+## [3.23.0](./#3.23.0) - 2025-07-26
+
+### Added
+
+- **System**: Add `unstyled` prop support to compound component children to
+  opt-out of recipe styles per component.
+
+  ```tsx
+  <Accordion.Root defaultValue={["a"]}>
+    <Accordion.Item value="a">
+      {/* Opt-out of recipe styles */}
+      <Accordion.ItemTrigger unstyled bg="red.500" />
+      <Accordion.ItemContent>
+        <Accordion.ItemBody />
+      </Accordion.ItemContent>
+    </Accordion.Item>
+  </Accordion.Root>
+  ```
+
+- **Group**: Add support changing group gap globally via `--group-gap` CSS
+  variable
+
+### Fixed
+
+- **Tabs**: Export missing types
+
+- **Hooks**: Export entrypoint for better tree-shaking `@chakra-ui/react/hooks`
+
+- **Theme**: Expose smaller bits of the theme in the entrypoint for better
+  tree-shaking `@chakra-ui/react/theme`. We now expose `recipes`, `slotRecipes`,
+  `breakpoints`, `keyframes`, `textStyles`, `layerStyles`, `animationStyles`,
+  `globalCss`, `cssVarsPrefix`, `cssVarsRoot`, `semanticTokens`, `tokens` as
+  dedicated modules.
+
+- **Dialog**
+  - Use `dvh` and `dvw` units instead of `vh` and `vw` to dynamically adjust to
+    viewport size changes.
+  - Fix issue where dialog backdrop doesn't have the correct z-index when used
+    in a nested dialog.
+
+- **Native Select**: Ensure height is consistent with input and select across
+  sizes.
+
+- **Breadcrumb**: Fix HTML semantic structure for `Breadcrumb.Ellipsis`
+  component by changing the underlying element from `<span>` to `<li>`.
+
+  ```tsx
+  // Before: <span> inside <ol> (invalid HTML)
+  <Breadcrumb.List>
+    <Breadcrumb.Ellipsis /> {/* rendered as <span> */}
+  </Breadcrumb.List>
+
+  // After: <li> inside <ol> (valid HTML)
+  <Breadcrumb.List>
+    <Breadcrumb.Ellipsis /> {/* now renders as <li> */}
+  </Breadcrumb.List>
+  ```
+
+- **Tree View**
+  - Fixed issue where tree view doesn't scroll into view when content overflows
+  - Fix issue where the `filter` method completely deletes the children key from
+    the node when there are no matching children
+
+- **File Upload**
+  - Add support for programmatically controlling the accepted files via
+    `acceptedFiles` and `defaultAcceptedFiles`
+  - Export `FileError`, `FileMimeType`, and `FileRejection` types and fix
+    validation issues
+
+## [3.22.0](./#3.22.0) - 2025-07-07
+
+### Added
+
+- **TreeView**: Add new `TreeView` component that is used to represent
+  hierarchical data in a tree structure.
+
+### Fixed
+
+- **Clipboard**: Fix issue where `clipboardAnatomy` was not exported from
+  `@chakra-ui/react/anatomy`
+
+- **Combobox**
+  - Expose `reason` to `onOpenChange` and `onInputValueChange` callbacks
+  - Expose `api.clearHighlightedValue` function to clear highlighted value
+
+- **Toast**: Fix issue where toast `title` or `description` could not accept
+  React element
+
+- **Progress**: Improve `valueAsString` formatting
+
+- **Select**
+  - Select highlighted item only if it exists in the collection
+  - Expose `api.clearHighlightedValue` function to clear highlighted value
+
+- **ClientOnly**: Support `children` as a function
+
+## [3.21.1](./#3.21.1) - 2025-06-28
+
+### Fixed
+
+- **CLI**: Fix issue where `typegen` command fails silently with misleading
+  console output when prettier exits with a formatting error
+
+- **Select**: Export missing SelectRootComponent type export
+
+- **System**: Fix inconsistent handling of `null` and `undefined` for skipping
+  breakpoints using array syntax
+
+- **Popover**: Fixed issue where `onOpenChange` could be called twice when
+  controlled
+
+- **Combobox**
+  - Fixed issue where `onInputValueChange` could be called twice when selecting
+    an item
+  - Fixed issue where combobox with `allowCustomValue: true` used within in a
+    form requires two enter keypress to submit
+
+- **Progress**
+  - Fix issue where setting orientation to `vertical` don't work
+  - Fix issue where setting `defaultValue` to `null` doesn't show indeterminate
+    state
+
+- **Toast**: Fix issue where app crashes when `toaster.promise` is called
+  without loading option. The `loading` option is now required. A warning will
+  be logged if it is not provided
+
+- **Combobox, Select, Listbox**: Fix issue where rehydrating `defaultValue` or
+  `value` after fetching items doesn't update the `valueAsString`
+
+- **Drawer**: Improve `Drawer` recipe to better support conditional variants and
+  add conditional variants example to the docs and storybook
+
+## [3.21.0](./#3.21.0) - 2025-06-11
+
+### Added
+
+- Add support new entrypoint for `/theme` which allows for incremental loading
+  of component recipes to avoid bloating the theme with unused components.
+
+  > This is mostly for bundle size optimization.
+
+  For example, if you want just the `button` recipe to be included in your
+  bundle, you can cherry-pick the recipe you need like this:
+
+  ```tsx
+  import { createSystem, defaultBaseConfig } from "@chakra-ui/react"
+  import { buttonRecipe } from "@chakra-ui/react/theme"
+
+  export const system = createSystem(defaultBaseConfig, {
+    theme: {
+      recipes: {
+        button: buttonRecipe,
+      },
+    },
+  })
+  ```
+
+### Fixed
+
+- **File Upload**: Prevented `undefined` in `acceptedFiles` when no files
+  accepted
+
+- **Select**: Fixed issue where highlighted item could be cleared when
+  navigating up/down the list with keyboard
+
+- **Tabs**: Fixed issue where tabs with links should not trigger tab change upon
+  cmd/middle click
+
+- **Menu**: Fixed issue where `Menu.ItemText` could not be used with `Menu.Item`
+
+## [3.20.0](./#3.20.0) - 2025-06-06
+
+### Added
+
+- **File Upload**: Added support for transforming uploaded files via
+  `transformFiles` context property.
+
+- **Quote**: Export `Quote` typography component and its types
+
+### Fixed
+
+- **System**: Allow `undefined` for optional properties in CSS and recipe types
+
+- **Color Picker**: Fixed issue where value change end event is invoked when
+  committing via an input.
+
+- **Toast**: Fixed issue where calling `toast.remove()` without an id shows a
+  TypeScript error.
+
+- **Field**: Fixed issue where helper text and error text could not be detected
+  in shadow DOM environments.
+
+- **Slider**
+  - Fixed issue where `minStepsBetweenThumbs` isn't computed correctly when
+    interacting with pointer or keyboard.
+  - Fixed issue where `Shift` + `ArrowRight` set value to `0` instead of `max`
+    when step is too large (e.g. `20`).
+  - Fixed issue where `onValueChangeEnd` doesn't return the latest value when
+    dragging very fast.
+  - Fixed issue where slider could throw a error when rendered in an popover or
+    dialog.
+
+- **Combobox**: Fixed issue where `onInputValueChange` doesn't get called when
+  `autoFocus` is set to `true`
+
+- **Pin Input**: Fixed issue where input padding could cause clipping of the
+  text when `fontSize` is increased.
+
+- **Checkbox**: Export `CheckboxRootProviderProps` type
+
+- **Charts**: Fixed issue where `formatter` prop doesn't take effect in the
+  tooltip
+
+## [3.19.2](./#3.19.2) - 2025-06-02
+
+### Fixed
+
+- **System**: add explicit `undefined` to generated types to support TS
+  `exactOptionalPropertyTypes`
+
+- **Drawer**: Fix drawer close animation in RTL
+
+- **Button**
+  - Fix layout issue when in loading state with icons by using
+    `display: contents` and `visibility: hidden`
+  - Add `data-loading` attribute when `loading` is `true` so allow styling
+    loading state with `_loading` pseudo prop
+
+- **Input**: Fix issue where invalid styles don't persist for `variant=flushed`
+
+## [3.19.1](./#3.19.1) - 2025-05-17
+
+### Fixed
+
+- **System**: Fix issue where some svg element props tend to be treated as style
+  props
+
+- **Checkbox**: Use consistent cursor for checkbox and radio group
+
+## [3.19.0](./#3.19.0) - 2025-05-15
+
+### Added
+
+- **Combobox [New]** Add `Combobox` component for autocomplete text entry.
+
+```tsx
+<Combobox.Root>
+  <Combobox.Label />
+  <Combobox.Control>
+    <Combobox.Input />
+    <Combobox.IndicatorGroup>
+      <Combobox.ClearTrigger />
+      <Combobox.Trigger />
+    </Combobox.IndicatorGroup>
+  </Combobox.Control>
+  <Portal>
+    <Combobox.Positioner>
+      <Combobox.Content>
+        <Combobox.Item />
+      </Combobox.Content>
+    </Combobox.Positioner>
+  </Portal>
+</Combobox.Root>
+```
+
+### Fixed
+
+- **Progress Circle**: Fix issue where progress circle transition was not
+  smooth.
+
+## [3.18.0](./#3.18.0) - 2025-05-14
+
+### Added
+
+- **DownloadTrigger [New]** Add `DownloadTrigger` component to help download
+  file contents.
+
+### Fixed
+
+- **System**
+  - Fix issue where passing `d` prop to `chakra.path` adds it to styles not as a
+    direct attribute.
+  - Fix issue where responsive semantic tokens did not get applied.
+
+- **Select**: Fix issue where indicator group doesn't align correctly in RTL
+  layouts.
+
+## [3.17.0](./#3.17.0) - 2025-05-01
+
+### Added
+
+- **Toast**: Added toast queuing when the max limit is reached:
+  - New toasts were queued instead of dropped
+  - Queued toasts were shown when space became available
+  - Queue cleared when all toasts were removed
+
+### Fixed
+
+- **Breadcrumb**: Prevent screen reader from reading the separator
+
+- **SegmentGroup**: Fix issue where `disabled` prop was not being applied to
+  `SegmentGroup.Items`
+
+- **RatingGroup**: Fix issue where half-filled icons were not being displayed
+  correctly in RTL
+
+- **Collapsible**: Fixed issue in React.js `<= v18.x` where collapse animation
+  might not work as expected
+
+## [3.16.1](./#3.16.1) - 2025-04-20
+
+### Fixed
+
+- **Dialog, Drawer**: Use correct z-index for dialog and drawer backdrop
+
+- **SegmentGroup**: Fix issue where `orientation` prop to `SegmentGroup.Root`
+  doesn't work as expected.
+
+## [3.16.0](./#3.16.0) - 2025-04-14
+
+### Added
+
+- **Global CSS**: Improve text selection contrast
+
+- **System**
+  - Fix issue where `borderEnd` shorthand was not working despite `borderStart`
+    being present
+  - Fix issue where `system.cva` return type was incorrect
+  - Soften the focus ring for all color palettes
+
+- **Dialog, Drawer**: Fix issue where `z-index` was not being applied correctly
+
+- **[Beta] createOverlay**: Add `createOverlay` utility for programmatically
+  controlling overlay components (Dialog, Drawer, etc.)
+
+## [3.15.1](./#3.15.1) - 2025-04-07
+
+### Fixed
+
+- **General**: Ensure types are consistent with React 19
+- **Dialog, Drawer**: Fix issue where backdrop could overlap positioner when
+  re-opened quickly
+- **CLI**: Improve CLI response when passing an unknown snippet id
+
+### Changed
+
+- **BarList, BarSegment**: Rename `showTooltip` with `tooltip` prop to support
+  custom tooltips.
+
+## [3.15.0](./#3.15.0) - 2025-03-29
+
+### Added
+
+- **Charts**: Initial release of the `@chakra-ui/charts` package.
+
+### Changed
+
+- **useMediaQuery**: Fix type signature to allow skipping the second argument
+
+- **RadioCard**: Fix accessibility issue due to html structure
+
+- **Slider**
+  - Add support for `origin: end` to align the thumb to the end of the track
+  - Expose `thumbSize` as CSS variables in the root element. Can be useful for
+    styling the slider
+
+- **Menu**
+  - Added `onSelect` event to the `Menu.Item` component
+  - Ensure menu items have unique IDs to improve accessibility and HTML
+    validation
+
+## [3.14.2](./#3.14.2) - 2025-03-24
+
+### Fixed
+
+Fix potential import error from `@zag-js/utils` in `@ark-ui/react`.
+
+## [3.14.1](./#3.14.1) - 2025-03-24
+
+### Fixed
+
+- **System**: Fix issue where output of `<system>.css(...)` from Chakra UI can't
+  be assigned to `Interpolation<Theme>` from `@emotion/react`.
+
+- **General**: Bump `@ark-ui/react` to latest version.
+
+## [3.14.0](./#3.14.0) - 2025-03-14
+
+### Changed
+
+- **General**: Improve render performance by upgrading to the latest Ark UI v5.
+  This brings a **1.5x - 4x** improvements across components. Learn more from
+  the
+  [Ark UI v5 changelog](https://ark-ui.com/docs/overview/changelog#500---2025-03-06).
+
+- **RadioGroup**: Allow passing `null` as a valid value to clear the value. This
+  means the signature of `onValueChange` now supports `string | null` instead of
+  just `string`.
+
+  > This might be a potential breaking TS change but it's a needed change to
+  > allow clearing the value.
+
+## [3.13.0](./#3.13.0) - 2025-03-13
+
+### Added
+
+- **ColorPicker**
+  - Add support for `ColorPicker.ChannelText` component
+  - Add `ColorPicker.EyeDropper` component that wraps `IconButton`
+  - Add `ColorPicker.Slider` and `ColorPicker.Input` shortcut components to
+    reduce LOC.
+
+- **InputGroup**
+  - Export directly from the `@chakra-ui/react` package
+
+- **Pagination**
+  - Add `Pagination.Items` shortcut component to render the number of pages
+    based on the `count` and `pageSize` props.
+  - Add `Pagination.PageText` component to render the current page and total
+    pages.
+
+## [3.12.0](./#3.12.0) - 2025-03-10
+
+### Added
+
+- **FileUpload**
+  - Add `FileUpload.FileText` to render the list of uploaded file names.
+  - Add `FileUpload.Items` shorcut component to render the list of uploaded
+    files.
+  - Add `FileUpload.List` shortcut component that combines `FileUpload.Items`
+    and `FileUpload.ItemGroup`.
+
+## [3.11.0](./#3.11.0) - 2025-03-09
+
+### Fixed
+
+- **Accordion**
+  - Fix issue where `Accordion.ItemTrigger` doesn't apply `textAlign: start`
+
+### Added
+
+- **SegmentGroup**
+  - Add new `SegmentGroup.Items` shortcut component to render multiple
+    `SegmentGroup.Item` components based on the `items` prop
+
+## [3.10.0](./#3.10.0) - 2025-03-08
+
+### Changed
+
+- **Menu**
+  - Set the default children of `Menu.Arrow` to `Menu.ArrowTip`, reducing LOC in
+    common use cases.
+
+- **HoverCard**
+  - Set the default children of `HoverCard.Arrow` to `HoverCard.ArrowTip`,
+    reducing LOC in common use cases.
+
+- **Dialog, Drawer**
+  - Update recipe to include absolute positioning styles for close trigger,
+    instead of relying on snippet styles.
+
+## [3.9.0](./#3.9.0) - 2025-03-05
+
+### Added
+
+- **Skeleton** Bring back `SkeletonCircle` and `SkeletonText` components from
+  v2.
+
+- **Switch**
+  - Transition background color when checked
+  - Set `Switch.Control` to include `Switch.Thumb` as its default children,
+    reducing LOC in common use cases.
+
+- **Checkbox**
+  - Set `Checkbox.Control` to include `Checkbox.Indicator` as its default
+    children, reducing LOC in common use cases.
+
+- **NumberInput**
+  - Set `NumberInput.Control` to include `NumberInput.IncrementTrigger` and
+    `NumberInput.DecrementTrigger` as its default children, reducing LOC in
+    common use cases.
+
+- **QrCode**
+  - Set `QrCode.Frame` to include `QrCode.Pattern` as its default children,
+    reducing LOC in common use cases.
+
+- **RatingGroup**
+  - Set `RatingGroup.Control` to include an array of `RatingGroup.Item`
+    components as its default children, reducing LOC in common use cases.
+
+- **Slider**
+  - Add `Slider.Marks` component to render marks on the slider track. This is a
+    closed composition of `Slider.MarkerGroup` and `Slider.Marker` to reduce LOC
+    for common use cases.
+  - Add `Slider.Thumbs` component to render thumbs on the slider track. This is
+    a closed composition of `Slider.Thumb` to reduce LOC for common use cases.
+
+- **PinInput**
+  - Add support for `attached` variant prop to render a pin input with attached
+    inputs. This removes the need for the `Group` component to wrap the inputs.
+
+- **Tooltip, Popover**
+  - Set `Tooltip.Arrow` and `Popover.Arrow` to include `Tooltip.ArrowTip` and
+    `Popover.ArrowTip` as its default children, reducing LOC in common use
+    cases.
+
+## [3.8.2](./#3.8.2) - 2025-03-04
+
+### Fixed
+
+- **AspectRatio:** Fix issue where `css` prop was not respected
+- **System:** Fix issue where `mt` shorthand resolves to `marginBlockStart`
+  instead of `marginTop`
+
+## [3.8.1](./#3.8.1) - 2025-02-19
+
+### Fixed
+
+- Fix performance regression from `v3.5.x` by reverting memoization logic
+- Add `useMemo` to provider components and styling hooks to avoid unnecessary
+  recomputations
+
+## [3.8.0](./#3.8.0) - 2025-02-09
+
+### Added
+
+- **[New] Hooks:**
+  - `useElementRect`: Get the dimensions and position of an element
+  - `useForceUpdate`: Force a component re-render
+  - `useLiveRef`: Create a ref that stays up-to-date with its value
+  - `usePrevious`: Access the previous value of a state or prop
+  - `useSafeLayoutEffect`: A safer version of `useLayoutEffect`
+
+- **[New] Focus Trap:** Add `FocusTrap` component for trapping focus within a
+  container
+
+### Fixed
+
+- **Breadcrumb:** Fix issue where breadcrumb arrow doesn't flip in RTL mode
+- **Group:** Fix issue where `Group` component doesn't skip invalid children
+
+### Added
+
+- **Color Mode:** Add `LightMode` and `DarkMode` components to force light and
+  dark color mode in a subtree
+
+## [3.7.0](./#3.7.0) - 2025-02-04
+
+### Added
+
+- **Avatar:** Add support for passing `name` to the `AvatarFallback` to render
+  the initials. If no `name` or `children` is passed, it'll render either the
+  initials or a fallback icon.
+
+- **[New] Hooks:** Add `useConst` and `useUpdateEffect` hooks from v2.
+
+- **[New] Wrap:** Bring back the `Wrap` component from v2.
+
+## [3.6.0](./#3.6.0) - 2025-02-02
+
+### Fixed
+
+- **CLI:** Fix issue where CLI doesn't properly check for existing files when
+  adding snippets.
+
+### Added
+
+- **[New] Close Button:** Add `CloseButton` component.
+- **Stat:** Bring back `StatGroup` component from v2.
+- **Avatar:** Bring back `AvatarGroup` component from v2.
+
+### Changed
+
+- **Styled System:**
+  - Boost performance of style resolution by removing `JSON.stringify` in `memo`
+    function and avoid memoizing non-primitive arguments.
+  - Connect `assets` token to `backgroundImage` and `listStyleImage` css
+    properties.
+
+- **Menu, Tooltip:** Set `lazyMount` and `unmountOnExit` to `true` in the `Root`
+  component to improve initial rendering performance.
+
+- **AbsoluteCenter:** Fix issue where axis doesn't work in RTL mode.
+
+- **Snippets / QRCode:** Remove snippet in favor of compound component pattern.
+
+- **List:** Fix issue where list items don't wrap correctly.
+
+## [3.5.1](./#3.5.1) - 2025-01-24
+
+### Fixed
+
+- **Button:** Fix issue where button is not disabled when loading props is
+  passed
+
+- **ColorPicker, HoverCard, Tooltip:** Fixed intermittent placement shifts
+  caused by updates to the `data-placement` attribute
+
+- **Snippets / Alert:** Deprecate the `Alert` snippet in favor of using the
+  `Alert` component directly from `@chakra-ui/react`.
+
+## [3.5.0](./#3.5.0) - 2025-01-24
+
+### Fixed
+
+- **Native Select**
+  - Fix issue where `disabled` and `invalid` props were not being passed to the
+    `NativeSelectField` component.
+  - Persist error focus ring when `invalid` prop is set.
+  - Fix issue where native select isn't readable in dark mode for Windows/Linux
+    devices.
+
+### Added
+
+- **[New] Loader:** Add new `Loader` and `LoaderOverlay` components.
+
+- **[New] Button Group:** Add new `ButtonGroup` component similar to v2 for
+  grouping similar buttons.
+
+- **Button:** Add `loading` and `loadingText` props to the `Button` component.
+
+### Changed
+
+- **Snippets / Menu:** Refactor checkbox item to fix rendering
+
+- **Snippets / Button:** Removed the button snippet in favor of built-in
+  component.
+
+## [3.4.0](./#3.4.0) - 2025-01-17
+
+### Added
+
+- **[NEW] Presence:** Add new presence component to animate the entry and exit
+  of an element while controlling the render behavior.
+
+### Fixed
+
+- **Separator**: Fix issue where `aria-orientation` was missing in the DOM and
+  `orientation` was added instead.
+
+- **Button, Icon** Fix issue where button and icon doesn't export props
+  providers
+
+- **System**: Fix performance issue where initial render time feels slower
+  compared to v2 due to the global style computation in the provider component.
+  [See Discussion](https://github.com/chakra-ui/chakra-ui/discussions/9488#discussioncomment-11868684)
+
+- **FileUpload**
+  - Resolved an issue where form-related components reset despite the reset
+    event being cancelled.
+  - Fixed a brief warning display when a new image file is added to the preview.
+  - Enhanced click detection for the dropzone and added support for the
+    `disableClick` prop.
+
+## [3.3.3](./#3.3.3) - 2025-01-16
+
+### Fixed
+
+- **Icon**: Fix regression where icon sizes doesn't work anymore
+
+## [3.3.2](./#3.3.2) - 2025-01-16
+
+### Fixed
+
+- **Icon**
+  - Refactor icon recipe `size=inherit` to allow for composition with button
+  - Fix issue where using `<Icon as={...} />` throws an error, forcing users to
+    use the `asChild` approach
+
+- **Menu, Select:** Use the same semantic token for select `_highlighted` state
+
+- **Snippet, Tooltip:** Set `portalled` to `true` by default
+
+- **Toast:** Fix issue where toast close trigger was not visible
+
+- **Factory:** Fix issue where factory shows a warning React 19 due to accessing
+  `child.ref`
+
+## [3.3.1](./#3.3.1) - 2025-01-12
+
+### Fixed
+
+- **HoverCard, Tooltip**: Resolved an issue where the controlled open state
+  could become inconsistent during the `opening` or `closing` phases.
+
+- **System**: Fix issue where `useRecipe` and `useSlotRecipe` returns `never`
+  when key does not match built-in recipe.
+
+## [3.3.0](./#3.3.0) - 2025-01-09
+
+### Added
+
+- **[New] QRCode**: Add new component for converting text and links to QR codes.
+
+```tsx
+<QrCode.Root value="..." size="md">
+  <QrCode.Frame>
+    <QrCode.Pattern />
+  </QrCode.Frame>
+</QrCode.Root>
+```
+
+- **Clipboard**: Introduced `Clipboard.ValueText` to display clipboard content.
+
+- **FileUpload**
+  - Added `preventDropOnDocument` to block file drops on the document when the
+    file upload component is active.
+
+  - Added `setClipboardFiles` to the API for setting files from clipboard data.
+
+- **Progress**: Added support for`onValueChange` and `defaultValue`.
+
+- **Tabs, Menu**: Added `navigate` property for custom router navigation when
+  selections render as links.
+
+- **CLI**: Add support for `--tsx` flag in the `snippet add` command to allow
+  explicitly specifying tsx/jsx file generation.
+
+```bash
+npx @chakra-ui/cli snippet add [...components] --tsx
+```
+
+- **[New] Panda**: Initial release of `@chakra-ui/panda-preset`. This allows you
+  to use Chakra's design system in a Panda CSS project.
+
+### Fixed
+
+- **Collapsible**: Fixed a bug where the opening animation replayed when an open
+  collapsible was re-rendered.
+
+- **Dialog, Popover**: Fixed an issue causing dialogs or popovers to close if
+  the focused element was removed from the DOM.
+
+- **FileUpload**: Fixed a bug causing the hidden input to be out of sync with
+  accepted files.
+
+- **Menu, Popover**: Fixed inconsistent interaction detection outside the
+  component when the trigger was inside a scrollable container.
+
+- **Pagination**: Corrected an issue where the page range returned an incorrect
+  `end` value when `pageSize` exceeded `count`.
+
+- **Image**: Fix issue where `htmlWidth` and `htmlHeight` doesn't work in
+  `Image` or `chakra.image` elements.
+
+- **System**
+  - Improve typesafety for layer styles to support common shorthands like `bg`,
+    `bgColor`, `bgImage`.
+  - Fix compound variant matching not working with `colorPalette` prop.
+
+## [3.2.5](./#3.2.5) - 2025-01-04
+
+### Fixed
+
+- **useMediaQuery**: Fix issue where partial media queries like
+  `aspect-ratio < 1` doesn't return the correct result.
+
+  > **Good to know**: Partial media queries like `aspect-ratio < 1` resolves to
+  > `aspect-ratio < 1 / 1` in the browser.
+
+- **System**
+  - Improve type-safety in `useRecipe` and `useSlotRecipe` hooks
+  - Fix issue where composing `Input` component throws `asChild` React HTML prop
+    warning.
+  - Fix issue where `mergeConfigs` does not override functions
+
+- **Snippets / Pagination**: Fix issue where pagination page text renders
+  incorrectly when the `pageSize` is greater than the `count` value with
+  `format=long`
+
+- **Snippets / InputGroup**: Improve typings for `children` prop to prevent TS
+  errors
+
+- **FileUpload**: Resolved an issue where the `accept` attribute wasn’t applied
+  to the hidden input.
+
+- **NumberInput**: Fixed issue where the input event wasn’t triggered on the
+  first click of the increment/decrement controls.
+
+## [3.2.4](./#3.2.4) - 2024-12-30
+
+### Fixed
+
+- Fix issue where component hook props (like `UseCheckboxProps`,
+  `UseCheckboxGroupProps`, etc.) are not exported.
+
+- **System**: Fix issue where `chakra.x` factory component props throws TS error
+  in React 19
+
+## [3.2.3](./#3.2.3) - 2024-12-05
+
+### Fixed
+
+- **System**: Fix issue where responsive semantic tokens doesn't work as
+  expected
+
+## [3.2.2](./#3.2.2) - 2024-11-29
+
+### Fixed
+
+- **Slider**
+  - Add `DraggingIndicator` component to show an element only while dragging
+  - Fix issue where slider marks were not styled correctly in vertical
+    orientation
+
+- **Menu**: Update recipe to use `--available-height` css variable to keep the
+  menu's height within the available space
+
+- **System**: Fixed issue where exporting `withRootProvider` would result in
+  type error
+
+- **Snippets / Slider**
+  - Move `MarkerGroup` into the `Control` component
+  - Remove hardcoded margin values in favor of recipes and `data-has-mark-label`
+    attribute
+
+- **CLI**: Output the real version from `package.json`
+
+## [3.2.1](./#3.2.1) - 2024-11-26
+
+### Fixed
+
+- **System**: Fix issue where exporting `withProvider` and `withContext` would
+  result in type error
+
+- **Timeline**: Fix issue where `TimelineTitle` was missing from the export
+
+- **Tabs**: Fix issue where `useTabs` and `useTabsContext` were not exported
+
+- **Snippets / ColorPicker**: Fix flex direction of `ColorPickerChannelInputs`
+  and `ColorPickerChannelSliders`
+
+- **CLI**
+  - Fix issue where npmDependencies for snippets were not auto-installed
+  - Support React Router 7 framework detection
+
+## [3.2.0](./#3.2.0) - 2024-11-20
+
+### Added
+
+- **Input:** Add support for `use-mask-input` library to mask the input shape
+
+- **CLI**: Add support for `--all` flag to add all snippets. By default, we only
+  install a minimal/recommended set of snippets
+
+  > **Recommended snippets:** provider, avatar, button, checkbox, radio,
+  > input-group, slider, popover, dialog, drawer, tooltip, field
+
+  If you want to add all snippets, you can use the `--all` flag
+
+- **[Preview]** Add new `ColorPicker` component to allow users pick a color in
+  hsl, rgb, hsb formats
+
+- **[Preview]** Add new `ColorSwatch` component to preview a color
+
+### Fixed
+
+- **System**: Fix issue where `mergeConfigs` mutates the underlying configs
+  passed to it
+
+- **CLI:** Fix issue where typegen doesn't work when CLI installed globally or
+  run using `npx`
+
+## [3.1.2](./#3.1.2) - 2024-11-15
+
+### Fixed
+
+- **General:** Fix issue where value change types and components were not
+  re-exported from Ark UI
+
+- **Layer Style:** Fix issue where `fill.surface` layer style doesn't render the
+  correct styles
+
+- **Snippets / Pagination:** Fix issue where `PaginationPageText` did not render
+  the correct page range
+
+## [3.1.1](./#3.1.1) - 2024-11-09
+
+### Fixed
+
+- **Checkbox**: Fix issue where checkmark doesn't show on Safari
+
+- **Alert**: Fix issue where indicator icon is not visible on Safari
+
+- **ClientOnly**: Fix issue where returned the incorrect type leading to TS
+  error like `ClientOnly cannot be used as a JSX component.`
+
+- **Fieldset**: Fix issue where anatomy is not exported
+
+- **Timeline**: Refactor variants such that it responds to `colorPalette`
+
+- **useBreakpointValue**: Fix issue where hook throws error if `ssr` is `false`
+
+## [3.1.0](./#3.1.0) - 2024-11-04
+
+### Fixed
+
+- **CLI**: Fix issue where adding a snippet with `--outdir` still creates
+  snippets a `src/components/ui` directory.
+
+- **System:** Fix issue where using `as` prop with logic based components
+  doesn't work as expected.
+
+### Added
+
+- **DataList:** Add support for `bold` variant.
+
+- **Toggle:** Add `Toggle` component for toggling between two states. It
+  composes the `Button` component.
+
+### Changed
+
+- **Button:** Tweak the horizontal padding when size is `sm`.
+
+- **Snippets**
+  - Slider: Add `showValue` prop to render the text value of the slider.
+
+  - Select
+    - Add `HiddenSelect` to ensure it works in form submissions.
+    - Fix type inference is lost when using `SelectRoot` component from snippet
+    - Fix issue where form data is not populated when using native form element
+
+  - ColorMode: Fix type error when using the latest `next-themes`.
+
+  - Provider: Forward props to `ColorModeProvider` powered by `next-themes` for
+    better customization.
+
+## [3.0.2](./#3.0.2) - 2024-10-29
+
+### Changed
+
+- **Snippets / Toaster**: Improve toaster styling by adding
+  `width={{ md: "sm" }}` to the toast root.
+
+### Fixed
+
+- **InputAddon**: Fix issue with input addon not stretched correctly.
+
+- **CLI**
+  - Fix issue with vite setup where `.mjs` and `mts` files were not considered.
+  - Fix issue where style props types show as `any` when using `strictTokens`.
+
+## [3.0.1](./#3.0.1) - 2024-10-25
+
+### Changed
+
+- Improve placeholder and selection styles
+
+### Fixed
+
+- Fix for custom keyframes not being picked up by autocomplete
+- Fix issue where `scrollBehavior=outside` doesn't allow scrolling outside the
+  dialog content
+
+## [3.0.0](./#3.0.0) - 2024-10-22
+
+### Changed
+
+Visit the [Migration Guide](https://chakra-ui.com/docs/get-started/migration)

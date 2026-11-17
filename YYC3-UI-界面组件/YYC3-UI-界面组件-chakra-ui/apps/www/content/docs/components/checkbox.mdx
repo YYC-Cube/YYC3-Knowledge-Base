@@ -1,0 +1,230 @@
+---
+title: Checkbox
+description:
+  Used in forms when a user needs to select multiple values from several options
+links:
+  source: components/checkbox
+  storybook: components-checkbox--basic
+  recipe: checkbox
+  ark: https://ark-ui.com/docs/components/checkbox
+---
+
+<ExampleTabs name="checkbox-basic" />
+
+## Usage
+
+```tsx
+import { Checkbox } from "@chakra-ui/react"
+```
+
+```tsx
+<Checkbox.Root>
+  <Checkbox.HiddenInput />
+  <Checkbox.Control>
+    <Checkbox.Indicator />
+  </Checkbox.Control>
+  <Checkbox.Label />
+</Checkbox.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Shortcuts
+
+The `Checkbox` component also provides a set of shortcuts for common use cases.
+
+### CheckboxControl
+
+This component renders the `Checkbox.Indicator` within it by default.
+
+This works:
+
+```tsx
+<Checkbox.Control>
+  <Checkbox.Indicator />
+</Checkbox.Control>
+```
+
+This might be more concise, if you don't need to customize the indicator:
+
+```tsx
+<Checkbox.Control />
+```
+
+## Examples
+
+### Variants
+
+Pass the `variant` prop to the `Checkbox.Root` component to change the visual
+style of the checkbox.
+
+<ExampleTabs name="checkbox-with-variants" />
+
+### Colors
+
+Pass the `colorPalette` prop to the `Checkbox.Root` component to change the
+color of the checkbox.
+
+<ExampleTabs name="checkbox-with-colors" />
+
+### Sizes
+
+Pass the `size` prop to the `Checkbox.Root` component to change the size of the
+checkbox.
+
+<ExampleTabs name="checkbox-with-sizes" />
+
+### States
+
+Pass the `disabled` or `invalid` prop to the `Checkbox.Root` component to change
+the visual state of the checkbox.
+
+<ExampleTabs name="checkbox-with-states" />
+
+### Controlled
+
+Use the `checked` and `onCheckedChange` props to control the state of the
+checkbox.
+
+<ExampleTabs name="checkbox-controlled" />
+
+### Label Position
+
+Here's an example of how to change the label position to the right.
+
+<ExampleTabs name="checkbox-with-label-position" />
+
+### Store
+
+An alternative way to control the checkbox is to use the `RootProvider`
+component and the `useCheckbox` store hook.
+
+This way you can access the checkbox state and methods from outside the
+checkbox.
+
+<ExampleTabs name="checkbox-with-store" />
+
+### Composition
+
+Here's an example of how to compose a checkbox with a field component.
+
+<ExampleTabs name="checkbox-with-form" />
+
+### Hook Form
+
+Here's an example of how to use the `Checkbox` component with the
+`react-hook-form` library.
+
+<ExampleTabs name="checkbox-with-hook-form" />
+
+### Group
+
+Use the `CheckboxGroup` component to group multiple checkboxes together.
+
+<ExampleTabs name="checkbox-with-group" />
+
+### Group Hook Form
+
+Here's an example of how to use the `CheckboxGroup` component with the
+`react-hook-form` library.
+
+<ExampleTabs name="checkbox-with-group-hook-form" />
+
+### Custom Icon
+
+Render a custom icon within `Checkbox.Control` to change the icon of the
+checkbox.
+
+<ExampleTabs name="checkbox-with-custom-icon" />
+
+### Indeterminate
+
+Set the `checked` prop to `indeterminate` to show the checkbox in an
+indeterminate state.
+
+<ExampleTabs name="checkbox-indeterminate" />
+
+### Description
+
+Here's an example of how to add some further description to the checkbox.
+
+<ExampleTabs name="checkbox-with-description" />
+
+### Link
+
+Render an anchor tag within the `Checkbox.Label` to add a link to the label.
+
+<ExampleTabs name="checkbox-with-link" />
+
+### Closed Component
+
+Here's how to setup the Checkbox for a closed component composition.
+
+<ExampleCode name="checkbox-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add checkbox
+```
+
+Here's how to use the it
+
+```tsx
+<Checkbox>Accept terms and conditions</Checkbox>
+```
+
+## Guides
+
+### CheckboxGroup + Field vs Fieldset
+
+When working with multiple checkboxes, it's important to understand the semantic
+difference between `Field` and `Fieldset`:
+
+- **Single Checkbox**: Wrap with `Field.Root` for proper form field structure
+  with labels and helper text
+- **CheckboxGroup**: Wrap with `Fieldset.Root`, not `Field.Root`
+
+A checkbox group represents a collection of related options and should be marked
+up as a fieldset with a legend, not as a single field. Wrapping `CheckboxGroup`
+in `Field.Root` can cause interaction issues where only the first checkbox
+responds to clicks.
+
+**✅ Correct Usage:**
+
+```tsx
+<Fieldset.Root>
+  <CheckboxGroup name="framework">
+    <Fieldset.Legend>Select framework</Fieldset.Legend>
+    {/* ... checkboxes ... */}
+  </CheckboxGroup>
+</Fieldset.Root>
+```
+
+**❌ Incorrect Usage:**
+
+```tsx
+// Don't wrap CheckboxGroup with Field.Root
+<Field.Root>
+  <CheckboxGroup>{/* ... checkboxes ... */}</CheckboxGroup>
+</Field.Root>
+```
+
+## Props
+
+### Root
+
+<PropTable component="Checkbox" part="Root" />
+
+## Explorer
+
+Explore the `Checkbox` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="checkbox-explorer-demo" />

@@ -1,0 +1,16 @@
+{
+  "extends": "../../core/tsconfig.base.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "outDir": "dist-transpiled",
+    "declarationDir": "dist/types",
+    "rootDir": "src",
+    "sourceMap": true,
+    "jsx": "react"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["./__tests__/**", "node_modules", "setupTests.ts"],
+  "compileOnSave": false,
+  "buildOnSave": false
+}

@@ -1,0 +1,117 @@
+---
+title: Carousel
+desc: The QCarousel Vue component allows you to display a series of slides, useful for wizards or an image gallery.
+keys: QCarousel
+examples: QCarousel
+---
+
+The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.
+
+<DocApi file="QCarousel" />
+
+<DocApi file="QCarouselControl" />
+
+<DocApi file="QCarouselSlide" />
+
+## Usage
+
+> [!TIP]
+> A swipe that starts on a draggable element is ignored, so the native drag does not fight the gesture. Images and links are draggable by default: if a QCarouselSlide contains an `<img>`, a `<router-link>` or an `<a>` and you want swipe actions to navigate, add `draggable="false"` to them.
+
+> [!IMPORTANT]
+> **Keep Alive**
+>
+> - Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
+> - Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QCarouselSlide `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
+
+### Basic
+
+Below is an almost stripped down basic Carousel (it is just animated and only has custom transitions specified) with no navigation embedded. For this reason, we are controlling the current slide through the model.
+
+<DocExample title="Basic" file="Basic" />
+
+### Transitions
+
+In the example below:
+
+- There are just a few transitions demoed. For a complete list of transitions, head to the [Transitions](/options/transitions) page.
+- You can also swipe with your finger (or swiping with the mouse -- clicking and quickly dragging to left/right then releasing).
+
+<DocExample title="Transitions, bottom navigation, arrows and auto padding" file="Transitions" />
+
+### Vertical
+
+<DocExample title="Vertical mode" file="Vertical" />
+
+### Control type
+
+The notion of "control" here refers to the arrows and navigation buttons. Since they are buttons, you can also pick their type to better match your design. You also benefit from the `control-color` and `control-text-color` props.
+
+<DocExample title="Control Type" file="ControlType" />
+
+### Navigation position
+
+<DocExample title="Navigation position" file="NavigationPosition" />
+
+### Custom navigation
+
+For a full list of properties of the `navigation-icon` slot, please consult the API card.
+
+<DocExample title="Custom navigation" file="CustomNavigation" />
+
+### Accessibility <q-badge label="v2.25+" />
+
+The navigation buttons (or thumbnails) render as a [`tablist`](https://www.w3.org/TR/wai-aria-1.2/#tablist) with `aria-orientation` matching the carousel direction; each of them is a `tab` with a roving tabindex, `aria-selected` and its slide's `name` as accessible name, while each slide is a `tabpanel`. The previous/next arrows are buttons with localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs).
+
+Two limits to design around: a swipe-only carousel — no `arrows` and no `navigation`/`thumbnails` — offers no keyboard way at all to change slides, so always enable at least one of them. And `autoplay` does not pause on hover or focus, so when using it provide a pause control (e.g. a button toggling the `autoplay` prop) — [WCAG 2.2.2](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) requires a way to stop the movement.
+
+#### Keyboard navigation
+
+The navigation buttons (and the thumbnails, when using the `thumbnails` prop) follow the [WAI-ARIA carousel pattern](https://www.w3.org/WAI/ARIA/apg/patterns/carousel/) with a tabbed interface: they form a single Tab stop, while the arrow keys move focus within them and also select the newly focused slide, wrapping around at either end. Horizontal carousels use <kbd>Arrow Left</kbd> and <kbd>Arrow Right</kbd> (reversed in RTL mode); vertical ones use <kbd>Arrow Up</kbd> and <kbd>Arrow Down</kbd>. <kbd>Home</kbd> or <kbd>End</kbd> jumps to the first or last slide.
+
+Each navigation element gets its slide's `name` as the accessible label — pick meaningful slide names, or supply your own labels through the `navigation-icon` slot (spread its `btnProps`, which include the ARIA attributes, then override what you need). The previous/next arrows (`arrows` prop) carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs) (`carousel.prevSlide` / `carousel.nextSlide`).
+
+### Auto padding
+
+Below is an example with which you can play with different QCarousel settings so you can see the padding (or lack of) in action:
+
+<DocExample title="Padding" file="AutoPadding" />
+
+### Media content
+
+<DocExample title="Image slides" file="ImageSlides" />
+
+<DocExample title="Multi-image slides" file="MultiImageSlides" />
+
+<DocExample title="Captions" file="Captions" />
+
+<DocExample title="Video slides" file="VideoSlides" />
+
+In the example below there are thumbnails being generated automatically. Thumbnails only applies to image slides.
+
+<DocExample title="Thumbnails" file="Thumbnails" />
+
+> [!IMPORTANT]
+> Don't use the property `navigation` along with `thumbnails` as the first supercedes the latter so the thumbnails will not be displayed.
+
+### Infinite and autoplay
+
+You can pause autoplay when the pointer is over the carousel or over a region of interest.
+
+<DocExample title="Autoplay" file="InfiniteAutoplay" />
+
+### Controls
+
+<DocExample title="Controls" file="Controls" />
+
+### With QScrollArea
+
+Please note how [QScrollArea](/vue-components/scroll-area) is used in the two examples below. Also note the `q-carousel--padding` CSS helper class in the second example.
+
+<DocExample title="With QScrollArea and padding" file="WithScrollareaPadding" />
+
+<DocExample title="With QScrollArea on whole slide" file="WithScrollareaFull" />
+
+### Fullscreen
+
+<DocExample title="Fullscreen" file="Fullscreen" />

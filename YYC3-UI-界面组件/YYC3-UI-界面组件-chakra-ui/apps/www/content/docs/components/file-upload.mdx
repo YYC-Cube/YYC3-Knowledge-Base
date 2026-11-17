@@ -1,0 +1,182 @@
+---
+title: File Upload
+description: Used to select and upload files from their device.
+links:
+  source: components/file-upload
+  storybook: components-file-upload--basic
+  recipe: file-upload
+  ark: https://ark-ui.com/docs/components/file-upload
+---
+
+<ExampleTabs name="file-upload-basic" />
+
+## Usage
+
+```jsx
+import { FileUpload } from "@chakra-ui/react"
+```
+
+```jsx
+<FileUpload.Root>
+  <FileUpload.HiddenInput />
+  <FileUpload.Label />
+  <FileUpload.Dropzone>
+    <FileUpload.DropzoneContent />
+  </FileUpload.Dropzone>
+  <FileUpload.Trigger />
+  <FileUpload.ItemGroup>
+    <FileUpload.Item>
+      <FileUpload.ItemPreview />
+      <FileUpload.ItemFileName />
+      <FileUpload.ItemSizeText />
+      <FileUpload.ItemDeleteTrigger />
+    </FileUpload.Item>
+  </FileUpload.ItemGroup>
+</FileUpload.Root>
+```
+
+## Shortcuts
+
+The `FileUpload` component also provides a set of shortcuts for common use
+cases.
+
+### FileUploadItems
+
+By default, the `FileUploadItems` shortcut renders the list of uploaded files.
+
+This works:
+
+```tsx
+<FileUpload.ItemGroup>
+  <FileUpload.Context>
+    {({ acceptedFiles }) =>
+      acceptedFiles.map((file) => (
+        <FileUpload.Item key={file.name} file={file}>
+          <FileUpload.ItemPreview />
+          <FileUpload.ItemName />
+          <FileUpload.ItemSizeText />
+          <FileUpload.ItemDeleteTrigger />
+        </FileUpload.Item>
+      ))
+    }
+  </FileUpload.Context>
+</FileUpload.ItemGroup>
+```
+
+This might be more concise, if you don't need to customize the file upload
+items:
+
+```tsx
+<FileUpload.ItemGroup>
+  <FileUpload.Items />
+</FileUpload.ItemGroup>
+```
+
+### FileUploadList
+
+The `FileUploadList` shortcut renders the list of uploaded files. It composes
+the `FileUpload.ItemGroup` and `FileUpload.Items` components.
+
+```tsx
+<FileUpload.List />
+```
+
+is the same as:
+
+```tsx
+<FileUpload.ItemGroup>
+  <FileUpload.Items />
+</FileUpload.ItemGroup>
+```
+
+## Examples
+
+### Accepted Files
+
+Define the accepted files for upload using the `accept` prop.
+
+<ExampleTabs name="file-upload-accepted-files" />
+
+### Multiple Files
+
+Upload multiple files at once by using the `maxFiles` prop.
+
+<ExampleTabs name="file-upload-multiple" />
+
+### Custom Preview
+
+Here's an example of how to show a custom image preview for files.
+
+<ExampleTabs name="file-upload-custom-preview" />
+
+### Directory
+
+Use the `directory` prop to allow selecting a directory instead of a file.
+
+<ExampleTabs name="file-upload-directory" />
+
+### Media Capture
+
+Use the `capture` prop to select and upload files from different environments
+and media types.
+
+> **Note:** This is
+> [not fully supported](https://caniuse.com/mdn-api_htmlinputelement_capture) in
+> all browsers.
+
+<ExampleTabs name="file-upload-media-capture" />
+
+### Dropzone
+
+Drop multiple files inside the dropzone and use the `maxFiles` prop to set the
+number of files that can be uploaded at once.
+
+<ExampleTabs name="file-upload-with-dropzone" />
+
+### Conditional Dropzone
+
+Hide the dropzone when the maximum number of files has been reached by using
+`useFileUploadContext` to access the accepted files count.
+
+<ExampleTabs name="file-upload-with-conditional-dropzone" />
+
+### Input
+
+Use the `FileInput` component to create a trigger that looks like a text input.
+
+<ExampleTabs name="file-upload-with-input" />
+
+### Clearable
+
+Here's an example of a clearable file upload input.
+
+<ExampleTabs name="file-upload-with-input-clear" />
+
+### Pasting Files
+
+Here's an example of handling files pasted from the clipboard.
+
+<ExampleTabs name="file-upload-with-paste-event" />
+
+### Store
+
+An alternative way to control the file upload is to use the `RootProvider`
+component and the `useFileUpload` store hook.
+
+This way you can access the file upload state and methods from outside the file
+upload.
+
+<ExampleTabs name="file-upload-with-store" />
+
+## Props
+
+### Root
+
+<PropTable component="FileUpload" part="Root" />
+
+## Explorer
+
+Explore the `File Upload` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="file-upload-explorer-demo" />

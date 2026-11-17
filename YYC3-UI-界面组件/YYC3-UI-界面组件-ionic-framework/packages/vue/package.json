@@ -1,0 +1,93 @@
+{
+  "name": "@ionic/vue",
+  "version": "9.0.10",
+  "description": "Vue specific wrapper for @ionic/core",
+  "scripts": {
+    "eslint": "eslint src",
+    "prettier": "prettier \"./src/**/*.{html,ts,tsx,js,jsx}\"",
+    "lint": "npm run eslint && npm run prettier -- --write --cache",
+    "lint.fix": "npm run eslint -- --fix && npm run prettier -- --write --cache",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "build": "npm run clean && npm run copy && npm run copy.overlays && npm run bundle && npm run build.vetur && npm run build.web-types",
+    "build.watch": "npm run bundle -- --watch",
+    "bundle": "rollup --config rollup.config.mjs",
+    "clean": "rimraf dist",
+    "build.web-types": "node ./scripts/build-web-types.js",
+    "build.vetur": "node ./scripts/build-vetur.js",
+    "copy": "node ./scripts/copy-css.js",
+    "copy.overlays": "node ./scripts/copy-overlays.js",
+    "sync": "sh ./scripts/sync.sh",
+    "local.sync.and.pack": "./scripts/sync-and-pack.sh"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/",
+    "css/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic-team/ionic-framework.git"
+  },
+  "keywords": [
+    "ionic",
+    "framework",
+    "vue",
+    "mobile",
+    "app",
+    "hybrid",
+    "webapp",
+    "cordova",
+    "progressive",
+    "web",
+    "app",
+    "pwa"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ionic-team/ionic-framework/issues"
+  },
+  "homepage": "https://github.com/ionic-team/ionic-framework#readme",
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.0.0",
+    "@ionic/eslint-config": "^0.3.0",
+    "@ionic/prettier-config": "^2.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "change-case": "^4.1.1",
+    "eslint": "^9.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "fs-extra": "^9.1.0",
+    "prettier": "^2.8.3",
+    "rimraf": "^3.0.2",
+    "rollup": "^4.2.0",
+    "typescript": "^6.0.0",
+    "vue": "^3.5.42",
+    "vue-router": "^5.2.0"
+  },
+  "overrides": {
+    "@ionic/eslint-config": {
+      "@typescript-eslint/parser": "$@typescript-eslint/parser",
+      "@typescript-eslint/eslint-plugin": "$@typescript-eslint/eslint-plugin",
+      "eslint-plugin-import": "$eslint-plugin-import"
+    }
+  },
+  "dependencies": {
+    "@ionic/core": "^9.0.10",
+    "@stencil/vue-output-target": "0.14.7",
+    "ionicons": "^8.0.13"
+  },
+  "vetur": {
+    "tags": "dist/vetur/tags.json",
+    "attributes": "dist/vetur/attributes.json"
+  },
+  "web-types": "dist/web-types.json",
+  "sideEffects": [
+    "css/*.css"
+  ]
+}

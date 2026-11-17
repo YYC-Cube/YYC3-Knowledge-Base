@@ -1,0 +1,321 @@
+---
+title: Select
+desc: The QSelect Vue component has two types of selection - single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
+keys: QSelect
+examples: QSelect
+---
+
+The QSelect component has two types of selection: single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
+
+In case you are looking for a dropdown "button" instead of "input" use [Button Dropdown](/vue-components/button-dropdown) instead.
+
+<DocApi file="QSelect" />
+
+## Design
+
+### Overview
+
+> [!NOTE]
+> For your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
+
+<DocExample title="Design Overview" file="DesignOverview" />
+
+### Decorators
+
+<DocExample title="Decorators" file="Decorators" />
+
+### Coloring
+
+<DocExample title="Coloring" file="Coloring" />
+
+### Clearable
+
+As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QSelect in the example below is the equivalent of using `clearable`.
+
+<DocExample title="Clearable" file="Clearable" />
+
+### Disable and readonly
+
+<DocExample title="Disable and readonly" file="DisableReadonly" />
+
+### Slots with QBtn type "submit"
+
+> [!IMPORTANT]
+> When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
+
+### Menu transitions
+
+> [!NOTE]
+> Please note that transitions do not work when using `options-cover` prop.
+
+In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).
+
+<DocExample title="Menu transitions" file="MenuTransitions" />
+
+### Options list display mode
+
+By default QSelect shows the list of options as a menu on desktop and as a dialog on mobiles. You can force one behavior by using the `behavior` property.
+
+The dialog mode renders a "Close" button (label taken from the [Quasar Language Pack](/options/quasar-language-packs)) inside the dialog's control, so users are not forced to tap on the backdrop in order to dismiss it. The button picks up the `color` prop, can be further styled through its `q-select__dialog-close` CSS class, or removed altogether with the `hide-dialog-close` prop.
+
+> [!WARNING]
+> Please note that on iOS menu behavior might generate problems, especially when used in combination with `use-input` prop. You can use a conditional `behavior` prop like `:behavior="$q.platform.is.ios ? 'dialog' : 'menu'"` to use dialog mode only on iOS.
+
+<DocExample title="Show options in menu" file="BehaviorMenu" />
+
+<DocExample title="Show options in dialog" file="BehaviorDialog" />
+
+### Hover to open <q-badge label="v2.28+" />
+
+With the `hover` prop the options also open when the pointer hovers the select and close once the pointer has left both the select and its options menu. The `hover-hide-delay` prop controls the grace period in which the pointer can travel between the two (or return) before the options close, while `hover-delay` postpones the opening.
+
+Click/tap and keyboard interactions keep toggling the options as usual, so touch devices (which have no hover) simply fall back to them; this also means that clicking a hover-opened select closes its options. The one exception is a click that lands while the options are still animating into view: it focuses the select and keeps them open, so a single move-and-click gesture cannot close what it just opened.
+
+A hover-triggered open does not focus the select, so it emits no `@focus`/`@blur` and does not trigger lazy validation rules on a pointer merely passing over; the select only gets focused (upgrading the open to a regular one, which no longer closes when the pointer leaves) when the user actually clicks or tabs into it.
+
+> [!NOTE]
+> The prop only applies while the options show up as a menu; it has no effect with `behavior="dialog"`, nor on mobile platforms unless `behavior="menu"` is used.
+
+<DocExample title="Hover to open" file="Hover" />
+
+## The model
+
+> [!IMPORTANT]
+> The model for single selection can be anything (String, Object, ...) while the model for multiple selection must be an Array.
+
+<DocExample title="Single vs multiple selection" file="ModelSingleMultiple" />
+
+<DocExample title="Multiple selection, counter and max-values" file="ModelMultipleCounter" />
+
+The model content can be influenced by `emit-value` prop as you'll learn in "The options" section below.
+
+## The options
+
+### Options type
+
+<DocExample title="String options" file="OptionString" />
+
+<DocExample title="Object options" file="OptionObject" />
+
+### Affecting model
+
+When `emit-value` is used, the model becomes the determined `value` from the specified selected option. Default is to emit the whole option. It makes sense to use it only when the options are of Object form.
+
+<DocExample title="Emit-value" file="OptionEmitValue" />
+
+When `map-options` is used, the model can contain only the `value`, and it will be mapped against the options to determine its label. There is a performance penalty involved, so use it only if absolutely necessary. It's not needed, for example, if the model contains the whole Object (so contains the label prop).
+
+<DocExample title="Map options" file="OptionMapOptions" />
+
+### Custom prop names
+
+By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of each option from the options array Objects. But you can override those:
+
+> [!WARNING]
+> If you use functions for custom props always check if the option is null. These functions are used both for options in the list and for the selected options.
+
+<DocExample title="Custom label, value and disable props" file="OptionCustomProps" />
+
+### Customizing menu options
+
+> [!IMPORTANT]
+> The list of options is rendered using virtual scroll, so if you render more than one element for an option you must set a `q-virtual-scroll--with-prev` class on all elements except the first one.
+
+<DocExample title="Options slot" file="OptionSlot" />
+
+Here is another example where we add a QToggle to each option. The possibilities are endless.
+
+<DocExample title="Object options" file="OptionQToggle" />
+
+By default, when there are no options, the menu won't appear. But you can customize this scenario and specify what the menu should display. For a plain text message, the `no-option-label` prop (v2.28+) is enough; use the `no-option` slot (it overrides the prop) when you need custom content:
+
+<DocExample title="No options slot" file="OptionNoneSlot" />
+
+### Lazy loading
+
+The following example shows a glimpse of how you can play with lazy loading the options. This means, along with many other things, that `options` prop is not required on first render.
+
+<DocExample title="Lazy load options" file="OptionLazyLoad" />
+
+> [!NOTE]
+> While options are being loaded, the default loading spinner takes the place of the dropdown icon so the field keeps a constant width. For this reason, when `hide-dropdown-icon` is used the default spinner is not displayed at all (it would make the field's width jump); supply a `loading` slot if you still want an inline indicator in that case.
+
+> [!NOTE]
+> When the model already holds a value and `map-options` is used, there is nothing to map it against until the options get loaded, so the field would display the raw value. Starting with Quasar v2.28, QSelect asks for the options on its own in this case: it calls your `@filter` handler once with an empty search string and without opening the menu, so the correct label shows up without any user interaction. The same happens when the model value arrives later (a record loaded from the server, for instance). A value that the loaded options do not contain is not requested again. Should you not want this behavior (when the parent component loads the options itself, for example), opt out with the `no-option-prefetch` prop.
+
+You can dynamically load new options when scroll reaches the end:
+
+<DocExample title="Dynamic loading options" file="OptionsDynamic" />
+
+### Cover mode
+
+<DocExample title="Menu covering component" file="OptionCover" />
+
+### Disable TAB selection
+
+<DocExample title="Disable Tab Selection" file="DisableTabSelection" />
+
+## The display value
+
+By default, the selected value is rendered as a single non-wrapping line, truncated with an ellipsis when there is not enough room for it. Should you need to restyle it (allow it to wrap, for example), target its `q-select__selected-value` CSS class (v2.28+).
+
+<DocExample title="Custom display value" file="DisplayCustomValue" />
+
+<DocExample title="Chips as display value" file="DisplayChips" />
+
+The chips also act as a removal affordance: their remove icon takes an option out of the selection and, when the inner input is empty, so does the <kbd>Backspace</kbd> key. If the selection should only be changed through the list of options, use the `no-chip-remove` prop to disable both.
+
+<DocExample title="Chips without removal (v2.28+)" file="DisplayChipsNoRemove" />
+
+<DocExample title="Selected-item slot" file="DisplaySelectedItemSlot" />
+
+## Filtering and autocomplete
+
+### Native attributes with "use-input"
+
+All the attributes set on QSelect that are not in the list of props in the API will be passed to the native input field used (please check `use-input` prop description first to understand what it does) for filtering / autocomplete / adding new value. Some examples: autocomplete, placeholder.
+
+More information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
+
+> [!TIP]
+> **Accessibility**
+>
+> Attributes are applied to the focusable control even without `use-input`. This is particularly useful for `aria-label` or `aria-labelledby`, which set the accessible name that screen readers announce for the select (taking precedence over the name derived from the `label` prop).
+
+<DocExample title="Filtering options" file="InputFilterOptions" />
+
+<DocExample title="Basic filtering" file="BasicFiltering" />
+
+<DocExample title="Filtering on more than 2 chars" file="InputFilterMin" />
+
+<DocExample title="Text autocomplete" file="TextAutocomplete" />
+
+<DocExample title="Lazy filtering" file="InputFilterLazy" />
+
+<DocExample title="Selecting option after filtering" file="InputFilterAfter" />
+
+## Create new values
+
+> [!TIP]
+> The following are just a few examples to get you started into making your own QSelect behavior. This is not exhaustive list of possibilities that QSelect offers.
+>
+> It makes sense to use this feature along with `use-input` prop.
+
+In order to enable the creation of new values, you need to **either specify** the `new-value-mode` prop **and/or** listen for `@new-value` event. If you use both, then the purpose of listening to `@new-value` would be only to override the `new-value-mode` in your custom scenarios.
+
+### The new-value-mode prop
+
+The `new-value-mode` prop value specifies how the value should be added: `add` (adds a value, even if duplicate), `add-unique` (add only if NOT duplicate) or `toggle` (adds value if it's not already in model, otherwise it removes it).
+
+By using this prop you don't need to also listen for `@new-value` event, unless you have some specific scenarios for which you want to override the behavior.
+
+<DocExample title="New value mode" file="CreateNewValueMode" />
+
+### The @new-value event
+
+The `@new-value` event is emitted with the value to be added and a `done` callback. The `done` callback has two **optional** parameters:
+
+- the value to be added
+- the behavior (same values of `new-value-mode` prop, and when it is specified it overrides that prop -- if it is used) -- default behavior (if not using `new-value-mode`) is to add the value even if it would be a duplicate
+
+Calling `done()` with no parameters simply empties the input box value, without tampering with the model in any way.
+
+<DocExample title="Listening on @new-value" file="CreateListener" />
+
+<DocExample title="Adding only unique values" file="CreateListenerUnique" />
+
+### Using menu and filtering
+
+Filtering and adding the new values to menu:
+
+<DocExample title="Filtering and adding to menu" file="FilteringAddsToMenu" />
+
+Filters new values (in the example below the value to be added requires at least 3 characters to pass), and does not add to menu:
+
+<DocExample title="Filtering without adding to menu" file="FilteringNoAddToMenu" />
+
+Generating multiple values from input:
+
+<DocExample title="Generating multiple values" file="FilteringAddMultiple" />
+
+## Sanitization
+
+**By default, all options (included selected ones) are sanitized**. This means that displaying them in HTML format is disabled. However, if you require HTML on your options and you trust their content, then there are a few ways to do this.
+
+You can force the HTML form of the menu options by:
+
+- setting `html` key of the trusted option to `true` (for specific trusted options)
+- or by setting `options-html` prop of QSelect (for all options)
+
+The displayed value of QSelect is displayed as HTML if:
+
+- the `display-value-html` prop of QSelect is set
+- or you are not using `display-value` and
+  - the `options-html` prop of QSelect is set
+  - any selected option has `html` key set to `true`
+
+> [!CAUTION]
+> If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-html` prop will not apply.
+
+<DocExample title="Options in HTML form" file="HtmlOptions" />
+
+<DocExample title="Display value in HTML form" file="HtmlDisplayValue" />
+
+## Render performance
+
+The render performance is NOT affected much by the number of options, unless `map-options` is used on a large set.
+Notice the infinite scroll in place which renders additional options as the user scrolls through the list.
+
+> [!TIP]
+>
+> - (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list "responsive" to changes.
+> - (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
+
+<DocExample title="100k options" file="RenderPerf" />
+
+## Keyboard navigation
+
+When QSelect is focused:
+
+- pressing <kbd>Enter</kbd>, <kbd>Arrow Down</kbd> (or <kbd>Space</kbd> if `use-input` is not set) will open the list of options
+- if `use-chips` is set (and `no-chip-remove` is not):
+  - pressing <kbd>Shift</kbd> + <kbd>Tab</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>Tab</kbd> will navigate forward through the QChips)
+  - pressing <kbd>Enter</kbd> when a QChip is selected will remove that option from the selection
+  - pressing <kbd>Backspace</kbd> will remove the last option from the selection, unless that option is disabled (when `use-input` is set the input should be empty)
+- pressing <kbd>Backspace</kbd> when `clearable` is set then:
+  - it clears the model (with `null` value) for single selection
+  - it removes the last added value for multiple selection
+- pressing <kbd>Tab</kbd> (or <kbd>Shift</kbd> + <kbd>Tab</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
+- typing text (<kbd>0</kbd> - <kbd>9</kbd> or <kbd>A</kbd> - <kbd>Z</kbd>) if `use-input` is not set will:
+  - create a search buffer (will be reset when a new key is not typed for 1.5 seconds) that will be used to search in the options labels
+  - select the next option starting with that letter (after the current focused one) if the first key in buffer is typed multiple times
+  - select the next option (starting with the current focused one) that matches the typed text (the match is fuzzy - the option label should start with the first letter and contain all the letters)
+
+You can prevent QSelect's action for most keys by preventing its `keydown` event; for example, `@keydown.enter.prevent` keeps <kbd>Enter</kbd> from opening the list of options. The exception is <kbd>Esc</kbd>, whose handling (closing the list of options) is tied to the `keyup` event and cannot be cancelled this way.
+
+When the list of options is opened:
+
+- pressing <kbd>Arrow Up</kbd> or <kbd>Arrow Down</kbd> will navigate up or down in the list of options
+- pressing <kbd>Page Up</kbd> or <kbd>Page Down</kbd> will navigate one page up or down in the list of options
+- pressing <kbd>Home</kbd> or <kbd>End</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)
+- when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
+- pressing <kbd>Enter</kbd> (or <kbd>Space</kbd> when `use-input` is not set, or <kbd>Tab</kbd> when `multiple` and `disable-tab-selection` are not set) when an option is selected in the list will:
+  - select the option and close the list of options if `multiple` and `disable-tab-selection` are not set
+  - toggle the option if `multiple` is set
+  - exception: when creating new values (`new-value-mode` prop or `@new-value` event), text you have typed takes precedence over the option that got highlighted automatically for mirroring the current value (upon opening the list or after filtering it); the typed text is then submitted as a new value; an option that you navigated or hovered to still gets selected instead
+
+## Accessibility <q-badge label="v2.25+" />
+
+QSelect follows the [WAI-ARIA combobox pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/). The focus target is always an `<input>` with `role="combobox"` — the real filter input when `use-input` is set, otherwise a readonly input holding the displayed selection, so screen readers read the current value directly off it. It is rendered whatever the field's state, so it always carries the accessible name, the current value and the `id` that the label's `for` points at: a `readonly` QSelect keeps it focusable (showing the field's focused state and emitting `@focus`/`@blur` when reached) and marked `aria-readonly="true"`, while a `disable`d one stays in the accessibility tree — announced as unavailable — but leaves the tab order through the native `disabled` attribute. Neither can open the popup. It carries `aria-expanded` reflecting the popup state, `aria-controls` referencing the list of options (only while the popup with options actually exists, so the reference never points at a missing element), `aria-activedescendant` tracking the highlighted option and `aria-autocomplete` — `list` when `use-input` lets the typed text filter the options, `none` otherwise. Per the pattern, focus never leaves this input while the popup is open — the list is operated from it, with the keys detailed in the [Keyboard navigation](#keyboard-navigation) section above.
+
+The popup content is a `listbox` (always carrying `aria-multiselectable`, `true` or `false` according to the `multiple` prop) whose options carry `aria-selected` plus `aria-setsize` and `aria-posinset`: since the list is virtually scrolled, only a slice of the options exists in the DOM at any time, and these attributes let screen readers still announce each option's true position within the full set.
+
+When the options render in a dialog (see [Options list display mode](#options-list-display-mode)), the control inside the dialog carries this same combobox contract, and the dialog's "Close" button sits in the Tab order right after it, activating with <kbd>Enter</kbd> or <kbd>Space</kbd> and showing the browser's native focus indicator. However the dialog gets dismissed (the Close button, <kbd>Esc</kbd>, tapping the backdrop or selecting an option outside of `multiple` mode), focus returns to the QSelect control, with one deliberate exception: on mobile platforms a `use-input` QSelect restores it only for keyboard-initiated dismissals, so the virtual keyboard that was just put away is not summoned back. Note that iOS lets <kbd>Tab</kbd> reach buttons (this one, or any other on a page) only with the system's Full Keyboard Access setting enabled; <kbd>Esc</kbd> works regardless.
+
+The `label` prop doubles as the combobox's `aria-label`; an `aria-label` or `aria-labelledby` attribute set on QSelect takes precedence, as it is applied to the focusable control (see the Accessibility tip under [Native attributes with "use-input"](#native-attributes-with-use-input)). Two slot-related responsibilities are yours: when using the `option` slot, `v-bind="scope.itemProps"` onto your item, otherwise the option loses its `role="option"`, its id (the `aria-activedescendant` target), `aria-selected` and position attributes; and content placed in the `before-options`/`after-options` slots sits outside the listbox and out of keyboard reach while the popup is open, so avoid interactive elements there. Label association and error announcements are inherited from the field frame — see [QField's Accessibility section](/vue-components/field#accessibility).
+
+## Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSelect, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+
+<DocExample title="Native form" file="NativeForm" />

@@ -1,0 +1,79 @@
+---
+title: Empty State
+description: Used to indicate when a resource is empty or unavailable.
+links:
+  source: components/empty-state
+  storybook: components-empty-state--basic
+  recipe: empty-state
+---
+
+<ExampleTabs name="empty-state-basic" />
+
+## Usage
+
+```tsx
+import { EmptyState } from "@chakra-ui/react"
+```
+
+```tsx
+<EmptyState.Root>
+  <EmptyState.Content>
+    <EmptyState.Indicator />
+    <EmptyState.Title />
+    <EmptyState.Description />
+  </EmptyState.Content>
+</EmptyState.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to set the size of the Empty state.
+
+<ExampleTabs name="empty-state-sizes" />
+
+### Action
+
+Here's an example of an empty state with an action button.
+
+<ExampleTabs name="empty-state-with-action" />
+
+### List
+
+Here's an example of an empty state with a list.
+
+<ExampleTabs name="empty-state-with-list" />
+
+### Closed Component
+
+Here's how to setup the Empty State for a closed component composition.
+
+<ExampleCode name="empty-state-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add empty-state
+```
+
+## Props
+
+### Root
+
+<PropTable component="EmptyState" part="Root" />
+
+## Explorer
+
+Explore the `Empty State` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="empty-state-basic" />

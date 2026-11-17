@@ -1,0 +1,71 @@
+---
+title: v-touch-swipe directive
+desc: Vue directive which triggers an event when the user swipes with the finger or mouse on a component or element.
+keys: touch-swipe,v-touch-swipe
+examples: TouchSwipe
+related:
+  - /vue-directives/touch-repeat
+  - /vue-directives/touch-pan
+  - /vue-directives/touch-hold
+---
+
+Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
+
+> **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.
+
+We will be describing `v-touch-swipe` on the lines below.
+
+<DocApi file="TouchSwipe" />
+
+## Usage
+
+Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
+
+> [!TIP]
+> A swipe that starts on a draggable element is ignored, so the native drag does not fight the gesture. Images and links are draggable by default: if your content contains an `<img>`, a `<router-link>` or an `<a>`, add `draggable="false"` to them.
+
+<DocExample title="All directions" file="Basic" />
+
+<DocExample title="One direction only" file="Right" />
+
+<DocExample title="Several directions" file="UpOrLeft" />
+
+### Handling Mouse Events
+
+When you want to handle mouse events too, use the `mouse` modifier:
+
+```html
+<div v-touch-swipe.mouse="userHasSwiped">...</div>
+```
+
+### Inhibiting TouchSwipe
+
+When you want to inhibit TouchSwipe, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
+
+```html
+<div v-touch-swipe.mouse="userSwiped">
+  <!-- ...content -->
+  <div @touchstart.stop @mousedown.stop>
+    <!--
+      TouchSwipe will not apply here because
+      we are calling stopPropagation() on touchstart
+      and mousedown events
+    -->
+  </div>
+  <!-- ...content -->
+</div>
+```
+
+However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchSwipe will still trigger.
+
+### Events after TouchSwipe triggers
+
+Once a swipe is recognized, the directive consumes the events that follow it, so that a swipe does not also count as a tap or as a click, be it on the element itself or on any of its parents. It stops every subsequent `touchmove` / `mousemove` and then the event that ends the gesture: `touchend` for touch events and `mouseup` for mouse events.
+
+This means that `@touchmove`, `@touchend` and `@mouseup` listeners on the element will not be called after a swipe has been recognized. They are still called when the movement does not qualify as a swipe. Should you need them in both cases, listen for them in the capture phase:
+
+```html
+<div v-touch-swipe="userHasSwiped" @touchend.capture="userHasLifted">
+  <!-- ...content -->
+</div>
+```

@@ -1,0 +1,250 @@
+# @chakra-ui/panda-preset
+
+## 3.38.0
+
+### Patch Changes
+
+- [#10928](https://github.com/chakra-ui/chakra-ui/pull/10928)
+  [`2e78697`](https://github.com/chakra-ui/chakra-ui/commit/2e78697cb0a9003f6e665b1eb1f0c3e63cf4e48a)
+  Thanks [@waterWang](https://github.com/waterWang)! - - **NumberInput**: Fix
+  `NumberInput.Control` overflowing into the label when `NumberInput.Label` is
+  used inside `NumberInput.Root`. The control is now anchored to the bottom of
+  the root and sized to the input height.
+
+- [#10883](https://github.com/chakra-ui/chakra-ui/pull/10883)
+  [`7c26f1f`](https://github.com/chakra-ui/chakra-ui/commit/7c26f1fad4dcf14e7b97bf23d9b2a8da9d204a44)
+  Thanks [@kalisaNkevin](https://github.com/kalisaNkevin)! - **Kbd**: Add
+  `KbdGroup` to group the keys of a shortcut. Its `size` and `variant` apply to
+  every `Kbd` inside. Single keys like `K` now render square.
+
+- [`2c2fd7c`](https://github.com/chakra-ui/chakra-ui/commit/2c2fd7c1a510d7bb6f9f3d2bd6450bf2f3c3a13a)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - - **Checkbox Card,
+  Radio Card, Slider**: Fix `cursor` token overrides in the theme being ignored.
+  - **Theme**: Use `tokens.cursor.disabled` for disabled elements instead of a
+    hardcoded `not-allowed`, and `tokens.cursor.option` for Listbox items.
+  - **FileUpload**: Fix disabled delete triggers showing an active cursor and
+    full-opacity icon.
+  - **ScrollArea**: Fix the vertical scrollbar showing when content only
+    overflows horizontally, and vice versa.
+
+## 3.37.0
+
+### Patch Changes
+
+- [`065f71c`](https://github.com/chakra-ui/chakra-ui/commit/065f71ceaf0bb1aab818abe29d7f6a205c82f2aa)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - - Fix `TreeView`
+  `--tree-indentation: 0px` not fully removing nested indentation
+  - `--tree-indentation` is now the full per-level indent
+    (`indent-size + half icon-size`). Custom non-zero values no longer get an
+    extra half-icon offset on top
+  - Remove internal `--tree-icon-offset` variable from the recipe
+
+## 3.36.1
+
+### Patch Changes
+
+- [`129c50f`](https://github.com/chakra-ui/chakra-ui/commit/129c50ff9be80fa4ad5cc0a39b6cff8a20609c42)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - Fix issue where the
+  checked ring of `RadioCard` and `CheckboxCard` (outline variant) gets clipped
+  when a parent has `overflow: hidden|auto|scroll`. The ring is now drawn with
+  an inset shadow instead of an outer shadow.
+
+- [`f4e6377`](https://github.com/chakra-ui/chakra-ui/commit/f4e63775649ff6502cefbb74930f4329da194a28)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - Sync theme from
+  `@chakra-ui/react`: register the missing `floatingPanel` slot recipe and
+  update the date picker range-selection styles
+
+## 3.36.0
+
+### Patch Changes
+
+- [`43a016d`](https://github.com/chakra-ui/chakra-ui/commit/43a016d32f470b14bbfb0d0a7c83075902feee5e)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - Remove the
+  DatePicker input `_placeholder` override so placeholders use the same global
+  `*::placeholder` styling as `Input`.
+
+- [`82b26be`](https://github.com/chakra-ui/chakra-ui/commit/82b26bea60f49450522354474fa5b1811095c3bb)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - Use
+  `focusVisibleRing` instead of `focusRing` on `Link` so the focus ring shows
+  only for `:focus-visible`, not on mouse click.
+
+## 3.35.0
+
+### Patch Changes
+
+- [`e9f04d4`](https://github.com/chakra-ui/chakra-ui/commit/e9f04d4a6dad093852b924883b55e4c257ca0c22)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - - **Dialog,
+  Drawer**: Fixed the panel sometimes showing behind the dimmed overlay when
+  opening and closing quickly or with certain global z-index styles on the page.
+
+- [#10765](https://github.com/chakra-ui/chakra-ui/pull/10765)
+  [`a7c1ffb`](https://github.com/chakra-ui/chakra-ui/commit/a7c1ffbf040c8d876bf9986495d4b4fbcd942271)
+  Thanks [@rusty-jnr](https://github.com/rusty-jnr)! - Fix date picker calendar
+  popup clipping constrained by available height
+
+## 3.34.0
+
+## 3.33.0
+
+## 3.32.0
+
+## 3.31.0
+
+### Minor Changes
+
+- [`756b385`](https://github.com/chakra-ui/chakra-ui/commit/756b3858b6c6758ca175ccc9746d559e12aee035)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - - **ActionBar**
+  - Add `placement` variant to configure bar position: `bottom`, `bottom-start`,
+    `bottom-end`
+  - Add `--action-bar-offset` CSS variable to configure offset from edges
+
+### Patch Changes
+
+- [`cac7cb0`](https://github.com/chakra-ui/chakra-ui/commit/cac7cb011caee9141b372be4fe323f304c850171)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - Fix menu content
+  background not rendering by using full token path for CSS variable
+
+## 3.30.0
+
+### Minor Changes
+
+- [`503e11a`](https://github.com/chakra-ui/chakra-ui/commit/503e11ad4b2b5aa6d653e21d96b7f76a72c87d92)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - ### Added
+  - **Semantic Tokens**: Add new `border` semantic token to all color palettes
+    (`gray.300`/`gray.700` for gray, `color.500`/`color.400` for colored
+    palettes) to improve outline component appearance
+
+  ### Changed
+  - **Button, Badge, Tag, Checkbox**: Update outline variants to use
+    `colorPalette.border` instead of `colorPalette.muted` or global `border`
+    token for better appearance, especially for non-gray color palettes.
+
+    > **NOTE**: All changes include CSS variable fallbacks to
+    > `colorPalette.muted` for backward compatibility.
+
+### Patch Changes
+
+- [`fd15569`](https://github.com/chakra-ui/chakra-ui/commit/fd155693546b96e390e131c85fac192711d52cef)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - - **HoverCard,
+  Tooltip, Popover**: Fix arrow direction in RTL layouts
+
+- [`81ec4e7`](https://github.com/chakra-ui/chakra-ui/commit/81ec4e781f96ef8051607d6e970ccb61baa1c788)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - - **TagsInput**:
+  Fix overflow issue where very long tags would overflow the container instead
+  of truncating with ellipsis.
+  - **CheckboxGroup**: Fix type issue where `CheckboxGroupProps` could not be
+    passed to the `CheckboxGroup` component.
+
+## 3.29.0
+
+### Minor Changes
+
+- [#10391](https://github.com/chakra-ui/chakra-ui/pull/10391)
+  [`1580aeb`](https://github.com/chakra-ui/chakra-ui/commit/1580aebf63e7267d86db2fcb91f6303a4c453914)
+  Thanks [@Adebesin-Cell](https://github.com/Adebesin-Cell)! - feat: add
+  carousel component
+
+## 3.28.1
+
+### Patch Changes
+
+- [`fad9a2e`](https://github.com/chakra-ui/chakra-ui/commit/fad9a2ef3197b73633f08c02a0861d37aaa8929c)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - Fix CodeBlock right
+  padding when scrolling long code lines horizontally
+
+## 3.28.0
+
+## 3.27.1
+
+## 3.27.0
+
+## 3.26.0
+
+## 3.25.0
+
+## 3.24.2
+
+## 3.24.1
+
+## 3.24.0
+
+## 3.23.0
+
+## 3.22.0
+
+## 3.21.1
+
+## 3.21.0
+
+## 3.20.0
+
+## 3.19.2
+
+## 3.19.1
+
+## 3.19.0
+
+## 3.18.0
+
+## 3.17.0
+
+## 3.16.1
+
+## 3.16.0
+
+## 3.15.1
+
+## 3.15.0
+
+## 3.14.2
+
+## 3.14.1
+
+## 3.14.0
+
+## 3.13.0
+
+### Patch Changes
+
+- [#9786](https://github.com/chakra-ui/chakra-ui/pull/9786)
+  [`65f932d`](https://github.com/chakra-ui/chakra-ui/commit/65f932dd52782de35e69157dcac7fee255c4efc0)
+  Thanks [@isBatak](https://github.com/isBatak)! - Generate latest preset
+
+## 3.12.0
+
+## 3.11.0
+
+## 3.10.0
+
+## 3.9.0
+
+## 3.8.2
+
+## 3.8.1
+
+## 3.8.0
+
+## 3.7.0
+
+## 3.6.0
+
+## 3.5.1
+
+## 3.5.0
+
+## 3.4.0
+
+## 3.3.3
+
+## 3.3.2
+
+## 3.3.1
+
+## 3.3.0
+
+### Patch Changes
+
+- [#9430](https://github.com/chakra-ui/chakra-ui/pull/9430)
+  [`8f59d88`](https://github.com/chakra-ui/chakra-ui/commit/8f59d88a09f5b03838db1a784fff2f0ed9a81c74)
+  Thanks [@segunadebayo](https://github.com/segunadebayo)! - Initial release of
+  Panda preset for Chakra UI

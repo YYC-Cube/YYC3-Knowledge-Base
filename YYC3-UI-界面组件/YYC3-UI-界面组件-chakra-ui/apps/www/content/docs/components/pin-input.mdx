@@ -1,0 +1,155 @@
+---
+title: Pin Input
+description: Used to capture a pin code or otp from the user
+links:
+  source: components/pin-input
+  storybook: components-pin-input--basic
+  recipe: pin-input
+  ark: https://ark-ui.com/docs/components/pin-input
+---
+
+<ExampleTabs name="pin-input-basic" />
+
+## Usage
+
+```tsx
+import { PinInput } from "@chakra-ui/react"
+```
+
+```tsx
+<PinInput.Root>
+  <PinInput.HiddenInput />
+  <PinInput.Control>
+    <PinInput.Input />
+  </PinInput.Control>
+</PinInput.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Sizes
+
+Pass the `size` prop to the `PinInput.Root` component to change the size of the
+pin input component
+
+<ExampleTabs name="pin-input-with-sizes" />
+
+### One time code
+
+Pass the `otp` prop to the `PinInput.Root` component to make the pin input
+component behave like a one-time code input. This helps improve the user
+experience when entering OTP codes
+
+<ExampleTabs name="pin-input-with-otp" />
+
+### Auto Submit
+
+Use the `autoSubmit` prop to submit the owning form automatically when every
+input has been filled.
+
+<ExampleTabs name="pin-input-with-auto-submit" />
+
+### Sanitize Pasted Values
+
+Use the `sanitizeValue` prop to remove formatting such as dashes or spaces from
+pasted values before validation.
+
+<ExampleTabs name="pin-input-with-sanitized-value" />
+
+### Mask
+
+Pass the `mask` prop to the `PinInput.Root` component to obscure the entered pin
+code
+
+<ExampleTabs name="pin-input-with-mask" />
+
+### Placeholder
+
+Pass the `placeholder` prop to the `PinInPut.Root` component to add a
+placeholder to the pin input
+
+<ExampleTabs name="pin-input-with-placeholder" />
+
+### Field
+
+Here's an example of how to compose the `Field` and the `PinInput` components
+
+<ExampleTabs name="pin-input-with-field" />
+
+### Hook Form
+
+Here's an example of how to compose the `Field` and the `PinInput` components
+with `react-hook-form`
+
+<ExampleTabs name="pin-input-with-hook-form" />
+
+### Controlled
+
+Pass the `value` and `onValueChange` props to the `PinInPut.Root` component to
+control the value of the pin input
+
+<ExampleTabs name="pin-input-controlled" />
+
+### Store
+
+An alternative way to control the pin input is to use the `RootProvider`
+component and the `usePinInput` store hook.
+
+This way you can access the pin input state and methods from outside the
+component.
+
+<ExampleTabs name="pin-input-with-store" />
+
+### Attached
+
+Pass the `attached` prop to the `PinInput.Root` component to attach the pin
+input to the input field
+
+<ExampleTabs name="pin-input-attached" />
+
+### With separator
+
+Wrap each segment in `Group` with `attached`, add a separator between segments
+in `PinInput.Control`, and set `count` on `PinInput.Root` to the input count.
+
+<ExampleTabs name="pin-input-with-separator" />
+
+### Alphanumeric
+
+Pass the `type` prop to the `PinInput.Root` component to allow the user to enter
+alphanumeric characters. Values can be either `alphanumeric`, `numeric`, or
+`alphabetic`
+
+<ExampleTabs name="pin-input-alphanumeric" />
+
+### Closed Component
+
+Here's how to setup the Pin input for a closed component composition.
+
+<ExampleCode name="pin-input-closed-component" />
+
+#### Usage
+
+```tsx
+<PinInput mask />
+```
+
+## Props
+
+### Root
+
+<PropTable component="PinInput" part="Root" />
+
+## Explorer
+
+Explore the `Pin Input` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="pin-input-explorer-demo" />

@@ -1,0 +1,215 @@
+---
+title: Select
+description: Used to pick a value from predefined options.
+links:
+  source: components/select
+  storybook: components-select--basic
+  recipe: select
+  ark: https://ark-ui.com/docs/components/select
+---
+
+<ExampleTabs name="select-basic" />
+
+## Usage
+
+```jsx
+import { Select } from "@chakra-ui/react"
+```
+
+```jsx
+<Select.Root>
+  <Select.HiddenSelect />
+  <Select.Label />
+
+  <Select.Control>
+    <Select.Trigger>
+      <Select.ValueText />
+    </Select.Trigger>
+    <Select.IndicatorGroup>
+      <Select.Indicator />
+      <Select.ClearTrigger />
+    </Select.IndicatorGroup>
+  </Select.Control>
+
+  <Select.Positioner>
+    <Select.Content>
+      <Select.Item />
+
+      <Select.ItemGroup>
+        <Select.ItemGroupLabel />
+        <Select.Item />
+      </Select.ItemGroup>
+    </Select.Content>
+  </Select.Positioner>
+</Select.Root>
+```
+
+To setup the select, use `useListCollection` to manage the
+[list collection](https://ark-ui.com/docs/collections/list-collection).
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the select component.
+
+<ExampleTabs name="select-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to change the appearance of the select component.
+
+<ExampleTabs name="select-with-variants" />
+
+### Color Palette
+
+The Select component is designed to be neutral-colored by default for
+consistency across form elements. To apply a color palette, style the trigger
+and indicator components directly using the `colorPalette` token.
+
+<ExampleTabs name="select-with-color-palette" />
+
+### Option Group
+
+Use the `Select.ItemGroup` component to group select options.
+
+<ExampleTabs name="select-with-option-group" />
+
+### Controlled
+
+Use the `value` and `onValueChange` props to control the select component.
+
+<ExampleTabs name="select-controlled" />
+
+### Async Loading
+
+Here's an example of how to populate the select `collection` from a remote
+source.
+
+<ExampleTabs name="select-async-loading" />
+
+### Hook Form
+
+Here's an example of how to use the `Select` component with `react-hook-form`.
+
+<ExampleTabs name="select-with-hook-form" />
+
+### Disabled
+
+Use the `disabled` prop to disable the select component.
+
+<ExampleTabs name="select-with-disabled" />
+
+### Invalid
+
+Here's an example of how to compose the `Select` component with the `Field`
+component to display an error state.
+
+<ExampleTabs name="select-with-invalid" />
+
+### Multiple
+
+Use the `multiple` prop to allow multiple selections.
+
+<ExampleTabs name="select-with-multiple" />
+
+### Positioning
+
+Use the `positioning` prop to control the underlying `floating-ui` options of
+the select component.
+
+<ExampleTabs name="select-with-positioning" />
+
+### Clear Trigger
+
+Render the `Select.ClearTrigger` component to show a clear button. Clicking the
+clear button will clear the selected value.
+
+<ExampleTabs name="select-with-clear" />
+
+### Overflow
+
+When the options are too many, the options will overflow the container due to
+the `maxHeight` set.
+
+<ExampleTabs name="select-with-overflow" />
+
+### Virtualized
+
+For large collections, combine the Select with `@tanstack/react-virtual` to
+render only the visible items and keep scrolling responsive.
+
+<ExampleTabs name="select-virtualized" />
+
+### Item Description
+
+Here's an example of how to render a description for each item.
+
+<ExampleTabs name="select-with-item-description" />
+
+### Open From Popover
+
+Here's an example of how to use the `Select` within a `Popover` component.
+
+<ExampleTabs name="select-open-from-popover" />
+
+### Open From Dialog
+
+To use the `Select` within a `Dialog`, you need to avoid portalling the
+`Select.Positioner` to the document's body.
+
+```diff
+-<Portal>
+  <Select.Positioner>
+    <Select.Content>
+      {/* ... */}
+    </Select.Content>
+  </Select.Positioner>
+-</Portal>
+```
+
+If you have set `scrollBehavior="inside"` on the `Dialog`, you need to:
+
+- Set the select positioning to `fixed` to avoid the select from being clipped
+  by the dialog.
+- Set `hideWhenDetached` to `true` to hide the select when the trigger is
+  scrolled out of view.
+
+```tsx
+<Select.Root positioning={{ strategy: "fixed", hideWhenDetached: true }}>
+  {/* ... */}
+</Select.Root>
+```
+
+<ExampleTabs name="select-open-from-dialog" />
+
+### Avatar Select
+
+Here's an example of how to compose the `Select` and the `Avatar`.
+
+<ExampleTabs name="select-with-avatar" />
+
+### Country Select
+
+Here's an example of how to use the `Select` component to select a country.
+
+<ExampleTabs name="select-with-country" />
+
+### Icon Button
+
+Here's an example of how to trigger the select component with an `IconButton`.
+
+<ExampleTabs name="select-with-icon-button" />
+
+## Props
+
+### Root
+
+<PropTable component="Select" part="Root" />
+
+## Explorer
+
+Explore the `Select` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="select-explorer-demo" />

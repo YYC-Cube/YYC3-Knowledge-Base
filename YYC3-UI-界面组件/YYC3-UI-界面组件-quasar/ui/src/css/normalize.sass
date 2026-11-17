@@ -1,0 +1,131 @@
+/*
+ * Normalizing -- forked from Normalize.css v8
+ */
+
+*, *:before, *:after
+  box-sizing: inherit
+  -webkit-tap-highlight-color: transparent
+
+html, body, #q-app
+  width: 100%
+  direction: ltr
+// https://stackoverflow.com/a/23083463
+body.platform-ios.within-iframe, body.platform-ios.within-iframe #q-app
+  width: 100px
+  min-width: 100%
+html, body
+  margin: 0
+  box-sizing: border-box
+
+body.q-ios-padding
+  --q-safe-area-inset-top: env(safe-area-inset-top, 0px)
+  --q-safe-area-inset-bottom: env(safe-area-inset-bottom, 0px)
+
+body.q-safe-area-padding
+  --q-safe-area-inset-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px))
+  --q-safe-area-inset-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))
+
+/*
+ * Hide the disclosure marker (its UA display is list-item),
+ * opinionated
+ */
+
+summary
+  display: block
+
+/*
+ * Add the correct text decoration in all browsers
+ */
+
+abbr[title]
+  text-decoration: underline
+  -webkit-text-decoration: underline /* Safari */
+  text-decoration: underline dotted
+  -webkit-text-decoration: underline dotted /* Safari */
+
+/*
+ * line 1: Correct the inheritance and scaling of font size in all browsers.
+ * line 2: Correct the odd `em` font sizing in all browsers.
+ */
+
+code,
+kbd,
+pre,
+samp
+  font-family: monospace, monospace
+  font-size: 1em
+
+/*
+ * Add the correct box sizing in Firefox.
+ */
+
+hr
+  box-sizing: content-box
+  height: 0
+
+/*
+ * Change font properties to `inherit` in all browsers (opinionated).
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea
+  font: inherit
+  font-family: inherit
+  margin: 0
+
+/*
+ * Restore the font weight unset by the previous rule.
+ */
+
+optgroup
+  font-weight: bold
+
+/*
+ * Remove the inheritance of text transform in Firefox.
+ */
+
+button,
+input,
+select
+  text-transform: none
+
+/*
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner, input::-moz-focus-inner
+  border: 0
+  padding: 0
+
+/*
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring, input:-moz-focusring
+  outline: 1px dotted ButtonText
+
+/**
+ * Remove the padding so developers are not caught out when they zero out
+ * `fieldset` elements in all browsers.
+ */
+
+legend
+  padding: 0
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress
+  vertical-align: baseline
+
+/*
+ * Remove the inner padding and cancel buttons in Chrome on OS X and
+ * Safari on OS X.
+ */
+
+input[type='search']::-webkit-search-cancel-button
+  appearance: none

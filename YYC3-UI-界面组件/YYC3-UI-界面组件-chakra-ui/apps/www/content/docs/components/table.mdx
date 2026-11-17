@@ -1,0 +1,172 @@
+---
+title: Table
+description: Used to display data in a tabular format.
+links:
+  source: components/table
+  storybook: components-table--basic
+  recipe: table
+---
+
+<ExampleTabs name="table-basic" />
+
+## Usage
+
+```jsx
+import { Table } from "@chakra-ui/react"
+```
+
+```jsx
+<Table.Root>
+  <Table.Caption />
+  <Table.Header>
+    <Table.Row>
+      <Table.ColumnHeader />
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell />
+    </Table.Row>
+  </Table.Body>
+  <Table.Footer>
+    <Table.Row>
+      <Table.Cell />
+    </Table.Row>
+  </Table.Footer>
+</Table.Root>
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the table.
+
+<ExampleTabs name="table-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to change the appearance of the table.
+
+<ExampleTabs name="table-with-variants" />
+
+### Striped
+
+Use the `striped` prop to add zebra-stripes to the table.
+
+<ExampleTabs name="table-with-striped" />
+
+### Caption
+
+Use the `Table.Caption` component to add a caption to the table.
+
+<ExampleTabs name="table-with-caption" />
+
+### Caption Top
+
+Use the `side` prop on `Table.Caption` to position the caption at the top of the
+table.
+
+<ExampleTabs name="table-with-caption-top" />
+
+### Column Border
+
+Use the `showColumnBorder` prop to add borders between columns.
+
+<ExampleTabs name="table-with-column-border" />
+
+### Overflow
+
+Render the `Table.ScrollArea` component to enable horizontal scrolling.
+
+<ExampleTabs name="table-with-overflow" />
+
+### Sticky Header
+
+Use the `stickyHeader` prop to make the table header sticky.
+
+<ExampleTabs name="table-with-sticky-header" />
+
+### Sticky Column
+
+Here's an example what uses `data-sticky` attributes to make table columns
+sticky during horizontal scrolling.
+
+<ExampleTabs name="table-with-sticky-column" />
+
+### Sticky Header and Column
+
+Combine `stickyHeader` with `data-sticky` attributes to create a table with both
+a sticky header and sticky columns. When using both features together, ensure
+the header row has a higher z-index to keep sticky column headers visible.
+
+<ExampleTabs name="table-with-sticky-header-and-column" />
+
+### Highlight on Hover
+
+Use the `interactive` prop to highlight rows on hover.
+
+<ExampleTabs name="table-with-interactive" />
+
+### Pagination
+
+Here's an example of how to compose a table with pagination.
+
+<ExampleTabs name="table-with-pagination" />
+
+### Selection
+
+Here's an example of how to add row selection with checkboxes to your table.
+
+<ExampleTabs name="table-with-selection" />
+
+### Action Bar
+
+Here's an example of how to compose a table with an action bar and checkboxes.
+This is useful for showing actions for selected table rows.
+
+<ExampleTabs name="table-with-selection-action-bar" />
+
+### Column Group
+
+Use the `Table.ColumnGroup` component to distribute the column widths using the
+html `colgroup` element.
+
+:::warning
+
+The only prop that works for this component is `htmlWidth`
+
+:::
+
+<ExampleTabs name="table-with-column-group" />
+
+### Native Mode
+
+Use the `native` prop to render table descendants using native HTML elements
+(`<thead>`, `<tbody>`, `<tr>`, `<td>`, `<th>`) instead of Chakra's styled
+components.
+
+> This is a great way to improve performance for large tables by eliminating the
+> runtime styling and React Context overhead.
+
+<ExampleTabs name="table-with-native" />
+
+### TanStack Table
+
+Chakra UI works seamlessly with
+[TanStack Table](https://tanstack.com/table/latest) for advanced table features.
+
+<ExampleTabs name="table-with-tanstack" />
+
+## Props
+
+### Root
+
+<PropTable component="Table" part="Root" />
+
+## Explorer
+
+Explore the `Table` component parts interactively. Click on parts in the sidebar
+to highlight them in the preview.
+
+<Explorer name="table-explorer-demo" />

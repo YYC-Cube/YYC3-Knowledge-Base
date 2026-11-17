@@ -1,0 +1,49 @@
+{
+  "name": "quasar.dev",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Official Quasar Docs Website",
+  "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
+  "type": "module",
+  "scripts": {
+    "prepare:types": "quasar prepare --silent",
+    "generate:search": "node build/search.js",
+    "generate:mcp": "node build/mcp/index.js",
+    "test": "pnpm test:unit && node test/suites.js",
+    "test:unit": "vitest run",
+    "test:build": "node build/ensure-fresh-build.js",
+    "pretest:e2e:ssr": "pnpm --filter quasar ensure-fresh-build && playwright install chromium",
+    "test:e2e:ssr": "vitest run -c vitest-e2e-ssr.config.js",
+    "test:watch": "vitest",
+    "dev": "pnpm --filter quasar ensure-fresh-build && quasar dev",
+    "dev:ssg": "pnpm --filter quasar ensure-fresh-build && quasar dev -m ssg",
+    "dev:ssr": "pnpm --filter quasar ensure-fresh-build && quasar dev -m ssr",
+    "preview": "pnpm --filter quasar ensure-fresh-build && quasar clean && quasar build -m ssr --no-summary && cp src-ssr/pnpm-workspace.yaml dist/quasar.dev/ && pnpm i --dir dist/quasar.dev && du -sh dist/quasar.dev/client && du -sh dist/quasar.dev/server && node dist/quasar.dev",
+    "build": "pnpm --filter quasar ensure-fresh-build && quasar clean && pnpm generate:search && quasar build -m ssg --no-summary && du -sh dist/quasar.dev && du -h dist/quasar.dev/service-worker.js",
+    "relnotes": "node build/release-notes/index.js"
+  },
+  "dependencies": {
+    "@quasar/extras": "^2.0.0",
+    "@shikijs/langs": "^4.6.0",
+    "@shikijs/transformers": "^4.6.0",
+    "quasar": "^2.35.3",
+    "shiki": "^4.6.0",
+    "vue": "^3.5.45",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "@quasar/app-vite": "^3.10.4",
+    "@rolldown/pluginutils": "^1.0.1",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "fs-extra": "^11.4.1",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^15.0.3",
+    "playwright": "^1.65.0",
+    "tinyglobby": "^0.2.17",
+    "tokenx": "^2.2.0",
+    "toml": "^5.0.1",
+    "vitest": "^5.1.0",
+    "workbox-build": "^7.4.1"
+  },
+  "productName": "quasar-docs"
+}

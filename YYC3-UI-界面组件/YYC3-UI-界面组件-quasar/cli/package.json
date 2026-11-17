@@ -1,0 +1,73 @@
+{
+  "name": "@quasar/cli",
+  "version": "5.0.10",
+  "description": "Quasar Framework - the Global CLI",
+  "keywords": [
+    "cli",
+    "cordova",
+    "electron",
+    "pwa",
+    "quasar",
+    "spa",
+    "vue",
+    "vuejs",
+    "web"
+  ],
+  "homepage": "https://quasar.dev",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar",
+    "directory": "cli"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "bin": {
+    "quasar": "./bin/quasar.js"
+  },
+  "files": [
+    "assets",
+    "bin",
+    "!bin/*.test.js",
+    "lib",
+    "!lib/**/*.test.js"
+  ],
+  "type": "module",
+  "main": "bin/quasar.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "pnpm test:unit && pnpm test:e2e",
+    "test:unit": "vitest run",
+    "test:e2e": "vitest run --config ./vitest-e2e.config.js",
+    "prepublishOnly": "pnpm test"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.8.1",
+    "@hono/node-server": "^2.1.6",
+    "@quasar/art": "workspace:^",
+    "@quasar/ssl-certificate": "workspace:^",
+    "@quasar/update-notifier": "workspace:^",
+    "ci-info": "^4.4.0",
+    "cross-spawn": "^7.0.6",
+    "fs-extra": "^11.4.1",
+    "hono": "^4.13.17",
+    "kolorist": "^1.8.0",
+    "open": "^11.0.4"
+  },
+  "devDependencies": {
+    "vitest": "^5.1.0"
+  },
+  "engines": {
+    "node": ">= 20.20.0"
+  }
+}

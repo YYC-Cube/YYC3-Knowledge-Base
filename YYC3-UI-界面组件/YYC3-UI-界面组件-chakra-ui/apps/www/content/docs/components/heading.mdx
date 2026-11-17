@@ -1,0 +1,141 @@
+---
+title: Heading
+description: Used to render semantic HTML heading elements.
+---
+
+<ExampleTabs name="heading-basic" />
+
+## Usage
+
+```js
+import { Heading } from "@chakra-ui/react"
+```
+
+```jsx
+<Heading>I'm a Heading</Heading>
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the heading component.
+
+<ExampleTabs name="heading-with-sizes" />
+
+### Highlight
+
+Compose the `Heading` component with the `Highlight` component to highlight
+text.
+
+<ExampleTabs name="heading-with-highlight" />
+
+### As another element
+
+Use the `as` prop to render the heading as another HTML element.
+
+<ExampleTabs name="heading-with-as-prop" />
+
+### Weights
+
+Use the `fontWeight` prop to change the weight of the heading component.
+
+<ExampleTabs name="heading-with-weights" />
+
+### Composition
+
+Use the `Heading` component to compose other components.
+
+<ExampleTabs name="heading-with-composition" />
+
+## Customization
+
+:::info
+
+After customizing the recipe, run the CLI typegen command to regenerate the
+types. See the [CLI docs](/docs/get-started/cli#chakra-typegen) for how to run
+typegen in postinstall, CI, and monorepos.
+
+```bash
+npx @chakra-ui/cli typegen
+```
+
+:::
+
+To override the `fontSize`, we recommend using the `textStyle` prop since it
+considers the line height and letter spacing as well.
+
+### Changing default styles
+
+Here's an example of customizing the `Heading` component.
+
+```tsx title="components/ui/provider.tsx"
+import { createSystem, defaultConfig, defineRecipe } from "@chakra-ui/react"
+
+const headingRecipe = defineRecipe({
+  base: {
+    fontWeight: "normal",
+    textStyle: "4xl",
+  },
+})
+
+const system = createSystem(defaultConfig, {
+  theme: {
+    recipes: { heading: headingRecipe },
+  },
+})
+```
+
+### Changing heading font globally
+
+To change the default heading font, set the `fonts.heading` token in your theme.
+
+```tsx title="components/ui/provider.tsx"
+import { createSystem, defaultConfig } from "@chakra-ui/react"
+
+const system = createSystem(defaultConfig, {
+  theme: {
+    tokens: {
+      fonts: {
+        heading: { value: "Playfair Display, serif" },
+      },
+    },
+  },
+})
+```
+
+### Adding a new size
+
+Update the `variants.size` property to create a custom size.
+
+```tsx title="components/ui/provider.tsx"
+import { createSystem, defaultConfig, defineRecipe } from "@chakra-ui/react"
+
+const headingRecipe = defineRecipe({
+  variants: {
+    size: {
+      custom: {
+        fontSize: "100px",
+        lineHeight: "100px",
+        letterSpacing: "-2px",
+      },
+    },
+  },
+})
+
+const system = createSystem(defaultConfig, {
+  theme: {
+    recipes: { heading: headingRecipe },
+  },
+})
+```
+
+Then, use the `custom` variant to create a custom size.
+
+```tsx
+<Heading size="custom">I'm a custom size</Heading>
+```
+
+## Props
+
+<PropTable component="Heading" part="Heading" />

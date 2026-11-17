@@ -1,0 +1,34 @@
+packages:
+  - app-vite
+  - app-vite/playground-js
+  - app-vite/playground-ts
+  - vite-plugin
+  - vite-plugin/playground
+  - extras
+  - icongenie
+  - ui
+  - ui/playground
+  - create-quasar
+  - cli
+  - mcp
+  - utils/art
+  - utils/render-ssr-error
+  - utils/ssl-certificate
+  - utils/update-notifier
+  - docs
+
+linkWorkspacePackages: true
+publishBranch: dev
+
+allowBuilds:
+  '@parcel/watcher': true
+  core-js: true
+  electron-winstaller: true
+  esbuild: true
+  lightningcss: true
+  rolldown: true
+  sharp: true
+  unrs-resolver: true
+
+overrides:
+  'js-yaml@3': ^3.15.1

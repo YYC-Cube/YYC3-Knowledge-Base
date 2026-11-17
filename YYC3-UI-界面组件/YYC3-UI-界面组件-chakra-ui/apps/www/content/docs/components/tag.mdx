@@ -1,0 +1,112 @@
+---
+title: Tag
+description: Used for categorizing or labeling content
+links:
+  source: components/tag
+  storybook: components-tag--basic
+  recipe: tag
+---
+
+<ExampleTabs name="tag-basic" />
+
+## Usage
+
+```tsx
+import { Tag } from "@chakra-ui/react"
+```
+
+```tsx
+<Tag.Root>
+  <Tag.Label>Tag here</Tag.Label>
+</Tag.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Icon
+
+Use the `Tag.StartElement` and `Tag.EndElement` components to add an icon to the
+start or end of the tag
+
+<ExampleTabs name="tag-with-icon" />
+
+### Variants
+
+Use the `variant` prop to change the appearance of the tag.
+
+<ExampleTabs name="tag-with-variants" />
+
+### Sizes
+
+Use the `size` prop to change the size of the tag.
+
+<ExampleTabs name="tag-with-sizes" />
+
+### Colors
+
+Use the `colorPalette` prop to change the color of the tag.
+
+<ExampleTabs name="tag-with-colors" />
+
+### Closable
+
+Use the `Tag.CloseTrigger` within the `Tag.EndElement` to make the tag closable.
+
+<ExampleTabs name="tag-with-close" />
+
+### Overflow
+
+Use the `maxWidth` prop to control the maximum width of the tag. When the
+content exceeds this width, it will be truncated with an ellipsis.
+
+> This is particularly useful when dealing with dynamic or user-generated
+> content where the length might vary.
+
+<ExampleTabs name="tag-with-overflow" />
+
+### Avatar
+
+The tag component has been designed to work well with the `Avatar` component.
+
+> Note: Set the avatar size to `full` to ensure it's sized correctly.
+
+<ExampleTabs name="tag-with-avatar" />
+
+### Render as button
+
+Use the `asChild` prop to render the tag as a button.
+
+<ExampleTabs name="tag-as-button" />
+
+### Closed Component
+
+Here's how to setup the Tag for a closed component composition.
+
+<ExampleCode name="tag-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add tag
+```
+
+## Props
+
+### Root
+
+<PropTable component="Tag" part="Root" />
+
+## Explorer
+
+Explore the `Tag` component parts interactively. Click on parts in the sidebar
+to highlight them in the preview.
+
+<Explorer name="tag-basic" />

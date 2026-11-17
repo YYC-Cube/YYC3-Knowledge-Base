@@ -1,0 +1,280 @@
+---
+title: Popover
+description: Used to show detailed information inside a pop-up
+links:
+  source: components/popover
+  storybook: components-popover--basic
+  recipe: popover
+  ark: https://ark-ui.com/docs/components/popover
+---
+
+<ExampleTabs name="popover-basic" />
+
+## Usage
+
+```tsx
+import { Popover } from "@chakra-ui/react"
+```
+
+```tsx
+<Popover.Root>
+  <Popover.Trigger />
+  <Popover.Positioner>
+    <Popover.Content>
+      <Popover.CloseTrigger />
+      <Popover.Arrow>
+        <Popover.ArrowTip />
+      </Popover.Arrow>
+      <Popover.Body>
+        <Popover.Title />
+      </Popover.Body>
+    </Popover.Content>
+  </Popover.Positioner>
+</Popover.Root>
+```
+
+## Shortcuts
+
+The `Popover` provides a shortcuts for common use cases.
+
+### Arrow
+
+The `Popover.Arrow` renders the `Popover.ArrowTip` component within in by
+default.
+
+This works:
+
+```jsx
+<Popover.Arrow>
+  <Popover.ArrowTip />
+</Popover.Arrow>
+```
+
+This might be more concise, if you don't need to customize the arrow tip.
+
+```jsx
+<Popover.Arrow />
+```
+
+## Examples
+
+### Controlled
+
+Use the `open` and `onOpenChange` to control the visibility of the popover.
+
+<ExampleTabs name="popover-controlled" />
+
+### Multiple Triggers
+
+Don't mount a popover per button. Put `value` on each `Trigger` under one
+`Root`. Click another trigger and the same popover moves to it.
+
+Track the active trigger with `triggerValue` and `onTriggerValueChange` on
+`Root`. If the target is not a button, use `positioning.getAnchorRect`.
+
+<ExampleTabs name="popover-with-multiple-triggers" />
+
+### Sizes
+
+Use the `size` prop to change the size of the popover component.
+
+<ExampleTabs name="popover-with-sizes" />
+
+### Lazy Mount
+
+Use the `lazyMounted` and/or `unmountOnExit` prop to defer the mounting of the
+popover content until it's opened.
+
+<ExampleTabs name="popover-lazy-mounted" />
+
+### Placement
+
+Use the `positioning.placement` prop to configure the underlying `floating-ui`
+positioning logic.
+
+<ExampleTabs name="popover-with-placement" />
+
+### Offset
+
+Use the `positioning.offset` prop to adjust the position of the popover content.
+
+<ExampleTabs name="popover-with-offset" />
+
+### Same Width
+
+Use the `positioning.sameWidth` prop to make the popover content the same width
+as the trigger.
+
+<ExampleTabs name="popover-with-same-width" />
+
+### Nested Popover
+
+When nesting floating elements like popover, select, menu, inside of the
+popover, avoid portalling them to the document's body.
+
+```diff
+-<Portal>
+  <Popover.Positioner>
+    <Popover.Content>
+      {/* ... */}
+    </Popover.Content>
+  </Popover.Positioner>
+-</Portal>
+```
+
+<ExampleTabs name="popover-nested" />
+
+### Initial Focus
+
+Use the `initialFocusEl` prop to set the initial focus of the popover content.
+
+<ExampleTabs name="popover-with-initial-focus" />
+
+### Form
+
+Here's an example of a popover with a form inside.
+
+<ExampleTabs name="popover-with-form" />
+
+### Custom Background
+
+Use the `--popover-bg` CSS variable to change the background color of the
+popover content and its arrow.
+
+<ExampleTabs name="popover-with-custom-bg" />
+
+### Open From Dialog
+
+To use the `Popover` within a `Dialog`, you need to avoid portalling the
+`Popover.Positioner` to the document's body.
+
+```diff
+-<Portal>
+  <Popover.Positioner>
+    <Popover.Content>
+      {/* ... */}
+    </Popover.Content>
+  </Popover.Positioner>
+-</Portal>
+```
+
+If you have set `scrollBehavior="inside"` on the `Dialog`, you need to:
+
+- Set the popover positioning to `fixed` to avoid the popover from being clipped
+  by the dialog.
+- Set `hideWhenDetached` to `true` to hide the popover when the trigger is
+  scrolled out of view.
+
+```tsx
+<Popover.Root positioning={{ strategy: "fixed", hideWhenDetached: true }}>
+  {/* ... */}
+</Popover.Root>
+```
+
+<ExampleTabs name="popover-open-from-dialog" />
+
+## Guide
+
+### Accessing popover context
+
+Use `usePopoverContext` to access the popover's state and methods from any
+component inside the popover.
+
+```tsx
+import { usePopoverContext } from "@chakra-ui/react"
+
+const PopoverStatus = () => {
+  const popover = usePopoverContext()
+
+  return <div>Popover is {popover.open ? "open" : "closed"}</div>
+}
+
+const MyPopover = () => (
+  <Popover.Root>
+    <Popover.Trigger>Open</Popover.Trigger>
+    <Popover.Positioner>
+      <Popover.Content>
+        <PopoverStatus />
+      </Popover.Content>
+    </Popover.Positioner>
+  </Popover.Root>
+)
+```
+
+### Closing programmatically
+
+Use `setOpen(false)` from the context to close the popover programmatically.
+
+```tsx
+import { usePopoverContext } from "@chakra-ui/react"
+
+const CloseButton = () => {
+  const popover = usePopoverContext()
+
+  return <Button onClick={() => popover.setOpen(false)}>Close Popover</Button>
+}
+
+const MyPopover = () => (
+  <Popover.Root>
+    <Popover.Trigger>Open</Popover.Trigger>
+    <Popover.Positioner>
+      <Popover.Content>
+        <CloseButton />
+      </Popover.Content>
+    </Popover.Positioner>
+  </Popover.Root>
+)
+```
+
+### Positioning based on ref
+
+Use `positioning.getAnchorRect()` to position the popover based on a custom
+element ref.
+
+```tsx
+import { useRef } from "react"
+
+const MyPopover = () => {
+  const anchorRef = useRef<HTMLDivElement>(null)
+
+  return (
+    <>
+      <div ref={anchorRef}>Anchor Element</div>
+
+      <Popover.Root
+        positioning={{
+          getAnchorRect() {
+            return anchorRef.current?.getBoundingClientRect()
+          },
+        }}
+      >
+        <Popover.Trigger>Open</Popover.Trigger>
+        <Popover.Positioner>
+          <Popover.Content>
+            <Popover.Body>
+              This popover is anchored to the div above
+            </Popover.Body>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Popover.Root>
+    </>
+  )
+}
+```
+
+## Props
+
+### Root
+
+<PropTable component="Popover" part="Root" />
+
+### Trigger
+
+<PropTable component="Popover" part="Trigger" />
+
+## Explorer
+
+Explore the `Popover` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="popover-explorer-demo" />

@@ -1,0 +1,46 @@
+<template>
+  <div class="q-pa-md">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
+      <q-input rounded filled v-model="text">
+        <template #prepend>
+          <q-icon name="event" />
+        </template>
+      </q-input>
+
+      <q-input rounded outlined v-model="text">
+        <template #append>
+          <q-avatar>
+            <img
+              alt="Quasar logo"
+              src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+            />
+          </q-avatar>
+        </template>
+      </q-input>
+
+      <q-input
+        rounded
+        standout
+        bottom-slots
+        v-model="text"
+        label="Label"
+        counter
+      >
+        <template #prepend>
+          <q-icon name="place" />
+        </template>
+        <template #append>
+          <q-icon name="close" @click="text = ''" class="cursor-pointer" />
+        </template>
+
+        <template #hint> Field hint </template>
+      </q-input>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const text = ref('')
+</script>

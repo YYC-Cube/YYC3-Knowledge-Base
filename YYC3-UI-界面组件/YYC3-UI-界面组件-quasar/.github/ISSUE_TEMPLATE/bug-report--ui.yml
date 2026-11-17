@@ -1,0 +1,111 @@
+name: 'Bug report: Quasar UI'
+description: The quasar package (components, directives, plugins, composables, CSS, TypeScript) or @quasar/extras
+labels: ['kind/bug 🐞', 'area/ui']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Read Before Proceeding Further
+
+        This form is for submitting a **bug report** for the Quasar UI library (the `quasar` package) or `@quasar/extras`.
+        If the problem is in the Quasar CLI, Icon Genie, the MCP server or project creation, go back and choose the matching form. If you are just seeking help or would like to submit a feature request, go back and choose a more suitable option from the list.
+
+        Also, search for your issue in the repo to be sure it doesn't exist already.
+
+        To enter your issue, fill out the form correctly and according to the instructions. Try to be as clear as possible and provide as many details as possible, to help our team better understand the issue and to resolve it faster.
+        Issues with an unclear description or lacking information will have a lower priority. They may even get closed without taking action.
+
+        Lastly, read the [Reporting an Issue | Contribution Guide](https://quasar.dev/how-to-contribute/contribution-guide#reporting-an-issue) section of our docs for a more detailed explanation.
+
+        Thanks for your understanding. We truly appreciate your effort to fill out this form!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Clearly and concisely explain the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: input
+    id: repro-url
+    attributes:
+      label: Reproduction URL
+      description: |
+        A [reproduction](https://stackoverflow.com/help/minimal-reproducible-example) URL is **REQUIRED**, even if you think the error is obvious.
+        Fork one of the following, hit save then copy-paste the URL here:
+          - [Codepen](https://codepen.quasar.dev)
+          - [jsFiddle](https://jsfiddle.quasar.dev)
+          - [StackBlitz](https://stackblitz.quasar.dev)
+          - [Codesandbox](https://codesandbox.quasar.dev)
+        _You can provide a GitHub repo only as a last resort. Keep in mind that it will be prioritized less as it makes the reproduction process slower._
+      placeholder: https://codepen.io/rstoenescu/pen/xxEvBLR - DO NOT use this example value or a random URL
+    validations:
+      required: true
+  - type: textarea
+    id: repro-description
+    attributes:
+      label: How to reproduce?
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to the provided reproduction link
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See the error
+    validations:
+      required: true
+  - type: dropdown
+    id: flavour
+    attributes:
+      label: Flavour
+      description: How do you use Quasar? _The names between parentheses indicate the package names._
+      options:
+        - Quasar CLI (@quasar/cli | @quasar/app-vite)
+        - Vite Plugin (@quasar/vite-plugin)
+        - UMD
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Platforms/Browsers
+      description: Mark the platforms/browsers in which you see the problem on. _If you select `Other`, please explain it in the `Additional context` section._
+      multiple: true
+      options:
+        - Chrome
+        - Safari
+        - Firefox
+        - iOS
+        - Android
+        - Microsoft Edge
+        - Electron
+        - Other
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: |
+        With Quasar CLI, run [`quasar info`](https://quasar.dev/quasar-cli-vite/commands-list#info) and paste the output.
+        Otherwise, list your `quasar`, `vue` and `vite` (or `@quasar/extras`) versions.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.

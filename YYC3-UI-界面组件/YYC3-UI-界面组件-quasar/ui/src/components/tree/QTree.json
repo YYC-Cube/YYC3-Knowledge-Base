@@ -1,0 +1,753 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/tree"
+  },
+
+  "props": {
+    "nodes": {
+      "type": "Array",
+      "tsType": "QTreeNode",
+      "desc": "The array of nodes that designates the tree structure",
+      "required": true,
+      "examples": ["[{}, {}]"],
+      "category": "content"
+    },
+
+    "node-key": {
+      "type": "String",
+      "desc": "The property name of each node object that holds a unique node id",
+      "required": true,
+      "examples": ["'key'", "'id'"],
+      "category": "content"
+    },
+
+    "label-key": {
+      "type": "String",
+      "desc": "The property name of each node object that holds the label of the node",
+      "default": "'label'",
+      "examples": ["'name'", "'description'"],
+      "category": "content"
+    },
+
+    "children-key": {
+      "type": "String",
+      "desc": "The property name of each node object that holds the list of children of the node",
+      "default": "'children'",
+      "examples": ["'roles'", "'relatives'"],
+      "category": "content"
+    },
+
+    "no-connectors": {
+      "type": "Boolean",
+      "desc": "Do not display the connector lines between nodes",
+      "category": "style"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "control-color": {
+      "extends": "color",
+      "desc": "Color name for controls (like checkboxes) from the Quasar Color Palette",
+      "category": "style"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "selected-color": {
+      "extends": "color",
+      "desc": "Color name for selected nodes (from the Quasar Color Palette)"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "tick-strategy": {
+      "type": "String",
+      "desc": "The type of strategy to use for the selection of the nodes",
+      "default": "'none'",
+      "values": ["'none'", "'strict'", "'leaf'", "'leaf-filtered'"],
+      "category": "behavior"
+    },
+
+    "ticked": {
+      "type": "Array",
+      "desc": "Keys of nodes that are ticked",
+      "sync": true,
+      "examples": ["# v-model:ticked=\"tickedKeys\""],
+      "category": "state"
+    },
+
+    "expanded": {
+      "type": "Array",
+      "desc": "Keys of nodes that are expanded",
+      "sync": true,
+      "examples": ["# v-model:expanded=\"expandedKeys\""],
+      "category": "state"
+    },
+
+    "selected": {
+      "type": "Any",
+      "desc": "Key of node currently selected",
+      "sync": true,
+      "examples": ["# v-model:selected=\"selectedKey\""],
+      "category": "state"
+    },
+
+    "no-selection-unset": {
+      "type": "Boolean",
+      "desc": "Do not allow un-selection when clicking currently selected node",
+      "category": "behavior"
+    },
+
+    "default-expand-all": {
+      "type": "Boolean",
+      "desc": "Allow the tree to have all its branches expanded, when first rendered",
+      "category": "behavior"
+    },
+
+    "accordion": {
+      "type": "Boolean",
+      "desc": "Allows the tree to be set in accordion mode",
+      "category": "behavior"
+    },
+
+    "no-transition": {
+      "type": "Boolean",
+      "desc": "Turn off transition effects when expanding/collapsing nodes; Also enhances perf by a lot as a side-effect; Recommended for big trees",
+      "category": "behavior"
+    },
+
+    "virtual-scroll": {
+      "type": "Boolean",
+      "desc": "Render the visible nodes as a flat virtualized list, keeping only the rows around the scrolling viewport in the DOM; Recommended for big trees; The tree itself becomes the scrolling container (give it a height through CSS) unless 'virtual-scroll-target' is used; Expanding/collapsing is instant in this mode (no slide transition, so 'duration', 'no-transition' and the '@after-show'/'@after-hide' events do not apply)",
+      "category": "virtual-scroll|behavior",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-target": {
+      "extends": "scroll-target",
+      "desc": "CSS selector or DOM element to be used as the scrolling container (instead of the tree itself) when 'virtual-scroll' is set",
+      "category": "virtual-scroll|behavior",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-item-size": {
+      "type": ["Number", "String"],
+      "desc": "Default size in pixels of a row; This value is used for rendering the initial list; Try to use a value close to the minimum size of a row; Defaults to 35 (23 for dense mode)",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-slice-size": {
+      "type": ["Number", "String", "null"],
+      "desc": "Minimum number of rows to render in the virtual list",
+      "default": "10",
+      "examples": ["60", "'60'"],
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-slice-ratio-before": {
+      "type": ["Number", "String"],
+      "desc": "Ratio of number of rows in visible zone to render before it",
+      "default": "1",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-slice-ratio-after": {
+      "type": ["Number", "String"],
+      "desc": "Ratio of number of rows in visible zone to render after it",
+      "default": "1",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-sticky-size-start": {
+      "type": ["Number", "String"],
+      "desc": "Size in pixels of the sticky part (if using one) at the start of the scrolling container; A correct value will improve scroll precision",
+      "default": "0",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "virtual-scroll-sticky-size-end": {
+      "type": ["Number", "String"],
+      "desc": "Size in pixels of the sticky part (if using one) at the end of the scrolling container; A correct value will improve scroll precision",
+      "default": "0",
+      "category": "virtual-scroll",
+      "addedIn": "v2.25"
+    },
+
+    "filter": {
+      "type": "String",
+      "desc": "The text value to be used for filtering nodes",
+      "examples": ["'car'"],
+      "category": "filter"
+    },
+
+    "filter-method": {
+      "type": "Function",
+      "desc": "The function to use to filter the tree nodes; For best performance, reference it from your scope and do not define it inline",
+      "params": {
+        "node": {
+          "type": "Object",
+          "desc": "Node currently being filtered"
+        },
+        "filter": {
+          "type": "String",
+          "desc": "Filter text to match against"
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Matches or not"
+      },
+      "examples": [
+        "(node, filter) => node.label.toLowerCase().includes(filter.toLowerCase())"
+      ],
+      "category": "filter"
+    },
+
+    "duration": {
+      "type": "Number",
+      "desc": "Toggle animation duration (in milliseconds); use 0 to disable the animation and toggle instantly",
+      "default": "300",
+      "category": "style"
+    },
+
+    "no-nodes-label": {
+      "type": "String",
+      "desc": "Override default such label for when no nodes are available",
+      "examples": ["'No nodes to show!'"],
+      "category": "content"
+    },
+
+    "no-results-label": {
+      "type": "String",
+      "desc": "Override default such label for when no nodes are available due to filtering",
+      "examples": ["'No results'"],
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default-header": {
+      "desc": "Slot to use for defining the header of a node",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "indeterminate": {
+          "type": "Boolean",
+          "desc": "Is node partially ticked (some, but not all, of its tickable children are ticked)? Read-only -- tick its children to change it",
+          "reactive": true,
+          "addedIn": "v2.25"
+        },
+        "tree": {
+          "type": "ComponentInstance",
+          "tsType": "QTree",
+          "desc": "QTree instance"
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object"
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key"
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": ["'primary'"]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
+    },
+
+    "header-[name]": {
+      "desc": "Header template slot for describing node header; Used by nodes which have their 'header' prop set to '[name]', where '[name]' can be any string",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "indeterminate": {
+          "type": "Boolean",
+          "desc": "Is node partially ticked (some, but not all, of its tickable children are ticked)? Read-only -- tick its children to change it",
+          "reactive": true,
+          "addedIn": "v2.25"
+        },
+        "tree": {
+          "type": "ComponentInstance",
+          "tsType": "QTree",
+          "desc": "QTree instance"
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object"
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key"
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": ["'primary'"]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
+    },
+
+    "default-body": {
+      "desc": "Slot to use for defining the body of a node",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "indeterminate": {
+          "type": "Boolean",
+          "desc": "Is node partially ticked (some, but not all, of its tickable children are ticked)? Read-only -- tick its children to change it",
+          "reactive": true,
+          "addedIn": "v2.25"
+        },
+        "tree": {
+          "type": "ComponentInstance",
+          "tsType": "QTree",
+          "desc": "QTree instance"
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object"
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key"
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": ["'primary'"]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
+    },
+
+    "body-[name]": {
+      "desc": "Body template slot for describing node body; Used by nodes which have their 'body' prop set to '[name]', where '[name]' can be any string",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "indeterminate": {
+          "type": "Boolean",
+          "desc": "Is node partially ticked (some, but not all, of its tickable children are ticked)? Read-only -- tick its children to change it",
+          "reactive": true,
+          "addedIn": "v2.25"
+        },
+        "tree": {
+          "type": "ComponentInstance",
+          "tsType": "QTree",
+          "desc": "QTree instance"
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object"
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key"
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": ["'primary'"]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
+    }
+  },
+
+  "events": {
+    "update:expanded": {
+      "desc": "Triggered when nodes are expanded or collapsed; Used by Vue on 'v-model:update' to update its value",
+      "params": {
+        "expanded": {
+          "type": "Array",
+          "desc": "The expanded node keys",
+          "examples": ["['Node 1', 'Node 2']"]
+        }
+      }
+    },
+
+    "lazy-load": {
+      "desc": "Emitted when the lazy loading of nodes is finished",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Lazy loading details",
+          "definition": {
+            "node": {
+              "type": "Object",
+              "required": true,
+              "desc": "The node to which the new nodes (the children) will be appended"
+            },
+            "key": {
+              "type": "String",
+              "required": true,
+              "desc": "The key of the node getting the newly loaded child nodes",
+              "examples": ["'New Node'"]
+            },
+            "done": {
+              "type": "Function",
+              "required": true,
+              "desc": "The callback to be carried out when the loading is successful",
+              "params": {
+                "children": {
+                  "type": "Array",
+                  "desc": "Array of nodes",
+                  "default": "[]"
+                }
+              },
+              "returns": null
+            },
+            "fail": {
+              "type": "Function",
+              "required": true,
+              "desc": "The callback to be carried out should the loading fails",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "update:ticked": {
+      "desc": "Emitted when nodes are ticked/unticked via the checkbox; Used by Vue on 'v-model:ticked' to update its value",
+      "params": {
+        "target": {
+          "type": "Array",
+          "desc": "The ticked node keys",
+          "examples": ["['Node 1', 'Node 2']"]
+        }
+      }
+    },
+
+    "update:selected": {
+      "desc": "Emitted when selected node changes; Used by Vue on 'v-model:selected' to update its value",
+      "params": {
+        "target": {
+          "type": "Any",
+          "desc": "The selected node key",
+          "examples": ["'Node 1'"]
+        }
+      }
+    },
+
+    "after-show": {
+      "extends": "after-show"
+    },
+
+    "after-hide": {
+      "extends": "after-hide"
+    },
+
+    "virtual-scroll": {
+      "desc": "Emitted when the virtual scroll occurs (only when 'virtual-scroll' is set)",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new scroll position",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "required": true,
+              "desc": "Index of the row that was scrolled into view (0 based)"
+            },
+            "from": {
+              "type": "Number",
+              "required": true,
+              "desc": "The index of the first rendered row (0 based)"
+            },
+            "to": {
+              "type": "Number",
+              "required": true,
+              "desc": "The index of the last rendered row (0 based)"
+            },
+            "direction": {
+              "type": "String",
+              "required": true,
+              "desc": "Direction of change",
+              "values": ["'increase'", "'decrease'"]
+            },
+            "ref": {
+              "type": "ComponentInstance",
+              "tsType": "QTree",
+              "required": true,
+              "desc": "Vue reference to the QTree"
+            }
+          }
+        }
+      },
+      "addedIn": "v2.25"
+    }
+  },
+
+  "methods": {
+    "scrollTo": {
+      "desc": "(Only when 'virtual-scroll' is set) Scroll the tree to the row of the node with the given key (if the node is currently visible -- its ancestors are expanded and it passes filtering)",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        },
+        "edge": {
+          "type": "String",
+          "desc": "The edge to align to if the row is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
+          "values": [
+            "'start'",
+            "'center'",
+            "'end'",
+            "'start-force'",
+            "'center-force'",
+            "'end-force'"
+          ]
+        }
+      },
+      "returns": null,
+      "addedIn": "v2.25"
+    },
+
+    "getNodeByKey": {
+      "desc": "Get the node with the given key",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Requested node"
+      }
+    },
+
+    "getParentNode": {
+      "desc": "Get the parent of the node with the given key",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "The parent node, or 'undefined' if the node is a root one or the key is not in the nodes model"
+      },
+      "addedIn": "v2.25"
+    },
+
+    "getTickedNodes": {
+      "desc": "Get array of nodes that are ticked",
+      "params": null,
+      "returns": {
+        "type": "Array",
+        "desc": "Ticked node objects"
+      }
+    },
+
+    "getIndeterminateNodes": {
+      "desc": "Get array of nodes that are partially ticked (some, but not all, of their tickable children are ticked); Always empty unless the 'leaf' or 'leaf-filtered' tick strategy is used",
+      "params": null,
+      "returns": {
+        "type": "Array",
+        "desc": "Partially ticked node objects, in the order of the nodes model"
+      },
+      "addedIn": "v2.25"
+    },
+
+    "getExpandedNodes": {
+      "desc": "Get array of nodes that are expanded",
+      "params": null,
+      "returns": {
+        "type": "Array",
+        "desc": "Expanded node objects"
+      }
+    },
+
+    "isExpanded": {
+      "desc": "Determine if a node is expanded",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is specified node expanded?"
+      }
+    },
+
+    "expandAll": {
+      "desc": "Use to expand all branches of the tree",
+      "params": null,
+      "returns": null
+    },
+
+    "collapseAll": {
+      "desc": "Use to collapse all branches of the tree",
+      "params": null,
+      "returns": null
+    },
+
+    "setExpanded": {
+      "desc": "Expands the tree at the point of the node with the key given",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        },
+        "state": {
+          "type": "Boolean",
+          "required": true,
+          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it"
+        }
+      },
+      "returns": null
+    },
+
+    "isTicked": {
+      "desc": "Method to check if a node's checkbox is selected or not",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is specified node ticked?"
+      }
+    },
+
+    "isIndeterminate": {
+      "desc": "Method to check if a node's checkbox is partially ticked (some, but not all, of its tickable children are ticked); Always 'false' unless the 'leaf' or 'leaf-filtered' tick strategy is used",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is specified node partially ticked?"
+      },
+      "addedIn": "v2.25"
+    },
+
+    "getTickState": {
+      "desc": "Method to get a node's tick state in the tri-state form that a QCheckbox takes as its model ('true' ticked, 'null' partially ticked, 'false' unticked); It is the value that the node's own tickbox gets",
+      "params": {
+        "key": {
+          "type": "Any",
+          "required": true,
+          "desc": "The key of a node",
+          "examples": ["'Node 1'"]
+        }
+      },
+      "returns": {
+        "type": ["Boolean", "null"],
+        "desc": "The tick state of the specified node ('false' if the key is not in the nodes model)"
+      },
+      "addedIn": "v2.25"
+    },
+
+    "setTicked": {
+      "desc": "Method to set a node's checkbox programmatically",
+      "params": {
+        "keys": {
+          "type": "Array",
+          "required": true,
+          "desc": "The keys of nodes to tick/untick",
+          "examples": ["['Node 1', 'Node 2']"]
+        },
+        "state": {
+          "type": "Boolean",
+          "required": true,
+          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them"
+        }
+      },
+      "returns": null
+    }
+  }
+}

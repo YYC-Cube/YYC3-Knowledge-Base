@@ -1,0 +1,60 @@
+{
+  "mixins": ["components/btn/use-btn"],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/button"
+  },
+
+  "props": {
+    "round": {
+      "type": "Boolean",
+      "desc": "Makes a circle shaped button",
+      "category": "style"
+    },
+
+    "percentage": {
+      "type": "Number",
+      "desc": "Percentage (0.0 < x < 100.0); To be used along 'loading' prop; Display a progress bar on the background",
+      "category": "behavior"
+    },
+
+    "dark-percentage": {
+      "type": "Boolean",
+      "desc": "Progress bar on the background should have dark color; To be used along with 'percentage' and 'loading' props",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Use for custom content, instead of relying on 'icon' and 'label' props"
+    },
+
+    "loading": {
+      "desc": "Override the default QSpinner when in 'loading' state"
+    }
+  },
+
+  "methods": {
+    "click": {
+      "desc": "Emulate click on QBtn",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "returns": null
+    }
+  },
+
+  "events": {
+    "click": {
+      "extends": "navigation-click"
+    },
+
+    "touchstart": { "internal": true },
+    "keydown": { "internal": true },
+    "keyup": { "internal": true },
+    "mousedown": { "internal": true }
+  }
+}

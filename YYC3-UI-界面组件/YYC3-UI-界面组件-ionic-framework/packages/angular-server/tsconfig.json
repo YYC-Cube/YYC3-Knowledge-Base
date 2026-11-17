@@ -1,0 +1,20 @@
+{
+  "extends": "../../core/tsconfig.base.json",
+  "compilerOptions": {
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "skipLibCheck": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "files": ["src/ionic-server-module.ts"],
+  "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "strictMetadataEmit": true,
+    "flatModuleOutFile": "./index.js",
+    "flatModuleId": "@ionic/angular-server",
+    "skipTemplateCodegen": true,
+    "fullTemplateTypeCheck": false,
+    "compilationMode": "partial"
+  }
+}

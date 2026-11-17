@@ -1,0 +1,155 @@
+import {
+  type FilesV4,
+  NoSuchModelError,
+  type LanguageModelV4,
+  type ProviderV4,
+} from '@ai-sdk/provider';
+import {
+  type Resolvable,
+  resolveWith,
+  loadApiKey,
+  withoutTrailingSlash,
+  withUserAgentSuffix,
+  type FetchFunction,
+} from '@ai-sdk/provider-utils';
+import type { DeepSeekChatModelId } from './chat/deepseek-chat-language-model-options';
+import { DeepSeekChatLanguageModel } from './chat/deepseek-chat-language-model';
+import { DeepSeekFiles } from './files/deepseek-files';
+import { DeepSeekResponsesLanguageModel } from './responses/deepseek-responses-language-model';
+import type { DeepSeekResponsesModelId } from './responses/deepseek-responses-language-model-options';
+import { deepseekTools } from './tool';
+import { VERSION } from './version';
+
+export interface DeepSeekProviderSettings {
+  /**
+   * DeepSeek API key.
+   * A function is called before each request and may return a promise.
+   */
+  apiKey?: Resolvable<string>;
+
+  /**
+   * Base URL for the API calls.
+   */
+  baseURL?: string;
+
+  /**
+   * Custom headers to include in the requests.
+   */
+  headers?: Record<string, string>;
+
+  /**
+   * Custom fetch implementation. You can use it as a middleware to intercept requests,
+   * or to provide a custom fetch implementation for e.g. testing.
+   */
+  fetch?: FetchFunction;
+}
+
+export interface DeepSeekProvider extends ProviderV4 {
+  /**
+   * Creates a DeepSeek model for text generation.
+   */
+  (modelId: DeepSeekChatModelId): LanguageModelV4;
+
+  /**
+   * Creates a DeepSeek model for text generation.
+   */
+  languageModel(modelId: DeepSeekChatModelId): LanguageModelV4;
+
+  /**
+   * Creates a DeepSeek chat model for text generation.
+   */
+  chat(modelId: DeepSeekChatModelId): LanguageModelV4;
+
+  /**
+   * Creates a DeepSeek model that uses the Responses API. Supports
+   * server-side tools such as `deepseek.tools.webSearch()`.
+   */
+  responses(modelId: DeepSeekResponsesModelId): LanguageModelV4;
+
+  /**
+   * DeepSeek server-side tools for use with the Responses API.
+   */
+  tools: typeof deepseekTools;
+
+  /**
+   * Creates a DeepSeek files interface for uploading images.
+   */
+  files(): FilesV4;
+
+  /**
+   * @deprecated Use `embeddingModel` instead.
+   */
+  textEmbeddingModel(modelId: string): never;
+}
+
+export function createDeepSeek(
+  options: DeepSeekProviderSettings = {},
+): DeepSeekProvider {
+  const baseURL =
+    withoutTrailingSlash(options.baseURL ?? 'https://api.deepseek.com') ??
+    'https://api.deepseek.com';
+
+  const getHeaders = () =>
+    resolveWith(options.apiKey, apiKey =>
+      withUserAgentSuffix(
+        {
+          Authorization: `Bearer ${loadApiKey({
+            apiKey,
+            environmentVariableName: 'DEEPSEEK_API_KEY',
+            description: 'DeepSeek API key',
+          })}`,
+          ...options.headers,
+        },
+        `ai-sdk-deepseek/${VERSION}`,
+      ),
+    );
+
+  const createLanguageModel = (modelId: DeepSeekChatModelId) => {
+    return new DeepSeekChatLanguageModel(modelId, {
+      provider: `deepseek.chat`,
+      url: ({ path }) => `${baseURL}${path}`,
+      headers: getHeaders,
+      fetch: options.fetch,
+      supportsAssistantPrefixCompletion: baseURL.endsWith('/beta'),
+      supportsStrictToolCalls: baseURL.endsWith('/beta'),
+    });
+  };
+
+  const createResponsesModel = (modelId: DeepSeekResponsesModelId) =>
+    new DeepSeekResponsesLanguageModel(modelId, {
+      provider: 'deepseek.responses',
+      url: ({ path }) => `${baseURL}${path}`,
+      headers: getHeaders,
+      fetch: options.fetch,
+    });
+
+  const createFiles = () =>
+    new DeepSeekFiles({
+      provider: 'deepseek.files',
+      baseURL,
+      headers: getHeaders,
+      fetch: options.fetch,
+    });
+
+  const provider = (modelId: DeepSeekChatModelId) =>
+    createLanguageModel(modelId);
+
+  provider.specificationVersion = 'v4' as const;
+  provider.languageModel = createLanguageModel;
+  provider.chat = createLanguageModel;
+  provider.responses = createResponsesModel;
+  provider.tools = deepseekTools;
+  provider.files = createFiles;
+
+  provider.embeddingModel = (modelId: string) => {
+    throw new NoSuchModelError({ modelId, modelType: 'embeddingModel' });
+  };
+  provider.textEmbeddingModel = provider.embeddingModel;
+  provider.imageModel = (modelId: string) => {
+    throw new NoSuchModelError({ modelId, modelType: 'imageModel' });
+  };
+
+  return provider;
+}
+
+export const deepSeek = createDeepSeek();

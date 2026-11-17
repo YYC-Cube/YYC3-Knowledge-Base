@@ -1,0 +1,219 @@
+import { getArgv } from '../utils/get-argv.js'
+
+const argv = getArgv({
+  profile: { type: 'string', short: 'p' },
+  icon: { type: 'string', short: 'i' },
+  'icon-monochrome': { type: 'string' },
+  background: { type: 'string', short: 'b' },
+  'background-dark': { type: 'string' },
+  mode: { type: 'string', short: 'm' },
+  filter: { type: 'string', short: 'f' },
+  quality: { type: 'string' },
+  padding: { type: 'string' },
+  'theme-color': { type: 'string' },
+  'png-color': { type: 'string' },
+  'splashscreen-color': { type: 'string' },
+  'splashscreen-dark-color': { type: 'string' },
+  'splashscreen-icon-ratio': { type: 'string' },
+  'skip-trim': { type: 'boolean' },
+  'no-color': { type: 'boolean' },
+  help: { type: 'boolean', short: 'h' }
+})
+
+// if user hasn't explicitly specified this, then
+// we shouldn't take it into account
+if (!process.argv.includes('--skip-trim')) {
+  delete argv.skipTrim
+}
+
+import { green } from 'kolorist'
+
+if (argv.help) {
+  const { defaultParams } = await import('../utils/default-params.js')
+
+  const { modes } = await import('../modes/index.js')
+  const modesList = Object.keys(modes).join('|')
+
+  const { generators } = await import('../generators/index.js')
+  const generatorsList = Object.keys(generators).join('|')
+
+  console.log(`
+  Description
+    Generate App icons & splashscreens
+
+  Usage
+    $ icongenie generate [options]
+
+    # generate icons for all installed Quasar modes
+    $ icongenie generate -i /path/to/icon.png
+    $ icongenie g -i /path/to/icon.png
+
+    # generate for (as example) PWA mode only
+    $ icongenie generate -m pwa --icon /path/to/icon.png
+
+    # generate for (as example) Cordova & Capacitor mode only
+    $ icongenie g -m cordova,capacitor -i
+         /path/to/icon.png -b /path/to/background.png
+
+    # generate by using a profile file
+    $ icongenie generate -p ./icongenie-profile.json
+
+    # generate by using batch of profile files
+    $ icongenie generate -p ./folder-containing-profile-files
+
+  Options
+    --icon, -i            ${green('Required')};
+                          Path to source file for icon; must be:
+                            - a .png file
+                            - min resolution: 64x64 px (the higher the better!!)
+                            - with transparency
+                          Best results are with a square image (height = width)
+                          Image will be trimmed automatically
+                            (also see "skip-trim" and "padding" param)
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+                          Recommended min size: 1024x1024 px
+
+    --icon-monochrome     Path to optional source file for the monochrome layer of the
+                          Android adaptive icon (Android 13+ themed icons); must be:
+                            - a .png file
+                            - min resolution: 64x64 px (the higher the better!!)
+                            - with transparency (only its shape is used; Android tints it)
+                          Default: the shape of the icon source file
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+
+    --background, -b      Path to optional background source file (for splashscreens
+                          and the Android adaptive icon background layer); must be:
+                            - a .png file
+                            - min resolution: 128x128 px (the higher the better!!)
+                            - transparency is optional (but recommended if you
+                              combine with the splashscreen-color param)
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+                          Recommended min size: 1024x1024 px
+
+    --background-dark     Path to optional background source file for the dark
+                          variants of the splashscreens (see splashscreen-dark-color);
+                          same requirements as the background param;
+                          Default: the background source file
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+
+    --mode, -m            For which Quasar mode(s) to generate the assets;
+                          Default: all
+                            [all|${modesList}]
+                          Multiple can be specified, separated by ",":
+                            spa,cordova
+
+    --filter, -f          Filter the available generators; when used, it can
+                          generate only one type of asset instead of all
+                            [${generatorsList}]
+
+    --quality             Quality of the files [1 - 12] (default: ${defaultParams.quality})
+                            - higher quality --> bigger filesize & slower to create
+                            - lower quality  --> smaller filesize & faster to create
+
+    --skip-trim           Do not trim the icon source file
+
+    --padding             Apply padding to the icon after trimming it;
+                          Syntax: <horiz>,<vert>; each either a number of pixels
+                            or a percentage of the resulting image size (0 - 50%)
+                          Default: 0,0
+                          Examples: "--padding 10,5" means apply 10px padding to the
+                            left and right sides and 5px to the top and bottom;
+                            "--padding 8%" means 8% of each image's size on all sides
+
+    --theme-color         Theme color to use for all generators requiring a color;
+                          It gets overridden if any generator color is also specified;
+                          The color must be in hex format (NOT hexa) without the leading
+                          '#' character. Transparency not allowed.
+                          Examples: 1976D2, eee
+
+    --svg-color           Color to use for the generated monochrome svgs
+                          Default (if no theme-color is specified): ${defaultParams.svgColor.slice(1)}
+                          The color must be in hex format (NOT hexa) without the leading
+                          '#' character. Transparency not allowed.
+                          Examples: 1976D2, eee
+
+    --png-color           Background color to use for the png generator, when
+                          "background: true" in the asset definition (like for
+                          the cordova/capacitor iOS icons) and for the Android adaptive icon
+                          background layer (launcher generator);
+                          Default (if no theme-color is specified): ${defaultParams.pngColor.slice(1)}
+                          The color must be in hex format (NOT hexa) without the leading
+                          '#' character. Transparency not allowed.
+                          Examples: 1976D2, eee
+
+    --splashscreen-color  Background color to use for the splashscreen generator;
+                          Default (if no theme-color is specified): ${defaultParams.splashscreenColor.slice(1)}
+                          The color must be in hex format (NOT hexa) without the leading
+                          '#' character. Transparency not allowed.
+                          Examples: 1976D2, eee
+
+    --splashscreen-dark-color  Background color to use for the dark variants of the
+                               splashscreens (Capacitor mode: Android "night" resources
+                               and the iOS dark appearance); no dark variants get
+                               generated (and any previously generated ones get removed)
+                               when this param is not specified;
+                               The color must be in hex format (NOT hexa) without the leading
+                               '#' character. Transparency not allowed.
+                               Examples: 1976D2, eee
+
+    --splashscreen-icon-ratio  Ratio of icon size in respect to the width or height
+                               (whichever is smaller) of the resulting splashscreen;
+                               Represents percentages; Valid values: 0 - 100
+                               If 0 then it doesn't add the icon of top of background
+                               Default: ${defaultParams.splashscreenIconRatio}
+
+    --profile, -p         Use JSON profile file(s):
+                            - path to folder (absolute or relative to current folder)
+                              that contains JSON profile files (icongenie-*.json)
+                            - path to a single *.json profile file (absolute or relative
+                              to current folder)
+                          Structure of a JSON profile file:
+                            {
+                              "params": {
+                                "include": [ ... ], /* optional */
+                                ...
+                              },
+                              "assets": [ /* list of custom assets */ ]
+                            }
+
+    --no-color            Disable colored output
+    --help, -h            Displays this message
+  `)
+
+  argv.__warn?.()
+  process.exit(0)
+}
+
+import { generate } from '../runner/generate.js'
+import { parseArgv } from '../utils/parse-argv.js'
+import { getProfileFiles } from '../utils/get-profile-files.js'
+import { filterArgvParams } from '../utils/filter-argv-params.js'
+import { log } from '../utils/logger.js'
+
+async function runProfiles(params, profileFiles) {
+  for (let i = 0; i < profileFiles.length; i++) {
+    const profile = profileFiles[i]
+
+    console.log(`\n`)
+    log(`---------------------`)
+    log(`Generating by profile: ${profile}`)
+    log(`---------------------`)
+    console.log(`\n`)
+
+    await generate({ ...params, profile })
+  }
+}
+
+const params = filterArgvParams(argv)
+
+if (params.profile) {
+  parseArgv(params, ['profile'])
+  // oxlint-disable-next-line unicorn/prefer-top-level-await
+  runProfiles(params, getProfileFiles(params.profile))
+} else {
+  generate(params)
+}

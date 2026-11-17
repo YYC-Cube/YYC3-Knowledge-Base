@@ -1,0 +1,58 @@
+---
+title: Button Toggle
+desc: The QBtnToggle Vue component is a basic element for user input, similar to QRadio but with buttons.
+keys: QBtnToggle
+examples: QBtnToggle
+related:
+  - /vue-components/button
+  - /vue-components/tabs
+  - /vue-components/option-group
+  - /vue-components/radio
+  - /vue-components/checkbox
+  - /vue-components/toggle
+---
+
+The QBtnToggle component is another basic element for user input, similar to QRadio but with buttons. You can use this to supply a way for the user to pick an option from multiple choices.
+
+<DocApi file="QBtnToggle" />
+
+## Usage
+
+<DocExample title="Basic" file="Basic" />
+
+### Design
+
+> [!TIP]
+> Since QBtnToggle uses QBtn, you can use design related props of QBtn to style this component.
+
+<DocExample title="Some design examples" file="Design" />
+
+<DocExample title="Spread horizontally" file="Spread" />
+
+Set the `vertical` prop (v2.34+) to stack the options instead of placing them side by side; useful when the horizontal space is scarce. Stacked options look best with their content aligned to one side; use the `align` prop (v2.34+), which an option can override through its own `align` property. With `spread`, the options share the height of the parent, so give the parent a height.
+
+<DocExample title="Vertical" file="Vertical" />
+
+### Custom content
+
+First QBtnToggle below has tooltips on each button. Second QBtnToggle has customized the content. Notice the `slot` prop in the `options` Object definition. When you use this `slot` prop, you don't necessary need the `label` / `icon` props in `options`.
+
+<DocExample title="Custom buttons content" file="CustomContent" />
+
+### Disable and readonly
+
+You can either disable a QBtnToggle by providing a `disable` attribute, or disable an individual button by providing the property `disable: true` to its entry, in the options.
+
+<DocExample title="Disable and readonly" file="DisableReadonly" />
+
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QBtnToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+
+<DocExample title="Native form" file="NativeForm" />
+
+## Accessibility <q-badge label="v2.25+" />
+
+Each option renders as a button with `aria-pressed` reflecting whether it is the currently selected value, so screen readers announce the selection state. Give icon-only options an accessible name through the option's `attrs` property (e.g. `attrs: { 'aria-label': 'Justify left' }`).
+
+Note that QBtnToggle exposes no group semantics: the wrapping element carries no role or accessible name, and there is no arrow-key navigation between options — each enabled option is its own Tab stop.

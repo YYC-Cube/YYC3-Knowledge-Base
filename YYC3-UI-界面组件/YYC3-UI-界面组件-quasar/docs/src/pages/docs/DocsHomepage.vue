@@ -1,0 +1,88 @@
+<template>
+  <div class="page-docs column justify-center text-center">
+    <h1 class="heading heading--large normal-line-height"
+      >Welcome to Quasar docs</h1
+    >
+    <div class="letter-spacing-300 text-size-16 text-weight-bold q-mb-md">
+      Here you can find everything you need to start working with Quasar.
+    </div>
+
+    <div class="row">
+      <div
+        class="col-12 col-md text-center page-docs__text letter-spacing-40 text-size-16 q-ma-md"
+      >
+        In the top navigation bar there is a search function that helps you find
+        what you need and also many other pages that you can explore, like
+        beginner resources and other cool content about the Quasar galaxy. Don't
+        forget to check our page to
+        <a
+          class="text-brand-accent"
+          href="https://donate.quasar.dev"
+          target="_blank"
+          >become a sponsor</a
+        >!
+      </div>
+
+      <div class="gt-sm q-px-md" />
+
+      <div
+        class="col-12 col-md text-center page-docs__text letter-spacing-40 text-size-16 q-ma-md"
+      >
+        If you are an experienced explorer get right into action: use the
+        navigation drawer on the left to navigate through our most important
+        technical resources.
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md row justify-center q-gutter-sm q-py-lg">
+        <h2
+          class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase q-ma-none"
+        >
+          Most Used
+        </h2>
+
+        <DocCardLink
+          v-for="(entry, pageIndex) in mostUsedPages"
+          :key="pageIndex"
+          :to="entry.path"
+          :label="entry.name"
+          :icon="entry.icon"
+        />
+      </div>
+
+      <div class="gt-sm q-px-md row justify-center">
+        <q-separator vertical />
+      </div>
+
+      <div
+        class="col-12 col-md row cards-container-width justify-center q-gutter-sm q-py-lg"
+      >
+        <h2
+          class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase q-ma-none"
+        >
+          Discover Also
+        </h2>
+
+        <DocCardLink
+          v-for="(entry, pageIndex) in pagesToDiscover"
+          :key="pageIndex"
+          :to="entry.path"
+          :label="entry.name"
+          :icon="entry.icon"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import DocCardLink from '@/components/DocCardLink.vue'
+import { mostUsedPages, pagesToDiscover } from '@/assets/docs-homepage.js'
+</script>
+
+<style lang="sass">
+.page-docs
+  &__text
+    max-width: 500px
+</style>

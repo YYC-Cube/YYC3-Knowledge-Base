@@ -1,0 +1,41 @@
+---
+title: App Icons for BEX
+desc: (@quasar/app-vite) How to manage the app icons for a Quasar Browser Extension (BEX).
+scope:
+  tree:
+    l: src-bex
+    c:
+      - l: icons
+        c:
+          - l: icon-16x16.png
+            e: Favicon on extension pages
+          - l: icon-32x32.png
+            e: Toolbar on high-density displays
+          - l: icon-48x48.png
+            e: Extension management page
+          - l: icon-96x96.png
+            e: Firefox add-ons manager
+          - l: icon-128x128.png
+            e: Installation and web store
+---
+
+This build target includes the icon sizes used by the extension pages, the toolbar, the browser's extension manager and the extension stores (Chrome, Edge and Firefox share the same manifest `icons` entries). If you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
+
+<llm-exclude reason="decoration">
+<img alt="IconGenie logo" src="/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px">
+</llm-exclude>
+
+## Icon Genie CLI
+
+> [!TIP]
+> We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /index.html file.
+
+Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.
+
+```bash
+icongenie generate -m bex -i /path/to/source/icon.png
+```
+
+## Manual instructions
+
+<DocTree :def="scope.tree" />

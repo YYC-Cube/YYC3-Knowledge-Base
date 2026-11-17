@@ -1,0 +1,227 @@
+import { computed, h, shallowRef, withDirectives } from 'vue'
+
+import QIcon from '../icon/QIcon.js'
+import Ripple from '../../directives/ripple/Ripple.js'
+
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+
+import { createComponent } from '../../utils/private.create/create.js'
+import { stopAndPrevent } from '../../utils/event/event.js'
+
+function preventSpace(e) {
+  if (e.keyCode === 32) stopAndPrevent(e)
+}
+
+export default /*#__PURE__*/ createComponent({
+  name: 'StepHeader',
+
+  props: {
+    stepper: {},
+    step: {},
+    goToPanel: Function
+  },
+
+  setup(props, { attrs }) {
+    const $q = useQuasar()
+    const blurRef = shallowRef(null)
+
+    const isActive = computed(
+      () => props.stepper.modelValue === props.step.name
+    )
+
+    const isDisable = computed(() => {
+      const opt = props.step.disable
+      return opt === true || opt === ''
+    })
+
+    const isError = computed(() => {
+      const opt = props.step.error
+      return opt === true || opt === ''
+    })
+
+    const isDone = computed(() => {
+      const opt = props.step.done
+      return !isDisable.value && (opt === true || opt === '')
+    })
+
+    // the stepper offers header navigation and this step does not opt out of
+    // it; a disabled step is part of that set too - it takes the button role
+    // and announces itself as unavailable rather than dropping to inert text
+    const isNavTarget = computed(() => {
+      const opt = props.step.headerNav
+      return (
+        props.stepper.headerNav === true &&
+        (opt === true || opt === '' || opt === void 0)
+      )
+    })
+
+    // ...but only an enabled one is actually operable
+    const headerNav = computed(() => !isDisable.value && isNavTarget.value)
+
+    // the state icon, by priority: an active step wins over an erroring one,
+    // which wins over a done one; the step's own prop wins over the stepper's;
+    // 'none' opts out of the state icon (deferring to the prefix, then to the
+    // default icon), while no state at all yields undefined
+    const stateIcon = computed(() => {
+      if (isActive.value) {
+        return (
+          props.step.activeIcon ||
+          props.stepper.activeIcon ||
+          $q.iconSet.stepper.active
+        )
+      }
+
+      if (isError.value) {
+        return (
+          props.step.errorIcon ||
+          props.stepper.errorIcon ||
+          $q.iconSet.stepper.error
+        )
+      }
+
+      if (isDone.value) {
+        return (
+          props.step.doneIcon ||
+          props.stepper.doneIcon ||
+          $q.iconSet.stepper.done
+        )
+      }
+    })
+
+    const hasPrefix = computed(
+      () =>
+        Boolean(props.step.prefix) &&
+        (stateIcon.value === void 0 || stateIcon.value === 'none')
+    )
+
+    const icon = computed(() =>
+      stateIcon.value !== void 0 && stateIcon.value !== 'none'
+        ? stateIcon.value
+        : props.step.icon || props.stepper.inactiveIcon
+    )
+
+    const color = computed(() => {
+      const errorColor = isError.value
+        ? props.step.errorColor || props.stepper.errorColor
+        : void 0
+
+      if (isActive.value) {
+        const localColor =
+          props.step.activeColor ||
+          props.stepper.activeColor ||
+          props.step.color
+        return localColor !== void 0 ? localColor : errorColor
+      }
+
+      if (errorColor !== void 0) return errorColor
+
+      if (!isDisable.value && isDone.value) {
+        return (
+          props.step.doneColor ||
+          props.stepper.doneColor ||
+          props.step.color ||
+          props.stepper.inactiveColor
+        )
+      }
+
+      return props.step.color || props.stepper.inactiveColor
+    })
+
+    const classes = computed(
+      () =>
+        'q-stepper__tab col-grow flex items-center no-wrap relative-position' +
+        ` q-stepper__tab--${props.stepper.vertical ? 'vertical' : 'horizontal'}` +
+        (color.value !== void 0 ? ` text-${color.value}` : '') +
+        (isError.value
+          ? ' q-stepper__tab--error q-stepper__tab--error-with-' +
+            (hasPrefix.value ? 'prefix' : 'icon')
+          : '') +
+        (isActive.value ? ' q-stepper__tab--active' : '') +
+        (isDone.value ? ' q-stepper__tab--done' : '') +
+        (headerNav.value
+          ? ' q-stepper__tab--navigation q-focusable q-hoverable'
+          : '') +
+        (isDisable.value ? ' q-stepper__tab--disabled' : '')
+    )
+
+    const ripple = computed(() => props.stepper.headerNav && headerNav.value)
+
+    function onActivate() {
+      blurRef.value?.focus({ preventScroll: true })
+      if (!isActive.value) props.goToPanel(props.step.name)
+    }
+
+    function onKeyup(e) {
+      if ([13, 32].includes(e.keyCode)) {
+        if (!isActive.value) props.goToPanel(props.step.name)
+        stopAndPrevent(e)
+      }
+    }
+
+    return () => {
+      const data = {
+        class: classes.value,
+        'aria-current': isActive.value ? 'step' : void 0
+      }
+
+      if (isNavTarget.value) {
+        data.role = 'button'
+
+        if (isDisable.value) {
+          // perceivable as a disabled control, like QBtn and QChip, instead
+          // of losing the role and reaching AT as plain text
+          data.tabindex = -1
+          data['aria-disabled'] = 'true'
+        } else {
+          data.onClick = onActivate
+          data.onKeydown = preventSpace
+          data.onKeyup = onKeyup
+          data.tabindex = attrs.tabindex || 0
+        }
+      }
+
+      const child = [
+        h('div', { class: 'q-focus-helper', tabindex: -1, ref: blurRef }),
+
+        h(
+          'div',
+          {
+            class:
+              'q-stepper__dot row flex-center q-stepper__line relative-position'
+          },
+          [
+            h('span', { class: 'row flex-center' }, [
+              hasPrefix.value
+                ? props.step.prefix
+                : h(QIcon, { name: icon.value })
+            ])
+          ]
+        )
+      ]
+
+      if (props.step.title !== void 0 && props.step.title !== null) {
+        const content = [
+          h('div', { class: 'q-stepper__title' }, props.step.title)
+        ]
+
+        if (props.step.caption !== void 0 && props.step.caption !== null) {
+          content.push(
+            h('div', { class: 'q-stepper__caption' }, props.step.caption)
+          )
+        }
+
+        child.push(
+          h(
+            'div',
+            {
+              class: 'q-stepper__label q-stepper__line relative-position'
+            },
+            content
+          )
+        )
+      }
+
+      return withDirectives(h('div', data, child), [[Ripple, ripple.value]])
+    }
+  }
+})

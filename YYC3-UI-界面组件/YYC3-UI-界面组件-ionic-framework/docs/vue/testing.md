@@ -1,0 +1,101 @@
+# Vue Testing
+
+Ionic Framework supports multiple versions of Vue. As a result, we need to verify that Ionic works correctly with each of these Vue versions.
+
+## Type Checking
+
+Run `npm run typecheck` in `packages/vue` to check types. The rollup build only reports type errors as warnings, so a passing build does not mean the types are clean.
+
+## Syncing Local Changes
+
+The Vue test app supports syncing your locally built changes for validation.
+
+1. [Build](../../packages/vue/README.md#building) the `core`, `packages/vue`, and `packages/vue-router` projects using `npm run build`.
+2. [Build the Vue test app](#test-app-build-structure).
+3. Navigate to the built test app directory (e.g. `packages/vue/test/build/vue3`).
+4. Install dependencies using `npm install`.
+5. Sync your local changes using `npm run sync`.
+
+From here you can either build the application or start a local dev server. When re-syncing changes, you will need to wipe the build cache in `node_modules/.cache` and restart the dev server/re-build.
+
+## Running the Test Suites
+
+`packages/vue-router/scripts/test_runner.sh` orchestrates the Vue + Vue Router test suites end to end: it builds `@ionic/core`, `@ionic/vue`, and `@ionic/vue-router`, builds the test app, syncs local packages, runs Vitest unit tests in jsdom, then starts the Vite dev server and runs Cypress and Playwright e2e suites against it. By default it uses the `vue3` app, which targets the latest supported Vue version.
+
+```shell
+# Full run (build + Vitest + Cypress + Playwright)
+sh packages/vue-router/scripts/test_runner.sh
+
+# Reuse the existing build/<app> directory and run only Playwright
+sh packages/vue-router/scripts/test_runner.sh --skip-build --playwright-only
+
+# Filter Cypress to a single spec
+sh packages/vue-router/scripts/test_runner.sh --cypress-only --spec routing
+
+# Build/sync and serve the app for manual testing (no specs run)
+sh packages/vue-router/scripts/test_runner.sh --serve
+```
+
+Useful flags:
+
+| Flag | Effect |
+|------|--------|
+| `--skip-build` | Reuse existing `packages/vue/test/build/<app>/` instead of rebuilding |
+| `--vitest-only` | Run only the Vitest unit suite |
+| `--cypress-only` | Run only the Cypress e2e suite |
+| `--playwright-only` | Run only the Playwright e2e suite |
+| `--spec <pattern>` | Filter Cypress specs by file path |
+| `--pw-spec <pattern>` | Filter Playwright specs by file path |
+| `--app <name>` | Pick a different app variant from `packages/vue/test/apps/` (default: `vue3`, the latest supported Vue version) |
+| `--serve` | Start the dev server only and open the browser |
+
+## Test App Build Structure
+
+> [!NOTE]
+> Please confirm your current directory as `packages/vue/test` before proceeding with any of the following commands.
+
+Unlike other test applications, these test apps are broken up into multiple directories. These directories are then combined to create a single application. This allows us to share common application code, tests, etc so that each app is being tested the same way. Below details the different pieces that help create a single test application.
+
+**apps** - This directory contains partial applications for each version of Vue we want to test. Typically these directories contain new `package.json` files, `jest.config.js` files, and more. If you have code that is specific to a particular version of Vue, put it in this directory.
+
+**base** - This directory contains the base application that each test app will use. This is where tests, application logic, and more live. If you have code that needs to be run on every test app, put it in this directory.
+
+**build** - When the `apps` and `base` directories are merged, the final result is put in this directory. The `build` directory should never be committed to git.
+
+**build.sh** - This is the script that merges the `apps` and `base` directories and places the built application in the `build` directory.
+
+Usage:
+
+```shell
+# Build a test app using apps/vue3 as a reference
+./build.sh vue3
+```
+
+## How to modify test apps
+
+To add new tests, components, or pages, modify the `base` project. This ensures that tests are run for every tested version.
+
+If you want to add a version-specific change, add the change inside of the appropriate projects in `apps`. Be sure to replicate the directory structure. For example, if you are adding a new E2E test file called `test.e2e.ts` in `apps/vue3`, make sure you place the file in `apps/vue3/tests/e2e/test.e2e.ts`.
+
+### Version-specific tests
+
+If you need to add E2E tests that are only run on a specific version of the JS Framework, replicate the `VersionTest` component on each partial application. This ensures that tests for framework version X do not get run for framework version Y.
+
+### Testing Ionic Components
+
+`@ionic/vue` imports every component through `defineCustomElement` from `@ionic/core/components`, so every test runs against the custom elements build.
+
+These test apps are Cypress only, and Cypress retries assertions until they pass, so there is nothing to wait on manually today. If we add unit tests that assert against rendered DOM, use the `componentOnReady` helper exported from `@ionic/core` rather than calling `el.componentOnReady()` directly. That method does not exist on custom elements, so the direct call throws. The helper waits one animation frame instead, giving the component's inner contents a chance to render.
+
+When testing Ionic components, use the exported `componentOnReady` helper from `@ionic/core` instead of calling `el.componentOnReady()` directly. The helper works with both lazy-loaded and custom-element builds, making it more likely the component has finished rendering before making assertions against its rendered DOM or running accessibility tests.
+
+## Adding New Test Apps
+
+As we add support for new versions of Vue, we will also need to update this directory to test against new applications. The following steps can serve as a guide for adding new apps:
+
+1. Navigate to the built app for the most recent version of Vue that Ionic tests.
+2. Update the application to the latest version of Vue.
+3. Make note of any files that changed during the upgrade (`package.json`, `package-lock.json`, etc).
+4. Copy the changed files to a new directory in `apps`.
+5. Add a new entry to the matrix for `test-core-vue` in `./github/workflows/build.yml`. This will allow the new test app to run against all PRs.
+6. Commit these changes and push.

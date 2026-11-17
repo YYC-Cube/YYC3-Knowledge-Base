@@ -1,0 +1,485 @@
+import { mount } from '@vue/test-utils'
+import { describe, expect, test, vi } from 'vitest'
+import { defineComponent, h } from 'vue'
+
+import QKnob from './QKnob.js'
+
+function mountKnob(props = {}, options = {}) {
+  return mount(QKnob, {
+    ...options,
+    props: {
+      modelValue: 10,
+      ...props
+    }
+  })
+}
+
+/**
+ * The knob is given an explicit 100x100 box, so a click on the middle of
+ * its bottom edge is exactly half a turn: the middle of the min-max range.
+ */
+async function clickAtHalfTurn(wrapper) {
+  wrapper.element.getBoundingClientRect = () => ({
+    top: 0,
+    left: 0,
+    width: 100,
+    height: 100
+  })
+
+  await wrapper.trigger('click', { clientX: 50, clientY: 100 })
+}
+
+describe('[QKnob API]', () => {
+  describe('[Props]', () => {
+    describe('[(prop)name]', () => {
+      test('type String has effect', () => {
+        const wrapper = mountKnob({ name: 'car_id' })
+        const input = wrapper.get('input[type="hidden"]')
+
+        expect(input.attributes()).toMatchObject({
+          name: 'car_id',
+          value: '10'
+        })
+      })
+    })
+
+    describe('[(prop)size]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mountKnob()
+        const target = wrapper.get('.q-knob')
+
+        await wrapper.setProps({ size: '16px' })
+
+        expect(target.$style('font-size')).toBe('16px')
+      })
+    })
+
+    describe('[(prop)model-value]', () => {
+      test('type Number has effect', () => {
+        const wrapper = mountKnob({ modelValue: 42 })
+
+        expect(wrapper.get('.q-knob').attributes('aria-valuenow')).toBe('42')
+      })
+    })
+
+    describe('[(prop)min]', () => {
+      test('type Number has effect', () => {
+        const wrapper = mountKnob({ min: 5 })
+
+        expect(wrapper.get('.q-knob').attributes('aria-valuemin')).toBe('5')
+      })
+    })
+
+    describe('[(prop)max]', () => {
+      test('type Number has effect', () => {
+        const wrapper = mountKnob({ max: 50 })
+
+        expect(wrapper.get('.q-knob').attributes('aria-valuemax')).toBe('50')
+      })
+    })
+
+    describe('[(prop)inner-min]', () => {
+      test('type Number has effect', () => {
+        const wrapper = mountKnob({ innerMin: 8 })
+
+        expect(wrapper.get('.q-knob').attributes('aria-valuemin')).toBe('8')
+      })
+
+      test('anchors the values of a step', async () => {
+        const wrapper = mountKnob({
+          min: 0,
+          max: 10,
+          innerMin: 0.25,
+          step: 1,
+          modelValue: 0.25
+        })
+
+        // the valid values are 0.25, 1.25, 2.25 ...
+        await clickAtHalfTurn(wrapper)
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[5.25]])
+      })
+    })
+
+    describe('[(prop)inner-max]', () => {
+      test('type Number has effect', () => {
+        const wrapper = mountKnob({ innerMax: 80 })
+
+        expect(wrapper.get('.q-knob').attributes('aria-valuemax')).toBe('80')
+      })
+    })
+
+    describe('[(prop)step]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountKnob({ step: 5 })
+
+        await wrapper.trigger('keydown', { keyCode: 39 })
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[15]])
+      })
+
+      test.each([
+        ['a fractional min', { min: 0.5, max: 10.5, step: 1 }, 1.5, 5.5],
+        [
+          'a min that is not a multiple of it',
+          { min: 5, max: 105, step: 10 },
+          15,
+          55
+        ]
+      ])(
+        'keeps the values aligned to %s',
+        async (_, props, afterKey, afterClick) => {
+          const wrapper = mountKnob({ ...props, modelValue: props.min })
+
+          // the keyboard and the pointer land on the same values:
+          // min, min + step, min + 2 * step ...
+          await wrapper.trigger('keydown', { keyCode: 39 })
+          await clickAtHalfTurn(wrapper)
+
+          expect(wrapper.emitted('update:modelValue')).toStrictEqual([
+            [afterKey],
+            [afterClick]
+          ])
+        }
+      )
+
+      test('accepts a value written in exponent notation', async () => {
+        const wrapper = mountKnob({
+          min: 0,
+          max: 1e-6,
+          step: 1e-7,
+          modelValue: 0
+        })
+
+        await wrapper.trigger('keydown', { keyCode: 39 })
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[1e-7]])
+      })
+    })
+
+    describe('[(prop)reverse]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountKnob()
+        const svg = wrapper.get('svg')
+
+        expect(svg.$style('transform')).not.toContain('scaleX')
+
+        await wrapper.setProps({ reverse: true })
+
+        expect(svg.$style('transform')).toContain('scaleX(-1)')
+      })
+    })
+
+    describe('[(prop)instant-feedback]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountKnob()
+        const circle = wrapper.get('.q-circular-progress__circle')
+
+        expect(circle.$style('transition')).toContain('stroke-dashoffset')
+
+        await wrapper.setProps({ instantFeedback: true })
+
+        expect(circle.$style('transition')).toBe('')
+      })
+    })
+
+    describe('[(prop)color]', () => {
+      test('type String has effect', () => {
+        const wrapper = mountKnob({ color: 'primary' })
+
+        expect(wrapper.get('.q-circular-progress__circle').classes()).toContain(
+          'text-primary'
+        )
+      })
+    })
+
+    describe('[(prop)center-color]', () => {
+      test('type String has effect', () => {
+        const wrapper = mountKnob({ centerColor: 'primary' })
+
+        expect(wrapper.get('.q-circular-progress__center').classes()).toContain(
+          'text-primary'
+        )
+      })
+    })
+
+    describe('[(prop)track-color]', () => {
+      test('type String has effect', () => {
+        const wrapper = mountKnob({ trackColor: 'primary' })
+
+        expect(wrapper.get('.q-circular-progress__track').classes()).toContain(
+          'text-primary'
+        )
+      })
+    })
+
+    describe('[(prop)font-size]', () => {
+      test('type String has effect', () => {
+        const wrapper = mountKnob({
+          showValue: true,
+          fontSize: '1em'
+        })
+
+        expect(
+          wrapper.get('.q-circular-progress__text').$style('font-size')
+        ).toBe('1em')
+      })
+    })
+
+    describe('[(prop)rounded]', () => {
+      test('type Boolean has effect', () => {
+        const wrapper = mountKnob({ rounded: true })
+
+        expect(
+          wrapper
+            .get('.q-circular-progress__circle')
+            .attributes('stroke-linecap')
+        ).toBe('round')
+      })
+    })
+
+    describe('[(prop)thickness]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountKnob()
+        const circle = wrapper.get('.q-circular-progress__circle')
+        const initial = circle.attributes('stroke-width')
+
+        await wrapper.setProps({ thickness: 0.4 })
+
+        expect(circle.attributes('stroke-width')).not.toBe(initial)
+      })
+    })
+
+    describe('[(prop)angle]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountKnob()
+        const svg = wrapper.get('svg')
+        const initial = svg.$style('transform')
+
+        await wrapper.setProps({ angle: 45 })
+
+        expect(svg.$style('transform')).not.toBe(initial)
+        expect(svg.$style('transform')).toContain('-45deg')
+      })
+    })
+
+    describe('[(prop)show-value]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountKnob()
+
+        expect(wrapper.find('.q-circular-progress__text').exists()).toBe(false)
+
+        await wrapper.setProps({ showValue: true })
+
+        expect(wrapper.get('.q-circular-progress__text').text()).toBe('10')
+      })
+    })
+
+    describe('[(prop)tabindex]', () => {
+      test('type Number has effect', () => {
+        const wrapper = mountKnob({ tabindex: 2 })
+
+        expect(wrapper.get('.q-knob').attributes('tabindex')).toBe('2')
+      })
+
+      test('type String has effect', () => {
+        const wrapper = mountKnob({ tabindex: '-1' })
+
+        expect(wrapper.get('.q-knob').attributes('tabindex')).toBe('-1')
+      })
+    })
+
+    describe('[(prop)disable]', () => {
+      test('type Boolean has effect', () => {
+        const wrapper = mountKnob({ disable: true })
+        const target = wrapper.get('.q-knob')
+
+        expect(target.classes()).toContain('disabled')
+        expect(target.attributes('aria-disabled')).toBe('true')
+        expect(target.attributes('tabindex')).toBeUndefined()
+      })
+
+      test('blocks the pan gesture', async () => {
+        const wrapper = mountKnob({ disable: true })
+        const target = wrapper.get('.q-knob')
+
+        await target.trigger('mousedown', { button: 0 })
+
+        expect(target.element.__qtouchpan.event).toBeUndefined()
+
+        await wrapper.setProps({ disable: false })
+        await target.trigger('mousedown', { button: 0 })
+
+        expect(target.element.__qtouchpan.event).toBeDefined()
+
+        wrapper.unmount()
+      })
+
+      test('toggling it keeps the default slot content mounted', async () => {
+        const unmountedFn = vi.fn()
+        const Probe = defineComponent({
+          name: 'KnobProbe',
+          unmounted: unmountedFn,
+          render: () => h('span', 'Knob content')
+        })
+
+        const wrapper = mountKnob(
+          { showValue: true },
+          { slots: { default: () => h(Probe) } }
+        )
+        const probeEl = wrapper.get('span').element
+
+        await wrapper.setProps({ disable: true })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(probeEl)
+
+        await wrapper.setProps({ readonly: true, disable: false })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(probeEl)
+
+        await wrapper.setProps({ readonly: false })
+
+        expect(unmountedFn).not.toHaveBeenCalled()
+        expect(wrapper.get('span').element).toBe(probeEl)
+      })
+    })
+
+    describe('[(prop)readonly]', () => {
+      test('type Boolean has effect', () => {
+        const wrapper = mountKnob({ readonly: true })
+        const target = wrapper.get('.q-knob')
+
+        expect(target.classes()).not.toContain('disabled')
+        expect(target.attributes('aria-readonly')).toBe('true')
+        expect(target.attributes('tabindex')).toBeUndefined()
+      })
+    })
+  })
+
+  describe('[Slots]', () => {
+    describe('[(slot)default]', () => {
+      test('renders the content', () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = mountKnob(
+          { showValue: true },
+          {
+            slots: {
+              default: () => slotContent
+            }
+          }
+        )
+
+        expect(wrapper.html()).toContain(slotContent)
+      })
+    })
+  })
+
+  describe('[Events]', () => {
+    describe('[(event)update:model-value]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountKnob()
+
+        await wrapper.trigger('keydown', { keyCode: 39 })
+
+        expect(wrapper.emitted('update:modelValue')).toStrictEqual([[11]])
+      })
+    })
+
+    describe('[(event)change]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountKnob()
+
+        await wrapper.trigger('keydown', { keyCode: 39 })
+        await wrapper.trigger('keyup', { keyCode: 39 })
+
+        expect(wrapper.emitted('change')).toStrictEqual([[11]])
+      })
+    })
+
+    describe('[(event)drag-value]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountKnob()
+
+        await wrapper.trigger('click', {
+          clientX: 10,
+          clientY: 0
+        })
+
+        const eventList = wrapper.emitted()
+        expect(eventList).toHaveProperty('dragValue')
+        expect(eventList.dragValue).toHaveLength(1)
+
+        const [value] = eventList.dragValue[0]
+        expect(value).toBeTypeOf('number')
+      })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('a tap converges through its compatibility mouse events', async () => {
+      const wrapper = mountKnob()
+
+      // the full sequence a touch tap fires; the controlled prop never
+      // updates in this harness, yet the value must be handed over once
+      const pos = { clientX: 10, clientY: 0 }
+      await wrapper.trigger('mousedown', pos)
+      await wrapper.trigger('click', pos)
+
+      const updates = wrapper.emitted('update:modelValue')
+      expect(updates).toHaveLength(1)
+      expect(wrapper.emitted('change')).toStrictEqual([updates[0]])
+    })
+
+    test('change belongs to user adjustments alone', async () => {
+      // neither mounting...
+      const wrapper = mountKnob()
+      expect(wrapper.emitted('change')).toBeUndefined()
+
+      // ...nor a parent model write...
+      await wrapper.setProps({ modelValue: 50 })
+      expect(wrapper.emitted('change')).toBeUndefined()
+
+      // ...nor clamping an out-of-range model emits change; the clamped
+      // correction still flows back through update:modelValue
+      await wrapper.setProps({ modelValue: 500 })
+      expect(wrapper.emitted('update:modelValue')).toStrictEqual([[100]])
+      expect(wrapper.emitted('change')).toBeUndefined()
+
+      // an adjustment ending where it started stays silent too
+      await wrapper.setProps({ modelValue: 50 })
+      await wrapper.trigger('keydown', { keyCode: 39 })
+      await wrapper.trigger('keydown', { keyCode: 37 })
+      await wrapper.trigger('keyup', { keyCode: 37 })
+      expect(wrapper.emitted('change')).toBeUndefined()
+
+      // a real net adjustment still commits
+      await wrapper.trigger('keydown', { keyCode: 39 })
+      await wrapper.trigger('keyup', { keyCode: 39 })
+      expect(wrapper.emitted('change')).toStrictEqual([[51]])
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('a fall-through name lands on the slider element itself', () => {
+      // QKnob has no built-in name, so the only way to say what the value
+      // means is an attribute — and it has to reach the element carrying
+      // the slider role, not a wrapper around it
+      const wrapper = mountKnob({}, { attrs: { 'aria-label': 'Brush size' } })
+      const slider = wrapper.get('[role="slider"]')
+
+      expect(slider.attributes('aria-label')).toBe('Brush size')
+      expect(slider.attributes('aria-valuenow')).toBe('10')
+    })
+
+    test('the knob is a slider, not the progressbar it renders through', () => {
+      // QCircularProgress would otherwise claim role="progressbar"; a knob
+      // is an input, so its own role has to win
+      const wrapper = mountKnob()
+
+      expect(wrapper.attributes('role')).toBe('slider')
+      expect(wrapper.find('[role="progressbar"]').exists()).toBe(false)
+    })
+  })
+})

@@ -1,0 +1,250 @@
+---
+title: Slider
+description: Used to allow users to make selections from a range of values.
+links:
+  source: components/slider
+  storybook: components-slider--basic
+  recipe: slider
+  ark: https://ark-ui.com/docs/components/slider
+---
+
+<ExampleTabs name="slider-basic" />
+
+## Usage
+
+```tsx
+import { Slider } from "@chakra-ui/react"
+```
+
+```tsx
+<Slider.Root>
+  <Slider.Label />
+  <Slider.ValueText />
+  <Slider.Control>
+    <Slider.Track>
+      <Slider.Range />
+    </Slider.Track>
+    <Slider.Thumb>
+      <Slider.DraggingIndicator />
+      <Slider.HiddenInput />
+    </Slider.Thumb>
+    <Slider.MarkerGroup>
+      <Slider.Marker />
+    </Slider.MarkerGroup>
+  </Slider.Control>
+</Slider.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Shortcuts
+
+### `Slider.Thumbs`
+
+This component renders the `Slider.Thumb` and `Slider.HiddenInput` components
+for each value.
+
+The code below works:
+
+```tsx
+<Slider.Thumb index={0}>
+  <Slider.HiddenInput />
+</Slider.Thumb>
+```
+
+but this might be better if you don't need to customize the thumb:
+
+```tsx
+<Slider.Thumbs />
+```
+
+### `Slider.Marks`
+
+This component renders the `Slider.MarkerGroup` and `Slider.Marker` components
+for each value.
+
+The code below works:
+
+```tsx
+<Slider.MarkerGroup>
+  <Slider.Marker value={0} />
+  <Slider.Marker value={50} />
+</Slider.MarkerGroup>
+```
+
+but this might be better if you don't need to customize the marker:
+
+```tsx
+<Slider.Marks marks={[0, 50]} />
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the slider.
+
+<ExampleTabs name="slider-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to change the visual style of the slider.
+
+<ExampleTabs name="slider-with-variants" />
+
+### Colors
+
+Use the `colorPalette` prop to change the color of the slider.
+
+<ExampleTabs name="slider-with-colors" />
+
+### Label
+
+Use the `label` prop to add a label to the slider.
+
+<ExampleTabs name="slider-with-label" />
+
+### Range Slider
+
+Set the `value` or `defaultValue` prop to an array to create a range slider.
+
+<ExampleTabs name="slider-with-multiple-thumbs" />
+
+### Prevent Overlap
+
+Use the `minStepsBetweenThumbs` prop to avoid thumbs with the same value.
+
+<ExampleTabs name="slider-prevent-overlap" />
+
+### Collision Behavior
+
+Use the `thumbCollisionBehavior` prop to control how thumbs interact when they
+collide. Options are `"none"` (default), `"push"`, or `"swap"`.
+
+<ExampleTabs name="slider-with-collision-behavior" />
+
+### Customization
+
+Here's an example of customizing the thumb with custom icon and background.
+
+<ExampleTabs name="slider-customization" />
+
+### Value Text
+
+Use the `Slider.ValueText` component to show the current value of the slider.
+
+<ExampleTabs name="slider-with-value-text" />
+
+### Controlled
+
+Use the `value` and `onValueChange` props to control the value of the slider.
+
+<ExampleTabs name="slider-controlled" />
+
+### Store
+
+An alternative way to control the slider is to use the `RootProvider` component
+and the `useSlider` store hook.
+
+This way you can access the slider state and methods from outside the slider.
+
+<ExampleTabs name="slider-with-store" />
+
+### Hook Form
+
+Here's an example of how to integrate a slider with `react-hook-form`.
+
+<ExampleTabs name="slider-with-hook-form" />
+
+### Disabled
+
+Use the `disabled` prop to disable the slider.
+
+<ExampleTabs name="slider-disabled" />
+
+### Change End
+
+Use the `onValueChangeEnd` prop to listen to the end of the slider change.
+
+<ExampleTabs name="slider-change-end" />
+
+### Steps
+
+Use the `step` prop to set the step value of the slider.
+
+<ExampleTabs name="slider-with-step" />
+
+### Thumb Alignment
+
+Use the `thumbAlignment` and `thumbSize` prop to align the thumb within the
+track. By default, the thumb is aligned to the start of the track.
+
+<ExampleTabs name="slider-with-thumb-alignment" />
+
+### Marks
+
+Use the `marks` prop to display marks on the slider.
+
+<ExampleTabs name="slider-with-marks" />
+
+You can also add labels to the marks using the `marks` prop.
+
+<ExampleTabs name="slider-with-marks-and-label" />
+
+### Custom Marker Labels
+
+Compose `Slider.Marker`, `Slider.MarkerIndicator`, and `Slider.MarkerLabel` to
+customize each marker independently.
+
+<ExampleTabs name="slider-with-custom-marker-labels" />
+
+### Vertical
+
+Use the `orientation` prop to change the orientation of the slider.
+
+<ExampleTabs name="slider-vertical" />
+
+### Vertical with Marks
+
+Here's an example of a vertical slider with marks.
+
+<ExampleTabs name="slider-with-marks-vertical" />
+
+### Dragging Indicator
+
+Render the `Slider.DraggingIndicator` component to show an indicator or tooltip
+when dragging the thumb.
+
+> Pro Tip: You can render the `Slider.ValueText` component inside the
+> `Slider.DraggingIndicator` to show the current value.
+
+<ExampleTabs name="slider-with-dragging-indicator" />
+
+### Closed Component
+
+If you prefer a closed component composition, check out the snippet below.
+
+<ExampleCode name="slider-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add slider
+```
+
+## Props
+
+<PropTable component="Slider" part="Root" />
+
+## Explorer
+
+Explore the `Slider` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="slider-explorer-demo" />

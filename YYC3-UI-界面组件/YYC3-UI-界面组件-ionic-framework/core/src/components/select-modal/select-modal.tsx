@@ -1,0 +1,234 @@
+import { getIonMode } from '@global/ionic-global';
+import type { ComponentInterface } from '@stencil/core';
+import { Component, Element, Host, Prop, forceUpdate, h } from '@stencil/core';
+import { getOverlayLabelJustify, getOverlayLabelPlacement } from '@utils/overlay-control-label';
+import { safeCall } from '@utils/overlays';
+import { renderOptionLabel } from '@utils/select-option-render';
+import { getClassMap } from '@utils/theme';
+
+import type { CheckboxCustomEvent } from '../checkbox/checkbox-interface';
+import type { RadioGroupCustomEvent } from '../radio-group/radio-group-interface';
+import type { SelectOverlayOption } from '../select/select-interface';
+
+import type { SelectModalOption } from './select-modal-interface';
+
+@Component({
+  tag: 'ion-select-modal',
+  styleUrls: {
+    ios: 'select-modal.ios.scss',
+    md: 'select-modal.md.scss',
+    ionic: 'select-modal.md.scss',
+  },
+  scoped: true,
+})
+export class SelectModal implements ComponentInterface {
+  @Element() el!: HTMLIonSelectModalElement;
+
+  // Tracks the option that received Enter-keydown so keyup only
+  // dismisses when the press started on the same option. Prevents
+  // Enter on the triggering ion-select from auto-dismissing.
+  private pendingEnterTarget: HTMLElement | null = null;
+
+  @Prop() header?: string;
+
+  /**
+   * The text to display on the cancel button.
+   */
+  @Prop() cancelText = 'Close';
+
+  @Prop() multiple?: boolean;
+
+  @Prop() options: SelectModalOption[] = [];
+
+  private closeModal() {
+    const modal = this.el.closest('ion-modal');
+
+    if (modal) {
+      modal.dismiss();
+    }
+  }
+
+  private findOptionFromEvent(ev: CheckboxCustomEvent | RadioGroupCustomEvent) {
+    const { options } = this;
+    return options.find((o) => o.value === ev.target.value);
+  }
+
+  private getValues(ev?: CheckboxCustomEvent | RadioGroupCustomEvent): string | string[] | undefined {
+    const { multiple, options } = this;
+
+    if (multiple) {
+      // this is a modal with checkboxes (multiple value select)
+      // return an array of all the checked values
+      return options.filter((o) => o.checked).map((o) => o.value);
+    }
+
+    // this is a modal with radio buttons (single value select)
+    // return the value that was clicked, otherwise undefined
+    const option = ev ? this.findOptionFromEvent(ev) : null;
+    return option ? option.value : undefined;
+  }
+
+  private callOptionHandler(ev: CheckboxCustomEvent | RadioGroupCustomEvent) {
+    const option = this.findOptionFromEvent(ev);
+    const values = this.getValues(ev);
+    if (option?.handler) {
+      safeCall(option.handler, values);
+    }
+  }
+
+  private setChecked(ev: CheckboxCustomEvent): void {
+    const { multiple } = this;
+    const option = this.findOptionFromEvent(ev);
+
+    // this is a modal with checkboxes (multiple value select)
+    // we need to set the checked value for this option
+    if (multiple && option) {
+      option.checked = ev.detail.checked;
+    }
+  }
+
+  private renderRadioOptions() {
+    const mode = getIonMode(this);
+    const checked = this.options.filter((o) => o.checked).map((o) => o.value)[0];
+
+    return (
+      <ion-radio-group value={checked} onIonChange={(ev) => this.callOptionHandler(ev)}>
+        {this.options.map((option, index) => {
+          /**
+           * Cast to `SelectOverlayOption` to access rich content
+           * fields (`startContent`, `endContent`, `description`)
+           * that are passed through from `ion-select` but not
+           * part of the public `SelectModalOption` interface.
+           */
+          const richOption = option as SelectOverlayOption;
+          const hasRichContent = !!richOption.startContent || !!richOption.endContent || !!richOption.description;
+          const optionLabelOptions = {
+            id: `modal-option-${index}`,
+            label: richOption.text,
+            startContent: richOption.startContent,
+            endContent: richOption.endContent,
+            description: richOption.description,
+          };
+          const defaultLabelPlacement = getOverlayLabelPlacement(mode, 'radio', 'modal');
+          const defaultJustify = getOverlayLabelJustify(mode, 'radio', 'modal');
+
+          return (
+            <ion-item
+              lines="none"
+              // TODO FW-4784
+              disabled={option.disabled}
+              class={{
+                // TODO FW-4784
+                'item-radio-checked': option.value === checked,
+                ...getClassMap(option.cssClass),
+              }}
+            >
+              <ion-radio
+                class={{
+                  'select-option-has-rich-content': hasRichContent,
+                }}
+                value={option.value}
+                disabled={option.disabled}
+                justify={richOption.justify ?? defaultJustify}
+                labelPlacement={richOption.labelPlacement ?? defaultLabelPlacement}
+                onClick={() => this.closeModal()}
+                onKeyDown={(ev) => {
+                  if (ev.key === 'Enter' && !ev.repeat) {
+                    this.pendingEnterTarget = ev.currentTarget as HTMLElement;
+                  }
+                }}
+                onKeyUp={(ev) => {
+                  if (ev.key === ' ') {
+                    // Space selects and dismisses in one press.
+                    this.closeModal();
+                  } else if (ev.key === 'Enter') {
+                    const shouldClose = this.pendingEnterTarget === ev.currentTarget;
+                    this.pendingEnterTarget = null;
+                    if (shouldClose) {
+                      this.closeModal();
+                    }
+                  }
+                }}
+              >
+                {renderOptionLabel(optionLabelOptions, 'select-option-label')}
+              </ion-radio>
+            </ion-item>
+          );
+        })}
+      </ion-radio-group>
+    );
+  }
+
+  private renderCheckboxOptions() {
+    const mode = getIonMode(this);
+    return this.options.map((option, index) => {
+      /**
+       * Cast to `SelectOverlayOption` to access rich content
+       * fields (`startContent`, `endContent`, `description`)
+       * that are passed through from `ion-select` but not
+       * part of the public `SelectModalOption` interface.
+       */
+      const richOption = option as SelectOverlayOption;
+      const hasRichContent = !!richOption.startContent || !!richOption.endContent || !!richOption.description;
+      const optionLabelOptions = {
+        id: `modal-option-${index}`,
+        label: richOption.text,
+        startContent: richOption.startContent,
+        endContent: richOption.endContent,
+        description: richOption.description,
+      };
+      const defaultLabelPlacement = getOverlayLabelPlacement(mode, 'checkbox', 'modal');
+      const defaultJustify = getOverlayLabelJustify(mode, 'checkbox', 'modal');
+
+      return (
+        <ion-item
+          // TODO FW-4784
+          disabled={option.disabled}
+          class={{
+            // TODO FW-4784
+            'item-checkbox-checked': option.checked,
+            ...getClassMap(option.cssClass),
+          }}
+        >
+          <ion-checkbox
+            class={{
+              'select-option-has-rich-content': hasRichContent,
+            }}
+            value={option.value}
+            disabled={option.disabled}
+            checked={option.checked}
+            justify={richOption.justify ?? defaultJustify}
+            labelPlacement={richOption.labelPlacement ?? defaultLabelPlacement}
+            onIonChange={(ev) => {
+              this.setChecked(ev);
+              this.callOptionHandler(ev);
+              // TODO FW-4784
+              forceUpdate(this);
+            }}
+          >
+            {renderOptionLabel(optionLabelOptions, 'select-option-label')}
+          </ion-checkbox>
+        </ion-item>
+      );
+    });
+  }
+
+  render() {
+    return (
+      <Host class={getIonMode(this)}>
+        <ion-header>
+          <ion-toolbar>
+            {this.header !== undefined && <ion-title>{this.header}</ion-title>}
+
+            <ion-buttons slot="end">
+              <ion-button onClick={() => this.closeModal()}>{this.cancelText}</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-list>{this.multiple === true ? this.renderCheckboxOptions() : this.renderRadioOptions()}</ion-list>
+        </ion-content>
+      </Host>
+    );
+  }
+}

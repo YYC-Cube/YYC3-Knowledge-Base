@@ -1,0 +1,32 @@
+{
+  "mixins": ["components/header/use-header-footer"],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/layout/header-and-footer"
+  },
+
+  "props": {
+    "model-value": {
+      "examples": ["# v-model=\"footerState\""]
+    },
+
+    "reveal": {
+      "type": "Boolean",
+      "desc": "Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide footer",
+      "category": "behavior"
+    },
+
+    "elevated": {
+      "type": "Boolean",
+      "desc": "Adds a default shadow to the footer",
+      "category": "style"
+    },
+
+    "height-hint": {
+      "type": ["Number", "String"],
+      "desc": "When using SSR/SSG, you can optionally hint of the height (in pixels) of the QFooter",
+      "default": "50",
+      "category": "behavior"
+    }
+  }
+}

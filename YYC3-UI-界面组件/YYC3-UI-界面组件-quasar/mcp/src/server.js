@@ -1,0 +1,616 @@
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import { z } from 'zod'
+
+import {
+  API_PARTS,
+  MEMBER_PARTS,
+  findApiMembers,
+  listApi,
+  readApi,
+  readApiMarkdown,
+  readApiMembersMarkdown,
+  resolveApiName,
+  similarApiMembers,
+  similarApiNames
+} from './api.js'
+import {
+  DOCS_FORMAT,
+  extractSection,
+  listHeadings,
+  loadDocs,
+  normalizeRoute,
+  pageSize,
+  readPage,
+  routeFragment,
+  searchDocs,
+  similarRoutes
+} from './docs.js'
+import { BUNDLED_DOCS_SINCE, DOCS_PACKAGES } from './project.js'
+import { checkUpdates as defaultCheckUpdates } from './updates.js'
+import { version } from './version.js'
+
+const SITE_URL = 'https://quasar.dev'
+
+/**
+ * @param {string} text
+ * @returns {{ content: Array<{ type: 'text', text: string }> }}
+ */
+function text(value) {
+  return { content: [{ type: 'text', text: value }] }
+}
+
+/**
+ * @param {string} message
+ * @returns {{ content: Array<{ type: 'text', text: string }>, isError: true }}
+ */
+function failure(message) {
+  return { content: [{ type: 'text', text: message }], isError: true }
+}
+
+/**
+ * @param {import('./updates.js').UpdateState[]} updates
+ * @returns {string[]}
+ */
+function updateLines(updates) {
+  return updates
+    .filter(update => update.latest !== void 0)
+    .map(
+      update =>
+        `${update.name} ${update.latest} is available (installed: ${update.version}).`
+    )
+}
+
+/**
+ * The packages whose pages this server cannot serve for an app, and
+ * why, for a miss that may be one of theirs. Empty when every package
+ * is served.
+ *
+ * @param {import('./project.js').App} app
+ * @param {import('./docs.js').Docs} docs
+ * @returns {string}
+ */
+function unservedPackages(app, docs) {
+  const gaps = []
+  for (const name of DOCS_PACKAGES) {
+    if (docs.sources.some(source => source.name === name)) {
+      continue
+    }
+    const pkg = app.packages.find(installed => installed.name === name)
+    const other = docs.unreadable.find(slice => slice.name === name)
+    gaps.push(
+      pkg === void 0
+        ? `${name} is not installed in this project`
+        : other !== void 0
+          ? otherFormat(other)
+          : `${name} ${pkg.version} bundles no documentation (bundled since ${BUNDLED_DOCS_SINCE[name]}), upgrade it`
+    )
+  }
+  return gaps.length === 0 ? '' : ` Not available offline: ${gaps.join('; ')}.`
+}
+
+/**
+ * @param {{ name: string, version: string, format: number }} slice
+ * @returns {string}
+ */
+function otherFormat(slice) {
+  return (
+    `${slice.name} ${slice.version} bundles its documentation in format ${slice.format}, this server reads format ${DOCS_FORMAT}; ` +
+    `run \`npx -y --fetch-retries=0 @quasar/mcp@${slice.format}\` instead (the server's major version tracks the format)`
+  )
+}
+
+/** How many of the other apps of a workspace the instructions name. */
+const OTHER_APPS_SHOWN = 5
+
+/**
+ * @param {import('./project.js').App} app
+ * @returns {string}
+ */
+function appVersions(app) {
+  return app.packages.map(pkg => `${pkg.name} ${pkg.version}`).join(', ')
+}
+
+/**
+ * What the model reads at session start: which packages and versions
+ * the answers describe, what is missing, and how to use the tools.
+ *
+ * @param {import('./project.js').Project} project
+ * @param {import('./docs.js').Docs} docs The default app's.
+ * @param {import('./updates.js').UpdateState[]} updates
+ * @returns {string}
+ */
+export function buildInstructions(project, docs, updates) {
+  const [app, ...otherApps] = project.apps
+  const lines = [
+    app.dir === project.startDir
+      ? `Quasar Framework documentation and API, served from the packages installed in ${app.dir}.`
+      : `Quasar Framework documentation and API, served from the packages installed in ${app.name}, the Quasar app found below ${project.startDir}.`,
+    'Prefer these tools over memory or the web: the pages match the installed versions exactly.',
+    ''
+  ]
+  if (otherApps.length !== 0) {
+    const shown = otherApps
+      .slice(0, OTHER_APPS_SHOWN)
+      .map(other => `${other.name} (${appVersions(other)})`)
+    const more = otherApps.length - shown.length
+    lines.push(
+      `Other Quasar apps in this workspace: ${shown.join(', ')}${more > 0 ? ` and ${more} more` : ''}. The tools answer for the app named in their app argument (its schema lists them all) instead of the default; each answer opens with the app it describes.`,
+      ''
+    )
+  }
+
+  for (const name of DOCS_PACKAGES) {
+    const pkg = app.packages.find(installed => installed.name === name)
+    const other = docs.unreadable.find(slice => slice.name === name)
+    if (pkg === void 0) {
+      lines.push(`- ${name}: not installed in this project.`)
+    } else if (other !== void 0) {
+      lines.push(`- ${otherFormat(other)}.`)
+    } else if (pkg.docsDir === null) {
+      lines.push(
+        `- ${name} ${pkg.version}: installed, but this release bundles no documentation ` +
+          `(bundled since ${BUNDLED_DOCS_SINCE[name]}); suggest upgrading it to get the docs pages offline.`
+      )
+    } else {
+      const source = docs.sources.find(entry => entry.name === name)
+      lines.push(
+        `- ${name} ${pkg.version}: ${source?.pageCount ?? 0} documentation pages.`
+      )
+    }
+  }
+
+  const quasar = app.packages.find(pkg => pkg.name === 'quasar')
+  if (quasar?.apiDir) {
+    lines.push(
+      `- quasar ${quasar.version} API descriptors (components, plugins, directives, composables): get_api / list_api.`
+    )
+  }
+
+  lines.push(
+    '',
+    'Workflow: search_docs to find pages (each hit names the size of the page and the sections where the terms occur), get_page with section to read just that part (outline lists the sections; a whole component page can run to 25k tokens), get_api for the exact props, slots, events and methods of a component, plugin or directive.',
+    `Pages are routes of ${SITE_URL} (e.g. vue-components/button). Links inside pages are either .md siblings relative to the page's route or ${SITE_URL} URLs: get_page takes both as they appear.`
+  )
+
+  const available = updateLines(updates)
+  if (available.length !== 0) {
+    lines.push(
+      '',
+      'Updates available, tell the user (they upgrade with their package manager; for @quasar/mcp restart the server):',
+      ...available.map(line => `- ${line}`)
+    )
+  }
+
+  return lines.join('\n')
+}
+
+/**
+ * @param {{ project: import('./project.js').Project, checkUpdates?: typeof defaultCheckUpdates }} opts
+ * @returns {Promise<McpServer>}
+ */
+export async function createServer({
+  project,
+  checkUpdates = defaultCheckUpdates
+}) {
+  /**
+   * @typedef {object} Serving What answers for one app.
+   * @property {import('./project.js').App} app
+   * @property {import('./docs.js').Docs} docs
+   * @property {string | null} apiDir
+   * @property {string | null} apiDocsDir
+   */
+
+  /** @type {Map<string, Serving>} */
+  const loaded = new Map()
+  /**
+   * The default app, or the named one, indexed on first use.
+   *
+   * @param {string} [name]
+   * @returns {Serving}
+   */
+  const serving = name => {
+    const app =
+      name === void 0
+        ? project.apps[0]
+        : project.apps.find(candidate => candidate.name === name)
+    let state = loaded.get(app.name)
+    if (state === void 0) {
+      const docs = loadDocs(app.packages)
+      const quasar = app.packages.find(pkg => pkg.name === 'quasar')
+      state = {
+        app,
+        docs,
+        apiDir: quasar?.apiDir ?? null,
+        // the rendered API files come with the slice, and only a slice of
+        // this server's format is parsed
+        apiDocsDir: docs.sources.some(source => source.name === 'quasar')
+          ? quasar.docsDir
+          : null
+      }
+      loaded.set(app.name, state)
+    }
+    return state
+  }
+  const updates = await checkUpdates(project)
+
+  const server = new McpServer(
+    { name: 'quasar', version },
+    { instructions: buildInstructions(project, serving().docs, updates) }
+  )
+
+  const packageEnum = z.enum(DOCS_PACKAGES)
+  // a workspace with several apps: the tools take one by name, and
+  // every answer says which app it describes
+  const appNames = project.apps.map(app => app.name)
+  const appArg =
+    appNames.length > 1
+      ? {
+          app: z
+            .enum(appNames)
+            .optional()
+            .describe(
+              'The workspace app whose installed packages answer, instead of the default one named at session start'
+            )
+        }
+      : {}
+  /**
+   * A handler over the app the call names.
+   *
+   * @template {object} Args
+   * @param {(state: Serving, args: Args) => ReturnType<typeof text>} handler
+   * @returns {(args: Args & { app?: string }) => ReturnType<typeof text>}
+   */
+  const perApp =
+    handler =>
+    ({ app: name, ...args }) => {
+      const state = serving(name)
+      const result = handler(state, args)
+      return appNames.length === 1
+        ? result
+        : {
+            ...result,
+            content: [
+              {
+                type: 'text',
+                text: `Served from ${state.app.name}: ${appVersions(state.app)}`
+              },
+              ...result.content
+            ]
+          }
+    }
+  // nothing here writes; only check_updates leaves the machine
+  const localRead = { readOnlyHint: true, openWorldHint: false }
+  const remoteRead = { readOnlyHint: true, openWorldHint: true }
+
+  server.registerTool(
+    'list_pages',
+    {
+      title: 'List documentation pages',
+      description:
+        'Every documentation page available offline, as route, title and approximate size, grouped by the installed package that ships it. Prefer search_docs to find a page; this is the full index.',
+      annotations: localRead,
+      inputSchema: {
+        ...appArg,
+        package: packageEnum
+          .optional()
+          .describe('Only the pages shipped by this package'),
+        descriptions: z
+          .boolean()
+          .optional()
+          .describe(
+            "Add each page's one-line description (doubles the size of the listing)"
+          )
+      }
+    },
+    perApp(({ docs }, { package: packageName, descriptions = false }) => {
+      const lines = []
+      for (const source of docs.sources) {
+        if (packageName !== void 0 && source.name !== packageName) {
+          continue
+        }
+        lines.push(`# ${source.name} ${source.version}`, '')
+        for (const page of docs.pages.values()) {
+          if (page.packageName === source.name) {
+            lines.push(
+              `- ${page.route}: ${page.title} [${pageSize(page)}]${descriptions && page.desc ? ` (${page.desc})` : ''}`
+            )
+          }
+        }
+        lines.push('')
+      }
+      if (lines.length === 0) {
+        return failure(
+          'No documentation pages are installed. ' +
+            `The pages ship with quasar (since ${BUNDLED_DOCS_SINCE.quasar}) and @quasar/app-vite (since ${BUNDLED_DOCS_SINCE['@quasar/app-vite']}).`
+        )
+      }
+      return text(lines.join('\n').trim())
+    })
+  )
+
+  server.registerTool(
+    'search_docs',
+    {
+      title: 'Search the documentation',
+      description:
+        "Find documentation pages by keywords (component names, props, features, config options). Each hit names the approximate size of the page and the sections where the keywords occur: pass one as get_page's section to read only that part.",
+      annotations: localRead,
+      inputSchema: {
+        ...appArg,
+        query: z
+          .string()
+          .min(1)
+          .describe('Keywords, e.g. "table pagination" or "boot files"'),
+        package: packageEnum
+          .optional()
+          .describe("Only search this package's pages"),
+        limit: z
+          .number()
+          .int()
+          .min(1)
+          .max(50)
+          .optional()
+          .describe('Maximum hits (default 5)')
+      }
+    },
+    perApp(({ docs }, { query, package: packageName, limit }) => {
+      const hits = searchDocs(docs, query, { limit, packageName })
+      if (hits.length === 0) {
+        return text(
+          docs.pages.size === 0
+            ? 'No documentation pages are installed, nothing to search.'
+            : `No page matches "${query}". Try fewer or different keywords, or list_pages.`
+        )
+      }
+      return text(
+        hits
+          .map(({ page, sections }) => {
+            const lines = [`- ${page.route}: ${page.title} [${pageSize(page)}]`]
+            if (page.desc) lines.push(`  ${page.desc}`)
+            if (sections.length !== 0) {
+              lines.push(`  sections: ${sections.join(' | ')}`)
+            }
+            return lines.join('\n')
+          })
+          .join('\n')
+      )
+    })
+  )
+
+  server.registerTool(
+    'get_page',
+    {
+      title: 'Read a documentation page',
+      description:
+        'The markdown of one documentation page, by route (as listed by list_pages or search_docs, a link from another page, or a quasar.dev URL; a #fragment selects that section). Pass a heading to get only that section, or outline to get the headings and pick one: whole component pages are long.',
+      annotations: localRead,
+      inputSchema: {
+        ...appArg,
+        route: z
+          .string()
+          .min(1)
+          .describe('Page route, e.g. vue-components/button'),
+        section: z
+          .string()
+          .optional()
+          .describe(
+            'A heading of the page, to return only that section, its subsections included (case does not matter, the #anchor form works too); omit for the whole page'
+          ),
+        outline: z
+          .boolean()
+          .optional()
+          .describe(
+            'Only the title and headings of the page, to pick a section'
+          )
+      }
+    },
+    perApp(({ app, docs }, { route: input, section, outline = false }) => {
+      const route = normalizeRoute(input)
+      const page = docs.pages.get(route)
+      if (page === void 0) {
+        const similar = similarRoutes(docs, route)
+        return failure(
+          `No page at "${route}".` +
+            (similar.length !== 0
+              ? ` Similar routes: ${similar.join(', ')}.`
+              : ' Use search_docs or list_pages to find the route.') +
+            unservedPackages(app, docs)
+        )
+      }
+      const markdown = readPage(page)
+      if (outline) {
+        return text(
+          [
+            `# ${page.title}`,
+            ...listHeadings(markdown).map(
+              heading => `${'#'.repeat(heading.level)} ${heading.text}`
+            )
+          ].join('\n')
+        )
+      }
+      if (section === void 0) {
+        // a pasted link points at a heading, or at an anchor no heading
+        // carries (an example, an API card): then the page it is
+        const fragment = routeFragment(input)
+        return text(
+          (fragment !== null ? extractSection(markdown, fragment) : null) ??
+            markdown
+        )
+      }
+      const extracted = extractSection(markdown, section)
+      if (extracted === null) {
+        return failure(
+          `No section "${section}" in ${route}. Its headings: ${listHeadings(
+            markdown
+          )
+            .map(heading => heading.text)
+            .join(' | ')}`
+        )
+      }
+      return text(extracted)
+    })
+  )
+
+  server.registerTool(
+    'list_api',
+    {
+      title: 'List API descriptors',
+      description:
+        'The names every get_api call accepts: Quasar components (QBtn, QTable, ...), plugins (Notify, Dialog, ...), directives (Ripple, ...) and utilities.',
+      annotations: localRead,
+      inputSchema: appArg
+    },
+    perApp(({ apiDir }) => {
+      if (apiDir === null) {
+        return failure(
+          'quasar is not installed in this project, so there is no API to list.'
+        )
+      }
+      return text(listApi(apiDir).join('\n'))
+    })
+  )
+
+  server.registerTool(
+    'get_api',
+    {
+      title: 'Get an API descriptor',
+      description:
+        'The exact API of a Quasar component, plugin or directive as installed: props, slots, events, methods (with types, defaults and descriptions), as the documentation site presents it. Pass part for one section, member for one prop, slot, event or method (the cheapest call by far), format "json" for the raw descriptor.',
+      annotations: localRead,
+      inputSchema: {
+        ...appArg,
+        name: z
+          .string()
+          .min(1)
+          .describe('Descriptor name, e.g. QBtn, Notify, Ripple'),
+        part: z
+          .enum(API_PARTS)
+          .optional()
+          .describe('One section of the descriptor; omit for all of it'),
+        member: z
+          .string()
+          .optional()
+          .describe(
+            'One prop, slot, event or method by name (pagination, body-cell, update:model-value, toggleFullscreen; case and punctuation do not matter); with part when the name exists in several'
+          ),
+        format: z
+          .enum(['markdown', 'json'])
+          .optional()
+          .describe(
+            'markdown (default): the compact form the documentation site inlines; json: the raw descriptor'
+          )
+      }
+    },
+    perApp(
+      (
+        { apiDir, apiDocsDir },
+        { name: input, part, member, format = 'markdown' }
+      ) => {
+        if (apiDir === null) {
+          return failure(
+            'quasar is not installed in this project, so there is no API to serve.'
+          )
+        }
+        const name = resolveApiName(apiDir, input)
+        if (name === null) {
+          const similar = similarApiNames(apiDir, input)
+          return failure(
+            `No API descriptor named "${input}".` +
+              (similar.length !== 0
+                ? ` Similar names: ${similar.join(', ')}.`
+                : ' Use list_api for the available names.')
+          )
+        }
+        const api = readApi(apiDir, name)
+        if (api === null) {
+          return failure(`The ${name} descriptor could not be read.`)
+        }
+        if (part !== void 0 && api[part] === void 0) {
+          const parts = API_PARTS.filter(known => api[known] !== void 0)
+          return failure(
+            `${name} has no "${part}". It has: ${parts.join(', ')}.`
+          )
+        }
+        if (member !== void 0) {
+          if (part !== void 0 && !MEMBER_PARTS.includes(part)) {
+            return failure(
+              `"${part}" has no named members; member goes with ${MEMBER_PARTS.join(', ')}.`
+            )
+          }
+          const members = findApiMembers(api, member, part)
+          if (members.length === 0) {
+            const similar = similarApiMembers(api, member, part)
+            return failure(
+              `${name} has no member named "${member}"${part === void 0 ? '' : ` in ${part}`}.` +
+                (similar.length !== 0
+                  ? ` Similar: ${similar.join(', ')}.`
+                  : ' Pass part for the full list of a section.')
+            )
+          }
+          const markdown =
+            format === 'markdown' && apiDocsDir !== null
+              ? readApiMembersMarkdown(apiDocsDir, name, members)
+              : null
+          if (markdown !== null) {
+            return text(markdown)
+          }
+          const picked = { name }
+          for (const found of members) {
+            picked[found.part] ??= {}
+            picked[found.part][found.name] = api[found.part][found.name]
+          }
+          return text(JSON.stringify(picked, null, 1))
+        }
+        // The rendered form ships with the docs slice (quasar v2.33+); a
+        // release without it, or a part the renderer leaves out when
+        // empty, gets the JSON.
+        const markdown =
+          format === 'markdown' && apiDocsDir !== null
+            ? readApiMarkdown(apiDocsDir, name, part)
+            : null
+        if (markdown !== null) {
+          return text(markdown)
+        }
+        return text(
+          JSON.stringify(
+            part === void 0 ? { name, ...api } : { name, [part]: api[part] },
+            null,
+            1
+          )
+        )
+      }
+    )
+  )
+
+  server.registerTool(
+    'check_updates',
+    {
+      title: 'Check for updates',
+      description:
+        'Whether newer releases of quasar, @quasar/app-vite or this server exist, by querying the npm registry. Newer docs come with the newer packages.',
+      annotations: remoteRead,
+      inputSchema: {}
+    },
+    async () => {
+      const state = await checkUpdates(project, { refresh: true })
+      const available = updateLines(state)
+      const installed = state
+        .map(entry => `${entry.name} ${entry.version}`)
+        .join(', ')
+      if (available.length === 0) {
+        return text(
+          `Up to date (or the registry could not be reached): ${installed}.`
+        )
+      }
+      return text(
+        [
+          ...available,
+          '',
+          "Upgrade the packages with the project's package manager; @quasar/mcp picks up its new release on the next server start (the documented npx form does that by itself)."
+        ].join('\n')
+      )
+    }
+  )
+
+  return server
+}

@@ -1,0 +1,143 @@
+export default {
+  isoName: 'id',
+  nativeName: 'Bahasa Indonesia',
+  label: {
+    clear: 'Bersihkan',
+    ok: 'OK',
+    cancel: 'Batal',
+    close: 'Tutup',
+    set: 'Set',
+    select: 'Pilih',
+    reset: 'Reset',
+    remove: 'Copot',
+    update: 'Perbarui',
+    create: 'Buat',
+    search: 'Cari',
+    filter: 'Saring',
+    refresh: 'Segarkan',
+    minimum: 'Minimum',
+    maximum: 'Maksimum',
+    range: 'Rentang',
+    noValue: 'Tidak ada nilai',
+    resize: 'Ubah ukuran',
+    expand: label => (label ? `Perluas "${label}"` : 'Mengembangkan'),
+    collapse: label => (label ? `Ciutkan "${label}"` : 'Jatuh')
+  },
+  date: {
+    days: "Minggu_Senin_Selasa_Rabu_Kamis_Jum'at_Sabtu".split('_'),
+    daysShort: 'Min_Sen_Sel_Rab_Kam_Jum_Sab'.split('_'),
+    months:
+      'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember'.split(
+        '_'
+      ),
+    monthsShort: 'Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nov_Des'.split('_'),
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+    format24h: true,
+    pluralDay: 'hari',
+    prevMonth: 'Bulan sebelumnya',
+    nextMonth: 'Bulan berikutnya',
+    prevYear: 'Tahun sebelumnya',
+    nextYear: 'Tahun berikutnya',
+    today: 'Hari ini',
+    prevRangeYears: range => `${range} tahun sebelumnya`,
+    nextRangeYears: range => `${range} tahun berikutnya`,
+    hour: 'Jam',
+    minute: 'Menit',
+    second: 'Detik',
+    now: 'Waktu saat ini'
+  },
+  table: {
+    noData: 'Tidak ada data tersedia',
+    noResults: 'Tidak ada yang cocok',
+    loading: 'Memuat...',
+    selectedRecords: rows =>
+      rows > 1
+        ? rows + ' baris terpilih.'
+        : (rows === 0 ? 'tidak ada' : '1') + ' baris terpilih.',
+    recordsPerPage: 'Baris per halaman:',
+    allRows: 'Semua',
+    pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
+    columns: 'Kolom',
+    selectAllRows: 'Pilih semua baris',
+    selectRow: 'Pilih baris'
+  },
+  pagination: {
+    label: 'Penomoran halaman',
+    first: 'Halaman pertama',
+    prev: 'Halaman sebelumnya',
+    next: 'Halaman berikutnya',
+    last: 'Halaman terakhir'
+  },
+  carousel: {
+    prevSlide: 'Slide sebelumnya',
+    nextSlide: 'Slide berikutnya'
+  },
+  colorPicker: {
+    spectrum: 'Spektrum',
+    tune: 'Penyetelan',
+    palette: 'Palet',
+    value: 'Nilai warna',
+    hue: 'Rona',
+    alpha: 'Keburaman',
+    saturation: 'Saturasi',
+    brightness: 'Kecerahan'
+  },
+  uploader: {
+    addFiles: 'Pilih berkas',
+    upload: 'Unggah berkas',
+    abort: 'Batalkan unggahan',
+    removeQueued: 'Hapus berkas dalam antrean',
+    removeUploaded: 'Hapus berkas terunggah',
+    removeFile: 'Hapus berkas'
+  },
+  editor: {
+    toolbar: 'Bilah alat penyunting',
+    url: 'URL',
+    bold: 'Tebal',
+    italic: 'Miring',
+    strikethrough: 'Coret',
+    underline: 'Garis Bawah',
+    unorderedList: 'Daftar tak Tersusun',
+    orderedList: 'Daftar Tersusun',
+    subscript: 'Subskrip',
+    superscript: 'Superskrip',
+    hyperlink: 'Hyperlink',
+    toggleFullscreen: 'Alihkan Layar Penuh',
+    quote: 'Kutip',
+    left: 'Rata Kiri',
+    center: 'Rata Tengah',
+    right: 'Rata Kanan',
+    justify: 'Rata Sisi',
+    print: 'Cetak',
+    outdent: 'Kurangi Indentasi',
+    indent: 'Tambah indentasi',
+    removeFormat: 'Hilangkan Pemformatan',
+    formatting: 'Pemformatan',
+    fontSize: 'Ukuran Huruf',
+    align: 'Rata',
+    hr: 'Masukkan Aturan Horizontal',
+    undo: 'Urungkan',
+    redo: 'Ulangi',
+    heading1: 'Tajuk 1',
+    heading2: 'Tajuk 2',
+    heading3: 'Tajuk 3',
+    heading4: 'Tajuk 4',
+    heading5: 'Tajuk 5',
+    heading6: 'Tajuk 6',
+    paragraph: 'Paragraf',
+    code: 'Kode',
+    size1: 'Sangat Kecil',
+    size2: 'Agak Kecil',
+    size3: 'Normal',
+    size4: 'Agak Besar',
+    size5: 'Besar',
+    size6: 'Sangat Besar',
+    size7: 'Maksimum',
+    defaultFont: 'Huruf Bawaan',
+    viewSource: 'Lihat sumber'
+  },
+  tree: {
+    noNodes: 'Tak ada node tersedia',
+    noResults: 'Tak ditemukan node yang cocok'
+  }
+}

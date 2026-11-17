@@ -1,0 +1,44 @@
+.q-circular-progress
+  display: inline-block
+  position: relative
+  vertical-align: middle
+
+  width: 1em
+  height: 1em
+  line-height: 1
+
+  // relies on the root's explicit width/height: they keep the box
+  // identical under the size containment applied while offscreen
+  content-visibility: auto
+
+  &.q-focusable
+    border-radius: 50%
+
+  &__svg
+    width: 100%
+    height: 100%
+
+  &__text
+    font-size: .25em
+
+  &--indeterminate
+    .q-circular-progress__circle
+      stroke-dasharray: 1 400
+      stroke-dashoffset: 0
+      // both animations share the circle: a transform ticking on the
+      // parent svg makes every frame's recalc walk the subtree,
+      // tripling the style cost
+      transform-box: fill-box
+      transform-origin: center
+      animation: q-spin 2s linear infinite, q-circular-progress-circle 1.5s ease-in-out infinite #{"/* rtl:ignore */"}
+
+@keyframes q-circular-progress-circle
+  0%
+    stroke-dasharray: 1, 400
+    stroke-dashoffset: 0
+  50%
+    stroke-dasharray: 400, 400
+    stroke-dashoffset: -100
+  100%
+    stroke-dasharray: 400, 400
+    stroke-dashoffset: -300

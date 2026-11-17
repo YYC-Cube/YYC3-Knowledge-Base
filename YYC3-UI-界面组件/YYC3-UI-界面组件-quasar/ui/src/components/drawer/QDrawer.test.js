@@ -1,0 +1,1375 @@
+import { flushPromises, mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { defineComponent, h, onMounted, onUnmounted } from 'vue'
+
+import { getRouter } from 'testing/runtime/router.js'
+import { client } from '../../plugins/platform/Platform.js'
+import Screen from '../../plugins/screen/Screen.js'
+import QAvatar from '../avatar/QAvatar.js'
+import QIcon from '../icon/QIcon.js'
+import QItem from '../item/QItem.js'
+import QItemSection from '../item/QItemSection.js'
+import QLayout from '../layout/QLayout.js'
+import QDrawer from './QDrawer.js'
+
+let activeWrapper
+
+beforeEach(() => {
+  vi.useFakeTimers()
+  Screen.width = 1024
+  Screen.height = 768
+})
+
+afterEach(() => {
+  activeWrapper?.unmount()
+  activeWrapper = void 0
+  vi.clearAllTimers()
+  vi.useRealTimers()
+  vi.restoreAllMocks()
+})
+
+/**
+ * QDrawer only works as a child of QLayout, so everything gets mounted
+ * through one. The props of both are held by the host component, which
+ * makes them settable through wrapper.setProps().
+ */
+function mountDrawer(drawerProps, slots, mountOptions) {
+  drawerProps ||= {}
+  mountOptions ||= {}
+
+  activeWrapper = mount(
+    defineComponent({
+      props: { drawerProps: Object, layoutProps: Object },
+      setup(componentProps, { slots: componentSlots }) {
+        return () =>
+          h(QLayout, componentProps.layoutProps, {
+            default: () =>
+              h(QDrawer, componentProps.drawerProps, componentSlots)
+          })
+      }
+    }),
+    {
+      props: { drawerProps, layoutProps: {} },
+      slots: slots || { default: () => 'Drawer content' },
+      attachTo: document.body,
+      ...mountOptions
+    }
+  )
+
+  return activeWrapper
+}
+
+/**
+ * The "one drawer per side" cases, mounted through a single QLayout so
+ * that both drawers register themselves with the same layout instance.
+ */
+function mountTwoDrawers(leftProps, rightProps) {
+  activeWrapper = mount(
+    defineComponent({
+      props: { leftProps: Object, rightProps: Object },
+      setup(componentProps) {
+        return () =>
+          h(QLayout, null, {
+            default: () => [
+              h(QDrawer, { side: 'left', ...componentProps.leftProps }),
+              h(QDrawer, { side: 'right', ...componentProps.rightProps })
+            ]
+          })
+      }
+    }),
+    {
+      props: { leftProps, rightProps },
+      attachTo: document.body
+    }
+  )
+
+  return activeWrapper
+}
+
+function getDrawer(wrapper) {
+  return wrapper.get('aside.q-drawer')
+}
+
+function getDrawerComponent(wrapper) {
+  return wrapper.findComponent(QDrawer)
+}
+
+function getContent(wrapper) {
+  return wrapper.get('.q-drawer__content')
+}
+
+/**
+ * The width the drawer hands to its CSS (and to user CSS) through the
+ * --q-drawer-width custom property.
+ */
+function getDrawerWidth(wrapper) {
+  return getDrawer(wrapper).element.style.getPropertyValue('--q-drawer-width')
+}
+
+async function settle() {
+  await flushPromises()
+  await vi.runAllTimersAsync()
+}
+
+function setDrawerProps(wrapper, drawerProps) {
+  return wrapper.setProps({ drawerProps })
+}
+
+/**
+ * A standard layout is as wide as the window, which is what decides
+ * whether the drawer is below its breakpoint or not.
+ */
+async function setLayoutWidth(wrapper, width) {
+  Screen.width = width
+  await settle()
+}
+
+// the native one: a test running fake timers still needs real frames
+// for the ResizeObserver to report
+const nativeRequestAnimationFrame = window.requestAnimationFrame.bind(window)
+
+function frames(count) {
+  return new Promise(resolve => {
+    const step = () => {
+      count--
+      if (count > 0) {
+        nativeRequestAnimationFrame(step)
+      } else {
+        resolve()
+      }
+    }
+    nativeRequestAnimationFrame(step)
+  })
+}
+
+/**
+ * The page width, as the layout's own ResizeObserver reports it: on a
+ * real frame no matter the fake timers, then debounced.
+ */
+async function setPageWidth(wrapper, width) {
+  wrapper.get('.q-layout').element.style.width = `${width}px`
+  await frames(2)
+  await settle()
+}
+
+async function mountReadyDrawer(drawerProps, slots, mountOptions) {
+  const wrapper = mountDrawer(drawerProps, slots, mountOptions)
+  await settle()
+  return wrapper
+}
+
+/**
+ * A one-finger touch pan on an element, resolving to the touchmove so
+ * the test can see whether the gesture cancelled it. The lifted finger
+ * travels in the touchend's changedTouches, as in a browser, which is
+ * where the gesture reads its final position from.
+ */
+function touchPan(el, x, y) {
+  const touch = (type, clientX = 0, clientY = 0) => {
+    const list = [new Touch({ identifier: 1, target: el, clientX, clientY })]
+
+    return new TouchEvent(type, {
+      bubbles: true,
+      cancelable: true,
+      touches: type === 'touchend' ? [] : list,
+      changedTouches: list
+    })
+  }
+
+  el.dispatchEvent(touch('touchstart'))
+  const move = touch('touchmove', x, y)
+  el.dispatchEvent(move)
+  el.dispatchEvent(touch('touchend', x, y))
+
+  return move
+}
+
+/**
+ * A slot child that counts its own lifecycle, to prove the drawer never
+ * re-creates its content.
+ */
+function makeContentProbe() {
+  const counters = { setup: 0, mounted: 0, unmounted: 0 }
+
+  const Probe = defineComponent({
+    name: 'DrawerContentProbe',
+    setup() {
+      counters.setup++
+      onMounted(() => {
+        counters.mounted++
+      })
+      onUnmounted(() => {
+        counters.unmounted++
+      })
+      return () => h('div', 'probe')
+    }
+  })
+
+  return { counters, Probe }
+}
+
+/**
+ * The usual navigation item: an icon (or an avatar) in its avatar
+ * section, then a label. Mini mode hides the label and keeps the icon.
+ */
+function iconItemSlot(sideContent) {
+  sideContent ||= () => h(QIcon, { name: 'inbox' })
+
+  return {
+    default: () =>
+      h(QItem, null, () => [
+        h(QItemSection, { avatar: true }, sideContent),
+        h(QItemSection, null, () => 'Inbox')
+      ])
+  }
+}
+
+/**
+ * How far the item's icon (or avatar) sits from each edge of the drawer's
+ * content box.
+ */
+function getIconInsets(wrapper) {
+  const content = getContent(wrapper).element.getBoundingClientRect()
+  const icon = wrapper.get('.q-icon, .q-avatar').element.getBoundingClientRect()
+
+  return { left: icon.left - content.left, right: content.right - icon.right }
+}
+
+async function pressEscapeKey() {
+  window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+  window.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 27 }))
+  await settle()
+}
+
+describe('[QDrawer API]', () => {
+  describe('[Props]', () => {
+    describe('[(prop)model-value]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: false })
+
+        // a hidden left drawer is parked outside of the viewport
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          'translateX(-300px)'
+        )
+
+        await setDrawerProps(wrapper, { modelValue: true })
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+      })
+
+      test('type null has effect', async () => {
+        // a null model leaves the drawer in charge of its own state
+        const wrapper = await mountReadyDrawer({ modelValue: null })
+
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          'translateX(-300px)'
+        )
+
+        getDrawerComponent(wrapper).vm.show()
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+      })
+    })
+
+    describe('[(prop)side]', () => {
+      async function testSide(propVal) {
+        const wrapper = await mountReadyDrawer({
+          side: propVal,
+          modelValue: false
+        })
+
+        expect(getDrawer(wrapper).classes()).toContain(`q-drawer--${propVal}`)
+
+        // it hides towards its own side of the screen
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          `translateX(${propVal === 'left' ? '-' : ''}300px)`
+        )
+
+        await setDrawerProps(wrapper, { side: propVal, modelValue: true })
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+      }
+
+      test('value "left" has effect', async () => {
+        await testSide('left')
+      })
+
+      test('value "right" has effect', async () => {
+        await testSide('right')
+      })
+
+      test('only accepts the documented values', () => {
+        const { validator, default: defaultValue } = QDrawer.props.side
+
+        expect(validator(defaultValue)).toBe(true)
+        expect(validator('right')).toBe(true)
+        expect(validator('nowhere')).toBe(false)
+      })
+    })
+
+    describe('[(prop)overlay]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+        expect(getDrawer(wrapper).classes()).not.toContain('q-drawer--on-top')
+        expect(getDrawerComponent(wrapper).emitted('onLayout')).toStrictEqual([
+          [true]
+        ])
+
+        await setDrawerProps(wrapper, { modelValue: true, overlay: true })
+        await settle()
+
+        // an overlay drawer does not take part in the layout anymore
+        expect(getDrawer(wrapper).classes()).toEqual(
+          expect.arrayContaining(['q-drawer--on-top', 'fixed'])
+        )
+        expect(getDrawerComponent(wrapper).emitted('onLayout')).toStrictEqual([
+          [true],
+          [false]
+        ])
+      })
+    })
+
+    describe('[(prop)width]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 250
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        expect(getDrawerWidth(wrapper)).toBe('300px')
+        // which is what it renders at
+        expect(getComputedStyle(getDrawer(wrapper).element).width).toBe('300px')
+
+        await setDrawerProps(wrapper, { modelValue: true, width: propVal })
+        await settle()
+
+        expect(getDrawerWidth(wrapper)).toBe(`${propVal}px`)
+      })
+    })
+
+    describe('[(prop)mini]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+
+        await setDrawerProps(wrapper, { modelValue: true, mini: true })
+        await settle()
+
+        expect(getDrawer(wrapper).classes()).toContain('q-drawer--mini')
+        expect(getDrawer(wrapper).classes()).not.toContain('q-drawer--standard')
+        // the mini width takes over
+        expect(getDrawerWidth(wrapper)).toBe('57px')
+      })
+
+      test('keeps the item icon where the standard layout has it', async () => {
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true, mini: true },
+          iconItemSlot()
+        )
+
+        const miniInset = getIconInsets(wrapper).left
+
+        await setDrawerProps(wrapper, { modelValue: true, mini: false })
+        await settle()
+
+        // the standard layout must not move the icon (nothing to
+        // "slide" while the drawer expands and contracts)
+        expect(getIconInsets(wrapper).left).toBe(miniInset)
+      })
+
+      test('centers whatever the item holds in its side section', async () => {
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true, mini: true, bordered: true },
+          iconItemSlot(() => h(QAvatar, { color: 'primary' }, () => 'A'))
+        )
+
+        const insets = getIconInsets(wrapper)
+        expect(insets.left).toBe(insets.right)
+      })
+    })
+
+    describe('[(prop)mini-width]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 100
+        const wrapper = await mountReadyDrawer({ modelValue: true, mini: true })
+
+        expect(getDrawerWidth(wrapper)).toBe('57px')
+
+        await setDrawerProps(wrapper, {
+          modelValue: true,
+          mini: true,
+          miniWidth: propVal
+        })
+        await settle()
+
+        expect(getDrawerWidth(wrapper)).toBe(`${propVal}px`)
+      })
+
+      test('centers the item icon within a custom width', async () => {
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true, mini: true, miniWidth: 101, bordered: true },
+          iconItemSlot()
+        )
+
+        const insets = getIconInsets(wrapper)
+        expect(insets.left).toBe(insets.right)
+      })
+    })
+
+    describe('[(prop)mini-to-overlay]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true, mini: true })
+
+        expect(getDrawer(wrapper).classes()).not.toContain('q-drawer--on-top')
+
+        await setDrawerProps(wrapper, {
+          modelValue: true,
+          mini: true,
+          miniToOverlay: true
+        })
+        await settle()
+
+        // it floats above the page instead of pushing it
+        expect(getDrawer(wrapper).classes()).toEqual(
+          expect.arrayContaining(['q-drawer--on-top', 'fixed'])
+        )
+      })
+    })
+
+    describe('[(prop)no-mini-animation]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({
+          modelValue: true,
+          noMiniAnimation: true
+        })
+
+        await setDrawerProps(wrapper, {
+          modelValue: true,
+          noMiniAnimation: true,
+          mini: true
+        })
+        await flushPromises()
+
+        expect(getDrawer(wrapper).classes()).not.toContain(
+          'q-drawer--mini-animate'
+        )
+      })
+
+      test('animates the mini state change without it', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        await setDrawerProps(wrapper, { modelValue: true, mini: true })
+        await flushPromises()
+
+        expect(getDrawer(wrapper).classes()).toContain('q-drawer--mini-animate')
+
+        await settle()
+
+        expect(getDrawer(wrapper).classes()).not.toContain(
+          'q-drawer--mini-animate'
+        )
+      })
+    })
+
+    describe('[(prop)dark]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer()
+
+        expect(getDrawer(wrapper).classes()).not.toContain('q-drawer--dark')
+
+        await setDrawerProps(wrapper, { dark: true })
+
+        expect(getDrawer(wrapper).classes()).toEqual(
+          expect.arrayContaining(['q-drawer--dark', 'q-dark'])
+        )
+      })
+
+      test('type null has effect', async () => {
+        const wrapper = await mountReadyDrawer({ dark: null })
+
+        wrapper.vm.$q.dark.set(false)
+        await flushPromises()
+
+        expect(getDrawer(wrapper).classes()).not.toContain('q-drawer--dark')
+
+        wrapper.vm.$q.dark.set(true)
+        await flushPromises()
+
+        expect(getDrawer(wrapper).classes()).toContain('q-drawer--dark')
+
+        wrapper.vm.$q.dark.set(false)
+      })
+    })
+
+    describe('[(prop)breakpoint]', () => {
+      test('type Number has effect', async () => {
+        const propVal = 1023
+        const wrapper = await mountReadyDrawer({ breakpoint: propVal })
+
+        await setLayoutWidth(wrapper, propVal + 1)
+
+        expect(getDrawer(wrapper).classes()).not.toContain('q-drawer--mobile')
+
+        await setLayoutWidth(wrapper, propVal)
+
+        // at (or below) the breakpoint it turns into a mobile drawer
+        expect(getDrawer(wrapper).classes()).toEqual(
+          expect.arrayContaining(['q-drawer--mobile', 'q-drawer--on-top'])
+        )
+      })
+    })
+
+    describe('[(prop)behavior]', () => {
+      async function testBehavior(propVal, { width, isMobile }) {
+        const wrapper = await mountReadyDrawer({ behavior: propVal })
+
+        await setLayoutWidth(wrapper, width)
+
+        expect(getDrawer(wrapper).classes().includes('q-drawer--mobile')).toBe(
+          isMobile
+        )
+      }
+
+      test('value "default" has effect', async () => {
+        // it follows the breakpoint
+        await testBehavior('default', { width: 1500, isMobile: false })
+        activeWrapper.unmount()
+        await testBehavior('default', { width: 500, isMobile: true })
+      })
+
+      test('value "desktop" has effect', async () => {
+        // it stays a desktop drawer, no matter how narrow the layout is
+        await testBehavior('desktop', { width: 500, isMobile: false })
+      })
+
+      test('value "mobile" has effect', async () => {
+        // it stays a mobile drawer, no matter how wide the layout is
+        await testBehavior('mobile', { width: 1500, isMobile: true })
+      })
+
+      test('only accepts the documented values', () => {
+        const { validator, default: defaultValue } = QDrawer.props.behavior
+
+        expect(validator(defaultValue)).toBe(true)
+        expect(validator('mobile')).toBe(true)
+        expect(validator('nowhere')).toBe(false)
+      })
+    })
+
+    describe('[(prop)bordered]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer()
+
+        expect(getDrawer(wrapper).classes()).not.toContain('q-drawer--bordered')
+
+        await setDrawerProps(wrapper, { bordered: true })
+
+        expect(getDrawer(wrapper).classes()).toContain('q-drawer--bordered')
+      })
+    })
+
+    describe('[(prop)elevated]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        expect(wrapper.find('.q-layout__shadow').exists()).toBe(false)
+
+        await setDrawerProps(wrapper, { modelValue: true, elevated: true })
+
+        expect(wrapper.find('.q-layout__shadow').exists()).toBe(true)
+
+        // the shadow is only there while the drawer is showing
+        await setDrawerProps(wrapper, { modelValue: false, elevated: true })
+        await settle()
+
+        expect(wrapper.find('.q-layout__shadow').exists()).toBe(false)
+      })
+    })
+
+    describe('[(prop)persistent]', () => {
+      test('type Boolean has effect', async () => {
+        const router = await getRouter('/other')
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true, behavior: 'mobile', persistent: true },
+          void 0,
+          { global: { plugins: [router] } }
+        )
+
+        router.push('/other')
+        await settle()
+
+        // a route change does not close it
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+      })
+
+      test('hides on a route change without it', async () => {
+        const router = await getRouter('/other')
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true, behavior: 'mobile' },
+          void 0,
+          { global: { plugins: [router] } }
+        )
+
+        router.push('/other')
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          'translateX(-300px)'
+        )
+      })
+    })
+
+    describe('[(prop)show-if-above]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({
+          showIfAbove: true,
+          'onUpdate:modelValue': () => {}
+        })
+
+        // it starts off visible while above the breakpoint
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+        expect(
+          getDrawerComponent(wrapper).emitted('update:modelValue')
+        ).toStrictEqual([[true]])
+
+        await setLayoutWidth(wrapper, 500)
+
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          'translateX(-300px)'
+        )
+      })
+    })
+
+    describe('[(prop)no-swipe-open]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({ behavior: 'mobile' })
+
+        expect(wrapper.find('.q-drawer__opener').exists()).toBe(true)
+
+        await setDrawerProps(wrapper, {
+          behavior: 'mobile',
+          noSwipeOpen: true
+        })
+
+        expect(wrapper.find('.q-drawer__opener').exists()).toBe(false)
+      })
+    })
+
+    describe('[(prop)no-swipe-close]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({
+          behavior: 'mobile',
+          noSwipeClose: true
+        })
+        const drawer = getDrawer(wrapper)
+
+        await drawer.trigger('mousedown', { button: 0 })
+
+        expect(drawer.element.__qtouchpan.event).toBeUndefined()
+
+        await setDrawerProps(wrapper, { behavior: 'mobile' })
+        await drawer.trigger('mousedown', { button: 0 })
+
+        expect(drawer.element.__qtouchpan.event).toBeDefined()
+      })
+
+      test('toggling it keeps the drawer content mounted', async () => {
+        const { counters, Probe } = makeContentProbe()
+        const wrapper = await mountReadyDrawer(
+          { behavior: 'mobile', modelValue: true },
+          { default: () => h(Probe) }
+        )
+
+        expect(counters).toStrictEqual({ setup: 1, mounted: 1, unmounted: 0 })
+
+        await setDrawerProps(wrapper, {
+          behavior: 'mobile',
+          modelValue: true,
+          noSwipeClose: true
+        })
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: true })
+
+        expect(counters).toStrictEqual({ setup: 1, mounted: 1, unmounted: 0 })
+      })
+    })
+
+    describe('[(prop)no-swipe-backdrop]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = await mountReadyDrawer({
+          behavior: 'mobile',
+          modelValue: true,
+          noSwipeBackdrop: true
+        })
+        const backdrop = wrapper.get('.q-drawer__backdrop')
+
+        await backdrop.trigger('mousedown', { button: 0 })
+
+        expect(backdrop.element.__qtouchpan.event).toBeUndefined()
+
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: true })
+        await backdrop.trigger('mousedown', { button: 0 })
+
+        expect(backdrop.element.__qtouchpan.event).toBeDefined()
+      })
+
+      test('the backdrop element persists across open/close', async () => {
+        const wrapper = await mountReadyDrawer({
+          behavior: 'mobile',
+          modelValue: true
+        })
+        const backdrop = wrapper.get('.q-drawer__backdrop')
+
+        expect(backdrop.classes()).not.toContain('hidden')
+
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: false })
+        await settle()
+
+        expect(wrapper.get('.q-drawer__backdrop').element).toBe(
+          backdrop.element
+        )
+        expect(backdrop.classes()).toContain('hidden')
+
+        await backdrop.trigger('mousedown', { button: 0 })
+
+        expect(backdrop.element.__qtouchpan.event).toBeUndefined()
+
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: true })
+        await settle()
+
+        expect(wrapper.get('.q-drawer__backdrop').element).toBe(
+          backdrop.element
+        )
+        expect(backdrop.classes()).not.toContain('hidden')
+      })
+    })
+  })
+
+  describe('[Slots]', () => {
+    describe('[(slot)default]', () => {
+      test('renders the content', async () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = await mountReadyDrawer(
+          {},
+          { default: () => slotContent }
+        )
+
+        expect(getContent(wrapper).text()).toBe(slotContent)
+      })
+    })
+
+    describe('[(slot)mini]', () => {
+      test('renders the content', async () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = await mountReadyDrawer(
+          { modelValue: true },
+          {
+            default: () => 'Default content',
+            mini: () => slotContent
+          }
+        )
+
+        expect(getContent(wrapper).text()).toBe('Default content')
+
+        // it replaces the default slot while in mini mode
+        await setDrawerProps(wrapper, { modelValue: true, mini: true })
+        await settle()
+
+        expect(getContent(wrapper).text()).toBe(slotContent)
+      })
+    })
+  })
+
+  describe('[Events]', () => {
+    describe('[(event)update:model-value]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer({
+          modelValue: false,
+          'onUpdate:modelValue': () => {}
+        })
+
+        getDrawerComponent(wrapper).vm.show()
+        await settle()
+
+        const eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('update:modelValue')
+        expect(eventList['update:modelValue']).toHaveLength(1)
+
+        const [value] = eventList['update:modelValue'][0]
+        expect(value).toBe(true)
+      })
+    })
+
+    describe('[(event)show]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer()
+        const evt = new Event('click')
+
+        getDrawerComponent(wrapper).vm.show(evt)
+        await settle()
+
+        const eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('show')
+        expect(eventList.show).toHaveLength(1)
+
+        expect(eventList.show[0][0]).toBe(evt)
+      })
+    })
+
+    describe('[(event)before-show]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer()
+        const evt = new Event('click')
+
+        getDrawerComponent(wrapper).vm.show(evt)
+        await flushPromises()
+
+        const eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('beforeShow')
+        expect(eventList.beforeShow).toHaveLength(1)
+
+        // it fires before the drawer is done showing
+        expect(eventList.show).toBeUndefined()
+        expect(eventList.beforeShow[0][0]).toBe(evt)
+      })
+    })
+
+    describe('[(event)hide]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+        const evt = new Event('click')
+
+        getDrawerComponent(wrapper).vm.hide(evt)
+        await settle()
+
+        const eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('hide')
+        expect(eventList.hide).toHaveLength(1)
+
+        expect(eventList.hide[0][0]).toBe(evt)
+      })
+    })
+
+    describe('[(event)before-hide]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+        const evt = new Event('click')
+
+        getDrawerComponent(wrapper).vm.hide(evt)
+        await flushPromises()
+
+        const eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('beforeHide')
+        expect(eventList.beforeHide).toHaveLength(1)
+
+        expect(eventList.hide).toBeUndefined()
+        expect(eventList.beforeHide[0][0]).toBe(evt)
+      })
+    })
+
+    describe('[(event)on-layout]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        const eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('onLayout')
+        expect(eventList.onLayout).toHaveLength(1)
+
+        const [state] = eventList.onLayout[0]
+        expect(state).toBe(true)
+      })
+    })
+
+    describe('[(event)click]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer()
+        // the wrapper has to exist before the event, as that is when
+        // the native listeners get attached
+        const drawer = getDrawerComponent(wrapper)
+
+        await getContent(wrapper).trigger('click')
+
+        const eventList = drawer.emitted()
+        expect(eventList).toHaveProperty('click')
+        expect(eventList.click).toHaveLength(1)
+
+        const [evt] = eventList.click[0]
+        expect(evt).toBeInstanceOf(Event)
+      })
+    })
+
+    describe('[(event)mouseover]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer()
+        // the wrapper has to exist before the event, as that is when
+        // the native listeners get attached
+        const drawer = getDrawerComponent(wrapper)
+
+        await getContent(wrapper).trigger('mouseover')
+
+        const eventList = drawer.emitted()
+        expect(eventList).toHaveProperty('mouseover')
+        expect(eventList.mouseover).toHaveLength(1)
+
+        const [evt] = eventList.mouseover[0]
+        expect(evt).toBeInstanceOf(Event)
+      })
+    })
+
+    describe('[(event)mouseout]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer()
+        // the wrapper has to exist before the event, as that is when
+        // the native listeners get attached
+        const drawer = getDrawerComponent(wrapper)
+
+        await getContent(wrapper).trigger('mouseout')
+
+        const eventList = drawer.emitted()
+        expect(eventList).toHaveProperty('mouseout')
+        expect(eventList.mouseout).toHaveLength(1)
+
+        const [evt] = eventList.mouseout[0]
+        expect(evt).toBeInstanceOf(Event)
+      })
+    })
+
+    describe('[(event)escape-key]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        // crossing below the breakpoint auto-hides the drawer,
+        // so it gets shown again as a mobile (dismissible) drawer
+        await setLayoutWidth(wrapper, 500)
+        getDrawerComponent(wrapper).vm.show(false)
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+
+        await pressEscapeKey()
+
+        const eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('escapeKey')
+        expect(eventList.escapeKey).toHaveLength(1)
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          'translateX(-300px)'
+        )
+      })
+    })
+
+    describe('[(event)mini-state]', () => {
+      test('is emitting', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        let eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList).toHaveProperty('miniState')
+        expect(eventList.miniState).toHaveLength(1)
+
+        const [state] = eventList.miniState[0]
+        expect(state).toBe(false)
+
+        await setDrawerProps(wrapper, { modelValue: true, mini: true })
+        await settle()
+
+        eventList = getDrawerComponent(wrapper).emitted()
+        expect(eventList.miniState).toHaveLength(2)
+        expect(eventList.miniState[1]).toStrictEqual([true])
+      })
+    })
+
+    describe('[(event)pan]', () => {
+      test('is emitting', async () => {
+        client.has.touch = true
+
+        try {
+          const wrapper = await mountReadyDrawer({ behavior: 'mobile' })
+          const opener = wrapper.get('.q-drawer__opener').element
+          const getPanEvents = () => getDrawerComponent(wrapper).emitted().pan
+
+          // a swipe from the edge that stops short of the threshold
+          touchPan(opener, 30, 5)
+          await settle()
+
+          expect(getPanEvents()).toStrictEqual([
+            [{ type: 'open', stage: 'start' }],
+            [{ type: 'open', stage: 'cancel' }]
+          ])
+          expect(getDrawer(wrapper).$style('transform')).toBe(
+            'translateX(-300px)'
+          )
+
+          // a swipe far enough to open it
+          touchPan(opener, 200, 5)
+          await settle()
+
+          expect(getPanEvents().slice(2)).toStrictEqual([
+            [{ type: 'open', stage: 'start' }],
+            [{ type: 'open', stage: 'end' }]
+          ])
+          expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+
+          // dragging the open drawer back, short of the threshold
+          const drawer = getDrawer(wrapper).element
+
+          touchPan(drawer, -30, 5)
+          await settle()
+
+          expect(getPanEvents().slice(4)).toStrictEqual([
+            [{ type: 'close', stage: 'start' }],
+            [{ type: 'close', stage: 'cancel' }]
+          ])
+          expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+
+          // and far enough to close it
+          touchPan(drawer, -200, 5)
+          await settle()
+
+          expect(getPanEvents().slice(6)).toStrictEqual([
+            [{ type: 'close', stage: 'start' }],
+            [{ type: 'close', stage: 'end' }]
+          ])
+          expect(getDrawer(wrapper).$style('transform')).toBe(
+            'translateX(-300px)'
+          )
+        } finally {
+          client.has.touch = false
+        }
+      })
+    })
+  })
+
+  describe('[Methods]', () => {
+    describe('[(method)show]', () => {
+      test('should be callable', async () => {
+        const wrapper = await mountReadyDrawer()
+
+        expect(
+          getDrawerComponent(wrapper).vm.show(new Event('click'))
+        ).toBeUndefined()
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+      })
+    })
+
+    describe('[(method)hide]', () => {
+      test('should be callable', async () => {
+        const wrapper = await mountReadyDrawer({ modelValue: true })
+
+        expect(
+          getDrawerComponent(wrapper).vm.hide(new Event('click'))
+        ).toBeUndefined()
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          'translateX(-300px)'
+        )
+      })
+    })
+
+    describe('[(method)toggle]', () => {
+      test('should be callable', async () => {
+        const wrapper = await mountReadyDrawer()
+
+        expect(
+          getDrawerComponent(wrapper).vm.toggle(new Event('click'))
+        ).toBeUndefined()
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+
+        getDrawerComponent(wrapper).vm.toggle(new Event('click'))
+        await settle()
+
+        expect(getDrawer(wrapper).$style('transform')).toBe(
+          'translateX(-300px)'
+        )
+      })
+    })
+  })
+
+  describe('[Generic]', () => {
+    // in mobile behavior a drawer covers the page with a backdrop of its
+    // own, so two of them can never share the screen
+    test('showing a mobile drawer hides the one on the other side', async () => {
+      const wrapper = mountTwoDrawers()
+      await settle()
+      await setLayoutWidth(wrapper, 500)
+
+      const [left, right] = wrapper.findAllComponents(QDrawer)
+      const [leftAside, rightAside] = wrapper.findAll('aside.q-drawer')
+
+      left.vm.show(false)
+      await settle()
+
+      expect(leftAside.$style('transform')).toBe('translateX(0px)')
+
+      right.vm.show(false)
+      await settle()
+
+      expect(rightAside.$style('transform')).toBe('translateX(0px)')
+      expect(leftAside.$style('transform')).toBe('translateX(-300px)')
+    })
+
+    test('leaves the other side alone in desktop behavior', async () => {
+      const wrapper = mountTwoDrawers()
+      await settle()
+      await setLayoutWidth(wrapper, 1500)
+
+      const [left, right] = wrapper.findAllComponents(QDrawer)
+      const [leftAside, rightAside] = wrapper.findAll('aside.q-drawer')
+
+      left.vm.show(false)
+      await settle()
+      right.vm.show(false)
+      await settle()
+
+      // both occupy space on the layout, so they coexist
+      expect(leftAside.$style('transform')).toBe('translateX(0px)')
+      expect(rightAside.$style('transform')).toBe('translateX(0px)')
+    })
+
+    // the mobile/desktop transition must keep the content's component
+    // instances alive, otherwise they lose all their state
+    test('keeps the content instance across a breakpoint crossing', async () => {
+      const { counters, Probe } = makeContentProbe()
+      const wrapper = mountDrawer(
+        { modelValue: true },
+        { default: () => h(Probe) }
+      )
+      await settle()
+      await setLayoutWidth(wrapper, 1500)
+
+      await setLayoutWidth(wrapper, 500)
+
+      // the close pan gesture arms and disarms in place instead of the
+      // directive detaching (which would re-create the aside)
+      expect(getDrawer(wrapper).element.__qtouchpan.handler).toBeTypeOf(
+        'function'
+      )
+
+      await setLayoutWidth(wrapper, 1500)
+
+      expect(getDrawer(wrapper).element.__qtouchpan.handler).toBeUndefined()
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+      expect(counters).toEqual({ setup: 1, mounted: 1, unmounted: 0 })
+    })
+
+    // the opener strip and the backdrop both reach a screen edge, where
+    // iOS Safari runs its back/forward navigation swipe alongside any
+    // page gesture unless the page cancels the touchmove once the pan is
+    // detected; a vertical move is left alone so the page still scrolls
+    test('cancels the detected horizontal touch pan on the opener and the backdrop', async () => {
+      client.has.touch = true
+
+      try {
+        const wrapper = await mountReadyDrawer({
+          behavior: 'mobile',
+          modelValue: true
+        })
+        const opener = wrapper.get('.q-drawer__opener').element
+        const backdrop = wrapper.get('.q-drawer__backdrop').element
+
+        expect(touchPan(backdrop, -30, 5).defaultPrevented).toBe(true)
+        expect(touchPan(backdrop, 5, 30).defaultPrevented).toBe(false)
+
+        await setDrawerProps(wrapper, { behavior: 'mobile', modelValue: false })
+        await settle()
+
+        expect(touchPan(opener, 30, 5).defaultPrevented).toBe(true)
+        expect(touchPan(opener, 5, 30).defaultPrevented).toBe(false)
+      } finally {
+        client.has.touch = false
+      }
+    })
+
+    // a drawer opened below the breakpoint locks the body scroll; the
+    // lock must go when it turns into a desktop drawer, even if it was
+    // closed when it last crossed into mobile mode (#16651)
+    test('releases the body scroll lock when a mobile-opened drawer turns desktop', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: false,
+        behavior: 'mobile'
+      })
+
+      await setDrawerProps(wrapper, { modelValue: true, behavior: 'mobile' })
+      await settle()
+      expect(document.qScrollPrevented).toBe(true)
+
+      await setDrawerProps(wrapper, { modelValue: true, behavior: 'desktop' })
+      await settle()
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+      expect(document.qScrollPrevented).toBe(false)
+    })
+
+    // the model and the behavior both following the screen size: the
+    // model shows the drawer while still in mobile mode, then the
+    // behavior turns it into a desktop one within the same update
+    test('releases the body scroll lock when model and behavior flip together', async () => {
+      const onUpdate = vi.fn()
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        behavior: 'desktop',
+        'onUpdate:modelValue': onUpdate
+      })
+
+      await setDrawerProps(wrapper, {
+        modelValue: false,
+        behavior: 'mobile',
+        'onUpdate:modelValue': onUpdate
+      })
+      await settle()
+      expect(document.qScrollPrevented).toBe(false)
+
+      await setDrawerProps(wrapper, {
+        modelValue: true,
+        behavior: 'desktop',
+        'onUpdate:modelValue': onUpdate
+      })
+      await settle()
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+      expect(document.qScrollPrevented).toBe(false)
+    })
+
+    // a containerized layout only learns its width after mount, so its
+    // drawer always starts below the breakpoint and transitions right
+    // away, which used to re-create the content (#17099)
+    test('mounts containerized-layout content only once', async () => {
+      const { counters, Probe } = makeContentProbe()
+      const wrapper = mountDrawer(
+        {},
+        { default: () => h(Probe) },
+        {
+          props: {
+            drawerProps: { modelValue: true },
+            layoutProps: { container: true }
+          }
+        }
+      )
+      await settle()
+
+      // a containerized layout is as wide as its page (plus its own
+      // scrollbar), not as wide as the window
+      await setPageWidth(wrapper, 1200)
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+      expect(counters).toEqual({ setup: 1, mounted: 1, unmounted: 0 })
+    })
+
+    // a page scrollbar narrows the page but not the window, so it must
+    // not move the drawer's breakpoint (#15506) nor flip the drawer
+    // back and forth when its own layout padding toggles it (#5606)
+    test('measures a standard layout by the window width', async () => {
+      const wrapper = await mountReadyDrawer({ modelValue: true })
+      await setLayoutWidth(wrapper, 1024)
+
+      await setPageWidth(wrapper, 1024 - 17)
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--standard')
+
+      await setLayoutWidth(wrapper, 1023)
+      await setPageWidth(wrapper, 1023)
+
+      expect(getDrawer(wrapper).classes()).toContain('q-drawer--mobile')
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    // the swipe and backdrop-click dismissals are pointer-only, so the
+    // drawer's modal states need ESCAPE as their keyboard path
+    test('ESCAPE closes a shown overlay drawer', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        overlay: true
+      })
+      await setLayoutWidth(wrapper, 1200)
+
+      await pressEscapeKey()
+
+      expect(getDrawer(wrapper).$style('transform')).toBe('translateX(-300px)')
+    })
+
+    test('ESCAPE leaves a persistent drawer open', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        persistent: true
+      })
+      await setLayoutWidth(wrapper, 500)
+      getDrawerComponent(wrapper).vm.show(false)
+      await settle()
+
+      await pressEscapeKey()
+
+      expect(getDrawerComponent(wrapper).emitted('escapeKey')).toBeUndefined()
+      expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+    })
+
+    test('ESCAPE leaves an in-layout drawer alone', async () => {
+      const wrapper = await mountReadyDrawer({ modelValue: true })
+      await setLayoutWidth(wrapper, 1200)
+
+      await pressEscapeKey()
+
+      // above its breakpoint and not in overlay mode the drawer is part
+      // of the page layout -- not a modal surface to be dismissed
+      expect(getDrawer(wrapper).$style('transform')).toBe('translateX(0px)')
+    })
+
+    // the aside is what assistive technology sees as the landmark, so
+    // role and aria-* must land on it while every other fall-through
+    // attribute keeps targeting the content element
+    test('routes aria-label to the aside landmark', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        'aria-label': 'Shopping cart',
+        'data-testid': 'cart-drawer'
+      })
+
+      expect(getDrawer(wrapper).attributes('aria-label')).toBe('Shopping cart')
+      expect(getDrawer(wrapper).attributes('data-testid')).toBeUndefined()
+
+      expect(getContent(wrapper).attributes('aria-label')).toBeUndefined()
+      expect(getContent(wrapper).attributes('data-testid')).toBe('cart-drawer')
+
+      await setDrawerProps(wrapper, {
+        modelValue: true,
+        'aria-label': 'Saved items'
+      })
+
+      expect(getDrawer(wrapper).attributes('aria-label')).toBe('Saved items')
+      expect(getContent(wrapper).attributes('data-testid')).toBeUndefined()
+    })
+
+    test('routes aria-labelledby to the aside landmark', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        'aria-labelledby': 'drawer-title'
+      })
+
+      expect(getDrawer(wrapper).attributes('aria-labelledby')).toBe(
+        'drawer-title'
+      )
+      expect(getContent(wrapper).attributes('aria-labelledby')).toBeUndefined()
+    })
+
+    test('routes role together with its name to the aside', async () => {
+      const wrapper = await mountReadyDrawer({
+        modelValue: true,
+        role: 'region',
+        'aria-label': 'Filters'
+      })
+
+      // both on the same element, forming one named region landmark
+      expect(getDrawer(wrapper).attributes('role')).toBe('region')
+      expect(getDrawer(wrapper).attributes('aria-label')).toBe('Filters')
+
+      expect(getContent(wrapper).attributes('role')).toBeUndefined()
+      expect(getContent(wrapper).attributes('aria-label')).toBeUndefined()
+    })
+  })
+})

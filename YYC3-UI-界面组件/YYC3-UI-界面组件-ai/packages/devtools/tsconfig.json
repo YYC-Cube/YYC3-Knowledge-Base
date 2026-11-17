@@ -1,0 +1,29 @@
+{
+  "extends": "./node_modules/@vercel/ai-tsconfig/react-library.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "paths": {
+      "@/*": [
+        "./src/viewer/client/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "examples"
+  ],
+  "references": [
+    {
+      "path": "../ai"
+    },
+    {
+      "path": "../provider"
+    }
+  ]
+}

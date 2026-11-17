@@ -1,0 +1,22 @@
+{
+  "extends": "../../core/tsconfig.base.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "inlineSources": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "@ionic/angular/common": ["./src/common/index.ts"]
+    },
+    "plugins": [
+      {
+        "name": "typescript-eslint-language-service"
+      }
+    ]
+  },
+  "angularCompilerOptions": {
+    "annotateForClosureCompiler": true,
+    "compilationMode": "partial"
+  },
+  "files": ["src/standalone/index.ts", "src/lazy/index.ts"]
+}

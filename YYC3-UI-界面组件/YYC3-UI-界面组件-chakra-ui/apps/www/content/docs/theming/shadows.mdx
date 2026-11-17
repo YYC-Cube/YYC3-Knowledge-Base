@@ -1,0 +1,30 @@
+---
+title: Shadows
+description: The list of available shadow tokens
+hideToc: true
+---
+
+## Semantic Tokens
+
+Chakra UI supports these semantic tokens out of the box.
+
+<ShadowTokenDoc />
+
+Here’s an example of how to add new shadows.
+
+```javascript
+export const system = createSystem(defaultConfig, {
+  theme: {
+    semanticTokens: {
+      shadows: {
+        custom: {
+          value: {
+            _light: "0 32px 56px 0 rgba(0, 0, 0, 0.25)",
+            _dark: "0 32px 56px 0 rgba(0, 0, 0, 0.25)",
+          },
+        },
+      },
+    },
+  },
+})
+```

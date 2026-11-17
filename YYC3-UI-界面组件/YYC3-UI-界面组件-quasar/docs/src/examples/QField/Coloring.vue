@@ -1,0 +1,108 @@
+<template>
+  <div class="q-pa-md">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
+      <q-field color="purple-12" label="Label" stack-label>
+        <template #prepend>
+          <q-icon name="event" />
+        </template>
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+      </q-field>
+
+      <q-field color="teal" filled label="Label" stack-label>
+        <template #prepend>
+          <q-icon name="event" />
+        </template>
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+      </q-field>
+
+      <q-field
+        color="grey-3"
+        label-color="orange"
+        outlined
+        label="Label"
+        stack-label
+      >
+        <template #append>
+          <q-icon name="event" color="orange" />
+        </template>
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+      </q-field>
+
+      <q-field
+        color="lime-11"
+        bg-color="green"
+        filled
+        label="Label"
+        stack-label
+      >
+        <template #prepend>
+          <q-icon name="event" />
+        </template>
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+      </q-field>
+
+      <q-field color="teal" outlined label="Label" stack-label>
+        <template #append>
+          <q-avatar>
+            <img
+              alt="Quasar logo"
+              src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+            />
+          </q-avatar>
+        </template>
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+      </q-field>
+
+      <q-field
+        color="orange"
+        standout
+        bottom-slots
+        :model-value="text"
+        label="Label"
+        stack-label
+        counter
+        clearable
+      >
+        <template #prepend>
+          <q-icon name="place" />
+        </template>
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+        <template #append>
+          <q-icon name="favorite" />
+        </template>
+
+        <template #hint> Field hint </template>
+      </q-field>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const text = ref('Field content')
+</script>

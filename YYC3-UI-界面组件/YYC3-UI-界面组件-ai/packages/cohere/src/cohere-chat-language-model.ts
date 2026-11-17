@@ -1,0 +1,723 @@
+import type {
+  LanguageModelV4,
+  LanguageModelV4CallOptions,
+  LanguageModelV4Content,
+  LanguageModelV4FinishReason,
+  LanguageModelV4GenerateResult,
+  LanguageModelV4StreamPart,
+  LanguageModelV4StreamResult,
+  SharedV4Warning,
+} from '@ai-sdk/provider';
+import {
+  resolve,
+  type Resolvable,
+  lazySchema,
+  zodSchema,
+  combineHeaders,
+  createEventSourceResponseHandler,
+  createJsonResponseHandler,
+  isCustomReasoning,
+  mapReasoningToProviderBudget,
+  parseProviderOptions,
+  parseJSON,
+  postJsonToApi,
+  serializeModelOptions,
+  WORKFLOW_SERIALIZE,
+  WORKFLOW_DESERIALIZE,
+  type InferSchema,
+  type FetchFunction,
+  type ParseResult,
+} from '@ai-sdk/provider-utils';
+import { z } from 'zod/v4';
+import {
+  cohereLanguageModelChatOptions,
+  type CohereChatModelId,
+} from './cohere-chat-language-model-options';
+import {
+  cohereCitationSchema,
+  mapCohereCitationToSource,
+} from './cohere-citations';
+import { cohereFailedResponseHandler } from './cohere-error';
+import {
+  getCohereLanguageModelEntry,
+  type CohereLanguageModelEntry,
+} from './cohere-model-catalog';
+import { prepareTools } from './cohere-prepare-tools';
+import { convertCohereUsage, type CohereUsage } from './convert-cohere-usage';
+import { convertToCohereChatPrompt } from './convert-to-cohere-chat-prompt';
+import { mapCohereFinishReason } from './map-cohere-finish-reason';
+
+type CohereChatConfig = {
+  provider: string;
+  baseURL: string;
+  headers?: Resolvable<Record<string, string | undefined>>;
+  fetch?: FetchFunction;
+  generateId: () => string;
+};
+
+export class CohereChatLanguageModel implements LanguageModelV4 {
+  readonly specificationVersion = 'v4';
+
+  readonly modelId: CohereChatModelId;
+
+  readonly supportedUrls: Record<string, RegExp[]> = {
+    'image/*': [/^https?:\/\/.*$/],
+  };
+
+  private readonly config: CohereChatConfig;
+
+  static [WORKFLOW_SERIALIZE](model: CohereChatLanguageModel) {
+    return serializeModelOptions({
+      modelId: model.modelId,
+      config: model.config,
+    });
+  }
+
+  static [WORKFLOW_DESERIALIZE](options: {
+    modelId: CohereChatModelId;
+    config: CohereChatConfig;
+  }) {
+    return new CohereChatLanguageModel(options.modelId, options.config);
+  }
+
+  constructor(modelId: CohereChatModelId, config: CohereChatConfig) {
+    this.modelId = modelId;
+    this.config = config;
+  }
+
+  get provider(): string {
+    return this.config.provider;
+  }
+
+  private async getArgs({
+    prompt,
+    maxOutputTokens,
+    temperature,
+    topP,
+    topK,
+    frequencyPenalty,
+    presencePenalty,
+    stopSequences,
+    responseFormat,
+    seed,
+    reasoning,
+    tools,
+    toolChoice,
+    providerOptions,
+  }: LanguageModelV4CallOptions) {
+    const warnings: SharedV4Warning[] = [];
+
+    const cohereOptions =
+      (await parseProviderOptions({
+        provider: 'cohere',
+        providerOptions,
+        schema: cohereLanguageModelChatOptions,
+      })) ?? {};
+
+    const {
+      messages: chatPrompt,
+      documents: cohereDocuments,
+      warnings: promptWarnings,
+    } = await convertToCohereChatPrompt(prompt);
+
+    const {
+      tools: cohereTools,
+      toolChoice: cohereToolChoice,
+      toolWarnings,
+    } = prepareTools({ tools, toolChoice });
+
+    warnings.push(...toolWarnings, ...promptWarnings);
+
+    return {
+      args: {
+        // model id:
+        model: this.modelId,
+
+        // standardized settings:
+        frequency_penalty: frequencyPenalty,
+        presence_penalty: presencePenalty,
+        max_tokens: maxOutputTokens,
+        temperature,
+        p: topP,
+        k: topK,
+        seed,
+        stop_sequences: stopSequences,
+
+        // response format:
+        response_format:
+          responseFormat?.type === 'json'
+            ? { type: 'json_object', json_schema: responseFormat.schema }
+            : undefined,
+
+        // messages:
+        messages: chatPrompt,
+
+        // tools:
+        tools: cohereTools,
+        tool_choice: cohereToolChoice,
+
+        // documents for RAG:
+        ...(cohereDocuments.length > 0 && { documents: cohereDocuments }),
+
+        // reasoning:
+        ...resolveCohereThinking({
+          modelEntry: getCohereLanguageModelEntry(this.modelId),
+          reasoning,
+          cohereOptions,
+          warnings,
+        }),
+      },
+      warnings,
+    };
+  }
+
+  async doGenerate(
+    options: LanguageModelV4CallOptions,
+  ): Promise<LanguageModelV4GenerateResult> {
+    const { args, warnings } = await this.getArgs(options);
+
+    const {
+      responseHeaders,
+      value: response,
+      rawValue: rawResponse,
+    } = await postJsonToApi({
+      url: `${this.config.baseURL}/chat`,
+      headers: combineHeaders(
+        await resolve(this.config.headers),
+        options.headers,
+      ),
+      body: args,
+      failedResponseHandler: cohereFailedResponseHandler,
+      successfulResponseHandler: createJsonResponseHandler(
+        cohereChatResponseSchema,
+      ),
+      abortSignal: options.abortSignal,
+      fetch: this.config.fetch,
+    });
+
+    const content: Array<LanguageModelV4Content> = [];
+
+    for (const item of response.message.content ?? []) {
+      if (item.type === 'text' && item.text.length > 0) {
+        content.push({ type: 'text', text: item.text });
+        continue;
+      }
+
+      if (item.type === 'thinking' && item.thinking.length > 0) {
+        content.push({ type: 'reasoning', text: item.thinking });
+        continue;
+      }
+    }
+
+    // citations:
+    for (const citation of response.message.citations ?? []) {
+      // Tool-sourced citations (e.g. citations of tool results in a follow-up
+      // step) have no document to point at, so they are not emitted as sources.
+      const source = mapCohereCitationToSource(citation, () =>
+        this.config.generateId(),
+      );
+
+      if (source != null) {
+        content.push(source);
+      }
+    }
+
+    // tool calls:
+    for (const toolCall of response.message.tool_calls ?? []) {
+      content.push({
+        type: 'tool-call' as const,
+        toolCallId: toolCall.id,
+        toolName: toolCall.function.name,
+        // Cohere sometimes returns `null` for tool call arguments for tools
+        // defined as having no arguments.
+        input: toolCall.function.arguments.replace(/^null$/, '{}'),
+      });
+    }
+
+    return {
+      content,
+      finishReason: {
+        unified: mapCohereFinishReason(response.finish_reason),
+        raw: response.finish_reason ?? undefined,
+      },
+      usage: convertCohereUsage(response.usage),
+      request: { body: args },
+      response: {
+        // TODO timestamp, model id
+        // Cohere v2 returns `id`; `generation_id` is the v1 field, kept only
+        // for compatibility with proxies/mocks that still return it.
+        id: response.id ?? response.generation_id ?? undefined,
+        headers: responseHeaders,
+        body: rawResponse,
+      },
+      warnings,
+    };
+  }
+
+  async doStream(
+    options: LanguageModelV4CallOptions,
+  ): Promise<LanguageModelV4StreamResult> {
+    const { args, warnings } = await this.getArgs(options);
+
+    const { responseHeaders, value: response } = await postJsonToApi({
+      url: `${this.config.baseURL}/chat`,
+      headers: combineHeaders(
+        await resolve(this.config.headers),
+        options.headers,
+      ),
+      body: { ...args, stream: true },
+      failedResponseHandler: cohereFailedResponseHandler,
+      successfulResponseHandler: createEventSourceResponseHandler(
+        cohereChatChunkSchema,
+      ),
+      abortSignal: options.abortSignal,
+      fetch: this.config.fetch,
+    });
+
+    // A clean end without the provider's completion signal is interrupted.
+    let finishReason: LanguageModelV4FinishReason = {
+      unified: 'interrupted',
+      raw: undefined,
+    };
+    let usage: CohereUsage | undefined = undefined;
+
+    let pendingToolCall: {
+      id: string;
+      name: string;
+      arguments: string;
+      hasFinished: boolean;
+    } | null = null;
+
+    let isActiveReasoning = false;
+
+    const generateId = this.config.generateId;
+
+    return {
+      stream: response.pipeThrough(
+        new TransformStream<
+          ParseResult<InferSchema<typeof cohereChatChunkSchema>>,
+          LanguageModelV4StreamPart
+        >({
+          start(controller) {
+            controller.enqueue({ type: 'stream-start', warnings });
+          },
+
+          async transform(chunk, controller) {
+            if (options.includeRawChunks) {
+              controller.enqueue({ type: 'raw', rawValue: chunk.rawValue });
+            }
+
+            // handle failed chunk parsing / validation:
+            if (!chunk.success) {
+              finishReason = { unified: 'error', raw: undefined };
+              controller.enqueue({ type: 'error', error: chunk.error });
+              return;
+            }
+
+            const value = chunk.value;
+            const type = value.type;
+
+            switch (type) {
+              case 'content-start': {
+                if (value.delta.message.content.type === 'thinking') {
+                  controller.enqueue({
+                    type: 'reasoning-start',
+                    id: String(value.index),
+                  });
+                  isActiveReasoning = true;
+                  return;
+                }
+
+                controller.enqueue({
+                  type: 'text-start',
+                  id: String(value.index),
+                });
+                return;
+              }
+
+              case 'content-delta': {
+                if ('thinking' in value.delta.message.content) {
+                  controller.enqueue({
+                    type: 'reasoning-delta',
+                    id: String(value.index),
+                    delta: value.delta.message.content.thinking,
+                  });
+                  return;
+                }
+
+                controller.enqueue({
+                  type: 'text-delta',
+                  id: String(value.index),
+                  delta: value.delta.message.content.text,
+                });
+                return;
+              }
+
+              case 'content-end': {
+                if (isActiveReasoning) {
+                  controller.enqueue({
+                    type: 'reasoning-end',
+                    id: String(value.index),
+                  });
+                  isActiveReasoning = false;
+                  return;
+                }
+
+                controller.enqueue({
+                  type: 'text-end',
+                  id: String(value.index),
+                });
+
+                return;
+              }
+
+              case 'citation-start': {
+                const citations = value.delta?.message?.citations;
+                if (citations == null) {
+                  return;
+                }
+
+                for (const citation of Array.isArray(citations)
+                  ? citations
+                  : [citations]) {
+                  // Tool-only citations have no document, so they are not
+                  // emitted as sources (matching doGenerate).
+                  const source = mapCohereCitationToSource(
+                    citation,
+                    generateId,
+                  );
+
+                  if (source != null) {
+                    controller.enqueue(source);
+                  }
+                }
+                return;
+              }
+
+              case 'tool-call-start': {
+                const toolId = value.delta.message.tool_calls.id;
+                const toolName = value.delta.message.tool_calls.function.name;
+                const initialArgs =
+                  value.delta.message.tool_calls.function.arguments;
+
+                pendingToolCall = {
+                  id: toolId,
+                  name: toolName,
+                  arguments: initialArgs,
+                  hasFinished: false,
+                };
+
+                controller.enqueue({
+                  type: 'tool-input-start',
+                  id: toolId,
+                  toolName,
+                });
+
+                if (initialArgs.length > 0) {
+                  controller.enqueue({
+                    type: 'tool-input-delta',
+                    id: toolId,
+                    delta: initialArgs,
+                  });
+                }
+                return;
+              }
+
+              case 'tool-call-delta': {
+                if (pendingToolCall && !pendingToolCall.hasFinished) {
+                  const argsDelta =
+                    value.delta.message.tool_calls.function.arguments;
+                  pendingToolCall.arguments += argsDelta;
+
+                  controller.enqueue({
+                    type: 'tool-input-delta',
+                    id: pendingToolCall.id,
+                    delta: argsDelta,
+                  });
+                }
+                return;
+              }
+
+              case 'tool-call-end': {
+                if (pendingToolCall && !pendingToolCall.hasFinished) {
+                  controller.enqueue({
+                    type: 'tool-input-end',
+                    id: pendingToolCall.id,
+                  });
+
+                  controller.enqueue({
+                    type: 'tool-call',
+                    toolCallId: pendingToolCall.id,
+                    toolName: pendingToolCall.name,
+                    input: JSON.stringify(
+                      (await parseJSON({
+                        text: pendingToolCall.arguments?.trim() || '{}',
+                      })) ?? {},
+                    ),
+                  });
+
+                  pendingToolCall.hasFinished = true;
+                  pendingToolCall = null;
+                }
+                return;
+              }
+
+              case 'message-start': {
+                controller.enqueue({
+                  type: 'response-metadata',
+                  id: value.id ?? undefined,
+                });
+                return;
+              }
+
+              case 'message-end': {
+                finishReason = {
+                  unified: mapCohereFinishReason(value.delta.finish_reason),
+                  raw: value.delta.finish_reason,
+                };
+                usage = value.delta.usage;
+                return;
+              }
+
+              default: {
+              }
+            }
+          },
+
+          flush(controller) {
+            controller.enqueue({
+              type: 'finish',
+              finishReason,
+              usage: convertCohereUsage(usage),
+            });
+          },
+        }),
+      ),
+      request: { body: { ...args, stream: true } },
+      response: { headers: responseHeaders },
+    };
+  }
+}
+
+function resolveCohereThinking({
+  modelEntry,
+  reasoning,
+  cohereOptions,
+  warnings,
+}: {
+  modelEntry: CohereLanguageModelEntry;
+  reasoning: LanguageModelV4CallOptions['reasoning'];
+  cohereOptions: InferSchema<typeof cohereLanguageModelChatOptions>;
+  warnings: SharedV4Warning[];
+}): { thinking?: { type: string; token_budget?: number } } {
+  const {
+    capabilities: { language: capabilities },
+    requestConfig: { language: defaults },
+  } = modelEntry;
+  if (cohereOptions.thinking) {
+    return {
+      thinking: {
+        type: cohereOptions.thinking.type ?? defaults.thinkingType,
+        token_budget: cohereOptions.thinking.tokenBudget,
+      },
+    };
+  }
+
+  if (!isCustomReasoning(reasoning)) {
+    return {};
+  }
+
+  if (reasoning === 'none') {
+    return { thinking: { type: 'disabled' } };
+  }
+
+  const tokenBudget = mapReasoningToProviderBudget({
+    reasoning,
+    maxOutputTokens: defaults.reasoningMaxOutputTokens,
+    maxReasoningBudget: capabilities.reasoning.maxBudget,
+    warnings,
+  });
+
+  return { thinking: { type: 'enabled', token_budget: tokenBudget } };
+}
+
+// Loose, nested objects included: the parsed value is returned as `usage.raw`.
+// All fields are optional in the API specification, so every field is nullish.
+const cohereUsageSchema = () =>
+  z.looseObject({
+    billed_units: z
+      .looseObject({
+        input_tokens: z.number().nullish(),
+        output_tokens: z.number().nullish(),
+      })
+      .nullish(),
+    tokens: z
+      .looseObject({
+        input_tokens: z.number().nullish(),
+        output_tokens: z.number().nullish(),
+      })
+      .nullish(),
+    cached_tokens: z.number().nullish(),
+  });
+
+const cohereChatResponseSchema = lazySchema(() =>
+  zodSchema(
+    z.object({
+      id: z.string().nullish(),
+      generation_id: z.string().nullish(),
+      message: z.object({
+        role: z.string(),
+        content: z
+          .array(
+            z.union([
+              z.object({
+                type: z.literal('text'),
+                text: z.string(),
+              }),
+              z.object({
+                type: z.literal('thinking'),
+                thinking: z.string(),
+              }),
+            ]),
+          )
+          .nullish(),
+        tool_plan: z.string().nullish(),
+        tool_calls: z
+          .array(
+            z.object({
+              id: z.string(),
+              type: z.literal('function'),
+              function: z.object({
+                name: z.string(),
+                arguments: z.string(),
+              }),
+            }),
+          )
+          .nullish(),
+        citations: z.array(cohereCitationSchema).nullish(),
+      }),
+      finish_reason: z.string(),
+      usage: cohereUsageSchema().nullish(),
+    }),
+  ),
+);
+
+// limited version of the schema, focussed on what is needed for the implementation
+// this approach limits breakages when the API changes and increases efficiency
+const cohereChatChunkSchema = lazySchema(() =>
+  zodSchema(
+    z.discriminatedUnion('type', [
+      // `citation-start` events can arrive without citations, and a single
+      // citation may be sent instead of an array.
+      z.object({
+        type: z.literal('citation-start'),
+        index: z.number().nullish(),
+        delta: z
+          .object({
+            message: z
+              .object({
+                citations: z
+                  .union([cohereCitationSchema, z.array(cohereCitationSchema)])
+                  .nullish(),
+              })
+              .nullish(),
+          })
+          .nullish(),
+      }),
+      z.object({
+        type: z.literal('citation-end'),
+      }),
+      z.object({
+        type: z.literal('content-start'),
+        index: z.number(),
+        delta: z.object({
+          message: z.object({
+            content: z.union([
+              z.object({
+                type: z.literal('text'),
+                text: z.string(),
+              }),
+              z.object({
+                type: z.literal('thinking'),
+                thinking: z.string(),
+              }),
+            ]),
+          }),
+        }),
+      }),
+      z.object({
+        type: z.literal('content-delta'),
+        index: z.number(),
+        delta: z.object({
+          message: z.object({
+            content: z.union([
+              z.object({
+                text: z.string(),
+              }),
+              z.object({
+                thinking: z.string(),
+              }),
+            ]),
+          }),
+        }),
+      }),
+      z.object({
+        type: z.literal('content-end'),
+        index: z.number(),
+      }),
+      z.object({
+        type: z.literal('message-start'),
+        id: z.string().nullish(),
+      }),
+      z.object({
+        type: z.literal('message-end'),
+        delta: z.object({
+          finish_reason: z.string(),
+          usage: cohereUsageSchema(),
+        }),
+      }),
+      // https://docs.cohere.com/v2/docs/streaming#tool-use-stream-events-for-tool-calling
+      z.object({
+        type: z.literal('tool-plan-delta'),
+        delta: z.object({
+          message: z.object({
+            tool_plan: z.string(),
+          }),
+        }),
+      }),
+      z.object({
+        type: z.literal('tool-call-start'),
+        delta: z.object({
+          message: z.object({
+            tool_calls: z.object({
+              id: z.string(),
+              type: z.literal('function'),
+              function: z.object({
+                name: z.string(),
+                arguments: z.string(),
+              }),
+            }),
+          }),
+        }),
+      }),
+      // A single tool call's `arguments` stream in chunks and must be accumulated
+      // in a string and so the full tool object info can only be parsed once we see
+      // `tool-call-end`.
+      z.object({
+        type: z.literal('tool-call-delta'),
+        delta: z.object({
+          message: z.object({
+            tool_calls: z.object({
+              function: z.object({
+                arguments: z.string(),
+              }),
+            }),
+          }),
+        }),
+      }),
+      z.object({
+        type: z.literal('tool-call-end'),
+      }),
+    ]),
+  ),
+);

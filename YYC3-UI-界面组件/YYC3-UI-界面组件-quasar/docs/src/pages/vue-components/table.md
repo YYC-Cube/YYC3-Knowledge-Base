@@ -1,0 +1,485 @@
+---
+title: Table
+desc: The QTable Vue component allows you to display data in a tabular manner and it's packed with a lot of related features. It's generally called a datatable.
+keys: QTable,QTh,QTr,QTd
+examples: QTable
+related:
+  - /vue-components/markup-table
+  - /vue-components/pagination
+---
+
+QTable is a component that allows you to display data in a tabular manner. It's generally called a datatable. It packs the following main features:
+
+- Filtering
+- Sorting
+- Single / Multiple rows selection with custom selection actions
+- Pagination (including server-side if required)
+- Grid mode (you can use for example QCards to display data in a non-tabular manner)
+- Total customization of rows and cells through scoped slots
+- Ability to add additional row(s) at top or bottom of data rows
+- Column picker (through QTableColumns component described in one of the sections)
+- Custom top and/or bottom Table controls
+- Responsive design
+
+> [!TIP]
+> If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
+
+<DocApi file="QTable" />
+
+<DocApi file="QTh" />
+
+<DocApi file="QTr" />
+
+<DocApi file="QTd" />
+
+## Defining the columns
+
+Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.
+
+```js
+columns: [
+  // array of Objects
+  // column Object definition
+  {
+    // unique id
+    // identifies column
+    // (used by pagination.sortBy, "body-cell-[name]" slot, ...)
+    name: 'desc',
+
+    // label for header
+    label: 'Dessert (100g serving)',
+
+    // row Object property to determine value for this column
+    // (optional; a column rendered entirely through its
+    // "body-cell-[name]" slot needs none)
+    field: 'name',
+    // OR field: row => row.some.nested.prop,
+
+    // (optional) if we use visible-columns, this col will always be visible
+    required: true,
+
+    // (optional) alignment
+    align: 'left',
+
+    // (optional) tell QTable you want this column sortable
+    sortable: true,
+
+    // (optional) compare function if you have
+    // some custom data or want a specific way to compare two rows
+    // --> note that rows with null/undefined as value will get auto sorted
+    // without calling this method (if you want to handle those as well, use "rawSort" instead)
+    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),
+    // function return value:
+    //   * is less than 0 then sort a to an index lower than b, i.e. a comes first
+    //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
+    //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
+
+    // (optional) requires Quasar v2.13+
+    // compare function if you have
+    // some custom data or want a specific way to compare two rows
+    // --> note that there is an alternative "sort" method (above) if you don't
+    // want to handle (by yourself) rows with null/undefined as value
+    rawSort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),
+    // has the same return value as the alternative "sort" method above
+
+    // (optional) override 'column-sort-order' prop;
+    // sets column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending)
+    sortOrder: 'ad', // or 'da'
+
+    // (optional) you can format the data with a function
+    format: (val, row) => `${val}%`,
+    // one more format example:
+    // format: val => val
+    //   ? /* Unicode checkmark checked */ "\u2611"
+    //   : /* Unicode checkmark unchecked */ "\u2610",
+
+    // body td:
+    style: 'width: 500px',
+    // or as Function --> style: row => ... (return String/Array/Object)
+    classes: 'my-special-class',
+    // or as Function --> classes: row => ... (return String)
+
+    // header th:
+    headerStyle: 'width: 500px',
+    headerClasses: 'my-special-class',
+
+    // (optional) shrink both th and td to the minimum width
+    // required by their content
+    autoWidth: true
+  },
+  { name: 'calories', label: 'Calories', field: 'calories', sortable: true },
+  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+  { name: 'protein', label: 'Protein (g)', field: 'protein' },
+  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+  {
+    name: 'calcium',
+    label: 'Calcium (%)',
+    field: 'calcium',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  },
+  {
+    name: 'iron',
+    label: 'Iron (%)',
+    field: 'iron',
+    sortable: true,
+    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+  }
+]
+```
+
+## Basic usage
+
+<DocExample title="Basic" file="Basic" />
+
+<DocExample title="Force dark mode" file="Dark" />
+
+<DocExample title="Dense" file="Dense" />
+
+## Omitting columns definition
+
+You can omit specifying the `columns`. QTable will infer the columns from the properties of the first row of the data. Note that labels are uppercased and sorting is enabled:
+
+<DocExample title="Infering columns from data" file="InferColumns" />
+
+## Sticky header/column
+
+> [!NOTE]
+> Pay attention to the code in the "style" section in the following examples, especially around `position: sticky`.
+>
+> The browser paints each sticky cell independently and table cells can have fractional sizes, so on some display scalings or browser zoom levels (Windows 125% scaling, for example) hairline gaps can appear between sticky cells, revealing the content scrolled behind them. The 1px `box-shadow` in the same color as the cell background that you will see in the examples below covers such gaps.
+
+<DocExample title="Sticky header" file="StickyHeader" />
+
+The `footer` slot (rendered as a real `<tfoot>` element) can be made sticky the same way. A good use case for it is a totals row:
+
+<DocExample title="Sticky footer (v2.26+)" file="StickyFooter" />
+
+<DocExample title="Sticky first column" file="StickyColumn" />
+
+<DocExample title="Sticky header and column" file="StickyHeaderAndColumn" />
+
+A sticky last column is the same CSS with `:last-child` instead of `:first-child` and `right: 0` instead of `left: 0`.
+
+## Separators
+
+<DocExample title="Separators" file="Separators" />
+
+## Styling
+
+<DocExample title="Custom column" file="CustomColumn" />
+
+> [!NOTE]
+> For all the styling component properties, please check the API card at the top of the page.
+
+<DocExample title="Custom coloring" file="CustomColor" />
+
+The `hide-header` prop removes the header; the bottom layer has its own props, see "Handling bottom layer" below.
+
+## Virtual scrolling
+
+Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
+
+<DocExample title="Basic virtual scroll" file="VirtscrollBasic" />
+
+You can dynamically load new rows when scroll reaches the end:
+
+<DocExample title="Dynamic loading virtual scroll" file="VirtscrollDynamic" />
+
+Virtual scroll and pagination combine: the virtual list holds the current page, so set the page size through the `pagination` model:
+
+```js
+// <q-table virtual-scroll v-model:pagination="pagination" ...>
+
+const pagination = ref({
+  rowsPerPage: 1000
+})
+```
+
+The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height.
+
+<DocExample title="Virtual scroll with sticky header" file="VirtscrollSticky" />
+
+Sticky columns work with virtual scroll too, with one precaution: scope any positional `td` selector (like `td:first-child`) to the data rows, as in the example below. Virtual scroll emulates the full height of the list through two hidden filler rows (`q-virtual-scroll__padding`), and their cells match such selectors as well; making them sticky breaks scrolling (dragging the scrollbar would run away to the end of the table).
+
+<DocExample title="Virtual scroll with sticky header and column" file="VirtscrollStickyColumn" />
+
+There are 2 utility CSS classes that control VirtualScroll size calculation:
+
+- Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
+- Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
+
+<DocExample title="Virtual scroll with multiple rows for a data row" file="VirtscrollMultipleRows" />
+
+> [!IMPORTANT]
+> When rendering more than one `QTr` for the same row of data (through the `body` slot), give each `QTr` a distinct `key` and add the `q-virtual-scroll--with-prev` class to every extra `QTr` after the first one. This tells VirtualScroll to group their sizes together with the previous element, so the total height of the data row is measured correctly. If a row should not be measured at all (for example, a separator), use `q-virtual-scroll--skip` instead. This is especially important when also using a sticky header or row expansion, otherwise you may notice an incorrect scroll height or a jumping scroll position.
+
+## Selection
+
+> [!IMPORTANT]
+> The property `row-key` must be set in order for selection to work properly.
+
+<DocExample title="Single selection" file="SingleSelection" />
+
+<DocExample title="Multiple selection" file="MultipleSelection" />
+
+The selection cells are slots too, should you want something other than the checkboxes:
+
+```html
+<template #header-selection="scope">
+  <q-toggle v-model="scope.selected" />
+</template>
+
+<template #body-selection="scope">
+  <q-toggle v-model="scope.selected" />
+</template>
+```
+
+<DocExample title="Selection cell slots with range selection" file="SelectionSlotsRange" />
+
+<DocExample title="Custom multiple selection" file="CustomSelection" />
+
+## Visible columns, custom top, fullscreen
+
+Please note that columns marked as `required` (in the column definition) cannot be toggled and are always visible.
+
+<DocExample title="Visible columns, custom top and fullscreen" file="VisibleColumns" />
+
+## Popup editing
+
+> [!IMPORTANT]
+> Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
+>
+> QPopupEdit edits one cell at a time. To edit a whole row at once, or to offer per row actions (like Edit and Remove), render your own buttons in a `body-cell` scoped slot and open a [QDialog](/vue-components/dialog) holding a form for that row.
+
+<DocExample title="Popup editing" file="PopupEditing" />
+
+## Editing with an input
+
+<DocExample title="Input editing" file="InputEditing" />
+
+## Grid style
+
+In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
+
+<DocExample title="Grid style" file="GridStyle" />
+
+The `grid-header` prop keeps the table header above the cards.
+
+<DocExample title="Colored grid style" file="GridStyleColored" />
+
+<DocExample title="Masonry like grid" file="GridMasonry" />
+
+However, if you want to fully customize the content, check the example below, where:
+
+- We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
+- We are using multiple selection.
+
+<DocExample title="Grid style with slot" file="GridStyleSlot" />
+
+## Expanding rows
+
+QTable holds the expansion state of each row: the scope of every body slot exposes a writable `expand` Boolean for its row, and the `expanded` model holds the keys of the expanded rows, so the state can also be read or set from outside:
+
+```js
+// <q-table v-model:expanded="expanded" row-key="name">
+
+const expanded = ref([
+  // Array of row keys
+  'Ice cream sandwich'
+])
+```
+
+The `body-expand` slot (v2.34+) declares the extra row: QTable keeps rendering the body rows and calls the slot after each one with the row's scope, and the toggle can live in a `body-cell-[name]` slot. The slot is called for every row, so gate it on `expand`. To animate it, keep a `QTr` with the `expandable` prop (v2.34+) always rendered (it collapses to zero height while its cell has no visible content) and wrap the cell's content in a [QSlideTransition](/vue-components/slide-transition):
+
+<DocExample title="Expansion slot" file="ExpandedRowSlot" />
+
+Without animation, a `v-if` on the `QTr` itself is the cheapest:
+
+```html
+<template #body-expand="props">
+  <q-tr v-if="props.expand" :props="props">
+    <q-td colspan="100%">
+      This is the expansion of: {{ props.row.name }}.
+    </q-td>
+  </q-tr>
+</template>
+```
+
+If you render the rows yourself through the `body` slot, render the expansion row there as well (the `body-expand` slot is ignored then), with a distinct `key` on each `QTr`:
+
+<DocExample title="Expansion in the body slot" file="ExpandedRowInternal" />
+
+With virtual scroll, the expansion row's height must be counted together with its data row's, so add the `q-virtual-scroll--with-prev` class to it (see "Virtual scrolling" above):
+
+```html
+<template #body-expand="props">
+  <q-tr v-if="props.expand" :props="props" class="q-virtual-scroll--with-prev">
+    ...
+  </q-tr>
+</template>
+```
+
+## Before/after slots
+
+Note the difference between `bottom-row` and `footer`: the former renders extra rows inside the table body, while the latter renders a real `<tfoot>` element (which, for example, can be made sticky through CSS; see the "Sticky footer" example above).
+
+<DocExample title="Before/After slots (header/footer)" file="BeforeAfterHeaderFooter" />
+
+## Pagination
+
+> [!NOTE]
+> When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See _"Server side pagination, filter and sorting"_ section.
+
+The initial pagination (with the sorting and the rows per page) is a plain object:
+
+```js
+// <q-table :pagination="initialPagination" ...>
+
+const initialPagination = {
+  sortBy: 'desc',
+  descending: false,
+  page: 2,
+  rowsPerPage: 3
+  // rowsNumber: xx if getting data from a server
+}
+```
+
+Use `v-model:pagination` instead when you need its current value at any time, for example to control the pagination from outside of QTable:
+
+<DocExample title="Synchronized pagination" file="PaginationSync" />
+
+## Pagination slot
+
+For learning purposes, we will customize the pagination controls with the default controls in order to help you get started with your own.
+
+<DocExample title="Pagination slot" file="PaginationSlot" />
+
+## Loading state
+
+<DocExample title="Default loading" file="Loading" />
+
+<DocExample title="Custom loading state" file="CustomLoading" />
+
+## Custom top
+
+<DocExample title="Custom top with add/remove row" file="CustomTop" />
+
+## Body slots
+
+The example below shows how you can use a slot to customize the entire row:
+
+<DocExample title="Body slot" file="SlotBody" />
+
+> [!IMPORTANT]
+> When used in the `body` slot, each QTd needs to know which column it belongs to. Set its `col-name` prop (v2.27+) to the column's `name` from the `columns` definition, as in the example above. The Vue `key` attribute is also supported for backwards compatibility, but since `key` is a reserved attribute Vue does not pass it along through `$attrs`, so it cannot be used when wrapping QTd inside a custom component. The same applies to QTh in the `header` slot.
+
+Below, we use a slot which gets applied to each body cell:
+
+<DocExample title="Body-cell slot" file="SlotBodyCell" />
+
+You can also customize a particular column. The syntax for this slot is `body-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition:
+
+```html
+<template #body-cell-name="props">
+  <q-td :props="props">
+    <q-badge color="purple" :label="props.value" />
+  </q-td>
+</template>
+```
+
+## Header slots
+
+The example below shows how you can use a slot to customize the entire header row:
+
+<DocExample title="Header slot" file="SlotHeader" />
+
+Below, we use a slot which gets applied to each header cell:
+
+<DocExample title="Header-cell slot" file="SlotHeaderCell" />
+
+You can also customize a particular header cell. The syntax for this slot is `header-cell-[name]`, where `[name]` is the column's `name` from the `columns` definition:
+
+```html
+<template #header-cell-calories="props">
+  <q-th :props="props">
+    <q-icon name="thumb_up" size="1.5em" />
+    {{ props.col.label }}
+  </q-th>
+</template>
+```
+
+## No data
+
+The `no-data-label` prop sets the message of an empty table:
+
+```html
+<q-table no-data-label="I didn't find anything for you" ... />
+```
+
+The `no-data` scoped slot customizes the whole area and tells whether there are no rows or a filter returned nothing. Type something into the "Search" input below:
+
+<DocExample title="No Data Slot" file="NoDataSlot" />
+
+## Handling bottom layer
+
+There are a few properties that you can use to hide the bottom layer or specific parts of it. You can play with it below:
+
+<DocExample title="Hiding bottom layer" file="HideBottom" />
+
+## Custom sorting
+
+<DocExample title="Custom sorting" file="CustomSorting" />
+
+## Responsive tables
+
+The `dense` and `grid` props can follow `$q.screen` (see the [Screen Plugin](/options/screen-plugin)):
+
+```html
+<q-table :dense="$q.screen.lt.md" ... />
+```
+
+The example below switches to grid mode on `$q.screen.xs`, so play with the browser width to see it in action:
+
+<DocExample title="Using grid prop" file="ResponsiveGrid" />
+
+## Server side pagination, filter and sorting
+
+When your database contains a big number of rows for a Table, obviously it’s not feasible to load them all for multiple reasons (memory, UI rendering performance, …). Instead, you can load only a Table page. Whenever the user wants to navigate to another Table page, or wants to sort by a column or wants to filter the Table, a **request** is sent to the **server** to fetch the partially paged data.
+
+1. First step to enable this behavior is to specify `pagination` prop, which MUST contain `rowsNumber`. QTable needs to know the total number of rows available in order to correctly render the pagination links. Should filtering cause the `rowsNumber` to change then it must be modified dynamically.
+
+2. Second step is to listen for `@request` event on QTable. This event is triggered when data needs to be fetched from the **server** because either page number or sorting or filtering changed.
+
+3. It’s best that you also specify the `loading` prop in order to notify the user that a background process is in progress.
+
+> [!NOTE]
+> In the example below, steps have been taken to emulate an ajax call to a server. While the concepts are similar, if you use this code you will need to make the appropriate changes to connect to your own data source.
+
+<DocExample title="Synchronizing with server" file="Synchronizing" />
+
+## Exporting data
+
+Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#exportfile) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
+
+> [!TIP]
+> You could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.
+
+<DocExample title="Export to csv" file="ExportCsv" />
+
+## Accessibility <q-badge label="v2.25+" />
+
+QTable renders a native `<table>` with `thead`/`tbody`, so the tabular semantics come for free. Sortable column headers are focusable, sort on <kbd>Enter</kbd> or <kbd>Space</kbd> and expose [`aria-sort`](https://www.w3.org/TR/wai-aria-1.2/#aria-sort); this behavior lives in QTh, so custom `header`/`header-cell` slots should render QTh rather than a plain `th` to keep it. The horizontally scrolling body is a Tab stop, so a wide table can be scrolled with the arrow keys. The selection checkboxes (and their otherwise empty column header), the pagination controls, the rows-per-page select and the loading progress bar carry localized accessible names from the [Quasar Language Pack](/options/quasar-language-packs).
+
+A few aspects remain in your hands:
+
+- Clickable rows (`@row-click` & co.) are pointer-only: rows receive no focus and no key handling. Offer row actions as real buttons inside a cell, or add keyboard handling yourself — the [Keyboard navigation](#keyboard-navigation) example above shows the technique.
+- `grid` mode trades the table semantics for plain cards.
+- The `title` prop renders a visual heading, not a `<caption>` — associate a name with the table through `aria-label`/`aria-labelledby` if it needs one.
+
+### Keyboard navigation
+
+Below is an example of keyboard navigation in the table using selected row. Use <kbd>Arrow Up</kbd>, <kbd>Arrow Down</kbd>, <kbd>Page Up</kbd>, <kbd>Page Down</kbd>, <kbd>Home</kbd> and <kbd>End</kbd> keys to navigate.
+
+<DocExample title="Keyboard navigation" file="KeyboardNavigation" />

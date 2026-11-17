@@ -1,0 +1,169 @@
+<template>
+  <q-layout class="doc-layout doc-technical" view="hHh LpR fff">
+    <a class="doc-skip-link" href="#doc-main-content">Skip to page content</a>
+
+    <DocHeader />
+
+    <q-page-container>
+      <q-page :class="pageClass" key="q-page">
+        <template v-if="isFullscreen">
+          <span id="doc-main-content" class="doc-skip-target" tabindex="-1" />
+          <router-view key="page-fullscreen" />
+        </template>
+        <div
+          v-else
+          class="doc-layout__page row no-wrap justify-start"
+          key="page-standard"
+        >
+          <div
+            class="doc-layout__menu-container row justify-center"
+            role="navigation"
+            aria-label="Main menu"
+          >
+            <q-scroll-area class="doc-layout__menu q-ml-md">
+              <DocPageMenu />
+            </q-scroll-area>
+          </div>
+          <!-- sits after the side menu, so skipping to it lands past the
+               menu rather than in front of it; every page renders one,
+               which a heading-derived target could not promise -->
+          <span id="doc-main-content" class="doc-skip-target" tabindex="-1" />
+          <router-view />
+        </div>
+
+        <div class="col" />
+        <DocPageFooter :fullscreen="isFullscreen" />
+      </q-page>
+    </q-page-container>
+
+    <q-page-scroller>
+      <q-btn
+        fab-mini
+        color="brand-accent"
+        :icon="mdiArrowUp"
+        aria-label="Back to top"
+      >
+        <q-tooltip>Back to top</q-tooltip>
+      </q-btn>
+    </q-page-scroller>
+
+    <q-no-ssr>
+      <DocDrawerMenu />
+      <DocDrawerToc v-if="docStore.state.value.hasToc" />
+    </q-no-ssr>
+  </q-layout>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+import { mdiArrowUp } from '@quasar/extras/mdi-v7'
+
+import { provideDocStore } from './store/index.js'
+
+import DocHeader from './DocHeader.vue'
+import DocDrawerMenu from './DocDrawerMenu.vue'
+import DocDrawerToc from './DocDrawerToc.vue'
+import DocPageMenu from './DocPageMenu.js'
+import DocPageFooter from './DocPageFooter.vue'
+
+const docStore = provideDocStore()
+
+const isFullscreen = computed(() => docStore.$route.meta.fullscreen === true)
+const pageClass = computed(
+  () => `doc-layout__page-el--${isFullscreen.value ? 'fullscreen' : 'standard'}`
+)
+</script>
+
+<style lang="sass">
+.doc-layout
+
+  .q-page-container :target
+    scroll-margin-top: $header-height
+
+  // keep the button on top of sticky in examples
+  .q-page-scroller > .q-page-sticky
+    z-index: 1
+
+  &__page
+    width: 100%
+
+    /**
+        16px  - left menu margin
+      + 330px - left menu
+      + 1200px - page content
+      + 300px - toc menu
+      */
+    max-width: 2500px
+
+    .doc-page__content
+      width: auto
+      min-width: 0
+      flex: 10000 1 0%
+      max-width: 1200px
+
+      > div, > pre
+        margin-bottom: 22px
+
+    @media (max-width: 1845px)
+      justify-content: start
+      .doc-page__toc-container--flowing
+        display: none
+    @media (min-width: 1846px)
+      .doc-layout__menu-container
+        flex: 1 0 auto
+        width: auto
+        min-width: 0
+        max-width: 100%
+
+  &__page-el--standard
+    display: flex
+    flex-direction: column
+    align-items: center
+
+  &__menu
+    position: sticky
+    top: $header-height
+    height: calc(100vh - #{$header-height})
+    width: 330px
+    min-width: 330px
+    border-right: 1px solid $separator-color
+
+    .doc-page-menu
+      padding: 32px 16px 32px 0 // page top padding
+
+@media (max-width: 1300px)
+  .doc-layout__menu,
+  .doc-page__toc-container--flowing
+    // let's position them off-screen
+    // instead of "display: none"
+    // so that QScrollArea won't compute the size uselessly
+    position: fixed
+    left: -1000px
+    top: 0
+    // off-screen is not gone: without this the menu keeps every one of its
+    // links in the tab order and in the accessibility tree, so narrow
+    // viewports tab through a sidebar nobody can see. Unlike display:none
+    // this still leaves QScrollArea a box to measure
+    visibility: hidden
+
+.doc-drawer
+  // only show the shadow when the drawer is open
+  .q-drawer:not(.q-layout--prevent-focus) &
+    box-shadow: 0 0 6px 3px $separator-color
+
+  &__header
+    position: sticky
+    top: 0
+    z-index: 1
+    background: linear-gradient(to bottom, #fff 0%, #fff 75%, transparent)
+
+body.body--dark
+  .doc-layout__menu
+    border-right-color: $separator-dark-color
+
+  // only show the shadow when the drawer is open
+  .q-drawer:not(.q-layout--prevent-focus) .doc-drawer
+    box-shadow: 0 0 6px 3px $brand-primary
+  .doc-drawer__header
+    background: linear-gradient(to bottom, $dark 0%, $dark 75%, transparent)
+</style>

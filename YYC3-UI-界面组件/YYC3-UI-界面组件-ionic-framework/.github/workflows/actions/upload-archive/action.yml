@@ -1,0 +1,19 @@
+name: 'Ionic Framework Archive Upload'
+description: 'Compresses and uploads an archive to be reused across jobs'
+inputs:
+  paths:
+    description: 'Paths to files or directories to archive'
+  output:
+    description: 'Output file name'
+  name:
+    description: 'Archive name'
+runs:
+  using: 'composite'
+  steps:
+    - name: 🗄️ Create Archive
+      run: zip -q -r ${{ inputs.output }} ${{ inputs.paths }}
+      shell: bash
+    - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ inputs.output }}

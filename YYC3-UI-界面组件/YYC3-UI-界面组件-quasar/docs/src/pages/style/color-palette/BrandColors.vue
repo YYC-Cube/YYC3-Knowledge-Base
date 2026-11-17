@@ -1,0 +1,22 @@
+<template>
+  <div class="q-gutter-sm">
+    <div
+      v-for="color in brandColors"
+      :key="color"
+      class="brand-color text-center row inline flex-center text-white rounded-borders"
+      :class="`bg-${color}`"
+    >
+      <div class="col">{{ color }}</div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { brandColors } from './colors.js'
+</script>
+
+<style lang="sass" scoped>
+.brand-color
+  width: 130px
+  height: 40px
+</style>

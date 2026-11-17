@@ -1,0 +1,66 @@
+<template>
+  <div class="q-pa-md">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
+      <q-field square filled>
+        <template #prepend>
+          <q-icon name="event" />
+        </template>
+
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+      </q-field>
+
+      <q-field square outlined>
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+
+        <template #append>
+          <q-avatar>
+            <img
+              alt="Quasar logo"
+              src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+            />
+          </q-avatar>
+        </template>
+      </q-field>
+
+      <q-field
+        square
+        standout
+        bottom-slots
+        :model-value="text"
+        label="Label"
+        stack-label
+        counter
+      >
+        <template #prepend>
+          <q-icon name="place" />
+        </template>
+
+        <template #control>
+          <div class="self-center full-width no-outline" tabindex="0">{{
+            text
+          }}</div>
+        </template>
+
+        <template #append>
+          <q-icon name="close" @click="text = ''" class="cursor-pointer" />
+        </template>
+
+        <template #hint> Field hint </template>
+      </q-field>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const text = ref('Field content')
+</script>

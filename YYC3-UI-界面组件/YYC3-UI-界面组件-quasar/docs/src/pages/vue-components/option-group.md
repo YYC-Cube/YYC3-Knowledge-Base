@@ -1,0 +1,91 @@
+---
+title: Option Group
+desc: The QOptionGroup Vue component allows you better control for grouping binary form input components like checkboxes, radios or toggles.
+keys: QOptionGroup
+examples: QOptionGroup
+related:
+  - /vue-components/radio
+  - /vue-components/checkbox
+  - /vue-components/toggle
+  - /vue-components/button-toggle
+---
+
+The QOptionGroup component is a helper component that allows you better control for grouping binary (on or off, true or false, 1 or 0) form input components like checkboxes, radios or toggles. A good use for this component is for offering a set of options or settings to turn on and off.
+
+<DocApi file="QOptionGroup" />
+
+## Usage
+
+### Standard
+
+<DocExample title="Standard" file="Standard" />
+
+### With QCheckbox or QToggle
+
+<DocExample title="With checkboxes" file="Checkbox" />
+
+> [!IMPORTANT]
+> The model for checkboxes/toggles must be an array.
+
+<DocExample title="With toggles" file="Toggle" />
+
+### Using label slots
+
+There are two types of slots. A generic one (`label`) which applies to all options, unless a more specific index-based one is used (`label-N` where N is the 0-based index of the option). Both types of slots receive the respective option as parameter.
+
+Notice how we use the specific label slot for first option (option at index 0) and we also add a QTooltip.
+
+<DocExample title="Label slots" file="LabelSlots" />
+
+### With labels on left side
+
+<DocExample title="With option labels on the left side" file="Label" />
+
+### Inline
+
+<DocExample title="Inline" file="Inline" />
+
+### Dense
+
+<DocExample title="Dense and inline" file="DenseInline" />
+
+### Disable
+
+<DocExample title="Disabled" file="Disable" />
+
+> [!NOTE]
+> The objects within the `options` array can hold any of the props found in QToggle, QCheckbox or QRadio for instance `disable` or `leftLabel`. See below for an example.
+
+### Disable Certain Options
+
+<DocExample title="Disable Certain Options" file="DisableCertainOptions" />
+
+### Custom Label, Value and Disable props <q-badge label="v2.17+" />
+
+By default, QOptionGroup looks at `label`, `value`, `disable` props of each option from the options array Objects. But you can override those:
+
+<DocExample title="Custom Label, Value and Disable props" file="CustomOptionProps" />
+
+### Force dark mode
+
+<DocExample title="Force dark mode" file="Dark" />
+
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+
+<DocExample title="Native form" file="NativeForm" />
+
+## Accessibility <q-badge label="v2.25+" />
+
+QOptionGroup wraps its options in a container with `role="radiogroup"` when `type` is `radio`, or a generic `role="group"` for checkboxes and toggles, and sets `aria-disabled="true"` on it when the whole group is disabled. The per-option semantics (`radio`/`checkbox`/`switch` roles, `aria-checked`, labels) come from the underlying QRadio/QCheckbox/QToggle components. The group itself has no accessible name by default — pass an `aria-label` (or `aria-labelledby`) attribute to QOptionGroup so screen readers can announce what the group is about.
+
+For radio groups, the keyboard interaction below implements a roving tabindex; the horizontal arrow keys are RTL-aware.
+
+### Keyboard navigation
+
+When `type` is `radio` (the default), QOptionGroup follows the [WAI-ARIA radio group pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/): the whole group is a single Tab stop (pressing <kbd>Tab</kbd> moves focus into the group — onto the selected radio — and out of it), while the arrow keys move focus within the group, selecting the newly focused radio, wrapping around and skipping disabled options.
+
+Standalone QRadio components (used without QOptionGroup) have no knowledge of their siblings, so they cannot offer arrow key navigation — each is its own Tab stop.
+
+For checkboxes and toggles, each control remains an individual Tab stop, as each one is toggled independently.

@@ -1,0 +1,96 @@
+<template>
+  <div class="q-layout-padding">
+    <div class="row items-center q-mb-lg">
+      <q-btn @click="shuffle" label="Shuffle" />
+      <q-toggle v-model="hide" label="Hide" />
+    </div>
+
+    <div class="row no-wrap q-col-gutter-x-md" style="height: 300px">
+      <q-list class="col-6 full-height scroll">
+        <q-intersection
+          v-for="item in sortedItems"
+          :key="item.id"
+          :id="'i-' + item.id"
+          class="example-item"
+          transition="fade"
+        >
+          <q-item>
+            <q-item-section>
+              <q-item-label>Item {{ item.id }}</q-item-label>
+              <q-item-label caption>{{
+                item.date.toLocaleString()
+              }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-intersection>
+      </q-list>
+
+      <keep-alive>
+        <q-list
+          v-if="hide !== true"
+          class="col-6 full-height scroll"
+          key="keepAlive"
+        >
+          <transition-group name="conversation-item">
+            <q-intersection
+              v-for="item in sortedItems"
+              :key="item.id"
+              :id="'i-' + item.id"
+              class="example-item"
+              transition="fade"
+            >
+              <q-item>
+                <q-item-section>
+                  <q-item-label>Item {{ item.id }}</q-item-label>
+                  <q-item-label caption>{{
+                    item.date.toLocaleString()
+                  }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-intersection>
+          </transition-group>
+        </q-list>
+      </keep-alive>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed, ref } from 'vue'
+
+const start = new Date(2020, 1, 1).getTime()
+
+// deterministic dates: this list is server-rendered (sorted), so the
+// client hydration must produce the exact same order
+const initialItems = Array.from({ length: 50 }, (_, id) => ({
+  id,
+  date: new Date(start + ((id * 37) % 50) * 86_400_000)
+}))
+
+const items = ref(initialItems)
+const hide = ref(false)
+
+const sortedItems = computed(() =>
+  items.value.toSorted((a, b) => {
+    a = new Date(a.date)
+    b = new Date(b.date)
+    return a > b ? -1 : a < b ? 1 : 0
+  })
+)
+
+function shuffle() {
+  const randomIndex = Math.floor(Math.random() * items.value.length)
+
+  items.value.splice(randomIndex, 1, {
+    ...items.value[randomIndex],
+    date: new Date()
+  })
+}
+</script>
+
+<style lang="sass">
+.example-item
+  height: 50px
+.conversation-item-move
+  transition: transform 1.5s
+</style>

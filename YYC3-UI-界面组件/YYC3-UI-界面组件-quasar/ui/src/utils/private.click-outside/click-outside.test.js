@@ -1,0 +1,279 @@
+import { afterEach, describe, expect, test, vi } from 'vitest'
+
+import { addClickOutside, removeClickOutside } from './click-outside.js'
+import { portalProxyList } from '../private.portal/portal.js'
+import {
+  addDetachedFullscreen,
+  removeDetachedFullscreen
+} from '../private.focus/detached-fullscreen.js'
+
+// Elements and clickOutside states created during a test, cleaned up after.
+const createdEls = []
+const registeredStates = []
+const detachedFillers = []
+
+function createEl() {
+  const el = document.createElement('div')
+  document.body.append(el)
+  createdEls.push(el)
+  return el
+}
+
+// Register a fake portal (QMenu / QDialog / QTooltip) in the shared
+// portalProxyList, mimicking what usePortal.showPortal() does.
+function pushPortal(name, { seamless = false } = {}) {
+  const contentEl = createEl()
+  portalProxyList.push({
+    contentEl,
+    $: { type: { name }, props: { seamless } }
+  })
+  return contentEl
+}
+
+// Register a closable popup (QMenu-like) both as a portal and as a
+// clickOutside listener, returning its content element and the spy.
+function pushMenu() {
+  const contentEl = pushPortal('QMenu')
+  const onClickOutside = vi.fn()
+  const state = {
+    anchorEl: { value: null },
+    innerRef: { value: contentEl },
+    onClickOutside
+  }
+  addClickOutside(state)
+  registeredStates.push(state)
+  return { contentEl, onClickOutside }
+}
+
+function mousedownOn(el) {
+  el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
+}
+
+function pointerdownOn(el, pointerType = 'mouse') {
+  el.dispatchEvent(
+    new PointerEvent('pointerdown', { bubbles: true, pointerType })
+  )
+}
+
+// Detach a child of parentEl to <body> the way useSoftFullscreen().setFullscreen()
+// does: leave a filler node behind and register the pairing.
+function detachFullscreenChild(parentEl) {
+  const childEl = document.createElement('div')
+  parentEl.append(childEl)
+
+  const targetEl = document.createElement('input')
+  childEl.append(targetEl)
+
+  const fillerNode = document.createElement('span')
+  childEl.replaceWith(fillerNode)
+  document.body.append(childEl)
+  createdEls.push(childEl)
+
+  addDetachedFullscreen(fillerNode, () => childEl)
+  detachedFillers.push(fillerNode)
+
+  return { childEl, fillerNode, targetEl }
+}
+
+afterEach(() => {
+  registeredStates.forEach(removeClickOutside)
+  registeredStates.length = 0
+  portalProxyList.length = 0
+  detachedFillers.forEach(removeDetachedFullscreen)
+  detachedFillers.length = 0
+  createdEls.forEach(el => el.remove())
+  createdEls.length = 0
+  vi.restoreAllMocks()
+  vi.useRealTimers()
+})
+
+describe('[clickOutside API]', () => {
+  describe('[Functions]', () => {
+    describe('[(function)addClickOutside]', () => {
+      test('closes nested menus that have no dialog between them', () => {
+        // stack (open order): outer QMenu -> inner QMenu
+        const outer = pushMenu()
+        const inner = pushMenu()
+
+        // click somewhere outside both menus
+        mousedownOn(createEl())
+
+        expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
+        expect(outer.onClickOutside).toHaveBeenCalledTimes(1)
+      })
+
+      test('does not close a menu shielded by a modal dialog (issue #18091)', () => {
+        // stack (open order): outer QMenu -> modal QDialog -> inner QMenu
+        const outer = pushMenu()
+        const dialogEl = pushPortal('QDialog', { seamless: false })
+        const inner = pushMenu()
+
+        // click inside the dialog, but outside the inner menu popup
+        mousedownOn(dialogEl)
+
+        // only the inner Select popup should close
+        expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
+        // the outer Select popup stays open (shielded by the dialog backdrop)
+        expect(outer.onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a seamless dialog is not a boundary (has no backdrop)', () => {
+        // stack (open order): outer QMenu -> seamless QDialog -> inner QMenu
+        const outer = pushMenu()
+        const dialogEl = pushPortal('QDialog', { seamless: true })
+        const inner = pushMenu()
+
+        // click inside the seamless dialog, outside the inner menu popup
+        mousedownOn(dialogEl)
+
+        // without a backdrop, both menus close as before
+        expect(inner.onClickOutside).toHaveBeenCalledTimes(1)
+        expect(outer.onClickOutside).toHaveBeenCalledTimes(1)
+      })
+
+      test('a modal dialog on top closes nothing beneath it', () => {
+        // stack (open order): outer QMenu -> modal QDialog (top-most)
+        const outer = pushMenu()
+        const dialogEl = pushPortal('QDialog', { seamless: false })
+
+        mousedownOn(dialogEl)
+
+        expect(outer.onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a click inside a fullscreen-detached child of the popup does not close it (issue #18512)', () => {
+        const menu = pushMenu()
+
+        // a fullscreen-capable component inside the popup content has been
+        // moved to <body> by useSoftFullscreen()
+        const { targetEl } = detachFullscreenChild(menu.contentEl)
+
+        mousedownOn(targetEl)
+
+        expect(menu.onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a click inside a nested fullscreen-detached chain of the popup does not close it', () => {
+        const menu = pushMenu()
+
+        // fullscreen child of a fullscreen child: the inner filler sits inside
+        // the outer detached element, so ownership resolves through the chain
+        const outer = detachFullscreenChild(menu.contentEl)
+        const inner = detachFullscreenChild(outer.childEl)
+
+        mousedownOn(inner.targetEl)
+
+        expect(menu.onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a click inside a fullscreen-detached child of the anchor does not close the popup', () => {
+        const anchorEl = createEl()
+        const contentEl = pushPortal('QMenu')
+        const onClickOutside = vi.fn()
+        const state = {
+          anchorEl: { value: anchorEl },
+          innerRef: { value: contentEl },
+          onClickOutside
+        }
+        addClickOutside(state)
+        registeredStates.push(state)
+
+        const { targetEl } = detachFullscreenChild(anchorEl)
+
+        mousedownOn(targetEl)
+
+        expect(onClickOutside).not.toHaveBeenCalled()
+      })
+
+      test('a click inside an unrelated fullscreen-detached element still closes the popup', () => {
+        const container = createEl()
+        const menu = pushMenu()
+
+        const { targetEl } = detachFullscreenChild(container)
+
+        mousedownOn(targetEl)
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+      })
+
+      test('detached-element ownership is strict containment, not the focus-trap sibling rule', () => {
+        // an element detached from a later *sibling* of the popup content is
+        // owned by the popup under childHasFocus() semantics, but is genuinely
+        // outside it for pointer purposes -- the click must still close
+        const menu = pushMenu()
+        const laterSibling = createEl()
+
+        const { targetEl } = detachFullscreenChild(laterSibling)
+
+        mousedownOn(targetEl)
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+      })
+
+      test('a QTooltip above a modal dialog does not unshield an earlier menu', () => {
+        // stack (open order): outer QMenu -> modal QDialog -> QTooltip
+        // the QTooltip is skipped while scanning for the dialog boundary; that
+        // skip must not let the click reach the menu opened before the dialog
+        const outer = pushMenu()
+        const dialogEl = pushPortal('QDialog', { seamless: false })
+        pushPortal('QTooltip')
+
+        // click inside the dialog, outside every popup
+        mousedownOn(dialogEl)
+
+        expect(outer.onClickOutside).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('[(function)addClickOutside] pointerdown fallback (issue #12575)', () => {
+      test('a pointerdown whose compatibility mousedown got suppressed still closes the popup', () => {
+        vi.useFakeTimers()
+        const menu = pushMenu()
+
+        pointerdownOn(createEl())
+
+        // a normal press delivers its mousedown in the same task,
+        // so the fallback must wait for it
+        expect(menu.onClickOutside).not.toHaveBeenCalled()
+
+        vi.runAllTimers()
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+        expect(menu.onClickOutside.mock.calls[0][0].type).toBe('pointerdown')
+      })
+
+      test('a pointerdown followed by its mousedown closes the popup once', () => {
+        vi.useFakeTimers()
+        const menu = pushMenu()
+        const el = createEl()
+
+        pointerdownOn(el)
+        mousedownOn(el)
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+        expect(menu.onClickOutside.mock.calls[0][0].type).toBe('mousedown')
+
+        vi.runAllTimers()
+
+        expect(menu.onClickOutside).toHaveBeenCalledTimes(1)
+      })
+
+      test('a touch pointerdown arms no fallback (its touchstart is never suppressed)', () => {
+        vi.useFakeTimers()
+        const menu = pushMenu()
+
+        pointerdownOn(createEl(), 'touch')
+        vi.runAllTimers()
+
+        expect(menu.onClickOutside).not.toHaveBeenCalled()
+      })
+    })
+
+    describe('[(function)removeClickOutside]', () => {
+      test('has correct return value', () => {
+        const result = removeClickOutside({})
+        expect(result).toBeUndefined()
+      })
+    })
+  })
+})

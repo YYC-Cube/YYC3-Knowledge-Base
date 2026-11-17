@@ -1,0 +1,14 @@
+import type {
+  Resolvable,
+  FetchFunction,
+  WebSocketConstructor,
+} from '@ai-sdk/provider-utils';
+
+export type ElevenLabsConfig = {
+  provider: string;
+  url: (options: { modelId: string; path: string }) => string;
+  headers?: Resolvable<Record<string, string | undefined>>;
+  fetch?: FetchFunction;
+  generateId?: () => string;
+  webSocket?: WebSocketConstructor;
+};

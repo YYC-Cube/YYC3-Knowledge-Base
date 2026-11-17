@@ -1,0 +1,73 @@
+---
+title: Clipboard
+description: Used to copy text to the clipboard
+links:
+  source: components/clipboard
+  storybook: components-clipboard--basic
+  recipe: clipboard
+  ark: https://ark-ui.com/docs/components/clipboard
+---
+
+<ExampleTabs name="clipboard-basic" />
+
+## Usage
+
+```tsx
+import { Clipboard } from "@chakra-ui/react"
+```
+
+```tsx
+<Clipboard.Root>
+  <Clipboard.Trigger>
+    <Clipboard.CopyText />
+    <Clipboard.Indicator />
+  </Clipboard.Trigger>
+  <Clipboard.Input />
+</Clipboard.Root>
+```
+
+## Examples
+
+### Button
+
+Use the `Clipboard.Trigger` component to create a copy button.
+
+<ExampleTabs name="clipboard-with-button" />
+
+### Input
+
+Use the `Clipboard.Input` component to create a copy input.
+
+<ExampleTabs name="clipboard-with-input" />
+
+### Timeout
+
+Use the `timeout` prop to change the duration of the copy message.
+
+<ExampleTabs name="clipboard-with-timeout" />
+
+### Link Appearance
+
+Here's an example that combines the `Clipboard.Trigger` and
+`Clipboard.ValueText` components to create a link appearance.
+
+<ExampleTabs name="clipboard-with-link" />
+
+### Store
+
+Alternatively, you can use the `useClipboard` hook to create a custom component.
+
+<ExampleTabs name="clipboard-with-store" />
+
+## Props
+
+### Root
+
+<PropTable component="Clipboard" part="Root" />
+
+## Explorer
+
+Explore the `Clipboard` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="clipboard-explorer-demo" />

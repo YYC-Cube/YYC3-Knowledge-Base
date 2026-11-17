@@ -1,0 +1,260 @@
+---
+title: Button
+description: Used to trigger an action or event
+links:
+  source: components/button
+  storybook: components-button--basic
+  recipe: button
+---
+
+<ExampleTabs name="button-basic" />
+
+## Usage
+
+```jsx
+import { Button, ButtonGroup } from "@chakra-ui/react"
+```
+
+```jsx
+<Button>Click me</Button>
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the button.
+
+<ExampleTabs name="button-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to change the visual style of the Button.
+
+<ExampleTabs name="button-with-variants" />
+
+### Icon
+
+Use icons within a button
+
+<ExampleTabs name="button-with-icons" />
+
+### Color
+
+Use the `colorPalette` prop to change the color of the button
+
+<ExampleTabs name="button-with-colors" />
+
+### Disabled
+
+Use the `disabled` prop to disable the button.
+
+<ExampleTabs name="button-with-disabled" />
+
+### Disabled Link
+
+When using the `disabled` prop with a link, you need to prevent the default
+behavior of the link and add the `data-disabled` attribute.
+
+<ExampleTabs name="button-with-disabled-link" />
+
+### Loading
+
+Pass the `loading` and `loadingText` props to the `Button` component to show a
+loading spinner and add a loading text.
+
+<ExampleTabs name="button-with-loading" />
+
+Here's an example of how to toggle the loading state of a button while keeping
+the width of the button the same.
+
+<ExampleTabs name="button-with-loading-toggle" />
+
+### Spinner Placement
+
+Use the `spinnerPlacement` prop to change the placement of the spinner.
+
+<ExampleTabs name="button-with-spinner-placement" />
+
+### Custom Spinner
+
+Use the `spinner` prop to change the spinner.
+
+<ExampleTabs name="button-with-custom-spinner" />
+
+### Group
+
+Use the `ButtonGroup` component to group buttons together. This component allows
+you pass common recipe properties to inner buttons.
+
+<ExampleTabs name="button-with-group" />
+
+To flush the buttons, pass the `attached` prop.
+
+<ExampleTabs name="button-with-group-flushed" />
+
+### Split Menu
+
+Combine a `Button` and `Menu` with an attached `Group` to create a split button
+with a dropdown menu.
+
+<ExampleTabs name="button-with-split-menu" />
+
+### Responsive Size
+
+Use the object syntax on the `size` prop to make the button size responsive.
+
+<ExampleTabs name="button-with-responsive-size" />
+
+### Radius
+
+Use the `rounded` prop to change the radius of the button.
+
+<ExampleTabs name="button-with-radius" />
+
+### As Link
+
+Use the `asChild` prop to render a button as a link.
+
+<ExampleTabs name="button-as-link" />
+
+### Ref
+
+Here's how to access the underlying element reference
+
+```tsx
+const Demo = () => {
+  const ref = useRef<HTMLButtonElement | null>(null)
+  return <Button ref={ref}>Click me</Button>
+}
+```
+
+## Customization
+
+:::info
+
+After customizing the recipe, run the CLI typegen command to regenerate the
+types. See the [CLI docs](/docs/get-started/cli#chakra-typegen) for how to run
+typegen in postinstall, CI, and monorepos.
+
+```bash
+npx @chakra-ui/cli typegen
+```
+
+:::
+
+### Adding a new variant
+
+Use the `defineRecipe` function to add a new variant to the button. In this
+example, we add a `pill` variant that respects the `colorPalette` prop.
+
+```tsx title="components/ui/provider.tsx"
+import { createSystem, defaultConfig, defineRecipe } from "@chakra-ui/react"
+
+const buttonRecipe = defineRecipe({
+  variants: {
+    variant: {
+      pill: {
+        borderRadius: "full",
+        px: "6",
+        bg: "colorPalette.solid",
+        color: "colorPalette.contrast",
+        _hover: {
+          bg: "colorPalette.solid/90",
+        },
+      },
+    },
+  },
+})
+
+const system = createSystem(defaultConfig, {
+  theme: {
+    recipes: { button: buttonRecipe },
+  },
+})
+```
+
+Then use the `pill` variant in your button:
+
+```tsx
+<Button variant="pill" colorPalette="blue">
+  Pill Button
+</Button>
+```
+
+### Adding a new size
+
+Use the `defineRecipe` function to add a new size to the button.
+
+```tsx title="components/ui/provider.tsx"
+import { createSystem, defaultConfig, defineRecipe } from "@chakra-ui/react"
+
+const buttonRecipe = defineRecipe({
+  variants: {
+    size: {
+      xxl: {
+        h: "16",
+        minW: "16",
+        textStyle: "xl",
+        px: "8",
+      },
+    },
+  },
+})
+
+const system = createSystem(defaultConfig, {
+  theme: {
+    recipes: { button: buttonRecipe },
+  },
+})
+```
+
+Then use the `xxl` size in your button:
+
+```tsx
+<Button size="xxl">XXL Button</Button>
+```
+
+### Changing the default size
+
+Use the `defaultVariants` property to change the default button size.
+
+```tsx title="components/ui/provider.tsx"
+import { createSystem, defaultConfig, defineRecipe } from "@chakra-ui/react"
+
+const buttonRecipe = defineRecipe({
+  defaultVariants: {
+    size: "lg",
+  },
+})
+
+const system = createSystem(defaultConfig, {
+  theme: {
+    recipes: { button: buttonRecipe },
+  },
+})
+```
+
+### Changing the default variant
+
+Use the `defaultVariants` property to change the default button variant.
+
+```tsx title="components/ui/provider.tsx"
+import { createSystem, defaultConfig, defineRecipe } from "@chakra-ui/react"
+
+const buttonRecipe = defineRecipe({
+  defaultVariants: {
+    variant: "outline",
+  },
+})
+
+const system = createSystem(defaultConfig, {
+  theme: {
+    recipes: { button: buttonRecipe },
+  },
+})
+```
+
+## Props
+
+<PropTable component="Button" part="Button" />

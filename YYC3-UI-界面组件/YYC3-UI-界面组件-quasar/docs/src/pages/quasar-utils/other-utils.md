@@ -1,0 +1,519 @@
+---
+title: Other Utils
+desc: A set of miscellaneous Quasar methods for debouncing or throttling functions, deep copying objects, cross-platform URL opening or handling DOM events.
+keys: openURL,copyToClipboard,exportFile,debounce,frameDebounce,throttle,extend,uid,event
+---
+
+> [!NOTE]
+> For usage with the UMD build see [here](/start/umd#quasar-global-object).
+
+## openURL
+
+```js
+import { openURL } from 'quasar'
+
+openURL('http://...')
+
+// full syntax:
+openURL(
+  String url,
+  Function rejectFn, // optional; gets called if window cannot be opened
+  Object windowFeatures // optional requested features for the new window
+)
+```
+
+It will take care of the quirks involved when running under Cordova, Electron or on a browser, including notifying the user he/she has to acknowledge opening popups.
+
+When wrapping with Cordova (or Capacitor), it's best (but not "a must do") if [InAppBrowser](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/) Cordova plugin is also installed, so that openURL can hook into that.
+
+If running on iOS and [cordova-plugin-safariviewcontroller](https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller) is installed, then openURL will first try to hook into it.
+
+The optional `windowFeatures` parameter should be an Object with keys from [window.open() windowFeatures](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) and Boolean values (as described in the example below). Please note that these features will not be taken into account when openURL does not defers to using `window.open()`.
+
+```js Example of openURL() with windowFeatures:
+openURL(
+  'http://...',
+  undefined, // in this example we don't care about the rejectFn()
+
+  // this is the windowFeatures Object param:
+  {
+    noopener: true, // this is set by default for security purposes
+    // but it can be disabled if specified with a Boolean false value
+    menubar: true,
+    toolbar: true,
+    noreferrer: true
+    // .....any other window features
+  }
+)
+```
+
+> [!IMPORTANT]
+> If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn href="tel:123456789">`
+
+## copyToClipboard
+
+The following is a helper to copy some text to Clipboard. The method returns a Promise.
+
+```js
+import { copyToClipboard } from 'quasar'
+
+copyToClipboard('some text')
+  .then(() => {
+    // success!
+  })
+  .catch(() => {
+    // fail
+  })
+```
+
+## exportFile
+
+The following is a helper to trigger the browser to start downloading a file with the specified content.
+
+```js
+/**
+ * Forces browser to download file with specified content
+ *
+ * @param {*} fileName - String
+ * @param {*} rawData - String | ArrayBuffer | ArrayBufferView | Blob
+ * @param {*} opts - String (mimeType) or Object
+ *                   Object form: { mimeType?: String, byteOrderMark?: String | Uint8Array, encoding?: String }
+ * @returns Boolean | Error
+ */
+```
+
+The `opts` parameter is optional and can be a String (mimeType) or an Object with the following form:
+
+- **mimeType** (optional)
+
+  Examples: 'application/octet-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'
+  [https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
+
+- **byteOrderMark** (optional)
+
+  (BOM) Example: '\uFEFF'
+  [https://en.wikipedia.org/wiki/Byte_order_mark](https://en.wikipedia.org/wiki/Byte_order_mark)
+
+- **encoding** (optional)
+
+  Performs a TextEncoder.encode() over the rawData;
+  Example: 'windows-1252' (ANSI, a subset of ISO-8859-1)
+  [https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder)
+
+Examples:
+
+```js
+import { exportFile } from 'quasar'
+
+const status = exportFile('important.txt', 'some content')
+
+if (status) {
+  // browser allowed it
+} else {
+  // browser denied it
+  console.log('Error: ' + status)
+}
+```
+
+```js
+import { exportFile } from 'quasar'
+
+const status = exportFile('file.csv', 'éà; ça; 12\nà@€; çï; 13', {
+  encoding: 'windows-1252',
+  mimeType: 'text/csv;charset=windows-1252;'
+})
+
+if (status) {
+  // browser allowed it
+} else {
+  // browser denied it
+  console.error('Error: ' + status)
+}
+```
+
+## runSequentialPromises
+
+The following is a helper to run multiple Promises sequentially. **Optionally, on multiple threads.**
+
+```js
+/**
+ * Run a list of Promises sequentially, optionally on multiple threads.
+ *
+ * @param {*} sequentialPromises - Array of Functions or Object with Functions as values
+ *                          Array of Function form: [ (resultAggregator: Array) => Promise<any>, ... ]
+ *                          Object form: { [key: string]: (resultAggregator: object) => Promise<any>, ... }
+ * @param {*} opts - Optional options Object
+ *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
+ *                   Default: { threadsNumber: 1, abortOnFail: true }
+ *                   threadsNumber must be a positive integer; invalid values
+ *                       fall back to 1
+ *                   When configuring threadsNumber AND using http requests, be
+ *                       aware of the maximum threads that the hosting browser
+ *                       supports (usually 5); any number of threads above that
+ *                       won't add any real benefits
+ * @returns Promise<Array<Object> | Object>
+ *    With opts.abortOnFail set to true (which is default):
+ *        When sequentialPromises param is Array:
+ *          The Promise resolves with an Array of Objects of the following form:
+ *             [ { key: number, status: 'fulfilled', value: any }, ... ]
+ *          The Promise rejects with an Object of the following form:
+ *             { key: number, status: 'rejected', reason: Error, resultAggregator: array }
+ *        When sequentialPromises param is Object:
+ *          The Promise resolves with an Object of the following form:
+ *             { [key: string]: { key: string, status: 'fulfilled', value: any }, ... }
+ *          The Promise rejects with an Object of the following form:
+ *             { key: string, status: 'rejected', reason: Error, resultAggregator: object }
+ *    With opts.abortOnFail set to false:
+ *       The Promise is never rejected (no catch() needed)
+ *       The Promise resolves with:
+ *          An Array of Objects (when sequentialPromises param is also an Array) of the following form:
+ *             [ { key: number, status: 'fulfilled', value: any } | { status: 'rejected', reason: Error }, ... ]
+ *          An Object (when sequentialPromises param is also an Object) of the following form:
+ *             { [key: string]: { key: string, status: 'fulfilled', value: any } | { key: string, status: 'rejected', reason: Error }, ... }
+ */
+```
+
+Note that:
+
+- the `sequentialPromises` param is an Array of Functions (each Function returns a Promise)
+- each function in `sequentialPromises` receives one param which is the `resultAggregator`, so basically you can use the results of the previous promises to decide what to do with the current promise; each entry in the resultAggregator that hasn't been settled yet is marked as `null`
+- the `opts` parameter is optional.
+
+Generic example (with `sequentialPromises` param as Array):
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises([
+  resultAggregator =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    }),
+  resultAggregator =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    })
+  // ...
+])
+  .then(resultAggregator => {
+    // resultAggregator is ordered in the same way as the promises above
+    console.log('result from first Promise:', resultAggregator[0].value)
+    console.log('result from second Promise:', resultAggregator[1].value)
+    // ...
+  })
+  .catch(errResult => {
+    console.error(`Error encountered on job #${errResult.key}:`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
+```
+
+Generic example (with `sequentialPromises` param as Object):
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises({
+  phones: resultAggregator =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    }),
+  laptops: resultAggregator =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    })
+  // ...
+})
+  .then(resultAggregator => {
+    console.log('result from first Promise:', resultAggregator.phones.value)
+    console.log('result from second Promise:', resultAggregator.laptops.value)
+    // ...
+  })
+  .catch(errResult => {
+    console.error(`Error encountered on job (${errResult.key}):`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
+```
+
+Example using previous results:
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises({
+  phones: () =>
+    new Promise((resolve, reject) => {
+      /* do some work... */
+    }),
+  vendors: resultAggregator => {
+    new Promise((resolve, reject) => {
+      // You can do something with resultAggregator.phones.value here...
+      // Since are using the default abortOnFail option, the result is guaranteed to exist,
+      // so you don't have to guard resultAggregator.phones against "null"
+    })
+  }
+  // ...
+})
+```
+
+Example with the Fetch API:
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+const keyList = ['users', 'phones', 'laptops']
+
+runSequentialPromises([
+  () => fetch('https://some-url.com/users').then(res => res.json()),
+  () =>
+    fetch('https://some-other-url.com/items/phones').then(res => res.json()),
+  () =>
+    fetch('https://some-other-url.com/items/laptops').then(res => res.json())
+])
+  .then(resultAggregator => {
+    // resultAggregator is ordered in the same way as the promises above
+    resultAggregator.forEach(result => {
+      console.log(keyList[result.key], result.value) // example: users {...}
+    })
+  })
+  .catch(errResult => {
+    console.error(`Error encountered while fetching ${keyList[errResult.key]}:`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
+
+// **equivalent** example with sequentialPromises as Object:
+
+runSequentialPromises({
+  users: () => fetch('https://some-url.com/users').then(res => res.json()),
+  phones: () =>
+    fetch('https://some-other-url.com/items/phones').then(res => res.json()),
+  laptops: () =>
+    fetch('https://some-other-url.com/items/laptops').then(res => res.json())
+})
+  .then(resultAggregator => {
+    console.log('users:', resultAggregator.users.value)
+    console.log('phones:', resultAggregator.phones.value)
+    console.log('laptops:', resultAggregator.laptops.value)
+  })
+  .catch(errResult => {
+    console.error(`Error encountered while fetching ${errResult.key}:`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
+```
+
+Example with abortOnFail set to `false`:
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+// notice no "catch()"; runSequentialPromises() will always resolve
+runSequentialPromises(
+  {
+    users: () => fetch('https://some-url.com/users').then(res => res.json()),
+    phones: () =>
+      fetch('https://some-other-url.com/items/phones').then(res => res.json()),
+    laptops: () =>
+      fetch('https://some-other-url.com/items/laptops').then(res => res.json())
+  },
+  { abortOnFail: false }
+).then(resultAggregator => {
+  Object.values(resultAggregator).forEach(result => {
+    if (result.status === 'rejected') {
+      console.log(`Failed to fetch ${result.key}:`, result.reason)
+    } else {
+      console.log(`Succeeded to fetch ${result.key}:`, result.value)
+    }
+  })
+})
+```
+
+When configuring threadsNumber (`opts > threadsNumber`) AND using http requests, be aware of the maximum threads that the hosting browser supports (usually 5). Any number of threads above that won't add any real benefits.
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises([/* ... */], { threadsNumber: 3 })
+  .then(resultAggregator => {
+    resultAggregator.forEach(result => {
+      console.log(result.value)
+    })
+  })
+  .catch(errResult => {
+    console.error(`Error encountered:`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
+```
+
+## debounce
+
+If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.
+
+Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
+
+```ts
+function debounce<F extends (...args: any[]) => any>(
+  fn: F,
+  wait?: number, // default: 250
+  options?:
+    // default: false
+    // true is equivalent to { leading: true, trailing: false }
+    | boolean
+    // v2.34+
+    | {
+        leading?: boolean // default: false
+        trailing?: boolean // default: true
+        maxWait?: number // default: none
+      }
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+  cancel(): void
+  flush(): void // v2.34+
+  readonly isPending: boolean // v2.34+
+}
+```
+
+By default the debounced Function runs `fn` on the trailing edge: once the calls stop for `wait` milliseconds, with the last call's arguments. The `options` parameter (an object as of v2.34) tunes that:
+
+- `leading` runs `fn` on the first call of a burst too, with that call's arguments. The trailing run then happens only if calls were made after the leading one.
+- `trailing` set to `false` drops the trailing run.
+- `maxWait` runs `fn` at least once every `maxWait` milliseconds while the calls keep coming (with the latest arguments), so a burst that never stops still gets through. It needs the trailing run. A `maxWait` run ends the wait period: the next call starts a burst of its own.
+
+Passing `true` instead of an object is shorthand for `{ leading: true, trailing: false }`: `fn` runs on the first call only and the calls made during the following `wait` milliseconds are swallowed (each of them restarts the wait). Note that `{ leading: true }` alone keeps the trailing run.
+
+The wait period starts before `fn` runs, so calls made from within `fn` are debounced too.
+
+A quick example: you have a resize listener on the window which does some element dimension calculations and (possibly) repositions a few elements. That isn't a heavy task in itself but being repeatedly fired after numerous resizes will really slow your App down. So why not limit the rate at which the function can fire?
+
+```js
+import { debounce } from 'quasar'
+
+window.addEventListener(
+  'resize',
+  debounce(function () {
+    /* ... */
+  }, 300 /*ms to wait*/)
+)
+```
+
+The debounced Function carries two methods and a flag: `cancel()` drops the waiting call, `flush()` runs it right away and `isPending` is `true` while a call is waiting (treat it as read-only). Without a trailing run (`true`, or `leading` with `trailing: false`), no call ever waits: `isPending` stays `false`, `flush()` does nothing and `cancel()` ends the wait period, so that the next call runs right away. With neither edge (`{ trailing: false }` alone), `fn` never runs.
+
+```js
+const search = debounce(query => {
+  /* ... */
+}, 300)
+
+search('qua')
+search('quasar')
+search.isPending // v2.34+; true
+search.flush() // v2.34+; runs right away with 'quasar'
+search.cancel() // nothing waiting anymore, no-op
+
+// saves at most 300ms after the last edit
+// and at least once every 5s while editing
+const saveDraft = debounce(save, 300, { maxWait: 5000 })
+```
+
+> [!TIP]
+> Inside a component, prefer the [useDebounce](/vue-composables/use-debounce) composable: the same debounced Function, with the waiting call dropped when the component gets destroyed and a reactive `isPending`.
+
+There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`). It carries `cancel()` only: the next frame is never more than a few milliseconds away, so there is nothing to flush.
+
+```ts
+function frameDebounce<F extends (...args: any[]) => any>(
+  fn: F
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+  cancel(): void
+}
+
+import { frameDebounce } from 'quasar'
+window.addEventListener(
+  'resize',
+  frameDebounce(function () {
+    /* ... */
+  })
+)
+```
+
+> [!TIP]
+> Inside a component, prefer the [useAnimationFrame](/vue-composables/use-animation-frame) composable: it schedules a Function on the next frame too, with the pending frame dropped when the component gets destroyed.
+
+## throttle
+
+Throttling enforces a maximum number of times a function can be called over time. As in "execute this function at most once every X milliseconds."
+
+```ts
+function throttle<F extends (...args: any[]) => any>(
+  fn: F,
+  limit?: number, // default: 250
+  trailing?: boolean // v2.34+
+): F & {
+  cancel(): void // v2.34+
+  flush(): void // v2.34+
+}
+
+import { throttle } from 'quasar'
+window.addEventListener(
+  'resize',
+  throttle(function () {
+    /* ... */
+  }, 300 /* execute at most once every 0.3s */)
+)
+```
+
+The first call runs right away and the calls made during the following `limit` milliseconds are dropped, so a burst of calls ends with the state of its first call. With `trailing` set to `true`, the last call made during a window runs at the end of it instead (with its own arguments), so the state of the last call always gets through; that run opens a window of its own.
+
+The throttled Function carries two methods: `cancel()` drops the waiting call and closes the window, so that the next call runs right away; `flush()` runs the waiting call right away, as if the window had just ended, so a fresh window opens and the rate limit holds; without a waiting call it does nothing.
+
+> [!TIP]
+> Inside a component, prefer the [useThrottle](/vue-composables/use-throttle) composable: the same throttled Function, with the waiting call dropped when the component gets destroyed.
+
+## extend - (Deep) Copy Objects
+
+A basic respawn of `jQuery.extend()`. Takes same parameters:
+
+```js
+import { extend } from 'quasar'
+
+let newObject = extend([Boolean deepCopy], targetObj, obj, ...)
+```
+
+Watch out for methods within objects.
+
+## uid - Generate UID
+
+Generate unique identifiers:
+
+```js
+import { uid } from 'quasar'
+
+let uid = uid()
+// Example: 84402c0e-7a8c-4784-b0b1-2e471e631645
+```
+
+## testPattern
+
+Test against particular patterns.
+
+```js
+import { patterns } from 'quasar'
+
+const { testPattern } = patterns
+
+testPattern.email('foo@bar.com') // true
+testPattern.email('foo') // false
+
+testPattern.hexColor('#fff') // true
+testPattern.hexColor('#ffffff') // true
+testPattern.hexColor('#FFF') // true
+testPattern.hexColor('#gggggg') // false
+```
+
+See the full list of patterns [here](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns/patterns.js).

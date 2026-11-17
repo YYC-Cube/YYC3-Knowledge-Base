@@ -1,0 +1,31 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@1.4.0/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "chakra-ui/chakra-ui" }
+  ],
+  "commit": false,
+  "fixed": [["@chakra-ui/**"]],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
+    "onlyUpdatePeerDependentsWhenOutOfRange": true
+  },
+  "ignore": [
+    "next-app",
+    "next-app-streaming",
+    "next-pages",
+    "vite-ts",
+    "vite-jsx",
+    "remix-ts",
+    "panda-preset",
+    "storybook-ts",
+    "shadow-dom",
+    "sandbox-iframe",
+    "react-router-ts",
+    "@chakra-ui/www",
+    "@chakra-ui/compositions",
+    "@chakra-ui/react-mcp"
+  ]
+}

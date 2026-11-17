@@ -1,0 +1,734 @@
+version: 2.1
+orbs:
+  code-infra: https://raw.githubusercontent.com/mui/mui-public/1528dd11a9b88caecbdf6eb74002cbee8b601b3a/.circleci/orbs/code-infra.yml
+
+parameters:
+  workflow:
+    description: The name of the workflow to run
+    type: string
+    default: pipeline
+  e2e-base-url:
+    description: The base url for running end-to-end test
+    type: string
+    default: ''
+
+default-job: &default-job
+  parameters:
+    react-version:
+      description: The version of react to be used
+      type: string
+      default: stable
+    typescript-version:
+      description: The version of typescript to be used
+      type: string
+      default: stable
+    e2e-base-url:
+      description: The base url for running end-to-end test
+      type: string
+      default: << pipeline.parameters.e2e-base-url >>
+  environment: &default-environment
+    BASE_BRANCH: master # #target-branch-reference
+    ARGOS_REFERENCE_BRANCH: master # #target-branch-reference
+    AWS_REGION_ARTIFACTS: eu-central-1
+    COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+    DANGER_DISABLE_TRANSPILATION: 'true'
+  working_directory: /tmp/material-ui
+  executor:
+    name: code-infra/mui-node
+    node-version: '22.23.4'
+  resource_class: medium.gen2
+
+default-context: &default-context
+  context:
+    - org-global
+
+# CircleCI has disabled the cache across forks for security reasons.
+# Following their official statement, it was a quick solution, they
+# are working on providing this feature back with appropriate security measures.
+# https://discuss.circleci.com/t/saving-cache-stopped-working-warning-skipping-this-step-disabled-in-configuration/24423/21
+#
+# restore_repo: &restore_repo
+#   restore_cache:
+#     key: v1-repo-{{ .Branch }}-{{ .Revision }}
+
+jobs:
+  test_unit:
+    <<: *default-job
+    steps:
+      - checkout
+      - code-infra/install-deps:
+          react-version: << parameters.react-version >>
+      - run:
+          name: Tests fake browser
+          command: pnpm test:node --no-isolate --no-file-parallelism
+      - run:
+          name: internal-scripts
+          command: |
+            # latest commit
+            LATEST_COMMIT=$(git rev-parse HEAD)
+
+            # latest commit where internal-scripts was changed
+            FOLDER_COMMIT=$(git log -1 --format=format:%H --full-diff packages-internal/scripts)
+
+            if [ $FOLDER_COMMIT = $LATEST_COMMIT ]; then
+              echo "changes, let's run the tests"
+              pnpm --filter @mui/internal-scripts test
+            else
+              echo "no changes"
+            fi
+      - store_test_results:
+          path: test-results
+
+  test_lint:
+    <<: *default-job
+    steps:
+      - checkout
+      - code-infra/install-deps
+      - code-infra/eslint
+      - code-infra/stylelint
+      - code-infra/valelint
+  test_static:
+    <<: *default-job
+    resource_class: medium
+    steps:
+      - checkout
+      - code-infra/install-deps
+      - code-infra/check-static-changes
+      - code-infra/check-generated:
+          command: pnpm proptypes
+      - run:
+          # Fails when a conformance report changes without its rollup being
+          # regenerated, and when a report rates a criterion ⚙️ Automated
+          # without citing the test or axe rule that proves it.
+          name: Accessibility scorecard up to date?
+          command: pnpm a11y:scorecard:check
+      - code-infra/check-generated:
+          command: pnpm docs:api
+      - code-infra/extract-error-codes
+  test_types:
+    <<: *default-job
+    resource_class: xlarge.gen2
+    steps:
+      - checkout
+      - code-infra/install-deps
+      - run:
+          name: Tests TypeScript definitions
+          command: pnpm typescript:ci
+      - run:
+          name: Test module augmentation
+          command: pnpm typescript:module-augmentation
+  test_types_minimum:
+    <<: *default-job
+    steps:
+      - checkout
+      - code-infra/install-deps
+      - run:
+          name: Build @mui packages
+          command: pnpm release:build
+      - run:
+          name: Test minimum TypeScript version
+          command: pnpm -F ./test/typescriptMinimum test
+  test_types_next:
+    <<: *default-job
+    resource_class: xlarge.gen2
+    steps:
+      - checkout
+      - code-infra/install-deps:
+          typescript-version: << parameters.typescript-version >>
+      - run:
+          name: Tests TypeScript definitions
+          command: pnpm typescript:ci
+      - run:
+          name: Test module augmentation
+          command: pnpm typescript:module-augmentation
+      - run:
+          name: Build declaration files
+          command: |
+            pnpm lerna run --scope "@mui/*" build
+      - run:
+          name: Log defect declaration files
+          command: |
+            node scripts/testBuiltTypes.mjs
+  test_browser_legacy:
+    <<: *default-job
+    resource_class: medium+.gen2
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.49.1-noble
+    steps:
+      - checkout
+      # The legacy Playwright image (pinned for older browser engines) ships Node 22.12,
+      # which fails the root package.json#engines.node check under engineStrict. Install the
+      # repo's Node into /usr/local (ahead of the image's /usr/bin on PATH) without changing
+      # the browsers.
+      - run:
+          name: Upgrade Node.js to match engines.node
+          command: |
+            curl -fsSL https://nodejs.org/dist/v22.23.4/node-v22.23.4-linux-x64.tar.gz | tar -xz -C /usr/local --strip-components=1
+            node --version
+      - code-infra/install-deps:
+          react-version: << parameters.react-version >>
+          playwright-version: '1.49.1'
+      - run:
+          name: Tests Chromium
+          command: pnpm test:browser --no-isolate --no-file-parallelism
+      - run:
+          name: Tests WebKit
+          environment:
+            VITEST_BROWSERS: 'webkit'
+          command: pnpm test:browser --no-isolate --no-file-parallelism
+      - run:
+          name: Tests Firefox
+          environment:
+            VITEST_BROWSERS: 'firefox'
+          command: pnpm test:browser --no-isolate --no-file-parallelism
+      - store_test_results:
+          path: test-results
+  test_browser:
+    <<: *default-job
+    resource_class: medium+.gen2
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    steps:
+      - checkout
+      - code-infra/install-deps:
+          react-version: << parameters.react-version >>
+      - run:
+          name: Tests Chromium
+          command: pnpm test:browser --no-isolate --no-file-parallelism
+      - run:
+          name: Tests WebKit
+          environment:
+            VITEST_BROWSERS: 'webkit'
+          command: pnpm test:browser --no-isolate --no-file-parallelism
+      - run:
+          name: Tests Firefox
+          environment:
+            VITEST_BROWSERS: 'firefox'
+          command: pnpm test:browser --no-isolate --no-file-parallelism
+      - store_test_results:
+          path: test-results
+  test_benchmark:
+    <<: *default-job
+    # 2 vCPUs starve V8's background compilers, which makes the same code's speed vary from sample to
+    # sample; see the @mui/internal-benchmark README.
+    resource_class: medium+.gen2
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    steps:
+      - checkout
+      - code-infra/install-deps
+      - run:
+          name: Build packages
+          command: pnpm release:build
+      - run:
+          name: Resolve the baseline commit
+          command: |
+            set -e
+            BASE_SHA=$(pnpm code-infra baseline --base-branch master)
+            echo "Baseline commit: $BASE_SHA"
+            echo "$BASE_SHA" > .benchmark-baseline-sha
+      - restore_cache:
+          name: Restore the packed-baseline cache
+          keys:
+            - benchmark-cache-v1-{{ checksum ".benchmark-baseline-sha" }}
+      - run:
+          name: Run the benchmarks
+          no_output_timeout: 30m
+          # Only the smoke benchmarks, to keep a pull request's check short; the other benchmark files
+          # are left to manual runs.
+          command: pnpm test:benchmark smoke --baseline "$(cat .benchmark-baseline-sha)"
+      - run:
+          name: Upload the benchmark report
+          # Also after a failed run, so the comment says what happened.
+          when: always
+          command: pnpm test:benchmark upload
+      - save_cache:
+          name: Save the packed-baseline cache
+          key: benchmark-cache-v1-{{ checksum ".benchmark-baseline-sha" }}
+          paths:
+            - test/benchmark/.benchmark/packed
+  test_e2e:
+    <<: *default-job
+    resource_class: medium
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    steps:
+      - checkout
+      - code-infra/install-deps:
+          react-version: << parameters.react-version >>
+      - run:
+          name: pnpm test:e2e
+          command: pnpm test:e2e
+  test_e2e_website:
+    # NOTE: This workflow runs after successful docs deploy. See /test/e2e-website/README.md#ci
+    <<: *default-job
+    resource_class: medium
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    steps:
+      - checkout
+      - code-infra/install-deps
+      - run:
+          name: pnpm test:e2e-website
+          command: pnpm test:e2e-website
+          environment:
+            PLAYWRIGHT_TEST_BASE_URL: << parameters.e2e-base-url >>
+  test_regressions:
+    <<: *default-job
+    resource_class: medium+
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    steps:
+      - checkout
+      - code-infra/install-deps:
+          react-version: << parameters.react-version >>
+      - run:
+          name: Run visual regression tests
+          command: pnpm test:regressions
+      - run:
+          name: A11y results committed?
+          # The react@17/18/next jobs pin React via `package-overrides`, which rewrites
+          # pnpm-workspace.yaml (overrides) and may touch pnpm-lock.yaml. Exclude those so
+          # this check still verifies the a11y results without tripping on the pinned deps.
+          command: git add -A -- . ':(exclude)pnpm-*.yaml' && git diff --exit-code --staged
+      - when:
+          condition:
+            not:
+              equal: [stable, << parameters.react-version >>]
+          steps:
+            - run:
+                name: Configure the Argos upload for a non-stable React run
+                # Argos never uses a subset build as a baseline or reports its skipped screenshots.
+                # A branch other than master stops the auto-approval, so React changes fail.
+                # The reference commit compares the build with the stable run of the same commit.
+                command: |
+                  echo 'export ARGOS_SUBSET=true' >> "$BASH_ENV"
+                  echo 'export ARGOS_BRANCH="$CIRCLE_JOB"' >> "$BASH_ENV"
+                  echo 'export ARGOS_REFERENCE_COMMIT="$CIRCLE_SHA1"' >> "$BASH_ENV"
+      - code-infra/argos-push
+  test_bundling_prepare:
+    <<: *default-job
+    steps:
+      - checkout
+      - code-infra/install-deps
+      - run:
+          name: Build packages for fixtures
+          command: pnpm lerna run --scope "@mui/*" build
+      - run:
+          name: Pack packages
+          command: pnpm release:pack
+      - persist_to_workspace:
+          root: packed
+          paths:
+            - '*'
+  test_bundling_node_cjs:
+    <<: *default-job
+    working_directory: /tmp/material-ui/test/bundling/fixtures/node-cjs/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          command: pnpm start
+  test_bundling_node_esm:
+    <<: *default-job
+    working_directory: /tmp/material-ui/test/bundling/fixtures/node-esm/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          # TODO: Known failure
+          command: pnpm start
+  test_bundling_next_webpack4:
+    <<: *default-job
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    working_directory: /tmp/material-ui/test/bundling/fixtures/next-webpack4/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          command: pnpm start
+  test_bundling_next_webpack5:
+    <<: *default-job
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    working_directory: /tmp/material-ui/test/bundling/fixtures/next-webpack5/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          command: pnpm start
+  test_bundling_create_react_app:
+    <<: *default-job
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    working_directory: /tmp/material-ui/test/bundling/fixtures/create-react-app/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          command: pnpm start
+  test_bundling_snowpack:
+    <<: *default-job
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    working_directory: /tmp/material-ui/test/bundling/fixtures/snowpack/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          command: pnpm start
+  test_bundling_vite:
+    <<: *default-job
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+    working_directory: /tmp/material-ui/test/bundling/fixtures/vite/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          command: pnpm start
+  test_bundling_esbuild:
+    <<: *default-job
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.63.0-noble
+    working_directory: /tmp/material-ui/test/bundling/fixtures/esbuild/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          command: pnpm start
+  test_bundling_gatsby:
+    <<: *default-job
+    executor:
+      name: code-infra/mui-node-browser
+      playwright-img-version: v1.63.0-noble
+      environment:
+        GATSBY_CPU_COUNT: '3'
+    working_directory: /tmp/material-ui/test/bundling/fixtures/gatsby/
+    steps:
+      - checkout:
+          path: /tmp/material-ui
+      - attach_workspace:
+          at: /tmp/material-ui/packed
+      - code-infra/install-deps:
+          ignore-workspace: true
+      - run:
+          name: Test fixture
+          command: pnpm start
+  test_bundle_size_monitor:
+    <<: *default-job
+    resource_class: medium
+    steps:
+      - checkout
+      - code-infra/install-deps
+      - run:
+          name: Build @mui packages
+          command: pnpm release:build
+      - code-infra/upload-size-snapshot
+      - run:
+          name: Validate type declarations
+          command: pnpm validate-declarations
+      - run:
+          name: Analyze exported typescript
+          command: pnpm test:attw
+          no_output_timeout: 20m
+      - run:
+          name: Any defect declaration files?
+          command: node scripts/testBuiltTypes.mjs
+      - run:
+          name: test exported typescript
+          command: pnpm --filter ./test/moduleResolution typescript:all
+      - store_artifacts:
+          name: Persist size snapshot as pipeline artifact
+          path: size-snapshot.json
+          destination: size-snapshot.json
+workflows:
+  version: 2
+  pipeline:
+    when:
+      equal: [pipeline, << pipeline.parameters.workflow >>]
+    jobs:
+      - test_unit:
+          <<: *default-context
+      - test_lint:
+          <<: *default-context
+      - test_static:
+          <<: *default-context
+      - test_types:
+          <<: *default-context
+      - test_browser:
+          <<: *default-context
+      - test_benchmark:
+          <<: *default-context
+      - test_browser_legacy:
+          <<: *default-context
+      - test_regressions:
+          <<: *default-context
+      - test_e2e:
+          <<: *default-context
+      - test_bundle_size_monitor:
+          <<: *default-context
+  e2e-website:
+    when:
+      equal: [e2e-website, << pipeline.parameters.workflow >>]
+    jobs:
+      - test_e2e_website:
+          <<: *default-context
+  bundling:
+    when:
+      equal: [bundling, << pipeline.parameters.workflow >>]
+    jobs:
+      - test_bundling_prepare:
+          <<: *default-context
+      - test_bundling_node_cjs:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+      - test_bundling_node_esm:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+      - test_bundling_create_react_app:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+      - test_bundling_snowpack:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+      - test_bundling_vite:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+      - test_bundling_esbuild:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+      - test_bundling_gatsby:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+      - test_bundling_next_webpack4:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+      - test_bundling_next_webpack5:
+          <<: *default-context
+          requires:
+            - test_bundling_prepare
+
+  # This workflow can be triggered manually on the PR
+  react-17:
+    when:
+      equal: [react-17, << pipeline.parameters.workflow >>]
+    jobs:
+      - test_unit:
+          <<: *default-context
+          react-version: ^17.0.0
+          name: test_unit-react@17
+      - test_browser:
+          <<: *default-context
+          react-version: ^17.0.0
+          name: test_browser-react@17
+      - test_regressions:
+          <<: *default-context
+          react-version: ^17.0.0
+          name: test_regressions-react@17
+      - test_e2e:
+          <<: *default-context
+          react-version: ^17.0.0
+          name: test_e2e-react@17
+
+  # This workflow is identical to react-17, but scheduled
+  # TODO: The v17 tests have deteriorated to the point of no return. Fix for v18 once we
+  #       deprecate v17, and reenable this workflow.
+  # react-17-cron:
+  #   triggers:
+  #     - schedule:
+  #         cron: '0 0 * * *'
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+  #               - next
+  #   jobs:
+  #     - test_unit:
+  #         <<: *default-context
+  #         react-version: ^17.0.0
+  #         name: test_unit-react@17
+  #     - test_browser:
+  #         <<: *default-context
+  #         react-version: ^17.0.0
+  #         name: test_browser-react@17
+  #     - test_regressions:
+  #         <<: *default-context
+  #         react-version: ^17.0.0
+  #         name: test_regressions-react@17
+  #     - test_e2e:
+  #         <<: *default-context
+  #         react-version: ^17.0.0
+  #         name: test_e2e-react@17
+
+  # Manually-triggered counterpart of nightly-cron — runs the compatibility
+  # suite (react@18, react@next, typescript@next, minimum TypeScript) on the current PR branch.
+  nightly:
+    when:
+      equal: [nightly, << pipeline.parameters.workflow >>]
+    jobs:
+      - test_unit:
+          <<: *default-context
+          react-version: ^18.0.0
+          name: test_unit-react@18
+      - test_browser:
+          <<: *default-context
+          react-version: ^18.0.0
+          name: test_browser-react@18
+      - test_regressions:
+          <<: *default-context
+          react-version: ^18.0.0
+          name: test_regressions-react@18
+      - test_e2e:
+          <<: *default-context
+          react-version: ^18.0.0
+          name: test_e2e-react@18
+      - test_unit:
+          <<: *default-context
+          react-version: next
+          name: test_unit-react@next
+      - test_browser:
+          <<: *default-context
+          react-version: next
+          name: test_browser-react@next
+      - test_regressions:
+          <<: *default-context
+          react-version: next
+          name: test_regressions-react@next
+      - test_e2e:
+          <<: *default-context
+          react-version: next
+          name: test_e2e-react@next
+      - test_types_minimum:
+          <<: *default-context
+      - test_types_next:
+          <<: *default-context
+          typescript-version: next
+
+  # Scheduled counterpart of `nightly`. react@18 runs on all listed branches;
+  # the react@next and typescript@next jobs skip v5.x via per-job branch filters.
+  nightly-cron:
+    triggers:
+      - schedule:
+          cron: '0 0 * * *'
+          filters:
+            branches:
+              only:
+                # #target-branch-reference
+                - master
+                - v5.x
+                - v6.x
+                - v7.x
+    jobs:
+      - test_unit:
+          <<: *default-context
+          react-version: ^18.0.0
+          name: test_unit-react@18
+      - test_browser:
+          <<: *default-context
+          react-version: ^18.0.0
+          name: test_browser-react@18
+      - test_regressions:
+          <<: *default-context
+          react-version: ^18.0.0
+          name: test_regressions-react@18
+      - test_e2e:
+          <<: *default-context
+          react-version: ^18.0.0
+          name: test_e2e-react@18
+      - test_unit:
+          <<: *default-context
+          react-version: next
+          name: test_unit-react@next
+          filters:
+            branches:
+              ignore: v5.x
+      - test_browser:
+          <<: *default-context
+          react-version: next
+          name: test_browser-react@next
+          filters:
+            branches:
+              ignore: v5.x
+      - test_regressions:
+          <<: *default-context
+          react-version: next
+          name: test_regressions-react@next
+          filters:
+            branches:
+              ignore: v5.x
+      - test_e2e:
+          <<: *default-context
+          react-version: next
+          name: test_e2e-react@next
+          filters:
+            branches:
+              ignore: v5.x
+      - test_types_minimum:
+          <<: *default-context
+      - test_types_next:
+          <<: *default-context
+          typescript-version: next
+          filters:
+            branches:
+              ignore: v5.x

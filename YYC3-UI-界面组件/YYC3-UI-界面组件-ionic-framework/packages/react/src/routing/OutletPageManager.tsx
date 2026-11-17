@@ -1,0 +1,141 @@
+import { componentOnReady } from '@ionic/core/components';
+import React from 'react';
+
+import { IonRouterOutletInner } from '../components/inner-proxies';
+import { IonLifeCycleContext } from '../contexts/IonLifeCycleContext';
+import type { RouteInfo } from '../models';
+
+import { StackContext } from './StackContext';
+
+interface OutletPageManagerProps {
+  className?: string;
+  forwardedRef?: React.ForwardedRef<HTMLIonRouterOutletElement>;
+  children: React.ReactNode;
+  routeInfo?: RouteInfo;
+  StackManager: any; // TODO(FW-2959): type
+  id?: string;
+}
+
+export class OutletPageManager extends React.Component<OutletPageManagerProps> {
+  ionLifeCycleContext!: React.ContextType<typeof IonLifeCycleContext>;
+  declare context: React.ContextType<typeof StackContext>;
+  ionRouterOutlet: HTMLIonRouterOutletElement | undefined;
+  outletIsReady: boolean;
+
+  constructor(props: OutletPageManagerProps) {
+    super(props);
+
+    this.outletIsReady = false;
+
+    /**
+     * This binds the scope of the following methods to the class scope.
+     * The `.bind` method returns a new function, so we need to assign it
+     * in the constructor rather than when adding or removing the listeners
+     * to avoid creating a new function.
+     */
+    this.ionViewWillEnterHandler = this.ionViewWillEnterHandler.bind(this);
+    this.ionViewDidEnterHandler = this.ionViewDidEnterHandler.bind(this);
+    this.ionViewWillLeaveHandler = this.ionViewWillLeaveHandler.bind(this);
+    this.ionViewDidLeaveHandler = this.ionViewDidLeaveHandler.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.ionRouterOutlet) {
+      /**
+       * This avoids multiple raf calls
+       * when React unmounts + remounts components.
+       */
+      if (!this.outletIsReady) {
+        const el = this.ionRouterOutlet;
+        componentOnReady(el, () => {
+          /**
+           * The outlet can unmount before this fires, which clears the ref.
+           */
+          if (this.ionRouterOutlet !== el) return;
+
+          /**
+           * Guard against duplicate callbacks from React strict mode double-mount.
+           * Both componentDidMount calls pass the outer !outletIsReady check before
+           * either async callback fires. Without this inner guard, the second callback
+           * re-adds ion-page-invisible after the first callback's transition removed it,
+           * and registerIonPage returns early (same element), leaving the page invisible.
+           */
+          if (this.outletIsReady) return;
+          this.outletIsReady = true;
+
+          /**
+           * Add ion-page + ion-page-invisible AFTER Stencil hydration but
+           * BEFORE registerIonPage. Stencil hydration overwrites className,
+           * so classes added in a React ref callback get wiped. Adding them
+           * here -- after hydration -- ensures they persist until the parent
+           * outlet's forward animation removes ion-page-invisible, preventing
+           * a flash where the outlet is briefly visible at full opacity.
+           */
+          if (!el.classList.contains('ion-page-invisible') && !el.classList.contains('ion-page-hidden')) {
+            el.classList.add('ion-page');
+            el.classList.add('ion-page-invisible');
+          }
+
+          this.context.registerIonPage(el, this.props.routeInfo!);
+        });
+      }
+
+      this.ionRouterOutlet.addEventListener('ionViewWillEnter', this.ionViewWillEnterHandler);
+      this.ionRouterOutlet.addEventListener('ionViewDidEnter', this.ionViewDidEnterHandler);
+      this.ionRouterOutlet.addEventListener('ionViewWillLeave', this.ionViewWillLeaveHandler);
+      this.ionRouterOutlet.addEventListener('ionViewDidLeave', this.ionViewDidLeaveHandler);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.ionRouterOutlet) {
+      this.ionRouterOutlet.removeEventListener('ionViewWillEnter', this.ionViewWillEnterHandler);
+      this.ionRouterOutlet.removeEventListener('ionViewDidEnter', this.ionViewDidEnterHandler);
+      this.ionRouterOutlet.removeEventListener('ionViewWillLeave', this.ionViewWillLeaveHandler);
+      this.ionRouterOutlet.removeEventListener('ionViewDidLeave', this.ionViewDidLeaveHandler);
+    }
+  }
+
+  ionViewWillEnterHandler() {
+    this.ionLifeCycleContext.ionViewWillEnter();
+  }
+
+  ionViewDidEnterHandler() {
+    this.ionLifeCycleContext.ionViewDidEnter();
+  }
+
+  ionViewWillLeaveHandler() {
+    this.ionLifeCycleContext.ionViewWillLeave();
+  }
+
+  ionViewDidLeaveHandler() {
+    this.ionLifeCycleContext.ionViewDidLeave();
+  }
+
+  render() {
+    const { StackManager, children, routeInfo, id, ...props } = this.props;
+    return (
+      <IonLifeCycleContext.Consumer>
+        {(context) => {
+          this.ionLifeCycleContext = context;
+          return (
+            <StackManager id={id} routeInfo={routeInfo}>
+              <IonRouterOutletInner
+                id={id}
+                setRef={(val: HTMLIonRouterOutletElement) => (this.ionRouterOutlet = val)}
+                {...props}
+              >
+                {children}
+              </IonRouterOutletInner>
+            </StackManager>
+          );
+        }}
+      </IonLifeCycleContext.Consumer>
+    );
+  }
+
+  static get contextType() {
+    return StackContext;
+  }
+}
+export default OutletPageManager;

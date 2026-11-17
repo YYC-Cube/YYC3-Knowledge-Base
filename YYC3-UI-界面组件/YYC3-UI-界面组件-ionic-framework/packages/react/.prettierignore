@@ -1,0 +1,6 @@
+dist
+dist-transpiled
+*.md
+build
+react-component-lib
+components.ts

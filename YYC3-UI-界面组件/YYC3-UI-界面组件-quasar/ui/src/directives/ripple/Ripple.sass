@@ -1,0 +1,31 @@
+.q-ripple
+  position: absolute
+  top: 0
+  left: 0 #{"/* rtl:ignore */"}
+  width: 100%
+  height: 100%
+  color: inherit
+  border-radius: inherit
+  z-index: 0
+  pointer-events: none
+  overflow: hidden
+  contain: strict
+
+  &__inner
+    position: absolute
+    top: 0
+    left: 0 #{"/* rtl:ignore */"}
+    opacity: 0
+    color: inherit
+    border-radius: 50%
+    background: currentColor
+    pointer-events: none
+    will-change: transform, opacity
+
+    &--enter
+      transition: transform .225s cubic-bezier(.4, 0, .2, 1), opacity .1s cubic-bezier(.4, 0, .2, 1)
+
+    &--leave
+      // transform keeps transitioning so a cancelled ripple finishes
+      // expanding while it fades out instead of snapping to full size
+      transition: transform .225s cubic-bezier(.4, 0, .2, 1), opacity .25s cubic-bezier(.4, 0, .2, 1)

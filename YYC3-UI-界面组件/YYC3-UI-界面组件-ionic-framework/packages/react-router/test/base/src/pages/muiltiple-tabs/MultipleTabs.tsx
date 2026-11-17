@@ -1,0 +1,113 @@
+import {
+  IonSplitPane,
+  IonRouterOutlet,
+  IonTabs,
+  IonTabBar,
+  IonTabButton,
+  IonLabel,
+  IonPage,
+  IonContent,
+  IonHeader,
+  IonMenuButton,
+  IonButtons,
+  IonIcon,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
+import { triangle, ellipse, square, rocket } from 'ionicons/icons';
+import React from 'react';
+import { Route, Navigate } from 'react-router';
+
+import { Menu } from './Menu';
+import TestDescription from '../../components/TestDescription';
+
+const MultipleTabs: React.FC = () => {
+  return (
+    <IonSplitPane contentId="main">
+      <Menu />
+      <IonRouterOutlet id="main">
+        <Route
+          path="/multiple-tabs/tab1/*"
+          element={<Tab1 />}
+        />
+        <Route
+          path="/multiple-tabs/tab2/*"
+          element={<Tab2 />}
+        />
+        <Route path="/multiple-tabs" element={<Navigate to="/multiple-tabs/tab1" replace />} />
+      </IonRouterOutlet>
+    </IonSplitPane>
+  );
+};
+
+export default MultipleTabs;
+
+const Tab1: React.FC = () => {
+  return (
+    <IonTabs>
+      <IonTabBar slot="bottom">
+        <IonTabButton tab="pagea" href="/multiple-tabs/tab1/pagea">
+          <IonIcon icon={triangle} />
+          <IonLabel>Page A</IonLabel>
+        </IonTabButton>
+
+        <IonTabButton tab="pageb" href="/multiple-tabs/tab1/pageb">
+          <IonIcon icon={ellipse} />
+          <IonLabel>Page B</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+      <IonRouterOutlet id="tab1">
+        <Route
+          path="/multiple-tabs/tab1"
+          element={<Navigate to="/multiple-tabs/tab1/pagea" replace />}
+        />
+        <Route path="/multiple-tabs/tab1/pagea" element={<Page name="PageA" />} />
+        <Route path="/multiple-tabs/tab1/pageb" element={<Page name="PageB" />} />
+      </IonRouterOutlet>
+    </IonTabs>
+  );
+};
+
+const Tab2: React.FC = () => {
+  return (
+    <IonTabs>
+      <IonTabBar slot="bottom">
+        <IonTabButton tab="pagec" href="/multiple-tabs/tab2/pagec">
+          <IonIcon icon={square} />
+          <IonLabel>Page C</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="paged" href="/multiple-tabs/tab2/paged">
+          <IonIcon icon={rocket} />
+          <IonLabel>Page D</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+      <IonRouterOutlet id="tab2">
+        <Route
+          path="/multiple-tabs/tab2"
+          element={<Navigate to="/multiple-tabs/tab2/pagec" replace />}
+        />
+        <Route path="/multiple-tabs/tab2/pagec" element={<Page name="PageC" />} />
+        <Route path="/multiple-tabs/tab2/paged" element={<Page name="PageD" />} />
+      </IonRouterOutlet>
+    </IonTabs>
+  );
+};
+
+const Page: React.FC<{ name: string }> = ({ name }) => {
+  return (
+    <IonPage data-pageid={name}>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons>
+            <IonMenuButton />
+            <IonTitle>{name}</IonTitle>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        {name}
+        <TestDescription>Use the side menu to switch between Tab1 (Page A/B) and Tab2 (Page C/D) groups. Each group has its own tab bar and independent navigation. Switching between groups should show the correct tab bar and preserve each group's selected tab.</TestDescription>
+      </IonContent>
+    </IonPage>
+  );
+};

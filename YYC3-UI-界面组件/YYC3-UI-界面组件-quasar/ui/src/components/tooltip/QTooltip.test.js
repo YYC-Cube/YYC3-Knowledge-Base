@@ -1,0 +1,1477 @@
+import { flushPromises, mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { KeepAlive, createVNode, defineComponent, h } from 'vue'
+import { useRoute } from 'vue-router'
+
+import { getRouter } from 'testing/runtime/router.js'
+import Platform from '../../plugins/platform/Platform.js'
+import { validatePosition } from '../../composables/private.use-position-engine/use-position-engine.js'
+import QInput from '../input/QInput.js'
+import QTooltip from './QTooltip.js'
+
+// the test browser is a Chromium, so QTooltip takes the CSS anchor
+// positioning path by default; flipping this flag before mounting
+// forces the JS positioning fallback of non-supporting browsers instead
+// (through the composable's test-only viaCssAnchor option)
+const engineOverride = vi.hoisted(() => ({ forceJsFallback: false }))
+
+vi.mock(
+  '../../composables/private.use-position-engine/use-position-engine.js',
+  async importOriginal => {
+    const mod = await importOriginal()
+    return {
+      ...mod,
+      default: options =>
+        mod.default(
+          engineOverride.forceJsFallback
+            ? { ...options, viaCssAnchor: false }
+            : options
+        )
+    }
+  }
+)
+
+let activeWrapper
+
+beforeEach(() => {
+  vi.useFakeTimers()
+})
+
+afterEach(() => {
+  activeWrapper?.unmount()
+  activeWrapper = void 0
+  vi.clearAllTimers()
+  vi.useRealTimers()
+  vi.restoreAllMocks()
+  engineOverride.forceJsFallback = false
+})
+
+/**
+ * QTooltip renders through a portal, so it is mounted inside an anchor
+ * and the resulting node is looked up in the document.
+ */
+function mountTooltip(props, slots, mountOptions) {
+  props ||= {}
+  slots ||= { default: () => 'Tip' }
+
+  activeWrapper = mount(
+    defineComponent({
+      props: { tooltipProps: Object },
+      setup(componentProps, { slots: componentSlots }) {
+        return () =>
+          h('div', { class: 'my-anchor', tabindex: 0 }, [
+            h(QTooltip, componentProps.tooltipProps, componentSlots)
+          ])
+      }
+    }),
+    {
+      props: { tooltipProps: props },
+      slots,
+      attachTo: document.body,
+      ...mountOptions
+    }
+  )
+
+  return activeWrapper
+}
+
+/** Mounts an independent input next to the anchor, as a focus target. */
+function mountTooltipWithInput(props) {
+  activeWrapper = mount(
+    defineComponent({
+      props: { renderTooltip: { type: Boolean, default: true } },
+      setup(componentProps) {
+        return () =>
+          h('div', [
+            h('button', { class: 'my-anchor' }, [
+              'Information',
+              componentProps.renderTooltip
+                ? h(QTooltip, props, () => 'Tip')
+                : null
+            ]),
+            h(QInput)
+          ])
+      }
+    }),
+    { attachTo: document.body }
+  )
+
+  return activeWrapper
+}
+
+function getTooltip() {
+  return document.querySelector('.q-tooltip')
+}
+
+function getAnchor(wrapper) {
+  return wrapper.get('.my-anchor')
+}
+
+function getTooltipComponent(wrapper) {
+  return wrapper.findComponent(QTooltip)
+}
+
+async function showTooltip(wrapper) {
+  getTooltipComponent(wrapper).vm.show()
+  await flushPromises()
+  await vi.runAllTimersAsync()
+}
+
+async function hideTooltip(wrapper) {
+  getTooltipComponent(wrapper).vm.hide()
+  await flushPromises()
+  await vi.runAllTimersAsync()
+}
+
+/**
+ * Mounts a tooltip on a 200x100 anchor pinned at (100, 100), the fixed
+ * geometry the cursor-position cases reason about.
+ */
+function mountTooltipOnPinnedAnchor(props) {
+  const wrapper = mountTooltip(props)
+
+  Object.assign(getAnchor(wrapper).element.style, {
+    position: 'fixed',
+    top: '100px',
+    left: '100px',
+    width: '200px',
+    height: '100px'
+  })
+
+  return wrapper
+}
+
+/**
+ * Dispatches a real PointerEvent, the only way to carry coordinates
+ * (test-utils' trigger() cannot write the read-only clientX/clientY).
+ * Defaults to (250, 150), the pinned anchor's center.
+ */
+function dispatchPointer(
+  wrapper,
+  type,
+  { left = 250, top = 150, ...rest } = {}
+) {
+  getAnchor(wrapper).element.dispatchEvent(
+    new PointerEvent(type, { clientX: left, clientY: top, ...rest })
+  )
+}
+
+async function enterAt(wrapper, evtProps) {
+  dispatchPointer(wrapper, 'pointerenter', evtProps)
+  await vi.runAllTimersAsync()
+  await flushPromises()
+}
+
+const wrappingContent = () =>
+  h(
+    'div',
+    { style: { padding: '16px' } },
+    'Are you sure you want to close the system?'
+  )
+
+/**
+ * Mounts a left-growing tooltip (bottom left / top left, no offset so
+ * the flipped edge lands exactly on the anchor's) with wrapping text
+ * content on a 60x30 anchor pinned 8px from the top of the viewport at
+ * the given horizontal inset.
+ */
+async function mountWrappingTooltipAt(inset) {
+  const wrapper = mountTooltip(
+    { anchor: 'bottom left', self: 'top left', offset: [0, 0] },
+    { default: wrappingContent }
+  )
+  Object.assign(getAnchor(wrapper).element.style, {
+    position: 'fixed',
+    top: '8px',
+    width: '60px',
+    height: '30px',
+    ...inset
+  })
+
+  await showTooltip(wrapper)
+
+  return wrapper
+}
+
+/**
+ * Shared by both positioning engines: a tooltip flipped away from the
+ * right viewport edge must keep the width it has when opening freely,
+ * instead of shrinking into the space its intended (overflowing)
+ * placement left it and freezing that as its cap (#18533).
+ */
+async function expectNaturalWidthAtTheRightEdge() {
+  const reference = await mountWrappingTooltipAt({ left: '8px' })
+  const { width, height } = getTooltip().getBoundingClientRect()
+  reference.unmount()
+
+  const wrapper = await mountWrappingTooltipAt({ right: '8px' })
+  const rect = getTooltip().getBoundingClientRect()
+
+  // flipped: its right edge sits on the anchor's right edge, at its
+  // free-opening width (up to the sub-pixel snapping layout applies to
+  // the fractional pixel left the JS engine writes)
+  expect(rect.right).toBeCloseTo(
+    getAnchor(wrapper).element.getBoundingClientRect().right,
+    0
+  )
+  expect(rect.width).toBeCloseTo(width, 0)
+  // and the text did not wrap into extra lines
+  expect(rect.height).toBe(height)
+}
+
+describe('[QTooltip API]', () => {
+  describe('[Props]', () => {
+    describe('[(prop)transition-show]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mountTooltip({ transitionShow: 'fade' })
+
+        await showTooltip(wrapper)
+
+        expect(
+          getTooltip().style.getPropertyValue('--q-transition-duration')
+        ).not.toBe('')
+        expect(getTooltipComponent(wrapper).vm.$props.transitionShow).toBe(
+          'fade'
+        )
+      })
+
+      test('defaults to a jump-down transition', () => {
+        const wrapper = mountTooltip()
+
+        expect(getTooltipComponent(wrapper).vm.$props.transitionShow).toBe(
+          'jump-down'
+        )
+      })
+    })
+
+    describe('[(prop)transition-hide]', () => {
+      test('type String has effect', () => {
+        const wrapper = mountTooltip({ transitionHide: 'fade' })
+
+        expect(getTooltipComponent(wrapper).vm.$props.transitionHide).toBe(
+          'fade'
+        )
+      })
+
+      test('defaults to a jump-up transition', () => {
+        const wrapper = mountTooltip()
+
+        expect(getTooltipComponent(wrapper).vm.$props.transitionHide).toBe(
+          'jump-up'
+        )
+      })
+    })
+
+    describe('[(prop)transition-duration]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mountTooltip({ transitionDuration: '450' })
+
+        await showTooltip(wrapper)
+
+        expect(
+          getTooltip().style.getPropertyValue('--q-transition-duration')
+        ).toBe('450ms')
+      })
+
+      test('type Number has effect', async () => {
+        const wrapper = mountTooltip({ transitionDuration: 450 })
+
+        await showTooltip(wrapper)
+
+        expect(
+          getTooltip().style.getPropertyValue('--q-transition-duration')
+        ).toBe('450ms')
+      })
+
+      test('delays the show event by that long', async () => {
+        const wrapper = mountTooltip({ transitionDuration: 300 })
+        const tooltip = getTooltipComponent(wrapper)
+
+        tooltip.vm.show()
+        await flushPromises()
+
+        expect(tooltip.emitted('show')).toBeUndefined()
+
+        await vi.advanceTimersByTimeAsync(300)
+
+        expect(tooltip.emitted('show')).toHaveLength(1)
+      })
+    })
+
+    describe('[(prop)target]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountTooltip({ target: false })
+
+        await getAnchor(wrapper).trigger('pointerenter')
+        await vi.runAllTimersAsync()
+
+        // no anchor means the parent events are never wired up
+        expect(getTooltip()).toBeNull()
+      })
+
+      test('type String has effect', async () => {
+        const target = document.createElement('div')
+        target.id = 'my-target'
+        document.body.append(target)
+
+        try {
+          const wrapper = mountTooltip({ target: '#my-target' })
+          await showTooltip(wrapper)
+
+          expect(target.getAttribute('aria-describedby')).toBe(getTooltip().id)
+        } finally {
+          target.remove()
+        }
+      })
+
+      test('type Element has effect', async () => {
+        const target = document.createElement('div')
+        document.body.append(target)
+
+        try {
+          const wrapper = mountTooltip({ target })
+          await showTooltip(wrapper)
+
+          expect(target.getAttribute('aria-describedby')).toBe(getTooltip().id)
+        } finally {
+          target.remove()
+        }
+      })
+
+      // a String target may name an element that gets rendered after the
+      // tooltip mounted (v-if, async component) (#18566)
+      test('picks a late String target on its first hover', async () => {
+        vi.spyOn(console, 'warn').mockImplementation(() => {})
+        mountTooltip({ target: '#late-target' })
+        const target = document.createElement('div')
+        target.id = 'late-target'
+
+        try {
+          document.body.append(target)
+          target.dispatchEvent(
+            new PointerEvent('pointerover', { bubbles: true })
+          )
+          target.dispatchEvent(new PointerEvent('pointerenter'))
+          await flushPromises()
+          await vi.runAllTimersAsync()
+
+          expect(getTooltip()).not.toBeNull()
+          expect(target.getAttribute('aria-describedby')).toBe(getTooltip().id)
+        } finally {
+          target.remove()
+        }
+      })
+
+      // a compiled template updates its dynamic props in attribute order,
+      // so with v-model written before :target the model turns on while
+      // the target still resolves to false (#18559)
+      test.each([
+        ['CSS anchor positioning', false],
+        ['JS positioning fallback', true]
+      ])(
+        'anchors a target that resolves right after the model turns on (%s)',
+        async (_, forceJsFallback) => {
+          engineOverride.forceJsFallback = forceJsFallback
+
+          const target = document.createElement('div')
+          Object.assign(target.style, {
+            position: 'fixed',
+            top: '100px',
+            left: '100px',
+            width: '200px',
+            height: '30px'
+          })
+          document.body.append(target)
+
+          try {
+            activeWrapper = mount(
+              defineComponent({
+                props: { state: Object },
+                setup(componentProps) {
+                  return () =>
+                    h('div', [
+                      createVNode(
+                        QTooltip,
+                        {
+                          modelValue: componentProps.state.show,
+                          target: componentProps.state.target || false,
+                          offset: [0, 0]
+                        },
+                        {
+                          default: () =>
+                            h('div', {
+                              style: { width: '50px', height: '20px' }
+                            })
+                        },
+                        8 /* PatchFlags.PROPS */,
+                        ['modelValue', 'target']
+                      )
+                    ])
+                }
+              }),
+              {
+                props: { state: { show: false, target: null } },
+                attachTo: document.body
+              }
+            )
+
+            await activeWrapper.setProps({ state: { show: true, target } })
+            await vi.runAllTimersAsync()
+
+            // default placement: bottom middle / top middle
+            const rect = getTooltip().getBoundingClientRect()
+            expect(rect.top).toBe(130)
+            expect(rect.left + rect.width / 2).toBe(200)
+          } finally {
+            target.remove()
+          }
+        }
+      )
+
+      test('defaults to the parent element', async () => {
+        const wrapper = mountTooltip()
+
+        await showTooltip(wrapper)
+
+        expect(getAnchor(wrapper).attributes('aria-describedby')).toBe(
+          getTooltip().id
+        )
+      })
+    })
+
+    describe('[(prop)no-parent-event]', () => {
+      test('type Boolean has effect', async () => {
+        const withEvents = mountTooltip()
+        await getAnchor(withEvents).trigger('pointerenter')
+        await vi.runAllTimersAsync()
+        expect(getTooltip()).not.toBeNull()
+        withEvents.unmount()
+        await vi.runAllTimersAsync()
+
+        const wrapper = mountTooltip({ noParentEvent: true })
+
+        await getAnchor(wrapper).trigger('pointerenter')
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).toBeNull()
+      })
+    })
+
+    describe('[(prop)model-value]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountTooltip({ modelValue: true })
+
+        await flushPromises()
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).not.toBeNull()
+
+        await wrapper.setProps({ tooltipProps: { modelValue: false } })
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).toBeNull()
+      })
+    })
+
+    describe('[(prop)max-height]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mountTooltip({ maxHeight: '100px' })
+
+        await showTooltip(wrapper)
+
+        expect(getTooltip().style.maxHeight).toBe('100px')
+      })
+
+      test('leaves the height unbounded without it', async () => {
+        const wrapper = mountTooltip()
+
+        await showTooltip(wrapper)
+
+        expect(getTooltip().style.maxHeight).toBe('')
+      })
+    })
+
+    describe('[(prop)max-width]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mountTooltip({ maxWidth: '100px' })
+
+        await showTooltip(wrapper)
+
+        const maxWidth = getTooltip().style.maxWidth
+
+        // the viewport can narrow it down further, but never widen it
+        expect(maxWidth).not.toBe('')
+        expect(Number.parseInt(maxWidth, 10)).toBeLessThanOrEqual(100)
+      })
+    })
+
+    describe('[(prop)anchor]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mountTooltip({ anchor: 'top left' })
+
+        await showTooltip(wrapper)
+
+        expect(getTooltip()).not.toBeNull()
+        expect(getTooltipComponent(wrapper).vm.$props.anchor).toBe('top left')
+      })
+
+      test('only accepts a valid position', () => {
+        const { validator, default: defaultValue } = QTooltip.props.anchor
+
+        expect(validator).toBe(validatePosition)
+        expect(validator('top left')).toBe(true)
+        expect(validator('center middle')).toBe(true)
+        expect(validator('nowhere')).toBe(false)
+        expect(validator(defaultValue)).toBe(true)
+      })
+    })
+
+    describe('[(prop)self]', () => {
+      test('type String has effect', async () => {
+        const wrapper = mountTooltip({ self: 'bottom right' })
+
+        await showTooltip(wrapper)
+
+        expect(getTooltip()).not.toBeNull()
+        expect(getTooltipComponent(wrapper).vm.$props.self).toBe('bottom right')
+      })
+
+      test('only accepts a valid position', () => {
+        const { validator, default: defaultValue } = QTooltip.props.self
+
+        expect(validator('bottom right')).toBe(true)
+        expect(validator('nowhere')).toBe(false)
+        expect(validator(defaultValue)).toBe(true)
+      })
+    })
+
+    describe('[(prop)offset]', () => {
+      test('type Array has effect', async () => {
+        const wrapper = mountTooltip({ offset: [20, 30] })
+
+        await showTooltip(wrapper)
+
+        expect(getTooltip()).not.toBeNull()
+        expect(getTooltipComponent(wrapper).vm.$props.offset).toStrictEqual([
+          20, 30
+        ])
+      })
+
+      test('only accepts two numbers', () => {
+        const { validator, default: getDefault } = QTooltip.props.offset
+
+        expect(validator([10, 20])).toBe(true)
+        expect(validator([10])).toBe(false)
+        expect(validator(['a', 'b'])).toBe(false)
+        expect(validator(getDefault())).toBe(true)
+      })
+    })
+
+    describe('[(prop)cursor-position]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor()
+
+        await enterAt(wrapper)
+
+        // without the prop: bottom middle / top middle of the anchor's
+        // box, offset by the default [14, 14]
+        const boxRect = getTooltip().getBoundingClientRect()
+        expect(boxRect.top).toBe(214)
+        expect(boxRect.left + boxRect.width / 2).toBeCloseTo(200, 0)
+
+        await getAnchor(wrapper).trigger('pointerleave')
+        await vi.runAllTimersAsync()
+
+        await wrapper.setProps({ tooltipProps: { cursorPosition: true } })
+        await flushPromises()
+
+        await enterAt(wrapper)
+
+        // with it: the same origins, but around the pointer instead,
+        // cleared by the default [14, 14] offset on both axes
+        const rect = getTooltip().getBoundingClientRect()
+        expect(rect.top).toBe(164)
+        expect(rect.left + rect.width / 2).toBeCloseTo(264, 0)
+      })
+    })
+
+    describe('[(prop)delay]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountTooltip({ delay: 500 })
+
+        await getAnchor(wrapper).trigger('pointerenter')
+        await vi.advanceTimersByTimeAsync(499)
+
+        expect(getTooltip()).toBeNull()
+
+        await vi.advanceTimersByTimeAsync(1)
+        await flushPromises()
+
+        expect(getTooltip()).not.toBeNull()
+      })
+    })
+
+    describe('[(prop)hide-delay]', () => {
+      test('type Number has effect', async () => {
+        const wrapper = mountTooltip({ hideDelay: 500 })
+
+        await getAnchor(wrapper).trigger('pointerenter')
+        await vi.runAllTimersAsync()
+        expect(getTooltip()).not.toBeNull()
+
+        await getAnchor(wrapper).trigger('pointerleave')
+        await vi.advanceTimersByTimeAsync(499)
+
+        expect(getTooltip()).not.toBeNull()
+
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).toBeNull()
+      })
+    })
+
+    describe('[(prop)persistent]', () => {
+      test('type Boolean has effect', async () => {
+        const wrapper = mountTooltip({ persistent: true })
+
+        await showTooltip(wrapper)
+        expect(getTooltip()).not.toBeNull()
+
+        document.body.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 27 }))
+        await vi.runAllTimersAsync()
+
+        // the ESC key is ignored while persistent
+        expect(getTooltip()).not.toBeNull()
+      })
+    })
+  })
+
+  describe('[Slots]', () => {
+    describe('[(slot)default]', () => {
+      test('renders the content', async () => {
+        const slotContent = 'some-slot-content'
+        const wrapper = mountTooltip({}, { default: () => slotContent })
+
+        await showTooltip(wrapper)
+
+        expect(getTooltip().textContent).toBe(slotContent)
+      })
+    })
+  })
+
+  describe('[Events]', () => {
+    describe('[(event)update:model-value]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountTooltip({
+          modelValue: false,
+          'onUpdate:modelValue': () => {}
+        })
+
+        await showTooltip(wrapper)
+
+        const tooltip = getTooltipComponent(wrapper)
+        expect(tooltip.emitted('update:modelValue')).toStrictEqual([[true]])
+      })
+    })
+
+    describe('[(event)show]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountTooltip()
+
+        await showTooltip(wrapper)
+
+        expect(getTooltipComponent(wrapper).emitted('show')).toHaveLength(1)
+      })
+    })
+
+    describe('[(event)before-show]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountTooltip()
+
+        await showTooltip(wrapper)
+
+        const tooltip = getTooltipComponent(wrapper)
+        expect(tooltip.emitted('beforeShow')).toHaveLength(1)
+      })
+    })
+
+    describe('[(event)hide]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountTooltip()
+
+        await showTooltip(wrapper)
+        await hideTooltip(wrapper)
+
+        expect(getTooltipComponent(wrapper).emitted('hide')).toHaveLength(1)
+      })
+    })
+
+    describe('[(event)before-hide]', () => {
+      test('is emitting', async () => {
+        const wrapper = mountTooltip()
+
+        await showTooltip(wrapper)
+        await hideTooltip(wrapper)
+
+        expect(getTooltipComponent(wrapper).emitted('beforeHide')).toHaveLength(
+          1
+        )
+      })
+    })
+  })
+
+  describe('[Methods]', () => {
+    describe('[(method)show]', () => {
+      test('should be callable', async () => {
+        const wrapper = mountTooltip()
+
+        expect(getTooltipComponent(wrapper).vm.show()).toBeUndefined()
+        await flushPromises()
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).not.toBeNull()
+      })
+    })
+
+    describe('[(method)hide]', () => {
+      test('should be callable', async () => {
+        const wrapper = mountTooltip()
+
+        await showTooltip(wrapper)
+
+        expect(getTooltipComponent(wrapper).vm.hide()).toBeUndefined()
+        await flushPromises()
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).toBeNull()
+      })
+    })
+
+    describe('[(method)toggle]', () => {
+      test('should be callable', async () => {
+        const wrapper = mountTooltip()
+        const tooltip = getTooltipComponent(wrapper)
+
+        expect(tooltip.vm.toggle()).toBeUndefined()
+        await flushPromises()
+        await vi.runAllTimersAsync()
+        expect(getTooltip()).not.toBeNull()
+
+        tooltip.vm.toggle()
+        await flushPromises()
+        await vi.runAllTimersAsync()
+        expect(getTooltip()).toBeNull()
+      })
+    })
+
+    describe('[(method)updatePosition]', () => {
+      test('should be callable', async () => {
+        const wrapper = mountTooltip({ maxHeight: '100px' })
+
+        await showTooltip(wrapper)
+
+        expect(getTooltipComponent(wrapper).vm.updatePosition()).toBeUndefined()
+
+        const style = getTooltip().style
+        expect(style.visibility).toBe('')
+        expect(style.maxHeight).toBe('100px')
+        expect(style.top).not.toBe('')
+      })
+    })
+  })
+
+  describe('[Computed props]', () => {
+    describe('[(computedProp)contentEl]', () => {
+      test('should be exposed', async () => {
+        const wrapper = mountTooltip()
+        const tooltip = getTooltipComponent(wrapper)
+
+        await showTooltip(wrapper)
+
+        expect(tooltip.vm.contentEl).toBeInstanceOf(Element)
+        expect(tooltip.vm.contentEl).toBe(getTooltip())
+      })
+    })
+  })
+
+  describe('[Generic]', () => {
+    test('programmatic show cancels a pending hide delay', async () => {
+      const wrapper = mountTooltip({ hideDelay: 500 })
+      const tooltip = getTooltipComponent(wrapper)
+      await getAnchor(wrapper).trigger('pointerleave')
+      expect(vi.getTimerCount()).toBeGreaterThan(0)
+
+      tooltip.vm.show()
+      await vi.advanceTimersByTimeAsync(500)
+
+      expect(tooltip.emitted('show')).toHaveLength(1)
+      expect(tooltip.emitted('hide')).toBeUndefined()
+      expect(getTooltip()).not.toBeNull()
+    })
+
+    test('programmatic hide cancels a pending show delay', async () => {
+      const wrapper = mountTooltip({ delay: 500 })
+      const tooltip = getTooltipComponent(wrapper)
+      await showTooltip(wrapper)
+      await getAnchor(wrapper).trigger('pointerenter', { pointerType: 'mouse' })
+      expect(vi.getTimerCount()).toBeGreaterThan(0)
+
+      tooltip.vm.hide()
+      await vi.advanceTimersByTimeAsync(500)
+
+      expect(tooltip.emitted('show')).toHaveLength(1)
+      expect(tooltip.emitted('hide')).toHaveLength(1)
+      expect(getTooltip()).toBeNull()
+    })
+
+    describe('viewport boundary', () => {
+      test('keeps its natural width when flipped away from the right edge', async () => {
+        await expectNaturalWidthAtTheRightEdge()
+      })
+    })
+
+    describe('cursor position', () => {
+      test('waits for the pointer to settle, then freezes there', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        dispatchPointer(wrapper, 'pointerenter')
+        await vi.advanceTimersByTimeAsync(80)
+
+        // still sweeping across the anchor: nothing is shown yet, and
+        // the wait restarts around wherever the pointer went
+        expect(getTooltip()).toBeNull()
+
+        dispatchPointer(wrapper, 'pointermove', { left: 180, top: 130 })
+        await vi.advanceTimersByTimeAsync(80)
+
+        expect(getTooltip()).toBeNull()
+
+        await vi.runAllTimersAsync()
+        await flushPromises()
+
+        const rect = getTooltip().getBoundingClientRect()
+        expect(rect.top).toBe(144)
+        expect(rect.left + rect.width / 2).toBeCloseTo(194, 0)
+
+        // the placement is frozen: a pointer moving on does not drag it
+        dispatchPointer(wrapper, 'pointermove', { left: 260, top: 190 })
+        await vi.runAllTimersAsync()
+        await flushPromises()
+
+        expect(getTooltip().getBoundingClientRect().top).toBe(144)
+      })
+
+      test('ignores pointer jitter while settling', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        dispatchPointer(wrapper, 'pointerenter')
+        await vi.advanceTimersByTimeAsync(80)
+
+        // a sensor that keeps reporting tiny movements must neither
+        // postpone the tooltip nor move the coordinates it opens at
+        for (let i = 0; i < 5; i++) {
+          dispatchPointer(wrapper, 'pointermove', {
+            left: 250 + (i % 2 ? 2 : -2),
+            top: 150 + (i % 2 ? -3 : 3)
+          })
+          await vi.advanceTimersByTimeAsync(10)
+        }
+
+        await flushPromises()
+
+        expect(getTooltip().getBoundingClientRect().top).toBe(164)
+      })
+
+      test('opens right away at the contact point of a touch', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        // a finger is already down when it "enters", so there is no
+        // approach to wait out
+        dispatchPointer(wrapper, 'pointerenter', {
+          pointerType: 'touch',
+          isPrimary: true
+        })
+        await vi.advanceTimersByTimeAsync(50)
+        await flushPromises()
+
+        // shown well before the settle window a hovering pointer waits
+        expect(getTooltip().getBoundingClientRect().top).toBe(164)
+      })
+
+      test('falls back to the anchor box when no pointer is involved', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        // keyboard focus reports no coordinates
+        getAnchor(wrapper).element.focus()
+        getAnchor(wrapper).element.dispatchEvent(
+          new FocusEvent('focusin', { bubbles: true })
+        )
+        await vi.runAllTimersAsync()
+        await flushPromises()
+
+        expect(getTooltip().getBoundingClientRect().top).toBe(214)
+
+        await hideTooltip(wrapper)
+
+        // ...and neither does the model
+        await showTooltip(wrapper)
+
+        expect(getTooltip().getBoundingClientRect().top).toBe(214)
+      })
+
+      test('mirrors around the pointer at a viewport edge', async () => {
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+        const bottom = document.documentElement.clientHeight
+
+        getAnchor(wrapper).element.style.top = `${bottom - 100}px`
+
+        await enterAt(wrapper, { top: bottom - 20 })
+
+        // no room below the pointer, so the tooltip opens above it,
+        // clearing it by the offset on that side too
+        expect(getTooltip().getBoundingClientRect().bottom).toBe(bottom - 34)
+      })
+
+      test('keeps tracking the anchor it was opened from', async () => {
+        engineOverride.forceJsFallback = true
+
+        const wrapper = mountTooltipOnPinnedAnchor({ cursorPosition: true })
+
+        await enterAt(wrapper)
+        expect(getTooltip().style.top).toBe('164px')
+
+        // the point is anchor-relative, so a scrolled-away anchor takes
+        // the frozen placement with it
+        getAnchor(wrapper).element.style.top = '60px'
+        document.dispatchEvent(new Event('scroll'))
+        await flushPromises()
+
+        expect(getTooltip().style.top).toBe('124px')
+      })
+    })
+
+    describe('JS positioning fallback', () => {
+      // what browsers without CSS anchor positioning support get
+      beforeEach(() => {
+        engineOverride.forceJsFallback = true
+      })
+
+      test('keeps its natural width when flipped away from the right edge', async () => {
+        await expectNaturalWidthAtTheRightEdge()
+      })
+
+      test('positions the tooltip through the JS engine', async () => {
+        const wrapper = mountTooltip()
+        Object.assign(getAnchor(wrapper).element.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '100px',
+          height: '50px'
+        })
+
+        await showTooltip(wrapper)
+
+        // same resulting placement as the native path (bottom middle /
+        // top middle with the default [14, 14] offset), reached through
+        // measured pixel styles instead of anchor() insets
+        expect(getTooltip().getBoundingClientRect().top).toBe(164)
+        expect(getTooltip().style.top).toBe('164px')
+        expect(getTooltip().classList.contains('q-position-engine')).toBe(true)
+        expect(
+          getAnchor(wrapper).element.style.getPropertyValue('anchor-name')
+        ).toBe('')
+      })
+
+      test('tracks its anchor on a container scroll instead of hiding', async () => {
+        const wrapper = mountTooltip()
+        Object.assign(getAnchor(wrapper).element.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '100px',
+          height: '50px'
+        })
+
+        await showTooltip(wrapper)
+        expect(getTooltip().style.top).toBe('164px')
+
+        // the anchor lands somewhere else by the time a scroll comes in
+        getAnchor(wrapper).element.style.top = '80px'
+        document.dispatchEvent(new Event('scroll'))
+        await flushPromises()
+
+        // the tooltip stays shown, glued to the anchor's new spot
+        expect(getTooltip()).not.toBeNull()
+        expect(getTooltip().style.top).toBe('144px')
+
+        // ...but a scroll inside its own content is no signal
+        getAnchor(wrapper).element.style.top = '100px'
+        getTooltip().dispatchEvent(new Event('scroll'))
+        await flushPromises()
+
+        expect(getTooltip().style.top).toBe('144px')
+      })
+
+      test('follows an anchor still moving while the enter transition plays', async () => {
+        const wrapper = mountTooltip()
+        Object.assign(getAnchor(wrapper).element.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '100px',
+          height: '50px'
+        })
+
+        getTooltipComponent(wrapper).vm.show()
+        await flushPromises()
+        // let the show tick take the initial measurement
+        await vi.advanceTimersByTimeAsync(50)
+
+        // bottom middle / top middle with the default [14, 14] offset
+        expect(getTooltip().style.top).toBe('164px')
+
+        // the anchor moves while the tooltip is still transitioning in;
+        // there is no transition-end re-measure, so only live tracking
+        // keeps it from ending up permanently offset
+        getAnchor(wrapper).element.style.top = '120px'
+        await vi.advanceTimersByTimeAsync(100)
+
+        expect(getTooltip().style.top).toBe('184px')
+
+        await vi.runAllTimersAsync()
+      })
+    })
+
+    test('follows an anchor still moving while the enter transition plays', async () => {
+      const wrapper = mountTooltip()
+      Object.assign(getAnchor(wrapper).element.style, {
+        position: 'fixed',
+        top: '100px',
+        left: '100px',
+        width: '100px',
+        height: '50px'
+      })
+
+      getTooltipComponent(wrapper).vm.show()
+      await flushPromises()
+      // let the show tick run the placement pass
+      await vi.advanceTimersByTimeAsync(50)
+
+      // bottom middle / top middle with the default [14, 14] offset
+      expect(getTooltip().getBoundingClientRect().top).toBe(164)
+
+      // the anchor moves while the tooltip is still transitioning in;
+      // the browser re-anchors without any engine involvement
+      getAnchor(wrapper).element.style.top = '120px'
+
+      expect(getTooltip().getBoundingClientRect().top).toBe(184)
+
+      await vi.runAllTimersAsync()
+    })
+
+    test('applies the touch UX per interaction, not per device', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+
+      await anchor.trigger('pointerenter', { pointerType: 'mouse' })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      await anchor.trigger('pointerleave', { pointerType: 'mouse' })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+
+      await anchor.trigger('pointerenter', {
+        pointerType: 'touch',
+        isPrimary: true
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      // lifting the finger ends a touch-initiated show
+      await anchor.trigger('touchend')
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+    })
+
+    test('ignores non-primary pointers (multi-touch)', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+
+      // a second finger landing on the anchor must not show it
+      await anchor.trigger('pointerenter', {
+        pointerType: 'touch',
+        isPrimary: false
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+
+      await anchor.trigger('pointerenter', {
+        pointerType: 'mouse',
+        isPrimary: true
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+
+      // ...nor hide it while the primary pointer is still there
+      await anchor.trigger('pointerleave', {
+        pointerType: 'touch',
+        isPrimary: false
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+
+      await anchor.trigger('pointerleave', {
+        pointerType: 'mouse',
+        isPrimary: true
+      })
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+    })
+
+    test('treats a pressed stylus like touch, a hovering one like a mouse', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+
+      // the PointerEvent constructor is needed for a real read-only
+      // "buttons" value; test-utils' trigger cannot assign it
+      function penEvent(type, buttons) {
+        return new PointerEvent(type, {
+          pointerType: 'pen',
+          isPrimary: true,
+          buttons
+        })
+      }
+
+      // a hovering pen (buttons 0) behaves like mouse hover
+      anchor.element.dispatchEvent(penEvent('pointerenter', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      anchor.element.dispatchEvent(penEvent('pointerleave', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+
+      // a pen pressed to the screen (buttons 1) starts native selection
+      // when held, so it gets the full touch UX
+      anchor.element.dispatchEvent(penEvent('pointerenter', 1))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      // lifting the pen fires a click ending the contact, but the pen is
+      // still hovering the anchor, so the tooltip stays like for a mouse
+      await anchor.trigger('click')
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      anchor.element.dispatchEvent(penEvent('pointerleave', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+    })
+
+    test('ignores focus moving within the anchor', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+      const inner = document.createElement('span')
+      anchor.element.append(inner)
+
+      await showTooltip(wrapper)
+
+      // QBtn (for one) shuffles focus to an internal helper after every
+      // press: not a blur, so the tooltip must survive it
+      anchor.element.dispatchEvent(
+        new FocusEvent('focusout', { relatedTarget: inner })
+      )
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+
+      // focus truly leaving the anchor still hides it
+      anchor.element.dispatchEvent(
+        new FocusEvent('focusout', { relatedTarget: document.body })
+      )
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+    })
+
+    test('upgrades a hovering stylus to the touch UX when it presses', async () => {
+      const wrapper = mountTooltip()
+      const anchor = getAnchor(wrapper)
+
+      function penEvent(type, buttons) {
+        return new PointerEvent(type, {
+          pointerType: 'pen',
+          isPrimary: true,
+          buttons
+        })
+      }
+
+      // hover shows it without the touch UX...
+      anchor.element.dispatchEvent(penEvent('pointerenter', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      // ...then pressing without leaving (so no new pointerenter can
+      // fire) engages it mid-flight
+      anchor.element.dispatchEvent(penEvent('pointerdown', 1))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(true)
+
+      // the lift ends the contact and hover semantics take over again
+      await anchor.trigger('click')
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).not.toBeNull()
+      expect(document.body.classList.contains('non-selectable')).toBe(false)
+
+      anchor.element.dispatchEvent(penEvent('pointerleave', 0))
+      await vi.runAllTimersAsync()
+
+      expect(getTooltip()).toBeNull()
+    })
+
+    test('finishes a pending hide when its keep-alive page deactivates', async () => {
+      const router = await getRouter(['/home', '/account'])
+      const onHide = vi.fn()
+      const getPortalEl = () =>
+        document.body.querySelector('[id^="q-portal--tooltip"]')
+
+      const KeptAlivePage = defineComponent({
+        name: 'KeptAlivePage',
+        setup() {
+          return () =>
+            h('div', { class: 'my-anchor', tabindex: 0 }, [
+              h(QTooltip, { modelValue: true, onHide }, () => 'Tip')
+            ])
+        }
+      })
+
+      const Host = defineComponent({
+        name: 'Host',
+        setup() {
+          const route = useRoute()
+
+          return () =>
+            h(KeepAlive, null, {
+              default: () => (route.path === '/home' ? h(KeptAlivePage) : null)
+            })
+        }
+      })
+
+      await router.push('/home')
+
+      activeWrapper = mount(Host, {
+        attachTo: document.body,
+        global: {
+          plugins: [router]
+        }
+      })
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      expect(getPortalEl()).not.toBe(null)
+
+      // routing away hides the tooltip and deactivates the page holding it
+      // within the same tick, which cancels the hide transition's timer
+      await router.push('/account')
+      await flushPromises()
+      await vi.runAllTimersAsync()
+
+      expect(onHide).toHaveBeenCalledTimes(1)
+      expect(getPortalEl()).toBe(null)
+    })
+
+    test('positions through the JS engine when anchored inside a shadow root', async () => {
+      // CSS anchor names are tree-scoped: the tooltip is teleported to
+      // <body>, where a name declared inside a web component's shadow
+      // root never resolves (#18576)
+      const host = document.createElement('div')
+      document.body.prepend(host)
+      const mountPoint = document.createElement('div')
+      host.attachShadow({ mode: 'open' }).append(mountPoint)
+
+      try {
+        const wrapper = mountTooltip(void 0, void 0, { attachTo: mountPoint })
+        Object.assign(getAnchor(wrapper).element.style, {
+          position: 'fixed',
+          top: '100px',
+          left: '100px',
+          width: '100px',
+          height: '50px'
+        })
+
+        await showTooltip(wrapper)
+
+        const rect = getTooltip().getBoundingClientRect()
+        expect(rect.top).toBe(164)
+        expect(rect.left + rect.width / 2).toBeCloseTo(150, 0)
+        expect(getTooltip().classList.contains('q-position-engine')).toBe(true)
+        expect(
+          getAnchor(wrapper).element.style.getPropertyValue('anchor-name')
+        ).toBe('')
+      } finally {
+        host.remove()
+      }
+    })
+  })
+
+  describe('[Accessibility]', () => {
+    test('holds no focus request back while opening', async () => {
+      const duration = 300
+      const wrapper = mountTooltipWithInput({ transitionDuration: duration })
+      const tooltip = getTooltipComponent(wrapper)
+      const input = wrapper.getComponent(QInput)
+
+      await getAnchor(wrapper).trigger('pointerenter', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(0)
+      expect(getTooltip()).not.toBeNull()
+      expect(tooltip.emitted('show')).toBeUndefined()
+
+      input.vm.focus()
+      expect(document.activeElement).toBe(input.get('input').element)
+
+      await vi.advanceTimersByTimeAsync(duration)
+      expect(tooltip.emitted('show')).toHaveLength(1)
+    })
+
+    test('completes opening when keyboard focus follows hover', async () => {
+      const duration = 300
+      const wrapper = mountTooltipWithInput({ transitionDuration: duration })
+      const anchor = getAnchor(wrapper)
+      const tooltip = getTooltipComponent(wrapper)
+
+      await anchor.trigger('pointerenter', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(0)
+      expect(getTooltip()).not.toBeNull()
+      expect(tooltip.emitted('show')).toBeUndefined()
+
+      anchor.element.focus()
+      expect(anchor.element.matches(':focus-visible')).toBe(true)
+
+      await vi.advanceTimersByTimeAsync(duration)
+
+      expect(tooltip.emitted('show')).toHaveLength(1)
+      expect(tooltip.emitted('hide')).toBeUndefined()
+    })
+
+    test('completes an interrupted opening when pointer leave and blur overlap', async () => {
+      const duration = 300
+      const wrapper = mountTooltipWithInput({ transitionDuration: duration })
+      const anchor = getAnchor(wrapper)
+      const tooltip = getTooltipComponent(wrapper)
+      const input = wrapper.getComponent(QInput)
+      anchor.element.focus()
+      await anchor.trigger('pointerenter', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(0)
+      const portal = document.querySelector('[id^="q-portal--tooltip"]')
+      expect(portal).not.toBeNull()
+
+      await anchor.trigger('pointerleave', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(0)
+      expect(tooltip.emitted('beforeHide')).toHaveLength(1)
+      expect(tooltip.emitted('hide')).toBeUndefined()
+      anchor.element.dispatchEvent(
+        new FocusEvent('focusout', {
+          relatedTarget: input.get('input').element
+        })
+      )
+      await vi.advanceTimersByTimeAsync(duration)
+
+      expect(tooltip.emitted('show')).toBeUndefined()
+      expect(tooltip.emitted('hide')).toHaveLength(1)
+      expect(portal.isConnected).toBe(false)
+    })
+
+    test('cancels delayed work when unmounted during opening', async () => {
+      const duration = 300
+      const onShow = vi.fn()
+      const wrapper = mountTooltipWithInput({
+        transitionDuration: duration,
+        delay: 100,
+        onShow
+      })
+      const anchor = getAnchor(wrapper)
+      const tooltip = getTooltipComponent(wrapper)
+      tooltip.vm.show()
+      await flushPromises()
+      expect(getTooltip()).not.toBeNull()
+      await anchor.trigger('pointerenter', { pointerType: 'mouse' })
+      expect(vi.getTimerCount()).toBeGreaterThan(0)
+
+      await wrapper.setProps({ renderTooltip: false })
+
+      expect(document.querySelector('[id^="q-portal--tooltip"]')).toBeNull()
+      await vi.advanceTimersByTimeAsync(duration * 2)
+      expect(onShow).not.toHaveBeenCalled()
+      expect(getTooltip()).toBeNull()
+    })
+
+    test('applies a dynamic id to the tooltip and its aria wiring', async () => {
+      const wrapper = mountTooltip({ id: 'tip-a' })
+      await showTooltip(wrapper)
+
+      expect(getTooltip().id).toBe('tip-a')
+      expect(getAnchor(wrapper).attributes('aria-describedby')).toBe('tip-a')
+
+      await hideTooltip(wrapper)
+
+      // attrs is not reactive, so the id must be resolved on demand -
+      // a computed would keep serving the value cached at first show
+      await wrapper.setProps({ tooltipProps: { id: 'tip-b' } })
+      await showTooltip(wrapper)
+
+      expect(getTooltip().id).toBe('tip-b')
+      expect(getAnchor(wrapper).attributes('aria-describedby')).toBe('tip-b')
+    })
+
+    test('ESC dismisses the tooltip on mobile platforms too (WCAG 1.4.13)', async () => {
+      // hybrid devices (iPad with a keyboard) parse as mobile but
+      // still need keyboard dismissal
+      const original = {
+        mobile: Platform.is.mobile,
+        desktop: Platform.is.desktop
+      }
+      Object.assign(Platform.is, { mobile: true, desktop: false })
+
+      try {
+        const wrapper = mountTooltip()
+        await showTooltip(wrapper)
+        expect(getTooltip()).not.toBeNull()
+
+        // the shared escape stack only fires on a full keydown+keyup pair
+        window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+        window.dispatchEvent(new KeyboardEvent('keyup', { keyCode: 27 }))
+        await vi.runAllTimersAsync()
+
+        expect(getTooltip()).toBeNull()
+      } finally {
+        Object.assign(Platform.is, original)
+      }
+    })
+  })
+})

@@ -1,0 +1,133 @@
+import { renderHook } from "@testing-library/react"
+import { ChakraProvider, defaultSystem, useBreakpointValue } from "../src"
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <ChakraProvider value={defaultSystem}>{children}</ChakraProvider>
+)
+
+describe("useBreakpointValue", () => {
+  test("should return base value during SSR", () => {
+    const { result } = renderHook(
+      () => useBreakpointValue({ base: 1, sm: 2 }),
+      { wrapper },
+    )
+    // In SSR mode (jsdom), the base value should be returned
+    expect(result.current).toBe(1)
+  })
+
+  test("should return fallback breakpoint value when specified", () => {
+    const { result } = renderHook(
+      () => useBreakpointValue({ base: 1, sm: 2 }, { fallback: "sm" }),
+      { wrapper },
+    )
+    // When fallback is "sm", it should return the sm value during SSR
+    expect(result.current).toBe(2)
+  })
+
+  test("should return matched breakpoint value in CSR based on window size", () => {
+    // Mock matchMedia to simulate a screen width >= 480px (sm breakpoint)
+    const listeners: Array<(e: MediaQueryListEvent) => void> = []
+    const mockMatchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: query === "(min-width: 0px)" || query === "(min-width: 30rem)",
+      media: query,
+      addEventListener: (_: string, cb: (e: MediaQueryListEvent) => void) => {
+        listeners.push(cb)
+      },
+      removeEventListener: () => {},
+    }))
+
+    const originalMatchMedia = window.matchMedia
+    window.matchMedia = mockMatchMedia
+
+    try {
+      const { result } = renderHook(
+        () => useBreakpointValue({ base: 1, sm: 2, md: 3 }, { ssr: false }),
+        { wrapper },
+      )
+      // With ssr: false, it should use matchMedia and return sm value (2)
+      // since we mocked sm (30rem = 480px) to match
+      expect(result.current).toBe(2)
+    } finally {
+      window.matchMedia = originalMatchMedia
+    }
+  })
+
+  test("should re-resolve when the value gains a breakpoint", () => {
+    const createMatchMedia = (matching: string[]) => (query: string) => ({
+      matches: matching.includes(query),
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    })
+
+    const originalMatchMedia = window.matchMedia
+    window.matchMedia = vi
+      .fn()
+      .mockImplementation(
+        createMatchMedia([
+          "(min-width: 0px)",
+          "(min-width: 30rem)",
+          "(min-width: 48rem)",
+        ]),
+      ) as any
+
+    try {
+      const initialProps: { value: Record<string, number> } = {
+        value: { base: 1, md: 3 },
+      }
+
+      const { result, rerender } = renderHook(
+        ({ value }: { value: Record<string, number> }) =>
+          useBreakpointValue(value, { ssr: false }),
+        { wrapper, initialProps },
+      )
+
+      expect(result.current).toBe(3)
+
+      rerender({ value: { base: 1, sm: 2, md: 3 } })
+
+      expect(result.current).toBe(3)
+    } finally {
+      window.matchMedia = originalMatchMedia
+    }
+  })
+
+  test("should evaluate media queries against the window from getWindow", () => {
+    const createMatchMedia = (matching: string[]) => (query: string) => ({
+      matches: matching.includes(query),
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    })
+
+    // the ambient window reports `md`, the injected one only reports `sm`
+    const originalMatchMedia = window.matchMedia
+    window.matchMedia = vi
+      .fn()
+      .mockImplementation(
+        createMatchMedia([
+          "(min-width: 0px)",
+          "(min-width: 30rem)",
+          "(min-width: 48rem)",
+        ]),
+      ) as any
+
+    const iframeWindow = {
+      matchMedia: createMatchMedia(["(min-width: 0px)", "(min-width: 30rem)"]),
+    } as unknown as typeof window
+
+    try {
+      const { result } = renderHook(
+        () =>
+          useBreakpointValue(
+            { base: 1, sm: 2, md: 3 },
+            { ssr: false, getWindow: () => iframeWindow },
+          ),
+        { wrapper },
+      )
+      expect(result.current).toBe(2)
+    } finally {
+      window.matchMedia = originalMatchMedia
+    }
+  })
+})

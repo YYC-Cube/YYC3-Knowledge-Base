@@ -1,0 +1,84 @@
+---
+title: Spinner
+description: Used to provide a visual cue that an action is processing
+links:
+  source: components/spinner
+  storybook: components-spinner--basic
+  recipe: spinner
+---
+
+<ExampleTabs name="spinner-basic" />
+
+## Usage
+
+```jsx
+import { Spinner } from "@chakra-ui/react"
+```
+
+```jsx
+<Spinner />
+```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the spinner.
+
+<ExampleTabs name="spinner-with-sizes" />
+
+### Colors
+
+Use the `colorPalette` prop to change the color scheme of the spinner.
+
+<ExampleTabs name="spinner-with-colors" />
+
+### Custom Color
+
+Use the `color` prop to pass a custom color to the spinner.
+
+<ExampleTabs name="spinner-custom-color" />
+
+### Track Color
+
+Use the `--spinner-track-color` variable to change the color of the spinner's
+track.
+
+<ExampleTabs name="spinner-with-track-color" />
+
+### Custom Speed
+
+Use the `animationDuration` prop to change the speed of the spinner.
+
+<ExampleTabs name="spinner-with-custom-speed" />
+
+### Thickness
+
+Use the `borderWidth` prop to change the thickness of the spinner.
+
+<ExampleTabs name="spinner-with-custom-thickness" />
+
+### Custom Indicator
+
+Use the `asChild` prop to render a custom icon as the spinner.
+
+<ExampleTabs name="spinner-with-custom-indicator" />
+
+### Label
+
+Compose the spinner with a label to provide additional context.
+
+<ExampleTabs name="spinner-with-label" />
+
+### Overlay
+
+Compose spinner with the `AbsoluteCenter` component to overlay the spinner on
+top of another component.
+
+<ExampleTabs name="spinner-with-overlay" />
+
+## Props
+
+### Root
+
+<PropTable component="Spinner" part="Spinner" />

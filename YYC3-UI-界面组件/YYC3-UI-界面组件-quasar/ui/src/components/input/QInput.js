@@ -1,0 +1,540 @@
+import {
+  computed,
+  getCurrentInstance,
+  h,
+  nextTick,
+  onBeforeUnmount,
+  shallowRef,
+  watch
+} from 'vue'
+
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import useField, {
+  fieldValueIsFilled,
+  useFieldEmits,
+  useFieldProps,
+  useFieldState
+} from '../../composables/private.use-field/use-field.js'
+import useMask, { useMaskProps } from './use-mask.js'
+import { useAutogrow } from './use-autogrow.js'
+import {
+  useFormInputNameAttr,
+  useFormProps
+} from '../../composables/use-form/private.use-form.js'
+import useFileFormDomProps from '../../composables/private.use-file/use-file-dom-props.js'
+import useKeyComposition from '../../composables/private.use-key-composition/use-key-composition.js'
+
+import { createComponent } from '../../utils/private.create/create.js'
+import { stop } from '../../utils/event/event.js'
+import {
+  addFocusFn,
+  removeFocusFn
+} from '../../utils/private.focus/focus-manager.js'
+import { injectProp } from '../../utils/private.inject-obj-prop/inject-obj-prop.js'
+
+export default /*#__PURE__*/ createComponent({
+  name: 'QInput',
+
+  inheritAttrs: false,
+
+  props: {
+    ...useFieldProps,
+    ...useMaskProps,
+    ...useFormProps,
+
+    // override of useFieldProps > modelValue
+    modelValue: __QUASAR_SSR_SERVER__
+      ? {} // SSR/SSG does not know about FileList
+      : [String, Number, FileList],
+    modelModifiers: Object,
+
+    shadowText: String,
+
+    type: {
+      type: String,
+      default: 'text'
+    },
+
+    debounce: [String, Number],
+
+    autogrow: Boolean, // makes a textarea
+
+    inputClass: [Array, String, Object],
+    inputStyle: [Array, String, Object]
+  },
+
+  emits: [
+    ...useFieldEmits,
+    'paste',
+    'change',
+    'keydown',
+    'click',
+    'animationend'
+  ],
+
+  setup(props, { emit, attrs }) {
+    const { proxy } = getCurrentInstance()
+    const $q = useQuasar()
+
+    const temp = {}
+    let emitCachedValue = Number.NaN,
+      typedNumber = false,
+      stopValueWatcher = false,
+      emitTimer = null,
+      emitValueFn
+
+    const inputRef = shallowRef(null)
+    const nameProp = useFormInputNameAttr(props)
+
+    const {
+      innerValue,
+      hasMask,
+      moveCursorForPaste,
+      updateMaskValue,
+      onMaskedKeydown,
+      onMaskedClick
+    } = useMask(props, emit, emitValue, inputRef, () => {
+      // the mask found the displayed value matching the model again: a
+      // debounced emission still in flight carries a stale intermediate
+      // state (#17568), and so would a kept temp.value on the next render
+      cancelPendingValueEmission()
+      delete temp.value
+    })
+
+    const formDomProps = useFileFormDomProps(props, /* type guard */ true)
+    const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
+
+    const onKeyComposition = useKeyComposition(onInput)
+
+    function onComposition(e) {
+      if (hasMask.value && e.type === 'compositionstart') {
+        // A mask must not rewrite the value while an IME owns the composition.
+        // Keep unmasked controls on the shared detection path for keyboard compatibility.
+        e.target.qComposing = true
+        return
+      }
+
+      onKeyComposition(e)
+    }
+
+    const state = useFieldState({ changeEvent: true })
+
+    const isTextarea = computed(
+      () => props.type === 'textarea' || props.autogrow
+    )
+
+    // autogrow sizing: the browser's own (CSS field-sizing, see
+    // QInput.sass) where available, the measuring routine elsewhere
+    const adjustHeightViaJS = useAutogrow?.(props, attrs, inputRef, $q)
+
+    const isTypeText = computed(
+      () =>
+        isTextarea.value ||
+        ['text', 'search', 'url', 'tel', 'password'].includes(props.type)
+    )
+
+    const onEvents = computed(() => {
+      const evt = {
+        ...state.splitAttrs.listeners.value,
+        onInput,
+        onPaste,
+        // Safari < 10.2 & UIWebView doesn't fire compositionend when
+        // switching focus before confirming composition choice
+        // this also fixes the issue where some browsers e.g. iOS Chrome
+        // fires "change" instead of "input" on autocomplete.
+        onChange,
+        onBlur: onFinishEditing,
+        onFocus: stop
+      }
+
+      evt.onCompositionstart =
+        evt.onCompositionupdate =
+        evt.onCompositionend =
+          onComposition
+
+      if (hasMask.value) {
+        evt.onKeydown = onMaskedKeydown
+        // reset selection anchor on pointer selection
+        evt.onClick = onMaskedClick
+      }
+
+      // browser autofill fires no input event; the q-autofill keyframe on
+      // :autofill ends right after it, so the JS fallback remeasures then
+      // (field-sizing needs nothing, the user's listener passes through)
+      if (adjustHeightViaJS && props.autogrow) {
+        evt.onAnimationend = onAnimationend
+      }
+
+      return evt
+    })
+
+    const inputAttrs = computed(() => {
+      const acc = {
+        tabindex: 0,
+        'data-autofocus': props.autofocus || void 0,
+        rows: props.type === 'textarea' ? 6 : void 0,
+        'aria-label': props.label,
+        name: nameProp(),
+        ...state.splitAttrs.attributes.value,
+        id: state.targetUid.value,
+        maxlength: props.maxlength,
+        disabled: props.disable,
+        readonly: props.readonly
+      }
+
+      if (!isTextarea.value) {
+        acc.type = props.type
+      }
+
+      if (props.autogrow) {
+        acc.rows = 1
+      }
+
+      return acc
+    })
+
+    // some browsers lose the native input value
+    // so we need to reattach it dynamically
+    // (like type="password" <-> type="text"; see #12078)
+    watch(
+      () => props.type,
+      () => {
+        if (inputRef.value) {
+          inputRef.value.value = props.modelValue
+        }
+      }
+    )
+
+    watch(
+      () => props.modelValue,
+      v => {
+        // any pending emission (debounced or lazy; a lazy one holds no
+        // timer) is stale once the model changed underneath it
+        if (emitValueFn !== void 0) {
+          cancelPendingValueEmission()
+          typedNumber = false
+          stopValueWatcher = false
+          delete temp.value
+        }
+
+        if (hasMask.value) {
+          if (stopValueWatcher) {
+            stopValueWatcher = false
+            if (String(v) === emitCachedValue) return
+          }
+
+          updateMaskValue(v)
+        } else if (innerValue.value !== v) {
+          innerValue.value = v
+
+          if (props.type === 'number' && Object.hasOwn(temp, 'value')) {
+            if (typedNumber) {
+              typedNumber = false
+            } else {
+              delete temp.value
+            }
+          }
+
+          if (
+            props.modelModifiers?.trim === true &&
+            Object.hasOwn(temp, 'value') &&
+            (typeof temp.value !== 'string' || temp.value.trim() !== v)
+          ) {
+            delete temp.value
+          }
+        }
+
+        // textarea only
+        if (adjustHeightViaJS && props.autogrow) nextTick(adjustHeightViaJS)
+      }
+    )
+
+    function focusHandler() {
+      const el = document.activeElement
+      if (
+        inputRef.value !== null &&
+        inputRef.value !== el &&
+        (el === null || el.id !== state.targetUid.value)
+      ) {
+        inputRef.value.focus({ preventScroll: true })
+      }
+    }
+
+    function focus() {
+      addFocusFn(focusHandler)
+    }
+
+    function blur() {
+      removeFocusFn(focusHandler)
+      const el = document.activeElement
+      if (el !== null && state.rootRef.value.contains(el)) {
+        el.blur()
+      }
+    }
+
+    function select() {
+      inputRef.value?.select()
+    }
+
+    function onPaste(e) {
+      if (hasMask.value && props.reverseFillMask !== true) {
+        const inp = e.target
+        moveCursorForPaste(inp, inp.selectionStart, inp.selectionEnd)
+      }
+
+      emit('paste', e)
+    }
+
+    function onInput(e) {
+      if (!e || !e.target) return
+
+      if (props.type === 'file') {
+        emit('update:modelValue', e.target.files)
+        return
+      }
+
+      const val = e.target.value
+
+      if (e.target.qComposing) {
+        temp.value = val
+        return
+      }
+
+      if (hasMask.value) {
+        updateMaskValue(val, false, e.inputType)
+      } else {
+        if (props.modelModifiers?.trim === true) {
+          temp.value = val
+        }
+
+        emitValue(val)
+
+        if (isTypeText.value && e.target === document.activeElement) {
+          const { selectionStart, selectionEnd } = e.target
+
+          if (selectionStart !== void 0 && selectionEnd !== void 0) {
+            nextTick(() => {
+              if (
+                e.target === document.activeElement &&
+                val.indexOf(e.target.value) === 0
+              ) {
+                e.target.setSelectionRange(selectionStart, selectionEnd)
+              }
+            })
+          }
+        }
+      }
+
+      // we need to trigger it immediately too,
+      // to avoid "flickering"
+      if (adjustHeightViaJS && props.autogrow) adjustHeightViaJS()
+    }
+
+    // replaces the user's own listener in onEvents, hence the re-emit
+    function onAnimationend(e) {
+      emit('animationend', e)
+      adjustHeightViaJS()
+    }
+
+    function emitValue(val, stopWatcher) {
+      emitValueFn = () => {
+        emitTimer = null
+
+        if (
+          props.type !== 'number' &&
+          (props.modelModifiers?.trim !== true || hasMask.value) &&
+          Object.hasOwn(temp, 'value')
+        ) {
+          delete temp.value
+        }
+
+        if (props.modelValue !== val && emitCachedValue !== val) {
+          emitCachedValue = val
+
+          if (stopWatcher === true) stopValueWatcher = true
+          emit('update:modelValue', val)
+
+          nextTick(() => {
+            if (emitCachedValue === val) emitCachedValue = Number.NaN
+          })
+        }
+
+        emitValueFn = void 0
+      }
+
+      if (props.type === 'number') {
+        typedNumber = true
+        temp.value = val
+      }
+
+      // while an emission is pending, temp.value keeps the typed text
+      // rendered; a masked control renders from innerValue instead (and
+      // with unmasked-value `val` is the raw value rather than the
+      // displayed text), so there temp must be dropped: an IME pass may
+      // have left its raw snapshot in it, which would shadow innerValue
+      // and rewrite the field on the next re-render
+      const holdTemp = () => {
+        if (hasMask.value) delete temp.value
+        else temp.value = val
+      }
+
+      if (props.modelModifiers?.lazy === true) {
+        // v-model.lazy: the emission stays pending until the change event
+        // or the blur handler invokes emitValueFn; a debounce timer could
+        // only fire earlier than that, so none is scheduled
+        holdTemp()
+      } else if (props.debounce !== void 0) {
+        if (emitTimer !== null) clearTimeout(emitTimer)
+        holdTemp()
+        emitTimer = setTimeout(emitValueFn, props.debounce)
+      } else {
+        emitValueFn()
+      }
+    }
+
+    function cancelPendingValueEmission() {
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
+      emitValueFn = void 0
+    }
+
+    function onClear() {
+      cancelPendingValueEmission()
+      typedNumber = false
+      stopValueWatcher = false
+      delete temp.value
+    }
+
+    function onChange(e) {
+      onComposition(e)
+
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
+      emitValueFn?.()
+
+      emit('change', e.target.value)
+    }
+
+    function onFinishEditing(e) {
+      if (e !== void 0) stop(e)
+
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
+      emitValueFn?.()
+
+      typedNumber = false
+      stopValueWatcher = false
+      delete temp.value
+
+      // we need to use setTimeout instead of this.$nextTick
+      // to avoid a bug where focusout is not emitted for type date/time/week/...
+      if (props.type !== 'file') {
+        setTimeout(() => {
+          if (inputRef.value !== null) {
+            inputRef.value.value =
+              innerValue.value !== void 0 ? innerValue.value : ''
+          }
+        }, 0)
+      }
+    }
+
+    function getCurValue() {
+      return Object.hasOwn(temp, 'value')
+        ? temp.value
+        : innerValue.value !== void 0
+          ? innerValue.value
+          : ''
+    }
+
+    onBeforeUnmount(() => {
+      onFinishEditing()
+    })
+
+    Object.assign(state, {
+      innerValue,
+
+      fieldClass: computed(
+        () =>
+          `q-${isTextarea.value ? 'textarea' : 'input'}` +
+          (props.autogrow ? ' q-textarea--autogrow' : '')
+      ),
+
+      hasShadow: computed(
+        () =>
+          props.type !== 'file' &&
+          typeof props.shadowText === 'string' &&
+          props.shadowText.length !== 0
+      ),
+
+      inputRef,
+
+      emitValue,
+      onClear,
+
+      hasValue,
+
+      floatingLabel: computed(
+        () =>
+          (hasValue.value &&
+            (props.type !== 'number' ||
+              Number.isFinite(Number(innerValue.value)))) ||
+          fieldValueIsFilled(props.displayValue)
+      ),
+
+      getControl: () => {
+        const controlAttrs = inputAttrs.value
+
+        return h(isTextarea.value ? 'textarea' : 'input', {
+          ref: inputRef,
+          class: ['q-field__native q-placeholder', props.inputClass],
+          style: props.inputStyle,
+          ...controlAttrs,
+          // render-path merge: getErrorAriaAttrs() reads slot presence,
+          // which is not reactive, so a computed must not cache it
+          ...state.getErrorAriaAttrs(controlAttrs),
+          ...onEvents.value,
+          ...(props.type !== 'file'
+            ? { value: getCurValue() }
+            : formDomProps.value)
+        })
+      },
+
+      getShadowControl: () =>
+        h(
+          'div',
+          {
+            class:
+              'q-field__native q-field__shadow absolute-bottom no-pointer-events' +
+              (isTextarea.value ? '' : ' text-no-wrap')
+          },
+          [
+            h('span', { class: 'invisible' }, getCurValue()),
+            h('span', props.shadowText)
+          ]
+        )
+    })
+
+    const renderFn = useField(state)
+
+    // expose public methods
+    Object.assign(proxy, {
+      focus,
+      blur,
+      select,
+      getNativeElement: () => inputRef.value // deprecated
+    })
+
+    injectProp(proxy, 'nativeEl', () => inputRef.value)
+
+    return renderFn
+  }
+})

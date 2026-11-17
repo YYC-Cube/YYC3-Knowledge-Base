@@ -1,0 +1,176 @@
+import { isString } from "../utils"
+import { calc } from "./calc"
+import type { Token, TokenMiddleware } from "./types"
+import { toPx } from "./unit-conversion"
+
+export const addNegativeTokens: TokenMiddleware = {
+  enforce: "pre",
+  transform(dictionary) {
+    const { prefix, allTokens, formatCssVar, formatTokenName, registerToken } =
+      dictionary
+
+    const tokens = allTokens.filter(
+      ({ extensions }) => extensions.category === "spacing",
+    )
+
+    tokens.forEach((token) => {
+      const originalPath = token.path.slice()
+      const originalVar = formatCssVar(originalPath, prefix)
+
+      if (isString(token.value) && token.value === "0rem") {
+        return
+      }
+
+      // Efficient shallow clone - only copy what we need to modify
+      const newPath = [...token.path]
+      const lastPath = newPath[newPath.length - 1]
+
+      if (lastPath != null) {
+        newPath[newPath.length - 1] = `-${lastPath}`
+      }
+
+      const nextToken: Token = {
+        ...token,
+        value: calc.negate(originalVar.ref),
+        name: formatTokenName(newPath),
+        path: newPath,
+        extensions: {
+          ...token.extensions,
+          negative: true,
+          prop: `-${token.extensions.prop}`,
+          originalPath,
+        },
+      }
+
+      registerToken(nextToken)
+    })
+  },
+}
+
+const units = new Set([
+  "spacing",
+  "sizes",
+  "borderWidths",
+  "fontSizes",
+  "radii",
+])
+
+export const addPixelUnit: TokenMiddleware = {
+  enforce: "post",
+  transform(dictionary) {
+    const tokens = dictionary.allTokens.filter((token) => {
+      return units.has(token.extensions.category!) && !token.extensions.negative
+    })
+
+    tokens.forEach((token) => {
+      Object.assign(token.extensions, {
+        pixelValue: toPx(token.value),
+      })
+    })
+  },
+}
+
+export const addVirtualPalette: TokenMiddleware = {
+  enforce: "post",
+  transform(dictionary) {
+    const { allTokens, registerToken, formatTokenName } = dictionary
+
+    const tokens = allTokens.filter(
+      ({ extensions }) => extensions.category === "colors",
+    )
+
+    const keys = new Map<string, string[]>()
+    const colorPalettes = new Map<string, Token[]>()
+
+    tokens.forEach((token) => {
+      const { colorPalette } = token.extensions
+      if (!colorPalette) return
+
+      colorPalette.keys.forEach((keyPath) => {
+        keys.set(formatTokenName(keyPath), keyPath)
+      })
+
+      colorPalette.roots.forEach((colorPaletteRoot) => {
+        const name = formatTokenName(colorPaletteRoot)
+
+        const colorPaletteList = colorPalettes.get(name) || []
+        colorPaletteList.push(token)
+        colorPalettes.set(name, colorPaletteList)
+
+        if (token.extensions.default && colorPaletteRoot.length === 1) {
+          const keyPath = colorPalette.keys[0]?.filter(Boolean)
+          if (!keyPath.length) return
+
+          const path = colorPaletteRoot.concat(keyPath)
+          keys.set(formatTokenName(path), [])
+        }
+      })
+    })
+
+    keys.forEach((segments) => {
+      const path = ["colors", "colorPalette", ...segments].filter(Boolean)
+      const name = formatTokenName(path)
+      const prop = formatTokenName(path.slice(1))
+
+      const token: Token = {
+        name,
+        value: name,
+        originalValue: name,
+        path,
+        extensions: {
+          condition: "base",
+          originalPath: path,
+          category: "colors",
+          prop,
+          virtual: true,
+        },
+      }
+
+      registerToken(token, "pre")
+    })
+  },
+}
+
+export const removeEmptyTokens: TokenMiddleware = {
+  enforce: "post",
+  transform(dictionary) {
+    const removed: Token[] = []
+    const next: Token[] = []
+
+    dictionary.allTokens.forEach((token) => {
+      if (token.value === "") {
+        removed.push(token)
+      } else {
+        next.push(token)
+      }
+    })
+
+    dictionary.allTokens.splice(0, dictionary.allTokens.length, ...next)
+
+    removed.forEach((token) => {
+      if (dictionary.tokenMap.get(token.name) !== token) return
+
+      const replacement = dictionary.allTokens.find(
+        (t) => t.name === token.name,
+      )
+      if (!replacement) {
+        dictionary.tokenMap.delete(token.name)
+        return
+      }
+
+      // Safety net for non-standard registration paths that omit conditions.
+      if (token.extensions.conditions && !replacement.extensions.conditions) {
+        replacement.extensions.conditions = token.extensions.conditions
+      }
+
+      dictionary.tokenMap.set(token.name, replacement)
+    })
+  },
+}
+
+export const tokenMiddlewares = [
+  addNegativeTokens,
+  addVirtualPalette,
+  addPixelUnit,
+  removeEmptyTokens,
+]

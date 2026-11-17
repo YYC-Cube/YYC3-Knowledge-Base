@@ -1,0 +1,659 @@
+import { mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { computed, defineComponent, getCurrentInstance, h, ref } from 'vue'
+
+import QBtn from '../btn/QBtn.js'
+import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
+import {
+  dropdownContentClass,
+  getFonts,
+  getLinkEditor,
+  getToolbar
+} from './editor-utils.js'
+
+/**
+ * The link editor drives the real execCommand of the browser; a passthrough
+ * spy keeps the calls observable. The caret handed in by createEVm() is a
+ * stub, so no selection gets restored and the commands act on nothing.
+ */
+let execCommand
+let wrapper
+
+/**
+ * The link the fixture starts out on: by default the editor is opened over
+ * an anchor that already carries this href, so seeding the URL field and
+ * the document with the same value keeps "untouched" meaningful.
+ */
+const existingLink = 'https://quasar.dev'
+
+beforeEach(() => {
+  execCommand = vi.spyOn(document, 'execCommand')
+})
+
+afterEach(() => {
+  wrapper?.unmount()
+  wrapper = void 0
+  vi.restoreAllMocks()
+})
+
+/**
+ * Builds the "editor vm" the utils are handed by QEditor. Only the pieces
+ * they actually reach for are provided.
+ */
+function createEVm(
+  $q,
+  { props = {}, buttons = [], linkedHref = existingLink, ...overrides } = {}
+) {
+  return {
+    $q,
+    props: {
+      toolbarColor: void 0,
+      toolbarTextColor: void 0,
+      toolbarToggleColor: void 0,
+      toolbarPush: false,
+      ...props
+    },
+    slots: {},
+    emit: vi.fn(),
+
+    caret: {
+      is: vi.fn(() => false),
+      can: vi.fn(() => true),
+      restore: vi.fn(),
+      // the href the selection carries in the document; null while the
+      // link editor is opened over something that is not linked yet
+      getParentAttribute: vi.fn(() => linkedHref)
+    },
+
+    isViewingSource: ref(false),
+    editLinkUrl: ref(existingLink),
+    toolbarTabStop: ref(null),
+    toolbarBackgroundClass: computed(() => ' bg-grey-3'),
+    buttonProps: computed(() => ({ type: 'a', flat: true, dense: true })),
+    contentRef: ref(null),
+    buttons: computed(() => buttons),
+    runCmd: vi.fn(),
+
+    ...overrides
+  }
+}
+
+/**
+ * Renders whatever the util returns; $q is only reachable from inside a
+ * component, so the "editor vm" is assembled there too.
+ */
+function mountUtil(render, options) {
+  let eVm
+
+  wrapper = mount(
+    defineComponent({
+      setup() {
+        const {
+          proxy: { $q }
+        } = getCurrentInstance()
+
+        eVm = createEVm($q, options)
+
+        return () => h('div', render(eVm))
+      }
+    }),
+    { attachTo: document.body }
+  )
+
+  return { eVm }
+}
+
+const boldBtn = { cmd: 'bold', icon: 'format_bold', tip: 'Bold' }
+
+describe('[editorUtils API]', () => {
+  describe('[Variables]', () => {
+    describe('[(variable)dropdownContentClass]', () => {
+      test('is defined correctly', () => {
+        expect(dropdownContentClass).toBeTypeOf('string')
+      })
+
+      test.each([
+        ['a list dropdown', void 0],
+        ['an only-icons dropdown', 'only-icons']
+      ])('marks the menu of %s as part of the editor', (_, list) => {
+        mountUtil(getToolbar, {
+          buttons: [
+            [{ type: 'dropdown', label: 'Size', list, options: [boldBtn] }]
+          ]
+        })
+
+        const { contentClass } = wrapper.findComponent(QBtnDropdown).props()
+
+        expect([contentClass].flat()).toContain(dropdownContentClass)
+      })
+    })
+  })
+
+  describe('[Functions]', () => {
+    describe('[(function)getToolbar]', () => {
+      test('has correct return value', () => {
+        mountUtil(getToolbar, { buttons: [[boldBtn]] })
+
+        expect(wrapper.findAll('.q-editor__toolbar-group')).toHaveLength(1)
+        expect(wrapper.findAllComponents(QBtn)).toHaveLength(1)
+      })
+
+      test('builds nothing before the caret exists', () => {
+        const eVm = createEVm({}, { buttons: [[boldBtn]] })
+        eVm.caret = void 0
+
+        expect(getToolbar(eVm)).toBeUndefined()
+      })
+
+      test('renders one group per button group', () => {
+        mountUtil(getToolbar, {
+          buttons: [
+            [boldBtn, { cmd: 'italic', icon: 'format_italic' }],
+            [boldBtn]
+          ]
+        })
+
+        expect(wrapper.findAll('.q-editor__toolbar-group')).toHaveLength(2)
+        expect(wrapper.findAllComponents(QBtn)).toHaveLength(3)
+      })
+
+      test('passes the button definition down to QBtn', () => {
+        mountUtil(getToolbar, {
+          buttons: [[{ ...boldBtn, label: 'B' }]],
+          props: { toolbarColor: 'primary', toolbarTextColor: 'white' }
+        })
+
+        const btn = wrapper.findComponent(QBtn)
+
+        expect(btn.props()).toMatchObject({
+          icon: 'format_bold',
+          label: 'B',
+          color: 'primary',
+          textColor: 'white',
+          size: 'sm',
+          dense: true,
+          flat: true
+        })
+      })
+
+      test('drops a null icon instead of forwarding it', () => {
+        mountUtil(getToolbar, { buttons: [[{ ...boldBtn, icon: null }]] })
+
+        expect(wrapper.findComponent(QBtn).props('icon')).toBeUndefined()
+      })
+
+      test('labels an icon-only button for assistive technology', () => {
+        mountUtil(getToolbar, {
+          buttons: [[{ ...boldBtn, label: null }]]
+        })
+
+        expect(wrapper.get('.q-btn').attributes('aria-label')).toBe('Bold')
+      })
+
+      test.each([
+        ['is toggled through the caret', {}, true, 'accent'],
+        ['is not toggled', {}, false, 'primary'],
+        [
+          'is toggled through its own resolver',
+          { toggled: () => true },
+          false,
+          'accent'
+        ]
+      ])(
+        'colors a toggle button that %s',
+        async (_, extra, caretIs, expected) => {
+          const { eVm } = mountUtil(getToolbar, {
+            buttons: [[{ ...boldBtn, type: 'toggle', ...extra }]],
+            props: { toolbarColor: 'primary', toolbarToggleColor: 'accent' }
+          })
+
+          // the toolbar is rebuilt on every render, so the caret is re-asked
+          eVm.caret.is.mockReturnValue(caretIs)
+          wrapper.vm.$forceUpdate()
+          await wrapper.vm.$nextTick()
+
+          expect(wrapper.findComponent(QBtn).props('color')).toBe(expected)
+        }
+      )
+
+      test('keeps the text color of a toggled button while pushed', () => {
+        mountUtil(getToolbar, {
+          buttons: [[{ ...boldBtn, type: 'toggle', toggled: () => true }]],
+          props: { toolbarPush: true, toolbarTextColor: 'white' }
+        })
+
+        expect(wrapper.findComponent(QBtn).props('textColor')).toBe('white')
+      })
+
+      test.each([
+        ['a boolean', true, true],
+        ['a resolver', () => true, true],
+        ['nothing at all', void 0, false]
+      ])('disables a button through %s', (_, disable, expected) => {
+        mountUtil(getToolbar, { buttons: [[{ ...boldBtn, disable }]] })
+
+        expect(wrapper.findComponent(QBtn).props('disable')).toBe(expected)
+      })
+
+      test('hands the editor vm to the disable resolver', () => {
+        const disable = vi.fn(() => false)
+        const { eVm } = mountUtil(getToolbar, {
+          buttons: [[{ ...boldBtn, disable }]]
+        })
+
+        expect(disable).toHaveBeenCalledWith(eVm)
+      })
+
+      test('runs the command behind a button', async () => {
+        const { eVm } = mountUtil(getToolbar, {
+          buttons: [[{ ...boldBtn, param: 'x' }]]
+        })
+
+        await wrapper.get('.q-btn').trigger('click')
+
+        expect(eVm.runCmd).toHaveBeenCalledExactlyOnceWith('bold', 'x')
+      })
+
+      test('prefers the handler of a button over its command', async () => {
+        const handler = vi.fn()
+        const { eVm } = mountUtil(getToolbar, {
+          buttons: [[{ ...boldBtn, handler }]]
+        })
+
+        await wrapper.get('.q-btn').trigger('click')
+
+        expect(eVm.runCmd).not.toHaveBeenCalled()
+        expect(handler).toHaveBeenCalledExactlyOnceWith(
+          expect.any(Object),
+          eVm,
+          eVm.caret
+        )
+      })
+
+      test('renders a slot button through the editor slots', () => {
+        mountUtil(getToolbar, {
+          buttons: [[{ type: 'slot', slot: 'mySlot' }]],
+          slots: { mySlot: () => h('div', { class: 'my-slot' }, 'Custom') }
+        })
+
+        expect(wrapper.get('.my-slot').text()).toBe('Custom')
+        expect(wrapper.findComponent(QBtn).exists()).toBe(false)
+      })
+
+      test('renders a dropdown button', () => {
+        mountUtil(getToolbar, {
+          buttons: [
+            [
+              {
+                type: 'dropdown',
+                label: 'Size',
+                icon: 'format_size',
+                options: [boldBtn]
+              }
+            ]
+          ]
+        })
+
+        expect(wrapper.findComponent(QBtnDropdown).props()).toMatchObject({
+          label: 'Size',
+          icon: 'format_size',
+          noCaps: true,
+          noWrap: true
+        })
+      })
+
+      test('narrows the toolbar down to the source toggle while viewing source', () => {
+        mountUtil(getToolbar, {
+          isViewingSource: ref(true),
+          buttons: [
+            [boldBtn, { cmd: 'viewsource', icon: 'code' }],
+            [{ cmd: 'italic', icon: 'format_italic' }]
+          ]
+        })
+
+        // the group without a viewsource button is dropped entirely, and the
+        // remaining group keeps only that button
+        expect(wrapper.findAll('.q-editor__toolbar-group')).toHaveLength(1)
+
+        const buttons = wrapper.findAllComponents(QBtn)
+        expect(buttons).toHaveLength(1)
+        expect(buttons[0].props('icon')).toBe('code')
+      })
+    })
+
+    describe('[(function)getFonts]', () => {
+      test('has correct return value', () => {
+        const fonts = getFonts('def', 'Default Font', 'font_download', {
+          arial: 'Arial'
+        })
+
+        expect(fonts).toStrictEqual({
+          default_font: {
+            cmd: 'fontName',
+            param: 'def',
+            icon: 'font_download',
+            tip: 'Default Font'
+          },
+          arial: {
+            cmd: 'fontName',
+            param: 'Arial',
+            icon: 'font_download',
+            tip: 'Arial',
+            htmlTip: '<font face="Arial">Arial</font>'
+          }
+        })
+      })
+
+      test.each([
+        ['no fonts at all', void 0],
+        ['an empty list', {}]
+      ])('builds nothing out of %s', (_, fonts) => {
+        expect(getFonts('def', 'Default', 'icon', fonts)).toStrictEqual({})
+      })
+
+      test('builds one entry per alias', () => {
+        const fonts = getFonts('def', 'Default', 'icon', {
+          arial: 'Arial',
+          times: 'Times New Roman'
+        })
+
+        expect(Object.keys(fonts)).toStrictEqual([
+          'default_font',
+          'arial',
+          'times'
+        ])
+        expect(fonts.times.param).toBe('Times New Roman')
+        expect(fonts.times.htmlTip).toBe(
+          '<font face="Times New Roman">Times New Roman</font>'
+        )
+      })
+    })
+
+    describe('[(function)getLinkEditor]', () => {
+      test('has correct return value', () => {
+        const { eVm } = mountUtil(getLinkEditor)
+
+        expect(wrapper.get('.q-editor__link-input').element.value).toBe(
+          existingLink
+        )
+        expect(wrapper.text()).toContain(eVm.$q.lang.editor.url)
+        expect(wrapper.findAllComponents(QBtn)).toHaveLength(2)
+      })
+
+      test('only hints at the scheme, so a pasted URL lands alone', () => {
+        mountUtil(getLinkEditor, { editLinkUrl: ref(''), linkedHref: null })
+
+        const input = wrapper.get('.q-editor__link-input').element
+        expect(input.value).toBe('')
+        expect(input.placeholder).toBe('https://')
+      })
+
+      test('builds nothing before the caret exists', () => {
+        const eVm = createEVm({})
+        eVm.caret = void 0
+
+        expect(getLinkEditor(eVm)).toBeUndefined()
+      })
+
+      test('paints itself with the toolbar color', () => {
+        mountUtil(getLinkEditor, {
+          props: { toolbarColor: 'primary', toolbarTextColor: 'white' }
+        })
+
+        expect(wrapper.get('.q-mx-xs').classes()).toContain('text-primary')
+      })
+
+      test('falls back to the toolbar text color', () => {
+        mountUtil(getLinkEditor, { props: { toolbarTextColor: 'white' } })
+
+        expect(wrapper.get('.q-mx-xs').classes()).toContain('text-white')
+      })
+
+      test.each([
+        [
+          'the update button',
+          async () => {
+            await wrapper.findAllComponents(QBtn)[1].trigger('click')
+          }
+        ],
+        [
+          'the ENTER key',
+          async () => {
+            await wrapper
+              .get('.q-editor__link-input')
+              .trigger('keydown', { keyCode: 13 })
+          }
+        ],
+        [
+          'leaving the field',
+          async () => {
+            await wrapper.get('.q-editor__link-input').trigger('blur')
+          }
+        ]
+      ])('applies an edited link through %s', async (_, apply) => {
+        const { eVm } = mountUtil(getLinkEditor)
+        const input = wrapper.get('.q-editor__link-input')
+
+        await input.setValue('https://vuejs.org')
+        await apply()
+
+        expect(eVm.caret.restore).toHaveBeenCalled()
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
+          'createLink',
+          false,
+          'https://vuejs.org'
+        )
+        expect(eVm.editLinkUrl.value).toBeNull()
+      })
+
+      test('hands the selection back to a focused content', async () => {
+        const focus = vi.fn()
+        const { eVm } = mountUtil(getLinkEditor, {
+          contentRef: ref({ focus })
+        })
+
+        await wrapper.findAllComponents(QBtn)[1].trigger('click')
+
+        // Chromium puts the caret it remembers back when the editing area
+        // gains focus, so the focus has to land before the range does
+        expect(focus).toHaveBeenCalledExactlyOnceWith({ preventScroll: true })
+        expect(focus.mock.invocationCallOrder[0]).toBeLessThan(
+          eVm.caret.restore.mock.invocationCallOrder[0]
+        )
+      })
+
+      test.each([
+        ['the ENTER key', 13, 1],
+        ['ESCAPE', 27, 0]
+      ])(
+        'closes the field before the blur that restoring the selection fires, through %s',
+        async (_, keyCode, commits) => {
+          const { eVm } = mountUtil(getLinkEditor)
+          const input = wrapper.get('.q-editor__link-input')
+
+          // moving the selection back into the content blurs the field
+          // while the handler is still running
+          eVm.caret.restore.mockImplementation(() => {
+            input.element.dispatchEvent(new Event('blur'))
+          })
+
+          await input.setValue('https://vuejs.org')
+          await input.trigger('keydown', { keyCode })
+
+          expect(eVm.caret.restore).toHaveBeenCalledOnce()
+          expect(execCommand).toHaveBeenCalledTimes(commits)
+          expect(eVm.editLinkUrl.value).toBeNull()
+        }
+      )
+
+      test.each([
+        ['an URL', existingLink],
+        // the field mirrors the href, so both sides are blank here
+        ['no href at all', '']
+      ])('leaves a link untouched when it still holds %s', async (_, href) => {
+        const { eVm } = mountUtil(getLinkEditor, {
+          editLinkUrl: ref(href),
+          linkedHref: href
+        })
+
+        await wrapper.findAllComponents(QBtn)[1].trigger('click')
+
+        expect(execCommand).not.toHaveBeenCalled()
+        expect(eVm.editLinkUrl.value).toBeNull()
+      })
+
+      test('turns an emptied link into a blank one', async () => {
+        mountUtil(getLinkEditor)
+
+        await wrapper.get('.q-editor__link-input').setValue('')
+        await wrapper.findAllComponents(QBtn)[1].trigger('click')
+
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
+          'createLink',
+          false,
+          ' '
+        )
+      })
+
+      test('removes the link through the remove button', async () => {
+        const { eVm } = mountUtil(getLinkEditor)
+
+        await wrapper.findAllComponents(QBtn)[0].trigger('click')
+
+        expect(eVm.caret.restore).toHaveBeenCalledOnce()
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith('unlink')
+        expect(eVm.editLinkUrl.value).toBeNull()
+      })
+
+      test.each([
+        ['a link that was never set', '', null],
+        ['an existing link', existingLink, existingLink]
+      ])(
+        'cancels through ESCAPE over %s',
+        async (_, editLinkUrl, linkedHref) => {
+          const { eVm } = mountUtil(getLinkEditor, {
+            editLinkUrl: ref(editLinkUrl),
+            linkedHref
+          })
+
+          await wrapper
+            .get('.q-editor__link-input')
+            .setValue('https://vuejs.org')
+          await wrapper
+            .get('.q-editor__link-input')
+            .trigger('keydown', { keyCode: 27 })
+
+          expect(eVm.caret.restore).toHaveBeenCalledOnce()
+          // nothing was applied on the way in, so cancelling has nothing
+          // to undo -- and must not damage a link that is already there
+          expect(execCommand).not.toHaveBeenCalled()
+          expect(eVm.editLinkUrl.value).toBeNull()
+        }
+      )
+
+      test('creates a link the selected text already spells out', async () => {
+        // QEditor seeds the field with the selection when it reads as an
+        // URL; confirming it as-is still has to produce the anchor
+        const { eVm } = mountUtil(getLinkEditor, {
+          editLinkUrl: ref('https://vuejs.org'),
+          linkedHref: null
+        })
+
+        await wrapper.findAllComponents(QBtn)[1].trigger('click')
+
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
+          'createLink',
+          false,
+          'https://vuejs.org'
+        )
+        expect(eVm.editLinkUrl.value).toBeNull()
+      })
+
+      test('links nothing when the field was left empty', async () => {
+        const { eVm } = mountUtil(getLinkEditor, {
+          editLinkUrl: ref(''),
+          linkedHref: null
+        })
+
+        await wrapper.get('.q-editor__link-input').trigger('blur')
+
+        expect(execCommand).not.toHaveBeenCalled()
+        expect(eVm.editLinkUrl.value).toBeNull()
+      })
+
+      test('trims the URL before applying it', async () => {
+        mountUtil(getLinkEditor)
+
+        await wrapper
+          .get('.q-editor__link-input')
+          .setValue('  https://vuejs.org  ')
+        await wrapper.findAllComponents(QBtn)[1].trigger('click')
+
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
+          'createLink',
+          false,
+          'https://vuejs.org'
+        )
+      })
+
+      test.each([
+        ['remove', 0],
+        ['update', 1]
+      ])(
+        'keeps the %s button reachable while the field commits on blur',
+        (_, index) => {
+          mountUtil(getLinkEditor)
+
+          const evt = new MouseEvent('mousedown', {
+            bubbles: true,
+            cancelable: true
+          })
+          wrapper.findAllComponents(QBtn)[index].element.dispatchEvent(evt)
+
+          // without this the field would blur, commit and unmount the whole
+          // row before the click ever got the chance to land on the button
+          expect(evt.defaultPrevented).toBe(true)
+        }
+      )
+
+      test('commits only once when the field closes before the blur', async () => {
+        const { eVm } = mountUtil(getLinkEditor)
+        const input = wrapper.get('.q-editor__link-input')
+
+        await input.setValue('https://vuejs.org')
+        await input.trigger('keydown', { keyCode: 13 })
+        await input.trigger('blur')
+
+        expect(execCommand).toHaveBeenCalledExactlyOnceWith(
+          'createLink',
+          false,
+          'https://vuejs.org'
+        )
+        expect(eVm.editLinkUrl.value).toBeNull()
+      })
+
+      test('ignores any other key', async () => {
+        const { eVm } = mountUtil(getLinkEditor)
+
+        await wrapper
+          .get('.q-editor__link-input')
+          .trigger('keydown', { keyCode: 65 })
+
+        expect(eVm.caret.restore).not.toHaveBeenCalled()
+        expect(execCommand).not.toHaveBeenCalled()
+        expect(eVm.editLinkUrl.value).toBe('https://quasar.dev')
+      })
+
+      test('stays out of the way of an IME composition', async () => {
+        const { eVm } = mountUtil(getLinkEditor)
+
+        await wrapper
+          .get('.q-editor__link-input')
+          .trigger('keydown', { keyCode: 13, isComposing: true })
+
+        expect(execCommand).not.toHaveBeenCalled()
+        expect(eVm.editLinkUrl.value).toBe('https://quasar.dev')
+      })
+    })
+  })
+})

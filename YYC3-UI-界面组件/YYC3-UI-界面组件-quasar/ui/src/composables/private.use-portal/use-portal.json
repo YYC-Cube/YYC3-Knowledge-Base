@@ -1,0 +1,8 @@
+{
+  "computedProps": {
+    "contentEl": {
+      "type": "Element",
+      "desc": "The DOM Element of the rendered content"
+    }
+  }
+}

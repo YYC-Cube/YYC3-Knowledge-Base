@@ -1,0 +1,327 @@
+import {
+  computed,
+  getCurrentInstance,
+  h,
+  onMounted,
+  ref,
+  shallowRef,
+  watch
+} from 'vue'
+
+import QIcon from '../icon/QIcon.js'
+import QBtn from '../btn/QBtn.js'
+import QBtnGroup from '../btn-group/QBtnGroup.js'
+import QMenu from '../menu/QMenu.js'
+
+import useQuasar from '../../composables/use-quasar/use-quasar.js'
+import { getBtnDesignAttr, nonRoundBtnProps } from '../btn/use-btn.js'
+import useId from '../../composables/use-id/use-id.js'
+import { useTransitionProps } from '../../composables/private.use-transition/use-transition.js'
+
+import { createComponent } from '../../utils/private.create/create.js'
+import { stop } from '../../utils/event/event.js'
+import { hMergeSlot, hSlot } from '../../utils/private.render/render.js'
+
+const btnPropsList = Object.keys(nonRoundBtnProps)
+
+export function passBtnProps(props) {
+  return btnPropsList.reduce((acc, key) => {
+    const val = props[key]
+    if (val !== void 0) {
+      acc[key] = val
+    }
+    return acc
+  }, {})
+}
+
+export default /*#__PURE__*/ createComponent({
+  name: 'QBtnDropdown',
+
+  props: {
+    ...nonRoundBtnProps,
+    ...useTransitionProps,
+
+    modelValue: Boolean,
+    split: Boolean,
+    dropdownIcon: String,
+
+    contentClass: [Array, String, Object],
+    contentStyle: [Array, String, Object],
+
+    cover: Boolean,
+    hover: Boolean,
+    hoverDelay: Number,
+    hoverHideDelay: Number,
+    persistent: Boolean,
+    noEscDismiss: Boolean,
+    noRouteDismiss: Boolean,
+    autoClose: Boolean,
+    noRefocus: Boolean,
+    noFocus: Boolean,
+
+    menuAnchor: {
+      type: String,
+      default: 'bottom end'
+    },
+    menuSelf: {
+      type: String,
+      default: 'top end'
+    },
+    menuOffset: Array,
+
+    disableMainBtn: Boolean,
+    disableDropdown: Boolean,
+
+    noIconAnimation: Boolean,
+
+    toggleAriaLabel: String,
+    toggleAriaHaspopup: String
+  },
+
+  emits: [
+    'update:modelValue',
+    'click',
+    'beforeShow',
+    'show',
+    'beforeHide',
+    'hide'
+  ],
+
+  setup(props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
+    const $q = useQuasar()
+
+    const showing = ref(props.modelValue)
+    const menuRef = shallowRef(null)
+    const targetUid = useId()
+
+    const ariaAttrs = computed(() => {
+      // aria-haspopup has to name the popup's own ARIA role and the
+      // dropdown hosts arbitrary content, so it is opt-in: the devland
+      // declares it once the content has a matching role. In split mode
+      // fall-through attrs land on the QBtnGroup instead of the toggle
+      // button, which is why this needs a prop of its own
+      const acc = {
+        'aria-expanded': showing.value ? 'true' : 'false',
+        'aria-label':
+          props.toggleAriaLabel ||
+          $q.lang.label[showing.value ? 'collapse' : 'expand'](props.label)
+      }
+
+      if (props.toggleAriaHaspopup !== void 0) {
+        acc['aria-haspopup'] = props.toggleAriaHaspopup
+      }
+
+      // the portal-based menu only exists in the DOM while shown,
+      // and aria-controls must not reference a missing id
+      if (showing.value && !props.disableDropdown) {
+        acc['aria-controls'] = targetUid.value
+      }
+
+      if (
+        props.disable ||
+        (!props.split && props.disableMainBtn) ||
+        props.disableDropdown
+      ) {
+        acc['aria-disabled'] = 'true'
+      }
+
+      return acc
+    })
+
+    const iconClass = computed(
+      () =>
+        'q-btn-dropdown__arrow' +
+        (showing.value && !props.noIconAnimation ? ' rotate-180' : '') +
+        (props.split ? '' : ' q-btn-dropdown__arrow-container')
+    )
+
+    const btnDesignAttr = computed(() => getBtnDesignAttr(props))
+    const btnProps = computed(() => passBtnProps(props))
+
+    watch(
+      () => props.modelValue,
+      val => {
+        menuRef.value?.[val ? 'show' : 'hide']()
+      }
+    )
+
+    watch(() => props.split, hide)
+
+    function onBeforeShow(e) {
+      showing.value = true
+      emit('beforeShow', e)
+    }
+
+    function onShow(e) {
+      emit('show', e)
+      emit('update:modelValue', true)
+    }
+
+    function onBeforeHide(e) {
+      showing.value = false
+      emit('beforeHide', e)
+    }
+
+    function onHide(e) {
+      emit('hide', e)
+      emit('update:modelValue', false)
+    }
+
+    function onClick(e) {
+      emit('click', e)
+    }
+
+    function onClickHide(e) {
+      stop(e)
+      hide()
+      emit('click', e)
+    }
+
+    function toggle(evt) {
+      menuRef.value?.toggle(evt)
+    }
+
+    function show(evt) {
+      menuRef.value?.show(evt)
+    }
+
+    function hide(evt) {
+      menuRef.value?.hide(evt)
+    }
+
+    // expose public methods
+    Object.assign(proxy, {
+      show,
+      hide,
+      toggle
+    })
+
+    onMounted(() => {
+      if (props.modelValue) show()
+    })
+
+    return () => {
+      // toggle slot content rides along with the arrow icon so it lands
+      // inside the toggle button in split mode (the only button otherwise) -
+      // the sole way to reach that button (e.g. with a QTooltip), since
+      // fall-through attrs land on the QBtnGroup
+      const Arrow = hMergeSlot(slots.toggle, [
+        h(QIcon, {
+          class: iconClass.value,
+          name: props.dropdownIcon || $q.iconSet.arrow.dropdown
+        })
+      ])
+
+      const Menu = props.disableDropdown
+        ? null
+        : h(
+            QMenu,
+            {
+              ref: menuRef,
+              id: targetUid.value,
+              class: props.contentClass,
+              style: props.contentStyle,
+              cover: props.cover,
+              hover: props.hover,
+              hoverDelay: props.hoverDelay,
+              hoverHideDelay: props.hoverHideDelay,
+              fit: true,
+              persistent: props.persistent,
+              noEscDismiss: props.noEscDismiss,
+              noRouteDismiss: props.noRouteDismiss,
+              autoClose: props.autoClose,
+              noFocus: props.noFocus,
+              noRefocus: props.noRefocus,
+              anchor: props.menuAnchor,
+              self: props.menuSelf,
+              offset: props.menuOffset,
+              separateClosePopup: true,
+              transitionShow: props.transitionShow,
+              transitionHide: props.transitionHide,
+              transitionDuration: props.transitionDuration,
+              onBeforeShow,
+              onShow,
+              onBeforeHide,
+              onHide
+            },
+            slots.default
+          )
+
+      if (!props.split) {
+        return h(
+          QBtn,
+          {
+            class: 'q-btn-dropdown q-btn-dropdown--simple',
+            ...btnProps.value,
+            ...ariaAttrs.value,
+            disable: props.disable || props.disableMainBtn,
+            noWrap: true,
+            round: false,
+            onClick
+          },
+          {
+            default: () => [...hSlot(slots.label, []), ...Arrow, Menu],
+            loading: slots.loading
+          }
+        )
+      }
+
+      return h(
+        QBtnGroup,
+        {
+          class: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
+          rounded: props.rounded,
+          square: props.square,
+          ...btnDesignAttr.value,
+          glossy: props.glossy,
+          stretch: props.stretch
+        },
+        () => [
+          h(
+            QBtn,
+            {
+              class: 'q-btn-dropdown--current',
+              ...btnProps.value,
+              disable: props.disable || props.disableMainBtn,
+              noWrap: true,
+              round: false,
+              onClick: onClickHide
+            },
+            {
+              default: slots.label,
+              loading: slots.loading
+            }
+          ),
+
+          h(
+            QBtn,
+            {
+              class: 'q-btn-dropdown__arrow-container',
+              ...ariaAttrs.value,
+              ...btnDesignAttr.value,
+              disable: props.disable || props.disableDropdown,
+              rounded: props.rounded,
+              color: props.color,
+              textColor: props.textColor,
+              dense: props.dense,
+              size: props.size,
+              padding: props.padding,
+              ripple: props.ripple
+            },
+            () => Arrow
+          ),
+
+          // sibling of the two buttons rather than a child of the toggle
+          // one: its default parent anchoring thus resolves to the whole
+          // group without a q-anchor--skip class on the toggle button,
+          // which would also hijack anchor-based toggle slot content
+          // (e.g. QTooltip) onto the whole group; being portal-based it
+          // contributes only a placeholder comment to the group's DOM,
+          // so the child CSS (border radius etc) is unaffected
+          Menu
+        ]
+      )
+    }
+  }
+})

@@ -1,0 +1,175 @@
+---
+title: Avatar
+description: Used to represent user profile picture or initials
+links:
+  source: components/avatar
+  storybook: components-avatar--basic
+  recipe: avatar
+  ark: https://ark-ui.com/docs/components/avatar
+---
+
+<ExampleTabs name="avatar-basic" />
+
+## Usage
+
+```tsx
+import { Avatar, AvatarGroup } from "@chakra-ui/react"
+```
+
+```tsx
+<AvatarGroup>
+  <Avatar.Root>
+    <Avatar.Fallback />
+    <Avatar.Image />
+  </Avatar.Root>
+</AvatarGroup>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the avatar
+
+<ExampleTabs name="avatar-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to change the variant of the avatar
+
+<ExampleTabs name="avatar-with-variants" />
+
+### Shape
+
+Use the `shape` prop to change the shape of the avatar, from `rounded` to
+`square`
+
+<ExampleTabs name="avatar-with-shape" />
+
+### Colors
+
+Use the `colorPalette` prop to change the color of the avatar
+
+<ExampleTabs name="avatar-with-colors" />
+
+### Fallback
+
+Render `Avatar.Icon` as the fallback when the name is not provided or when the
+image fails to load.
+
+<ExampleTabs name="avatar-with-fallback" />
+
+### Random Color
+
+Combine the `colorPalette` prop with some custom logic to dynamically change the
+color of the avatar
+
+<ExampleTabs name="avatar-with-random-color" />
+
+### Ring
+
+Use the `outline*` props to add a ring around the avatar
+
+<ExampleTabs name="avatar-with-ring" />
+
+### Group
+
+Use the `Group` component to group multiple avatars together
+
+<ExampleTabs name="avatar-with-group" />
+
+### Stacking
+
+When using the `AvatarGroup` component, you can use the `stacking` prop to
+change the stacking order of the avatars
+
+<ExampleTabs name="avatar-group-with-stacking" />
+
+### Persona
+
+Here's an example of how to use the `Avatar` component to display a user
+persona.
+
+<ExampleTabs name="avatar-persona" />
+
+### Badge
+
+Show a badge on the right corner of the avatar by composing the `Float` and
+`Circle` components
+
+<ExampleTabs name="avatar-with-badge" />
+
+### Overflow
+
+Here's an example of how to handle an overflow of avatars by composing the
+`Menu` and `Avatar` components.
+
+<ExampleTabs name="avatar-with-overflow" />
+
+### Next.js
+
+Here's an example of how to compose the avatar with Next.js Image.
+
+```tsx
+import { getImageProps } from "next/image"
+
+function Demo() {
+  const imageProps = getImageProps({
+    src: "/image.png",
+  })
+  return (
+    <Avatar.Root>
+      <Avatar.Fallback name="Segun Adebayo" />
+      <Avatar.Image {...imageProps} />
+    </Avatar.Root>
+  )
+}
+```
+
+### Store
+
+An alternative way to access the avatar state and methods is to use the
+`RootProvider` component and the `useAvatar` store hook.
+
+<ExampleTabs name="avatar-with-store" />
+
+### Closed Component
+
+Here's how to setup the Avatar for a closed component composition.
+
+<ExampleCode name="avatar-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add avatar
+```
+
+## Props
+
+### Root
+
+<PropTable component="Avatar" part="Root" />
+
+### Fallback
+
+<PropTable component="Avatar" part="Fallback" />
+
+### Image
+
+<PropTable component="Avatar" part="Image" />
+
+## Explorer
+
+Explore the `Avatar` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="avatar-explorer-demo" />

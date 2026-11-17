@@ -1,0 +1,109 @@
+import { computed } from 'vue'
+
+import { isNumber } from '../../utils/is/is.js'
+
+export const useTableColumnSelectionProps = {
+  visibleColumns: Array
+}
+
+export function useTableColumnSelection(
+  props,
+  computedPagination,
+  hasSelectionMode
+) {
+  const colList = computed(() => {
+    if (props.columns !== void 0) {
+      return props.columns
+    }
+
+    // we infer columns from first row
+    const row = props.rows[0]
+
+    return row !== void 0
+      ? Object.keys(row).map(name => ({
+          name,
+          label: name.toUpperCase(),
+          field: name,
+          align: isNumber(row[name]) ? 'right' : 'left',
+          sortable: true
+        }))
+      : []
+  })
+
+  const computedCols = computed(() => {
+    const { sortBy, descending } = computedPagination.value
+
+    const cols =
+      props.visibleColumns !== void 0
+        ? colList.value.filter(
+            col => col.required || props.visibleColumns.includes(col.name)
+          )
+        : colList.value
+
+    return cols.map(col => {
+      const align = col.align || 'right'
+      const baseClass =
+        `text-${align}` +
+        (col.autoWidth === true ? ' q-table--col-auto-width' : '')
+
+      return {
+        ...col,
+        align,
+        __iconClass: `q-table__sort-icon q-table__sort-icon--${align}`,
+        __ariaSort:
+          col.sortable === true
+            ? col.name === sortBy
+              ? descending
+                ? 'descending'
+                : 'ascending'
+              : 'none'
+            : void 0,
+        __thClass:
+          baseClass +
+          (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '') +
+          (col.sortable ? ' sortable' : '') +
+          (col.name === sortBy
+            ? ` sorted ${descending ? 'sort-desc' : ''}`
+            : // preview the first-click sort direction on hover
+              col.sortable && (col.sortOrder || props.columnSortOrder) === 'da'
+              ? ' sort-desc'
+              : ''),
+
+        __tdStyle:
+          col.style !== void 0
+            ? typeof col.style !== 'function'
+              ? () => col.style
+              : col.style
+            : () => null,
+
+        __tdClass:
+          col.classes !== void 0
+            ? typeof col.classes !== 'function'
+              ? () => baseClass + ' ' + col.classes
+              : row => baseClass + ' ' + col.classes(row)
+            : () => baseClass
+      }
+    })
+  })
+
+  const computedColsMap = computed(() => {
+    const names = Object.create(null)
+    computedCols.value.forEach(col => {
+      names[col.name] = col
+    })
+    return names
+  })
+
+  const computedColspan = computed(() =>
+    props.tableColspan !== void 0
+      ? props.tableColspan
+      : computedCols.value.length + (hasSelectionMode.value ? 1 : 0)
+  )
+
+  return {
+    colList,
+    computedCols,
+    computedColsMap,
+    computedColspan
+  }
+}

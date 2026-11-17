@@ -1,0 +1,125 @@
+---
+title: Breadcrumb
+description:
+  Used to display a page's location within a site's hierarchical structure
+links:
+  source: components/breadcrumb
+  storybook: components-breadcrumb--basic
+  recipe: breadcrumb
+---
+
+<ExampleTabs name="breadcrumb-basic" />
+
+## Usage
+
+```tsx
+import { Breadcrumb } from "@chakra-ui/react"
+```
+
+```tsx
+<Breadcrumb.Root>
+  <Breadcrumb.List>
+    <Breadcrumb.Item>
+      <Breadcrumb.Link />
+    </Breadcrumb.Item>
+    <Breadcrumb.Separator />
+  </Breadcrumb.List>
+</Breadcrumb.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Examples
+
+### Sizes
+
+Use the `size` prop to change the size of the breadcrumb component
+
+<ExampleTabs name="breadcrumb-with-sizes" />
+
+### Variants
+
+Use the `variant` prop to change the appearance of the breadcrumb component
+
+<ExampleTabs name="breadcrumb-with-variants" />
+
+### With Separator
+
+Use the `Breadcrumb.Separator` component to add a custom separator
+
+<ExampleTabs name="breadcrumb-with-separator" />
+
+### Icon
+
+Add a custom icon to the breadcrumb by rendering it within `Breadcrumb.Link`
+
+<ExampleTabs name="breadcrumb-with-icon" />
+
+### Menu
+
+Wrap the `Breadcrumb.Link` inside the `MenuTrigger` to ensure it works correctly
+within the menu component
+
+<ExampleTabs name="breadcrumb-with-menu" />
+
+### Ellipsis
+
+Render the `Breadcrumb.Ellipsis` component to show an ellipsis after a
+breadcrumb item
+
+<ExampleTabs name="breadcrumb-with-ellipsis" />
+
+### Routing Library
+
+Use the `asChild` prop to change the underlying breadcrumb link
+
+```tsx
+import { Breadcrumb } from "@chakra-ui/react"
+import Link from "next/link"
+
+export const Example = () => {
+  return (
+    <Breadcrumb.Root>
+      <Breadcrumb.List>
+        <Breadcrumb.Item>
+          <Breadcrumb.Link asChild>
+            <Link href="/docs">Docs</Link>
+          </Breadcrumb.Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Separator />
+      </Breadcrumb.List>
+    </Breadcrumb.Root>
+  )
+}
+```
+
+### Closed Component
+
+Here's how to setup the Breadcrumb for a closed component composition.
+
+<ExampleCode name="breadcrumb-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add breadcrumb
+```
+
+## Props
+
+### Root
+
+<PropTable component="Breadcrumb" part="Root" />
+
+## Explorer
+
+Explore the `Breadcrumb` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="breadcrumb-basic" />

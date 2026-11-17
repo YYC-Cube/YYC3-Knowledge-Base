@@ -1,0 +1,166 @@
+---
+title: Accordion
+description: Used to show and hide sections of related content on a page
+links:
+  source: components/accordion
+  storybook: components-accordion--basic
+  recipe: accordion
+  ark: https://ark-ui.com/docs/components/accordion
+---
+
+<ExampleTabs name="accordion-basic" />
+
+## Usage
+
+```tsx
+import { Accordion } from "@chakra-ui/react"
+```
+
+```tsx
+<Accordion.Root>
+  <Accordion.Item>
+    <Accordion.ItemTrigger>
+      <Accordion.ItemIndicator />
+    </Accordion.ItemTrigger>
+    <Accordion.ItemContent>
+      <Accordion.ItemBody />
+    </Accordion.ItemContent>
+  </Accordion.Item>
+</Accordion.Root>
+```
+
+## Examples
+
+### Controlled
+
+Set the accordion that shows up by default.
+
+<ExampleTabs name="accordion-controlled" />
+
+### With Icon
+
+Here's an example of rendering a custom icon in each accordion item.
+
+<ExampleTabs name="accordion-with-icon" />
+
+### Expand Multiple Items
+
+Use the `multiple` prop to allow multiple items to be expanded at once.
+
+<ExampleTabs name="accordion-with-multiple" />
+
+### Sizes
+
+Use the `size` prop to change the size of the accordion.
+
+<ExampleTabs name="accordion-sizes" />
+
+### Variants
+
+Use the `variant` prop to change the visual style of the accordion. Values can
+be either `outline`, `subtle`, `enclosed` or `plain`.
+
+<ExampleTabs name="accordion-variants" />
+
+### Disabled Item
+
+Pass the `disabled` prop to any `Accordion.Item` to prevent it from being
+expanded or collapsed.
+
+<ExampleTabs name="accordion-with-disabled-item" />
+
+### With Avatar
+
+Here's an example of composing an accordion with an avatar.
+
+<ExampleTabs name="accordion-with-avatar" />
+
+### With Subtext
+
+Here's an example of adding a subtext to an accordion item.
+
+<ExampleTabs name="accordion-with-subtext" />
+
+### With Actions
+
+Here's an example of adding actions to an accordion item trigger.
+
+<ExampleTabs name="accordion-with-actions" />
+
+### Styling Expanded Style
+
+Pass the `_open` pseudo selector to the `Accordion.ItemTrigger` or
+`Accordion.Item` to attach styles to it when expanded.
+
+<ExampleTabs name="accordion-with-expanded-style" />
+
+## Guides
+
+### Accessing Root State
+
+Use `useAccordionContext` to access the accordion state at the root level:
+
+```tsx
+import { useAccordionContext } from "@chakra-ui/react"
+
+const AccordionValueText = () => {
+  const accordion = useAccordionContext()
+  return <Box>Opened: {accordion.value.join(", ")}</Box>
+}
+
+// Usage
+const Demo = () => (
+  <Accordion.Root>
+    <AccordionValueText />
+    {/* ... accordion items */}
+  </Accordion.Root>
+)
+```
+
+### Accessing Item State
+
+Use `useAccordionItemContext` to access the state of a specific accordion item:
+
+```tsx
+import { useAccordionItemContext } from "@chakra-ui/react"
+
+const AccordionItemStatus = () => {
+  const item = useAccordionItemContext()
+  return (
+    <Box color={item.open ? "green.500" : "gray.500"}>
+      {item.open ? "Expanded" : "Collapsed"}
+    </Box>
+  )
+}
+
+// Usage
+const Demo = () => (
+  <Accordion.Root>
+    <Accordion.Item value="item-1">
+      <Accordion.ItemTrigger>
+        <AccordionItemStatus />
+      </Accordion.ItemTrigger>
+      <Accordion.ItemContent>
+        <Accordion.ItemBody>Content</Accordion.ItemBody>
+      </Accordion.ItemContent>
+    </Accordion.Item>
+  </Accordion.Root>
+)
+```
+
+## Props
+
+### Root
+
+<PropTable component="Accordion" part="Root" />
+
+### Item
+
+<PropTable component="Accordion" part="Item" />
+
+## Explorer
+
+Explore the `Accordion` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="accordion-explorer-demo" />

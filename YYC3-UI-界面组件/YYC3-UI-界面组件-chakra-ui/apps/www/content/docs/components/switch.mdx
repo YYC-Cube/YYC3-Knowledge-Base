@@ -1,0 +1,155 @@
+---
+title: Switch
+description: Used to capture a binary state
+links:
+  source: components/switch
+  storybook: components-switch--basic
+  recipe: switch
+  ark: https://ark-ui.com/docs/components/switch
+---
+
+<ExampleTabs name="switch-basic" />
+
+## Usage
+
+```tsx
+import { Switch } from "@chakra-ui/react"
+```
+
+```tsx
+<Switch.Root>
+  <Switch.HiddenInput />
+  <Switch.Control>
+    <Switch.Thumb />
+  </Switch.Control>
+  <Switch.Label />
+</Switch.Root>
+```
+
+:::info
+
+If you prefer a closed component composition, check out the
+[snippet below](#closed-component).
+
+:::
+
+## Shortcuts
+
+The `Switch` component also provides a set of shortcuts for common use cases.
+
+### SwitchControl
+
+The `Switch.Control` renders the `Switch.Thumb` within it by default.
+
+This works:
+
+```tsx
+<Switch.Control>
+  <Switch.Thumb />
+</Switch.Control>
+```
+
+This might be more concise, if you don't need to customize the thumb:
+
+```tsx
+<Switch.Control />
+```
+
+## Examples
+
+### Sizes
+
+Pass the `size` prop to the `Switch.Root` component to change the size of the
+switch component.
+
+<ExampleTabs name="switch-with-sizes" />
+
+### Variants
+
+Pass the `variant` prop to the `Switch.Root` component to change the visual
+style of the switch.
+
+<ExampleTabs name="switch-with-variants" />
+
+### Colors
+
+Pass the `colorPalette` prop to the `Switch.Root` component to change the color
+scheme of the component.
+
+<ExampleTabs name="switch-with-colors" />
+
+### Controlled
+
+Use the `checked` and `onCheckedChange` prop to control the state of the switch.
+
+<ExampleTabs name="switch-controlled" />
+
+### Hook Form
+
+Here's an example of integrating the switch with `react-hook-form`.
+
+<ExampleTabs name="switch-with-hook-form" />
+
+### Disabled
+
+Pass the `disabled` prop to the `Switch.Root` component to disable the switch.
+
+<ExampleTabs name="switch-with-disabled" />
+
+### Invalid
+
+Pass the `invalid` prop to the `Switch.Root` component to indicate an error
+state for the switch.
+
+<ExampleTabs name="switch-with-invalid" />
+
+### Tooltip
+
+Here's an example of how to compose a switch with a tooltip.
+
+<ExampleTabs name="switch-with-tooltip" />
+
+### Track Indicator
+
+Use the `Switch.Indicator` component to display different indicators based on
+the checked state.
+
+<ExampleTabs name="switch-with-track-indicator" />
+
+### Thumb Indicator
+
+Use the `Switch.ThumbIndicator` component to add an icon to the switch thumb.
+
+<ExampleTabs name="switch-with-thumb-indicator" />
+
+### Closed Component
+
+Here's how to setup the Switch for a closed component composition.
+
+<ExampleCode name="switch-closed-component" />
+
+If you want to automatically add the closed component to your project, run the
+command:
+
+```bash
+npx @chakra-ui/cli snippet add switch
+```
+
+Here's how to use the it
+
+```tsx
+<Switch>Activate Chakra</Switch>
+```
+
+## Props
+
+### Root
+
+<PropTable component="Switch" part="Root" />
+
+## Explorer
+
+Explore the `Switch` component parts interactively. Click on parts in the
+sidebar to highlight them in the preview.
+
+<Explorer name="switch-basic" />
