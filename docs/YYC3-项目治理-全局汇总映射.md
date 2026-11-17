@@ -1,6 +1,6 @@
 ---
 file: YYC3-项目治理-全局汇总映射.md
-title: YYC³ 全局汇总映射 — 24 分类 · 414 项目全量对照
+title: YYC³ 全局汇总映射 — 24 分类 · 442 项目全量对照
 description: YYC³ 知识库全量资产映射：分类统计、迁移来源、当前目录与迁移前原始路径一一对照
 author: YYC³ Team <admin@0379.email>
 version: v1.1.0
@@ -14,7 +14,7 @@ audience: developers,managers,architects
 complexity: intermediate
 ---
 
-# YYC³ 全局汇总映射 — 24 分类 · 414 项目全量对照
+# YYC³ 全局汇总映射 — 24 分类 · 442 项目全量对照
 
 > **_YYC³_**（YanYuCloudCube™ · 注册商标）
 > _言启象限 | 语枢未来_
@@ -29,9 +29,9 @@ complexity: intermediate
 | 指标 | 值 |
 | --- | --- |
 | 分类目录 | **24** |
-| 项目总数 | **414** |
-| 文件总量 | **805,611** |
-| 资产体积 | **11.07 GB** |
+| 项目总数 | **442** |
+| 文件总量 | **1,060,854** |
+| 资产体积 | **73.85 GB** |
 | 命名规范 | `YYC3-{分类名称}-{项目原名}`（ASCII 前缀） |
 | 最近治理 | 2026-11-17 · UI 双目录合并（组件库 → 界面组件，清除 5 项冗余） |
 
@@ -39,6 +39,8 @@ complexity: intermediate
 
 | 分类 | 项目数 | 文件数 | 体积 | 平均体积 | 来源桶数 | 分类定位 |
 | --- | --- | --- | --- | --- | --- | --- |
+| Model-训练数据 | 12 | 285 | 56.26 GB | 4801.1 MB | 1 | Nemotron 系列训练与评测数据集（本地留档，不入库） |
+| NVIDIA-官方文库 | 16 | 254,958 | 6.51 GB | 416.9 MB | 1 | NVIDIA 官方文档、技能与集成文库（本地留档，不入库） |
 | UI-界面组件 | 38 | 180,031 | 1.87 GB | 50.3 MB | 2 | 组件库、设计系统与主题包 |
 | AI-模型服务 | 16 | 38,817 | 1.46 GB | 93.5 MB | 4 | LLM 网关、推理服务、模型训练/蒸馏、RAG 与向量检索 |
 | Tool-开发工具链 | 45 | 95,892 | 1010.0 MB | 22.4 MB | 10 | 格式化、构建、CLI、包管理、文档工具 |
@@ -63,15 +65,15 @@ complexity: intermediate
 | Business-商业应用 | 5 | 3,397 | 49.6 MB | 9.9 MB | 1 | 商业场景应用与行业模板 |
 | Finance-金融量化 | 4 | 365 | 23.7 MB | 5.9 MB | 1 | 量化交易、风控与金融数据建模 |
 | Security-安全合规 | 4 | 132 | 2.4 MB | 0.6 MB | 1 | 安全扫描、规则库、攻防与合规 |
-| **合计** | **414** | **805,611** | **11.07 GB** | — | — | — |
+| **合计** | **442** | **1,060,854** | **73.85 GB** | — | — | — |
 
 ## 三、迁移来源分布
 
 | 原桶 | 项目数 |
 | --- | --- |
-| YYC3-Tool-开发工具 | 40 || YYC3-Python-Python标准库 | 35 || YYC3-WebSpec-Web标准 | 34 || 未记录 | 30 || YYC3-AI-人工智能 | 25 || YYC3-Syntax-语法定义 | 24 || YYC3-G | 22 || YYC3-D | 19 || YYC3-LSP-语言服务 | 17 || YYC3-H | 16 || YYC3-J | 15 || YYC3-Skills-技能包 | 15 || YYC3-Agent-智能体 | 13 || YYC3-I | 12 || YYC3-B | 12 || YYC3-C | 12 || YYC3-UI-用户界面 | 9 || YYC3-MCP-MCP协议 | 7 || YYC3-Cloud-云原生 | 6 || YYC3-Business-商业 | 6 || YYC3-Design-设计资源 | 6 || YYC3-Shell-终端 | 5 || YYC3-Finance-金融量化 | 4 || YYC3-Plugin-插件体系 | 4 || YYC3-Security-安全 | 4 || YYC3-A | 4 || YYC3-Data-数据存储 | 3 || YYC3-F | 2 || YYC3-Icon-图标资源 | 2 || YYC3-Doc-文档资源 | 2 || YYC3-Editor-编辑器 | 2 || YYC3-Spec-规范工具 | 2 || YYC3-TypeDef-类型定义 | 2 || YYC3-N | 1 || YYC3-E | 1 || YYC3-Framework-框架 | 1 |
+| 未记录 | 58 || YYC3-Tool-开发工具 | 40 || YYC3-Python-Python标准库 | 35 || YYC3-WebSpec-Web标准 | 34 || YYC3-AI-人工智能 | 25 || YYC3-Syntax-语法定义 | 24 || YYC3-G | 22 || YYC3-D | 19 || YYC3-LSP-语言服务 | 17 || YYC3-H | 16 || YYC3-J | 15 || YYC3-Skills-技能包 | 15 || YYC3-Agent-智能体 | 13 || YYC3-I | 12 || YYC3-B | 12 || YYC3-C | 12 || YYC3-UI-用户界面 | 9 || YYC3-MCP-MCP协议 | 7 || YYC3-Cloud-云原生 | 6 || YYC3-Business-商业 | 6 || YYC3-Design-设计资源 | 6 || YYC3-Shell-终端 | 5 || YYC3-Finance-金融量化 | 4 || YYC3-Plugin-插件体系 | 4 || YYC3-Security-安全 | 4 || YYC3-A | 4 || YYC3-Data-数据存储 | 3 || YYC3-F | 2 || YYC3-Icon-图标资源 | 2 || YYC3-Doc-文档资源 | 2 || YYC3-Editor-编辑器 | 2 || YYC3-Spec-规范工具 | 2 || YYC3-TypeDef-类型定义 | 2 || YYC3-N | 1 || YYC3-E | 1 || YYC3-Framework-框架 | 1 |
 
-## 四、全量映射表（414 项）
+## 四、全量映射表（442 项）
 
 | # | 分类 | 当前目录 | 原始路径 | 文件数 | 体积 | 主要技术 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -229,266 +231,294 @@ complexity: intermediate
 | 152 | LSP-语言服务 | `YYC3-LSP-语言服务-rust-analyzer-lsp` | `YYC3-LSP-语言服务/rust-analyzer-lsp` | 4 | 0.0 MB | json, md |  |
 | 153 | LSP-语言服务 | `YYC3-LSP-语言服务-sourcekit-lsp` | `YYC3-LSP-语言服务/sourcekit-lsp` | 503 | 4.0 MB | swift, md, txt |  |
 | 154 | LSP-语言服务 | `YYC3-LSP-语言服务-swift-lsp` | `YYC3-LSP-语言服务/swift-lsp` | 4 | 0.0 MB | json, md |  |
-| 155 | Plugin-插件协议 | `YYC3-Plugin-插件协议-context7` | `YYC3-MCP-MCP协议/context7` | 2 | 0.0 MB | json |  |
-| 156 | Plugin-插件协议 | `YYC3-Plugin-插件协议-core` | `YYC3-Tool-开发工具/core` | 1,573 | 98.3 MB | ts, png, yml |  |
-| 157 | Plugin-插件协议 | `YYC3-Plugin-插件协议-core-sdk` | `YYC3-B/core` | 46 | 0.1 MB | ts, map, js |  |
-| 158 | Plugin-插件协议 | `YYC3-Plugin-插件协议-extensions` | `YYC3-B/extensions` | 803 | 25.8 MB | json, svg, md |  |
-| 159 | Plugin-插件协议 | `YYC3-Plugin-插件协议-external_plugins` | `YYC3-Plugin-插件体系/external_plugins` | 2,507 | 25.3 MB | md, py, json |  |
-| 160 | Plugin-插件协议 | `YYC3-Plugin-插件协议-hookify` | `YYC3-Skills-技能包/hookify` | 24 | 0.1 MB | md, py, json |  |
-| 161 | Plugin-插件协议 | `YYC3-Plugin-插件协议-lexiang-knowledge-plugins` | `YYC3-Plugin-插件体系/lexiang-knowledge-plugins` | 25 | 0.2 MB | md, json, ts |  |
-| 162 | Plugin-插件协议 | `YYC3-Plugin-插件协议-mcp` | `YYC3-MCP-MCP协议/mcp` | 23 | 0.3 MB | ts |  |
-| 163 | Plugin-插件协议 | `YYC3-Plugin-插件协议-mcp-client` | `YYC3-MCP-MCP协议/mcp-client` | 7 | 0.0 MB | ts, json |  |
-| 164 | Plugin-插件协议 | `YYC3-Plugin-插件协议-mcp-server` | `YYC3-MCP-MCP协议/mcp-server` | 8 | 0.0 MB | ts, json |  |
-| 165 | Plugin-插件协议 | `YYC3-Plugin-插件协议-meta` | `YYC3-Spec-规范工具/meta` | 12 | 0.1 MB | md, py, json |  |
-| 166 | Plugin-插件协议 | `YYC3-Plugin-插件协议-misc-server` | `YYC3-MCP-MCP协议/misc-server` | 109 | 0.6 MB | conf, mjs, md |  |
-| 167 | Plugin-插件协议 | `YYC3-Plugin-插件协议-playwright-mcp` | `YYC3-MCP-MCP协议/playwright-mcp` | 66 | 0.4 MB | ts, json, md |  |
-| 168 | Plugin-插件协议 | `YYC3-Plugin-插件协议-plugin-dev` | `YYC3-MCP-MCP协议/plugin-dev` | 61 | 0.5 MB | md, sh, json |  |
-| 169 | Plugin-插件协议 | `YYC3-Plugin-插件协议-plugin-finder` | `YYC3-Plugin-插件体系/plugin-finder` | 21 | 0.2 MB | md, json, sh |  |
-| 170 | Plugin-插件协议 | `YYC3-Plugin-插件协议-plugins` | `YYC3-Plugin-插件体系/plugins` | 1,027 | 8.6 MB | md, html, xsd |  |
-| 171 | Plugin-插件协议 | `YYC3-Plugin-插件协议-plugins-claude` | `YYC3-H/plugins` | 591 | 5.1 MB | md, json, yaml |  |
-| 172 | Runtime-标准库 | `YYC3-Runtime-标准库-__phello__` | `YYC3-Python-Python标准库/__phello__` | 2 | 0.0 MB | py |  |
-| 173 | Runtime-标准库 | `YYC3-Runtime-标准库-_pyrepl` | `YYC3-Python-Python标准库/_pyrepl` | 26 | 0.2 MB | py, ini |  |
-| 174 | Runtime-标准库 | `YYC3-Runtime-标准库-asyncio` | `YYC3-Python-Python标准库/asyncio` | 33 | 0.5 MB | py |  |
-| 175 | Runtime-标准库 | `YYC3-Runtime-标准库-collections` | `YYC3-Python-Python标准库/collections` | 1 | 0.1 MB | py |  |
-| 176 | Runtime-标准库 | `YYC3-Runtime-标准库-concurrent` | `YYC3-Python-Python标准库/concurrent` | 5 | 0.1 MB | py |  |
-| 177 | Runtime-标准库 | `YYC3-Runtime-标准库-config-3.13-darwin` | `YYC3-Python-Python标准库/config-3.13-darwin` | 11 | 0.3 MB | py, in, stdlib |  |
-| 178 | Runtime-标准库 | `YYC3-Runtime-标准库-ctypes` | `YYC3-Python-Python标准库/ctypes` | 12 | 0.1 MB | py, ctypes, bat |  |
-| 179 | Runtime-标准库 | `YYC3-Runtime-标准库-curses` | `YYC3-Python-Python标准库/curses` | 5 | 0.0 MB | py |  |
-| 180 | Runtime-标准库 | `YYC3-Runtime-标准库-dbm` | `YYC3-Python-Python标准库/dbm` | 5 | 0.0 MB | py |  |
-| 181 | Runtime-标准库 | `YYC3-Runtime-标准库-email` | `YYC3-Python-Python标准库/email` | 30 | 0.4 MB | py, rst |  |
-| 182 | Runtime-标准库 | `YYC3-Runtime-标准库-encodings` | `YYC3-Python-Python标准库/encodings` | 122 | 1.4 MB | py |  |
-| 183 | Runtime-标准库 | `YYC3-Runtime-标准库-ensurepip` | `YYC3-Python-Python标准库/ensurepip` | 4 | 1.7 MB | py, whl |  |
-| 184 | Runtime-标准库 | `YYC3-Runtime-标准库-http` | `YYC3-Python-Python标准库/http` | 5 | 0.2 MB | py |  |
-| 185 | Runtime-标准库 | `YYC3-Runtime-标准库-idlelib` | `YYC3-Python-Python标准库/idlelib` | 158 | 1.6 MB | py, txt, gif |  |
-| 186 | Runtime-标准库 | `YYC3-Runtime-标准库-importlib` | `YYC3-Python-Python标准库/importlib` | 25 | 0.2 MB | py |  |
-| 187 | Runtime-标准库 | `YYC3-Runtime-标准库-json` | `YYC3-Python-Python标准库/json` | 5 | 0.0 MB | py |  |
-| 188 | Runtime-标准库 | `YYC3-Runtime-标准库-lib-dynload` | `YYC3-Python-Python标准库/lib-dynload` | 78 | 8.3 MB | so |  |
-| 189 | Runtime-标准库 | `YYC3-Runtime-标准库-logging` | `YYC3-Python-Python标准库/logging` | 3 | 0.2 MB | py |  |
-| 190 | Runtime-标准库 | `YYC3-Runtime-标准库-multiprocessing` | `YYC3-Python-Python标准库/multiprocessing` | 23 | 0.3 MB | py |  |
-| 191 | Runtime-标准库 | `YYC3-Runtime-标准库-NVIDIA` | `YYC3-N/NVIDA` | 157 | 4.4 MB | py, txt, orig |  |
-| 192 | Runtime-标准库 | `YYC3-Runtime-标准库-pathlib` | `YYC3-Python-Python标准库/pathlib` | 3 | 0.1 MB | py |  |
-| 193 | Runtime-标准库 | `YYC3-Runtime-标准库-pydoc_data` | `YYC3-Python-Python标准库/pydoc_data` | 3 | 0.5 MB | py, css |  |
-| 194 | Runtime-标准库 | `YYC3-Runtime-标准库-re` | `YYC3-Python-Python标准库/re` | 5 | 0.1 MB | py |  |
-| 195 | Runtime-标准库 | `YYC3-Runtime-标准库-site-packages` | `YYC3-Python-Python标准库/site-packages` | 7,656 | 76.3 MB | py, json, gz |  |
-| 196 | Runtime-标准库 | `YYC3-Runtime-标准库-sqlite3` | `YYC3-Python-Python标准库/sqlite3` | 4 | 0.0 MB | py |  |
-| 197 | Runtime-标准库 | `YYC3-Runtime-标准库-sysconfig` | `YYC3-Python-Python标准库/sysconfig` | 2 | 0.0 MB | py |  |
-| 198 | Runtime-标准库 | `YYC3-Runtime-标准库-test` | `YYC3-Python-Python标准库/test` | 31 | 0.3 MB | py |  |
-| 199 | Runtime-标准库 | `YYC3-Runtime-标准库-tkinter` | `YYC3-Python-Python标准库/tkinter` | 13 | 0.3 MB | py |  |
-| 200 | Runtime-标准库 | `YYC3-Runtime-标准库-tomllib` | `YYC3-Python-Python标准库/tomllib` | 5 | 0.0 MB | py, ini |  |
-| 201 | Runtime-标准库 | `YYC3-Runtime-标准库-turtledemo` | `YYC3-Python-Python标准库/turtledemo` | 22 | 0.1 MB | py, cfg |  |
-| 202 | Runtime-标准库 | `YYC3-Runtime-标准库-unittest` | `YYC3-Python-Python标准库/unittest` | 13 | 0.2 MB | py |  |
-| 203 | Runtime-标准库 | `YYC3-Runtime-标准库-urllib` | `YYC3-Python-Python标准库/urllib` | 6 | 0.2 MB | py |  |
-| 204 | Runtime-标准库 | `YYC3-Runtime-标准库-xml` | `YYC3-Python-Python标准库/xml` | 22 | 0.3 MB | py |  |
-| 205 | Runtime-标准库 | `YYC3-Runtime-标准库-xmlrpc` | `YYC3-Python-Python标准库/xmlrpc` | 3 | 0.1 MB | py |  |
-| 206 | Runtime-标准库 | `YYC3-Runtime-标准库-zipfile` | `YYC3-Python-Python标准库/zipfile` | 4 | 0.1 MB | py |  |
-| 207 | Runtime-标准库 | `YYC3-Runtime-标准库-zoneinfo` | `YYC3-Python-Python标准库/zoneinfo` | 4 | 0.0 MB | py |  |
-| 208 | Security-安全合规 | `YYC3-Security-安全合规-practicalEthicalHacking` | `YYC3-Security-安全/practicalEthicalHacking` | 71 | 1.9 MB | md, py, png |  |
-| 209 | Security-安全合规 | `YYC3-Security-安全合规-security-guidance` | `YYC3-Security-安全/security-guidance` | 3 | 0.0 MB | json, py |  |
-| 210 | Security-安全合规 | `YYC3-Security-安全合规-security-rules` | `YYC3-Security-安全/security-rules` | 5 | 0.0 MB | md, json |  |
-| 211 | Security-安全合规 | `YYC3-Security-安全合规-security-scan` | `YYC3-Security-安全/security-scan` | 53 | 0.5 MB | md, yaml, py |  |
-| 212 | Shell-终端 | `YYC3-Shell-终端-atuin` | `YYC3-Shell-终端/atuin` | 4 | 0.0 MB | md, json |  |
-| 213 | Shell-终端 | `YYC3-Shell-终端-autocomplete-specs` | `YYC3-Shell-终端/autocomplete-specs` | 1,476 | 98.0 MB | ts |  |
-| 214 | Shell-终端 | `YYC3-Shell-终端-fish-shell` | `YYC3-Shell-终端/fish-shell` | 2,144 | 25.5 MB | fish, rs, rst |  |
-| 215 | Shell-终端 | `YYC3-Shell-终端-shell` | `YYC3-Shell-终端/shell` | 4,958 | 44.3 MB | go, fish, txt |  |
-| 216 | Shell-终端 | `YYC3-Shell-终端-zsh` | `YYC3-Shell-终端/zsh` | 1,740 | 13.3 MB | yo, c, ztst |  |
-| 217 | Skills-技能包 | `YYC3-Skills-技能包-Agent` | `YYC3-B/Agent` | 61 | 0.3 MB | md, ts, sh |  |
-| 218 | Skills-技能包 | `YYC3-Skills-技能包-Agent-Skills` | `YYC3-J/Agent-Skills` | 920 | 10.9 MB | md, js, py |  |
-| 219 | Skills-技能包 | `YYC3-Skills-技能包-agent-skills-framework` | `YYC3-F/agent-skills` | 76 | 0.5 MB | md, toml, sh |  |
-| 220 | Skills-技能包 | `YYC3-Skills-技能包-all-skills` | `YYC3-Skills-技能包/all-skills` | 392 | 9.2 MB | md, xsd, py |  |
-| 221 | Skills-技能包 | `YYC3-Skills-技能包-antigravity-awesome-skills` | `YYC3-Skills-技能包/antigravity-awesome-skills` | 13,050 | 169.7 MB | md, py, patch |  |
-| 222 | Skills-技能包 | `YYC3-Skills-技能包-awesome-openclaw-skills` | `YYC3-Skills-技能包/awesome-openclaw-skills` | 32 | 0.8 MB | md, json, yml |  |
-| 223 | Skills-技能包 | `YYC3-Skills-技能包-B2B-SKills` | `YYC3-Skills-技能包/B2B-SKills` | 18 | 0.1 MB | md, mjs, sh |  |
-| 224 | Skills-技能包 | `YYC3-Skills-技能包-caveman` | `YYC3-J/caveman` | 103 | 0.4 MB | md, py, json |  |
-| 225 | Skills-技能包 | `YYC3-Skills-技能包-code-skills` | `YYC3-Skills-技能包/code-skills` | 2,642 | 25.3 MB | md, js, json |  |
-| 226 | Skills-技能包 | `YYC3-Skills-技能包-GLM-skills` | `YYC3-Skills-技能包/GLM-skills` | 63 | 0.6 MB | py, md, yaml |  |
-| 227 | Skills-技能包 | `YYC3-Skills-技能包-hot-skills` | `YYC3-Skills-技能包/hot-skills` | 72 | 0.2 MB | md, sh, py |  |
-| 228 | Skills-技能包 | `YYC3-Skills-技能包-last30days-skill` | `YYC3-Skills-技能包/last30days-skill` | 179 | 15.3 MB | py, md, json |  |
-| 229 | Skills-技能包 | `YYC3-Skills-技能包-marketingskills` | `YYC3-Skills-技能包/marketingskills` | 363 | 2.6 MB | md, js, json |  |
-| 230 | Skills-技能包 | `YYC3-Skills-技能包-nim-go-release` | `YYC3-I/nim-go-release` | 41 | 4.3 MB | png, md, jpg |  |
-| 231 | Skills-技能包 | `YYC3-Skills-技能包-pskoett-ai-skills` | `YYC3-Skills-技能包/pskoett-ai-skills` | 116 | 0.7 MB | md, sh, json |  |
-| 232 | Skills-技能包 | `YYC3-Skills-技能包-skills` | `YYC3-Skills-技能包/skills` | 2,448 | 16.3 MB | md, json, py |  |
-| 233 | Skills-技能包 | `YYC3-Skills-技能包-skills-registry` | `YYC3-Skills-技能包/skills-registry` | 8 | 0.0 MB | ts, json |  |
-| 234 | Skills-技能包 | `YYC3-Skills-技能包-skills-v3` | `YYC3-I/skills` | 391 | 9.8 MB | xsd, md, py | 版本变体 |
-| 235 | Skills-技能包 | `YYC3-Skills-技能包-skills-v4` | `YYC3-H/skills` | 56 | 0.5 MB | py, md, txt | 版本变体 |
-| 236 | Skills-技能包 | `YYC3-Skills-技能包-skills-v5` | `YYC3-B/skills` | 10 | 0.0 MB | ts, json |  |
-| 237 | Skills-技能包 | `YYC3-Skills-技能包-ui-ux-pro-max-skill` | `YYC3-Skills-技能包/ui-ux-pro-max-skill` | 324 | 10.6 MB | csv, md, ttf |  |
-| 238 | Skills-技能包 | `YYC3-Skills-技能包-YYC3-SKILL` | `YYC3-Skills-技能包/YYC3-SKILL` | 13 | 0.2 MB | md, json |  |
-| 239 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-asp.vb.net.tmbundle` | `YYC3-B/asp.vb.net.tmbundle` | 38 | 0.1 MB | plist, tmpreferences, mdown |  |
-| 240 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-atom-language-julia` | `YYC3-Syntax-语法定义/atom-language-julia` | 20 | 0.3 MB | json, cson, md |  |
-| 241 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-c-syntax` | `YYC3-J/better-c-syntax` | 251 | 2.5 MB | sh, yaml, c |  |
-| 242 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-cpp-syntax` | `YYC3-J/better-cpp-syntax` | 577 | 13.3 MB | yaml, cpp, sh |  |
-| 243 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-Better-Less` | `YYC3-Syntax-语法定义/Better-Less` | 32 | 2.6 MB | less, tmpreferences, md |  |
-| 244 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-objc-syntax` | `YYC3-J/better-objc-syntax` | 189 | 2.3 MB | sh, nix, rb |  |
-| 245 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-objcpp-syntax` | `YYC3-J/better-objcpp-syntax` | 191 | 2.6 MB | sh, yaml, nix |  |
-| 246 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-shell-syntax` | `YYC3-J/better-shell-syntax` | 287 | 5.0 MB | sh, yaml, md |  |
-| 247 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-snippet-syntax` | `YYC3-J/better-snippet-syntax` | 202 | 5.6 MB | sh, yaml, jsonc |  |
-| 248 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-syntax` | `YYC3-Syntax-语法定义/better-syntax` | 1,722 | 32.4 MB | sh, yaml, cpp |  |
-| 249 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-c.tmbundle` | `YYC3-D/c.tmbundle` | 66 | 2.0 MB | plist, tmpreferences, tmcommand |  |
-| 250 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-coffee-script-tmbundle` | `YYC3-A/coffee-script-tmbundle` | 41 | 0.1 MB | tmsnippet, tmcommand, tmpreferences |  |
-| 251 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-csharp-tmLanguage` | `YYC3-Syntax-语法定义/csharp-tmLanguage` | 58 | 1.4 MB | ts, json, md |  |
-| 252 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-css.tmbundle` | `YYC3-C/css.tmbundle` | 119 | 0.2 MB | plist, tmpreferences, tmsnippet |  |
-| 253 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-cuda-cpp-grammar` | `YYC3-Syntax-语法定义/cuda-cpp-grammar` | 3 | 0.8 MB | md, json |  |
-| 254 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-dart-syntax-highlight` | `YYC3-Syntax-语法定义/dart-syntax-highlight` | 51 | 0.2 MB | dart, golden, md |  |
-| 255 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-diff.tmbundle` | `YYC3-D/diff.tmbundle` | 31 | 0.0 MB | plist, css, tmmacro |  |
-| 256 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-git-tmbundle` | `YYC3-C/git-tmbundle` | 172 | 0.5 MB | rb, tmcommand, erb |  |
-| 257 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-git.tmbundle` | `YYC3-D/git.tmbundle` | 177 | 0.6 MB | rb, tmcommand, erb |  |
-| 258 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-go-syntax` | `YYC3-Syntax-语法定义/go-syntax` | 22 | 8.8 MB | png, json, md |  |
-| 259 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-groovy.tmbundle` | `YYC3-D/groovy.tmbundle` | 121 | 0.2 MB | tmsnippet, tmcommand, tmpreferences |  |
-| 260 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-html.tmbundle` | `YYC3-D/html.tmbundle` | 106 | 1.1 MB | tmsnippet, plist, tmcommand |  |
-| 261 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-ini.tmbundle` | `YYC3-D/ini.tmbundle` | 6 | 0.0 MB | tmpreferences, plist, mdown |  |
-| 262 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-ionide-fsgrammar` | `YYC3-Syntax-语法定义/ionide-fsgrammar` | 33 | 0.2 MB | json, md, fs |  |
-| 263 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-java.tmbundle` | `YYC3-D/java.tmbundle` | 74 | 0.2 MB | tmsnippet, tmpreferences, tmcommand |  |
-| 264 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-javascript.tmbundle` | `YYC3-D/javascript.tmbundle` | 91 | 0.6 MB | py, tmsnippet, plist |  |
-| 265 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-batchfile` | `YYC3-Syntax-语法定义/language-batchfile` | 26 | 0.0 MB | bat, md, cson |  |
-| 266 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-clojure` | `YYC3-Syntax-语法定义/language-clojure` | 14 | 0.0 MB | md, cson, json |  |
-| 267 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-coffee-script` | `YYC3-Syntax-语法定义/language-coffee-script` | 17 | 0.2 MB | md, cson, json |  |
-| 268 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-php` | `YYC3-Syntax-语法定义/language-php` | 18 | 0.6 MB | md, cson, json |  |
-| 269 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-ruby` | `YYC3-Syntax-语法定义/language-ruby` | 23 | 0.2 MB | cson, md, yml |  |
-| 270 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-sass` | `YYC3-Syntax-语法定义/language-sass` | 20 | 0.3 MB | md, cson, json |  |
-| 271 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-xml` | `YYC3-Syntax-语法定义/language-xml` | 16 | 0.0 MB | md, cson, json |  |
-| 272 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-latex.tmbundle` | `YYC3-C/latex.tmbundle` | 269 | 3.5 MB | plist, tex, tmcommand |  |
-| 273 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-lua.tmbundle` | `YYC3-D/lua.tmbundle` | 24 | 0.0 MB | plist, tmsnippet, tmpreferences |  |
-| 274 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-lua.tmbundle-v2` | `YYC3-C/lua.tmbundle` | 7 | 0.1 MB | json, md, plist | 版本变体 |
-| 275 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-lua.tmbundle-v3` | `YYC3-J/lua.tmbundle` | 7 | 0.1 MB | json, md, plist | 版本变体 |
-| 276 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-MagicPython` | `YYC3-Syntax-语法定义/MagicPython` | 336 | 2.4 MB | py, re, sublime-snippet |  |
-| 277 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-make.tmbundle` | `YYC3-C/make.tmbundle` | 11 | 0.0 MB | plist, tmcommand, tmpreferences |  |
-| 278 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-markdown.tmbundle` | `YYC3-D/markdown.tmbundle` | 39 | 0.1 MB | plist, tmcommand, tmpreferences |  |
-| 279 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-perl.tmbundle` | `YYC3-D/perl.tmbundle` | 40 | 0.2 MB | plist, pm, tmsnippet |  |
-| 280 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-php.tmbundle` | `YYC3-C/php.tmbundle` | 110 | 2.6 MB | tmsnippet, tmcommand, tmpreferences |  |
-| 281 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-pug-tmbundle` | `YYC3-A/pug-tmbundle` | 20 | 0.1 MB | pug, tmpreferences, tmcommand |  |
-| 282 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-ruby.tmbundle` | `YYC3-D/ruby.tmbundle` | 254 | 0.4 MB | plist, tmsnippet, rb |  |
-| 283 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-rust-syntax` | `YYC3-Syntax-语法定义/rust-syntax` | 17 | 0.3 MB | json, md, rs |  |
-| 284 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-SASS.tmbundle` | `YYC3-A/SASS.tmbundle` | 174 | 0.3 MB | tmsnippet, tmcommand, tmpreferences |  |
-| 285 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-shaders-tmLanguage` | `YYC3-Syntax-语法定义/shaders-tmLanguage` | 3 | 0.0 MB | json |  |
-| 286 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-swift-tmlanguage` | `YYC3-Syntax-语法定义/swift-tmlanguage` | 35 | 0.7 MB | ts, json, md |  |
-| 287 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-syntax` | `YYC3-LSP-语言服务/syntax` | 5,727 | 27.4 MB | svg, json, py |  |
-| 288 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-textmate-clojure` | `YYC3-A/textmate-clojure` | 5 | 0.0 MB | md, plist, tmpreferences |  |
-| 289 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-tmBundle` | `YYC3-Syntax-语法定义/tmBundle` | 2,968 | 20.3 MB | txt, tmsnippet, plist |  |
-| 290 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-TypeScript-TmLanguage` | `YYC3-C/TypeScript-TmLanguage` | 959 | 7.5 MB | txt, ts, tsx |  |
-| 291 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-vscode-JSON.tmLanguage` | `YYC3-C/vscode-JSON.tmLanguage` | 5 | 0.0 MB | md, txt, tmlanguage |  |
-| 292 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-vscode-markdown-tm-grammar` | `YYC3-C/vscode-markdown-tm-grammar` | 133 | 1.3 MB | md, json, yaml |  |
-| 293 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-xml.tmbundle` | `YYC3-D/xml.tmbundle` | 20 | 0.0 MB | plist, tmsnippet, mdown |  |
-| 294 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-YAML-Syntax-Highlighter` | `YYC3-Syntax-语法定义/YAML-Syntax-Highlighter` | 18 | 0.1 MB | json, md, yml |  |
-| 295 | Tool-开发工具链 | `YYC3-Tool-开发工具链-aily-blockly` | `YYC3-G/aily-blockly` | 1,002 | 105.5 MB | ts, scss, html |  |
-| 296 | Tool-开发工具链 | `YYC3-Tool-开发工具链-aily-blockly-libraries` | `YYC3-G/aily-blockly-libraries` | 7,616 | 92.3 MB | json, md, js |  |
-| 297 | Tool-开发工具链 | `YYC3-Tool-开发工具链-archify` | `YYC3-G/archify` | 514 | 42.9 MB | mjs, md, json |  |
-| 298 | Tool-开发工具链 | `YYC3-Tool-开发工具链-assert` | `YYC3-Tool-开发工具/assert` | 7 | 0.0 MB | js, json, html |  |
-| 299 | Tool-开发工具链 | `YYC3-Tool-开发工具链-autocomplete` | `YYC3-Tool-开发工具/autocomplete` | 1,566 | 98.3 MB | ts, png, yml |  |
-| 300 | Tool-开发工具链 | `YYC3-Tool-开发工具链-autocomplete-tools` | `YYC3-Tool-开发工具/autocomplete-tools` | 417 | 2.0 MB | ts, json, md |  |
-| 301 | Tool-开发工具链 | `YYC3-Tool-开发工具链-build_tools` | `YYC3-Tool-开发工具/build_tools` | 25 | 0.1 MB | sh, fish, xml |  |
-| 302 | Tool-开发工具链 | `YYC3-Tool-开发工具链-cn-optimizer` | `YYC3-Tool-开发工具/cn-optimizer` | 9 | 0.0 MB | ts, json |  |
-| 303 | Tool-开发工具链 | `YYC3-Tool-开发工具链-code-simplifier` | `YYC3-Tool-开发工具/code-simplifier` | 2 | 0.0 MB | md, json |  |
-| 304 | Tool-开发工具链 | `YYC3-Tool-开发工具链-commit-commands` | `YYC3-Tool-开发工具/commit-commands` | 6 | 0.0 MB | md, json |  |
-| 305 | Tool-开发工具链 | `YYC3-Tool-开发工具链-content` | `YYC3-Tool-开发工具/content` | 4,449 | 211.6 MB | svg, png, js |  |
-| 306 | Tool-开发工具链 | `YYC3-Tool-开发工具链-Core-files` | `YYC3-Tool-开发工具/Core-files` | 7,474 | 60.2 MB | json, tsx, ts |  |
-| 307 | Tool-开发工具链 | `YYC3-Tool-开发工具链-development-essentials` | `YYC3-Tool-开发工具/development-essentials` | 18 | 0.0 MB | md, json |  |
-| 308 | Tool-开发工具链 | `YYC3-Tool-开发工具链-dotnet` | `YYC3-E/dotnet` | 13,710 | 34.1 MB | txt, cs, cshtml |  |
-| 309 | Tool-开发工具链 | `YYC3-Tool-开发工具链-EasySpider` | `YYC3-Tool-开发工具/EasySpider` | 1,721 | 90.4 MB | json, png, js |  |
-| 310 | Tool-开发工具链 | `YYC3-Tool-开发工具链-emmet` | `YYC3-Tool-开发工具/emmet` | 106 | 0.7 MB | ts, json, js |  |
-| 311 | Tool-开发工具链 | `YYC3-Tool-开发工具链-examples` | `YYC3-Tool-开发工具/examples` | 2 | 0.0 MB | tsx, ts |  |
-| 312 | Tool-开发工具链 | `YYC3-Tool-开发工具链-expand-abbreviation` | `YYC3-Syntax-语法定义/expand-abbreviation` | 18 | 0.0 MB | js, json, md |  |
-| 313 | Tool-开发工具链 | `YYC3-Tool-开发工具链-feature-dev` | `YYC3-Tool-开发工具/feature-dev` | 7 | 0.0 MB | md, json |  |
-| 314 | Tool-开发工具链 | `YYC3-Tool-开发工具链-git-commit-message-plus` | `YYC3-Tool-开发工具/git-commit-message-plus` | 44 | 3.5 MB | ts, json, js |  |
-| 315 | Tool-开发工具链 | `YYC3-Tool-开发工具链-graphify` | `YYC3-Business-商业/graphify` | 131 | 1.5 MB | py, md, json |  |
-| 316 | Tool-开发工具链 | `YYC3-Tool-开发工具链-Handlebars` | `YYC3-Tool-开发工具/Handlebars` | 23 | 0.1 MB | sublime-snippet, json, md |  |
-| 317 | Tool-开发工具链 | `YYC3-Tool-开发工具链-js-beautify` | `YYC3-Tool-开发工具/js-beautify` | 192 | 2.7 MB | js, py, md |  |
-| 318 | Tool-开发工具链 | `YYC3-Tool-开发工具链-json-server` | `YYC3-Tool-开发工具/json-server` | 33 | 0.1 MB | ts, json, yml |  |
-| 319 | Tool-开发工具链 | `YYC3-Tool-开发工具链-markdown-it-katex` | `YYC3-Tool-开发工具/markdown-it-katex` | 19 | 0.2 MB | json, txt, md |  |
-| 320 | Tool-开发工具链 | `YYC3-Tool-开发工具链-marked` | `YYC3-Tool-开发工具/marked` | 419 | 1.2 MB | md, html, js |  |
-| 321 | Tool-开发工具链 | `YYC3-Tool-开发工具链-node-semver` | `YYC3-Tool-开发工具/node-semver` | 151 | 0.3 MB | js, yml, md |  |
-| 322 | Tool-开发工具链 | `YYC3-Tool-开发工具链-platformio-core` | `YYC3-G/platformio-core` | 353 | 1.5 MB | py, tpl, yml |  |
-| 323 | Tool-开发工具链 | `YYC3-Tool-开发工具链-ppt-writer` | `YYC3-Tool-开发工具/ppt-writer` | 6 | 0.0 MB | md, json |  |
-| 324 | Tool-开发工具链 | `YYC3-Tool-开发工具链-pr-review-toolkit` | `YYC3-Tool-开发工具/pr-review-toolkit` | 10 | 0.1 MB | md, json |  |
-| 325 | Tool-开发工具链 | `YYC3-Tool-开发工具链-prettier` | `YYC3-Tool-开发工具/prettier` | 9,226 | 22.1 MB | js, snap, ts |  |
-| 326 | Tool-开发工具链 | `YYC3-Tool-开发工具链-ralph-loop` | `YYC3-Tool-开发工具/ralph-loop` | 9 | 0.0 MB | md, json, sh |  |
-| 327 | Tool-开发工具链 | `YYC3-Tool-开发工具链-Raphael-Publish` | `YYC3-Tool-开发工具/Raphael-Publish` | 48 | 16.3 MB | ts, tsx, json |  |
-| 328 | Tool-开发工具链 | `YYC3-Tool-开发工具链-razor` | `YYC3-Framework-框架/razor` | 13,154 | 32.0 MB | txt, cs, cshtml |  |
-| 329 | Tool-开发工具链 | `YYC3-Tool-开发工具链-razor-v2` | `YYC3-B/razor` | 13,710 | 34.1 MB | txt, cs, cshtml | 版本变体 |
-| 330 | Tool-开发工具链 | `YYC3-Tool-开发工具链-repomix` | `YYC3-Tool-开发工具/repomix` | 1,052 | 7.1 MB | md, ts, json |  |
-| 331 | Tool-开发工具链 | `YYC3-Tool-开发工具链-ruff` | `YYC3-Tool-开发工具/ruff` | 9,824 | 73.5 MB | snap, py, rs |  |
-| 332 | Tool-开发工具链 | `YYC3-Tool-开发工具链-spec-factory` | `YYC3-Spec-规范工具/spec-factory` | 19 | 0.0 MB | template, py, template-part |  |
-| 333 | Tool-开发工具链 | `YYC3-Tool-开发工具链-superpowers` | `YYC3-I/superpowers` | 147 | 0.9 MB | md, sh, txt |  |
-| 334 | Tool-开发工具链 | `YYC3-Tool-开发工具链-superpowers-chrome` | `YYC3-B/superpowers-chrome` | 32 | 0.2 MB | md, sh, json |  |
-| 335 | Tool-开发工具链 | `YYC3-Tool-开发工具链-superpowers-v3` | `YYC3-B/superpowers` | 48 | 0.3 MB | md, json, sh | 版本变体 |
-| 336 | Tool-开发工具链 | `YYC3-Tool-开发工具链-swagger-ui` | `YYC3-H/swagger-ui` | 961 | 5.4 MB | js, jsx, yaml |  |
-| 337 | Tool-开发工具链 | `YYC3-Tool-开发工具链-tools` | `YYC3-Tool-开发工具/tools` | 2,814 | 18.8 MB | go, txt, golden |  |
-| 338 | Tool-开发工具链 | `YYC3-Tool-开发工具链-version` | `YYC3-Tool-开发工具/version` | 151 | 0.3 MB | js, yml, md |  |
-| 339 | Tool-开发工具链 | `YYC3-Tool-开发工具链-vize` | `YYC3-G/vize` | 4,647 | 49.7 MB | rs, snap, ts |  |
-| 340 | TypeDef-类型定义 | `YYC3-TypeDef-类型定义-DefinitelyTyped` | `YYC3-TypeDef-类型定义/DefinitelyTyped` | 62,618 | 265.4 MB | ts, json, tsx |  |
-| 341 | TypeDef-类型定义 | `YYC3-TypeDef-类型定义-types` | `YYC3-TypeDef-类型定义/types` | 62,619 | 265.4 MB | ts, json, tsx |  |
-| 342 | UI-界面组件 | `YYC3-UI-界面组件-ai` | `—` | 10,056 | 90.9 MB | ts, json, mdx |  |
-| 343 | UI-界面组件 | `YYC3-UI-界面组件-ant-design` | `YYC3-UI-用户界面/ant-design` | 5,067 | 60.4 MB | tsx, md, ts |  |
-| 344 | UI-界面组件 | `YYC3-UI-界面组件-ant-design-vue` | `—` | 3,011 | 34.6 MB | ts, vue, tsx |  |
-| 345 | UI-界面组件 | `YYC3-UI-界面组件-archived-components` | `YYC3-UI-用户界面/archived-components` | 9 | 0.1 MB | tsx |  |
-| 346 | UI-界面组件 | `YYC3-UI-界面组件-ark` | `—` | 8,147 | 59.4 MB | tsx, ts, vue |  |
-| 347 | UI-界面组件 | `YYC3-UI-界面组件-Button` | `YYC3-UI-用户界面/Button` | 103 | 0.6 MB | tsx, ts, md |  |
-| 348 | UI-界面组件 | `YYC3-UI-界面组件-chakra-ui` | `—` | 3,917 | 154.7 MB | tsx, ts, json |  |
-| 349 | UI-界面组件 | `YYC3-UI-界面组件-CopilotKit` | `—` | 24,639 | 634.5 MB | ts, tsx, json |  |
-| 350 | UI-界面组件 | `YYC3-UI-界面组件-element-plus` | `—` | 2,733 | 10.0 MB | ts, vue, scss |  |
-| 351 | UI-界面组件 | `YYC3-UI-界面组件-flowbite` | `—` | 434 | 20.5 MB | md, jpg, ts |  |
-| 352 | UI-界面组件 | `YYC3-UI-界面组件-headlessui` | `—` | 11 | 0.0 MB | yml, md, ts |  |
-| 353 | UI-界面组件 | `YYC3-UI-界面组件-ionic-framework` | `—` | 10,525 | 105.4 MB | png, ts, html |  |
-| 354 | UI-界面组件 | `YYC3-UI-界面组件-lobe-ui` | `—` | 3,101 | 9.1 MB | tsx, ts, mdx |  |
-| 355 | UI-界面组件 | `YYC3-UI-界面组件-mand-mobile` | `—` | 1,186 | 41.9 MB | vue, js, md |  |
-| 356 | UI-界面组件 | `YYC3-UI-界面组件-mantine` | `—` | 7,184 | 22.0 MB | tsx, ts, mdx |  |
-| 357 | UI-界面组件 | `YYC3-UI-界面组件-material-ui` | `—` | 38,759 | 251.6 MB | js, mjs, svg |  |
-| 358 | UI-界面组件 | `YYC3-UI-界面组件-mui-x` | `YYC3-UI-用户界面/mui-x` | 9,604 | 38.2 MB | ts, tsx, js |  |
-| 359 | UI-界面组件 | `YYC3-UI-界面组件-naive-ui` | `—` | 3,671 | 7.8 MB | vue, ts, tsx |  |
-| 360 | UI-界面组件 | `YYC3-UI-界面组件-nutui` | `—` | 2,232 | 5.7 MB | vue, ts, md |  |
-| 361 | UI-界面组件 | `YYC3-UI-界面组件-onlook` | `YYC3-UI-用户界面/onlook` | 1,550 | 25.5 MB | ts, tsx, json |  |
-| 362 | UI-界面组件 | `YYC3-UI-界面组件-patternfly` | `—` | 1,588 | 21.5 MB | hbs, png, scss |  |
-| 363 | UI-界面组件 | `YYC3-UI-界面组件-patternfly-elements` | `—` | 965 | 12.8 MB | html, ts, md |  |
-| 364 | UI-界面组件 | `YYC3-UI-界面组件-primevue` | `—` | 4,837 | 29.4 MB | vue, js, json |  |
-| 365 | UI-界面组件 | `YYC3-UI-界面组件-primitives` | `—` | 703 | 4.0 MB | tsx, md, json |  |
-| 366 | UI-界面组件 | `YYC3-UI-界面组件-quark-design` | `—` | 911 | 13.1 MB | md, ts, tsx |  |
-| 367 | UI-界面组件 | `YYC3-UI-界面组件-quasar` | `—` | 4,363 | 59.8 MB | js, vue, md |  |
-| 368 | UI-界面组件 | `YYC3-UI-界面组件-reka-ui` | `—` | 2,148 | 9.9 MB | vue, md, ts |  |
-| 369 | UI-界面组件 | `YYC3-UI-界面组件-shadcn-ui` | `YYC3-UI-用户界面/shadcn-ui` | 8,584 | 68.6 MB | json, tsx, ts |  |
-| 370 | UI-界面组件 | `YYC3-UI-界面组件-tdesign-miniprogram` | `—` | 5,238 | 16.3 MB | ts, js, json |  |
-| 371 | UI-界面组件 | `YYC3-UI-界面组件-tdesign-react` | `—` | 2,185 | 19.1 MB | tsx, ts, js |  |
-| 372 | UI-界面组件 | `YYC3-UI-界面组件-tdesign-vue-next` | `YYC3-UI-用户界面/tdesign-vue-next` | 2,900 | 18.9 MB | vue, ts, tsx |  |
-| 373 | UI-界面组件 | `YYC3-UI-界面组件-vant` | `—` | 1,564 | 14.4 MB | ts, md, snap |  |
-| 374 | UI-界面组件 | `YYC3-UI-界面组件-vant-weapp` | `—` | 1,427 | 2.9 MB | ts, wxml, json |  |
-| 375 | UI-界面组件 | `YYC3-UI-界面组件-varlet` | `—` | 1,964 | 9.3 MB | ts, md, vue |  |
-| 376 | UI-界面组件 | `YYC3-UI-界面组件-vuetify` | `—` | 3,173 | 9.2 MB | vue, ts, tsx |  |
-| 377 | UI-界面组件 | `YYC3-UI-界面组件-web-ui` | `YYC3-UI-用户界面/web-ui` | 55 | 0.1 MB | ts, map, js |  |
-| 378 | UI-界面组件 | `YYC3-UI-界面组件-weui` | `—` | 190 | 1.2 MB | less, html, png |  |
-| 379 | UI-界面组件 | `YYC3-UI-界面组件-wot-ui` | `—` | 1,297 | 28.4 MB | ts, md, vue |  |
-| 380 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-background-sync` | `YYC3-WebSpec-Web标准/background-sync` | 16 | 0.4 MB | md, html, json |  |
-| 381 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-blog.whatwg.org` | `YYC3-WebSpec-Web标准/blog.whatwg.org` | 33 | 0.3 MB | php, jpg, css |  |
-| 382 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-build.whatwg.org` | `YYC3-WebSpec-Web标准/build.whatwg.org` | 12 | 0.1 MB | json, yml, md |  |
-| 383 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-compat` | `YYC3-WebSpec-Web标准/compat` | 40 | 0.4 MB | md, bs, yml |  |
-| 384 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-compression` | `YYC3-WebSpec-Web标准/compression` | 18 | 0.1 MB | md, bs, yml |  |
-| 385 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-console` | `YYC3-WebSpec-Web标准/console` | 36 | 0.5 MB | png, bs, md |  |
-| 386 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-cookiestore` | `YYC3-WebSpec-Web标准/cookiestore` | 17 | 0.2 MB | md, yml, bs |  |
-| 387 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-dom` | `YYC3-WebSpec-Web标准/dom` | 30 | 6.9 MB | bs, yml, md |  |
-| 388 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-domparsing` | `YYC3-WebSpec-Web标准/domparsing` | 30 | 0.2 MB | html, xhtml, js |  |
-| 389 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-encoding` | `YYC3-WebSpec-Web标准/encoding` | 69 | 4.9 MB | txt, bs, py |  |
-| 390 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-fetch` | `YYC3-WebSpec-Web标准/fetch` | 30 | 5.7 MB | bs, yml, md |  |
-| 391 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-fs` | `YYC3-WebSpec-Web标准/fs` | 23 | 0.5 MB | md, bs, yml |  |
-| 392 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-fullscreen` | `YYC3-WebSpec-Web标准/fullscreen` | 26 | 0.4 MB | bs, yml, md |  |
-| 393 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-html` | `YYC3-WebSpec-Web标准/html` | 128 | 109.4 MB | png, js, wattsi |  |
-| 394 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-html-build` | `YYC3-WebSpec-Web标准/html-build` | 42 | 0.8 MB | rs, sh, md |  |
-| 395 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-i18n` | `YYC3-WebSpec-Web标准/i18n` | 13,901 | 267.9 MB | txt, res, java |  |
-| 396 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-infra` | `YYC3-WebSpec-Web标准/infra` | 28 | 1.3 MB | bs, yml, md |  |
-| 397 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-loader` | `YYC3-WebSpec-Web标准/loader` | 10 | 0.1 MB | md, js, bs |  |
-| 398 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-mimesniff` | `YYC3-WebSpec-Web标准/mimesniff` | 25 | 0.9 MB | bs, yml, md |  |
-| 399 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-notifications` | `YYC3-WebSpec-Web标准/notifications` | 24 | 0.5 MB | bs, yml, md |  |
-| 400 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-old-google-code-html5` | `YYC3-Syntax-语法定义/old-google-code-html5` | 127 | 0.4 MB | py, tmpl, dat |  |
-| 401 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-participate.whatwg.org` | `YYC3-WebSpec-Web标准/participate.whatwg.org` | 65 | 0.4 MB | mjs, json, hbs |  |
-| 402 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-platform.html5.org` | `YYC3-WebSpec-Web标准/platform.html5.org` | 71 | 60.5 MB | png, html, inc |  |
-| 403 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-quirks` | `YYC3-WebSpec-Web标准/quirks` | 19 | 0.2 MB | bs, yml, md |  |
-| 404 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-standards` | `YYC3-WebSpec-Web标准/standards` | 853 | 144.4 MB | bs, md, yml |  |
-| 405 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-storage` | `YYC3-WebSpec-Web标准/storage` | 28 | 0.3 MB | bs, yml, md |  |
-| 406 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-streams` | `YYC3-WebSpec-Web标准/streams` | 115 | 7.1 MB | js, webidl, bs |  |
-| 407 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-testutils` | `YYC3-WebSpec-Web标准/testutils` | 16 | 0.0 MB | yml, md, bs |  |
-| 408 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-url` | `YYC3-WebSpec-Web标准/url` | 31 | 2.3 MB | bs, md, yml |  |
-| 409 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-urlpattern` | `YYC3-WebSpec-Web标准/urlpattern` | 24 | 0.6 MB | md, bs, yml |  |
-| 410 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-wattsi` | `YYC3-WebSpec-Web标准/wattsi` | 70 | 2.4 MB | pas, json, md |  |
-| 411 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-websockets` | `YYC3-WebSpec-Web标准/websockets` | 17 | 0.2 MB | bs, yml, md |  |
-| 412 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-whattweetbot-keys` | `YYC3-WebSpec-Web标准/whattweetbot-keys` | 7 | 0.0 MB | json, md, js |  |
-| 413 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-wiki.whatwg.org` | `YYC3-WebSpec-Web标准/wiki.whatwg.org` | 6 | 0.0 MB | php, md, sh |  |
-| 414 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-xhr` | `YYC3-WebSpec-Web标准/xhr` | 25 | 0.9 MB | bs, yml, md |  |
+| 155 | Model-训练数据 | `Agentic-RL` | `—` | 13 | 9.89 GB | jsonl, md, json |  |
+| 156 | Model-训练数据 | `Agentic-SFT` | `—` | 13 | 18.78 GB | jsonl, md, json |  |
+| 157 | Model-训练数据 | `AudioSkills` | `—` | 42 | 4.84 GB | json, wav, mp3 |  |
+| 158 | Model-训练数据 | `av-skills` | `—` | 26 | 5.27 GB | json, gz, md |  |
+| 159 | Model-训练数据 | `MMOU` | `—` | 8 | 48.6 MB | json, webp, md |  |
+| 160 | Model-训练数据 | `MR-NIAH` | `—` | 50 | 76.3 MB | jsonl, md |  |
+| 161 | Model-训练数据 | `music_genre` | `—` | 16 | 17.05 GB | py, zip, md |  |
+| 162 | Model-训练数据 | `OctoCodingBench` | `—` | 7 | 1.0 MB | md, json, jsonl |  |
+| 163 | Model-训练数据 | `role-play-bench` | `—` | 16 | 247.0 MB | parquet, jsonl, md |  |
+| 164 | Model-训练数据 | `SynLogic` | `—` | 9 | 68.7 MB | parquet, md, json |  |
+| 165 | Model-训练数据 | `TTS-Multilingual-Test-Set` | `—` | 78 | 3.3 MB | mp3, txt, md |  |
+| 166 | Model-训练数据 | `VIBE` | `—` | 7 | 0.3 MB | md, parquet, jsonl |  |
+| 167 | NVIDIA-官方文库 | `AI-Workbench-使用教程` | `—` | 26 | 0.1 MB | md, json |  |
+| 168 | NVIDIA-官方文库 | `NVIDIA-DGX-官方文库` | `—` | 138 | 3.9 MB | md, json, docx |  |
+| 169 | NVIDIA-官方文库 | `nvidia-skills` | `—` | 3,629 | 31.8 MB | md, json, yaml |  |
+| 170 | NVIDIA-官方文库 | `NVIDIA-Skills-20专题` | `—` | 24 | 0.2 MB | md |  |
+| 171 | NVIDIA-官方文库 | `NVIDIA-官方集成-GItHub` | `—` | 5,764 | 198.8 MB | py, sh, md |  |
+| 172 | NVIDIA-官方文库 | `Skills` | `—` | 1,305 | 13.4 MB | py, yaml, md |  |
+| 173 | NVIDIA-官方文库 | `云基平台-基础服务` | `—` | 66,347 | 954.5 MB | go, yaml, md |  |
+| 174 | NVIDIA-官方文库 | `安全工具-红队攻防` | `—` | 9,519 | 148.4 MB | md, py, json |  |
+| 175 | NVIDIA-官方文库 | `平台模型-推理引擎` | `—` | 33,345 | 1.32 GB | go, py, md |  |
+| 176 | NVIDIA-官方文库 | `推理引擎-模型优化` | `—` | 19,962 | 638.4 MB | zst, py, yaml |  |
+| 177 | NVIDIA-官方文库 | `数据科学-分析处理` | `—` | 12,846 | 433.9 MB | py, scala, md |  |
+| 178 | NVIDIA-官方文库 | `智能体态-编排调度` | `—` | 13,671 | 312.5 MB | source, ts, rs |  |
+| 179 | NVIDIA-官方文库 | `核心计算-并行加速` | `—` | 22,057 | 289.4 MB | cpp, py, h |  |
+| 180 | NVIDIA-官方文库 | `硬件平台-驱动管理` | `—` | 14,135 | 397.6 MB | go, h, c |  |
+| 181 | NVIDIA-官方文库 | `蓝图方案-场景落地` | `—` | 39,396 | 1.59 GB | h, py, md |  |
+| 182 | NVIDIA-官方文库 | `训练框架-分布式训练` | `—` | 12,794 | 266.2 MB | py, yaml, sh |  |
+| 183 | Plugin-插件协议 | `YYC3-Plugin-插件协议-context7` | `YYC3-MCP-MCP协议/context7` | 2 | 0.0 MB | json |  |
+| 184 | Plugin-插件协议 | `YYC3-Plugin-插件协议-core` | `YYC3-Tool-开发工具/core` | 1,573 | 98.3 MB | ts, png, yml |  |
+| 185 | Plugin-插件协议 | `YYC3-Plugin-插件协议-core-sdk` | `YYC3-B/core` | 46 | 0.1 MB | ts, map, js |  |
+| 186 | Plugin-插件协议 | `YYC3-Plugin-插件协议-extensions` | `YYC3-B/extensions` | 803 | 25.8 MB | json, svg, md |  |
+| 187 | Plugin-插件协议 | `YYC3-Plugin-插件协议-external_plugins` | `YYC3-Plugin-插件体系/external_plugins` | 2,507 | 25.3 MB | md, py, json |  |
+| 188 | Plugin-插件协议 | `YYC3-Plugin-插件协议-hookify` | `YYC3-Skills-技能包/hookify` | 24 | 0.1 MB | md, py, json |  |
+| 189 | Plugin-插件协议 | `YYC3-Plugin-插件协议-lexiang-knowledge-plugins` | `YYC3-Plugin-插件体系/lexiang-knowledge-plugins` | 25 | 0.2 MB | md, json, ts |  |
+| 190 | Plugin-插件协议 | `YYC3-Plugin-插件协议-mcp` | `YYC3-MCP-MCP协议/mcp` | 23 | 0.3 MB | ts |  |
+| 191 | Plugin-插件协议 | `YYC3-Plugin-插件协议-mcp-client` | `YYC3-MCP-MCP协议/mcp-client` | 7 | 0.0 MB | ts, json |  |
+| 192 | Plugin-插件协议 | `YYC3-Plugin-插件协议-mcp-server` | `YYC3-MCP-MCP协议/mcp-server` | 8 | 0.0 MB | ts, json |  |
+| 193 | Plugin-插件协议 | `YYC3-Plugin-插件协议-meta` | `YYC3-Spec-规范工具/meta` | 12 | 0.1 MB | md, py, json |  |
+| 194 | Plugin-插件协议 | `YYC3-Plugin-插件协议-misc-server` | `YYC3-MCP-MCP协议/misc-server` | 109 | 0.6 MB | conf, mjs, md |  |
+| 195 | Plugin-插件协议 | `YYC3-Plugin-插件协议-playwright-mcp` | `YYC3-MCP-MCP协议/playwright-mcp` | 66 | 0.4 MB | ts, json, md |  |
+| 196 | Plugin-插件协议 | `YYC3-Plugin-插件协议-plugin-dev` | `YYC3-MCP-MCP协议/plugin-dev` | 61 | 0.5 MB | md, sh, json |  |
+| 197 | Plugin-插件协议 | `YYC3-Plugin-插件协议-plugin-finder` | `YYC3-Plugin-插件体系/plugin-finder` | 21 | 0.2 MB | md, json, sh |  |
+| 198 | Plugin-插件协议 | `YYC3-Plugin-插件协议-plugins` | `YYC3-Plugin-插件体系/plugins` | 1,027 | 8.6 MB | md, html, xsd |  |
+| 199 | Plugin-插件协议 | `YYC3-Plugin-插件协议-plugins-claude` | `YYC3-H/plugins` | 591 | 5.1 MB | md, json, yaml |  |
+| 200 | Runtime-标准库 | `YYC3-Runtime-标准库-__phello__` | `YYC3-Python-Python标准库/__phello__` | 2 | 0.0 MB | py |  |
+| 201 | Runtime-标准库 | `YYC3-Runtime-标准库-_pyrepl` | `YYC3-Python-Python标准库/_pyrepl` | 26 | 0.2 MB | py, ini |  |
+| 202 | Runtime-标准库 | `YYC3-Runtime-标准库-asyncio` | `YYC3-Python-Python标准库/asyncio` | 33 | 0.5 MB | py |  |
+| 203 | Runtime-标准库 | `YYC3-Runtime-标准库-collections` | `YYC3-Python-Python标准库/collections` | 1 | 0.1 MB | py |  |
+| 204 | Runtime-标准库 | `YYC3-Runtime-标准库-concurrent` | `YYC3-Python-Python标准库/concurrent` | 5 | 0.1 MB | py |  |
+| 205 | Runtime-标准库 | `YYC3-Runtime-标准库-config-3.13-darwin` | `YYC3-Python-Python标准库/config-3.13-darwin` | 11 | 0.3 MB | py, in, stdlib |  |
+| 206 | Runtime-标准库 | `YYC3-Runtime-标准库-ctypes` | `YYC3-Python-Python标准库/ctypes` | 12 | 0.1 MB | py, ctypes, bat |  |
+| 207 | Runtime-标准库 | `YYC3-Runtime-标准库-curses` | `YYC3-Python-Python标准库/curses` | 5 | 0.0 MB | py |  |
+| 208 | Runtime-标准库 | `YYC3-Runtime-标准库-dbm` | `YYC3-Python-Python标准库/dbm` | 5 | 0.0 MB | py |  |
+| 209 | Runtime-标准库 | `YYC3-Runtime-标准库-email` | `YYC3-Python-Python标准库/email` | 30 | 0.4 MB | py, rst |  |
+| 210 | Runtime-标准库 | `YYC3-Runtime-标准库-encodings` | `YYC3-Python-Python标准库/encodings` | 122 | 1.4 MB | py |  |
+| 211 | Runtime-标准库 | `YYC3-Runtime-标准库-ensurepip` | `YYC3-Python-Python标准库/ensurepip` | 4 | 1.7 MB | py, whl |  |
+| 212 | Runtime-标准库 | `YYC3-Runtime-标准库-http` | `YYC3-Python-Python标准库/http` | 5 | 0.2 MB | py |  |
+| 213 | Runtime-标准库 | `YYC3-Runtime-标准库-idlelib` | `YYC3-Python-Python标准库/idlelib` | 158 | 1.6 MB | py, txt, gif |  |
+| 214 | Runtime-标准库 | `YYC3-Runtime-标准库-importlib` | `YYC3-Python-Python标准库/importlib` | 25 | 0.2 MB | py |  |
+| 215 | Runtime-标准库 | `YYC3-Runtime-标准库-json` | `YYC3-Python-Python标准库/json` | 5 | 0.0 MB | py |  |
+| 216 | Runtime-标准库 | `YYC3-Runtime-标准库-lib-dynload` | `YYC3-Python-Python标准库/lib-dynload` | 78 | 8.3 MB | so |  |
+| 217 | Runtime-标准库 | `YYC3-Runtime-标准库-logging` | `YYC3-Python-Python标准库/logging` | 3 | 0.2 MB | py |  |
+| 218 | Runtime-标准库 | `YYC3-Runtime-标准库-multiprocessing` | `YYC3-Python-Python标准库/multiprocessing` | 23 | 0.3 MB | py |  |
+| 219 | Runtime-标准库 | `YYC3-Runtime-标准库-NVIDIA` | `YYC3-N/NVIDA` | 157 | 4.4 MB | py, txt, orig |  |
+| 220 | Runtime-标准库 | `YYC3-Runtime-标准库-pathlib` | `YYC3-Python-Python标准库/pathlib` | 3 | 0.1 MB | py |  |
+| 221 | Runtime-标准库 | `YYC3-Runtime-标准库-pydoc_data` | `YYC3-Python-Python标准库/pydoc_data` | 3 | 0.5 MB | py, css |  |
+| 222 | Runtime-标准库 | `YYC3-Runtime-标准库-re` | `YYC3-Python-Python标准库/re` | 5 | 0.1 MB | py |  |
+| 223 | Runtime-标准库 | `YYC3-Runtime-标准库-site-packages` | `YYC3-Python-Python标准库/site-packages` | 7,656 | 76.3 MB | py, json, gz |  |
+| 224 | Runtime-标准库 | `YYC3-Runtime-标准库-sqlite3` | `YYC3-Python-Python标准库/sqlite3` | 4 | 0.0 MB | py |  |
+| 225 | Runtime-标准库 | `YYC3-Runtime-标准库-sysconfig` | `YYC3-Python-Python标准库/sysconfig` | 2 | 0.0 MB | py |  |
+| 226 | Runtime-标准库 | `YYC3-Runtime-标准库-test` | `YYC3-Python-Python标准库/test` | 31 | 0.3 MB | py |  |
+| 227 | Runtime-标准库 | `YYC3-Runtime-标准库-tkinter` | `YYC3-Python-Python标准库/tkinter` | 13 | 0.3 MB | py |  |
+| 228 | Runtime-标准库 | `YYC3-Runtime-标准库-tomllib` | `YYC3-Python-Python标准库/tomllib` | 5 | 0.0 MB | py, ini |  |
+| 229 | Runtime-标准库 | `YYC3-Runtime-标准库-turtledemo` | `YYC3-Python-Python标准库/turtledemo` | 22 | 0.1 MB | py, cfg |  |
+| 230 | Runtime-标准库 | `YYC3-Runtime-标准库-unittest` | `YYC3-Python-Python标准库/unittest` | 13 | 0.2 MB | py |  |
+| 231 | Runtime-标准库 | `YYC3-Runtime-标准库-urllib` | `YYC3-Python-Python标准库/urllib` | 6 | 0.2 MB | py |  |
+| 232 | Runtime-标准库 | `YYC3-Runtime-标准库-xml` | `YYC3-Python-Python标准库/xml` | 22 | 0.3 MB | py |  |
+| 233 | Runtime-标准库 | `YYC3-Runtime-标准库-xmlrpc` | `YYC3-Python-Python标准库/xmlrpc` | 3 | 0.1 MB | py |  |
+| 234 | Runtime-标准库 | `YYC3-Runtime-标准库-zipfile` | `YYC3-Python-Python标准库/zipfile` | 4 | 0.1 MB | py |  |
+| 235 | Runtime-标准库 | `YYC3-Runtime-标准库-zoneinfo` | `YYC3-Python-Python标准库/zoneinfo` | 4 | 0.0 MB | py |  |
+| 236 | Security-安全合规 | `YYC3-Security-安全合规-practicalEthicalHacking` | `YYC3-Security-安全/practicalEthicalHacking` | 71 | 1.9 MB | md, py, png |  |
+| 237 | Security-安全合规 | `YYC3-Security-安全合规-security-guidance` | `YYC3-Security-安全/security-guidance` | 3 | 0.0 MB | json, py |  |
+| 238 | Security-安全合规 | `YYC3-Security-安全合规-security-rules` | `YYC3-Security-安全/security-rules` | 5 | 0.0 MB | md, json |  |
+| 239 | Security-安全合规 | `YYC3-Security-安全合规-security-scan` | `YYC3-Security-安全/security-scan` | 53 | 0.5 MB | md, yaml, py |  |
+| 240 | Shell-终端 | `YYC3-Shell-终端-atuin` | `YYC3-Shell-终端/atuin` | 4 | 0.0 MB | md, json |  |
+| 241 | Shell-终端 | `YYC3-Shell-终端-autocomplete-specs` | `YYC3-Shell-终端/autocomplete-specs` | 1,476 | 98.0 MB | ts |  |
+| 242 | Shell-终端 | `YYC3-Shell-终端-fish-shell` | `YYC3-Shell-终端/fish-shell` | 2,144 | 25.5 MB | fish, rs, rst |  |
+| 243 | Shell-终端 | `YYC3-Shell-终端-shell` | `YYC3-Shell-终端/shell` | 4,958 | 44.3 MB | go, fish, txt |  |
+| 244 | Shell-终端 | `YYC3-Shell-终端-zsh` | `YYC3-Shell-终端/zsh` | 1,740 | 13.3 MB | yo, c, ztst |  |
+| 245 | Skills-技能包 | `YYC3-Skills-技能包-Agent` | `YYC3-B/Agent` | 61 | 0.3 MB | md, ts, sh |  |
+| 246 | Skills-技能包 | `YYC3-Skills-技能包-Agent-Skills` | `YYC3-J/Agent-Skills` | 920 | 10.9 MB | md, js, py |  |
+| 247 | Skills-技能包 | `YYC3-Skills-技能包-agent-skills-framework` | `YYC3-F/agent-skills` | 76 | 0.5 MB | md, toml, sh |  |
+| 248 | Skills-技能包 | `YYC3-Skills-技能包-all-skills` | `YYC3-Skills-技能包/all-skills` | 392 | 9.2 MB | md, xsd, py |  |
+| 249 | Skills-技能包 | `YYC3-Skills-技能包-antigravity-awesome-skills` | `YYC3-Skills-技能包/antigravity-awesome-skills` | 13,050 | 169.7 MB | md, py, patch |  |
+| 250 | Skills-技能包 | `YYC3-Skills-技能包-awesome-openclaw-skills` | `YYC3-Skills-技能包/awesome-openclaw-skills` | 32 | 0.8 MB | md, json, yml |  |
+| 251 | Skills-技能包 | `YYC3-Skills-技能包-B2B-SKills` | `YYC3-Skills-技能包/B2B-SKills` | 18 | 0.1 MB | md, mjs, sh |  |
+| 252 | Skills-技能包 | `YYC3-Skills-技能包-caveman` | `YYC3-J/caveman` | 103 | 0.4 MB | md, py, json |  |
+| 253 | Skills-技能包 | `YYC3-Skills-技能包-code-skills` | `YYC3-Skills-技能包/code-skills` | 2,642 | 25.3 MB | md, js, json |  |
+| 254 | Skills-技能包 | `YYC3-Skills-技能包-GLM-skills` | `YYC3-Skills-技能包/GLM-skills` | 63 | 0.6 MB | py, md, yaml |  |
+| 255 | Skills-技能包 | `YYC3-Skills-技能包-hot-skills` | `YYC3-Skills-技能包/hot-skills` | 72 | 0.2 MB | md, sh, py |  |
+| 256 | Skills-技能包 | `YYC3-Skills-技能包-last30days-skill` | `YYC3-Skills-技能包/last30days-skill` | 179 | 15.3 MB | py, md, json |  |
+| 257 | Skills-技能包 | `YYC3-Skills-技能包-marketingskills` | `YYC3-Skills-技能包/marketingskills` | 363 | 2.6 MB | md, js, json |  |
+| 258 | Skills-技能包 | `YYC3-Skills-技能包-nim-go-release` | `YYC3-I/nim-go-release` | 41 | 4.3 MB | png, md, jpg |  |
+| 259 | Skills-技能包 | `YYC3-Skills-技能包-pskoett-ai-skills` | `YYC3-Skills-技能包/pskoett-ai-skills` | 116 | 0.7 MB | md, sh, json |  |
+| 260 | Skills-技能包 | `YYC3-Skills-技能包-skills` | `YYC3-Skills-技能包/skills` | 2,448 | 16.3 MB | md, json, py |  |
+| 261 | Skills-技能包 | `YYC3-Skills-技能包-skills-registry` | `YYC3-Skills-技能包/skills-registry` | 8 | 0.0 MB | ts, json |  |
+| 262 | Skills-技能包 | `YYC3-Skills-技能包-skills-v3` | `YYC3-I/skills` | 391 | 9.8 MB | xsd, md, py | 版本变体 |
+| 263 | Skills-技能包 | `YYC3-Skills-技能包-skills-v4` | `YYC3-H/skills` | 56 | 0.5 MB | py, md, txt | 版本变体 |
+| 264 | Skills-技能包 | `YYC3-Skills-技能包-skills-v5` | `YYC3-B/skills` | 10 | 0.0 MB | ts, json |  |
+| 265 | Skills-技能包 | `YYC3-Skills-技能包-ui-ux-pro-max-skill` | `YYC3-Skills-技能包/ui-ux-pro-max-skill` | 324 | 10.6 MB | csv, md, ttf |  |
+| 266 | Skills-技能包 | `YYC3-Skills-技能包-YYC3-SKILL` | `YYC3-Skills-技能包/YYC3-SKILL` | 13 | 0.2 MB | md, json |  |
+| 267 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-asp.vb.net.tmbundle` | `YYC3-B/asp.vb.net.tmbundle` | 38 | 0.1 MB | plist, tmpreferences, mdown |  |
+| 268 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-atom-language-julia` | `YYC3-Syntax-语法定义/atom-language-julia` | 20 | 0.3 MB | json, cson, md |  |
+| 269 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-c-syntax` | `YYC3-J/better-c-syntax` | 251 | 2.5 MB | sh, yaml, c |  |
+| 270 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-cpp-syntax` | `YYC3-J/better-cpp-syntax` | 577 | 13.3 MB | yaml, cpp, sh |  |
+| 271 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-Better-Less` | `YYC3-Syntax-语法定义/Better-Less` | 32 | 2.6 MB | less, tmpreferences, md |  |
+| 272 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-objc-syntax` | `YYC3-J/better-objc-syntax` | 189 | 2.3 MB | sh, nix, rb |  |
+| 273 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-objcpp-syntax` | `YYC3-J/better-objcpp-syntax` | 191 | 2.6 MB | sh, yaml, nix |  |
+| 274 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-shell-syntax` | `YYC3-J/better-shell-syntax` | 287 | 5.0 MB | sh, yaml, md |  |
+| 275 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-snippet-syntax` | `YYC3-J/better-snippet-syntax` | 202 | 5.6 MB | sh, yaml, jsonc |  |
+| 276 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-better-syntax` | `YYC3-Syntax-语法定义/better-syntax` | 1,722 | 32.4 MB | sh, yaml, cpp |  |
+| 277 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-c.tmbundle` | `YYC3-D/c.tmbundle` | 66 | 2.0 MB | plist, tmpreferences, tmcommand |  |
+| 278 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-coffee-script-tmbundle` | `YYC3-A/coffee-script-tmbundle` | 41 | 0.1 MB | tmsnippet, tmcommand, tmpreferences |  |
+| 279 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-csharp-tmLanguage` | `YYC3-Syntax-语法定义/csharp-tmLanguage` | 58 | 1.4 MB | ts, json, md |  |
+| 280 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-css.tmbundle` | `YYC3-C/css.tmbundle` | 119 | 0.2 MB | plist, tmpreferences, tmsnippet |  |
+| 281 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-cuda-cpp-grammar` | `YYC3-Syntax-语法定义/cuda-cpp-grammar` | 3 | 0.8 MB | md, json |  |
+| 282 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-dart-syntax-highlight` | `YYC3-Syntax-语法定义/dart-syntax-highlight` | 51 | 0.2 MB | dart, golden, md |  |
+| 283 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-diff.tmbundle` | `YYC3-D/diff.tmbundle` | 31 | 0.0 MB | plist, css, tmmacro |  |
+| 284 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-git-tmbundle` | `YYC3-C/git-tmbundle` | 172 | 0.5 MB | rb, tmcommand, erb |  |
+| 285 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-git.tmbundle` | `YYC3-D/git.tmbundle` | 177 | 0.6 MB | rb, tmcommand, erb |  |
+| 286 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-go-syntax` | `YYC3-Syntax-语法定义/go-syntax` | 22 | 8.8 MB | png, json, md |  |
+| 287 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-groovy.tmbundle` | `YYC3-D/groovy.tmbundle` | 121 | 0.2 MB | tmsnippet, tmcommand, tmpreferences |  |
+| 288 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-html.tmbundle` | `YYC3-D/html.tmbundle` | 106 | 1.1 MB | tmsnippet, plist, tmcommand |  |
+| 289 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-ini.tmbundle` | `YYC3-D/ini.tmbundle` | 6 | 0.0 MB | tmpreferences, plist, mdown |  |
+| 290 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-ionide-fsgrammar` | `YYC3-Syntax-语法定义/ionide-fsgrammar` | 33 | 0.2 MB | json, md, fs |  |
+| 291 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-java.tmbundle` | `YYC3-D/java.tmbundle` | 74 | 0.2 MB | tmsnippet, tmpreferences, tmcommand |  |
+| 292 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-javascript.tmbundle` | `YYC3-D/javascript.tmbundle` | 91 | 0.6 MB | py, tmsnippet, plist |  |
+| 293 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-batchfile` | `YYC3-Syntax-语法定义/language-batchfile` | 26 | 0.0 MB | bat, md, cson |  |
+| 294 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-clojure` | `YYC3-Syntax-语法定义/language-clojure` | 14 | 0.0 MB | md, cson, json |  |
+| 295 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-coffee-script` | `YYC3-Syntax-语法定义/language-coffee-script` | 17 | 0.2 MB | md, cson, json |  |
+| 296 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-php` | `YYC3-Syntax-语法定义/language-php` | 18 | 0.6 MB | md, cson, json |  |
+| 297 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-ruby` | `YYC3-Syntax-语法定义/language-ruby` | 23 | 0.2 MB | cson, md, yml |  |
+| 298 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-sass` | `YYC3-Syntax-语法定义/language-sass` | 20 | 0.3 MB | md, cson, json |  |
+| 299 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-language-xml` | `YYC3-Syntax-语法定义/language-xml` | 16 | 0.0 MB | md, cson, json |  |
+| 300 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-latex.tmbundle` | `YYC3-C/latex.tmbundle` | 269 | 3.5 MB | plist, tex, tmcommand |  |
+| 301 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-lua.tmbundle` | `YYC3-D/lua.tmbundle` | 24 | 0.0 MB | plist, tmsnippet, tmpreferences |  |
+| 302 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-lua.tmbundle-v2` | `YYC3-C/lua.tmbundle` | 7 | 0.1 MB | json, md, plist | 版本变体 |
+| 303 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-lua.tmbundle-v3` | `YYC3-J/lua.tmbundle` | 7 | 0.1 MB | json, md, plist | 版本变体 |
+| 304 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-MagicPython` | `YYC3-Syntax-语法定义/MagicPython` | 336 | 2.4 MB | py, re, sublime-snippet |  |
+| 305 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-make.tmbundle` | `YYC3-C/make.tmbundle` | 11 | 0.0 MB | plist, tmcommand, tmpreferences |  |
+| 306 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-markdown.tmbundle` | `YYC3-D/markdown.tmbundle` | 39 | 0.1 MB | plist, tmcommand, tmpreferences |  |
+| 307 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-perl.tmbundle` | `YYC3-D/perl.tmbundle` | 40 | 0.2 MB | plist, pm, tmsnippet |  |
+| 308 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-php.tmbundle` | `YYC3-C/php.tmbundle` | 110 | 2.6 MB | tmsnippet, tmcommand, tmpreferences |  |
+| 309 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-pug-tmbundle` | `YYC3-A/pug-tmbundle` | 20 | 0.1 MB | pug, tmpreferences, tmcommand |  |
+| 310 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-ruby.tmbundle` | `YYC3-D/ruby.tmbundle` | 254 | 0.4 MB | plist, tmsnippet, rb |  |
+| 311 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-rust-syntax` | `YYC3-Syntax-语法定义/rust-syntax` | 17 | 0.3 MB | json, md, rs |  |
+| 312 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-SASS.tmbundle` | `YYC3-A/SASS.tmbundle` | 174 | 0.3 MB | tmsnippet, tmcommand, tmpreferences |  |
+| 313 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-shaders-tmLanguage` | `YYC3-Syntax-语法定义/shaders-tmLanguage` | 3 | 0.0 MB | json |  |
+| 314 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-swift-tmlanguage` | `YYC3-Syntax-语法定义/swift-tmlanguage` | 35 | 0.7 MB | ts, json, md |  |
+| 315 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-syntax` | `YYC3-LSP-语言服务/syntax` | 5,727 | 27.4 MB | svg, json, py |  |
+| 316 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-textmate-clojure` | `YYC3-A/textmate-clojure` | 5 | 0.0 MB | md, plist, tmpreferences |  |
+| 317 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-tmBundle` | `YYC3-Syntax-语法定义/tmBundle` | 2,968 | 20.3 MB | txt, tmsnippet, plist |  |
+| 318 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-TypeScript-TmLanguage` | `YYC3-C/TypeScript-TmLanguage` | 959 | 7.5 MB | txt, ts, tsx |  |
+| 319 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-vscode-JSON.tmLanguage` | `YYC3-C/vscode-JSON.tmLanguage` | 5 | 0.0 MB | md, txt, tmlanguage |  |
+| 320 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-vscode-markdown-tm-grammar` | `YYC3-C/vscode-markdown-tm-grammar` | 133 | 1.3 MB | md, json, yaml |  |
+| 321 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-xml.tmbundle` | `YYC3-D/xml.tmbundle` | 20 | 0.0 MB | plist, tmsnippet, mdown |  |
+| 322 | Syntax-语法高亮 | `YYC3-Syntax-语法高亮-YAML-Syntax-Highlighter` | `YYC3-Syntax-语法定义/YAML-Syntax-Highlighter` | 18 | 0.1 MB | json, md, yml |  |
+| 323 | Tool-开发工具链 | `YYC3-Tool-开发工具链-aily-blockly` | `YYC3-G/aily-blockly` | 1,002 | 105.5 MB | ts, scss, html |  |
+| 324 | Tool-开发工具链 | `YYC3-Tool-开发工具链-aily-blockly-libraries` | `YYC3-G/aily-blockly-libraries` | 7,616 | 92.3 MB | json, md, js |  |
+| 325 | Tool-开发工具链 | `YYC3-Tool-开发工具链-archify` | `YYC3-G/archify` | 514 | 42.9 MB | mjs, md, json |  |
+| 326 | Tool-开发工具链 | `YYC3-Tool-开发工具链-assert` | `YYC3-Tool-开发工具/assert` | 7 | 0.0 MB | js, json, html |  |
+| 327 | Tool-开发工具链 | `YYC3-Tool-开发工具链-autocomplete` | `YYC3-Tool-开发工具/autocomplete` | 1,566 | 98.3 MB | ts, png, yml |  |
+| 328 | Tool-开发工具链 | `YYC3-Tool-开发工具链-autocomplete-tools` | `YYC3-Tool-开发工具/autocomplete-tools` | 417 | 2.0 MB | ts, json, md |  |
+| 329 | Tool-开发工具链 | `YYC3-Tool-开发工具链-build_tools` | `YYC3-Tool-开发工具/build_tools` | 25 | 0.1 MB | sh, fish, xml |  |
+| 330 | Tool-开发工具链 | `YYC3-Tool-开发工具链-cn-optimizer` | `YYC3-Tool-开发工具/cn-optimizer` | 9 | 0.0 MB | ts, json |  |
+| 331 | Tool-开发工具链 | `YYC3-Tool-开发工具链-code-simplifier` | `YYC3-Tool-开发工具/code-simplifier` | 2 | 0.0 MB | md, json |  |
+| 332 | Tool-开发工具链 | `YYC3-Tool-开发工具链-commit-commands` | `YYC3-Tool-开发工具/commit-commands` | 6 | 0.0 MB | md, json |  |
+| 333 | Tool-开发工具链 | `YYC3-Tool-开发工具链-content` | `YYC3-Tool-开发工具/content` | 4,449 | 211.6 MB | svg, png, js |  |
+| 334 | Tool-开发工具链 | `YYC3-Tool-开发工具链-Core-files` | `YYC3-Tool-开发工具/Core-files` | 7,474 | 60.2 MB | json, tsx, ts |  |
+| 335 | Tool-开发工具链 | `YYC3-Tool-开发工具链-development-essentials` | `YYC3-Tool-开发工具/development-essentials` | 18 | 0.0 MB | md, json |  |
+| 336 | Tool-开发工具链 | `YYC3-Tool-开发工具链-dotnet` | `YYC3-E/dotnet` | 13,710 | 34.1 MB | txt, cs, cshtml |  |
+| 337 | Tool-开发工具链 | `YYC3-Tool-开发工具链-EasySpider` | `YYC3-Tool-开发工具/EasySpider` | 1,721 | 90.4 MB | json, png, js |  |
+| 338 | Tool-开发工具链 | `YYC3-Tool-开发工具链-emmet` | `YYC3-Tool-开发工具/emmet` | 106 | 0.7 MB | ts, json, js |  |
+| 339 | Tool-开发工具链 | `YYC3-Tool-开发工具链-examples` | `YYC3-Tool-开发工具/examples` | 2 | 0.0 MB | tsx, ts |  |
+| 340 | Tool-开发工具链 | `YYC3-Tool-开发工具链-expand-abbreviation` | `YYC3-Syntax-语法定义/expand-abbreviation` | 18 | 0.0 MB | js, json, md |  |
+| 341 | Tool-开发工具链 | `YYC3-Tool-开发工具链-feature-dev` | `YYC3-Tool-开发工具/feature-dev` | 7 | 0.0 MB | md, json |  |
+| 342 | Tool-开发工具链 | `YYC3-Tool-开发工具链-git-commit-message-plus` | `YYC3-Tool-开发工具/git-commit-message-plus` | 44 | 3.5 MB | ts, json, js |  |
+| 343 | Tool-开发工具链 | `YYC3-Tool-开发工具链-graphify` | `YYC3-Business-商业/graphify` | 131 | 1.5 MB | py, md, json |  |
+| 344 | Tool-开发工具链 | `YYC3-Tool-开发工具链-Handlebars` | `YYC3-Tool-开发工具/Handlebars` | 23 | 0.1 MB | sublime-snippet, json, md |  |
+| 345 | Tool-开发工具链 | `YYC3-Tool-开发工具链-js-beautify` | `YYC3-Tool-开发工具/js-beautify` | 192 | 2.7 MB | js, py, md |  |
+| 346 | Tool-开发工具链 | `YYC3-Tool-开发工具链-json-server` | `YYC3-Tool-开发工具/json-server` | 33 | 0.1 MB | ts, json, yml |  |
+| 347 | Tool-开发工具链 | `YYC3-Tool-开发工具链-markdown-it-katex` | `YYC3-Tool-开发工具/markdown-it-katex` | 19 | 0.2 MB | json, txt, md |  |
+| 348 | Tool-开发工具链 | `YYC3-Tool-开发工具链-marked` | `YYC3-Tool-开发工具/marked` | 419 | 1.2 MB | md, html, js |  |
+| 349 | Tool-开发工具链 | `YYC3-Tool-开发工具链-node-semver` | `YYC3-Tool-开发工具/node-semver` | 151 | 0.3 MB | js, yml, md |  |
+| 350 | Tool-开发工具链 | `YYC3-Tool-开发工具链-platformio-core` | `YYC3-G/platformio-core` | 353 | 1.5 MB | py, tpl, yml |  |
+| 351 | Tool-开发工具链 | `YYC3-Tool-开发工具链-ppt-writer` | `YYC3-Tool-开发工具/ppt-writer` | 6 | 0.0 MB | md, json |  |
+| 352 | Tool-开发工具链 | `YYC3-Tool-开发工具链-pr-review-toolkit` | `YYC3-Tool-开发工具/pr-review-toolkit` | 10 | 0.1 MB | md, json |  |
+| 353 | Tool-开发工具链 | `YYC3-Tool-开发工具链-prettier` | `YYC3-Tool-开发工具/prettier` | 9,226 | 22.1 MB | js, snap, ts |  |
+| 354 | Tool-开发工具链 | `YYC3-Tool-开发工具链-ralph-loop` | `YYC3-Tool-开发工具/ralph-loop` | 9 | 0.0 MB | md, json, sh |  |
+| 355 | Tool-开发工具链 | `YYC3-Tool-开发工具链-Raphael-Publish` | `YYC3-Tool-开发工具/Raphael-Publish` | 48 | 16.3 MB | ts, tsx, json |  |
+| 356 | Tool-开发工具链 | `YYC3-Tool-开发工具链-razor` | `YYC3-Framework-框架/razor` | 13,154 | 32.0 MB | txt, cs, cshtml |  |
+| 357 | Tool-开发工具链 | `YYC3-Tool-开发工具链-razor-v2` | `YYC3-B/razor` | 13,710 | 34.1 MB | txt, cs, cshtml | 版本变体 |
+| 358 | Tool-开发工具链 | `YYC3-Tool-开发工具链-repomix` | `YYC3-Tool-开发工具/repomix` | 1,052 | 7.1 MB | md, ts, json |  |
+| 359 | Tool-开发工具链 | `YYC3-Tool-开发工具链-ruff` | `YYC3-Tool-开发工具/ruff` | 9,824 | 73.5 MB | snap, py, rs |  |
+| 360 | Tool-开发工具链 | `YYC3-Tool-开发工具链-spec-factory` | `YYC3-Spec-规范工具/spec-factory` | 19 | 0.0 MB | template, py, template-part |  |
+| 361 | Tool-开发工具链 | `YYC3-Tool-开发工具链-superpowers` | `YYC3-I/superpowers` | 147 | 0.9 MB | md, sh, txt |  |
+| 362 | Tool-开发工具链 | `YYC3-Tool-开发工具链-superpowers-chrome` | `YYC3-B/superpowers-chrome` | 32 | 0.2 MB | md, sh, json |  |
+| 363 | Tool-开发工具链 | `YYC3-Tool-开发工具链-superpowers-v3` | `YYC3-B/superpowers` | 48 | 0.3 MB | md, json, sh | 版本变体 |
+| 364 | Tool-开发工具链 | `YYC3-Tool-开发工具链-swagger-ui` | `YYC3-H/swagger-ui` | 961 | 5.4 MB | js, jsx, yaml |  |
+| 365 | Tool-开发工具链 | `YYC3-Tool-开发工具链-tools` | `YYC3-Tool-开发工具/tools` | 2,814 | 18.8 MB | go, txt, golden |  |
+| 366 | Tool-开发工具链 | `YYC3-Tool-开发工具链-version` | `YYC3-Tool-开发工具/version` | 151 | 0.3 MB | js, yml, md |  |
+| 367 | Tool-开发工具链 | `YYC3-Tool-开发工具链-vize` | `YYC3-G/vize` | 4,647 | 49.7 MB | rs, snap, ts |  |
+| 368 | TypeDef-类型定义 | `YYC3-TypeDef-类型定义-DefinitelyTyped` | `YYC3-TypeDef-类型定义/DefinitelyTyped` | 62,618 | 265.4 MB | ts, json, tsx |  |
+| 369 | TypeDef-类型定义 | `YYC3-TypeDef-类型定义-types` | `YYC3-TypeDef-类型定义/types` | 62,619 | 265.4 MB | ts, json, tsx |  |
+| 370 | UI-界面组件 | `YYC3-UI-界面组件-ai` | `—` | 10,056 | 90.9 MB | ts, json, mdx |  |
+| 371 | UI-界面组件 | `YYC3-UI-界面组件-ant-design` | `YYC3-UI-用户界面/ant-design` | 5,067 | 60.4 MB | tsx, md, ts |  |
+| 372 | UI-界面组件 | `YYC3-UI-界面组件-ant-design-vue` | `—` | 3,011 | 34.6 MB | ts, vue, tsx |  |
+| 373 | UI-界面组件 | `YYC3-UI-界面组件-archived-components` | `YYC3-UI-用户界面/archived-components` | 9 | 0.1 MB | tsx |  |
+| 374 | UI-界面组件 | `YYC3-UI-界面组件-ark` | `—` | 8,147 | 59.4 MB | tsx, ts, vue |  |
+| 375 | UI-界面组件 | `YYC3-UI-界面组件-Button` | `YYC3-UI-用户界面/Button` | 103 | 0.6 MB | tsx, ts, md |  |
+| 376 | UI-界面组件 | `YYC3-UI-界面组件-chakra-ui` | `—` | 3,917 | 154.7 MB | tsx, ts, json |  |
+| 377 | UI-界面组件 | `YYC3-UI-界面组件-CopilotKit` | `—` | 24,639 | 634.5 MB | ts, tsx, json |  |
+| 378 | UI-界面组件 | `YYC3-UI-界面组件-element-plus` | `—` | 2,733 | 10.0 MB | ts, vue, scss |  |
+| 379 | UI-界面组件 | `YYC3-UI-界面组件-flowbite` | `—` | 434 | 20.5 MB | md, jpg, ts |  |
+| 380 | UI-界面组件 | `YYC3-UI-界面组件-headlessui` | `—` | 11 | 0.0 MB | yml, md, ts |  |
+| 381 | UI-界面组件 | `YYC3-UI-界面组件-ionic-framework` | `—` | 10,525 | 105.4 MB | png, ts, html |  |
+| 382 | UI-界面组件 | `YYC3-UI-界面组件-lobe-ui` | `—` | 3,101 | 9.1 MB | tsx, ts, mdx |  |
+| 383 | UI-界面组件 | `YYC3-UI-界面组件-mand-mobile` | `—` | 1,186 | 41.9 MB | vue, js, md |  |
+| 384 | UI-界面组件 | `YYC3-UI-界面组件-mantine` | `—` | 7,184 | 22.0 MB | tsx, ts, mdx |  |
+| 385 | UI-界面组件 | `YYC3-UI-界面组件-material-ui` | `—` | 38,759 | 251.6 MB | js, mjs, svg |  |
+| 386 | UI-界面组件 | `YYC3-UI-界面组件-mui-x` | `YYC3-UI-用户界面/mui-x` | 9,604 | 38.2 MB | ts, tsx, js |  |
+| 387 | UI-界面组件 | `YYC3-UI-界面组件-naive-ui` | `—` | 3,671 | 7.8 MB | vue, ts, tsx |  |
+| 388 | UI-界面组件 | `YYC3-UI-界面组件-nutui` | `—` | 2,232 | 5.7 MB | vue, ts, md |  |
+| 389 | UI-界面组件 | `YYC3-UI-界面组件-onlook` | `YYC3-UI-用户界面/onlook` | 1,550 | 25.5 MB | ts, tsx, json |  |
+| 390 | UI-界面组件 | `YYC3-UI-界面组件-patternfly` | `—` | 1,588 | 21.5 MB | hbs, png, scss |  |
+| 391 | UI-界面组件 | `YYC3-UI-界面组件-patternfly-elements` | `—` | 965 | 12.8 MB | html, ts, md |  |
+| 392 | UI-界面组件 | `YYC3-UI-界面组件-primevue` | `—` | 4,837 | 29.4 MB | vue, js, json |  |
+| 393 | UI-界面组件 | `YYC3-UI-界面组件-primitives` | `—` | 703 | 4.0 MB | tsx, md, json |  |
+| 394 | UI-界面组件 | `YYC3-UI-界面组件-quark-design` | `—` | 911 | 13.1 MB | md, ts, tsx |  |
+| 395 | UI-界面组件 | `YYC3-UI-界面组件-quasar` | `—` | 4,363 | 59.8 MB | js, vue, md |  |
+| 396 | UI-界面组件 | `YYC3-UI-界面组件-reka-ui` | `—` | 2,148 | 9.9 MB | vue, md, ts |  |
+| 397 | UI-界面组件 | `YYC3-UI-界面组件-shadcn-ui` | `YYC3-UI-用户界面/shadcn-ui` | 8,584 | 68.6 MB | json, tsx, ts |  |
+| 398 | UI-界面组件 | `YYC3-UI-界面组件-tdesign-miniprogram` | `—` | 5,238 | 16.3 MB | ts, js, json |  |
+| 399 | UI-界面组件 | `YYC3-UI-界面组件-tdesign-react` | `—` | 2,185 | 19.1 MB | tsx, ts, js |  |
+| 400 | UI-界面组件 | `YYC3-UI-界面组件-tdesign-vue-next` | `YYC3-UI-用户界面/tdesign-vue-next` | 2,900 | 18.9 MB | vue, ts, tsx |  |
+| 401 | UI-界面组件 | `YYC3-UI-界面组件-vant` | `—` | 1,564 | 14.4 MB | ts, md, snap |  |
+| 402 | UI-界面组件 | `YYC3-UI-界面组件-vant-weapp` | `—` | 1,427 | 2.9 MB | ts, wxml, json |  |
+| 403 | UI-界面组件 | `YYC3-UI-界面组件-varlet` | `—` | 1,964 | 9.3 MB | ts, md, vue |  |
+| 404 | UI-界面组件 | `YYC3-UI-界面组件-vuetify` | `—` | 3,173 | 9.2 MB | vue, ts, tsx |  |
+| 405 | UI-界面组件 | `YYC3-UI-界面组件-web-ui` | `YYC3-UI-用户界面/web-ui` | 55 | 0.1 MB | ts, map, js |  |
+| 406 | UI-界面组件 | `YYC3-UI-界面组件-weui` | `—` | 190 | 1.2 MB | less, html, png |  |
+| 407 | UI-界面组件 | `YYC3-UI-界面组件-wot-ui` | `—` | 1,297 | 28.4 MB | ts, md, vue |  |
+| 408 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-background-sync` | `YYC3-WebSpec-Web标准/background-sync` | 16 | 0.4 MB | md, html, json |  |
+| 409 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-blog.whatwg.org` | `YYC3-WebSpec-Web标准/blog.whatwg.org` | 33 | 0.3 MB | php, jpg, css |  |
+| 410 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-build.whatwg.org` | `YYC3-WebSpec-Web标准/build.whatwg.org` | 12 | 0.1 MB | json, yml, md |  |
+| 411 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-compat` | `YYC3-WebSpec-Web标准/compat` | 40 | 0.4 MB | md, bs, yml |  |
+| 412 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-compression` | `YYC3-WebSpec-Web标准/compression` | 18 | 0.1 MB | md, bs, yml |  |
+| 413 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-console` | `YYC3-WebSpec-Web标准/console` | 36 | 0.5 MB | png, bs, md |  |
+| 414 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-cookiestore` | `YYC3-WebSpec-Web标准/cookiestore` | 17 | 0.2 MB | md, yml, bs |  |
+| 415 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-dom` | `YYC3-WebSpec-Web标准/dom` | 30 | 6.9 MB | bs, yml, md |  |
+| 416 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-domparsing` | `YYC3-WebSpec-Web标准/domparsing` | 30 | 0.2 MB | html, xhtml, js |  |
+| 417 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-encoding` | `YYC3-WebSpec-Web标准/encoding` | 69 | 4.9 MB | txt, bs, py |  |
+| 418 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-fetch` | `YYC3-WebSpec-Web标准/fetch` | 30 | 5.7 MB | bs, yml, md |  |
+| 419 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-fs` | `YYC3-WebSpec-Web标准/fs` | 23 | 0.5 MB | md, bs, yml |  |
+| 420 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-fullscreen` | `YYC3-WebSpec-Web标准/fullscreen` | 26 | 0.4 MB | bs, yml, md |  |
+| 421 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-html` | `YYC3-WebSpec-Web标准/html` | 128 | 109.4 MB | png, js, wattsi |  |
+| 422 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-html-build` | `YYC3-WebSpec-Web标准/html-build` | 42 | 0.8 MB | rs, sh, md |  |
+| 423 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-i18n` | `YYC3-WebSpec-Web标准/i18n` | 13,901 | 267.9 MB | txt, res, java |  |
+| 424 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-infra` | `YYC3-WebSpec-Web标准/infra` | 28 | 1.3 MB | bs, yml, md |  |
+| 425 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-loader` | `YYC3-WebSpec-Web标准/loader` | 10 | 0.1 MB | md, js, bs |  |
+| 426 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-mimesniff` | `YYC3-WebSpec-Web标准/mimesniff` | 25 | 0.9 MB | bs, yml, md |  |
+| 427 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-notifications` | `YYC3-WebSpec-Web标准/notifications` | 24 | 0.5 MB | bs, yml, md |  |
+| 428 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-old-google-code-html5` | `YYC3-Syntax-语法定义/old-google-code-html5` | 127 | 0.4 MB | py, tmpl, dat |  |
+| 429 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-participate.whatwg.org` | `YYC3-WebSpec-Web标准/participate.whatwg.org` | 65 | 0.4 MB | mjs, json, hbs |  |
+| 430 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-platform.html5.org` | `YYC3-WebSpec-Web标准/platform.html5.org` | 71 | 60.5 MB | png, html, inc |  |
+| 431 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-quirks` | `YYC3-WebSpec-Web标准/quirks` | 19 | 0.2 MB | bs, yml, md |  |
+| 432 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-standards` | `YYC3-WebSpec-Web标准/standards` | 853 | 144.4 MB | bs, md, yml |  |
+| 433 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-storage` | `YYC3-WebSpec-Web标准/storage` | 28 | 0.3 MB | bs, yml, md |  |
+| 434 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-streams` | `YYC3-WebSpec-Web标准/streams` | 115 | 7.1 MB | js, webidl, bs |  |
+| 435 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-testutils` | `YYC3-WebSpec-Web标准/testutils` | 16 | 0.0 MB | yml, md, bs |  |
+| 436 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-url` | `YYC3-WebSpec-Web标准/url` | 31 | 2.3 MB | bs, md, yml |  |
+| 437 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-urlpattern` | `YYC3-WebSpec-Web标准/urlpattern` | 24 | 0.6 MB | md, bs, yml |  |
+| 438 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-wattsi` | `YYC3-WebSpec-Web标准/wattsi` | 70 | 2.4 MB | pas, json, md |  |
+| 439 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-websockets` | `YYC3-WebSpec-Web标准/websockets` | 17 | 0.2 MB | bs, yml, md |  |
+| 440 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-whattweetbot-keys` | `YYC3-WebSpec-Web标准/whattweetbot-keys` | 7 | 0.0 MB | json, md, js |  |
+| 441 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-wiki.whatwg.org` | `YYC3-WebSpec-Web标准/wiki.whatwg.org` | 6 | 0.0 MB | php, md, sh |  |
+| 442 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-xhr` | `YYC3-WebSpec-Web标准/xhr` | 25 | 0.9 MB | bs, yml, md |  |
 
 ## 五、命名与追溯规则
 
@@ -512,7 +542,7 @@ complexity: intermediate
 
 | 版本 | 日期 | 变更内容 | 作者 |
 | --- | --- | --- | --- |
-| v1.1.0 | 2026-11-17 | UI 双目录合并：组件库 31 项并入界面组件，清除 5 项冗余；全量映射同步为 414 项 | YYC³ Team |
+| v1.1.0 | 2026-11-17 | UI 双目录合并：组件库 31 项并入界面组件，清除 5 项冗余；全量映射同步为 442 项 | YYC³ Team |
 | v1.0.0 | 2026-11-10 | 首次生成全量映射：24 类、386 项目逐项对照 | YYC³ Team |
 
 ---
