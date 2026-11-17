@@ -5,8 +5,8 @@ import type { SwitchChangeEventHandler, SwitchClickEventHandler } from '@rc-comp
 import { useControlledState } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
-import { useMergeSemantic } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { devUseWarning } from '../_util/warning';
 import Wave from '../_util/wave';
 import { useComponentConfig } from '../config-provider/context';
@@ -22,23 +22,20 @@ export type SwitchSize = Exclude<SizeType, 'large'> | 'default';
 
 export type { SwitchChangeEventHandler, SwitchClickEventHandler };
 
-export type SwitchSemanticName = keyof SwitchSemanticClassNames & keyof SwitchSemanticStyles;
-
-export type SwitchSemanticClassNames = {
-  root?: string;
-  content?: string;
-  indicator?: string;
+export type SwitchSemanticType = {
+  classNames?: {
+    root?: string;
+    content?: string;
+    indicator?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    content?: React.CSSProperties;
+    indicator?: React.CSSProperties;
+  };
 };
 
-export type SwitchSemanticStyles = {
-  root?: React.CSSProperties;
-  content?: React.CSSProperties;
-  indicator?: React.CSSProperties;
-};
-
-export type SwitchClassNamesType = SemanticClassNamesType<SwitchProps, SwitchSemanticClassNames>;
-
-export type SwitchStylesType = SemanticStylesType<SwitchProps, SwitchSemanticStyles>;
+export type SwitchSemanticAllType = GenerateSemantic<SwitchSemanticType, SwitchProps>;
 
 export interface SwitchProps {
   prefixCls?: string;
@@ -68,8 +65,8 @@ export interface SwitchProps {
   title?: string;
   tabIndex?: number;
   id?: string;
-  classNames?: SwitchClassNamesType;
-  styles?: SwitchStylesType;
+  classNames?: SwitchSemanticAllType['classNamesAndFn'];
+  styles?: SwitchSemanticAllType['stylesAndFn'];
 }
 
 const InternalSwitch = React.forwardRef<HTMLButtonElement, SwitchProps>((props, ref) => {
@@ -127,11 +124,14 @@ const InternalSwitch = React.forwardRef<HTMLButtonElement, SwitchProps>((props, 
     disabled: mergedDisabled,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    SwitchClassNamesType,
-    SwitchStylesType,
+    SwitchSemanticAllType['classNames'],
+    SwitchSemanticAllType['styles'],
     SwitchProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -158,12 +158,6 @@ const InternalSwitch = React.forwardRef<HTMLButtonElement, SwitchProps>((props, 
     cssVarCls,
   );
 
-  const mergedStyle: React.CSSProperties = {
-    ...mergedStyles.root,
-    ...contextStyle,
-    ...style,
-  };
-
   const changeHandler: SwitchChangeEventHandler = (...args) => {
     setChecked(args[0]);
     onChange?.(...args);
@@ -179,7 +173,7 @@ const InternalSwitch = React.forwardRef<HTMLButtonElement, SwitchProps>((props, 
         onChange={changeHandler}
         prefixCls={prefixCls}
         className={classes}
-        style={mergedStyle}
+        style={mergedStyles.root}
         disabled={mergedDisabled}
         ref={ref}
         loadingIcon={loadingIcon}

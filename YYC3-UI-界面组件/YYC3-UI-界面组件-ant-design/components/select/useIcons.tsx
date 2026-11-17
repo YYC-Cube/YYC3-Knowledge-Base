@@ -6,36 +6,53 @@ import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import LoadingOutlined from '@ant-design/icons/LoadingOutlined';
 import SearchOutlined from '@ant-design/icons/SearchOutlined';
+import { isReactRenderable } from '@rc-component/util';
 
+import fallbackProp from '../_util/fallbackProp';
+import { isFunction } from '../_util/is';
 import { devUseWarning } from '../_util/warning';
 
 type RenderNode = React.ReactNode | ((props: any) => React.ReactNode);
 
 export default function useIcons({
-  suffixIcon,
+  suffix,
+  contextSuffix,
   clearIcon,
+  contextClearIcon,
   menuItemSelectedIcon,
+  contextMenuItemSelectedIcon,
   removeIcon,
+  contextRemoveIcon,
   loading,
   loadingIcon,
+  contextLoadingIcon,
+  searchIcon,
+  contextSearchIcon,
   multiple,
   hasFeedback,
-  showSuffixIcon,
+  showSuffix,
   feedbackIcon,
   showArrow,
   componentName,
 }: {
-  suffixIcon?: React.ReactNode;
-  clearIcon?: RenderNode;
+  suffix?: RenderNode;
+  contextSuffix?: RenderNode;
+  clearIcon?: React.ReactNode;
+  contextClearIcon?: React.ReactNode;
   menuItemSelectedIcon?: RenderNode;
+  contextMenuItemSelectedIcon?: RenderNode;
   removeIcon?: RenderNode;
+  contextRemoveIcon?: RenderNode;
   loading?: boolean;
   loadingIcon?: React.ReactNode;
+  contextLoadingIcon?: React.ReactNode;
+  searchIcon?: React.ReactNode;
+  contextSearchIcon?: React.ReactNode;
   multiple?: boolean;
   hasFeedback?: boolean;
   feedbackIcon?: ReactNode;
   prefixCls: string;
-  showSuffixIcon?: boolean;
+  showSuffix?: boolean;
   showArrow?: boolean;
   componentName: string;
 }) {
@@ -45,59 +62,78 @@ export default function useIcons({
     warning.deprecated(!clearIcon, 'clearIcon', 'allowClear={{ clearIcon: React.ReactNode }}');
   }
 
-  // Clear Icon
-  const mergedClearIcon = clearIcon ?? <CloseCircleFilled />;
+  return React.useMemo(() => {
+    // Clear Icon
+    const mergedClearIcon = fallbackProp(clearIcon, contextClearIcon, <CloseCircleFilled />);
 
-  // Validation Feedback Icon
-  const getSuffixIconNode = (arrowIcon?: ReactNode) => {
-    if (suffixIcon === null && !hasFeedback && !showArrow) {
-      return null;
-    }
-    return (
-      <>
-        {showSuffixIcon !== false && arrowIcon}
-        {hasFeedback && feedbackIcon}
-      </>
-    );
-  };
-
-  // Arrow item icon
-  let mergedSuffixIcon = null;
-  if (suffixIcon !== undefined) {
-    mergedSuffixIcon = getSuffixIconNode(suffixIcon);
-  } else if (loading) {
-    mergedSuffixIcon = getSuffixIconNode(loadingIcon ?? <LoadingOutlined spin />);
-  } else {
-    mergedSuffixIcon = ({ open, showSearch }: { open: boolean; showSearch: boolean }) => {
-      if (open && showSearch) {
-        return getSuffixIconNode(<SearchOutlined />);
+    // Validation Feedback Icon
+    const getSuffixNode = (suffixNode?: ReactNode) => {
+      if (!isReactRenderable(suffixNode) && !hasFeedback && !showArrow) {
+        return null;
       }
-      return getSuffixIconNode(<DownOutlined />);
+      return (
+        <>
+          {showSuffix !== false && suffixNode}
+          {hasFeedback && feedbackIcon}
+        </>
+      );
     };
-  }
 
-  // Checked item icon
-  let mergedItemIcon = null;
-  if (menuItemSelectedIcon !== undefined) {
-    mergedItemIcon = menuItemSelectedIcon;
-  } else if (multiple) {
-    mergedItemIcon = <CheckOutlined />;
-  } else {
-    mergedItemIcon = null;
-  }
+    // Suffix
+    let mergedSuffix: RenderNode = null;
+    if (suffix !== undefined) {
+      mergedSuffix = isFunction(suffix)
+        ? (props) => getSuffixNode(suffix(props))
+        : getSuffixNode(suffix);
+    } else if (loading) {
+      mergedSuffix = getSuffixNode(
+        fallbackProp(loadingIcon, contextLoadingIcon, <LoadingOutlined spin aria-hidden="true" />),
+      );
+    } else {
+      mergedSuffix = (props: { open: boolean; showSearch: boolean }) => {
+        const { open, showSearch } = props;
+        if (open && showSearch) {
+          return getSuffixNode(
+            fallbackProp(searchIcon, contextSearchIcon, <SearchOutlined aria-hidden="true" />),
+          );
+        }
+        const fallbackSuffix = fallbackProp(contextSuffix, <DownOutlined aria-hidden="true" />);
+        return getSuffixNode(isFunction(fallbackSuffix) ? fallbackSuffix(props) : fallbackSuffix);
+      };
+    }
 
-  let mergedRemoveIcon = null;
-  if (removeIcon !== undefined) {
-    mergedRemoveIcon = removeIcon;
-  } else {
-    mergedRemoveIcon = <CloseOutlined />;
-  }
+    // Checked item icon
+    const mergedItemIcon = fallbackProp(
+      menuItemSelectedIcon,
+      contextMenuItemSelectedIcon,
+      multiple ? <CheckOutlined /> : null,
+    );
+    const mergedRemoveIcon = fallbackProp(removeIcon, contextRemoveIcon, <CloseOutlined />);
 
-  return {
-    // TODO: remove as when all the deps bumped
-    clearIcon: mergedClearIcon as React.ReactNode,
-    suffixIcon: mergedSuffixIcon,
-    itemIcon: mergedItemIcon,
-    removeIcon: mergedRemoveIcon,
-  };
+    return {
+      clearIcon: mergedClearIcon,
+      suffix: mergedSuffix,
+      itemIcon: mergedItemIcon,
+      removeIcon: mergedRemoveIcon,
+    };
+  }, [
+    suffix,
+    contextSuffix,
+    clearIcon,
+    contextClearIcon,
+    menuItemSelectedIcon,
+    contextMenuItemSelectedIcon,
+    removeIcon,
+    contextRemoveIcon,
+    loading,
+    loadingIcon,
+    contextLoadingIcon,
+    searchIcon,
+    contextSearchIcon,
+    multiple,
+    hasFeedback,
+    showSuffix,
+    feedbackIcon,
+    showArrow,
+  ]);
 }

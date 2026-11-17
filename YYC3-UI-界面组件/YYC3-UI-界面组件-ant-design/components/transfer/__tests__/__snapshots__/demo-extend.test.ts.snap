@@ -54,7 +54,7 @@ exports[`renders components/transfer/demo/actions.tsx extend context correctly 1
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -85,7 +85,7 @@ exports[`renders components/transfer/demo/actions.tsx extend context correctly 1
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -497,7 +497,7 @@ exports[`renders components/transfer/demo/actions.tsx extend context correctly 1
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -528,7 +528,7 @@ exports[`renders components/transfer/demo/actions.tsx extend context correctly 1
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -838,7 +838,7 @@ exports[`renders components/transfer/demo/advanced.tsx extend context correctly 
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -869,7 +869,7 @@ exports[`renders components/transfer/demo/advanced.tsx extend context correctly 
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -954,8 +954,8 @@ exports[`renders components/transfer/demo/advanced.tsx extend context correctly 
             class="ant-input-suffix"
           >
             <button
+              aria-label="Clear"
               class="ant-input-clear-icon ant-input-clear-icon-hidden"
-              tabindex="-1"
               type="button"
             >
               <span
@@ -1340,7 +1340,7 @@ exports[`renders components/transfer/demo/advanced.tsx extend context correctly 
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -1371,7 +1371,7 @@ exports[`renders components/transfer/demo/advanced.tsx extend context correctly 
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -1456,8 +1456,8 @@ exports[`renders components/transfer/demo/advanced.tsx extend context correctly 
             class="ant-input-suffix"
           >
             <button
+              aria-label="Clear"
               class="ant-input-clear-icon ant-input-clear-icon-hidden"
-              tabindex="-1"
               type="button"
             >
               <span
@@ -1782,7 +1782,7 @@ exports[`renders components/transfer/demo/basic.tsx extend context correctly 1`]
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -1813,7 +1813,7 @@ exports[`renders components/transfer/demo/basic.tsx extend context correctly 1`]
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -2221,7 +2221,7 @@ exports[`renders components/transfer/demo/basic.tsx extend context correctly 1`]
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -2252,7 +2252,7 @@ exports[`renders components/transfer/demo/basic.tsx extend context correctly 1`]
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -2564,7 +2564,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -2595,7 +2595,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -3006,7 +3006,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -3037,7 +3037,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -3346,7 +3346,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -3377,7 +3377,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -3590,7 +3590,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -3621,7 +3621,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -3776,7 +3776,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -3807,7 +3807,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -3892,8 +3892,8 @@ Array [
               class="ant-input-suffix"
             >
               <button
+                aria-label="Clear"
                 class="ant-input-clear-icon ant-input-clear-icon-hidden"
-                tabindex="-1"
                 type="button"
               >
                 <span
@@ -4087,7 +4087,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -4118,7 +4118,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -4203,8 +4203,8 @@ Array [
               class="ant-input-suffix"
             >
               <button
+                aria-label="Clear"
                 class="ant-input-clear-icon ant-input-clear-icon-hidden"
-                tabindex="-1"
                 type="button"
               >
                 <span
@@ -4339,7 +4339,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -4370,7 +4370,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -4465,7 +4465,7 @@ Array [
                                     class="ant-checkbox ant-wave-target"
                                   >
                                     <input
-                                      aria-label="Select all"
+                                      aria-label="Select current page"
                                       class="ant-checkbox-input"
                                       type="checkbox"
                                     />
@@ -4510,6 +4510,7 @@ Array [
                                   class="ant-checkbox ant-wave-target ant-checkbox-disabled"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     disabled=""
                                     type="checkbox"
@@ -4551,6 +4552,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -4591,6 +4593,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -4631,6 +4634,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -4671,6 +4675,7 @@ Array [
                                   class="ant-checkbox ant-wave-target ant-checkbox-disabled"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     disabled=""
                                     type="checkbox"
@@ -4712,6 +4717,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -4752,6 +4758,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -4792,6 +4799,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -4832,6 +4840,7 @@ Array [
                                   class="ant-checkbox ant-wave-target ant-checkbox-disabled"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     disabled=""
                                     type="checkbox"
@@ -4873,6 +4882,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -4908,13 +4918,14 @@ Array [
                   class="ant-pagination ant-pagination-small ant-pagination-mini ant-table-pagination ant-table-pagination-end css-var-test-id"
                 >
                   <li
-                    aria-disabled="true"
                     class="ant-pagination-prev ant-pagination-disabled"
-                    title="Previous Page"
                   >
                     <button
+                      aria-disabled="true"
+                      aria-label="Previous Page"
                       class="ant-pagination-item-link"
                       disabled=""
+                      role="button"
                       tabindex="-1"
                       type="button"
                     >
@@ -4941,35 +4952,39 @@ Array [
                   </li>
                   <li
                     class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
-                    tabindex="0"
                     title="1"
                   >
                     <a
+                      aria-current="page"
+                      aria-label="Page 1"
                       rel="nofollow"
+                      role="button"
+                      tabindex="0"
                     >
                       1
                     </a>
                   </li>
                   <li
                     class="ant-pagination-item ant-pagination-item-2"
-                    tabindex="0"
                     title="2"
                   >
                     <a
+                      aria-label="Page 2"
                       rel="nofollow"
+                      role="button"
+                      tabindex="0"
                     >
                       2
                     </a>
                   </li>
                   <li
-                    aria-disabled="false"
                     class="ant-pagination-next"
-                    tabindex="0"
-                    title="Next Page"
                   >
                     <button
+                      aria-label="Next Page"
                       class="ant-pagination-item-link"
-                      tabindex="-1"
+                      role="button"
+                      tabindex="0"
                       type="button"
                     >
                       <span
@@ -5112,7 +5127,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -5143,7 +5158,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -5238,7 +5253,7 @@ Array [
                                     class="ant-checkbox ant-wave-target"
                                   >
                                     <input
-                                      aria-label="Select all"
+                                      aria-label="Select current page"
                                       class="ant-checkbox-input"
                                       type="checkbox"
                                     />
@@ -5271,6 +5286,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -5297,6 +5313,7 @@ Array [
                                   class="ant-checkbox ant-wave-target ant-checkbox-disabled"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     disabled=""
                                     type="checkbox"
@@ -5324,6 +5341,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -5350,6 +5368,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -5376,6 +5395,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -5402,6 +5422,7 @@ Array [
                                   class="ant-checkbox ant-wave-target ant-checkbox-disabled"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     disabled=""
                                     type="checkbox"
@@ -5429,6 +5450,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -5455,6 +5477,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -5481,6 +5504,7 @@ Array [
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -5502,13 +5526,14 @@ Array [
                   class="ant-pagination ant-pagination-small ant-pagination-mini ant-table-pagination ant-table-pagination-end css-var-test-id"
                 >
                   <li
-                    aria-disabled="true"
                     class="ant-pagination-prev ant-pagination-disabled"
-                    title="Previous Page"
                   >
                     <button
+                      aria-disabled="true"
+                      aria-label="Previous Page"
                       class="ant-pagination-item-link"
                       disabled=""
+                      role="button"
                       tabindex="-1"
                       type="button"
                     >
@@ -5535,23 +5560,27 @@ Array [
                   </li>
                   <li
                     class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
-                    tabindex="0"
                     title="1"
                   >
                     <a
+                      aria-current="page"
+                      aria-label="Page 1"
                       rel="nofollow"
+                      role="button"
+                      tabindex="0"
                     >
                       1
                     </a>
                   </li>
                   <li
-                    aria-disabled="true"
                     class="ant-pagination-next ant-pagination-disabled"
-                    title="Next Page"
                   >
                     <button
+                      aria-disabled="true"
+                      aria-label="Next Page"
                       class="ant-pagination-item-link"
                       disabled=""
+                      role="button"
                       tabindex="-1"
                       type="button"
                     >
@@ -5705,7 +5734,7 @@ exports[`renders components/transfer/demo/custom-item.tsx extend context correct
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -5736,7 +5765,7 @@ exports[`renders components/transfer/demo/custom-item.tsx extend context correct
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -6161,7 +6190,7 @@ exports[`renders components/transfer/demo/custom-item.tsx extend context correct
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -6192,7 +6221,7 @@ exports[`renders components/transfer/demo/custom-item.tsx extend context correct
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -6563,7 +6592,7 @@ exports[`renders components/transfer/demo/custom-select-all-labels.tsx extend co
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -6594,7 +6623,7 @@ exports[`renders components/transfer/demo/custom-select-all-labels.tsx extend co
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -6912,7 +6941,7 @@ exports[`renders components/transfer/demo/custom-select-all-labels.tsx extend co
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -6943,7 +6972,7 @@ exports[`renders components/transfer/demo/custom-select-all-labels.tsx extend co
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -7109,7 +7138,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -7140,7 +7169,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectCurrent"
+              data-menu-id="rc-menu-uuid-test-id-selectCurrent"
               role="menuitem"
               tabindex="-1"
             >
@@ -7171,7 +7200,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -7445,13 +7474,14 @@ Array [
           class="ant-pagination ant-pagination-small ant-pagination-mini ant-transfer-list-pagination css-var-test-id ant-pagination-simple"
         >
           <li
-            aria-disabled="true"
             class="ant-pagination-prev ant-pagination-disabled"
-            title="Previous Page"
           >
             <button
+              aria-disabled="true"
+              aria-label="Previous Page"
               class="ant-pagination-item-link"
               disabled=""
+              role="button"
               tabindex="-1"
               type="button"
             >
@@ -7494,12 +7524,12 @@ Array [
             100
           </li>
           <li
-            aria-disabled="false"
             class="ant-pagination-next"
-            title="Next Page"
           >
             <button
+              aria-label="Next Page"
               class="ant-pagination-item-link"
+              role="button"
               tabindex="-1"
               type="button"
             >
@@ -7627,7 +7657,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -7658,7 +7688,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectCurrent"
+              data-menu-id="rc-menu-uuid-test-id-selectCurrent"
               role="menuitem"
               tabindex="-1"
             >
@@ -7689,7 +7719,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -7963,13 +7993,14 @@ Array [
           class="ant-pagination ant-pagination-small ant-pagination-mini ant-transfer-list-pagination css-var-test-id ant-pagination-simple"
         >
           <li
-            aria-disabled="true"
             class="ant-pagination-prev ant-pagination-disabled"
-            title="Previous Page"
           >
             <button
+              aria-disabled="true"
+              aria-label="Previous Page"
               class="ant-pagination-item-link"
               disabled=""
+              role="button"
               tabindex="-1"
               type="button"
             >
@@ -8012,12 +8043,12 @@ Array [
             100
           </li>
           <li
-            aria-disabled="false"
             class="ant-pagination-next"
-            title="Next Page"
           >
             <button
+              aria-label="Next Page"
               class="ant-pagination-item-link"
+              role="button"
               tabindex="-1"
               type="button"
             >
@@ -8132,7 +8163,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -8163,7 +8194,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -8603,7 +8634,7 @@ Array [
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-removeAll"
+              data-menu-id="rc-menu-uuid-test-id-removeAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -8951,7 +8982,7 @@ exports[`renders components/transfer/demo/search.tsx extend context correctly 1`
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -8982,7 +9013,7 @@ exports[`renders components/transfer/demo/search.tsx extend context correctly 1`
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -9067,8 +9098,8 @@ exports[`renders components/transfer/demo/search.tsx extend context correctly 1`
             class="ant-input-suffix"
           >
             <button
+              aria-label="Clear"
               class="ant-input-clear-icon ant-input-clear-icon-hidden"
-              tabindex="-1"
               type="button"
             >
               <span
@@ -9433,7 +9464,7 @@ exports[`renders components/transfer/demo/search.tsx extend context correctly 1`
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectAll"
+            data-menu-id="rc-menu-uuid-test-id-selectAll"
             role="menuitem"
             tabindex="-1"
           >
@@ -9464,7 +9495,7 @@ exports[`renders components/transfer/demo/search.tsx extend context correctly 1`
           <li
             aria-describedby="test-id"
             class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-            data-menu-id="rc-menu-uuid-selectInvert"
+            data-menu-id="rc-menu-uuid-test-id-selectInvert"
             role="menuitem"
             tabindex="-1"
           >
@@ -9549,8 +9580,8 @@ exports[`renders components/transfer/demo/search.tsx extend context correctly 1`
             class="ant-input-suffix"
           >
             <button
+              aria-label="Clear"
               class="ant-input-clear-icon ant-input-clear-icon-hidden"
-              tabindex="-1"
               type="button"
             >
               <span
@@ -9866,7 +9897,7 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -9897,7 +9928,7 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -10110,7 +10141,7 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -10141,7 +10172,7 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -10296,7 +10327,7 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -10327,7 +10358,7 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -10412,8 +10443,8 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
               class="ant-input-suffix"
             >
               <button
+                aria-label="Clear"
                 class="ant-input-clear-icon ant-input-clear-icon-hidden"
-                tabindex="-1"
                 type="button"
               >
                 <span
@@ -10607,7 +10638,7 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -10638,7 +10669,7 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -10723,8 +10754,8 @@ exports[`renders components/transfer/demo/status.tsx extend context correctly 1`
               class="ant-input-suffix"
             >
               <button
+                aria-label="Clear"
                 class="ant-input-clear-icon ant-input-clear-icon-hidden"
-                tabindex="-1"
                 type="button"
               >
                 <span
@@ -10824,7 +10855,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
     >
       <div
         class="ant-transfer-list-header acss-r4s437"
-        style="font-weight: bold;"
+        style="font-weight: 700;"
       >
         <label
           class="ant-checkbox-wrapper ant-transfer-list-checkbox css-var-test-id ant-checkbox-css-var"
@@ -10870,7 +10901,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -10901,7 +10932,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -11196,7 +11227,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
       </div>
     </div>
     <div
-      class="ant-transfer-actions acss-rzg7ne"
+      class="ant-transfer-actions acss-1vej3a6"
     >
       <button
         class="ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm ant-btn-icon-only"
@@ -11262,7 +11293,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
     >
       <div
         class="ant-transfer-list-header acss-r4s437"
-        style="font-weight: bold;"
+        style="font-weight: 700;"
       >
         <label
           class="ant-checkbox-wrapper ant-transfer-list-checkbox css-var-test-id ant-checkbox-css-var"
@@ -11308,7 +11339,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -11339,7 +11370,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -11599,7 +11630,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
     >
       <div
         class="ant-transfer-list-header acss-r4s437"
-        style="color: rgb(141, 188, 199); font-weight: normal;"
+        style="color: rgb(141, 188, 199); font-weight: 400;"
       >
         <label
           class="ant-checkbox-wrapper ant-transfer-list-checkbox css-var-test-id ant-checkbox-css-var"
@@ -11645,7 +11676,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -11676,7 +11707,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -11971,7 +12002,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
       </div>
     </div>
     <div
-      class="ant-transfer-actions acss-rzg7ne"
+      class="ant-transfer-actions acss-1vej3a6"
     >
       <button
         class="ant-btn css-var-test-id ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm ant-btn-icon-only"
@@ -12038,7 +12069,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
     >
       <div
         class="ant-transfer-list-header acss-r4s437"
-        style="color: rgb(141, 188, 199); font-weight: normal;"
+        style="color: rgb(141, 188, 199); font-weight: 400;"
       >
         <label
           class="ant-checkbox-wrapper ant-transfer-list-checkbox css-var-test-id ant-checkbox-css-var"
@@ -12084,7 +12115,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectAll"
+              data-menu-id="rc-menu-uuid-test-id-selectAll"
               role="menuitem"
               tabindex="-1"
             >
@@ -12115,7 +12146,7 @@ exports[`renders components/transfer/demo/style-class.tsx extend context correct
             <li
               aria-describedby="test-id"
               class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-              data-menu-id="rc-menu-uuid-selectInvert"
+              data-menu-id="rc-menu-uuid-test-id-selectInvert"
               role="menuitem"
               tabindex="-1"
             >
@@ -12436,8 +12467,8 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
               class="ant-input-suffix"
             >
               <button
+                aria-label="Clear"
                 class="ant-input-clear-icon ant-input-clear-icon-hidden"
-                tabindex="-1"
                 type="button"
               >
                 <span
@@ -12513,7 +12544,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                     class="ant-checkbox ant-wave-target"
                                   >
                                     <input
-                                      aria-label="Custom selection"
+                                      aria-label="Select current page"
                                       class="ant-checkbox-input"
                                       type="checkbox"
                                     />
@@ -12523,27 +12554,26 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-table-selection-extra"
                                 >
                                   <span
-                                    class="ant-dropdown-trigger"
+                                    aria-expanded="false"
+                                    aria-haspopup="menu"
+                                    aria-label="Selection menu"
+                                    class="anticon anticon-down ant-dropdown-trigger"
+                                    role="button"
+                                    tabindex="0"
                                   >
-                                    <span
-                                      aria-label="down"
-                                      class="anticon anticon-down"
-                                      role="img"
+                                    <svg
+                                      aria-hidden="true"
+                                      data-icon="down"
+                                      fill="currentColor"
+                                      focusable="false"
+                                      height="1em"
+                                      viewBox="64 64 896 896"
+                                      width="1em"
                                     >
-                                      <svg
-                                        aria-hidden="true"
-                                        data-icon="down"
-                                        fill="currentColor"
-                                        focusable="false"
-                                        height="1em"
-                                        viewBox="64 64 896 896"
-                                        width="1em"
-                                      >
-                                        <path
-                                          d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                                        />
-                                      </svg>
-                                    </span>
+                                      <path
+                                        d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                                      />
+                                    </svg>
                                   </span>
                                   <div
                                     class="ant-dropdown ant-slide-up-appear ant-slide-up-appear-prepare ant-slide-up css-var-test-id ant-dropdown-css-var ant-dropdown-placement-bottomLeft"
@@ -12558,7 +12588,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                       <li
                                         aria-describedby="test-id"
                                         class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-                                        data-menu-id="rc-menu-uuid-all"
+                                        data-menu-id="rc-menu-uuid-test-id-all"
                                         role="menuitem"
                                         tabindex="-1"
                                       >
@@ -12589,7 +12619,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                       <li
                                         aria-describedby="test-id"
                                         class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-                                        data-menu-id="rc-menu-uuid-invert"
+                                        data-menu-id="rc-menu-uuid-test-id-invert"
                                         role="menuitem"
                                         tabindex="-1"
                                       >
@@ -12620,7 +12650,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                       <li
                                         aria-describedby="test-id"
                                         class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-                                        data-menu-id="rc-menu-uuid-none"
+                                        data-menu-id="rc-menu-uuid-test-id-none"
                                         role="menuitem"
                                         tabindex="-1"
                                       >
@@ -12694,6 +12724,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -12735,6 +12766,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -12776,6 +12808,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -12817,6 +12850,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -12858,6 +12892,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -12899,6 +12934,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -12940,6 +12976,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -12981,6 +13018,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -13022,6 +13060,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -13063,6 +13102,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-checkbox ant-wave-target"
                                 >
                                   <input
+                                    aria-label="Select row"
                                     class="ant-checkbox-input"
                                     type="checkbox"
                                   />
@@ -13099,13 +13139,14 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                   class="ant-pagination ant-pagination-small ant-pagination-mini ant-table-pagination ant-table-pagination-end css-var-test-id"
                 >
                   <li
-                    aria-disabled="true"
                     class="ant-pagination-prev ant-pagination-disabled"
-                    title="Previous Page"
                   >
                     <button
+                      aria-disabled="true"
+                      aria-label="Previous Page"
                       class="ant-pagination-item-link"
                       disabled=""
+                      role="button"
                       tabindex="-1"
                       type="button"
                     >
@@ -13132,35 +13173,39 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                   </li>
                   <li
                     class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
-                    tabindex="0"
                     title="1"
                   >
                     <a
+                      aria-current="page"
+                      aria-label="Page 1"
                       rel="nofollow"
+                      role="button"
+                      tabindex="0"
                     >
                       1
                     </a>
                   </li>
                   <li
                     class="ant-pagination-item ant-pagination-item-2"
-                    tabindex="0"
                     title="2"
                   >
                     <a
+                      aria-label="Page 2"
                       rel="nofollow"
+                      role="button"
+                      tabindex="0"
                     >
                       2
                     </a>
                   </li>
                   <li
-                    aria-disabled="false"
                     class="ant-pagination-next"
-                    tabindex="0"
-                    title="Next Page"
                   >
                     <button
+                      aria-label="Next Page"
                       class="ant-pagination-item-link"
-                      tabindex="-1"
+                      role="button"
+                      tabindex="0"
                       type="button"
                     >
                       <span
@@ -13310,8 +13355,8 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
               class="ant-input-suffix"
             >
               <button
+                aria-label="Clear"
                 class="ant-input-clear-icon ant-input-clear-icon-hidden"
-                tabindex="-1"
                 type="button"
               >
                 <span
@@ -13387,7 +13432,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                     class="ant-checkbox ant-wave-target ant-checkbox-disabled"
                                   >
                                     <input
-                                      aria-label="Custom selection"
+                                      aria-label="Select current page"
                                       class="ant-checkbox-input"
                                       disabled=""
                                       type="checkbox"
@@ -13398,27 +13443,26 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                   class="ant-table-selection-extra"
                                 >
                                   <span
-                                    class="ant-dropdown-trigger"
+                                    aria-expanded="false"
+                                    aria-haspopup="menu"
+                                    aria-label="Selection menu"
+                                    class="anticon anticon-down ant-dropdown-trigger"
+                                    role="button"
+                                    tabindex="0"
                                   >
-                                    <span
-                                      aria-label="down"
-                                      class="anticon anticon-down"
-                                      role="img"
+                                    <svg
+                                      aria-hidden="true"
+                                      data-icon="down"
+                                      fill="currentColor"
+                                      focusable="false"
+                                      height="1em"
+                                      viewBox="64 64 896 896"
+                                      width="1em"
                                     >
-                                      <svg
-                                        aria-hidden="true"
-                                        data-icon="down"
-                                        fill="currentColor"
-                                        focusable="false"
-                                        height="1em"
-                                        viewBox="64 64 896 896"
-                                        width="1em"
-                                      >
-                                        <path
-                                          d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                                        />
-                                      </svg>
-                                    </span>
+                                      <path
+                                        d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                                      />
+                                    </svg>
                                   </span>
                                   <div
                                     class="ant-dropdown ant-slide-up-appear ant-slide-up-appear-prepare ant-slide-up css-var-test-id ant-dropdown-css-var ant-dropdown-placement-bottomLeft"
@@ -13433,7 +13477,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                       <li
                                         aria-describedby="test-id"
                                         class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-                                        data-menu-id="rc-menu-uuid-all"
+                                        data-menu-id="rc-menu-uuid-test-id-all"
                                         role="menuitem"
                                         tabindex="-1"
                                       >
@@ -13464,7 +13508,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                       <li
                                         aria-describedby="test-id"
                                         class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-                                        data-menu-id="rc-menu-uuid-invert"
+                                        data-menu-id="rc-menu-uuid-test-id-invert"
                                         role="menuitem"
                                         tabindex="-1"
                                       >
@@ -13495,7 +13539,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
                                       <li
                                         aria-describedby="test-id"
                                         class="ant-dropdown-menu-item ant-dropdown-menu-item-only-child"
-                                        data-menu-id="rc-menu-uuid-none"
+                                        data-menu-id="rc-menu-uuid-test-id-none"
                                         role="menuitem"
                                         tabindex="-1"
                                       >
@@ -13655,7 +13699,7 @@ exports[`renders components/transfer/demo/table-transfer.tsx extend context corr
 
 exports[`renders components/transfer/demo/tree-transfer.tsx extend context correctly 1`] = `
 <div
-  class="ant-transfer ant-transfer-customize-list tree-transfer css-var-test-id"
+  class="ant-transfer ant-transfer-customize-list css-var-test-id"
 >
   <div
     class="ant-transfer-section"

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import ConfigProvider from '..';
-import { Button, InputNumber, Select } from '../..';
+import { Button, InputNumber, Select, Space } from '../..';
 import { render, waitFakeTimer } from '../../../tests/utils';
 import Modal from '../../modal';
 import theme from '../../theme';
@@ -76,6 +76,8 @@ describe('ConfigProvider.Theme', () => {
         sizeSM: 8,
         sizeXS: 4,
         sizeXXS: 4,
+        controlHeight: 28,
+        controlHeightSM: 21,
       }),
     );
   });
@@ -111,6 +113,21 @@ describe('ConfigProvider.Theme', () => {
         (style) => style.includes('.ant-input-number') && style.includes('width:50.1234px'),
       ),
     ).toBeTruthy();
+  });
+
+  it('should support Addon component token', () => {
+    const { container } = render(
+      <ConfigProvider theme={{ components: { Addon: { colorText: '#0000FF', algorithm: true } } }}>
+        <Space.Compact>
+          <Space.Addon className="test-addon">Addon Content</Space.Addon>
+        </Space.Compact>
+      </ConfigProvider>,
+    );
+
+    const addon = container.querySelector('.test-addon')!;
+    expect(addon).toHaveStyle({
+      '--ant-color-text': '#0000FF',
+    });
   });
 
   it('hashed should be true if not changed', () => {
@@ -199,6 +216,27 @@ describe('ConfigProvider.Theme', () => {
   });
 
   describe('cssVar', () => {
+    const expectButtonCssVars = (
+      button: HTMLButtonElement,
+      tokenPrefix: string,
+      buttonPrefix = tokenPrefix,
+    ) => {
+      const shadowToken = `--${tokenPrefix}-button-default-shadow`;
+      const radiusToken = `--${tokenPrefix}-border-radius`;
+      const shadow = '0 0 1px #123456';
+      const radius = '13px';
+
+      // Override the source tokens so resolved styles also verify the variable references.
+      button.style.setProperty(shadowToken, shadow);
+      button.style.setProperty(radiusToken, radius);
+      const style = getComputedStyle(button);
+
+      expect([`var(${shadowToken})`, shadow]).toContain(
+        style.getPropertyValue(`--${buttonPrefix}-btn-shadow`),
+      );
+      expect([`var(${radiusToken})`, radius]).toContain(style.borderRadius);
+    };
+
     it('should work', () => {
       const { container } = render(
         <ConfigProvider theme={{ cssVar: { key: 'foo' } }}>
@@ -209,11 +247,8 @@ describe('ConfigProvider.Theme', () => {
       const button = container.querySelector('button')!;
 
       expect(button).toHaveClass('foo');
-      expect(button).toHaveStyle({
-        '--ant-color-text': 'rgba(0,0,0,0.88)',
-        '--ant-btn-shadow': 'var(--ant-button-default-shadow)',
-        'border-radius': 'var(--ant-border-radius)',
-      });
+      expect(button).toHaveStyle({ '--ant-color-text': 'rgba(0,0,0,0.88)' });
+      expectButtonCssVars(button, 'ant');
     });
 
     it('prefix', () => {
@@ -228,27 +263,24 @@ describe('ConfigProvider.Theme', () => {
         </>,
       );
 
-      const fooBtn = container.querySelector('.button-foo')!;
-      const barBtn = container.querySelector('.button-bar')!;
+      const fooBtn = container.querySelector<HTMLButtonElement>('.button-foo')!;
+      const barBtn = container.querySelector<HTMLButtonElement>('.button-bar')!;
 
       expect(fooBtn).toHaveClass('foo');
-      expect(fooBtn).toHaveStyle({
-        '--ant-color-text': 'rgba(0,0,0,0.88)',
-        '--ant-btn-shadow': 'var(--ant-button-default-shadow)',
-        'border-radius': 'var(--ant-border-radius)',
-      });
+      expect(fooBtn).toHaveStyle({ '--ant-color-text': 'rgba(0,0,0,0.88)' });
+      expectButtonCssVars(fooBtn, 'ant');
 
       expect(barBtn).toHaveClass('bar');
-      expect(barBtn).toHaveStyle({
-        '--bar-color-text': 'rgba(0,0,0,0.88)',
-        '--ant-btn-shadow': 'var(--bar-button-default-shadow)',
-        'border-radius': 'var(--bar-border-radius)',
-      });
+      expect(barBtn).toHaveStyle({ '--bar-color-text': 'rgba(0,0,0,0.88)' });
+      expectButtonCssVars(barBtn, 'bar', 'ant');
     });
 
     it('prefix follow prefixCls by default', () => {
       const { container } = render(
         <>
+          <ConfigProvider prefixCls="ak">
+            <Button className="button-ak">Button</Button>
+          </ConfigProvider>
           <ConfigProvider prefixCls="foo" theme={{ cssVar: { key: 'foo' }, hashed: true }}>
             <Button className="button-foo">Button</Button>
           </ConfigProvider>
@@ -271,37 +303,34 @@ describe('ConfigProvider.Theme', () => {
         </>,
       );
 
-      const fooBtn = container.querySelector('.button-foo')!;
+      const akBtn = container.querySelector<HTMLButtonElement>('.button-ak')!;
+      expect(akBtn).toHaveClass('css-var-root');
+      expectButtonCssVars(akBtn, 'ak');
+      expect(
+        Array.from(document.querySelectorAll('style[data-css-hash]')).some(({ innerHTML }) =>
+          innerHTML.includes('--ak-color-text'),
+        ),
+      ).toBeTruthy();
+
+      const fooBtn = container.querySelector<HTMLButtonElement>('.button-foo')!;
       expect(fooBtn).toHaveClass('foo');
-      expect(fooBtn).toHaveStyle({
-        '--foo-color-text': 'rgba(0,0,0,0.88)',
-        '--foo-btn-shadow': 'var(--foo-button-default-shadow)',
-        'border-radius': 'var(--foo-border-radius)',
-      });
+      expect(fooBtn).toHaveStyle({ '--foo-color-text': 'rgba(0,0,0,0.88)' });
+      expectButtonCssVars(fooBtn, 'foo');
 
-      const barBtn = container.querySelector('.button-bar')!;
+      const barBtn = container.querySelector<HTMLButtonElement>('.button-bar')!;
       expect(barBtn).toHaveClass('bar');
-      expect(barBtn).toHaveStyle({
-        '--bar-color-text': 'rgba(0,0,0,0.88)',
-        '--bar-btn-shadow': 'var(--bar-button-default-shadow)',
-        'border-radius': 'var(--bar-border-radius)',
-      });
+      expect(barBtn).toHaveStyle({ '--bar-color-text': 'rgba(0,0,0,0.88)' });
+      expectButtonCssVars(barBtn, 'bar');
 
-      const bananaBtn = container.querySelector('.button-banana')!;
+      const bananaBtn = container.querySelector<HTMLButtonElement>('.button-banana')!;
       expect(bananaBtn).toHaveClass('banana');
-      expect(bananaBtn).toHaveStyle({
-        '--banana-color-text': 'rgba(0,0,0,0.88)',
-        '--banana-btn-shadow': 'var(--banana-button-default-shadow)',
-        'border-radius': 'var(--banana-border-radius)',
-      });
+      expect(bananaBtn).toHaveStyle({ '--banana-color-text': 'rgba(0,0,0,0.88)' });
+      expectButtonCssVars(bananaBtn, 'banana');
 
-      const catBtn = container.querySelector('.button-cat')!;
+      const catBtn = container.querySelector<HTMLButtonElement>('.button-cat')!;
       expect(catBtn).toHaveClass('apple');
-      expect(catBtn).toHaveStyle({
-        '--cat-color-text': 'rgba(0,0,0,0.88)',
-        '--apple-btn-shadow': 'var(--cat-button-default-shadow)',
-        'border-radius': 'var(--cat-border-radius)',
-      });
+      expect(catBtn).toHaveStyle({ '--cat-color-text': 'rgba(0,0,0,0.88)' });
+      expectButtonCssVars(catBtn, 'cat', 'apple');
     });
 
     it('component token should work', () => {

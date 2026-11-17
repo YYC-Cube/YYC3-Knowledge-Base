@@ -4,15 +4,17 @@ import SwapRightOutlined from '@ant-design/icons/SwapRightOutlined';
 import { RangePicker as RCRangePicker } from '@rc-component/picker';
 import type { PickerRef } from '@rc-component/picker';
 import type { GenerateConfig } from '@rc-component/picker/generate/index';
-import { merge } from '@rc-component/util';
+import { isNonNullable, merge } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import ContextIsolator from '../../_util/ContextIsolator';
-import { useZIndex } from '../../_util/hooks';
+import fallbackProp from '../../_util/fallbackProp';
+import { useAllowClear, useZIndex } from '../../_util/hooks';
 import { getMergedStatus, getStatusClassNames } from '../../_util/statusUtils';
 import type { AnyObject } from '../../_util/type';
 import { devUseWarning } from '../../_util/warning';
 import { ConfigContext } from '../../config-provider';
+import { useComponentConfig } from '../../config-provider/context';
 import DisabledContext from '../../config-provider/DisabledContext';
 import useCSSVarCls from '../../config-provider/hooks/useCSSVarCls';
 import useSize from '../../config-provider/hooks/useSize';
@@ -23,11 +25,11 @@ import { useCompactItemContext } from '../../space/Compact';
 import useMergedPickerSemantic from '../hooks/useMergedPickerSemantic';
 import enUS from '../locale/en_US';
 import useStyle from '../style';
-import { getRangePlaceholder, useIcons } from '../util';
+import { getRangePlaceholder } from '../util';
 import { TIME } from './constant';
 import type { PickerLocale, RangePickerProps } from './interface';
-import useSuffixIcon from './useSuffixIcon';
 import useComponents from './useComponents';
+import useSuffix from './useSuffix';
 
 const generateRangePicker = <DateType extends AnyObject = AnyObject>(
   generateConfig: GenerateConfig<DateType>,
@@ -55,43 +57,49 @@ const generateRangePicker = <DateType extends AnyObject = AnyObject>(
       popupClassName,
       popupStyle,
       rootClassName,
-      suffixIcon,
+      suffix: customSuffix,
+      suffixIcon: customSuffixIcon,
       separator,
+      allowClear,
+      clearIcon,
       ...restProps
     } = props;
 
-    const pickerType = picker === TIME ? 'timePicker' : 'datePicker';
+    const pickerType = picker === TIME ? ('timePicker' as const) : ('datePicker' as const);
+
+    const {
+      suffix: contextSuffix,
+      suffixIcon: contextSuffixIcon,
+      clearIcon: contextClearIcon,
+      allowClear: contextAllowClear,
+    } = useComponentConfig(pickerType);
 
     // ====================== Warning =======================
     if (process.env.NODE_ENV !== 'production') {
-      const warning = devUseWarning('DatePicker.RangePicker');
+      const warning = devUseWarning(
+        picker === TIME ? 'TimePicker.RangePicker' : 'DatePicker.RangePicker',
+      );
       const deprecatedProps = {
         dropdownClassName: 'classNames.popup.root',
         popupClassName: 'classNames.popup.root',
         popupStyle: 'styles.popup.root',
         bordered: 'variant',
         onSelect: 'onCalendarChange',
+        suffixIcon: 'suffix',
       };
       Object.entries(deprecatedProps).forEach(([oldProp, newProp]) => {
         warning.deprecated(!(oldProp in props), oldProp, newProp);
       });
     }
 
-    const [mergedClassNames, mergedStyles] = useMergedPickerSemantic(
-      pickerType,
-      classNames,
-      styles,
-      popupClassName || dropdownClassName,
-      popupStyle,
-    );
-
-    const innerRef = React.useRef<PickerRef>(null);
     const { getPrefixCls, direction, getPopupContainer, rangePicker } = useContext(ConfigContext);
+    const innerRef = React.useRef<PickerRef>(null);
     const prefixCls = getPrefixCls('picker', customizePrefixCls);
     const { compactSize, compactItemClassnames } = useCompactItemContext(prefixCls, direction);
     const rootPrefixCls = getPrefixCls();
 
     const mergedSeparator = separator ?? rangePicker?.separator;
+    const hasCustomSeparator = isNonNullable(mergedSeparator);
 
     const [variant, enableVariantCls] = useVariant('rangePicker', customVariant, bordered);
 
@@ -100,8 +108,20 @@ const generateRangePicker = <DateType extends AnyObject = AnyObject>(
 
     const mergedRootClassName = clsx(hashId, cssVarCls, rootCls, rootClassName);
 
+    const [contextLocale] = useLocale('DatePicker', enUS);
+
+    const locale = merge(contextLocale, props.locale || {}) as PickerLocale;
+
     // ===================== Icon =====================
-    const [mergedAllowClear] = useIcons(props, prefixCls);
+    const mergedAllowClear = useAllowClear({
+      componentName: 'RangePicker',
+      allowClear,
+      clearIcon,
+      contextAllowClear,
+      contextClearIcon,
+      defaultAllowClear: true,
+      defaultLabel: locale.lang.clear,
+    });
 
     // ================== components ==================
     const mergedComponents = useComponents(components);
@@ -113,15 +133,35 @@ const generateRangePicker = <DateType extends AnyObject = AnyObject>(
     const disabled = React.useContext(DisabledContext);
     const mergedDisabled = customDisabled ?? disabled;
 
+    // =========== Merged Props for Semantic ===========
+    const mergedProps: DateRangePickerProps = {
+      ...props,
+      size: mergedSize,
+      disabled: mergedDisabled,
+      status: customStatus,
+      variant: customVariant,
+    };
+
+    const [mergedClassNames, mergedStyles] = useMergedPickerSemantic<DateRangePickerProps>(
+      pickerType,
+      classNames,
+      styles,
+      popupClassName || dropdownClassName,
+      popupStyle,
+      mergedProps,
+      rangePicker?.style ?? null,
+    );
+
     // ===================== FormItemInput =====================
     const formItemContext = useContext(FormItemInputContext);
     const { hasFeedback, status: contextStatus, feedbackIcon } = formItemContext;
-    const mergedSuffixIcon = useSuffixIcon({ picker, hasFeedback, feedbackIcon, suffixIcon });
+    const mergedSuffix = useSuffix({
+      picker,
+      hasFeedback,
+      feedbackIcon,
+      suffix: fallbackProp(customSuffix, customSuffixIcon, contextSuffix, contextSuffixIcon),
+    });
     useImperativeHandle(ref, () => innerRef.current!);
-
-    const [contextLocale] = useLocale('Calendar', enUS);
-
-    const locale = merge(contextLocale, props.locale || {}) as PickerLocale;
 
     // ============================ zIndex ============================
     const [zIndex] = useZIndex('DatePicker', mergedStyles?.popup?.root?.zIndex as number);
@@ -130,15 +170,18 @@ const generateRangePicker = <DateType extends AnyObject = AnyObject>(
       <ContextIsolator space>
         <RCRangePicker<DateType>
           separator={
-            <span aria-label="to" className={`${prefixCls}-separator`}>
-              {mergedSeparator ?? <SwapRightOutlined />}
+            <span
+              aria-hidden={hasCustomSeparator ? undefined : true}
+              className={`${prefixCls}-separator`}
+            >
+              {hasCustomSeparator ? mergedSeparator : <SwapRightOutlined />}
             </span>
           }
           disabled={mergedDisabled}
           ref={innerRef as any} // Need to modify PickerRef
           placement={placement}
           placeholder={getRangePlaceholder(locale, picker, placeholder)}
-          suffixIcon={mergedSuffixIcon}
+          suffix={mergedSuffix}
           prevIcon={<span className={`${prefixCls}-prev-icon`} />}
           nextIcon={<span className={`${prefixCls}-next-icon`} />}
           superPrevIcon={<span className={`${prefixCls}-super-prev-icon`} />}
@@ -169,7 +212,7 @@ const generateRangePicker = <DateType extends AnyObject = AnyObject>(
             className,
             rangePicker?.className,
           )}
-          style={{ ...rangePicker?.style, ...style }}
+          style={style}
           // Semantic Style
           classNames={mergedClassNames}
           styles={{

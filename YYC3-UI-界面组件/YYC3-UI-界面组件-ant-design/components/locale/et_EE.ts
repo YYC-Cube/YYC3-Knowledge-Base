@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/et_EE';
+import Pagination from '@rc-component/pagination/locale/et_EE';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/et_EE';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Palun vali',
     close: 'Sulge',
+    show: 'Näita',
+    hide: 'Peida',
+    sortable: 'sorteeritav',
   },
   Table: {
     filterTitle: 'Filtri menüü',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Inverteeri valik',
     selectNone: 'Kustuta kõik andmed',
     selectionAll: 'Vali kõik andmed',
+    selectRow: 'Vali rida',
+    selectedRow: 'Rida valitud',
+    selectionMenu: 'Valikumenüü',
     sortTitle: 'Sorteeri',
     expand: 'Laienda rida',
     collapse: 'Ahenda rida',
+    expandAll: 'Laienda kõik read',
+    collapseAll: 'Ahenda kõik read',
     triggerDesc: 'Klõpsa kahanevalt sortimiseks',
     triggerAsc: 'Klõpsa kasvavalt sortimiseks',
     cancelSort: 'Klõpsa sortimise tühistamiseks',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Tühista',
   },
+  Splitter: {
+    toggleStartPanel: 'Lülita alguspaneeli',
+    toggleEndPanel: 'Lülita lõpupaneeli',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Otsi siit',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Vali kõik',
     removeAll: 'Eemalda kõik andmed',
     selectInvert: 'Inverteeri valik',
+    deselectAll: 'Tühista kõik andmed',
   },
   Upload: {
     uploading: 'Üleslaadimine...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Kopeeri',
     copied: 'Kopeeritud',
     expand: 'Laienda',
+    collapse: 'Ahenda',
+  },
+  Carousel: {
+    prevSlide: 'Eelmine slaid',
+    nextSlide: 'Järgmine slaid',
   },
   Form: {
     optional: '(valikuline)',
@@ -130,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} ei vasta mustrile ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR-kood aegus',
+    refresh: 'Värskenda',
+    scanned: 'Skaneeritud',
+  },
+  ColorPicker: {
+    presetEmpty: 'Tühi',
+    transparent: 'Läbipaistev',
+    singleColor: 'Ühevärviline',
+    gradientColor: 'Gradiendi värv',
   },
 };
 

@@ -1,12 +1,13 @@
 import React from 'react';
-import type { SliderProps as RcSliderProps } from '@rc-component/slider';
+import type { SliderProps as RcSliderProps, SliderRef } from '@rc-component/slider';
 import RcSlider from '@rc-component/slider';
-import type { SliderRef } from '@rc-component/slider/lib/Slider';
-import raf from '@rc-component/util/lib/raf';
+import { raf, useDelayState } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic, useOrientation } from '../_util/hooks';
-import type { Orientation, SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useOrientation } from '../_util/hooks';
+import type { Orientation } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { isNumber } from '../_util/is';
 import type { GetProp } from '../_util/type';
 import { devUseWarning } from '../_util/warning';
@@ -16,38 +17,33 @@ import type { AbstractTooltipProps, TooltipPlacement } from '../tooltip';
 import SliderInternalContext from './Context';
 import SliderTooltip from './SliderTooltip';
 import useStyle from './style';
-import useRafLock from './useRafLock';
+
+export type { SliderRef };
 
 export type SliderMarks = RcSliderProps['marks'];
 
-export type SliderSemanticName = keyof SliderSemanticClassNames & keyof SliderSemanticStyles;
-
-export type SliderSemanticClassNames = {
-  root?: string;
-  tracks?: string;
-  track?: string;
-  rail?: string;
-  handle?: string;
+export type SliderSemanticType = {
+  classNames?: {
+    root?: string;
+    tracks?: string;
+    track?: string;
+    rail?: string;
+    handle?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    tracks?: React.CSSProperties;
+    track?: React.CSSProperties;
+    rail?: React.CSSProperties;
+    handle?: React.CSSProperties;
+  };
 };
 
-export type SliderSemanticStyles = {
-  root?: React.CSSProperties;
-  tracks?: React.CSSProperties;
-  track?: React.CSSProperties;
-  rail?: React.CSSProperties;
-  handle?: React.CSSProperties;
-};
-
-export type SliderClassNamesType = SemanticClassNamesType<
-  SliderBaseProps,
-  SliderSemanticClassNames
->;
-
-export type SliderStylesType = SemanticStylesType<SliderBaseProps, SliderSemanticStyles>;
+export type SliderSemanticAllType = GenerateSemantic<SliderSemanticType, SliderBaseProps>;
 
 export interface SliderProps extends Omit<RcSliderProps, 'styles' | 'classNames'> {
-  classNames?: SliderClassNamesType;
-  styles?: SliderStylesType;
+  classNames?: SliderSemanticAllType['classNamesAndFn'];
+  styles?: SliderSemanticAllType['stylesAndFn'];
 }
 
 interface HandleGeneratorInfo {
@@ -82,7 +78,7 @@ export interface SliderBaseProps {
   marks?: SliderMarks;
   dots?: boolean;
   included?: boolean;
-  disabled?: boolean;
+  disabled?: boolean | boolean[];
   keyboard?: boolean;
   orientation?: Orientation;
   vertical?: boolean;
@@ -93,8 +89,8 @@ export interface SliderBaseProps {
   tooltip?: SliderTooltipProps;
   autoFocus?: boolean;
 
-  styles?: SliderStylesType;
-  classNames?: SliderClassNamesType;
+  classNames?: SliderSemanticAllType['classNamesAndFn'];
+  styles?: SliderSemanticAllType['stylesAndFn'];
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 
@@ -102,6 +98,7 @@ export interface SliderBaseProps {
   tabIndex?: SliderProps['tabIndex'];
   ariaLabelForHandle?: SliderProps['ariaLabelForHandle'];
   ariaLabelledByForHandle?: SliderProps['ariaLabelledByForHandle'];
+  ariaDescribedByForHandle?: SliderProps['ariaDescribedByForHandle'];
   ariaRequired?: SliderProps['ariaRequired'];
   ariaValueTextFormatterForHandle?: SliderProps['ariaValueTextFormatterForHandle'];
 }
@@ -187,11 +184,14 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
     vertical: mergedVertical,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    SliderClassNamesType,
-    SliderStylesType,
-    SliderSingleProps | SliderRangeProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+    SliderSemanticAllType['classNames'],
+    SliderSemanticAllType['styles'],
+    SliderBaseProps
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -203,8 +203,8 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   const isRTL = mergedDirection === 'rtl';
 
   // =============================== Open ===============================
-  const [hoverOpen, setHoverOpen] = useRafLock();
-  const [focusOpen, setFocusOpen] = useRafLock();
+  const [hoverOpen, setHoverOpen] = useDelayState(false);
+  const [focusOpen, setFocusOpen] = useDelayState(false);
 
   const tooltipProps: SliderTooltipProps = {
     ...tooltip,
@@ -223,7 +223,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   const mergedTipFormatter = getTipFormatter(tipFormatter);
 
   // ============================= Change ==============================
-  const [dragging, setDragging] = useRafLock();
+  const [dragging, setDragging] = useDelayState(false);
 
   const onInternalChangeComplete: RcSliderProps['onChangeComplete'] = (nextValues) => {
     (onChangeComplete as RcSliderProps['onChangeComplete'])?.(nextValues);
@@ -309,19 +309,14 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
       function proxyEvent(
         eventName: keyof React.DOMAttributes<HTMLElement>,
         event: React.SyntheticEvent,
-        triggerRestPropsEvent?: boolean,
       ) {
-        if (triggerRestPropsEvent) {
-          (restProps as any)[eventName]?.(event);
-        }
-
         (nodeProps as any)[eventName]?.(event);
       }
 
       const passedProps: typeof nodeProps = {
         ...nodeProps,
         onMouseEnter: (e) => {
-          setHoverOpen(true);
+          setHoverOpen(true, true);
           proxyEvent('onMouseEnter', e);
         },
         onMouseLeave: (e) => {
@@ -329,19 +324,17 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
           proxyEvent('onMouseLeave', e);
         },
         onMouseDown: (e) => {
-          setFocusOpen(true);
-          setDragging(true);
+          setFocusOpen(true, true);
+          setDragging(true, true);
           proxyEvent('onMouseDown', e);
         },
         onFocus: (e) => {
-          setFocusOpen(true);
-          restProps.onFocus?.(e);
-          proxyEvent('onFocus', e, true);
+          setFocusOpen(true, true);
+          proxyEvent('onFocus', e);
         },
         onBlur: (e) => {
           setFocusOpen(false);
-          restProps.onBlur?.(e);
-          proxyEvent('onBlur', e, true);
+          proxyEvent('onBlur', e);
         },
       };
 
@@ -355,7 +348,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
           <SliderTooltip
             {...tooltipProps}
             prefixCls={getPrefixCls('tooltip', customizeTooltipPrefixCls)}
-            title={mergedTipFormatter ? mergedTipFormatter(info.value) : ''}
+            title={mergedTipFormatter ? mergedTipFormatter(info.value) : undefined}
             value={info.value}
             open={open}
             placement={getTooltipPlacement(tooltipPlacement, mergedVertical)}
@@ -385,7 +378,7 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
           <SliderTooltip
             {...tooltipProps}
             prefixCls={getPrefixCls('tooltip', customizeTooltipPrefixCls)}
-            title={mergedTipFormatter ? mergedTipFormatter(info.value) : ''}
+            title={mergedTipFormatter ? mergedTipFormatter(info.value) : undefined}
             open={mergedTipFormatter !== null && activeOpen}
             placement={getTooltipPlacement(tooltipPlacement, mergedVertical)}
             key="tooltip"
@@ -402,8 +395,6 @@ const Slider = React.forwardRef<SliderRef, SliderSingleProps | SliderRangeProps>
   // ============================== Render ==============================
   const rootStyle: React.CSSProperties = {
     ...mergedStyles.root,
-    ...contextStyle,
-    ...style,
   };
 
   return (

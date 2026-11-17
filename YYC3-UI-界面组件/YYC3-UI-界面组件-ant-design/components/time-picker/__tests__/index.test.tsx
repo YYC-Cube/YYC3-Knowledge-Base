@@ -7,7 +7,8 @@ import { resetWarned } from '../../_util/warning';
 import focusTest from '../../../tests/shared/focusTest';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
-import { render } from '../../../tests/utils';
+import { fireEvent, render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
 
 dayjs.extend(customParseFormat);
 
@@ -40,6 +41,52 @@ describe('TimePicker', () => {
     );
   });
 
+  it('should support suffix prop', () => {
+    const { container } = render(<TimePicker suffix="suffix" />);
+    expect(container.querySelector('.ant-picker-suffix')).toHaveTextContent('suffix');
+  });
+
+  it('should support suffix prop in config provider', () => {
+    const { container } = render(
+      <ConfigProvider timePicker={{ suffix: 'suffix' }}>
+        <TimePicker />
+      </ConfigProvider>,
+    );
+    expect(container.querySelector('.ant-picker-suffix')).toHaveTextContent('suffix');
+  });
+
+  it('should support suffix prop in RangePicker', () => {
+    const { container } = render(<TimePicker.RangePicker suffix="suffix" />);
+    expect(container.querySelector('.ant-picker-suffix')).toHaveTextContent('suffix');
+  });
+
+  it('should support suffix prop from config provider in RangePicker', () => {
+    const { container } = render(
+      <ConfigProvider timePicker={{ suffix: 'suffix' }}>
+        <TimePicker.RangePicker />
+      </ConfigProvider>,
+    );
+    expect(container.querySelector('.ant-picker-suffix')).toHaveTextContent('suffix');
+  });
+
+  it('should warn when using deprecated suffixIcon prop', () => {
+    resetWarned();
+    const { container } = render(<TimePicker suffixIcon="legacy" />);
+    expect(container.querySelector('.ant-picker-suffix')).toHaveTextContent('legacy');
+    expect(errorSpy).toHaveBeenCalledWith(
+      'Warning: [antd: TimePicker] `suffixIcon` is deprecated. Please use `suffix` instead.',
+    );
+  });
+
+  it('should warn when using deprecated suffixIcon prop in RangePicker', () => {
+    resetWarned();
+    const { container } = render(<TimePicker.RangePicker suffixIcon="legacy" />);
+    expect(container.querySelector('.ant-picker-suffix')).toHaveTextContent('legacy');
+    expect(errorSpy).toHaveBeenCalledWith(
+      'Warning: [antd: TimePicker.RangePicker] `suffixIcon` is deprecated. Please use `suffix` instead.',
+    );
+  });
+
   it('not render clean icon when allowClear is false', () => {
     const { container } = render(
       <TimePicker defaultValue={dayjs('2000-01-01 00:00:00')} allowClear={false} />,
@@ -53,6 +100,28 @@ describe('TimePicker', () => {
       <TimePicker clearIcon={clearIcon} value={dayjs('00:00:00', 'HH:mm:ss')} />,
     );
     expect(container.querySelector('.test-clear-icon')).toBeTruthy();
+  });
+
+  it('should trigger onClear when click clear button', () => {
+    const onClear = jest.fn();
+    const time = dayjs('00:00:00', 'HH:mm:ss');
+    const { container } = render(<TimePicker defaultValue={time} onClear={onClear} />);
+
+    fireEvent.click(container.querySelector('.ant-picker-clear')!);
+
+    expect(onClear).toHaveBeenCalledTimes(1);
+  });
+
+  it('should trigger onClear in RangePicker when click clear button', () => {
+    const rangeOnClear = jest.fn();
+    const time = dayjs('00:00:00', 'HH:mm:ss');
+    const { container } = render(
+      <TimePicker.RangePicker defaultValue={[time, time]} onClear={rangeOnClear} />,
+    );
+
+    fireEvent.click(container.querySelector('.ant-picker-clear')!);
+
+    expect(rangeOnClear).toHaveBeenCalledTimes(1);
   });
 
   it('prop locale should works', () => {

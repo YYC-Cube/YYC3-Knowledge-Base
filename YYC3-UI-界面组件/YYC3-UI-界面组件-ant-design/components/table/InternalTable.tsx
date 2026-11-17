@@ -1,13 +1,19 @@
 import * as React from 'react';
-import { INTERNAL_HOOKS } from '@rc-component/table';
+import { convertChildrenToColumns, INTERNAL_HOOKS } from '@rc-component/table';
 import type { Reference as RcReference, TableProps as RcTableProps } from '@rc-component/table';
-import { convertChildrenToColumns } from '@rc-component/table/lib/hooks/useColumns';
-import { omit } from '@rc-component/util';
+import { omit, pickAttrs } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic, useProxyImperativeHandle } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
-import { isNumber } from '../_util/is';
+import { useProxyImperativeHandle } from '../_util/hooks';
+import {
+  mergeClassNames,
+  mergeStyles,
+  resolveStyleOrClass,
+  useMergeSemantic,
+  useSemanticRootStyle,
+} from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
+import { isFunction, isNumber, isPlainObject } from '../_util/is';
 import type { Breakpoint } from '../_util/responsiveObserver';
 import scrollTo from '../_util/scrollTo';
 import type { AnyObject } from '../_util/type';
@@ -23,15 +29,14 @@ import useBreakpoint from '../grid/hooks/useBreakpoint';
 import { useLocale } from '../locale';
 import defaultLocale from '../locale/en_US';
 import Pagination from '../pagination';
-import type {
-  PaginationSemanticClassNames,
-  PaginationSemanticStyles,
-} from '../pagination/Pagination';
+import type { PaginationSemanticType } from '../pagination/Pagination';
 import type { SpinProps } from '../spin';
 import Spin from '../spin';
 import { useToken } from '../theme/internal';
-import renderExpandIcon from './ExpandIcon';
+import useExpandIcon from './ExpandIcon';
+import useColumnTitleProps from './hooks/useColumnTitleProps';
 import useContainerWidth from './hooks/useContainerWidth';
+import useFilledColumns from './hooks/useFilledColumns';
 import type { FilterConfig, FilterState } from './hooks/useFilter';
 import useFilter, { getFilterData } from './hooks/useFilter';
 import useLazyKVMap from './hooks/useLazyKVMap';
@@ -39,10 +44,10 @@ import usePagination, { DEFAULT_PAGE_SIZE, getPaginationParam } from './hooks/us
 import useSelection from './hooks/useSelection';
 import type { SortState } from './hooks/useSorter';
 import useSorter, { getSortData } from './hooks/useSorter';
+import useSpinProps from './hooks/useSpinProps';
 import useTitleColumns from './hooks/useTitleColumns';
 import type {
   ColumnsType,
-  ColumnTitleProps,
   ColumnType,
   ExpandableConfig,
   ExpandType,
@@ -57,71 +62,73 @@ import type {
   TableCurrentDataSource,
   TableLocale,
   TablePaginationConfig,
-  TablePaginationPlacement,
-  TablePaginationPosition,
   TableRowSelection,
 } from './interface';
 import RcTable from './RcTable';
 import RcVirtualTable from './RcTable/VirtualTable';
 import useStyle from './style';
 import TableMeasureRowContext from './TableMeasureRowContext';
+import { getPaginationSize, normalizePlacement } from './util';
 
 export type { ColumnsType, TablePaginationConfig };
 
 const EMPTY_LIST: AnyObject[] = [];
 
-export type TableSemanticName = keyof TableSemanticClassNames & keyof TableSemanticStyles;
-
-export type TableSemanticClassNames = {
-  root?: string;
-  section?: string;
-  title?: string;
-  footer?: string;
-  content?: string;
+type HeaderTableContextValue = {
+  ariaProps?: React.AriaAttributes;
+  component?: React.ElementType;
 };
 
-export type TableSemanticStyles = {
-  root?: React.CSSProperties;
-  section?: React.CSSProperties;
-  title?: React.CSSProperties;
-  footer?: React.CSSProperties;
-  content?: React.CSSProperties;
+const HeaderTableContext = React.createContext<HeaderTableContextValue>({});
+
+const HeaderTable: React.FC<React.TableHTMLAttributes<HTMLTableElement>> = (props) => {
+  const { ariaProps, component = 'table' } = React.useContext(HeaderTableContext);
+  return React.createElement(component, {
+    ...ariaProps,
+    ...props,
+  });
 };
 
-export type ComponentsSemantic = keyof ComponentsSemanticClassNames &
-  keyof ComponentsSemanticStyles;
+if (process.env.NODE_ENV !== 'production') {
+  HeaderTable.displayName = 'HeaderTable';
+}
 
-export type ComponentsSemanticClassNames = {
+type ComponentsSemanticClassNames = {
   wrapper?: string;
   cell?: string;
   row?: string;
 };
 
-export type ComponentsSemanticStyles = {
+type ComponentsSemanticStyles = {
   wrapper?: React.CSSProperties;
   cell?: React.CSSProperties;
   row?: React.CSSProperties;
 };
 
-export type TableClassNamesType<RecordType = AnyObject> = SemanticClassNamesType<
-  TableProps<RecordType>,
-  TableSemanticClassNames,
-  {
+export type TableSemanticType = {
+  classNames?: {
+    root?: string;
+    section?: string;
+    title?: string;
+    footer?: string;
     body?: ComponentsSemanticClassNames;
+    content?: string;
     header?: ComponentsSemanticClassNames;
-    pagination?: PaginationSemanticClassNames;
-  }
->;
-
-export type TableStylesType<RecordType = AnyObject> = SemanticStylesType<
-  TableProps<RecordType>,
-  TableSemanticStyles,
-  {
+    pagination?: PaginationSemanticType['classNames'];
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    section?: React.CSSProperties;
+    title?: React.CSSProperties;
+    footer?: React.CSSProperties;
     body?: ComponentsSemanticStyles;
+    content?: React.CSSProperties;
     header?: ComponentsSemanticStyles;
-    pagination?: PaginationSemanticStyles;
-  }
->;
+    pagination?: PaginationSemanticType['styles'];
+  };
+};
+
+export type TableSemanticAllType<T = any> = GenerateSemantic<TableSemanticType, TableProps<T>>;
 
 interface ChangeEventInfo<RecordType = AnyObject> {
   pagination: {
@@ -138,22 +145,24 @@ interface ChangeEventInfo<RecordType = AnyObject> {
   resetPagination: (current?: number, pageSize?: number) => void;
 }
 
-export interface TableProps<RecordType = AnyObject> extends Omit<
-  RcTableProps<RecordType>,
-  | 'transformColumns'
-  | 'internalHooks'
-  | 'internalRefs'
-  | 'data'
-  | 'columns'
-  | 'scroll'
-  | 'emptyText'
-  | 'classNames'
-  | 'styles'
-> {
-  classNames?: TableClassNamesType<RecordType>;
-  styles?: TableStylesType<RecordType>;
+export interface TableProps<RecordType = AnyObject>
+  extends Omit<
+    RcTableProps<RecordType>,
+    | 'transformColumns'
+    | 'internalHooks'
+    | 'internalRefs'
+    | 'data'
+    | 'columns'
+    | 'scroll'
+    | 'emptyText'
+    | 'classNames'
+    | 'styles'
+  > {
+  classNames?: TableSemanticAllType<RecordType>['classNamesAndFn'];
+  styles?: TableSemanticAllType<RecordType>['stylesAndFn'];
   dropdownPrefixCls?: string;
   dataSource?: RcTableProps<RecordType>['data'];
+  column?: Partial<ColumnType<RecordType>>;
   columns?: ColumnsType<RecordType>;
   pagination?: false | TablePaginationConfig;
   loading?: boolean | SpinProps;
@@ -179,17 +188,6 @@ export interface TableProps<RecordType = AnyObject> extends Omit<
   virtual?: boolean;
 }
 
-type SemanticType = {
-  classNames: Required<RcTableProps['classNames']> & {
-    root?: string;
-    pagination?: PaginationSemanticClassNames;
-  };
-  styles: Required<RcTableProps['styles']> & {
-    root?: React.CSSProperties;
-    pagination?: PaginationSemanticStyles;
-  };
-};
-
 /** Same as `TableProps` but we need record parent render times */
 export interface InternalTableProps<RecordType = AnyObject> extends TableProps<RecordType> {
   _renderTimes: number;
@@ -214,6 +212,7 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
     rowSelection: customizeRowSelection,
     rowKey: customizeRowKey,
     rowClassName,
+    column,
     columns,
     children,
     childrenColumnName: legacyChildrenColumnName,
@@ -230,14 +229,17 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
     locale,
     showSorterTooltip = { target: 'full-header' },
     virtual,
+    title,
+    showHeader,
   } = props;
 
   const warning = devUseWarning('Table');
 
-  const baseColumns = React.useMemo(
+  const rawColumns = React.useMemo(
     () => columns || (convertChildrenToColumns(children) as ColumnsType<RecordType>),
     [columns, children],
   );
+  const baseColumns = useFilledColumns(rawColumns, column);
   const needResponsive = React.useMemo(
     () => baseColumns.some((col: ColumnType<RecordType>) => col.responsive),
     [baseColumns],
@@ -251,10 +253,25 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
     return baseColumns.filter((c) => !c.responsive || c.responsive.some((r) => matched.has(r)));
   }, [baseColumns, screens]);
 
-  const tableProps: TableProps<RecordType> = omit(props, ['className', 'style', 'columns']);
+  const tableProps: TableProps<RecordType> = omit(props, [
+    'className',
+    'style',
+    'column',
+    'columns',
+  ]);
 
-  const { locale: contextLocale = defaultLocale, table } =
-    React.useContext<ConfigConsumerProps>(ConfigContext);
+  const components = tableProps.components as RcTableProps<RecordType>['components'];
+  const ariaProps = pickAttrs(tableProps, { aria: true }) as React.AriaAttributes;
+  const hasAriaProps = Object.keys(ariaProps).length > 0;
+  const headerTableContext = React.useMemo<HeaderTableContextValue>(
+    () => ({
+      ariaProps,
+      component: components?.header?.table as React.ElementType | undefined,
+    }),
+    [ariaProps, components?.header?.table],
+  );
+
+  const { locale: contextLocale, table } = React.useContext<ConfigConsumerProps>(ConfigContext);
 
   const {
     getPrefixCls,
@@ -278,13 +295,16 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
     bordered,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    TableClassNamesType<RecordType>,
-    TableStylesType<RecordType>,
+    TableSemanticAllType<RecordType>['classNames'],
+    TableSemanticAllType<RecordType>['styles'],
     TableProps<RecordType>
   >(
     [contextClassNames, classNames],
-    [contextStyles, styles],
+    [contextStyles, contextStyleRoot, styles, styleRoot],
     { props: mergedProps },
     {
       pagination: {
@@ -297,9 +317,9 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
         _default: 'wrapper',
       },
     },
-  ) as [SemanticType['classNames'], SemanticType['styles']];
+  );
 
-  const tableLocale: TableLocale = { ...contextLocale.Table, ...locale };
+  const tableLocale: TableLocale = { ...defaultLocale.Table, ...contextLocale?.Table, ...locale };
   const [globalLocale] = useLocale('global', defaultLocale.global);
   const rawData: readonly RecordType[] = dataSource || EMPTY_LIST;
 
@@ -309,7 +329,7 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   const [, token] = useToken();
 
   const mergedRowSelection = React.useMemo(() => {
-    return customizeRowSelection && typeof customizeRowSelection === 'object'
+    return isPlainObject(customizeRowSelection)
       ? { columnWidth: token.Table?.selectionColumnWidth, ...customizeRowSelection }
       : customizeRowSelection;
   }, [customizeRowSelection, token.Table?.selectionColumnWidth]);
@@ -317,11 +337,13 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   const rootCls = useCSSVarCls(prefixCls);
   const [hashId, cssVarCls] = useStyle(prefixCls, rootCls);
 
+  // Expandable configuration
   const mergedExpandable: ExpandableConfig<RecordType> = {
     childrenColumnName: legacyChildrenColumnName,
     expandIconColumnIndex,
     ...expandable,
-    expandIcon: expandable?.expandIcon ?? table?.expandable?.expandIcon,
+    // Remove legacy expand icon to use the merged one from useExpandIcon
+    expandIcon: undefined,
   };
   const { childrenColumnName = 'children' } = mergedExpandable;
 
@@ -361,14 +383,14 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
 
   if (process.env.NODE_ENV !== 'production') {
     warning(
-      !(typeof rowKey === 'function' && rowKey.length > 1),
+      !(isFunction(rowKey) && rowKey.length > 1),
       'usage',
       '`index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected.',
     );
   }
 
   const getRowKey = React.useMemo<GetRowKey<RecordType>>(() => {
-    if (typeof rowKey === 'function') {
+    if (isFunction(rowKey)) {
       return rowKey;
     }
 
@@ -404,7 +426,11 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
       }
     }
 
-    if (scroll && scroll.scrollToFirstRowOnChange !== false && internalRef.body.current) {
+    if (
+      mergedScroll &&
+      mergedScroll.scrollToFirstRowOnChange !== false &&
+      internalRef.body.current
+    ) {
       scrollTo(0, {
         getContainer: () => internalRef.body.current!,
       });
@@ -444,6 +470,11 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   const [transformSorterColumns, sortStates, sorterTitleProps, getSorters] = useSorter<RecordType>({
     prefixCls,
     mergedColumns,
+    // Pass `baseColumns` (pre-responsive) so `defaultSortOrder` and controlled
+    // `sortOrder` on a `responsive` column are still honored when the column
+    // is hidden at the current breakpoint.
+    // See: https://github.com/ant-design/ant-design/issues/32847
+    baseColumns,
     onSorterChange,
     sortDirections: sortDirections || ['ascend', 'descend'],
     tableLocale,
@@ -469,6 +500,7 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
     locale: tableLocale,
     dropdownPrefixCls,
     mergedColumns,
+    baseColumns,
     onFilterChange,
     getPopupContainer: getPopupContainer || getContextPopupContainer,
     rootClassName: clsx(rootClassName, rootCls),
@@ -479,18 +511,7 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   changeEventInfo.filterStates = filterStates;
 
   // ============================ Column ============================
-  const columnTitleProps = React.useMemo<ColumnTitleProps<RecordType>>(() => {
-    const mergedFilters: Record<string, FilterValue> = {};
-    Object.keys(filters).forEach((filterKey) => {
-      if (filters[filterKey] !== null) {
-        mergedFilters[filterKey] = filters[filterKey]!;
-      }
-    });
-    return {
-      ...sorterTitleProps,
-      filters: mergedFilters,
-    };
-  }, [sorterTitleProps, filters]);
+  const columnTitleProps = useColumnTitleProps(sorterTitleProps, filters);
 
   const [transformTitleColumns] = useTitleColumns(columnTitleProps);
 
@@ -509,6 +530,15 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
     onPaginationChange,
     pagination,
   );
+
+  const paginationClassNames: TablePaginationConfig['classNames'] = (info) =>
+    mergeClassNames(
+      {},
+      mergedClassNames.pagination,
+      resolveStyleOrClass(mergedPagination.classNames, info),
+    );
+  const paginationStyles: TablePaginationConfig['styles'] = (info) =>
+    mergeStyles(resolveStyleOrClass(mergedPagination.styles, info), mergedStyles.pagination);
 
   changeEventInfo.pagination =
     pagination === false ? {} : getPaginationParam(mergedPagination, pagination);
@@ -563,24 +593,33 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   );
 
   const internalRowClassName = (record: RecordType, index: number, indent: number) => {
-    const resolvedRowClassName =
-      typeof rowClassName === 'function' ? rowClassName(record, index, indent) : rowClassName;
     return clsx(
       {
         [`${prefixCls}-row-selected`]: selectedKeySet.has(getRowKey(record, index)),
       },
-      resolvedRowClassName,
+      isFunction(rowClassName) ? rowClassName(record, index, indent) : rowClassName,
     );
   };
 
   // ========================== Expandable ==========================
 
-  // Pass origin render status into `@rc-component/table`, this can be removed when refactor with `@rc-component/table`
-  (mergedExpandable as any).__PARENT_RENDER_ICON__ = mergedExpandable.expandIcon;
+  if (process.env.NODE_ENV !== 'production') {
+    warning.deprecated(!expandable?.expandIcon, 'expandable.expandIcon', 'components.ExpandIcon');
+  }
 
-  // Customize expandable icon
-  mergedExpandable.expandIcon =
-    mergedExpandable.expandIcon || expandIcon || renderExpandIcon(tableLocale!);
+  // Pass origin render status into `@rc-component/table`,
+  // this can be removed when refactor with `@rc-component/table`
+  // We only check when origin props use the expand icon,
+  // so DO NOT use `mergedExpandable.expandIcon` directly!
+  (mergedExpandable as any).__PARENT_RENDER_ICON__ = expandable?.expandIcon;
+
+  const MergedExpandIcon = useExpandIcon(
+    tableLocale,
+    components?.ExpandIcon,
+    expandable?.expandIcon,
+    table?.expandable?.expandIcon,
+    expandIcon,
+  );
 
   // Adjust expand icon index, no overwrite expandIconColumnIndex if set.
   if (expandType === 'nest' && mergedExpandable.expandIconColumnIndex === undefined) {
@@ -590,9 +629,29 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   }
 
   // Indent size
-  if (typeof mergedExpandable.indentSize !== 'number') {
+  if (!isNumber(mergedExpandable.indentSize)) {
     mergedExpandable.indentSize = isNumber(indentSize) ? indentSize : 15;
   }
+
+  // ========================== Components ==========================
+  const mergedComponents = React.useMemo<RcTableProps<RecordType>['components']>(() => {
+    let nextComponents = components;
+
+    if (hasAriaProps) {
+      nextComponents = {
+        ...nextComponents,
+        header: {
+          ...nextComponents?.header,
+          table: HeaderTable,
+        },
+      };
+    }
+
+    return {
+      ...nextComponents,
+      ExpandIcon: MergedExpandIcon,
+    };
+  }, [components, hasAriaProps, MergedExpandIcon]);
 
   // ============================ Render ============================
   const transformColumns = React.useCallback(
@@ -606,20 +665,16 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   let topPaginationNode: React.ReactNode;
   let bottomPaginationNode: React.ReactNode;
   if (pagination !== false && mergedPagination?.total) {
-    let paginationSize: TablePaginationConfig['size'];
-    if (mergedPagination.size) {
-      paginationSize = mergedPagination.size;
-    } else {
-      paginationSize = mergedSize === 'small' || mergedSize === 'medium' ? 'small' : undefined;
-    }
+    const paginationSize = getPaginationSize(mergedPagination.size, mergedSize);
 
     const renderPagination = (placement: 'start' | 'end' | 'center' = 'end') => (
       <Pagination
         {...mergedPagination}
-        classNames={mergedClassNames.pagination}
-        styles={mergedStyles.pagination}
+        classNames={paginationClassNames}
+        styles={paginationStyles}
         className={clsx(
-          `${prefixCls}-pagination ${prefixCls}-pagination-${placement}`,
+          `${prefixCls}-pagination`,
+          `${prefixCls}-pagination-${placement}`,
           mergedPagination.className,
         )}
         size={paginationSize}
@@ -628,13 +683,7 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
 
     const { placement, position } = mergedPagination;
     const mergedPlacement = placement ?? position;
-    const normalizePlacement = (pos: TablePaginationPlacement | TablePaginationPosition) => {
-      const lowerPos = pos.toLowerCase();
-      if (lowerPos.includes('center')) {
-        return 'center';
-      }
-      return lowerPos.includes('left') || lowerPos.includes('start') ? 'start' : 'end';
-    };
+
     if (Array.isArray(mergedPlacement)) {
       const [topPos, bottomPos] = ['top', 'bottom'].map((dir) =>
         mergedPlacement.find((p) => p.includes(dir)),
@@ -659,15 +708,7 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   }
 
   // >>>>>>>>> Spinning
-  const spinProps = React.useMemo<SpinProps | undefined>(() => {
-    if (typeof loading === 'boolean') {
-      return { spinning: loading };
-    } else if (typeof loading === 'object' && loading !== null) {
-      return { spinning: true, ...loading };
-    } else {
-      return undefined;
-    }
-  }, [loading]);
+  const spinProps = useSpinProps(loading);
 
   const wrappercls = clsx(
     cssVarCls,
@@ -682,8 +723,6 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
     mergedClassNames.root,
     hashId,
   );
-
-  const mergedStyle: React.CSSProperties = { ...mergedStyles.root, ...contextStyle, ...style };
 
   // ========== empty ==========
   const mergedEmptyNode = React.useMemo<RcTableProps['emptyText']>(() => {
@@ -727,48 +766,52 @@ const InternalTable = <RecordType extends AnyObject = AnyObject>(
   }
 
   return (
-    <div ref={rootRef} className={wrappercls} style={mergedStyle}>
+    <div ref={rootRef} className={wrappercls} style={mergedStyles.root}>
       <Spin spinning={false} {...spinProps}>
         {topPaginationNode}
-        <TableComponent
-          {...virtualProps}
-          {...tableProps}
-          scroll={mergedScroll}
-          classNames={mergedClassNames as RcTableProps<RecordType>['classNames']}
-          styles={mergedStyles as RcTableProps<RecordType>['styles']}
-          ref={tblRef}
-          columns={mergedColumns as RcTableProps<RecordType>['columns']}
-          direction={direction}
-          expandable={mergedExpandable}
-          prefixCls={prefixCls}
-          className={clsx(
-            {
-              [`${prefixCls}-medium`]: mergedSize === 'medium',
-              [`${prefixCls}-small`]: mergedSize === 'small',
-              [`${prefixCls}-bordered`]: bordered,
-              [`${prefixCls}-empty`]: rawData.length === 0,
-            },
-            cssVarCls,
-            rootCls,
-            hashId,
-          )}
-          data={pageData}
-          rowKey={getRowKey}
-          rowClassName={internalRowClassName}
-          emptyText={mergedEmptyNode}
-          // Internal
-          internalHooks={INTERNAL_HOOKS}
-          internalRefs={internalRef}
-          transformColumns={transformColumns as any}
-          getContainerWidth={getContainerWidth}
-          measureRowRender={(measureRow) => (
-            <TableMeasureRowContext.Provider value>
-              <ConfigProvider getPopupContainer={(node) => node as HTMLElement}>
-                {measureRow}
-              </ConfigProvider>
-            </TableMeasureRowContext.Provider>
-          )}
-        />
+        <HeaderTableContext.Provider value={headerTableContext}>
+          <TableComponent
+            {...virtualProps}
+            {...tableProps}
+            components={mergedComponents}
+            scroll={mergedScroll}
+            classNames={mergedClassNames as RcTableProps<RecordType>['classNames']}
+            styles={mergedStyles as RcTableProps<RecordType>['styles']}
+            ref={tblRef}
+            columns={mergedColumns as RcTableProps<RecordType>['columns']}
+            direction={direction}
+            expandable={mergedExpandable}
+            prefixCls={prefixCls}
+            className={clsx(
+              {
+                [`${prefixCls}-medium`]: mergedSize === 'medium',
+                [`${prefixCls}-small`]: mergedSize === 'small',
+                [`${prefixCls}-bordered`]: bordered,
+                [`${prefixCls}-empty`]: rawData.length === 0,
+                [`${prefixCls}-no-header`]: !title && showHeader === false,
+              },
+              cssVarCls,
+              rootCls,
+              hashId,
+            )}
+            data={pageData}
+            rowKey={getRowKey}
+            rowClassName={internalRowClassName}
+            emptyText={mergedEmptyNode}
+            // Internal
+            internalHooks={INTERNAL_HOOKS}
+            internalRefs={internalRef}
+            transformColumns={transformColumns as any}
+            getContainerWidth={getContainerWidth}
+            measureRowRender={(measureRow) => (
+              <TableMeasureRowContext.Provider value>
+                <ConfigProvider getPopupContainer={(node) => node as HTMLElement}>
+                  {measureRow}
+                </ConfigProvider>
+              </TableMeasureRowContext.Provider>
+            )}
+          />
+        </HeaderTableContext.Provider>
         {bottomPaginationNode}
       </Spin>
     </div>

@@ -270,6 +270,9 @@ describe('Anchor Render', () => {
     expect(scrollToSpy).toHaveBeenCalled();
     expect(pushStateSpy).not.toHaveBeenCalled();
     expect(replaceStateSpy).not.toHaveBeenCalled();
+    scrollToSpy.mockRestore();
+    pushStateSpy.mockRestore();
+    replaceStateSpy.mockRestore();
   });
 
   it('targetOffset prop', async () => {
@@ -331,6 +334,89 @@ describe('Anchor Render', () => {
     expect(scrollToSpy).toHaveBeenLastCalledWith(0, 800);
   });
 
+  // https://github.com/ant-design/ant-design/issues/45634
+  it('targetOffset can be set per Anchor.Link and fallback to global', async () => {
+    const hash = getHashUrl();
+
+    const scrollToSpy = jest.spyOn(window, 'scrollTo');
+    const root = createDiv();
+    render(<h1 id={hash}>Hello</h1>, { container: root });
+    const { container } = render(
+      <Anchor
+        targetOffset={100}
+        items={[
+          { key: 'link1', href: `#${hash}`, title: 'Link 1', targetOffset: 50 },
+          { key: 'link2', href: `#${hash}`, title: 'Link 2' },
+          { key: 'link3', href: `#${hash}`, title: 'Link 3' },
+        ]}
+      />,
+    );
+
+    fireEvent.click(container.querySelector('a[title="Link 1"]')!);
+    await waitFakeTimer();
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 950);
+
+    fireEvent.click(container.querySelector('a[title="Link 2"]')!);
+    await waitFakeTimer();
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 900);
+
+    const { container: container3 } = render(
+      <Anchor items={[{ key: 'link3', href: `#${hash}`, title: 'Link 3' }]} />,
+    );
+    fireEvent.click(container3.querySelector('a[title="Link 3"]')!);
+    await waitFakeTimer();
+    expect(scrollToSpy).toHaveBeenLastCalledWith(0, 1000);
+  });
+
+  it('should use link-level targetOffset when detecting active link during scroll', async () => {
+    const hash1 = getHashUrl();
+    const hash2 = getHashUrl();
+
+    const root = createDiv();
+    render(
+      <div>
+        <h1 id={hash1}>Section 1</h1>
+        <h1 id={hash2}>Section 2</h1>
+      </div>,
+      { container: root },
+    );
+
+    const originalGetBoundingClientRect = HTMLHeadingElement.prototype.getBoundingClientRect;
+    HTMLHeadingElement.prototype.getBoundingClientRect = jest.fn().mockImplementation(function (
+      this: HTMLElement,
+    ) {
+      if (this.id === hash1) {
+        return { width: 100, height: 100, top: 60 } as DOMRect;
+      }
+      if (this.id === hash2) {
+        return { width: 100, height: 100, top: 160 } as DOMRect;
+      }
+      return { width: 100, height: 100, top: 1000 } as DOMRect;
+    });
+
+    const onChange = jest.fn();
+    render(
+      <Anchor
+        targetOffset={100}
+        onChange={onChange}
+        items={[
+          { key: hash1, href: `#${hash1}`, title: hash1, targetOffset: 50 },
+          { key: hash2, href: `#${hash2}`, title: hash2 },
+        ]}
+      />,
+    );
+
+    expect(onChange).toHaveBeenCalled();
+
+    fireEvent.scroll(window);
+
+    await waitFakeTimer();
+
+    expect(onChange).toHaveBeenCalled();
+
+    HTMLHeadingElement.prototype.getBoundingClientRect = originalGetBoundingClientRect;
+  });
+
   it('onClick event', () => {
     const hash = getHashUrl();
     let event;
@@ -369,7 +455,7 @@ describe('Anchor Render', () => {
 
   it('replaces item href in browser history (external href)', () => {
     const replaceStateSpy = jest.spyOn(window.history, 'replaceState').mockImplementation(() => {});
-    const pushStateSpy = jest.spyOn(window.history, 'replaceState').mockImplementation(() => {});
+    const pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {});
     const hash = getHashUrl();
     const href = `http://www.example.com/#${hash}`;
     const title = hash;
@@ -585,6 +671,54 @@ describe('Anchor Render', () => {
       expect(onChange).toHaveBeenLastCalledWith(`#${hash2}`);
     });
 
+    it('should trigger onChange when a raw link matches the mapped active link', () => {
+      const hash1 = getHashUrl();
+      const hash2 = getHashUrl();
+      const onChange = jest.fn();
+      const { container } = render(
+        <Anchor
+          onChange={onChange}
+          getCurrentAnchor={(link) => (link === `#${hash1}` ? `#${hash2}` : link)}
+          items={[
+            { key: hash1, href: `#${hash1}`, title: hash1 },
+            { key: hash2, href: `#${hash2}`, title: hash2 },
+          ]}
+        />,
+      );
+
+      fireEvent.click(container.querySelector(`a[href="#${hash1}"]`)!);
+      expect(container.querySelector(`.ant-anchor-link-title-active`)?.textContent).toBe(hash2);
+      expect(onChange).toHaveBeenLastCalledWith(`#${hash1}`);
+      onChange.mockClear();
+      fireEvent.click(container.querySelector(`a[href="#${hash2}"]`)!);
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange).toHaveBeenCalledWith(`#${hash2}`);
+    });
+
+    it('should not trigger onChange repeatedly when scrolling with getCurrentAnchor', () => {
+      const hash1 = getHashUrl();
+      const hash2 = getHashUrl();
+      const onChange = jest.fn();
+      const getCurrentAnchor = jest.fn(() => `#${hash2}`);
+      render(
+        <Anchor
+          onChange={onChange}
+          getCurrentAnchor={getCurrentAnchor}
+          items={[
+            { key: hash1, href: `#${hash1}`, title: hash1 },
+            { key: hash2, href: `#${hash2}`, title: hash2 },
+          ]}
+        />,
+      );
+
+      onChange.mockClear();
+      getCurrentAnchor.mockClear();
+      fireEvent.scroll(window);
+      fireEvent.scroll(window);
+      expect(getCurrentAnchor).toHaveBeenCalledTimes(2);
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
     // https://github.com/ant-design/ant-design/issues/34784
     it('getCurrentAnchor have default link as argument', () => {
       const hash1 = getHashUrl();
@@ -622,6 +756,40 @@ describe('Anchor Render', () => {
       const { container, rerender } = render(<Demo current={hash1} />);
       expect(container.querySelector(`.ant-anchor-link-title-active`)?.textContent).toBe(hash1);
       rerender(<Demo current={hash2} />);
+      expect(container.querySelector(`.ant-anchor-link-title-active`)?.textContent).toBe(hash2);
+    });
+
+    it('should apply getCurrentAnchor once when it changes', () => {
+      const hash1 = getHashUrl();
+      const hash2 = getHashUrl();
+      const hash3 = getHashUrl();
+      interface DemoProps {
+        mappedLink: string;
+      }
+
+      const Demo: React.FC<DemoProps> = ({ mappedLink }) => (
+        <Anchor
+          getCurrentAnchor={(link) => {
+            if (link === `#${hash1}`) {
+              return `#${hash2}`;
+            }
+            if (link === `#${hash2}`) {
+              return `#${mappedLink}`;
+            }
+            return link;
+          }}
+          items={[
+            { key: hash1, href: `#${hash1}`, title: hash1 },
+            { key: hash2, href: `#${hash2}`, title: hash2 },
+            { key: hash3, href: `#${hash3}`, title: hash3 },
+          ]}
+        />
+      );
+      const { container, rerender } = render(<Demo mappedLink={hash2} />);
+      fireEvent.click(container.querySelector(`a[href="#${hash1}"]`)!);
+      expect(container.querySelector(`.ant-anchor-link-title-active`)?.textContent).toBe(hash2);
+
+      rerender(<Demo mappedLink={hash3} />);
       expect(container.querySelector(`.ant-anchor-link-title-active`)?.textContent).toBe(hash2);
     });
 

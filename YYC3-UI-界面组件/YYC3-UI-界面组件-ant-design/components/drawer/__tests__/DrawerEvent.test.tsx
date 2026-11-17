@@ -51,7 +51,7 @@ describe('Drawer', () => {
 
     rerender(<DrawerTest open={false} />);
 
-    expect(container.querySelector('.ant-drawer-body')?.textContent).toEqual(
+    expect(container.querySelector('.ant-drawer-body')?.textContent).toBe(
       'Here is content of Drawer',
     );
 
@@ -72,6 +72,16 @@ describe('Drawer', () => {
 
     fireEvent.click(container.querySelector('.ant-drawer-close')!);
     expect(onClose).toHaveBeenCalled();
+  });
+
+  it('disabled close button should not trigger onClose', () => {
+    const onClose = jest.fn();
+    const { container } = render(<DrawerTest closable={{ disabled: true }} onClose={onClose} />);
+    const closeButton = container.querySelector('.ant-drawer-close')!;
+
+    expect(closeButton).toBeDisabled();
+    fireEvent.click(closeButton);
+    expect(onClose).not.toHaveBeenCalled();
   });
 
   it('maskClosable no trigger onClose', () => {

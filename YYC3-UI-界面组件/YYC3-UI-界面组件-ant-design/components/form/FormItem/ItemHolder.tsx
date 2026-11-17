@@ -1,12 +1,9 @@
 import * as React from 'react';
-import type { Meta } from '@rc-component/form/lib/interface';
-import { omit } from '@rc-component/util';
-import isVisible from '@rc-component/util/lib/Dom/isVisible';
-import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
+import type { Meta } from '@rc-component/form';
+import { isNonNullable, isVisible, omit, useLayoutEffect } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import type { FormItemProps } from '.';
-import { isNonNullable } from '../../_util/is';
 import { Row } from '../../grid';
 import type { ReportMetaChange } from '../context';
 import { FormContext, NoStyleItemContext } from '../context';
@@ -64,7 +61,7 @@ export default function ItemHolder(props: ItemHolderProps) {
   const debounceErrors = useDebounce(errors);
   const debounceWarnings = useDebounce(warnings);
   const hasHelp = isNonNullable(help);
-  const hasError = !!(hasHelp || errors.length || warnings.length);
+  const hasError = !!(hasHelp || debounceErrors.length || debounceWarnings.length);
   const isOnScreen = !!itemRef.current && isVisible(itemRef.current);
   const [marginBottom, setMarginBottom] = React.useState<number | null>(null);
 
@@ -78,7 +75,7 @@ export default function ItemHolder(props: ItemHolderProps) {
   }, [hasError, isOnScreen]);
 
   const onErrorVisibleChanged = (nextVisible: boolean) => {
-    if (!nextVisible) {
+    if (!nextVisible && !hasError) {
       setMarginBottom(null);
     }
   };

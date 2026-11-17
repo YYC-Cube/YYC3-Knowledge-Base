@@ -6,6 +6,7 @@ import Layout from '..';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { act, fireEvent, render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
 import Menu from '../../menu';
 
 const { Sider, Content, Footer, Header } = Layout;
@@ -38,14 +39,19 @@ describe('Layout', () => {
     unmount();
   });
 
-  it('umount from multiple siders', async () => {
+  it.each([
+    [0, 1],
+    [1, 0],
+  ])('keeps the sider layout until nested siders unmount in order %i, %i', (first, second) => {
     const App: React.FC = () => {
       const [hide1, setHide1] = useState(false);
       const [hide2, setHide2] = useState(false);
       return (
         <Layout>
-          {hide1 ? null : <Sider>Sider</Sider>}
-          {hide2 ? null : <Sider>Sider</Sider>}
+          <div>
+            {hide1 ? null : <Sider>Sider</Sider>}
+            {hide2 ? null : <Sider>Sider</Sider>}
+          </div>
           <Content>
             <button onClick={() => setHide1(true)} type="button">
               hide sider 1
@@ -61,11 +67,11 @@ describe('Layout', () => {
     expect(container.querySelector('.ant-layout')?.className.includes('ant-layout-has-sider')).toBe(
       true,
     );
-    fireEvent.click(container.querySelectorAll('button')[0]);
+    fireEvent.click(container.querySelectorAll<HTMLButtonElement>('button')[first]);
     expect(container.querySelector('.ant-layout')?.className.includes('ant-layout-has-sider')).toBe(
       true,
     );
-    fireEvent.click(container.querySelectorAll('button')[1]);
+    fireEvent.click(container.querySelectorAll<HTMLButtonElement>('button')[second]);
     expect(container.querySelector('.ant-layout')?.className.includes('ant-layout-has-sider')).toBe(
       false,
     );
@@ -151,6 +157,22 @@ describe('Layout', () => {
         expect(onCollapse).toHaveBeenCalledTimes(1);
       });
 
+      it('treats undefined collapsed as uncontrolled', () => {
+        const onCollapse = jest.fn();
+        const { container } = render(
+          <Sider collapsible collapsed={undefined} onCollapse={onCollapse}>
+            Sider
+          </Sider>,
+        );
+
+        fireEvent.click(container.querySelector('.ant-layout-sider-trigger')!);
+
+        expect(container.querySelector('.ant-layout-sider')).toHaveClass(
+          'ant-layout-sider-collapsed',
+        );
+        expect(onCollapse).toHaveBeenCalledWith(true, 'clickTrigger');
+      });
+
       it('controlled', () => {
         const Demo: React.FC = () => {
           const [collapsed, setCollapsed] = React.useState(true);
@@ -205,6 +227,57 @@ describe('Layout', () => {
     expect(asFragment().firstChild).toMatchSnapshot();
   });
 
+  it('should customize root and body with semantic classNames and styles', () => {
+    const { container } = render(
+      <Sider
+        classNames={{ root: 'custom-sider-root', body: 'custom-sider-body' }}
+        styles={{
+          root: { backgroundColor: 'rgb(1, 2, 3)' },
+          body: { display: 'flex', flexDirection: 'column' },
+        }}
+      >
+        Sider
+      </Sider>,
+    );
+    const sider = container.querySelector<HTMLElement>('.ant-layout-sider')!;
+    const body = container.querySelector<HTMLElement>('.ant-layout-sider-children')!;
+
+    expect(sider).toHaveClass('custom-sider-root');
+    expect(sider).toHaveStyle({ backgroundColor: 'rgb(1, 2, 3)' });
+    expect(sider).not.toHaveClass('custom-sider-body');
+    expect(body).toHaveClass('custom-sider-body');
+    expect(body).toHaveStyle({
+      display: 'flex',
+      flexDirection: 'column',
+    });
+  });
+
+  it('should pass merged state to semantic classNames and styles callbacks', () => {
+    const { container } = render(
+      <Sider
+        collapsible
+        classNames={({ props }) => ({
+          body: props.collapsed ? 'body-collapsed' : 'body-expanded',
+        })}
+        styles={({ props }) => ({
+          body: { opacity: props.collapsed ? 0.5 : 1 },
+        })}
+      >
+        Sider
+      </Sider>,
+    );
+    const body = container.querySelector<HTMLElement>('.ant-layout-sider-children')!;
+    const trigger = container.querySelector<HTMLElement>('.ant-layout-sider-trigger')!;
+
+    expect(body).toHaveClass('body-expanded');
+    expect(body).toHaveStyle({ opacity: '1' });
+
+    fireEvent.click(trigger);
+
+    expect(body).toHaveClass('body-collapsed');
+    expect(body).toHaveStyle({ opacity: '0.5' });
+  });
+
   it('should not add ant-layout-has-sider when `hasSider` is `false`', () => {
     const { container } = render(
       <Layout hasSider={false}>
@@ -251,6 +324,18 @@ describe('Layout', () => {
     expect(container.querySelector('.ant-tooltip-container')).toBeTruthy();
 
     jest.useRealTimers();
+  });
+
+  // https://github.com/ant-design/ant-design/issues/55603
+  it('Header used standalone should apply cssVar class', () => {
+    const { container } = render(
+      <ConfigProvider theme={{ cssVar: { key: 'foo' } }}>
+        <Header className="standalone-header">Header</Header>
+      </ConfigProvider>,
+    );
+
+    const header = container.querySelector('.standalone-header')!;
+    expect(header).toHaveClass('foo');
   });
 });
 
@@ -340,7 +425,7 @@ describe('Sider', () => {
     expect(
       container.querySelector<HTMLDivElement>('.ant-layout-sider-zero-width-trigger')?.style
         .background,
-    ).toEqual('rgb(255, 153, 102)');
+    ).toBe('rgb(255, 153, 102)');
   });
 
   it('should be able to customize zero width trigger by trigger prop', () => {

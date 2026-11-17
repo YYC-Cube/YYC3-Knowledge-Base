@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/fr_FR';
+import Pagination from '@rc-component/pagination/locale/fr_FR';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/fr_FR';
@@ -15,6 +15,11 @@ const localeValues: Locale = {
   Calendar,
   global: {
     close: 'Fermer',
+    clear: 'Effacer',
+    show: 'Afficher',
+    hide: 'Masquer',
+    placeholder: 'Veuillez sélectionner',
+    sortable: 'triable',
   },
   Table: {
     filterTitle: 'Filtrer',
@@ -28,9 +33,14 @@ const localeValues: Locale = {
     selectInvert: 'Inverser la sélection de la page actuelle',
     selectNone: 'Désélectionner toutes les données',
     selectionAll: 'Sélectionner toutes les données',
+    selectRow: 'Sélectionner la ligne',
+    selectedRow: 'Ligne sélectionnée',
+    selectionMenu: 'Menu de sélection',
     sortTitle: 'Trier',
     expand: 'Développer la ligne',
     collapse: 'Réduire la ligne',
+    expandAll: 'Développer toutes les lignes',
+    collapseAll: 'Réduire toutes les lignes',
     triggerDesc: 'Trier par ordre décroissant',
     triggerAsc: 'Trier par ordre croissant',
     cancelSort: 'Annuler le tri',
@@ -49,6 +59,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Annuler',
   },
+  Splitter: {
+    toggleStartPanel: 'Basculer le panneau de début',
+    toggleEndPanel: 'Basculer le panneau de fin',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Rechercher',
@@ -60,6 +74,7 @@ const localeValues: Locale = {
     selectAll: 'Sélectionner toutes les données',
     removeAll: 'Désélectionner toutes les données',
     selectInvert: 'Inverser la sélection de la page actuelle',
+    deselectAll: 'Désélectionner toutes les données',
   },
   Upload: {
     uploading: 'Téléchargement...',
@@ -79,6 +94,11 @@ const localeValues: Locale = {
     copy: 'Copier',
     copied: 'Copie effectuée',
     expand: 'Développer',
+    collapse: 'Réduire',
+  },
+  Carousel: {
+    prevSlide: 'Diapositive précédente',
+    nextSlide: 'Diapositive suivante',
   },
   Form: {
     optional: '(optionnel)',
@@ -129,6 +149,20 @@ const localeValues: Locale = {
         mismatch: 'La valeur du champ ${label} ne correspond pas au modèle ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'Code QR expiré',
+    refresh: 'Actualiser',
+    scanned: 'Numérisé',
+  },
+  ColorPicker: {
+    presetEmpty: 'Vide',
+    transparent: 'Transparente',
+    singleColor: 'Couleur unique',
+    gradientColor: 'Couleur dégradée',
+  },
+  Input: {
+    otpCell: 'Caractère ${index} sur ${total}',
   },
 };
 

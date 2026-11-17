@@ -2,20 +2,20 @@ import * as React from 'react';
 import { useCallback, useMemo } from 'react';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 import { INTERNAL_COL_DEFINE } from '@rc-component/table';
-import type { FixedType } from '@rc-component/table/lib/interface';
-import type { DataNode, GetCheckDisabled } from '@rc-component/tree/lib/interface';
-import { arrAdd, arrDel } from '@rc-component/tree/lib/util';
-import { conductCheck } from '@rc-component/tree/lib/utils/conductUtil';
-import { convertDataToEntities } from '@rc-component/tree/lib/utils/treeUtil';
+import type { FixedType } from '@rc-component/table';
+import { arrAdd, arrDel, conductCheck, convertDataToEntities } from '@rc-component/tree';
+import type { DataNode } from '@rc-component/tree';
 import { useControlledState } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import { useMultipleSelect } from '../../_util/hooks';
+import { isFunction, isPlainObject, isString } from '../../_util/is';
 import type { AnyObject } from '../../_util/type';
 import { devUseWarning } from '../../_util/warning';
 import type { CheckboxProps } from '../../checkbox';
 import Checkbox from '../../checkbox';
 import Dropdown from '../../dropdown';
+import type { RadioProps } from '../../radio';
 import Radio from '../../radio';
 import type {
   ColumnsType,
@@ -39,6 +39,40 @@ export const SELECTION_INVERT = 'SELECT_INVERT' as const;
 export const SELECTION_NONE = 'SELECT_NONE' as const;
 
 const EMPTY_LIST: React.Key[] = [];
+
+interface SelectionMenuProps {
+  menu: React.ComponentProps<typeof Dropdown>['menu'];
+  getPopupContainer?: GetPopupContainer;
+  label: string;
+}
+
+const SelectionMenu: React.FC<SelectionMenuProps> = (props) => {
+  const { menu, getPopupContainer, label } = props;
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Dropdown
+      menu={menu}
+      getPopupContainer={getPopupContainer}
+      trigger={['click', 'hover']}
+      onOpenChange={setOpen}
+    >
+      <DownOutlined
+        role="button"
+        tabIndex={0}
+        aria-label={label}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            event.currentTarget.click();
+          }
+        }}
+      />
+    </Dropdown>
+  );
+};
 
 interface UseSelectionConfig<RecordType = AnyObject> {
   prefixCls: string;
@@ -65,7 +99,7 @@ const flattenData = <RecordType extends AnyObject = AnyObject>(
 ): RecordType[] => {
   (data || []).forEach((record) => {
     list.push(record);
-    if (record && typeof record === 'object' && childrenColumnName in record) {
+    if (isPlainObject(record) && childrenColumnName in record) {
       flattenData<RecordType>(childrenColumnName, record[childrenColumnName], list);
     }
   });
@@ -108,6 +142,12 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
     locale: tableLocale,
     getPopupContainer,
   } = config;
+  const {
+    selectAll,
+    selectRow = 'Select row',
+    selectedRow = 'Row selected',
+    selectionMenu = 'Selection menu',
+  } = tableLocale;
 
   const warning = devUseWarning('Table');
 
@@ -151,6 +191,15 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
   React.useEffect(() => {
     updatePreserveRecordsCache(mergedSelectedKeyList);
   }, [mergedSelectedKeyList, updatePreserveRecordsCache]);
+
+  // Preserved keys may no longer exist in `data`, so fall back to their cached records
+  const getSelectedRecord = useCallback(
+    (key: Key) => {
+      const record = getRecordByKey(key);
+      return !record && preserveSelectedRowKeys ? preserveRecordsRef.current.get(key)! : record;
+    },
+    [getRecordByKey, preserveSelectedRowKeys],
+  );
 
   // Get flatten data
   const flattedData = useMemo(
@@ -196,8 +245,8 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
     return map;
   }, [flattedData, getRowKey, getCheckboxProps]);
 
-  const isCheckboxDisabled: GetCheckDisabled<RecordType> = useCallback(
-    (r: RecordType) => {
+  const isCheckboxDisabled = useCallback(
+    (r: RecordType): boolean => {
       const rowKey = getRowKey(r);
       let checkboxProps: Partial<CheckboxProps> | undefined;
       if (checkboxPropsMap.has(rowKey)) {
@@ -276,13 +325,13 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
   const triggerSingleSelection = useCallback(
     (key: Key, selected: boolean, keys: Key[], event: Event) => {
       if (onSelect) {
-        const rows = keys.map<RecordType>(getRecordByKey);
+        const rows = keys.map<RecordType>(getSelectedRecord);
         onSelect(getRecordByKey(key), selected, rows, event);
       }
 
       setSelectedKeys(keys, 'single');
     },
-    [onSelect, getRecordByKey, setSelectedKeys],
+    [onSelect, getRecordByKey, getSelectedRecord, setSelectedKeys],
   );
 
   const mergedSelections = useMemo<SelectionItem[] | null>(() => {
@@ -293,79 +342,81 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
     const selectionList: INTERNAL_SELECTION_ITEM[] =
       selections === true ? [SELECTION_ALL, SELECTION_INVERT, SELECTION_NONE] : selections;
 
-    return selectionList
-      .map((selection: INTERNAL_SELECTION_ITEM) => {
-        if (selection === SELECTION_ALL) {
-          return {
-            key: 'all',
-            text: tableLocale.selectionAll,
-            onSelect() {
-              setSelectedKeys(
-                data
-                  .map((record, index) => getRowKey(record, index))
-                  .filter((key) => {
-                    const checkProps = checkboxPropsMap.get(key);
-                    return !checkProps?.disabled || derivedSelectedKeySet.has(key);
-                  }),
-                'all',
-              );
-            },
-          };
-        }
-        if (selection === SELECTION_INVERT) {
-          return {
-            key: 'invert',
-            text: tableLocale.selectInvert,
-            onSelect() {
-              const keySet = new Set(derivedSelectedKeySet);
-              pageData.forEach((record, index) => {
+    return selectionList.map((selection: INTERNAL_SELECTION_ITEM) => {
+      let mergedSelection: SelectionItem;
+
+      if (selection === SELECTION_ALL) {
+        mergedSelection = {
+          key: 'all',
+          text: tableLocale.selectionAll,
+          onSelect() {
+            setSelectedKeys(
+              flattenData(childrenColumnName, data).reduce<Key[]>((keys, record, index) => {
                 const key = getRowKey(record, index);
-                const checkProps = checkboxPropsMap.get(key);
-
-                if (!checkProps?.disabled) {
-                  if (keySet.has(key)) {
-                    keySet.delete(key);
-                  } else {
-                    keySet.add(key);
-                  }
+                if (!isCheckboxDisabled(record) || derivedSelectedKeySet.has(key)) {
+                  keys.push(key);
                 }
-              });
+                return keys;
+              }, []),
+              'all',
+            );
+          },
+        };
+      } else if (selection === SELECTION_INVERT) {
+        mergedSelection = {
+          key: 'invert',
+          text: tableLocale.selectInvert,
+          onSelect() {
+            const keySet = new Set(derivedSelectedKeySet);
+            flattedData.forEach((record, index) => {
+              const key = getRowKey(record, index);
+              const checkProps = checkboxPropsMap.get(key);
 
-              const keys = Array.from(keySet);
-              if (onSelectInvert) {
-                warning.deprecated(false, 'onSelectInvert', 'onChange');
-                onSelectInvert(keys);
+              if (!checkProps?.disabled) {
+                if (keySet.has(key)) {
+                  keySet.delete(key);
+                } else {
+                  keySet.add(key);
+                }
               }
+            });
 
-              setSelectedKeys(keys, 'invert');
-            },
-          };
-        }
-        if (selection === SELECTION_NONE) {
-          return {
-            key: 'none',
-            text: tableLocale.selectNone,
-            onSelect() {
-              onSelectNone?.();
-              setSelectedKeys(
-                Array.from(derivedSelectedKeySet).filter((key) => {
-                  const checkProps = checkboxPropsMap.get(key);
-                  return checkProps?.disabled;
-                }),
-                'none',
-              );
-            },
-          };
-        }
-        return selection as SelectionItem;
-      })
-      .map((selection) => ({
-        ...selection,
-        onSelect: (...rest) => {
-          selection.onSelect?.(...rest);
+            const keys = Array.from(keySet);
+            if (onSelectInvert) {
+              warning.deprecated(false, 'onSelectInvert', 'onChange');
+              onSelectInvert(keys);
+            }
+
+            setSelectedKeys(keys, 'invert');
+          },
+        };
+      } else if (selection === SELECTION_NONE) {
+        mergedSelection = {
+          key: 'none',
+          text: tableLocale.selectNone,
+          onSelect() {
+            onSelectNone?.();
+            setSelectedKeys(
+              Array.from(derivedSelectedKeySet).filter((key) => {
+                const record = getSelectedRecord(key);
+                return record !== undefined && isCheckboxDisabled(record);
+              }),
+              'none',
+            );
+          },
+        };
+      } else {
+        mergedSelection = selection as SelectionItem;
+      }
+
+      return {
+        ...mergedSelection,
+        onSelect: (currentRowKeys) => {
+          mergedSelection.onSelect?.(currentRowKeys);
           updatePrevSelectedIndex(null);
         },
-      }));
+      };
+    });
   }, [
     selections,
     hideSelectAll,
@@ -373,10 +424,13 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
     tableLocale.selectInvert,
     tableLocale.selectNone,
     checkboxPropsMap,
+    isCheckboxDisabled,
     derivedSelectedKeySet,
     data,
-    pageData,
+    childrenColumnName,
+    flattedData,
     getRowKey,
+    getSelectedRecord,
     onSelectInvert,
     setSelectedKeys,
   ]);
@@ -400,9 +454,13 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       const keySet = new Set(derivedSelectedKeySet);
 
       // Record key only need check with enabled
-      const recordKeys = flattedData
-        .map(getRowKey)
-        .filter((key) => !checkboxPropsMap.get(key)!.disabled);
+      const recordKeys = flattedData.reduce<Key[]>((keys, record, index) => {
+        const key = getRowKey(record, index);
+        if (!checkboxPropsMap.get(key)!.disabled) {
+          keys.push(key);
+        }
+        return keys;
+      }, []);
       const checkedCurrentAll = recordKeys.every((key) => keySet.has(key));
       const checkedCurrentSome = recordKeys.some((key) => keySet.has(key));
 
@@ -427,7 +485,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
 
         onSelectAll?.(
           !checkedCurrentAll,
-          keys.map<RecordType>(getRecordByKey),
+          keys.map<RecordType>(getSelectedRecord),
           changeKeys.map<RecordType>(getRecordByKey),
         );
 
@@ -458,22 +516,26 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
           };
           customizeSelections = (
             <div className={`${prefixCls}-selection-extra`}>
-              <Dropdown menu={menu} getPopupContainer={getPopupContainer}>
-                <span>
-                  <DownOutlined />
-                </span>
-              </Dropdown>
+              <SelectionMenu
+                menu={menu}
+                getPopupContainer={getPopupContainer}
+                label={selectionMenu}
+              />
             </div>
           );
         }
 
-        const allDisabledData = flattedData
-          .map((record, index) => {
-            const key = getRowKey(record, index);
-            const checkboxProps = checkboxPropsMap.get(key) || {};
-            return { checked: keySet.has(key), ...checkboxProps };
-          })
-          .filter(({ disabled }) => disabled);
+        const allDisabledData = flattedData.reduce<
+          Array<Partial<CheckboxProps> & { checked?: boolean }>
+        >((list, record, index) => {
+          const key = getRowKey(record, index);
+          const checkboxProps = checkboxPropsMap.get(key) || {};
+          const item = { checked: keySet.has(key), ...checkboxProps };
+          if (item.disabled) {
+            list.push(item);
+          }
+          return list;
+        }, []);
 
         const allDisabled =
           !!allDisabledData.length && allDisabledData.length === flattedData.length;
@@ -484,9 +546,10 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
           allDisabled && allDisabledData.some(({ checked }) => checked);
         const customCheckboxProps = getTitleCheckboxProps?.() || {};
         const { onChange, disabled } = customCheckboxProps;
+        const selectAllLabel = isString(selectAll) && selectAll ? selectAll : 'Select all';
         columnTitleCheckbox = (
           <Checkbox
-            aria-label={customizeSelections ? 'Custom selection' : 'Select all'}
+            aria-label={selectAllLabel}
             {...customCheckboxProps}
             checked={
               !allDisabled ? !!flattedData.length && checkedCurrentAll : allDisabledAndChecked
@@ -523,10 +586,12 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         renderCell = (_, record, index) => {
           const key = getRowKey(record, index);
           const checked = keySet.has(key);
-          const checkboxProps = checkboxPropsMap.get(key);
+          const checkboxProps = checkboxPropsMap.get(key) as unknown as RadioProps;
+          const defaultAriaLabel = selectRow;
           return {
             node: (
               <Radio
+                aria-label={defaultAriaLabel}
                 {...checkboxProps}
                 checked={checked}
                 onClick={(e) => {
@@ -561,10 +626,12 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
           } else {
             mergedIndeterminate = checkboxProps?.indeterminate ?? indeterminate;
           }
+          const defaultAriaLabel = checked ? selectedRow : selectRow;
           // Record checked
           return {
             node: (
               <Checkbox
+                aria-label={defaultAriaLabel}
                 {...checkboxProps}
                 indeterminate={mergedIndeterminate}
                 checked={checked}
@@ -577,7 +644,9 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
                   const { nativeEvent } = event;
                   const { shiftKey } = nativeEvent;
                   const currentSelectedIndex = recordKeys.indexOf(key);
-                  const isMultiple = derivedSelectedKeys.some((item) => recordKeys.includes(item));
+                  const isMultiple =
+                    derivedSelectedKeySet.size > 0 &&
+                    recordKeys.some((key) => derivedSelectedKeySet.has(key));
 
                   if (shiftKey && checkStrictly && isMultiple) {
                     const changedKeys = multipleSelect(currentSelectedIndex, recordKeys, keySet);
@@ -585,7 +654,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
 
                     onSelectMultiple?.(
                       !checked,
-                      keys.map<RecordType>(getRecordByKey),
+                      keys.map<RecordType>(getSelectedRecord),
                       changedKeys.map<RecordType>(getRecordByKey),
                     );
 
@@ -711,7 +780,7 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
         if (!rowSelection?.columnTitle) {
           return title;
         }
-        if (typeof rowSelection.columnTitle === 'function') {
+        if (isFunction(rowSelection.columnTitle)) {
           return rowSelection.columnTitle(columnTitleCheckbox);
         }
         return rowSelection.columnTitle;
@@ -747,6 +816,10 @@ const useSelection = <RecordType extends AnyObject = AnyObject>(
       onSelectMultiple,
       triggerSingleSelection,
       isCheckboxDisabled,
+      selectAll,
+      selectRow,
+      selectedRow,
+      selectionMenu,
     ],
   );
 

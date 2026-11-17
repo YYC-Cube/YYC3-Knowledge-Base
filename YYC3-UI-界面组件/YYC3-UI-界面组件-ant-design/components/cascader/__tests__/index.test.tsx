@@ -1,20 +1,23 @@
 import React from 'react';
-import type { SingleValueType } from '@rc-component/cascader/lib/Cascader';
 
 import type { DefaultOptionType } from '..';
 import Cascader from '..';
 import { resetWarned } from '../../_util/warning';
-import excludeAllWarning from '../../../tests/shared/excludeWarning';
 import focusTest from '../../../tests/shared/focusTest';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { fireEvent, render, screen, waitFakeTimer } from '../../../tests/utils';
 import Button from '../../button';
 import ConfigProvider from '../../config-provider';
+import Form from '../../form';
 import Input from '../../input';
+import jaJP from '../../locale/ja_JP';
+import zhCN from '../../locale/zh_CN';
 import Space from '../../space';
 
 const { SHOW_CHILD, SHOW_PARENT } = Cascader;
+
+type SingleValueType = (string | number)[];
 
 function toggleOpen(container: ReturnType<typeof render>['container']) {
   fireEvent.mouseDown(container.querySelector('.ant-select')!);
@@ -88,8 +91,6 @@ function filter<OptionType extends DefaultOptionType = DefaultOptionType>(
 }
 
 describe('Cascader', () => {
-  excludeAllWarning();
-
   focusTest(Cascader, { refFocus: true });
   mountTest(Cascader);
   rtlTest(Cascader);
@@ -229,13 +230,27 @@ describe('Cascader', () => {
     expect(dropdown).toMatchSnapshot();
   });
 
+  it('should support notFoundContent={null}', () => {
+    const { container } = render(<Cascader open options={[]} notFoundContent={null} />);
+
+    expect(container.querySelector('.ant-empty')).toBeNull();
+  });
+
+  it('should support notFoundContent={null} in panel', () => {
+    const { container } = render(<Cascader.Panel options={[]} notFoundContent={null} />);
+
+    expect(container.querySelector('.ant-empty')).toBeNull();
+  });
+
   it('should support to clear selection', () => {
     const { container } = render(
       <Cascader options={options} defaultValue={['zhejiang', 'hangzhou']} />,
     );
     expect(container.querySelector('.ant-select-content')).toHaveTextContent('Zhejiang / Hangzhou');
-    fireEvent.mouseDown(container.querySelector('.ant-select-clear')!);
-    expect(container.querySelector('.ant-select-content')).toHaveTextContent('');
+    fireEvent.click(container.querySelector('.ant-select-clear')!);
+    expect(container.querySelector('.ant-select-content')).not.toHaveTextContent(
+      'Zhejiang / Hangzhou',
+    );
   });
 
   it('should clear search input when clear selection', () => {
@@ -243,8 +258,56 @@ describe('Cascader', () => {
       <Cascader options={options} defaultValue={['zhejiang', 'hangzhou']} showSearch />,
     );
     fireEvent.change(container.querySelector('input')!, { target: { value: 'xxx' } });
-    fireEvent.mouseDown(container.querySelector('.ant-select-clear')!);
-    expect(container.querySelector('input')?.value).toEqual('');
+    fireEvent.click(container.querySelector('.ant-select-clear')!);
+    expect(container.querySelector('input')?.value).toBe('');
+  });
+
+  describe('clear button accessibility', () => {
+    it('should expose an accessible label on the clear button', () => {
+      const { container } = render(
+        <Cascader options={options} defaultValue={['zhejiang', 'hangzhou']} allowClear />,
+      );
+      expect(container.querySelector('.ant-select-clear')).toHaveAttribute('aria-label', 'Clear');
+    });
+
+    it('should localize the clear button accessible label', () => {
+      const { container } = render(
+        <ConfigProvider locale={zhCN}>
+          <Cascader options={options} defaultValue={['zhejiang', 'hangzhou']} allowClear />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-select-clear')).toHaveAttribute(
+        'aria-label',
+        zhCN.global?.clear,
+      );
+    });
+
+    it('should fall back to English for locales that do not translate `clear`', () => {
+      expect(jaJP.global).not.toHaveProperty('clear');
+
+      const { container } = render(
+        <ConfigProvider locale={jaJP}>
+          <Cascader options={options} defaultValue={['zhejiang', 'hangzhou']} allowClear />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-select-clear')).toHaveAttribute('aria-label', 'Clear');
+    });
+
+    it('should prefer a custom label from allowClear over the locale', () => {
+      const { container } = render(
+        <ConfigProvider locale={zhCN}>
+          <Cascader
+            options={options}
+            defaultValue={['zhejiang', 'hangzhou']}
+            allowClear={{ label: 'Custom clear' }}
+          />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-select-clear')).toHaveAttribute(
+        'aria-label',
+        'Custom clear',
+      );
+    });
   });
 
   it('should change filtered item when options are changed', () => {
@@ -403,13 +466,11 @@ describe('Cascader', () => {
 
   it('placeholder works correctly', () => {
     const { container, rerender } = render(<Cascader options={[]} />);
-    expect(container.querySelector('.ant-select-placeholder')?.textContent).toEqual('');
+    expect(container.querySelector('.ant-select-placeholder')?.textContent).toBe('');
 
     const customPlaceholder = 'Custom placeholder';
     rerender(<Cascader options={[]} placeholder={customPlaceholder} />);
-    expect(container.querySelector('.ant-select-placeholder')?.textContent).toEqual(
-      customPlaceholder,
-    );
+    expect(container.querySelector('.ant-select-placeholder')?.textContent).toBe(customPlaceholder);
   });
 
   it('placement work correctly', async () => {
@@ -429,7 +490,7 @@ describe('Cascader', () => {
     toggleOpen(container);
 
     // Inject in tests/__mocks__/@rc-component/trigger.tsx
-    expect((global as any)?.triggerProps.popupPlacement).toEqual('topRight');
+    expect((global as any)?.triggerProps.popupPlacement).toBe('topRight');
   });
 
   it('popup correctly with defaultValue RTL', () => {
@@ -546,7 +607,7 @@ describe('Cascader', () => {
     toggleOpen(container);
 
     // Inject in tests/__mocks__/@rc-component/trigger.tsx
-    expect((global as any).triggerProps.popupPlacement).toEqual('bottomRight');
+    expect((global as any).triggerProps.popupPlacement).toBe('bottomRight');
   });
 
   describe('legacy props', () => {
@@ -847,12 +908,78 @@ describe('Cascader', () => {
     const errSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     const { container } = render(<Cascader showArrow />);
     expect(errSpy).toHaveBeenCalledWith(
-      'Warning: [antd: Cascader] `showArrow` is deprecated which will be removed in next major version. It will be a default behavior, you can hide it by setting `suffixIcon` to null.',
+      'Warning: [antd: Cascader] `showArrow` is deprecated which will be removed in next major version. It will be a default behavior, you can hide it by setting `suffix` to null.',
     );
     expect(container.querySelector('.ant-select-show-arrow')).toBeTruthy();
 
     errSpy.mockRestore();
   });
+
+  describe('suffix', () => {
+    it('should support suffix prop', () => {
+      const { container } = render(<Cascader suffix="suffix" />);
+      expect(container.querySelector('.ant-select-suffix')).toHaveTextContent('suffix');
+    });
+
+    it('should prefer suffix prop over suffixIcon prop', () => {
+      const { container } = render(<Cascader suffix="suffix" suffixIcon={null} />);
+      expect(container.querySelector('.ant-select-suffix')).toHaveTextContent('suffix');
+    });
+
+    it('should support suffix prop in config provider', () => {
+      const { container } = render(
+        <ConfigProvider cascader={{ suffix: 'suffix' }}>
+          <Cascader />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-select-suffix')).toHaveTextContent('suffix');
+    });
+
+    it('should preserve suffixIcon config provider compatibility', () => {
+      const { container } = render(
+        <ConfigProvider cascader={{ suffixIcon: 'legacy' }}>
+          <Cascader />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-select-suffix')).toHaveTextContent('legacy');
+    });
+
+    it('should prefer suffix over suffixIcon in config provider', () => {
+      const { container } = render(
+        <ConfigProvider cascader={{ suffix: 'suffix', suffixIcon: 'legacy' }}>
+          <Cascader />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-select-suffix')).toHaveTextContent('suffix');
+    });
+
+    it.each([
+      ['custom', 'suffix'],
+      ['null', null],
+    ])('should keep feedback icon with %s suffix', (_, suffix) => {
+      const { container } = render(
+        <Form>
+          <Form.Item hasFeedback validateStatus="error">
+            <Cascader suffix={suffix} />
+          </Form.Item>
+        </Form>,
+      );
+      expect(container.querySelector('.ant-form-item-feedback-icon-error')).toBeTruthy();
+    });
+
+    it('should warn when using deprecated suffixIcon prop', () => {
+      resetWarned();
+
+      const errSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const { container } = render(<Cascader suffixIcon="suffix" />);
+      expect(container.querySelector('.ant-select-suffix')).toHaveTextContent('suffix');
+      expect(errSpy).toHaveBeenCalledWith(
+        'Warning: [antd: Cascader] `suffixIcon` is deprecated. Please use `suffix` instead.',
+      );
+      errSpy.mockRestore();
+    });
+  });
+
   it('Support aria-* and data-* in options', () => {
     const { container } = render(
       <Cascader options={options} open defaultValue={['zhejiang', 'hangzhou']} />,
@@ -944,6 +1071,153 @@ describe('Cascader', () => {
       render(
         <ConfigProvider cascader={{ loadingIcon: <div>foobar</div> }}>
           <Cascader loading options={options} loadingIcon={<div>bamboo</div>} />
+        </ConfigProvider>,
+      );
+      expect(screen.getAllByText('bamboo').length).toBe(1);
+    });
+  });
+
+  describe('clearIcon', () => {
+    it('should support custom clearIcon', () => {
+      render(
+        <Cascader
+          open
+          allowClear={{ clearIcon: <div>bamboo</div> }}
+          options={options}
+          defaultValue={['zhejiang', 'hangzhou']}
+        />,
+      );
+      expect(screen.getAllByText('bamboo').length).toBe(1);
+    });
+
+    it('should support ConfigProvider clearIcon', () => {
+      render(
+        <ConfigProvider cascader={{ clearIcon: <div>foobar</div> }}>
+          <Cascader options={options} defaultValue={['zhejiang', 'hangzhou']} allowClear />
+        </ConfigProvider>,
+      );
+      expect(screen.getAllByText('foobar').length).toBe(1);
+    });
+
+    it('should prefer prop clearIcon over ConfigProvider clearIcon', () => {
+      render(
+        <ConfigProvider cascader={{ clearIcon: <div>foobar</div> }}>
+          <Cascader
+            allowClear={{ clearIcon: <div>bamboo</div> }}
+            options={options}
+            defaultValue={['zhejiang', 'hangzhou']}
+          />
+        </ConfigProvider>,
+      );
+      expect(screen.getAllByText('bamboo').length).toBe(1);
+    });
+
+    it('should support default clear icon if only label is passed in allowClear prop', () => {
+      const { container } = render(
+        <Cascader
+          options={options}
+          defaultValue={['zhejiang', 'hangzhou']}
+          allowClear={{ label: 'Clear' }}
+        />,
+      );
+      expect(
+        container.querySelector('.ant-select-clear .anticon-close-circle'),
+      ).toBeInTheDocument();
+    });
+
+    it('should support clearIcon prop if only label is passed in allowClear prop', () => {
+      const { container } = render(
+        <Cascader
+          options={options}
+          defaultValue={['zhejiang', 'hangzhou']}
+          allowClear={{ label: 'Clear' }}
+          clearIcon="clear"
+        />,
+      );
+      expect(container.querySelector('.ant-select-clear')!.textContent).toBe('clear');
+    });
+
+    it('should support custom clear icon if both label and icon are passed in allowClear prop', () => {
+      const { container } = render(
+        <Cascader
+          options={options}
+          defaultValue={['zhejiang', 'hangzhou']}
+          allowClear={{ label: 'Clear', clearIcon: 'custom' }}
+        />,
+      );
+      expect(container.querySelector('.ant-select-clear')!.textContent).toBe('custom');
+    });
+  });
+
+  describe('removeIcon', () => {
+    it('should support custom removeIcon', () => {
+      render(
+        <Cascader
+          multiple
+          removeIcon={<div>bamboo</div>}
+          options={options}
+          defaultValue={[
+            ['zhejiang', 'hangzhou'],
+            ['jiangsu', 'nanjing'],
+          ]}
+        />,
+      );
+      expect(screen.getAllByText('bamboo').length).toBe(2);
+    });
+
+    it('should support ConfigProvider removeIcon', () => {
+      render(
+        <ConfigProvider cascader={{ removeIcon: <div>foobar</div> }}>
+          <Cascader
+            multiple
+            options={options}
+            defaultValue={[
+              ['zhejiang', 'hangzhou'],
+              ['jiangsu', 'nanjing'],
+            ]}
+          />
+        </ConfigProvider>,
+      );
+      expect(screen.getAllByText('foobar').length).toBe(2);
+    });
+
+    it('should prefer prop removeIcon over ConfigProvider removeIcon', () => {
+      render(
+        <ConfigProvider cascader={{ removeIcon: <div>foobar</div> }}>
+          <Cascader
+            multiple
+            options={options}
+            defaultValue={[
+              ['zhejiang', 'hangzhou'],
+              ['jiangsu', 'nanjing'],
+            ]}
+            removeIcon={<div>bamboo</div>}
+          />
+        </ConfigProvider>,
+      );
+      expect(screen.getAllByText('bamboo').length).toBe(2);
+    });
+  });
+
+  describe('searchIcon', () => {
+    it('should support custom searchIcon', () => {
+      render(<Cascader open showSearch={{ searchIcon: <div>bamboo</div> }} options={options} />);
+      expect(screen.getAllByText('bamboo').length).toBe(1);
+    });
+
+    it('should support ConfigProvider searchIcon', () => {
+      render(
+        <ConfigProvider cascader={{ searchIcon: <div>foobar</div> }}>
+          <Cascader open options={options} showSearch />
+        </ConfigProvider>,
+      );
+      expect(screen.getAllByText('foobar').length).toBe(1);
+    });
+
+    it('should prefer prop searchIcon over ConfigProvider searchIcon', () => {
+      render(
+        <ConfigProvider cascader={{ searchIcon: <div>foobar</div> }}>
+          <Cascader open showSearch={{ searchIcon: <div>bamboo</div> }} options={options} />
         </ConfigProvider>,
       );
       expect(screen.getAllByText('bamboo').length).toBe(1);

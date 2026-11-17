@@ -1,6 +1,7 @@
 import type * as React from 'react';
 
-import type { Orientation, SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import type { Orientation } from '../_util/hooks';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import type { AbstractCheckboxProps } from '../checkbox/Checkbox';
 import type { AbstractCheckboxGroupProps } from '../checkbox/Group';
 import type { SizeType } from '../config-provider/SizeContext';
@@ -8,6 +9,23 @@ import type { SizeType } from '../config-provider/SizeContext';
 export type { CheckboxRef as RadioRef } from '@rc-component/checkbox';
 export type RadioGroupButtonStyle = 'outline' | 'solid';
 export type RadioGroupOptionType = 'default' | 'button';
+
+export type RadioGroupSemanticType = {
+  classNames?: {
+    root?: string;
+    item?: string;
+    itemIcon?: string;
+    itemLabel?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    item?: React.CSSProperties;
+    itemIcon?: React.CSSProperties;
+    itemLabel?: React.CSSProperties;
+  };
+};
+
+export type RadioGroupSemanticAllType = GenerateSemantic<RadioGroupSemanticType, RadioGroupProps>;
 
 export interface RadioGroupProps extends AbstractCheckboxGroupProps {
   defaultValue?: any;
@@ -27,6 +45,8 @@ export interface RadioGroupProps extends AbstractCheckboxGroupProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
   block?: boolean;
   vertical?: boolean;
+  classNames?: RadioGroupSemanticAllType['classNamesAndFn'];
+  styles?: RadioGroupSemanticAllType['stylesAndFn'];
 }
 
 export interface RadioGroupContextProps {
@@ -42,25 +62,24 @@ export interface RadioGroupContextProps {
    */
   optionType?: RadioGroupOptionType;
   block?: boolean;
+  classNames?: RadioSemanticType['classNames'];
+  styles?: RadioSemanticType['styles'];
 }
 
-export type RadioSemanticName = keyof RadioSemanticClassNames & keyof RadioSemanticStyles;
-
-export type RadioSemanticClassNames = {
-  root?: string;
-  icon?: string;
-  label?: string;
+export type RadioSemanticType = {
+  classNames?: {
+    root?: string;
+    icon?: string;
+    label?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    icon?: React.CSSProperties;
+    label?: React.CSSProperties;
+  };
 };
 
-export type RadioSemanticStyles = {
-  root?: React.CSSProperties;
-  icon?: React.CSSProperties;
-  label?: React.CSSProperties;
-};
-
-export type RadioClassNamesType = SemanticClassNamesType<RadioProps, RadioSemanticClassNames>;
-
-export type RadioStylesType = SemanticStylesType<RadioProps, RadioSemanticStyles>;
+export type RadioSemanticAllType = GenerateSemantic<RadioSemanticType, RadioProps>;
 
 export interface RadioProps extends AbstractCheckboxProps<RadioChangeEvent> {
   /**
@@ -70,8 +89,8 @@ export interface RadioProps extends AbstractCheckboxProps<RadioChangeEvent> {
    * @internal
    */
   optionType?: RadioGroupOptionType;
-  classNames?: RadioClassNamesType;
-  styles?: RadioStylesType;
+  classNames?: RadioSemanticAllType['classNamesAndFn'];
+  styles?: RadioSemanticAllType['stylesAndFn'];
 }
 
 export interface RadioChangeEventTarget extends RadioProps {

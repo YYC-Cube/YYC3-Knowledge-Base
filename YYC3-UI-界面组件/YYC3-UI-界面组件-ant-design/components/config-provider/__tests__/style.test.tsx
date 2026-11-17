@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ConfigProvider from '..';
+import type { GetProp } from '../../_util/type';
 import { fireEvent, render } from '../../../tests/utils';
 import Alert from '../../alert';
 import Anchor from '../../anchor';
@@ -43,7 +44,7 @@ import Result from '../../result';
 import Segmented from '../../segmented';
 import Select from '../../select';
 import Skeleton from '../../skeleton';
-import type { SkeletonSemanticClassNames, SkeletonSemanticStyles } from '../../skeleton/Skeleton';
+import type { SkeletonProps } from '../../skeleton';
 import Slider from '../../slider';
 import Space from '../../space';
 import Spin from '../../spin';
@@ -421,7 +422,7 @@ describe('ConfigProvider support style and className props', () => {
     const titleStyle = { background: 'rgba(0, 255, 17, 0.8)' };
     const paragraphStyle = { background: 'rgba(255, 111, 0, 0.8)' };
 
-    const customClassNames: Required<SkeletonSemanticClassNames> = {
+    const customClassNames: Required<GetProp<SkeletonProps, 'classNames', 'Return'>> = {
       root: 'custom-root',
       header: 'custom-header',
       section: 'custom-section',
@@ -430,7 +431,7 @@ describe('ConfigProvider support style and className props', () => {
       paragraph: 'custom-paragraph',
     };
 
-    const customStyles: Required<SkeletonSemanticStyles> = {
+    const customStyles: Required<GetProp<SkeletonProps, 'styles', 'Return'>> = {
       root: rootStyle,
       header: headerStyle,
       section: sectionStyle,
@@ -1306,6 +1307,7 @@ describe('ConfigProvider support style and className props', () => {
         <Table
           columns={[{ title: 'Address', dataIndex: 'address', key: 'address 1', ellipsis: true }]}
           dataSource={[{ key: '1', name: 'Jim Green', age: 40, address: 'test', tags: ['kawaii'] }]}
+          expandable={{ expandedRowRender: () => 'Expanded content' }}
         />
       </ConfigProvider>,
     );
@@ -1711,6 +1713,28 @@ describe('ConfigProvider support style and className props', () => {
     expect(container.querySelector('.ant-tree-list')).toHaveStyle(
       'color: rgb(255, 0, 0); font-size: 16px; position: relative;',
     );
+  });
+
+  it('Should TreeSelect className & style works', () => {
+    const { container } = render(
+      <ConfigProvider
+        treeSelect={{ className: 'cp-tree-select', style: { backgroundColor: 'rgb(255, 0, 0)' } }}
+      >
+        <TreeSelect
+          treeData={[
+            {
+              value: 'test-value',
+              title: 'test-title',
+            },
+          ]}
+        />
+      </ConfigProvider>,
+    );
+
+    expect(container.querySelector('.ant-tree-select')).toHaveClass('cp-tree-select');
+    expect(container.querySelector('.ant-tree-select')).toHaveStyle({
+      backgroundColor: 'rgb(255, 0, 0)',
+    });
   });
 
   it('Should ColorPicker className & style works', () => {

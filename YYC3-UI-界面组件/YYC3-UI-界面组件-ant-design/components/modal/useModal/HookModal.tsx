@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import fallbackProp from '../../_util/fallbackProp';
+import { isFunction } from '../../_util/is';
 import { ConfigContext } from '../../config-provider';
 import defaultLocale from '../../locale/en_US';
 import useLocale from '../../locale/useLocale';
@@ -49,12 +51,8 @@ const HookModal = React.forwardRef<HookModalRef, HookModalProps>((props, ref) =>
     destroy: close,
     update: (newConfig) => {
       setInnerConfig((originConfig) => {
-        const nextConfig = typeof newConfig === 'function' ? newConfig(originConfig) : newConfig;
-
-        return {
-          ...originConfig,
-          ...nextConfig,
-        };
+        const nextConfig = isFunction(newConfig) ? newConfig(originConfig) : newConfig;
+        return { ...originConfig, ...nextConfig };
       });
     },
   }));
@@ -71,11 +69,12 @@ const HookModal = React.forwardRef<HookModalRef, HookModalProps>((props, ref) =>
       close={close}
       open={open}
       afterClose={afterClose}
-      okText={
-        innerConfig.okText || (mergedOkCancel ? contextLocale?.okText : contextLocale?.justOkText)
-      }
+      okText={fallbackProp(
+        innerConfig.okText,
+        mergedOkCancel ? contextLocale?.okText : contextLocale?.justOkText,
+      )}
       direction={innerConfig.direction || direction}
-      cancelText={innerConfig.cancelText || contextLocale?.cancelText}
+      cancelText={fallbackProp(innerConfig.cancelText, contextLocale?.cancelText)}
       {...restProps}
     />
   );

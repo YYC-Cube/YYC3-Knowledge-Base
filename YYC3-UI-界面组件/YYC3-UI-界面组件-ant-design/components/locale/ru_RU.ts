@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/ru_RU';
+import Pagination from '@rc-component/pagination/locale/ru_RU';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/ru_RU';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Пожалуйста выберите',
     close: 'Закрыть',
+    show: 'Показать',
+    hide: 'Скрыть',
+    sortable: 'сортируемый',
   },
   Table: {
     filterTitle: 'Фильтр',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Инвертировать выбор',
     selectNone: 'Очистить все данные',
     selectionAll: 'Выбрать все данные',
+    selectRow: 'Выбрать строку',
+    selectedRow: 'Строка выбрана',
+    selectionMenu: 'Меню выбора',
     sortTitle: 'Сортировка',
     expand: 'Развернуть строку',
     collapse: 'Свернуть строку',
+    expandAll: 'Развернуть все строки',
+    collapseAll: 'Свернуть все строки',
     triggerDesc: 'Нажмите для сортировки по убыванию',
     triggerAsc: 'Нажмите для сортировки по возрастанию',
     cancelSort: 'Нажмите, чтобы отменить сортировку',
@@ -49,6 +57,10 @@ const localeValues: Locale = {
   Popconfirm: {
     okText: 'OK',
     cancelText: 'Отмена',
+  },
+  Splitter: {
+    toggleStartPanel: 'Переключить начальную панель',
+    toggleEndPanel: 'Переключить конечную панель',
   },
   Transfer: {
     titles: ['', ''],
@@ -82,6 +94,10 @@ const localeValues: Locale = {
     copied: 'Скопировано',
     expand: 'Раскрыть',
     collapse: 'Свернуть',
+  },
+  Carousel: {
+    prevSlide: 'Предыдущий слайд',
+    nextSlide: 'Следующий слайд',
   },
   Form: {
     optional: '(необязательно)',
@@ -136,6 +152,7 @@ const localeValues: Locale = {
   QRCode: {
     expired: 'QR-код устарел',
     refresh: 'Обновить',
+    scanned: 'Отсканировано',
   },
   ColorPicker: {
     presetEmpty: 'Пустой',

@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/es_ES';
+import Pagination from '@rc-component/pagination/locale/es_ES';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/es_ES';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Seleccione',
     close: 'Cerrar',
+    show: 'Mostrar',
+    hide: 'Ocultar',
+    sortable: 'ordenable',
   },
   Table: {
     filterTitle: 'Filtrar menú',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Invertir selección',
     selectNone: 'Vacíe todo',
     selectionAll: 'Seleccionar todos los datos',
+    selectRow: 'Seleccionar fila',
+    selectedRow: 'Fila seleccionada',
+    selectionMenu: 'Menú de selección',
     sortTitle: 'Ordenar',
     expand: 'Expandir fila',
     collapse: 'Colapsar fila',
+    expandAll: 'Expandir todas las filas',
+    collapseAll: 'Colapsar todas las filas',
     triggerDesc: 'Click para ordenar en orden descendente',
     triggerAsc: 'Click para ordenar en orden ascendente',
     cancelSort: 'Click para cancelar ordenamiento',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'Aceptar',
     cancelText: 'Cancelar',
   },
+  Splitter: {
+    toggleStartPanel: 'Alternar panel inicial',
+    toggleEndPanel: 'Alternar panel final',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Buscar aquí',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Seleccionar todos los datos',
     removeAll: 'Eliminar todos los datos',
     selectInvert: 'Invertir página actual',
+    deselectAll: 'Deseleccionar todos los datos',
   },
   Upload: {
     uploading: 'Subiendo...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Copiar',
     copied: 'Copiado',
     expand: 'Expandir',
+    collapse: 'Colapso',
+  },
+  Carousel: {
+    prevSlide: 'Diapositiva anterior',
+    nextSlide: 'Diapositiva siguiente',
   },
   Form: {
     optional: '(opcional)',
@@ -130,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} no coincide con el patrón ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'El código QR expiró',
+    refresh: 'Actualizar',
+    scanned: 'escaneado',
+  },
+  ColorPicker: {
+    presetEmpty: 'vacio',
+    transparent: 'Transparente',
+    singleColor: 'color único',
+    gradientColor: 'Color degradado',
   },
 };
 

@@ -4,8 +4,14 @@ import { createStaticStyles } from 'antd-style';
 
 import type { SwitchProps } from '..';
 import Switch from '..';
+import type { GetProp } from '../../_util/type';
 import Flex from '../../flex';
 import Space from '../../space';
+import ConfigProvider from '../../config-provider';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 
 const classNames = createStaticStyles(({ css }) => ({
   root: css`
@@ -19,15 +25,16 @@ const classNames = createStaticStyles(({ css }) => ({
   `,
 }));
 
-const stylesObject: SwitchProps['styles'] = {
+const stylesObject: Required<GetProp<SwitchProps, 'styles', 'Return'>> = {
   root: { background: 'red' },
+  content: { color: 'green' },
   indicator: { width: '20px' },
 };
 
 // 创建一个自定义 Hook 来获取 classNames 函数
 const useClassNames = () => {
-  const classNamesFn: SwitchProps['classNames'] = (info) => {
-    if (info.props.size === 'small') {
+  const classNamesFn: GetProp<SwitchProps, 'classNames'> = ({ props }) => {
+    if (props.size === 'small') {
       return {
         root: classNames.root,
         content: classNames.content,
@@ -147,5 +154,19 @@ describe('Switch style-class demo', () => {
         }),
       }),
     );
+  });
+  it('should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        switch={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Switch styles={semanticRootStylePriority.styles} style={semanticRootStylePriority.style} />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-switch'));
   });
 });

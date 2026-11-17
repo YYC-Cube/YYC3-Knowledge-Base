@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex, Transfer } from 'antd';
-import type { TransferProps } from 'antd';
+import type { GetProp, TransferProps } from 'antd';
 import { createStyles } from 'antd-style';
 
 const useStyles = createStyles(({ token, css }) => ({
@@ -8,7 +8,7 @@ const useStyles = createStyles(({ token, css }) => ({
   header: { color: token.colorPrimary },
   actions: css`
     & button {
-      background-color: rgba(255,242,232,0.6);
+      background-color: rgba(255, 242, 232, 0.6);
     }
   `,
 }));
@@ -22,15 +22,15 @@ const mockData = Array.from({ length: 20 }).map<any>((_, i) => ({
 const initialTargetKeys = mockData.filter((item) => Number(item.key) > 10).map((item) => item.key);
 
 const stylesObject: TransferProps['styles'] = {
-  header: { fontWeight: 'bold' },
+  header: { fontWeight: 700 },
 };
 
-const stylesFn: TransferProps['styles'] = (info) => {
+const stylesFn: TransferProps['styles'] = (info): GetProp<TransferProps, 'styles', 'Return'> => {
   if (info.props.status === 'warning') {
     return {
       section: { backgroundColor: 'rgba(246,255,237, 0.6)', borderColor: '#b7eb8f' },
-      header: { color: '#8DBCC7', fontWeight: 'normal' },
-    } satisfies TransferProps['styles'];
+      header: { color: '#8DBCC7', fontWeight: 400 },
+    };
   }
   return {};
 };

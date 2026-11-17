@@ -1,12 +1,13 @@
 import * as React from 'react';
 import CheckOutlined from '@ant-design/icons/CheckOutlined';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
+import type { StepsProps as RcStepsProps } from '@rc-component/steps';
 import RcSteps from '@rc-component/steps';
-import type { StepsProps as RcStepsProps } from '@rc-component/steps/lib/Steps';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
+import { isFunction } from '../_util/is';
 import type { GetProp } from '../_util/type';
 import { devUseWarning } from '../_util/warning';
 import Wave from '../_util/wave';
@@ -14,6 +15,7 @@ import { TARGET_CLS } from '../_util/wave/interface';
 import { useComponentConfig } from '../config-provider/context';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
+import useVariant from '../form/hooks/useVariants';
 import useBreakpoint from '../grid/hooks/useBreakpoint';
 import { genCssVar } from '../theme/util/genStyleUtils';
 import Tooltip from '../tooltip';
@@ -21,6 +23,7 @@ import { InternalContext } from './context';
 import PanelArrow from './PanelArrow';
 import ProgressIcon from './ProgressIcon';
 import useStyle from './style';
+import useDisplaySteps from './useDisplaySteps';
 
 type RcIconRenderTypeInfo = Parameters<NonNullable<RcStepsProps['iconRender']>>[1];
 
@@ -29,39 +32,37 @@ export type IconRenderType = (
   info: Pick<RcIconRenderTypeInfo, 'index' | 'active' | 'item' | 'components'>,
 ) => React.ReactNode;
 
-export type StepsSemanticName = keyof StepsSemanticClassNames & keyof StepsSemanticStyles;
-
-export type StepsSemanticClassNames = {
-  root?: string;
-  item?: string;
-  itemWrapper?: string;
-  itemIcon?: string;
-  itemSection?: string;
-  itemHeader?: string;
-  itemTitle?: string;
-  itemSubtitle?: string;
-  itemContent?: string;
-  itemRail?: string;
+export type StepsSemanticType = {
+  classNames?: {
+    root?: string;
+    item?: string;
+    itemWrapper?: string;
+    itemIcon?: string;
+    itemSection?: string;
+    itemHeader?: string;
+    itemTitle?: string;
+    itemSubtitle?: string;
+    itemContent?: string;
+    itemRail?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    item?: React.CSSProperties;
+    itemWrapper?: React.CSSProperties;
+    itemIcon?: React.CSSProperties;
+    itemSection?: React.CSSProperties;
+    itemHeader?: React.CSSProperties;
+    itemTitle?: React.CSSProperties;
+    itemSubtitle?: React.CSSProperties;
+    itemContent?: React.CSSProperties;
+    itemRail?: React.CSSProperties;
+  };
 };
 
-export type StepsSemanticStyles = {
-  root?: React.CSSProperties;
-  item?: React.CSSProperties;
-  itemWrapper?: React.CSSProperties;
-  itemIcon?: React.CSSProperties;
-  itemSection?: React.CSSProperties;
-  itemHeader?: React.CSSProperties;
-  itemTitle?: React.CSSProperties;
-  itemSubtitle?: React.CSSProperties;
-  itemContent?: React.CSSProperties;
-  itemRail?: React.CSSProperties;
-};
-
-export type StepsClassNamesType = SemanticClassNamesType<StepsProps, StepsSemanticClassNames>;
-
-export type StepsStylesType = SemanticStylesType<StepsProps, StepsSemanticStyles>;
+export type StepsSemanticAllType = GenerateSemantic<StepsSemanticType, StepsProps>;
 
 interface StepItem {
+  key?: React.Key;
   className?: string;
   style?: React.CSSProperties;
   classNames?: GetProp<RcStepsProps, 'items'>[number]['classNames'];
@@ -94,8 +95,8 @@ export interface BaseStepsProps {
   // Style
   className?: string;
   rootClassName?: string;
-  classNames?: StepsClassNamesType;
-  styles?: StepsStylesType;
+  classNames?: StepsSemanticAllType['classNamesAndFn'];
+  styles?: StepsSemanticAllType['stylesAndFn'];
   variant?: 'filled' | 'outlined';
   /**
    * Note: `default` is deprecated and will be removed in v7, please use `medium` instead.
@@ -113,6 +114,11 @@ export interface BaseStepsProps {
   progressDot?: boolean | ProgressDotRender;
   responsive?: boolean;
   ellipsis?: boolean;
+  /**
+   * Maximum number of step items to display (`>= 3`).
+   * Hidden step ranges are collapsed into disabled ellipsis steps.
+   */
+  maxCount?: number;
   /**
    * Set offset cell, only work when `type` is `inline`.
    */
@@ -148,7 +154,7 @@ const Steps = (props: StepsProps) => {
     className,
     rootClassName,
     style,
-    variant = 'filled',
+    variant: customVariant,
     type,
     classNames,
     styles,
@@ -161,12 +167,14 @@ const Steps = (props: StepsProps) => {
     labelPlacement,
     titlePlacement,
     ellipsis,
+    maxCount,
     offset = 0,
 
     // Data
     items,
     percent,
     current = 0,
+    initial = 0,
     onChange,
 
     // Render
@@ -186,6 +194,11 @@ const Steps = (props: StepsProps) => {
     className: contextClassName,
     style: contextStyle,
   } = contextContent;
+
+  const [variant] = useVariant('steps', customVariant, {
+    variants: ['filled', 'outlined'],
+    defaultVariant: 'filled',
+  });
 
   let contextClassNames: StepsProps['classNames'];
   let contextStyles: StepsProps['styles'];
@@ -238,7 +251,7 @@ const Steps = (props: StepsProps) => {
 
   // Progress Dot Render function
   const legacyProgressDotRender = React.useMemo(() => {
-    return mergedType === 'dot' && typeof progressDot === 'function' ? progressDot : undefined;
+    return mergedType === 'dot' && isFunction(progressDot) ? progressDot : undefined;
   }, [mergedType, progressDot]);
 
   const mergedOrientation = React.useMemo<StepsProps['orientation']>(() => {
@@ -265,6 +278,14 @@ const Steps = (props: StepsProps) => {
   // ========================== Percentage ==========================
   const mergedPercent = isInline ? undefined : percent;
 
+  const { canApplyMaxCount, displaySteps, mappedDisplayCurrent, displayItems } = useDisplaySteps(
+    mergedItems,
+    current,
+    initial,
+    maxCount,
+    prefixCls,
+  );
+
   // =========== Merged Props for Semantic ===========
   const mergedProps: StepsProps = {
     ...props,
@@ -274,19 +295,25 @@ const Steps = (props: StepsProps) => {
     orientation: mergedOrientation,
     titlePlacement: mergedTitlePlacement,
     current,
+    initial,
     percent: mergedPercent,
     responsive,
     offset,
+    ellipsis,
+    maxCount,
   };
 
   // ============================ Styles ============================
-  const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    StepsClassNamesType,
-    StepsStylesType,
-    StepsProps
-  >([waveEffectClassNames, contextClassNames, classNames], [contextStyles, styles], {
-    props: mergedProps,
-  });
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
+  const [mergedClassNames, mergedStyles] = useMergeSemantic(
+    [waveEffectClassNames, contextClassNames, classNames],
+    [contextStyles, contextStyleRoot, styles, styleRoot],
+    {
+      props: mergedProps,
+    },
+  );
 
   // ============================= Icon =============================
   const internalIconRender: RcStepsProps['iconRender'] = (_, info) => {
@@ -296,6 +323,9 @@ const Steps = (props: StepsProps) => {
       active,
       components: { Icon: StepIcon },
     } = info;
+    const originIndex = displaySteps[index]?.originIndex;
+    const mappedIndex =
+      originIndex !== undefined && originIndex >= 0 ? initial + originIndex : index;
 
     const { status, icon } = item;
 
@@ -312,7 +342,7 @@ const Steps = (props: StepsProps) => {
           iconContent = <CloseOutlined className={`${itemIconCls}-error`} />;
           break;
         default: {
-          let numNode = <span className={`${itemIconCls}-number`}>{info.index + 1}</span>;
+          let numNode = <span className={`${itemIconCls}-number`}>{mappedIndex + 1}</span>;
 
           if (status === 'process' && mergedPercent !== undefined) {
             numNode = (
@@ -336,14 +366,14 @@ const Steps = (props: StepsProps) => {
     // Custom Render Props
     if (iconRender) {
       iconNode = iconRender(iconNode, {
-        index,
+        index: mappedIndex,
         active,
         item,
         components: { Icon: StepIcon },
       });
-    } else if (typeof legacyProgressDotRender === 'function') {
+    } else if (isFunction(legacyProgressDotRender)) {
       iconNode = legacyProgressDotRender(iconNode, {
-        index,
+        index: mappedIndex,
         ...(item as Required<typeof item>),
       });
     }
@@ -389,8 +419,6 @@ const Steps = (props: StepsProps) => {
   // ============================ Styles ============================
   const mergedStyle: React.CSSProperties = {
     [varName('items-offset')]: `${offset}`,
-    ...contextStyle,
-    ...style,
   };
 
   const stepsClassName = clsx(
@@ -401,6 +429,7 @@ const Steps = (props: StepsProps) => {
       [`${prefixCls}-rtl`]: rtlDirection === 'rtl',
       [`${prefixCls}-dot`]: isDot,
       [`${prefixCls}-ellipsis`]: ellipsis,
+      [`${prefixCls}-max-count`]: canApplyMaxCount,
       [`${prefixCls}-with-progress`]: mergedPercent !== undefined,
       [`${prefixCls}-small`]: mergedSize === 'small',
     },
@@ -422,7 +451,19 @@ const Steps = (props: StepsProps) => {
       'items.description',
       'items.content',
     );
+    warning(
+      maxCount === undefined || maxCount >= 3,
+      'usage',
+      '`maxCount` should be greater than or equal to 3.',
+    );
   }
+
+  const onDisplayChange = (displayCurrent: number) => {
+    const target = displaySteps[displayCurrent];
+    if (onChange && target && target.originIndex >= 0) {
+      onChange(initial + target.originIndex);
+    }
+  };
 
   // ============================ Render ============================
   return (
@@ -439,9 +480,10 @@ const Steps = (props: StepsProps) => {
       titlePlacement={mergedTitlePlacement}
       components={components}
       // Data
-      current={current}
-      items={mergedItems}
-      onChange={onChange}
+      initial={0}
+      current={mappedDisplayCurrent}
+      items={displayItems}
+      onChange={onChange ? onDisplayChange : undefined}
       // Render
       iconRender={internalIconRender}
       itemRender={itemRender}

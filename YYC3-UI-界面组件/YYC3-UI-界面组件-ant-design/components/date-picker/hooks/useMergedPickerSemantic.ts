@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../../_util/hooks/useMergeSemantic';
 import type { AnyObject } from '../../_util/type';
 import { useComponentConfig } from '../../config-provider/context';
-import type { RequiredSemanticPicker } from '../generatePicker/interface';
 
 const useMergedPickerSemantic = <P extends AnyObject = AnyObject>(
   pickerType: 'timePicker' | 'datePicker',
@@ -13,12 +12,20 @@ const useMergedPickerSemantic = <P extends AnyObject = AnyObject>(
   popupClassName?: string,
   popupStyle?: React.CSSProperties,
   mergedProps?: P,
+  contextStyle?: React.CSSProperties | null,
 ) => {
-  const { classNames: contextClassNames, styles: contextStyles } = useComponentConfig(pickerType);
+  const {
+    classNames: contextClassNames,
+    style: componentContextStyle,
+    styles: contextStyles,
+  } = useComponentConfig(pickerType);
+  const mergedContextStyle =
+    contextStyle === null ? undefined : (contextStyle ?? componentContextStyle);
+  const contextStyleRoot = useSemanticRootStyle(mergedContextStyle);
 
-  const [mergedClassNames, mergedStyles] = useMergeSemantic<P['classNames'], P['styles'], P>(
+  const [mergedClassNames, mergedStyles] = useMergeSemantic(
     [contextClassNames as P['classNames'], classNames],
-    [contextStyles as P['styles'], styles],
+    [contextStyles as P['styles'], contextStyleRoot as P['styles'], styles],
     { props: mergedProps as P },
     {
       popup: {
@@ -44,7 +51,7 @@ const useMergedPickerSemantic = <P extends AnyObject = AnyObject>(
     };
 
     // Return
-    return [filledClassNames, filledStyles] as unknown as RequiredSemanticPicker;
+    return [filledClassNames, filledStyles] as const;
   }, [mergedClassNames, mergedStyles, popupClassName, popupStyle]);
 };
 

@@ -3,6 +3,11 @@ import React from 'react';
 import Empty from '..';
 import type { EmptyProps } from '..';
 import { render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 
 describe('Empty.Semantic', () => {
   it('should apply dynamic classNames and styles from props function', () => {
@@ -14,9 +19,9 @@ describe('Empty.Semantic', () => {
     };
     const styles: EmptyProps['styles'] = (info) => {
       if (info.props.description) {
-        return { root: { background: 'red' } };
+        return { root: { backgroundColor: 'rgb(255, 0, 0)' } };
       }
-      return { root: { background: 'blue' } };
+      return { root: { backgroundColor: 'rgb(0, 0, 255)' } };
     };
 
     const { rerender, container } = render(
@@ -26,7 +31,9 @@ describe('Empty.Semantic', () => {
     );
 
     expect(container.querySelector('.empty-with-desc')).toBeTruthy();
-    expect(container.querySelector('.ant-empty')).toHaveStyle({ background: 'red' });
+    expect(container.querySelector('.ant-empty')).toHaveStyle({
+      backgroundColor: 'rgb(255, 0, 0)',
+    });
 
     rerender(
       <Empty classNames={classNames} styles={styles}>
@@ -34,7 +41,9 @@ describe('Empty.Semantic', () => {
       </Empty>,
     );
     expect(container.querySelector('.empty-no-desc')).toBeTruthy();
-    expect(container.querySelector('.ant-empty')).toHaveStyle({ background: 'blue' });
+    expect(container.querySelector('.ant-empty')).toHaveStyle({
+      backgroundColor: 'rgb(0, 0, 255)',
+    });
   });
 
   it('should apply object classNames and styles', () => {
@@ -48,5 +57,19 @@ describe('Empty.Semantic', () => {
     );
     expect(container.querySelector('.empty-custom')).toBeTruthy();
     expect(container.querySelector('.empty-image-custom')).toBeTruthy();
+  });
+  it('should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        empty={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Empty styles={semanticRootStylePriority.styles} style={semanticRootStylePriority.style} />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-empty'));
   });
 });

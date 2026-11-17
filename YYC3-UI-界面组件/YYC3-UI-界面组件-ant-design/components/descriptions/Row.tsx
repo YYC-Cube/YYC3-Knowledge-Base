@@ -42,10 +42,12 @@ function renderCells(
       },
       index,
     ) => {
+      const mergedKey = key ?? index;
+
       if (typeof component === 'string') {
         return (
           <Cell
-            key={`${type}-${key || index}`}
+            key={`${type}-${mergedKey}`}
             className={className}
             style={style}
             classNames={classNames}
@@ -75,17 +77,27 @@ function renderCells(
         );
       }
 
+      const mergedStyles = {
+        label: {
+          ...rootLabelStyle,
+          ...rootStyles?.label,
+          ...labelStyle,
+          ...styles?.label,
+        },
+        content: {
+          ...rootContentStyle,
+          ...rootStyles?.content,
+          ...contentStyle,
+          ...styles?.content,
+        },
+      };
       return [
         <Cell
-          key={`label-${key || index}`}
+          key={`label-${mergedKey}`}
           className={className}
-          style={{
-            ...rootLabelStyle,
-            ...rootStyles?.label,
-            ...style,
-            ...labelStyle,
-            ...styles?.label,
-          }}
+          style={style}
+          classNames={classNames}
+          styles={mergedStyles}
           span={1}
           colon={colon}
           component={component[0]}
@@ -95,15 +107,11 @@ function renderCells(
           type="label"
         />,
         <Cell
-          key={`content-${key || index}`}
+          key={`content-${mergedKey}`}
           className={className}
-          style={{
-            ...rootContentStyle,
-            ...rootStyles?.content,
-            ...style,
-            ...contentStyle,
-            ...styles?.content,
-          }}
+          style={style}
+          classNames={classNames}
+          styles={mergedStyles}
           span={span * 2 - 1}
           component={component[1]}
           itemPrefixCls={itemPrefixCls}

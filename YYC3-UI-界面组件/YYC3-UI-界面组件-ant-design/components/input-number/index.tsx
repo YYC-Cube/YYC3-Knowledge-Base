@@ -1,7 +1,7 @@
 import * as React from 'react';
+import DownOutlined from '@ant-design/icons/DownOutlined';
 import MinusOutlined from '@ant-design/icons/MinusOutlined';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
-import DownOutlined from '@ant-design/icons/DownOutlined';
 import UpOutlined from '@ant-design/icons/UpOutlined';
 import RcInputNumber from '@rc-component/input-number';
 import type {
@@ -12,8 +12,10 @@ import type {
 import { clsx } from 'clsx';
 
 import ContextIsolator from '../_util/ContextIsolator';
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useAllowClear } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
+import { isPlainObject } from '../_util/is';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { devUseWarning } from '../_util/warning';
@@ -26,45 +28,41 @@ import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariants';
+import { useLocale } from '../locale';
 import SpaceAddon from '../space/Addon';
 import Compact, { useCompactItemContext } from '../space/Compact';
 import useStyle from './style';
 
-export type InputNumberSemanticName = keyof InputNumberSemanticClassNames &
-  keyof InputNumberSemanticStyles;
-
-export type InputNumberSemanticClassNames = {
-  root?: string;
-  prefix?: string;
-  suffix?: string;
-  input?: string;
-  actions?: string;
+export type InputNumberSemanticType = {
+  classNames?: {
+    root?: string;
+    prefix?: string;
+    suffix?: string;
+    input?: string;
+    actions?: string;
+    clear?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    prefix?: React.CSSProperties;
+    suffix?: React.CSSProperties;
+    input?: React.CSSProperties;
+    actions?: React.CSSProperties;
+    clear?: React.CSSProperties;
+  };
 };
 
-export type InputNumberSemanticStyles = {
-  root?: React.CSSProperties;
-  prefix?: React.CSSProperties;
-  suffix?: React.CSSProperties;
-  input?: React.CSSProperties;
-  actions?: React.CSSProperties;
-};
-
-export type InputNumberClassNamesType<T extends ValueType = ValueType> = SemanticClassNamesType<
-  InputNumberProps<T>,
-  InputNumberSemanticClassNames
->;
-
-export type InputNumberStylesType<T extends ValueType = ValueType> = SemanticStylesType<
-  InputNumberProps<T>,
-  InputNumberSemanticStyles
+export type InputNumberSemanticAllType = GenerateSemantic<
+  InputNumberSemanticType,
+  InputNumberProps
 >;
 
 export interface InputNumberProps<T extends ValueType = ValueType>
   extends Omit<RcInputNumberProps<T>, 'prefix' | 'size' | 'controls' | 'classNames' | 'styles'> {
   prefixCls?: string;
   rootClassName?: string;
-  classNames?: InputNumberClassNamesType;
-  styles?: InputNumberStylesType;
+  classNames?: InputNumberSemanticAllType['classNamesAndFn'];
+  styles?: InputNumberSemanticAllType['stylesAndFn'];
   /**
    * @deprecated Use `Space.Compact` instead.
    *
@@ -132,6 +130,7 @@ const InternalInputNumber = React.forwardRef<RcInputNumberRef, InternalInputNumb
       addonAfter: _addonAfter,
       prefix,
       suffix,
+      allowClear,
       bordered,
       readOnly,
       status,
@@ -151,7 +150,17 @@ const InternalInputNumber = React.forwardRef<RcInputNumberRef, InternalInputNumb
       style: contextStyle,
       styles: contextStyles,
       classNames: contextClassNames,
+      allowClear: contextAllowClear,
     } = useComponentConfig('inputNumber');
+
+    // ====================== Clear =======================
+    const [locale] = useLocale('global');
+    const mergedAllowClear = useAllowClear({
+      allowClear,
+      contextAllowClear,
+      componentName: 'InputNumber',
+      defaultLabel: locale.clear,
+    });
 
     // ===================== Disabled =====================
     const disabled = React.useContext(DisabledContext);
@@ -170,7 +179,7 @@ const InternalInputNumber = React.forwardRef<RcInputNumberRef, InternalInputNumb
     let downIcon: React.ReactNode = mode === 'spinner' ? <MinusOutlined /> : <DownOutlined />;
     const controlsTemp = typeof mergedControls === 'boolean' ? mergedControls : undefined;
 
-    if (typeof mergedControls === 'object') {
+    if (isPlainObject(mergedControls)) {
       upIcon = mergedControls.upIcon || upIcon;
       downIcon = mergedControls.downIcon || downIcon;
     }
@@ -181,7 +190,12 @@ const InternalInputNumber = React.forwardRef<RcInputNumberRef, InternalInputNumb
 
     const [variant, enableVariantCls] = useVariant('inputNumber', customVariant, bordered);
 
-    const suffixNode = hasFeedback && <>{feedbackIcon}</>;
+    const suffixNode = (hasFeedback || suffix) && (
+      <>
+        {suffix}
+        {hasFeedback && feedbackIcon}
+      </>
+    );
 
     // =========== Merged Props for Semantic ==========
     const mergedProps: InputNumberProps = {
@@ -189,13 +203,17 @@ const InternalInputNumber = React.forwardRef<RcInputNumberRef, InternalInputNumb
       size: mergedSize,
       disabled: mergedDisabled,
       controls: mergedControls,
+      allowClear: mergedAllowClear,
     };
 
+    const contextStyleRoot = useSemanticRootStyle(contextStyle);
+    const styleRoot = useSemanticRootStyle(style);
+
     const [mergedClassNames, mergedStyles] = useMergeSemantic<
-      InputNumberClassNamesType,
-      InputNumberStylesType,
+      InputNumberSemanticAllType['classNames'],
+      InputNumberSemanticAllType['styles'],
       InputNumberProps
-    >([contextClassNames, classNames], [contextStyles, styles], {
+    >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
       props: mergedProps,
     });
 
@@ -221,14 +239,15 @@ const InternalInputNumber = React.forwardRef<RcInputNumberRef, InternalInputNumb
             [`${prefixCls}-without-controls`]: !mergedControls,
           },
         )}
-        style={{ ...mergedStyles.root, ...contextStyle, ...style }}
+        style={mergedStyles.root}
         upHandler={upIcon}
         downHandler={downIcon}
         prefixCls={prefixCls}
         readOnly={readOnly}
         controls={controlsTemp}
         prefix={prefix}
-        suffix={suffixNode || suffix}
+        suffix={suffixNode}
+        allowClear={mergedAllowClear}
         classNames={mergedClassNames}
         styles={mergedStyles}
         {...others}

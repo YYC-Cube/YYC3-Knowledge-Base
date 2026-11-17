@@ -2,39 +2,40 @@
 group:
   title: AI
   order: 0.9
-order: 1
+order: 2
 title: LLMs.txt
 tag: New
 ---
 
 本指南介绍如何让 AI 工具更好地理解 Ant Design。
 
-## 什么是 LLMs.txt？
+## 什么是 LLMs.txt？ {#what-is-llmstxt}
 
 我们支持通过 [LLMs.txt](https://llmstxt.org/) 文件向大语言模型（LLMs）提供 Ant Design 文档。此功能可帮助 AI 工具更好地理解我们的组件库、API 及使用模式。
 
-## 可用资源
+## 可用资源 {#available-resources}
 
-### LLMs.txt 聚合文件
+### LLMs.txt 聚合文件 {#llmstxt-aggregated-files}
 
 我们提供多个聚合文件来帮助 AI 工具访问文档：
 
 | 文件 | 说明 |
 | --- | --- |
 | [llms.txt](https://ant.design/llms.txt) | 导航文件，包含所有文档和组件的链接 |
+| [design.md](https://ant.design/design.md) | 默认 Light 主题的设计语言描述文件，面向 AI 设计工具（Figma Make、Stitch 等），遵循 [google-labs-code/design.md](https://github.com/google-labs-code/design.md) 规范 |
 | [llms-full.txt](https://ant.design/llms-full.txt) | 完整的组件文档（英文），包含实现细节和示例 |
 | [llms-full-cn.txt](https://ant.design/llms-full-cn.txt) | 完整的组件文档（中文） |
 | [llms-semantic.md](https://ant.design/llms-semantic.md) | 组件语义描述（英文），包含 DOM 结构和使用模式 |
 | [llms-semantic-cn.md](https://ant.design/llms-semantic-cn.md) | 组件语义描述（中文） |
 
-### 单个组件文档
+### 单个组件文档 {#single-component-documentation}
 
 在原始组件文档 URL 后加 `.md` 即可访问 Markdown 格式文档：
 
 - [`https://ant.design/components/button.md`](https://ant.design/components/button.md)（英文）
 - [`https://ant.design/components/button-cn.md`](https://ant.design/components/button-cn.md)（中文）
 
-### 语义文档
+### 语义文档 {#semantic-documentation}
 
 每个组件都有对应的语义描述文件：
 
@@ -47,7 +48,7 @@ tag: New
 - 使用示例和最佳实践
 - DOM 结构概览
 
-## 在 AI 工具中的使用
+## 在 AI 工具中的使用 {#usage-with-ai-tools}
 
 | 工具 | 说明 | 提示词 |
 | --- | --- | --- |

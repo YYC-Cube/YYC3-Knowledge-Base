@@ -1,5 +1,5 @@
 import React from 'react';
-import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
+import { spyElementPrototypes } from '@rc-component/util';
 
 import Watermark from '..';
 import mountTest from '../../../tests/shared/mountTest';
@@ -33,6 +33,15 @@ describe('Watermark', () => {
     mockSrcSet.mockRestore();
   });
 
+  it('should support nativeElement ref', () => {
+    const ref = React.createRef<React.ComponentRef<typeof Watermark>>();
+    const { container } = render(
+      <Watermark ref={ref} className="watermark-ref" content="Ant Design" />,
+    );
+
+    expect(ref.current?.nativeElement).toBe(container.querySelector('.watermark-ref'));
+  });
+
   it('The watermark should render successfully', () => {
     const { container } = render(<Watermark className="watermark" content="Ant Design" />);
     expect(container.querySelector('.watermark div')).toBeTruthy();
@@ -55,6 +64,58 @@ describe('Watermark', () => {
       height: 'calc(100% - 150px)',
     });
     expect(container).toMatchSnapshot();
+  });
+
+  it('supports custom font for each content line', async () => {
+    const fillText = jest.spyOn(CanvasRenderingContext2D.prototype, 'fillText');
+    const fonts: string[] = [];
+    const spyCanvas = spyElementPrototypes(CanvasRenderingContext2D, {
+      font: {
+        set(this: CanvasRenderingContext2D, ...args: any[]) {
+          const [originDescriptor, value] = args as [PropertyDescriptor, string];
+          fonts.push(value);
+          return originDescriptor.set?.call(this, value);
+        },
+      },
+    });
+
+    try {
+      render(
+        <Watermark
+          content={[
+            { text: 'Ant Design', font: { fontSize: 20, fontWeight: 700 } },
+            {
+              text: 'Happy Working',
+              font: { fontFamily: 'serif', fontSize: 12, fontStyle: 'italic' },
+            },
+            {
+              text: 'Fallback',
+              font: { fontFamily: 'monospace', fontSize: undefined },
+            },
+          ]}
+        />,
+      );
+      await waitFakeTimer();
+
+      expect(fonts).toEqual(
+        expect.arrayContaining([
+          'normal normal 700 20px sans-serif',
+          'italic normal 400 12px serif',
+          'normal normal 400 16px monospace',
+        ]),
+      );
+      const textCalls = fillText.mock.calls.filter(([text]) =>
+        ['Ant Design', 'Happy Working', 'Fallback'].includes(text as string),
+      );
+      expect(textCalls.map(([text]) => text)).toEqual(['Ant Design', 'Happy Working', 'Fallback']);
+      textCalls.forEach(([, x, y]) => {
+        expect(Number.isFinite(x)).toBeTruthy();
+        expect(Number.isFinite(y)).toBeTruthy();
+      });
+    } finally {
+      fillText.mockRestore();
+      spyCanvas.mockRestore();
+    }
   });
 
   it('Interleaved watermark backgroundSize is correct', () => {
@@ -149,7 +210,7 @@ describe('Watermark', () => {
 
         const watermark = getWatermarkElement();
 
-        expect(watermark).toHaveStyle({ zIndex: '9' });
+        expect(watermark).toHaveStyle({ zIndex: '999' });
 
         // Not crash when children removed
         rerender(<Watermark className="test" />);
@@ -190,6 +251,19 @@ describe('Watermark', () => {
     expect(spy).not.toHaveBeenCalledWith(expect.anything(), -0, 0);
     expect(spy).not.toHaveBeenCalledWith(expect.anything(), -0, -0);
     expect(spy).not.toHaveBeenCalledWith(expect.anything(), 0, -0);
+    spy.mockRestore();
+  });
+
+  it('should not draw a zero-sized canvas if content is undefined', async () => {
+    const spy = jest.spyOn(CanvasRenderingContext2D.prototype, 'drawImage');
+    render(<Watermark className="watermark" />);
+    await waitFakeTimer();
+
+    expect(
+      spy.mock.calls.some(
+        ([image]) => image instanceof HTMLCanvasElement && (!image.width || !image.height),
+      ),
+    ).toBe(false);
     spy.mockRestore();
   });
 

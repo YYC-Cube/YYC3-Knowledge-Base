@@ -4,6 +4,7 @@ import { warning } from '@rc-component/util';
 
 import type { ModalFuncProps } from '..';
 import Modal from '..';
+import type { MaskType } from '../../_util/hooks';
 import { act, fireEvent, render, waitFakeTimer } from '../../../tests/utils';
 import App from '../../app';
 import ConfigProvider, { defaultPrefixCls } from '../../config-provider';
@@ -140,6 +141,36 @@ describe('Modal.confirm triggers callbacks correctly', () => {
     await waitFakeTimer();
   }
 
+  it('applies body typography to static and hook confirmation content', async () => {
+    const Demo = () => {
+      const [modal, contextHolder] = Modal.useModal();
+      return (
+        <>
+          <button type="button" onClick={() => modal.confirm({ content: 'Hook content' })}>
+            Open
+          </button>
+          {contextHolder}
+        </>
+      );
+    };
+    const { getByText } = render(<Demo />);
+    fireEvent.click(getByText('Open'));
+
+    (['info', 'success', 'error', 'warning', 'confirm'] as const).forEach((type) => {
+      Modal[type]({ content: `${type} content` });
+    });
+    await waitFakeTimer();
+
+    const contents = $$('.ant-modal-confirm-content');
+    expect(contents).toHaveLength(6);
+    contents.forEach((content) => {
+      const style = getComputedStyle(content);
+      expect(style.color).toBe('var(--ant-color-text)');
+      expect(style.fontSize).toBe('var(--ant-font-size)');
+      expect(style.lineHeight).toBe('var(--ant-line-height)');
+    });
+  });
+
   it('should not render title when title not defined', async () => {
     confirm({
       content: 'some descriptions',
@@ -173,6 +204,27 @@ describe('Modal.confirm triggers callbacks correctly', () => {
     $$('.ant-btn-primary')[0].click();
     expect(onCancel.mock.calls.length).toBe(0);
     expect(onOk.mock.calls.length).toBe(1);
+  });
+
+  it('trigger both onOk and okButtonProps.onClick once when click on ok button', async () => {
+    const onOk = jest.fn();
+    const onClick = jest.fn();
+    await open({
+      onOk,
+      okButtonProps: { onClick },
+    });
+
+    $$('.ant-btn-primary')[0].click();
+    expect(onOk).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('support falsy button text', async () => {
+    await open({ cancelText: false, okText: 0 });
+    const btns = $$('.ant-modal-confirm-btns .ant-btn');
+
+    expect(btns[0].textContent).toBe('');
+    expect(btns[1].textContent).toBe('0');
   });
 
   it('should allow Modal.confirm without onCancel been set', async () => {
@@ -659,8 +711,9 @@ describe('Modal.confirm triggers callbacks correctly', () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
     await open({ bodyStyle: { width: 500 } });
 
-    const { width } = $$('.ant-modal-body')[0].style;
+    const { width } = $$('.ant-modal-confirm-content')[0].style;
     expect(width).toBe('500px');
+    expect($$('.ant-modal-body')[0].style.width).toBe('');
     expect(spy).toHaveBeenCalledWith(
       'Warning: [antd: Modal] `bodyStyle` is deprecated. Please use `styles.body` instead.',
     );
@@ -671,8 +724,104 @@ describe('Modal.confirm triggers callbacks correctly', () => {
     resetWarned();
     await open({ styles: { body: { width: 500 } } });
 
-    const { width } = $$('.ant-modal-body')[0].style;
+    const { width } = $$('.ant-modal-confirm-content')[0].style;
     expect(width).toBe('500px');
+    expect($$('.ant-modal-body')[0].style.width).toBe('');
+  });
+
+  it('styles function should apply body semantic config to confirm content', async () => {
+    await open({
+      styles: () => ({ body: { width: 500 } }),
+    });
+
+    const { width } = $$('.ant-modal-confirm-content')[0].style;
+    expect(width).toBe('500px');
+    expect($$('.ant-modal-body')[0].style.width).toBe('');
+  });
+
+  it('should apply body semantic config to confirm content in App.useApp modal method', async () => {
+    const Confirm = () => {
+      const { modal } = App.useApp();
+
+      React.useEffect(() => {
+        modal.confirm({
+          title: 'Bamboo',
+          content: 'Little',
+          onCancel: () => undefined,
+        });
+      }, [modal]);
+
+      return null;
+    };
+
+    render(
+      <ConfigProvider
+        modal={{
+          classNames: { body: 'custom-confirm-content' },
+          styles: { body: { margin: 24 } },
+        }}
+      >
+        <App>
+          <Confirm />
+        </App>
+      </ConfigProvider>,
+    );
+
+    await waitFakeTimer();
+
+    const modalBody = document.querySelector<HTMLElement>('.ant-modal-body')!;
+    const title = document.querySelector<HTMLElement>('.ant-modal-confirm-title')!;
+    const content = document.querySelector<HTMLElement>('.ant-modal-confirm-content')!;
+
+    expect(modalBody).not.toHaveClass('custom-confirm-content');
+    expect(modalBody.style.margin).toBe('');
+    expect(title.closest('.custom-confirm-content')).toBeFalsy();
+    expect(content).toHaveClass('custom-confirm-content');
+    expect(content.style.margin).toBe('24px');
+  });
+
+  it('should resolve confirm content body semantics with merged Modal props', async () => {
+    const Confirm = () => {
+      const { modal } = App.useApp();
+
+      React.useEffect(() => {
+        modal.confirm({
+          title: 'Bamboo',
+          content: 'Little',
+          onCancel: () => undefined,
+        });
+      }, [modal]);
+
+      return null;
+    };
+
+    render(
+      <ConfigProvider
+        modal={{
+          classNames: ({ props }) => ({
+            body: props.focusable?.trap === false ? 'custom-focusable-content' : '',
+          }),
+          focusable: { trap: false },
+          styles: ({ props }) => ({
+            body: { width: props.focusable?.trap === false ? 500 : 300 },
+          }),
+        }}
+      >
+        <App>
+          <Confirm />
+        </App>
+      </ConfigProvider>,
+    );
+
+    await waitFakeTimer();
+
+    const modalBody = document.querySelector<HTMLElement>('.ant-modal-body')!;
+    const content = document.querySelector<HTMLElement>('.ant-modal-confirm-content')!;
+
+    expect(modalBody).not.toHaveClass('custom-focusable-content');
+    expect(modalBody.style.width).toBe('');
+    expect(content).toHaveClass('custom-focusable-content');
+    expect(content.style.width).toBe('500px');
   });
 
   describe('the callback close should be a method when onCancel has a close parameter', () => {
@@ -1013,6 +1162,79 @@ describe('Modal.confirm triggers callbacks correctly', () => {
     );
   });
 
+  it('should support focusable global config in App.useApp modal.confirm', () => {
+    const classNames = jest.fn(() => ({}));
+
+    const Confirm = () => {
+      const { modal } = App.useApp();
+
+      React.useEffect(() => {
+        modal.confirm({
+          classNames,
+          onCancel: () => undefined,
+        });
+      }, [modal]);
+
+      return null;
+    };
+
+    render(
+      <ConfigProvider modal={{ focusable: { trap: false, focusTriggerAfterClose: false } }}>
+        <App>
+          <Confirm />
+        </App>
+      </ConfigProvider>,
+    );
+
+    expect(classNames).toHaveBeenCalledWith(
+      expect.objectContaining({
+        props: expect.objectContaining({
+          focusable: {
+            trap: false,
+            focusTriggerAfterClose: false,
+          },
+        }),
+      }),
+    );
+  });
+
+  it('should prefer focusable prop over global config in App.useApp modal.confirm', () => {
+    const classNames = jest.fn(() => ({}));
+
+    const Confirm = () => {
+      const { modal } = App.useApp();
+
+      React.useEffect(() => {
+        modal.confirm({
+          classNames,
+          focusable: { trap: true },
+          onCancel: () => undefined,
+        });
+      }, [modal]);
+
+      return null;
+    };
+
+    render(
+      <ConfigProvider modal={{ focusable: { trap: false, focusTriggerAfterClose: false } }}>
+        <App>
+          <Confirm />
+        </App>
+      </ConfigProvider>,
+    );
+
+    expect(classNames).toHaveBeenCalledWith(
+      expect.objectContaining({
+        props: expect.objectContaining({
+          focusable: {
+            trap: true,
+            focusTriggerAfterClose: false,
+          },
+        }),
+      }),
+    );
+  });
+
   it('should support cancelButtonProps global config', () => {
     const Confirm = () => {
       const { modal } = App.useApp();
@@ -1107,5 +1329,103 @@ describe('Modal.confirm triggers callbacks correctly', () => {
     expect(
       document.querySelector('.ant-modal-confirm-btns .ant-btn-primary.ant-btn-sm'),
     ).toBeTruthy();
+  });
+
+  it('should be able to config info icon', async () => {
+    const Confirm = () => {
+      const { modal } = App.useApp();
+      React.useEffect(() => {
+        modal.info({});
+      }, []);
+      return null;
+    };
+
+    render(
+      <ConfigProvider modal={{ infoIcon: <span className="custom-info-icon">foobar</span> }}>
+        <App>
+          <Confirm />
+        </App>
+      </ConfigProvider>,
+    );
+    expect(document.querySelector('.custom-info-icon')).toBeTruthy();
+  });
+
+  it('should be able to config success icon', async () => {
+    const Confirm = () => {
+      const { modal } = App.useApp();
+      React.useEffect(() => {
+        modal.success({});
+      }, []);
+      return null;
+    };
+
+    render(
+      <ConfigProvider modal={{ successIcon: <span className="custom-success-icon">foobar</span> }}>
+        <App>
+          <Confirm />
+        </App>
+      </ConfigProvider>,
+    );
+    expect(document.querySelector('.custom-success-icon')).toBeTruthy();
+  });
+
+  it('should be able to config error icon', async () => {
+    const Confirm = () => {
+      const { modal } = App.useApp();
+      React.useEffect(() => {
+        modal.error({});
+      }, []);
+      return null;
+    };
+
+    render(
+      <ConfigProvider modal={{ errorIcon: <span className="custom-error-icon">foobar</span> }}>
+        <App>
+          <Confirm />
+        </App>
+      </ConfigProvider>,
+    );
+    expect(document.querySelector('.custom-error-icon')).toBeTruthy();
+  });
+
+  it('should not mutate the mask config object', async () => {
+    const mask: MaskType = { blur: true };
+    await open({ mask });
+    expect(mask).toEqual({ blur: true });
+  });
+
+  it('should keep mask closable when the mask config object is reused', async () => {
+    const mask: MaskType = { blur: true };
+    await open({ mask });
+    Modal.destroyAll();
+    await waitFakeTimer();
+
+    const onCancel = jest.fn();
+    render(<Modal open mask={mask} onCancel={onCancel} />);
+    await waitFakeTimer();
+
+    const wrap = $$('.ant-modal-wrap')[0];
+    fireEvent.mouseDown(wrap);
+    fireEvent.click(wrap);
+    expect(onCancel).toHaveBeenCalled();
+  });
+
+  it('should be able to config warning icon', async () => {
+    const Confirm = () => {
+      const { modal } = App.useApp();
+      React.useEffect(() => {
+        modal.warning({});
+      }, []);
+      return null;
+    };
+
+    render(
+      <ConfigProvider modal={{ warningIcon: <span className="custom-warning-icon">foobar</span> }}>
+        <App>
+          <Confirm />
+        </App>
+      </ConfigProvider>,
+    );
+    expect(document.querySelector('.custom-warning-icon')).toBeTruthy();
   });
 });

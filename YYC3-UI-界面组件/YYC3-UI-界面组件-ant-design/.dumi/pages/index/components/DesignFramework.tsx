@@ -87,8 +87,8 @@ const useStyle = createStyles(({ cssVar, css }, isDark: boolean) => {
       border-radius: calc(${cssVar.borderRadius} * 2);
       padding: ${cssVar.paddingMD} ${cssVar.paddingLG};
       background: ${isDark ? 'rgba(0, 0, 0, 0.25)' : 'rgba(0, 0, 0, 0.02)'};
-      border: 1px solid ${isDark ? 'rgba(255, 255, 255, 0.45)' : 'rgba(0, 0, 0, 0.06)'};
-
+      border: ${cssVar.lineWidth} ${cssVar.lineType}
+        ${isDark ? 'rgba(255, 255, 255, 0.45)' : 'rgba(0, 0, 0, 0.06)'};
       img {
         height: 48px;
       }
@@ -158,7 +158,7 @@ const DesignFramework: React.FC = () => {
 
         return (
           <Col key={index} span={colSpan}>
-            <a className={styles.cardMini} target="_blank" href={url} rel="noreferrer">
+            <a className={styles.cardMini} target="_blank" href={url} rel="noopener noreferrer">
               <img
                 draggable={false}
                 alt={title}

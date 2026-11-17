@@ -1,25 +1,26 @@
 import * as React from 'react';
 import { Panel } from '@rc-component/dialog';
-import type { PanelProps } from '@rc-component/dialog/lib/Dialog/Content/Panel';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
 import { withPureRenderTheme } from '../_util/PurePanel';
 import { ConfigContext } from '../config-provider';
 import { useComponentConfig } from '../config-provider/context';
 import useCSSVarCls from '../config-provider/hooks/useCSSVarCls';
 import { ConfirmContent } from './ConfirmDialog';
-import type { ModalClassNamesType, ModalFuncProps, ModalStylesType } from './interface';
+import type { ModalFuncProps, ModalSemanticAllType } from './interface';
 import { Footer, renderCloseIcon } from './shared';
 import useStyle from './style';
+
+type PanelProps = React.ComponentPropsWithoutRef<typeof Panel>;
 
 export interface PurePanelProps
   extends Omit<PanelProps, 'prefixCls' | 'footer' | 'classNames' | 'styles'>,
     Pick<ModalFuncProps, 'type' | 'footer'> {
   prefixCls?: string;
   style?: React.CSSProperties;
-  classNames?: ModalClassNamesType;
-  styles?: ModalStylesType;
+  classNames?: ModalSemanticAllType['classNames'];
+  styles?: ModalSemanticAllType['styles'];
 }
 
 const PurePanel: React.FC<PurePanelProps> = (props) => {
@@ -32,6 +33,7 @@ const PurePanel: React.FC<PurePanelProps> = (props) => {
     title,
     children,
     footer,
+    style,
     classNames,
     styles,
     ...restProps
@@ -48,12 +50,14 @@ const PurePanel: React.FC<PurePanelProps> = (props) => {
   const prefixCls = customizePrefixCls || getPrefixCls('modal');
   const rootCls = useCSSVarCls(rootPrefixCls);
   const [hashId, cssVarCls] = useStyle(prefixCls, rootCls);
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
 
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    ModalClassNamesType,
-    ModalStylesType,
+    ModalSemanticAllType['classNames'],
+    ModalSemanticAllType['styles'],
     PurePanelProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props,
   });
 
@@ -99,7 +103,7 @@ const PurePanel: React.FC<PurePanelProps> = (props) => {
         rootCls,
         mergedClassNames.root,
       )}
-      style={{ ...contextStyle, ...mergedStyles.root }}
+      style={mergedStyles.root}
       {...restProps}
       closeIcon={renderCloseIcon(prefixCls, closeIcon)}
       closable={closable}

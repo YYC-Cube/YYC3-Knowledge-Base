@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { isReactRenderable, mergeProps } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import extendsObject from '../_util/extendsObject';
+import { isFunction, isPlainObject } from '../_util/is';
 import { responsiveArray } from '../_util/responsiveObserver';
 import type { Breakpoint } from '../_util/responsiveObserver';
 import { devUseWarning } from '../_util/warning';
@@ -23,6 +24,7 @@ import useStyle from './style';
 export type { ListConsumerProps } from './context';
 export type {
   ListItemMetaProps,
+  ListItemMetaRef,
   ListItemProps,
   ListItemSemanticClassNames,
   ListItemSemanticName,
@@ -55,7 +57,7 @@ export interface ListProps<T> {
   rootClassName?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
-  dataSource?: T[];
+  dataSource?: readonly T[];
   extra?: React.ReactNode;
   grid?: ListGridType;
   id?: string;
@@ -101,11 +103,12 @@ const InternalList = <T,>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
     ...rest
   } = props;
 
-  const paginationObj = pagination && typeof pagination === 'object' ? pagination : {};
+  const paginationObj = isPlainObject(pagination) ? pagination : {};
 
   const [paginationCurrent, setPaginationCurrent] = React.useState(
     paginationObj.defaultCurrent || 1,
   );
+
   const [paginationSize, setPaginationSize] = React.useState(paginationObj.defaultPageSize || 10);
 
   const {
@@ -123,11 +126,16 @@ const InternalList = <T,>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
   };
 
   const triggerPaginationEvent =
-    (eventName: 'onChange' | 'onShowSizeChange') => (page: number, pageSize: number) => {
+    (eventName: 'onChange' | 'onShowSizeChange') =>
+    (page: number, pageSize: number, info?: { recommendPage?: number }) => {
       setPaginationCurrent(page);
       setPaginationSize(pageSize);
       if (pagination) {
-        pagination?.[eventName]?.(page, pageSize);
+        if (info) {
+          pagination?.[eventName]?.(page, pageSize, info);
+        } else {
+          pagination?.[eventName]?.(page, pageSize);
+        }
       }
     };
 
@@ -142,7 +150,7 @@ const InternalList = <T,>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
 
     let key: any;
 
-    if (typeof rowKey === 'function') {
+    if (isFunction(rowKey)) {
       key = rowKey(item);
     } else if (rowKey) {
       key = item[rowKey];
@@ -150,14 +158,12 @@ const InternalList = <T,>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
       key = (item as any).key;
     }
 
-    if (!key) {
-      key = `list-item-${index}`;
-    }
+    key ??= `list-item-${index}`;
 
     return <React.Fragment key={key}>{renderItem(item, index)}</React.Fragment>;
   };
 
-  const isSomethingAfterLastItem = !!(loadMore || pagination || footer);
+  const isSomethingAfterLastItem = !!(loadMore || pagination || isReactRenderable(footer));
 
   const prefixCls = getPrefixCls('list', customizePrefixCls);
 
@@ -209,7 +215,7 @@ const InternalList = <T,>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
 
   const containerCls = `${prefixCls}-container`;
 
-  const paginationProps = extendsObject(
+  const paginationProps = mergeProps(
     defaultPaginationProps,
     {
       total: dataSource.length,
@@ -305,7 +311,7 @@ const InternalList = <T,>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
     warning(
       false,
       'deprecated',
-      'The `List` component is deprecated. And will be removed in next major version.',
+      "The `List` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use `Listy` instead.",
     );
   }
 
@@ -313,12 +319,12 @@ const InternalList = <T,>(props: ListProps<T>, ref: React.ForwardedRef<HTMLDivEl
     <ListContext.Provider value={contextValue}>
       <div ref={ref} style={{ ...contextStyle, ...style }} className={classString} {...rest}>
         {(paginationPosition === 'top' || paginationPosition === 'both') && paginationContent}
-        {header && <div className={`${prefixCls}-header`}>{header}</div>}
+        {isReactRenderable(header) && <div className={`${prefixCls}-header`}>{header}</div>}
         <Spin {...loadingProp}>
           {childrenContent}
           {children}
         </Spin>
-        {footer && <div className={`${prefixCls}-footer`}>{footer}</div>}
+        {isReactRenderable(footer) && <div className={`${prefixCls}-footer`}>{footer}</div>}
         {loadMore ||
           ((paginationPosition === 'bottom' || paginationPosition === 'both') && paginationContent)}
       </div>

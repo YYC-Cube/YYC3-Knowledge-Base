@@ -16,22 +16,6 @@ demo:
 - 当需要告知用户『你在哪里』时；
 - 当需要向上导航的功能时。
 
-```jsx
-// >=5.3.0 可用，推荐的写法 ✅
-return <Breadcrumb items={[{ title: 'sample' }]} />;
-
-// <5.3.0 可用，>=5.3.0 时不推荐 🙅🏻‍♀️
-return (
-  <Breadcrumb>
-    <Breadcrumb.Item>sample</Breadcrumb.Item>
-  </Breadcrumb>
-);
-
-// 或
-
-return <Breadcrumb routes={[{ breadcrumbName: 'sample' }]} />;
-```
-
 ## 代码演示 {#examples}
 
 <!-- prettier-ignore -->
@@ -51,15 +35,15 @@ return <Breadcrumb routes={[{ breadcrumbName: 'sample' }]} />;
 
 ### Breadcrumb
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| classNames | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - |  |
-| dropdownIcon | 自定义下拉图标 | ReactNode | `<DownOutlined />` | 6.2.0 |
-| itemRender | 自定义链接函数，和 react-router 配置使用 | (route, params, routes, paths) => ReactNode | - |  |
-| params | 路由的参数 | object | - |  |
-| items | 路由栈信息 | [items\[\]](#itemtype) | - | 5.3.0 |
-| separator | 分隔符自定义 | ReactNode | `/` |  |
-| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - |  |
+| 参数 | 说明 | 类型 | 默认值 | 版本 | [全局配置](/components/config-provider#component-config) |
+| --- | --- | --- | --- | --- | --- |
+| classNames | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - | 6.0.0 | 6.0.0 |
+| dropdownIcon | 自定义下拉图标 | ReactNode | `<DownOutlined />` | 6.2.0 | 6.2.0 |
+| items | 路由栈信息（>=5.3.0 推荐使用，旧版请使用 `Breadcrumb.Item` 子组件方式） | [ItemType\[\]](#itemtype) | - | 5.3.0 | × |
+| itemRender | 自定义链接函数，和 react-router 配合使用，详见[示例](#use-with-browserhistory) | (route, params, routes, paths) => ReactNode | - |  | × |
+| params | 路由的参数 | object | - |  | × |
+| separator | 分隔符自定义 | ReactNode | `/` |  | 6.0.0 |
+| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - | 6.0.0 | 6.0.0 |
 
 ### ItemType
 
@@ -70,10 +54,10 @@ return <Breadcrumb routes={[{ breadcrumbName: 'sample' }]} />;
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 | --- | --- | --- | --- | --- |
 | className | 自定义类名 | string | - |  |
-| dropdownProps | 弹出下拉菜单的自定义配置 | [Dropdown](/components/dropdown-cn) | - |  |
+| dropdownProps | 弹出下拉菜单的自定义配置 | [Dropdown](/components/dropdown) | - |  |
 | href | 链接的目的地，不能和 `path` 共用 | string | - |  |
 | path | 拼接路径，每一层都会拼接前一个 `path` 信息。不能和 `href` 共用 | string | - |  |
-| menu | 菜单配置项 | [MenuProps](/components/menu-cn/#api) | - | 4.24.0 |
+| menu | 菜单配置项 | [MenuProps](/components/menu/#api) | - | 4.24.0 |
 | onClick | 单击事件 | (e:MouseEvent) => void | - |  |
 | title | 名称 | ReactNode | - | 5.3.0 |
 

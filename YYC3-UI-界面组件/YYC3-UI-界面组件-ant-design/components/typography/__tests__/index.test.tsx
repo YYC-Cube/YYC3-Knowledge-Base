@@ -1,7 +1,6 @@
 import React from 'react';
 import { CheckOutlined, HighlightOutlined, LikeOutlined, SmileOutlined } from '@ant-design/icons';
-import { warning } from '@rc-component/util';
-import KeyCode from '@rc-component/util/lib/KeyCode';
+import { KeyCode, warning } from '@rc-component/util';
 import userEvent from '@testing-library/user-event';
 
 import copy from '../../_util/copy';
@@ -90,6 +89,43 @@ describe('Typography', () => {
     });
   });
 
+  describe('shimmer', () => {
+    it.each([
+      ['Text', () => <Text shimmer>Text</Text>],
+      ['Title', () => <Title shimmer>Title</Title>],
+      ['Paragraph', () => <Paragraph shimmer>Paragraph</Paragraph>],
+      ['Link', () => <Link shimmer>Link</Link>],
+    ])('should support shimmer on %s', (_, renderNode) => {
+      const { container } = render(renderNode());
+      const element = container.firstElementChild;
+
+      expect(element).toHaveClass('ant-typography-shimmer');
+      expect(element).not.toHaveAttribute('shimmer');
+    });
+
+    it('should support custom shimmer duration', () => {
+      const { container } = render(<Text shimmer={{ duration: [1.5, 0.5] }}>Text</Text>);
+
+      expect(container.firstElementChild).toHaveStyle({
+        '--ant-typography-shimmer-motion-time': '1.5',
+        '--ant-typography-shimmer-wait-time': '0.5',
+      });
+    });
+
+    it('should not enable shimmer for disabled text', () => {
+      const { container } = render(
+        <Text shimmer disabled>
+          Text
+        </Text>,
+      );
+      const element = container.firstElementChild;
+
+      expect(element).not.toHaveClass('ant-typography-shimmer');
+      expect(element).toHaveAttribute('aria-busy', 'false');
+      expect(element).toHaveAttribute('aria-disabled', 'true');
+    });
+  });
+
   describe('Base', () => {
     describe('copyable', () => {
       /**
@@ -151,8 +187,8 @@ describe('Typography', () => {
           fireEvent.click(container.querySelector('.ant-typography-copy')!);
           await waitFakeTimer(1);
 
-          expect((copy as any).mock.lastCall[0]).toEqual(target);
-          expect((copy as any).mock.lastCall[1].format).toEqual(format);
+          expect((copy as any).mock.lastCall[0]).toBe(target);
+          expect((copy as any).mock.lastCall[1].format).toBe(format);
 
           expect(onCopy).toHaveBeenCalled();
 
@@ -398,6 +434,46 @@ describe('Typography', () => {
       testStep({ name: 'trigger by text', triggerType: ['text'] });
       testStep({ name: 'trigger by both icon and text', triggerType: ['icon', 'text'] });
 
+      it.each<{ triggerType: ('icon' | 'text')[] }>([
+        { triggerType: ['text'] },
+        { triggerType: ['icon', 'text'] },
+      ])('should start editing and call onClick with $triggerType triggers', ({ triggerType }) => {
+        const onClick = jest.fn();
+        const onStart = jest.fn();
+        const { getByText, getByRole } = render(
+          <Paragraph editable={{ triggerType, onStart }} onClick={onClick}>
+            Bamboo
+          </Paragraph>,
+        );
+        const text = getByText('Bamboo');
+
+        fireEvent.click(text);
+
+        expect(onClick).toHaveBeenCalledTimes(1);
+        expect(onClick).toHaveBeenCalledWith(expect.objectContaining({ target: text }));
+        expect(onStart).toHaveBeenCalledTimes(1);
+        expect(getByRole('textbox')).toHaveValue('Bamboo');
+      });
+
+      it.each<{ editable: React.ComponentProps<typeof Paragraph>['editable'] }>([
+        { editable: undefined },
+        { editable: false },
+        { editable: true },
+        { editable: { triggerType: [] } },
+      ])('should preserve onClick without text editing for $editable', ({ editable }) => {
+        const onClick = jest.fn();
+        const { getByText, queryByRole } = render(
+          <Paragraph editable={editable} onClick={onClick}>
+            Bamboo
+          </Paragraph>,
+        );
+
+        fireEvent.click(getByText('Bamboo'));
+
+        expect(onClick).toHaveBeenCalledTimes(1);
+        expect(queryByRole('textbox')).not.toBeInTheDocument();
+      });
+
       it('should trigger onEnd when type Enter', () => {
         const onEnd = jest.fn();
         const { container: wrapper } = render(<Paragraph editable={{ onEnd }}>Bamboo</Paragraph>);
@@ -437,14 +513,14 @@ describe('Typography', () => {
         });
 
         fireEvent.focus(editIcon);
-        expect(triggerTimes).toEqual(1);
+        expect(triggerTimes).toBe(1);
 
         fireEvent.click(editIcon);
-        expect(triggerTimes).toEqual(1);
+        expect(triggerTimes).toBe(1);
 
         fireEvent.change(wrapper.querySelector('textarea')!, { target: { value: 'good' } });
 
-        expect(triggerTimes).toEqual(1);
+        expect(triggerTimes).toBe(1);
       });
     });
 

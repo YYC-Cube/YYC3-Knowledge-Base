@@ -1,14 +1,15 @@
 import * as React from 'react';
-import FileTwoTone from '@ant-design/icons/FileTwoTone';
+import FileOutlined from '@ant-design/icons/FileOutlined';
 import LoadingOutlined from '@ant-design/icons/LoadingOutlined';
 import PaperClipOutlined from '@ant-design/icons/PaperClipOutlined';
-import PictureTwoTone from '@ant-design/icons/PictureTwoTone';
+import PictureOutlined from '@ant-design/icons/PictureOutlined';
 import type { CSSMotionListProps } from '@rc-component/motion';
 import CSSMotion, { CSSMotionList } from '@rc-component/motion';
 import { omit } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import { useForceUpdate } from '../../_util/hooks';
+import { isFunction } from '../../_util/is';
 import initCollapseMotion from '../../_util/motion';
 import { cloneElement } from '../../_util/reactNode';
 import type { ButtonProps } from '../../button/Button';
@@ -93,10 +94,10 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
   };
 
   const onInternalDownload = (file: UploadFile) => {
-    if (typeof onDownload === 'function') {
+    if (isFunction(onDownload)) {
       onDownload(file);
     } else if (file.url) {
-      window.open(file.url);
+      window.open(file.url, '_blank', 'noopener');
     }
   };
 
@@ -111,7 +112,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
     const isLoading = file.status === 'uploading';
     if (listType.startsWith('picture')) {
       const loadingIcon = listType === 'picture' ? <LoadingOutlined /> : locale.uploading;
-      const fileIcon = isImgUrl?.(file) ? <PictureTwoTone /> : <FileTwoTone />;
+      const fileIcon = isImgUrl?.(file) ? <PictureOutlined /> : <FileOutlined />;
       return isLoading ? loadingIcon : fileIcon;
     }
     return isLoading ? <LoadingOutlined /> : <PaperClipOutlined />;
@@ -128,6 +129,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
       type: 'text',
       size: 'small',
       title,
+      'aria-label': title || undefined,
       onClick: (e: React.MouseEvent<HTMLElement>) => {
         callback();
         if (React.isValidElement<{ onClick?: React.MouseEventHandler<HTMLElement> }>(customIcon)) {
@@ -209,6 +211,7 @@ const InternalUploadList: React.ForwardRefRenderFunction<UploadListRef, UploadLi
             actionIconRender={actionIconRender}
             itemRender={itemRender}
             onPreview={onInternalPreview}
+            hasPreview={!!onPreview}
             onDownload={onInternalDownload}
             onClose={onInternalClose}
           />

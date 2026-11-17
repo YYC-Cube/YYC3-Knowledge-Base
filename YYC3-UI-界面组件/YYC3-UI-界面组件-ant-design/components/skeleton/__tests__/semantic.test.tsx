@@ -2,21 +2,26 @@ import React from 'react';
 
 import Skeleton from '..';
 import type { SkeletonProps } from '..';
+import type { GetProp } from '../../_util/type';
 import { render } from '../../../tests/utils';
-import type { SkeletonSemanticClassNames, SkeletonSemanticStyles } from '../Skeleton';
+import ConfigProvider from '../../config-provider';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 
 const genSkeleton = (props?: SkeletonProps) => render(<Skeleton {...props} />);
 
 describe('Skeleton.Semantic', () => {
   it('Skeleton should apply custom styles to semantic elements', () => {
-    const rootStyle = { background: 'pink' };
-    const headerStyle = { background: 'green' };
-    const sectionStyle = { background: 'yellow' };
-    const avatarStyle = { background: 'blue' };
-    const titleStyle = { background: 'red' };
-    const paragraphStyle = { background: 'orange' };
+    const rootStyle = { backgroundColor: 'rgb(255, 192, 203)' };
+    const headerStyle = { backgroundColor: 'rgb(0, 128, 0)' };
+    const sectionStyle = { backgroundColor: 'rgb(255, 255, 0)' };
+    const avatarStyle = { backgroundColor: 'rgb(0, 0, 255)' };
+    const titleStyle = { backgroundColor: 'rgb(255, 0, 0)' };
+    const paragraphStyle = { backgroundColor: 'rgb(255, 165, 0)' };
 
-    const customClassNames: Required<SkeletonSemanticClassNames> = {
+    const customClassNames: Required<GetProp<SkeletonProps, 'classNames', 'Return'>> = {
       root: 'custom-root',
       header: 'custom-header',
       section: 'custom-section',
@@ -25,7 +30,7 @@ describe('Skeleton.Semantic', () => {
       paragraph: 'custom-paragraph',
     };
 
-    const customStyles: Required<SkeletonSemanticStyles> = {
+    const customStyles: Required<GetProp<SkeletonProps, 'styles', 'Return'>> = {
       root: rootStyle,
       header: headerStyle,
       section: sectionStyle,
@@ -66,8 +71,8 @@ describe('Skeleton.Semantic', () => {
   });
 
   it('Skeleton should apply custom styles function to semantic elements', () => {
-    const classNamesFn: SkeletonProps['classNames'] = (info) => {
-      return info?.props?.active
+    const classNamesFn: GetProp<SkeletonProps, 'classNames'> = ({ props }) => {
+      return props?.active
         ? {
             root: 'demo-skeleton-root-active',
             header: 'demo-skeleton-header-active',
@@ -86,8 +91,8 @@ describe('Skeleton.Semantic', () => {
           };
     };
 
-    const stylesFn: SkeletonProps['styles'] = (info) => {
-      return info?.props?.active
+    const stylesFn: GetProp<SkeletonProps, 'styles'> = ({ props }) => {
+      return props?.active
         ? {
             root: { padding: 1 },
             header: { padding: 2 },
@@ -148,5 +153,22 @@ describe('Skeleton.Semantic', () => {
     expect(titleElement).toHaveClass('demo-skeleton-title-active');
     expect(paragraphElement).toHaveStyle({ padding: '6px' });
     expect(paragraphElement).toHaveClass('demo-skeleton-paragraph-active');
+  });
+  it('should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        skeleton={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Skeleton
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-skeleton'));
   });
 });

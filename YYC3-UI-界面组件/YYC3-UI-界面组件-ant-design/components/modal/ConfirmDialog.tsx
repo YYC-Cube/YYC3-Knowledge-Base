@@ -3,10 +3,12 @@ import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 import ExclamationCircleFilled from '@ant-design/icons/ExclamationCircleFilled';
 import InfoCircleFilled from '@ant-design/icons/InfoCircleFilled';
+import { isReactRenderable, omit } from '@rc-component/util';
 import { clsx } from 'clsx';
 
+import fallbackProp from '../_util/fallbackProp';
 import { CONTAINER_MAX_OFFSET, normalizeMaskConfig } from '../_util/hooks';
-import { isNonNullable } from '../_util/is';
+import { isFunction, isPlainObject } from '../_util/is';
 import { getTransitionName } from '../_util/motion';
 import { devUseWarning } from '../_util/warning';
 import type { ThemeConfig } from '../config-provider';
@@ -21,6 +23,13 @@ import { ModalContextProvider } from './context';
 import type { ModalFuncProps, ModalLocale } from './interface';
 import Modal from './Modal';
 import Confirm from './style/confirm';
+
+const CONFIRM_OMIT_SEMANTIC_NAMES = ['body'] as const;
+
+type ConfirmContentSemantic = {
+  classNames: { body?: string };
+  styles: { body?: React.CSSProperties };
+};
 
 export interface ConfirmDialogProps extends ModalFuncProps {
   prefixCls: string;
@@ -50,9 +59,13 @@ export interface ConfirmDialogProps extends ModalFuncProps {
   isSilent?: () => boolean;
 }
 
-export const ConfirmContent: React.FC<ConfirmDialogProps & { confirmPrefixCls: string }> = (
-  props,
-) => {
+export const ConfirmContent: React.FC<
+  ConfirmDialogProps & {
+    confirmPrefixCls: string;
+    contentClassName?: string;
+    contentStyle?: React.CSSProperties;
+  }
+> = (props) => {
   const {
     prefixCls,
     icon,
@@ -66,8 +79,12 @@ export const ConfirmContent: React.FC<ConfirmDialogProps & { confirmPrefixCls: s
     locale: staticLocale,
     autoFocusButton,
     focusable,
+    contentClassName,
+    contentStyle,
     ...restProps
   } = props;
+
+  const { infoIcon, successIcon, errorIcon, warningIcon } = useComponentConfig('modal');
 
   if (process.env.NODE_ENV !== 'production') {
     const warning = devUseWarning('Modal');
@@ -82,23 +99,20 @@ export const ConfirmContent: React.FC<ConfirmDialogProps & { confirmPrefixCls: s
   // Icon
   let mergedIcon: React.ReactNode = icon;
 
-  // 支持传入{ icon: null }来隐藏`Modal.confirm`默认的Icon
-  if (!icon && icon !== null) {
+  // 支持传入 { icon: null } 或 { icon: false } 来隐藏`Modal.confirm`默认的Icon
+  if (icon === undefined) {
     switch (type) {
       case 'info':
-        mergedIcon = <InfoCircleFilled />;
+        mergedIcon = fallbackProp(infoIcon, <InfoCircleFilled />);
         break;
-
       case 'success':
-        mergedIcon = <CheckCircleFilled />;
+        mergedIcon = fallbackProp(successIcon, <CheckCircleFilled />);
         break;
-
       case 'error':
-        mergedIcon = <CloseCircleFilled />;
+        mergedIcon = fallbackProp(errorIcon, <CloseCircleFilled />);
         break;
-
       default:
-        mergedIcon = <ExclamationCircleFilled />;
+        mergedIcon = fallbackProp(warningIcon, <ExclamationCircleFilled />);
     }
   }
 
@@ -115,12 +129,15 @@ export const ConfirmContent: React.FC<ConfirmDialogProps & { confirmPrefixCls: s
   const mergedLocale = staticLocale || locale;
 
   // ================== Locale Text ==================
-  const okTextLocale = okText || (mergedOkCancel ? mergedLocale?.okText : mergedLocale?.justOkText);
-  const cancelTextLocale = cancelText || mergedLocale?.cancelText;
+  const okTextLocale = fallbackProp(
+    okText,
+    mergedOkCancel ? mergedLocale?.okText : mergedLocale?.justOkText,
+  );
+  const cancelTextLocale = fallbackProp(cancelText, mergedLocale?.cancelText);
 
   // ================= Context Value =================
   const { closable } = restProps;
-  const { onClose } = closable && typeof closable === 'object' ? closable : {};
+  const { onClose } = isPlainObject(closable) ? closable : {};
 
   const memoizedValue = React.useMemo<ModalContextProps>(() => {
     return {
@@ -141,8 +158,8 @@ export const ConfirmContent: React.FC<ConfirmDialogProps & { confirmPrefixCls: s
     </>
   );
 
-  const hasTitle = isNonNullable(props.title) && props.title !== '';
-  const hasIcon = isNonNullable(mergedIcon);
+  const hasTitle = isReactRenderable(props.title);
+  const hasIcon = isReactRenderable(mergedIcon);
 
   const bodyCls = `${confirmPrefixCls}-body`;
 
@@ -157,15 +174,18 @@ export const ConfirmContent: React.FC<ConfirmDialogProps & { confirmPrefixCls: s
         {mergedIcon}
         <div className={`${confirmPrefixCls}-paragraph`}>
           {hasTitle && <span className={`${confirmPrefixCls}-title`}>{props.title}</span>}
-          <div className={`${confirmPrefixCls}-content`}>{props.content}</div>
+          <div
+            className={clsx(`${confirmPrefixCls}-content`, contentClassName)}
+            style={contentStyle}
+          >
+            {props.content}
+          </div>
         </div>
       </div>
-      {footer === undefined || typeof footer === 'function' ? (
+      {footer === undefined || isFunction(footer) ? (
         <ModalContextProvider value={memoizedValue}>
           <div className={`${confirmPrefixCls}-btns`}>
-            {typeof footer === 'function'
-              ? footer(footerOriginNode, { OkBtn, CancelBtn })
-              : footerOriginNode}
+            {isFunction(footer) ? footer(footerOriginNode, { OkBtn, CancelBtn }) : footerOriginNode}
           </div>
         </ModalContextProvider>
       ) : (
@@ -214,6 +234,10 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = (props) => {
 
   const width = props.width || 416;
   const style = props.style || {};
+  const semanticStyles = isFunction(styles)
+    ? (info: any) => ({ body: bodyStyle, mask: maskStyle, ...styles(info) })
+    : { body: bodyStyle, mask: maskStyle, ...styles };
+  const modalProps = omit(props, ['bodyStyle', 'maskStyle'] as const);
 
   const classString = clsx(
     confirmPrefixCls,
@@ -247,7 +271,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = (props) => {
   // ========================= Render =========================
   return (
     <Modal
-      {...props}
+      {...modalProps}
       className={classString}
       wrapClassName={clsx({ [`${confirmPrefixCls}-centered`]: !!props.centered }, wrapClassName)}
       onCancel={() => {
@@ -260,18 +284,27 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = (props) => {
       maskTransitionName={getTransitionName(rootPrefixCls || '', 'fade', props.maskTransitionName)}
       mask={mergedMask}
       style={style}
-      styles={{ body: bodyStyle, mask: maskStyle, ...styles }}
+      styles={semanticStyles}
       width={width}
       zIndex={mergedZIndex}
       closable={closable}
-    >
-      <ConfirmContent
-        {...props}
-        confirmPrefixCls={confirmPrefixCls}
-        okButtonProps={{ ...contextOkButtonProps, ...okButtonProps }}
-        cancelButtonProps={{ ...contextCancelButtonProps, ...cancelButtonProps }}
-      />
-    </Modal>
+      {...{
+        _semanticOmit: CONFIRM_OMIT_SEMANTIC_NAMES,
+        _renderSemanticContent: ({
+          classNames: mergedClassNames,
+          styles: mergedStyles,
+        }: ConfirmContentSemantic) => (
+          <ConfirmContent
+            {...props}
+            confirmPrefixCls={confirmPrefixCls}
+            okButtonProps={{ ...contextOkButtonProps, ...okButtonProps }}
+            cancelButtonProps={{ ...contextCancelButtonProps, ...cancelButtonProps }}
+            contentClassName={mergedClassNames.body}
+            contentStyle={mergedStyles.body}
+          />
+        ),
+      }}
+    />
   );
 };
 

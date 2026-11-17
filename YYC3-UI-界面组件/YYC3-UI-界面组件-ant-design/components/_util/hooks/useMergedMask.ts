@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
+import { isPlainObject } from '../is';
+
 export interface MaskConfig {
   enabled?: boolean;
   blur?: boolean;
@@ -10,8 +12,9 @@ export type MaskType = MaskConfig | boolean;
 export const normalizeMaskConfig = (mask?: MaskType, maskClosable?: boolean): MaskConfig => {
   let maskConfig: MaskConfig = {};
 
-  if (mask && typeof mask === 'object') {
-    maskConfig = mask;
+  if (isPlainObject(mask)) {
+    // Copy so that filling `closable` below never writes back to the user's `mask` object
+    maskConfig = { ...mask };
   }
   if (typeof mask === 'boolean') {
     maskConfig = {

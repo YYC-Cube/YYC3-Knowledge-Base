@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/si_LK';
+import Pagination from '@rc-component/pagination/locale/si_LK';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/si_LK';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'කරුණාකර තෝරන්න',
     close: 'වසන්න',
+    show: 'පෙන්වන්න',
+    hide: 'සඟවන්න',
+    sortable: 'වර්ග කළ හැකි',
   },
   Table: {
     filterTitle: 'පෙරහන්',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'වත්මන් පිටුව යටියනය',
     selectNone: 'සියළු දත්ත ඉවතලන්න',
     selectionAll: 'සියළු දත්ත තෝරන්න',
+    selectRow: 'පේළිය තෝරන්න',
+    selectedRow: 'පේළිය තෝරා ඇත',
+    selectionMenu: 'තේරීම් මෙනුව',
     sortTitle: 'පෙළගැසීම',
     expand: 'පේළිය දිගහරින්න',
     collapse: 'පේළිය හකුළන්න',
+    expandAll: 'සියලු පේළි දිගහරින්න',
+    collapseAll: 'සියලු පේළි හකුළන්න',
     triggerDesc: 'අවරෝහණව පෙළගැසීමට ඔබන්න',
     triggerAsc: 'ආරෝහණව පෙළගැසීමට ඔබන්න',
     cancelSort: 'පෙළගැසීම අවලංගු කිරීමට ඔබන්න',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'හරි',
     cancelText: 'අවලංගු කරන්න',
   },
+  Splitter: {
+    toggleStartPanel: 'ආරම්භක පැනලය ටොගල් කරන්න',
+    toggleEndPanel: 'අවසාන පැනලය ටොගල් කරන්න',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'මෙතැන සොයන්න',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'සියළු දත්ත තෝරන්න',
     removeAll: 'සියළු දත්ත ඉවතලන්න',
     selectInvert: 'වත්මන් පිටුව යටියනය',
+    deselectAll: 'සියලු දත්ත තේරීම ඉවත් කරන්න',
   },
   Upload: {
     uploading: 'උඩුගත වෙමින්...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'පිටපත්',
     copied: 'පිටපත් විය',
     expand: 'විහිදුවන්න',
+    collapse: 'හකුළන්න',
+  },
+  Carousel: {
+    prevSlide: 'කලින් ස්ලයිඩ්',
+    nextSlide: 'ඊළඟ ස්ලයිඩ්',
   },
   Form: {
     optional: '(විකල්පයකි)',
@@ -130,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${pattern} රටාවට ${label} නොගැළපේ',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR කේතය කල් ඉකුත් විය',
+    refresh: 'නැවුම් කරන්න',
+    scanned: 'ස්කෑන් කළා',
+  },
+  ColorPicker: {
+    presetEmpty: 'හිස්',
+    transparent: 'විනිවිද පෙනෙන',
+    singleColor: 'තනි වර්ණය',
+    gradientColor: 'Gradient වර්ණය',
   },
 };
 

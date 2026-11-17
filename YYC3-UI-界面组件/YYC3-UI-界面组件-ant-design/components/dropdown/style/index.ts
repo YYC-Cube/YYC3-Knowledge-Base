@@ -8,6 +8,10 @@ import {
   initZoomMotion,
   slideDownIn,
   slideDownOut,
+  slideLeftIn,
+  slideLeftOut,
+  slideRightIn,
+  slideRightOut,
   slideUpIn,
   slideUpOut,
 } from '../../style/motion';
@@ -72,6 +76,7 @@ const genBaseStyle: GenerateStyle<DropdownToken> = (token) => {
     fontSizeIcon,
     controlPaddingHorizontal,
     colorBgElevated,
+    controlHeightLG,
   } = token;
 
   return [
@@ -97,32 +102,16 @@ const genBaseStyle: GenerateStyle<DropdownToken> = (token) => {
         },
 
         // Makes vertical dropdowns have a scrollbar once they become taller than the viewport.
+        // Leave some viewport spacing so the menu stays on-screen when the trigger is centered.
+        // https://github.com/ant-design/ant-design/issues/56044
         '&-menu-vertical': {
-          maxHeight: '100vh',
+          maxHeight: `calc(100vh - ${unit(token.calc(controlHeightLG).mul(2.5).equal())})`,
           overflowY: 'auto',
         },
 
         [`&-trigger${antCls}-btn`]: {
           [`& > ${iconCls}-down, & > ${antCls}-btn-icon > ${iconCls}-down`]: {
             fontSize: fontSizeIcon,
-          },
-        },
-
-        [`${componentCls}-wrap`]: {
-          position: 'relative',
-
-          [`${antCls}-btn > ${iconCls}-down`]: {
-            fontSize: fontSizeIcon,
-          },
-
-          [`${iconCls}-down::before`]: {
-            transition: `transform ${motionDurationMid}`,
-          },
-        },
-
-        [`${componentCls}-wrap-open`]: {
-          [`${iconCls}-down::before`]: {
-            transform: `rotate(180deg)`,
           },
         },
 
@@ -168,15 +157,47 @@ const genBaseStyle: GenerateStyle<DropdownToken> = (token) => {
           {
             animationName: slideDownOut,
           },
+
+        [`&${antCls}-slide-right-enter${antCls}-slide-right-enter-active${componentCls}-placement-right,
+          &${antCls}-slide-right-appear${antCls}-slide-right-appear-active${componentCls}-placement-right,
+          &${antCls}-slide-right-enter${antCls}-slide-right-enter-active${componentCls}-placement-rightTop,
+          &${antCls}-slide-right-appear${antCls}-slide-right-appear-active${componentCls}-placement-rightTop,
+          &${antCls}-slide-right-enter${antCls}-slide-right-enter-active${componentCls}-placement-rightBottom,
+          &${antCls}-slide-right-appear${antCls}-slide-right-appear-active${componentCls}-placement-rightBottom`]:
+          {
+            animationName: slideLeftIn,
+          },
+
+        [`&${antCls}-slide-left-enter${antCls}-slide-left-enter-active${componentCls}-placement-left,
+          &${antCls}-slide-left-appear${antCls}-slide-left-appear-active${componentCls}-placement-left,
+          &${antCls}-slide-left-enter${antCls}-slide-left-enter-active${componentCls}-placement-leftTop,
+          &${antCls}-slide-left-appear${antCls}-slide-left-appear-active${componentCls}-placement-leftTop,
+          &${antCls}-slide-left-enter${antCls}-slide-left-enter-active${componentCls}-placement-leftBottom,
+          &${antCls}-slide-left-appear${antCls}-slide-left-appear-active${componentCls}-placement-leftBottom`]:
+          {
+            animationName: slideRightIn,
+          },
+
+        [`&${antCls}-slide-right-leave${antCls}-slide-right-leave-active${componentCls}-placement-right,
+          &${antCls}-slide-right-leave${antCls}-slide-right-leave-active${componentCls}-placement-rightTop,
+          &${antCls}-slide-right-leave${antCls}-slide-right-leave-active${componentCls}-placement-rightBottom`]:
+          {
+            animationName: slideLeftOut,
+          },
+
+        [`&${antCls}-slide-left-leave${antCls}-slide-left-leave-active${componentCls}-placement-left,
+          &${antCls}-slide-left-leave${antCls}-slide-left-leave-active${componentCls}-placement-leftTop,
+          &${antCls}-slide-left-leave${antCls}-slide-left-leave-active${componentCls}-placement-leftBottom`]:
+          {
+            animationName: slideRightOut,
+          },
       },
     },
 
     // =============================================================
     // ==                        Arrow style                      ==
     // =============================================================
-    getArrowStyle<DropdownToken>(token, colorBgElevated, {
-      arrowPlacement: { top: true, bottom: true },
-    }),
+    getArrowStyle<DropdownToken>(token, colorBgElevated),
 
     {
       // =============================================================
@@ -246,7 +267,7 @@ const genBaseStyle: GenerateStyle<DropdownToken> = (token) => {
               width: '100%',
             },
 
-            '> a': {
+            [`> a, > ${menuCls}-item-label > a`]: {
               color: 'inherit',
               transition: `all ${motionDurationMid}`,
 
@@ -275,7 +296,7 @@ const genBaseStyle: GenerateStyle<DropdownToken> = (token) => {
             margin: 0,
             padding: `${unit(paddingBlock!)} ${unit(controlPaddingHorizontal)}`,
             color: token.colorText,
-            fontWeight: 'normal',
+            fontWeight: 400,
             fontSize,
             lineHeight: token.lineHeight,
             cursor: 'pointer',
@@ -366,6 +387,8 @@ const genBaseStyle: GenerateStyle<DropdownToken> = (token) => {
     [
       initSlideMotion(token, 'slide-up'),
       initSlideMotion(token, 'slide-down'),
+      initSlideMotion(token, 'slide-left'),
+      initSlideMotion(token, 'slide-right'),
       initMoveMotion(token, 'move-up'),
       initMoveMotion(token, 'move-down'),
       initZoomMotion(token, 'zoom-big'),

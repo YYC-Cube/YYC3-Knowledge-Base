@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/pl_PL';
+import Pagination from '@rc-component/pagination/locale/pl_PL';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/pl_PL';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Wybierz',
     close: 'Zamknij',
+    show: 'Pokaż',
+    hide: 'Ukryj',
+    sortable: 'sortowalne',
   },
   Table: {
     filterTitle: 'Menu filtra',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Odwróć zaznaczenie',
     selectNone: 'Wyczyść',
     selectionAll: 'Wybierz wszystkie',
+    selectRow: 'Wybierz wiersz',
+    selectedRow: 'Wiersz wybrany',
+    selectionMenu: 'Menu wyboru',
     sortTitle: 'Sortowanie',
     expand: 'Rozwiń wiersz',
     collapse: 'Zwiń wiersz',
+    expandAll: 'Rozwiń wszystkie wiersze',
+    collapseAll: 'Zwiń wszystkie wiersze',
     triggerDesc: 'Sortuj malejąco',
     triggerAsc: 'Sortuj rosnąco',
     cancelSort: 'Usuń sortowanie',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Anuluj',
   },
+  Splitter: {
+    toggleStartPanel: 'Przełącz panel początkowy',
+    toggleEndPanel: 'Przełącz panel końcowy',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Szukaj',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Wybierz wszystkie',
     removeAll: 'Usuń wszystkie',
     selectInvert: 'Odwróć wybór',
+    deselectAll: 'Odznacz wszystkie dane',
   },
   Upload: {
     uploading: 'Wysyłanie...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Kopiuj',
     copied: 'Skopiowany',
     expand: 'Rozwiń',
+    collapse: 'Zwiń',
+  },
+  Carousel: {
+    prevSlide: 'Poprzedni slajd',
+    nextSlide: 'Następny slajd',
   },
   Form: {
     optional: '(opcjonalne)',
@@ -130,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} nie posiada wartości zgodnej ze wzorem ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'Kod QR wygasł',
+    refresh: 'Odśwież',
+    scanned: 'Zeskanowano',
+  },
+  ColorPicker: {
+    presetEmpty: 'Pusty',
+    transparent: 'Przezroczysty',
+    singleColor: 'Pojedynczy kolor',
+    gradientColor: 'Kolor gradientowy',
   },
 };
 

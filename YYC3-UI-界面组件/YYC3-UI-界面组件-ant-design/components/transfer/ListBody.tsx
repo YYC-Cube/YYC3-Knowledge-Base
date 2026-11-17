@@ -3,6 +3,7 @@ import { useControlledState } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import type { KeyWiseTransferItem } from '.';
+import { isPlainObject } from '../_util/is';
 import Pagination from '../pagination';
 import type { PaginationType, TransferKey } from './interface';
 import ListItem from './ListItem';
@@ -43,6 +44,7 @@ const TransferListBody: React.ForwardRefRenderFunction<
     prefixCls,
     classNames,
     styles,
+    filteredItems,
     filteredRenderItems,
     selectedKeys,
     disabled: globalDisabled,
@@ -51,6 +53,7 @@ const TransferListBody: React.ForwardRefRenderFunction<
     onScroll,
     onItemSelect,
     onItemRemove,
+    remove,
   } = props;
   const [current, setCurrent] = React.useState<number>(1);
 
@@ -59,7 +62,7 @@ const TransferListBody: React.ForwardRefRenderFunction<
       return null;
     }
 
-    const convertPagination = typeof pagination === 'object' ? pagination : {};
+    const convertPagination = isPlainObject(pagination) ? pagination : {};
 
     return parsePagination(convertPagination);
   }, [pagination]);
@@ -69,12 +72,12 @@ const TransferListBody: React.ForwardRefRenderFunction<
   React.useEffect(() => {
     if (mergedPagination) {
       const maxPageCount = Math.ceil(filteredRenderItems.length / pageSize!);
-      setCurrent(Math.min(current, maxPageCount));
+      setCurrent(Math.max(1, Math.min(current, maxPageCount)));
     }
   }, [filteredRenderItems, mergedPagination, pageSize]);
 
   const onInternalClick = (item: KeyWiseTransferItem, e: React.MouseEvent<Element, MouseEvent>) => {
-    onItemSelect(item.key, !selectedKeys.includes(item.key), e);
+    onItemSelect(item.key, !selectedKeys.includes(item.key), e, filteredItems);
   };
 
   const onRemove = (item: KeyWiseTransferItem) => {
@@ -136,6 +139,7 @@ const TransferListBody: React.ForwardRefRenderFunction<
             showRemove={showRemove}
             onClick={onInternalClick}
             onRemove={onRemove}
+            removeLabel={remove}
             checked={selectedKeys.includes(item.key)}
             disabled={globalDisabled}
           />

@@ -36,6 +36,8 @@ export interface ComponentToken {
    * @descEN Label height
    */
   labelHeight: number | string;
+  /** @internal */
+  verticalLabelHeight: number | string;
   /**
    * @desc 标签冒号前间距
    * @descEN Label colon margin-inline-start
@@ -214,18 +216,6 @@ const genFormItemStyle: GenerateStyle<FormToken, CSSObject> = (token) => {
         display: 'none',
       },
 
-      '&-has-warning': {
-        [`${formItemCls}-split`]: {
-          color: token.colorError,
-        },
-      },
-
-      '&-has-error': {
-        [`${formItemCls}-split`]: {
-          color: token.colorWarning,
-        },
-      },
-
       // ==============================================================
       // =                            Label                           =
       // ==============================================================
@@ -236,7 +226,8 @@ const genFormItemStyle: GenerateStyle<FormToken, CSSObject> = (token) => {
         textAlign: 'end',
         verticalAlign: 'middle',
 
-        '&-left': {
+        // TODO: Remove the legacy `&-left` selector in v7.
+        '&-start, &-left': {
           textAlign: 'start',
         },
 
@@ -287,10 +278,6 @@ const genFormItemStyle: GenerateStyle<FormToken, CSSObject> = (token) => {
             display: 'inline-block',
             marginInlineStart: token.marginXXS,
             color: token.colorTextDescription,
-
-            [`&${formItemCls}-required-mark-hidden`]: {
-              display: 'none',
-            },
           },
 
           // Optional mark
@@ -421,9 +408,8 @@ const genFormItemStyle: GenerateStyle<FormToken, CSSObject> = (token) => {
   };
 };
 
-const makeVerticalLayoutLabel: GenerateStyle<FormToken, CSSObject> = (token) => ({
+const makeVerticalLayoutLabelBase: GenerateStyle<FormToken, CSSObject> = (token) => ({
   padding: token.verticalLabelPadding,
-  margin: token.verticalLabelMargin,
   whiteSpace: 'initial',
   textAlign: 'start',
 
@@ -436,6 +422,20 @@ const makeVerticalLayoutLabel: GenerateStyle<FormToken, CSSObject> = (token) => 
     },
   },
 });
+
+const makeVerticalLayoutLabel: GenerateStyle<FormToken, CSSObject> = (token) => ({
+  ...makeVerticalLayoutLabelBase(token),
+  margin: token.verticalLabelMargin,
+});
+
+const makeVerticalLayoutLabelWithOffset: GenerateStyle<FormToken, CSSObject> = (token) => {
+  const [formVarName] = genCssVar(token.antCls, 'form');
+
+  return {
+    ...makeVerticalLayoutLabelBase(token),
+    [formVarName('item-label-margin')]: token.verticalLabelMargin,
+  };
+};
 
 const genHorizontalStyle: GenerateStyle<FormToken, CSSObject> = (token) => {
   const { antCls, formItemCls } = token;
@@ -462,8 +462,9 @@ const genHorizontalStyle: GenerateStyle<FormToken, CSSObject> = (token) => {
           minWidth: 'unset',
         },
       },
-      [`${antCls}-col-24${formItemCls}-label,
-        ${antCls}-col-xl-24${formItemCls}-label`]: makeVerticalLayoutLabel(token),
+      [`> ${formItemCls}-row > ${antCls}-col-24${formItemCls}-label,
+        > ${formItemCls}-row > ${antCls}-col-xl-24${formItemCls}-label`]:
+        makeVerticalLayoutLabel(token),
     },
   };
 };
@@ -511,7 +512,8 @@ const makeVerticalLayout: GenerateStyle<FormToken, CSSObject> = (token) => {
   const { componentCls, formItemCls, rootPrefixCls } = token;
 
   return {
-    [`${formItemCls} ${formItemCls}-label`]: makeVerticalLayoutLabel(token),
+    [`${formItemCls}:not(${formItemCls}-vertical) > ${formItemCls}-row > ${formItemCls}-label`]:
+      makeVerticalLayoutLabel(token),
     // ref: https://github.com/ant-design/ant-design/issues/45122
     [`${componentCls}:not(${componentCls}-inline)`]: {
       [formItemCls]: {
@@ -532,32 +534,44 @@ const makeVerticalLayout: GenerateStyle<FormToken, CSSObject> = (token) => {
 };
 
 const genVerticalStyle: GenerateStyle<FormToken, CSSObject> = (token) => {
-  const { componentCls, formItemCls, antCls } = token;
+  const { componentCls, formItemCls, antCls, verticalLabelHeight } = token;
+  const [formVarName, formVarRef] = genCssVar(antCls, 'form');
 
   return {
+    [formItemCls]: {
+      [formVarName('item-label-margin')]: 'initial',
+    },
+
+    [`${formItemCls}-label`]: {
+      margin: formVarRef('item-label-margin'),
+    },
+
     [`${formItemCls}-vertical`]: {
       [`${formItemCls}-row`]: {
         flexDirection: 'column',
       },
 
       [`${formItemCls}-label > label`]: {
-        height: 'auto',
+        height: verticalLabelHeight,
       },
 
       [`${formItemCls}-control`]: {
         width: '100%',
+        flex: 'none',
       },
-      [`${formItemCls}-label,
-        ${antCls}-col-24${formItemCls}-label,
-        ${antCls}-col-xl-24${formItemCls}-label`]: makeVerticalLayoutLabel(token),
+      [`> ${formItemCls}-row > ${formItemCls}-label,
+        > ${formItemCls}-row > ${antCls}-col-24${formItemCls}-label,
+        > ${formItemCls}-row > ${antCls}-col-xl-24${formItemCls}-label`]:
+        makeVerticalLayoutLabelWithOffset(token),
     },
 
     [`@media (max-width: ${unit(token.screenXSMax)})`]: [
       makeVerticalLayout(token),
       {
         [componentCls]: {
-          [`${formItemCls}:not(${formItemCls}-horizontal)`]: {
-            [`${antCls}-col-xs-24${formItemCls}-label`]: makeVerticalLayoutLabel(token),
+          [`${formItemCls}:not(${formItemCls}-horizontal):not(${formItemCls}-vertical)`]: {
+            [`> ${formItemCls}-row > ${antCls}-col-xs-24${formItemCls}-label`]:
+              makeVerticalLayoutLabel(token),
           },
         },
       },
@@ -565,24 +579,27 @@ const genVerticalStyle: GenerateStyle<FormToken, CSSObject> = (token) => {
 
     [`@media (max-width: ${unit(token.screenSMMax)})`]: {
       [componentCls]: {
-        [`${formItemCls}:not(${formItemCls}-horizontal)`]: {
-          [`${antCls}-col-sm-24${formItemCls}-label`]: makeVerticalLayoutLabel(token),
+        [`${formItemCls}:not(${formItemCls}-horizontal):not(${formItemCls}-vertical)`]: {
+          [`> ${formItemCls}-row > ${antCls}-col-sm-24${formItemCls}-label`]:
+            makeVerticalLayoutLabel(token),
         },
       },
     },
 
     [`@media (max-width: ${unit(token.screenMDMax)})`]: {
       [componentCls]: {
-        [`${formItemCls}:not(${formItemCls}-horizontal)`]: {
-          [`${antCls}-col-md-24${formItemCls}-label`]: makeVerticalLayoutLabel(token),
+        [`${formItemCls}:not(${formItemCls}-horizontal):not(${formItemCls}-vertical)`]: {
+          [`> ${formItemCls}-row > ${antCls}-col-md-24${formItemCls}-label`]:
+            makeVerticalLayoutLabel(token),
         },
       },
     },
 
     [`@media (max-width: ${unit(token.screenLGMax)})`]: {
       [componentCls]: {
-        [`${formItemCls}:not(${formItemCls}-horizontal)`]: {
-          [`${antCls}-col-lg-24${formItemCls}-label`]: makeVerticalLayoutLabel(token),
+        [`${formItemCls}:not(${formItemCls}-horizontal):not(${formItemCls}-vertical)`]: {
+          [`> ${formItemCls}-row > ${antCls}-col-lg-24${formItemCls}-label`]:
+            makeVerticalLayoutLabel(token),
         },
       },
     },
@@ -595,6 +612,7 @@ export const prepareComponentToken: GetDefaultToken<'Form'> = (token) => ({
   labelColor: token.colorTextHeading,
   labelFontSize: token.fontSize,
   labelHeight: token.controlHeight,
+  verticalLabelHeight: token.labelHeight ?? 'auto',
   labelColonMarginInlineStart: token.marginXXS / 2,
   labelColonMarginInlineEnd: token.marginXS,
   itemMarginBottom: token.marginLG,

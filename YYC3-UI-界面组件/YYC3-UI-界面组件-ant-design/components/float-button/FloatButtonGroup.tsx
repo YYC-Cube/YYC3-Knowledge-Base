@@ -5,10 +5,12 @@ import CSSMotion from '@rc-component/motion';
 import { useControlledState, useEvent } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic, useZIndex } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useZIndex } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { devUseWarning } from '../_util/warning';
 import { useComponentConfig } from '../config-provider/context';
+import DisabledContext from '../config-provider/DisabledContext';
 import useCSSVarCls from '../config-provider/hooks/useCSSVarCls';
 import Flex from '../flex';
 import Space from '../space';
@@ -18,45 +20,38 @@ import FloatButton, { floatButtonPrefixCls } from './FloatButton';
 import type { FloatButtonGroupTrigger, FloatButtonProps } from './FloatButton';
 import useStyle from './style';
 
-export type FloatButtonGroupSemanticName = keyof FloatButtonGroupSemanticClassNames &
-  keyof FloatButtonGroupSemanticStyles;
-
-export type FloatButtonGroupSemanticClassNames = {
-  root?: string;
-  list?: string;
-  item?: string;
-  itemIcon?: string;
-  itemContent?: string;
-  trigger?: string;
-  triggerIcon?: string;
-  triggerContent?: string;
+export type FloatButtonGroupSemanticType = {
+  classNames?: {
+    root?: string;
+    list?: string;
+    item?: string;
+    itemIcon?: string;
+    itemContent?: string;
+    trigger?: string;
+    triggerIcon?: string;
+    triggerContent?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    list?: React.CSSProperties;
+    item?: React.CSSProperties;
+    itemIcon?: React.CSSProperties;
+    itemContent?: React.CSSProperties;
+    trigger?: React.CSSProperties;
+    triggerIcon?: React.CSSProperties;
+    triggerContent?: React.CSSProperties;
+  };
 };
 
-export type FloatButtonGroupSemanticStyles = {
-  root?: React.CSSProperties;
-  list?: React.CSSProperties;
-  item?: React.CSSProperties;
-  itemIcon?: React.CSSProperties;
-  itemContent?: React.CSSProperties;
-  trigger?: React.CSSProperties;
-  triggerIcon?: React.CSSProperties;
-  triggerContent?: React.CSSProperties;
-};
-
-export type FloatButtonGroupClassNamesType = SemanticClassNamesType<
-  FloatButtonGroupProps,
-  FloatButtonGroupSemanticClassNames
->;
-
-export type FloatButtonGroupStylesType = SemanticStylesType<
-  FloatButtonGroupProps,
-  FloatButtonGroupSemanticStyles
+export type FloatButtonGroupSemanticAllType = GenerateSemantic<
+  FloatButtonGroupSemanticType,
+  FloatButtonGroupProps
 >;
 
 export interface FloatButtonGroupProps extends Omit<FloatButtonProps, 'classNames' | 'styles'> {
   // Styles
-  classNames?: FloatButtonGroupClassNamesType;
-  styles?: FloatButtonGroupStylesType;
+  classNames?: FloatButtonGroupSemanticAllType['classNamesAndFn'];
+  styles?: FloatButtonGroupSemanticAllType['stylesAndFn'];
 
   // Control
   trigger?: FloatButtonGroupTrigger;
@@ -69,7 +64,14 @@ export interface FloatButtonGroupProps extends Omit<FloatButtonProps, 'className
   placement?: 'top' | 'left' | 'right' | 'bottom';
 }
 
-const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
+export interface FloatButtonGroupRef {
+  nativeElement: HTMLDivElement;
+}
+
+const InternalFloatButtonGroup = (
+  props: Readonly<FloatButtonGroupProps>,
+  ref: React.ForwardedRef<FloatButtonGroupRef>,
+) => {
   const {
     prefixCls: customizePrefixCls,
     className,
@@ -88,6 +90,7 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
     onOpenChange,
     open: customOpen,
     onClick: onTriggerButtonClick,
+    disabled: customDisabled,
     ...floatButtonProps
   } = props;
 
@@ -111,11 +114,19 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
 
   const isMenuMode = trigger && ['click', 'hover'].includes(trigger);
 
+  // ========================== Disabled ==========================
+  const disabled = React.useContext(DisabledContext);
+  const mergedDisabled = customDisabled ?? disabled;
+
   // ============================ zIndex ============================
   const [zIndex] = useZIndex('FloatButton', style?.zIndex as number);
 
   // ============================= Refs =============================
   const floatButtonGroupRef = React.useRef<HTMLDivElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    nativeElement: floatButtonGroupRef.current!,
+  }));
 
   // ========================== Placement ==========================
   const mergedPlacement = ['top', 'left', 'right', 'bottom'].includes(placement!)
@@ -129,6 +140,9 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
   const clickTrigger = trigger === 'click';
 
   const triggerOpen = useEvent((nextOpen: boolean) => {
+    if (mergedDisabled) {
+      return;
+    }
     if (open !== nextOpen) {
       setOpen(nextOpen);
       onOpenChange?.(nextOpen);
@@ -190,14 +204,18 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
     shape,
     type,
     placement: mergedPlacement,
+    disabled: mergedDisabled,
   };
 
   // ============================ Styles ============================
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    FloatButtonGroupClassNamesType,
-    FloatButtonGroupStylesType,
+    FloatButtonGroupSemanticAllType['classNames'],
+    FloatButtonGroupSemanticAllType['styles'],
     FloatButtonGroupProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -287,7 +305,7 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
             [`${groupPrefixCls}-menu-mode`]: isMenuMode,
           },
         )}
-        style={{ ...contextStyle, zIndex, ...mergedStyles.root, ...style }}
+        style={{ zIndex, ...mergedStyles.root }}
         // ref
         ref={floatButtonGroupRef}
         // Hover trigger
@@ -311,6 +329,7 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
               aria-label={props['aria-label']}
               className={`${groupPrefixCls}-trigger`}
               onClick={onInternalTriggerButtonClick}
+              disabled={mergedDisabled}
               {...floatButtonProps}
             />
           </GroupContext.Provider>
@@ -319,5 +338,7 @@ const FloatButtonGroup: React.FC<Readonly<FloatButtonGroupProps>> = (props) => {
     </GroupContext.Provider>
   );
 };
+
+const FloatButtonGroup = React.forwardRef(InternalFloatButtonGroup);
 
 export default FloatButtonGroup;

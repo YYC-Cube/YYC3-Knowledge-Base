@@ -2,17 +2,13 @@
 import type { CSSProperties, MouseEventHandler } from 'react';
 import React, { forwardRef, useMemo } from 'react';
 import { ColorBlock } from '@rc-component/color-picker';
-import pickAttrs from '@rc-component/util/lib/pickAttrs';
+import { pickAttrs } from '@rc-component/util';
 import { clsx } from 'clsx';
 
+import { isFunction } from '../../_util/is';
 import { useLocale } from '../../locale';
 import type { AggregationColor } from '../color';
-import type {
-  ColorFormatType,
-  ColorPickerProps,
-  ColorPickerSemanticClassNames,
-  ColorPickerSemanticStyles,
-} from '../interface';
+import type { ColorFormatType, ColorPickerProps, ColorPickerSemanticAllType } from '../interface';
 import { getColorAlpha } from '../util';
 import ColorClear from './ColorClear';
 
@@ -25,8 +21,8 @@ export interface ColorTriggerProps {
   showText?: ColorPickerProps['showText'];
   className?: string;
   style?: CSSProperties;
-  classNames: ColorPickerSemanticClassNames;
-  styles: ColorPickerSemanticStyles;
+  classNames: NonNullable<ColorPickerSemanticAllType['classNames']>;
+  styles: NonNullable<ColorPickerSemanticAllType['styles']>;
   onClick?: MouseEventHandler<HTMLDivElement>;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: MouseEventHandler<HTMLDivElement>;
@@ -61,7 +57,7 @@ const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) 
       return '';
     }
 
-    if (typeof showText === 'function') {
+    if (isFunction(showText)) {
       return showText(color);
     }
 
@@ -104,7 +100,12 @@ const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) 
   const containerNode = useMemo<React.ReactNode>(
     () =>
       color.cleared ? (
-        <ColorClear prefixCls={prefixCls} className={classNames.body} style={styles.body} />
+        <ColorClear
+          prefixCls={prefixCls}
+          className={classNames.body}
+          style={styles.body}
+          disabled={disabled}
+        />
       ) : (
         <ColorBlock
           prefixCls={prefixCls}
@@ -115,7 +116,7 @@ const ColorTrigger = forwardRef<HTMLDivElement, ColorTriggerProps>((props, ref) 
           innerStyle={styles.content}
         />
       ),
-    [color, prefixCls, classNames.body, classNames.content, styles.body, styles.content],
+    [color, prefixCls, disabled, classNames.body, classNames.content, styles.body, styles.content],
   );
 
   return (

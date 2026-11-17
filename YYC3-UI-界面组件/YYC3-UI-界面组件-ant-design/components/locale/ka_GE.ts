@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/ka_GE';
+import Pagination from '@rc-component/pagination/locale/ka_GE';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/ka_GE';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'გთხოვთ აირჩიოთ',
     close: 'დახურვა',
+    show: 'აჩვენე',
+    hide: 'დამალე',
+    sortable: 'დასალაგებელი',
   },
   Table: {
     filterTitle: 'ფილტრის მენიუ',
@@ -27,12 +30,19 @@ const localeValues: Locale = {
     selectInvert: 'შეაბრუნეთ მიმდინარე გვერდი',
     selectNone: 'მონაცემების გასუფთავება',
     selectionAll: 'ყველას მონიშვნა',
+    selectRow: 'მწკრივის არჩევა',
+    selectedRow: 'მწკრივი არჩეულია',
+    selectionMenu: 'არჩევის მენიუ',
     sortTitle: 'დალაგება',
     expand: 'სტრიქონის გაშლა',
     collapse: 'სტრიქონის შეკუმშვა',
+    expandAll: 'ყველა სტრიქონის გაშლა',
+    collapseAll: 'ყველა სტრიქონის შეკუმშვა',
     triggerDesc: 'დაღმავალი დალაგება',
     triggerAsc: 'აღმავალი დალაგება',
     cancelSort: 'დალაგების გაუქმება',
+    filterCheckAll: 'აირჩიეთ ყველა ელემენტი',
+    filterSearchPlaceholder: 'მოძებნეთ ფილტრებში',
   },
   Tour: {
     Next: 'მომდევნო',
@@ -48,6 +58,10 @@ const localeValues: Locale = {
     okText: 'კარგი',
     cancelText: 'გაუქმება',
   },
+  Splitter: {
+    toggleStartPanel: 'საწყისი პანელის გადართვა',
+    toggleEndPanel: 'საბოლოო პანელის გადართვა',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'მოძებნე აქ',
@@ -59,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'ყველას მონიშვნა',
     removeAll: 'ყველას წაშლა',
     selectInvert: 'მიმდინარე გვერდის შებრუნება',
+    deselectAll: 'გააუქმეთ ყველა მონაცემი',
   },
   Upload: {
     uploading: 'იტვირთება...',
@@ -78,6 +93,11 @@ const localeValues: Locale = {
     copy: 'ასლი',
     copied: 'ასლი აღებულია',
     expand: 'გაშლა',
+    collapse: 'კოლაფსი',
+  },
+  Carousel: {
+    prevSlide: 'წინა სლაიდი',
+    nextSlide: 'შემდეგი სლაიდი',
   },
   Form: {
     optional: '(არასავალდებულო)',
@@ -128,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} არ ერგება შაბლონს ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR კოდს ვადა გაუვიდა',
+    refresh: 'განაახლეთ',
+    scanned: 'დასკანირებულია',
+  },
+  ColorPicker: {
+    presetEmpty: 'ცარიელი',
+    transparent: 'გამჭვირვალე',
+    singleColor: 'ერთი ფერი',
+    gradientColor: 'გრადიენტური ფერი',
   },
 };
 

@@ -4,10 +4,11 @@ import { Item } from '@rc-component/menu';
 import { omit, toArray } from '@rc-component/util';
 import { clsx } from 'clsx';
 
+import { isFunction } from '../_util/is';
 import { cloneElement } from '../_util/reactNode';
 import type { SiderContextProps } from '../layout/Sider';
 import { SiderContext } from '../layout/Sider';
-import type { TooltipProps, TooltipSemanticClassNames } from '../tooltip';
+import type { TooltipProps, TooltipSemanticType } from '../tooltip';
 import Tooltip from '../tooltip';
 import type { MenuContextProps } from './MenuContext';
 import MenuContext from './MenuContext';
@@ -46,6 +47,18 @@ const MenuItem: GenericComponent = (props) => {
     styles,
     classNames,
   } = React.useContext<MenuContextProps>(MenuContext);
+  const { siderCollapsed } = React.useContext<SiderContextProps>(SiderContext);
+
+  const mergedCollapsed = !!(siderCollapsed || isInlineCollapsed);
+
+  // Controlled tooltip state to prevent flash during collapse/expand transitions
+  // ref: https://github.com/ant-design/ant-design/issues/56528
+  const [tooltipOpen, setTooltipOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    setTooltipOpen(false);
+  }, [mergedCollapsed]);
+
   const renderItemChildren = (inlineCollapsed: boolean) => {
     const label = (children as React.ReactNode[])?.[0];
     const wrapNode = (
@@ -72,8 +85,6 @@ const MenuItem: GenericComponent = (props) => {
     return wrapNode;
   };
 
-  const { siderCollapsed } = React.useContext<SiderContextProps>(SiderContext);
-
   let tooltipTitle = title;
 
   if (typeof title === 'undefined') {
@@ -91,11 +102,19 @@ const MenuItem: GenericComponent = (props) => {
     title: mergedTooltipTitle,
   };
 
-  if (!siderCollapsed && !isInlineCollapsed) {
+  if (!mergedCollapsed) {
     tooltipProps.title = null;
     // Reset `open` to fix control mode tooltip display not correct
     // ref: https://github.com/ant-design/ant-design/issues/16742
     tooltipProps.open = false;
+  } else {
+    // When collapsed, use controlled state to prevent flash during transitions
+    // ref: https://github.com/ant-design/ant-design/issues/56528
+    tooltipProps.open = tooltipConfig?.open ?? tooltipOpen;
+    tooltipProps.onOpenChange = (open) => {
+      setTooltipOpen(open);
+      tooltipConfig?.onOpenChange?.(open);
+    };
   }
 
   const childrenLength = toArray(children).length;
@@ -116,6 +135,7 @@ const MenuItem: GenericComponent = (props) => {
         ...props.style,
       }}
       title={typeof title === 'string' ? title : undefined}
+      itemData={props?.itemData ?? { ...props, key: props.eventKey }}
     >
       {cloneElement(icon, (oriProps) => ({
         className: clsx(
@@ -142,22 +162,21 @@ const MenuItem: GenericComponent = (props) => {
 
     const baseTooltipClassName = `${prefixCls}-inline-collapsed-tooltip`;
 
-    const mergeTooltipRootClassName = (classNames?: TooltipSemanticClassNames) => ({
+    const mergeTooltipRootClassName = (classNames?: TooltipSemanticType['classNames']) => ({
       ...classNames,
       root: clsx(baseTooltipClassName, classNames?.root),
     });
 
-    const mergedTooltipClassNames =
-      tooltipConfig && typeof tooltipConfig.classNames === 'function'
-        ? (info: { props: TooltipProps }) => {
-            const resolvedClassNames = (
-              tooltipConfig.classNames as (info: {
-                props: TooltipProps;
-              }) => TooltipSemanticClassNames
-            )(info);
-            return mergeTooltipRootClassName(resolvedClassNames);
-          }
-        : mergeTooltipRootClassName(tooltipConfig?.classNames as TooltipSemanticClassNames);
+    const mergedTooltipClassNames = isFunction(tooltipConfig?.classNames)
+      ? (info: { props: TooltipProps }) => {
+          const resolvedClassNames = (
+            tooltipConfig.classNames as (info: {
+              props: TooltipProps;
+            }) => TooltipSemanticType['classNames']
+          )(info);
+          return mergeTooltipRootClassName(resolvedClassNames);
+        }
+      : mergeTooltipRootClassName(tooltipConfig?.classNames as TooltipSemanticType['classNames']);
 
     returnNode = (
       <Tooltip

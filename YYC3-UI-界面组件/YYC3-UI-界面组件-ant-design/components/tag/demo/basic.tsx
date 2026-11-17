@@ -15,11 +15,12 @@ const App: React.FC = () => (
         href="https://github.com/ant-design/ant-design/issues/1862"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Ant Design issue"
       >
         Link
       </a>
     </Tag>
-    <Tag closeIcon onClose={preventDefault}>
+    <Tag closable onClose={preventDefault}>
       Prevent Default
     </Tag>
     <Tag closeIcon={<CloseCircleOutlined />} onClose={console.log}>

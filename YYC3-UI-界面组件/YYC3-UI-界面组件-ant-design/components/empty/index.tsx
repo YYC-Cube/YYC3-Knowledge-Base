@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { devUseWarning } from '../_util/warning';
 import { useComponentConfig } from '../config-provider/context';
 import { useLocale } from '../locale';
@@ -17,28 +18,22 @@ export interface TransferLocale {
   description: string;
 }
 
-export type EmptySemanticName = keyof EmptySemanticClassNames & keyof EmptySemanticStyles;
-
-export type EmptySemanticClassNames = {
-  root?: string;
-  image?: string;
-  description?: string;
-  footer?: string;
+export type EmptySemanticType = {
+  classNames?: {
+    root?: string;
+    image?: string;
+    description?: string;
+    footer?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    image?: React.CSSProperties;
+    description?: React.CSSProperties;
+    footer?: React.CSSProperties;
+  };
 };
 
-export type EmptySemanticStyles = {
-  root?: React.CSSProperties;
-  image?: React.CSSProperties;
-  description?: React.CSSProperties;
-  footer?: React.CSSProperties;
-};
-
-export type EmptyClassNamesType = SemanticClassNamesType<EmptyProps, EmptySemanticClassNames>;
-
-export type EmptyStylesType = SemanticStylesType<EmptyProps, EmptySemanticStyles>;
-
-// For backward compatibility
-export type SemanticName = EmptySemanticName;
+export type EmptySemanticAllType = GenerateSemantic<EmptySemanticType, EmptyProps>;
 
 export interface EmptyProps {
   prefixCls?: string;
@@ -50,16 +45,22 @@ export interface EmptyProps {
   image?: React.ReactNode;
   description?: React.ReactNode;
   children?: React.ReactNode;
-  classNames?: EmptyClassNamesType;
-  styles?: EmptyStylesType;
+  classNames?: EmptySemanticAllType['classNamesAndFn'];
+  styles?: EmptySemanticAllType['stylesAndFn'];
 }
 
-type CompoundedComponent = React.FC<EmptyProps> & {
+export interface EmptyRef {
+  nativeElement: HTMLDivElement;
+}
+
+type CompoundedComponent = React.ForwardRefExoticComponent<
+  EmptyProps & React.RefAttributes<EmptyRef>
+> & {
   PRESENTED_IMAGE_DEFAULT: React.ReactNode;
   PRESENTED_IMAGE_SIMPLE: React.ReactNode;
 };
 
-const Empty: CompoundedComponent = (props) => {
+const Empty = React.forwardRef<EmptyRef, EmptyProps>((props, ref) => {
   const {
     className,
     rootClassName,
@@ -86,11 +87,14 @@ const Empty: CompoundedComponent = (props) => {
   const prefixCls = getPrefixCls('empty', customizePrefixCls);
   const [hashId, cssVarCls] = useStyle(prefixCls);
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    EmptyClassNamesType,
-    EmptyStylesType,
+    EmptySemanticAllType['classNames'],
+    EmptySemanticAllType['styles'],
     EmptyProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props,
   });
 
@@ -119,8 +123,15 @@ const Empty: CompoundedComponent = (props) => {
     });
   }
 
+  const nativeElementRef = React.useRef<HTMLDivElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    nativeElement: nativeElementRef.current!,
+  }));
+
   return (
     <div
+      ref={nativeElementRef}
       className={clsx(
         hashId,
         cssVarCls,
@@ -134,7 +145,7 @@ const Empty: CompoundedComponent = (props) => {
         rootClassName,
         mergedClassNames.root,
       )}
-      style={{ ...mergedStyles.root, ...contextStyle, ...style }}
+      style={mergedStyles.root}
       {...restProps}
     >
       <div
@@ -143,7 +154,7 @@ const Empty: CompoundedComponent = (props) => {
       >
         {imageNode}
       </div>
-      {des && (
+      {isReactRenderable(des) && (
         <div
           className={clsx(`${prefixCls}-description`, mergedClassNames.description)}
           style={mergedStyles.description}
@@ -151,7 +162,7 @@ const Empty: CompoundedComponent = (props) => {
           {des}
         </div>
       )}
-      {children && (
+      {isReactRenderable(children) && (
         <div
           className={clsx(`${prefixCls}-footer`, mergedClassNames.footer)}
           style={mergedStyles.footer}
@@ -161,7 +172,7 @@ const Empty: CompoundedComponent = (props) => {
       )}
     </div>
   );
-};
+}) as CompoundedComponent;
 
 Empty.PRESENTED_IMAGE_DEFAULT = defaultEmptyImg;
 Empty.PRESENTED_IMAGE_SIMPLE = simpleEmptyImg;

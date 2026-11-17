@@ -1,0 +1,81 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Input.OTP > rtl render > component should be rendered correctly in RTL direction 1`] = `
+<div
+  class="ant-otp ant-otp-rtl css-var-root"
+  role="group"
+>
+  <span
+    class="ant-otp-input-wrapper"
+    role="presentation"
+  >
+    <input
+      aria-label="Character 1 of 6"
+      class="ant-input ant-input-rtl ant-input-outlined ant-otp-input css-var-root ant-input-css-var"
+      size="1"
+      type="text"
+      value=""
+    />
+  </span>
+  <span
+    class="ant-otp-input-wrapper"
+    role="presentation"
+  >
+    <input
+      aria-label="Character 2 of 6"
+      class="ant-input ant-input-rtl ant-input-outlined ant-otp-input css-var-root ant-input-css-var"
+      size="1"
+      type="text"
+      value=""
+    />
+  </span>
+  <span
+    class="ant-otp-input-wrapper"
+    role="presentation"
+  >
+    <input
+      aria-label="Character 3 of 6"
+      class="ant-input ant-input-rtl ant-input-outlined ant-otp-input css-var-root ant-input-css-var"
+      size="1"
+      type="text"
+      value=""
+    />
+  </span>
+  <span
+    class="ant-otp-input-wrapper"
+    role="presentation"
+  >
+    <input
+      aria-label="Character 4 of 6"
+      class="ant-input ant-input-rtl ant-input-outlined ant-otp-input css-var-root ant-input-css-var"
+      size="1"
+      type="text"
+      value=""
+    />
+  </span>
+  <span
+    class="ant-otp-input-wrapper"
+    role="presentation"
+  >
+    <input
+      aria-label="Character 5 of 6"
+      class="ant-input ant-input-rtl ant-input-outlined ant-otp-input css-var-root ant-input-css-var"
+      size="1"
+      type="text"
+      value=""
+    />
+  </span>
+  <span
+    class="ant-otp-input-wrapper"
+    role="presentation"
+  >
+    <input
+      aria-label="Character 6 of 6"
+      class="ant-input ant-input-rtl ant-input-outlined ant-otp-input css-var-root ant-input-css-var"
+      size="1"
+      type="text"
+      value=""
+    />
+  </span>
+</div>
+`;

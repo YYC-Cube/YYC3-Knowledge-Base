@@ -1,51 +1,45 @@
 import * as React from 'react';
 import SearchOutlined from '@ant-design/icons/SearchOutlined';
-import omit from '@rc-component/util/lib/omit';
-import pickAttrs from '@rc-component/util/lib/pickAttrs';
-import { composeRef } from '@rc-component/util/lib/ref';
+import { composeRef, omit, pickAttrs } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import fallbackProp from '../_util/fallbackProp';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { cloneElement } from '../_util/reactNode';
 import Button from '../button/Button';
-import type { ButtonSemanticClassNames, ButtonSemanticStyles } from '../button/Button';
+import type { ButtonProps, ButtonSemanticType } from '../button/Button';
 import { useComponentConfig } from '../config-provider/context';
+import DisabledContext from '../config-provider/DisabledContext';
 import useSize from '../config-provider/hooks/useSize';
+import useVariant from '../form/hooks/useVariants';
 import Compact, { useCompactItemContext } from '../space/Compact';
 import type { InputProps, InputRef } from './Input';
 import Input from './Input';
 import useStyle from './style/search';
 
-export type InputSearchSemanticName = keyof InputSearchSemanticClassNames &
-  keyof InputSearchSemanticStyles;
-
-export type InputSearchSemanticClassNames = {
-  root?: string;
-  input?: string;
-  prefix?: string;
-  suffix?: string;
-  count?: string;
+export type InputSearchSemanticType = {
+  classNames?: {
+    root?: string;
+    input?: string;
+    prefix?: string;
+    suffix?: string;
+    clear?: string;
+    count?: string;
+    button?: ButtonSemanticType['classNames'];
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    input?: React.CSSProperties;
+    prefix?: React.CSSProperties;
+    suffix?: React.CSSProperties;
+    clear?: React.CSSProperties;
+    count?: React.CSSProperties;
+    button?: ButtonSemanticType['styles'];
+  };
 };
 
-export type InputSearchSemanticStyles = {
-  root?: React.CSSProperties;
-  input?: React.CSSProperties;
-  prefix?: React.CSSProperties;
-  suffix?: React.CSSProperties;
-  count?: React.CSSProperties;
-};
-
-export type InputSearchClassNamesType = SemanticClassNamesType<
-  SearchProps,
-  InputSearchSemanticClassNames
-> & {
-  button?: ButtonSemanticClassNames;
-};
-
-export type InputSearchStylesType = SemanticStylesType<SearchProps, InputSearchSemanticStyles> & {
-  button?: ButtonSemanticStyles;
-};
+export type InputSearchSemanticAllType = GenerateSemantic<InputSearchSemanticType, SearchProps>;
 
 export interface SearchProps extends InputProps {
   inputPrefixCls?: string;
@@ -59,11 +53,12 @@ export interface SearchProps extends InputProps {
       source?: 'clear' | 'input';
     },
   ) => void;
+  searchIcon?: React.ReactNode;
   enterButton?: React.ReactNode;
   loading?: boolean;
   onPressEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  classNames?: InputSearchClassNamesType;
-  styles?: InputSearchStylesType;
+  classNames?: InputSearchSemanticAllType['classNamesAndFn'];
+  styles?: InputSearchSemanticAllType['stylesAndFn'];
 }
 
 const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
@@ -71,9 +66,11 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
     prefixCls: customizePrefixCls,
     inputPrefixCls: customizeInputPrefixCls,
     className,
+    rootClassName,
     size: customizeSize,
     style,
     enterButton = false,
+    searchIcon: customizeSearchIcon,
     addonAfter,
     loading,
     disabled,
@@ -81,7 +78,7 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
     onChange: customOnChange,
     onCompositionStart,
     onCompositionEnd,
-    variant,
+    variant: customizeVariant,
     onPressEnter: customOnPressEnter,
     classNames,
     styles,
@@ -92,22 +89,39 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
   const {
     direction,
     getPrefixCls,
+    className: contextClassName,
+    style: contextStyle,
     classNames: contextClassNames,
     styles: contextStyles,
+    searchIcon: contextSearchIcon,
   } = useComponentConfig('inputSearch');
+
+  const contextDisabled = React.useContext(DisabledContext);
+  const mergedDisabled = disabled ?? contextDisabled;
+  const [mergedVariant, , isVariantConfigured] = useVariant(
+    'inputSearch',
+    customizeVariant,
+    props.bordered,
+  );
+  const variant = isVariantConfigured ? mergedVariant : undefined;
+  const [inputVariant] = useVariant('inputSearch', customizeVariant, props.bordered, 'input');
 
   const mergedProps: SearchProps = {
     ...props,
     enterButton,
+    variant,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    InputSearchClassNamesType,
-    InputSearchStylesType,
+    InputSearchSemanticAllType['classNames'],
+    InputSearchSemanticAllType['styles'],
     SearchProps
   >(
     [contextClassNames, classNames],
-    [contextStyles, styles],
+    [contextStyles, contextStyleRoot, styles, styleRoot],
     { props: mergedProps },
     {
       button: {
@@ -158,7 +172,10 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
     onSearch(e);
   };
 
-  const searchIcon = typeof enterButton === 'boolean' ? <SearchOutlined /> : null;
+  const searchIcon =
+    typeof enterButton === 'boolean'
+      ? fallbackProp(customizeSearchIcon, contextSearchIcon, <SearchOutlined />)
+      : null;
   const btnPrefixCls = `${prefixCls}-btn`;
   const btnClassName = clsx(btnPrefixCls, {
     [`${btnPrefixCls}-${variant}`]: variant,
@@ -169,8 +186,17 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
   const isAntdButton =
     enterButtonAsElement.type && (enterButtonAsElement.type as typeof Button).__ANT_BUTTON === true;
   if (isAntdButton || enterButtonAsElement.type === 'button') {
+    const enterButtonProps = enterButtonAsElement.props as Pick<
+      ButtonProps,
+      'className' | 'disabled' | 'loading' | 'onMouseDown'
+    >;
+
     button = cloneElement(enterButtonAsElement, {
-      onMouseDown,
+      disabled: mergedDisabled || enterButtonProps.disabled || (!isAntdButton && loading),
+      onMouseDown: (e: React.MouseEvent<HTMLElement>) => {
+        enterButtonProps.onMouseDown?.(e);
+        onMouseDown(e);
+      },
       onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
         (
           enterButtonAsElement as React.ReactElement<{
@@ -180,7 +206,13 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
         onSearch(e);
       },
       key: 'enterButton',
-      ...(isAntdButton ? { className: btnClassName, size } : {}),
+      ...(isAntdButton
+        ? {
+            className: clsx(btnClassName, enterButtonProps.className),
+            loading: loading || enterButtonProps.loading,
+            size,
+          }
+        : {}),
     });
   } else {
     button = (
@@ -222,6 +254,8 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
       [`${prefixCls}-with-button`]: !!enterButton,
     },
     className,
+    rootClassName,
+    contextClassName,
     hashId,
     mergedClassNames.root,
   );
@@ -250,7 +284,7 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
       prefixCls: inputPrefixCls,
       type: 'search',
       size,
-      variant,
+      variant: inputVariant,
       onPressEnter,
       onCompositionStart: handleOnCompositionStart,
       onCompositionEnd: handleOnCompositionEnd,
@@ -261,12 +295,7 @@ const Search = React.forwardRef<InputRef, SearchProps>((props, ref) => {
   );
 
   return (
-    <Compact
-      className={mergedClassName}
-      style={{ ...style, ...mergedStyles.root }}
-      {...rootProps}
-      hidden={hidden}
-    >
+    <Compact className={mergedClassName} style={mergedStyles.root} {...rootProps} hidden={hidden}>
       <Input ref={composeRef<InputRef>(inputRef, ref)} {...inputProps} />
       {button}
     </Compact>

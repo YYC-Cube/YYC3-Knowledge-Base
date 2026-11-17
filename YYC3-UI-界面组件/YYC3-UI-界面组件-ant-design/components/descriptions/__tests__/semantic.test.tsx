@@ -3,6 +3,11 @@ import React from 'react';
 import Descriptions from '..';
 import type { DescriptionsProps } from '..';
 import { render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 
 describe('Descriptions.Semantic', () => {
   it('should apply custom styles to Descriptions', () => {
@@ -114,9 +119,9 @@ describe('Descriptions.Semantic', () => {
     };
     const styles: DescriptionsProps['styles'] = (info) => {
       if (info.props.bordered) {
-        return { content: { background: 'red' } };
+        return { content: { backgroundColor: 'rgb(255, 0, 0)' } };
       } else {
-        return { content: { background: 'blue' } };
+        return { content: { backgroundColor: 'rgb(0, 0, 255)' } };
       }
     };
 
@@ -134,7 +139,7 @@ describe('Descriptions.Semantic', () => {
     expect(container.querySelector('.ant-descriptions-title')).toHaveClass('test-ant-title');
     expect(container.querySelector('.ant-descriptions-item-label')).toHaveClass('test-ant-label');
     expect(container.querySelector('.ant-descriptions-item-content')).toHaveStyle({
-      background: 'red',
+      backgroundColor: 'rgb(255, 0, 0)',
     });
 
     rerender(
@@ -152,7 +157,25 @@ describe('Descriptions.Semantic', () => {
       'test-ant-content',
     );
     expect(container.querySelector('.ant-descriptions-item-content')).toHaveStyle({
-      background: 'blue',
+      backgroundColor: 'rgb(0, 0, 255)',
     });
+  });
+  it('should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        descriptions={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Descriptions
+          items={[{ key: '1', label: 'UserName', children: 'Bamboo' }]}
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-descriptions'));
   });
 });

@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { CSSObject } from '@ant-design/cssinjs';
 
-import { resetComponent, textEllipsis } from '../../style';
+import { genFocusOutline, resetComponent, textEllipsis } from '../../style';
 import type { FullToken, GenerateStyle, GetDefaultToken } from '../../theme/internal';
 import { genStyleHooks, mergeToken } from '../../theme/internal';
 import { genCssVar } from '../../theme/util/genStyleUtils';
@@ -9,6 +9,7 @@ import genHorizontalStyle from './horizontal';
 import genIconStyle from './icon';
 import genInlineStyle from './inline';
 import genLabelPlacementStyle from './label-placement';
+import genMaxCountStyle from './max-count';
 import genLegacyNavStyle from './nav';
 import genPanelStyle from './panel';
 import genStepsProgressStyle from './progress';
@@ -79,7 +80,7 @@ export interface ComponentToken {
    * @desc 小号步骤条图标大小
    * @descEN Size of small steps icon
    */
-  iconSizeSM: number;
+  iconSizeSM: number | string;
   /**
    * TODO: deprecated warning since not used anymore
    * @desc 标题行高
@@ -145,7 +146,7 @@ const genBasicStyle: GenerateStyle<StepsToken, CSSObject> = (token) => {
       // >>> Sub Title
       [`${itemCls}-subtitle`]: {
         color: token.colorTextDescription,
-        fontWeight: 'normal',
+        fontWeight: 400,
         fontSize: varRef('subtitle-font-size'),
         lineHeight: varRef('subtitle-line-height'),
         marginInlineStart: token.marginXS,
@@ -177,6 +178,8 @@ const genBasicStyle: GenerateStyle<StepsToken, CSSObject> = (token) => {
       },
 
       // ========================= Clickable ==========================
+      [`${itemCls}[role='button']:focus-visible`]: genFocusOutline(token),
+
       [`${itemCls}[role='button']:not(${itemCls}-active):hover`]: {
         cursor: 'pointer',
       },
@@ -222,6 +225,7 @@ export default genStyleHooks(
       genLegacyNavStyle(stepsToken),
       genPanelStyle(stepsToken),
       genInlineStyle(stepsToken),
+      genMaxCountStyle(stepsToken),
       genStepsProgressStyle(stepsToken),
       genRTLStyle(stepsToken),
     ];

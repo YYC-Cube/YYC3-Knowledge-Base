@@ -5,9 +5,49 @@ import * as fs from 'fs-extra';
 
 import rehypeAntd from './.dumi/rehypeAntd';
 import rehypeChangelog from './.dumi/rehypeChangelog';
-import remarkAnchor from './.dumi/remarkAnchor';
 import remarkAntd from './.dumi/remarkAntd';
 import { version } from './package.json';
+
+const alibabaSansBoldFont =
+  'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*E_cxRbMlZqUAAAAAQuAAAAgAegCCAQ/AlibabaSans-Bold.woff2';
+
+const alibabaSansFonts = [
+  {
+    weight: 300,
+    url: 'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*1GSgSYDD_aIAAAAAQsAAAAgAegCCAQ/AlibabaSans-Light.woff2',
+  },
+  {
+    weight: 400,
+    url: 'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*2zEUQqnPNesAAAAAQtAAAAgAegCCAQ/AlibabaSans-Regular.woff2',
+  },
+  {
+    weight: 500,
+    url: alibabaSansBoldFont,
+  },
+  {
+    weight: 600,
+    url: alibabaSansBoldFont,
+  },
+  {
+    weight: 700,
+    url: alibabaSansBoldFont,
+  },
+] as const;
+
+const alibabaSansFontFaceStyle = alibabaSansFonts
+  .map(
+    ({ weight, url }) => `
+@font-face {
+  font-family: 'AlibabaSans';
+  font-style: normal;
+  font-weight: ${weight};
+  font-display: optional;
+  src: url('${url}') format('woff2');
+}`,
+  )
+  .join('\n');
+
+const isCloudflarePages = process.env.CF_PAGES === '1';
 
 export default defineConfig({
   plugins: ['dumi-plugin-color-chunk'],
@@ -16,6 +56,10 @@ export default defineConfig({
   routePrefetch: {},
   manifest: {},
 
+  sitemap: {
+    hostname: 'https://ant.design',
+  },
+
   conventionRoutes: {
     // to avoid generate routes for .dumi/pages/index/components/xx
     exclude: [/index\/components\//],
@@ -23,16 +67,27 @@ export default defineConfig({
   ssr:
     process.env.NODE_ENV === 'production'
       ? {
-          builder: 'mako',
+          // Cloudflare Pages may crash utoopack loader child processes with SIGBUS.
+          builder: isCloudflarePages ? 'mako' : 'utoopack',
         }
       : false,
   hash: true,
   mfsu: false,
-  mako: ['Darwin', 'Linux'].includes(os.type()) ? {} : false,
+  mako: isCloudflarePages && ['Darwin', 'Linux'].includes(os.type()) ? {} : false,
+  utoopack: {
+    devServer: {
+      lazyDynamicImports: true,
+      dynamicHmrChunkLists: true,
+    },
+    watch: {
+      nodeModulesRegexes: ['rc-.*', '.*cssinjs.*', '@rc-component/.*'],
+    },
+  },
   crossorigin: {},
   runtimePublicPath: {},
   outputPath: '_site',
   favicons: ['https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png'],
+  styles: [alibabaSansFontFaceStyle],
   resolve: {
     docDirs: [{ type: 'doc', dir: 'docs' }],
     atomDirs: [{ type: 'component', dir: 'components' }],
@@ -50,11 +105,9 @@ export default defineConfig({
     'antd/es': path.join(__dirname, 'components'),
     'antd/locale': path.join(__dirname, 'components/locale'),
     antd: path.join(__dirname, 'components'),
-    // https://github.com/ant-design/ant-design/issues/46628
-    '@ant-design/icons$': '@ant-design/icons/lib',
   },
   extraRehypePlugins: [rehypeAntd, rehypeChangelog],
-  extraRemarkPlugins: [remarkAntd, remarkAnchor],
+  extraRemarkPlugins: [remarkAntd],
   metas: [
     { name: 'theme-color', content: '#1677ff' },
     { name: 'build-time', content: Date.now().toString() },
@@ -70,64 +123,15 @@ export default defineConfig({
       : {
           analyzerPort: 'auto',
         },
-  links: [
-    {
-      rel: 'prefetch',
-      as: 'font',
-      href: '//at.alicdn.com/t/webfont_6e11e43nfj.woff2',
-      type: 'font/woff2',
-      crossorigin: 'anonymous',
-    },
-    {
-      rel: 'prefetch',
-      as: 'font',
-      href: '//at.alicdn.com/t/webfont_6e11e43nfj.woff',
-      type: 'font/woff',
-      crossorigin: 'anonymous',
-    },
-    {
-      rel: 'prefetch',
-      as: 'font',
-      href: '//at.alicdn.com/t/webfont_6e11e43nfj.ttf',
-      type: 'font/ttf',
-      crossorigin: 'anonymous',
-    },
-    {
-      rel: 'prefetch',
-      as: 'font',
-      href: '//at.alicdn.com/t/webfont_exesdog9toj.woff2',
-      type: 'font/woff2',
-      crossorigin: 'anonymous',
-    },
-    {
-      rel: 'prefetch',
-      as: 'font',
-      href: '//at.alicdn.com/t/webfont_exesdog9toj.woff',
-      type: 'font/woff',
-      crossorigin: 'anonymous',
-    },
-    {
-      rel: 'prefetch',
-      as: 'font',
-      href: '//at.alicdn.com/t/webfont_exesdog9toj.ttf',
-      type: 'font/ttf',
-      crossorigin: 'anonymous',
-    },
-    {
+  links: alibabaSansFonts
+    .filter(({ weight }) => weight === 400 || weight === 600)
+    .map(({ url }) => ({
       rel: 'preload',
       as: 'font',
-      href: '//at.alicdn.com/wf/webfont/exMpJIukiCms/Gsw2PSKrftc1yNWMNlXgw.woff2',
+      href: url,
       type: 'font/woff2',
       crossorigin: 'anonymous',
-    },
-    {
-      rel: 'preload',
-      as: 'font',
-      href: '//at.alicdn.com/wf/webfont/exMpJIukiCms/vtu73by4O2gEBcvBuLgeu.woff',
-      type: 'font/woff2',
-      crossorigin: 'anonymous',
-    },
-  ],
+    })),
   headScripts: [
     `
     (function () {
@@ -144,7 +148,7 @@ export default defineConfig({
           return /\\/?index(-cn)?/.test(pathname) ? '/' : pathname.replace('-cn', '');
         } else if (pathname === '/') {
           return '/index-cn';
-        } else if (pathname.indexOf('/') === pathname.length - 1) {
+        } else if (pathname.endsWith('/')) {
           return pathname.replace(/\\/$/, '-cn/');
         }
         return pathname + '-cn';
@@ -186,10 +190,6 @@ export default defineConfig({
   ],
   scripts: [
     {
-      src: 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4',
-      async: true,
-    },
-    {
       async: true,
       content: fs
         .readFileSync(path.join(__dirname, '.dumi', 'scripts', 'mirror-notify.js'))
@@ -204,5 +204,9 @@ export default defineConfig({
             .toString(),
         }
       : null,
+    {
+      async: true,
+      content: fs.readFileSync(path.join(__dirname, '.dumi', 'scripts', 'webmcp.js')).toString(),
+    },
   ].filter((script) => !!script),
 });

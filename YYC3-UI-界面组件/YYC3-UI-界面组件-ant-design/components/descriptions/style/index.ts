@@ -64,6 +64,7 @@ interface DescriptionsToken extends FullToken<'Descriptions'> {}
 
 const genBorderedStyle: GenerateStyle<DescriptionsToken, CSSObject> = (token) => {
   const { componentCls, labelBg } = token;
+  const rowSelector = `> ${componentCls}-view > table > tbody > ${componentCls}-row`;
   return {
     [`&${componentCls}-bordered`]: {
       [`> ${componentCls}-view`]: {
@@ -71,7 +72,7 @@ const genBorderedStyle: GenerateStyle<DescriptionsToken, CSSObject> = (token) =>
         '> table': {
           tableLayout: 'auto',
         },
-        [`${componentCls}-row`]: {
+        [`> table > tbody > ${componentCls}-row`]: {
           borderBottom: `${unit(token.lineWidth)} ${token.lineType} ${token.colorSplit}`,
           '&:first-child': {
             '> th:first-child, > td:first-child': {
@@ -101,14 +102,14 @@ const genBorderedStyle: GenerateStyle<DescriptionsToken, CSSObject> = (token) =>
         },
       },
       [`&${componentCls}-medium`]: {
-        [`${componentCls}-row`]: {
+        [rowSelector]: {
           [`> ${componentCls}-item-label, > ${componentCls}-item-content`]: {
             padding: `${unit(token.paddingSM)} ${unit(token.paddingLG)}`,
           },
         },
       },
       [`&${componentCls}-small`]: {
-        [`${componentCls}-row`]: {
+        [rowSelector]: {
           [`> ${componentCls}-item-label, > ${componentCls}-item-content`]: {
             padding: `${unit(token.paddingXS)} ${unit(token.padding)}`,
           },
@@ -128,6 +129,8 @@ const genDescriptionStyles: GenerateStyle<DescriptionsToken, CSSObject> = (token
     colonMarginLeft,
     titleMarginBottom,
   } = token;
+  // Scope rows to this table so nested descriptions keep their own styles.
+  const rowSelector = `> ${componentCls}-view > table > tbody > ${componentCls}-row`;
   return {
     [componentCls]: {
       ...resetComponent(token),
@@ -154,15 +157,19 @@ const genDescriptionStyles: GenerateStyle<DescriptionsToken, CSSObject> = (token
         fontSize: token.fontSize,
       },
       [`${componentCls}-view`]: {
+        // #54268 used `width: 0` with `min-width: 100%` to avoid oversized
+        // intrinsic widths in max-content ancestors. Keep the wrapper at
+        // `width: 100%` so it remains measurable in shrink-to-fit containers
+        // like Popover (#58574), while the inner table preserves the minimum.
         width: '100%',
         borderRadius: token.borderRadiusLG,
         table: {
-          width: '100%',
+          minWidth: '100%',
           tableLayout: 'fixed',
           borderCollapse: 'collapse',
         },
       },
-      [`${componentCls}-row`]: {
+      [rowSelector]: {
         '> th, > td': {
           paddingBottom: itemPaddingBottom,
           paddingInlineEnd: itemPaddingEnd,
@@ -179,7 +186,7 @@ const genDescriptionStyles: GenerateStyle<DescriptionsToken, CSSObject> = (token
       },
       [`${componentCls}-item-label`]: {
         color: token.labelColor,
-        fontWeight: 'normal',
+        fontWeight: 400,
         fontSize: token.fontSize,
         lineHeight: token.lineHeight,
         textAlign: 'start',
@@ -192,12 +199,6 @@ const genDescriptionStyles: GenerateStyle<DescriptionsToken, CSSObject> = (token
         },
 
         [`&${componentCls}-item-no-colon::after`]: {
-          content: '""',
-        },
-      },
-      [`${componentCls}-item-no-label`]: {
-        '&::after': {
-          margin: 0,
           content: '""',
         },
       },
@@ -215,11 +216,11 @@ const genDescriptionStyles: GenerateStyle<DescriptionsToken, CSSObject> = (token
         verticalAlign: 'top',
         '&-container': {
           display: 'flex',
-          [`${componentCls}-item-label`]: {
+          [`> ${componentCls}-item-label`]: {
             display: 'inline-flex',
             alignItems: 'baseline',
           },
-          [`${componentCls}-item-content`]: {
+          [`> ${componentCls}-item-content`]: {
             display: 'inline-flex',
             alignItems: 'baseline',
             minWidth: '1em',
@@ -227,14 +228,14 @@ const genDescriptionStyles: GenerateStyle<DescriptionsToken, CSSObject> = (token
         },
       },
       '&-medium': {
-        [`${componentCls}-row`]: {
+        [rowSelector]: {
           '> th, > td': {
             paddingBottom: token.paddingSM,
           },
         },
       },
       '&-small': {
-        [`${componentCls}-row`]: {
+        [rowSelector]: {
           '> th, > td': {
             paddingBottom: token.paddingXS,
           },

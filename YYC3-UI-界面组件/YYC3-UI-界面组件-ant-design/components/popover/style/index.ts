@@ -76,7 +76,7 @@ const genBaseStyle: GenerateStyle<PopoverToken> = (token) => {
     titleMinWidth,
     fontWeightStrong,
     innerPadding,
-    boxShadowSecondary,
+    dropShadowPopover,
     colorTextHeading,
     borderRadiusLG,
     zIndexPopup,
@@ -103,11 +103,16 @@ const genBaseStyle: GenerateStyle<PopoverToken> = (token) => {
           value: 0,
         },
         zIndex: zIndexPopup,
-        fontWeight: 'normal',
+        fontWeight: 400,
         whiteSpace: 'normal',
         textAlign: 'start',
         cursor: 'auto',
         userSelect: 'text',
+        filter: dropShadowPopover,
+
+        // Keep the popup in its own compositing layer so text is not re-rasterized
+        // when the zoom motion ends, which shifts glyphs by a pixel
+        willChange: 'transform',
 
         // When use `autoArrow`, origin will follow the arrow position
         [varName('valid-offset-x')]: varRef('arrow-offset-x', 'var(--arrow-x)'),
@@ -136,7 +141,6 @@ const genBaseStyle: GenerateStyle<PopoverToken> = (token) => {
           backgroundColor: popoverBg,
           backgroundClip: 'padding-box',
           borderRadius: borderRadiusLG,
-          boxShadow: boxShadowSecondary,
           padding: innerPadding,
         },
 
@@ -157,7 +161,7 @@ const genBaseStyle: GenerateStyle<PopoverToken> = (token) => {
     },
 
     // Arrow Style
-    getArrowStyle<PopoverToken>(token, varRef('arrow-background-color')),
+    getArrowStyle<PopoverToken>(token, varRef('arrow-background-color'), { arrowShadow: false }),
 
     // Pure Render
     {
@@ -180,7 +184,7 @@ const genColorStyle: GenerateStyle<PopoverToken, CSSObject> = (token) => {
       return {
         [`&${componentCls}-${colorKey}`]: {
           [varName('arrow-background-color')]: lightColor,
-          [`${componentCls}-inner`]: {
+          [`${componentCls}-container`]: {
             backgroundColor: lightColor,
           },
           [`${componentCls}-arrow`]: {

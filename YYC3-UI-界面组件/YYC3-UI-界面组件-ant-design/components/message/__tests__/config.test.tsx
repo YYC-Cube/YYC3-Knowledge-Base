@@ -19,6 +19,9 @@ jest.mock('react-dom', () => {
 });
 
 describe('message.config', () => {
+  const topInset =
+    'calc(var(--notification-top, var(--notification-margin-edge, 0px)) - var(--notification-margin-edge, 0px))';
+
   beforeAll(() => {
     actWrapper(act);
   });
@@ -44,7 +47,8 @@ describe('message.config', () => {
     message.info('whatever');
     await awaitPromise();
     expect(document.querySelector('.ant-message')).toHaveStyle({
-      top: '100px',
+      top: topInset,
+      '--notification-top': '100px',
     });
   });
 
@@ -57,7 +61,8 @@ describe('message.config', () => {
     await awaitPromise();
 
     expect(document.querySelector('.ant-message')).toHaveStyle({
-      top: '10vh',
+      top: topInset,
+      '--notification-top': '10vh',
     });
   });
 
@@ -105,11 +110,11 @@ describe('message.config', () => {
     await awaitPromise();
 
     const noticeWithoutLeaving = Array.from(
-      document.querySelectorAll('.ant-message-notice-wrapper'),
-    ).filter((ele) => !ele.classList.contains('ant-message-move-up-leave'));
+      document.querySelectorAll('.ant-message-notice'),
+    ).filter((ele) => !ele.classList.contains('ant-message-fade-leave'));
 
     expect(noticeWithoutLeaving).toHaveLength(5);
-    expect(noticeWithoutLeaving[4].textContent).toEqual('last');
+    expect(noticeWithoutLeaving[4].textContent).toBe('last');
 
     await triggerMotionEnd();
     expect(document.querySelectorAll('.ant-message-notice')).toHaveLength(0);
@@ -139,7 +144,7 @@ describe('message.config', () => {
       jest.advanceTimersByTime(2000);
     });
 
-    await triggerMotionEnd('.ant-message-notice-wrapper');
+    await triggerMotionEnd();
 
     expect(document.querySelectorAll('.ant-message-notice')).toHaveLength(0);
 
@@ -156,7 +161,7 @@ describe('message.config', () => {
     message.info('bamboo');
     await awaitPromise();
 
-    expect(document.querySelector('.light-message-move-up')).toBeTruthy();
+    expect(document.querySelector('.light-message-fade')).toBeTruthy();
 
     message.config({
       prefixCls: undefined,
@@ -199,7 +204,7 @@ describe('message.config', () => {
     await awaitPromise();
 
     expect(document.querySelector('.ant-message-notice')).toBeTruthy();
-    expect(document.querySelectorAll('.ant-move-up-enter')).toHaveLength(0);
+    expect(document.querySelectorAll('.ant-message-fade-enter')).toHaveLength(0);
     message.config({
       transitionName: undefined,
     });
@@ -228,7 +233,7 @@ describe('message.config', () => {
 
     message.info(messageText1);
     await awaitPromise();
-    expect(container1.querySelector('.ant-message-notice')!.textContent).toEqual(messageText1);
+    expect(container1.querySelector('.ant-message-notice')!.textContent).toBe(messageText1);
 
     // Config will directly change container
     message.config({
@@ -237,7 +242,7 @@ describe('message.config', () => {
     const messageText2 = 'mounted in container2';
 
     message.info(messageText2);
-    expect(container2.querySelectorAll('.ant-message-notice')[1]!.textContent).toEqual(
+    expect(container2.querySelectorAll('.ant-message-notice')[1]!.textContent).toBe(
       messageText2,
     );
 
@@ -335,8 +340,8 @@ describe('message.config', () => {
     message.info('last');
     await awaitPromise();
     const noticeWithoutLeaving = Array.from(
-      document.querySelectorAll('.ant-message-notice-wrapper'),
-    ).filter((ele) => !ele.classList.contains('ant-message-move-up-leave'));
+      document.querySelectorAll('.ant-message-notice'),
+    ).filter((ele) => !ele.classList.contains('ant-message-fade-leave'));
 
     expect(noticeWithoutLeaving).toHaveLength(1);
     ConfigProvider.config({ holderRender: undefined });

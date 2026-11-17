@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
 
+import type { SegmentedValue } from '..';
+import Segmented from '..';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { fireEvent, render, waitFor } from '../../../tests/utils';
-import type { SegmentedValue } from '../index';
-import Segmented from '../index';
 
 // Make CSSMotion working without transition
 jest.mock('@rc-component/motion/lib/util/motion', () => ({
@@ -341,7 +341,7 @@ describe('Segmented', () => {
     );
 
     container.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((el) => {
-      expect(el.name).toEqual(GROUP_NAME);
+      expect(el.name).toBe(GROUP_NAME);
     });
   });
 
@@ -386,6 +386,20 @@ describe('Segmented', () => {
         expect(tooltipInnerList[0]?.textContent).toBe('hello Daily');
         expect(tooltipInnerList[1]?.textContent).toBe('hello Monthly');
       });
+    });
+
+    it('should render numeric 0 label when icon is configured', () => {
+      const { container } = render(
+        <Segmented
+          options={[
+            { icon: <AppstoreOutlined />, label: 0, value: 'zero' },
+            { icon: <BarsOutlined />, label: 'bars', value: 'bars' },
+          ]}
+        />,
+      );
+      const firstItem = container.querySelector('.ant-segmented-item-label');
+      expect(firstItem?.textContent).toContain('0');
+      expect(firstItem?.lastElementChild?.textContent).toBe('0');
     });
   });
 });

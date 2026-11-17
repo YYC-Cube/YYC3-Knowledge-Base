@@ -1,15 +1,14 @@
 import React, { forwardRef, useContext, useEffect, useRef } from 'react';
 import type { InputRef, InputProps as RcInputProps } from '@rc-component/input';
 import RcInput from '@rc-component/input';
-import type { InputFocusOptions } from '@rc-component/util/lib/Dom/focus';
-import { triggerFocus } from '@rc-component/util/lib/Dom/focus';
-import { composeRef } from '@rc-component/util/lib/ref';
+import { composeRef, triggerFocus } from '@rc-component/util';
+import type { InputFocusOptions } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import ContextIsolator from '../_util/ContextIsolator';
-import getAllowClear from '../_util/getAllowClear';
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useAllowClear } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
 import { devUseWarning } from '../_util/warning';
@@ -21,6 +20,7 @@ import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariants';
+import { useLocale } from '../locale';
 import { useCompactItemContext } from '../space/Compact';
 import useRemovePasswordTimeout from './hooks/useRemovePasswordTimeout';
 import useStyle, { useSharedStyle } from './style';
@@ -30,27 +30,26 @@ export type { InputFocusOptions };
 export type { InputRef };
 export { triggerFocus };
 
-export type InputSemanticName = keyof InputSemanticClassNames & keyof InputSemanticStyles;
-
-export type InputSemanticClassNames = {
-  root?: string;
-  prefix?: string;
-  suffix?: string;
-  input?: string;
-  count?: string;
+export type InputSemanticType = {
+  classNames?: {
+    root?: string;
+    prefix?: string;
+    suffix?: string;
+    clear?: string;
+    input?: string;
+    count?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    prefix?: React.CSSProperties;
+    suffix?: React.CSSProperties;
+    clear?: React.CSSProperties;
+    input?: React.CSSProperties;
+    count?: React.CSSProperties;
+  };
 };
 
-export type InputSemanticStyles = {
-  root?: React.CSSProperties;
-  prefix?: React.CSSProperties;
-  suffix?: React.CSSProperties;
-  input?: React.CSSProperties;
-  count?: React.CSSProperties;
-};
-
-export type InputClassNamesType = SemanticClassNamesType<InputProps, InputSemanticClassNames>;
-
-export type InputStylesType = SemanticStylesType<InputProps, InputSemanticStyles>;
+export type InputSemanticAllType = GenerateSemantic<InputSemanticType, InputProps>;
 
 export interface InputProps
   extends Omit<
@@ -102,8 +101,8 @@ export interface InputProps
    * @default "outlined"
    */
   variant?: Variant;
-  classNames?: InputClassNamesType;
-  styles?: InputStylesType;
+  classNames?: InputSemanticAllType['classNamesAndFn'];
+  styles?: InputSemanticAllType['stylesAndFn'];
   [key: `data-${string}`]: string | undefined;
 }
 
@@ -177,11 +176,14 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     disabled: mergedDisabled,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    InputClassNamesType,
-    InputStylesType,
+    InputSemanticAllType['classNames'],
+    InputSemanticAllType['styles'],
     InputProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -189,15 +191,22 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
   const { status: contextStatus, hasFeedback, feedbackIcon } = useContext(FormItemInputContext);
   const mergedStatus = getMergedStatus(contextStatus, customStatus);
 
+  const [locale] = useLocale('global');
+  const mergedAllowClear = useAllowClear({
+    allowClear,
+    contextAllowClear,
+    defaultLabel: locale.clear,
+    componentName: 'Input',
+  });
+
   // ===================== Focus warning =====================
-  const inputHasPrefixSuffix = hasPrefixSuffix(props) || !!hasFeedback;
+  const inputHasPrefixSuffix =
+    hasPrefixSuffix({ ...props, allowClear: mergedAllowClear }) || !!hasFeedback;
   const prevHasPrefixSuffixRef = useRef<boolean>(inputHasPrefixSuffix);
 
-  /* eslint-disable react-hooks/rules-of-hooks */
   if (process.env.NODE_ENV !== 'production') {
     const warning = devUseWarning('Input');
 
-    // biome-ignore lint/correctness/useHookAtTopLevel: Development-only warning hook called conditionally
     useEffect(() => {
       if (inputHasPrefixSuffix && !prevHasPrefixSuffixRef.current) {
         warning(
@@ -209,7 +218,6 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       prevHasPrefixSuffixRef.current = inputHasPrefixSuffix;
     }, [inputHasPrefixSuffix]);
   }
-  /* eslint-enable */
 
   // ===================== Remove Password value =====================
   const removePasswordTimeout = useRemovePasswordTimeout(inputRef, true);
@@ -236,8 +244,6 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
     </>
   );
 
-  const mergedAllowClear = getAllowClear(allowClear ?? contextAllowClear);
-
   const [variant, enableVariantCls] = useVariant('input', customVariant, bordered);
 
   return (
@@ -249,7 +255,7 @@ const Input = forwardRef<InputRef, InputProps>((props, ref) => {
       disabled={mergedDisabled}
       onBlur={handleBlur}
       onFocus={handleFocus}
-      style={{ ...mergedStyles.root, ...contextStyle, ...style }}
+      style={mergedStyles.root}
       styles={mergedStyles}
       suffix={suffixNode}
       allowClear={mergedAllowClear}

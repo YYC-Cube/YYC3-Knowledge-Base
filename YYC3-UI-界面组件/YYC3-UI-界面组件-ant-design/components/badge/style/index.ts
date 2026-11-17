@@ -48,6 +48,11 @@ export interface ComponentToken {
    * @descEN Size of status badge
    */
   statusSize: number;
+  /**
+   * @desc 多字符徽标水平内边距
+   * @descEN Inline padding of multiple words badge
+   */
+  paddingInline: number | string;
 }
 
 /**
@@ -215,7 +220,7 @@ const genSharedBadgeStyle: GenerateStyle<BadgeToken, CSSObject> = (token) => {
       },
 
       [`${componentCls}-multiple-words`]: {
-        padding: `0 ${unit(token.paddingXS)}`,
+        paddingInline: token.paddingInline,
 
         bdi: {
           unicodeBidi: 'plaintext',
@@ -263,7 +268,7 @@ const genSharedBadgeStyle: GenerateStyle<BadgeToken, CSSObject> = (token) => {
         },
         [`${componentCls}-status-processing`]: {
           overflow: 'visible',
-          color: token.colorInfo,
+          color: token.colorInfoTextHover,
           backgroundColor: token.colorInfo,
           borderColor: 'currentcolor',
 
@@ -349,15 +354,6 @@ const genSharedBadgeStyle: GenerateStyle<BadgeToken, CSSObject> = (token) => {
           transition: `all ${token.motionDurationSlow} ${token.motionEaseOutBack}`,
           WebkitTransformStyle: 'preserve-3d',
           WebkitBackfaceVisibility: 'hidden',
-          [`> p${numberPrefixCls}-only-unit`]: {
-            height: indicatorHeight,
-            margin: 0,
-            WebkitTransformStyle: 'preserve-3d',
-            WebkitBackfaceVisibility: 'hidden',
-          },
-        },
-        [`${numberPrefixCls}-symbol`]: {
-          verticalAlign: 'top',
         },
       },
 
@@ -401,7 +397,7 @@ export const prepareToken = (token: Parameters<GenStyleFn<'Badge'>>[0]) => {
 };
 
 export const prepareComponentToken: GetDefaultToken<'Badge'> = (token) => {
-  const { fontSize, lineHeight, fontSizeSM, lineWidth } = token;
+  const { fontSize, lineHeight, fontSizeSM, lineWidth, paddingXS } = token;
   return {
     indicatorZIndex: 'auto',
     indicatorHeight: Math.round(fontSize * lineHeight) - 2 * lineWidth,
@@ -411,6 +407,7 @@ export const prepareComponentToken: GetDefaultToken<'Badge'> = (token) => {
     textFontSizeSM: fontSizeSM,
     textFontWeight: 'normal',
     statusSize: fontSizeSM / 2,
+    paddingInline: paddingXS,
   };
 };
 

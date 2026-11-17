@@ -1,12 +1,12 @@
 import React from 'react';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { FloatButton } from 'antd';
-import type { FloatButtonProps } from 'antd';
+import type { FloatButtonProps, GetProp } from 'antd';
 import { createStyles } from 'antd-style';
 
 const useStyles = createStyles(({ token }) => ({
   root: {
-    border: `1px solid ${token.colorBorder}`,
+    border: `${token.lineWidth}px ${token.lineType} ${token.colorBorder}`,
     borderRadius: token.borderRadius,
     padding: `${token.paddingXS}px ${token.padding}px`,
     height: 'auto',
@@ -22,7 +22,9 @@ const stylesObject: FloatButtonProps['styles'] = {
   },
 };
 
-const stylesFn: FloatButtonProps['styles'] = (info) => {
+const stylesFn: FloatButtonProps['styles'] = (
+  info,
+): GetProp<FloatButtonProps, 'styles', 'Return'> => {
   if (info.props.type === 'primary') {
     return {
       root: {
@@ -31,9 +33,8 @@ const stylesFn: FloatButtonProps['styles'] = (info) => {
       content: {
         color: '#fff',
       },
-    } satisfies FloatButtonProps['styles'];
+    };
   }
-  return {};
 };
 
 const App: React.FC = () => {
@@ -43,7 +44,6 @@ const App: React.FC = () => {
       <FloatButton
         type="primary"
         classNames={classNames}
-        href="https://ant.design/index-cn"
         styles={stylesFn}
         tooltip={<div>custom style class</div>}
       />

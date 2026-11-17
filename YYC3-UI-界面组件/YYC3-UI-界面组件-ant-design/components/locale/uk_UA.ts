@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/uk_UA';
+import Pagination from '@rc-component/pagination/locale/uk_UA';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/uk_UA';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Будь ласка, оберіть',
     close: 'Закрити',
+    show: 'Показати',
+    hide: 'Приховати',
+    sortable: 'сортувальний',
   },
   Table: {
     filterTitle: 'Фільтрувати',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Інвертувати вибір',
     selectNone: 'Очистити вибір',
     selectionAll: 'Обрати всі',
+    selectRow: 'Вибрати рядок',
+    selectedRow: 'Рядок вибрано',
+    selectionMenu: 'Меню вибору',
     sortTitle: 'Сортувати',
     expand: 'Розгорнути рядок',
     collapse: 'Згорнути рядок',
+    expandAll: 'Розгорнути всі рядки',
+    collapseAll: 'Згорнути всі рядки',
     triggerDesc: 'Сортувати за спаданням',
     triggerAsc: 'Сортувати за зростанням',
     cancelSort: 'Відмінити сортування',
@@ -49,6 +57,10 @@ const localeValues: Locale = {
   Popconfirm: {
     okText: 'Гаразд',
     cancelText: 'Скасувати',
+  },
+  Splitter: {
+    toggleStartPanel: 'Перемкнути початкову панель',
+    toggleEndPanel: 'Перемкнути кінцеву панель',
   },
   Transfer: {
     titles: ['', ''],
@@ -81,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Скопіювати',
     copied: 'Скопійовано',
     expand: 'Розширити',
+    collapse: 'Згорнути',
+  },
+  Carousel: {
+    prevSlide: 'Попередній слайд',
+    nextSlide: 'Наступний слайд',
   },
   Form: {
     optional: '(опціонально)',
@@ -135,6 +152,13 @@ const localeValues: Locale = {
   QRCode: {
     expired: 'QR-код закінчився',
     refresh: 'Оновити',
+    scanned: 'Відскановані',
+  },
+  ColorPicker: {
+    presetEmpty: 'Порожній',
+    transparent: 'Прозорий',
+    singleColor: 'Одноколірний',
+    gradientColor: 'Градієнтний колір',
   },
 };
 

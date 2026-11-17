@@ -1,6 +1,15 @@
-import { isNonNullable } from '../_util/is';
+import { isNonNullable } from '@rc-component/util';
+import { isFunction, isPlainObject } from '../_util/is';
 import type { AnyObject } from '../_util/type';
-import type { ColumnTitle, ColumnTitleProps, ColumnType, Key } from './interface';
+import type { SizeType } from '../config-provider/SizeContext';
+import type {
+  ColumnTitle,
+  ColumnTitleProps,
+  ColumnType,
+  Key,
+  TablePaginationPlacement,
+  TablePaginationPosition,
+} from './interface';
 
 export const getColumnKey = <RecordType extends AnyObject = AnyObject>(
   column: ColumnType<RecordType>,
@@ -23,26 +32,41 @@ export const renderColumnTitle = <RecordType extends AnyObject = AnyObject>(
   title: ColumnTitle<RecordType>,
   props: ColumnTitleProps<RecordType>,
 ) => {
-  if (typeof title === 'function') {
+  if (isFunction(title)) {
     return title(props);
   }
   return title;
 };
 
 /**
- * Safe get column title
- *
- * Should filter [object Object]
- *
+ * @description Safe get column title, Should filter object
  * @param title
  */
 export const safeColumnTitle = <RecordType extends AnyObject = AnyObject>(
   title: ColumnTitle<RecordType>,
   props: ColumnTitleProps<RecordType>,
 ) => {
-  const res = renderColumnTitle<RecordType>(title, props);
-  if (Object.prototype.toString.call(res) === '[object Object]') {
+  const result = renderColumnTitle<RecordType>(title, props);
+  if (isPlainObject<RecordType>(result) || Array.isArray(result)) {
     return '';
   }
-  return res;
+  return result;
+};
+
+export const normalizePlacement = (pos: TablePaginationPlacement | TablePaginationPosition) => {
+  const lowerPos = pos.toLowerCase();
+  if (lowerPos.includes('center')) {
+    return 'center';
+  }
+  return lowerPos.includes('left') || lowerPos.includes('start') ? 'start' : 'end';
+};
+
+export const getPaginationSize = (paginationSize: SizeType, mergedSize: SizeType): SizeType => {
+  if (paginationSize) {
+    return paginationSize;
+  }
+  if (mergedSize === 'small' || mergedSize === 'medium') {
+    return 'small';
+  }
+  return undefined;
 };

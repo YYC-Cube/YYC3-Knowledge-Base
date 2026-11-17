@@ -1,11 +1,11 @@
 import React from 'react';
 import { Flex, TimePicker } from 'antd';
-import type { TimePickerProps } from 'antd';
+import type { GetProp, TimePickerProps } from 'antd';
 import { createStyles } from 'antd-style';
 
 const useStyles = createStyles(({ token }) => ({
   root: {
-    border: `1px solid ${token.colorPrimary}`,
+    border: `${token.lineWidth}px ${token.lineType} ${token.colorPrimary}`,
     width: 150,
   },
 }));
@@ -16,7 +16,9 @@ const stylesObject: TimePickerProps['styles'] = {
   },
 };
 
-const stylesFn: TimePickerProps['styles'] = (info) => {
+const stylesFn: TimePickerProps['styles'] = (
+  info,
+): GetProp<TimePickerProps, 'styles', 'Return'> => {
   if (info.props.size === 'large') {
     return {
       root: {
@@ -28,7 +30,7 @@ const stylesFn: TimePickerProps['styles'] = (info) => {
       popup: {
         container: { border: '1px solid #722ed1', borderRadius: 8 },
       },
-    } satisfies TimePickerProps['styles'];
+    };
   }
   return {};
 };

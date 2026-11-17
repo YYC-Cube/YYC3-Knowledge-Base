@@ -2,7 +2,13 @@ import React from 'react';
 
 import type { ResultProps } from '..';
 import Result from '..';
+import type { GetProp } from '../../_util/type';
 import { render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 
 describe('Result.Semantic', () => {
   it('should apply custom styles to Result', () => {
@@ -15,7 +21,7 @@ describe('Result.Semantic', () => {
       icon: 'custom-icon',
     };
 
-    const customStyles: ResultProps['styles'] = {
+    const customStyles: Required<GetProp<ResultProps, 'styles', 'Return'>> = {
       root: { color: 'rgb(255, 0, 0)' },
       title: { color: 'rgb(0, 128, 0)' },
       subTitle: { color: 'rgb(255, 255, 0)' },
@@ -52,12 +58,12 @@ describe('Result.Semantic', () => {
     expect(resultIconElement).toHaveClass('custom-icon');
 
     // check styles
-    expect(resultElement).toHaveStyle({ color: customStyles.root?.color });
-    expect(resultTitleElement).toHaveStyle({ color: customStyles.title?.color });
-    expect(resultSubTitleElement).toHaveStyle({ color: customStyles.subTitle?.color });
-    expect(resultBodyElement).toHaveStyle({ color: customStyles.body?.color });
-    expect(resultExtraElement).toHaveStyle({ color: customStyles.extra?.color });
-    expect(resultIconElement).toHaveStyle({ color: customStyles.icon?.color });
+    expect(resultElement).toHaveStyle({ color: customStyles.root.color });
+    expect(resultTitleElement).toHaveStyle({ color: customStyles.title.color });
+    expect(resultSubTitleElement).toHaveStyle({ color: customStyles.subTitle.color });
+    expect(resultBodyElement).toHaveStyle({ color: customStyles.body.color });
+    expect(resultExtraElement).toHaveStyle({ color: customStyles.extra.color });
+    expect(resultIconElement).toHaveStyle({ color: customStyles.icon.color });
   });
 
   it('should support function-based classNames and styles', () => {
@@ -87,5 +93,23 @@ describe('Result.Semantic', () => {
 
     expect(resultElement).toHaveClass('default-result');
     expect(resultElement).toHaveStyle({ backgroundColor: 'rgb(255, 0, 0)' });
+  });
+  it('should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        result={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Result
+          title="Result"
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-result'));
   });
 });

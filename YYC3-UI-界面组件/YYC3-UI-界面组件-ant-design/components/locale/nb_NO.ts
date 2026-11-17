@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/nb_NO';
+import Pagination from '@rc-component/pagination/locale/nb_NO';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/nb_NO';
@@ -16,18 +16,30 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Vennligst velg',
     close: 'Lukk',
+    sortable: 'sorterbar',
+    show: 'Vis',
+    hide: 'Skjul',
   },
   Table: {
     filterTitle: 'Filtermeny',
     filterConfirm: 'OK',
     filterReset: 'Nullstill',
     filterEmptyText: 'Ingen filtre',
+    filterCheckAll: 'Velg alle elementer',
+    filterSearchPlaceholder: 'Søk i filtre',
+    emptyText: 'Ingen data',
     selectAll: 'Velg alle',
     selectInvert: 'Inverter gjeldende side',
+    selectNone: 'Fjern all data',
     selectionAll: 'Velg all data',
+    selectRow: 'Velg rad',
+    selectedRow: 'Rad valgt',
+    selectionMenu: 'Valgmeny',
     sortTitle: 'Sorter',
     expand: 'Utvid rad',
     collapse: 'Skjul rad',
+    expandAll: 'Utvid alle rader',
+    collapseAll: 'Skjul alle rader',
     triggerDesc: 'Sorter data i synkende rekkefølge',
     triggerAsc: 'Sorterer data i stigende rekkefølge',
     cancelSort: 'Klikk for å avbryte sorteringen',
@@ -46,6 +58,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Avbryt',
   },
+  Splitter: {
+    toggleStartPanel: 'Veksle startpanelet',
+    toggleEndPanel: 'Veksle sluttpanelet',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Søk her',
@@ -55,6 +71,7 @@ const localeValues: Locale = {
     selectCurrent: 'Velg gjeldende side',
     removeCurrent: 'Fjern gjeldende side',
     selectAll: 'Velg all data',
+    deselectAll: 'Opphev valg av all data',
     removeAll: 'Fjern all data',
     selectInvert: 'Inverter gjeldende side',
   },
@@ -76,8 +93,14 @@ const localeValues: Locale = {
     copy: 'Kopier',
     copied: 'Kopiert',
     expand: 'Utvid',
+    collapse: 'Skjul',
+  },
+  Carousel: {
+    prevSlide: 'Forrige lysbilde',
+    nextSlide: 'Neste lysbilde',
   },
   Form: {
+    optional: '(valgfritt)',
     defaultValidateMessages: {
       default: 'Feltvalideringsfeil ${label}',
       required: 'Vennligst skriv inn ${label}',
@@ -125,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} stemmer ikke overens med mønsteret ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR-koden er utløpt',
+    refresh: 'Oppdater',
+    scanned: 'Skannet',
+  },
+  ColorPicker: {
+    presetEmpty: 'Tom',
+    transparent: 'Gjennomsiktig',
+    singleColor: 'Ensfarget',
+    gradientColor: 'Gradient',
   },
 };
 

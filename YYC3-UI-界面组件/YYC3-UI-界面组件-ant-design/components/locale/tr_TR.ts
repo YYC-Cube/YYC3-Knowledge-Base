@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/tr_TR';
+import Pagination from '@rc-component/pagination/locale/tr_TR';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/tr_TR';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Lütfen seçiniz',
     close: 'Kapat',
+    show: 'Göster',
+    hide: 'Gizle',
+    sortable: 'sıralanabilir',
   },
   Table: {
     filterTitle: 'Filtre menüsü',
@@ -26,12 +29,20 @@ const localeValues: Locale = {
     selectAll: 'Tüm sayfayı seç',
     selectInvert: 'Tersini seç',
     selectionAll: 'Tümünü seç',
+    selectRow: 'Satırı seç',
+    selectedRow: 'Satır seçildi',
+    selectionMenu: 'Seçim menüsü',
     sortTitle: 'Sırala',
     expand: 'Satırı genişlet',
     collapse: 'Satırı daralt',
+    expandAll: 'Tüm satırları genişlet',
+    collapseAll: 'Tüm satırları daralt',
     triggerDesc: 'Azalan düzende sırala',
     triggerAsc: 'Artan düzende sırala',
     cancelSort: 'Sıralamayı kaldır',
+    filterSearchPlaceholder: 'Filtrelerde ara',
+    emptyText: 'Veri yok',
+    selectNone: 'Tüm verileri temizle',
   },
   Tour: {
     Next: 'Sonraki',
@@ -46,6 +57,10 @@ const localeValues: Locale = {
   Popconfirm: {
     okText: 'Tamam',
     cancelText: 'İptal',
+  },
+  Splitter: {
+    toggleStartPanel: 'Başlangıç panelini değiştir',
+    toggleEndPanel: 'Bitiş panelini değiştir',
   },
   Transfer: {
     titles: ['', ''],
@@ -79,6 +94,10 @@ const localeValues: Locale = {
     copied: 'Kopyalandı',
     expand: 'Genişlet',
     collapse: 'Daralt',
+  },
+  Carousel: {
+    prevSlide: 'Önceki slayt',
+    nextSlide: 'Sonraki slayt',
   },
   Form: {
     optional: '(opsiyonel)',
@@ -129,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} şu kalıpla eşleşmeli: ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR kodunun süresi doldu',
+    refresh: 'Yenile',
+    scanned: 'Tarandı',
+  },
+  ColorPicker: {
+    presetEmpty: 'Boş',
+    transparent: 'Şeffaf',
+    singleColor: 'Tek renk',
+    gradientColor: 'Gradyan rengi',
   },
 };
 

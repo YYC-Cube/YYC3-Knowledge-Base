@@ -137,6 +137,18 @@ describe('Popover', () => {
     });
   });
 
+  it('should display overlay when the content is the number 0', () => {
+    const { container } = render(
+      <Popover content={0} trigger="click">
+        <span>show me your code</span>
+      </Popover>,
+    );
+    fireEvent.click(container.querySelector<HTMLSpanElement>('span')!);
+    const popup = document.querySelector('.ant-popover');
+    expect(popup).not.toBe(null);
+    expect(popup?.textContent).toContain('0');
+  });
+
   it('ConfigProvider support arrow props', () => {
     const TooltipTestComponent = () => {
       const [configArrow, setConfigArrow] = React.useState(true);
@@ -218,5 +230,50 @@ describe('Popover', () => {
     );
 
     errorSpy.mockRestore();
+  });
+
+  // Test `styles` (useMergeSemantic path) and `className` (direct injection path)
+  // to cover both ConfigProvider tooltip injection mechanisms
+  it('ConfigProvider tooltip config should not leak into Popover', () => {
+    const { container } = render(
+      <ConfigProvider
+        tooltip={{
+          className: 'custom-tooltip-root',
+          styles: {
+            arrow: { background: 'red' },
+          },
+        }}
+      >
+        <Popover content="hello" open>
+          <span>Show</span>
+        </Popover>
+      </ConfigProvider>,
+    );
+
+    const popover = container.querySelector('.ant-popover');
+    expect(popover).not.toHaveClass('custom-tooltip-root');
+
+    const arrow = container.querySelector('.ant-popover-arrow');
+    expect(arrow).not.toHaveStyle({ background: 'red' });
+  });
+
+  it('should apply preset color background to panel container', () => {
+    render(
+      <Popover color="blue" content="hello" open>
+        <span>Show</span>
+      </Popover>,
+    );
+
+    // The panel is colored by a stylesheet rule, so both the rendered element
+    // and the rule must agree on the same class
+    expect(
+      document.body.querySelector('.ant-popover-blue .ant-popover-container'),
+    ).toBeInTheDocument();
+
+    const styleText = Array.from(document.querySelectorAll('style'))
+      .map((s) => s.textContent)
+      .join('');
+    expect(styleText).toContain('ant-popover-blue .ant-popover-container');
+    expect(styleText).not.toContain('ant-popover-blue .ant-popover-inner');
   });
 });

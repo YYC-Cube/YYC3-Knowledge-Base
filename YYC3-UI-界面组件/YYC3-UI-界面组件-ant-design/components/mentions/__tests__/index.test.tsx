@@ -88,17 +88,63 @@ describe('Mentions', () => {
     expect(wrapper.container.querySelectorAll('.bamboo-light').length).toBeTruthy();
   });
 
+  it('should pass Mentions to ConfigProvider renderEmpty', () => {
+    const renderEmpty = jest.fn((name) => name === 'Mentions' && <span>mentions empty</span>);
+    const wrapper = render(
+      <ConfigProvider renderEmpty={renderEmpty}>
+        <Mentions />
+      </ConfigProvider>,
+    );
+    simulateInput(wrapper, '@');
+
+    expect(renderEmpty).toHaveBeenCalledWith('Mentions');
+    expect(wrapper.container.querySelector('.ant-mentions-dropdown')).toHaveTextContent(
+      'mentions empty',
+    );
+  });
+
   it('allowClear', () => {
     const wrapper = render(<Mentions allowClear defaultValue="111" />);
     const textareaInstance = wrapper.container.querySelector('textarea')!;
-    expect(textareaInstance.value).toEqual('111');
+    expect(textareaInstance.value).toBe('111');
     fireEvent.click(wrapper.container.querySelector('.ant-mentions-clear-icon')!);
-    expect(textareaInstance.value).toEqual('');
+    expect(textareaInstance.value).toBe('');
+  });
+
+  it('should support allowClear.disabled', () => {
+    const { container, rerender } = render(
+      <Mentions allowClear={{ clearIcon: 'clear', disabled: true }} defaultValue="111" />,
+    );
+    expect(container.querySelector('.ant-mentions-clear-icon')).not.toBeInTheDocument();
+
+    rerender(<Mentions allowClear={{ clearIcon: 'clear', disabled: false }} defaultValue="111" />);
+    expect(container.querySelector('.ant-mentions-clear-icon-hidden')).toBeFalsy();
   });
 
   it('should support custom clearIcon', () => {
     const { container } = render(<Mentions allowClear={{ clearIcon: 'clear' }} />);
     expect(container.querySelector('.ant-mentions-clear-icon')?.textContent).toBe('clear');
+  });
+
+  describe('allowClear with ConfigProvider', () => {
+    it('should inherit allowClear from ConfigProvider when prop is undefined', () => {
+      const { container } = render(
+        <ConfigProvider mentions={{ allowClear: true }}>
+          <Mentions defaultValue="111" />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-mentions-clear-icon')).toBeTruthy();
+      expect(container.querySelector('.ant-mentions-clear-icon-hidden')).toBeFalsy();
+    });
+
+    it('should override ConfigProvider allowClear when prop is false', () => {
+      const { container } = render(
+        <ConfigProvider mentions={{ allowClear: true }}>
+          <Mentions defaultValue="111" allowClear={false} />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-mentions-clear-icon')).toBeFalsy();
+    });
   });
 
   it('warning if use Mentions.Option', () => {

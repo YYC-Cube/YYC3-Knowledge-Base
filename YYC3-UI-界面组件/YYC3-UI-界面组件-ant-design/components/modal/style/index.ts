@@ -32,7 +32,7 @@ export interface ComponentToken {
    * @desc 标题字体大小
    * @descEN Font size of title
    */
-  titleFontSize: number;
+  titleFontSize: number | string;
   /**
    * @desc 标题字体颜色
    * @descEN Font color of title
@@ -164,10 +164,6 @@ export const genModalMaskStyle: GenerateStyle<TokenWithCommonCls<AliasToken>> = 
 
           [`&${componentCls}-mask-blur`]: {
             backdropFilter: 'blur(4px)',
-          },
-
-          [`${componentCls}-hidden`]: {
-            display: 'none',
           },
         },
 

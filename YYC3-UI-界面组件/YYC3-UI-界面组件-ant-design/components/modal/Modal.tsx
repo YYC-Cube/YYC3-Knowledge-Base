@@ -2,18 +2,13 @@ import * as React from 'react';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import Dialog from '@rc-component/dialog';
 import type { DialogProps } from '@rc-component/dialog';
-import { composeRef } from '@rc-component/util/lib/ref';
+import { composeRef, isNonNullable, omit } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import ContextIsolator from '../_util/ContextIsolator';
-import {
-  pickClosable,
-  useClosable,
-  useMergedMask,
-  useMergeSemantic,
-  useZIndex,
-} from '../_util/hooks';
-import { isNonNullable, isNumber } from '../_util/is';
+import { pickClosable, useClosable, useMergedMask, useZIndex } from '../_util/hooks';
+import { useMergeSemantic } from '../_util/hooks/useMergeSemantic';
+import { isNumber, isPlainObject } from '../_util/is';
 import { getTransitionName } from '../_util/motion';
 import type { Breakpoint } from '../_util/responsiveObserver';
 import { canUseDocElement } from '../_util/styleChecker';
@@ -25,11 +20,22 @@ import useCSSVarCls from '../config-provider/hooks/useCSSVarCls';
 import useFocusable from '../drawer/useFocusable';
 import Skeleton from '../skeleton';
 import { usePanelRef } from '../watermark/context';
-import type { ModalClassNamesType, ModalProps, ModalStylesType, MousePosition } from './interface';
+import type { ModalProps, ModalSemanticAllType, MousePosition } from './interface';
 import { Footer, renderCloseIcon } from './shared';
 import useStyle from './style';
 
 let mousePosition: MousePosition;
+
+type ModalSemanticName = keyof NonNullable<ModalSemanticAllType['classNames']>;
+type ModalSemanticRenderInfo = {
+  classNames: NonNullable<ModalSemanticAllType['classNamesNoString']>;
+  styles: NonNullable<ModalSemanticAllType['styles']>;
+};
+
+interface InternalModalProps extends ModalProps {
+  _semanticOmit?: readonly ModalSemanticName[];
+  _renderSemanticContent?: (semantic: ModalSemanticRenderInfo) => React.ReactNode;
+}
 
 // ref: https://github.com/ant-design/ant-design/issues/15795
 const getClickPosition = (e: MouseEvent) => {
@@ -80,13 +86,16 @@ const Modal: React.FC<ModalProps> = (props) => {
     mask: modalMask,
     modalRender,
     maskClosable,
+    _semanticOmit,
+    scrollLock,
 
     // Focusable
     focusTriggerAfterClose,
     focusable,
+    _renderSemanticContent,
 
     ...restProps
-  } = props;
+  } = props as InternalModalProps;
 
   const {
     getPopupContainer: getContextPopupContainer,
@@ -100,6 +109,7 @@ const Modal: React.FC<ModalProps> = (props) => {
     cancelButtonProps: contextCancelButtonProps,
     okButtonProps: contextOkButtonProps,
     mask: contextMask,
+    focusable: contextFocusable,
   } = useComponentConfig('modal');
 
   const { modal: modalContext } = React.useContext(ConfigContext);
@@ -122,7 +132,11 @@ const Modal: React.FC<ModalProps> = (props) => {
   );
 
   // ========================== Focusable =========================
-  const mergedFocusable = useFocusable(focusable, mergedMask, focusTriggerAfterClose);
+  const mergedFocusable = useFocusable(
+    { ...contextFocusable, ...focusable },
+    mergedMask,
+    focusTriggerAfterClose,
+  );
 
   // ============================ Open ============================
   const handleCancel = (
@@ -218,19 +232,33 @@ const Modal: React.FC<ModalProps> = (props) => {
     zIndex,
   };
 
-  const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    ModalClassNamesType,
-    ModalStylesType,
-    ModalProps
-  >([contextClassNames, classNames, maskBlurClassName], [contextStyles, styles], {
-    props: mergedProps,
-  });
+  const [mergedClassNames, mergedStyles] = useMergeSemantic(
+    [contextClassNames, classNames, maskBlurClassName],
+    [contextStyles, styles],
+    {
+      props: mergedProps,
+    },
+  );
+
+  const dialogClassNames = (
+    _semanticOmit ? omit(mergedClassNames, _semanticOmit) : mergedClassNames
+  ) as typeof mergedClassNames;
+  const dialogStyles = (
+    _semanticOmit ? omit(mergedStyles, _semanticOmit) : mergedStyles
+  ) as typeof mergedStyles;
+
+  const semanticContent = _renderSemanticContent
+    ? _renderSemanticContent({
+        classNames: mergedClassNames,
+        styles: mergedStyles,
+      })
+    : children;
 
   // =========================== Width ============================
   const [numWidth, responsiveWidth] = React.useMemo<
     [string | number | undefined, Partial<Record<Breakpoint, string | number>> | undefined]
   >(() => {
-    if (width && typeof width === 'object') {
+    if (isPlainObject(width)) {
       return [undefined, width];
     }
     return [width, undefined];
@@ -242,7 +270,9 @@ const Modal: React.FC<ModalProps> = (props) => {
       Object.keys(responsiveWidth).forEach((breakpoint) => {
         const breakpointWidth = responsiveWidth[breakpoint as Breakpoint];
         if (isNonNullable(breakpointWidth)) {
-          vars[`--${prefixCls}-${breakpoint}-width`] = isNumber(breakpointWidth) ? `${breakpointWidth}px` : breakpointWidth;
+          vars[`--${prefixCls}-${breakpoint}-width`] = isNumber(breakpointWidth)
+            ? `${breakpointWidth}px`
+            : breakpointWidth;
         }
       });
     }
@@ -259,8 +289,8 @@ const Modal: React.FC<ModalProps> = (props) => {
           zIndex={zIndex}
           getContainer={getContainer === undefined ? getContextPopupContainer : getContainer}
           prefixCls={prefixCls}
-          rootClassName={clsx(hashId, rootClassName, cssVarCls, rootCls, mergedClassNames.root)}
-          rootStyle={mergedStyles.root}
+          rootClassName={clsx(hashId, rootClassName, cssVarCls, rootCls, dialogClassNames.root)}
+          rootStyle={dialogStyles.root}
           footer={dialogFooter}
           visible={open}
           mousePosition={customizeMousePosition ?? mousePosition}
@@ -271,13 +301,14 @@ const Modal: React.FC<ModalProps> = (props) => {
           maskTransitionName={getTransitionName(rootPrefixCls, 'fade', props.maskTransitionName)}
           mask={mergedMask}
           maskClosable={mergeMaskClosable}
+          scrollLock={scrollLock}
           className={clsx(hashId, className, contextClassName)}
           style={{ ...contextStyle, ...style, ...responsiveWidthVars }}
           classNames={{
-            ...mergedClassNames,
-            wrapper: clsx(mergedClassNames.wrapper, wrapClassNameExtended),
+            ...dialogClassNames,
+            wrapper: clsx(dialogClassNames.wrapper, wrapClassNameExtended),
           }}
-          styles={mergedStyles}
+          styles={dialogStyles}
           panelRef={mergedPanelRef}
           destroyOnHidden={destroyOnHidden ?? destroyOnClose}
           modalRender={mergedModalRender}
@@ -293,7 +324,7 @@ const Modal: React.FC<ModalProps> = (props) => {
               className={`${prefixCls}-body-skeleton`}
             />
           ) : (
-            children
+            semanticContent
           )}
         </Dialog>
       </ZIndexContext.Provider>

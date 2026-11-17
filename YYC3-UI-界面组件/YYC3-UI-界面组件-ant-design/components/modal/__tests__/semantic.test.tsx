@@ -3,6 +3,11 @@ import React from 'react';
 import Modal from '..';
 import type { ModalProps } from '..';
 import { render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 
 const classNames: ModalProps['classNames'] = (info) => {
   return info.props?.width === 520
@@ -17,6 +22,8 @@ const styles: ModalProps['styles'] = (info) => {
 };
 
 describe('Modal.Semantic', () => {
+  const { _InternalPanelDoNotUseOrYouWillBeFired: InternalPanel } = Modal;
+
   it('should apply custom styles to Modal', () => {
     const customClassNames = {
       root: 'custom-root',
@@ -26,6 +33,7 @@ describe('Modal.Semantic', () => {
       title: 'custom-title',
       body: 'custom-body',
       footer: 'custom-footer',
+      close: 'custom-close',
     };
 
     const customStyles = {
@@ -36,6 +44,7 @@ describe('Modal.Semantic', () => {
       title: { padding: '50px' },
       body: { padding: '60px' },
       footer: { padding: '70px' },
+      close: { color: 'rgb(255,255,255)' },
     };
 
     render(<Modal classNames={customClassNames} styles={customStyles} open title="title" />);
@@ -47,6 +56,7 @@ describe('Modal.Semantic', () => {
     const titleElement = document.querySelector<HTMLElement>('.ant-modal-title');
     const bodyElement = document.querySelector<HTMLElement>('.ant-modal-body');
     const footerElement = document.querySelector<HTMLElement>('.ant-modal-footer');
+    const closeElement = document.querySelector<HTMLElement>('.ant-modal-close');
 
     // check classNames
     expect(rootElement).toHaveClass('custom-root');
@@ -56,6 +66,7 @@ describe('Modal.Semantic', () => {
     expect(titleElement).toHaveClass('custom-title');
     expect(bodyElement).toHaveClass('custom-body');
     expect(footerElement).toHaveClass('custom-footer');
+    expect(closeElement).toHaveClass('custom-close');
 
     // check styles
     expect(rootElement).toHaveStyle({ padding: customStyles.root.padding });
@@ -65,6 +76,7 @@ describe('Modal.Semantic', () => {
     expect(titleElement).toHaveStyle({ padding: customStyles.title.padding });
     expect(bodyElement).toHaveStyle({ padding: customStyles.body.padding });
     expect(footerElement).toHaveStyle({ padding: customStyles.footer.padding });
+    expect(closeElement).toHaveStyle({ color: customStyles.close.color });
   });
 
   it('Modal should apply dynamic classNames and styles from props function', () => {
@@ -83,5 +95,24 @@ describe('Modal.Semantic', () => {
     );
     expect(root).toHaveClass('modal-props-width-other');
     expect(root).toHaveStyle({ backgroundColor: '#000' });
+  });
+
+  it('Modal.PurePanel should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        modal={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <InternalPanel
+          title="Test Modal"
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-modal'));
   });
 });

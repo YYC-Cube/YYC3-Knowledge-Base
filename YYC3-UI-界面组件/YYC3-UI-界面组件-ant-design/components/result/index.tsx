@@ -3,12 +3,12 @@ import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 import ExclamationCircleFilled from '@ant-design/icons/ExclamationCircleFilled';
 import WarningFilled from '@ant-design/icons/WarningFilled';
-import pickAttrs from '@rc-component/util/lib/pickAttrs';
+import { isReactRenderable, pickAttrs } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import type { HTMLAriaDataAttributes } from '../_util/aria-data-attrs';
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { devUseWarning } from '../_util/warning';
 import { useComponentConfig } from '../config-provider/context';
 import noFound from './noFound';
@@ -33,29 +33,26 @@ export type ExceptionStatusType = 403 | 404 | 500 | '403' | '404' | '500';
 
 export type ResultStatusType = ExceptionStatusType | keyof typeof IconMap;
 
-export type ResultSemanticName = keyof ResultSemanticClassNames & keyof ResultSemanticStyles;
-
-export type ResultSemanticClassNames = {
-  root?: string;
-  title?: string;
-  subTitle?: string;
-  body?: string;
-  extra?: string;
-  icon?: string;
+export type ResultSemanticType = {
+  classNames?: {
+    root?: string;
+    title?: string;
+    subTitle?: string;
+    body?: string;
+    extra?: string;
+    icon?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    title?: React.CSSProperties;
+    subTitle?: React.CSSProperties;
+    body?: React.CSSProperties;
+    extra?: React.CSSProperties;
+    icon?: React.CSSProperties;
+  };
 };
 
-export type ResultSemanticStyles = {
-  root?: React.CSSProperties;
-  title?: React.CSSProperties;
-  subTitle?: React.CSSProperties;
-  body?: React.CSSProperties;
-  extra?: React.CSSProperties;
-  icon?: React.CSSProperties;
-};
-
-export type ResultClassNamesType = SemanticClassNamesType<ResultProps, ResultSemanticClassNames>;
-
-export type ResultStylesType = SemanticStylesType<ResultProps, ResultSemanticStyles>;
+export type ResultSemanticAllType = GenerateSemantic<ResultSemanticType, ResultProps>;
 
 export interface ResultProps extends HTMLAriaDataAttributes {
   icon?: React.ReactNode;
@@ -68,8 +65,12 @@ export interface ResultProps extends HTMLAriaDataAttributes {
   rootClassName?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
-  classNames?: ResultClassNamesType;
-  styles?: ResultStylesType;
+  classNames?: ResultSemanticAllType['classNamesAndFn'];
+  styles?: ResultSemanticAllType['stylesAndFn'];
+}
+
+export interface ResultRef {
+  nativeElement: HTMLDivElement;
 }
 
 // ExceptionImageMap keys
@@ -118,7 +119,7 @@ const Icon: React.FC<IconProps> = ({ icon, status, className, style }) => {
 
   return (
     <div className={className} style={style}>
-      {icon || iconNode}
+      {isReactRenderable(icon) ? icon : iconNode}
     </div>
   );
 };
@@ -130,7 +131,7 @@ interface ExtraProps {
 }
 
 const Extra: React.FC<ExtraProps> = ({ className, extra, style }) => {
-  if (!extra) {
+  if (!isReactRenderable(extra)) {
     return null;
   }
   return (
@@ -140,13 +141,14 @@ const Extra: React.FC<ExtraProps> = ({ className, extra, style }) => {
   );
 };
 
-export interface ResultType extends React.FC<ResultProps> {
+export interface ResultType
+  extends React.ForwardRefExoticComponent<ResultProps & React.RefAttributes<ResultRef>> {
   PRESENTED_IMAGE_404: React.FC;
   PRESENTED_IMAGE_403: React.FC;
   PRESENTED_IMAGE_500: React.FC;
 }
 
-const Result: ResultType = (props) => {
+const Result = React.forwardRef<ResultRef, ResultProps>((props, ref) => {
   const {
     prefixCls: customizePrefixCls,
     className: customizeClassName,
@@ -178,11 +180,14 @@ const Result: ResultType = (props) => {
     status,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    ResultClassNamesType,
-    ResultStylesType,
+    ResultSemanticAllType['classNames'],
+    ResultSemanticAllType['styles'],
     ResultProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -219,32 +224,38 @@ const Result: ResultType = (props) => {
 
   const rootStyles: React.CSSProperties = {
     ...mergedStyles.root,
-    ...contextStyle,
-    ...style,
   };
 
   const restProps = pickAttrs(rest, { aria: true, data: true });
 
+  const nativeElementRef = React.useRef<HTMLDivElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    nativeElement: nativeElementRef.current!,
+  }));
+
   return (
-    <div {...restProps} className={rootClassNames} style={rootStyles}>
+    <div ref={nativeElementRef} {...restProps} className={rootClassNames} style={rootStyles}>
       <Icon className={iconClassNames} style={mergedStyles.icon} status={status} icon={icon} />
-      <div className={titleClassNames} style={mergedStyles.title}>
-        {title}
-      </div>
-      {subTitle && (
+      {isReactRenderable(title) && (
+        <div className={titleClassNames} style={mergedStyles.title}>
+          {title}
+        </div>
+      )}
+      {isReactRenderable(subTitle) && (
         <div className={subTitleClassNames} style={mergedStyles.subTitle}>
           {subTitle}
         </div>
       )}
       <Extra className={extraClassNames} extra={extra} style={mergedStyles.extra} />
-      {children && (
+      {isReactRenderable(children) && (
         <div className={bodyClassNames} style={mergedStyles.body}>
           {children}
         </div>
       )}
     </div>
   );
-};
+}) as ResultType;
 
 Result.PRESENTED_IMAGE_403 = ExceptionMap['403'];
 Result.PRESENTED_IMAGE_404 = ExceptionMap['404'];

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { BaseSelectRef } from '@rc-component/select';
-import type { Placement } from '@rc-component/select/lib/BaseSelect';
 import type { TreeSelectProps as RcTreeSelectProps } from '@rc-component/tree-select';
 import RcTreeSelect, {
   SHOW_ALL,
@@ -8,12 +7,12 @@ import RcTreeSelect, {
   SHOW_PARENT,
   TreeNode,
 } from '@rc-component/tree-select';
-import type { DataNode } from '@rc-component/tree-select/lib/interface';
 import { omit } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic, useZIndex } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useAllowClear, useZIndex } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import type { SelectCommonPlacement } from '../_util/motion';
 import { getTransitionName } from '../_util/motion';
 import genPurePanel from '../_util/PurePanel';
@@ -30,6 +29,7 @@ import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariants';
+import { useLocale } from '../locale';
 import mergedBuiltinPlacements from '../select/mergedBuiltinPlacements';
 import useSelectStyle from '../select/style';
 import useIcons from '../select/useIcons';
@@ -42,6 +42,8 @@ import type { SwitcherIcon } from '../tree/Tree';
 import SwitcherIconCom from '../tree/utils/iconUtil';
 import useStyle from './style';
 
+type DataNode = NonNullable<RcTreeSelectProps['treeData']>[number];
+
 type RawValue = string | number;
 
 export interface LabeledValue {
@@ -52,58 +54,49 @@ export interface LabeledValue {
 
 export type SelectValue = RawValue | RawValue[] | LabeledValue | LabeledValue[];
 
-export type TreeSelectSemanticName = keyof TreeSelectSemanticClassNames &
-  keyof TreeSelectSemanticStyles;
-
-export type TreeSelectSemanticClassNames = {
-  root?: string;
-  prefix?: string;
-  input?: string;
-  suffix?: string;
-  content?: string;
-  placeholder?: string;
-  item?: string;
-  itemContent?: string;
-  itemRemove?: string;
+export type TreeSelectPopupSemanticType = {
+  classNames?: {
+    root?: string;
+    item?: string;
+    itemTitle?: string;
+    itemSwitcher?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    item?: React.CSSProperties;
+    itemTitle?: React.CSSProperties;
+    itemSwitcher?: React.CSSProperties;
+  };
 };
 
-export type TreeSelectSemanticStyles = {
-  root?: React.CSSProperties;
-  prefix?: React.CSSProperties;
-  input?: React.CSSProperties;
-  suffix?: React.CSSProperties;
-  content?: React.CSSProperties;
-  placeholder?: React.CSSProperties;
-  item?: React.CSSProperties;
-  itemContent?: React.CSSProperties;
-  itemRemove?: React.CSSProperties;
+export type TreeSelectSemanticType = {
+  classNames?: {
+    root?: string;
+    prefix?: string;
+    input?: string;
+    suffix?: string;
+    content?: string;
+    placeholder?: string;
+    item?: string;
+    itemContent?: string;
+    itemRemove?: string;
+    popup?: TreeSelectPopupSemanticType['classNames'];
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    prefix?: React.CSSProperties;
+    input?: React.CSSProperties;
+    suffix?: React.CSSProperties;
+    content?: React.CSSProperties;
+    placeholder?: React.CSSProperties;
+    item?: React.CSSProperties;
+    itemContent?: React.CSSProperties;
+    itemRemove?: React.CSSProperties;
+    popup?: TreeSelectPopupSemanticType['styles'];
+  };
 };
 
-export type TreeSelectPopupSemanticName = keyof TreeSelectPopupSemanticClassNames &
-  keyof TreeSelectPopupSemanticStyles;
-
-export type TreeSelectPopupSemanticClassNames = {
-  root?: string;
-  item?: string;
-  itemTitle?: string;
-};
-
-export type TreeSelectPopupSemanticStyles = {
-  root?: React.CSSProperties;
-  item?: React.CSSProperties;
-  itemTitle?: React.CSSProperties;
-};
-
-export type TreeSelectClassNamesType = SemanticClassNamesType<
-  TreeSelectProps,
-  TreeSelectSemanticClassNames
-> & {
-  popup?: TreeSelectPopupSemanticClassNames;
-};
-
-export type TreeSelectStylesType = SemanticStylesType<TreeSelectProps, TreeSelectSemanticStyles> & {
-  popup?: TreeSelectPopupSemanticStyles;
-};
+export type TreeSelectSemanticAllType = GenerateSemantic<TreeSelectSemanticType, TreeSelectProps>;
 
 interface BaseTreeSelectProps<ValueType = any, OptionType extends DataNode = DataNode>
   extends React.AriaAttributes,
@@ -118,6 +111,7 @@ interface BaseTreeSelectProps<ValueType = any, OptionType extends DataNode = Dat
       | 'switcherIcon'
       | 'classNames'
       | 'styles'
+      | 'popupRender'
     > {
   size?: SizeType;
   disabled?: boolean;
@@ -127,8 +121,11 @@ interface BaseTreeSelectProps<ValueType = any, OptionType extends DataNode = Dat
 
 export interface TreeSelectProps<ValueType = any, OptionType extends DataNode = DataNode>
   extends BaseTreeSelectProps<ValueType, OptionType> {
-  styles?: TreeSelectStylesType;
-  classNames?: TreeSelectClassNamesType;
+  classNames?: TreeSelectSemanticAllType['classNamesAndFn'];
+  styles?: TreeSelectSemanticAllType['stylesAndFn'];
+  /** @since 6.7.0 */
+  suffix?: RcTreeSelectProps<ValueType, OptionType>['suffix'];
+  /** @deprecated Please use `suffix` instead. */
   suffixIcon?: React.ReactNode;
   size?: SizeType;
   disabled?: boolean;
@@ -138,8 +135,8 @@ export interface TreeSelectProps<ValueType = any, OptionType extends DataNode = 
   /** @deprecated Please use `classNames.popup.root` instead */
   dropdownClassName?: string;
   /** @deprecated Please use `popupRender` instead */
-  dropdownRender?: (menu: React.ReactElement) => React.ReactElement;
-  popupRender?: (menu: React.ReactElement) => React.ReactElement;
+  dropdownRender?: (menu: React.ReactElement) => React.ReactNode;
+  popupRender?: (menu: React.ReactElement) => React.ReactNode;
   /** @deprecated Please use `styles.popup.root` instead */
   dropdownStyle?: React.CSSProperties;
   /** @deprecated Please use `onOpenChange` instead */
@@ -156,7 +153,7 @@ export interface TreeSelectProps<ValueType = any, OptionType extends DataNode = 
   popupMatchSelectWidth?: boolean | number;
   /**
    * @deprecated `showArrow` is deprecated which will be removed in next major version. It will be a
-   *   default behavior, you can hide it by setting `suffixIcon` to null.
+   *   default behavior, you can hide it by setting `suffix` to null.
    */
   showArrow?: boolean;
   /**
@@ -212,16 +209,24 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
     treeCheckStrictly,
     styles,
     classNames,
+    suffix: customSuffix,
+    suffixIcon: customSuffixIcon,
+    showArrow,
     ...restProps
   } = props;
+
+  const [locale] = useLocale('global');
 
   const {
     getPrefixCls,
     getPopupContainer: getContextPopupContainer,
     direction,
+    className: contextClassName,
+    style: contextStyle,
     styles: contextStyles,
     classNames: contextClassNames,
     switcherIcon,
+    allowClear: contextAllowClear,
   } = useComponentConfig('treeSelect');
   const {
     renderEmpty,
@@ -244,6 +249,7 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
       dropdownRender: 'popupRender',
       onDropdownVisibleChange: 'onOpenChange',
       bordered: 'variant',
+      suffixIcon: 'suffix',
     };
 
     Object.entries(deprecatedProps).forEach(([oldProp, newProp]) => {
@@ -259,7 +265,7 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
     warning(
       !('showArrow' in props),
       'deprecated',
-      '`showArrow` is deprecated which will be removed in next major version. It will be a default behavior, you can hide it by setting `suffixIcon` to null.',
+      '`showArrow` is deprecated which will be removed in next major version. It will be a default behavior, you can hide it by setting `suffix` to null.',
     );
   }
 
@@ -302,15 +308,18 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
     variant,
   } as TreeSelectProps;
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    TreeSelectClassNamesType,
-    TreeSelectStylesType,
+    TreeSelectSemanticAllType['classNames'],
+    TreeSelectSemanticAllType['styles'],
     TreeSelectProps
   >(
     [contextClassNames, classNames],
-    [contextStyles, styles],
+    [contextStyles, contextStyleRoot, styles, styleRoot],
     {
-      props: mergedProps,
+      props: mergedProps as unknown as TreeSelectProps,
     },
     {
       popup: {
@@ -326,7 +335,6 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
       [`${treeSelectPrefixCls}-dropdown-rtl`]: direction === 'rtl',
     },
     rootClassName,
-    mergedClassNames.root,
     mergedClassNames.popup?.root,
     cssVarCls,
     rootCls,
@@ -351,37 +359,48 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
     return maxCount;
   }, [maxCount, showCheckedStrategy, treeCheckStrictly]);
 
-  const showSuffixIcon = useShowArrow(props.suffixIcon, props.showArrow);
+  const mergedCustomSuffix = customSuffix !== undefined ? customSuffix : customSuffixIcon;
+  const showSuffix = useShowArrow(mergedCustomSuffix, showArrow);
 
   const mergedPopupMatchSelectWidth =
     popupMatchSelectWidth ?? dropdownMatchSelectWidth ?? contextPopupMatchSelectWidth;
 
   // ===================== Icons =====================
-  const { suffixIcon, removeIcon, clearIcon } = useIcons({
+  const { suffix, removeIcon } = useIcons({
+    componentName: 'TreeSelect',
     ...restProps,
+    suffix: mergedCustomSuffix,
     multiple: isMultiple,
-    showSuffixIcon,
+    showSuffix,
+    showArrow,
     hasFeedback,
     feedbackIcon,
     prefixCls,
-    componentName: 'TreeSelect',
   });
 
-  const mergedAllowClear = allowClear === true ? { clearIcon } : allowClear;
+  const mergedAllowClear = useAllowClear({
+    allowClear,
+    contextAllowClear,
+    clearIcon: restProps.clearIcon,
+    defaultLabel: locale.clear,
+    componentName: 'TreeSelect',
+  });
 
   // ===================== Empty =====================
   let mergedNotFound: React.ReactNode;
   if (notFoundContent !== undefined) {
     mergedNotFound = notFoundContent;
   } else {
-    mergedNotFound = renderEmpty?.('Select') || <DefaultRenderEmpty componentName="Select" />;
+    mergedNotFound = renderEmpty?.('TreeSelect') || (
+      <DefaultRenderEmpty componentName="TreeSelect" />
+    );
   }
 
   // ==================== Render =====================
-  const selectProps = omit(restProps, ['suffixIcon', 'removeIcon', 'clearIcon']);
+  const selectProps = omit(restProps, ['removeIcon', 'clearIcon']);
 
   // ===================== Placement =====================
-  const memoizedPlacement = React.useMemo<Placement>(() => {
+  const memoizedPlacement = React.useMemo<SelectCommonPlacement>(() => {
     if (placement !== undefined) {
       return placement;
     }
@@ -399,6 +418,7 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
     },
     getStatusClassNames(prefixCls, mergedStatus, hasFeedback),
     compactItemClassnames,
+    contextClassName,
     className,
     rootClassName,
     mergedClassNames?.root,
@@ -434,14 +454,14 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
       ref={ref}
       prefixCls={prefixCls}
       className={mergedClassName}
-      style={{ ...mergedStyles?.root, ...style }}
+      style={mergedStyles.root}
       listHeight={listHeight}
       listItemHeight={listItemHeight}
       treeCheckable={
         treeCheckable ? <span className={`${prefixCls}-tree-checkbox-inner`} /> : treeCheckable
       }
       treeLine={!!treeLine}
-      suffixIcon={suffixIcon}
+      suffix={suffix}
       multiple={isMultiple}
       placement={memoizedPlacement}
       removeIcon={removeIcon}
@@ -452,7 +472,7 @@ const InternalTreeSelect: InternalTreeSelectRef = (props, ref) => {
       getPopupContainer={getPopupContainer || getContextPopupContainer}
       treeMotion={null}
       popupClassName={mergedPopupClassName}
-      popupStyle={{ ...mergedStyles.root, ...mergedStyles.popup?.root, zIndex }}
+      popupStyle={{ ...mergedStyles.popup?.root, zIndex }}
       popupRender={mergedPopupRender}
       onPopupVisibleChange={mergedOnOpenChange}
       choiceTransitionName={getTransitionName(rootPrefixCls, '', choiceTransitionName)}

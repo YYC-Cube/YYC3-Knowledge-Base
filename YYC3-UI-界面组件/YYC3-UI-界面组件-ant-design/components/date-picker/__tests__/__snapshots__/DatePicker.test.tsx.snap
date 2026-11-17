@@ -19,6 +19,7 @@ Array [
         class="ant-picker-suffix"
       >
         <span
+          aria-hidden="true"
           aria-label="calendar"
           class="anticon anticon-calendar"
           role="img"
@@ -38,9 +39,10 @@ Array [
           </svg>
         </span>
       </span>
-      <span
+      <button
+        aria-label="Изчистване"
         class="ant-picker-clear"
-        role="button"
+        type="button"
       >
         <span
           aria-label="close-circle"
@@ -62,7 +64,7 @@ Array [
             />
           </svg>
         </span>
-      </span>
+      </button>
     </div>
   </div>,
   <div
@@ -621,20 +623,16 @@ Array [
           <div
             class="ant-picker-footer"
           >
-            <ul
+            <div
               class="ant-picker-ranges"
             >
-              <li
+              <button
                 class="ant-picker-now"
+                type="button"
               >
-                <a
-                  aria-disabled="false"
-                  class="ant-picker-now-btn"
-                >
-                  Днес
-                </a>
-              </li>
-            </ul>
+                Днес
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -643,7 +641,7 @@ Array [
 ]
 `;
 
-exports[`DatePicker suffixIcon 1`] = `
+exports[`DatePicker suffix 1`] = `
 Array [
   <div
     class="ant-picker ant-picker-outlined css-var-root ant-picker-css-var"
@@ -686,6 +684,7 @@ exports[`DatePicker support DatePicker.generatePicker 1`] = `
       class="ant-picker-suffix"
     >
       <span
+        aria-hidden="true"
         aria-label="calendar"
         class="anticon anticon-calendar"
         role="img"

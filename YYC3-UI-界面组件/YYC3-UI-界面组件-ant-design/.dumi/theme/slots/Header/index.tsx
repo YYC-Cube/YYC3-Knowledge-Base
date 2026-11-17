@@ -21,6 +21,7 @@ import SiteContext from '../SiteContext';
 import type { SharedProps } from './interface';
 import Logo from './Logo';
 import Navigation from './Navigation';
+import SponsorsNav from './SponsorsNav';
 import SwitchBtn from './SwitchBtn';
 
 const RESPONSIVE_XS = 1120;
@@ -49,21 +50,32 @@ const useStyle = createStyles(({ cssVar, token, css }) => {
         display: inline-flex;
         align-items: center;
         flex: auto;
+        max-width: 220px;
+        height: 32px;
         margin: 0;
-        border-inline-start: 1px solid rgba(0, 0, 0, 0.06);
+        margin-inline-end: 16px !important;
+        background: ${cssVar.colorBgContainer};
+        border-radius: ${cssVar.borderRadiusSM};
+        transition: background ${cssVar.motionDurationSlow};
 
         > svg {
           width: 14px;
           fill: ${searchIconColor};
+          flex-shrink: 0;
+          margin-inline-start: -6px;
         }
 
         > input {
-          height: 22px;
+          flex: 1;
+          min-width: 0;
+          height: 100%;
           border: 0;
-          max-width: calc(100vw - 768px);
+          background: transparent;
+          padding-inline-start: 32px;
 
           &:focus {
             box-shadow: none;
+            background: transparent;
           }
 
           &::placeholder {
@@ -71,14 +83,13 @@ const useStyle = createStyles(({ cssVar, token, css }) => {
           }
         }
 
+        &:hover,
+        &:focus-within {
+          background: ${cssVar.colorFillSecondary};
+        }
+
         .dumi-default-search-shortcut {
-          color: ${searchIconColor};
-          background-color: rgba(150, 150, 150, 0.06);
-          border-color: rgba(100, 100, 100, 0.2);
-          border-radius: ${cssVar.borderRadiusSM};
-          position: static;
-          top: unset;
-          transform: unset;
+          display: none;
         }
 
         .dumi-default-search-popover {
@@ -99,9 +110,10 @@ const useStyle = createStyles(({ cssVar, token, css }) => {
     menuRow: css`
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       margin: 0;
-      column-gap: ${cssVar.paddingSM};
-      padding-inline-end: ${cssVar.padding};
+      column-gap: 2px;
+      padding-inline-end: ${cssVar.paddingMD};
 
       > * {
         flex: none;
@@ -134,8 +146,12 @@ const useStyle = createStyles(({ cssVar, token, css }) => {
       }
     `,
     versionSelect: css`
-      width: 112px;
-      min-width: 112px; // 这个宽度需要和 Empty 状态的宽度保持一致
+      width: 88px;
+      min-width: 88px; // 这个宽度需要和 Empty 状态的宽度保持一致
+      margin-inline-end: 6px;
+      input {
+        scroll-margin-top: 0;
+      }
       .rc-virtual-list {
         .rc-virtual-list-holder {
           scrollbar-width: thin;
@@ -209,12 +225,12 @@ const Header: React.FC = () => {
 
   const { styles } = useStyle();
 
-  const [, setTopBannerDay] = useLocalStorage<string>(ANT_DESIGN_NOT_SHOW_BANNER, {
-    defaultValue: undefined,
+  const [, setTopBannerDay] = useLocalStorage<string | undefined>(ANT_DESIGN_NOT_SHOW_BANNER, {
+    initialValue: undefined,
   });
 
-  const [, setLocalType] = useLocalStorage<string>(ANT_LOCAL_TYPE_KEY, {
-    defaultValue: undefined,
+  const [, setLocalType] = useLocalStorage<string | undefined>(ANT_LOCAL_TYPE_KEY, {
+    initialValue: undefined,
   });
 
   const handleHideMenu = useCallback(() => {
@@ -225,8 +241,8 @@ const Header: React.FC = () => {
     setHeaderState((prev) => ({ ...prev, windowWidth: window.innerWidth }));
   }, []);
 
-  const onMenuVisibleChange = useCallback((visible: boolean) => {
-    setHeaderState((prev) => ({ ...prev, menuVisible: visible }));
+  const onMenuOpenChange = useCallback((open: boolean) => {
+    setHeaderState((prev) => ({ ...prev, menuVisible: open }));
   }, []);
 
   const onDirectionChange = () => {
@@ -285,7 +301,7 @@ const Header: React.FC = () => {
         window.location.pathname,
         utils.getLocalizedPathname(pathname, !utils.isZhCN(pathname), search).pathname,
       );
-  }, [pathname, search]);
+  }, [pathname, search, setLocalType]);
 
   const nextDirectionText = useMemo<string>(
     () => (direction !== 'rtl' ? 'RTL' : 'LTR'),
@@ -336,6 +352,7 @@ const Header: React.FC = () => {
 
   let menu = [
     navigationNode,
+    <SponsorsNav key="sponsors" />,
     <Select
       key="version"
       size="small"
@@ -374,7 +391,7 @@ const Header: React.FC = () => {
       key="github"
       href="https://github.com/ant-design/ant-design"
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
     >
       <Tooltip title="GitHub" destroyOnHidden>
         <Button type="text" icon={<GithubOutlined />} style={{ fontSize: 16 }} />
@@ -405,7 +422,7 @@ const Header: React.FC = () => {
           trigger="click"
           open={menuVisible}
           arrow={{ pointAtCenter: true }}
-          onOpenChange={onMenuVisibleChange}
+          onOpenChange={onMenuOpenChange}
         >
           <MenuOutlined className="nav-phone-icon" />
         </Popover>
@@ -429,7 +446,7 @@ const Header: React.FC = () => {
                     className={styles.link}
                     href={bannerHref}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     onClick={() => {
                       window.gtag?.('event', '点击', {
                         event_category: 'top_banner',

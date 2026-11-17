@@ -1,7 +1,7 @@
 import React from 'react';
 import VerticalAlignTopOutlined from '@ant-design/icons/VerticalAlignTopOutlined';
 import CSSMotion from '@rc-component/motion';
-import omit from '@rc-component/util/lib/omit';
+import { omit } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import getScroll from '../_util/getScroll';
@@ -14,6 +14,7 @@ import { ConfigContext } from '../config-provider';
 import useCSSVarCls from '../config-provider/hooks/useCSSVarCls';
 import useStyle from './style';
 
+/** @deprecated Please use `GetProps<typeof FloatButton.BackTop>` instead. */
 export interface BackTopProps {
   visibilityHeight?: number;
   onClick?: React.MouseEventHandler<HTMLElement>;

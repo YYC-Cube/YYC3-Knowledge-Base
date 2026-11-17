@@ -14,10 +14,9 @@ Array [
       class="ant-segmented-group"
     >
       <label
-        class="ant-segmented-item ant-segmented-item-selected"
+        class="ant-segmented-item ant-segmented-item-selected ant-segmented-item-selected-text"
       >
         <input
-          checked=""
           class="ant-segmented-item-input"
           name="test-id"
           type="radio"
@@ -211,7 +210,7 @@ exports[`renders components/tooltip/demo/arrow-point-at-center.tsx correctly 1`]
       type="button"
     >
       <span>
-        Align edge / 边缘对齐
+        Align edge
       </span>
     </button>
   </div>
@@ -223,7 +222,7 @@ exports[`renders components/tooltip/demo/arrow-point-at-center.tsx correctly 1`]
       type="button"
     >
       <span>
-        Arrow points to center / 箭头指向中心
+        Arrow points to center
       </span>
     </button>
   </div>
@@ -250,7 +249,7 @@ exports[`renders components/tooltip/demo/auto-adjust-overflow.tsx correctly 1`] 
         type="button"
       >
         <span>
-          Adjust automatically / 自动调整
+          Adjust automatically
         </span>
       </button>
       <button
@@ -258,7 +257,7 @@ exports[`renders components/tooltip/demo/auto-adjust-overflow.tsx correctly 1`] 
         type="button"
       >
         <span>
-          Ignore / 不处理
+          Ignore
         </span>
       </button>
     </div>
@@ -279,7 +278,7 @@ exports[`renders components/tooltip/demo/auto-adjust-overflow.tsx correctly 1`] 
         type="button"
       >
         <span>
-          Adjust automatically / 自动调整
+          Adjust automatically
         </span>
       </button>
       <button
@@ -287,7 +286,7 @@ exports[`renders components/tooltip/demo/auto-adjust-overflow.tsx correctly 1`] 
         type="button"
       >
         <span>
-          Ignore / 不处理
+          Ignore
         </span>
       </button>
     </div>
@@ -641,19 +640,18 @@ exports[`renders components/tooltip/demo/disabled-children.tsx correctly 1`] = `
       >
         <div
           class="ant-select-placeholder"
-          style="visibility:visible"
         />
         <input
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           disabled=""
           id="test-id"
           readonly=""
           role="combobox"
-          type="search"
+          type="text"
           value=""
         />
       </div>
@@ -661,6 +659,7 @@ exports[`renders components/tooltip/demo/disabled-children.tsx correctly 1`] = `
         class="ant-select-suffix"
       >
         <span
+          aria-hidden="true"
           aria-label="down"
           class="anticon anticon-down"
           role="img"

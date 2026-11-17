@@ -1,6 +1,22 @@
 import React from 'react';
 import { UserOutlined } from '@ant-design/icons';
 import { AutoComplete, Flex, Input } from 'antd';
+import { createStyles } from 'antd-style';
+
+const useStyles = createStyles((props) => {
+  const { css, prefixCls, cssVar } = props;
+  return {
+    categorySearch: css`
+      .${prefixCls}-select-item-group {
+        color: ${cssVar.colorTextSecondary};
+        font-weight: ${cssVar.fontWeightStrong};
+      }
+      .${prefixCls}-select-item-option {
+        padding-inline-start: ${cssVar.padding};
+      }
+    `,
+  };
+});
 
 const Title: React.FC<Readonly<{ title?: string }>> = (props) => (
   <Flex align="center" justify="space-between">
@@ -38,19 +54,18 @@ const options = [
   },
 ];
 
-const App: React.FC = () => (
-  <AutoComplete
-    classNames={{
-      popup: {
-        root: 'certain-category-search-dropdown',
-      },
-    }}
-    popupMatchSelectWidth={500}
-    style={{ width: 250 }}
-    options={options}
-  >
-    <Input.Search size="large" placeholder="input here" />
-  </AutoComplete>
-);
+const App: React.FC = () => {
+  const { styles } = useStyles();
+  return (
+    <AutoComplete
+      classNames={{ popup: { root: styles.categorySearch } }}
+      popupMatchSelectWidth={500}
+      style={{ width: 250 }}
+      options={options}
+    >
+      <Input.Search size="large" placeholder="input here" />
+    </AutoComplete>
+  );
+};
 
 export default App;

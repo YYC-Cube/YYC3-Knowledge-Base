@@ -3,14 +3,14 @@ import { SearchOutlined } from '@ant-design/icons';
 import { warning } from '@rc-component/util';
 
 import Button, { _ButtonVariantTypes } from '..';
-import type { GetRef } from '../../_util/type';
+import type { GetProp, GetRef } from '../../_util/type';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { act, fireEvent, render, waitFakeTimer } from '../../../tests/utils';
 import ConfigProvider from '../../config-provider';
 import theme from '../../theme';
 import { PresetColors } from '../../theme/interface';
-import type { BaseButtonProps } from '../Button';
+import type { BaseButtonProps, ButtonProps } from '../Button';
 
 const { resetWarned } = warning;
 
@@ -183,6 +183,36 @@ describe('Button', () => {
     expect(wrapper.container.firstChild).not.toHaveClass('ant-btn-loading');
   });
 
+  it.each(['prop', 'context'])('should delay the custom loading icon from %s', (source) => {
+    jest.useFakeTimers();
+    const loadingIcon = <span>Loading icon</span>;
+    const renderButton = (loading: ButtonProps['loading']) => (
+      <ConfigProvider button={{ loadingIcon: source === 'context' ? loadingIcon : undefined }}>
+        <Button loading={loading}>Button</Button>
+      </ConfigProvider>
+    );
+    const { container, queryByText, rerender } = render(renderButton(false));
+
+    rerender(renderButton({ delay: 1000, icon: source === 'prop' ? loadingIcon : undefined }));
+    expect(queryByText('Loading icon')).toBeNull();
+
+    act(() => {
+      jest.advanceTimersByTime(999);
+    });
+    expect(container.querySelector('button')).not.toHaveClass('ant-btn-loading');
+    expect(queryByText('Loading icon')).toBeNull();
+
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
+    expect(container.querySelector('button')).toHaveClass('ant-btn-loading');
+    expect(queryByText('Loading icon')).toBeVisible();
+
+    rerender(renderButton(false));
+    expect(queryByText('Loading icon')).toBeNull();
+    jest.useRealTimers();
+  });
+
   it('should support custom icon className', () => {
     const { container } = render(
       <Button type="primary" icon={<SearchOutlined />} classNames={{ icon: 'custom-icon' }} />,
@@ -347,6 +377,23 @@ describe('Button', () => {
       </Button>,
     );
     expect(wrapper.container.querySelector('.ant-btn')).toHaveClass('ant-btn-disabled');
+  });
+
+  // https://github.com/ant-design/ant-design/issues/59731
+  it('should respect tabIndex when href is not undefined', () => {
+    const { container } = render(
+      <>
+        <Button href="https://ant.design" tabIndex={-1}>
+          link
+        </Button>
+        <Button href="https://ant.design" tabIndex={0} disabled>
+          disabled link
+        </Button>
+      </>,
+    );
+    const [link, disabledLink] = container.querySelectorAll('a');
+    expect(link).toHaveAttribute('tabindex', '-1');
+    expect(disabledLink).toHaveAttribute('tabindex', '-1');
   });
 
   // https://github.com/ant-design/ant-design/issues/30953
@@ -538,18 +585,18 @@ describe('Button', () => {
   });
 
   it('should support classnames and styles', () => {
-    const cusomStyles = {
+    const customStyles: Required<GetProp<ButtonProps, 'styles', 'Return'>> = {
       root: { color: 'rgb(255, 0, 0)' },
       icon: { background: 'blue' },
       content: { fontSize: '20px' },
     };
-    const customClassNames = {
+    const customClassNames: Required<GetProp<ButtonProps, 'classNames', 'Return'>> = {
       root: 'custom-root',
       icon: 'custom-icon',
       content: 'custom-content',
     };
     const { container, rerender, getByText } = render(
-      <Button classNames={customClassNames} styles={cusomStyles} icon={<SearchOutlined />}>
+      <Button classNames={customClassNames} styles={customStyles} icon={<SearchOutlined />}>
         antd
       </Button>,
     );
@@ -558,17 +605,17 @@ describe('Button', () => {
     const content = getByText('antd');
     expect(root).toHaveClass(customClassNames.root);
     expect(icon).toHaveClass(customClassNames.icon);
-    expect(root).toHaveStyle(cusomStyles.root);
-    expect(icon).toHaveStyle(cusomStyles.icon);
-    expect(content).toHaveStyle(cusomStyles.content);
+    expect(root).toHaveStyle(customStyles.root);
+    expect(icon).toHaveStyle(customStyles.icon);
+    expect(content).toHaveStyle(customStyles.content);
     rerender(
-      <Button classNames={customClassNames} styles={cusomStyles} loading>
+      <Button classNames={customClassNames} styles={customStyles} loading>
         antd
       </Button>,
     );
     const loadingIcon = container.querySelector('.ant-btn-icon');
     expect(loadingIcon).toHaveClass(customClassNames.icon);
-    expect(loadingIcon).toHaveStyle(cusomStyles.icon);
+    expect(loadingIcon).toHaveStyle(customStyles.icon);
   });
 
   it('should support customizing the background color of default type button in disabled state', () => {
@@ -626,6 +673,24 @@ describe('Button', () => {
 
     expect(container.firstChild).toHaveClass('ant-btn-variant-dashed');
     expect(container.firstChild).toHaveClass('ant-btn-color-blue');
+  });
+
+  it('button variant should provide default color', () => {
+    const { container } = render(<Button variant="solid">Button</Button>);
+
+    expect(container.firstChild).toHaveClass('ant-btn-variant-solid');
+    expect(container.firstChild).toHaveClass('ant-btn-color-primary');
+  });
+
+  it('ConfigProvider button variant should provide default color', () => {
+    const { container } = render(
+      <ConfigProvider button={{ variant: 'solid' }}>
+        <Button>Button</Button>
+      </ConfigProvider>,
+    );
+
+    expect(container.firstChild).toHaveClass('ant-btn-variant-solid');
+    expect(container.firstChild).toHaveClass('ant-btn-color-primary');
   });
 
   it('ConfigProvider support button shape', () => {

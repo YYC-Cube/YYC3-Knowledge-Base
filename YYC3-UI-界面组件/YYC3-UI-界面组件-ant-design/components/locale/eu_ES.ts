@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/eu_ES';
+import Pagination from '@rc-component/pagination/locale/eu_ES';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/eu_ES';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Aukeratu',
     close: 'Itxi',
+    show: 'Erakutsi',
+    hide: 'Ezkutatu',
+    sortable: 'ordenagarria',
   },
   Table: {
     filterTitle: 'Iragazi menua',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Alderantzikatu hautaketa',
     selectNone: 'Hustu dena',
     selectionAll: 'Hautatu datu guztiak',
+    selectRow: 'Hautatu errenkada',
+    selectedRow: 'Errenkada hautatuta',
+    selectionMenu: 'Hautapen-menua',
     sortTitle: 'Ordenatu',
     expand: 'Zabaldu',
     collapse: 'Itxi',
+    expandAll: 'Zabaldu errenkada guztiak',
+    collapseAll: 'Itxi errenkada guztiak',
     triggerDesc: 'Egin klik beheranzko ordenean ordenatzeko',
     triggerAsc: 'Egin klik goranzko ordenean ordenatzeko',
     cancelSort: 'Egin klik ordenamendua ezeztatzeko',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'Onartu',
     cancelText: 'Utzi',
   },
+  Splitter: {
+    toggleStartPanel: 'Txandakatu hasierako panela',
+    toggleEndPanel: 'Txandakatu amaierako panela',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Bilatu hemen',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Datu guztiak hautatu',
     removeAll: 'Ezabatu datu guztiak',
     selectInvert: 'Uneko orrialdea alderantzikatu',
+    deselectAll: 'Deshautatu datu guztiak',
   },
   Upload: {
     uploading: 'Igotzen...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Kopiatu',
     copied: 'Kopiatuta',
     expand: 'Zabaldu',
+    collapse: 'Tolestu',
+  },
+  Carousel: {
+    prevSlide: 'Aurreko diapositiba',
+    nextSlide: 'Hurrengo diapositiba',
   },
   Form: {
     optional: '(aukerakoa)',
@@ -134,6 +152,7 @@ const localeValues: Locale = {
   QRCode: {
     expired: 'QR kodea kadukatuta',
     refresh: 'Freskatu',
+    scanned: 'Eskaneatua',
   },
   ColorPicker: {
     presetEmpty: 'Hustu',

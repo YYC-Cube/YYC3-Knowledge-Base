@@ -15,9 +15,7 @@ Ant Design 使用 MIT 协议开源并永久免费使用。维护与演进一个�
 
 ## Sponsors [![](https://opencollective.com/ant-design/tiers/sponsors/badge.svg?label=Sponsors&color=brightgreen)](https://opencollective.com/ant-design/contribute/sponsors-218) {#sponsors}
 
-<a href="https://tractian.com"><img src="https://images.opencollective.com/tractian/0235da9/logo/256.png" width="128" height="128" alt="TRACTIAN"></a>
-<a href="https://lobehub.com"><img src="https://unpkg.com/@lobehub/icons-static-svg@1.79.0/icons/lobehub-color.svg" width="128" height="128" alt="LobeHub"></a>
-<a href="https://youmind.com"><img src="https://marketing-assets.youmind.com/logo-512.png" width="128" height="128" alt="YouMind"></a>
+<a href="https://youmind.com/zh-CN?utm_source=ant-design"><img src="https://mdn.alipayobjects.com/huamei_vmgq1x/afts/img/A*SXcuQYBZ6oQAAAAAQJAAAAgAeh6VAQ/original" width="128" height="128" alt="YouMind"></a><a href="https://tractian.com?utm_source=ant-design"><img src="https://mdn.alipayobjects.com/huamei_vmgq1x/afts/img/A*Z4-4Q67SG5UAAAAAQLAAAAgAeh6VAQ/original" width="128" height="128" alt="TRACTIAN"></a><a href="https://lobehub.com?utm_source=ant-design"><img src="https://unpkg.com/@lobehub/icons-static-svg@1.79.0/icons/lobehub-color.svg" width="128" height="128" alt="LobeHub"></a><a href="https://coderabbit.ai?utm_source=ant-design"><img src="https://mdn.alipayobjects.com/huamei_vmgq1x/afts/img/A*yHnhRL4x1DEAAAAAQBAAAAgAeh6VAQ/original" width="128" height="128" alt="CodeRabbit"></a>
 
 [查看所有 Sponsors ❤️](https://opencollective.com/ant-design/contribute/sponsors-218)
 
@@ -36,7 +34,7 @@ Ant Design 使用 MIT 协议开源并永久免费使用。维护与演进一个�
 | **OpenCollective** | [主页](https://opencollective.com/ant-design) | [所有赞助方式](https://opencollective.com/ant-design/contribute) |
 | **GitHub Sponsors** | [主页](https://github.com/sponsors/ant-design) | [立即赞助](https://github.com/sponsors/ant-design) |
 
-### OpenCollective 赞助方式
+### OpenCollective 赞助方式 {#opencollective-options}
 
 | 方式 | 主页 | 付款入口 |
 | --- | --- | --- |

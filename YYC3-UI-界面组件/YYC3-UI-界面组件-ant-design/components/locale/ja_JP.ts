@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/ja_JP';
+import Pagination from '@rc-component/pagination/locale/ja_JP';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/ja_JP';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: '選んでください',
     close: '閉じる',
+    show: '表示',
+    hide: '非表示',
+    sortable: '並べ替え可能',
   },
   Table: {
     filterTitle: 'フィルター',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'ページ単位で反転',
     selectNone: 'クリア',
     selectionAll: 'すべてを選択',
+    selectRow: '行を選択',
+    selectedRow: '行が選択されています',
+    selectionMenu: '選択メニュー',
     sortTitle: 'ソート',
     expand: '展開する',
     collapse: '折り畳む',
+    expandAll: 'すべての行を展開する',
+    collapseAll: 'すべての行を折り畳む',
     triggerDesc: 'クリックで降順にソート',
     triggerAsc: 'クリックで昇順にソート',
     cancelSort: 'ソートをキャンセル',
@@ -49,6 +57,10 @@ const localeValues: Locale = {
   Popconfirm: {
     okText: 'OK',
     cancelText: 'キャンセル',
+  },
+  Splitter: {
+    toggleStartPanel: '開始パネルを切り替える',
+    toggleEndPanel: '終了パネルを切り替える',
   },
   Transfer: {
     titles: ['', ''],
@@ -80,8 +92,12 @@ const localeValues: Locale = {
     edit: '編集',
     copy: 'コピー',
     copied: 'コピーされました',
-    expand: '拡大する',
-    collapse: '崩壊',
+    expand: '展開する',
+    collapse: '折り畳む',
+  },
+  Carousel: {
+    prevSlide: '前のスライド',
+    nextSlide: '次のスライド',
   },
   Form: {
     optional: '(オプション)',

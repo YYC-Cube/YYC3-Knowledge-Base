@@ -78,12 +78,17 @@ export default function formatToken(derivativeToken: RawMergedToken): AliasToken
 
     colorErrorOutline: getAlphaColor(mergedToken.colorErrorBg, mergedToken.colorBgContainer),
     colorWarningOutline: getAlphaColor(mergedToken.colorWarningBg, mergedToken.colorBgContainer),
+    colorErrorAffix: mergedToken.colorError,
+    colorWarningAffix: mergedToken.colorWarning,
 
     // Font
+    fontHeight: Math.round(mergedToken.fontSize * mergedToken.lineHeight),
+    fontHeightSM: Math.round(mergedToken.fontSizeSM * mergedToken.lineHeightSM),
+    fontHeightLG: Math.round(mergedToken.fontSizeLG * mergedToken.lineHeightLG),
     fontSizeIcon: mergedToken.fontSizeSM,
 
     // Line
-    lineWidthFocus: mergedToken.lineWidth * 3,
+    lineWidthFocus: mergedToken.focusOutline === false ? 0 : mergedToken.lineWidth * 3,
 
     // Control
     lineWidth: mergedToken.lineWidth,
@@ -150,9 +155,9 @@ export default function formatToken(derivativeToken: RawMergedToken): AliasToken
       0 9px 28px 8px ${getShadowColor(0.05)}
     `,
     boxShadowTertiary: `
-      0 1px 2px 0 ${getShadowColor(0.03)},
-      0 1px 6px -1px ${getShadowColor(0.02)},
-      0 2px 4px 0 ${getShadowColor(0.02)}
+      0 1px 2px 0 ${getShadowColor(0.05)},
+      0 1px 6px -1px ${getShadowColor(0.03)},
+      0 2px 4px 0 ${getShadowColor(0.03)}
     `,
 
     screenXS,
@@ -177,6 +182,7 @@ export default function formatToken(derivativeToken: RawMergedToken): AliasToken
     screenXXXLMin: screenXXXL,
 
     boxShadowPopoverArrow: `2px 2px 5px ${getShadowColor(0.05)}`,
+    dropShadowPopover: `drop-shadow(0 6px 16px ${getShadowColor(0.08)}) drop-shadow(0 3px 6px ${getShadowColor(0.12)}) drop-shadow(0 9px 28px ${getShadowColor(0.05)})`,
     boxShadowCard: `
       0 1px 2px -2px ${getShadowColor(0.16)},
       0 3px 6px 0 ${getShadowColor(0.12)},

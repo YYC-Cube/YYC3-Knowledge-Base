@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { mergeProps } from '@rc-component/util';
 
-import extendsObject from '../../_util/extendsObject';
+import { isFunction, isPlainObject } from '../../_util/is';
 import type { PaginationProps } from '../../pagination';
 import type { TablePaginationConfig } from '../interface';
 
@@ -15,12 +16,11 @@ export function getPaginationParam(
     pageSize: mergedPagination.pageSize,
   };
 
-  const paginationObj = pagination && typeof pagination === 'object' ? pagination : {};
+  const paginationObj = isPlainObject(pagination) ? pagination : {};
 
   Object.keys(paginationObj).forEach((pageProp) => {
     const value = mergedPagination[pageProp as keyof typeof paginationObj];
-
-    if (typeof value !== 'function') {
+    if (!isFunction(value)) {
       param[pageProp] = value;
     }
   });
@@ -30,11 +30,12 @@ export function getPaginationParam(
 
 function usePagination(
   total: number,
-  onChange: (current: number, pageSize: number) => void,
+  onChange: (current: number, pageSize: number, info?: { recommendPage?: number }) => void,
   pagination?: TablePaginationConfig | false,
 ): readonly [TablePaginationConfig, (current?: number, pageSize?: number) => void] {
-  const { total: paginationTotal = 0, ...paginationObj } =
-    pagination && typeof pagination === 'object' ? pagination : {};
+  const { total: paginationTotal = 0, ...paginationObj } = isPlainObject(pagination)
+    ? pagination
+    : {};
 
   const [innerPagination, setInnerPagination] = useState<{ current?: number; pageSize?: number }>(
     () => ({
@@ -45,7 +46,7 @@ function usePagination(
   );
 
   // ============ Basic Pagination Config ============
-  const mergedPagination = extendsObject(innerPagination, paginationObj, {
+  const mergedPagination = mergeProps(innerPagination, paginationObj, {
     total: paginationTotal > 0 ? paginationTotal : total,
   });
 
@@ -63,12 +64,20 @@ function usePagination(
     });
   };
 
-  const onInternalChange: PaginationProps['onChange'] = (current, pageSize) => {
+  const onInternalChange: PaginationProps['onChange'] = (current, pageSize, info) => {
     if (pagination) {
-      pagination.onChange?.(current, pageSize);
+      if (info) {
+        pagination.onChange?.(current, pageSize, info);
+      } else {
+        pagination.onChange?.(current, pageSize);
+      }
     }
     refreshPagination(current, pageSize);
-    onChange(current, pageSize || mergedPagination?.pageSize!);
+    if (info) {
+      onChange(current, pageSize || mergedPagination?.pageSize!, info);
+    } else {
+      onChange(current, pageSize || mergedPagination?.pageSize!);
+    }
   };
 
   if (pagination === false) {

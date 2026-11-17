@@ -96,8 +96,8 @@ describe('Drawer', () => {
 
     triggerMotion();
 
-    let drawerWrapper = container.querySelector('.ant-drawer-content-wrapper');
-    expect(drawerWrapper).toHaveStyle({ width: '20vw' });
+    let drawerWrapper = container.querySelector<HTMLElement>('.ant-drawer-content-wrapper');
+    expect(drawerWrapper).toHaveProperty('style.width', '20vw');
 
     rerender(
       <Drawer open size="500" getContainer={false}>
@@ -143,6 +143,38 @@ describe('Drawer', () => {
 
     triggerMotion();
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('render extra without title or close button', () => {
+    const { container } = render(
+      <Drawer open closable={false} extra={0} getContainer={false}>
+        Here is content of Drawer
+      </Drawer>,
+    );
+
+    expect(container.querySelector('.ant-drawer-header')).toBeTruthy();
+    expect(container.querySelector('.ant-drawer-extra')).toHaveTextContent('0');
+  });
+
+  it('render title with zero value', () => {
+    const { container } = render(
+      <Drawer open closable={false} title={0} getContainer={false}>
+        Here is content of Drawer
+      </Drawer>,
+    );
+
+    expect(container.querySelector('.ant-drawer-header')).toBeTruthy();
+    expect(container.querySelector('.ant-drawer-title')).toHaveTextContent('0');
+  });
+
+  it('render footer with zero value', () => {
+    const { container } = render(
+      <Drawer open footer={0} getContainer={false}>
+        Here is content of Drawer
+      </Drawer>,
+    );
+
+    expect(container.querySelector('.ant-drawer-footer')).toHaveTextContent('0');
   });
 
   it('closable is false', () => {
@@ -476,7 +508,7 @@ describe('Drawer', () => {
       for (let j = initialFontSize; j < fontSize2; j += 1) {
         expect(container2.outerHTML).toContain(`font-size: ${j}px`);
       }
-      expect(container1.outerHTML).toEqual(container2.outerHTML);
+      expect(container1.outerHTML).toBe(container2.outerHTML);
     });
   });
   it('should support aria-* and closeIcon by closable', () => {
@@ -528,6 +560,52 @@ describe('Drawer', () => {
     );
   });
 
+  it('should support focusable global config', () => {
+    const classNames = jest.fn(() => ({}));
+
+    render(
+      <ConfigProvider drawer={{ focusable: { trap: true, focusTriggerAfterClose: false } }}>
+        <Drawer open getContainer={false} classNames={classNames}>
+          Here is content of Drawer
+        </Drawer>
+      </ConfigProvider>,
+    );
+
+    expect(classNames).toHaveBeenCalledWith(
+      expect.objectContaining({
+        props: expect.objectContaining({
+          focusable: {
+            trap: true,
+            focusTriggerAfterClose: false,
+          },
+        }),
+      }),
+    );
+  });
+
+  it('should prefer focusable prop over global config', () => {
+    const classNames = jest.fn(() => ({}));
+
+    render(
+      <ConfigProvider drawer={{ focusable: { trap: true, focusTriggerAfterClose: false } }}>
+        <Drawer open getContainer={false} focusable={{ trap: false }} classNames={classNames}>
+          Here is content of Drawer
+        </Drawer>
+      </ConfigProvider>,
+    );
+
+    expect(classNames).toHaveBeenCalledWith(
+      expect.objectContaining({
+        props: expect.objectContaining({
+          focusable: {
+            trap: false,
+            focusTriggerAfterClose: false,
+          },
+        }),
+      }),
+    );
+  });
+
   describe('Drawer mask blur className', () => {
     const testCases: [
       mask?: MaskType,
@@ -548,29 +626,30 @@ describe('Drawer', () => {
       [{ blur: true, enabled: false }, { enabled: true, blur: false }, true, false],
     ];
 
-    it.each(
-      testCases,
-    )('drawerMask = %s configMask = %s ,mask blur = %s', (modalMask, configMask, expectedBlurClass, openMask) => {
-      render(
-        <ConfigProvider drawer={{ mask: configMask }}>
-          <Drawer open mask={modalMask} />
-        </ConfigProvider>,
-      );
+    it.each(testCases)(
+      'drawerMask = %s configMask = %s ,mask blur = %s',
+      (modalMask, configMask, expectedBlurClass, openMask) => {
+        render(
+          <ConfigProvider drawer={{ mask: configMask }}>
+            <Drawer open mask={modalMask} />
+          </ConfigProvider>,
+        );
 
-      const maskElement = document.querySelector('.ant-drawer-mask');
+        const maskElement = document.querySelector('.ant-drawer-mask');
 
-      if (!openMask) {
-        expect(maskElement).toBeNull();
-        return;
-      }
+        if (!openMask) {
+          expect(maskElement).toBeNull();
+          return;
+        }
 
-      expect(maskElement).toBeInTheDocument();
-      if (expectedBlurClass) {
-        expect(maskElement!.className).toContain('ant-drawer-mask-blur');
-      } else {
-        expect(maskElement!.className).not.toContain('ant-drawer-mask-blur');
-      }
-    });
+        expect(maskElement).toBeInTheDocument();
+        if (expectedBlurClass) {
+          expect(maskElement!.className).toContain('ant-drawer-mask-blur');
+        } else {
+          expect(maskElement!.className).not.toContain('ant-drawer-mask-blur');
+        }
+      },
+    );
     it('should support closable placement with start', () => {
       const { container } = render(
         <Drawer open closable={{ placement: 'start' }} getContainer={false}>

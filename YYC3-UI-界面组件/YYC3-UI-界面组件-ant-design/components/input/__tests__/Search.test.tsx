@@ -1,11 +1,12 @@
 import React from 'react';
 import { EditOutlined, UserOutlined } from '@ant-design/icons';
-import { fireEvent, render } from '@testing-library/react';
+import { createEvent, fireEvent, render } from '@testing-library/react';
 
 import focusTest from '../../../tests/shared/focusTest';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import Button from '../../button';
+import ConfigProvider from '../../config-provider';
 import type { InputRef } from '../Input';
 import Search from '../Search';
 import type { SearchProps } from '../Search';
@@ -25,6 +26,15 @@ describe('Input.Search', () => {
     expect(asFragment().firstChild).toMatchSnapshot();
   });
 
+  it('should preserve custom Button className', () => {
+    const { container } = render(
+      <Search enterButton={<Button className="custom-search-button">ok</Button>} />,
+    );
+    const button = container.querySelector('button');
+    expect(button).toHaveClass('ant-input-search-btn');
+    expect(button).toHaveClass('custom-search-button');
+  });
+
   it('should support enterButton null', () => {
     expect(() => {
       render(<Search enterButton={null} />);
@@ -39,6 +49,82 @@ describe('Input.Search', () => {
   it('should disable enter button when disabled prop is true', () => {
     const { container } = render(<Search placeholder="input search text" enterButton disabled />);
     expect(container.querySelectorAll('.ant-btn[disabled]')).toHaveLength(1);
+  });
+
+  it('should disable custom Button when disabled prop is true', () => {
+    const onSearch = jest.fn();
+    const { getByRole } = render(
+      <Search disabled enterButton={<Button>ok</Button>} onSearch={onSearch} />,
+    );
+
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(onSearch).not.toHaveBeenCalled();
+  });
+
+  it('should disable custom native button when disabled prop is true', () => {
+    const onSearch = jest.fn();
+    const { getByRole } = render(
+      <Search disabled enterButton={<button type="button">ok</button>} onSearch={onSearch} />,
+    );
+
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(onSearch).not.toHaveBeenCalled();
+  });
+
+  it('should preserve disabled context for custom Button', () => {
+    const onSearch = jest.fn();
+    const { getByRole } = render(
+      <ConfigProvider componentDisabled>
+        <Search enterButton={<Button>ok</Button>} onSearch={onSearch} />
+      </ConfigProvider>,
+    );
+
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(onSearch).not.toHaveBeenCalled();
+  });
+
+  it('should disable custom native button with disabled context', () => {
+    const onSearch = jest.fn();
+    const { getByRole } = render(
+      <ConfigProvider componentDisabled>
+        <Search enterButton={<button type="button">ok</button>} onSearch={onSearch} />
+      </ConfigProvider>,
+    );
+
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(onSearch).not.toHaveBeenCalled();
+  });
+
+  it('should set custom Button to loading when loading prop is true', () => {
+    const onSearch = jest.fn();
+    const { getByLabelText, getByRole } = render(
+      <Search loading enterButton={<Button>ok</Button>} onSearch={onSearch} />,
+    );
+
+    const button = getByRole('button');
+    expect(getByLabelText('loading')).toBeInTheDocument();
+    fireEvent.click(button);
+    expect(onSearch).not.toHaveBeenCalled();
+  });
+
+  it('should disable custom native button when loading prop is true', () => {
+    const onSearch = jest.fn();
+    const { getByRole } = render(
+      <Search loading enterButton={<button type="button">ok</button>} onSearch={onSearch} />,
+    );
+
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(onSearch).not.toHaveBeenCalled();
   });
 
   it('should disable search icon when disabled prop is true', () => {
@@ -110,6 +196,32 @@ describe('Input.Search', () => {
     expect(onSearch).toHaveBeenCalledTimes(1);
     expect(onSearch).toHaveBeenCalledWith('search text', expect.anything(), { source: 'input' });
     expect(onButtonClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should preserve custom button onMouseDown', () => {
+    let defaultPrevented: boolean | undefined;
+    const onMouseDown = jest.fn((event: React.MouseEvent<HTMLButtonElement>) => {
+      defaultPrevented = event.defaultPrevented;
+    });
+    const ref = React.createRef<InputRef>();
+    const { getByRole } = render(
+      <Search
+        ref={ref}
+        enterButton={
+          <button type="button" onMouseDown={onMouseDown}>
+            search
+          </button>
+        }
+      />,
+      { container: document.body },
+    );
+
+    ref.current?.focus();
+    const event = createEvent.mouseDown(getByRole('button'));
+    fireEvent(getByRole('button'), event);
+    expect(onMouseDown).toHaveBeenCalledTimes(1);
+    expect(defaultPrevented).toBe(false);
+    expect(event.defaultPrevented).toBe(true);
   });
 
   it('should trigger onSearch when press enter', () => {
@@ -214,6 +326,13 @@ describe('Input.Search', () => {
   // https://github.com/ant-design/ant-design/issues/27258
   it('Search with allowClear should have one className only', () => {
     const { container } = render(<Search allowClear className="bamboo" />);
+    expect(container.querySelectorAll('.bamboo')).toHaveLength(1);
+    expect(container.querySelector('.ant-input-search')).toHaveClass('bamboo');
+    expect(container.querySelector('.ant-input-affix-wrapper')).not.toHaveClass('bamboo');
+  });
+
+  it('Search with allowClear should have one rootClassName only', () => {
+    const { container } = render(<Search allowClear rootClassName="bamboo" />);
     expect(container.querySelectorAll('.bamboo')).toHaveLength(1);
     expect(container.querySelector('.ant-input-search')).toHaveClass('bamboo');
     expect(container.querySelector('.ant-input-affix-wrapper')).not.toHaveClass('bamboo');
@@ -357,5 +476,50 @@ describe('Input.Search', () => {
     expect(button).toHaveStyle('color: rgb(0, 255, 0)');
     expect(buttonIcon).toHaveStyle('color: rgb(255, 0, 0)');
     expect(buttonContent).toHaveStyle('color: rgb(0, 255, 0)');
+  });
+
+  describe('searchIcon', () => {
+    it('should support custom searchIcon', () => {
+      const { container } = render(<Search searchIcon={<div>bamboo</div>} />);
+      expect(container.querySelector('.ant-input-search-btn')).toHaveTextContent('bamboo');
+    });
+
+    it('should support ConfigProvider searchIcon', () => {
+      const { container } = render(
+        <ConfigProvider inputSearch={{ searchIcon: <div>foobar</div> }}>
+          <Search />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-input-search-btn')).toHaveTextContent('foobar');
+    });
+
+    it('should prefer prop searchIcon over ConfigProvider searchIcon', () => {
+      const { container } = render(
+        <ConfigProvider inputSearch={{ searchIcon: <div>foobar</div> }}>
+          <Search searchIcon={<div>bamboo</div>} />
+        </ConfigProvider>,
+      );
+      expect(container.querySelector('.ant-input-search-btn')).toHaveTextContent('bamboo');
+    });
+  });
+
+  it('should support ConfigProvider className and style', () => {
+    const { container } = render(
+      <ConfigProvider
+        inputSearch={{
+          className: 'bamboo',
+          style: { color: 'rgb(255, 0, 0)', backgroundColor: 'rgb(0, 255, 0)' },
+        }}
+      >
+        <Search style={{ color: 'rgb(0, 0, 255)' }} />
+      </ConfigProvider>,
+    );
+
+    const root = container.querySelector('.ant-input-search');
+    expect(root).toHaveClass('bamboo');
+    expect(root).toHaveStyle({
+      color: 'rgb(0, 0, 255)',
+      backgroundColor: 'rgb(0, 255, 0)',
+    });
   });
 });

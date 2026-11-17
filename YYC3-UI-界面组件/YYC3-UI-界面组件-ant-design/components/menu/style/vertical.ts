@@ -58,11 +58,10 @@ const getVerticalStyle: GenerateStyle<MenuToken> = (token) => {
     colorTextLightSolid,
     dropdownWidth,
     controlHeightLG,
-    motionEaseOut,
+    padding,
     paddingXL,
     itemMarginInline,
     fontSizeLG,
-    motionDurationFast,
     motionDurationSlow,
     paddingXS,
     boxShadowSecondary,
@@ -128,7 +127,6 @@ const getVerticalStyle: GenerateStyle<MenuToken> = (token) => {
             transition: [
               `border-color ${motionDurationSlow}`,
               `background-color ${motionDurationSlow}`,
-              `padding ${motionDurationFast} ${motionEaseOut}`,
             ].join(','),
 
             [`> ${componentCls}-title-content`]: {
@@ -170,9 +168,14 @@ const getVerticalStyle: GenerateStyle<MenuToken> = (token) => {
 
         [`&${componentCls}-root`]: {
           [`${componentCls}-item, ${componentCls}-submenu ${componentCls}-submenu-title`]: {
+            transition: [`border-color`, `background-color`]
+              .map((prop) => `${prop} ${motionDurationSlow}`)
+              .join(','),
+
             [`> ${componentCls}-inline-collapsed-noicon`]: {
               fontSize: fontSizeLG,
               textAlign: 'center',
+              width: '100%',
             },
           },
         },
@@ -183,7 +186,7 @@ const getVerticalStyle: GenerateStyle<MenuToken> = (token) => {
           > ${componentCls}-submenu > ${componentCls}-submenu-title`]: {
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           insetInlineStart: 0,
           paddingInline: `calc(50% - ${unit(token.calc(collapsedIconSize).div(2).equal())} - ${unit(
             itemMarginInline,
@@ -227,6 +230,10 @@ const getVerticalStyle: GenerateStyle<MenuToken> = (token) => {
 
           [`${componentCls}-item-icon, ${iconCls}`]: {
             display: 'none',
+          },
+
+          [`${componentCls}-item-extra`]: {
+            paddingInlineStart: padding,
           },
 
           'a, a:hover': {

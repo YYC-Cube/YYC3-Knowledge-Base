@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import type { UploadRequestOption } from '@rc-component/upload/lib/interface';
+import type { UploadRequestOption } from '@rc-component/upload';
 import { produce } from 'immer';
 import cloneDeep from 'lodash/cloneDeep';
 
-import type { RcFile, UploadFile, UploadProps } from '..';
+import type { RcFile, UploadFile, UploadProps, UploadRef } from '..';
 import Upload from '..';
 import { resetWarned } from '../../_util/warning';
 import mountTest from '../../../tests/shared/mountTest';
@@ -127,7 +127,7 @@ describe('Upload', () => {
       onChange: ({ file }) => {
         if (file.status !== 'uploading') {
           expect(data).toHaveBeenCalled();
-          expect(file.name).toEqual('test.png');
+          expect(file.name).toBe('test.png');
           done();
         }
       },
@@ -399,6 +399,46 @@ describe('Upload', () => {
     expect(linkNode?.getAttribute('rel')).toBe('noopener');
   });
 
+  it.each([
+    [false, false],
+    [false, true],
+    [true, false],
+    [true, true],
+  ])(
+    'should call linkProps.onClick with onPreview=%s and preventDefault=%s',
+    (hasPreview, preventDefault) => {
+      const onClick = jest.fn((event: React.MouseEvent<HTMLAnchorElement>) => {
+        if (preventDefault) {
+          event.preventDefault();
+        }
+      });
+      const onPreview = jest.fn();
+      const file: UploadFile = {
+        uid: '-1',
+        name: 'report.pdf',
+        status: 'done',
+        url: '#report',
+        linkProps: { onClick },
+      };
+      const { getByRole } = render(
+        <Upload defaultFileList={[file]} onPreview={hasPreview ? onPreview : undefined} />,
+      );
+      const link = getByRole('link', { name: file.name });
+
+      expect(fireEvent.click(link)).toBe(!hasPreview && !preventDefault);
+      expect(onClick).toHaveBeenCalledTimes(1);
+      expect(onClick).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'click', target: link }),
+      );
+      if (hasPreview && !preventDefault) {
+        expect(onPreview).toHaveBeenCalledTimes(1);
+        expect(onPreview).toHaveBeenCalledWith(file);
+      } else {
+        expect(onPreview).not.toHaveBeenCalled();
+      }
+    },
+  );
+
   it('should support linkProps as json stringify', () => {
     const linkPropsString = JSON.stringify({
       download: 'image',
@@ -481,6 +521,87 @@ describe('Upload', () => {
 
     expect(onChange).toHaveBeenCalled();
     expect(file.status).toBe('removed');
+  });
+
+  it('should remove from the latest file list after async onRemove resolves', async () => {
+    const removingFile: UploadFile = {
+      uid: '-1',
+      name: 'foo.png',
+      status: 'done',
+    };
+    const ref = React.createRef<UploadRef>();
+    let resolveRemove!: (value: boolean | PromiseLike<boolean>) => void;
+
+    const { container } = render(
+      <Upload
+        ref={ref}
+        defaultFileList={[removingFile]}
+        onRemove={() =>
+          new Promise<boolean>((resolve) => {
+            resolveRemove = resolve;
+          })
+        }
+      />,
+    );
+
+    fireEvent.click(container.querySelector('div.ant-upload-list-item .anticon-delete')!);
+
+    const addedFile = new File([], 'bar.txt') as RcFile;
+    addedFile.uid = '-2';
+    act(() => {
+      ref.current?.onBatchStart?.([{ file: addedFile, parsedFile: addedFile }]);
+    });
+
+    expect(ref.current?.fileList.map((file) => file.name)).toEqual(['foo.png', 'bar.txt']);
+
+    await act(async () => {
+      resolveRemove(true);
+      await Promise.resolve();
+    });
+
+    expect(ref.current?.fileList.map((file) => file.name)).toEqual(['bar.txt']);
+  });
+
+  it('should use the latest controlled file list after async onRemove resolves', async () => {
+    const removingFile: UploadFile = {
+      uid: '-1',
+      name: 'foo.png',
+      status: 'done',
+    };
+    const addedFile: UploadFile = {
+      uid: '-2',
+      name: 'bar.txt',
+      status: 'done',
+    };
+    const onChange = jest.fn();
+    let resolveRemove!: (value: boolean | PromiseLike<boolean>) => void;
+    const getUpload = (fileList: UploadFile[]) => (
+      <Upload
+        fileList={fileList}
+        onChange={onChange}
+        onRemove={() =>
+          new Promise<boolean>((resolve) => {
+            resolveRemove = resolve;
+          })
+        }
+      />
+    );
+
+    const { container, rerender } = render(getUpload([removingFile]));
+    fireEvent.click(container.querySelector('div.ant-upload-list-item .anticon-delete')!);
+
+    rerender(getUpload([removingFile, addedFile]));
+
+    await act(async () => {
+      resolveRemove(true);
+      await Promise.resolve();
+    });
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        fileList: [addedFile],
+      }),
+    );
   });
 
   it('should not stop download when return use onDownload', async () => {
@@ -1079,7 +1200,7 @@ describe('Upload', () => {
   });
 
   it('container ref', () => {
-    const ref = React.createRef<any>();
+    const ref = React.createRef<UploadRef<any>>();
     render(<Upload ref={ref} />);
     expect(ref.current?.nativeElement).toBeTruthy();
     expect(ref.current?.nativeElement instanceof HTMLElement).toBeTruthy();
@@ -1199,6 +1320,82 @@ describe('Upload', () => {
 
     fileListOut.forEach((file) => {
       expect(file.status).toBe('done');
+    });
+  });
+
+  describe('ConfigProvider progress', () => {
+    const uploadingFileList: UploadProps['fileList'] = [
+      {
+        uid: '1',
+        name: 'test.png',
+        status: 'uploading',
+        percent: 50,
+      },
+    ];
+
+    it('should use ConfigProvider progress config when Upload has no progress prop', async () => {
+      const { container } = render(
+        <ConfigProvider upload={{ progress: { showInfo: true } }}>
+          <Upload fileList={uploadingFileList}>
+            <button type="button">upload</button>
+          </Upload>
+        </ConfigProvider>,
+      );
+
+      // ListItem delays showing progress by 300ms
+      await act(async () => {
+        jest.advanceTimersByTime(300);
+      });
+
+      const progressBar = container.querySelector('.ant-upload-list-item-progress');
+      expect(progressBar).toBeTruthy();
+      const progressWithInfo = container.querySelector('.ant-progress-show-info');
+      expect(progressWithInfo).toBeTruthy();
+    });
+
+    it('should prefer Upload progress prop over ConfigProvider progress', async () => {
+      const { container } = render(
+        <ConfigProvider upload={{ progress: { showInfo: true } }}>
+          <Upload fileList={uploadingFileList} progress={{ showInfo: false }}>
+            <button type="button">upload</button>
+          </Upload>
+        </ConfigProvider>,
+      );
+
+      await act(async () => {
+        jest.advanceTimersByTime(300);
+      });
+
+      const progressBar = container.querySelector('.ant-upload-list-item-progress');
+      expect(progressBar).toBeTruthy();
+      const progressWithInfo = container.querySelector('.ant-progress-show-info');
+      expect(progressWithInfo).toBeFalsy();
+    });
+  });
+
+  describe('ConfigProvider accept', () => {
+    it('should use ConfigProvider accept when Upload has no accept prop', () => {
+      const { container } = render(
+        <ConfigProvider upload={{ accept: 'image/*' }}>
+          <Upload>
+            <button type="button">upload</button>
+          </Upload>
+        </ConfigProvider>,
+      );
+      const input = container.querySelector('input[type="file"]');
+      expect(input?.getAttribute('accept')).toBe('image/*');
+    });
+
+    it('should prefer Upload accept prop over ConfigProvider accept', () => {
+      const { container } = render(
+        <ConfigProvider upload={{ accept: 'image/*' }}>
+          <Upload accept=".pdf">
+            <button type="button">upload</button>
+          </Upload>
+        </ConfigProvider>,
+      );
+      const input = container.querySelector('input[type="file"]');
+      expect(input?.getAttribute('accept')).toBe('.pdf');
     });
   });
 });

@@ -4,12 +4,13 @@ import RightOutlined from '@ant-design/icons/RightOutlined';
 import RcDropdown from '@rc-component/dropdown';
 import type { MenuProps as RcMenuProps } from '@rc-component/menu';
 import type { AlignType } from '@rc-component/trigger';
-import { omit, useControlledState, useEvent } from '@rc-component/util';
+import { getNodeRef, omit, useComposeRef, useControlledState, useEvent } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic, useZIndex } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
-import { isPrimitive } from '../_util/is';
+import { useZIndex } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
+import { isPlainObject, isPrimitive, isString } from '../_util/is';
 import type { AdjustOverflow } from '../_util/placements';
 import getPlacements from '../_util/placements';
 import genPurePanel from '../_util/PurePanel';
@@ -33,6 +34,12 @@ const _Placements = [
   'bottomRight',
   'top',
   'bottom',
+  'left',
+  'leftTop',
+  'leftBottom',
+  'right',
+  'rightTop',
+  'rightBottom',
 ] as const;
 
 type Placement = (typeof _Placements)[number];
@@ -42,36 +49,31 @@ type DropdownPlacement = Exclude<Placement, 'topCenter' | 'bottomCenter'>;
 export type DropdownArrowOptions = {
   pointAtCenter?: boolean;
 };
-
-export type DropdownSemanticName = keyof DropdownSemanticClassNames & keyof DropdownSemanticStyles;
-
-export type DropdownSemanticClassNames = {
-  root?: string;
-  item?: string;
-  itemTitle?: string;
-  itemIcon?: string;
-  itemContent?: string;
+export type DropdownSemanticType = {
+  classNames?: {
+    root?: string;
+    menu?: string;
+    item?: string;
+    itemTitle?: string;
+    itemIcon?: string;
+    itemContent?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    menu?: React.CSSProperties;
+    item?: React.CSSProperties;
+    itemTitle?: React.CSSProperties;
+    itemIcon?: React.CSSProperties;
+    itemContent?: React.CSSProperties;
+  };
 };
 
-export type DropdownSemanticStyles = {
-  root?: React.CSSProperties;
-  item?: React.CSSProperties;
-  itemTitle?: React.CSSProperties;
-  itemIcon?: React.CSSProperties;
-  itemContent?: React.CSSProperties;
-};
-
-export type DropdownClassNamesType = SemanticClassNamesType<
-  DropdownProps,
-  DropdownSemanticClassNames
->;
-
-export type DropdownStylesType = SemanticStylesType<DropdownProps, DropdownSemanticStyles>;
+export type DropdownSemanticAllType = GenerateSemantic<DropdownSemanticType, DropdownProps>;
 
 export interface DropdownProps {
-  classNames?: DropdownClassNamesType;
-  styles?: DropdownStylesType;
-  menu?: MenuProps & { activeKey?: RcMenuProps['activeKey'] };
+  classNames?: DropdownSemanticAllType['classNamesAndFn'];
+  styles?: DropdownSemanticAllType['stylesAndFn'];
+  menu?: Omit<MenuProps, 'classNames' | 'styles'> & { activeKey?: RcMenuProps['activeKey'] };
   autoFocus?: boolean;
   arrow?: boolean | DropdownArrowOptions;
   trigger?: ('click' | 'hover' | 'contextMenu')[];
@@ -106,11 +108,13 @@ export interface DropdownProps {
   autoAdjustOverflow?: boolean | AdjustOverflow;
 }
 
-type CompoundedComponent = React.FC<DropdownProps> & {
+type CompoundedComponent = React.ForwardRefExoticComponent<
+  DropdownProps & React.RefAttributes<HTMLElement>
+> & {
   _InternalPanelDoNotUseOrYouWillBeFired: typeof WrapPurePanel;
 };
 
-const Dropdown: CompoundedComponent = (props) => {
+const Dropdown: CompoundedComponent = React.forwardRef<HTMLElement, DropdownProps>((props, ref) => {
   const {
     menu,
     arrow,
@@ -153,17 +157,18 @@ const Dropdown: CompoundedComponent = (props) => {
     mouseLeaveDelay,
     autoAdjustOverflow,
   };
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const overlayStyleRoot = useSemanticRootStyle(overlayStyle);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    DropdownClassNamesType,
-    DropdownStylesType,
+    DropdownSemanticAllType['classNames'],
+    DropdownSemanticAllType['styles'],
     DropdownProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, overlayStyleRoot], {
     props: mergedProps,
   });
 
   const mergedRootStyles: React.CSSProperties = {
-    ...contextStyle,
-    ...overlayStyle,
     ...mergedStyles.root,
   };
 
@@ -198,8 +203,14 @@ const Dropdown: CompoundedComponent = (props) => {
     if (transitionName !== undefined) {
       return transitionName;
     }
-    if (placement.includes('top')) {
+    if (placement.startsWith('top')) {
       return `${rootPrefixCls}-slide-down`;
+    }
+    if (placement.startsWith('left')) {
+      return `${rootPrefixCls}-slide-right`;
+    }
+    if (placement.startsWith('right')) {
+      return `${rootPrefixCls}-slide-left`;
     }
     return `${rootPrefixCls}-slide-up`;
   }, [getPrefixCls, placement, transitionName]);
@@ -224,10 +235,9 @@ const Dropdown: CompoundedComponent = (props) => {
 
   const child = React.Children.only(
     isPrimitive(children) ? <span>{children}</span> : children,
-  ) as React.ReactElement<{
-    className?: string;
-    disabled?: boolean;
-  }>;
+  ) as React.ReactElement<{ className?: string; disabled?: boolean }>;
+
+  const composedRef = useComposeRef(ref, getNodeRef(child));
 
   const popupTrigger = cloneElement(child, {
     className: clsx(
@@ -236,6 +246,7 @@ const Dropdown: CompoundedComponent = (props) => {
       child.props.className,
     ),
     disabled: child.props.disabled ?? disabled,
+    ref: composedRef,
   });
   const triggerActions = disabled ? [] : trigger;
   const alignPoint = !!triggerActions?.includes('contextMenu');
@@ -261,7 +272,7 @@ const Dropdown: CompoundedComponent = (props) => {
   );
 
   const builtinPlacements = getPlacements({
-    arrowPointAtCenter: typeof arrow === 'object' && arrow.pointAtCenter,
+    arrowPointAtCenter: isPlainObject(arrow) && arrow.pointAtCenter,
     autoAdjustOverflow,
     offset: token.marginXXS,
     arrowWidth: arrow ? token.sizePopupArrow : 0,
@@ -279,20 +290,22 @@ const Dropdown: CompoundedComponent = (props) => {
   const renderOverlay = () => {
     // @rc-component/dropdown already can process the function of overlay, but we have check logic here.
     // So we need render the element to check and pass back to @rc-component/dropdown.
-    const menuClassNames = omit(mergedClassNames, ['root']);
-    const menuStyles = omit(mergedStyles, ['root']);
+    const menuClassNames = omit(mergedClassNames, ['root', 'menu']);
+    const menuStyles = omit(mergedStyles, ['root', 'menu']);
     let overlayNode: React.ReactNode;
     if (menu?.items) {
       overlayNode = (
         <Menu
           {...menu}
           classNames={{
+            root: mergedClassNames.menu,
             ...menuClassNames,
             subMenu: {
               ...menuClassNames,
             },
           }}
           styles={{
+            root: mergedStyles.menu,
             ...menuStyles,
             subMenu: {
               ...menuStyles,
@@ -304,9 +317,11 @@ const Dropdown: CompoundedComponent = (props) => {
     if (mergedPopupRender) {
       overlayNode = mergedPopupRender(overlayNode);
     }
-    overlayNode = React.Children.only(
-      typeof overlayNode === 'string' ? <span>{overlayNode}</span> : overlayNode,
-    );
+    if (isString(overlayNode)) {
+      overlayNode = <span>{overlayNode}</span>;
+    } else if (!React.isValidElement(overlayNode)) {
+      overlayNode = <>{overlayNode}</>;
+    }
     return (
       <OverrideProvider
         prefixCls={`${prefixCls}-menu`}
@@ -347,7 +362,7 @@ const Dropdown: CompoundedComponent = (props) => {
       {...omit(props, ['rootClassName', 'onOpenChange'])}
       mouseEnterDelay={mouseEnterDelay}
       mouseLeaveDelay={mouseLeaveDelay}
-      visible={mergedOpen}
+      open={mergedOpen}
       builtinPlacements={builtinPlacements}
       arrow={!!arrow}
       overlayClassName={overlayClassNameCustomized}
@@ -356,8 +371,8 @@ const Dropdown: CompoundedComponent = (props) => {
       transitionName={memoTransitionName}
       trigger={triggerActions}
       overlay={renderOverlay}
-      placement={memoPlacement}
-      onVisibleChange={onInnerOpenChange}
+      placement={memoPlacement as React.ComponentProps<typeof RcDropdown>['placement']}
+      onOpenChange={onInnerOpenChange}
       overlayStyle={{ ...mergedRootStyles, zIndex }}
       autoDestroy={destroyOnHidden ?? destroyPopupOnHide}
     >
@@ -372,7 +387,7 @@ const Dropdown: CompoundedComponent = (props) => {
   }
 
   return renderNode;
-};
+}) as CompoundedComponent;
 
 // We don't care debug panel
 const PurePanel = genPurePanel(Dropdown, 'align', undefined, 'dropdown', (prefixCls) => prefixCls);

@@ -3,6 +3,11 @@ import { render } from '@testing-library/react';
 
 import type { InputProps } from '..';
 import Input from '..';
+import ConfigProvider from '../../config-provider';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 
 const testClassNames = {
   root: 'custom-root',
@@ -10,6 +15,7 @@ const testClassNames = {
   input: 'custom-input',
   textarea: 'custom-textarea',
   suffix: 'custom-suffix',
+  clear: 'custom-clear',
   count: 'custom-count',
   separator: 'custom-separator',
   button: {
@@ -25,6 +31,7 @@ const testStyles = {
   textarea: { color: 'rgb(0, 255, 0)' },
   prefix: { color: 'rgb(255, 255, 0)' },
   suffix: { color: 'rgb(128, 0, 128)' },
+  clear: { color: 'rgb(255, 20, 147)' },
   count: { color: 'rgb(255, 165, 0)' },
   separator: { color: 'rgb(255, 192, 203)' },
   button: {
@@ -39,6 +46,7 @@ describe('Input.Semantic', () => {
     const { container } = render(
       <Input
         value="123"
+        allowClear
         showCount
         prefix="prefix"
         suffix="suffix"
@@ -51,6 +59,7 @@ describe('Input.Semantic', () => {
     const input = container.querySelector('.ant-input');
     const prefix = container.querySelector('.ant-input-prefix');
     const suffix = container.querySelector('.ant-input-suffix');
+    const clear = container.querySelector('.custom-clear');
     const count = container.querySelector('.ant-input-show-count-suffix');
 
     expect(root).toHaveClass(testClassNames.root);
@@ -61,23 +70,28 @@ describe('Input.Semantic', () => {
     expect(prefix).toHaveStyle(testStyles.prefix);
     expect(suffix).toHaveClass(testClassNames.suffix);
     expect(suffix).toHaveStyle(testStyles.suffix);
+    expect(clear).toHaveClass(testClassNames.clear);
+    expect(clear).toHaveStyle(testStyles.clear);
     expect(count).toHaveClass(testClassNames.count);
     expect(count).toHaveStyle(testStyles.count);
   });
 
   it('textarea should support classNames and styles', () => {
     const { container } = render(
-      <Input.TextArea classNames={testClassNames} styles={testStyles} showCount />,
+      <Input.TextArea allowClear classNames={testClassNames} styles={testStyles} showCount />,
     );
 
     const root = container.querySelector('.ant-input-textarea-affix-wrapper');
     const textarea = container.querySelector('textarea');
+    const clear = container.querySelector('.custom-clear');
     const count = container.querySelector('.ant-input-data-count');
 
     expect(root).toHaveClass(testClassNames.root);
     expect(root).toHaveStyle(testStyles.root);
     expect(textarea).toHaveClass(testClassNames.textarea);
     expect(textarea).toHaveStyle(testStyles.textarea);
+    expect(clear).toHaveClass(testClassNames.clear);
+    expect(clear).toHaveStyle(testStyles.clear);
     expect(count).toHaveClass(testClassNames.count);
     expect(count).toHaveStyle(testStyles.count);
   });
@@ -86,6 +100,7 @@ describe('Input.Semantic', () => {
     const { container, getByText } = render(
       <Input.Search
         loading
+        allowClear
         enterButton="button text"
         classNames={testClassNames}
         styles={testStyles}
@@ -99,6 +114,7 @@ describe('Input.Semantic', () => {
     const input = container.querySelector('.ant-input');
     const prefix = container.querySelector('.ant-input-prefix');
     const suffix = container.querySelector('.ant-input-suffix');
+    const clear = container.querySelector('.custom-clear');
     const button = container.querySelector('.ant-btn');
     const buttonIcon = container.querySelector('.ant-btn-icon');
     const buttonContent = getByText('button text');
@@ -112,6 +128,8 @@ describe('Input.Semantic', () => {
     expect(prefix).toHaveStyle(testStyles.prefix);
     expect(suffix).toHaveClass(testClassNames.suffix);
     expect(suffix).toHaveStyle(testStyles.suffix);
+    expect(clear).toHaveClass(testClassNames.clear);
+    expect(clear).toHaveStyle(testStyles.clear);
     expect(button).toHaveClass(testClassNames.button.root);
     expect(button).toHaveStyle(testStyles.button.root);
     expect(buttonIcon).toHaveClass(testClassNames.button.icon);
@@ -122,9 +140,28 @@ describe('Input.Semantic', () => {
     expect(count).toHaveStyle(testStyles.count);
   });
 
+  it('search should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        inputSearch={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Input.Search
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-input-search'));
+  });
+
   it('password should support classNames and styles', () => {
     const { container } = render(
       <Input.Password
+        allowClear
         classNames={testClassNames}
         styles={testStyles}
         showCount
@@ -136,6 +173,7 @@ describe('Input.Semantic', () => {
     const input = container.querySelector('.ant-input');
     const prefix = container.querySelector('.ant-input-prefix');
     const suffix = container.querySelector('.ant-input-suffix');
+    const clear = container.querySelector('.custom-clear');
     const count = container.querySelector('.ant-input-show-count-suffix');
 
     expect(root).toHaveClass(testClassNames.root);
@@ -146,8 +184,28 @@ describe('Input.Semantic', () => {
     expect(prefix).toHaveStyle(testStyles.prefix);
     expect(suffix).toHaveClass(testClassNames.suffix);
     expect(suffix).toHaveStyle(testStyles.suffix);
+    expect(clear).toHaveClass(testClassNames.clear);
+    expect(clear).toHaveStyle(testStyles.clear);
     expect(count).toHaveClass(testClassNames.count);
     expect(count).toHaveStyle(testStyles.count);
+  });
+
+  it('password should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        inputPassword={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Input.Password
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-input-affix-wrapper'));
   });
 
   it('otp should support classNames and styles', () => {
@@ -174,19 +232,78 @@ describe('Input.Semantic', () => {
     };
     const styles: InputProps['styles'] = (info) => {
       if (info.props.size === 'large') {
-        return { root: { background: 'red' } };
+        return { root: { backgroundColor: 'rgb(255, 0, 0)' } };
       }
-      return { root: { background: 'blue' } };
+      return { root: { backgroundColor: 'rgb(0, 0, 255)' } };
     };
 
     const { rerender, container } = render(
       <Input size="large" classNames={classNames} styles={styles} />,
     );
     expect(container.querySelector('.ant-input')).toHaveClass('input-enabled');
-    expect(container.querySelector('.ant-input')).toHaveStyle({ background: 'red' });
+    expect(container.querySelector('.ant-input')).toHaveStyle({
+      backgroundColor: 'rgb(255, 0, 0)',
+    });
 
     rerender(<Input disabled classNames={classNames} styles={styles} />);
     expect(container.querySelector('.ant-input')).toHaveClass('input-disabled');
-    expect(container.querySelector('.ant-input')).toHaveStyle({ background: 'blue' });
+    expect(container.querySelector('.ant-input')).toHaveStyle({
+      backgroundColor: 'rgb(0, 0, 255)',
+    });
+  });
+  it('input should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        input={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Input
+          prefix="prefix"
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-input-affix-wrapper'));
+  });
+
+  it('textarea should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        textArea={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Input.TextArea
+          allowClear
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-input-textarea-affix-wrapper'));
+  });
+
+  it('otp should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        otp={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Input.OTP
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-otp'));
   });
 });

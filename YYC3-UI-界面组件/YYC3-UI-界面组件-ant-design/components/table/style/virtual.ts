@@ -5,7 +5,7 @@ import type { GenerateStyle } from '../../theme/internal';
 import type { TableToken } from './index';
 
 const genVirtualStyle: GenerateStyle<TableToken, CSSObject> = (token) => {
-  const { componentCls, motionDurationMid, lineWidth, lineType, tableBorderColor, calc } = token;
+  const { componentCls, motionDurationMid, lineWidth, lineType, tableBorderColor } = token;
 
   const tableBorder = `${unit(lineWidth)} ${lineType} ${tableBorderColor}`;
 
@@ -15,6 +15,14 @@ const genVirtualStyle: GenerateStyle<TableToken, CSSObject> = (token) => {
     [`${componentCls}-wrapper`]: {
       // ========================== Row ==========================
       [`${componentCls}-tbody-virtual`]: {
+        [`${componentCls}-tbody-virtual-scrollbar`]: {
+          cursor: 'pointer',
+
+          '&:hover': {
+            backgroundColor: token.colorFillQuaternary,
+          },
+        },
+
         [`${componentCls}-tbody-virtual-holder-inner`]: {
           [`
             & > ${componentCls}-row,
@@ -23,6 +31,10 @@ const genVirtualStyle: GenerateStyle<TableToken, CSSObject> = (token) => {
             display: 'flex',
             boxSizing: 'border-box',
             width: '100%',
+
+            [`> ${componentCls}-cell`]: {
+              alignContent: 'center',
+            },
           },
         },
 
@@ -55,14 +67,6 @@ const genVirtualStyle: GenerateStyle<TableToken, CSSObject> = (token) => {
 
           [`${componentCls}-cell`]: {
             borderInlineEnd: tableBorder,
-
-            [`&${componentCls}-cell-fix-right-first:before`]: {
-              content: '""',
-              position: 'absolute',
-              insetBlock: 0,
-              insetInlineStart: calc(lineWidth).mul(-1).equal(),
-              borderInlineStart: tableBorder,
-            },
           },
         },
 

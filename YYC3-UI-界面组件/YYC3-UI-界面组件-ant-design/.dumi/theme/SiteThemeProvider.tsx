@@ -1,9 +1,9 @@
 import React from 'react';
+import { updateCSS } from '@rc-component/util';
 import { theme as antdTheme, ConfigProvider } from 'antd';
 import type { ThemeConfig } from 'antd';
 import type { ThemeProviderProps } from 'antd-style';
 import { ThemeProvider } from 'antd-style';
-import { updateCSS } from '@rc-component/util/lib/Dom/dynamicCSS';
 
 import SiteContext from './slots/SiteContext';
 
@@ -41,7 +41,7 @@ const SiteThemeProvider: React.FC<ThemeProviderProps<any>> = ({ children, theme,
     ConfigProvider.config({ theme: theme as ThemeConfig });
   }, [theme]);
 
-  React.useEffect(() => {
+  React.useInsertionEffect(() => {
     // iframe demo 生效
     if (window.parent !== window) {
       updateCSS(

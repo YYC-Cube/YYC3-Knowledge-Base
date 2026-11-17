@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ValidateMessages } from '@rc-component/form/lib/interface';
+import type { ValidateMessages } from '@rc-component/form';
 
 import { devUseWarning } from '../_util/warning';
 import type { PickerLocale as DatePickerLocale } from '../date-picker/generatePicker';
@@ -8,6 +8,7 @@ import type { ModalLocale } from '../modal/interface';
 import { changeConfirmLocale } from '../modal/locale';
 import type { PaginationLocale } from '../pagination/Pagination';
 import type { PopconfirmLocale } from '../popconfirm/PurePanel';
+import type { SplitterLocale } from '../splitter/interface';
 import type { TableLocale } from '../table/interface';
 import type { TourLocale } from '../tour/interface';
 import type { TransferLocale } from '../transfer';
@@ -28,6 +29,7 @@ export interface Locale {
   Modal?: ModalLocale;
   Tour?: TourLocale;
   Popconfirm?: PopconfirmLocale;
+  Splitter?: SplitterLocale;
   Transfer?: TransferLocale;
   Select?: Record<string, any>;
   Upload?: UploadLocale;
@@ -36,6 +38,9 @@ export interface Locale {
     placeholder?: string;
     close?: string;
     sortable?: string;
+    show?: string;
+    hide?: string;
+    clear?: string;
   };
   Icon?: Record<string, any>;
   Text?: {
@@ -53,6 +58,14 @@ export interface Locale {
     expired?: string;
     refresh?: string;
     scanned?: string;
+  };
+  Carousel?: {
+    prevSlide: string;
+    nextSlide: string;
+  };
+  Input?: {
+    /** Accessible name of each `Input.OTP` cell, `${index}` and `${total}` are replaced */
+    otpCell?: string;
   };
   ColorPicker?: {
     presetEmpty: string;

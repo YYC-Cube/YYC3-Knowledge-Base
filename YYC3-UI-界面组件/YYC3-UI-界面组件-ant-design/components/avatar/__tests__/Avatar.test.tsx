@@ -35,6 +35,17 @@ describe('Avatar Render', () => {
     });
   });
 
+  it('should support Avatar.Group nativeElement ref', () => {
+    const ref = React.createRef<React.ComponentRef<typeof Avatar.Group>>();
+    const { container } = render(
+      <Avatar.Group ref={ref}>
+        <Avatar />
+      </Avatar.Group>,
+    );
+
+    expect(ref.current?.nativeElement).toBe(container.querySelector('.ant-avatar-group'));
+  });
+
   it('Render long string correctly', () => {
     const { container } = render(<Avatar>TestString</Avatar>);
     expect(container.querySelectorAll('.ant-avatar-string').length).toBe(1);
@@ -53,7 +64,7 @@ describe('Avatar Render', () => {
 
   it('should handle onError correctly', () => {
     const LOAD_FAILURE_SRC = 'http://error.url/';
-    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/7.x/pixel-art/svg';
+    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/10.x/pixel-art/svg';
     const Foo: React.FC = () => {
       const [avatarSrc, setAvatarSrc] = useState<typeof LOAD_FAILURE_SRC | typeof LOAD_SUCCESS_SRC>(
         LOAD_FAILURE_SRC,
@@ -75,7 +86,7 @@ describe('Avatar Render', () => {
 
   it('should show image on success after a failure state', () => {
     const LOAD_FAILURE_SRC = 'http://error.url';
-    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/7.x/pixel-art/svg';
+    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/10.x/pixel-art/svg';
 
     const div = global.document.createElement('div');
     global.document.body.appendChild(div);
@@ -100,6 +111,29 @@ describe('Avatar Render', () => {
     expect(container.querySelectorAll('.ant-avatar-image').length).toBe(1);
 
     global.document.body.removeChild(div);
+  });
+
+  it('should retry image load when srcSet changes after a failure state', () => {
+    const LOAD_FAILURE_SRC = 'http://error.url';
+    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/10.x/pixel-art/svg';
+
+    const { container, rerender } = render(
+      <Avatar src={LOAD_SUCCESS_SRC} srcSet={`${LOAD_FAILURE_SRC} 1x`}>
+        Fallback
+      </Avatar>,
+    );
+
+    fireEvent.error(container.querySelector('img')!);
+
+    expect(container.querySelectorAll('.ant-avatar-string').length).toBe(1);
+
+    rerender(
+      <Avatar src={LOAD_SUCCESS_SRC} srcSet={`${LOAD_SUCCESS_SRC} 1x`}>
+        Fallback
+      </Avatar>,
+    );
+
+    expect(container.querySelector('img')).toHaveAttribute('srcset', `${LOAD_SUCCESS_SRC} 1x`);
   });
 
   it('should calculate scale of avatar children correctly', () => {
@@ -146,6 +180,39 @@ describe('Avatar Render', () => {
     });
   });
 
+  it('should retain the configured size when a larger breakpoint matches', () => {
+    const screens = { sm: true, md: true, lg: true, xl: true, xxl: true, xxxl: false };
+    const mockUseBreakpoint = jest.mocked(useBreakpoint);
+    mockUseBreakpoint.mockReturnValue(screens);
+    const { container, rerender } = render(<Avatar size={{ xxl: 100 }}>A</Avatar>);
+    const avatar = container.firstChild;
+    expect(avatar).toHaveStyle({ width: '100px', height: '100px', fontSize: '50px' });
+
+    mockUseBreakpoint.mockReturnValue({ ...screens, xxxl: true });
+    rerender(<Avatar size={{ xxl: 100 }}>A</Avatar>);
+    expect(avatar).toHaveStyle({ width: '100px', height: '100px', fontSize: '50px' });
+
+    rerender(<Avatar size={{ xxl: 100, xxxl: 120 }}>A</Avatar>);
+    expect(avatar).toHaveStyle({ width: '120px', height: '120px', fontSize: '60px' });
+
+    mockUseBreakpoint.mockReturnValue(screens);
+    rerender(<Avatar size={{ xxl: 100, xxxl: 120 }}>A</Avatar>);
+    expect(avatar).toHaveStyle({ width: '100px', height: '100px', fontSize: '50px' });
+  });
+
+  it('should only use sizes from matching breakpoints', () => {
+    jest.mocked(useBreakpoint).mockReturnValue({ xs: false, sm: true, md: true, lg: true });
+    const { container, rerender } = render(<Avatar size={{ md: 40, xxl: 100 }}>A</Avatar>);
+    const avatar = container.firstChild as HTMLElement;
+    expect(avatar).toHaveStyle({ width: '40px', height: '40px', fontSize: '20px' });
+
+    jest.mocked(useBreakpoint).mockReturnValue({ xs: true, sm: false, md: false, lg: false });
+    rerender(<Avatar size={{ md: 40, xxl: 100 }}>A</Avatar>);
+    expect(avatar.style.width).toBe('');
+    expect(avatar.style.height).toBe('');
+    expect(avatar.style.fontSize).toBe('');
+  });
+
   it('support onMouseEnter', () => {
     const onMouseEnter = jest.fn();
     const { container } = render(<Avatar {...{ onMouseEnter }}>TestString</Avatar>);
@@ -167,7 +234,7 @@ describe('Avatar Render', () => {
   });
 
   it('should exist crossorigin attribute', () => {
-    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/7.x/pixel-art/svg';
+    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/10.x/pixel-art/svg';
     const crossOrigin = 'anonymous';
     const { container } = render(
       <Avatar src={LOAD_SUCCESS_SRC} crossOrigin={crossOrigin}>
@@ -175,11 +242,11 @@ describe('Avatar Render', () => {
       </Avatar>,
     );
     expect(container.querySelector('img')?.crossOrigin).toBeTruthy();
-    expect(container.querySelector('img')?.crossOrigin).toEqual(crossOrigin);
+    expect(container.querySelector('img')?.crossOrigin).toBe(crossOrigin);
   });
 
   it('should not exist crossorigin attribute', () => {
-    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/7.x/pixel-art/svg';
+    const LOAD_SUCCESS_SRC = 'https://api.dicebear.com/10.x/pixel-art/svg';
     const { container } = render(<Avatar src={LOAD_SUCCESS_SRC}>crossorigin</Avatar>);
     expect(container.querySelector('img')?.crossOrigin).toBeFalsy();
     expect(container.querySelector('img')?.crossOrigin).toBeFalsy();
@@ -300,5 +367,10 @@ describe('Avatar Render', () => {
 
     /* check style */
     expect(container.querySelector('.ant-popover-open')).toHaveStyle('color: rgb(0, 0, 255)');
+  });
+
+  it('should render numeric 0 custom icon', () => {
+    const { container } = render(<Avatar icon={0} />);
+    expect(container.querySelector('.ant-avatar-icon')?.textContent).toBe('0');
   });
 });

@@ -27,7 +27,7 @@ demo:
 <code src="./demo/variant.tsx" version="5.13.0">形态变体</code>
 <code src="./demo/status.tsx">自定义状态</code>
 <code src="./demo/maxCount.tsx" version="5.23.0">最大选中数量</code>
-<code src="./demo/suffix.tsx" version="5.22.0">前后缀</code>
+<code src="./demo/suffix.tsx" version="6.7.0">前后缀</code>
 <code src="./demo/style-class.tsx" version="6.0.0">自定义语义结构的样式和类</code>
 <code src="./demo/render-panel.tsx" debug>\_InternalPanelDoNotUseOrYouWillBeFired</code>
 <code src="./demo/component-token.tsx" debug>组件 Token</code>
@@ -38,72 +38,85 @@ demo:
 
 ### Tree props
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| allowClear | 自定义清除按钮 | boolean \| { clearIcon?: ReactNode } | false | 5.8.0: 支持对象形式 |
-| ~~autoClearSearchValue~~ | 当多选模式下值被选择，自动清空搜索框 | boolean | true |  |
-| ~~bordered~~ | 是否带边框，请使用 `variant` 替代 | boolean | true | - |
-| classNames | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - |  |
-| defaultOpen | 是否默认展开下拉菜单 | boolean | - |  |
-| defaultValue | 指定默认选中的条目 | string \| string\[] | - |  |
-| disabled | 是否禁用 | boolean | false |  |
-| ~~dropdownClassName~~ | 下拉菜单的 className 属性，请使用 `classNames.popup.root` 替代 | string | - | - |
-| ~~dropdownMatchSelectWidth~~ | 下拉菜单和选择器是否同宽，请使用 `popupMatchSelectWidth` 替代 | boolean \| number | true | - |
-| ~~popupClassName~~ | 下拉菜单的 className 属性，使用 `classNames.popup.root` 替换 | string | - | 4.23.0 |
-| popupMatchSelectWidth | 下拉菜单和选择器同宽。默认将设置 `min-width`，当值小于选择框宽度时会被忽略。false 时会关闭虚拟滚动 | boolean \| number | true | 5.5.0 |
-| ~~dropdownRender~~ | 自定义下拉框内容，使用 `popupRender` 替换 | (originNode: ReactNode, props) => ReactNode | - |  |
-| popupRender | 自定义下拉框内容 | (originNode: ReactNode, props) => ReactNode | - |  |
-| ~~dropdownStyle~~ | 下拉菜单的样式，使用 `styles.popup.root` 替换 | object | - |  |
-| fieldNames | 自定义节点 label、value、children 的字段 | object | { label: `label`, value: `value`, children: `children` } | 4.17.0 |
-| ~~filterTreeNode~~ | 是否根据输入项进行筛选，默认用 treeNodeFilterProp 的值作为要筛选的 TreeNode 的属性值 | boolean \| function(inputValue: string, treeNode: TreeNode) (函数需要返回 bool 值) | function |  |
-| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。[示例](https://codepen.io/afc163/pen/zEjNOy?editors=0010) | function(triggerNode) | () => document.body |  |
-| labelInValue | 是否把每个选项的 label 包装到 value 中，会把 value 类型从 `string` 变为 {value: string, label: ReactNode, halfChecked: boolean(选项列表是否为半选状态，并且不会展示到值中) } 的格式 | boolean | false |  |
-| listHeight | 设置弹窗滚动高度 | number | 256 |  |
-| loadData | 异步加载数据。在过滤时不会调用以防止网络堵塞，可参考 FAQ 获得更多内容 | function(node) | - |  |
-| maxCount | 指定可选中的最多 items 数量，仅在 `multiple=true` 时生效。如果此时 (`showCheckedStrategy = 'SHOW_ALL'` 且未开启 `treeCheckStrictly`)，或使用 `showCheckedStrategy = 'SHOW_PARENT'`，则maxCount无效。 | number | - | 5.23.0 |
-| maxTagCount | 最多显示多少个 tag，响应式模式会对性能产生损耗 | number \| `responsive` | - | responsive: 4.10 |
-| maxTagPlaceholder | 隐藏 tag 时显示的内容 | ReactNode \| function(omittedValues) | - |  |
-| maxTagTextLength | 最大显示的 tag 文本长度 | number | - |  |
-| multiple | 支持多选（当设置 treeCheckable 时自动变为 true） | boolean | false |  |
-| notFoundContent | 当下拉列表为空时显示的内容 | ReactNode | `Not Found` |  |
-| open | 是否展开下拉菜单 | boolean | - |  |
-| placeholder | 选择框默认文字 | string | - |  |
-| placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  |
-| prefix | 自定义前缀 | ReactNode | - | 5.22.0 |
-| ~~searchValue~~ | 搜索框的值，可以通过 `onSearch` 获取用户输入 | string | - |  |
-| ~~showArrow~~ | 是否显示箭头图标，请使用 `suffixIcon={null}` 替代 | boolean | true | - |
-| showCheckedStrategy | 配置 `treeCheckable` 时，定义选中项回填的方式。`TreeSelect.SHOW_ALL`: 显示所有选中节点(包括父节点)。`TreeSelect.SHOW_PARENT`: 只显示父节点(当父节点下所有子节点都选中时)。 默认只显示子节点 | `TreeSelect.SHOW_ALL` \| `TreeSelect.SHOW_PARENT` \| `TreeSelect.SHOW_CHILD` | `TreeSelect.SHOW_CHILD` |  |
-| showSearch | 是否支持搜索框 | boolean \| [Object](#showsearch) | 单选：false \| 多选：true |  |
-| size | 选择框大小 | `large` \| `medium` \| `small` | - |  |
-| status | 设置校验状态 | 'error' \| 'warning' | - | 4.19.0 |
-| suffixIcon | 自定义的选择框后缀图标 | ReactNode | `<DownOutlined />` |  |
-| switcherIcon | 自定义树节点的展开/折叠图标 | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - | renderProps: 4.20.0 |
-| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - |  |
-| tagRender | 自定义 tag 内容，多选时生效 | (props) => ReactNode | - |  |
-| treeCheckable | 显示 Checkbox | boolean | false |  |
-| treeCheckStrictly | `checkable` 状态下节点选择完全受控（父子节点选中状态不再关联），会使得 `labelInValue` 强制为 true | boolean | false |  |
-| treeData | treeNodes 数据，如果设置则不需要手动构造 TreeNode 节点（value 在整个树范围内唯一） | array&lt;{value, title, children, \[disabled, disableCheckbox, selectable, checkable]}> | \[] |  |
-| treeDataSimpleMode | 使用简单格式的 treeData，具体设置参考可设置的类型 (此时 treeData 应变为这样的数据结构: \[{id:1, pId:0, value:'1', title:"test1",...},...]， `pId` 是父节点的 id) | boolean \| object&lt;{ id: string, pId: string, rootPId: string }> | false |  |
-| treeTitleRender | 自定义渲染节点 | (nodeData) => ReactNode | - | 5.12.0 |
-| treeDefaultExpandAll | 默认展开所有树节点 | boolean | false |  |
-| treeDefaultExpandedKeys | 默认展开的树节点 | string\[] | - |  |
-| treeExpandAction | 点击节点 title 时的展开逻辑，可选：false \| `click` \| `doubleClick` | string \| boolean | false | 4.21.0 |
-| treeExpandedKeys | 设置展开的树节点 | string\[] | - |  |
-| treeIcon | 是否展示 TreeNode title 前的图标，没有默认样式，如设置为 true，需要自行定义图标相关样式 | boolean | false |  |
-| treeLine | 是否展示线条样式，请参考 [Tree - showLine](/components/tree-cn#tree-demo-line) | boolean \| object | false | 4.17.0 |
-| treeLoadedKeys | （受控）已经加载的节点，需要配合 `loadData` 使用 | string[] | [] |  |
-| ~~treeNodeFilterProp~~ | 输入项过滤对应的 treeNode 属性 | string | `value` |  |
-| treeNodeLabelProp | 作为显示的 prop 设置 | string | `title` |  |
-| value | 指定当前选中的条目 | string \| string\[] | - |  |
-| variant | 形态变体 | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 \| `underlined`: 5.24.0 |
-| virtual | 设置 false 时关闭虚拟滚动 | boolean | true | 4.1.0 |
-| onChange | 选中树节点时调用此函数 | function(value, label, extra) | - |  |
-| ~~onDropdownVisibleChange~~ | 展开下拉菜单的回调，使用 `onOpenChange` 替换 | (open: boolean) => void | - |  |
-| onOpenChange | 展开下拉菜单的回调 | (open: boolean) => void | - |  |
-| ~~onSearch~~ | 文本框值变化时的回调 | function(value: string) | - |  |
-| onSelect | 被选中时调用 | function(value, node, extra) | - |  |
-| onTreeExpand | 展示节点时调用 | function(expandedKeys) | - |  |
-| onPopupScroll | 下拉列表滚动时的回调 | (event: UIEvent) => void | - | 5.17.0 |
+| 参数 | 说明 | 类型 | 默认值 | 版本 | [全局配置](/components/config-provider#component-config) |
+| --- | --- | --- | --- | --- | --- |
+| allowClear | 是否显示清除按钮 | boolean \| [AllowClearConfig](#allowclearconfig) | false | - | 6.7.0 |
+| ~~autoClearSearchValue~~ | 当多选模式下值被选择，自动清空搜索框 | boolean | true |  | × |
+| ~~bordered~~ | 是否带边框，请使用 `variant` 替代 | boolean | true | - | × |
+| classNames | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - |  | 5.25.0 |
+| defaultOpen | 是否默认展开下拉菜单 | boolean | - |  | × |
+| defaultValue | 指定默认选中的条目 | string \| string\[] | - |  | × |
+| disabled | 是否禁用 | boolean | false |  | × |
+| ~~dropdownClassName~~ | 下拉菜单的 className 属性，请使用 `classNames.popup.root` 替代 | string | - | - | × |
+| ~~dropdownMatchSelectWidth~~ | 下拉菜单和选择器是否同宽，请使用 `popupMatchSelectWidth` 替代 | boolean \| number | true | - | × |
+| ~~popupClassName~~ | 下拉菜单的 className 属性，使用 `classNames.popup.root` 替换 | string | - | 4.23.0 | × |
+| popupMatchSelectWidth | 下拉菜单和选择器同宽。默认将设置 `min-width`，当值小于选择框宽度时会被忽略。false 时会关闭虚拟滚动 | boolean \| number | true | 5.5.0 | × |
+| ~~dropdownRender~~ | 自定义下拉框内容，使用 `popupRender` 替换 | (originNode: ReactElement) => ReactNode | - |  | × |
+| popupRender | 自定义下拉框内容 | (originNode: ReactElement) => ReactNode | - |  | × |
+| ~~dropdownStyle~~ | 下拉菜单的样式，使用 `styles.popup.root` 替换 | object | - |  | × |
+| fieldNames | 自定义节点 label、value、children 的字段 | object | { label: `label`, value: `value`, children: `children` } | 4.17.0 | × |
+| ~~filterTreeNode~~ | 是否根据输入项进行筛选，默认用 treeNodeFilterProp 的值作为要筛选的 TreeNode 的属性值 | boolean \| function(inputValue: string, treeNode: TreeNode) (函数需要返回 bool 值) | function |  | × |
+| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上，如果你遇到菜单滚动定位问题，试试修改为滚动的区域，并相对其定位。[示例](https://codepen.io/afc163/pen/zEjNOy?editors=0010) | function(triggerNode) | () => document.body |  | × |
+| labelInValue | 是否把每个选项的 label 包装到 value 中，会把 value 类型从 `string` 变为 {value: string, label: ReactNode, halfChecked: boolean(选项列表是否为半选状态，并且不会展示到值中) } 的格式 | boolean | false |  | × |
+| listHeight | 设置弹窗滚动高度 | number | 256 |  | × |
+| loadData | 异步加载数据。在过滤时不会调用以防止网络堵塞，可参考 FAQ 获得更多内容 | function(node) | - |  | × |
+| maxCount | 指定可选中的最多 items 数量，仅在 `multiple=true` 时生效。如果此时 (`showCheckedStrategy = 'SHOW_ALL'` 且未开启 `treeCheckStrictly`)，或使用 `showCheckedStrategy = 'SHOW_PARENT'`，则maxCount无效。 | number | - | 5.23.0 | × |
+| maxTagCount | 最多显示多少个 tag，响应式模式会对性能产生损耗 | number \| `responsive` | - | responsive: 4.10 | × |
+| maxTagPlaceholder | 隐藏 tag 时显示的内容 | ReactNode \| function(omittedValues) | - |  | × |
+| maxTagTextLength | 最大显示的 tag 文本长度 | number | - |  | × |
+| multiple | 支持多选（当设置 treeCheckable 时自动变为 true） | boolean | false |  | × |
+| notFoundContent | 当下拉列表为空时显示的内容 | ReactNode | `暂无数据` |  | × |
+| open | 是否展开下拉菜单 | boolean | - |  | × |
+| placeholder | 选择框默认文字 | string | - |  | × |
+| placement | 选择框弹出的位置 | `bottomLeft` `bottomRight` `topLeft` `topRight` | bottomLeft |  | × |
+| prefix | 自定义前缀 | ReactNode | - | 5.22.0 | × |
+| ~~searchValue~~ | 搜索框的值，可以通过 `onSearch` 获取用户输入 | string | - |  | × |
+| ~~showArrow~~ | 是否显示箭头图标，请使用 `suffix={null}` 替代 | boolean | true | - | × |
+| showCheckedStrategy | 配置 `treeCheckable` 时，定义选中项回填的方式。`TreeSelect.SHOW_ALL`: 显示所有选中节点(包括父节点)。`TreeSelect.SHOW_PARENT`: 只显示父节点(当父节点下所有子节点都选中时)。 默认只显示子节点 | `TreeSelect.SHOW_ALL` \| `TreeSelect.SHOW_PARENT` \| `TreeSelect.SHOW_CHILD` | `TreeSelect.SHOW_CHILD` |  | × |
+| showSearch | 是否支持搜索框 | boolean \| [Object](#showsearch) | 单选：false \| 多选：true |  | × |
+| size | 选择框大小 | `large` \| `medium` \| `small` | - |  | × |
+| status | 设置校验状态 | 'error' \| 'warning' | - | 4.19.0 | × |
+| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - |  | 5.25.0 |
+| suffix | 自定义的选择框后缀。以防止后缀被用于其他交互，替换的后缀默认不会响应展开、收缩事件，可以通过添加 `pointer-events: none` 样式透传。 | ReactNode \| (props) => ReactNode | `<DownOutlined />` | 6.7.0 | × |
+| ~~suffixIcon~~ | 自定义的选择框后缀图标，请使用 `suffix` 替代 | ReactNode | `<DownOutlined />` |  | × |
+| switcherIcon | 自定义树节点的展开/折叠图标 | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - | renderProps: 4.20.0 | 5.28.0 |
+| tagRender | 自定义 tag 内容，多选时生效 | (props) => ReactNode | - |  | × |
+| treeCheckable | 显示 Checkbox | boolean | false |  | × |
+| treeCheckStrictly | `checkable` 状态下节点选择完全受控（父子节点选中状态不再关联），会使得 `labelInValue` 强制为 true | boolean | false |  | × |
+| treeData | treeNodes 数据，如果设置则不需要手动构造 TreeNode 节点（value 在整个树范围内唯一） | array&lt;{value, title, children, \[disabled, disableCheckbox, selectable, checkable]}> | \[] |  | × |
+| treeDataSimpleMode | 使用简单格式的 treeData，具体设置参考可设置的类型 (此时 treeData 应变为这样的数据结构: \[{id:1, pId:0, value:'1', title:"test1",...},...]， `pId` 是父节点的 id) | boolean \| object&lt;{ id: string, pId: string, rootPId: string }> | false |  | × |
+| treeDefaultExpandAll | 默认展开所有树节点 | boolean | false |  | × |
+| treeDefaultExpandedKeys | 默认展开的树节点 | string\[] | - |  | × |
+| treeExpandAction | 点击节点 title 时的展开逻辑，可选：false \| `click` \| `doubleClick` | string \| boolean | false | 4.21.0 | × |
+| treeExpandedKeys | 设置展开的树节点 | string\[] | - |  | × |
+| treeIcon | 是否展示 TreeNode title 前的图标，没有默认样式，如设置为 true，需要自行定义图标相关样式 | boolean | false |  | × |
+| treeLine | 是否展示线条样式，请参考 [Tree - showLine](/components/tree#tree-demo-line) | boolean \| object | false | 4.17.0 | × |
+| treeLoadedKeys | （受控）已经加载的节点，需要配合 `loadData` 使用 | string[] | [] |  | × |
+| ~~treeNodeFilterProp~~ | 输入项过滤对应的 treeNode 属性 | string | `value` |  | × |
+| treeNodeLabelProp | 作为显示的 prop 设置 | string | `title` |  | × |
+| treeTitleRender | 自定义渲染节点 | (nodeData) => ReactNode | - | 5.12.0 | × |
+| value | 指定当前选中的条目 | string \| string\[] | - |  | × |
+| variant | 形态变体 | `outlined` \| `borderless` \| `filled` \| `underlined` | `outlined` | 5.13.0 \| `underlined`: 5.24.0 | 5.19.0 |
+| virtual | 设置 false 时关闭虚拟滚动 | boolean | true | 4.1.0 | × |
+| onChange | 选中树节点时调用此函数 | function(value, label, extra) | - |  | × |
+| onClear | 清除内容时回调 | () => void | - | - | × |
+| ~~onDropdownVisibleChange~~ | 展开下拉菜单的回调，使用 `onOpenChange` 替换 | (open: boolean) => void | - |  | × |
+| onOpenChange | 展开下拉菜单的回调 | (open: boolean) => void | - |  | × |
+| onPopupScroll | 下拉列表滚动时的回调 | (event: UIEvent) => void | - | 5.17.0 | × |
+| ~~onSearch~~ | 文本框值变化时的回调 | function(value: string) | - |  | × |
+| onSelect | 被选中时调用 | function(value, node, extra) | - |  | × |
+| onTreeExpand | 展示节点时调用 | function(expandedKeys) | - |  | × |
+
+### AllowClearConfig
+
+支持通过 `ConfigProvider.treeSelect.allowClear` 全局配置（6.7.0）。字段按组件配置、全局配置、默认值的顺序取值。`allowClear={true}` 继承全局配置；`disabled: false` 和 `tabIndex: 0` 可覆盖全局值。
+
+| 参数 | 说明 | 类型 | 默认值 | 版本 | [全局配置](/components/config-provider-cn#component-config) |
+| --- | --- | --- | --- | --- | --- |
+| clearIcon | 自定义清除图标 | ReactNode | - | - | 6.7.0 |
+| disabled | `true` 时等同于 `allowClear={false}` | boolean | false | 6.7.0 | 6.7.0 |
+| label | 清除按钮的无障碍名称 | string | 组件的本地化文案 | 6.6.0 | 6.7.0 |
+| tabIndex | 清除按钮的 Tab 键顺序。`-1` 表示不参与 Tab 键导航 | number | 0 | 6.7.0 | 6.7.0 |
 
 ### showSearch
 
@@ -115,7 +128,7 @@ demo:
 | treeNodeFilterProp | 输入项过滤对应的 treeNode 属性 | string | `value` |  |
 | onSearch | 文本框值变化时的回调 | function(value: string) | - |  |
 
-### Tree 方法
+### Tree 方法 {#tree-methods}
 
 | 名称    | 描述     | 版本 |
 | ------- | -------- | ---- |
@@ -153,7 +166,7 @@ demo:
 
 ### 自定义 Option 样式导致滚动异常怎么办？ {#faq-custom-option-scroll}
 
-请参考 Select 的 [FAQ](/components/select-cn)。
+请参考 Select 的 [FAQ](/components/select)。
 
 ### 为何在搜索时 `loadData` 不会触发展开？ {#faq-load-data-expand}
 

@@ -1,9 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import * as React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { isNumber } from '../_util/is';
 import type { Breakpoint } from '../_util/responsiveObserver';
 import { matchScreen } from '../_util/responsiveObserver';
@@ -36,42 +37,33 @@ export interface DescriptionsItemType extends Omit<DescriptionsItemProps, 'prefi
   key?: React.Key;
 }
 
-export type DescriptionsSemanticName = keyof DescriptionsSemanticClassNames &
-  keyof DescriptionsSemanticStyles;
-
-export type DescriptionsSemanticClassNames = {
-  root?: string;
-  header?: string;
-  title?: string;
-  extra?: string;
-  label?: string;
-  content?: string;
+export type DescriptionsSemanticType = {
+  classNames?: {
+    root?: string;
+    header?: string;
+    title?: string;
+    extra?: string;
+    label?: string;
+    content?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    header?: React.CSSProperties;
+    title?: React.CSSProperties;
+    extra?: React.CSSProperties;
+    label?: React.CSSProperties;
+    content?: React.CSSProperties;
+  };
 };
 
-export type DescriptionsSemanticStyles = {
-  root?: React.CSSProperties;
-  header?: React.CSSProperties;
-  title?: React.CSSProperties;
-  extra?: React.CSSProperties;
-  label?: React.CSSProperties;
-  content?: React.CSSProperties;
-};
-
-export type DescriptionsClassNamesType = SemanticClassNamesType<
-  DescriptionsProps,
-  DescriptionsSemanticClassNames
+export type DescriptionsSemanticAllType = GenerateSemantic<
+  DescriptionsSemanticType,
+  DescriptionsProps
 >;
 
-export type DescriptionsStylesType = SemanticStylesType<
-  DescriptionsProps,
-  DescriptionsSemanticStyles
->;
-
-export interface DescriptionsProps {
+export interface DescriptionsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   prefixCls?: string;
-  className?: string;
   rootClassName?: string;
-  style?: React.CSSProperties;
   bordered?: boolean;
   /**
    * Note: `default` is deprecated and will be removed in v7, please use `medium` instead.
@@ -94,13 +86,16 @@ export interface DescriptionsProps {
    * @deprecated use `styles.content` instead
    */
   contentStyle?: React.CSSProperties;
-  styles?: DescriptionsStylesType;
-  classNames?: DescriptionsClassNamesType;
+  classNames?: DescriptionsSemanticAllType['classNamesAndFn'];
+  styles?: DescriptionsSemanticAllType['stylesAndFn'];
   items?: DescriptionsItemType[];
-  id?: string;
 }
 
-const Descriptions: React.FC<DescriptionsProps> & CompoundedComponent = (props) => {
+export interface DescriptionsRef {
+  nativeElement: HTMLDivElement;
+}
+
+const Descriptions = React.forwardRef<DescriptionsRef, DescriptionsProps>((props, ref) => {
   const {
     prefixCls: customizePrefixCls,
     title,
@@ -146,12 +141,16 @@ const Descriptions: React.FC<DescriptionsProps> & CompoundedComponent = (props) 
     });
   }
   // Column count
+  // Mobile-first cascade: try the user-supplied map first (scanning large→small
+  // over cumulative min-width screens, so a lower breakpoint like `md` is still
+  // "active" on an `lg` viewport).  Only fall back to DEFAULT_COLUMN_MAP when
+  // no user-supplied breakpoint is active at all.
   const mergedColumn = React.useMemo(() => {
     if (isNumber(column)) {
       return column;
     }
 
-    return matchScreen(screens, { ...DEFAULT_COLUMN_MAP, ...column }) ?? 3;
+    return matchScreen(screens, column) ?? matchScreen(screens, DEFAULT_COLUMN_MAP) ?? 3;
   }, [screens, column]);
 
   // Items with responsive
@@ -170,11 +169,14 @@ const Descriptions: React.FC<DescriptionsProps> & CompoundedComponent = (props) 
     size: mergedSize,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    DescriptionsClassNamesType,
-    DescriptionsStylesType,
+    DescriptionsSemanticAllType['classNames'],
+    DescriptionsSemanticAllType['styles'],
     DescriptionsProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -202,9 +204,19 @@ const Descriptions: React.FC<DescriptionsProps> & CompoundedComponent = (props) 
     ],
   );
 
+  const nativeElementRef = React.useRef<HTMLDivElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    nativeElement: nativeElementRef.current!,
+  }));
+
+  const hasTitle = isReactRenderable(title);
+  const hasExtra = isReactRenderable(extra);
+
   return (
     <DescriptionsContext.Provider value={memoizedValue}>
       <div
+        ref={nativeElementRef}
         className={clsx(
           prefixCls,
           contextClassName,
@@ -220,15 +232,15 @@ const Descriptions: React.FC<DescriptionsProps> & CompoundedComponent = (props) 
           hashId,
           cssVarCls,
         )}
-        style={{ ...contextStyle, ...mergedStyles.root, ...style }}
+        style={mergedStyles.root}
         {...restProps}
       >
-        {(title || extra) && (
+        {(hasTitle || hasExtra) && (
           <div
             className={clsx(`${prefixCls}-header`, mergedClassNames.header)}
             style={mergedStyles.header}
           >
-            {title && (
+            {hasTitle && (
               <div
                 className={clsx(`${prefixCls}-title`, mergedClassNames.title)}
                 style={mergedStyles.title}
@@ -236,7 +248,7 @@ const Descriptions: React.FC<DescriptionsProps> & CompoundedComponent = (props) 
                 {title}
               </div>
             )}
-            {extra && (
+            {hasExtra && (
               <div
                 className={clsx(`${prefixCls}-extra`, mergedClassNames.extra)}
                 style={mergedStyles.extra}
@@ -266,7 +278,8 @@ const Descriptions: React.FC<DescriptionsProps> & CompoundedComponent = (props) 
       </div>
     </DescriptionsContext.Provider>
   );
-};
+}) as React.ForwardRefExoticComponent<DescriptionsProps & React.RefAttributes<DescriptionsRef>> &
+  CompoundedComponent;
 
 if (process.env.NODE_ENV !== 'production') {
   Descriptions.displayName = 'Descriptions';

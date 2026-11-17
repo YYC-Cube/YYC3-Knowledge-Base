@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useInsertionEffect, useMemo, useRef, useState } from 'react';
 import { UpOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Badge, Tag, Tooltip } from 'antd';
@@ -6,16 +6,18 @@ import { createStaticStyles } from 'antd-style';
 import { clsx } from 'clsx';
 import { FormattedMessage, useLiveDemo, useSiteData } from 'dumi';
 import { major, minVersion } from 'semver';
+
 import type { AntdPreviewerProps } from '.';
 import useLocation from '../../../hooks/useLocation';
 import BrowserFrame from '../../common/BrowserFrame';
 import ClientOnly from '../../common/ClientOnly';
-import CodePreview from '../../common/CodePreview';
 import EditButton from '../../common/EditButton';
-import SiteContext from '../../slots/SiteContext';
 import DemoContext from '../../slots/DemoContext';
+import SiteContext from '../../slots/SiteContext';
 import { isOfficialHost } from '../../utils';
 import Actions from './Actions';
+
+const CodePreview = React.lazy(() => import('../../common/CodePreview'));
 
 const styles = createStaticStyles(({ cssVar, css }) => {
   return {
@@ -69,8 +71,8 @@ const CodePreviewer: React.FC<AntdPreviewerProps> = (props) => {
 
   const location = useLocation();
 
-  const entryName = 'index.tsx';
-  const entryCode = asset.dependencies[entryName].value;
+  const entryName = asset.entry ?? 'index.tsx';
+  const entryCode = asset.dependencies[entryName]?.value ?? '';
 
   const demoContainerRef = useRef<HTMLElement>(null);
   const {
@@ -145,6 +147,7 @@ const CodePreviewer: React.FC<AntdPreviewerProps> = (props) => {
       <BrowserFrame>
         <iframe
           src={demoUrlWithTheme}
+          loading="lazy"
           height={iframe === true ? undefined : iframe}
           title="demo"
           className="iframe-demo"
@@ -181,7 +184,7 @@ const CodePreviewer: React.FC<AntdPreviewerProps> = (props) => {
           aria-label="Go to online documentation"
           href={generateDocUrl()}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <FormattedMessage id="app.demo.online" />
         </a>
@@ -200,7 +203,7 @@ const CodePreviewer: React.FC<AntdPreviewerProps> = (props) => {
           aria-label="Go to previous version documentation"
           href={generateDocUrl(previousVersionDomain)}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           <FormattedMessage id="app.demo.previousVersion" values={{ version: previousVersion }} />
         </a>
@@ -240,7 +243,6 @@ const CodePreviewer: React.FC<AntdPreviewerProps> = (props) => {
           {description && (
             <div
               className="code-box-description"
-              // biome-ignore lint/security/noDangerouslySetInnerHtml: it's for markdown
               dangerouslySetInnerHTML={{ __html: description }}
             />
           )}
@@ -260,14 +262,16 @@ const CodePreviewer: React.FC<AntdPreviewerProps> = (props) => {
       )}
       {codeExpand && (
         <section className={highlightClass} key="code">
-          <CodePreview
-            sourceCode={entryCode}
-            jsxCode={jsx}
-            styleCode={style}
-            error={liveDemoError}
-            entryName={entryName}
-            onSourceChange={setLiveDemoSource}
-          />
+          <React.Suspense fallback={null}>
+            <CodePreview
+              sourceCode={entryCode}
+              jsxCode={jsx}
+              styleCode={style}
+              error={liveDemoError}
+              entryName={entryName}
+              onSourceChange={setLiveDemoSource}
+            />
+          </React.Suspense>
           <div
             tabIndex={0}
             role="button"
@@ -282,7 +286,7 @@ const CodePreviewer: React.FC<AntdPreviewerProps> = (props) => {
     </section>
   );
 
-  useEffect(() => {
+  useInsertionEffect(() => {
     // In Safari, if style tag be inserted into non-head tag,
     // it will affect the rendering ability of the browser,
     // resulting in some response delays like following issue:

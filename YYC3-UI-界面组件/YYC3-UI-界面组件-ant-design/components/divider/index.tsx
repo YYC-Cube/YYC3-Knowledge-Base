@@ -1,13 +1,17 @@
 import * as React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic, useOrientation } from '../_util/hooks';
-import type { Orientation, SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useOrientation } from '../_util/hooks';
+import type { Orientation } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { isNumber } from '../_util/is';
 import { devUseWarning } from '../_util/warning';
 import { useComponentConfig } from '../config-provider/context';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
+import useVariant from '../form/hooks/useVariants';
 import useStyle from './style';
 
 export type TitlePlacement =
@@ -19,23 +23,20 @@ export type TitlePlacement =
 
 const titlePlacementList = ['left', 'right', 'center', 'start', 'end'];
 
-export type DividerSemanticName = keyof DividerSemanticClassNames & keyof DividerSemanticStyles;
-
-export type DividerSemanticClassNames = {
-  root?: string;
-  rail?: string;
-  content?: string;
+export type DividerSemanticType = {
+  classNames?: {
+    root?: string;
+    rail?: string;
+    content?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    rail?: React.CSSProperties;
+    content?: React.CSSProperties;
+  };
 };
 
-export type DividerSemanticStyles = {
-  root?: React.CSSProperties;
-  rail?: React.CSSProperties;
-  content?: React.CSSProperties;
-};
-
-export type DividerClassNamesType = SemanticClassNamesType<DividerProps, DividerSemanticClassNames>;
-
-export type DividerStylesType = SemanticStylesType<DividerProps, DividerSemanticStyles>;
+export type DividerSemanticAllType = GenerateSemantic<DividerSemanticType, DividerProps>;
 
 export interface DividerProps {
   prefixCls?: string;
@@ -58,11 +59,15 @@ export interface DividerProps {
   style?: React.CSSProperties;
   size?: SizeType;
   plain?: boolean;
-  classNames?: DividerClassNamesType;
-  styles?: DividerStylesType;
+  classNames?: DividerSemanticAllType['classNamesAndFn'];
+  styles?: DividerSemanticAllType['stylesAndFn'];
 }
 
-const Divider: React.FC<DividerProps> = (props) => {
+export interface DividerRef {
+  nativeElement: HTMLDivElement;
+}
+
+const Divider = React.forwardRef<DividerRef, DividerProps>((props, ref) => {
   const {
     getPrefixCls,
     direction,
@@ -83,7 +88,7 @@ const Divider: React.FC<DividerProps> = (props) => {
     rootClassName,
     children,
     dashed,
-    variant = 'solid',
+    variant: customVariant,
     plain,
     style,
     size: customSize,
@@ -92,6 +97,11 @@ const Divider: React.FC<DividerProps> = (props) => {
     ...restProps
   } = props;
 
+  const [variant] = useVariant('divider', customVariant, {
+    variants: ['dashed', 'dotted', 'solid'],
+    defaultVariant: 'solid',
+  });
+
   const prefixCls = getPrefixCls('divider', customizePrefixCls);
   const railCls = `${prefixCls}-rail`;
 
@@ -99,7 +109,7 @@ const Divider: React.FC<DividerProps> = (props) => {
 
   const sizeFullName = useSize(customSize);
 
-  const hasChildren = !!children;
+  const hasChildren = isReactRenderable(children);
 
   const validTitlePlacement = titlePlacementList.includes(orientation || '');
 
@@ -124,16 +134,19 @@ const Divider: React.FC<DividerProps> = (props) => {
   // ========================= Semantic =========================
   const mergedProps: DividerProps = {
     ...props,
+    variant,
     orientation: mergedOrientation,
     titlePlacement: mergedTitlePlacement,
     size: sizeFullName,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    DividerClassNamesType,
-    DividerStylesType,
+    DividerSemanticAllType['classNames'],
+    DividerSemanticAllType['styles'],
     DividerProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles], {
     props: mergedProps,
   });
 
@@ -154,8 +167,8 @@ const Divider: React.FC<DividerProps> = (props) => {
       [`${prefixCls}-no-default-orientation-margin-end`]: hasMarginEnd,
       [`${prefixCls}-md`]: sizeFullName === 'medium' || sizeFullName === 'middle',
       [`${prefixCls}-sm`]: sizeFullName === 'small',
-      [railCls]: !children,
-      [mergedClassNames.rail as string]: mergedClassNames.rail && !children,
+      [railCls]: !hasChildren,
+      [mergedClassNames.rail as string]: mergedClassNames.rail && !hasChildren,
     },
     className,
     rootClassName,
@@ -177,6 +190,12 @@ const Divider: React.FC<DividerProps> = (props) => {
     marginInlineEnd: hasMarginEnd ? memoizedPlacementMargin : undefined,
   };
 
+  const nativeElementRef = React.useRef<HTMLDivElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    nativeElement: nativeElementRef.current!,
+  }));
+
   // =================== Warning =====================
   if (process.env.NODE_ENV !== 'production') {
     const warning = devUseWarning('Divider');
@@ -197,17 +216,17 @@ const Divider: React.FC<DividerProps> = (props) => {
 
   return (
     <div
+      ref={nativeElementRef}
       className={classString}
       style={{
-        ...contextStyle,
         ...mergedStyles.root,
-        ...(children ? {} : mergedStyles.rail),
+        ...(hasChildren ? {} : mergedStyles.rail),
         ...style,
       }}
       {...restProps}
       role="separator"
     >
-      {children && !mergedVertical && (
+      {hasChildren && !mergedVertical && (
         <>
           <div
             className={clsx(railCls, `${railCls}-start`, mergedClassNames.rail)}
@@ -227,7 +246,7 @@ const Divider: React.FC<DividerProps> = (props) => {
       )}
     </div>
   );
-};
+});
 
 if (process.env.NODE_ENV !== 'production') {
   Divider.displayName = 'Divider';

@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/bg_BG';
+import Pagination from '@rc-component/pagination/locale/bg_BG';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/bg_BG';
@@ -15,13 +15,34 @@ const localeValues: Locale = {
   Calendar,
   global: {
     close: 'Затвори',
+    show: 'Покажи',
+    hide: 'Скрий',
+    placeholder: 'Моля изберете',
+    sortable: 'сортируеми',
   },
   Table: {
     filterTitle: 'Филтриране',
     filterConfirm: 'Добре',
-    filterReset: 'Нулриане',
+    filterReset: 'Нулиране',
     selectAll: 'Избор на текуща страница',
     selectInvert: 'Обръщане',
+    filterEmptyText: 'Без филтри',
+    filterCheckAll: 'Изберете всички елементи',
+    filterSearchPlaceholder: 'Търсене във филтри',
+    emptyText: 'Няма данни',
+    selectNone: 'Изчистване на всички данни',
+    selectionAll: 'Изберете всички данни',
+    selectRow: 'Избиране на ред',
+    selectedRow: 'Редът е избран',
+    selectionMenu: 'Меню за избор',
+    sortTitle: 'Сортиране',
+    expand: 'Разширяване на реда',
+    collapse: 'Свиване на ред',
+    expandAll: 'Разширяване на всички редове',
+    collapseAll: 'Свиване на всички редове',
+    triggerDesc: 'Кликнете, за да сортирате в низходящ ред',
+    triggerAsc: 'Кликнете, за да сортирате във възходящ ред',
+    cancelSort: 'Кликнете, за да отмените сортирането',
   },
   Tour: {
     Next: 'Следващ',
@@ -37,11 +58,22 @@ const localeValues: Locale = {
     okText: 'Добре',
     cancelText: 'Отказ',
   },
+  Splitter: {
+    toggleStartPanel: 'Превключване на началния панел',
+    toggleEndPanel: 'Превключване на крайния панел',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Търсене',
     itemUnit: 'избор',
     itemsUnit: 'избори',
+    remove: 'Премахнете',
+    selectCurrent: 'Изберете текущата страница',
+    removeCurrent: 'Премахване на текущата страница',
+    selectAll: 'Изберете всички данни',
+    deselectAll: 'Демаркирайте всички данни',
+    removeAll: 'Премахнете всички данни',
+    selectInvert: 'Обърнете текущата страница',
   },
   Upload: {
     uploading: 'Качване...',
@@ -52,6 +84,20 @@ const localeValues: Locale = {
   },
   Empty: {
     description: 'Няма данни',
+  },
+  Icon: {
+    icon: 'икона',
+  },
+  Text: {
+    edit: 'Редактиране',
+    copy: 'копие',
+    copied: 'Копирано',
+    expand: 'Разширяване',
+    collapse: 'Свиване',
+  },
+  Carousel: {
+    prevSlide: 'Предишен слайд',
+    nextSlide: 'Следващ слайд',
   },
   Form: {
     optional: '（по желание）',
@@ -102,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} не отговаря на модела ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR кодът е изтекъл',
+    refresh: 'Опресняване',
+    scanned: 'Сканирани',
+  },
+  ColorPicker: {
+    presetEmpty: 'празна',
+    transparent: 'Прозрачен',
+    singleColor: 'Едноцветен',
+    gradientColor: 'Преливащ цвят',
   },
 };
 

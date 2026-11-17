@@ -99,17 +99,19 @@ const genClearStyle = (
   size: number,
   extraStyle?: CSSObject,
 ): CSSObject => {
-  const { componentCls, borderRadiusSM, lineWidth, colorSplit, colorBorder, red6 } = token;
+  const { componentCls, borderRadiusSM, lineWidth, lineType, colorSplit, colorBorder, red6 } =
+    token;
 
   return {
     [`${componentCls}-clear`]: {
       width: size,
       height: size,
       borderRadius: borderRadiusSM,
-      border: `${unit(lineWidth)} solid ${colorSplit}`,
+      border: `${unit(lineWidth)} ${lineType} ${colorSplit}`,
       position: 'relative',
       overflow: 'hidden',
       cursor: 'inherit',
+      userSelect: 'none',
       transition: `all ${token.motionDurationFast}`,
 
       ...extraStyle,
@@ -126,7 +128,7 @@ const genClearStyle = (
         backgroundColor: red6,
       },
 
-      '&:hover': {
+      [`&:not(${componentCls}-clear-disabled):hover`]: {
         borderColor: colorBorder,
       },
     },
@@ -146,7 +148,7 @@ const genStatusStyle: GenerateStyle<ColorPickerToken, CSSObject> = (token) => {
   return {
     [`&${componentCls}-status-error`]: {
       borderColor: colorError,
-      '&:hover': {
+      [`&:not(${componentCls}-trigger-disabled):hover`]: {
         borderColor: colorErrorHover,
       },
       [`&${componentCls}-trigger-active`]: {
@@ -155,7 +157,7 @@ const genStatusStyle: GenerateStyle<ColorPickerToken, CSSObject> = (token) => {
     },
     [`&${componentCls}-status-warning`]: {
       borderColor: colorWarning,
-      '&:hover': {
+      [`&:not(${componentCls}-trigger-disabled):hover`]: {
         borderColor: colorWarningHover,
       },
       [`&${componentCls}-trigger-active`]: {
@@ -224,10 +226,10 @@ const genColorPickerStyle: GenerateStyle<ColorPickerToken> = (token) => {
     marginSM,
     controlHeight,
     controlHeightSM,
-    colorBgTextActive,
     colorPickerPresetColorSize,
     colorPickerPreviewSize,
     lineWidth,
+    lineType,
     colorBorder,
     paddingXXS,
     fontSize,
@@ -272,7 +274,7 @@ const genColorPickerStyle: GenerateStyle<ColorPickerToken> = (token) => {
           minWidth: controlHeight,
           minHeight: controlHeight,
           borderRadius,
-          border: `${unit(lineWidth)} solid ${colorBorder}`,
+          border: `${unit(lineWidth)} ${lineType} ${colorBorder}`,
           cursor: 'pointer',
           display: 'inline-flex',
           alignItems: 'flex-start',
@@ -300,7 +302,7 @@ const genColorPickerStyle: GenerateStyle<ColorPickerToken> = (token) => {
               },
             },
           },
-          '&:hover': {
+          [`&:not(${componentCls}-trigger-disabled):hover`]: {
             borderColor: colorPrimaryHover,
           },
           [`&${componentCls}-trigger-active`]: {
@@ -310,9 +312,6 @@ const genColorPickerStyle: GenerateStyle<ColorPickerToken> = (token) => {
             color: colorTextDisabled,
             background: colorBgContainerDisabled,
             cursor: 'not-allowed',
-            '&:hover': {
-              borderColor: colorBgTextActive,
-            },
             [`${componentCls}-trigger-text`]: {
               color: colorTextDisabled,
             },

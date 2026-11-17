@@ -4,9 +4,9 @@ import type {
   RcFile as OriRcFile,
   UploadRequestOption as RcCustomRequestOptions,
   UploadProps as RcUploadProps,
-} from '@rc-component/upload/lib/interface';
+} from '@rc-component/upload';
 
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import type { ProgressAriaProps, ProgressProps } from '../progress';
 
 export interface RcFile extends OriRcFile {
@@ -87,32 +87,39 @@ export type ItemRender<T = any> = (
 type PreviewFileHandler = (file: File | Blob) => PromiseLike<string>;
 
 type BeforeUploadValueType = void | boolean | string | Blob | File;
+type UploadRequestResult = ReturnType<NonNullable<RcUploadProps['customRequest']>>;
 
-export type UploadSemanticName = keyof UploadSemanticClassNames & keyof UploadSemanticStyles;
+type UploadCustomRequest<T, R> = (
+  options: RcCustomRequestOptions<T>,
+  info: {
+    /**
+     * @since 5.28.0
+     */
+    defaultRequest: (option: RcCustomRequestOptions<T>) => UploadRequestResult;
+  },
+) => R;
 
-export type UploadSemanticClassNames = {
-  root?: string;
-  list?: string;
-  item?: string;
-  trigger?: string;
+export type UploadSemanticType = {
+  classNames?: {
+    root?: string;
+    list?: string;
+    item?: string;
+    trigger?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    list?: React.CSSProperties;
+    item?: React.CSSProperties;
+    trigger?: React.CSSProperties;
+  };
 };
 
-export type UploadSemanticStyles = {
-  root?: React.CSSProperties;
-  list?: React.CSSProperties;
-  item?: React.CSSProperties;
-  trigger?: React.CSSProperties;
-};
+export type UploadSemanticAllType<T = any> = GenerateSemantic<UploadSemanticType, UploadProps<T>>;
 
-export type UploadClassNamesType<T = any> = SemanticClassNamesType<
-  UploadProps<T>,
-  UploadSemanticClassNames
->;
-
-export type UploadStylesType<T = any> = SemanticStylesType<UploadProps<T>, UploadSemanticStyles>;
-
-export interface UploadProps<T = any>
-  extends Pick<RcUploadProps, 'capture' | 'hasControlInside' | 'pastable'> {
+export interface UploadProps<T = any> extends Pick<
+  RcUploadProps,
+  'capture' | 'hasControlInside' | 'pastable'
+> {
   type?: UploadType;
   name?: string;
   defaultFileList?: Array<UploadFile<T>>;
@@ -133,10 +140,11 @@ export interface UploadProps<T = any>
   ) => BeforeUploadValueType | Promise<BeforeUploadValueType>;
   onChange?: (info: UploadChangeParam<UploadFile<T>>) => void;
   onDrop?: (event: React.DragEvent<HTMLDivElement>) => void;
+  onFocus?: React.FocusEventHandler<HTMLSpanElement>;
   listType?: UploadListType;
   className?: string;
-  classNames?: UploadClassNamesType<T>;
-  styles?: UploadStylesType<T>;
+  classNames?: UploadSemanticAllType<T>['classNamesAndFn'];
+  styles?: UploadSemanticAllType<T>['stylesAndFn'];
   rootClassName?: string;
   onPreview?: (file: UploadFile<T>) => void;
   onDownload?: (file: UploadFile<T>) => void;
@@ -145,15 +153,7 @@ export interface UploadProps<T = any>
   style?: React.CSSProperties;
   disabled?: boolean;
   prefixCls?: string;
-  customRequest?: (
-    options: RcCustomRequestOptions<T>,
-    info: {
-      /**
-       * @since 5.28.0
-       */
-      defaultRequest: (option: RcCustomRequestOptions<T>) => void;
-    },
-  ) => void;
+  customRequest?: UploadCustomRequest<T, void> | UploadCustomRequest<T, UploadRequestResult>;
   withCredentials?: boolean;
   openFileDialogOnClick?: boolean;
   locale?: UploadLocale;
@@ -174,8 +174,8 @@ export interface UploadState<T = any> {
 }
 
 export interface UploadListProps<T = any> {
-  classNames?: UploadSemanticClassNames;
-  styles?: UploadSemanticStyles;
+  classNames?: UploadSemanticAllType['classNames'];
+  styles?: UploadSemanticAllType['styles'];
   listType?: UploadListType;
   onPreview?: (file: UploadFile<T>) => void;
   onDownload?: (file: UploadFile<T>) => void;

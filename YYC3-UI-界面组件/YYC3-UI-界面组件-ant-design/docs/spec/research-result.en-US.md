@@ -129,11 +129,10 @@ In addition to basic information like result status and guidance operations, it 
 
 ### Relevant Modules or Components
 
-- [Form Page](/components/form-cn/)
+- [Form Page](/components/form/)
 
 ### External Reference Articles
 
 - [Fiori Message Feedback Component Rules](https://experience.sap.com/fiori-design-web/message-box/)
 - [Aliyun Result Page Design](https://xconsole.aliyun-inc.com/scenes/resultpage)
 - [CANVAS Message Feedback Component Rules](https://canvas.hubspot.com/components/alerts-messaging)
-- [PREDIX Notification and Alert Component Rules](https://www.predix-ui.com/#/design/communication/notifications)

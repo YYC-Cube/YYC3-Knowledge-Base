@@ -1,16 +1,17 @@
 import * as React from 'react';
 import CaretDownOutlined from '@ant-design/icons/CaretDownOutlined';
 import CaretUpOutlined from '@ant-design/icons/CaretUpOutlined';
-import KeyCode from '@rc-component/util/lib/KeyCode';
+import { KeyCode } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { isNumber } from '../../_util/is';
+import { isFunction, isNumber, isPlainObject } from '../../_util/is';
 import type { AnyObject } from '../../_util/type';
 import type { Locale } from '../../locale';
 import type { TooltipProps } from '../../tooltip';
 import Tooltip from '../../tooltip';
 import type {
   ColumnGroupType,
+  ColumnSorter,
   ColumnsType,
   ColumnTitleProps,
   ColumnType,
@@ -30,7 +31,7 @@ const DESCEND = 'descend';
 const getMultiplePriority = <RecordType extends AnyObject = AnyObject>(
   column: ColumnType<RecordType>,
 ): number | false => {
-  if (typeof column.sorter === 'object' && isNumber(column.sorter.multiple)) {
+  if (isPlainObject<ColumnSorter<RecordType>>(column.sorter) && isNumber(column.sorter.multiple)) {
     return column.sorter.multiple;
   }
   return false;
@@ -39,10 +40,10 @@ const getMultiplePriority = <RecordType extends AnyObject = AnyObject>(
 const getSortFunction = <RecordType extends AnyObject = AnyObject>(
   sorter: ColumnType<RecordType>['sorter'],
 ): CompareFn<RecordType> | false => {
-  if (typeof sorter === 'function') {
+  if (isFunction(sorter)) {
     return sorter;
   }
-  if (sorter && typeof sorter === 'object' && sorter.compare) {
+  if (isPlainObject<ColumnSorter<RecordType>>(sorter) && sorter.compare) {
     return sorter.compare;
   }
   return false;
@@ -173,13 +174,9 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
       } else if (nextSortOrder === ASCEND) {
         sortTip = triggerAsc;
       }
-      const tooltipProps: TooltipProps =
-        typeof showSorterTooltip === 'object'
-          ? {
-              title: sortTip,
-              ...showSorterTooltip,
-            }
-          : { title: sortTip };
+      const tooltipProps: TooltipProps = isPlainObject(showSorterTooltip)
+        ? { title: sortTip, ...showSorterTooltip }
+        : { title: sortTip };
       newColumn = {
         ...newColumn,
         className: clsx(newColumn.className, { [`${prefixCls}-column-sort`]: sortOrder }),
@@ -238,8 +235,8 @@ const injectSorter = <RecordType extends AnyObject = AnyObject>(
                 sortOrder: nextSortOrder,
                 multiplePriority: getMultiplePriority<RecordType>(column),
               });
-              originOKeyDown?.(event);
             }
+            originOKeyDown?.(event);
           };
 
           const renderTitle = safeColumnTitle(column.title, {});
@@ -299,9 +296,12 @@ const stateToInfo = <RecordType extends AnyObject = AnyObject>(
 const generateSorterInfo = <RecordType extends AnyObject = AnyObject>(
   sorterStates: SortState<RecordType>[],
 ): SorterResult<RecordType> | SorterResult<RecordType>[] => {
-  const activeSorters = sorterStates
-    .filter(({ sortOrder }) => sortOrder)
-    .map<SorterResult<RecordType>>(stateToInfo);
+  const activeSorters = sorterStates.reduce<SorterResult<RecordType>[]>((list, sorterState) => {
+    if (sorterState.sortOrder) {
+      list.push(stateToInfo(sorterState));
+    }
+    return list;
+  }, []);
 
   // =========== Legacy compatible support ===========
   // https://github.com/ant-design/ant-design/pull/19226
@@ -380,6 +380,14 @@ export const getSortData = <RecordType extends AnyObject = AnyObject>(
 interface SorterConfig<RecordType = AnyObject> {
   prefixCls: string;
   mergedColumns: ColumnsType<RecordType>;
+  /**
+   * Columns before applying the responsive filter.
+   * Used to collect `defaultSortOrder` / controlled `sortOrder` for columns
+   * that are currently hidden by `column.responsive`, so the user's sort
+   * intent is preserved when the column appears at a different breakpoint.
+   * Falls back to `mergedColumns` when not provided.
+   */
+  baseColumns?: ColumnsType<RecordType>;
   onSorterChange: (
     sorterResult: SorterResult<RecordType> | SorterResult<RecordType>[],
     sortStates: SortState<RecordType>[],
@@ -401,6 +409,7 @@ const useFilterSorter = <RecordType extends AnyObject = AnyObject>(
   const {
     prefixCls,
     mergedColumns,
+    baseColumns,
     sortDirections,
     tableLocale,
     showSorterTooltip,
@@ -408,30 +417,51 @@ const useFilterSorter = <RecordType extends AnyObject = AnyObject>(
     globalLocale,
   } = props;
 
+  // Use base (pre-responsive) columns to seed sort states so that
+  // `defaultSortOrder` on a `responsive` column is honored even when the
+  // column is not visible at the current breakpoint.
+  // See: https://github.com/ant-design/ant-design/issues/32847
+  const collectColumns = baseColumns ?? mergedColumns;
+
   const [sortStates, setSortStates] = React.useState<SortState<RecordType>[]>(() =>
-    collectSortStates<RecordType>(mergedColumns, true),
+    collectSortStates<RecordType>(collectColumns, true),
   );
 
-  const getColumnKeys = (columns: ColumnsType<RecordType>, pos?: string): Key[] => {
-    const newKeys: Key[] = [];
+  const getColumnMap = (
+    columns: ColumnsType<RecordType>,
+    pos?: string,
+    columnMap = new Map<Key, ColumnsType<RecordType>[number]>(),
+  ) => {
     columns.forEach((item, index) => {
       const columnPos = getColumnPos(index, pos);
-      newKeys.push(getColumnKey<RecordType>(item, columnPos));
-      if (Array.isArray((item as ColumnGroupType<RecordType>).children)) {
-        const childKeys = getColumnKeys((item as ColumnGroupType<RecordType>).children, columnPos);
-        newKeys.push(...childKeys);
+      if (item.sorter) {
+        const key = getColumnKey<RecordType>(item, columnPos);
+        if (!columnMap.has(key)) {
+          columnMap.set(key, item);
+        }
+      }
+      if ((item as ColumnGroupType<RecordType>).children) {
+        getColumnMap((item as ColumnGroupType<RecordType>).children, columnPos, columnMap);
       }
     });
-    return newKeys;
+    return columnMap;
   };
   const mergedSorterStates = React.useMemo<SortState<RecordType>[]>(() => {
     let validate = true;
-    const collectedStates = collectSortStates<RecordType>(mergedColumns, false);
+    // Collect controlled `sortOrder` from the full (pre-responsive) column
+    // set so that a controlled `sortOrder` on a hidden responsive column
+    // still applies to the sorted data.
+    let collectedStates = collectSortStates<RecordType>(collectColumns, false);
 
-    // Return if not controlled
+    // Refresh uncontrolled states before applying the same single/multiple-sort rules.
     if (!collectedStates.length) {
-      const mergedColumnsKeys = getColumnKeys(mergedColumns);
-      return sortStates.filter(({ key }) => mergedColumnsKeys.includes(key));
+      const columnMap = getColumnMap(collectColumns);
+      collectedStates = sortStates.flatMap((state) => {
+        const column = columnMap.get(state.key);
+        return column?.sorter
+          ? [{ ...state, column, multiplePriority: getMultiplePriority(column) }]
+          : [];
+      });
     }
 
     const validateStates: SortState<RecordType>[] = [];
@@ -449,6 +479,10 @@ const useFilterSorter = <RecordType extends AnyObject = AnyObject>(
 
     let multipleMode: boolean | null = null;
     collectedStates.forEach((state) => {
+      if (!state.sortOrder) {
+        patchStates(state);
+        return;
+      }
       if (multipleMode === null) {
         patchStates(state);
 
@@ -468,7 +502,7 @@ const useFilterSorter = <RecordType extends AnyObject = AnyObject>(
     });
 
     return validateStates;
-  }, [mergedColumns, sortStates]);
+  }, [collectColumns, sortStates]);
 
   // Get render columns title required props
   const columnTitleSorterProps = React.useMemo<ColumnTitleProps<RecordType>>(() => {
@@ -487,10 +521,11 @@ const useFilterSorter = <RecordType extends AnyObject = AnyObject>(
 
   const triggerSorter = (sortState: SortState<RecordType>) => {
     let newSorterStates: SortState<RecordType>[];
+    const activeSorterState = mergedSorterStates.find(({ sortOrder }) => sortOrder);
     if (
       sortState.multiplePriority === false ||
-      !mergedSorterStates.length ||
-      mergedSorterStates[0].multiplePriority === false
+      !activeSorterState ||
+      activeSorterState.multiplePriority === false
     ) {
       newSorterStates = [sortState];
     } else {

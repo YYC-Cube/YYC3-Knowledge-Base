@@ -1,10 +1,11 @@
 import type { ChangeEventHandler } from 'react';
 import React, { version as ReactVersion, useEffect, useRef, useState } from 'react';
 import { AlertFilled } from '@ant-design/icons';
+import { createCache, extractStyle, StyleProvider } from '@ant-design/cssinjs';
 import { clsx } from 'clsx';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
-import type { FormInstance } from '..';
+import type { FormInstance, FormItemProps } from '..';
 import Form from '..';
 import { isNumber } from '../../_util/is';
 import { responsiveArrayReversed } from '../../_util/responsiveObserver';
@@ -326,6 +327,22 @@ describe('Form', () => {
     expect(container.querySelector('.ant-form-item-explain')?.id).toBe('test_help');
   });
 
+  it('input element should have the prop aria-describedby pointing to the help id when there are warnings', async () => {
+    const { container } = pureRender(
+      <Form>
+        <Form.Item name="test" rules={[{ len: 3, warningOnly: true }]}>
+          <input />
+        </Form.Item>
+      </Form>,
+    );
+
+    await changeValue(0, 'Invalid number');
+
+    expect(container.querySelector('.ant-form-item-explain-warning')).toBeTruthy();
+    expect(container.querySelector('input')?.getAttribute('aria-describedby')).toBe('test_help');
+    expect(container.querySelector('.ant-form-item-explain')?.id).toBe('test_help');
+  });
+
   it('input element should have the prop aria-invalid when there are errors', async () => {
     const { container } = render(
       <Form>
@@ -371,6 +388,21 @@ describe('Form', () => {
     );
     expect(container.querySelector('input')?.getAttribute('aria-describedby')).toBe('test_extra');
     expect(container.querySelector('.ant-form-item-extra')?.id).toBe('test_extra');
+  });
+
+  it('renders numeric zero as extra content and links it with aria-describedby', () => {
+    const { container } = render(
+      <Form>
+        <Form.Item name="test" extra={0}>
+          <input />
+        </Form.Item>
+      </Form>,
+    );
+
+    const extra = container.querySelector('.ant-form-item-extra');
+    expect(container.querySelector('input')?.getAttribute('aria-describedby')).toBe('test_extra');
+    expect(extra).toHaveAttribute('id', 'test_extra');
+    expect(extra).toHaveTextContent('0');
   });
 
   it('input element should not have the prop aria-describedby pointing to the extra id when there is a extra message and name is not defined', () => {
@@ -789,6 +821,24 @@ describe('Form', () => {
       expect(container.querySelector('.ant-form-item-explain')).toHaveTextContent('');
       expect(container.querySelector('.ant-form-item-with-help')).toBeTruthy();
     });
+
+    // https://github.com/ant-design/ant-design/issues/58557
+    it('false', async () => {
+      const { container } = render(
+        <Form>
+          <Form.Item name="test" help={false} rules={[{ required: true, message: 'message' }]}>
+            <Input />
+          </Form.Item>
+        </Form>,
+      );
+
+      fireEvent.submit(container.querySelector('form')!);
+      await waitFakeTimer();
+
+      expect(container.querySelector('.ant-form-item')).toHaveClass('ant-form-item-has-error');
+      expect(container.querySelector('.ant-form-item-with-help')).toBeTruthy();
+      expect(container.querySelector('.ant-form-item-explain')?.textContent).toBe('');
+    });
   });
 
   // https://github.com/ant-design/ant-design/issues/20706
@@ -818,12 +868,12 @@ describe('Form', () => {
     for (let i = 0; i < 3; i += 1) {
       await changeValue(0, 'bamboo');
       await changeValue(0, '');
-      expect(container.querySelector('.ant-form-item-explain')?.textContent).toEqual(
+      expect(container.querySelector('.ant-form-item-explain')?.textContent).toBe(
         "'name' is required",
       );
 
       await changeValue(0, 'p');
-      expect(container.querySelector('.ant-form-item-explain')?.textContent).toEqual('not a p');
+      expect(container.querySelector('.ant-form-item-explain')?.textContent).toBe('not a p');
     }
   });
 
@@ -907,7 +957,7 @@ describe('Form', () => {
 
     await waitFakeTimer();
 
-    expect(container.querySelector<HTMLInputElement>('#changed')!.value).toEqual('');
+    expect(container.querySelector<HTMLInputElement>('#changed')!.value).toBe('');
     expect(shouldNotRender).toHaveBeenCalledTimes(1);
     expect(shouldRender).toHaveBeenCalledTimes(1);
 
@@ -945,7 +995,7 @@ describe('Form', () => {
 
     await changeValue(0, '');
     expect(container.querySelector('.ant-form-item')).toHaveClass('ant-form-item-has-error');
-    expect(container.querySelector('.ant-form-item-explain')!.textContent).toEqual('help');
+    expect(container.querySelector('.ant-form-item-explain')!.textContent).toBe('help');
   });
 
   it('clear validation message when', async () => {
@@ -987,6 +1037,16 @@ describe('Form', () => {
     );
 
     // if getByLabelText can get element, then it is a validate field with form control and label
+    expect(screen.getByLabelText('0')).toBeInTheDocument();
+  });
+
+  it('0 is a valid label', () => {
+    render(
+      <Form.Item name="field" label={0}>
+        <input />
+      </Form.Item>,
+    );
+
     expect(screen.getByLabelText('0')).toBeInTheDocument();
   });
 
@@ -1197,7 +1257,7 @@ describe('Form', () => {
 
     await changeValue(0, 'a');
 
-    expect(renderTimes).toEqual(1);
+    expect(renderTimes).toBe(1);
     expect(container.querySelector('input')).toHaveValue('a');
   });
 
@@ -1261,7 +1321,7 @@ describe('Form', () => {
       </Form>,
     );
 
-    expect(container.querySelector('input')!.id).toEqual('bamboo');
+    expect(container.querySelector('input')!.id).toBe('bamboo');
   });
 
   it('should trigger validate when onBlur when pass validateTrigger onBlur', async () => {
@@ -1418,6 +1478,100 @@ describe('Form', () => {
     );
     const { container } = render(<App />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  // https://github.com/ant-design/ant-design/issues/55523
+  it('should apply custom labelHeight token in vertical layout across themes', () => {
+    const cache = createCache();
+
+    render(
+      <StyleProvider cache={cache}>
+        <>
+          <Form layout="vertical">
+            <Form.Item label="Username">
+              <Input />
+            </Form.Item>
+          </Form>
+          <ConfigProvider
+            theme={{
+              components: {
+                Form: {
+                  labelHeight: 100,
+                },
+              },
+            }}
+          >
+            <Form layout="vertical">
+              <Form.Item label="Username">
+                <Input />
+              </Form.Item>
+            </Form>
+          </ConfigProvider>
+        </>
+      </StyleProvider>,
+    );
+
+    const styleText = extractStyle(cache, { plain: true });
+
+    expect(styleText).toContain('--ant-form-vertical-label-height:100px;');
+    expect(styleText).toContain(
+      '.ant-form-item-vertical .ant-form-item-label>label{height:var(--ant-form-vertical-label-height);}',
+    );
+  });
+
+  // https://github.com/ant-design/ant-design/issues/51630
+  it('should preserve label offset margin in vertical layout', () => {
+    const cache = createCache();
+    const { container } = render(
+      <StyleProvider cache={cache}>
+        <ConfigProvider
+          theme={{ components: { Form: { verticalLabelMargin: '1px 2px 3px 4px' } } }}
+        >
+          <Form layout="vertical" labelCol={{ span: 24, offset: 6, sm: { span: 24, offset: 3 } }}>
+            <Form.Item label="Form offset">
+              <Input />
+            </Form.Item>
+            <Form.Item label="Item offset" labelCol={{ offset: 4, md: { offset: 0 } }}>
+              <Input />
+            </Form.Item>
+          </Form>
+        </ConfigProvider>
+      </StyleProvider>,
+    );
+
+    const labels = container.querySelectorAll('.ant-form-item-label');
+    expect(labels[0]).toHaveClass(
+      'ant-col-24',
+      'ant-col-offset-6',
+      'ant-col-sm-24',
+      'ant-col-sm-offset-3',
+    );
+    expect(labels[1]).toHaveClass('ant-col-offset-4', 'ant-col-md-offset-0');
+
+    const styleText = extractStyle(cache, { plain: true });
+    const labelMarginRule = '.ant-form-item-label{margin:var(--ant-form-item-label-margin);}';
+    const matchingMarginVariableRules = Array.from(
+      styleText.matchAll(
+        /([^{}]+)\{[^{}]*--ant-form-item-label-margin:var\(--ant-form-vertical-label-margin\);[^{}]*\}/g,
+      ),
+    ).filter(([, selector]) => labels[0].matches(selector.trim()));
+    const gridMarginRules = [
+      '.ant-col-offset-6{margin-inline-start:25%;}',
+      '.ant-col-sm-offset-3{margin-inline-start:12.5%;}',
+      '.ant-col-md-offset-0{margin-inline-start:0;}',
+    ];
+
+    expect(styleText).toContain('--ant-form-vertical-label-margin:1px 2px 3px 4px;');
+    expect(styleText).toContain('--ant-form-item-label-margin:initial;');
+    expect(matchingMarginVariableRules.length).toBeGreaterThan(0);
+    expect(styleText).toContain(labelMarginRule);
+
+    // The single-class Form rule has the same specificity as the Grid offset.
+    // Grid styles are emitted later, so margin-inline-start wins while the other margins remain.
+    gridMarginRules.forEach((rule) => {
+      expect(styleText).toContain(rule);
+      expect(styleText.indexOf(labelMarginRule)).toBeLessThan(styleText.indexOf(rule));
+    });
   });
 
   it('form.item should support label = null', () => {
@@ -1746,6 +1900,26 @@ describe('Form', () => {
 
       expect(screen.getByText('姓名')).toHaveClass('ant-form-item-no-colon');
     });
+
+    it('should only strip a trailing colon from string label', () => {
+      render(
+        <Form>
+          <Form.Item label="Name:" name="name">
+            <Input />
+          </Form.Item>
+          <Form.Item label="姓名：" name="cnName">
+            <Input />
+          </Form.Item>
+          <Form.Item label="A|B|" name="pipe">
+            <Input />
+          </Form.Item>
+        </Form>,
+      );
+
+      expect(screen.getByText('Name')).toBeInTheDocument();
+      expect(screen.getByText('姓名')).toBeInTheDocument();
+      expect(screen.getByText('A|B|')).toBeInTheDocument();
+    });
   });
 
   it('useFormInstance', () => {
@@ -1862,13 +2036,83 @@ describe('Form', () => {
       await changeValue(0, 'Once');
       await changeValue(0, '');
 
-      expect(container.querySelector('.ant-form-item-explain-error')?.textContent).toEqual(
+      expect(container.querySelector('.ant-form-item-explain-error')?.textContent).toBe(
         "'first' is required",
       );
 
       expect(container.querySelectorAll('input')[0]).toHaveClass('ant-input-status-error');
       expect(container.querySelectorAll('input')[1]).not.toHaveClass('ant-input-status-error');
     });
+
+    // https://github.com/ant-design/ant-design/issues/59706
+    it.each([
+      ['error', 'error', {}],
+      ['error with feedback', 'error', { hasFeedback: true }],
+      ['warning', 'warning', {}],
+      ['validating', 'validating', {}],
+    ] as const)(
+      'noStyle should keep the parent %s status after being touched',
+      async (_, status, feedbackProps) => {
+        const { container } = render(
+          <Form>
+            <Form.Item validateStatus={status} {...feedbackProps}>
+              <Form.Item name="phone" noStyle {...feedbackProps}>
+                <Input />
+              </Form.Item>
+            </Form.Item>
+          </Form>,
+        );
+
+        await changeValue(0, '123');
+
+        expect(container.querySelector(`.ant-input-status-${status}`)).toBeTruthy();
+        expect(container.querySelector('.ant-input-status-success')).toBeFalsy();
+        expect(container.querySelector('.ant-form-item-feedback-icon-success')).toBeFalsy();
+      },
+    );
+
+    // https://github.com/ant-design/ant-design/issues/59706
+    it('noStyle with hasFeedback should keep the parent success feedback after being touched', async () => {
+      const { container } = render(
+        <Form>
+          <Form.Item validateStatus="success" hasFeedback>
+            <Form.Item name="phone" noStyle hasFeedback>
+              <Input />
+            </Form.Item>
+          </Form.Item>
+        </Form>,
+      );
+
+      await changeValue(0, '123');
+
+      expect(container.querySelector('.ant-form-item-feedback-icon-success')).toBeTruthy();
+    });
+
+    // https://github.com/ant-design/ant-design/issues/59706
+    it.each<[string, FormItemProps['validateStatus'], FormItemProps['rules'], string]>([
+      ['error', 'warning', [{ required: true }], ''],
+      ['warning', 'error', [{ len: 3, warningOnly: true }], 'Nanjing'],
+      ['validating', 'error', [{ validator: () => new Promise<void>(() => {}) }], 'Nanjing'],
+    ])(
+      'noStyle should keep its own %s status over the parent %s status',
+      async (status, parentStatus, rules, value) => {
+        const { container } = render(
+          <Form>
+            <Form.Item validateStatus={parentStatus}>
+              <Form.Item name="phone" noStyle rules={rules}>
+                <Input />
+              </Form.Item>
+            </Form.Item>
+          </Form>,
+        );
+
+        await changeValue(0, 'Shanghai');
+        await changeValue(0, value);
+
+        expect(container.querySelector(`.ant-input-status-${status}`)).toBeTruthy();
+        expect(container.querySelector(`.ant-input-status-${parentStatus}`)).toBeFalsy();
+      },
+    );
   });
 
   it('should not affect Popup children style', () => {
@@ -1901,6 +2145,37 @@ describe('Form', () => {
     expect(container.querySelector('.custom-popup-input')).not.toHaveClass(
       'ant-input-status-error',
     );
+  });
+
+  // https://github.com/ant-design/ant-design/issues/52581
+  it('should not affect popupRender children style of Select-like components', () => {
+    const renderPopup = (className: string) => (menu: React.ReactElement) => (
+      <>
+        {menu}
+        <Input className={className} />
+      </>
+    );
+    const { container } = render(
+      <Form>
+        <Form.Item validateStatus="error" hasFeedback>
+          <Select open options={[]} popupRender={renderPopup('select-popup-input')} />
+        </Form.Item>
+        <Form.Item validateStatus="error" hasFeedback>
+          <TreeSelect open treeData={[]} popupRender={renderPopup('tree-select-popup-input')} />
+        </Form.Item>
+        <Form.Item validateStatus="error" hasFeedback>
+          <Cascader open options={[]} popupRender={renderPopup('cascader-popup-input')} />
+        </Form.Item>
+      </Form>,
+      { container: document.body },
+    );
+
+    ['select-popup-input', 'tree-select-popup-input', 'cascader-popup-input'].forEach((cls) => {
+      const input = container.querySelector(`.${cls}`);
+      expect(input).toBeTruthy();
+      expect(input).not.toHaveClass('ant-input-status-error');
+      expect(input?.parentElement?.querySelector('.ant-form-item-feedback-icon')).toBeFalsy();
+    });
   });
 
   // eslint-disable-next-line jest/no-disabled-tests
@@ -2020,6 +2295,44 @@ describe('Form', () => {
     expect(container.querySelector('.test-warning')).toHaveTextContent(
       'This is a warning message.',
     );
+  });
+
+  it('Form.Item.useStatus should update messages while validate status is unchanged', () => {
+    const formRef = React.createRef<FormInstance>();
+
+    const StatusItem: React.FC = () => {
+      const { errors, warnings } = Form.Item.useStatus();
+      return (
+        <>
+          <div className="test-error">{errors[0]}</div>
+          <div className="test-warning">{warnings[0]}</div>
+        </>
+      );
+    };
+
+    const { container } = render(
+      <Form ref={formRef}>
+        <Form.Item name="field">
+          <StatusItem />
+        </Form.Item>
+      </Form>,
+    );
+
+    act(() => {
+      formRef.current?.setFields([
+        { name: 'field', errors: ['First error'], warnings: ['First warning'] },
+      ]);
+    });
+    expect(container.querySelector('.test-error')).toHaveTextContent('First error');
+    expect(container.querySelector('.test-warning')).toHaveTextContent('First warning');
+
+    act(() => {
+      formRef.current?.setFields([
+        { name: 'field', errors: ['Second error'], warnings: ['Second warning'] },
+      ]);
+    });
+    expect(container.querySelector('.test-error')).toHaveTextContent('Second error');
+    expect(container.querySelector('.test-warning')).toHaveTextContent('Second warning');
   });
 
   it('item customize margin', async () => {
@@ -2391,10 +2704,10 @@ describe('Form', () => {
         </Form>,
       );
 
-      expect(container.querySelectorAll('.ant-form-item-label')[0].textContent).toEqual(
+      expect(container.querySelectorAll('.ant-form-item-label')[0].textContent).toBe(
         'Required: true',
       );
-      expect(container.querySelectorAll('.ant-form-item-label')[1].textContent).toEqual(
+      expect(container.querySelectorAll('.ant-form-item-label')[1].textContent).toBe(
         'Optional: false',
       );
     });
@@ -2413,8 +2726,8 @@ describe('Form', () => {
       </Form>,
     );
 
-    expect(container.querySelectorAll('input')[0].value).toEqual('bamboo');
-    expect(container.querySelectorAll('input')[1].value).toEqual('14');
+    expect(container.querySelectorAll('input')[0].value).toBe('bamboo');
+    expect(container.querySelectorAll('input')[1].value).toBe('14');
     expect(errorSpy).not.toHaveBeenCalled();
   });
 

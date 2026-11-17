@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/ca_ES';
+import Pagination from '@rc-component/pagination/locale/ca_ES';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/ca_ES';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Seleccionar',
     close: 'Tancar',
+    show: 'Mostra',
+    hide: 'Amaga',
+    sortable: 'ordenable',
   },
   Table: {
     filterTitle: 'Filtrar el menú',
@@ -25,12 +28,21 @@ const localeValues: Locale = {
     selectAll: 'Seleccionar la pàgina actual',
     selectInvert: 'Invertir la selecció',
     selectionAll: 'Seleccionar-ho tot',
+    selectRow: 'Selecciona la fila',
+    selectedRow: 'Fila seleccionada',
+    selectionMenu: 'Menú de selecció',
     sortTitle: 'Ordenar',
     expand: 'Ampliar la fila',
     collapse: 'Plegar la fila',
+    expandAll: 'Ampliar totes les files',
+    collapseAll: 'Plegar totes les files',
     triggerDesc: 'Ordre descendent',
     triggerAsc: 'Ordre ascendent',
     cancelSort: 'Desactivar l’ordre',
+    filterCheckAll: 'Seleccioneu tots els elements',
+    filterSearchPlaceholder: 'Cerca en filtres',
+    emptyText: 'Sense dades',
+    selectNone: 'Esborra totes les dades',
   },
   Tour: {
     Next: 'Següent',
@@ -46,6 +58,10 @@ const localeValues: Locale = {
     okText: 'D’acord',
     cancelText: 'Cancel·lar',
   },
+  Splitter: {
+    toggleStartPanel: 'Commuta el panell inicial',
+    toggleEndPanel: 'Commuta el panell final',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Cercar',
@@ -57,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Seleccionar-ho tot',
     removeAll: 'Eliminar-ho tot',
     selectInvert: 'Invertir la selecció',
+    deselectAll: 'Desseleccioneu totes les dades',
   },
   Upload: {
     uploading: 'Carregant…',
@@ -76,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Copiar',
     copied: 'Copiat',
     expand: 'Ampliar',
+    collapse: 'Col·lapse',
+  },
+  Carousel: {
+    prevSlide: 'Diapositiva anterior',
+    nextSlide: 'Diapositiva següent',
   },
   Form: {
     optional: '(opcional)',
@@ -126,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} no coincideix amb el patró ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'El codi QR ha caducat',
+    refresh: 'Actualitza',
+    scanned: 'Escanejat',
+  },
+  ColorPicker: {
+    presetEmpty: 'Buit',
+    transparent: 'Transparent',
+    singleColor: 'Un sol',
+    gradientColor: 'Color degradat',
   },
 };
 

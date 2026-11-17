@@ -1,16 +1,15 @@
 import * as React from 'react';
 import type { JSX } from 'react';
-import { get, set } from '@rc-component/util';
-import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
+import { get, isReactRenderable, set, useLayoutEffect } from '@rc-component/util';
 import { clsx } from 'clsx';
 
+import { isPlainObject } from '../_util/is';
 import { responsiveArrayReversed } from '../_util/responsiveObserver';
 import type { ColProps } from '../grid/col';
 import Col from '../grid/col';
 import { FormContext, FormItemPrefixContext } from './context';
 import ErrorList from './ErrorList';
 import type { ValidateStatus } from './FormItem';
-import FallbackCmp from './style/fallbackCmp';
 
 interface FormItemInputMiscProps {
   prefixCls: string;
@@ -75,12 +74,16 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
         const _size = size ? [size] : [];
 
         const formLabel = get(formContext.labelCol, _size);
-        const formLabelObj = typeof formLabel === 'object' ? formLabel : {};
+        const formLabelObj = isPlainObject(formLabel) ? formLabel : {};
 
         const wrapper = get(mergedWrapper, _size);
-        const wrapperObj = typeof wrapper === 'object' ? wrapper : {};
+        const wrapperObj = isPlainObject(wrapper) ? wrapper : {};
 
-        if ('span' in formLabelObj && !('offset' in wrapperObj) && formLabelObj.span < GRID_MAX) {
+        if (
+          'span' in formLabelObj &&
+          !('offset' in wrapperObj) &&
+          (formLabelObj as any).span < GRID_MAX
+        ) {
           mergedWrapper = set(mergedWrapper, [..._size, 'offset'], formLabelObj.span);
         }
       });
@@ -98,13 +101,14 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
 
   const extraRef = React.useRef<HTMLDivElement>(null);
   const [extraHeight, setExtraHeight] = React.useState<number>(0);
+  const hasExtra = isReactRenderable(extra);
   useLayoutEffect(() => {
-    if (extra && extraRef.current) {
+    if (hasExtra && extraRef.current) {
       setExtraHeight(extraRef.current.clientHeight);
     } else {
       setExtraHeight(0);
     }
-  }, [extra]);
+  }, [extra, hasExtra]);
 
   const inputDom: React.ReactNode = (
     <div className={`${baseClassName}-control-input`}>
@@ -138,10 +142,13 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
     extraProps.id = `${fieldId}_extra`;
   }
 
-  // If extra = 0, && will goes wrong
-  // 0&&error -> 0
-  const extraDom: React.ReactNode = extra ? (
-    <div {...extraProps} className={`${baseClassName}-extra`} ref={extraRef}>
+  const extraDom: React.ReactNode = hasExtra ? (
+    <div
+      {...extraProps}
+      className={clsx(`${baseClassName}-extra`, contextClassNames?.extra)}
+      style={contextStyles?.extra}
+      ref={extraRef}
+    >
       {extra}
     </div>
   ) : null;
@@ -171,7 +178,6 @@ const FormItemInput: React.FC<FormItemInputProps & FormItemInputMiscProps> = (pr
       <Col {...mergedWrapperCol} className={className}>
         {dom}
       </Col>
-      <FallbackCmp prefixCls={prefixCls} />
     </FormContext.Provider>
   );
 };

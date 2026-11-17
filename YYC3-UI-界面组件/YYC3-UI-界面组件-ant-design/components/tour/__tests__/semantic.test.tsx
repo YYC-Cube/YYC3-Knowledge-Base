@@ -1,7 +1,12 @@
 import React, { useRef } from 'react';
 
 import Tour from '..';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 import { render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
 import type { TourProps } from '../interface';
 
 describe('Tour.Semantic', () => {
@@ -9,6 +14,7 @@ describe('Tour.Semantic', () => {
     const customClassnames: TourProps['classNames'] = (_info) => ({
       mask: _info?.props.type === 'primary' ? 'primary-mask-fn' : 'primary-mask-fn',
       actions: 'custom-actions-fn',
+      close: 'custom-close-fn',
       title: 'custom-title-fn',
       header: 'custom-header-fn',
       section: 'custom-section-fn',
@@ -23,6 +29,7 @@ describe('Tour.Semantic', () => {
     const customStyles: TourProps['styles'] = (_info) => ({
       mask: { color: _info?.props.type === 'primary' ? 'white' : 'black' },
       actions: { color: 'blue' },
+      close: { color: 'pink' },
       title: { fontSize: '20px' },
       header: { backgroundColor: 'gray' },
       section: { margin: _info?.props.type === 'primary' ? '10px' : '5px' },
@@ -78,6 +85,7 @@ describe('Tour.Semantic', () => {
     const footerElement = document.querySelector<HTMLElement>('.ant-tour-footer');
     const descriptionElement = document.querySelector<HTMLElement>('.ant-tour-description');
     const coverElement = document.querySelector<HTMLElement>('.ant-tour-cover');
+    const closeElement = document.querySelector<HTMLElement>('.ant-tour-close');
     const indicatorElement = document.querySelector<HTMLElement>('.ant-tour-indicator');
     const indicatorsElement = document.querySelector<HTMLElement>('.ant-tour-indicators');
     const rootElement = document.querySelector<HTMLElement>('.ant-tour-mask');
@@ -90,6 +98,7 @@ describe('Tour.Semantic', () => {
     expect(footerElement).toHaveClass('primary-footer-fn');
     expect(descriptionElement).toHaveClass('custom-description-fn');
     expect(coverElement).toHaveClass('custom-cover-fn');
+    expect(closeElement).toHaveClass('custom-close-fn');
     expect(indicatorElement).toHaveClass('custom-indicator-fn');
     expect(indicatorsElement).toHaveClass('custom-indicators-fn');
     expect(rootElement).toHaveClass('custom-root-fn');
@@ -102,8 +111,79 @@ describe('Tour.Semantic', () => {
     expect(footerElement).toHaveStyle({ borderTopWidth: '1px' });
     expect(descriptionElement).toHaveStyle({ fontStyle: 'italic' });
     expect(coverElement).toHaveStyle({ color: 'rgb(255, 0, 0)' });
+    expect(closeElement).toHaveStyle({ color: 'rgb(255, 192, 203)' });
     expect(indicatorElement).toHaveStyle({ color: 'rgb(0, 128, 0)' });
     expect(indicatorsElement).toHaveStyle({ color: 'rgb(255, 255, 0)' });
     expect(rootElement).toHaveStyle({ backgroundColor: 'rgb(255, 255, 0)' });
+  });
+
+  it('should follow mask style priority', () => {
+    const Demo: React.FC = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+
+      return (
+        <ConfigProvider
+          tour={{
+            styles: { mask: semanticRootStylePriority.contextStyles.root },
+            style: semanticRootStylePriority.contextStyle,
+          }}
+        >
+          <button ref={btnRef} type="button">
+            Target
+          </button>
+          <Tour
+            open
+            styles={{ mask: semanticRootStylePriority.styles.root }}
+            style={semanticRootStylePriority.style}
+            steps={[
+              {
+                title: 'Title',
+                description: 'Description',
+                target: () => btnRef.current!,
+              },
+            ]}
+          />
+        </ConfigProvider>
+      );
+    };
+
+    render(<Demo />);
+
+    expectSemanticRootStylePriority(document.querySelector('.ant-tour-mask'));
+  });
+
+  it('should follow root style priority on mask', () => {
+    const Demo: React.FC = () => {
+      const btnRef = useRef<HTMLButtonElement>(null);
+
+      return (
+        <ConfigProvider
+          tour={{
+            styles: semanticRootStylePriority.contextStyles,
+            style: semanticRootStylePriority.contextStyle,
+          }}
+        >
+          <button ref={btnRef} type="button">
+            Target
+          </button>
+          <Tour
+            open
+            styles={semanticRootStylePriority.styles}
+            style={semanticRootStylePriority.style}
+            steps={[
+              {
+                title: 'Title',
+                description: 'Description',
+                target: () => btnRef.current!,
+              },
+            ]}
+          />
+        </ConfigProvider>
+      );
+    };
+
+    render(<Demo />);
+
+    expectSemanticRootStylePriority(document.querySelector('.ant-tour-mask'));
   });
 });

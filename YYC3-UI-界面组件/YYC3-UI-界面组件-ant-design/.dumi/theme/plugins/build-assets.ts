@@ -3,6 +3,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import createEmotionServer from '@emotion/server/create-instance';
 import type { IApi } from 'dumi';
+import { compile } from 'tailwindcss';
+
+const siteLayerOrder = '@layer theme, base, global, antd, components, utilities;';
+const siteLayerStyle = `<style>${siteLayerOrder}</style>`;
+// Tailwind Browser already provides the default theme and utilities. A bare import here is
+// requested by the browser as a stylesheet relative to every page before Tailwind can process it.
+const tailwindLayerStyle = `<style type="text/tailwindcss">${siteLayerOrder}</style>`;
 
 export const getHash = (str: string, length = 8) =>
   createHash('md5').update(str).digest('hex').slice(0, length);
@@ -28,8 +35,29 @@ function extractEmotionStyle(html: string) {
   return styles.filter(Boolean);
 }
 
+function prependSiteLayerOrder(html: string) {
+  if (!html.includes('<head>')) {
+    return html;
+  }
+
+  return html
+    .replace(siteLayerStyle, '')
+    .replace(tailwindLayerStyle, '')
+    .replace('<head>', `<head>${siteLayerStyle}${tailwindLayerStyle}`);
+}
+
 export default async function buildAssetsPlugin(api: IApi) {
   const chalk = await import('chalk').then((m) => m.default);
+  // Keep the reset in the initial HTML while loading the utility compiler on demand.
+  const { build } = await compile(`
+    @layer theme {
+      ${fs.readFileSync(require.resolve('tailwindcss/theme.css'), 'utf8')}
+    }
+    @layer base {
+      ${fs.readFileSync(require.resolve('tailwindcss/preflight.css'), 'utf8')}
+    }
+  `);
+  const tailwindBaseStyle = build([]);
 
   const writeCSSFile = (key: string, hashKey: string, cssString: string) => {
     const fileName = `style-${key}.${getHash(hashKey)}.css`;
@@ -59,6 +87,8 @@ export default async function buildAssetsPlugin(api: IApi) {
       // exclude dynamic route path, to avoid deploy failed by `:id` directory
       .filter((f) => !f.path.includes(':'))
       .map((file) => {
+        file.content = prependSiteLayerOrder(file.content);
+
         // 1. 提取 antd-style 样式
         const styles = extractEmotionStyle(file.content);
 
@@ -82,6 +112,7 @@ export default async function buildAssetsPlugin(api: IApi) {
   // add ssr css file to html
   api.modifyConfig((memo) => {
     memo.styles ??= [];
+    memo.styles.push(tailwindBaseStyle);
 
     return memo;
   });

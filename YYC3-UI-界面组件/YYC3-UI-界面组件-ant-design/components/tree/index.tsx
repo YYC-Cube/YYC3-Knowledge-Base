@@ -1,7 +1,12 @@
 import type RcTree from '@rc-component/tree';
-import type { BasicDataNode } from '@rc-component/tree';
-import { TreeNode } from '@rc-component/tree';
-import type { DataNode } from '@rc-component/tree/lib/interface';
+import type {
+  BasicDataNode,
+  DataNode,
+  EventDataNode,
+  TreeInstance,
+  UseTreeConfig,
+} from '@rc-component/tree';
+import { TreeNode, useTree } from '@rc-component/tree';
 
 import DirectoryTree from './DirectoryTree';
 import type { TreeProps } from './Tree';
@@ -21,24 +26,21 @@ export type {
   AntTreeNodeProps,
   AntTreeNodeSelectedEvent,
   TreeProps,
-  TreeSemanticClassNames,
-  TreeSemanticName,
-  TreeSemanticStyles,
 } from './Tree';
 
-export type { EventDataNode } from '@rc-component/tree/lib/interface';
-
-export type { BasicDataNode, DataNode };
+export type { BasicDataNode, DataNode, EventDataNode, TreeInstance, UseTreeConfig };
 
 type CompoundedComponent = (<T extends BasicDataNode | DataNode = DataNode>(
   props: React.PropsWithChildren<TreeProps<T>> & React.RefAttributes<RcTree>,
 ) => React.ReactElement) & {
   TreeNode: typeof TreeNode;
   DirectoryTree: typeof DirectoryTree;
+  useTree: typeof useTree;
 };
 
 const Tree = TreePure as unknown as CompoundedComponent;
 Tree.DirectoryTree = DirectoryTree;
 Tree.TreeNode = TreeNode;
+Tree.useTree = useTree;
 
 export default Tree;

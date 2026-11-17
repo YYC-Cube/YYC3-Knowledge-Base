@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/by_BY';
+import Pagination from '@rc-component/pagination/locale/by_BY';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/by_BY';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Калі ласка, выберыце',
     close: 'Закрыць',
+    show: 'Паказаць',
+    hide: 'Схаваць',
+    sortable: 'сартавальны',
   },
   Table: {
     filterTitle: 'Фільтр',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Інвертаваць выбар',
     selectNone: 'Ачысціць усе даныя',
     selectionAll: 'Выбраць усе даныя',
+    selectRow: 'Выбраць радок',
+    selectedRow: 'Радок выбраны',
+    selectionMenu: 'Меню выбару',
     sortTitle: 'Сартаванне',
     expand: 'Разгарнуць радок',
     collapse: 'Згарнуць радок',
+    expandAll: 'Разгарнуць усе радкі',
+    collapseAll: 'Згарнуць усе радкі',
     triggerDesc: 'Націсніце для сартавання па ўбыванні',
     triggerAsc: 'Націсніце для сартавання па ўзрастанні',
     cancelSort: 'Націсніце, каб адмяніць сартаванне',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Адмена',
   },
+  Splitter: {
+    toggleStartPanel: 'Пераключыць пачатковую панэль',
+    toggleEndPanel: 'Пераключыць канчатковую панэль',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Пошук',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Выбраць усе даныя',
     removeAll: 'Выдаліць усе даныя',
     selectInvert: 'Паказаць у адваротным парадку',
+    deselectAll: 'Адмяніце выбар усіх даных',
   },
   Upload: {
     uploading: 'Запампоўка...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Капіяваць',
     copied: 'Капіяванне завершана',
     expand: 'Разгарнуць',
+    collapse: 'Згарнуць',
+  },
+  Carousel: {
+    prevSlide: 'Папярэдні слайд',
+    nextSlide: 'Наступны слайд',
   },
   Form: {
     optional: '(не абавязкова)',
@@ -130,6 +148,17 @@ const localeValues: Locale = {
         mismatch: 'Значэнне поля «${label}» не адпавядае шаблону ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'Тэрмін дзеяння QR-кода скончыўся',
+    refresh: 'Абнавіць',
+    scanned: 'Адсканаваныя',
+  },
+  ColorPicker: {
+    presetEmpty: 'Пусты',
+    transparent: 'Празрысты',
+    singleColor: 'Аднакаляровы',
+    gradientColor: 'Градыент колеру',
   },
 };
 

@@ -2,13 +2,11 @@ import * as React from 'react';
 import type { CSSProperties } from 'react';
 import { CSSMotionList } from '@rc-component/motion';
 import ResizeObserver from '@rc-component/resize-observer';
-import useLayoutEffect from '@rc-component/util/lib/hooks/useLayoutEffect';
-import isEqual from '@rc-component/util/lib/isEqual';
-import { composeRef } from '@rc-component/util/lib/ref';
+import { composeRef, isEqual, useLayoutEffect } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { isNumber } from '../_util/is';
 import { responsiveArray } from '../_util/responsiveObserver';
 import type { Breakpoint } from '../_util/responsiveObserver';
@@ -30,21 +28,18 @@ export type Gap = number | undefined;
 
 export type Key = string | number;
 
-export type MasonrySemanticName = keyof MasonrySemanticClassNames & keyof MasonrySemanticStyles;
-
-export type MasonrySemanticClassNames = {
-  root?: string;
-  item?: string;
+export type MasonrySemanticType = {
+  classNames?: {
+    root?: string;
+    item?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    item?: React.CSSProperties;
+  };
 };
 
-export type MasonrySemanticStyles = {
-  root?: React.CSSProperties;
-  item?: React.CSSProperties;
-};
-
-export type MasonryClassNamesType = SemanticClassNamesType<MasonryProps, MasonrySemanticClassNames>;
-
-export type MasonryStylesType = SemanticStylesType<MasonryProps, MasonrySemanticStyles>;
+export type MasonrySemanticAllType = GenerateSemantic<MasonrySemanticType, MasonryProps>;
 
 export interface MasonryProps<ItemDataType = any> {
   // Style
@@ -53,8 +48,8 @@ export interface MasonryProps<ItemDataType = any> {
   rootClassName?: string;
   style?: CSSProperties;
 
-  classNames?: MasonryClassNamesType;
-  styles?: MasonryStylesType;
+  classNames?: MasonrySemanticAllType['classNamesAndFn'];
+  styles?: MasonrySemanticAllType['stylesAndFn'];
 
   /** Spacing between items */
   gutter?: RowProps['gutter'];
@@ -161,11 +156,14 @@ const Masonry = React.forwardRef<MasonryRef, MasonryProps>((props, ref) => {
     columns: columnCount,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    MasonryClassNamesType,
-    MasonryStylesType,
+    MasonrySemanticAllType['classNames'],
+    MasonrySemanticAllType['styles'],
     MasonryProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -248,7 +246,7 @@ const Masonry = React.forwardRef<MasonryRef, MasonryProps>((props, ref) => {
           cssVarCls,
           { [`${prefixCls}-rtl`]: direction === 'rtl' },
         )}
-        style={{ height: totalHeight, ...mergedStyles.root, ...contextStyle, ...style }}
+        style={{ height: totalHeight, ...mergedStyles.root }}
         // Listen for image events
         onLoad={collectItemSize}
         onError={collectItemSize}

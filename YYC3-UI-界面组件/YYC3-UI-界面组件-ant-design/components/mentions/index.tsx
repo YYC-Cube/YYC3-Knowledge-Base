@@ -1,16 +1,12 @@
 import * as React from 'react';
 import RcMentions from '@rc-component/mentions';
-import type {
-  DataDrivenOptionProps as MentionsOptionProps,
-  MentionsProps as RcMentionsProps,
-  MentionsRef as RcMentionsRef,
-} from '@rc-component/mentions/lib/Mentions';
-import { composeRef } from '@rc-component/util/lib/ref';
+import type { MentionsProps as RcMentionsProps } from '@rc-component/mentions';
+import { composeRef } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import getAllowClear from '../_util/getAllowClear';
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useAllowClear, useZIndex } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import genPurePanel from '../_util/PurePanel';
 import type { InputStatus } from '../_util/statusUtils';
 import { getMergedStatus, getStatusClassNames } from '../_util/statusUtils';
@@ -26,6 +22,8 @@ import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
 import { FormItemInputContext } from '../form/context';
 import useVariant from '../form/hooks/useVariants';
+import { useLocale } from '../locale';
+import usePopupRender from '../select/usePopupRender';
 import Spin from '../spin';
 import useStyle from './style';
 
@@ -37,36 +35,33 @@ function loadingFilterOption() {
 
 export type MentionPlacement = 'top' | 'bottom';
 
-export type { DataDrivenOptionProps as MentionsOptionProps } from '@rc-component/mentions/lib/Mentions';
+export type MentionsOptionProps = NonNullable<RcMentionsProps['options']>[number];
 
+type RcMentionsRef = React.ComponentRef<typeof RcMentions>;
+
+/** @deprecated Please use the `options` prop with `MentionsOptionProps` instead. */
 export interface OptionProps {
   value: string;
   children: React.ReactNode;
   [key: string]: any;
 }
 
-export type MentionSemanticName = keyof MentionSemanticClassNames & keyof MentionSemanticStyles;
-
-export type MentionSemanticClassNames = {
-  root?: string;
-  textarea?: string;
-  popup?: string;
-  suffix?: string;
+export type MentionSemanticType = {
+  classNames?: {
+    root?: string;
+    textarea?: string;
+    popup?: string;
+    suffix?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    textarea?: React.CSSProperties;
+    popup?: React.CSSProperties;
+    suffix?: React.CSSProperties;
+  };
 };
 
-export type MentionSemanticStyles = {
-  root?: React.CSSProperties;
-  textarea?: React.CSSProperties;
-  popup?: React.CSSProperties;
-  suffix?: React.CSSProperties;
-};
-
-export type MentionsClassNamesType = SemanticClassNamesType<
-  MentionProps,
-  MentionSemanticClassNames
->;
-
-export type MentionsStylesType = SemanticStylesType<MentionProps, MentionSemanticStyles>;
+export type MentionSemanticAllType = GenerateSemantic<MentionSemanticType, MentionProps>;
 
 export interface MentionProps extends Omit<RcMentionsProps, 'suffix' | 'classNames' | 'styles'> {
   rootClassName?: string;
@@ -79,8 +74,8 @@ export interface MentionProps extends Omit<RcMentionsProps, 'suffix' | 'classNam
    * @default "outlined"
    */
   variant?: Variant;
-  classNames?: MentionsClassNamesType;
-  styles?: MentionsStylesType;
+  classNames?: MentionSemanticAllType['classNamesAndFn'];
+  styles?: MentionSemanticAllType['stylesAndFn'];
   size?: SizeType;
 }
 
@@ -110,13 +105,14 @@ const InternalMentions = React.forwardRef<MentionsRef, MentionProps>((props, ref
     notFoundContent,
     options,
     status: customStatus,
-    allowClear = false,
+    allowClear,
     popupClassName,
     style,
     variant: customVariant,
     classNames,
     styles,
     size: customSize,
+    popupRender,
     ...restProps
   } = props;
   const [focused, setFocused] = React.useState(false);
@@ -129,13 +125,13 @@ const InternalMentions = React.forwardRef<MentionsRef, MentionProps>((props, ref
   // =================== Warning =====================
   if (process.env.NODE_ENV !== 'production') {
     const warning = devUseWarning('Mentions');
-
     warning.deprecated(!children, 'Mentions.Option', 'options');
   }
 
   const {
     getPrefixCls,
     direction,
+    allowClear: contextAllowClear,
     className: contextClassName,
     style: contextStyle,
     classNames: contextClassNames,
@@ -162,11 +158,14 @@ const InternalMentions = React.forwardRef<MentionsRef, MentionProps>((props, ref
     variant: customVariant,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    MentionsClassNamesType,
-    MentionsStylesType,
+    MentionSemanticAllType['classNames'],
+    MentionSemanticAllType['styles'],
     MentionProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -189,7 +188,7 @@ const InternalMentions = React.forwardRef<MentionsRef, MentionProps>((props, ref
     if (notFoundContent !== undefined) {
       return notFoundContent;
     }
-    return renderEmpty?.('Select') || <DefaultRenderEmpty componentName="Select" />;
+    return renderEmpty?.('Mentions') || <DefaultRenderEmpty componentName="Mentions" />;
   }, [notFoundContent, renderEmpty]);
 
   const mentionOptions = React.useMemo<React.ReactNode>(() => {
@@ -215,13 +214,23 @@ const InternalMentions = React.forwardRef<MentionsRef, MentionProps>((props, ref
 
   const mentionsfilterOption = loading ? loadingFilterOption : filterOption;
 
-  const mergedAllowClear = getAllowClear(allowClear);
+  const [locale] = useLocale('global');
+  const mergedAllowClear = useAllowClear({
+    allowClear,
+    contextAllowClear,
+    defaultAllowClear: false,
+    componentName: 'Mentions',
+    defaultLabel: locale.clear,
+  });
 
   // Style
   const rootCls = useCSSVarCls(prefixCls);
   const [hashId, cssVarCls] = useStyle(prefixCls, rootCls);
 
   const [variant, enableVariantCls] = useVariant('mentions', customVariant);
+
+  // ====================== zIndex =========================
+  const [zIndex] = useZIndex('SelectLike', mergedStyles.popup?.zIndex as number);
 
   const suffixNode = hasFeedback && <>{feedbackIcon}</>;
 
@@ -238,6 +247,8 @@ const InternalMentions = React.forwardRef<MentionsRef, MentionProps>((props, ref
     },
   );
 
+  const mergedPopupRender = usePopupRender(popupRender);
+
   return (
     <RcMentions
       silent={loading}
@@ -247,7 +258,8 @@ const InternalMentions = React.forwardRef<MentionsRef, MentionProps>((props, ref
       disabled={mergedDisabled}
       allowClear={mergedAllowClear}
       direction={direction}
-      style={{ ...mergedStyles.root, ...contextStyle, ...style }}
+      style={mergedStyles.root}
+      popupRender={mergedPopupRender}
       {...restProps}
       filterOption={mentionsfilterOption}
       onFocus={onFocus}
@@ -257,7 +269,7 @@ const InternalMentions = React.forwardRef<MentionsRef, MentionProps>((props, ref
       suffix={suffixNode}
       styles={{
         textarea: mergedStyles.textarea,
-        popup: mergedStyles.popup,
+        popup: { ...mergedStyles.popup, zIndex },
         suffix: mergedStyles.suffix,
       }}
       classNames={{
@@ -316,29 +328,29 @@ Mentions.getMentions = (value = '', config: MentionsConfig = {}): MentionsEntity
   const { prefix = '@', split = ' ' } = config;
   const prefixList: string[] = toList(prefix);
 
-  return value
-    .split(split)
-    .map((str = ''): MentionsEntity | null => {
-      let hitPrefix: string | null = null;
+  return value.split(split).reduce<MentionsEntity[]>((list, str = '') => {
+    let hitPrefix: string | null = null;
 
-      prefixList.some((prefixStr) => {
-        const startStr = str.slice(0, prefixStr.length);
-        if (startStr === prefixStr) {
-          hitPrefix = prefixStr;
-          return true;
-        }
-        return false;
-      });
-
-      if (hitPrefix !== null) {
-        return {
-          prefix: hitPrefix,
-          value: str.slice((hitPrefix as string).length),
-        };
+    prefixList.some((prefixStr) => {
+      const startStr = str.slice(0, prefixStr.length);
+      if (startStr === prefixStr) {
+        hitPrefix = prefixStr;
+        return true;
       }
-      return null;
-    })
-    .filter((entity): entity is MentionsEntity => !!entity && !!entity.value);
+      return false;
+    });
+
+    if (hitPrefix !== null) {
+      const entity = {
+        prefix: hitPrefix,
+        value: str.slice((hitPrefix as string).length),
+      };
+      if (entity.value) {
+        list.push(entity);
+      }
+    }
+    return list;
+  }, []);
 };
 
 export default Mentions;

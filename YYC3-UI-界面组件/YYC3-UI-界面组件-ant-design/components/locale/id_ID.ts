@@ -1,11 +1,11 @@
-import Pagination from '@rc-component/pagination/lib/locale/id_ID';
+import Pagination from '@rc-component/pagination/locale/id_ID';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/id_ID';
 import DatePicker from '../date-picker/locale/id_ID';
 import TimePicker from '../time-picker/locale/id_ID';
 
-const typeTemplate = '${label} tidak valid ${type}';
+const typeTemplate = '${label} bukan ${type} yang valid';
 
 const localeValues: Locale = {
   locale: 'id',
@@ -14,8 +14,12 @@ const localeValues: Locale = {
   TimePicker,
   Calendar,
   global: {
-    placeholder: 'Silahkan pilih',
+    placeholder: 'Silakan pilih',
     close: 'Tutup',
+    show: 'Tampilkan',
+    hide: 'Sembunyikan',
+    sortable: 'dapat diurutkan',
+    clear: 'Hapus',
   },
   Table: {
     filterTitle: 'Menu filter',
@@ -29,9 +33,14 @@ const localeValues: Locale = {
     selectInvert: 'Balikkan halaman saat ini',
     selectNone: 'Hapus semua data',
     selectionAll: 'Pilih semua data',
+    selectRow: 'Pilih baris',
+    selectedRow: 'Baris dipilih',
+    selectionMenu: 'Menu pilihan',
     sortTitle: 'Urutkan',
     expand: 'Perluas baris',
     collapse: 'Perkecil baris',
+    expandAll: 'Perluas semua baris',
+    collapseAll: 'Perkecil semua baris',
     triggerDesc: 'Klik untuk mengurutkan secara menurun',
     triggerAsc: 'Klik untuk mengurutkan secara menaik',
     cancelSort: 'Klik untuk membatalkan pengurutan',
@@ -49,6 +58,10 @@ const localeValues: Locale = {
   Popconfirm: {
     okText: 'OK',
     cancelText: 'Batal',
+  },
+  Splitter: {
+    toggleStartPanel: 'Alihkan panel awal',
+    toggleEndPanel: 'Alihkan panel akhir',
   },
   Transfer: {
     titles: ['', ''],
@@ -83,8 +96,12 @@ const localeValues: Locale = {
     expand: 'Perluas',
     collapse: 'Perkecil',
   },
+  Carousel: {
+    prevSlide: 'Slide sebelumnya',
+    nextSlide: 'Slide berikutnya',
+  },
   Form: {
-    optional: '(optional)',
+    optional: '(opsional)',
     defaultValidateMessages: {
       default: 'Kesalahan validasi untuk ${label}',
       required: 'Tolong masukkan ${label}',
@@ -114,7 +131,7 @@ const localeValues: Locale = {
         len: '${label} harus berupa ${len} karakter',
         min: '${label} harus minimal ${min} karakter',
         max: '${label} harus maksimal ${max} karakter',
-        range: '${label} harus diantara ${min}-${max} karakter',
+        range: '${label} harus di antara ${min}-${max} karakter',
       },
       number: {
         len: '${label} harus sama dengan ${len}',
@@ -143,6 +160,9 @@ const localeValues: Locale = {
     transparent: 'Transparan',
     singleColor: 'Warna tunggal',
     gradientColor: 'Warna gradien',
+  },
+  Input: {
+    otpCell: 'Karakter ${index} dari ${total}',
   },
 };
 

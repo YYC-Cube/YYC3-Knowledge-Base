@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/mn_MN';
+import Pagination from '@rc-component/pagination/locale/mn_MN';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/mn_MN';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Сонгоно уу',
     close: 'Хаах',
+    show: 'Харуулах',
+    hide: 'Нуух',
+    sortable: 'ангилах боломжтой',
   },
   Table: {
     filterTitle: 'Хайх цэс',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Бусдыг сонгох',
     selectNone: 'Бүх өгөгдлийг арилгах',
     selectionAll: 'Бүх өгөгдлийг сонгоно уу',
+    selectRow: 'Мөр сонгох',
+    selectedRow: 'Мөр сонгогдсон',
+    selectionMenu: 'Сонголтын цэс',
     sortTitle: 'Эрэмбэлэх',
     expand: 'Мөрийг өргөжүүлэх',
     collapse: 'Мөрийг буулгах',
+    expandAll: 'Бүх мөрийг өргөжүүлэх',
+    collapseAll: 'Бүх мөрийг хумих',
     triggerDesc: 'Буурах байдлаар эрэмбэлэхийн тулд товшино уу',
     triggerAsc: 'Өсөхөөр эрэмбэлэхийн тулд товшино уу',
     cancelSort: 'Эрэмбэлэхийг цуцлахын тулд товшино уу',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'Тийм',
     cancelText: 'Цуцлах',
   },
+  Splitter: {
+    toggleStartPanel: 'Эхлэх самбарыг сэлгэх',
+    toggleEndPanel: 'Төгсгөлийн самбарыг сэлгэх',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Хайх',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Бүх өгөгдлийг сонгоно уу',
     removeAll: 'Бүх өгөгдлийг устгана уу',
     selectInvert: 'Одоогийн хуудсыг эргүүлэх',
+    deselectAll: 'Бүх өгөгдлийн сонголтыг цуцлах',
   },
   Upload: {
     uploading: 'Хуулж байна...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Хуулбарлах',
     copied: 'Хуулсан',
     expand: 'Өргөтгөх',
+    collapse: 'Нурах',
+  },
+  Carousel: {
+    prevSlide: 'Өмнөх слайд',
+    nextSlide: 'Дараагийн слайд',
   },
   Form: {
     optional: '(сонголттой)',
@@ -122,7 +140,7 @@ const localeValues: Locale = {
       },
       array: {
         len: '${len} ${label} байх ёстой',
-        min: 'Дор хаяж ${мин} ${label}',
+        min: 'Дор хаяж ${min} ${label}',
         max: 'Хамгийн ихдээ ${max} ${label}',
         range: '${label}-н хэмжээ ${min}-${max} хооронд байх ёстой',
       },
@@ -130,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} нь ${pattern} загвартай тохирохгүй байна',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR кодын хугацаа дууссан',
+    refresh: 'Сэргээх',
+    scanned: 'Сканнердсан',
+  },
+  ColorPicker: {
+    presetEmpty: 'Хоосон',
+    transparent: 'Ил тод',
+    singleColor: 'Ганц өнгө',
+    gradientColor: 'Градиент өнгө',
   },
 };
 

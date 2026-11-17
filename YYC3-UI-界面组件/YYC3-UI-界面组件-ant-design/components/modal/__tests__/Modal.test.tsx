@@ -7,6 +7,7 @@ import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { act, createEvent, fireEvent, render, waitFakeTimer } from '../../../tests/utils';
 import ConfigProvider from '../../config-provider';
+import zhTW from '../../locale/zh_TW';
 
 jest.mock('@rc-component/util/lib/Portal');
 
@@ -33,6 +34,11 @@ describe('Modal', () => {
   it('support closeIcon', () => {
     render(<Modal closeIcon={<a>closeIcon</a>} open />);
     expect(document.body.querySelectorAll('.ant-modal-root')[0]).toMatchSnapshot();
+  });
+
+  it('should render numeric 0 closeIcon', () => {
+    const { baseElement } = render(<Modal closeIcon={0} open />);
+    expect(baseElement.querySelector('.ant-modal-close')?.textContent).toBe('0');
   });
 
   it('support hide close button when setting closeIcon to null or false', () => {
@@ -64,6 +70,15 @@ describe('Modal', () => {
     expect(onCancel).toHaveBeenCalled();
   });
 
+  it('should trigger both onCancel and cancelButtonProps.onClick', () => {
+    const onCancel = jest.fn();
+    const onClick = jest.fn();
+    render(<Modal open onCancel={onCancel} cancelButtonProps={{ onClick }} />);
+    fireEvent.click(document.body.querySelectorAll('.ant-btn')[0]);
+    expect(onCancel).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
   it('onCancel should be called when pressing ESC', () => {
     const onCancel = jest.fn();
     render(<Modal open onCancel={onCancel} />);
@@ -79,10 +94,33 @@ describe('Modal', () => {
     expect(onOk).toHaveBeenCalled();
   });
 
+  it('should trigger both onOk and okButtonProps.onClick', () => {
+    const onOk = jest.fn();
+    const onClick = jest.fn();
+    render(<Modal open onOk={onOk} okButtonProps={{ onClick }} />);
+    const btns = document.body.querySelectorAll('.ant-btn');
+    fireEvent.click(btns[btns.length - 1]);
+    expect(onOk).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
   it('danger type', () => {
     render(<Modal okType="danger" okText="123" open />);
     const btns = document.body.querySelectorAll('.ant-btn');
     expect(btns[btns.length - 1]).toHaveClass('ant-btn-dangerous');
+  });
+
+  it.each([
+    { name: 'zero', value: 0, expected: '0' },
+    { name: 'empty string', value: '', expected: '' },
+    { name: 'false', value: false, expected: '' },
+    { name: 'null', value: null, expected: '' },
+  ])('support $name button text', ({ value, expected }) => {
+    render(<Modal cancelText={value} okText={value} open />);
+    const btns = document.body.querySelectorAll('.ant-modal-footer .ant-btn');
+
+    expect(btns[0].textContent).toBe(expected);
+    expect(btns[1].textContent).toBe(expected);
   });
 
   it('mouse position', () => {
@@ -202,6 +240,15 @@ describe('Modal', () => {
       '--ant-modal-lg-width': '60%',
       '--ant-modal-xl-width': '50%',
       '--ant-modal-xxl-width': '40%',
+    });
+  });
+
+  it('responsive width should support number', () => {
+    render(<Modal open width={{ xs: 520 }} />);
+
+    const modalEle = document.querySelector<HTMLDivElement>('.ant-modal')!;
+    expect(modalEle).toHaveStyle({
+      '--ant-modal-xs-width': '520px',
     });
   });
 
@@ -373,6 +420,15 @@ describe('Modal', () => {
     expect(element).toHaveAttribute('aria-label', 'xxx');
   });
 
+  it('should localize the close button accessible name', () => {
+    render(
+      <ConfigProvider locale={zhTW}>
+        <Modal open />
+      </ConfigProvider>,
+    );
+    expect(document.body.querySelector('.ant-modal-close')).toHaveAttribute('aria-label', '關閉');
+  });
+
   describe('closable onClose and afterClose ', () => {
     const mockFn = {
       afterClose: jest.fn(),
@@ -480,6 +536,52 @@ describe('Modal', () => {
     );
   });
 
+  it('should support focusable global config', () => {
+    const classNames = jest.fn(() => ({}));
+
+    render(
+      <ConfigProvider modal={{ focusable: { trap: false, focusTriggerAfterClose: false } }}>
+        <Modal open getContainer={false} classNames={classNames}>
+          Here is content of Modal
+        </Modal>
+      </ConfigProvider>,
+    );
+
+    expect(classNames).toHaveBeenCalledWith(
+      expect.objectContaining({
+        props: expect.objectContaining({
+          focusable: {
+            trap: false,
+            focusTriggerAfterClose: false,
+          },
+        }),
+      }),
+    );
+  });
+
+  it('should prefer focusable prop over global config', () => {
+    const classNames = jest.fn(() => ({}));
+
+    render(
+      <ConfigProvider modal={{ focusable: { trap: false, focusTriggerAfterClose: false } }}>
+        <Modal open getContainer={false} focusable={{ trap: true }} classNames={classNames}>
+          Here is content of Modal
+        </Modal>
+      </ConfigProvider>,
+    );
+
+    expect(classNames).toHaveBeenCalledWith(
+      expect.objectContaining({
+        props: expect.objectContaining({
+          focusable: {
+            trap: true,
+            focusTriggerAfterClose: false,
+          },
+        }),
+      }),
+    );
+  });
+
   it('should warning when using deprecated autoFocusButton', () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -519,5 +621,23 @@ describe('Modal', () => {
     );
 
     errorSpy.mockRestore();
+  });
+
+  it('should not lock body scroll when scrollLock is false', () => {
+    const { unmount } = render(<Modal open scrollLock={false} />);
+
+    expect(document.body).not.toHaveStyle({
+      overflowY: 'hidden',
+    });
+
+    unmount();
+  });
+
+  it('should lock body scroll by default', () => {
+    const { unmount } = render(<Modal open />);
+    expect(document.body).toHaveStyle({
+      overflowY: 'hidden',
+    });
+    unmount();
   });
 });

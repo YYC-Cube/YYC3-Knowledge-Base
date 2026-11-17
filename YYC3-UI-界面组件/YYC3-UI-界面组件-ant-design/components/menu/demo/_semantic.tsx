@@ -1,5 +1,5 @@
 import React from 'react';
-import { MailOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, MailOutlined } from '@ant-design/icons';
 import { Flex, Menu, Segmented } from 'antd';
 import type { MenuProps } from 'antd';
 
@@ -50,8 +50,8 @@ const items: MenuItem[] = [
   },
   {
     key: 'SubMenu',
-    label: 'Navigation One',
-    icon: <MailOutlined />,
+    label: 'Navigation Two',
+    icon: <AppstoreOutlined />,
     children: [
       {
         key: 'g1',
@@ -69,21 +69,25 @@ const items: MenuItem[] = [
 const groupItem: MenuItem[] = [
   {
     key: 'grp',
-    label: 'Group',
+    label: 'Navigation Three',
     type: 'group',
     children: [
-      { key: '13', label: 'Option 13' },
-      { key: '14', label: 'Option 14' },
+      { key: '3', label: 'Option 3' },
+      { key: '4', label: 'Option 4' },
     ],
   },
 ];
 
 type ModeType = 'horizontal' | 'vertical' | 'inline';
 
-const Block: React.FC<
-  MenuProps & { item: MenuItem[]; setMode: React.Dispatch<React.SetStateAction<ModeType>> }
-> = (props) => {
-  const { mode, setMode, item } = props;
+interface ExternalProps {
+  item: MenuItem[];
+  setMode: React.Dispatch<React.SetStateAction<ModeType>>;
+}
+
+const Block: React.FC<MenuProps & ExternalProps> = (props) => {
+  const { mode, setMode, item, ...restProps } = props;
+
   const divRef = React.useRef<HTMLDivElement>(null);
   const [current, setCurrent] = React.useState('mail');
 
@@ -91,6 +95,11 @@ const Block: React.FC<
     console.log('click ', e);
     setCurrent(e.key);
   };
+
+  const getPopupContainer = React.useCallback<NonNullable<MenuProps['getPopupContainer']>>(
+    () => divRef.current?.parentElement?.parentElement || divRef.current!,
+    [],
+  );
 
   return (
     <Flex vertical gap="medium" ref={divRef} align="center">
@@ -103,7 +112,7 @@ const Block: React.FC<
           items={item}
           styles={{
             root: {
-              width: mode === 'horizontal' ? 310 : 230,
+              width: mode === 'horizontal' ? 480 : 230,
             },
             popup: {
               root: {
@@ -111,9 +120,9 @@ const Block: React.FC<
               },
             },
           }}
-          {...props}
+          {...restProps}
           openKeys={['SubMenu']}
-          getPopupContainer={() => divRef.current!}
+          getPopupContainer={getPopupContainer}
         />
       </div>
     </Flex>

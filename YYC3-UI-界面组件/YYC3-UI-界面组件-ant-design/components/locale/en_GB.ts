@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/en_GB';
+import Pagination from '@rc-component/pagination/locale/en_GB';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/en_GB';
@@ -16,6 +16,10 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Please select',
     close: 'Close',
+    sortable: 'sortable',
+    show: 'Show',
+    hide: 'Hide',
+    clear: 'Clear',
   },
   Table: {
     filterTitle: 'Filter menu',
@@ -29,9 +33,14 @@ const localeValues: Locale = {
     selectInvert: 'Invert current page',
     selectNone: 'Clear all data',
     selectionAll: 'Select all data',
+    selectRow: 'Select row',
+    selectedRow: 'Row selected',
+    selectionMenu: 'Selection menu',
     sortTitle: 'Sort',
     expand: 'Expand row',
     collapse: 'Collapse row',
+    expandAll: 'Expand all rows',
+    collapseAll: 'Collapse all rows',
     triggerDesc: 'Click to sort descending',
     triggerAsc: 'Click to sort ascending',
     cancelSort: 'Click to cancel sorting',
@@ -50,6 +59,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Cancel',
   },
+  Splitter: {
+    toggleStartPanel: 'Toggle start panel',
+    toggleEndPanel: 'Toggle end panel',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Search here',
@@ -61,6 +74,7 @@ const localeValues: Locale = {
     selectAll: 'Select all data',
     removeAll: 'Remove all data',
     selectInvert: 'Invert current page',
+    deselectAll: 'Deselect all data',
   },
   Upload: {
     uploading: 'Uploading...',
@@ -70,7 +84,7 @@ const localeValues: Locale = {
     downloadFile: 'Download file',
   },
   Empty: {
-    description: 'No Data',
+    description: 'No data',
   },
   Icon: {
     icon: 'icon',
@@ -80,6 +94,11 @@ const localeValues: Locale = {
     copy: 'Copy',
     copied: 'Copied',
     expand: 'Expand',
+    collapse: 'Collapse',
+  },
+  Carousel: {
+    prevSlide: 'Previous slide',
+    nextSlide: 'Next slide',
   },
   Form: {
     optional: '(optional)',
@@ -130,6 +149,17 @@ const localeValues: Locale = {
         mismatch: '${label} does not match the pattern ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR code expired',
+    refresh: 'Refresh',
+    scanned: 'Scanned',
+  },
+  ColorPicker: {
+    presetEmpty: 'Empty',
+    transparent: 'Transparent',
+    singleColor: 'Single',
+    gradientColor: 'Gradient',
   },
 };
 

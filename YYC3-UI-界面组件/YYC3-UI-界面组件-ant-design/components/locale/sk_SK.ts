@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/sk_SK';
+import Pagination from '@rc-component/pagination/locale/sk_SK';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/sk_SK';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Prosím vyber',
     close: 'Zavrieť',
+    show: 'Zobraziť',
+    hide: 'Skryť',
+    sortable: 'zoradiť',
   },
   Table: {
     filterTitle: 'Filter',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Opačný výber položiek',
     selectNone: 'Odznač všetko',
     selectionAll: 'Označ všetko',
+    selectRow: 'Vybrať riadok',
+    selectedRow: 'Riadok je vybraný',
+    selectionMenu: 'Ponuka výberu',
     sortTitle: 'Zoradiť',
     expand: 'Rozbaliť riadok',
     collapse: 'Zbaliť riadok',
+    expandAll: 'Rozbaliť všetky riadky',
+    collapseAll: 'Zbaliť všetky riadky',
     triggerDesc: 'Kliknutím zoradíš zostupne',
     triggerAsc: 'Kliknutím zoradíš vzostupne',
     cancelSort: 'Kliknutím zrušíš zoradenie',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Zrušiť',
   },
+  Splitter: {
+    toggleStartPanel: 'Prepnúť úvodný panel',
+    toggleEndPanel: 'Prepnúť koncový panel',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Vyhľadávanie',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Označ všetko',
     removeAll: 'Odznač všetko',
     selectInvert: 'Opačný výber',
+    deselectAll: 'Zrušte výber všetkých údajov',
   },
   Upload: {
     uploading: 'Nahrávanie...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Kopírovať',
     copied: 'Skopírované',
     expand: 'Zväčšiť',
+    collapse: 'kolaps',
+  },
+  Carousel: {
+    prevSlide: 'Predchádzajúca snímka',
+    nextSlide: 'Ďalšia snímka',
   },
   Form: {
     optional: '(nepovinné)',
@@ -130,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} nezodpovedá vzoru ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'Platnosť QR kódu vypršala',
+    refresh: 'Obnoviť',
+    scanned: 'Naskenované',
+  },
+  ColorPicker: {
+    presetEmpty: 'Prázdny',
+    transparent: 'Transparentné',
+    singleColor: 'Jednofarebné',
+    gradientColor: 'Farba prechodu',
   },
 };
 

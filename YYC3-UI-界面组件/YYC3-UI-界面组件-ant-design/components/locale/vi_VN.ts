@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/vi_VN';
+import Pagination from '@rc-component/pagination/locale/vi_VN';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/vi_VN';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Vui lòng chọn',
     close: 'Đóng',
+    show: 'Hiển thị',
+    hide: 'Ẩn',
+    sortable: 'có thể sắp xếp được',
   },
   Table: {
     filterTitle: 'Bộ lọc',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Chọn ngược lại',
     selectNone: 'Bỏ chọn tất cả',
     selectionAll: 'Chọn tất cả',
+    selectRow: 'Chọn hàng',
+    selectedRow: 'Hàng đã được chọn',
+    selectionMenu: 'Menu lựa chọn',
     sortTitle: 'Sắp xếp',
     expand: 'Mở rộng dòng',
     collapse: 'Thu gọn dòng',
+    expandAll: 'Mở rộng tất cả các dòng',
+    collapseAll: 'Thu gọn tất cả các dòng',
     triggerDesc: 'Nhấp để sắp xếp giảm dần',
     triggerAsc: 'Nhấp để sắp xếp tăng dần',
     cancelSort: 'Nhấp để hủy sắp xếp',
@@ -49,6 +57,10 @@ const localeValues: Locale = {
   Popconfirm: {
     okText: 'Đồng ý',
     cancelText: 'Hủy',
+  },
+  Splitter: {
+    toggleStartPanel: 'Chuyển đổi bảng bắt đầu',
+    toggleEndPanel: 'Chuyển đổi bảng kết thúc',
   },
   Transfer: {
     titles: ['', ''],
@@ -82,6 +94,10 @@ const localeValues: Locale = {
     copied: 'Đã sao chép',
     expand: 'Mở rộng',
     collapse: 'Thu gọn',
+  },
+  Carousel: {
+    prevSlide: 'Slide trước',
+    nextSlide: 'Slide tiếp theo',
   },
   Form: {
     optional: '(Tùy chọn)',

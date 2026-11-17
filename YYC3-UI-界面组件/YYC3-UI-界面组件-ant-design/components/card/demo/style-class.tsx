@@ -1,7 +1,7 @@
 import React from 'react';
 import { EditOutlined, HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { Avatar, Button, Card, Flex } from 'antd';
-import type { CardMetaProps, CardProps } from 'antd';
+import type { CardMetaProps, CardProps, GetProp } from 'antd';
 import { createStyles } from 'antd-style';
 
 const { Meta } = Card;
@@ -12,11 +12,11 @@ const useStyles = createStyles(({ token }) => ({
     backgroundColor: token.colorBgContainer,
     borderRadius: token.borderRadius,
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-    border: `1px solid ${token.colorBorderSecondary}`,
+    border: `${token.lineWidth}px ${token.lineType} ${token.colorBorderSecondary}`,
   },
   header: {
     borderBottom: 'none',
-    paddingBottom: 8,
+    paddingBottom: token.paddingXS,
   },
   body: {
     paddingTop: 0,
@@ -34,7 +34,7 @@ const stylesCard: CardProps['styles'] = {
   },
 };
 
-const stylesCardFn: CardProps['styles'] = (info) => {
+const stylesCardFn: CardProps['styles'] = (info): GetProp<CardProps, 'styles', 'Return'> => {
   if (info.props.variant === 'outlined') {
     return {
       root: {
@@ -50,7 +50,7 @@ const stylesCardFn: CardProps['styles'] = (info) => {
         fontWeight: 500,
         color: '#A7AAE1',
       },
-    } satisfies CardProps['styles'];
+    };
   }
 };
 
@@ -78,7 +78,7 @@ const App: React.FC = () => {
   };
 
   const sharedCardMetaProps: CardMetaProps = {
-    avatar: <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />,
+    avatar: <Avatar src="https://api.dicebear.com/10.x/lorelei/svg?seed=1" />,
     description: 'This is the description',
   };
 

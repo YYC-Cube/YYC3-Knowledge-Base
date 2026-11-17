@@ -1,17 +1,17 @@
 import React from 'react';
 import { Button, Flex } from 'antd';
-import type { ButtonProps } from 'antd';
+import type { ButtonProps, GetProp } from 'antd';
 import { createStyles } from 'antd-style';
 
-const useStyles = createStyles(({ token }) => ({
+const useStyles = createStyles(({ cssVar }) => ({
   root: {
-    border: `1px solid ${token.colorBorder}`,
-    borderRadius: token.borderRadius,
-    padding: `${token.paddingXS}px ${token.padding}px`,
+    border: `${cssVar.lineWidth} ${cssVar.lineType} ${cssVar.colorBorder}`,
+    borderRadius: cssVar.borderRadius,
+    padding: `${cssVar.paddingXS} ${cssVar.padding}`,
     height: 'auto',
   },
   content: {
-    color: token.colorText,
+    color: cssVar.colorText,
   },
 }));
 
@@ -21,7 +21,7 @@ const stylesObject: ButtonProps['styles'] = {
   },
 };
 
-const stylesFn: ButtonProps['styles'] = (info) => {
+const stylesFn: ButtonProps['styles'] = (info): GetProp<ButtonProps, 'styles', 'Return'> => {
   if (info.props.type === 'primary') {
     return {
       root: {
@@ -30,7 +30,7 @@ const stylesFn: ButtonProps['styles'] = (info) => {
       content: {
         color: '#fff',
       },
-    } satisfies ButtonProps['styles'];
+    };
   }
   return {};
 };

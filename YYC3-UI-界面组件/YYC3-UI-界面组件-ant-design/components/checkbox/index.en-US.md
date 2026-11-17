@@ -35,26 +35,28 @@ Common props ref：[Common props](/docs/react/common-props)
 
 #### Checkbox
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| checked | Specifies whether the checkbox is selected | boolean | false |  |
-| classNames | Customize class for each semantic structure inside the component. Supports object or function. | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - |  |
-| defaultChecked | Specifies the initial state: whether or not the checkbox is selected | boolean | false |  |
-| disabled | If disable checkbox | boolean | false |  |
-| indeterminate | The indeterminate checked state of checkbox | boolean | false |  |
-| onChange | The callback function that is triggered when the state changes | (e: CheckboxChangeEvent) => void | - |  |
-| onBlur | Called when leaving the component | function() | - |  |
-| onFocus | Called when entering the component | function() | - |  |
-| styles | Customize inline style for each semantic structure inside the component. Supports object or function. | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - |  |
+| Property | Description | Type | Default | Version | [Global Config](/components/config-provider#component-config) |
+| --- | --- | --- | --- | --- | --- |
+| checked | Specifies whether the checkbox is selected | boolean | false |  | × |
+| classNames | Customize class for each semantic structure inside the component. Supports object or function. | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - |  | 6.0.0 |
+| defaultChecked | Specifies the initial state: whether or not the checkbox is selected | boolean | false |  | × |
+| disabled | If disable checkbox | boolean | false |  | × |
+| indeterminate | The indeterminate checked state of checkbox | boolean | false |  | × |
+| onChange | The callback function that is triggered when the state changes | (e: CheckboxChangeEvent) => void | - |  | × |
+| onBlur | Called when leaving the component | function() | - |  | × |
+| onFocus | Called when entering the component | function() | - |  | × |
+| styles | Customize inline style for each semantic structure inside the component. Supports object or function. | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - |  | 6.0.0 |
 
 #### Checkbox.Group
 
 | Property | Description | Type | Default | Version |
 | --- | --- | --- | --- | --- |
+| classNames | Customize class for each semantic structure inside the component. Supports object or function. | Record<[SemanticDOM](#semantic-group), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-group), string> | - | 6.7.0 |
 | defaultValue | Default selected value | (string \| number)\[] | \[] |  |
 | disabled | If disable all checkboxes | boolean | false |  |
 | name | The `name` property of all `input[type="checkbox"]` children | string | - |  |
 | options | Specifies options | string\[] \| number\[] \| Option\[] | \[] |  |
+| styles | Customize inline style for each semantic structure inside the component. Supports object or function. | Record<[SemanticDOM](#semantic-group), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-group), CSSProperties> | - | 6.7.0 |
 | value | Used for setting the currently selected value | (string \| number \| boolean)\[] | \[] |  |
 | title | title of the option | `string` | - |  |
 | className | className of the option | `string` | - | 5.25.0 |
@@ -83,7 +85,13 @@ interface Option {
 
 ## Semantic DOM
 
+### Checkbox
+
 <code src="./demo/_semantic.tsx" simplify="true"></code>
+
+### Checkbox.Group {#semantic-group}
+
+<code src="./demo/_semantic_group.tsx" simplify="true"></code>
 
 ## Design Token
 

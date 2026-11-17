@@ -6,14 +6,17 @@ import { CheckCircleOutlined, CloseCircleOutlined, LinkedinOutlined } from '@ant
 import Tag from '..';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
-import { act, fireEvent, render } from '../../../tests/utils';
+import { act, createEvent, fireEvent, render } from '../../../tests/utils';
 import ConfigProvider from '../../config-provider';
 
 (global as any).isVisible = true;
 
-jest.mock('@rc-component/util/lib/Dom/isVisible', () => {
-  const mockFn = () => (global as any).isVisible;
-  return mockFn;
+jest.mock('@rc-component/util', () => {
+  const util = jest.requireActual('@rc-component/util');
+  return {
+    ...util,
+    isVisible: () => (global as any).isVisible,
+  };
 });
 
 function waitRaf() {
@@ -61,6 +64,23 @@ describe('Tag', () => {
       jest.runAllTimers();
     });
     expect(container.querySelectorAll('.ant-tag:not(.ant-tag-hidden)').length).toBe(1);
+  });
+
+  it('should prevent navigation when closing a link tag', () => {
+    const onClose = jest.fn();
+    const { container } = render(
+      <Tag href="#target" closable onClose={onClose}>
+        Link
+      </Tag>,
+    );
+    const closeIcon = container.querySelector('.ant-tag-close-icon')!;
+    const clickEvent = createEvent.click(closeIcon);
+
+    fireEvent(closeIcon, clickEvent);
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+    expect(clickEvent.defaultPrevented).toBe(true);
+    expect(container.querySelector('.ant-tag-hidden')).toBeTruthy();
   });
 
   it('show close button by closeIcon', () => {
@@ -140,7 +160,7 @@ describe('Tag', () => {
       const onClick = jest.fn();
       const { container } = render(
         <Tag disabled>
-          <a href="https://ant.design" onClick={onClick}>
+          <a href="https://ant.design" aria-label="Ant Design website" onClick={onClick}>
             Link
           </a>
         </Tag>,
@@ -171,6 +191,12 @@ describe('Tag', () => {
       expect(onClose).not.toHaveBeenCalled();
       expect(onClick).not.toHaveBeenCalled();
     });
+
+    it('should render numeric 0 inside content span when icon is present', () => {
+      const { container } = render(<Tag icon={<span className="my-icon" />}>{0}</Tag>);
+      expect(container.querySelector('.ant-tag')?.textContent).toContain('0');
+      expect(container.querySelector('.ant-tag > span:not(.my-icon)')?.textContent).toBe('0');
+    });
   });
 
   describe('CheckableTag', () => {
@@ -179,6 +205,49 @@ describe('Tag', () => {
       const { container } = render(<Tag.CheckableTag checked={false} onChange={onChange} />);
       fireEvent.click(container.querySelectorAll('.ant-tag')[0]);
       expect(onChange).toHaveBeenCalledWith(true);
+    });
+
+    it('should have checkbox aria attributes', () => {
+      const { container, rerender } = render(<Tag.CheckableTag checked={false} />);
+      expect(container.querySelector('.ant-tag')).toHaveAttribute('role', 'checkbox');
+      expect(container.querySelector('.ant-tag')).toHaveAttribute('aria-checked', 'false');
+
+      rerender(<Tag.CheckableTag checked />);
+      expect(container.querySelector('.ant-tag')).toHaveAttribute('aria-checked', 'true');
+    });
+
+    it('should trigger onChange by Space key', () => {
+      const onChange = jest.fn();
+      const { container } = render(<Tag.CheckableTag checked={false} onChange={onChange} />);
+      fireEvent.keyDown(container.querySelector('.ant-tag')!, { key: ' ' });
+      expect(onChange).toHaveBeenCalledWith(true);
+    });
+
+    it('should ignore repeated Space key activation', () => {
+      const onChange = jest.fn();
+      const { container } = render(<Tag.CheckableTag checked={false} onChange={onChange} />);
+      const tag = container.querySelector('.ant-tag')!;
+      const keyDownEvent = createEvent.keyDown(tag, { key: ' ', repeat: true });
+
+      fireEvent(tag, keyDownEvent);
+
+      expect(onChange).not.toHaveBeenCalled();
+      expect(keyDownEvent.defaultPrevented).toBe(true);
+    });
+
+    it('should not trigger onChange when key event is prevented', () => {
+      const onChange = jest.fn();
+      const onKeyDown = jest.fn((e: React.KeyboardEvent<HTMLSpanElement>) => {
+        e.preventDefault();
+      });
+      const { container } = render(
+        <Tag.CheckableTag checked={false} onChange={onChange} onKeyDown={onKeyDown} />,
+      );
+
+      fireEvent.keyDown(container.querySelector('.ant-tag')!, { key: ' ' });
+
+      expect(onKeyDown).toHaveBeenCalled();
+      expect(onChange).not.toHaveBeenCalled();
     });
 
     it('should support ref', () => {
@@ -265,10 +334,51 @@ describe('Tag', () => {
   });
   it('should support aria-* in closable', () => {
     const { container } = render(<Tag closable={{ closeIcon: 'X', 'aria-label': 'CloseBtn' }} />);
-    expect(container.querySelector('.ant-tag-close-icon')?.getAttribute('aria-label')).toEqual(
+    expect(container.querySelector('.ant-tag-close-icon')?.getAttribute('aria-label')).toBe(
       'CloseBtn',
     );
-    expect(container.querySelector('.ant-tag-close-icon')?.textContent).toEqual('X');
+    expect(container.querySelector('.ant-tag-close-icon')).toHaveAttribute('role', 'button');
+    expect(container.querySelector('.ant-tag-close-icon')?.textContent).toBe('X');
+  });
+
+  it.each(['Enter', ' '])('should close by %s key', (key) => {
+    const onClose = jest.fn();
+    const { container } = render(<Tag closable onClose={onClose} />);
+    expect(container.querySelector('.ant-tag-close-icon')).toHaveAttribute('role', 'button');
+    expect(container.querySelectorAll('.ant-tag:not(.ant-tag-hidden)').length).toBe(1);
+
+    fireEvent.keyDown(container.querySelector('.ant-tag-close-icon')!, { key });
+
+    expect(onClose).toHaveBeenCalled();
+    expect(onClose.mock.calls[0][0].type).toBe('click');
+    expect(container.querySelectorAll('.ant-tag:not(.ant-tag-hidden)').length).toBe(0);
+  });
+
+  it.each(['Enter', ' '])('should ignore repeated %s key activation on close controls', (key) => {
+    const onClose = jest.fn();
+    const { container } = render(<Tag closable onClose={onClose} />);
+    const closeIcon = container.querySelector('.ant-tag-close-icon')!;
+    const keyDownEvent = createEvent.keyDown(closeIcon, { key, repeat: true });
+
+    fireEvent(closeIcon, keyDownEvent);
+
+    expect(onClose).not.toHaveBeenCalled();
+    expect(container.querySelectorAll('.ant-tag:not(.ant-tag-hidden)').length).toBe(1);
+    expect(keyDownEvent.defaultPrevented).toBe(true);
+  });
+  it('should not close when closeIcon key event is prevented', () => {
+    const onClose = jest.fn();
+    const onKeyDown = jest.fn((e: React.KeyboardEvent<HTMLSpanElement>) => {
+      e.preventDefault();
+    });
+    const { container } = render(
+      <Tag closable closeIcon={<span onKeyDown={onKeyDown}>X</span>} onClose={onClose} />,
+    );
+
+    fireEvent.keyDown(container.querySelector('.ant-tag-close-icon')!, { key: 'Enter' });
+
+    expect(onKeyDown).toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
   });
   it('should apply classNames and styles correctly', () => {
     const customClassNames = {
@@ -314,6 +424,31 @@ describe('Tag', () => {
     );
     const tagElement = container.querySelector('.ant-tag-solid');
     expect(tagElement).not.toBeNull();
+  });
+
+  it('solid variant should provide default color', () => {
+    const { container } = render(<Tag variant="solid">tag</Tag>);
+
+    expect(container.querySelector('.ant-tag')).toHaveClass('ant-tag-solid');
+    expect(container.querySelector('.ant-tag')).toHaveClass('ant-tag-default');
+  });
+
+  it('ConfigProvider tag variant should provide default color', () => {
+    const { container } = render(
+      <ConfigProvider tag={{ variant: 'solid' }}>
+        <Tag>tag</Tag>
+      </ConfigProvider>,
+    );
+
+    expect(container.querySelector('.ant-tag')).toHaveClass('ant-tag-solid');
+    expect(container.querySelector('.ant-tag')).toHaveClass('ant-tag-default');
+  });
+
+  it('non-solid variant should not provide default color', () => {
+    const { container } = render(<Tag variant="outlined">tag</Tag>);
+
+    expect(container.querySelector('.ant-tag')).toHaveClass('ant-tag-outlined');
+    expect(container.querySelector('.ant-tag')).not.toHaveClass('ant-tag-default');
   });
 
   it('legacy color inverse', () => {
@@ -365,6 +500,123 @@ describe('Tag', () => {
       // Click again
       fireEvent.click(container.querySelectorAll('.ant-tag-checkable')[1]);
       expect(onChange).toHaveBeenCalledWith(['foo', 'bar']);
+    });
+
+    it('should apply option className and style in single mode', () => {
+      const { container } = render(
+        <Tag.CheckableTagGroup
+          defaultValue="foo"
+          options={[
+            {
+              value: 'foo',
+              label: 'Foo',
+              className: 'foo-option',
+              style: { borderColor: 'rgb(255, 0, 0)' },
+            },
+            {
+              value: 'bar',
+              label: 'Bar',
+              className: 'bar-option',
+              style: { borderColor: 'rgb(0, 0, 255)' },
+            },
+          ]}
+        />,
+      );
+
+      const itemElements = container.querySelectorAll('.ant-tag-checkable');
+
+      expect(itemElements[0]).toHaveClass('foo-option');
+      expect(itemElements[0]).toHaveStyle({ borderColor: 'rgb(255, 0, 0)' });
+      expect(itemElements[0]).toHaveClass('ant-tag-checkable-checked');
+
+      expect(itemElements[1]).toHaveClass('bar-option');
+      expect(itemElements[1]).toHaveStyle({ borderColor: 'rgb(0, 0, 255)' });
+      expect(itemElements[1]).not.toHaveClass('ant-tag-checkable-checked');
+    });
+
+    it('should apply option className and style in multiple mode', () => {
+      const defaultValue: Array<string | number> = ['foo'];
+
+      const { container } = render(
+        <Tag.CheckableTagGroup
+          multiple
+          defaultValue={defaultValue}
+          options={[
+            {
+              value: 'foo',
+              label: 'Foo',
+              className: 'foo-option',
+              style: { borderColor: 'rgb(255, 0, 0)' },
+            },
+            {
+              value: 'bar',
+              label: 'Bar',
+              className: 'bar-option',
+              style: { borderColor: 'rgb(0, 0, 255)' },
+            },
+          ]}
+        />,
+      );
+
+      const itemElements = container.querySelectorAll('.ant-tag-checkable');
+
+      expect(itemElements[0]).toHaveClass('foo-option');
+      expect(itemElements[0]).toHaveStyle({ borderColor: 'rgb(255, 0, 0)' });
+      expect(itemElements[0]).toHaveClass('ant-tag-checkable-checked');
+
+      expect(itemElements[1]).toHaveClass('bar-option');
+      expect(itemElements[1]).toHaveStyle({ borderColor: 'rgb(0, 0, 255)' });
+      expect(itemElements[1]).not.toHaveClass('ant-tag-checkable-checked');
+    });
+
+    it('should allow option style to override group item styles', () => {
+      const { container } = render(
+        <Tag.CheckableTagGroup
+          styles={{
+            item: {
+              color: 'rgb(0, 0, 255)',
+              borderRadius: '4px',
+            },
+          }}
+          options={[
+            {
+              value: 'foo',
+              label: 'Foo',
+              style: { color: 'rgb(255, 0, 0)' },
+            },
+            { value: 'bar', label: 'Bar' },
+          ]}
+        />,
+      );
+
+      const itemElements = container.querySelectorAll('.ant-tag-checkable');
+
+      expect(itemElements[0]).toHaveStyle({
+        color: 'rgb(255, 0, 0)',
+        borderRadius: '4px',
+      });
+      expect(itemElements[1]).toHaveStyle({
+        color: 'rgb(0, 0, 255)',
+        borderRadius: '4px',
+      });
+    });
+
+    it('should still support primitive options in multiple mode', () => {
+      const onChange = jest.fn();
+
+      const { container } = render(
+        <Tag.CheckableTagGroup
+          multiple
+          defaultValue={['foo']}
+          options={['foo', 'bar']}
+          onChange={onChange}
+        />,
+      );
+
+      fireEvent.click(container.querySelectorAll('.ant-tag-checkable')[1]);
+      expect(onChange).toHaveBeenCalledWith(['foo', 'bar']);
+      fireEvent.click(container.querySelectorAll('.ant-tag-checkable')[0]);
+      expect(onChange).toHaveBeenCalledWith(['bar']);
     });
 
     it('id', () => {

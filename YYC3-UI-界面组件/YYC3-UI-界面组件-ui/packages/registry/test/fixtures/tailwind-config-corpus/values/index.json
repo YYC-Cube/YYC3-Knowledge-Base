@@ -1,5 +1,0 @@
-{
-  "plugins": [
-    "require(\"tailwindcss-animate\")"
-  ]
-}

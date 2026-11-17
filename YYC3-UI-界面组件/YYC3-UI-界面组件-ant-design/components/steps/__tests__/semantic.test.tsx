@@ -1,13 +1,14 @@
 import React from 'react';
 
 import Steps from '..';
-import type {
-  StepsProps,
-  StepsSemanticClassNames,
-  StepsSemanticName,
-  StepsSemanticStyles,
-} from '..';
+import type { StepsProps, StepsSemanticAllType } from '..';
+import type { GetProp } from '../../_util/type';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 import { render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
 
 describe('Steps.Semantic', () => {
   const renderSteps = (props: Partial<StepsProps>) => (
@@ -22,7 +23,7 @@ describe('Steps.Semantic', () => {
   );
 
   it('semantic structure', () => {
-    const classNames: Required<StepsSemanticClassNames> = {
+    const classNames: Required<GetProp<StepsProps, 'classNames', 'Return'>> = {
       root: 'custom-root',
       item: 'custom-item',
       itemWrapper: 'custom-item-wrapper',
@@ -35,7 +36,7 @@ describe('Steps.Semantic', () => {
       itemRail: 'custom-item-rail',
     };
 
-    const classNamesTargets: Required<StepsSemanticClassNames> = {
+    const classNamesTargets: Required<GetProp<StepsProps, 'classNames', 'Return'>> = {
       root: 'ant-steps',
       item: 'ant-steps-item',
       itemWrapper: 'ant-steps-item-wrapper',
@@ -48,7 +49,7 @@ describe('Steps.Semantic', () => {
       itemRail: 'ant-steps-item-rail',
     };
 
-    const styles: Required<StepsSemanticStyles> = {
+    const styles: Required<GetProp<StepsProps, 'styles', 'Return'>> = {
       root: { color: 'rgb(255, 0, 0)' },
       item: { color: 'rgb(0, 0, 255)' },
       itemWrapper: { color: 'rgb(0, 255, 0)' },
@@ -64,9 +65,9 @@ describe('Steps.Semantic', () => {
     const { container } = render(renderSteps({ classNames, styles }));
 
     Object.keys(classNames).forEach((key) => {
-      const className = classNames[key as StepsSemanticName];
-      const oriClassName = classNamesTargets[key as StepsSemanticName];
-      const style = styles[key as StepsSemanticName];
+      const className = classNames[key as keyof StepsSemanticAllType['classNames']];
+      const oriClassName = classNamesTargets[key as keyof StepsSemanticAllType['classNames']];
+      const style = styles[key as keyof StepsSemanticAllType['styles']];
       const element = container.querySelector<HTMLElement>(`.${className}`);
       expect(element).toBeTruthy();
       expect(element).toHaveClass(oriClassName);
@@ -75,15 +76,15 @@ describe('Steps.Semantic', () => {
   });
 
   it('semantic structure with function classNames and styles', () => {
-    const classNamesFn: StepsProps['classNames'] = (info) => {
-      if (info.props.type === 'navigation') {
+    const classNamesFn: GetProp<StepsProps, 'classNames'> = ({ props }) => {
+      if (props.type === 'navigation') {
         return { root: 'custom-navigation-root' };
       }
       return { root: 'custom-default-root' };
     };
 
-    const stylesFn: StepsProps['styles'] = (info) => {
-      if (info.props.current === 1) {
+    const stylesFn: GetProp<StepsProps, 'styles'> = ({ props }) => {
+      if (props.current === 1) {
         return { root: { backgroundColor: 'rgb(255, 0, 0)' } };
       }
       return { root: { backgroundColor: 'rgb(0, 255, 0)' } };
@@ -102,5 +103,23 @@ describe('Steps.Semantic', () => {
     expect(rootElement).toBeTruthy();
     expect(rootElement).toHaveClass('ant-steps');
     expect(rootElement).toHaveStyle({ backgroundColor: 'rgb(255, 0, 0)' });
+  });
+
+  it('should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        steps={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        {renderSteps({
+          styles: semanticRootStylePriority.styles,
+          style: semanticRootStylePriority.style,
+        })}
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-steps'));
   });
 });

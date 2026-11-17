@@ -1,6 +1,7 @@
 import * as React from 'react';
 import DoubleLeftOutlined from '@ant-design/icons/DoubleLeftOutlined';
 import DoubleRightOutlined from '@ant-design/icons/DoubleRightOutlined';
+import EllipsisOutlined from '@ant-design/icons/EllipsisOutlined';
 import LeftOutlined from '@ant-design/icons/LeftOutlined';
 import RightOutlined from '@ant-design/icons/RightOutlined';
 import type {
@@ -8,15 +9,16 @@ import type {
   PaginationProps as RcPaginationProps,
 } from '@rc-component/pagination';
 import RcPagination from '@rc-component/pagination';
-import enUS from '@rc-component/pagination/lib/locale/en_US';
+import enUS from '@rc-component/pagination/locale/en_US';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { devUseWarning } from '../_util/warning';
 import { useComponentConfig } from '../config-provider/context';
 import useSize from '../config-provider/hooks/useSize';
 import type { SizeType } from '../config-provider/SizeContext';
+import useVariant from '../form/hooks/useVariants';
 import useBreakpoint from '../grid/hooks/useBreakpoint';
 import { useLocale } from '../locale';
 import type { SelectProps } from '../select';
@@ -26,42 +28,45 @@ import useStyle from './style';
 import BorderedStyle from './style/bordered';
 import useShowSizeChanger from './useShowSizeChanger';
 
-export type SemanticName = keyof PaginationSemanticClassNames & keyof PaginationSemanticStyles;
-
-export type PaginationSemanticName = SemanticName;
-
-export type PaginationSemanticClassNames = {
-  root?: string;
-  item?: string;
+export type PaginationSemanticType = {
+  classNames?: {
+    root?: string;
+    item?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    item?: React.CSSProperties;
+  };
 };
 
-export type PaginationSemanticStyles = {
-  root?: React.CSSProperties;
-  item?: React.CSSProperties;
-};
-
-export type PaginationClassNamesType = SemanticClassNamesType<
-  PaginationProps,
-  PaginationSemanticClassNames
->;
-
-export type PaginationStylesType = SemanticStylesType<PaginationProps, PaginationSemanticStyles>;
+export type PaginationSemanticAllType = GenerateSemantic<PaginationSemanticType, PaginationProps>;
 
 export interface PaginationProps
-  extends Omit<RcPaginationProps, 'showSizeChanger' | 'pageSizeOptions' | 'classNames' | 'styles'> {
+  extends Omit<
+    RcPaginationProps,
+    'showSizeChanger' | 'pageSizeOptions' | 'classNames' | 'styles' | 'sizeChangerRender'
+  > {
   showQuickJumper?: boolean | { goButton?: React.ReactNode };
   size?: SizeType;
   responsive?: boolean;
   role?: string;
   totalBoundaryShowSizeChanger?: number;
   rootClassName?: string;
+  components?: {
+    sizeChanger?: React.ComponentType<{
+      value: number;
+      onChange: (value: number) => void;
+      disabled: boolean;
+      className: string;
+    }>;
+  };
   showSizeChanger?: boolean | SelectProps;
   /** @deprecated Not official support. Will be removed in next major version. */
   selectComponentClass?: any;
   /** `string` type will be removed in next major version. */
   pageSizeOptions?: (string | number)[];
-  classNames?: PaginationClassNamesType;
-  styles?: PaginationStylesType;
+  classNames?: PaginationSemanticAllType['classNamesAndFn'];
+  styles?: PaginationSemanticAllType['stylesAndFn'];
 }
 
 export type PaginationPosition = 'top' | 'bottom' | 'both';
@@ -84,6 +89,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     locale: customLocale,
     responsive,
     showSizeChanger,
+    components,
     selectComponentClass,
     pageSizeOptions,
     styles,
@@ -112,6 +118,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   const mergedSize = useSize(customizeSize);
 
   const isSmall = mergedSize === 'small' || !!(xs && !mergedSize && responsive);
+  const [inputVariant, enableInputVariantCls] = useVariant('input');
 
   // =========== Merged Props for Semantic ==========
   const mergedProps: PaginationProps = {
@@ -120,11 +127,14 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   };
 
   // ========================= Style ==========================
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    PaginationClassNamesType,
-    PaginationStylesType,
+    PaginationSemanticAllType['classNames'],
+    PaginationSemanticAllType['styles'],
     PaginationProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -162,6 +172,18 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       options,
     } = info;
 
+    const SizeChangerComponent = components?.sizeChanger;
+    if (SizeChangerComponent) {
+      return (
+        <SizeChangerComponent
+          value={pageSize}
+          onChange={onSizeChange}
+          disabled={!!disabled}
+          className={sizeChangerClassName}
+        />
+      );
+    }
+
     const { className: propSizeChangerClassName, onChange: propSizeChangerOnChange } =
       mergedShowSizeChangerSelectProps || {};
 
@@ -187,7 +209,11 @@ const Pagination: React.FC<PaginationProps> = (props) => {
           propSizeChangerOnChange?.(nextSize, option);
         }}
         size={mergedSize}
-        className={clsx(sizeChangerClassName, propSizeChangerClassName)}
+        className={clsx(
+          `${prefixCls}-options-size-changer-select`,
+          sizeChangerClassName,
+          propSizeChangerClassName,
+        )}
       />
     );
   };
@@ -204,7 +230,11 @@ const Pagination: React.FC<PaginationProps> = (props) => {
 
   // ============================= Render =============================
   const iconsProps = React.useMemo<Record<PropertyKey, React.ReactNode>>(() => {
-    const ellipsis = <span className={`${prefixCls}-item-ellipsis`}>•••</span>;
+    const ellipsis = (
+      <span className={`${prefixCls}-item-ellipsis`}>
+        <EllipsisOutlined />
+      </span>
+    );
     const prevIcon = (
       <button className={`${prefixCls}-item-link`} type="button" tabIndex={-1}>
         {direction === 'rtl' ? <RightOutlined /> : <LeftOutlined />}
@@ -250,6 +280,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
     {
       [`${prefixCls}-${align}`]: !!align,
       [`${prefixCls}-${mergedSize}`]: mergedSize,
+      [`${prefixCls}-${inputVariant}`]: enableInputVariantCls && inputVariant !== 'outlined',
       /** @deprecated Should be removed in v7 */
       [`${prefixCls}-mini`]: isSmall,
       [`${prefixCls}-rtl`]: direction === 'rtl',
@@ -265,8 +296,6 @@ const Pagination: React.FC<PaginationProps> = (props) => {
 
   const mergedStyle: React.CSSProperties = {
     ...mergedStyles.root,
-    ...contextStyle,
-    ...style,
   };
 
   return (

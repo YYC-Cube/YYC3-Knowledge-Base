@@ -1,13 +1,12 @@
 import * as React from 'react';
 import FilterFilled from '@ant-design/icons/FilterFilled';
 import type { FieldDataNode } from '@rc-component/tree';
-import isEqual from '@rc-component/util/lib/isEqual';
+import { isEqual, mergeProps } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import type { FilterState } from '.';
-import extendsObject from '../../../_util/extendsObject';
 import { useSyncState } from '../../../_util/hooks';
-import { isNumber } from '../../../_util/is';
+import { isFunction, isNumber } from '../../../_util/is';
 import type { AnyObject } from '../../../_util/type';
 import { devUseWarning } from '../../../_util/warning';
 import Button from '../../../button/Button';
@@ -39,7 +38,7 @@ import FilterDropdownMenuWrapper from './FilterWrapper';
 
 type FilterTreeDataNode = FieldDataNode<{ title: React.ReactNode; key: string }>;
 
-interface FilterRestProps {
+interface FilterResetProps {
   confirm?: boolean;
   closeDropdown?: boolean;
 }
@@ -119,7 +118,7 @@ const renderFilterItems = (options: RenderFilterItemsOptions): Required<MenuProp
       ),
     };
     if (normalizedSearchValue) {
-      if (typeof filterSearch === 'function') {
+      if (isFunction(filterSearch)) {
         return filterSearch(normalizedSearchValue, filter) ? item : null;
       }
       return searchValueMatched(normalizedSearchValue, filter.text) ? item : null;
@@ -189,11 +188,11 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
     filterState &&
     (filterState.filteredKeys?.length || filterState.forceFiltered)
   );
-  const triggerVisible = (newVisible: boolean) => {
-    setVisible(newVisible);
-    filterDropdownProps.onOpenChange?.(newVisible);
+  const triggerOpen = (nextOpen: boolean) => {
+    setVisible(nextOpen);
+    filterDropdownProps.onOpenChange?.(nextOpen);
     // deprecated
-    onFilterDropdownOpenChange?.(newVisible);
+    onFilterDropdownOpenChange?.(nextOpen);
   };
 
   // =================Warning===================
@@ -235,18 +234,18 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
     { node, checked }: { node: EventDataNode<FilterTreeDataNode>; checked: boolean },
   ) => {
     if (!filterMultiple) {
-      onSelectKeys({ selectedKeys: checked && node.key ? [node.key] : [] });
+      onSelectKeys({ selectedKeys: checked ? [node.key] : [] });
     } else {
       onSelectKeys({ selectedKeys: keys });
     }
   };
 
   React.useEffect(() => {
-    if (!visible) {
+    if (!mergedVisible) {
       return;
     }
     onSelectKeys({ selectedKeys: wrapStringListType(propFilteredKeys) });
-  }, [propFilteredKeys]);
+  }, [propFilteredKeys, mergedVisible]);
 
   // ====================== Open Keys ======================
   const [openKeys, setOpenKeys] = React.useState<string[]>([]);
@@ -268,10 +267,10 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
   };
   // clear search value after close filter dropdown
   React.useEffect(() => {
-    if (!visible) {
+    if (!mergedVisible) {
       setSearchValue('');
     }
-  }, [visible]);
+  }, [mergedVisible]);
 
   // ======================= Submit ========================
   const internalTriggerFilter = (keys?: string[]) => {
@@ -292,18 +291,18 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
   };
 
   const onConfirm = () => {
-    triggerVisible(false);
+    triggerOpen(false);
     internalTriggerFilter(getFilteredKeysSync());
   };
 
   const onReset = (
-    { confirm, closeDropdown }: FilterRestProps = { confirm: false, closeDropdown: false },
+    { confirm, closeDropdown }: FilterResetProps = { confirm: false, closeDropdown: false },
   ) => {
     if (confirm) {
       internalTriggerFilter([]);
     }
     if (closeDropdown) {
-      triggerVisible(false);
+      triggerOpen(false);
     }
 
     setSearchValue('');
@@ -317,22 +316,22 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
 
   const doFilter = ({ closeDropdown } = { closeDropdown: true }) => {
     if (closeDropdown) {
-      triggerVisible(false);
+      triggerOpen(false);
     }
     internalTriggerFilter(getFilteredKeysSync());
   };
 
-  const onVisibleChange: DropdownProps['onOpenChange'] = (newVisible, info) => {
+  const onDropdownOpenChange: DropdownProps['onOpenChange'] = (nextOpen, info) => {
     if (info.source === 'trigger') {
-      if (newVisible && propFilteredKeys !== undefined) {
+      if (nextOpen && propFilteredKeys !== undefined) {
         // Sync filteredKeys on appear in controlled mode (propFilteredKeys !== undefined)
         setFilteredKeysSync(wrapStringListType(propFilteredKeys));
       }
 
-      triggerVisible(newVisible);
-
-      if (!newVisible && !column.filterDropdown && filterOnClose) {
+      if (!nextOpen && !column.filterDropdown && filterOnClose) {
         onConfirm();
+      } else {
+        triggerOpen(nextOpen);
       }
     }
   };
@@ -375,7 +374,7 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
 
   const { direction, renderEmpty } = React.useContext(ConfigContext);
 
-  if (typeof column.filterDropdown === 'function') {
+  if (isFunction(column.filterDropdown)) {
     dropdownContent = column.filterDropdown({
       prefixCls: `${dropdownPrefixCls}-custom`,
       setSelectedKeys: (selectedKeys) => onSelectKeys({ selectedKeys: selectedKeys as string[] }),
@@ -385,7 +384,7 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
       filters: column.filters,
       visible: mergedVisible,
       close: () => {
-        triggerVisible(false);
+        triggerOpen(false);
       },
     });
   } else if (column.filterDropdown) {
@@ -452,7 +451,7 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
                 filterTreeNode={
                   normalizedSearchValue
                     ? (node) => {
-                        if (typeof filterSearch === 'function') {
+                        if (isFunction(filterSearch)) {
                           return filterSearch(searchValue, getFilterData(node));
                         }
                         return searchValueMatched(normalizedSearchValue, node.title);
@@ -542,7 +541,7 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
 
   const getDropdownTrigger = () => {
     let filterIcon: React.ReactNode;
-    if (typeof column.filterIcon === 'function') {
+    if (isFunction(column.filterIcon)) {
       filterIcon = column.filterIcon(filtered);
     } else if (column.filterIcon) {
       filterIcon = column.filterIcon;
@@ -576,7 +575,7 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
     );
   }
 
-  const mergedDropdownProps = extendsObject(
+  const mergedDropdownProps = mergeProps(
     {
       trigger: ['click'],
       placement: direction === 'rtl' ? 'bottomLeft' : 'bottomRight',
@@ -587,10 +586,12 @@ const FilterDropdown = <RecordType extends AnyObject = AnyObject>(
       ...filterDropdownProps,
       rootClassName: clsx(rootClassName, filterDropdownProps.rootClassName),
       open: mergedVisible,
-      onOpenChange: onVisibleChange,
+      onOpenChange: onDropdownOpenChange,
       popupRender: () => {
-        if (typeof filterDropdownProps?.dropdownRender === 'function') {
-          return filterDropdownProps.dropdownRender(dropdownContent);
+        const customRender =
+          filterDropdownProps?.popupRender ?? filterDropdownProps?.dropdownRender;
+        if (isFunction(customRender)) {
+          return customRender(dropdownContent);
         }
         return dropdownContent;
       },

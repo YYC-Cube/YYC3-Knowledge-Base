@@ -68,14 +68,14 @@ describe('Table', () => {
       },
     ];
     rerender(<Table columns={newColumns} />);
-    expect(container.querySelector('th')?.textContent).toEqual('Title');
+    expect(container.querySelector('th')?.textContent).toBe('Title');
   });
 
   it('loading with Spin', async () => {
     jest.useFakeTimers();
     const { container, rerender } = render(<Table loading={{ spinning: false, delay: 500 }} />);
     expect(container.querySelector('.ant-spin-section')).toBeFalsy();
-    expect(container.querySelector('.ant-table-placeholder')?.textContent).not.toEqual('');
+    expect(container.querySelector('.ant-table-placeholder')?.textContent).not.toBe('');
     rerender(<Table loading={{ spinning: true, delay: 500 }} />);
     expect(container.querySelector('.ant-spin-section')).toBeFalsy();
     await waitFakeTimer();
@@ -231,6 +231,43 @@ describe('Table', () => {
       .forEach((td) => {
         expect((td.attributes as any).title).toBeTruthy();
       });
+  });
+
+  it('supports column align with per-column override and special columns', () => {
+    const { container } = render(
+      <Table
+        columns={[
+          { title: 'Name', dataIndex: 'name' },
+          Table.EXPAND_COLUMN,
+          {
+            title: 'Info',
+            children: [{ title: 'Age', dataIndex: 'age', align: 'right' }],
+          },
+          Table.SELECTION_COLUMN,
+        ]}
+        dataSource={[
+          {
+            key: '1',
+            name: 'Jack',
+            age: 20,
+          },
+        ]}
+        column={{ align: 'center' }}
+        expandable={{ expandedRowRender: () => null }}
+        rowSelection={{}}
+        pagination={false}
+      />,
+    );
+
+    const cells = container.querySelectorAll('tbody tr')[0].querySelectorAll('td');
+
+    expect(cells).toHaveLength(4);
+    expect(cells[0]).toHaveStyle({ textAlign: 'center' });
+    expect(cells[0].textContent).toBe('Jack');
+    expect(cells[1].querySelector('.ant-table-row-expand-icon')).toBeTruthy();
+    expect(cells[2]).toHaveStyle({ textAlign: 'right' });
+    expect(cells[2].textContent).toBe('20');
+    expect(cells[3].querySelector('.ant-checkbox-input')).toBeTruthy();
   });
 
   it('warn about rowKey when using index parameter', () => {
@@ -391,6 +428,25 @@ describe('Table', () => {
     expect(container.querySelector('.ant-table')?.getAttribute('data-number')).toBe('123');
   });
 
+  // https://github.com/ant-design/ant-design/issues/44802
+  it('passes aria-* props to all tables with scroll', () => {
+    const { container } = render(
+      <Table
+        aria-label="label"
+        columns={[{ title: 'Name', dataIndex: 'name' }]}
+        dataSource={[{ key: '1', name: 'Bamboo' }]}
+        pagination={false}
+        scroll={{ x: 400, y: 100 }}
+      />,
+    );
+
+    const tables = Array.from(container.querySelectorAll('table'));
+    expect(tables.length).toBeGreaterThan(1);
+    tables.forEach((table) => {
+      expect(table).toHaveAttribute('aria-label', 'label');
+    });
+  });
+
   it('support wireframe', () => {
     const columns = [{ title: 'Name', key: 'name', dataIndex: 'name' }];
     const { container } = render(
@@ -493,6 +549,30 @@ describe('Table', () => {
     expect(typeof tblRef.current?.scrollTo === 'function').toBeTruthy();
   });
 
+  it('support reference scrollTo', () => {
+    const tblRef = React.createRef<TableRef>();
+    const { container } = render(
+      <Table
+        ref={tblRef}
+        scroll={{ y: 100 }}
+        columns={[{ dataIndex: 'key' }]}
+        dataSource={[{ key: 'bamboo' }]}
+      />,
+    );
+    const body = container.querySelector<HTMLDivElement>('.ant-table-body')!;
+    body.scrollTo = jest.fn();
+
+    tblRef.current?.scrollTo({ top: 100 });
+    expect(body.scrollTo).toHaveBeenCalledWith({ top: 100 });
+
+    const row = container.querySelector<HTMLElement>('[data-row-key="bamboo"]')!;
+    const scrollIntoView = jest.spyOn(row, 'scrollIntoView');
+
+    tblRef.current?.scrollTo({ key: 'bamboo' });
+    expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest' });
+    scrollIntoView.mockRestore();
+  });
+
   it('support hidden columns', () => {
     const columns = [
       {
@@ -511,7 +591,7 @@ describe('Table', () => {
     ];
     const { container } = render(<Table columns={columns} />);
 
-    expect(container.querySelectorAll('.ant-table-thead th')[1].innerHTML).toEqual('title3');
+    expect(container.querySelectorAll('.ant-table-thead th')[1].innerHTML).toBe('title3');
     expect(container.querySelectorAll('.ant-table-thead th')).toHaveLength(2);
   });
 
@@ -545,13 +625,13 @@ describe('Table', () => {
 
     expect(
       container.querySelectorAll('.ant-table-thead tr')[0].querySelectorAll('th')[1].innerHTML,
-    ).toEqual('title3');
+    ).toBe('title3');
     expect(
       container.querySelectorAll('.ant-table-thead tr')[0].querySelectorAll('th'),
     ).toHaveLength(2);
     expect(
       container.querySelectorAll('.ant-table-thead tr')[1].querySelectorAll('th')[0].innerHTML,
-    ).toEqual('title3-2');
+    ).toBe('title3-2');
     expect(
       container.querySelectorAll('.ant-table-thead tr')[1].querySelectorAll('th'),
     ).toHaveLength(1);
@@ -579,6 +659,32 @@ describe('Table', () => {
 
     fireEvent.mouseEnter(cell);
     expect(container.querySelectorAll('.ant-table-cell-row-hover')).toHaveLength(0);
+  });
+
+  it('should add no-header class only when header and title are absent', () => {
+    const columns = [{ title: 'Name', dataIndex: 'name' }];
+    const dataSource = [{ key: 1, name: 'Jack' }];
+    const { container, rerender } = render(
+      <Table bordered showHeader={false} columns={columns} dataSource={dataSource} />,
+    );
+
+    expect(container.querySelector('.ant-table')).toHaveClass('ant-table-no-header');
+
+    rerender(<Table bordered showHeader columns={columns} dataSource={dataSource} />);
+
+    expect(container.querySelector('.ant-table')).not.toHaveClass('ant-table-no-header');
+
+    rerender(
+      <Table
+        bordered
+        showHeader={false}
+        title={() => 'Title'}
+        columns={columns}
+        dataSource={dataSource}
+      />,
+    );
+
+    expect(container.querySelector('.ant-table')).not.toHaveClass('ant-table-no-header');
   });
 
   it('rowSelection should support align', () => {

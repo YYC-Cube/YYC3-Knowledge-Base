@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/sv_SE';
+import Pagination from '@rc-component/pagination/locale/sv_SE';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/sv_SE';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Vänligen välj',
     close: 'Stäng',
+    show: 'Visa',
+    hide: 'Dölj',
+    sortable: 'sorterbar',
   },
   Table: {
     filterTitle: 'Filtermeny',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Invertera nuvarande sida',
     selectNone: 'Avmarkera all data',
     selectionAll: 'Markera all data',
+    selectRow: 'Välj rad',
+    selectedRow: 'Rad vald',
+    selectionMenu: 'Valmeny',
     sortTitle: 'Sortera',
     expand: 'Expandera rad',
     collapse: 'Komprimera rad',
+    expandAll: 'Expandera alla rader',
+    collapseAll: 'Komprimera alla rader',
     triggerDesc: 'Klicka för att sortera i fallande ordning',
     triggerAsc: 'Klicka för att sortera i stigande ordning',
     cancelSort: 'Klicka för att avbryta sortering',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Avbryt',
   },
+  Splitter: {
+    toggleStartPanel: 'Växla startpanelen',
+    toggleEndPanel: 'Växla slutpanelen',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Sök här',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Markera all data',
     removeAll: 'Ta bort all data',
     selectInvert: 'Invertera nuvarande sida',
+    deselectAll: 'Avmarkera all data',
   },
   Upload: {
     uploading: 'Laddar upp...',
@@ -80,6 +93,11 @@ const localeValues: Locale = {
     copy: 'Kopiera',
     copied: 'Kopierad',
     expand: 'Expandera',
+    collapse: 'Kollapsa',
+  },
+  Carousel: {
+    prevSlide: 'Föregående bild',
+    nextSlide: 'Nästa bild',
   },
   Form: {
     optional: '(valfritt)',
@@ -134,6 +152,13 @@ const localeValues: Locale = {
   QRCode: {
     expired: 'QR-koden har upphört att gälla',
     refresh: 'Uppdatera',
+    scanned: 'Skannat',
+  },
+  ColorPicker: {
+    presetEmpty: 'Tom',
+    transparent: 'Transparent',
+    singleColor: 'Enfärgad',
+    gradientColor: 'Gradient färg',
   },
 };
 

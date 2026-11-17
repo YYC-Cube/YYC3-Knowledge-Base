@@ -44,45 +44,25 @@ export interface GroupProps {
   /** 是否不使用两侧 margin */
   collapse?: boolean;
   decoration?: React.ReactNode;
-  /** 预加载的背景图片列表 */
-  backgroundPrefetchList?: string[];
   /** 标题右侧的操作按钮 */
   extra?: React.ReactNode;
 }
 
 const Group: React.FC<React.PropsWithChildren<GroupProps>> = (props) => {
-  const {
-    id,
-    title,
-    titleColor,
-    description,
-    children,
-    decoration,
-    background,
-    collapse,
-    backgroundPrefetchList,
-    extra,
-  } = props;
-
-  // 预加载背景图片
-  React.useEffect(() => {
-    if (backgroundPrefetchList && backgroundPrefetchList.length > 0) {
-      backgroundPrefetchList.forEach((url) => {
-        if (url && url.startsWith('https')) {
-          const img = new Image();
-          img.src = url;
-        }
-      });
-    }
-  }, [backgroundPrefetchList]);
+  const { id, title, titleColor, description, children, decoration, background, collapse, extra } =
+    props;
 
   const token = useTheme();
   const { isMobile } = React.use(SiteContext);
   return (
     <div
       style={
-        background?.startsWith('https')
-          ? { backgroundImage: `url(${background})` }
+        background?.startsWith('https') || background?.startsWith('linear-gradient')
+          ? {
+              backgroundImage: background?.startsWith('linear-gradient')
+                ? background
+                : `url(${background})`,
+            }
           : { backgroundColor: background }
       }
       className={styles.box}
@@ -117,6 +97,7 @@ const Group: React.FC<React.PropsWithChildren<GroupProps>> = (props) => {
             style={{
               color: titleColor,
               marginBottom: isMobile ? token.marginXXL : token.marginFarXS,
+              marginTop: token.marginSM,
             }}
           >
             {description}

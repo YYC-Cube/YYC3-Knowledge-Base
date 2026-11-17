@@ -1,8 +1,9 @@
 import * as React from 'react';
 import ExclamationCircleFilled from '@ant-design/icons/ExclamationCircleFilled';
+import { isReactRenderable } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import type { PopconfirmProps } from '.';
+import type { PopconfirmProps, PopconfirmSemanticAllType } from '.';
 import ActionButton from '../_util/ActionButton';
 import { getRenderPropValue } from '../_util/getRenderPropValue';
 import Button from '../button/Button';
@@ -10,7 +11,6 @@ import { convertLegacyProps } from '../button/buttonHelpers';
 import { ConfigContext } from '../config-provider';
 import { useLocale } from '../locale';
 import defaultLocale from '../locale/en_US';
-import type { PopoverSemanticClassNames, PopoverSemanticStyles } from '../popover';
 import PopoverPurePanel from '../popover/PurePanel';
 import useStyle from './style';
 
@@ -37,8 +37,8 @@ export interface OverlayProps
   close?: (...args: any[]) => void;
   onConfirm?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
   onCancel?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-  classNames?: PopoverSemanticClassNames;
-  styles?: PopoverSemanticStyles;
+  classNames?: PopconfirmSemanticAllType['classNames'];
+  styles?: PopconfirmSemanticAllType['styles'];
 }
 
 export const Overlay: React.FC<OverlayProps> = (props) => {
@@ -68,17 +68,29 @@ export const Overlay: React.FC<OverlayProps> = (props) => {
   const titleNode = getRenderPropValue(title);
   const descriptionNode = getRenderPropValue(description);
 
+  const onInternalCancel: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    onCancel?.(event);
+    cancelButtonProps?.onClick?.(event);
+  };
+
   return (
     <div className={`${prefixCls}-inner-content`} onClick={onPopupClick}>
       <div className={`${prefixCls}-message`}>
-        {icon && <span className={`${prefixCls}-message-icon`}>{icon}</span>}
+        {icon && (
+          <span
+            className={clsx(`${prefixCls}-message-icon`, classNames?.icon)}
+            style={styles?.icon}
+          >
+            {icon}
+          </span>
+        )}
         <div className={`${prefixCls}-message-text`}>
-          {titleNode && (
+          {isReactRenderable(titleNode) && (
             <div className={clsx(`${prefixCls}-title`, classNames?.title)} style={styles?.title}>
               {titleNode}
             </div>
           )}
-          {descriptionNode && (
+          {isReactRenderable(descriptionNode) && (
             <div
               className={clsx(`${prefixCls}-description`, classNames?.content)}
               style={styles?.content}
@@ -90,7 +102,7 @@ export const Overlay: React.FC<OverlayProps> = (props) => {
       </div>
       <div className={`${prefixCls}-buttons`}>
         {showCancel && (
-          <Button onClick={onCancel} size="small" {...cancelButtonProps}>
+          <Button size="small" {...cancelButtonProps} onClick={onInternalCancel}>
             {cancelText || contextLocale?.cancelText}
           </Button>
         )}

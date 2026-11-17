@@ -49,13 +49,13 @@ const Basic = React.forwardRef<HTMLDivElement, BasicPropsWithTagName>((props, re
   const { getPrefixCls } = React.useContext(ConfigContext);
   const prefixCls = getPrefixCls('layout', customizePrefixCls);
 
-  const [hashId] = useStyle(prefixCls);
+  const [hashId, cssVarCls] = useStyle(prefixCls);
 
   const prefixWithSuffixCls = suffixCls ? `${prefixCls}-${suffixCls}` : prefixCls;
 
   return (
     <TagName
-      className={clsx(customizePrefixCls || prefixWithSuffixCls, className, hashId)}
+      className={clsx(customizePrefixCls || prefixWithSuffixCls, className, hashId, cssVarCls)}
       ref={ref}
       {...others}
     />
@@ -110,7 +110,11 @@ const BasicLayout = React.forwardRef<HTMLDivElement, BasicPropsWithTagName>((pro
           setSiders((prev) => [...prev, id]);
         },
         removeSider: (id: string) => {
-          setSiders((prev) => prev.filter((currentId) => currentId !== id));
+          setSiders((prev) => {
+            // Remove only one registration when multiple siders share an ID.
+            const index = prev.indexOf(id);
+            return prev.filter((_, currentIndex) => currentIndex !== index);
+          });
         },
       },
     }),

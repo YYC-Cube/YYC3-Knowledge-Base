@@ -1,10 +1,10 @@
 import * as React from 'react';
-import type { Tab, TabBarExtraContent } from '@rc-component/tabs/lib/interface';
-import { omit, toArray } from '@rc-component/util';
+import type { Tab, TabBarExtraContent } from '@rc-component/tabs';
+import { isReactRenderable, omit, toArray } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { devUseWarning } from '../_util/warning';
 import { useComponentConfig } from '../config-provider/context';
 import useSize from '../config-provider/hooks/useSize';
@@ -30,31 +30,28 @@ export interface CardTabListType extends Omit<Tab, 'label'> {
   label?: React.ReactNode;
 }
 
-export type CardSemanticName = keyof CardSemanticClassNames & keyof CardSemanticStyles;
-
-export type CardSemanticClassNames = {
-  root?: string;
-  header?: string;
-  body?: string;
-  extra?: string;
-  title?: string;
-  actions?: string;
-  cover?: string;
+export type CardSemanticType = {
+  classNames?: {
+    root?: string;
+    header?: string;
+    body?: string;
+    extra?: string;
+    title?: string;
+    actions?: string;
+    cover?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    header?: React.CSSProperties;
+    body?: React.CSSProperties;
+    extra?: React.CSSProperties;
+    title?: React.CSSProperties;
+    actions?: React.CSSProperties;
+    cover?: React.CSSProperties;
+  };
 };
 
-export type CardSemanticStyles = {
-  root?: React.CSSProperties;
-  header?: React.CSSProperties;
-  body?: React.CSSProperties;
-  extra?: React.CSSProperties;
-  title?: React.CSSProperties;
-  actions?: React.CSSProperties;
-  cover?: React.CSSProperties;
-};
-
-export type CardClassNamesType = SemanticClassNamesType<CardProps, CardSemanticClassNames>;
-
-export type CardStylesType = SemanticStylesType<CardProps, CardSemanticStyles>;
+export type CardSemanticAllType = GenerateSemantic<CardSemanticType, CardProps>;
 
 export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   prefixCls?: string;
@@ -83,8 +80,8 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
   activeTabKey?: string;
   defaultActiveTabKey?: string;
   tabProps?: TabsProps;
-  classNames?: CardClassNamesType;
-  styles?: CardStylesType;
+  classNames?: CardSemanticAllType['classNamesAndFn'];
+  styles?: CardSemanticAllType['stylesAndFn'];
   variant?: 'borderless' | 'outlined';
 }
 
@@ -163,11 +160,14 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
     variant: variant as CardProps['variant'],
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    CardClassNamesType,
-    CardStylesType,
+    CardSemanticAllType['classNames'],
+    CardSemanticAllType['styles'],
     CardProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -184,13 +184,16 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
   }
 
   const onTabChange = (key: string) => {
+    tabProps.onChange?.(key);
     props.onTabChange?.(key);
   };
 
-  const isContainGrid = React.useMemo<boolean>(() => {
-    const childNodes: React.ReactNode[] = toArray(children);
-    return childNodes.some((child) => React.isValidElement(child) && child.type === CardGrid);
-  }, [children]);
+  const childNodes = React.useMemo<React.ReactNode[]>(() => toArray(children), [children]);
+
+  const isContainGrid = React.useMemo<boolean>(
+    () => childNodes.some((child) => React.isValidElement(child) && child.type === CardGrid),
+    [childNodes],
+  );
 
   const prefixCls = getPrefixCls('card', customizePrefixCls);
   const [hashId, cssVarCls] = useStyle(prefixCls);
@@ -206,7 +209,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
     ...tabProps,
     [hasActiveTabKey ? 'activeKey' : 'defaultActiveKey']: hasActiveTabKey
       ? activeTabKey
-      : defaultActiveTabKey,
+      : (defaultActiveTabKey ?? tabProps.defaultActiveKey),
     tabBarExtraContent,
   };
 
@@ -221,7 +224,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
       items={tabList.map(({ tab, ...item }) => ({ label: tab, ...item }))}
     />
   ) : null;
-  if (title || extra || tabs) {
+  if (isReactRenderable(title) || isReactRenderable(extra) || tabs) {
     const headClasses = clsx(`${prefixCls}-head`, mergedClassNames.header);
     const titleClasses = clsx(`${prefixCls}-head-title`, mergedClassNames.title);
     const extraClasses = clsx(`${prefixCls}-extra`, mergedClassNames.extra);
@@ -232,12 +235,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
     head = (
       <div className={headClasses} style={mergedHeadStyle}>
         <div className={`${prefixCls}-head-wrapper`}>
-          {title && (
+          {isReactRenderable(title) && (
             <div className={titleClasses} style={mergedStyles.title}>
               {title}
             </div>
           )}
-          {extra && (
+          {isReactRenderable(extra) && (
             <div className={extraClasses} style={mergedStyles.extra}>
               {extra}
             </div>
@@ -248,7 +251,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
     );
   }
   const coverClasses = clsx(`${prefixCls}-cover`, mergedClassNames.cover);
-  const coverDom = cover ? (
+  const coverDom = isReactRenderable(cover) ? (
     <div className={coverClasses} style={mergedStyles.cover}>
       {cover}
     </div>
@@ -258,11 +261,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
     ...bodyStyle,
     ...mergedStyles.body,
   };
-  const body = (
-    <div className={bodyClasses} style={mergedBodyStyle}>
-      {loading ? loadingBlock : children}
-    </div>
-  );
+  const body =
+    loading || childNodes.length ? (
+      <div className={bodyClasses} style={mergedBodyStyle}>
+        {loading ? loadingBlock : children}
+      </div>
+    ) : null;
 
   const actionClasses = clsx(`${prefixCls}-actions`, mergedClassNames.actions);
   const actionDom = actions?.length ? (
@@ -297,8 +301,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>((props, ref) => {
 
   const mergedStyle: React.CSSProperties = {
     ...mergedStyles.root,
-    ...contextStyle,
-    ...style,
   };
 
   return (

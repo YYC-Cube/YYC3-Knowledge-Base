@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
+import type { CheckboxGroupProps } from '..';
+import Checkbox from '..';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { fireEvent, render } from '../../../tests/utils';
 import Collapse from '../../collapse';
+import ConfigProvider from '../../config-provider';
 import Input from '../../input';
 import Table from '../../table';
-import type { CheckboxGroupProps } from '../index';
-import Checkbox from '../index';
 
 describe('CheckboxGroup', () => {
   mountTest(Checkbox.Group);
@@ -60,11 +61,23 @@ describe('CheckboxGroup', () => {
     expect(onChangeGroup).toHaveBeenCalledWith(['Apple']);
   });
 
+  it('should override context disabled status when CheckboxGroup is enabled', () => {
+    const { getByRole } = render(
+      <ConfigProvider componentDisabled>
+        <Checkbox.Group disabled={false}>
+          <Checkbox value="Apple" />
+        </Checkbox.Group>
+      </ConfigProvider>,
+    );
+
+    expect(getByRole('checkbox')).not.toBeDisabled();
+  });
+
   it('all children should have a name property', () => {
     const { container } = render(<Checkbox.Group name="checkboxgroup" options={['Yes', 'No']} />);
     Array.from(container.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')).forEach(
       (el) => {
-        expect(el.getAttribute('name')).toEqual('checkboxgroup');
+        expect(el.getAttribute('name')).toBe('checkboxgroup');
       },
     );
   });
@@ -92,6 +105,34 @@ describe('CheckboxGroup', () => {
     expect(container.querySelectorAll('.ant-checkbox-checked').length).toBe(1);
   });
 
+  describe('value is undefined', () => {
+    it('use `defaultValue` when `value` is undefined', () => {
+      const { container } = render(
+        <Checkbox.Group defaultValue={['A']} value={undefined} options={['A']} />,
+      );
+      expect(container.querySelectorAll('.ant-checkbox-checked')).toHaveLength(1);
+    });
+
+    it('should update value when `value` is undefined', () => {
+      const onChange = jest.fn();
+      const { container } = render(
+        <Checkbox.Group
+          defaultValue={['A']}
+          value={undefined}
+          options={['A', 'B']}
+          onChange={onChange}
+        />,
+      );
+      const checkboxes = container.querySelectorAll('input');
+
+      expect(checkboxes[0]).toBeChecked();
+      fireEvent.click(checkboxes[1]);
+      expect(checkboxes[0]).toBeChecked();
+      expect(checkboxes[1]).toBeChecked();
+      expect(onChange).toHaveBeenCalledWith(['A', 'B']);
+    });
+  });
+
   // https://github.com/ant-design/ant-design/issues/12642
   it('should trigger onChange in sub Checkbox', () => {
     const onChange = jest.fn();
@@ -102,7 +143,7 @@ describe('CheckboxGroup', () => {
     );
     fireEvent.click(container.querySelectorAll('.ant-checkbox-input')[0]);
     expect(onChange).toHaveBeenCalled();
-    expect(onChange.mock.calls[0][0].target.value).toEqual('my');
+    expect(onChange.mock.calls[0][0].target.value).toBe('my');
   });
 
   // https://github.com/ant-design/ant-design/issues/16376
@@ -235,6 +276,24 @@ describe('CheckboxGroup', () => {
 
     fireEvent.click(container.querySelector('.ant-checkbox-input')!);
     expect(onChange).toHaveBeenCalledWith([1]);
+  });
+
+  it('should ignore options with nullish values', () => {
+    const onChange = jest.fn();
+    const { container } = render(
+      <Checkbox.Group
+        options={[
+          { value: undefined, label: 'undefined' },
+          { value: null, label: 'null' },
+          { value: 0, label: 'valid' },
+        ]}
+        onChange={onChange}
+      />,
+    );
+    expect(container.querySelectorAll<HTMLElement>('.ant-checkbox-wrapper')).toHaveLength(1);
+    expect(container.querySelector('.ant-checkbox-wrapper')).toHaveTextContent('valid');
+    fireEvent.click(container.querySelector<HTMLElement>('.ant-checkbox-input')!);
+    expect(onChange).toHaveBeenCalledWith([0]);
   });
 
   it('should store latest checkbox value if changed', () => {

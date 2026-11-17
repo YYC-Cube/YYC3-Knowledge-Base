@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/kk_KZ';
+import Pagination from '@rc-component/pagination/locale/kk_KZ';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/kk_KZ';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Таңдаңыз',
     close: 'Жабу',
+    show: 'Көрсету',
+    hide: 'Жасыру',
+    sortable: 'сұрыпталатын',
   },
   Table: {
     filterTitle: 'Фильтр',
@@ -26,12 +29,20 @@ const localeValues: Locale = {
     selectAll: 'Барлығын таңдау',
     selectInvert: 'Таңдауды төңкеру',
     selectionAll: 'Барлық деректерді таңдаңыз',
+    selectRow: 'Жолды таңдау',
+    selectedRow: 'Жол таңдалды',
+    selectionMenu: 'Таңдау мәзірі',
     sortTitle: 'Сұрыптау',
     expand: 'Жолды жазу',
     collapse: 'Жолды бүктеу',
+    expandAll: 'Барлық жолдарды жазу',
+    collapseAll: 'Барлық жолдарды бүктеу',
     triggerDesc: 'Төмендеуді сұрыптау үшін басыңыз',
     triggerAsc: 'Өсу ретімен сұрыптау үшін басыңыз',
     cancelSort: 'Сұрыптаудан бас тарту үшін басыңыз',
+    filterCheckAll: 'Барлық элементтерді таңдаңыз',
+    filterSearchPlaceholder: 'Сүзгілерде іздеу',
+    selectNone: 'Барлық деректерді өшіріңіз',
   },
   Tour: {
     Next: 'Келесі',
@@ -47,6 +58,10 @@ const localeValues: Locale = {
     okText: 'Жарайды',
     cancelText: 'Болдырмау',
   },
+  Splitter: {
+    toggleStartPanel: 'Бастапқы панельді ауыстыру',
+    toggleEndPanel: 'Соңғы панельді ауыстыру',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Іздеу',
@@ -58,6 +73,7 @@ const localeValues: Locale = {
     selectInvert: 'Кері тәртіпте көрсету',
     removeAll: 'Барлық деректерді жою',
     removeCurrent: 'Ағымдағы парақты өшіру',
+    deselectAll: 'Барлық деректердің таңдауын алып тастаңыз',
   },
   Upload: {
     uploading: 'Жүктеу...',
@@ -77,8 +93,14 @@ const localeValues: Locale = {
     copy: 'Көшіру',
     copied: 'Көшірілді',
     expand: 'Жазу',
+    collapse: 'Жыйрату',
+  },
+  Carousel: {
+    prevSlide: 'Алдыңғы слайд',
+    nextSlide: 'Келесі слайд',
   },
   Form: {
+    optional: '(міндетті емес)',
     defaultValidateMessages: {
       default: '${label} өрісін тексеру қателігі',
       required: '${label} енгізіңіз',
@@ -114,6 +136,7 @@ const localeValues: Locale = {
         len: '${label} ${len} тең болуы керек',
         min: '${label} ${min} мәнінен үлкен немесе оған тең болуы керек',
         max: '${label} ${max} мәнінен аз немесе оған тең болуы керек',
+        range: '${label} ${min}-${max} аралығында болуы керек',
       },
       array: {
         len: '${label} элементтерінің саны ${len} тең болуы керек',
@@ -125,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} ${pattern} мен сәйкес келмейді',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR кодының мерзімі аяқталды',
+    refresh: 'Жаңарту',
+    scanned: 'Сканерленген',
+  },
+  ColorPicker: {
+    presetEmpty: 'Бос',
+    transparent: 'Мөлдір',
+    singleColor: 'Бір түсті',
+    gradientColor: 'Градиент түсі',
   },
 };
 

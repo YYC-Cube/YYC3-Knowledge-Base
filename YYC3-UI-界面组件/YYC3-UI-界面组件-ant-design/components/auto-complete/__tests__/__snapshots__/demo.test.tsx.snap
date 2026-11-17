@@ -21,11 +21,11 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
-          type="search"
+          type="text"
           value="centered"
         />
       </div>
@@ -33,6 +33,7 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
         class="ant-select-suffix"
       >
         <span
+          aria-hidden="true"
           aria-label="down"
           class="anticon anticon-down"
           role="img"
@@ -66,7 +67,7 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
@@ -92,11 +93,11 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
-          type="search"
+          type="text"
           value="centered"
         />
       </div>
@@ -104,6 +105,7 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
         class="ant-select-suffix"
       >
         <span
+          aria-hidden="true"
           aria-label="down"
           class="anticon anticon-down"
           role="img"
@@ -137,7 +139,7 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
@@ -163,11 +165,11 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
-          type="search"
+          type="text"
           value="centered"
         />
       </div>
@@ -175,6 +177,7 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
         class="ant-select-suffix"
       >
         <span
+          aria-hidden="true"
           aria-label="down"
           class="anticon anticon-down"
           role="img"
@@ -208,7 +211,7 @@ exports[`renders components/auto-complete/demo/AutoComplete-and-Select.tsx corre
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
@@ -232,7 +235,6 @@ Array [
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         UnClearable
       </div>
@@ -240,7 +242,7 @@ Array [
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -260,7 +262,6 @@ Array [
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         Customized clear icon
       </div>
@@ -268,7 +269,7 @@ Array [
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -291,7 +292,6 @@ Array [
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         input here
       </div>
@@ -299,7 +299,7 @@ Array [
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -319,7 +319,6 @@ Array [
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         control mode
       </div>
@@ -327,7 +326,7 @@ Array [
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -354,7 +353,7 @@ exports[`renders components/auto-complete/demo/certain-category.tsx correctly 1`
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-input ant-input-lg ant-input-outlined css-var-test-id ant-input-css-var ant-input-compact-item ant-input-compact-first-item"
         id="test-id"
         placeholder="input here"
@@ -407,7 +406,7 @@ exports[`renders components/auto-complete/demo/custom.tsx correctly 1`] = `
       aria-autocomplete="list"
       aria-expanded="false"
       aria-haspopup="listbox"
-      autocomplete="off"
+      autocomplete="new-password"
       class="ant-input ant-input-outlined css-var-test-id ant-input-css-var custom"
       id="test-id"
       placeholder="input here"
@@ -416,6 +415,372 @@ exports[`renders components/auto-complete/demo/custom.tsx correctly 1`] = `
       type="text"
     />
   </div>
+</div>
+`;
+
+exports[`renders components/auto-complete/demo/customize-clear-debug.tsx correctly 1`] = `
+<div
+  class="ant-flex css-var-test-id ant-flex-align-stretch ant-flex-vertical"
+  style="width:300px;gap:24px"
+>
+  <div
+    class="ant-select ant-select-outlined ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-allow-clear ant-select-customize-input ant-select-show-search"
+  >
+    <div
+      class="ant-select-content ant-select-content-has-value ant-select-content-has-search-value"
+      title="Burnaby"
+    >
+      <input
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        autocomplete="new-password"
+        class="ant-input ant-input-outlined ant-select-input css-var-test-id ant-input-css-var"
+        id="test-id"
+        role="combobox"
+        type="text"
+        value="Burnaby"
+      />
+    </div>
+    <button
+      aria-label="Clear"
+      class="ant-select-clear"
+      type="button"
+    >
+      <span
+        aria-label="close-circle"
+        class="anticon anticon-close-circle"
+        role="img"
+      >
+        <svg
+          aria-hidden="true"
+          data-icon="close-circle"
+          fill="currentColor"
+          fill-rule="evenodd"
+          focusable="false"
+          height="1em"
+          viewBox="64 64 896 896"
+          width="1em"
+        >
+          <path
+            d="M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z"
+          />
+        </svg>
+      </span>
+    </button>
+  </div>
+  <div
+    class="ant-select ant-select-outlined ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-allow-clear ant-select-customize-input ant-select-show-search"
+  >
+    <div
+      class="ant-select-content ant-select-content-has-value ant-select-content-has-search-value"
+      title="Burnaby"
+    >
+      <textarea
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        autocomplete="new-password"
+        class="ant-input ant-input-outlined css-var-test-id ant-input-css-var ant-select-input"
+        id="test-id"
+        role="combobox"
+        type="text"
+      >
+        Burnaby
+      </textarea>
+    </div>
+    <button
+      aria-label="Clear"
+      class="ant-select-clear"
+      type="button"
+    >
+      <span
+        aria-label="close-circle"
+        class="anticon anticon-close-circle"
+        role="img"
+      >
+        <svg
+          aria-hidden="true"
+          data-icon="close-circle"
+          fill="currentColor"
+          fill-rule="evenodd"
+          focusable="false"
+          height="1em"
+          viewBox="64 64 896 896"
+          width="1em"
+        >
+          <path
+            d="M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z"
+          />
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`renders components/auto-complete/demo/disabled-custom-debug.tsx correctly 1`] = `
+<div
+  class="ant-flex css-var-test-id ant-flex-wrap-wrap"
+  style="gap:12px"
+>
+  <input
+    class="ant-input ant-input-disabled ant-input-outlined css-var-test-id ant-input-css-var"
+    disabled=""
+    placeholder="Regular Input"
+    type="text"
+    value=""
+  />
+  <div
+    class="ant-select ant-select-outlined ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-disabled ant-select-customize-input ant-select-show-search"
+  >
+    <div
+      class="ant-select-content"
+    >
+      <textarea
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        autocomplete="new-password"
+        class="ant-input ant-input-outlined css-var-test-id ant-input-css-var ant-select-input ant-input-disabled"
+        disabled=""
+        id="test-id"
+        role="combobox"
+        type="text"
+      />
+    </div>
+  </div>
+  <div
+    class="ant-select ant-select-outlined css-var-test-id ant-select-css-var ant-select-single ant-select-show-arrow ant-select-disabled"
+  >
+    <div
+      class="ant-select-content"
+    >
+      <div
+        class="ant-select-placeholder"
+      />
+      <input
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        autocomplete="new-password"
+        class="ant-select-input"
+        disabled=""
+        id="test-id"
+        readonly=""
+        role="combobox"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      class="ant-select-suffix"
+    >
+      <span
+        aria-hidden="true"
+        aria-label="down"
+        class="anticon anticon-down"
+        role="img"
+      >
+        <svg
+          aria-hidden="true"
+          data-icon="down"
+          fill="currentColor"
+          focusable="false"
+          height="1em"
+          viewBox="64 64 896 896"
+          width="1em"
+        >
+          <path
+            d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders components/auto-complete/demo/disabled-in-form-debug.tsx correctly 1`] = `
+<div
+  class="ant-flex css-var-test-id ant-flex-align-stretch ant-flex-vertical"
+  style="width:240px;gap:12px"
+>
+  <form
+    class="ant-form ant-form-horizontal css-var-test-id ant-form-css-var"
+  >
+    <div
+      class="ant-form-item css-var-test-id ant-form-css-var ant-form-item-horizontal"
+      style="margin-bottom:0"
+    >
+      <div
+        class="ant-row ant-form-item-row css-var-test-id"
+      >
+        <div
+          class="ant-col ant-form-item-label css-var-test-id"
+        >
+          <label
+            class=""
+            title="Form disabled"
+          >
+            Form disabled
+          </label>
+        </div>
+        <div
+          class="ant-col ant-form-item-control css-var-test-id"
+        >
+          <div
+            class="ant-form-item-control-input"
+          >
+            <div
+              class="ant-form-item-control-input-content"
+            >
+              <div
+                class="ant-select ant-select-outlined ant-select-in-form-item ant-select-auto-complete css-var-test-id ant-select-css-var ant-select-single ant-select-disabled ant-select-show-search"
+              >
+                <div
+                  class="ant-select-content ant-select-content-has-value ant-select-content-has-search-value"
+                  title="Disabled Value"
+                >
+                  Disabled Value
+                  <input
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-haspopup="listbox"
+                    autocomplete="new-password"
+                    class="ant-select-input"
+                    disabled=""
+                    id="test-id"
+                    role="combobox"
+                    type="text"
+                    value="Disabled Value"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div
+    class="ant-select ant-select-outlined ant-select-auto-complete css-var-test-id ant-select-css-var ant-select-single ant-select-disabled ant-select-show-search"
+  >
+    <div
+      class="ant-select-content ant-select-content-has-value ant-select-content-has-search-value"
+      title="Disabled Value"
+    >
+      Disabled Value
+      <input
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        autocomplete="new-password"
+        class="ant-select-input"
+        disabled=""
+        id="test-id"
+        role="combobox"
+        type="text"
+        value="Disabled Value"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders components/auto-complete/demo/filled-custom-debug.tsx correctly 1`] = `
+<div
+  class="ant-flex css-var-test-id ant-flex-wrap-wrap"
+  style="gap:24px"
+>
+  <form
+    class="ant-form ant-form-vertical css-var-test-id ant-form-css-var"
+    style="width:280px"
+  >
+    <div
+      class="ant-form-item css-var-test-id ant-form-css-var ant-form-item-vertical"
+    >
+      <div
+        class="ant-row ant-form-item-row css-var-test-id"
+      >
+        <div
+          class="ant-col ant-form-item-label css-var-test-id"
+        >
+          <label
+            class=""
+            title="AutoComplete TextArea"
+          >
+            AutoComplete TextArea
+          </label>
+        </div>
+        <div
+          class="ant-col ant-form-item-control css-var-test-id"
+        >
+          <div
+            class="ant-form-item-control-input"
+          >
+            <div
+              class="ant-form-item-control-input-content"
+            >
+              <div
+                class="ant-select ant-select-filled ant-select-in-form-item ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-customize-input ant-select-show-search"
+              >
+                <div
+                  class="ant-select-content"
+                >
+                  <textarea
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-haspopup="listbox"
+                    autocomplete="new-password"
+                    class="ant-input ant-input-filled css-var-test-id ant-input-css-var ant-select-input"
+                    id="test-id"
+                    placeholder="Custom TextArea"
+                    role="combobox"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="ant-form-item css-var-test-id ant-form-css-var ant-form-item-vertical"
+    >
+      <div
+        class="ant-row ant-form-item-row css-var-test-id"
+      >
+        <div
+          class="ant-col ant-form-item-label css-var-test-id"
+        >
+          <label
+            class=""
+            title="Input TextArea"
+          >
+            Input TextArea
+          </label>
+        </div>
+        <div
+          class="ant-col ant-form-item-control css-var-test-id"
+        >
+          <div
+            class="ant-form-item-control-input"
+          >
+            <div
+              class="ant-form-item-control-input-content"
+            >
+              <textarea
+                class="ant-input ant-input-filled css-var-test-id ant-input-css-var"
+                placeholder="Compare TextArea"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
 `;
 
@@ -457,13 +822,12 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
               >
                 <div
                   class="ant-select-placeholder"
-                  style="visibility:visible"
                 />
                 <input
                   aria-autocomplete="list"
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  autocomplete="off"
+                  autocomplete="new-password"
                   class="ant-select-input"
                   id="test-id"
                   role="combobox"
@@ -510,18 +874,17 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
               >
                 <div
                   class="ant-select-placeholder"
-                  style="visibility:visible"
                 />
                 <input
                   aria-autocomplete="list"
                   aria-expanded="false"
                   aria-haspopup="listbox"
-                  autocomplete="off"
+                  autocomplete="new-password"
                   class="ant-select-input"
                   id="test-id"
                   readonly=""
                   role="combobox"
-                  type="search"
+                  type="text"
                   value=""
                 />
               </div>
@@ -529,6 +892,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 class="ant-select-suffix"
               >
                 <span
+                  aria-hidden="true"
                   aria-label="down"
                   class="anticon anticon-down"
                   role="img"
@@ -565,9 +929,9 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
       >
         <label
           class=""
-          title="添加 Input.Group 正常"
+          title="添加 Space.Compact 正常"
         >
-          添加 Input.Group 正常
+          添加 Space.Compact 正常
         </label>
       </div>
       <div
@@ -580,10 +944,10 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
             class="ant-form-item-control-input-content"
           >
             <div
-              class="ant-space-compact ant-input-group css-var-test-id ant-input-group-compact"
+              class="ant-space-compact ant-space-compact-block"
             >
               <div
-                class="ant-select ant-tree-select ant-select-outlined ant-select-compact-item ant-select-compact-first-item css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-single ant-select-show-arrow"
+                class="ant-select ant-tree-select ant-select-outlined ant-select-in-form-item ant-select-compact-item ant-select-compact-first-item css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-single ant-select-show-arrow"
                 style="width:30%"
               >
                 <div
@@ -591,18 +955,17 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 >
                   <div
                     class="ant-select-placeholder"
-                    style="visibility:visible"
                   />
                   <input
                     aria-autocomplete="list"
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    autocomplete="off"
+                    autocomplete="new-password"
                     class="ant-select-input"
                     id="test-id"
                     readonly=""
                     role="combobox"
-                    type="search"
+                    type="text"
                     value=""
                   />
                 </div>
@@ -610,6 +973,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                   class="ant-select-suffix"
                 >
                   <span
+                    aria-hidden="true"
                     aria-label="down"
                     class="anticon anticon-down"
                     role="img"
@@ -631,20 +995,19 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 </div>
               </div>
               <div
-                class="ant-select ant-select-outlined ant-select-compact-item ant-select-compact-last-item ant-select-auto-complete css-var-test-id ant-select-css-var ant-select-single ant-select-show-search"
+                class="ant-select ant-select-outlined ant-select-in-form-item ant-select-compact-item ant-select-compact-last-item ant-select-auto-complete css-var-test-id ant-select-css-var ant-select-single ant-select-show-search"
               >
                 <div
                   class="ant-select-content"
                 >
                   <div
                     class="ant-select-placeholder"
-                    style="visibility:visible"
                   />
                   <input
                     aria-autocomplete="list"
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    autocomplete="off"
+                    autocomplete="new-password"
                     class="ant-select-input"
                     id="test-id"
                     role="combobox"
@@ -697,7 +1060,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                     aria-autocomplete="list"
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    autocomplete="off"
+                    autocomplete="new-password"
                     class="ant-input"
                     id="test-id"
                     role="combobox"
@@ -746,9 +1109,9 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
       >
         <label
           class=""
-          title="同时有 Input.Group 和图标发生移位"
+          title="同时有 Space.Compact 和图标发生移位"
         >
-          同时有 Input.Group 和图标发生移位
+          同时有 Space.Compact 和图标发生移位
         </label>
       </div>
       <div
@@ -761,10 +1124,10 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
             class="ant-form-item-control-input-content"
           >
             <div
-              class="ant-space-compact ant-input-group css-var-test-id ant-input-group-compact"
+              class="ant-space-compact ant-space-compact-block"
             >
               <div
-                class="ant-select ant-tree-select ant-select-outlined ant-select-compact-item ant-select-compact-first-item css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-single ant-select-show-arrow"
+                class="ant-select ant-tree-select ant-select-outlined ant-select-in-form-item ant-select-compact-item ant-select-compact-first-item css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-single ant-select-show-arrow"
                 style="width:30%"
               >
                 <div
@@ -772,18 +1135,17 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 >
                   <div
                     class="ant-select-placeholder"
-                    style="visibility:visible"
                   />
                   <input
                     aria-autocomplete="list"
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    autocomplete="off"
+                    autocomplete="new-password"
                     class="ant-select-input"
                     id="test-id"
                     readonly=""
                     role="combobox"
-                    type="search"
+                    type="text"
                     value=""
                   />
                 </div>
@@ -791,6 +1153,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                   class="ant-select-suffix"
                 >
                   <span
+                    aria-hidden="true"
                     aria-label="down"
                     class="anticon anticon-down"
                     role="img"
@@ -812,7 +1175,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 </div>
               </div>
               <div
-                class="ant-select ant-select-outlined ant-select-compact-item ant-select-compact-last-item ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-customize-input ant-select-show-search"
+                class="ant-select ant-select-outlined ant-select-in-form-item ant-select-compact-item ant-select-compact-last-item ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-customize-input ant-select-show-search"
               >
                 <div
                   class="ant-select-content"
@@ -824,7 +1187,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                       aria-autocomplete="list"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      autocomplete="off"
+                      autocomplete="new-password"
                       class="ant-input"
                       id="test-id"
                       role="combobox"
@@ -874,9 +1237,9 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
       >
         <label
           class=""
-          title="同时有 Input.Group 和 Search 组件发生移位"
+          title="同时有 Space.Compact 和 Search 组件发生移位"
         >
-          同时有 Input.Group 和 Search 组件发生移位
+          同时有 Space.Compact 和 Search 组件发生移位
         </label>
       </div>
       <div
@@ -889,10 +1252,10 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
             class="ant-form-item-control-input-content"
           >
             <div
-              class="ant-space-compact ant-input-group css-var-test-id ant-input-group-compact"
+              class="ant-space-compact ant-space-compact-block"
             >
               <div
-                class="ant-select ant-tree-select ant-select-outlined ant-select-compact-item ant-select-compact-first-item css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-single ant-select-show-arrow"
+                class="ant-select ant-tree-select ant-select-outlined ant-select-in-form-item ant-select-compact-item ant-select-compact-first-item css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-single ant-select-show-arrow"
                 style="width:30%"
               >
                 <div
@@ -900,18 +1263,17 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 >
                   <div
                     class="ant-select-placeholder"
-                    style="visibility:visible"
                   />
                   <input
                     aria-autocomplete="list"
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    autocomplete="off"
+                    autocomplete="new-password"
                     class="ant-select-input"
                     id="test-id"
                     readonly=""
                     role="combobox"
-                    type="search"
+                    type="text"
                     value=""
                   />
                 </div>
@@ -919,6 +1281,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                   class="ant-select-suffix"
                 >
                   <span
+                    aria-hidden="true"
                     aria-label="down"
                     class="anticon anticon-down"
                     role="img"
@@ -940,7 +1303,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 </div>
               </div>
               <div
-                class="ant-select ant-select-outlined ant-select-compact-item ant-select-compact-last-item ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-customize-input ant-select-show-search"
+                class="ant-select ant-select-outlined ant-select-in-form-item ant-select-compact-item ant-select-compact-last-item ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-customize-input ant-select-show-search"
               >
                 <div
                   class="ant-select-content"
@@ -952,7 +1315,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                       aria-autocomplete="list"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      autocomplete="off"
+                      autocomplete="new-password"
                       class="ant-input ant-input-outlined css-var-test-id ant-input-css-var ant-input-compact-item"
                       id="test-id"
                       role="combobox"
@@ -1007,9 +1370,9 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
       >
         <label
           class=""
-          title="Input Group 和 Button 结合"
+          title="Space.Compact 和 Button 结合"
         >
-          Input Group 和 Button 结合
+          Space.Compact 和 Button 结合
         </label>
       </div>
       <div
@@ -1022,10 +1385,10 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
             class="ant-form-item-control-input-content"
           >
             <div
-              class="ant-space-compact ant-input-group css-var-test-id ant-input-group-compact"
+              class="ant-space-compact ant-space-compact-block"
             >
               <div
-                class="ant-select ant-tree-select ant-select-outlined ant-select-compact-item ant-select-compact-first-item css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-single ant-select-show-arrow"
+                class="ant-select ant-tree-select ant-select-outlined ant-select-in-form-item ant-select-compact-item ant-select-compact-first-item css-var-test-id ant-select-css-var ant-tree-select-css-var ant-select-single ant-select-show-arrow"
                 style="width:20%"
               >
                 <div
@@ -1033,18 +1396,17 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 >
                   <div
                     class="ant-select-placeholder"
-                    style="visibility:visible"
                   />
                   <input
                     aria-autocomplete="list"
                     aria-expanded="false"
                     aria-haspopup="listbox"
-                    autocomplete="off"
+                    autocomplete="new-password"
                     class="ant-select-input"
                     id="test-id"
                     readonly=""
                     role="combobox"
-                    type="search"
+                    type="text"
                     value=""
                   />
                 </div>
@@ -1052,6 +1414,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                   class="ant-select-suffix"
                 >
                   <span
+                    aria-hidden="true"
                     aria-label="down"
                     class="anticon anticon-down"
                     role="img"
@@ -1073,7 +1436,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                 </div>
               </div>
               <div
-                class="ant-select ant-select-outlined ant-select-compact-item ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-customize-input ant-select-show-search"
+                class="ant-select ant-select-outlined ant-select-in-form-item ant-select-compact-item ant-select-auto-complete ant-select-customize css-var-test-id ant-select-css-var ant-select-single ant-select-customize-input ant-select-show-search"
               >
                 <div
                   class="ant-select-content"
@@ -1085,7 +1448,7 @@ exports[`renders components/auto-complete/demo/form-debug.tsx correctly 1`] = `
                       aria-autocomplete="list"
                       aria-expanded="false"
                       aria-haspopup="listbox"
-                      autocomplete="off"
+                      autocomplete="new-password"
                       class="ant-input ant-input-outlined css-var-test-id ant-input-css-var ant-input-compact-item"
                       id="test-id"
                       role="combobox"
@@ -1173,7 +1536,6 @@ exports[`renders components/auto-complete/demo/non-case-sensitive.tsx correctly 
   >
     <div
       class="ant-select-placeholder"
-      style="visibility:visible"
     >
       try to type \`b\`
     </div>
@@ -1181,7 +1543,7 @@ exports[`renders components/auto-complete/demo/non-case-sensitive.tsx correctly 
       aria-autocomplete="list"
       aria-expanded="false"
       aria-haspopup="listbox"
-      autocomplete="off"
+      autocomplete="new-password"
       class="ant-select-input"
       id="test-id"
       role="combobox"
@@ -1202,7 +1564,6 @@ exports[`renders components/auto-complete/demo/options.tsx correctly 1`] = `
   >
     <div
       class="ant-select-placeholder"
-      style="visibility:visible"
     >
       input here
     </div>
@@ -1210,7 +1571,7 @@ exports[`renders components/auto-complete/demo/options.tsx correctly 1`] = `
       aria-autocomplete="list"
       aria-expanded="false"
       aria-haspopup="listbox"
-      autocomplete="off"
+      autocomplete="new-password"
       class="ant-select-input"
       id="test-id"
       role="combobox"
@@ -1261,7 +1622,7 @@ exports[`renders components/auto-complete/demo/render-panel.tsx correctly 1`] = 
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
@@ -1291,13 +1652,12 @@ exports[`renders components/auto-complete/demo/status.tsx correctly 1`] = `
       >
         <div
           class="ant-select-placeholder"
-          style="visibility:visible"
         />
         <input
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
@@ -1319,13 +1679,12 @@ exports[`renders components/auto-complete/demo/status.tsx correctly 1`] = `
       >
         <div
           class="ant-select-placeholder"
-          style="visibility:visible"
         />
         <input
           aria-autocomplete="list"
           aria-expanded="false"
           aria-haspopup="listbox"
-          autocomplete="off"
+          autocomplete="new-password"
           class="ant-select-input"
           id="test-id"
           role="combobox"
@@ -1351,7 +1710,6 @@ exports[`renders components/auto-complete/demo/style-class.tsx correctly 1`] = `
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         object styles
       </div>
@@ -1359,7 +1717,7 @@ exports[`renders components/auto-complete/demo/style-class.tsx correctly 1`] = `
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -1377,7 +1735,6 @@ exports[`renders components/auto-complete/demo/style-class.tsx correctly 1`] = `
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         function styles
       </div>
@@ -1385,7 +1742,7 @@ exports[`renders components/auto-complete/demo/style-class.tsx correctly 1`] = `
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -1412,7 +1769,7 @@ exports[`renders components/auto-complete/demo/uncertain-category.tsx correctly 
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-input ant-input-lg ant-input-outlined css-var-test-id ant-input-css-var ant-input-compact-item ant-input-compact-first-item"
         id="test-id"
         placeholder="input here"
@@ -1467,7 +1824,6 @@ exports[`renders components/auto-complete/demo/variant.tsx correctly 1`] = `
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         Outlined
       </div>
@@ -1475,7 +1831,7 @@ exports[`renders components/auto-complete/demo/variant.tsx correctly 1`] = `
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -1493,7 +1849,6 @@ exports[`renders components/auto-complete/demo/variant.tsx correctly 1`] = `
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         Filled
       </div>
@@ -1501,7 +1856,7 @@ exports[`renders components/auto-complete/demo/variant.tsx correctly 1`] = `
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -1519,7 +1874,6 @@ exports[`renders components/auto-complete/demo/variant.tsx correctly 1`] = `
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         Borderless
       </div>
@@ -1527,7 +1881,7 @@ exports[`renders components/auto-complete/demo/variant.tsx correctly 1`] = `
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"
@@ -1545,7 +1899,6 @@ exports[`renders components/auto-complete/demo/variant.tsx correctly 1`] = `
     >
       <div
         class="ant-select-placeholder"
-        style="visibility:visible"
       >
         Underlined
       </div>
@@ -1553,7 +1906,7 @@ exports[`renders components/auto-complete/demo/variant.tsx correctly 1`] = `
         aria-autocomplete="list"
         aria-expanded="false"
         aria-haspopup="listbox"
-        autocomplete="off"
+        autocomplete="new-password"
         class="ant-select-input"
         id="test-id"
         role="combobox"

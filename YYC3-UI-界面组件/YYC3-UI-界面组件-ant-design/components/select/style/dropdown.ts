@@ -21,7 +21,7 @@ const genItemStyle: GenerateStyle<SelectToken, CSSObject> = (token) => {
     minHeight: optionHeight,
     padding: optionPadding,
     color: token.colorText,
-    fontWeight: 'normal',
+    fontWeight: 400,
     fontSize: optionFontSize,
     lineHeight: optionLineHeight,
     boxSizing: 'border-box',
@@ -93,6 +93,14 @@ const genSingleStyle: GenerateStyle<SelectToken> = (token) => {
           display: 'none',
         },
 
+        [`${componentCls}-dropdown-list-scrollbar`]: {
+          cursor: 'pointer',
+
+          '&:hover': {
+            backgroundColor: token.colorFillQuaternary,
+          },
+        },
+
         [selectItemCls]: {
           ...genItemStyle(token),
           cursor: 'pointer',
@@ -121,10 +129,6 @@ const genSingleStyle: GenerateStyle<SelectToken> = (token) => {
               alignItems: 'center',
             },
 
-            [`&-active:not(${selectItemCls}-option-disabled)`]: {
-              backgroundColor: token.optionActiveBg,
-            },
-
             [`&-selected:not(${selectItemCls}-option-disabled)`]: {
               color: token.optionSelectedColor,
               fontWeight: token.optionSelectedFontWeight,
@@ -133,6 +137,14 @@ const genSingleStyle: GenerateStyle<SelectToken> = (token) => {
               [`${selectItemCls}-option-state`]: {
                 color: token.colorPrimary,
               },
+            },
+
+            [`&-active:not(${selectItemCls}-option-disabled)`]: {
+              backgroundColor: token.optionActiveBg,
+            },
+
+            [`&-selected${selectItemCls}-option-active:not(${selectItemCls}-option-disabled)`]: {
+              backgroundColor: token.controlItemBgActiveHover,
             },
 
             '&-disabled': {

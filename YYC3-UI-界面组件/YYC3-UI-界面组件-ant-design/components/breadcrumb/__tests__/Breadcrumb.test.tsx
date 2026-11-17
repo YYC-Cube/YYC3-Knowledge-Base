@@ -1,12 +1,13 @@
 import React from 'react';
 
+import Breadcrumb from '..';
+import type { GetProp } from '../../_util/type';
 import { accessibilityTest } from '../../../tests/shared/accessibilityTest';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { render, screen } from '../../../tests/utils';
 import ConfigProvider from '../../config-provider';
-import type { ItemType } from '../Breadcrumb';
-import Breadcrumb from '../index';
+import type { BreadcrumbProps, ItemType } from '../Breadcrumb';
 
 describe('Breadcrumb', () => {
   mountTest(Breadcrumb);
@@ -21,6 +22,13 @@ describe('Breadcrumb', () => {
 
   afterAll(() => {
     errorSpy.mockRestore();
+  });
+
+  it('should support nativeElement ref', () => {
+    const ref = React.createRef<React.ComponentRef<typeof Breadcrumb>>();
+    const { container } = render(<Breadcrumb ref={ref} items={[{ title: 'Home' }]} />);
+
+    expect(ref.current?.nativeElement).toBe(container.querySelector('.ant-breadcrumb'));
   });
 
   it('warns on non-Breadcrumb.Item and non-Breadcrumb.Separator children', () => {
@@ -171,6 +179,27 @@ describe('Breadcrumb', () => {
     ];
     const { asFragment } = render(<Breadcrumb items={items} />);
     expect(asFragment().firstChild).toMatchSnapshot();
+  });
+
+  it.each([
+    { item: {}, expectedHref: '/child' },
+    { item: { href: '/parent' }, expectedHref: '/parent/child' },
+    { item: { path: 'parent' }, expectedHref: '#/parent/child' },
+  ])('should render menu path as $expectedHref', ({ item, expectedHref }) => {
+    render(
+      <Breadcrumb
+        items={[
+          {
+            ...item,
+            title: 'Parent',
+            menu: { items: [{ path: '/child', title: 'Child' }] },
+            dropdownProps: { open: true },
+          },
+        ]}
+      />,
+    );
+
+    expect(screen.getByRole('link', { name: 'Child' })).toHaveAttribute('href', expectedHref);
   });
 
   it('should accept undefined items', () => {
@@ -389,12 +418,12 @@ describe('Breadcrumb', () => {
   });
 
   it('support classNames and styles', async () => {
-    const customClassNames = {
+    const customClassNames: Required<GetProp<BreadcrumbProps, 'classNames', 'Return'>> = {
       root: 'custom-root',
       item: 'custom-item',
       separator: 'custom-separator',
     };
-    const customStyles = {
+    const customStyles: Required<GetProp<BreadcrumbProps, 'styles', 'Return'>> = {
       root: { color: 'rgb(255, 0, 0)' },
       item: { color: 'rgb(0, 128, 0)' },
       separator: { color: 'rgb(0, 0, 255)' },
@@ -431,9 +460,9 @@ describe('Breadcrumb', () => {
     expect(item).toHaveClass(customClassNames.item);
     expect(separator).toHaveClass(customClassNames.separator);
 
-    expect(root).toHaveStyle({ color: customStyles.root?.color });
-    expect(item).toHaveStyle({ color: customStyles.item?.color });
-    expect(separator).toHaveStyle({ color: customStyles.separator?.color });
+    expect(root).toHaveStyle({ color: customStyles.root.color });
+    expect(item).toHaveStyle({ color: customStyles.item.color });
+    expect(separator).toHaveStyle({ color: customStyles.separator.color });
   });
 
   it('supports ConfigProvider separator', () => {
@@ -443,5 +472,12 @@ describe('Breadcrumb', () => {
       </ConfigProvider>,
     );
     getByText('666');
+  });
+
+  it('supports numeric 0 separator', () => {
+    const { container } = render(
+      <Breadcrumb separator={0} items={[{ title: 'foo' }, { title: 'bar' }]} />,
+    );
+    expect(container.querySelector('.ant-breadcrumb-separator')?.textContent).toBe('0');
   });
 });

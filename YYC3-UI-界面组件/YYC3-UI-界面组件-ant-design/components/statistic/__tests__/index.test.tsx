@@ -8,6 +8,7 @@ import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { act, fireEvent, render, waitFakeTimer } from '../../../tests/utils';
 import Tooltip from '../../tooltip';
+import StatisticNumber from '../Number';
 import { formatTimeStr } from '../utils';
 
 describe('Statistic', () => {
@@ -26,26 +27,62 @@ describe('Statistic', () => {
 
   it('`-` is not a number', () => {
     const { container } = render(<Statistic value="-" />);
-    expect(container.querySelector('.ant-statistic-content')!.textContent).toEqual('-');
+    expect(container.querySelector('.ant-statistic-content')!.textContent).toBe('-');
+  });
+
+  it('renders semantic nodes for zero title, prefix, and suffix', () => {
+    const { container } = render(<Statistic title={0} prefix={0} suffix={0} />);
+
+    expect(container.querySelector('.ant-statistic-title')).toHaveTextContent('0');
+    expect(container.querySelector('.ant-statistic-content-prefix')).toHaveTextContent('0');
+    expect(container.querySelector('.ant-statistic-content-suffix')).toHaveTextContent('0');
   });
 
   it('customize formatter', () => {
     const formatter = jest.fn(() => 93);
     const { container } = render(<Statistic value={1128} formatter={formatter} />);
     expect(formatter).toHaveBeenCalledWith(1128);
-    expect(container.querySelector('.ant-statistic-content-value')!.textContent).toEqual('93');
+    expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe('93');
   });
 
   it('groupSeparator', () => {
     const { container } = render(<Statistic value={1128} groupSeparator="__TEST__" />);
-    expect(container.querySelector('.ant-statistic-content-value')!.textContent).toEqual(
+    expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe(
       '1__TEST__128',
     );
   });
 
+  it('fallback groupSeparator to empty string in internal number', () => {
+    const { container } = render(<StatisticNumber value={1128} prefixCls="ant-statistic" />);
+    expect(container.querySelector('.ant-statistic-content-value-int')?.textContent).toBe('1128');
+  });
+
+  it('fallback empty integer part to 0 in internal number', () => {
+    const { container } = render(
+      <StatisticNumber value=".5" prefixCls="ant-statistic" decimalSeparator="." />,
+    );
+    expect(container.textContent).toBe('0.5');
+  });
+
+  it('expand exponential notation', () => {
+    [
+      [0.0000001, 2, '0.00'],
+      [-0.00000012345, 9, '-0.000000123'],
+      [1.5e21, undefined, '1,500,000,000,000,000,000,000'],
+      [Number.MIN_VALUE, 2, '0.00'],
+    ].forEach(([value, precision, expectValue]) => {
+      const { container } = render(
+        <Statistic value={value as number} precision={precision as number} />,
+      );
+      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe(
+        expectValue,
+      );
+    });
+  });
+
   it('not a number', () => {
     const { container } = render(<Statistic value="bamboo" />);
-    expect(container.querySelector('.ant-statistic-content-value')!.textContent).toEqual('bamboo');
+    expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe('bamboo');
   });
 
   it('support negative number', () => {
@@ -64,7 +101,7 @@ describe('Statistic', () => {
       [-1, 1112893, '1,112,893'],
     ].forEach(([precision, value, expectValue]) => {
       const { container } = render(<Statistic precision={precision as any} value={value} />);
-      expect(container.querySelector('.ant-statistic-content-value-int')!.textContent).toEqual(
+      expect(container.querySelector('.ant-statistic-content-value-int')!.textContent).toBe(
         expectValue,
       );
       expect(container.querySelectorAll('.ant-statistic-content-value-decimal').length).toBe(0);
@@ -89,20 +126,20 @@ describe('Statistic', () => {
     const { container } = render(
       <Statistic value={1128} data-abc="1" aria-label="label" role="status" />,
     );
-    expect(container.querySelector('.ant-statistic')!.getAttribute('data-abc')).toEqual('1');
-    expect(container.querySelector('.ant-statistic')!.getAttribute('aria-label')).toEqual('label');
-    expect(container.querySelector('.ant-statistic')!.getAttribute('role')).toEqual('status');
+    expect(container.querySelector('.ant-statistic')!.getAttribute('data-abc')).toBe('1');
+    expect(container.querySelector('.ant-statistic')!.getAttribute('aria-label')).toBe('label');
+    expect(container.querySelector('.ant-statistic')!.getAttribute('role')).toBe('status');
 
     const { container: countdownContainer } = render(
       <Statistic.Countdown data-xyz="x" aria-label="y" role="contentinfo" />,
     );
-    expect(countdownContainer.querySelector('.ant-statistic')!.getAttribute('data-xyz')).toEqual(
+    expect(countdownContainer.querySelector('.ant-statistic')!.getAttribute('data-xyz')).toBe(
       'x',
     );
-    expect(countdownContainer.querySelector('.ant-statistic')!.getAttribute('aria-label')).toEqual(
+    expect(countdownContainer.querySelector('.ant-statistic')!.getAttribute('aria-label')).toBe(
       'y',
     );
-    expect(countdownContainer.querySelector('.ant-statistic')!.getAttribute('role')).toEqual(
+    expect(countdownContainer.querySelector('.ant-statistic')!.getAttribute('role')).toBe(
       'contentinfo',
     );
   });
@@ -130,7 +167,7 @@ describe('Statistic', () => {
       expect(container.querySelector('.ant-statistic')!).toHaveAttribute('role', 'contentinfo');
 
       // Now value
-      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toEqual(
+      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe(
         '00:00:01',
       );
 
@@ -149,7 +186,7 @@ describe('Statistic', () => {
       act(() => {
         jest.advanceTimersByTime(5000);
       });
-      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toEqual(
+      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe(
         '00:00:00',
       );
       expect(onFinish).toHaveBeenCalled();
@@ -186,7 +223,7 @@ describe('Statistic', () => {
       expect(container.querySelector('.ant-statistic')!).toHaveAttribute('role', 'contentinfo');
 
       // Now value
-      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toEqual(
+      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe(
         '00:30:00',
       );
 
@@ -198,7 +235,7 @@ describe('Statistic', () => {
       expect(onFinish).not.toHaveBeenCalled();
 
       // Now value
-      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toEqual(
+      expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe(
         '00:30:01',
       );
     });
@@ -218,7 +255,7 @@ describe('Statistic', () => {
 
       document.body.innerHTML = html;
 
-      expect(document.querySelector('.ant-statistic-content-value')!.textContent).toEqual('-');
+      expect(document.querySelector('.ant-statistic-content-value')!.textContent).toBe('-');
     });
   });
 
@@ -238,7 +275,7 @@ describe('Statistic', () => {
         ['DD-HH:mm:ss', '02-11:28:09'],
       ].forEach(([format, value]) => {
         const { container } = render(<Statistic.Countdown format={format} value={now} />);
-        expect(container.querySelector('.ant-statistic-content-value')!.textContent).toEqual(value);
+        expect(container.querySelector('.ant-statistic-content-value')!.textContent).toBe(value);
       });
     });
 

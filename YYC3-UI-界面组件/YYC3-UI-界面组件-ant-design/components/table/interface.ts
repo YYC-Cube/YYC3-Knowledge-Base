@@ -1,5 +1,4 @@
 import type * as React from 'react';
-import type { Reference } from '@rc-component/table';
 import type {
   ExpandableConfig,
   FixedType,
@@ -7,7 +6,8 @@ import type {
   GetRowKey,
   ColumnType as RcColumnType,
   RenderedCell as RcRenderedCell,
-} from '@rc-component/table/lib/interface';
+  Reference,
+} from '@rc-component/table';
 
 import type { Breakpoint } from '../_util/responsiveObserver';
 import type { AnyObject } from '../_util/type';
@@ -54,9 +54,17 @@ export interface TableLocale {
   selectNone?: React.ReactNode;
   selectInvert?: React.ReactNode;
   selectionAll?: React.ReactNode;
+  /** Accessible label for a selectable row. */
+  selectRow?: string;
+  /** Accessible label for a selected row. */
+  selectedRow?: string;
+  /** Accessible label for the custom selection menu trigger. */
+  selectionMenu?: string;
   sortTitle?: string;
   expand?: string;
   collapse?: string;
+  expandAll?: string;
+  collapseAll?: string;
   triggerDesc?: string;
   triggerAsc?: string;
   cancelSort?: string;
@@ -71,9 +79,17 @@ export type SorterTooltipProps = TooltipProps & {
 };
 
 const _TableActions = ['paginate', 'sort', 'filter'] as const;
+
 export type TableAction = (typeof _TableActions)[number];
 
 export type CompareFn<T = AnyObject> = (a: T, b: T, sortOrder?: SortOrder) => number;
+
+export interface ColumnSorter<RecordType = AnyObject> {
+  /** Config compare function for a column */
+  compare?: CompareFn<RecordType>;
+  /** Config multiple sorter order priority */
+  multiple?: number;
+}
 
 export interface ColumnFilterItem {
   text: React.ReactNode;
@@ -103,10 +119,13 @@ export interface FilterConfirmProps {
   closeDropdown: boolean;
 }
 
-export interface FilterRestProps {
+export interface FilterResetProps {
   confirm?: boolean;
   closeDropdown?: boolean;
 }
+
+/** @deprecated Please use `FilterResetProps` instead. */
+export interface FilterRestProps extends FilterResetProps {}
 
 export interface FilterDropdownProps {
   prefixCls: string;
@@ -117,7 +136,7 @@ export interface FilterDropdownProps {
    * {closeDropdown: true}
    */
   confirm: (param?: FilterConfirmProps) => void;
-  clearFilters?: (param?: FilterRestProps) => void;
+  clearFilters?: (param?: FilterResetProps) => void;
   filters?: ColumnFilterItem[];
   /** Only close filterDropdown */
   close: () => void;
@@ -141,14 +160,7 @@ export interface ColumnType<RecordType = AnyObject>
   extends Omit<RcColumnType<RecordType>, 'title'> {
   title?: ColumnTitle<RecordType>;
   // Sorter
-  sorter?:
-    | boolean
-    | CompareFn<RecordType>
-    | {
-        compare?: CompareFn<RecordType>;
-        /** Config multiple sorter order priority */
-        multiple?: number;
-      };
+  sorter?: boolean | CompareFn<RecordType> | ColumnSorter<RecordType>;
   sortOrder?: SortOrder;
   defaultSortOrder?: SortOrder;
   sortDirections?: SortOrder[];
@@ -187,7 +199,7 @@ export interface ColumnType<RecordType = AnyObject>
    * @deprecated Please use `filterDropdownProps.onOpenChange` instead.
    * @since 4.23.0
    */
-  onFilterDropdownOpenChange?: (visible: boolean) => void;
+  onFilterDropdownOpenChange?: (open: boolean) => void;
 }
 
 export interface ColumnGroupType<RecordType = AnyObject>
@@ -222,7 +234,9 @@ export interface TableRowSelection<T = AnyObject> {
   selectedRowKeys?: Key[];
   defaultSelectedRowKeys?: Key[];
   onChange?: (selectedRowKeys: Key[], selectedRows: T[], info: { type: RowSelectMethod }) => void;
-  getCheckboxProps?: (record: T) => Partial<Omit<CheckboxProps, 'checked' | 'defaultChecked'>>;
+  getCheckboxProps?: (
+    record: T,
+  ) => Partial<Omit<CheckboxProps, 'checked' | 'defaultChecked'>> & React.AriaAttributes;
   onSelect?: SelectionSelectFn<T>;
   /** @deprecated This function will be remove in v7 and should use `onChange` instead */
   onSelectMultiple?: (selected: boolean, selectedRows: T[], changeRows: T[]) => void;

@@ -1,22 +1,17 @@
 import React from 'react';
 import { QRCodeCanvas, QRCodeSVG } from '@rc-component/qrcode';
-import { omit } from '@rc-component/util';
-import pickAttrs from '@rc-component/util/lib/pickAttrs';
+import { omit, pickAttrs } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
 import { isNumber } from '../_util/is';
 import { devUseWarning } from '../_util/warning';
 import { useComponentConfig } from '../config-provider/context';
 import { useLocale } from '../locale';
 import { useToken } from '../theme/internal';
 import type {
-  QRCodeClassNamesType,
   QRCodeProps,
-  QRCodeSemanticClassNames,
-  QRCodeSemanticName,
-  QRCodeSemanticStyles,
-  QRCodeStylesType,
+  QRCodeSemanticAllType,
   QRProps,
   QRPropsCanvas,
   QRPropsSvg,
@@ -24,17 +19,13 @@ import type {
 import QRcodeStatus from './QrcodeStatus';
 import useStyle from './style/index';
 
-export type {
-  QRCodeProps,
-  QRCodeSemanticClassNames,
-  QRCodeSemanticName,
-  QRCodeSemanticStyles,
-  QRProps,
-  QRPropsCanvas,
-  QRPropsSvg,
-};
+export type { QRCodeProps, QRProps, QRPropsCanvas, QRPropsSvg };
 
-const QRCode: React.FC<QRCodeProps> = (props) => {
+export interface QRCodeRef {
+  nativeElement: HTMLDivElement;
+}
+
+const QRCode = React.forwardRef<QRCodeRef, QRCodeProps>((props, ref) => {
   const [, token] = useToken();
   const {
     value,
@@ -79,11 +70,14 @@ const QRCode: React.FC<QRCodeProps> = (props) => {
     errorLevel,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    QRCodeClassNamesType,
-    QRCodeStylesType,
+    QRCodeSemanticAllType['classNames'],
+    QRCodeSemanticAllType['styles'],
     QRCodeProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props: mergedProps,
   });
 
@@ -135,6 +129,12 @@ const QRCode: React.FC<QRCodeProps> = (props) => {
     );
   }
 
+  const nativeElementRef = React.useRef<HTMLDivElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    nativeElement: nativeElementRef.current!,
+  }));
+
   if (!value) {
     return null;
   }
@@ -155,14 +155,12 @@ const QRCode: React.FC<QRCodeProps> = (props) => {
   const rootStyle: React.CSSProperties = {
     backgroundColor: bgColor,
     ...mergedStyles.root,
-    ...contextStyle,
-    ...style,
     width: style?.width ?? size,
     height: style?.height ?? size,
   };
 
   return (
-    <div {...restProps} className={rootClassNames} style={rootStyle}>
+    <div ref={nativeElementRef} {...restProps} className={rootClassNames} style={rootStyle}>
       {status !== 'active' && (
         <div
           className={clsx(`${prefixCls}-cover`, mergedClassNames.cover)}
@@ -180,7 +178,7 @@ const QRCode: React.FC<QRCodeProps> = (props) => {
       {type === 'canvas' ? <QRCodeCanvas {...qrCodeProps} /> : <QRCodeSVG {...qrCodeProps} />}
     </div>
   );
-};
+});
 
 if (process.env.NODE_ENV !== 'production') {
   QRCode.displayName = 'QRCode';

@@ -1,7 +1,8 @@
 import React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { isNonNullable } from '../_util/is';
+import { isNumber, isString } from '../_util/is';
 import { cloneElement, isFragment } from '../_util/reactNode';
 import { PresetColors } from '../theme/interface';
 import type { BaseButtonProps, LegacyButtonType } from './Button';
@@ -19,10 +20,6 @@ export function convertLegacyProps(
   return { type };
 }
 
-export function isString(str: unknown): str is string {
-  return typeof str === 'string';
-}
-
 export function isUnBorderedButtonVariant(type?: ButtonVariantType) {
   return type === 'text' || type === 'link';
 }
@@ -33,15 +30,15 @@ function splitCNCharsBySpace(
   style?: React.CSSProperties,
   className?: string,
 ) {
-  if (!isNonNullable(child) || child === '') {
+  if (!isReactRenderable(child)) {
     return;
   }
 
   const SPACE = needInserted ? ' ' : '';
 
   if (
-    typeof child !== 'string' &&
-    typeof child !== 'number' &&
+    !isString(child) &&
+    !isNumber(child) &&
     isString(child.type) &&
     isTwoCNChar((child as React.ReactElement<{ children: string }>).props.children)
   ) {
@@ -88,10 +85,8 @@ export function spaceChildren(
 ) {
   let isPrevChildPure = false;
   const childList: React.ReactNode[] = [];
-
   React.Children.forEach(children, (child) => {
-    const type = typeof child;
-    const isCurrentChildPure = type === 'string' || type === 'number';
+    const isCurrentChildPure = isString(child) || isNumber(child);
     if (isPrevChildPure && isCurrentChildPure) {
       const lastIndex = childList.length - 1;
       const lastChild = childList[lastIndex];

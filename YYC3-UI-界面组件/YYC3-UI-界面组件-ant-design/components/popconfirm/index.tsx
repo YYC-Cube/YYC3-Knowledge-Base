@@ -4,35 +4,28 @@ import { omit, useControlledState } from '@rc-component/util';
 import { clsx } from 'clsx';
 
 import type { RenderFunction } from '../_util/getRenderPropValue';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
-import { useMergeSemantic } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { devUseWarning } from '../_util/warning';
 import type { ButtonProps, LegacyButtonType } from '../button/Button';
 import { useComponentConfig } from '../config-provider/context';
-import type {
-  PopoverProps,
-  PopoverSemanticClassNames,
-  PopoverSemanticName,
-  PopoverSemanticStyles,
-} from '../popover';
+import type { PopoverProps, PopoverSemanticType } from '../popover';
 import Popover from '../popover';
 import type { AbstractTooltipProps, TooltipRef } from '../tooltip';
 import useMergedArrow from '../tooltip/hook/useMergedArrow';
 import PurePanel, { Overlay } from './PurePanel';
 import useStyle from './style';
 
-export type PopconfirmSemanticName = PopoverSemanticName;
+export type PopconfirmSemanticType = {
+  classNames?: PopoverSemanticType['classNames'] & {
+    icon?: string;
+  };
+  styles?: PopoverSemanticType['styles'] & {
+    icon?: React.CSSProperties;
+  };
+};
 
-export type PopconfirmSemanticClassNames = PopoverSemanticClassNames;
-
-export type PopconfirmSemanticStyles = PopoverSemanticStyles;
-
-export type PopconfirmClassNamesType = SemanticClassNamesType<
-  PopconfirmProps,
-  PopconfirmSemanticClassNames
->;
-
-export type PopconfirmStylesType = SemanticStylesType<PopconfirmProps, PopconfirmSemanticStyles>;
+export type PopconfirmSemanticAllType = GenerateSemantic<PopconfirmSemanticType, PopconfirmProps>;
 
 export interface PopconfirmProps extends AbstractTooltipProps {
   title: React.ReactNode | RenderFunction;
@@ -49,8 +42,8 @@ export interface PopconfirmProps extends AbstractTooltipProps {
   icon?: React.ReactNode;
   onOpenChange?: (open: boolean) => void;
   onPopupClick?: (e: React.MouseEvent<HTMLElement>) => void;
-  classNames?: PopconfirmClassNamesType;
-  styles?: PopconfirmStylesType;
+  classNames?: PopconfirmSemanticAllType['classNamesAndFn'];
+  styles?: PopconfirmSemanticAllType['stylesAndFn'];
 }
 
 export interface PopconfirmState {
@@ -67,10 +60,15 @@ const InternalPopconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props,
     children,
     overlayClassName,
     onOpenChange,
+    onConfirm: onConfirmProp,
+    onCancel: onCancelProp,
     overlayStyle,
     styles,
     arrow: popconfirmArrow,
     classNames,
+    disabled = false,
+    mouseEnterDelay,
+    mouseLeaveDelay,
     ...restProps
   } = props;
   const {
@@ -81,10 +79,15 @@ const InternalPopconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props,
     styles: contextStyles,
     arrow: contextArrow,
     trigger: contextTrigger,
+    mouseEnterDelay: contextMouseEnterDelay,
+    mouseLeaveDelay: contextMouseLeaveDelay,
   } = useComponentConfig('popconfirm');
   const [open, setOpen] = useControlledState(props.defaultOpen ?? false, props.open);
   const mergedArrow = useMergedArrow(popconfirmArrow, contextArrow);
   const mergedTrigger = trigger || contextTrigger || 'click';
+
+  const mergedMouseEnterDelay = mouseEnterDelay ?? contextMouseEnterDelay ?? 0.1;
+  const mergedMouseLeaveDelay = mouseLeaveDelay ?? contextMouseLeaveDelay ?? 0.1;
 
   // ========================== Warning ===========================
   if (process.env.NODE_ENV !== 'production') {
@@ -97,28 +100,29 @@ const InternalPopconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props,
     );
   }
 
-  const settingOpen: PopoverProps['onOpenChange'] = (value) => {
-    setOpen(value);
-    onOpenChange?.(value);
+  const settingOpen: PopoverProps['onOpenChange'] = (nextOpen) => {
+    setOpen(nextOpen);
+    onOpenChange?.(nextOpen);
   };
 
   const close = () => {
     settingOpen(false);
   };
 
-  const onConfirm = (e: React.MouseEvent<HTMLButtonElement>) => props.onConfirm?.call(this, e);
+  const onConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    return onConfirmProp?.(e);
+  };
 
   const onCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     settingOpen(false);
-    props.onCancel?.call(this, e);
+    onCancelProp?.(e);
   };
 
-  const onInternalOpenChange: PopoverProps['onOpenChange'] = (value) => {
-    const { disabled = false } = props;
+  const onInternalOpenChange: PopoverProps['onOpenChange'] = (nextOpen) => {
     if (disabled) {
       return;
     }
-    settingOpen(value);
+    settingOpen(nextOpen);
   };
 
   const prefixCls = getPrefixCls('popconfirm', customizePrefixCls);
@@ -131,13 +135,18 @@ const InternalPopconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props,
     overlayStyle,
     styles,
     classNames,
+    mouseEnterDelay: mergedMouseEnterDelay,
+    mouseLeaveDelay: mergedMouseLeaveDelay,
   };
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const overlayStyleRoot = useSemanticRootStyle(overlayStyle);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    PopconfirmClassNamesType,
-    PopconfirmStylesType,
+    PopconfirmSemanticAllType['classNames'],
+    PopconfirmSemanticAllType['styles'],
     PopconfirmProps
-  >([contextClassNames, classNames], [contextStyles, styles], {
+  >([contextClassNames, classNames], [contextStyles, contextStyleRoot, styles, overlayStyleRoot], {
     props: mergedProps,
   });
 
@@ -154,13 +163,15 @@ const InternalPopconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props,
       onOpenChange={onInternalOpenChange}
       open={open}
       ref={ref}
+      mouseEnterDelay={mergedMouseEnterDelay}
+      mouseLeaveDelay={mergedMouseLeaveDelay}
       classNames={{
         root: rootClassNames,
         container: mergedClassNames.container,
         arrow: mergedClassNames.arrow,
       }}
       styles={{
-        root: { ...contextStyle, ...mergedStyles.root, ...overlayStyle },
+        root: mergedStyles.root,
         container: mergedStyles.container,
         arrow: mergedStyles.arrow,
       }}
@@ -169,6 +180,7 @@ const InternalPopconfirm = React.forwardRef<TooltipRef, PopconfirmProps>((props,
           okType={okType}
           icon={icon}
           {...props}
+          onPopupClick={undefined}
           prefixCls={prefixCls}
           close={close}
           onConfirm={onConfirm}

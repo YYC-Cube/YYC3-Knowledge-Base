@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/uz_UZ';
+import Pagination from '@rc-component/pagination/locale/uz_UZ';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/uz_UZ';
@@ -21,6 +21,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Iltimos tanlang',
     close: 'Yopish',
+    show: "Ko'rsat",
+    hide: 'Yashir',
+    sortable: 'saralanadigan',
   },
   Table: {
     filterTitle: 'Filtr',
@@ -34,9 +37,14 @@ const localeValues: Locale = {
     selectInvert: 'Tanlovni aylantirish',
     selectNone: "Barcha ma'lumotlarni tozalang",
     selectionAll: 'Barchasini tanlash',
+    selectRow: 'Qatorni tanlash',
+    selectedRow: 'Qator tanlandi',
+    selectionMenu: 'Tanlash menyusi',
     sortTitle: 'Tartiblash',
     expand: 'Satirni yozish',
     collapse: "Satirni yig'ish",
+    expandAll: 'Barcha satrlarni yozish',
+    collapseAll: "Barcha satrlarni yig'ish",
     triggerDesc: 'Kamayish tartibida tartiblash uchun bosing',
     triggerAsc: "O'sish tartibida tartiblash uchun bosing",
     cancelSort: 'Tartiblshni rad etish uchun bosing',
@@ -55,6 +63,10 @@ const localeValues: Locale = {
     okText: 'OK',
     cancelText: 'Bekor qilish',
   },
+  Splitter: {
+    toggleStartPanel: 'Boshlang‘ich panelni almashtirish',
+    toggleEndPanel: 'Yakuniy panelni almashtirish',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Qidiruv',
@@ -66,6 +78,7 @@ const localeValues: Locale = {
     selectInvert: 'Tanlovni aylantirish',
     removeAll: "Barcha ma'lumotlarni o'chirish",
     removeCurrent: "Joriy sahifani o'chirish",
+    deselectAll: "Barcha ma'lumotlarni bekor qiling",
   },
   Upload: {
     uploading: 'Yuklanmoqda...',
@@ -85,6 +98,11 @@ const localeValues: Locale = {
     copy: 'Nusxalash',
     copied: 'Nusxalandi',
     expand: 'Ochib qoyish',
+    collapse: 'Yiqilish',
+  },
+  Carousel: {
+    prevSlide: 'Oldingi slayd',
+    nextSlide: 'Keyingi slayd',
   },
   Form: {
     optional: '(shart emas)',
@@ -139,6 +157,13 @@ const localeValues: Locale = {
   QRCode: {
     expired: 'QR-kod eskirgan',
     refresh: 'Yangilash',
+    scanned: 'Skanerlangan',
+  },
+  ColorPicker: {
+    presetEmpty: "Bo'sh",
+    transparent: 'Shaffof',
+    singleColor: 'Yagona rang',
+    gradientColor: 'Gradient rangi',
   },
 };
 

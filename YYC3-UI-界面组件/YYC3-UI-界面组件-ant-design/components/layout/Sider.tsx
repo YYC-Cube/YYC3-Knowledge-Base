@@ -3,9 +3,12 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import BarsOutlined from '@ant-design/icons/BarsOutlined';
 import LeftOutlined from '@ant-design/icons/LeftOutlined';
 import RightOutlined from '@ant-design/icons/RightOutlined';
-import { omit } from '@rc-component/util';
+import { omit, useControlledState, useId } from '@rc-component/util';
 import { clsx } from 'clsx';
 
+import { useMergeSemantic } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
+import { isFunction } from '../_util/is';
 import type { Breakpoint } from '../_util/responsiveObserver';
 import { ConfigContext } from '../config-provider';
 import { LayoutContext } from './context';
@@ -34,6 +37,19 @@ export type CollapseType = 'clickTrigger' | 'responsive';
 
 export type SiderTheme = 'light' | 'dark';
 
+export type SiderSemanticType = {
+  classNames?: {
+    root?: string;
+    body?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    body?: React.CSSProperties;
+  };
+};
+
+export type SiderSemanticAllType = GenerateSemantic<SiderSemanticType, SiderProps>;
+
 export interface SiderProps extends React.HTMLAttributes<HTMLDivElement> {
   prefixCls?: string;
   collapsible?: boolean;
@@ -48,20 +64,14 @@ export interface SiderProps extends React.HTMLAttributes<HTMLDivElement> {
   breakpoint?: Breakpoint;
   theme?: SiderTheme;
   onBreakpoint?: (broken: boolean) => void;
+  classNames?: SiderSemanticAllType['classNamesAndFn'];
+  styles?: SiderSemanticAllType['stylesAndFn'];
 }
 
 export interface SiderState {
   collapsed?: boolean;
   below: boolean;
 }
-
-const generateId = (() => {
-  let i = 0;
-  return (prefix = '') => {
-    i += 1;
-    return `${prefix}${i}`;
-  };
-})();
 
 const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
   const {
@@ -80,27 +90,40 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
     breakpoint,
     onCollapse,
     onBreakpoint,
+    classNames,
+    styles,
     ...otherProps
   } = props;
   const { siderHook } = useContext(LayoutContext);
+  const uniqueId = useId();
 
-  const [collapsed, setCollapsed] = useState(
-    'collapsed' in props ? props.collapsed : defaultCollapsed,
-  );
+  const [collapsed, setCollapsed] = useControlledState(defaultCollapsed, props.collapsed);
   const [below, setBelow] = useState(false);
 
-  useEffect(() => {
-    if ('collapsed' in props) {
-      setCollapsed(props.collapsed);
-    }
-  }, [props.collapsed]);
-
   const handleSetCollapsed = (value: boolean, type: CollapseType) => {
-    if (!('collapsed' in props)) {
-      setCollapsed(value);
-    }
+    setCollapsed(value);
     onCollapse?.(value, type);
   };
+
+  const semanticProps: SiderProps = {
+    ...props,
+    collapsed,
+    defaultCollapsed,
+    theme,
+    style,
+    collapsible,
+    reverseArrow,
+    width,
+    collapsedWidth,
+    zeroWidthTriggerStyle,
+    breakpoint,
+    onCollapse,
+    onBreakpoint,
+  };
+
+  const [mergedClassNames, mergedStyles] = useMergeSemantic([classNames], [styles], {
+    props: semanticProps,
+  });
 
   // =========================== Prefix ===========================
   const { getPrefixCls, direction } = useContext(ConfigContext);
@@ -126,23 +149,24 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
     let mql: MediaQueryList;
     if (typeof window?.matchMedia !== 'undefined' && breakpoint && breakpoint in dimensionMaxMap) {
       mql = window.matchMedia(`screen and (max-width: ${dimensionMaxMap[breakpoint]})`);
-      if (typeof mql?.addEventListener === 'function') {
+      if (isFunction(mql?.addEventListener)) {
         mql.addEventListener('change', responsiveHandler);
       }
       responsiveHandler(mql);
     }
     return () => {
-      if (typeof mql?.removeEventListener === 'function') {
+      if (isFunction(mql?.removeEventListener)) {
         mql.removeEventListener('change', responsiveHandler);
       }
     };
   }, [breakpoint]); // in order to accept dynamic 'breakpoint' property, we need to add 'breakpoint' into dependency array.
 
   useEffect(() => {
-    const uniqueId = generateId('ant-sider-');
     siderHook.addSider(uniqueId);
-    return () => siderHook.removeSider(uniqueId);
-  }, []);
+    return () => {
+      siderHook.removeSider(uniqueId);
+    };
+  }, [uniqueId, siderHook]);
 
   const toggle = () => {
     handleSetCollapsed(!collapsed, 'clickTrigger');
@@ -203,6 +227,7 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
       [`${prefixCls}-zero-width`]: Number.parseFloat(siderWidth) === 0,
     },
     className,
+    mergedClassNames.root,
     hashId,
     cssVarCls,
   );
@@ -214,8 +239,18 @@ const Sider = React.forwardRef<HTMLDivElement, SiderProps>((props, ref) => {
 
   return (
     <SiderContext.Provider value={contextValue}>
-      <aside className={siderCls} {...divProps} style={divStyle} ref={ref}>
-        <div className={`${prefixCls}-children`}>{children}</div>
+      <aside
+        className={siderCls}
+        {...divProps}
+        style={{ ...mergedStyles.root, ...divStyle }}
+        ref={ref}
+      >
+        <div
+          className={clsx(`${prefixCls}-children`, mergedClassNames.body)}
+          style={mergedStyles.body}
+        >
+          {children}
+        </div>
         {collapsible || (below && zeroWidthTrigger) ? triggerDom : null}
       </aside>
     </SiderContext.Provider>

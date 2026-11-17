@@ -1,8 +1,13 @@
 import * as React from 'react';
 
 import Select from '..';
-import type { SelectClassNamesType, SelectProps } from '..';
+import type { SelectProps, SelectSemanticAllType } from '..';
 import { render } from '../../../tests/utils';
+import ConfigProvider from '../../config-provider';
+import {
+  expectSemanticRootStylePriority,
+  semanticRootStylePriority,
+} from '../../../tests/shared/semanticStylePriority';
 
 describe('Select.Semantic', () => {
   const options = [
@@ -16,7 +21,7 @@ describe('Select.Semantic', () => {
     },
   ];
   it('support classNames and styles', () => {
-    const classNames = {
+    const classNames: SelectSemanticAllType['classNames'] = {
       root: 'custom-root',
       prefix: 'custom-prefix',
       suffix: 'custom-suffix',
@@ -28,7 +33,7 @@ describe('Select.Semantic', () => {
         list: 'custom-list',
         listItem: 'custom-list-item',
       },
-    } satisfies SelectClassNamesType;
+    };
     const styles = {
       root: { color: 'rgb(255, 0, 0)' },
       prefix: { color: 'rgb(0, 128, 255)' },
@@ -68,7 +73,7 @@ describe('Select.Semantic', () => {
   });
 
   it('support multiple mode classNames and styles', () => {
-    const customClassNames = {
+    const customClassNames: SelectSemanticAllType['classNames'] = {
       root: 'custom-root',
       prefix: 'custom-prefix',
       suffix: 'custom-suffix',
@@ -80,7 +85,7 @@ describe('Select.Semantic', () => {
         list: 'custom-list',
         listItem: 'custom-list-item',
       },
-    } satisfies SelectClassNamesType;
+    };
     const customStyles = {
       root: { color: 'rgb(255, 0, 0)' },
       prefix: { color: 'rgb(0, 128, 255)' },
@@ -117,26 +122,26 @@ describe('Select.Semantic', () => {
     const itemContent = container.querySelector('.ant-select-selection-item-content');
     const itemRemove = container.querySelector('.ant-select-selection-item-remove');
 
-    expect(root).toHaveClass(customClassNames.root);
-    expect(prefix).toHaveClass(customClassNames.prefix);
-    expect(suffix).toHaveClass(customClassNames.suffix);
+    expect(root).toHaveClass(customClassNames.root as string);
+    expect(prefix).toHaveClass(customClassNames.prefix as string);
+    expect(suffix).toHaveClass(customClassNames.suffix as string);
     if (list) {
-      expect(list).toHaveClass(customClassNames.popup.list);
+      expect(list).toHaveClass(customClassNames.popup?.list as string);
     }
     if (listItem) {
-      expect(listItem).toHaveClass(customClassNames.popup.listItem);
+      expect(listItem).toHaveClass(customClassNames.popup?.listItem as string);
     }
     if (popup) {
-      expect(popup).toHaveClass(customClassNames.popup.root);
+      expect(popup).toHaveClass(customClassNames.popup?.root as string);
     }
     if (item) {
-      expect(item).toHaveClass(customClassNames.item);
+      expect(item).toHaveClass(customClassNames.item as string);
     }
     if (itemContent) {
-      expect(itemContent).toHaveClass(customClassNames.itemContent);
+      expect(itemContent).toHaveClass(customClassNames.itemContent as string);
     }
     if (itemRemove) {
-      expect(itemRemove).toHaveClass(customClassNames.itemRemove);
+      expect(itemRemove).toHaveClass(customClassNames.itemRemove as string);
     }
 
     expect(root).toHaveStyle(customStyles.root);
@@ -204,5 +209,23 @@ describe('Select.Semantic', () => {
       background: '#f5f5f5',
       opacity: '0.6',
     });
+  });
+  it('should follow root style priority', () => {
+    const { container } = render(
+      <ConfigProvider
+        select={{
+          styles: semanticRootStylePriority.contextStyles,
+          style: semanticRootStylePriority.contextStyle,
+        }}
+      >
+        <Select
+          options={options}
+          styles={semanticRootStylePriority.styles}
+          style={semanticRootStylePriority.style}
+        />
+      </ConfigProvider>,
+    );
+
+    expectSemanticRootStylePriority(container.querySelector('.ant-select'));
   });
 });

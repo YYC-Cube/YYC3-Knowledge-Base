@@ -52,9 +52,9 @@
 | 🌓 **暗亮双主题** | 自适应主题系统，持久化用户偏好 |
 | 📋 **进度可视化** | 全局进度条 + 卡片级步骤计数器，学习路径清晰可控 |
 | 📤 **导出/导入** | 进度数据可导出备份或跨设备迁移 |
-| 🗂️ **工作区总览** | [YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) 展示 **24 个分类、386 个项目、670,941 个文件** 的全量资产看板 |
+| 🗂️ **工作区总览** | [YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) 展示 **24 个分类、414 个项目、846,556 个文件** 的全量资产看板 |
 | 🧭 **分类架构索引** | [docs/YYC3-Knowledge-Base/index.html](docs/YYC3-Knowledge-Base/index.html) 逐类可视化架构（技术构成 / 迁移来源 / 项目清单） |
-| 🗺️ **全局汇总映射** | [docs/YYC3-项目治理-全局汇总映射.md](docs/YYC3-项目治理-全局汇总映射.md) 386 个项目的「当前目录 ↔ 原始路径」全量对照 |
+| 🗺️ **全局汇总映射** | [docs/YYC3-项目治理-全局汇总映射.md](docs/YYC3-项目治理-全局汇总映射.md) 414 个项目的「当前目录 ↔ 原始路径」全量对照 |
 
 ---
 
@@ -156,9 +156,9 @@ YYC3 Knowledge Base
 ├── 📚 YYC3-Doc-文档知识 — 书籍、课程与规范解读
 │
 └── 📚 docs — 项目文档
-    ├── YYC3-KNOWLEDGE-BASE.html — 资产看板（24 类 / 386 项目，可脱机分享）
+    ├── YYC3-KNOWLEDGE-BASE.html — 资产看板（24 类 / 414 项目，可脱机分享）
     ├── YYC3-Knowledge-Base/ — 24 类可视化架构索引（index.html + 24 张分类页）
-    ├── YYC3-项目治理-全局汇总映射.md — 386 项目「当前目录 ↔ 原始路径」全量对照
+    ├── YYC3-项目治理-全局汇总映射.md — 414 项目「当前目录 ↔ 原始路径」全量对照
     ├── YYC3-项目治理-资产盘点 — 全局资产扫描、重复项与版本裁决
     ├── DGX-SPARK-HUB.html — DGX Spark 操作中心（在线版）
     ├── DGX-SPARK-HUB-OFFLINE.html — DGX Spark 操作中心（离线版）
@@ -239,7 +239,7 @@ python3 -m http.server 8080
 ### 使用场景
 
 ```
-�️ 浏览工作区总览 → 通过 YYC3-KNOWLEDGE-BASE.html 查看全部 386 个项目卡片
+�️ 浏览工作区总览 → 通过 YYC3-KNOWLEDGE-BASE.html 查看全部 414 个项目卡片
 🧭 按分类查看架构 → 通过 docs/YYC3-Knowledge-Base/index.html 进入 24 类可视化架构页
 🗺️ 追溯项目来源 → 通过「全局汇总映射」查看当前目录与迁移前原始路径
 � 学习 NVIDIA AI 全栈技术 → 通过 DGX-SPARK-HUB 看板浏览 40+ 实践指南

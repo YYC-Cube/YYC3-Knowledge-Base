@@ -5,6 +5,7 @@ import { Button, Col, ConfigProvider, Flex, Popover, Row, Tag, theme, Typography
 import { createStaticStyles } from 'antd-style';
 import { clsx } from 'clsx';
 import Prism from 'prismjs';
+import 'prismjs/components/prism-jsx';
 
 import Markers from './Markers';
 
@@ -103,17 +104,16 @@ function HighlightExample(props: {
 />`.trim();
     }
 
-    return Prism.highlight(code, Prism.languages.javascript, 'jsx');
+    return Prism.highlight(code, Prism.languages.jsx || Prism.languages.javascript, 'jsx');
   }, [componentName, itemsAPI, semanticName]);
 
-  return (
-    // biome-ignore lint: lint/security/noDangerouslySetInnerHtml
-    <div dangerouslySetInnerHTML={{ __html: highlightCode }} />
-  );
+  return <div dangerouslySetInnerHTML={{ __html: highlightCode }} />;
 }
 
 const getMarkClassName = (semanticKey: string) =>
   `semantic-mark-${semanticKey}`.replace(/\./g, '-');
+
+export const SemanticActiveContext = React.createContext<string | null>(null);
 
 export interface SemanticPreviewProps {
   componentName: string;
@@ -186,7 +186,9 @@ const SemanticPreview: React.FC<SemanticPreviewProps> = (props) => {
           className={clsx(styles.colWrap, padding === false && styles.colWrapPaddingLess)}
           style={style}
         >
-          <ConfigProvider theme={{ token: { motion } }}>{cloneNode}</ConfigProvider>
+          <ConfigProvider theme={{ token: { motion } }}>
+            <SemanticActiveContext value={mergedSemantic}>{cloneNode}</SemanticActiveContext>
+          </ConfigProvider>
         </Col>
         <Col span={8}>
           <ul className={clsx(styles.listWrap)}>

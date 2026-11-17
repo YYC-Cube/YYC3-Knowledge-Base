@@ -28,6 +28,7 @@ demo:
 <code src="./demo/directory-debug.tsx" debug>目录 Debug</code>
 <code src="./demo/switcher-icon.tsx">自定义展开/折叠图标</code>
 <code src="./demo/virtual-scroll.tsx">虚拟滚动</code>
+<code src="./demo/scroll-to.tsx" version="6.6.0">滚动到嵌套节点</code>
 <code src="./demo/drag-debug.tsx" debug>Drag Debug</code>
 <code src="./demo/big-data.tsx" debug>大数据</code>
 <code src="./demo/block-node.tsx">占据整行</code>
@@ -43,53 +44,54 @@ demo:
 ### Tree props
 
 <!-- prettier-ignore -->
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-| --- | --- | --- | --- | --- |
-| allowDrop | 是否允许拖拽时放置在该节点 | ({ dropNode, dropPosition }) => boolean | - |  |
-| autoExpandParent | 是否自动展开父节点 | boolean | false |  |
-| blockNode | 是否节点占据一行 | boolean | false |  |
-| checkable | 节点前添加 Checkbox 复选框 | boolean | false |  |
-| checkedKeys | （受控）选中复选框的树节点（注意：父子节点有关联，如果传入父节点 key，则子节点自动选中；相应当子节点 key 都传入，父节点也自动选中。当设置 `checkable` 和 `checkStrictly`，它是一个有`checked`和`halfChecked`属性的对象，并且父子节点的选中与否不再关联 | string\[] \| {checked: string\[], halfChecked: string\[]} | \[] |  |
-| checkStrictly | checkable 状态下节点选择完全受控（父子节点选中状态不再关联） | boolean | false |  |
-| classNames | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - | |
-| defaultCheckedKeys | 默认选中复选框的树节点 | string\[] | \[] |  |
-| defaultExpandAll | 默认展开所有树节点 | boolean | false |  |
-| defaultExpandedKeys | 默认展开指定的树节点 | string\[] | \[] |  |
-| defaultExpandParent | 默认展开父节点 | boolean | true |  |
-| defaultSelectedKeys | 默认选中的树节点 | string\[] | \[] |  |
-| disabled | 将树禁用 | boolean | false |  |
-| draggable | 设置节点可拖拽，可以通过 `icon: false` 关闭拖拽提示图标 | boolean \| ((node: DataNode) => boolean) \| { icon?: React.ReactNode \| false, nodeDraggable?: (node: DataNode) => boolean } | false | `config`: 4.17.0 |
-| expandedKeys | （受控）展开指定的树节点 | string\[] | \[] |  |
-| fieldNames | 自定义节点 title、key、children 的字段 | object | { title: `title`, key: `key`, children: `children` } | 4.17.0 |
-| filterTreeNode | 按需筛选树节点（高亮），返回 true | function(node) | - |  |
-| height | 设置虚拟滚动容器高度，设置后内部节点不再支持横向滚动 | number | - |  |
-| icon | 在标题之前插入自定义图标。需要设置 `showIcon` 为 true | ReactNode \| (props) => ReactNode | - |  |
-| loadData | 异步加载数据 | function(node) | - |  |
-| loadedKeys | （受控）已经加载的节点，需要配合 `loadData` 使用 | string\[] | \[] |  |
-| multiple | 支持点选多个节点（节点本身） | boolean | false |  |
-| rootStyle | 添加在 Tree 最外层的 style | CSSProperties | - | 4.20.0 |
-| selectable | 是否可选中 | boolean | true |  |
-| selectedKeys | （受控）设置选中的树节点，多选需设置 `multiple` 为 true | string\[] | - |  |
-| showIcon | 控制是否展示 `icon` 节点，没有默认样式 | boolean | false |  |
-| showLine | 是否展示连接线 | boolean \| { showLeafIcon: ReactNode \| ((props: AntTreeNodeProps) => ReactNode) } | false |  |
-| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - | |
-| switcherIcon | 自定义树节点的展开/折叠图标（带有默认 rotate 角度样式） | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - | renderProps: 4.20.0 |
-| switcherLoadingIcon | 自定义树节点的加载图标 | ReactNode | - | 5.20.0 |
-| titleRender | 自定义渲染节点 | (nodeData) => ReactNode | - | 4.5.0 |
-| treeData | treeNodes 数据，如果设置则不需要手动构造 TreeNode 节点（key 在整个树范围内唯一） | array&lt;{key, title, children, \[disabled, selectable]}> | - |  |
-| virtual | 设置 false 时关闭虚拟滚动 | boolean | true | 4.1.0 |
-| onCheck | 点击复选框触发 | function(checkedKeys, e:{checked: boolean, checkedNodes, node, event, halfCheckedKeys}) | - |  |
-| onDoubleClick | 双击树节点触发 | function(event, node) | - |  |
-| onDragEnd | dragend 触发时调用 | function({event, node}) | - |  |
-| onDragEnter | dragenter 触发时调用 | function({event, node, expandedKeys}) | - |  |
-| onDragLeave | dragleave 触发时调用 | function({event, node}) | - |  |
-| onDragOver | dragover 触发时调用 | function({event, node}) | - |  |
-| onDragStart | 开始拖拽时调用 | function({event, node}) | - |  |
-| onDrop | drop 触发时调用 | function({event, node, dragNode, dragNodesKeys}) | - |  |
-| onExpand | 展开/收起节点时触发 | function(expandedKeys, {expanded: boolean, node}) | - |  |
-| onLoad | 节点加载完毕时触发 | function(loadedKeys, {event, node}) | - |  |
-| onRightClick | 响应右键点击 | function({event, node}) | - |  |
-| onSelect | 点击树节点触发 | function(selectedKeys, e:{selected: boolean, selectedNodes, node, event}) | - |  |
+| 参数 | 说明 | 类型 | 默认值 | 版本 | [全局配置](/components/config-provider#component-config) |
+| --- | --- | --- | --- | --- | --- |
+| allowDrop | 是否允许拖拽时放置在该节点 | ({ dropNode, dropPosition }) => boolean | - |  | × |
+| autoExpandParent | 是否自动展开父节点 | boolean | false |  | × |
+| blockNode | 是否节点占据一行 | boolean | false |  | × |
+| checkable | 节点前添加 Checkbox 复选框 | boolean | false |  | × |
+| checkedKeys | （受控）选中复选框的树节点（注意：父子节点有关联，如果传入父节点 key，则子节点自动选中；相应当子节点 key 都传入，父节点也自动选中。当设置 `checkable` 和 `checkStrictly`，它是一个有`checked`和`halfChecked`属性的对象，并且父子节点的选中与否不再关联 | string\[] \| {checked: string\[], halfChecked: string\[]} | \[] |  | × |
+| checkStrictly | checkable 状态下节点选择完全受控（父子节点选中状态不再关联） | boolean | false |  | × |
+| classNames | 用于自定义组件内部各语义化结构的 class，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), string> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), string> | - |  | 6.0.0 |
+| defaultCheckedKeys | 默认选中复选框的树节点 | string\[] | \[] |  | × |
+| defaultExpandAll | 默认展开所有树节点 | boolean | false |  | × |
+| defaultExpandedKeys | 默认展开指定的树节点 | string\[] | \[] |  | × |
+| defaultExpandParent | 默认展开父节点 | boolean | true |  | × |
+| defaultSelectedKeys | 默认选中的树节点 | string\[] | \[] |  | × |
+| disabled | 将树禁用 | boolean | false |  | × |
+| draggable | 设置节点可拖拽，可以通过 `icon: false` 关闭拖拽提示图标 | boolean \| ((node: DataNode) => boolean) \| { icon?: React.ReactNode \| false, nodeDraggable?: (node: DataNode) => boolean } | false | `config`: 4.17.0 | × |
+| expandedKeys | （受控）展开指定的树节点 | string\[] | \[] |  | × |
+| fieldNames | 自定义节点 title、key、children 的字段 | object | { title: `title`, key: `key`, children: `children` } | 4.17.0 | × |
+| filterTreeNode | 按需筛选树节点（高亮），返回 true | function(node) | - |  | × |
+| height | 设置虚拟滚动容器高度，设置后内部节点不再支持横向滚动 | number | - |  | × |
+| icon | 在标题之前插入自定义图标。需要设置 `showIcon` 为 true | ReactNode \| (props) => ReactNode | - |  | × |
+| loadData | 异步加载数据 | function(node) | - |  | × |
+| loadedKeys | （受控）已经加载的节点，需要配合 `loadData` 使用 | string\[] | \[] |  | × |
+| motion | 自定义树的动画配置 | CSSMotionProps | - |  | × |
+| multiple | 支持点选多个节点（节点本身） | boolean | false |  | × |
+| ~~rootStyle~~ | Tree 最外层样式，请使用 `styles.root` 替代 | CSSProperties | - | 4.20.0 | × |
+| selectable | 是否可选中 | boolean | true |  | × |
+| selectedKeys | （受控）设置选中的树节点，多选需设置 `multiple` 为 true | string\[] | - |  | × |
+| showIcon | 控制是否展示 `icon` 节点，没有默认样式 | boolean | false |  | × |
+| showLine | 是否展示连接线 | boolean \| { showLeafIcon: ReactNode \| ((props: AntTreeNodeProps) => ReactNode) } | false |  | × |
+| styles | 用于自定义组件内部各语义化结构的行内 style，支持对象或函数 | Record<[SemanticDOM](#semantic-dom), CSSProperties> \| (info: { props })=> Record<[SemanticDOM](#semantic-dom), CSSProperties> | - |  | 6.0.0 |
+| switcherIcon | 自定义树节点的展开/折叠图标（`showLine` 下不会自动 rotate） | ReactNode \| ((props: AntTreeNodeProps) => ReactNode) | - | renderProps: 4.20.0 | × |
+| switcherLoadingIcon | 自定义树节点的加载图标 | ReactNode | - | 5.20.0 | × |
+| titleRender | 自定义渲染节点 | (nodeData) => ReactNode | - | 4.5.0 | × |
+| treeData | treeNodes 数据，如果设置则不需要手动构造 TreeNode 节点（key 在整个树范围内唯一） | array&lt;{key, title, children, \[disabled, selectable]}> | - |  | × |
+| virtual | 设置 false 时关闭虚拟滚动 | boolean | true | 4.1.0 | × |
+| onCheck | 点击复选框触发 | function(checkedKeys, e:{checked: boolean, checkedNodes, node, event, halfCheckedKeys}) | - |  | × |
+| onDoubleClick | 双击树节点触发 | function(event, node) | - |  | × |
+| onDragEnd | dragend 触发时调用 | function({event, node}) | - |  | × |
+| onDragEnter | dragenter 触发时调用 | function({event, node, expandedKeys}) | - |  | × |
+| onDragLeave | dragleave 触发时调用 | function({event, node}) | - |  | × |
+| onDragOver | dragover 触发时调用 | function({event, node}) | - |  | × |
+| onDragStart | 开始拖拽时调用 | function({event, node}) | - |  | × |
+| onDrop | drop 触发时调用 | function({event, node, dragNode, dragNodesKeys}) | - |  | × |
+| onExpand | 展开/收起节点时触发 | function(expandedKeys, {expanded: boolean, node}) | - |  | × |
+| onLoad | 节点加载完毕时触发 | function(loadedKeys, {event, node}) | - |  | × |
+| onRightClick | 响应右键点击 | function({event, node}) | - |  | × |
+| onSelect | 点击树节点触发 | function(selectedKeys, e:{selected: boolean, selectedNodes, node, event}) | - |  | × |
 
 ### TreeNode props
 
@@ -110,7 +112,7 @@ demo:
 | --- | --- | --- | --- |
 | expandAction | 目录展开逻辑，可选：false \| `click` \| `doubleClick` | string \| boolean | `click` |
 
-## 注意
+## 注意 {#note}
 
 在 `3.4.0` 之前：树节点可以有很多，但在设置 `checkable` 时，将会花费更多的计算时间，因此我们缓存了一些计算结果（`this.treeNodesStates`）来复用，避免多次重复计算，以此提高性能。但这也带来了一些限制，当你异步加载树节点时，你需要这样渲染树：
 
@@ -128,11 +130,27 @@ demo:
 }
 ```
 
-### Tree 方法
+### Tree 方法 {#tree-methods}
 
 | 名称 | 说明 |
 | --- | --- |
-| scrollTo({ key: string \| number; align?: 'top' \| 'bottom' \| 'auto'; offset?: number }) | 虚拟滚动下，滚动到指定 key 条目 |
+| scrollTo({ key: string \| number; align?: 'top' \| 'bottom' \| 'auto'; offset?: number; autoExpand?: boolean }) | 虚拟滚动下，滚动到指定 key 条目。非受控模式下可通过 `autoExpand` 展开目标节点 |
+
+### Tree Hooks
+
+#### Tree.useTree
+
+`type Tree.useTree = (treeData: DataNode[], config: { fieldNames?: FieldNames }) => TreeInstance`
+
+提供 Tree 数据工具。`getPath(key)` 返回从根节点到目标节点的实体路径，可用于在受控模式下更新 `expandedKeys`。
+
+`getPath` 的函数引用保持稳定，并在调用时读取最新的 `treeData`。如果对 `getPath` 的派生结果进行 memo，请将 `treeData` 和查询 key 加入依赖项，因为依赖追踪无法感知 `getPath` 内部捕获的数据。
+
+```tsx
+const { getPath } = Tree.useTree(treeData, {});
+
+const path = useMemo(() => getPath(selectedKey), [getPath, selectedKey, treeData]);
+```
 
 ## Semantic DOM
 

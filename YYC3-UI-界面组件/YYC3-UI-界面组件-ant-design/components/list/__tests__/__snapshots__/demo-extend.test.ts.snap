@@ -28,7 +28,7 @@ exports[`renders components/list/demo/basic.tsx extend context correctly 1`] = `
                 class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
               >
                 <img
-                  src="https://api.dicebear.com/7.x/miniavs/svg?seed=0"
+                  src="https://api.dicebear.com/10.x/lorelei/svg?seed=0"
                 />
               </span>
             </div>
@@ -65,7 +65,7 @@ exports[`renders components/list/demo/basic.tsx extend context correctly 1`] = `
                 class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
               >
                 <img
-                  src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
+                  src="https://api.dicebear.com/10.x/lorelei/svg?seed=1"
                 />
               </span>
             </div>
@@ -102,7 +102,7 @@ exports[`renders components/list/demo/basic.tsx extend context correctly 1`] = `
                 class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
               >
                 <img
-                  src="https://api.dicebear.com/7.x/miniavs/svg?seed=2"
+                  src="https://api.dicebear.com/10.x/lorelei/svg?seed=2"
                 />
               </span>
             </div>
@@ -139,7 +139,7 @@ exports[`renders components/list/demo/basic.tsx extend context correctly 1`] = `
                 class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
               >
                 <img
-                  src="https://api.dicebear.com/7.x/miniavs/svg?seed=3"
+                  src="https://api.dicebear.com/10.x/lorelei/svg?seed=3"
                 />
               </span>
             </div>
@@ -171,7 +171,7 @@ exports[`renders components/list/demo/basic.tsx extend context correctly 1`] = `
 
 exports[`renders components/list/demo/basic.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -474,7 +474,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=0"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=0"
                   />
                 </span>
               </div>
@@ -511,7 +511,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=1"
                   />
                 </span>
               </div>
@@ -548,7 +548,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=2"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=2"
                   />
                 </span>
               </div>
@@ -585,7 +585,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=3"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=3"
                   />
                 </span>
               </div>
@@ -656,7 +656,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=0"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=0"
                   />
                 </span>
               </div>
@@ -693,7 +693,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=1"
                   />
                 </span>
               </div>
@@ -730,7 +730,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=2"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=2"
                   />
                 </span>
               </div>
@@ -767,7 +767,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=3"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=3"
                   />
                 </span>
               </div>
@@ -882,7 +882,7 @@ Array [
 
 exports[`renders components/list/demo/component-token.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -1401,7 +1401,7 @@ exports[`renders components/list/demo/grid.tsx extend context correctly 1`] = `
 
 exports[`renders components/list/demo/grid.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -2843,7 +2843,7 @@ Array [
 
 exports[`renders components/list/demo/grid-test.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -2959,13 +2959,13 @@ exports[`renders components/list/demo/infinite-load.tsx extend context correctly
 
 exports[`renders components/list/demo/infinite-load.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
 exports[`renders components/list/demo/loadmore.tsx extend context correctly 1`] = `
 <div
-  class="ant-list ant-list-split ant-list-loading demo-loadmore-list css-var-test-id"
+  class="ant-list ant-list-split ant-list-loading acss-154ja2h css-var-test-id"
 >
   <div
     aria-busy="true"
@@ -3009,7 +3009,7 @@ exports[`renders components/list/demo/loadmore.tsx extend context correctly 1`] 
 
 exports[`renders components/list/demo/loadmore.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -3211,7 +3211,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=0"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=0"
                   />
                 </span>
               </div>
@@ -3248,7 +3248,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=1"
                   />
                 </span>
               </div>
@@ -3285,7 +3285,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=2"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=2"
                   />
                 </span>
               </div>
@@ -3322,7 +3322,7 @@ Array [
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=3"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=3"
                   />
                 </span>
               </div>
@@ -3356,13 +3356,14 @@ Array [
         class="ant-pagination ant-pagination-center css-var-test-id"
       >
         <li
-          aria-disabled="true"
           class="ant-pagination-prev ant-pagination-disabled"
-          title="Previous Page"
         >
           <button
+            aria-disabled="true"
+            aria-label="Previous Page"
             class="ant-pagination-item-link"
             disabled=""
+            role="button"
             tabindex="-1"
             type="button"
           >
@@ -3389,23 +3390,27 @@ Array [
         </li>
         <li
           class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
-          tabindex="0"
           title="1"
         >
           <a
+            aria-current="page"
+            aria-label="Page 1"
             rel="nofollow"
+            role="button"
+            tabindex="0"
           >
             1
           </a>
         </li>
         <li
-          aria-disabled="true"
           class="ant-pagination-next ant-pagination-disabled"
-          title="Next Page"
         >
           <button
+            aria-disabled="true"
+            aria-label="Next Page"
             class="ant-pagination-item-link"
             disabled=""
+            role="button"
             tabindex="-1"
             type="button"
           >
@@ -3438,7 +3443,7 @@ Array [
 
 exports[`renders components/list/demo/pagination.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -3676,7 +3681,7 @@ exports[`renders components/list/demo/responsive.tsx extend context correctly 1`
 
 exports[`renders components/list/demo/responsive.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -3941,7 +3946,7 @@ Array [
 
 exports[`renders components/list/demo/simple.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -3973,7 +3978,7 @@ exports[`renders components/list/demo/spin-debug.tsx extend context correctly 1`
                 class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
               >
                 <img
-                  src="https://api.dicebear.com/7.x/miniavs/svg?seed=0"
+                  src="https://api.dicebear.com/10.x/lorelei/svg?seed=0"
                 />
               </span>
             </div>
@@ -4005,7 +4010,7 @@ exports[`renders components/list/demo/spin-debug.tsx extend context correctly 1`
 
 exports[`renders components/list/demo/spin-debug.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;
 
@@ -4040,7 +4045,7 @@ exports[`renders components/list/demo/vertical.tsx extend context correctly 1`] 
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=0"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=0"
                   />
                 </span>
               </div>
@@ -4204,7 +4209,7 @@ exports[`renders components/list/demo/vertical.tsx extend context correctly 1`] 
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=1"
                   />
                 </span>
               </div>
@@ -4368,7 +4373,7 @@ exports[`renders components/list/demo/vertical.tsx extend context correctly 1`] 
                   class="ant-avatar ant-avatar-circle ant-avatar-image css-var-test-id ant-avatar-css-var"
                 >
                   <img
-                    src="https://api.dicebear.com/7.x/miniavs/svg?seed=2"
+                    src="https://api.dicebear.com/10.x/lorelei/svg?seed=2"
                   />
                 </span>
               </div>
@@ -4536,13 +4541,14 @@ exports[`renders components/list/demo/vertical.tsx extend context correctly 1`] 
       class="ant-pagination ant-pagination-end css-var-test-id"
     >
       <li
-        aria-disabled="true"
         class="ant-pagination-prev ant-pagination-disabled"
-        title="Previous Page"
       >
         <button
+          aria-disabled="true"
+          aria-label="Previous Page"
           class="ant-pagination-item-link"
           disabled=""
+          role="button"
           tabindex="-1"
           type="button"
         >
@@ -4569,66 +4575,78 @@ exports[`renders components/list/demo/vertical.tsx extend context correctly 1`] 
       </li>
       <li
         class="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
-        tabindex="0"
         title="1"
       >
         <a
+          aria-current="page"
+          aria-label="Page 1"
           rel="nofollow"
+          role="button"
+          tabindex="0"
         >
           1
         </a>
       </li>
       <li
         class="ant-pagination-item ant-pagination-item-2"
-        tabindex="0"
         title="2"
       >
         <a
+          aria-label="Page 2"
           rel="nofollow"
+          role="button"
+          tabindex="0"
         >
           2
         </a>
       </li>
       <li
         class="ant-pagination-item ant-pagination-item-3"
-        tabindex="0"
         title="3"
       >
         <a
+          aria-label="Page 3"
           rel="nofollow"
+          role="button"
+          tabindex="0"
         >
           3
         </a>
       </li>
       <li
         class="ant-pagination-item ant-pagination-item-4"
-        tabindex="0"
         title="4"
       >
         <a
+          aria-label="Page 4"
           rel="nofollow"
+          role="button"
+          tabindex="0"
         >
           4
         </a>
       </li>
       <li
         class="ant-pagination-item ant-pagination-item-5 ant-pagination-item-before-jump-next"
-        tabindex="0"
         title="5"
       >
         <a
+          aria-label="Page 5"
           rel="nofollow"
+          role="button"
+          tabindex="0"
         >
           5
         </a>
       </li>
       <li
         class="ant-pagination-jump-next ant-pagination-jump-next-custom-icon"
-        tabindex="0"
-        title="Next 5 Pages"
       >
         <a
+          aria-label="Next 5 Pages"
           class="ant-pagination-item-link"
+          role="button"
+          tabindex="0"
         >
           <div
             class="ant-pagination-item-container"
@@ -4655,31 +4673,50 @@ exports[`renders components/list/demo/vertical.tsx extend context correctly 1`] 
             <span
               class="ant-pagination-item-ellipsis"
             >
-              •••
+              <span
+                aria-label="ellipsis"
+                class="anticon anticon-ellipsis"
+                role="img"
+              >
+                <svg
+                  aria-hidden="true"
+                  data-icon="ellipsis"
+                  fill="currentColor"
+                  focusable="false"
+                  height="1em"
+                  viewBox="64 64 896 896"
+                  width="1em"
+                >
+                  <path
+                    d="M176 511a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0zm280 0a56 56 0 10112 0 56 56 0 10-112 0z"
+                  />
+                </svg>
+              </span>
             </span>
           </div>
         </a>
       </li>
       <li
         class="ant-pagination-item ant-pagination-item-8"
-        tabindex="0"
         title="8"
       >
         <a
+          aria-label="Page 8"
           rel="nofollow"
+          role="button"
+          tabindex="0"
         >
           8
         </a>
       </li>
       <li
-        aria-disabled="false"
         class="ant-pagination-next"
-        tabindex="0"
-        title="Next Page"
       >
         <button
+          aria-label="Next Page"
           class="ant-pagination-item-link"
-          tabindex="-1"
+          role="button"
+          tabindex="0"
           type="button"
         >
           <span
@@ -4710,6 +4747,6 @@ exports[`renders components/list/demo/vertical.tsx extend context correctly 1`] 
 
 exports[`renders components/list/demo/vertical.tsx extend context correctly 2`] = `
 [
-  "Warning: [antd: List] The \`List\` component is deprecated. And will be removed in next major version.",
+  "Warning: [antd: List] The \`List\` component is deprecated and will be removed in the next major version. If you're using version 6.6.0 or later, please use \`Listy\` instead.",
 ]
 `;

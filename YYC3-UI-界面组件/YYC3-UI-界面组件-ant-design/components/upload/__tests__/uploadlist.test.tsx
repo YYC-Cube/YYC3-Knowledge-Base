@@ -415,6 +415,9 @@ describe('Upload List', () => {
   });
 
   it('should support no onDownload', async () => {
+    const url = 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
+    open.mockClear();
+
     const { container: wrapper, unmount } = render(
       <Upload
         listType="picture-card"
@@ -423,7 +426,7 @@ describe('Upload List', () => {
             uid: '0',
             name: 'xxx.png',
             status: 'done',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+            url,
           },
         ]}
         showUploadList={{
@@ -434,6 +437,7 @@ describe('Upload List', () => {
       </Upload>,
     );
     fireEvent.click(wrapper.querySelectorAll('.anticon-download')[0]);
+    expect(open).toHaveBeenCalledWith(url, '_blank', 'noopener');
 
     unmount();
   });
@@ -558,6 +562,43 @@ describe('Upload List', () => {
 
     unmount();
   });
+
+  it.each(['?redirect=/other.pdf', '#/other.pdf'])(
+    'should render image thumbnails with URL suffix %s',
+    (suffix) => {
+      const url = `https://example.com/photo.png${suffix}`;
+      const { getByAltText } = render(
+        <Upload
+          listType="picture-card"
+          fileList={[{ uid: '1', name: 'photo.png', status: 'done', url }]}
+        />,
+      );
+
+      expect(getByAltText('photo.png')).toHaveAttribute('src', url);
+    },
+  );
+
+  it.each(['?redirect=/other.png', '#/other.png'])(
+    'should not render non-image files as thumbnails with URL suffix %s',
+    (suffix) => {
+      const { queryByAltText, getByLabelText } = render(
+        <Upload
+          listType="picture-card"
+          fileList={[
+            {
+              uid: '1',
+              name: 'report.pdf',
+              status: 'done',
+              url: `https://example.com/report.pdf${suffix}`,
+            },
+          ]}
+        />,
+      );
+
+      expect(queryByAltText('report.pdf')).not.toBeInTheDocument();
+      expect(getByLabelText('file')).toBeInTheDocument();
+    },
+  );
 
   it('not crash when uploading not provides percent', async () => {
     const { unmount } = render(
@@ -826,6 +867,18 @@ describe('Upload List', () => {
     unmount2();
   });
 
+  it('should render numeric 0 extra', () => {
+    const { container: wrapper } = render(
+      <Upload defaultFileList={fileList} showUploadList={{ extra: 0 }} />,
+    );
+    expect(wrapper.querySelector('.ant-upload-list-item-extra')?.textContent).toBe('0');
+
+    const { container: wrapper2 } = render(
+      <Upload defaultFileList={fileList} showUploadList={{ extra: () => 0 }} />,
+    );
+    expect(wrapper2.querySelector('.ant-upload-list-item-extra')?.textContent).toBe('0');
+  });
+
   // https://github.com/ant-design/ant-design/issues/7762
   it('work with form validation', async () => {
     let formRef: FormInstance;
@@ -995,6 +1048,46 @@ describe('Upload List', () => {
     unmount();
   });
 
+  it('when picture-card file upload fails, non-image file should render file icon', () => {
+    const items = [{ status: 'error', uid: 'upload-list-item', name: 'report.pdf' }];
+    const { container: wrapper, unmount } = render(
+      <UploadList
+        listType="picture-card"
+        items={items as UploadListProps['items']}
+        locale={{ uploadError: 'upload error' }}
+      />,
+    );
+
+    expect(wrapper.querySelector('.ant-upload-list-item-thumbnail .anticon-file')).toBeTruthy();
+    expect(
+      wrapper.querySelector('.ant-upload-list-item-thumbnail .anticon-file svg[data-icon="file"]'),
+    ).toBeTruthy();
+    expect(wrapper.querySelector('.ant-upload-list-item-thumbnail .anticon-picture')).toBeFalsy();
+
+    unmount();
+  });
+
+  it('when picture-card file upload fails, image file should render picture icon', () => {
+    const items = [{ status: 'error', uid: 'upload-list-item', name: 'picture.png' }];
+    const { container: wrapper, unmount } = render(
+      <UploadList
+        listType="picture-card"
+        items={items as UploadListProps['items']}
+        locale={{ uploadError: 'upload error' }}
+      />,
+    );
+
+    expect(wrapper.querySelector('.ant-upload-list-item-thumbnail .anticon-picture')).toBeTruthy();
+    expect(
+      wrapper.querySelector(
+        '.ant-upload-list-item-thumbnail .anticon-picture svg[data-icon="picture"]',
+      ),
+    ).toBeTruthy();
+    expect(wrapper.querySelector('.ant-upload-list-item-thumbnail .anticon-file')).toBeFalsy();
+
+    unmount();
+  });
+
   it('onPreview should be called, when url exists', () => {
     const onPreview = jest.fn();
     const items = [{ thumbUrl: 'thumbUrl', url: 'url', uid: 'upload-list-item' }];
@@ -1023,7 +1116,13 @@ describe('Upload List', () => {
       />,
     );
     fireEvent.click(wrapper.querySelector('.ant-upload-list-item-name')!);
+    expect(wrapper.querySelector('.ant-upload-list-item-name')?.getAttribute('role')).toBe(
+      'button',
+    );
     expect(onPreview).toHaveBeenCalled();
+    fireEvent.keyDown(wrapper.querySelector('.ant-upload-list-item-name')!, { key: 'Enter' });
+    fireEvent.keyDown(wrapper.querySelector('.ant-upload-list-item-name')!, { key: ' ' });
+    expect(onPreview).toHaveBeenCalledTimes(5);
 
     unmount();
   });
@@ -1048,7 +1147,7 @@ describe('Upload List', () => {
       expect(previewFunc).toHaveBeenCalled();
     });
     await previewFunc(mockFile).then((dataUrl) => {
-      expect(dataUrl).toEqual('data:image/png;base64,');
+      expect(dataUrl).toBe('data:image/png;base64,');
     });
     unmount();
   });
@@ -1077,7 +1176,7 @@ describe('Upload List', () => {
       expect(previewFunc).toHaveBeenCalled();
     });
     await previewFunc(mockFile).then((dataUrl) => {
-      expect(dataUrl).toEqual('data:image/png;base64,');
+      expect(dataUrl).toBe('data:image/png;base64,');
     });
     unmount();
   });
@@ -1102,9 +1201,57 @@ describe('Upload List', () => {
       expect(previewFunc).toHaveBeenCalled();
     });
     await previewFunc(mockFile).then((dataUrl) => {
-      expect(dataUrl).toEqual('data:image/gif;base64,');
+      expect(dataUrl).toBe('data:image/gif;base64,');
     });
     unmount();
+  });
+
+  it('should not leave a canvas after generating a GIF preview', async () => {
+    const mockFile = new File([''], 'foo.gif', {
+      type: 'image/gif',
+    });
+    const canvasCount = document.body.querySelectorAll('canvas').length;
+
+    await previewImage(mockFile);
+
+    expect(document.body.querySelectorAll('canvas')).toHaveLength(canvasCount);
+  });
+
+  it('should resolve empty string and clean up when image fails to decode', async () => {
+    const revokeObjectURL = jest.fn();
+    const originalImage = window.Image;
+    const originalCreateObjectURL = window.URL.createObjectURL;
+    const originalRevokeObjectURL = window.URL.revokeObjectURL;
+    window.URL.createObjectURL = () => 'blob:mock-url';
+    window.URL.revokeObjectURL = revokeObjectURL;
+    const fakeImages: any[] = [];
+    (window as any).Image = class {
+      constructor() {
+        fakeImages.push(this);
+      }
+    };
+
+    try {
+      const canvasCount = document.body.querySelectorAll('canvas').length;
+      let dataUrl: string | undefined;
+      const promise = previewImage(new File(['corrupt'], 'foo.png', { type: 'image/png' })).then(
+        (result) => {
+          dataUrl = result;
+        },
+      );
+
+      // Simulate the browser firing the decode error event
+      fakeImages[0].onerror();
+      await promise;
+
+      expect(dataUrl).toBe('');
+      expect(document.body.querySelectorAll('canvas')).toHaveLength(canvasCount);
+      expect(revokeObjectURL).toHaveBeenCalled();
+    } finally {
+      window.Image = originalImage;
+      window.URL.createObjectURL = originalCreateObjectURL;
+      window.URL.revokeObjectURL = originalRevokeObjectURL;
+    }
   });
 
   it("upload non image file shouldn't be converted to the base64", async () => {

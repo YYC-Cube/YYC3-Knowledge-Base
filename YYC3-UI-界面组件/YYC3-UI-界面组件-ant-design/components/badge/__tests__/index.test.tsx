@@ -1,11 +1,11 @@
 import React from 'react';
 
+import Badge from '..';
 import type { GetRef } from '../../_util/type';
 import mountTest from '../../../tests/shared/mountTest';
 import rtlTest from '../../../tests/shared/rtlTest';
 import { act, fireEvent, render, waitFakeTimer19 } from '../../../tests/utils';
 import Tooltip from '../../tooltip';
-import Badge from '../index';
 
 describe('Badge', () => {
   mountTest(Badge);
@@ -63,10 +63,10 @@ describe('Badge', () => {
 
   it('badge should support float number', () => {
     const { container } = render(<Badge count={3.5} />);
-    expect(container.querySelectorAll('.ant-badge-multiple-words')[0].textContent).toEqual('3.5');
+    expect(container.querySelectorAll('.ant-badge-multiple-words')[0].textContent).toBe('3.5');
 
     const { container: anotherContainer, unmount } = render(<Badge count="3.5" />);
-    expect(anotherContainer.querySelectorAll('.ant-badge-multiple-words')[0].textContent).toEqual(
+    expect(anotherContainer.querySelectorAll('.ant-badge-multiple-words')[0].textContent).toBe(
       '3.5',
     );
 
@@ -81,6 +81,19 @@ describe('Badge', () => {
   it('should have an overridden title attribute', () => {
     const { container } = render(<Badge count={10} title="Custom title" />);
     expect(container.querySelector<HTMLElement>('.ant-scroll-number')?.title).toBe('Custom title');
+  });
+
+  it('should not render title attribute when title is null or false', () => {
+    const { container } = render(
+      <>
+        <Badge count={10} title={null} />
+        <Badge count={11} title={false} />
+      </>,
+    );
+
+    const badgeNodes = container.querySelectorAll<HTMLElement>('.ant-scroll-number');
+    expect(badgeNodes[0]).not.toHaveAttribute('title');
+    expect(badgeNodes[1]).not.toHaveAttribute('title');
   });
 
   // https://github.com/ant-design/ant-design/issues/10626
@@ -139,6 +152,14 @@ describe('Badge', () => {
       </Badge>,
     );
     expect(asFragment().firstChild).toMatchSnapshot();
+  });
+
+  it('should preserve fractional offset values', () => {
+    const { container } = render(<Badge count={1} offset={[10.5, 20.5]} />);
+    const badge = container.querySelector<HTMLElement>('.ant-badge-count')!;
+
+    expect(badge.style.insetInlineEnd).toBe('-10.5px');
+    expect(badge.style.marginTop).toBe('20.5px');
   });
 
   // https://github.com/ant-design/ant-design/issues/15349

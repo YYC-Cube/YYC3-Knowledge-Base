@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { isNonNullable } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { isNonNullable, isNumber } from '../_util/is';
+import { isNumber, isPlainObject } from '../_util/is';
 import { responsiveArrayReversed } from '../_util/responsiveObserver';
 import type { Breakpoint } from '../_util/responsiveObserver';
 import type { LiteralUnion } from '../_util/type';
@@ -25,7 +26,8 @@ export interface ColSize {
 }
 
 export interface ColProps
-  extends React.HTMLAttributes<HTMLDivElement>, Partial<Record<Breakpoint, ColSpanType | ColSize>> {
+  extends React.HTMLAttributes<HTMLDivElement>,
+    Partial<Record<Breakpoint, ColSpanType | ColSize>> {
   flex?: FlexType;
   span?: ColSpanType;
   order?: ColSpanType;
@@ -85,7 +87,7 @@ const Col = React.forwardRef<HTMLDivElement, ColProps>((props, ref) => {
     const propSize = props[size];
     if (isNumber(propSize)) {
       sizeProps.span = propSize;
-    } else if (typeof propSize === 'object') {
+    } else if (isPlainObject(propSize)) {
       sizeProps = propSize || {};
     }
 
@@ -103,7 +105,7 @@ const Col = React.forwardRef<HTMLDivElement, ColProps>((props, ref) => {
     };
 
     // Responsive flex layout
-    if (sizeProps.flex) {
+    if (sizeProps.flex || sizeProps.flex === 0) {
       sizeClassObj[`${prefixCls}-${size}-flex`] = true;
       sizeStyle[varName(`${size}-flex`)] = parseFlex(sizeProps.flex);
     }
@@ -132,7 +134,7 @@ const Col = React.forwardRef<HTMLDivElement, ColProps>((props, ref) => {
     mergedStyle.paddingInline = horizontalGutter;
   }
 
-  if (flex) {
+  if (flex || flex === 0) {
     mergedStyle.flex = parseFlex(flex);
 
     // Hack for Firefox to avoid size issue

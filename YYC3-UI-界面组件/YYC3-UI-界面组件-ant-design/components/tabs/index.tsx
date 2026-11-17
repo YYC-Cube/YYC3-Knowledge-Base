@@ -2,14 +2,18 @@ import * as React from 'react';
 import CloseOutlined from '@ant-design/icons/CloseOutlined';
 import EllipsisOutlined from '@ant-design/icons/EllipsisOutlined';
 import PlusOutlined from '@ant-design/icons/PlusOutlined';
-import type { TabsProps as RcTabsProps } from '@rc-component/tabs';
+import type {
+  EditableConfig,
+  GetIndicatorSize,
+  MoreProps as RcMoreProps,
+  TabsProps as RcTabsProps,
+  Tab,
+} from '@rc-component/tabs';
 import RcTabs from '@rc-component/tabs';
-import type { GetIndicatorSize } from '@rc-component/tabs/lib/hooks/useIndicator';
-import type { EditableConfig, MoreProps, Tab } from '@rc-component/tabs/lib/interface';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { devUseWarning } from '../_util/warning';
 import { ConfigContext } from '../config-provider';
 import { useComponentConfig } from '../config-provider/context';
@@ -30,44 +34,42 @@ export type TabPlacement = 'top' | 'end' | 'bottom' | 'start';
 
 export type { TabPaneProps };
 
-export type TabsSemanticName = keyof TabsSemanticClassNames & keyof TabsSemanticStyles;
-
-export type TabsSemanticClassNames = {
-  root?: string;
-  item?: string;
-  indicator?: string;
-  content?: string;
-  header?: string;
-};
-
-export type TabsSemanticStyles = {
-  root?: React.CSSProperties;
-  item?: React.CSSProperties;
-  indicator?: React.CSSProperties;
-  content?: React.CSSProperties;
-  header?: React.CSSProperties;
-};
-
-export type TabsClassNamesType = SemanticClassNamesType<
-  TabsProps,
-  TabsSemanticClassNames,
-  {
+export type TabsSemanticType = {
+  classNames?: {
+    root?: string;
+    item?: string;
+    remove?: string;
+    indicator?: string;
+    body?: string;
+    content?: string;
+    header?: string;
     popup?: { root?: string };
-  }
->;
-
-export type TabsStylesType = SemanticStylesType<
-  TabsProps,
-  TabsSemanticStyles,
-  {
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    item?: React.CSSProperties;
+    remove?: React.CSSProperties;
+    indicator?: React.CSSProperties;
+    body?: React.CSSProperties;
+    content?: React.CSSProperties;
+    header?: React.CSSProperties;
     popup?: { root?: React.CSSProperties };
-  }
->;
+  };
+};
+
+export type TabsSemanticAllType = GenerateSemantic<TabsSemanticType, TabsProps>;
 
 export interface CompatibilityProps {
   /** @deprecated Please use `destroyOnHidden` instead */
   destroyInactiveTabPane?: boolean;
 }
+
+type MoreProps = RcMoreProps & {
+  /** @deprecated Please use `open` instead */
+  visible?: boolean;
+  /** @deprecated Please use `onOpenChange` instead */
+  onVisibleChange?: (open: boolean) => void;
+};
 
 export interface TabsRef {
   nativeElement: React.ComponentRef<typeof RcTabs> | null;
@@ -80,8 +82,8 @@ export interface BaseTabsProps {
   centered?: boolean;
   className?: string;
   rootClassName?: string;
-  classNames?: TabsClassNamesType;
-  styles?: TabsStylesType;
+  classNames?: TabsSemanticAllType['classNamesAndFn'];
+  styles?: TabsSemanticAllType['stylesAndFn'];
   /** @deprecated please use `tabPlacement` instead */
   tabPosition?: TabPosition;
   tabPlacement?: TabPlacement;
@@ -100,8 +102,6 @@ export interface TabsProps
   moreIcon?: React.ReactNode;
   more?: MoreProps;
   removeIcon?: React.ReactNode;
-  styles?: TabsStylesType;
-  classNames?: TabsClassNamesType;
   /** @deprecated Please use `classNames.popup` instead */
   popupClassName?: string;
 }
@@ -198,6 +198,15 @@ const InternalTabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
       'destroyInactiveTabPane',
       'destroyOnHidden',
     );
+
+    if (more) {
+      [
+        ['visible', 'open'],
+        ['onVisibleChange', 'onOpenChange'],
+      ].forEach(([deprecatedName, newName]) => {
+        warning.deprecated(!(deprecatedName in more), `more.${deprecatedName}`, `more.${newName}`);
+      });
+    }
   }
 
   const size = useSize(customSize);
@@ -209,6 +218,22 @@ const InternalTabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
   const mergedIndicator: TabsProps['indicator'] = {
     align: indicator?.align ?? tabs?.indicator?.align,
     size: indicator?.size ?? indicatorSize ?? tabs?.indicator?.size ?? tabs?.indicatorSize,
+  };
+
+  const {
+    visible: moreVisible,
+    onVisibleChange: moreOnVisibleChange,
+    ...restMoreProps
+  } = more ?? {};
+
+  const mergedMoreProps: RcMoreProps = {
+    icon: moreIcon ?? tabs?.more?.icon ?? tabs?.moreIcon ?? <EllipsisOutlined />,
+    transitionName: `${rootPrefixCls}-slide-up`,
+    ...restMoreProps,
+    ...(more && !('open' in more) && 'visible' in more ? { open: moreVisible } : {}),
+    ...(more && !('onOpenChange' in more) && 'onVisibleChange' in more
+      ? { onOpenChange: moreOnVisibleChange }
+      : {}),
   };
 
   const mergedPlacement: TabPosition | undefined = React.useMemo(() => {
@@ -233,13 +258,16 @@ const InternalTabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
   };
 
   // ========================= Style ==========================
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    TabsClassNamesType,
-    TabsStylesType,
+    TabsSemanticAllType['classNames'],
+    TabsSemanticAllType['styles'],
     TabsProps
   >(
     [contextClassNames, classNames],
-    [contextStyles, styles],
+    [contextStyles, contextStyleRoot, styles, styleRoot],
     {
       props: mergedProps,
     },
@@ -277,14 +305,11 @@ const InternalTabs = React.forwardRef<TabsRef, TabsProps>((props, ref) => {
         ...mergedClassNames,
         popup: clsx(popupClassName, hashId, cssVarCls, rootCls, mergedClassNames.popup?.root),
       }}
-      styles={mergedStyles}
-      style={{ ...mergedStyles.root, ...contextStyle, ...style }}
+      // `popup` is nested as `{ root }` in antd but flat in rc-tabs, same as `classNames` above
+      styles={{ ...mergedStyles, popup: mergedStyles.popup?.root }}
+      style={mergedStyles.root}
       editable={editable}
-      more={{
-        icon: tabs?.more?.icon ?? tabs?.moreIcon ?? moreIcon ?? <EllipsisOutlined />,
-        transitionName: `${rootPrefixCls}-slide-up`,
-        ...more,
-      }}
+      more={mergedMoreProps}
       prefixCls={prefixCls}
       animated={mergedAnimated}
       indicator={mergedIndicator}

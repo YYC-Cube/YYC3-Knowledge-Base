@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/is_IS';
+import Pagination from '@rc-component/pagination/locale/is_IS';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/is_IS';
@@ -15,6 +15,10 @@ const localeValues: Locale = {
   Calendar,
   global: {
     close: 'Loka',
+    show: 'Sýna',
+    hide: 'Fela',
+    placeholder: 'Vinsamlegast veldu',
+    sortable: 'flokkanlegt',
   },
   Table: {
     filterTitle: 'Afmarkanir',
@@ -22,6 +26,23 @@ const localeValues: Locale = {
     filterReset: 'Núllstilla',
     selectAll: 'Velja allt',
     selectInvert: 'Viðsnúa vali',
+    filterEmptyText: 'Engar síur',
+    filterCheckAll: 'Veldu alla hluti',
+    filterSearchPlaceholder: 'Leitaðu í síum',
+    emptyText: 'Engin gögn',
+    selectNone: 'Hreinsaðu öll gögn',
+    selectionAll: 'Veldu öll gögn',
+    selectRow: 'Velja röð',
+    selectedRow: 'Röð valin',
+    selectionMenu: 'Valmynd fyrir val',
+    sortTitle: 'Raða',
+    expand: 'Stækkaðu röð',
+    collapse: 'Draga saman röð',
+    expandAll: 'Stækka allar raðir',
+    collapseAll: 'Draga saman allar raðir',
+    triggerDesc: 'Smelltu til að raða lækkandi',
+    triggerAsc: 'Smelltu til að flokka hækkandi',
+    cancelSort: 'Smelltu til að hætta við flokkun',
   },
   Tour: {
     Next: 'Áfram',
@@ -37,11 +58,22 @@ const localeValues: Locale = {
     okText: 'Áfram',
     cancelText: 'Hætta við',
   },
+  Splitter: {
+    toggleStartPanel: 'Víxla upphafsspjaldinu',
+    toggleEndPanel: 'Víxla lokaspjaldinu',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Leita hér',
     itemUnit: 'færsla',
     itemsUnit: 'færslur',
+    remove: 'Fjarlægja',
+    selectCurrent: 'Veldu núverandi síðu',
+    removeCurrent: 'Fjarlægðu núverandi síðu',
+    selectAll: 'Veldu öll gögn',
+    deselectAll: 'Afvelja öll gögn',
+    removeAll: 'Fjarlægðu öll gögn',
+    selectInvert: 'Snúa núverandi síðu við',
   },
   Upload: {
     uploading: 'Hleð upp...',
@@ -52,6 +84,20 @@ const localeValues: Locale = {
   },
   Empty: {
     description: 'Engin gögn',
+  },
+  Icon: {
+    icon: 'táknmynd',
+  },
+  Text: {
+    edit: 'Breyta',
+    copy: 'Afrita',
+    copied: 'Afritað',
+    expand: 'Stækkaðu',
+    collapse: 'Hrun',
+  },
+  Carousel: {
+    prevSlide: 'Fyrri skyggna',
+    nextSlide: 'Næsta skyggna',
   },
   Form: {
     optional: '（Valfrjálst）',
@@ -88,7 +134,7 @@ const localeValues: Locale = {
       },
       number: {
         len: '${label} verður að vera jafngildi ${len}',
-        min: 'Lágmarksgildi ${label} er ${mín}',
+        min: 'Lágmarksgildi ${label} er ${min}',
         max: 'Hámarksgildi ${label} er ${max}',
         range: '${label} verður að vera á milli ${min}-${max}',
       },
@@ -102,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} passar ekki við mynstur ${pattern}',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR kóða útrunninn',
+    refresh: 'Endurnýja',
+    scanned: 'Skannaður',
+  },
+  ColorPicker: {
+    presetEmpty: 'Tómt',
+    transparent: 'Gegnsætt',
+    singleColor: 'Einlitur',
+    gradientColor: 'Gradient litur',
   },
 };
 

@@ -1,34 +1,29 @@
 import * as React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import { clsx } from 'clsx';
 
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import { useComponentConfig } from '../config-provider/context';
 
-export type CardMetaSemanticName = keyof CardMetaSemanticClassNames & keyof CardMetaSemanticStyles;
-
-export type CardMetaSemanticClassNames = {
-  root?: string;
-  section?: string;
-  avatar?: string;
-  title?: string;
-  description?: string;
+export type CardMetaSemanticType = {
+  classNames?: {
+    root?: string;
+    section?: string;
+    avatar?: string;
+    title?: string;
+    description?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    section?: React.CSSProperties;
+    avatar?: React.CSSProperties;
+    title?: React.CSSProperties;
+    description?: React.CSSProperties;
+  };
 };
 
-export type CardMetaSemanticStyles = {
-  root?: React.CSSProperties;
-  section?: React.CSSProperties;
-  avatar?: React.CSSProperties;
-  title?: React.CSSProperties;
-  description?: React.CSSProperties;
-};
-
-export type CardMetaClassNamesType = SemanticClassNamesType<
-  CardMetaProps,
-  CardMetaSemanticClassNames
->;
-
-export type CardMetaStylesType = SemanticStylesType<CardMetaProps, CardMetaSemanticStyles>;
+export type CardMetaSemanticAllType = GenerateSemantic<CardMetaSemanticType, CardMetaProps>;
 
 export interface CardMetaProps {
   prefixCls?: string;
@@ -37,11 +32,15 @@ export interface CardMetaProps {
   avatar?: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;
-  classNames?: CardMetaClassNamesType;
-  styles?: CardMetaStylesType;
+  classNames?: CardMetaSemanticAllType['classNamesAndFn'];
+  styles?: CardMetaSemanticAllType['stylesAndFn'];
 }
 
-const CardMeta: React.FC<CardMetaProps> = (props) => {
+export interface CardMetaRef {
+  nativeElement: HTMLDivElement;
+}
+
+const CardMeta = React.forwardRef<CardMetaRef, CardMetaProps>((props, ref) => {
   const {
     prefixCls: customizePrefixCls,
     className,
@@ -65,20 +64,21 @@ const CardMeta: React.FC<CardMetaProps> = (props) => {
   const prefixCls = getPrefixCls('card', customizePrefixCls);
   const metaPrefixCls = `${prefixCls}-meta`;
 
+  const contextStyleRoot = useSemanticRootStyle(contextStyle);
+  const styleRoot = useSemanticRootStyle(style);
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    CardMetaClassNamesType,
-    CardMetaStylesType,
+    CardMetaSemanticAllType['classNames'],
+    CardMetaSemanticAllType['styles'],
     CardMetaProps
-  >([contextClassNames, cardMetaClassNames], [contextStyles, styles], {
+  >([contextClassNames, cardMetaClassNames], [contextStyles, contextStyleRoot, styles, styleRoot], {
     props,
   });
 
   const rootClassNames = clsx(metaPrefixCls, className, contextClassName, mergedClassNames.root);
 
   const rootStyles: React.CSSProperties = {
-    ...contextStyle,
     ...mergedStyles.root,
-    ...style,
   };
 
   const avatarClassNames = clsx(`${metaPrefixCls}-avatar`, mergedClassNames.avatar);
@@ -89,19 +89,19 @@ const CardMeta: React.FC<CardMetaProps> = (props) => {
 
   const sectionClassNames = clsx(`${metaPrefixCls}-section`, mergedClassNames.section);
 
-  const avatarDom: React.ReactNode = avatar ? (
+  const avatarDom: React.ReactNode = isReactRenderable(avatar) ? (
     <div className={avatarClassNames} style={mergedStyles.avatar}>
       {avatar}
     </div>
   ) : null;
 
-  const titleDom: React.ReactNode = title ? (
+  const titleDom: React.ReactNode = isReactRenderable(title) ? (
     <div className={titleClassNames} style={mergedStyles.title}>
       {title}
     </div>
   ) : null;
 
-  const descriptionDom: React.ReactNode = description ? (
+  const descriptionDom: React.ReactNode = isReactRenderable(description) ? (
     <div className={descriptionClassNames} style={mergedStyles.description}>
       {description}
     </div>
@@ -115,13 +115,19 @@ const CardMeta: React.FC<CardMetaProps> = (props) => {
       </div>
     ) : null;
 
+  const nativeElementRef = React.useRef<HTMLDivElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    nativeElement: nativeElementRef.current!,
+  }));
+
   return (
-    <div {...restProps} className={rootClassNames} style={rootStyles}>
+    <div ref={nativeElementRef} {...restProps} className={rootClassNames} style={rootStyles}>
       {avatarDom}
       {MetaDetail}
     </div>
   );
-};
+});
 
 if (process.env.NODE_ENV !== 'production') {
   CardMeta.displayName = 'CardMeta';

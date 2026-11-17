@@ -1,5 +1,4 @@
 import React from 'react';
-import type { OptionFC } from '@rc-component/select/lib/Option';
 
 import type { PaginationProps } from '..';
 import Pagination from '..';
@@ -52,13 +51,13 @@ describe('Pagination', () => {
 
     expect(container.querySelectorAll('.ant-select-item-option').length).toBe(4);
     fireEvent.click(container.querySelectorAll('.ant-select-item-option')[1]);
-    expect(onChange).toHaveBeenCalledWith(1, 20);
+    expect(onChange).toHaveBeenCalledWith(1, 20, expect.objectContaining({ recommendPage: 1 }));
   });
 
   it('should support custom selectComponentClass', () => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    const CustomSelect: React.FC<{ className?: string }> & { Option: OptionFC } = ({
+    const CustomSelect: React.FC<{ className?: string }> & { Option: typeof Select.Option } = ({
       className,
       ...props
     }) => <Select className={`${className} custom-select`} {...props} />;
@@ -95,6 +94,17 @@ describe('Pagination', () => {
       expect(asFragment().firstChild).toMatchSnapshot();
       expect(container.querySelectorAll('.ant-select-lg').length).toBe(1);
     });
+
+    it('should follow ConfigProvider variant for quick jumper input', () => {
+      const { container } = render(
+        <ConfigProvider variant="filled">
+          <Pagination defaultCurrent={1} total={50} showQuickJumper />
+        </ConfigProvider>,
+      );
+
+      expect(container.querySelector('.ant-pagination')).toHaveClass('ant-pagination-filled');
+      expect(container.querySelector('.ant-pagination-options-quick-jumper input')).toBeTruthy();
+    });
   });
 
   describe('should support align props', () => {
@@ -125,5 +135,38 @@ describe('Pagination', () => {
 
     // Expect `input` is `readonly`
     expect(container.querySelector('.ant-select input')).toHaveAttribute('readonly');
+  });
+
+  it('should support custom size changer component', () => {
+    const onChange = jest.fn();
+    const onSizeChangerRender = jest.fn();
+    const { container } = render(
+      <Pagination
+        defaultCurrent={1}
+        total={500}
+        showSizeChanger
+        components={{
+          sizeChanger: (sizeChangerProps) => {
+            onSizeChangerRender(sizeChangerProps);
+            const { className, onChange: onSizeChange } = sizeChangerProps;
+            return (
+              <button className={className} type="button" onClick={() => onSizeChange(15)}>
+                Custom size changer
+              </button>
+            );
+          },
+        }}
+        onChange={onChange}
+      />,
+    );
+
+    expect(onSizeChangerRender).toHaveBeenLastCalledWith({
+      value: 10,
+      onChange: expect.any(Function),
+      disabled: false,
+      className: 'ant-pagination-options-size-changer',
+    });
+    fireEvent.click(container.querySelector('.ant-pagination-options-size-changer')!);
+    expect(onChange).toHaveBeenCalledWith(1, 15, expect.objectContaining({ recommendPage: 1 }));
   });
 });

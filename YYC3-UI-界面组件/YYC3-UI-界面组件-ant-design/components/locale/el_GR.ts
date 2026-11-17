@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/el_GR';
+import Pagination from '@rc-component/pagination/locale/el_GR';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/el_GR';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'Παρακαλώ επιλέξτε',
     close: 'Κλείσιμο',
+    show: 'Εμφάνιση',
+    hide: 'Απόκρυψη',
+    sortable: 'διαλογήσιμος',
   },
   Table: {
     filterTitle: 'Μενού φίλτρων',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'Αντιστροφή τρέχουσας σελίδας',
     selectNone: 'Εκκαθάριση όλων των δεδομένων',
     selectionAll: 'Επιλογή όλων των δεδομένων',
+    selectRow: 'Επιλογή γραμμής',
+    selectedRow: 'Η γραμμή επιλέχθηκε',
+    selectionMenu: 'Μενού επιλογής',
     sortTitle: 'Ταξινόμηση',
     expand: 'Ανάπτυξη σειράς',
     collapse: 'Σύμπτυξη σειράς',
+    expandAll: 'Ανάπτυξη όλων των σειρών',
+    collapseAll: 'Σύμπτυξη όλων των σειρών',
     triggerDesc: 'Κλικ για φθίνουσα ταξινόμηση',
     triggerAsc: 'Κλικ για αύξουσα ταξινόμηση',
     cancelSort: 'Κλικ για ακύρωση ταξινόμησης',
@@ -50,6 +58,10 @@ const localeValues: Locale = {
     okText: 'ΟΚ',
     cancelText: 'Άκυρο',
   },
+  Splitter: {
+    toggleStartPanel: 'Εναλλαγή αρχικού πίνακα',
+    toggleEndPanel: 'Εναλλαγή τελικού πίνακα',
+  },
   Transfer: {
     titles: ['', ''],
     searchPlaceholder: 'Αναζήτηση',
@@ -61,6 +73,7 @@ const localeValues: Locale = {
     selectAll: 'Επιλογή όλων των δεδομένων',
     removeAll: 'Αφαίρεση όλων των δεδομένων',
     selectInvert: 'Αντιστροφή τρέχουσας σελίδας',
+    deselectAll: 'Καταργήστε την επιλογή όλων των δεδομένων',
   },
   Upload: {
     uploading: 'Μεταφόρτωση...',
@@ -81,6 +94,10 @@ const localeValues: Locale = {
     copied: 'Αντιγράφηκε',
     expand: 'Ανάπτυξη',
     collapse: 'Σύμπτυξη',
+  },
+  Carousel: {
+    prevSlide: 'Προηγούμενη διαφάνεια',
+    nextSlide: 'Επόμενη διαφάνεια',
   },
   Form: {
     optional: '(προαιρετικό)',

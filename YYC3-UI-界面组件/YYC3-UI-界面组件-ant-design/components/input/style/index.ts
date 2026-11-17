@@ -1,7 +1,7 @@
 import type { CSSObject } from '@ant-design/cssinjs';
 import { unit } from '@ant-design/cssinjs';
 
-import { clearFix, resetComponent } from '../../style';
+import { clearFix, genFocusOutline, resetComponent } from '../../style';
 import { genCompactItemStyle } from '../../style/compact-item';
 import type { GenerateStyle } from '../../theme/internal';
 import { genStyleHooks, mergeToken } from '../../theme/internal';
@@ -156,7 +156,7 @@ export const genInputGroupStyle: GenerateStyle<InputToken, CSSObject> = (token) 
         position: 'relative',
         padding: `0 ${unit(token.paddingInline)}`,
         color: token.colorText,
-        fontWeight: 'normal',
+        fontWeight: 400,
         fontSize: token.inputFontSize,
         textAlign: 'center',
         borderRadius: token.borderRadius,
@@ -175,17 +175,6 @@ export const genInputGroupStyle: GenerateStyle<InputToken, CSSObject> = (token) 
               border: `${unit(token.lineWidth)} ${token.lineType} transparent`,
               boxShadow: 'none',
             },
-        },
-
-        // https://github.com/ant-design/ant-design/issues/31333
-        [`${antCls}-cascader-picker`]: {
-          margin: `-9px ${unit(token.calc(token.paddingInline).mul(-1).equal())}`,
-          backgroundColor: 'transparent',
-          [`${antCls}-cascader-input`]: {
-            textAlign: 'start',
-            border: 0,
-            boxShadow: 'none',
-          },
         },
       },
     },
@@ -295,7 +284,6 @@ export const genInputGroupStyle: GenerateStyle<InputToken, CSSObject> = (token) 
       // reset border for Select, DatePicker, AutoComplete, Cascader, Mention, TimePicker, Input
       [`& > ${antCls}-select,
       & > ${antCls}-select-auto-complete ${componentCls},
-      & > ${antCls}-cascader-picker ${componentCls},
       & > ${componentCls}-group-wrapper ${componentCls}`]: {
         borderInlineEndWidth: token.lineWidth,
         borderRadius: 0,
@@ -316,16 +304,13 @@ export const genInputGroupStyle: GenerateStyle<InputToken, CSSObject> = (token) 
 
       [`& > *:first-child,
       & > ${antCls}-select:first-child,
-      & > ${antCls}-select-auto-complete:first-child ${componentCls},
-      & > ${antCls}-cascader-picker:first-child ${componentCls}`]: {
+      & > ${antCls}-select-auto-complete:first-child ${componentCls}`]: {
         borderStartStartRadius: token.borderRadius,
         borderEndStartRadius: token.borderRadius,
       },
 
       [`& > *:last-child,
-      & > ${antCls}-select:last-child,
-      & > ${antCls}-cascader-picker:last-child ${componentCls},
-      & > ${antCls}-cascader-picker-focused:last-child ${componentCls}`]: {
+      & > ${antCls}-select:last-child`]: {
         borderInlineEndWidth: token.lineWidth,
         borderStartEndRadius: token.borderRadius,
         borderEndEndRadius: token.borderRadius,
@@ -388,7 +373,7 @@ export const genInputStyle: GenerateStyle<InputToken, CSSObject> = (token) => {
   };
 };
 
-const genAllowClearStyle: GenerateStyle<InputToken, CSSObject> = (token) => {
+export const genAllowClearStyle: GenerateStyle<InputToken, CSSObject> = (token) => {
   const { componentCls } = token;
   return {
     // ========================= Input =========================
@@ -408,6 +393,12 @@ const genAllowClearStyle: GenerateStyle<InputToken, CSSObject> = (token) => {
       backgroundColor: 'transparent',
       '&:hover': {
         color: token.colorIcon,
+      },
+
+      '&:focus-visible': {
+        color: token.colorIcon,
+        borderRadius: token.borderRadiusSM,
+        ...genFocusOutline(token),
       },
 
       '&:active': {
@@ -433,7 +424,6 @@ export const genAffixStyle: GenerateStyle<InputToken, CSSObject> = (token) => {
     motionDurationSlow,
     colorIcon,
     colorIconHover,
-    iconCls,
   } = token;
 
   const affixCls = `${componentCls}-affix-wrapper`;
@@ -503,20 +493,21 @@ export const genAffixStyle: GenerateStyle<InputToken, CSSObject> = (token) => {
         '&-suffix': {
           marginInlineStart: inputAffixPadding,
         },
+
+        // password
+        '&-password-icon': {
+          display: 'inline-flex',
+          color: colorIcon,
+          cursor: 'pointer',
+          transition: `all ${motionDurationSlow}`,
+
+          '&:hover': {
+            color: colorIconHover,
+          },
+        },
       },
 
       ...genAllowClearStyle(token),
-
-      // password
-      [`${iconCls}${componentCls}-password-icon`]: {
-        color: colorIcon,
-        cursor: 'pointer',
-        transition: `all ${motionDurationSlow}`,
-
-        '&:hover': {
-          color: colorIconHover,
-        },
-      },
     },
 
     // 覆盖 affix-wrapper borderRadius！
@@ -526,7 +517,7 @@ export const genAffixStyle: GenerateStyle<InputToken, CSSObject> = (token) => {
 
     [affixClsDisabled]: {
       // password disabled
-      [`${iconCls}${componentCls}-password-icon`]: {
+      [`${componentCls}-password-icon`]: {
         color: colorIcon,
         cursor: 'not-allowed',
 

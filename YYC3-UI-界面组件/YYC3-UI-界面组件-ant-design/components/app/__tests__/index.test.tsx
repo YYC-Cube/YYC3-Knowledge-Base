@@ -1,3 +1,4 @@
+import type { FragmentInstance } from 'react';
 import React, { useEffect } from 'react';
 import { SmileOutlined } from '@ant-design/icons';
 
@@ -159,12 +160,20 @@ describe('App', () => {
     await waitFakeTimer();
 
     expect(consumedConfig?.notification).toStrictEqual(config);
-    expect(document.querySelector('.ant-notification-topRight')).not.toBeInTheDocument();
-    expect(document.querySelector('.ant-notification-bottomLeft')).toHaveStyle({
+    expect(
+      document.querySelector<HTMLElement>('.ant-notification-topRight'),
+    ).not.toBeInTheDocument();
+    const notification = document.querySelector<HTMLElement>('.ant-notification-bottomLeft')!;
+    expect(notification).toHaveStyle({
       top: 'auto',
       left: '0px',
-      bottom: '50px',
+      '--notification-bottom': '50px',
     });
+    // jsdom 31 resolves the offset against the 24px edge margin.
+    expect([
+      'calc(var(--notification-bottom, var(--notification-margin-edge, 0px)) - var(--notification-margin-edge, 0px))',
+      '26px',
+    ]).toContain(getComputedStyle(notification).bottom);
   });
 
   it('support className', () => {
@@ -236,16 +245,77 @@ describe('App', () => {
       expect(container.querySelector('section.ant-app')).toBeTruthy();
     });
 
-    it('should warn if component is false and cssVarCls is not empty', () => {
-      render(
+    it('should not warn if component is false', () => {
+      const { container } = render(
         <ConfigProvider>
-          <App component={false} />
+          <App component={false}>
+            <p />
+          </App>
+        </ConfigProvider>,
+      );
+      expect(container.querySelector<HTMLDivElement>('.ant-app')).toBeNull();
+      expect(errorSpy).not.toHaveBeenCalled();
+    });
+
+    it('should warn if component is false and root props are provided', () => {
+      render(
+        <App
+          component={false}
+          className="custom-class"
+          rootClassName="custom-root-class"
+          style={{ color: 'red' }}
+        >
+          <p />
+        </App>,
+      );
+
+      expect(errorSpy).toHaveBeenCalledWith(
+        'Warning: [antd: App] When using cssVar, ensure `component` is assigned a valid React component string.',
+      );
+    });
+
+    it('should warn if component is false and context root props are provided', () => {
+      render(
+        <ConfigProvider app={{ className: 'custom-class', style: { color: 'red' } }}>
+          <App component={false}>
+            <p />
+          </App>
         </ConfigProvider>,
       );
 
       expect(errorSpy).toHaveBeenCalledWith(
         'Warning: [antd: App] When using cssVar, ensure `component` is assigned a valid React component string.',
       );
+    });
+
+    it('should handle ref with component false based on React version', () => {
+      const fragmentRef = React.createRef<FragmentInstance>();
+      const { getByRole } = render(
+        <App ref={fragmentRef} component={false}>
+          <button type="button">First</button>
+          <button type="button">Last</button>
+        </App>,
+      );
+
+      const [major, minor] = React.version.split('.').map((number) => Number.parseInt(number, 10));
+      const supportFragmentRef = major > 19 || (major === 19 && minor >= 3);
+
+      if (supportFragmentRef) {
+        fragmentRef.current?.focusLast();
+        expect(getByRole('button', { name: 'Last' })).toHaveFocus();
+        expect(errorSpy).not.toHaveBeenCalled();
+      } else {
+        expect(fragmentRef.current).toBeNull();
+        expect(errorSpy).toHaveBeenCalledWith(
+          'Warning: [antd: App] `ref` is not supported when `component` is `false`. Please provide a valid `component` instead.',
+        );
+      }
+    });
+
+    it('App should support Ref', () => {
+      const domRef = React.createRef<HTMLSpanElement>();
+      const { container } = render(<App ref={domRef} className="bamboo" component="span" />);
+      expect(domRef.current).toBe(container.querySelector('.bamboo'));
     });
   });
 });

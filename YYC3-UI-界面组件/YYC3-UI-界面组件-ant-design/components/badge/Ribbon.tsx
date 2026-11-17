@@ -3,31 +3,28 @@ import { clsx } from 'clsx';
 
 import type { PresetColorType } from '../_util/colors';
 import { isPresetColor } from '../_util/colors';
-import { useMergeSemantic } from '../_util/hooks';
-import type { SemanticClassNamesType, SemanticStylesType } from '../_util/hooks';
+import { useMergeSemantic, useSemanticRootStyle } from '../_util/hooks/useMergeSemantic';
+import type { GenerateSemantic } from '../_util/hooks/useMergeSemantic/semanticType';
 import type { LiteralUnion } from '../_util/type';
 import { useComponentConfig } from '../config-provider/context';
 import useStyle from './style/ribbon';
 
 type RibbonPlacement = 'start' | 'end';
 
-export type RibbonSemanticName = keyof RibbonSemanticClassNames & keyof RibbonSemanticStyles;
-
-export type RibbonSemanticClassNames = {
-  root?: string;
-  content?: string;
-  indicator?: string;
+export type RibbonSemanticType = {
+  classNames?: {
+    root?: string;
+    content?: string;
+    indicator?: string;
+  };
+  styles?: {
+    root?: React.CSSProperties;
+    content?: React.CSSProperties;
+    indicator?: React.CSSProperties;
+  };
 };
 
-export type RibbonSemanticStyles = {
-  root?: React.CSSProperties;
-  content?: React.CSSProperties;
-  indicator?: React.CSSProperties;
-};
-
-export type RibbonClassNamesType = SemanticClassNamesType<RibbonProps, RibbonSemanticClassNames>;
-
-export type RibbonStylesType = SemanticStylesType<RibbonProps, RibbonSemanticStyles>;
+export type RibbonSemanticAllType = GenerateSemantic<RibbonSemanticType, RibbonProps>;
 
 export interface RibbonProps {
   className?: string;
@@ -38,11 +35,15 @@ export interface RibbonProps {
   children?: React.ReactNode;
   placement?: RibbonPlacement;
   rootClassName?: string;
-  classNames?: RibbonClassNamesType;
-  styles?: RibbonStylesType;
+  classNames?: RibbonSemanticAllType['classNamesAndFn'];
+  styles?: RibbonSemanticAllType['stylesAndFn'];
 }
 
-const Ribbon: React.FC<RibbonProps> = (props) => {
+export interface RibbonRef {
+  nativeElement: HTMLDivElement;
+}
+
+const Ribbon = React.forwardRef<RibbonRef, RibbonProps>((props, ref) => {
   const {
     className,
     prefixCls: customizePrefixCls,
@@ -74,13 +75,20 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
     placement,
   };
 
+  const contextIndicatorStyle = useSemanticRootStyle(contextStyle, 'indicator');
+  const indicatorStyle = useSemanticRootStyle(style, 'indicator');
+
   const [mergedClassNames, mergedStyles] = useMergeSemantic<
-    RibbonClassNamesType,
-    RibbonStylesType,
+    RibbonSemanticAllType['classNames'],
+    RibbonSemanticAllType['styles'],
     RibbonProps
-  >([contextClassNames, ribbonClassNames], [contextStyles, styles], {
-    props: mergedProps,
-  });
+  >(
+    [contextClassNames, ribbonClassNames],
+    [contextStyles, contextIndicatorStyle, styles, indicatorStyle],
+    {
+      props: mergedProps,
+    },
+  );
 
   const colorInPreset = isPresetColor(color, false);
   const ribbonCls = clsx(
@@ -101,16 +109,21 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
     colorStyle.background = color;
     cornerColorStyle.color = color;
   }
+
+  const nativeElementRef = React.useRef<HTMLDivElement>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    nativeElement: nativeElementRef.current!,
+  }));
+
   return (
     <div
+      ref={nativeElementRef}
       className={clsx(wrapperCls, rootClassName, hashId, cssVarCls, mergedClassNames.root)}
       style={mergedStyles.root}
     >
       {children}
-      <div
-        className={clsx(ribbonCls, hashId)}
-        style={{ ...colorStyle, ...mergedStyles.indicator, ...contextStyle, ...style }}
-      >
+      <div className={clsx(ribbonCls, hashId)} style={{ ...colorStyle, ...mergedStyles.indicator }}>
         <span
           className={clsx(`${prefixCls}-content`, mergedClassNames.content)}
           style={mergedStyles.content}
@@ -121,7 +134,7 @@ const Ribbon: React.FC<RibbonProps> = (props) => {
       </div>
     </div>
   );
-};
+});
 
 if (process.env.NODE_ENV !== 'production') {
   Ribbon.displayName = 'Ribbon';

@@ -1,4 +1,4 @@
-import Pagination from '@rc-component/pagination/lib/locale/mr_IN';
+import Pagination from '@rc-component/pagination/locale/mr_IN';
 
 import type { Locale } from '.';
 import Calendar from '../calendar/locale/mr_IN';
@@ -16,6 +16,9 @@ const localeValues: Locale = {
   global: {
     placeholder: 'कृपया निवडा',
     close: 'बंद करा',
+    show: 'दाखवा',
+    hide: 'लपवा',
+    sortable: 'वर्गीकरण करण्यायोग्य',
   },
   Table: {
     filterTitle: 'फिल्टर मेनू',
@@ -29,9 +32,14 @@ const localeValues: Locale = {
     selectInvert: 'सध्याच्या पृष्ठाचे उलट करा',
     selectNone: 'सर्व माहिती काढून टाका',
     selectionAll: 'सर्व माहिती निवडा',
+    selectRow: 'पंक्ती निवडा',
+    selectedRow: 'पंक्ती निवडली',
+    selectionMenu: 'निवड मेनू',
     sortTitle: 'वर्गीकरण',
     expand: 'पंक्ती वाढवा',
     collapse: 'पंक्ती संकुचित करा',
+    expandAll: 'सर्व पंक्ती वाढवा',
+    collapseAll: 'सर्व पंक्ती संकुचित करा',
     triggerDesc: 'उतरत्या क्रमाने वर्गीकरण करण्यासाठी क्लिक करा',
     triggerAsc: 'वाढत्या क्रमाने वर्गीकरण करण्यासाठी क्लिक करा',
     cancelSort: 'वर्गीकरण रद्द करण्यासाठी क्लिक करा',
@@ -49,6 +57,10 @@ const localeValues: Locale = {
   Popconfirm: {
     okText: 'ठीक आहे',
     cancelText: 'रद्द करा',
+  },
+  Splitter: {
+    toggleStartPanel: 'प्रारंभ पॅनेल टॉगल करा',
+    toggleEndPanel: 'शेवटचे पॅनेल टॉगल करा',
   },
   Transfer: {
     titles: ['', ''],
@@ -82,6 +94,10 @@ const localeValues: Locale = {
     copied: 'कॉपी केली',
     expand: 'वाढवा',
     collapse: 'संकुचित करा',
+  },
+  Carousel: {
+    prevSlide: 'मागील स्लाइड',
+    nextSlide: 'पुढील स्लाइड',
   },
   Form: {
     optional: '(ऐच्छिक)',
@@ -132,6 +148,17 @@ const localeValues: Locale = {
         mismatch: '${label} हे ${pattern} पॅटर्नशी जुळत नाही',
       },
     },
+  },
+  QRCode: {
+    expired: 'QR कोड कालबाह्य झाला',
+    refresh: 'रिफ्रेश करा',
+    scanned: 'स्कॅन केले',
+  },
+  ColorPicker: {
+    presetEmpty: 'रिकामे',
+    transparent: 'पारदर्शक',
+    singleColor: 'एकच रंग',
+    gradientColor: 'ग्रेडियंट रंग',
   },
 };
 
