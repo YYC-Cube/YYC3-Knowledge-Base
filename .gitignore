@@ -55,3 +55,6 @@ YYC3-AI-模型服务/YYC3-AI-模型服务-server-main/docs/_static/nvidia-logo-h
 
 # 视觉回归快照（体积大，按需生成）
 backstop_data/
+
+# 本地官方文库（29GB / 34 万文件，仅本地留档，不入库）
+YYC3-NVIDIA-官方文库/
