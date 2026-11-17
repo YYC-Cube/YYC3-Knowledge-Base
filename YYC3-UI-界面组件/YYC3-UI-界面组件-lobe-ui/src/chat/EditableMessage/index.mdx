@@ -1,0 +1,31 @@
+---
+title: EditableMessage
+description: The EditableMessage component is used to display a message that can be edited by the user. It consists of a Markdown component and an optional modal for editing the message. When the user clicks on the message, it enters editing mode and displays an input field for editing the message.
+category: Data Entry
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { chatEditableMessageClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## APIs
+
+<Api name="EditableMessage" from=".." migrationKey="unheaded:0" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `EditableMessage`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/chat/EditableMessage.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={chatEditableMessageClasses} />

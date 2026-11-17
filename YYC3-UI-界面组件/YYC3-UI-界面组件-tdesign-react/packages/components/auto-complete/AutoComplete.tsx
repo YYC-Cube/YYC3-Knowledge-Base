@@ -1,0 +1,204 @@
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import classNames from 'classnames';
+
+import useCommonClassName from '../hooks/useCommonClassName';
+import useControlled from '../hooks/useControlled';
+import useDefaultProps from '../hooks/useDefaultProps';
+import Input from '../input';
+import { useLocaleReceiver } from '../locale/LocalReceiver';
+import Popup from '../popup';
+import { autoCompleteDefaultProps } from './defaultProps';
+import AutoCompleteOptionList from './OptionList';
+
+import type { ClassName, StyledProps } from '../common';
+import type { InputProps, InputRef, TdInputProps } from '../input';
+import type { PopupProps, PopupRef } from '../popup';
+import type { OptionsListProps } from './OptionList';
+import type { AutoCompleteOption, TdAutoCompleteProps } from './type';
+
+export interface AutoCompleteProps<T extends AutoCompleteOption = AutoCompleteOption>
+  extends TdAutoCompleteProps<T>, StyledProps {}
+
+export interface AutoCompleteRef {
+  inputRef: InputRef;
+  popupRef: PopupRef;
+}
+
+const AutoComplete = forwardRef<AutoCompleteRef, AutoCompleteProps>((originalProps, ref) => {
+  const props = useDefaultProps(originalProps, autoCompleteDefaultProps);
+  const readOnly = props.readOnly || props.readonly;
+
+  const inputRef = useRef(null);
+  const popupRef = useRef(null);
+  const [tValue, setTValue] = useControlled(props, 'value', props.onChange);
+  const { classPrefix, sizeClassNames } = useCommonClassName();
+  const [global] = useLocaleReceiver('input');
+
+  const [popupVisible, setPopupVisible] = useState(false);
+  const optionListRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    inputRef: inputRef.current,
+    popupRef: popupRef.current,
+  }));
+
+  const getOverlayStyle = (trigger: HTMLElement, popupElement: HTMLElement) => {
+    const triggerWidth = trigger.getBoundingClientRect().width || trigger.offsetWidth || trigger.clientWidth;
+    const popupWidth =
+      popupElement.getBoundingClientRect().width || popupElement.offsetWidth || popupElement.clientWidth;
+    return {
+      width: triggerWidth >= popupWidth ? `${triggerWidth}px` : 'auto',
+      ...props.popupProps?.overlayInnerStyle,
+    };
+  };
+
+  const classes = [`${classPrefix}-auto-complete`].concat(props.className);
+  const popupClasses = (() => {
+    let classes: ClassName = [`${classPrefix}-select__dropdown`];
+    if (props.popupProps?.overlayClassName) {
+      classes = classes.concat(props.popupProps.overlayClassName);
+    }
+    return classNames(classes);
+  })();
+  const popupInnerClasses = (() => {
+    let classes: ClassName = [`${classPrefix}-select__dropdown-inner`];
+    if (props.popupProps?.overlayInnerClassName) {
+      classes = classes.concat(props.popupProps.overlayInnerClassName);
+    }
+    return classNames(classes);
+  })();
+
+  const onInputChange: TdInputProps['onChange'] = (value, context) => {
+    if (!popupVisible) {
+      setPopupVisible(true);
+    }
+    setTValue(value, context);
+  };
+
+  const innerInputProps = (() => {
+    const tProps: InputProps = {
+      value: tValue,
+      size: props.size,
+      ...props.inputProps,
+    };
+    return tProps;
+  })();
+
+  const onInnerFocus: InputProps['onFocus'] = (value, context) => {
+    setPopupVisible(true);
+    props.onFocus?.({ ...context, value });
+    const timer = setTimeout(() => {
+      optionListRef.current?.addKeyboardListener();
+      clearTimeout(timer);
+    }, 0);
+  };
+
+  const onInnerBlur: InputProps['onBlur'] = (value, context) => {
+    props.onBlur?.({ ...context, value });
+  };
+
+  const onInnerEnter: InputProps['onEnter'] = (value, context) => {
+    props.onEnter?.({ ...context, value });
+  };
+
+  const onInnerCompositionend: InputProps['onCompositionend'] = (value, context) => {
+    props.onCompositionend?.({ ...context, value });
+  };
+
+  const onInnerCompositionstart: InputProps['onCompositionstart'] = (value, context) => {
+    props.onCompositionstart?.({ ...context, value });
+  };
+
+  const onInnerSelect: OptionsListProps['onSelect'] = (value, context) => {
+    if (readOnly || props.disabled) return;
+    setPopupVisible(false);
+    setTValue(value, context);
+    props.onSelect?.(value, context);
+  };
+
+  const onPopupVisibleChange: PopupProps['onVisibleChange'] = (visible, { trigger }) => {
+    if (trigger !== 'trigger-element-click') {
+      setPopupVisible(visible);
+    }
+  };
+
+  // 触发元素
+  const triggerNode = props.triggerElement || props.children || (
+    <Input
+      ref={inputRef}
+      placeholder={props.placeholder ?? global.placeholder}
+      tips={props.tips}
+      status={props.status}
+      readOnly={readOnly}
+      disabled={props.disabled}
+      clearable={props.clearable}
+      autofocus={props.autofocus}
+      borderless={props.borderless}
+      onClear={props.onClear}
+      onChange={onInputChange}
+      onFocus={onInnerFocus}
+      onBlur={onInnerBlur}
+      onEnter={onInnerEnter}
+      onCompositionend={onInnerCompositionend}
+      onCompositionstart={onInnerCompositionstart}
+      {...innerInputProps}
+    />
+  );
+  // 联想词列表
+  const listContent = Array.isArray(props.options) && (
+    <AutoCompleteOptionList
+      ref={optionListRef}
+      value={tValue}
+      options={props.options}
+      size={props.size}
+      sizeClassNames={sizeClassNames}
+      onSelect={onInnerSelect}
+      popupVisible={popupVisible}
+      highlightKeyword={props.highlightKeyword}
+      filterable={props.filterable}
+      filter={props.filter}
+      empty={props.empty}
+    />
+  );
+  const topContent = props.panelTopContent;
+  const bottomContent = props.panelBottomContent;
+  const panelContent =
+    topContent || listContent || bottomContent ? (
+      <div className={`${classPrefix}-auto-complete__panel`}>
+        {topContent}
+        {listContent}
+        {bottomContent}
+      </div>
+    ) : null;
+
+  const popupProps = {
+    ...props.popupProps,
+    overlayInnerStyle: getOverlayStyle,
+    overlayInnerClassName: popupInnerClasses,
+    overlayClassName: popupClasses,
+  };
+  return (
+    <div className={classNames(classes)} style={props.style}>
+      <Popup
+        ref={popupRef}
+        visible={popupVisible}
+        onVisibleChange={onPopupVisibleChange}
+        trigger="focus"
+        placement="bottom-left"
+        hideEmptyPopup={true}
+        content={panelContent}
+        {...popupProps}
+      >
+        {triggerNode}
+      </Popup>
+    </div>
+  );
+});
+
+AutoComplete.displayName = 'AutoComplete';
+
+export default AutoComplete as <T extends AutoCompleteOption = AutoCompleteOption>(
+  props: AutoCompleteProps<T> & {
+    ref?: React.Ref<AutoCompleteRef>;
+  },
+) => React.ReactElement;

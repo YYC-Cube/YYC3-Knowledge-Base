@@ -1,0 +1,238 @@
+# Image
+
+### Intro
+
+Components provide more convenient size, fill mode, rounded corner Settings,
+ripple effect enhanced picture click interactive experience.
+Supports `Lazy load`, `loading images`, `error images`, and default Settings for applying Lazy instructions.
+
+### Basic Usage
+
+```html
+<template>
+  <var-image src="https://varletjs.org/cat.jpg" />
+</template>
+```
+
+### Fit Mode
+
+```html
+<template>
+  <var-space :size="[20, 20]">
+    <var-image
+      width="85px"
+      height="85px"
+      src="https://varletjs.org/cat.jpg"
+    />
+
+    <var-image 
+      width="85px" 
+      height="85px"
+      fit="cover" 
+      src="https://varletjs.org/cat.jpg" 
+    />
+
+    <var-image 
+      width="85px"
+      height="85px"
+      fit="none"
+      src="https://varletjs.org/cat.jpg"
+    />
+
+    <var-image 
+      width="85px"
+      height="85px" 
+      fit="contain"
+      src="https://varletjs.org/cat.jpg" 
+    />
+    
+    <var-image 
+      width="85px"
+      height="85px" 
+      fit="scale-down"
+      src="https://varletjs.org/cat.jpg" 
+    />
+  </var-space>
+</template>
+```
+
+### Set Radius
+
+```html
+<template>
+  <var-space :size="[20, 20]">
+    <var-image
+      width="85px"
+      height="85px"
+      fit="cover"
+      :radius="10"
+      src="https://varletjs.org/cat.jpg"
+    />
+
+    <var-image
+      width="85px"
+      height="85px"
+      fit="cover"
+      radius="50%"
+      src="https://varletjs.org/cat.jpg"
+    />
+  </var-space>
+</template>
+```
+
+### Use Ripple
+
+```html
+<template>
+  <var-image
+    width="85px"
+    height="85px"
+    ripple
+    src="https://varletjs.org/cat.jpg"
+  />
+</template>
+```
+
+### Use LazyLoad
+
+```html
+<template>
+  <var-image
+    width="85px"
+    height="85px"
+    lazy
+    src="https://varletjs.org/cat.jpg"
+  />
+</template>
+```
+
+### Set Lazy Loading State
+
+```html
+<!-- playground-ignore -->
+<template>
+  <var-image 
+    lazy
+    width="85px" 
+    height="85px"
+    loading="https://xxx.xxx/loading.png"
+    error="https://xxx.xxx/error.png"
+    src="https://varletjs.org/cat.jpg"
+  />
+</template>
+```
+
+### Load Failure Slot
+
+```html
+<template>
+  <var-image 
+    width="22.666vw" 
+    height="22.666vw" 
+    src="https://varletjs.org/ca.jpg"
+  >
+    <template #error>
+      <svg viewBox="0 0 24 24" style="width: 100%; height: 100%;">
+        <path
+          fill="currentColor"
+          d="M21,5V11.59L18,8.58L14,12.59L10,8.59L6,12.59L3,9.58V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5M18,11.42L21,14.43V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V12.42L6,15.41L10,11.41L14,15.41"
+        >
+        </path>
+      </svg>
+    </template>
+  </var-image>
+</template>
+```
+
+### Use local paths
+
+In the file `.vue`,
+the `Vue component` will not be automatically processed by the build tool like the native img module,
+so you need to import the image resources manually.
+Here's how the different build tools are used.
+
+#### Vite
+
+Automatic preprocessing with [@vitejs/plugin-vue](https://github.com/vitejs/vite/tree/main/packages/plugin-vue#asset-url-handling).
+
+```ts
+// playground-ignore
+// vite.config.js
+import vue from '@vitejs/plugin-vue'
+
+export default defineConfig({
+  plugins: [
+    vue({
+      template: {
+        transformAssetUrls: {
+          'var-image': ['src']
+        }
+      }
+    })
+  ],
+})
+```
+
+```html
+<!-- playground-ignore -->
+<template>
+  <var-image src="../../assets/logo.png"/>
+</template>
+```
+
+Or import separately
+
+```html
+<!-- playground-ignore -->
+<script setup>
+import logo from '../../assets/logo.png'
+</script>
+
+<template>
+  <var-image :src="logo"/>
+</template>
+```
+
+#### Webpack
+
+```html
+<!-- playground-ignore -->
+<template>
+  <var-image :src="require('../../assets/logo.png')"/>
+</template>
+```
+
+## API
+
+### Props
+
+| Prop | Description                                                                    | Type | Default |
+| --- |--------------------------------------------------------------------------------| --- | --- |
+| `src` | Image src                                                                      | _string_ | `-` |
+| `fit` | Image fit mode, optional value is `fill` `contain` `cover` `none` `scale-down` | _string_ | `fill` |
+| `position` ***3.2.3*** | The position of the replaceable element's content in its content box, equal to [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) | _string_ | `50% 50%` |
+| `alt` | Image alt text, the same as the native attribute of the `img` tag              | _string_ | `-` |
+| `title`   | Image title text, the same as with the native attributes of the `img` tag             | _string_ | `-` |
+| `referrerpolicy`  | Indicate which referrer to use when fetching the resource. This attribute requires attention to browser compatibility, see [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img)             | _string_ | `-` |
+| `width` | Image width            | _string \| number_ | `-` |
+| `height` | Image height          | _string \| number_ | `-` |
+| `radius` | Image radius                                                                   | _string \| number_ | `0` |
+| `lazy` | Whether to enable lazy loading                                                 | _boolean_ | `false` |
+| `loading` | When lazy loading is enabled, the image displayed in loading                   | _string_ | `-` |
+| `error` | When lazy loading is enabled, the image displayed in error                        | _string_ | `-` |
+| `ripple` | Whether to enable ripple                                                       | _boolean_ | `false` |
+| `block` | Whether it is a block element                                                  | _boolean_ | `true` |
+
+### Events
+
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `click` | Triggered when you click on Image | `event: Event` |
+| `load` | Triggered when the image is successfully loaded (when the image fails in lazy loading mode, it will only be triggered when the image is successfully loaded) | `event: Event` |
+| `error` | Triggered when an image fails to load (when an image fails in lazy loading mode, it will only be triggered when the number of attempts ends) | `event: Event` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --- | --- | --- |
+| `error` | Load failure slot | `-` |

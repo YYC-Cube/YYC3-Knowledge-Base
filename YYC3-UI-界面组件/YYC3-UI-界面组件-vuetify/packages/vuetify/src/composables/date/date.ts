@@ -1,0 +1,129 @@
+// Composables
+import { useLocale } from '@/composables/locale'
+
+// Utilities
+import { inject, reactive, watch } from 'vue'
+import { isFunction, mergeDeep } from '@/util'
+
+// Types
+import type { InjectionKey } from 'vue'
+import type { DateAdapter } from './DateAdapter'
+import type { LocaleInstance } from '@/composables/locale'
+
+// Adapters
+import { VuetifyDateAdapter } from './adapters/vuetify'
+import { withWeekFallback } from './adapters/week'
+
+export interface DateInstance extends DateModule.InternalAdapter {
+  locale?: any
+}
+
+/** Supports module augmentation to specify date adapter types */
+export namespace DateModule {
+  interface Adapter {}
+
+  export type InternalAdapter = {} extends Adapter ? DateAdapter : Adapter
+}
+
+export type InternalDateOptions = {
+  adapter: (new (options: { locale: any, formats?: any }) => DateInstance) | DateInstance
+  formats?: Record<string, any>
+  locale: Record<string, any>
+}
+
+export type DateOptions = Partial<InternalDateOptions>
+
+export const DateOptionsSymbol: InjectionKey<InternalDateOptions> = Symbol.for('vuetify:date-options')
+export const DateAdapterSymbol: InjectionKey<DateInstance> = Symbol.for('vuetify:date-adapter')
+
+const defaultLocales: Record<string, string> = {
+  af: 'af-ZA',
+  ar: 'ar-DZ', // bare 'ar' would resolve to Argentina in weekInfo
+  bg: 'bg-BG',
+  ca: 'ca-ES',
+  ckb: 'ckb-IQ',
+  cs: 'cs-CZ',
+  da: 'da-DK',
+  de: 'de-DE',
+  el: 'el-GR',
+  en: 'en-US',
+  // es: '', # not the same value for all variants
+  et: 'et-EE',
+  fa: 'fa-IR',
+  fi: 'fi-FI',
+  // fr: '', #not the same value for all variants
+  hr: 'hr-HR',
+  hu: 'hu-HU',
+  he: 'he-IL',
+  id: 'id-ID',
+  it: 'it-IT',
+  ja: 'ja-JP',
+  km: 'km-KH',
+  ko: 'ko-KR',
+  lv: 'lv-LV',
+  lt: 'lt-LT',
+  nl: 'nl-NL',
+  no: 'no-NO',
+  pl: 'pl-PL',
+  pt: 'pt-PT',
+  ro: 'ro-RO',
+  ru: 'ru-RU',
+  sk: 'sk-SK',
+  sl: 'sl-SI',
+  srCyrl: 'sr-Cyrl-RS',
+  srLatn: 'sr-Latn-RS',
+  sv: 'sv-SE',
+  th: 'th-TH',
+  tr: 'tr-TR',
+  az: 'az-AZ',
+  uk: 'uk-UA',
+  vi: 'vi-VN',
+  zhHans: 'zh-CN',
+  zhHant: 'zh-TW',
+}
+
+export function createDate (options: DateOptions | undefined, locale: LocaleInstance) {
+  const _options = mergeDeep({
+    adapter: VuetifyDateAdapter,
+    locale: defaultLocales,
+  }, options) as InternalDateOptions
+
+  return {
+    options: _options,
+    instance: createInstance(_options, locale),
+  }
+}
+
+export function daysDiff (adapter: DateInstance, start: unknown, stop?: unknown): number {
+  // UTC midnight of each local calendar date, so time of day, time zone and DST drop out
+  const [to, from] = [stop ?? start, start].map(value => Date.UTC(adapter.getYear(value), adapter.getMonth(value), adapter.getDate(value)))
+  return (to - from) / 86400000
+}
+
+function createInstance (options: InternalDateOptions, locale: LocaleInstance) {
+  const instance = reactive(
+    isFunction(options.adapter)
+      // eslint-disable-next-line new-cap
+      ? new options.adapter({
+        locale: options.locale[locale.current.value] ?? locale.current.value,
+        formats: options.formats,
+      })
+      : options.adapter
+  )
+
+  watch(locale.current, value => {
+    instance.locale = options.locale[value] ?? value ?? instance.locale
+  })
+
+  return withWeekFallback(instance, defaultLocales)
+}
+
+export function useDate (): DateInstance {
+  const options = inject(DateOptionsSymbol)
+
+  if (!options) throw new Error('[Vuetify] Could not find injected date options')
+
+  const locale = useLocale()
+
+  return createInstance(options, locale)
+}

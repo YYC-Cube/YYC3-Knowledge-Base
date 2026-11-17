@@ -1,0 +1,13 @@
+<div class="{{pfv}}form__field-group-toggle-button{{#if form-field-group-toggle-button--modifier}} {{form-field-group-toggle-button--modifier}}{{/if}}"
+  {{#if form-field-group-toggle-button--attribute}}
+    {{{form-field-group-toggle-button--attribute}}}
+  {{/if}}>
+  {{> button
+    button--IsPlain=true
+    button--IsIcon=true
+    button--icon-template="form-field-group-toggle-icon"
+    button--AriaExpanded=(ternary form-field-group--IsExpanded form-field-group--IsExpanded false)
+    button--aria-label="Details"
+    button--aria-labelledby=(concat form-field-group--id '-title ' form-field-group--id '-toggle')
+    button--id=(concat form-field-group--id '-toggle')}}
+</div>

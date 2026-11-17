@@ -1,0 +1,82 @@
+---
+id: switch
+title: Switch
+description: A control element that allows for a binary selection.
+---
+
+<ComponentPreview id="Switch" />
+
+## Anatomy
+
+<Anatomy id="switch" />
+
+```tsx
+<Switch.Root>
+  <Switch.Control>
+    <Switch.Thumb />
+  </Switch.Control>
+  <Switch.Label />
+  <Switch.HiddenInput />
+</Switch.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled
+
+For a controlled Switch component, the state of the toggle is managed using the checked prop, and updates when the
+`onCheckedChange` event handler is called:
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the switch is to use the `RootProvider` component and the `useSwitch` hook. This way you
+can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Field
+
+The `Field` component helps manage form-related state and accessibility attributes of a switch. It includes handling
+ARIA labels, helper text, and error text to ensure proper accessibility.
+
+<Example id="with-field" />
+
+### Context
+
+Access the switch's state with `Switch.Context` or the `useSwitchContext` hook. This lets you customize the component
+based on its current state:
+
+<Example id="context" />
+
+## Guides
+
+### asChild
+
+The `Switch.Root` element of the switch is a `label` element. This is because the switch is a form control and should be
+associated with a label to provide context and meaning to the user. Otherwise, the HTML and accessibility structure will
+be invalid.
+
+> If you need to use the `asChild` property, make sure that the `label` element is the direct child of the `Switch.Root`
+> component.
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="switch" />
+
+### Context
+
+<ContextType id="switch" />
+
+## Accessibility
+
+Complies with the [Switch WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/).
+
+### Keyboard Support
+
+<KeyBindingsTable id="switch" />

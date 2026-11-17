@@ -1,0 +1,463 @@
+{
+  "AreaBackground": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Area": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "xChannel": { "type": "ColorChannel", "isRequired": false },
+      "yChannel": { "type": "ColorChannel", "isRequired": false }
+    }
+  },
+  "AreaThumb": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "ChannelInput": {
+    "props": {
+      "channel": { "type": "ExtendedColorChannel", "isRequired": true },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "orientation": { "type": "Orientation", "isRequired": false }
+    }
+  },
+  "ChannelSliderLabel": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "ChannelSlider": {
+    "props": {
+      "channel": { "type": "ColorChannel", "isRequired": true },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "orientation": { "type": "Orientation", "isRequired": false }
+    }
+  },
+  "ChannelSliderThumb": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "ChannelSliderTrack": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "ChannelSliderValueText": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Content": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "immediate": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to synchronize the present change immediately or defer it to the next frame"
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "present": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether the node is present (controlled by the user)"
+      },
+      "skipAnimationOnMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to allow the initial presence animation."
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "Control": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "EyeDropperTrigger": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "FormatSelect": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "FormatTrigger": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "HiddenInput": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Label": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Positioner": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Root": {
+    "emits": {
+      "enterComplete": {
+        "type": "[]",
+        "isRequired": true,
+        "description": "Function called when the animation ends in the open state"
+      },
+      "exitComplete": {
+        "type": "[]",
+        "isRequired": true,
+        "description": "Function called when the animation ends in the closed state"
+      },
+      "focusOutside": {
+        "type": "[event: FocusOutsideEvent]",
+        "isRequired": true,
+        "description": "Function called when the focus is moved outside the component"
+      },
+      "formatChange": {
+        "type": "[details: FormatChangeDetails]",
+        "isRequired": true,
+        "description": "Function called when the color format changes"
+      },
+      "interactOutside": {
+        "type": "[event: InteractOutsideEvent]",
+        "isRequired": true,
+        "description": "Function called when an interaction happens outside the component"
+      },
+      "openChange": {
+        "type": "[details: OpenChangeDetails]",
+        "isRequired": true,
+        "description": "Handler that is called when the user opens or closes the color picker."
+      },
+      "pointerDownOutside": {
+        "type": "[event: PointerDownOutsideEvent]",
+        "isRequired": true,
+        "description": "Function called when the pointer is pressed down outside the component"
+      },
+      "update:format": {
+        "type": "[format: ColorFormat]",
+        "isRequired": true,
+        "description": "The callback fired when the format changes."
+      },
+      "update:modelValue": {
+        "type": "[value: Color]",
+        "isRequired": true,
+        "description": "The callback fired when the model value changes."
+      },
+      "update:open": {
+        "type": "[open: boolean]",
+        "isRequired": true,
+        "description": "The callback fired when the open state changes."
+      },
+      "valueChange": {
+        "type": "[details: ValueChangeDetails]",
+        "isRequired": true,
+        "description": "Handler that is called when the value changes, as the user drags."
+      },
+      "valueChangeEnd": {
+        "type": "[details: ValueChangeDetails]",
+        "isRequired": true,
+        "description": "Handler that is called when the user stops dragging."
+      }
+    },
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "closeOnSelect": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to close the color picker when a swatch is selected"
+      },
+      "defaultFormat": {
+        "type": "ColorFormat",
+        "defaultValue": "\"rgba\"",
+        "isRequired": false,
+        "description": "The initial color format when rendered.\nUse when you don't need to control the color format of the color picker."
+      },
+      "defaultOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The initial open state of the color picker when rendered.\nUse when you don't need to control the open state of the color picker."
+      },
+      "defaultValue": {
+        "type": "Color",
+        "defaultValue": "#000000",
+        "isRequired": false,
+        "description": "The initial color value when rendered.\nUse when you don't need to control the color value of the color picker."
+      },
+      "disabled": { "type": "boolean", "isRequired": false, "description": "Whether the color picker is disabled" },
+      "format": { "type": "ColorFormat", "isRequired": false, "description": "The controlled color format to use" },
+      "id": { "type": "string", "isRequired": false, "description": "The unique identifier of the machine." },
+      "ids": {
+        "type": "Partial<{ root: string; control: string; trigger: string; label: string; input: string; hiddenInput: string; content: string; area: string; areaGradient: string; positioner: string; formatSelect: string; areaThumb: string; channelInput(id: string): string; channelSliderTrack(id: ColorChannel): string; channelSliderT...",
+        "isRequired": false,
+        "description": "The ids of the elements in the color picker. Useful for composition."
+      },
+      "initialFocusEl": {
+        "type": "() => false | HTMLElement | null",
+        "isRequired": false,
+        "description": "The initial focus element when the color picker is opened.\nReturn `false` to skip moving focus, or `null` to use the default."
+      },
+      "inline": { "type": "boolean", "isRequired": false, "description": "Whether the color picker is inline" },
+      "invalid": { "type": "boolean", "isRequired": false, "description": "Whether the color picker is invalid" },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "modelValue": { "type": "Color", "isRequired": false, "description": "The v-model value of the color picker" },
+      "name": { "type": "string", "isRequired": false, "description": "The name for the form input" },
+      "open": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The controlled open state of the color picker"
+      },
+      "openAutoFocus": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "isRequired": false,
+        "description": "Whether to auto focus the color picker when it is opened"
+      },
+      "positioning": {
+        "type": "PositioningOptions",
+        "isRequired": false,
+        "description": "The positioning options for the color picker"
+      },
+      "readOnly": { "type": "boolean", "isRequired": false, "description": "Whether the color picker is read-only" },
+      "required": { "type": "boolean", "isRequired": false, "description": "Whether the color picker is required" },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "RootProvider": {
+    "emits": {
+      "enterComplete": {
+        "type": "[]",
+        "isRequired": true,
+        "description": "Function called when the animation ends in the open state"
+      },
+      "exitComplete": {
+        "type": "[]",
+        "isRequired": true,
+        "description": "Function called when the animation ends in the closed state"
+      }
+    },
+    "props": {
+      "value": { "type": "ColorPickerApi<PropTypes>", "isRequired": true },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "SwatchGroup": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "SwatchIndicator": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Swatch": {
+    "props": {
+      "value": { "type": "string | Color", "isRequired": true, "description": "The color value" },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "respectAlpha": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to include the alpha channel in the color"
+      }
+    }
+  },
+  "SwatchTrigger": {
+    "props": {
+      "value": { "type": "string | Color", "isRequired": true, "description": "The color value" },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "disabled": { "type": "boolean", "isRequired": false, "description": "Whether the swatch trigger is disabled" }
+    }
+  },
+  "TransparencyGrid": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "size": { "type": "string", "isRequired": false }
+    }
+  },
+  "Trigger": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "ValueSwatch": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "respectAlpha": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to include the alpha channel in the color"
+      }
+    }
+  },
+  "ValueText": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "format": { "type": "ColorStringFormat", "isRequired": false }
+    }
+  },
+  "View": {
+    "props": {
+      "format": { "type": "ColorFormat", "isRequired": true },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  }
+}

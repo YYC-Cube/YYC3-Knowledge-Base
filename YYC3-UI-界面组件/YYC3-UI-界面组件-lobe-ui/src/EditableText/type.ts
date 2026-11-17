@@ -1,0 +1,60 @@
+import type { CSSProperties } from 'react';
+
+import type { ControlInputProps } from '@/EditableText/ControlInput';
+import type { FlexboxProps } from '@/Flex';
+
+export interface EditableTextProps
+  extends
+    Omit<FlexboxProps, 'onChange' | 'onBlur' | 'onFocus'>,
+    Pick<
+      ControlInputProps,
+      | 'onChange'
+      | 'value'
+      | 'onChangeEnd'
+      | 'onValueChanging'
+      | 'texts'
+      | 'variant'
+      | 'onBlur'
+      | 'onFocus'
+    > {
+  className?: string;
+  classNames?: {
+    container?: string;
+    input?: string;
+  };
+  editing?: boolean;
+  /**
+   * @default 8
+   */
+  gap?: number;
+  inputProps?: Omit<
+    ControlInputProps,
+    | 'onChange'
+    | 'value'
+    | 'onChangeEnd'
+    | 'onValueChanging'
+    | 'texts'
+    | 'className'
+    | 'style'
+    | 'onBlur'
+    | 'onFocus'
+    | 'size'
+  >;
+
+  onEditingChange?: (editing: boolean) => void;
+
+  showEditIcon?: boolean;
+  /**
+   * @default 'small'
+   */
+  size?: ControlInputProps['size'];
+  style?: CSSProperties;
+  styles?: {
+    container?: CSSProperties;
+    input?: CSSProperties;
+  };
+  /**
+   * @default 'borderless'
+   */
+  variant?: ControlInputProps['variant'];
+}

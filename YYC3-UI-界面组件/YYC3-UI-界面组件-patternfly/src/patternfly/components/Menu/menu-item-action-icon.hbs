@@ -1,0 +1,10 @@
+<span class="{{pfv}}menu__item-action-icon{{#if menu-item-action-icon--modifier}} {{menu-item-action-icon--modifier}}{{/if}}"
+  {{#if menu-item-action-icon--attribute}}
+    {{{menu-item-action-icon--attribute}}}
+  {{/if}}>
+  {{#if menu-item-action--IsFavorite}}
+    {{pfIcon "rh-ui-star-fill"}}
+  {{else}}
+    {{> @partial-block}}
+  {{/if}}
+</span>

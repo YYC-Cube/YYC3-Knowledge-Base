@@ -1,0 +1,188 @@
+---
+id: tags-input
+title: Tags Input
+description: A component that allows users to add tags to an input field.
+---
+
+<ComponentPreview id="TagsInput" />
+
+## Anatomy
+
+<Anatomy id="tags-input" />
+
+```tsx
+<TagsInput.Root>
+  <TagsInput.Label />
+  <TagsInput.Control>
+    <TagsInput.Item>
+      <TagsInput.ItemPreview>
+        <TagsInput.ItemText />
+        <TagsInput.ItemDeleteTrigger />
+      </TagsInput.ItemPreview>
+      <TagsInput.ItemInput />
+    </TagsInput.Item>
+    <TagsInput.Input />
+    <TagsInput.ClearTrigger />
+  </TagsInput.Control>
+  <TagsInput.HiddenInput />
+</TagsInput.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled
+
+Use the `value` and `onValueChange` props to programmatically control the tags input's state. This allows you to manage
+the tags array externally and respond to changes.
+
+<Example id="controlled" />
+
+### Controlled Input Value
+
+Use the `inputValue` and `onInputValueChange` props to control the text input field independently. This is useful for
+clearing the input or pre-filling it programmatically.
+
+<Example id="controlled-input-value" />
+
+### Root Provider
+
+An alternative way to control the tags input is to use the `RootProvider` component and the `useTagsInput` hook. This
+way you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Field
+
+The `Field` component helps manage form-related state and accessibility attributes of a tags input. It includes handling
+ARIA labels, helper text, and error text to ensure proper accessibility.
+
+<Example id="with-field" />
+
+### Max Tags
+
+To limit the number of tags within the component, you can set the `max` property to the limit you want. The default
+value is `Infinity`.
+
+When the tag reaches the limit, new tags cannot be added except the `allowOverflow` prop is set to `true`.
+
+<Example id="max-with-overflow" />
+
+### Custom Delimiter
+
+Use the `delimiter` prop with a regex pattern to specify multiple characters that can separate tags. By default, only
+the Enter key creates tags.
+
+<Example id="delimiter" />
+
+### Disabled
+
+Use the `disabled` prop to make the tags input non-interactive. Users won't be able to add, remove, or edit tags.
+
+<Example id="disabled" />
+
+### Invalid
+
+Use the `invalid` prop to mark the tags input as invalid for form validation purposes.
+
+<Example id="invalid" />
+
+### Max Length
+
+Use the `maxLength` prop to limit the number of characters allowed per tag. This prevents users from creating overly
+long tags.
+
+<Example id="max-tag-length" />
+
+### Read-only
+
+Use the `readOnly` prop to make tags visible but not editable. Users can view tags but cannot add, remove, or modify
+them.
+
+<Example id="readonly" />
+
+### Validation
+
+Before a tag is added, the `validate` function is called to determine whether to accept or reject a tag.
+
+A common use-case for validating tags is preventing duplicates or validating the data type.
+
+<Example id="validation" />
+
+### Blur behavior
+
+When the tags input is blurred, you can configure the action the component should take by passing the `blurBehavior`
+prop.
+
+- `add` — Adds the tag to the list of tags.
+- `clear` — Clears the tags input value.
+
+<Example id="blur-behavior" />
+
+### Paste behavior
+
+To add a tag when a arbitrary value is pasted in the input element, pass the `addOnPaste` prop.
+
+When a value is pasted, the component will:
+
+- check if the value is a valid tag based on the `validate` option
+- split the value by the `delimiter` option passed
+
+<Example id="paste-behavior" />
+
+### Disable Editing
+
+by default the tags can be edited by double-clicking on the tag or focusing on them and pressing
+
+<kbd>Enter</kbd>. To disable this behavior, pass `editable={false}`
+
+<Example id="disabled-editing" />
+
+### Programmatic Control
+
+Use the `useTagsInput` hook with `RootProvider` to access the component's API methods like `addValue()`, `setValue()`,
+and `clearValue()` for full programmatic control.
+
+<Example id="programmatic-control" />
+
+### Sanitize Value
+
+Use the `sanitizeValue` prop to normalize tag values before they're added. This runs on every new tag — useful for
+trimming whitespace, converting to lowercase, or any other formatting you need.
+
+<Example id="sanitize-value" />
+
+### Combobox
+
+Combine TagsInput with Combobox to create an autocomplete tags input. This pattern uses shared IDs between both
+components and the `asChild` prop to compose the inputs together.
+
+<Example id="with-combobox" />
+
+## Guides
+
+### Navigation
+
+When the input has an empty value or the caret is at the start position, the tags can be selected by using the arrow
+left and arrow right keys. When "visual" focus in on any tag:
+
+- Pressing <kbd>Enter</kbd> or double-clicking on the tag will put it in edit mode, allowing the user change its value
+  and press <kbd>Enter</kbd> to commit the changes.
+- Pressing <kbd>Delete</kbd> or <kbd>Backspace</kbd> will delete the tag that has _visual_ focus.
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="tags-input" />
+
+### Context
+
+<ContextType id="tags-input" />
+
+## Accessibility
+
+### Keyboard Support
+
+<KeyBindingsTable id="tags-input" />

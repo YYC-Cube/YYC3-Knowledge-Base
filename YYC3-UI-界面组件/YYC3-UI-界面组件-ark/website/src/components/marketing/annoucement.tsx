@@ -1,0 +1,42 @@
+'use client'
+import { ArrowRightIcon, SparklesIcon } from 'lucide-react'
+import NextLink from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Badge } from '~/components/ui/badge'
+import { Icon } from '../ui/icon'
+
+const excludePaths = ['/plus', '/showcase']
+
+export const Announcement = () => {
+  const pathname = usePathname()
+
+  if (excludePaths.includes(pathname)) {
+    return null
+  }
+
+  return (
+    <NextLink href="/docs/components/navigation-menu">
+      <Badge size="lg" variant="outline">
+        <Icon color="colorPalette.default">
+          <SparklesIcon />
+        </Icon>
+        [New] Navigation Menu component
+        <ArrowRightIcon />
+      </Badge>
+    </NextLink>
+  )
+}
+
+export const Announcement_ = () => {
+  return (
+    <NextLink href="/docs/components/date-input">
+      <Badge size="lg" variant="outline">
+        <Icon color="colorPalette.default">
+          <SparklesIcon />
+        </Icon>
+        [New] Date Input component
+        <ArrowRightIcon />
+      </Badge>
+    </NextLink>
+  )
+}

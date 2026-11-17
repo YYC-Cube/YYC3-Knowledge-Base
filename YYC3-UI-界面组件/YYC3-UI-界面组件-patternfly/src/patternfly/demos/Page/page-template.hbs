@@ -1,0 +1,48 @@
+{{#> page
+    page--id=page-template--id
+    page--modifier=page-template--modifier
+    page-template-masthead-drilldown--IsHidden="true"
+    page--HasNoSidebar=page-template--HasNoSidebar
+    page--HasDock=masthead-template--HasDockedNav}}
+  {{#unless page-template--HasNoMasthead}}
+    {{#if masthead-template--HasDockedNav}}
+      {{> page-template-skip-to-content}}
+      {{#> masthead masthead--IsDisplayInline=true}}
+        {{#> masthead-main}}
+          {{> masthead-toggle}}
+          {{#> masthead-brand}}
+            {{> masthead-logo}}
+          {{/masthead-brand}}
+        {{/masthead-main}}
+        {{#> masthead-content}}
+          {{#> toolbar toolbar--IsStatic=true}}
+            {{#> toolbar-content}}
+              {{#> toolbar-content-section}}
+                {{#> toolbar-item toolbar-item--modifier="pf-m-align-end"}}
+                  {{> button button--IsPlain=true button--IsIcon=true button--icon="rh-ui-search" button--aria-label="Search"}}
+                {{/toolbar-item}}
+              {{/toolbar-content-section}}
+            {{/toolbar-content}}
+          {{/toolbar}}
+        {{/masthead-content}}
+      {{/masthead}}
+      {{#> page-dock}}
+        {{> masthead-template masthead-template--id=(concat page--id '-masthead') masthead-template--HasNoSkipToContent=true}}
+      {{/page-dock}}
+    {{else}}
+      {{> masthead-template masthead-template--id=(concat page--id '-docked')}}
+    {{/if}}
+  {{/unless}}
+  {{!-- page-template--HasNoSidebar applies the pf-m-no-sidebar variant class. page-template--ExcludeSidebar just removes the sidebar --}}
+  {{#ifAll (inverse page-template--HasNoSidebar) (inverse masthead-template--HasDockedNav) (inverse page-template--ExcludeSidebar)}}
+    {{> page-template-sidebar}}
+  {{/ifAll}}
+  {{#if page-template--IsDrawer}}
+    {{> page-template-drawer}}
+  {{else}}
+    {{> page-template-main}}
+  {{/if}}
+  {{#if page-template--HasFooter}}
+    {{#> page-footer}}custom footer{{/page-footer}}
+  {{/if}}
+{{/page}}

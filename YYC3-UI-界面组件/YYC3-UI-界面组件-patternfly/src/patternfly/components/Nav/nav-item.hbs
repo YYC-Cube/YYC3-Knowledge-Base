@@ -1,0 +1,21 @@
+<li class="{{pfv}}nav__item
+  {{setModifiers
+    nav-item--IsDrilldown='pf-m-drilldown'
+    nav-item--IsFlyout='pf-m-flyout'
+    nav-item--modifier=nav--modifier
+  }}
+  {{#unless nav-item--IsFlyout}}
+    {{#if nav-item--IsExpanded}}
+      pf-m-expanded
+    {{/if}}
+  {{/unless}}"
+  {{#if nav-item--attribute}}
+    {{{nav-item--attribute}}}
+  {{/if}}>
+  {{#if nav-link--text}}
+    {{> nav-link}}
+  {{/if}}
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</li>

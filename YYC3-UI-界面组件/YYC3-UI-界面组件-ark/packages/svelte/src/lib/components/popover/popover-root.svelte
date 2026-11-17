@@ -1,0 +1,54 @@
+<script module lang="ts">
+  import type { Snippet } from 'svelte'
+  import type { UsePresenceProps } from '../presence/index.ts'
+  import type { UsePopoverProps } from './use-popover.svelte.ts'
+
+  export interface PopoverRootBaseProps extends UsePopoverProps, UsePresenceProps {}
+  export interface PopoverRootProps extends PopoverRootBaseProps {
+    children?: Snippet
+  }
+</script>
+
+<script lang="ts">
+  import { PresenceProvider, usePresence } from '../presence/index.ts'
+  import { splitPresenceProps } from '../presence/split-presence-props.svelte.ts'
+  import { PopoverProvider } from './use-popover-context.ts'
+  import { usePopover } from './use-popover.svelte.ts'
+
+  let { open = $bindable(), triggerValue = $bindable<string | null>(), children, ...props }: PopoverRootProps = $props()
+
+  const providedId = $props.id()
+
+  const [presenceProps, localProps] = $derived(splitPresenceProps(props))
+
+  const machineProps = $derived.by<UsePopoverProps>(() => {
+    return {
+      ...localProps,
+      id: localProps.id ?? providedId,
+      open,
+      triggerValue,
+      onOpenChange(details) {
+        localProps.onOpenChange?.(details)
+        if (open !== undefined) open = details.open
+      },
+      onTriggerValueChange(details) {
+        localProps.onTriggerValueChange?.(details)
+        if (triggerValue !== undefined) triggerValue = details.value
+      },
+    }
+  })
+
+  const popover = usePopover(() => machineProps)
+
+  const presenceMachineProps = $derived.by<UsePresenceProps>(() => ({
+    ...presenceProps,
+    present: popover().open,
+  }))
+
+  const presence = usePresence(() => presenceMachineProps)
+
+  PopoverProvider(popover)
+  PresenceProvider(presence)
+</script>
+
+{@render children?.()}

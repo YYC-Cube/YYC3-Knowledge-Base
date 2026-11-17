@@ -1,0 +1,82 @@
+---
+id: progress-circular
+title: Progress - Circular
+description: An element that shows either determinate or indeterminate progress.
+---
+
+<ComponentPreview id="ProgressCircular" />
+
+## Anatomy
+
+<Anatomy id="circular-progress" />
+
+```tsx
+<Progress.Root>
+  <Progress.Label />
+  <Progress.ValueText />
+  <Progress.Circle>
+    <Progress.CircleTrack />
+    <Progress.CircleRange />
+  </Progress.Circle>
+</Progress.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Min and Max
+
+By default, the maximum is `100`. If that's not what you want, you can easily specify a different bound by changing the
+value of the `max` prop. You can do the same with the minimum value by setting the `min` prop.
+
+For example, to show the user a progress from `10` to `30`, you can use:
+
+<Example id="min-max" />
+
+### Indeterminate
+
+The progress component is determinate by default, with the value and max set to 50 and 100 respectively. To render an
+indeterminate progress, you will have to set the `value` to `null`.
+
+<Example id="indeterminate" />
+
+### Label
+
+Add a label to provide additional context for the progress indicator.
+
+<Example id="with-label" />
+
+### Root Provider
+
+An alternative way to control the progress is to use the `RootProvider` component and the `useProgress` hook. This way
+you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+## Guides
+
+### Styling the Circle
+
+The circular progress component uses CSS variables to control the size and thickness of the circle. Set these variables
+on `Progress.Circle` to customize the appearance:
+
+```css
+[data-scope='progress'][data-part='circle'] {
+  --size: 120px;
+  --thickness: 10px;
+}
+```
+
+| Variable      | Description                          |
+| ------------- | ------------------------------------ |
+| `--size`      | The width and height of the circle   |
+| `--thickness` | The stroke width of the circle track |
+
+## API Reference
+
+<ComponentTypes id="progress" />
+
+## Accessibility
+
+Complies with the [the progressbar role requirements.](https://w3c.github.io/aria/#progressbar).

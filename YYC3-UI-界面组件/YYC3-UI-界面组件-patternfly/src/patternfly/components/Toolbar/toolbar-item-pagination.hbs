@@ -1,0 +1,48 @@
+{{#> toolbar-item toolbar-item--modifier=(concat 'pf-m-pagination ' toolbar-item-pagination--modifier)}}
+  {{#> pagination pagination--attribute='aria-label="Element pagination"'}}
+    {{#> pagination-total-items}}
+      37 items
+    {{/pagination-total-items}}
+
+    {{> pagination-menu-toggle pagination-menu-toggle--id=(concat toolbar--id '-pagination-menu-toggle') }}
+
+    {{#> pagination-nav}}
+      {{#> pagination-nav-control pagination-nav-control--modifier="pf-m-first"}}
+        {{> button
+          button--IsPlain=true
+          button--IsIcon=true
+          button--icon="rh-microns-double-caret-left"
+          button--IsDisabled=true
+          button--aria-label="Go to first page"}}
+      {{/pagination-nav-control}}
+      {{#> pagination-nav-control pagination-nav-control--modifier="pf-m-prev"}}
+        {{> button
+          button--IsPlain=true
+          button--IsIcon=true
+          button--icon="rh-microns-caret-left"
+          button--IsDisabled=true
+          button--aria-label="Go to previous page"}}
+      {{/pagination-nav-control}}
+
+      {{#> pagination-nav-page-select pagination-nav-page-select--attribute='aria-label="Current page 1 of 4"'}}
+        {{> form-control input="true" controlType="input" form-control--attribute='aria-label="Current page" type="number" min="1" max="4" value="1"'}}
+        <span aria-hidden="true">of 4</span>
+      {{/pagination-nav-page-select}}
+
+      {{#> pagination-nav-control pagination-nav-control--modifier="pf-m-next"}}
+        {{> button
+          button--IsPlain=true
+          button--IsIcon=true
+          button--icon="rh-microns-caret-right"
+          button--aria-label="Go to next page"}}
+      {{/pagination-nav-control}}
+      {{#> pagination-nav-control pagination-nav-control--modifier="pf-m-last"}}
+        {{> button
+          button--IsPlain=true
+          button--IsIcon=true
+          button--icon="rh-microns-double-caret-right"
+          button--aria-label="Go to last page"}}
+      {{/pagination-nav-control}}
+    {{/pagination-nav}}
+  {{/pagination}}
+{{/toolbar-item}}

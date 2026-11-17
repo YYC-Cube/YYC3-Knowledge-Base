@@ -1,0 +1,208 @@
+<template>
+  <div :class="n('wrap')">
+    <div :class="n()">
+      <div
+        v-for="value in toNumber(count)"
+        :key="value"
+        v-ripple="{ disabled: formReadonly || readonly || formDisabled || disabled || !ripple }"
+        v-hover:desktop="createHoverHandler(value)"
+        :style="getStyle(value)"
+        :class="getClass(value)"
+        @click="handleClick(value, $event)"
+      >
+        <span :class="n('content-icon')" :style="{ fontSize: toSizeUnit(size) }">
+          <slot :name="getCurrentState(value).slot">
+            <var-icon :transition="0" :namespace="getCurrentState(value).namespace" :name="getCurrentState(value).name">
+            </var-icon>
+          </slot>
+        </span>
+
+        <var-hover-overlay :hovering="hovering && value === currentHoveringValue && !disabled && !formDisabled" />
+      </div>
+    </div>
+
+    <var-form-details :error-message="errorMessage" />
+  </div>
+</template>
+
+<script lang="ts">
+import { call, toNumber } from '@varlet/shared'
+import { defineComponent, nextTick, ref } from 'vue'
+import VarFormDetails from '../form-details'
+import { useForm } from '../form/provide'
+import Hover from '../hover'
+import VarHoverOverlay, { useHoverOverlay } from '../hover-overlay'
+import VarIcon from '../icon'
+import Ripple from '../ripple'
+import { createNamespace, useValidation } from '../utils/components'
+import { toSizeUnit } from '../utils/elements'
+import { props } from './props'
+import { type RateProvider } from './provide'
+
+const { name, n } = createNamespace('rate')
+
+export default defineComponent({
+  name,
+  components: {
+    VarIcon,
+    VarFormDetails,
+    VarHoverOverlay,
+  },
+  directives: { Ripple, Hover },
+  props,
+  setup(props) {
+    const currentHoveringValue = ref<number>(-1)
+    const { form, bindForm } = useForm()
+    const { errorMessage, validateWithTrigger: vt, validate: v, resetValidation } = useValidation()
+    const { hovering } = useHoverOverlay()
+
+    let lastScore = toNumber(props.modelValue)
+
+    const rateProvider: RateProvider = {
+      reset,
+      validate,
+      resetValidation,
+    }
+
+    call(bindForm, rateProvider)
+
+    function getStyle(val: number) {
+      const { count, gap } = props
+
+      return {
+        color: getCurrentState(val).color,
+        marginRight: val !== toNumber(count) ? toSizeUnit(gap) : 0,
+      }
+    }
+
+    function getClass(val: number) {
+      const { name, color } = getCurrentState(val)
+
+      return {
+        [n('content')]: true,
+        [n('--disabled')]: form?.disabled.value || props.disabled,
+        [n('--error')]: errorMessage.value,
+        [n('--primary')]: name !== props.emptyIcon && !color,
+      }
+    }
+
+    function getCurrentState(index: number) {
+      const {
+        modelValue,
+        disabled,
+        disabledColor,
+        color,
+        half,
+        emptyColor,
+        icon,
+        halfIcon,
+        emptyIcon,
+        namespace,
+        halfIconNamespace,
+        emptyIconNamespace,
+      } = props
+      let iconColor = color
+
+      if (disabled || form?.disabled.value) {
+        iconColor = disabledColor
+      }
+
+      if (index <= modelValue) {
+        return { color: iconColor, name: icon, namespace, slot: 'icon' }
+      }
+
+      if (half && index <= modelValue + 0.5) {
+        return { color: iconColor, name: halfIcon, namespace: halfIconNamespace, slot: 'half-icon' }
+      }
+
+      return {
+        color: disabled || form?.disabled.value ? disabledColor : emptyColor,
+        name: emptyIcon,
+        namespace: emptyIconNamespace,
+        slot: 'empty-icon',
+      }
+    }
+
+    function changeValue(score: number, event: MouseEvent) {
+      const { half, clearable } = props
+      const { offsetWidth } = event.target as HTMLElement
+
+      if (half && event.offsetX <= Math.floor(offsetWidth / 2)) {
+        score -= 0.5
+      }
+
+      // set score to 0 when last score is equal to current score and clearable is true
+      if (lastScore === score && clearable) {
+        score = 0
+      }
+
+      if (lastScore !== score) {
+        call(props['onUpdate:modelValue'], score)
+        call(props.onChange, score)
+      }
+
+      // update last score
+      lastScore = score
+    }
+
+    function validate() {
+      return v(props.rules, props.modelValue)
+    }
+
+    function validateWithTrigger() {
+      nextTick(() => vt(['onChange'], 'onChange', props.rules, props.modelValue))
+    }
+
+    function handleClick(score: number, event: MouseEvent) {
+      const { readonly, disabled } = props
+
+      if (readonly || disabled || form?.disabled.value || form?.readonly.value) {
+        return
+      }
+
+      changeValue(score, event)
+      validateWithTrigger()
+    }
+
+    function createHoverHandler(value: number) {
+      return (isHover: boolean) => {
+        currentHoveringValue.value = value
+        hovering.value = isHover
+      }
+    }
+
+    function reset() {
+      call(props['onUpdate:modelValue'], 0)
+      resetValidation()
+    }
+
+    return {
+      errorMessage,
+      formDisabled: form?.disabled,
+      formReadonly: form?.readonly,
+      hovering,
+      currentHoveringValue,
+      getStyle,
+      getClass,
+      getCurrentState,
+      handleClick,
+      createHoverHandler,
+      reset,
+      validate,
+      resetValidation,
+      toSizeUnit,
+      toNumber,
+      n,
+    }
+  },
+})
+</script>
+
+<style lang="less">
+@import '../styles/common';
+@import '../ripple/ripple';
+@import '../icon/icon';
+@import '../form-details/formDetails';
+@import '../hover-overlay/hoverOverlay';
+@import './rate';
+</style>

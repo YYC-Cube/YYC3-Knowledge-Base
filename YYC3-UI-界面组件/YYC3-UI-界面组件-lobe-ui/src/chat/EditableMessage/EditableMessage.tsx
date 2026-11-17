@@ -1,0 +1,125 @@
+'use client';
+
+import clsx from 'clsx';
+import { memo } from 'react';
+
+import MessageInput from '@/chat/MessageInput';
+import MessageModal from '@/chat/MessageModal';
+import { useControlledState } from '@/hooks/useControlledState';
+import Markdown from '@/Markdown';
+import { toDataAttributes } from '@/utils/bem';
+
+import { chatEditableMessageClasses } from './stable';
+import { type EditableMessageProps } from './type';
+
+const EditableMessage = memo<EditableMessageProps>(
+  ({
+    value,
+    onChange,
+    classNames = {},
+    onEditingChange,
+    editing,
+    openModal,
+    onOpenChange,
+    placeholder,
+    showEditWhenEmpty = false,
+    styles: customStyles,
+    className,
+    style,
+    height,
+    variant,
+    editButtonSize,
+    text,
+    fullFeaturedCodeBlock,
+    model,
+    fontSize,
+    language = 'markdown',
+    markdownProps,
+  }) => {
+    const [isEdit, setTyping] = useControlledState(false, {
+      onChange: onEditingChange,
+      value: editing,
+    });
+
+    const [expand, setExpand] = useControlledState<boolean>(false, {
+      onChange: onOpenChange,
+      value: openModal,
+    });
+
+    const isAutoSize = height === 'auto';
+
+    const input = (
+      <MessageInput
+        shortcut
+        className={clsx(chatEditableMessageClasses(), className, classNames?.input)}
+        classNames={classNames}
+        defaultValue={value}
+        editButtonSize={editButtonSize}
+        height={height}
+        language={language}
+        placeholder={placeholder}
+        styles={customStyles}
+        text={text}
+        variant={variant}
+        {...toDataAttributes({ editing: true })}
+        style={{
+          ...style,
+          ...customStyles?.input,
+        }}
+        onCancel={() => setTyping(false)}
+        onConfirm={(text) => {
+          onChange?.(text);
+          setTyping(false);
+        }}
+      />
+    );
+
+    if (!value && showEditWhenEmpty) return input;
+
+    return (
+      <>
+        {!expand && isEdit ? (
+          input
+        ) : (
+          <Markdown
+            className={clsx(chatEditableMessageClasses(), className, classNames?.markdown)}
+            fontSize={fontSize}
+            fullFeaturedCodeBlock={fullFeaturedCodeBlock}
+            variant={'chat'}
+            style={{
+              height: isAutoSize ? 'unset' : height,
+              ...style,
+              ...customStyles?.markdown,
+            }}
+            {...markdownProps}
+          >
+            {value || placeholder || ''}
+          </Markdown>
+        )}
+        {expand && (
+          <MessageModal
+            editing={isEdit}
+            extra={model?.extra}
+            footer={model?.footer}
+            height={height}
+            language={language}
+            open={expand}
+            placeholder={placeholder}
+            text={text}
+            value={value}
+            onChange={onChange}
+            onEditingChange={setTyping}
+            onOpenChange={(e) => {
+              setExpand(e);
+              setTyping(false);
+            }}
+          />
+        )}
+      </>
+    );
+  },
+);
+
+EditableMessage.displayName = 'EditableMessage';
+
+export default EditableMessage;

@@ -1,0 +1,249 @@
+'use client';
+
+import clsx from 'clsx';
+import { X } from 'lucide-react';
+import type { CSSProperties } from 'react';
+import { memo, useCallback, useMemo } from 'react';
+
+import { focusRing } from '@/styles/stylex/focusRing';
+import { styleProps } from '@/styles/stylex/props';
+
+import {
+  DrawerBackdrop,
+  DrawerContentImpl,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerPopupImpl,
+  DrawerPortal,
+  DrawerRoot,
+  type DrawerRootProps,
+  DrawerTitle,
+} from './atoms';
+import { DEFAULT_DRAWER_HEIGHT, DEFAULT_DRAWER_WIDTH, DEFAULT_PUSH_DISTANCE } from './constants';
+import { DrawerPushProvider, useDrawerPush } from './DrawerPushContext';
+import { drawerClasses } from './stable';
+import { styles } from './style';
+import type { DrawerProps, DrawerPush } from './type';
+
+const resolvePushDistance = (push: DrawerPush) => {
+  if (push === false) return 0;
+  if (push === true) return DEFAULT_PUSH_DISTANCE;
+  return push.distance ?? DEFAULT_PUSH_DISTANCE;
+};
+
+const FULL_SIZES = new Set(['100%', '100dvh', '100dvw', '100vh', '100vw']);
+
+const Drawer = memo<DrawerProps>(
+  ({
+    open,
+    placement = 'right',
+    width,
+    height,
+    mask = true,
+    maskClosable = true,
+    keyboard = true,
+    closable = true,
+    closeIcon,
+    extra,
+    title,
+    footer,
+    noHeader,
+    sidebar,
+    sidebarWidth,
+    containerMaxWidth,
+    push = true,
+    zIndex,
+    getContainer,
+    className,
+    classNames,
+    style,
+    styles: semanticStyles,
+    afterOpenChange,
+    onClose,
+    children,
+  }) => {
+    const isOpen = open ?? false;
+    const { childValue, pushed } = useDrawerPush(isOpen);
+    const pushOffset = pushed ? resolvePushDistance(push) : 0;
+
+    const handleOpenChange = useCallback<NonNullable<DrawerRootProps['onOpenChange']>>(
+      (nextOpen, eventDetails) => {
+        if (nextOpen || !isOpen) return;
+        if (!keyboard && eventDetails.reason === 'escape-key') return;
+        if (!maskClosable && eventDetails.reason === 'outside-press') return;
+        onClose?.();
+      },
+      [isOpen, keyboard, maskClosable, onClose],
+    );
+
+    const handleExitComplete = useCallback(() => afterOpenChange?.(false), [afterOpenChange]);
+    const handleAnimationComplete = useCallback(() => {
+      if (isOpen) afterOpenChange?.(true);
+    }, [isOpen, afterOpenChange]);
+
+    const isHorizontal = placement === 'left' || placement === 'right';
+    const resolvedWidth = isHorizontal ? (width ?? DEFAULT_DRAWER_WIDTH) : width;
+    const resolvedHeight = isHorizontal ? height : (height ?? DEFAULT_DRAWER_HEIGHT);
+
+    const isFlush = FULL_SIZES.has(String(isHorizontal ? resolvedWidth : resolvedHeight));
+    const surfaceWeight = (() => {
+      if (isFlush) return undefined;
+      if (pushed) return styles.panelRecessed;
+      return mask ? undefined : styles.panelBoosted;
+    })();
+
+    const showTitle = title !== undefined && title !== null;
+    const showHeader = !noHeader && (showTitle || closable || !!extra);
+    const hasSidebar = !!sidebar;
+
+    const containerStyle = useMemo<CSSProperties | undefined>(
+      () => (containerMaxWidth === undefined ? undefined : { maxWidth: containerMaxWidth }),
+      [containerMaxWidth],
+    );
+
+    const closeNode = closable && (
+      <button
+        aria-label="Close"
+        {...styleProps(
+          [styles.close, focusRing.info],
+          clsx(drawerClasses('close'), classNames?.close),
+          semanticStyles?.close,
+        )}
+        type="button"
+        onClick={onClose}
+      >
+        {closeIcon ?? <X size={16} />}
+      </button>
+    );
+
+    const extraNode = (extra || closeNode) && (
+      <div
+        {...styleProps(
+          [styles.extra, !showHeader && styles.extraFloating],
+          clsx(drawerClasses('extra'), classNames?.extra),
+          semanticStyles?.extra,
+        )}
+      >
+        {extra}
+        {closeNode}
+      </div>
+    );
+
+    const bodyNode = hasSidebar ? (
+      <>
+        <div
+          {...styleProps(styles.sidebar, clsx(drawerClasses('sidebar'), classNames?.sidebar), {
+            ...(sidebarWidth === undefined ? undefined : { width: sidebarWidth }),
+            ...semanticStyles?.sidebar,
+          })}
+        >
+          {sidebar}
+        </div>
+        <div
+          {...styleProps(
+            styles.sidebarContent,
+            clsx(drawerClasses('sidebar-content'), classNames?.sidebarContent),
+            semanticStyles?.sidebarContent,
+          )}
+        >
+          {children}
+        </div>
+      </>
+    ) : (
+      children
+    );
+
+    const container = getContainer === false ? undefined : (getContainer ?? undefined);
+
+    return (
+      <DrawerRoot
+        modal={mask}
+        open={isOpen}
+        zIndex={zIndex}
+        onExitComplete={handleExitComplete}
+        onOpenChange={handleOpenChange}
+      >
+        <DrawerPortal container={container}>
+          {mask && (
+            <DrawerBackdrop
+              className={classNames?.backdrop}
+              data-placement={placement}
+              style={semanticStyles?.backdrop}
+            />
+          )}
+          <DrawerPopupImpl
+            defaultSize
+            className={classNames?.popup}
+            flush={isFlush}
+            height={height}
+            motionProps={{ onAnimationComplete: handleAnimationComplete }}
+            panelClassName={clsx(className, classNames?.panel)}
+            panelStyle={{ ...style, ...semanticStyles?.panel }}
+            panelXstyle={surfaceWeight}
+            placement={placement}
+            popupStyle={semanticStyles?.popup}
+            pushOffset={pushOffset}
+            width={width}
+          >
+            <DrawerPushProvider value={childValue}>
+              {showHeader ? (
+                <DrawerHeader className={classNames?.header} style={semanticStyles?.header}>
+                  <div
+                    {...styleProps(
+                      styles.containerInner,
+                      drawerClasses('container'),
+                      containerStyle,
+                    )}
+                  >
+                    {showTitle ? (
+                      <DrawerTitle className={classNames?.title} style={semanticStyles?.title}>
+                        {title}
+                      </DrawerTitle>
+                    ) : (
+                      <span />
+                    )}
+                    {extraNode}
+                  </div>
+                </DrawerHeader>
+              ) : (
+                extraNode
+              )}
+              <DrawerContentImpl
+                className={classNames?.content}
+                style={semanticStyles?.content}
+                xstyle={hasSidebar && styles.contentSidebar}
+              >
+                <div
+                  {...styleProps(
+                    [styles.bodyContent, hasSidebar && styles.bodyContentSidebar],
+                    clsx(drawerClasses('body-content'), classNames?.bodyContent),
+                    { ...containerStyle, ...semanticStyles?.bodyContent },
+                  )}
+                >
+                  {bodyNode}
+                </div>
+              </DrawerContentImpl>
+              {footer && (
+                <DrawerFooter className={classNames?.footer} style={semanticStyles?.footer}>
+                  <div
+                    {...styleProps(
+                      [styles.containerInner, styles.containerInnerFooter],
+                      drawerClasses('container'),
+                      containerStyle,
+                    )}
+                  >
+                    {footer}
+                  </div>
+                </DrawerFooter>
+              )}
+            </DrawerPushProvider>
+          </DrawerPopupImpl>
+        </DrawerPortal>
+      </DrawerRoot>
+    );
+  },
+);
+
+Drawer.displayName = 'Drawer';
+
+export default Drawer;

@@ -1,0 +1,10 @@
+<div class="{{pfv}}modal-box__close{{#if modal-box-close--modifier}} {{modal-box-close--modifier}}{{/if}}"
+  {{#if modal-box-close--attribute}}
+    {{{modal-box-close--attribute}}}
+  {{/if}}>
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{else}}
+    {{> button button--IsPlain=true button--IsIcon=true button--icon="rh-microns-close" button--aria-label="Close"}}
+  {{/if}}
+</div>

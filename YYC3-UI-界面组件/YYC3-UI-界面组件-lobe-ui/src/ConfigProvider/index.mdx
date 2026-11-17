@@ -1,0 +1,167 @@
+---
+title: ConfigProvider
+description: Configures library-wide CDN resource resolution and the motion runtime for descendant components.
+category: Theme
+---
+
+import DemoConfigProvider from './demos/config-provider.tsx?demo';
+import DemoConfigProvider2 from './demos/config-provider-2.tsx?demo';
+import DemoCustomPrimary from './demos/custom-primary.tsx?demo';
+import DemoGlobalFocusRing from './demos/global-focus-ring.tsx?demo';
+import DemoLazyMotion from './demos/lazy-motion.tsx?demo';
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { themeScopeClasses } from '../styles/theme/stable';
+
+ConfigProvider is a context provider component that allows you to configure global settings for other components in the library, such as CDN settings for external resources and the motion runtime.
+
+## Default
+
+The `proxy` provides two CDN resolution addresses, `aliyun` and `unpkg`, with `aliyun` as the default. This can be configured through the `cdn` attribute of `ConfigProvider`.
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Custom CDN
+
+At the same time, it provides custom CDN configuration, set `proxy` to `custom` and configure through the `customCdnFn` attribute.
+
+<Demo of={DemoConfigProvider} />
+
+## What it provides
+
+- the motion component used by animated components (required);
+- web fonts (`enableCustomFonts`, default `true`; `customFonts` to replace the list);
+- `direction` (`'ltr' | 'rtl'`, read with `useDirection`);
+- the portal container for popups (`useAppElement`, element id `LOBE_THEME_APP_ID`).
+
+Theme appearance and colors are not configured here: import `@lobehub/ui/theme.css` and `@lobehub/ui/style.css`, and set `data-theme` / `data-primary-color` / `data-neutral-color` on `<html>` (or wrap a subtree in `ThemeScope`).
+
+## Font stack by language
+
+`theme.css` picks `--lobe-font-family` and `--lobe-font-family-code` from the document language, so set `lang` on `<html>` before first paint. Han characters are shared across Chinese, Japanese and Korean, and the first CJK family in the stack decides their glyph shapes, so each locale puts its own families ahead of the Simplified Chinese fallback:
+
+| `lang`                                 | Latin          | CJK / script                   |
+| -------------------------------------- | -------------- | ------------------------------ |
+| unset or unlisted                      | Geist          | HarmonyOS Sans SC → system SC  |
+| `zh` (Simplified)                      | HarmonyOS Sans | HarmonyOS Sans SC → system SC  |
+| `zh-TW`, `zh-Hant`, `zh-HK`, `zh-MO`   | system         | system TC / HK, then system SC |
+| `ja`, `ko`                             | Geist          | system JP / KR                 |
+| `ar`, `fa`, `he`, `th`, `hi`/`mr`/`ne` | Geist          | system script families         |
+
+Traditional Chinese stays on system fonts because HarmonyOS Sans SC draws traditional characters with mainland glyph shapes. To put a user-chosen font in front, compose the full stack with `genFontFamily({ locale, prepend: [font] })` (or `genFontFamilyCode`) and set it as the CSS variable.
+
+## Custom primary colour
+
+`primaryColor` also takes any 6-digit hex (`setLobeTheme`, `ThemeScope`, `LobeThemeScript`). Lobe UI builds the 13-step light and dark scale from the preset nearest in hue and lightness: the picked colour becomes the light `colorPrimary`, neighbouring steps follow its lightness on a taper so the ramp stays in order, and backgrounds and borders keep the preset's lightness with the new hue. In dark mode, a colour below 4.5:1 on the dark container is lifted (same hue and chroma) until it reaches 4.5:1, so deep brand colours stay readable. The generated rules are injected once per colour under `[data-primary-color='#rrggbb']`, so light / dark switching and nested scopes keep working. For server rendering, `getCustomPrimaryCss(hex)` returns the same CSS.
+
+<Demo of={DemoCustomPrimary} layout="bare" />
+
+## Custom neutral colour
+
+`neutralColor` takes a preset (`mauve` / `slate` / `sage` / `olive` / `sand`), any 6-digit hex, or the name of a scale registered with `registerLobeNeutral` (`setLobeTheme`, `ThemeScope`, `LobeThemeScript`).
+
+- **Hex**: the scale is built the same way as the presets: the default gray ladder keeps its lightness steps and takes the hex's hue and chroma (chroma capped so it stays neutral). Use it to tint surfaces, borders and text towards a brand hue.
+- **Full scale**: for exact surfaces (for example a dark `colorBgContainer` of `#0e1010`), register a 13-step `ColorScaleItem` (`light`, `lightA`, `dark`, `darkA`, same shape as `@lobehub/ui/color` neutrals). Optionally pass `text` (`[text, secondary, tertiary, quaternary]` per appearance); by default steps 12 / 10 / 8 / 6 are used.
+
+```ts
+import { colorScales } from '@lobehub/ui/color';
+import { registerLobeNeutral, setLobeTheme } from '@lobehub/ui';
+
+const { gray } = colorScales;
+const dark = [...gray.dark] as typeof gray.dark;
+dark[0] = '#0a0b0b'; // colorBgLayout
+dark[1] = '#0e1010'; // colorBgContainer
+dark[2] = '#151717'; // colorBgElevated
+
+registerLobeNeutral('foundry', { ...gray, dark });
+setLobeTheme({ appearance: 'dark', neutralColor: 'foundry' });
+
+// or just a tint:
+setLobeTheme({ neutralColor: '#0e1010' });
+```
+
+The rules are injected under `[data-neutral-color='…']` for both appearances, and `useTheme()` returns the same values. For server rendering, `getCustomNeutralCss(value)` returns that CSS. Names are limited to letters, digits, `_` and `-` and cannot reuse a preset name. If you register the same name again, call `setLobeTheme` afterwards so the root stylesheet is rewritten.
+
+## Custom status palette
+
+Error, warning, info and success can be replaced as a named palette. Register the 13-step scales once at module scope (the same `ColorScaleItem` shape as `statusColorScales` in `@lobehub/ui/color`), then select the palette like any other theme attribute. Statuses you leave out keep the default scales.
+
+```tsx
+import { registerLobePalette, setLobeTheme } from '@lobehub/ui';
+
+import { error, success } from './acme-palette';
+
+registerLobePalette('acme', { error, success });
+setLobeTheme({ palette: 'acme' });
+```
+
+`ThemeScope` and `LobeThemeScript` take the same `palette` prop. The rules go under `[data-palette='acme']`, and `useTheme()` returns the same values, so charts and canvas code match the CSS. For server rendering, `getCustomPaletteCss(name)` returns that CSS. Names are limited to letters, digits, `_` and `-`. If you register the same name again, call `setLobeTheme` afterwards so the root stylesheet is rewritten.
+
+## Motion
+
+Lobe UI uses Motion components via context. You must pass a motion component to `ConfigProvider`. If your app uses `LazyMotion`, pass `m`:
+
+<Demo of={DemoConfigProvider2} />
+
+If your app uses [`LazyMotion`](https://motion.dev/docs/react-lazy-motion):
+
+<Demo of={DemoLazyMotion} />
+
+## Global keyboard focus
+
+ConfigProvider installs one global focus ring per document, including native controls and controls outside the provider's React subtree. No component focus class or registration is required. Set `config={{ globalFocusRing: false }}` on all providers to disable installation.
+
+Use Tab to walk through the labeled baseline, clipping, window lifecycle and local-fallback cases:
+
+<Demo of={DemoGlobalFocusRing} />
+
+Without ConfigProvider, install it directly and call the returned cleanup when your application unmounts:
+
+```ts
+import { installGlobalFocusRing } from '@lobehub/ui';
+
+const cleanup = installGlobalFocusRing();
+```
+
+The decorative top-layer ring uses CSS anchors to follow scrolling, resizing and translation without a continuous JavaScript measurement loop. It preserves `:focus-visible`, reduced-motion and forced-colors preferences. Only successfully covered controls lose their local outline; existing Base UI rings remain the fallback.
+
+Text inputs, textareas and contenteditable regions retain their existing focus styles. To opt out another control or an entire region, add `data-lobe-focus-ring="off"` to the element or an ancestor. This only skips the global ring; keep an appropriate local focus indication for keyboard users.
+
+Unsupported browsers, fragmented multiline links and shadow-root controls retain their original focus treatment. Install separately in each iframe document. Rotated shapes are not reproduced; the ring follows a rectangular bounding box. Partially clipped controls receive a full ring; fully clipped anchors are hidden by the browser.
+
+## APIs
+
+### ConfigProvider
+
+<Api name="ConfigProvider" migrationKey="heading:%5B%22ConfigProvider%22%5D:0" />
+
+### Config
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| proxy | CDN proxy to use for external resources | `'jsdelivr' \| 'unpkg' \| 'aliyun' \| 'custom'` | - |
+| customCdnFn | Custom function for generating CDN URLs when proxy is 'custom' | `CdnFn` | - |
+| aAs | Custom component to use for rendering anchor tags | `ElementType` | - |
+| imgAs | Custom component to use for rendering image tags | `ElementType` | - |
+| globalFocusRing | Install the document-wide keyboard focus ring | `boolean` | `true` |
+| imgUnoptimized | Whether to disable image optimization | `boolean` | - |
+
+### CdnFn
+
+```ts
+type CdnFn = ({ pkg, version, path }: CdnApi) => string;
+
+interface CdnApi {
+  pkg: string;
+  version: string;
+  path: string;
+}
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+### ThemeScope
+
+<StableClassTable of={themeScopeClasses} />

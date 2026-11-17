@@ -1,0 +1,42 @@
+<script lang="ts">
+import type { SelectHTMLAttributes } from 'vue'
+import type { PolymorphicProps } from '../factory.ts'
+
+export interface SelectHiddenSelectBaseProps extends PolymorphicProps {}
+export interface SelectHiddenSelectProps
+  extends
+    SelectHiddenSelectBaseProps,
+    /**
+     * @vue-ignore
+     */
+    SelectHTMLAttributes {}
+</script>
+
+<script setup lang="ts">
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+import { ark } from '../factory.ts'
+import { useFieldContext } from '../field/index.ts'
+import { useSelectContext } from './use-select-context.ts'
+
+defineProps<SelectHiddenSelectProps>()
+
+const select = useSelectContext()
+const field = useFieldContext()
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.select :aria-describedby="field?.ariaDescribedby" v-bind="select.getHiddenSelectProps()">
+    <option v-if="select.value.length === 0" value="" />
+    <option
+      v-for="item in select.collection.items"
+      :key="item.value"
+      :value="select.collection.getItemValue(item)"
+      :disabled="select.collection.getItemDisabled(item)"
+    >
+      {{ select.collection.stringifyItem(item) }}
+      >
+    </option>
+  </ark.select>
+</template>

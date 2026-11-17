@@ -1,0 +1,69 @@
+---
+id: qr-code
+title: QR Code
+description: A component that generates a QR code based on the provided data.
+---
+
+<ComponentPreview id="QrCode" />
+
+## Anatomy
+
+<Anatomy id="qr-code" />
+
+```tsx
+<QrCode.Root>
+  <QrCode.Frame>
+    <QrCode.Pattern />
+  </QrCode.Frame>
+  <QrCode.Overlay />
+  <QrCode.DownloadTrigger />
+</QrCode.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### With Overlay
+
+You can also add a logo or overlay to the QR code. This is useful when you want to brand the QR code.
+
+<Example id="overlay" />
+
+### Error Correction
+
+In cases where the link is too long or the logo overlay covers a significant area, the error correction level can be
+increased.
+
+Use the `encoding.ecc` or `encoding.boostEcc` property to set the error correction level:
+
+- `L`: Allows recovery of up to 7% data loss (default)
+- `M`: Allows recovery of up to 15% data loss
+- `Q`: Allows recovery of up to 25% data loss
+- `H`: Allows recovery of up to 30% data loss
+
+<Example id="error-correction" />
+
+### Root Provider
+
+An alternative way to control the QR code is to use the `RootProvider` component and the `useQrCode` hook. This way you
+can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Download
+
+Use the `QrCode.DownloadTrigger` component to allow users to download the QR code as an image. Specify the `fileName`
+and `mimeType` props for the downloaded file.
+
+<Example id="download" />
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="qr-code" />
+
+### Context
+
+<ContextType id="qr-code" />

@@ -1,0 +1,44 @@
+<{{#if label--type}}{{label--type}}{{else if label--IsOverflow}}button{{else if label--IsAdd}}button{{else}}span{{/if}} class="{{pfv}}label
+  {{#if label--IsFilled}} pf-m-filled{{/if}}
+  {{#if label--IsOutlined}} pf-m-outline{{/if}}
+  {{#if label--IsCompact}} pf-m-compact{{/if}}
+  {{#if label--IsOverflow}} pf-m-overflow{{/if}}
+  {{#if label--IsAdd}} pf-m-add{{/if}}
+  {{#if label--IsEditable}} pf-m-editable{{/if}}
+  {{#if label--IsEditableActive}} pf-m-editable-active{{/if}}
+  {{#if label--IsDisabled}} pf-m-disabled{{/if}}
+  {{#ifAny label--color label--status}}
+    pf-m-{{ternary label--status label--status label--color}}
+  {{/ifAny}}
+  {{#ifAny label-content--IsLink label-content--IsButton}} pf-m-clickable{{/ifAny}}
+  {{#if label--modifier}} {{label--modifier}}{{/if}}"
+  {{#ifAny label--IsOverflow label--IsAdd}}
+    type="button"
+  {{/ifAny}}
+  {{#if label--attribute}}
+    {{{label--attribute}}}
+  {{/if}}>
+  {{#> label-content}}
+    {{#ifAny label--status label-icon--value}}
+      {{> label-icon}}
+    {{/ifAny}}
+    {{#if label-text--value}}
+      {{> label-text}}
+    {{/if}}
+    {{#if @partial-block}}
+      {{> @partial-block}}
+    {{/if}}
+  {{/label-content}}
+  {{#if label--IsRemovable}}
+    {{#> label-actions}}
+      {{> button
+          button--IsDisabled=label--IsDisabled
+          button--IsIcon=true button--icon="rh-microns-close"
+          button--IsPlain=true button--HasNoPadding=true
+          button--id=(concat label--id '-button')
+          button--aria-label="Remove"
+          button--aria-labelledby=(concat label--id '-button ' label--id '-text')
+      }}
+    {{/label-actions}}
+  {{/if}}
+</{{#if label--type}}{{label--type}}{{else if label--IsOverflow}}button{{else if label--IsAdd}}button{{else}}span{{/if}}>

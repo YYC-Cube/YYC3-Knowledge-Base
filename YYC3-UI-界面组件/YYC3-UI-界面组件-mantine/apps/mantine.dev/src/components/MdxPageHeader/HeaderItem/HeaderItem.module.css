@@ -1,0 +1,22 @@
+.item {
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  overflow-x: hidden;
+
+  & + & {
+    margin-top: var(--mantine-spacing-xs);
+  }
+}
+
+.label {
+  width: 100px;
+  min-width: 100px;
+  height: 20px;
+  line-height: 20px;
+  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
+
+  @mixin smaller-than 31em {
+    display: none;
+  }
+}

@@ -1,0 +1,52 @@
+{{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-lg"}}
+  {{#> l-flex-item}}
+    <p>The content of the drawer really is up to you. It could have form fields, definition lists, text lists, labels, charts, progress bars, etc. Spacing recommendation is 24px margins. You can put tabs in here, and can also make the drawer scrollable.</p>
+  {{/l-flex-item}}
+  {{#> l-flex-item}}
+    {{#> progress
+      progress__id=(concat primary-detail-template--id "-progress-example1")
+      progress__value="33"
+      progress__description="Capacity"
+      progress-bar--attribute='aria-label="Progress 1"'
+    }}
+    {{/progress}}
+  {{/l-flex-item}}
+  {{#> l-flex-item}}
+    {{#> progress
+      progress__id=(concat primary-detail-template--id "-progress-example2")
+      progress__value="66"
+      progress__description="Modules"
+      progress-bar--attribute='aria-label="Progress 2"'
+    }}
+    {{/progress}}
+  {{/l-flex-item}}
+  {{#if primary-detail-template-panel-tab-content--HasLabels}}
+    {{#> l-flex l-flex--modifier="pf-m-column"}}
+      {{#> l-flex-item}}
+        {{#> title titleType="h3" title--attribute=(concat 'id="' primary-detail-template--id '-title"')}}
+          Tags
+        {{/title}}
+      {{/l-flex-item}}
+      {{#> l-flex-item}}
+        {{#> label-group label-group--id=(concat primary-detail-template--id '-label-group')}}
+          {{#> label-group-main}}
+            {{#> label-group-list label-group-list--attribute='aria-label="Group of labels"'}}
+              {{#> label-group-list-item}}
+                {{> label label--IsOutlined=true label-text--value="Tag 1"}}
+              {{/label-group-list-item}}
+              {{#> label-group-list-item}}
+                {{> label label--IsOutlined=true label-text--value="Tag 2"}}
+              {{/label-group-list-item}}
+              {{#> label-group-list-item}}
+                {{> label label--IsOutlined=true label-text--value="Tag 3"}}
+              {{/label-group-list-item}}
+              {{#> label-group-list-item}}
+                {{> label label--IsOverflow=true label-text--value="2 more"}}
+              {{/label-group-list-item}}
+            {{/label-group-list}}
+          {{/label-group-main}}
+        {{/label-group}}
+      {{/l-flex-item}}
+    {{/l-flex}}
+  {{/if}}
+{{/l-flex}}

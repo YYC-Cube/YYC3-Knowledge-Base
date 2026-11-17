@@ -1,0 +1,98 @@
+import user from '@testing-library/user-event'
+import { render, screen, waitFor } from '@testing-library/vue'
+import { parseColor } from '@ark-ui/vue/color-picker'
+import ComponentUnderTest from './color-picker.test.vue'
+import ColorPickerWithField from './field.test.vue'
+import SwatchComponentUnderTest from './swatch.test.vue'
+
+describe('ColorPicker', () => {
+  it('should be able to lazy mount', async () => {
+    render(ComponentUnderTest, {
+      props: {
+        lazyMount: true,
+      },
+    })
+
+    expect(screen.queryByTestId('positioner')).not.toBeInTheDocument()
+
+    await user.click(screen.getByTestId('trigger'))
+    expect(screen.getByTestId('positioner')).toBeInTheDocument()
+
+    await user.click(screen.getByTestId('trigger'))
+    expect(screen.getByTestId('positioner')).toBeInTheDocument()
+  }, 7000)
+
+  it('should lazy mount and unmount on exit', async () => {
+    render(ComponentUnderTest, {
+      props: {
+        lazyMount: true,
+        unmountOnExit: true,
+      },
+    })
+
+    expect(screen.queryByTestId('positioner')).not.toBeInTheDocument()
+
+    await user.click(screen.getByTestId('trigger'))
+    expect(screen.getByTestId('positioner')).toBeInTheDocument()
+
+    await user.click(screen.getByTestId('trigger'))
+    await waitFor(() => expect(screen.queryByTestId('positioner')).not.toBeInTheDocument())
+  }, 7000)
+
+  it('should render with default value', async () => {
+    render(ComponentUnderTest, { props: { defaultValue: parseColor('#ff00ff') } })
+
+    const style = screen.getByTestId('swatch-trigger').getAttribute('style') ?? ''
+    expect(style).toContain('rgba(255, 0, 255, 1)')
+  })
+})
+
+describe('Color Picker / Field', () => {
+  it('should set color picker as required', async () => {
+    render(ColorPickerWithField, { props: { required: true } })
+    expect(screen.getByRole('textbox', { name: /label/i })).toBeRequired()
+  })
+
+  it('should set color picker as disabled', async () => {
+    render(ColorPickerWithField, { props: { disabled: true } })
+    expect(screen.getByRole('textbox', { name: /label/i })).toBeDisabled()
+  })
+
+  it('should set color picker as readonly', async () => {
+    render(ColorPickerWithField, { props: { readOnly: true } })
+    expect(screen.getByRole('textbox', { name: /label/i })).toHaveAttribute('readonly')
+  })
+
+  it('should display helper text', async () => {
+    render(ColorPickerWithField)
+    expect(screen.getByText('Additional Info')).toBeInTheDocument()
+  })
+
+  it('should display error text when error is present', async () => {
+    render(ColorPickerWithField, { props: { invalid: true } })
+    expect(screen.getByText('Error Info')).toBeInTheDocument()
+  })
+
+  it('should focus on input when label is clicked', async () => {
+    render(ColorPickerWithField)
+    await user.click(screen.getByText(/label/i))
+    expect(screen.getByRole('textbox', { name: /hex/i })).toHaveFocus()
+  })
+
+  it('should not display error text when no error is present', async () => {
+    render(ColorPickerWithField)
+    expect(screen.queryByText('Error Info')).not.toBeInTheDocument()
+  })
+
+  it('should respect alpha in swatches by default', async () => {
+    render(SwatchComponentUnderTest)
+    expect(screen.getByTestId('swatch').style.getPropertyValue('--color')).toBe('rgba(255, 0, 0, 0.5)')
+    expect(screen.getByTestId('value-swatch').style.getPropertyValue('--color')).toBe('rgba(255, 0, 0, 0.5)')
+  })
+
+  it('should describe the trigger and channel input with the helper and error text', async () => {
+    render(ColorPickerWithField, { props: { invalid: true } })
+    expect(await screen.findByRole('button')).toHaveAccessibleDescription('Error Info Additional Info')
+    expect(screen.getByRole('textbox', { name: 'hex' })).toHaveAccessibleDescription('Error Info Additional Info')
+  })
+})

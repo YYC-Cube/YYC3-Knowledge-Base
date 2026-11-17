@@ -1,0 +1,11 @@
+{
+    "main": "./RefreshIcon.vue",
+    "module": "./RefreshIcon.vue",
+    "types": "./RefreshIcon.d.ts",
+    "browser": {
+        "./sfc": "./RefreshIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

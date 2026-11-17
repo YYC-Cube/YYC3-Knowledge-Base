@@ -1,0 +1,14 @@
+{{#if progress__value}}
+  <span class="{{pfv}}progress__measure{{#if progress-measure--modifier}} {{progress-measure--modifier}}{{/if}}"
+    {{#if progress-measure--attribute}}
+      {{{progress-measure--attribute}}}
+    {{/if}}>
+    {{~#if progress--dynamic}}
+      {{progress__valuetext}}
+    {{else if progress__valuetext}}
+      {{progress__valuetext}}
+    {{else}}
+      {{progress__value}}%
+    {{/if}}
+  </span>
+{{/if}}

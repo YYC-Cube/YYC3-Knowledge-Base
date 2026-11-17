@@ -1,0 +1,20 @@
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.useIsomorphicEffect);
+
+## Usage
+
+The `use-isomorphic-effect` hook is a replacement for the `useLayoutEffect` hook that works in both browser and server environments.
+
+```tsx
+import { useIsomorphicEffect } from '@mantine/hooks';
+
+function Demo() {
+  useIsomorphicEffect(() => {
+    document.title = 'title';
+  });
+
+  return null;
+}
+```

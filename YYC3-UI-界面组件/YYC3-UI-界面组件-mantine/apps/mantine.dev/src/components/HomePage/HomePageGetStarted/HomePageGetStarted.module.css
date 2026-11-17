@@ -1,0 +1,12 @@
+.root {
+  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-8));
+  padding-block: var(--hp-block-spacing);
+}
+
+.guides {
+  margin-top: 40px;
+}
+
+.description {
+  max-width: unset;
+}

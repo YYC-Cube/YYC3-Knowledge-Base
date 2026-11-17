@@ -1,0 +1,33 @@
+{{#> card card--modifier="pf-m-hoverable pf-m-compact"}}
+  {{#> card-body}}
+      {{#> l-flex l-flex--modifier="pf-m-column pf-m-spacer-md"}}
+        {{#> skeleton}}
+          {{#if card-skeleton--IsFirstCard}}
+            {{#> screen-reader}}Loading card content{{/screen-reader}}
+          {{/if}}
+        {{/skeleton}}
+        {{#> skeleton skeleton--modifier="pf-m-width-66"}}
+        {{/skeleton}}
+        {{#> skeleton skeleton--modifier="pf-m-width-25"}}
+        {{/skeleton}}
+        {{#> skeleton skeleton--modifier="pf-m-width-50"}}
+        {{/skeleton}}
+      {{/l-flex}}
+  {{/card-body}}
+  {{#> card-body}}
+    {{#> skeleton skeleton--modifier="pf-m-square pf-m-width-md"}}
+    {{/skeleton}}
+  {{/card-body}}
+  {{#> card-body}}
+      {{#> l-flex l-flex--modifier="pf-m-column pf-m-spacer-md"}}
+        {{#> skeleton}}
+        {{/skeleton}}
+        {{#> skeleton skeleton--modifier="pf-m-width-25"}}
+        {{/skeleton}}
+        {{#> skeleton skeleton--modifier="pf-m-width-75"}}
+        {{/skeleton}}
+        {{#> skeleton skeleton--modifier="pf-m-width-50"}}
+        {{/skeleton}}
+      {{/l-flex}}
+  {{/card-body}}
+{{/card}}

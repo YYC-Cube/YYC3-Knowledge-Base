@@ -1,0 +1,350 @@
+import dayjs from 'dayjs';
+import { useCallback, useEffect, useEffectEvent, useRef, useState } from 'react';
+import { DateTimeStringValue, ScheduleEventData, ScheduleMode } from '../types';
+import { clampIntervalMinutes } from '../utils/clamp-interval-minutes/clamp-interval-minutes';
+import { getDayRelativePercent } from '../utils/get-day-relative-percent/get-day-relative-percent';
+import { parseTimeString } from '../utils/parse-time-string/parse-time-string';
+import { EventResizeValidationOptions, validateEventResize } from './validate-event-resize';
+
+type ResizeEdge = 'start' | 'end';
+
+interface ResizeState {
+  eventId: string | number;
+  event: ScheduleEventData;
+  edge: ResizeEdge;
+  container: HTMLElement;
+  originalLeft: number;
+  originalWidth: number;
+  currentLeft: number;
+  currentWidth: number;
+  eventDate: string;
+  originalStart: DateTimeStringValue;
+  originalEnd: DateTimeStringValue;
+  dayIndex: number;
+  dayCount: number;
+}
+
+export interface UseHorizontalEventResizeInput extends EventResizeValidationOptions {
+  enabled?: boolean;
+  mode?: ScheduleMode;
+  startTime: string;
+  endTime: string;
+  intervalMinutes: number;
+  resizeIntervalMinutes?: number;
+  onEventResize?: (data: {
+    eventId: string | number;
+    newStart: DateTimeStringValue;
+    newEnd: DateTimeStringValue;
+    event: ScheduleEventData;
+  }) => void;
+  canResizeEvent?: (event: ScheduleEventData) => boolean;
+  withBackgroundEvents?: boolean;
+}
+
+export function useHorizontalEventResize({
+  enabled = false,
+  mode = 'default',
+  startTime,
+  endTime,
+  intervalMinutes,
+  resizeIntervalMinutes,
+  onEventResize,
+  canResizeEvent,
+  events,
+  preventEventOverlap,
+  canResizeEventTo,
+  onEventPlacementRejected,
+  withBackgroundEvents = false,
+}: UseHorizontalEventResizeInput) {
+  const [resizeState, setResizeState] = useState<ResizeState | null>(null);
+  const [resizeValid, setResizeValid] = useState(true);
+  const resizeRef = useRef<ResizeState | null>(null);
+  const justResizedRef = useRef(false);
+  const stableOnEventResize = useEffectEvent(onEventResize || (() => {}));
+  const stableOnEventPlacementRejected = useEffectEvent(onEventPlacementRejected || (() => {}));
+
+  const validateResize = useEffectEvent(
+    (
+      event: ScheduleEventData,
+      start: DateTimeStringValue,
+      end: DateTimeStringValue,
+      edge: 'start' | 'end'
+    ) =>
+      validateEventResize({
+        event,
+        start,
+        end,
+        edge,
+        events,
+        preventEventOverlap,
+        canResizeEventTo,
+        resourceId: event.resourceId,
+      })
+  );
+
+  const parsedStartTime = parseTimeString(startTime);
+  const parsedEndTime = parseTimeString(endTime);
+  const startMinutes = parsedStartTime.hours * 60 + parsedStartTime.minutes;
+  const endMinutes = parsedEndTime.hours * 60 + parsedEndTime.minutes;
+  const clampedInterval = clampIntervalMinutes(intervalMinutes);
+  const clampedResizeInterval = clampIntervalMinutes(resizeIntervalMinutes ?? intervalMinutes);
+  const literalRange = endMinutes - startMinutes;
+  const totalMinutes = Math.ceil(literalRange / clampedInterval) * clampedInterval;
+
+  // Snapped in absolute minutes from midnight so resized edges land on the same grid as
+  // dragged events – see the matching comment in `use-event-resize`.
+  const clampAndSnap = useCallback(
+    (minutes: number): number => {
+      const snapped =
+        Math.round((startMinutes + minutes) / clampedResizeInterval) * clampedResizeInterval;
+      return Math.max(0, Math.min(literalRange, snapped - startMinutes));
+    },
+    [literalRange, clampedResizeInterval, startMinutes]
+  );
+
+  const percentToDateTime = useCallback(
+    (percent: number, eventDate: string): DateTimeStringValue => {
+      const minutes = (percent / 100) * totalMinutes;
+      const snappedMinutes = clampAndSnap(minutes);
+      const totalMins = startMinutes + snappedMinutes;
+      const hours = Math.floor(totalMins / 60);
+      const mins = totalMins % 60;
+      return `${eventDate} ${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}:00`;
+    },
+    [totalMinutes, startMinutes, clampAndSnap]
+  );
+
+  const snapEdgeMinutes = useCallback(
+    (minutes: number, direction: 'up' | 'down'): number => {
+      const absolute = startMinutes + minutes;
+      const snapped =
+        direction === 'up'
+          ? Math.ceil(absolute / clampedResizeInterval) * clampedResizeInterval
+          : Math.floor(absolute / clampedResizeInterval) * clampedResizeInterval;
+      return Math.max(0, Math.min(literalRange, snapped - startMinutes));
+    },
+    [literalRange, clampedResizeInterval, startMinutes]
+  );
+
+  const percentToMinutes = useCallback(
+    (percent: number): number => (percent / 100) * totalMinutes,
+    [totalMinutes]
+  );
+
+  const minutesToPercent = useCallback(
+    (minutes: number): number => (minutes / totalMinutes) * 100,
+    [totalMinutes]
+  );
+
+  const handleResizeStart = useCallback(
+    ({
+      event,
+      edge,
+      container,
+      originalLeft,
+      originalWidth,
+      eventDate,
+      dayIndex = 0,
+      dayCount = 1,
+      pointerEvent,
+    }: {
+      event: ScheduleEventData;
+      edge: ResizeEdge;
+      container: HTMLElement;
+      originalLeft: number;
+      originalWidth: number;
+      eventDate: string;
+      dayIndex?: number;
+      dayCount?: number;
+      pointerEvent: React.PointerEvent;
+    }) => {
+      if (!enabled || mode === 'static') {
+        return;
+      }
+
+      pointerEvent.preventDefault();
+      pointerEvent.stopPropagation();
+
+      const state: ResizeState = {
+        eventId: event.id,
+        event,
+        edge,
+        container,
+        originalLeft,
+        originalWidth,
+        currentLeft: originalLeft,
+        currentWidth: originalWidth,
+        eventDate,
+        originalStart: dayjs(event.start).format('YYYY-MM-DD HH:mm:ss'),
+        originalEnd: dayjs(event.end).format('YYYY-MM-DD HH:mm:ss'),
+        dayIndex,
+        dayCount,
+      };
+
+      resizeRef.current = state;
+      setResizeState(state);
+      setResizeValid(true);
+    },
+    [enabled, mode]
+  );
+
+  const getResizeRange = useCallback(
+    (state: ResizeState) => ({
+      start:
+        state.edge === 'start'
+          ? percentToDateTime(state.currentLeft, state.eventDate)
+          : state.originalStart,
+      end:
+        state.edge === 'start'
+          ? state.originalEnd
+          : percentToDateTime(state.currentLeft + state.currentWidth, state.eventDate),
+    }),
+    [percentToDateTime]
+  );
+
+  const isResizing = resizeState !== null;
+
+  useEffect(() => {
+    if (!isResizing) {
+      return undefined;
+    }
+
+    const savedUserSelect = document.body.style.userSelect;
+    const savedCursor = document.body.style.cursor;
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'ew-resize';
+
+    const handlePointerMove = (e: PointerEvent) => {
+      const state = resizeRef.current;
+      if (!state) {
+        return;
+      }
+
+      const containerRect = state.container.getBoundingClientRect();
+      const rawPercent = getDayRelativePercent({
+        clientX: e.clientX,
+        containerLeft: containerRect.left,
+        containerWidth: containerRect.width,
+        dayIndex: state.dayIndex,
+        dayCount: state.dayCount,
+      });
+      const draggedMinutes = clampAndSnap(percentToMinutes(rawPercent));
+
+      let newLeft = state.originalLeft;
+      let newWidth = state.originalWidth;
+
+      if (state.edge === 'end') {
+        const leftMinutes = percentToMinutes(state.originalLeft);
+        const minEndMinutes = snapEdgeMinutes(leftMinutes + clampedResizeInterval, 'up');
+        const endMinutes = Math.max(draggedMinutes, minEndMinutes);
+        newWidth = Math.max(0, minutesToPercent(endMinutes) - state.originalLeft);
+      } else {
+        const rightMinutes = percentToMinutes(state.originalLeft + state.originalWidth);
+        const maxStartMinutes = snapEdgeMinutes(rightMinutes - clampedResizeInterval, 'down');
+        const startMinutesValue = Math.min(draggedMinutes, maxStartMinutes);
+        newLeft = minutesToPercent(startMinutesValue);
+        newWidth = Math.max(0, state.originalLeft + state.originalWidth - newLeft);
+      }
+
+      resizeRef.current = { ...state, currentLeft: newLeft, currentWidth: newWidth };
+      setResizeState(resizeRef.current);
+
+      const range = getResizeRange(resizeRef.current);
+      setResizeValid(validateResize(state.event, range.start, range.end, state.edge).valid);
+    };
+
+    const handlePointerUp = () => {
+      const state = resizeRef.current;
+      if (state) {
+        if (
+          state.currentLeft !== state.originalLeft ||
+          state.currentWidth !== state.originalWidth
+        ) {
+          const { start: newStart, end: newEnd } = getResizeRange(state);
+          const { valid, conflicts, reason } = validateResize(
+            state.event,
+            newStart,
+            newEnd,
+            state.edge
+          );
+
+          if (valid) {
+            stableOnEventResize({
+              eventId: state.eventId,
+              newStart,
+              newEnd,
+              event: state.event,
+            });
+          } else {
+            stableOnEventPlacementRejected({
+              action: 'resize',
+              event: state.event,
+              start: newStart,
+              end: newEnd,
+              edge: state.edge,
+              resourceId: state.event.resourceId,
+              conflicts,
+              reason: reason!,
+            });
+          }
+        }
+      }
+      resizeRef.current = null;
+      setResizeState(null);
+      setResizeValid(true);
+      justResizedRef.current = true;
+      requestAnimationFrame(() => {
+        justResizedRef.current = false;
+      });
+    };
+
+    document.addEventListener('pointermove', handlePointerMove);
+    document.addEventListener('pointerup', handlePointerUp);
+
+    return () => {
+      document.body.style.userSelect = savedUserSelect;
+      document.body.style.cursor = savedCursor;
+      document.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('pointerup', handlePointerUp);
+    };
+  }, [isResizing]);
+
+  const getResizePosition = useCallback(
+    (eventId: string | number, eventDate?: string) => {
+      if (!resizeState || resizeState.eventId !== eventId) {
+        return null;
+      }
+      if (eventDate !== undefined && resizeState.eventDate !== eventDate) {
+        return null;
+      }
+      return { left: resizeState.currentLeft, width: resizeState.currentWidth };
+    },
+    [resizeState]
+  );
+
+  const isResizableEvent = useCallback(
+    (event: ScheduleEventData) => {
+      if (!enabled || mode === 'static') {
+        return false;
+      }
+      if (event.display === 'background' && !withBackgroundEvents) {
+        return false;
+      }
+      return canResizeEvent ? canResizeEvent(event) : true;
+    },
+    [enabled, mode, canResizeEvent, withBackgroundEvents]
+  );
+
+  const wasResizing = useCallback(() => justResizedRef.current, []);
+
+  return {
+    handleResizeStart,
+    isResizing,
+    resizingEventId: resizeState?.eventId ?? null,
+    resizingEdge: resizeState?.edge ?? null,
+    getResizePosition,
+    isResizableEvent,
+    wasResizing,
+    resizeValid,
+  };
+}

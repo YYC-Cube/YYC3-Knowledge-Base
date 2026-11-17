@@ -1,0 +1,65 @@
+'use client';
+
+import './style.css';
+
+import * as stylex from '@stylexjs/stylex';
+import { LevaPanel } from 'leva';
+import { memo, type Ref } from 'react';
+
+import { DraggablePanel } from '@/DraggablePanel';
+import { Center, Flexbox, type FlexboxProps } from '@/Flex';
+import { styleProps } from '@/styles/stylex/props';
+import { useResponsive } from '@/styles/theme/scope';
+
+import { styles } from './style';
+
+export interface StoryBookProps extends FlexboxProps {
+  levaStore: any;
+  noPadding?: boolean;
+  ref?: Ref<HTMLDivElement>;
+}
+
+export const StoryBook = memo<StoryBookProps>(
+  ({ ref, levaStore, noPadding, className, children, ...rest }) => {
+    const { mobile } = useResponsive();
+
+    return (
+      <Flexbox
+        align={'stretch'}
+        {...styleProps(styles.editor, className)}
+        data-lobe-storybook=""
+        flex={1}
+        height={'100%'}
+        horizontal={!mobile}
+        justify={'stretch'}
+        ref={ref}
+        width={'100%'}
+      >
+        <Center
+          {...stylex.props(styles.left)}
+          flex={1}
+          paddingBlock={noPadding ? undefined : 40}
+          paddingInline={noPadding ? undefined : 24}
+          {...rest}
+        >
+          {children}
+        </Center>
+        <DraggablePanel
+          className="lobe-storybook-right"
+          minWidth={280}
+          placement={mobile ? 'bottom' : 'right'}
+        >
+          <div className="lobe-storybook-leva">
+            <LevaPanel fill flat store={levaStore} titleBar={false} />{' '}
+          </div>
+        </DraggablePanel>
+      </Flexbox>
+    );
+  },
+);
+
+StoryBook.displayName = 'StoryBook';
+
+export default StoryBook;
+
+export { useControls, useCreateStore } from 'leva';

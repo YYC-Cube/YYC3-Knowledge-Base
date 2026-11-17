@@ -1,0 +1,126 @@
+<template>
+  <view>
+    <t-popup
+      v-if="!destroyOnClose || dataVisible"
+      :custom-style="tools._style([customStyle])"
+      :visible="dataVisible"
+      :z-index="zIndex"
+      :using-custom-navbar="usingCustomNavbar"
+      :custom-navbar-height="customNavbarHeight"
+      :placement="placement == 'right' ? 'right' : 'left'"
+      :show-overlay="showOverlay"
+      :overlay-props="overlayProps"
+      :close-on-overlay-click="closeOnOverlayClick"
+      @visible-change="onVisibleChange"
+    >
+      <view :class="classPrefix">
+        <slot name="title" />
+        <view v-if="title" :class="classPrefix + '__title'">
+          {{ title }}
+        </view>
+        <scroll-view :class="classPrefix + '__sidebar'" scroll-y type="list">
+          <view
+            v-for="(item, index) in items"
+            :key="index"
+            :class="classPrefix + '__sidebar-item'"
+            :hover-class="classPrefix + '--hover'"
+            :hover-start-time="0"
+            :hover-stay-time="100"
+            wx:item="item"
+            :data-item="item"
+            :data-index="index"
+            :aria-role="ariaRole || 'button'"
+            :aria-label="item.title"
+            @click="onItemClick"
+          >
+            <view v-if="item.icon" :aria-hidden="true" :class="classPrefix + '__sidebar-item-icon'">
+              <t-icon :name="item.icon" />
+            </view>
+
+            <view :class="classPrefix + '__sidebar-item-title'">
+              {{ item.title }}
+            </view>
+          </view>
+        </scroll-view>
+        <view :class="classPrefix + '__footer'">
+          <slot />
+          <slot name="footer" />
+        </view>
+      </view>
+    </t-popup>
+  </view>
+</template>
+<script>
+import { prefix } from '../common/config';
+import { uniComponent } from '../common/src/index';
+import { coalesce } from '../common/utils';
+
+import tools from '../common/utils.wxs';
+import TIcon from '../icon/icon';
+import useCustomNavbar from '../mixins/using-custom-navbar';
+import TPopup from '../popup/popup';
+
+import props from './props';
+
+const name = `${prefix}-drawer`;
+
+export default {
+  components: {
+    TPopup,
+    TIcon,
+  },
+  ...uniComponent({
+    name,
+    options: {
+      styleIsolation: 'shared',
+    },
+    mixins: [useCustomNavbar],
+    props: {
+      ...props,
+    },
+    emits: ['update:visible', 'close', 'overlay-click', 'item-click'],
+    data() {
+      return {
+        classPrefix: name,
+        tools,
+        dataVisible: coalesce(this.visible, this.defaultVisible),
+      };
+    },
+    watch: {
+      visible(e) {
+        this.dataVisible = e;
+      },
+    },
+    methods: {
+      // closeOnOverlayClick 为 true 时才能触发 popup 的 visible-change 事件
+      onVisibleChange(detail) {
+        const { visible } = detail;
+        const { showOverlay } = this;
+
+        this.dataVisible = visible;
+
+        if (!visible) {
+          this.$emit('close', { trigger: 'overlay' });
+        }
+
+        if (showOverlay) {
+          this.$emit('overlay-click', { visible });
+        }
+        this.$emit('update:visible', visible);
+      },
+
+      onItemClick(detail) {
+        const { index, item } = detail.currentTarget.dataset;
+
+        this.$emit('item-click', { index, item });
+      },
+    },
+  }),
+};
+</script>
+<style scoped src="./drawer.css"></style>
+<style>
+.t-drawer__sidebar {
+  width: 100%;
+}
+</style>

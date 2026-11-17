@@ -1,0 +1,30 @@
+name: ci
+on:
+  push:
+    branches:
+      - develop
+      - ci/**
+
+jobs:
+  build:
+    if: github.repository == 'Tencent/tdesign-miniprogram'
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [22, 24, 26]
+        os: [ubuntu-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: pnpm install
+
+      - run: pnpm run build

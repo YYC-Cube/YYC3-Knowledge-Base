@@ -1,0 +1,81 @@
+<template>
+  <!-- #ifdef H5 -->
+  <!-- H5端使用 teleport -->
+  <teleport to="body">
+    <!-- #endif -->
+    <!-- #ifdef MP-WEIXIN || MP-ALIPAY -->
+    <!-- #ifndef MP-DINGTALK -->
+    <!-- 小程序使用 root-portal -->
+    <root-portal>
+      <!-- #endif -->
+      <!-- #endif -->
+      <view :class="themeClass" :style="configProviderStyle" class="wd-root-portal">
+        <slot />
+      </view>
+      <!-- #ifdef MP-WEIXIN || MP-ALIPAY -->
+      <!-- #ifndef MP-DINGTALK -->
+    </root-portal>
+    <!-- #endif -->
+    <!-- #endif -->
+    <!-- #ifdef H5 -->
+  </teleport>
+  <!-- #endif -->
+</template>
+<script lang="ts">
+export default {
+  name: 'wd-root-portal',
+  options: {
+    // #ifndef MP-TOUTIAO
+    virtualHost: true,
+    // #endif
+    addGlobalClass: true,
+    styleIsolation: 'shared'
+  }
+}
+</script>
+<script lang="ts" setup>
+import { computed, inject } from 'vue'
+import { useParent } from '../../composables/useParent'
+import { USE_CONFIG_PROVIDER_KEY } from '../../composables/useConfigProvider'
+import { CONFIG_PROVIDER_KEY, type ConfigProviderProvide } from '../wd-config-provider/types'
+import { baseProps } from '../../common/props'
+
+const props = defineProps({
+  ...baseProps
+})
+
+const None = Symbol('None')
+const hooksProvider = inject<ConfigProviderProvide | typeof None>(USE_CONFIG_PROVIDER_KEY, None)
+const { parent: configProvider } = useParent(CONFIG_PROVIDER_KEY)
+
+const configProviderStyle = computed(() => {
+  return hooksProvider !== None ? hooksProvider.themeStyle.value || '' : configProvider.value?.themeStyle.value || ''
+})
+
+const themeClass = computed(() => {
+  const theme = hooksProvider !== None ? hooksProvider.globalConfig?.value.theme : configProvider.value?.globalConfig?.value.theme
+  return theme ? `wot-theme-${theme}` : 'wot-theme-light'
+})
+</script>
+
+<!-- #ifdef APP-PLUS -->
+<script module="render" lang="renderjs">
+export default {
+  mounted() {
+    const ownerInstance = this.$ownerInstance
+    if (!ownerInstance || !ownerInstance.$el) return
+
+    const root = document.querySelector('uni-app') || document.body
+    root.appendChild(ownerInstance.$el)
+  },
+  beforeDestroy() {
+    // 清理，将元素移回原位置
+    const ownerInstance = this.$ownerInstance
+    if (!ownerInstance || !ownerInstance.$el) return
+
+    const root = document.querySelector('uni-app') || document.body
+    if (ownerInstance.$el.parentNode === root) root.removeChild(ownerInstance.$el)
+  }
+}
+</script>
+<!-- #endif -->

@@ -1,0 +1,61 @@
+{{#> wizard-nav}}
+  {{#> wizard-nav-list}}
+    {{#> wizard-nav-item}}
+      {{#if wizard-template-nav--IsInfo}}
+        {{#> wizard-nav-link wizard-nav-link--IsCurrent="true" wizard-nav-link--IsCurrentPage="true"}}
+          Information
+        {{/wizard-nav-link}}
+      {{else}}
+        {{#> wizard-nav-link}}
+          Information
+        {{/wizard-nav-link}}
+      {{/if}}
+    {{/wizard-nav-item}}
+    {{#> wizard-nav-item wizard-nav-item--IsExpandable=wizard-template-nav--IsExpandable  wizard-nav-item--IsExpanded=wizard-template-nav--IsExpanded}}
+      {{!-- If info page --}}
+      {{#if wizard-template-nav--IsInfo}}
+        {{#> wizard-nav-link}}
+          Configuration
+        {{/wizard-nav-link}}
+      {{else}}
+        {{#> wizard-nav-link wizard-nav-link--IsCurrent="true"}}
+          Configuration
+        {{/wizard-nav-link}}
+      {{/if}}
+      {{#> wizard-nav-list}}
+        {{#> wizard-nav-item newcontext}}
+          {{#> wizard-nav-link}}
+            Substep A
+          {{/wizard-nav-link}}
+        {{/wizard-nav-item}}
+        {{#> wizard-nav-item newcontext}}
+          {{!-- If info page --}}
+          {{#if wizard-template-nav--IsInfo}}
+            {{#> wizard-nav-link}}
+              Substep B
+            {{/wizard-nav-link}}
+          {{else}}
+            {{#> wizard-nav-link wizard-nav-link--IsCurrent="true" wizard-nav-link--IsCurrentPage="true"}}
+              Substep B
+            {{/wizard-nav-link}}
+          {{/if}}
+        {{/wizard-nav-item}}
+        {{#> wizard-nav-item newcontext}}
+          {{#> wizard-nav-link}}
+            Substep C
+          {{/wizard-nav-link}}
+        {{/wizard-nav-item}}
+      {{/wizard-nav-list}}
+    {{/wizard-nav-item}}
+    {{#> wizard-nav-item}}
+      {{#> wizard-nav-link}}
+        Additional
+      {{/wizard-nav-link}}
+    {{/wizard-nav-item}}
+    {{#> wizard-nav-item}}
+      {{#> wizard-nav-link wizard-nav-link--IsDisabled="true"}}
+        Review
+      {{/wizard-nav-link}}
+    {{/wizard-nav-item}}
+  {{/wizard-nav-list}}
+{{/wizard-nav}}

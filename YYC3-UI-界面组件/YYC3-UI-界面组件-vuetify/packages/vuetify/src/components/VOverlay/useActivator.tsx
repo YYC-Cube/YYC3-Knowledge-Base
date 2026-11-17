@@ -1,0 +1,467 @@
+// Components
+import { VMenuSymbol } from '@/components/VMenu/shared'
+
+// Composables
+import { makeDelayProps, useDelay } from '@/composables/delay'
+
+// Directives
+import { createTouchHold, preventCallout } from '@/directives/touch-hold'
+
+// Utilities
+import {
+  computed,
+  effectScope,
+  inject,
+  mergeProps,
+  nextTick,
+  onMounted,
+  onScopeDispose,
+  ref,
+  shallowRef,
+  watch,
+  watchEffect,
+} from 'vue'
+import {
+  bindProps,
+  getActiveElement,
+  getCurrentInstance,
+  IN_BROWSER,
+  isString,
+  matchesSelector,
+  propsFactory,
+  templateRef,
+  unbindProps,
+} from '@/util'
+
+// Types
+import type {
+  ComponentInternalInstance,
+  ComponentPublicInstance,
+  EffectScope,
+  PropType,
+  Ref,
+} from 'vue'
+import type { DelayProps } from '@/composables/delay'
+
+interface ActivatorProps extends DelayProps {
+  target: 'parent' | 'cursor' | (string & {}) | Element | ComponentPublicInstance | [x: number, y: number] | undefined
+  activator: 'parent' | (string & {}) | Element | ComponentPublicInstance | undefined
+  activatorProps: Record<string, any>
+
+  openOnClick: boolean | undefined
+  openOnHover: boolean
+  openOnFocus: boolean | undefined
+  contextMenu: boolean
+
+  closeOnContentClick: boolean
+}
+
+export const makeActivatorProps = propsFactory({
+  target: [String, Object] as PropType<ActivatorProps['target']>,
+  activator: [String, Object] as PropType<ActivatorProps['activator']>,
+  activatorProps: {
+    type: Object as PropType<ActivatorProps['activatorProps']>,
+    default: () => ({}),
+  },
+
+  openOnClick: {
+    type: Boolean,
+    default: undefined,
+  },
+  openOnHover: Boolean,
+  openOnFocus: {
+    type: Boolean,
+    default: undefined,
+  },
+  contextMenu: Boolean,
+
+  closeOnContentClick: Boolean,
+
+  ...makeDelayProps(),
+}, 'VOverlay-activator')
+
+export function useActivator (
+  props: ActivatorProps,
+  { isActive, isTop, contentEl, isSubmenu = false }: {
+    isActive: Ref<boolean>
+    isTop: Ref<boolean>
+    contentEl: Ref<HTMLElement | undefined>
+    isSubmenu?: boolean
+  }
+) {
+  const vm = getCurrentInstance('useActivator')
+  const activatorEl = ref<HTMLElement>()
+
+  const parentMenu = inject(VMenuSymbol, null)
+
+  let isHovered = false
+  let isFocused = false
+  let firstEnter = true
+  const openedByHover = ref(false)
+  let delayCallbackFiredOpen = false
+
+  // a submenu chain collapses on mouseleave only when its root was hover-opened
+  const shouldCloseOnLeave = () => !isSubmenu || (parentMenu?.rootOpenedByHover?.() ?? openedByHover.value)
+
+  const openOnFocus = computed(() => props.openOnFocus || (props.openOnFocus == null && props.openOnHover))
+  const openOnClick = computed(() => props.openOnClick || (
+    props.openOnClick == null && !props.openOnHover && !openOnFocus.value && !props.contextMenu
+  ))
+
+  const { runOpenDelay, runCloseDelay } = useDelay(props, value => {
+    if (
+      value === (
+        (props.openOnHover && isHovered) ||
+        (openOnFocus.value && isFocused)
+      ) && !(props.openOnHover && isActive.value && !isTop.value)
+    ) {
+      if (isActive.value !== value) {
+        firstEnter = true
+        if (value) {
+          delayCallbackFiredOpen = true
+          openedByHover.value = isHovered && props.openOnHover
+        }
+      }
+      isActive.value = value
+    }
+  })
+
+  let reopenLock = false
+  watch(isActive, v => {
+    if (!v) {
+      reopenLock = true
+      setTimeout(() => reopenLock = false, 50)
+      openedByHover.value = false
+      delayCallbackFiredOpen = false
+      return
+    }
+    if (!delayCallbackFiredOpen) {
+      openedByHover.value = false
+    }
+    delayCallbackFiredOpen = false
+  })
+
+  const cursorTarget = ref<[x: number, y: number]>()
+  let cursorOffset: [x: number, y: number] | undefined
+  function setCursorTarget (point: [x: number, y: number] | undefined) {
+    cursorTarget.value = point
+    const rect = activatorEl.value?.getBoundingClientRect()
+    cursorOffset = point && rect && [point[0] - rect.left, point[1] - rect.top]
+  }
+
+  const touchHold = createTouchHold({
+    handler: ({ originalEvent, clientX, clientY }) => {
+      // going through contextmenu closes other overlays and lets the innermost activator take it
+      originalEvent.target!.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX, clientY }))
+    },
+  })
+
+  const availableEvents = {
+    onClick: (e: MouseEvent) => {
+      if (reopenLock && !isActive.value) return
+      e.stopPropagation()
+      activatorEl.value = (e.currentTarget || e.target) as HTMLElement
+      if (!isActive.value) {
+        setCursorTarget([e.clientX, e.clientY])
+      }
+      isActive.value = !isActive.value
+    },
+    onMouseenter: (e: MouseEvent) => {
+      isHovered = true
+      activatorEl.value = (e.currentTarget || e.target) as HTMLElement
+      if (props.target === 'cursor') {
+        setCursorTarget([e.clientX, e.clientY])
+      }
+      runOpenDelay()
+    },
+    onMousemove: (e: MouseEvent) => {
+      setCursorTarget([e.clientX, e.clientY])
+    },
+    onMouseleave: (e: MouseEvent) => {
+      isHovered = false
+      if (props.target === 'cursor') isFocused = false
+      if (shouldCloseOnLeave()) runCloseDelay()
+    },
+    onFocus: (e: FocusEvent) => {
+      if (reopenLock) return
+      if (matchesSelector(e.target as HTMLElement, ':focus-visible') === false) return
+
+      isFocused = true
+      e.stopPropagation()
+      activatorEl.value = (e.currentTarget || e.target) as HTMLElement
+
+      runOpenDelay()
+    },
+    onContextmenu: (e: MouseEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (isActive.value) {
+        isActive.value = false
+        return
+      }
+      activatorEl.value = (e.currentTarget || e.target) as HTMLElement
+      // keyboard-triggered contextmenu (Shift+F10) may report 0,0; anchor to the activator instead
+      setCursorTarget(e.clientX || e.clientY ? [e.clientX, e.clientY] : undefined)
+      isActive.value = true
+    },
+    // iOS never fires contextmenu, so the long-press stands in for it
+    onTouchstart: touchHold.onTouchstart,
+    onBlur: (e: FocusEvent) => {
+      // Body parks from clicks on empty areas inside content also count as "still focused".
+      const next = e.relatedTarget as Element | null
+      if (!next || contentEl.value?.contains(next)) return
+
+      isFocused = false
+      e.stopPropagation()
+
+      runCloseDelay({ minDelay: 1 })
+    },
+  }
+
+  const activatorEvents = computed(() => {
+    const events: Partial<typeof availableEvents> = {}
+
+    if (openOnClick.value) {
+      events.onClick = availableEvents.onClick
+    }
+    if (props.openOnHover) {
+      events.onMouseenter = availableEvents.onMouseenter
+      events.onMouseleave = availableEvents.onMouseleave
+      if (props.target === 'cursor' && !openOnClick.value) {
+        events.onMousemove = availableEvents.onMousemove
+      }
+    }
+    if (props.contextMenu) {
+      events.onContextmenu = availableEvents.onContextmenu
+      events.onTouchstart = availableEvents.onTouchstart
+    }
+    if (openOnFocus.value) {
+      events.onFocus = availableEvents.onFocus
+      events.onBlur = availableEvents.onBlur
+    }
+
+    return events
+  })
+
+  const contentEvents = computed(() => {
+    const events: Record<string, EventListener> = {}
+
+    if (props.openOnHover) {
+      events.onMouseenter = () => {
+        isHovered = true
+        runOpenDelay()
+      }
+      events.onMouseleave = () => {
+        isHovered = false
+        if (shouldCloseOnLeave()) runCloseDelay()
+      }
+    }
+
+    if (openOnFocus.value) {
+      events.onFocusin = (e: Event) => {
+        if (!(e.target as HTMLElement).matches(':focus-visible')) return
+        isFocused = true
+        runOpenDelay()
+      }
+      events.onFocusout = (e: Event) => {
+        const next = (e as FocusEvent).relatedTarget as Element | null
+        if (!next || contentEl.value?.contains(next)) return
+
+        isFocused = false
+        runCloseDelay({ minDelay: 1 })
+      }
+    }
+
+    if (props.closeOnContentClick) {
+      const menu = inject(VMenuSymbol, null)
+      events.onClick = () => {
+        isActive.value = false
+        menu?.closeParents()
+      }
+    }
+
+    return events
+  })
+
+  const scrimEvents = computed(() => {
+    const events: Record<string, EventListener> = {}
+
+    if (props.openOnHover) {
+      events.onMouseenter = () => {
+        if (firstEnter) {
+          isHovered = true
+          firstEnter = false
+          runOpenDelay()
+        }
+      }
+      events.onMouseleave = () => {
+        isHovered = false
+        if (shouldCloseOnLeave()) runCloseDelay()
+      }
+    }
+
+    return events
+  })
+
+  watch(isTop, val => {
+    if (
+      val &&
+      shouldCloseOnLeave() &&
+      (
+        (props.openOnHover && !isHovered && (!openOnFocus.value || !isFocused)) ||
+        (openOnFocus.value && !isFocused && (!props.openOnHover || !isHovered))
+      ) &&
+      !contentEl.value?.contains(getActiveElement())
+    ) {
+      runCloseDelay()
+    }
+  })
+
+  // the cursor point is in viewport coordinates, so it has to follow the activator; target="cursor" keeps it fixed instead
+  function onScroll () {
+    const rect = activatorEl.value?.getBoundingClientRect()
+    if (!cursorOffset || !rect) return
+    cursorTarget.value = [rect.left + cursorOffset[0], rect.top + cursorOffset[1]]
+  }
+  watch(isActive, (val, _, onCleanup) => {
+    if (!val || !props.contextMenu || props.target) return
+
+    document.addEventListener('scroll', onScroll, { capture: true, passive: true })
+    onCleanup(() => document.removeEventListener('scroll', onScroll, { capture: true }))
+  })
+
+  watchEffect(() => {
+    if (activatorEl.value && props.contextMenu) preventCallout(activatorEl.value)
+  })
+
+  // clearing earlier makes the leave transition fly back to the activator
+  function onAfterLeave () {
+    if (!isActive.value) setCursorTarget(undefined)
+  }
+
+  const activatorRef = templateRef()
+  watchEffect(() => {
+    if (!activatorRef.value) return
+
+    nextTick(() => {
+      activatorEl.value = activatorRef.el
+    })
+  })
+
+  const targetRef = templateRef()
+  const isMounted = shallowRef(false)
+  onMounted(() => isMounted.value = true)
+  const target = computed(() => {
+    void isMounted.value
+    if ((props.target === 'cursor' || (props.contextMenu && !props.target)) && cursorTarget.value) return cursorTarget.value
+    if (targetRef.value) return targetRef.el
+    return getTarget(props.target, vm) || activatorEl.value
+  })
+  const targetEl = computed(() => {
+    return Array.isArray(target.value)
+      ? undefined
+      : target.value
+  })
+
+  let scope: EffectScope
+  watch(() => !!props.activator, val => {
+    if (val && IN_BROWSER) {
+      scope = effectScope()
+      scope.run(() => {
+        _useActivator(props, vm, { activatorEl, activatorEvents })
+      })
+    } else if (scope) {
+      scope.stop()
+    }
+  }, { flush: 'post', immediate: true })
+
+  onScopeDispose(() => {
+    touchHold.cancel()
+    scope?.stop()
+  })
+
+  return {
+    activatorEl,
+    activatorRef,
+    target,
+    targetEl,
+    targetRef,
+    activatorEvents,
+    contentEvents,
+    scrimEvents,
+    openedByHover,
+    onAfterLeave,
+  }
+}
+
+function _useActivator (
+  props: ActivatorProps,
+  vm: ComponentInternalInstance,
+  { activatorEl, activatorEvents }: Pick<ReturnType<typeof useActivator>, 'activatorEl' | 'activatorEvents'>
+) {
+  watch(() => props.activator, (val, oldVal) => {
+    if (oldVal && val !== oldVal) {
+      const activator = getActivator(oldVal)
+      activator && unbindActivatorProps(activator)
+    }
+    if (val) {
+      nextTick(() => bindActivatorProps())
+    }
+  }, { immediate: true })
+
+  watch(() => props.activatorProps, () => {
+    bindActivatorProps()
+  })
+
+  onScopeDispose(() => {
+    unbindActivatorProps()
+  })
+
+  function bindActivatorProps (el = getActivator(), _props = props.activatorProps) {
+    if (!el) return
+
+    bindProps(el, mergeProps(activatorEvents.value, _props))
+  }
+
+  function unbindActivatorProps (el = getActivator(), _props = props.activatorProps) {
+    if (!el) return
+
+    unbindProps(el, mergeProps(activatorEvents.value, _props))
+  }
+
+  function getActivator (selector = props.activator): HTMLElement | undefined {
+    const activator = getTarget(selector, vm)
+
+    // The activator should only be a valid element (Ignore comments and text nodes)
+    activatorEl.value = activator?.nodeType === Node.ELEMENT_NODE ? activator : undefined
+
+    return activatorEl.value
+  }
+}
+
+function getTarget<T extends 'parent' | string | Element | ComponentPublicInstance | [x: number, y: number] | undefined> (
+  selector: T,
+  vm: ComponentInternalInstance
+): HTMLElement | undefined | (T extends any[] ? [x: number, y: number] : never) {
+  if (!selector) return
+
+  let target
+  if (selector === 'parent') {
+    let el = vm?.proxy?.$el?.parentNode
+    while (el?.hasAttribute('data-no-activator')) {
+      el = el.parentNode
+    }
+    target = el
+  } else if (isString(selector)) {
+    // Selector
+    target = document.querySelector(selector)
+  } else if ('$el' in selector) {
+    // Component (ref)
+    target = selector.$el
+  } else {
+    // HTMLElement | Element | [x, y]
+    target = selector
+  }
+
+  return target
+}

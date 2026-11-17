@@ -1,0 +1,24 @@
+import { UseDocumentTitleDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.useDocumentTitle);
+
+## Usage
+
+The `use-document-title` hook sets the `document.title` property with the `React.useLayoutEffect` hook.
+`use-document-title` is not called during server-side rendering.
+Use this hook with client-only applications; for isomorphic use, consider more advanced options
+(for example, [react-helmet](https://github.com/nfl/react-helmet)).
+
+Call the hook with a string that should be set as the document title in any component.
+`use-document-title` triggers every time the value changes
+and the value is not an empty string (trailing whitespace is trimmed).
+
+<Demo data={UseDocumentTitleDemos.usage} />
+
+## Definition
+
+```tsx
+function useDocumentTitle(title: string): void;
+```

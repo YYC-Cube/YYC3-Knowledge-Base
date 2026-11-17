@@ -1,0 +1,935 @@
+{
+  "docs": {
+    "name": "指南",
+    "packages": [
+      {
+        "name": "intro",
+        "cName": "介绍",
+        "eName": "Introduction"
+      },
+      {
+        "name": "start",
+        "cName": "快速上手",
+        "eName": "Quickstart"
+      },
+      {
+        "name": "advanced",
+        "cName": "进阶用法",
+        "eName": "Advanced Usage"
+      },
+      {
+        "name": "official-theme",
+        "cName": "官方主题",
+        "eName": "Official Theme"
+      },
+      {
+        "name": "theme",
+        "cName": "定制主题",
+        "eName": "Customize Theme"
+      },
+      {
+        "name": "version",
+        "cName": "4.0 更新介绍",
+        "eName": "Version"
+      },
+      {
+        "name": "migrate-from-v3",
+        "cName": "从 v3 升级到 v4",
+        "eName": "Migrate-from-v3"
+      },
+      {
+        "name": "international",
+        "cName": "国际化",
+        "eName": "Internationalization"
+      },
+      {
+        "name": "https://github.com/jd-opensource/nutui/issues/1671",
+        "cName": "贡献指南",
+        "eName": "Contributing",
+        "isLink": true
+      },
+      {
+        "name": "https://github.com/jd-opensource/nutui/releases",
+        "cName": "更新日志",
+        "eName": "Changelog",
+        "isLink": true
+      },
+      {
+        "name": "https://github.com/jd-opensource/nutui/issues/2461",
+        "cName": "常见问题",
+        "eName": "QA",
+        "isLink": true
+      }
+    ]
+  },
+  "nav": [
+    {
+      "name": "基础组件",
+      "enName": "basic",
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Button",
+          "cName": "按钮",
+          "setup": true,
+          "desc": "按钮用于触发一个操作，如提交表单。",
+          "author": "richard1015"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Cell",
+          "cName": "单元格",
+          "desc": "展示列表",
+          "setup": true,
+          "author": "richard1015"
+        },
+        {
+          "version": "3.0.0",
+          "name": "CellGroup",
+          "cName": "单元格组件",
+          "show": false,
+          "desc": "展示分组列表",
+          "setup": true,
+          "author": "richard1015"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Icon",
+          "cName": "图标",
+          "desc": "图标",
+          "author": "richard1015",
+          "exclude": true
+        },
+        {
+          "version": "3.0.0",
+          "name": "Overlay",
+          "cName": "遮罩层",
+          "desc": "创建一个遮罩层，通常用于阻止用户进行其他操作",
+          "setup": true,
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Popup",
+          "cName": "弹出层",
+          "desc": "弹出层容器，用于展示弹窗、信息提示等内容，支持多个弹出层叠加展示",
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "ConfigProvider",
+          "cType": "基础组件",
+          "cName": "全局配置",
+          "desc": "用于配置NutUI组件全局",
+          "author": "richard1015"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Image",
+          "cType": "基础组件",
+          "cName": "图片",
+          "desc": "图片展示",
+          "taro": false,
+          "setup": true,
+          "author": "yangxiaolu"
+        }
+      ]
+    },
+    {
+      "name": "布局组件",
+      "enName": "layout",
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Layout",
+          "cName": "布局",
+          "setup": true,
+          "desc": "简便地创建布局",
+          "author": "undo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Col",
+          "cName": "布局-Col",
+          "show": false,
+          "setup": true,
+          "desc": "布局组件Col",
+          "author": "undo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Row",
+          "cName": "布局-Row",
+          "show": false,
+          "setup": true,
+          "desc": "布局组件Row",
+          "author": "undo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Sticky",
+          "cType": "布局组件",
+          "cName": "粘性布局",
+          "desc": "当组件在屏幕范围内时，会按照正常的布局排列，当组件滚出屏幕范围时，始终会固定在距离屏幕固定的距离处",
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Divider",
+          "cName": "分割线",
+          "desc": "用于将内容分隔为多个区域。",
+          "setup": true,
+          "author": "yangjinjun3"
+        },
+        {
+          "version": "3.1.13",
+          "name": "Grid",
+          "cName": "宫格",
+          "desc": "用于分隔成等宽区块进行页面导航",
+          "setup": true,
+          "author": "haiweilian"
+        },
+        {
+          "version": "3.1.13",
+          "name": "GridItem",
+          "cName": "宫格子组件",
+          "desc": "",
+          "show": false,
+          "setup": true,
+          "author": "haiweilian"
+        },
+        {
+          "version": "1.0.0",
+          "name": "Space",
+          "cName": "间距",
+          "desc": "设置元素之间的间距。",
+          "author": "Marvin"
+        }
+      ]
+    },
+    {
+      "name": "导航组件",
+      "enName": "nav",
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Navbar",
+          "cName": "头部导航",
+          "desc": "头部导航",
+          "setup": true,
+          "author": "liqiong43"
+        },
+        {
+          "version": "3.0.0",
+          "name": "FixedNav",
+          "cName": "悬浮导航",
+          "desc": "可拖拽的悬浮导航",
+          "author": "richard1015"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Menu",
+          "cName": "菜单",
+          "desc": "下拉菜单组件",
+          "author": "yangjinjun3"
+        },
+        {
+          "version": "3.0.0",
+          "name": "MenuItem",
+          "cName": "菜单",
+          "show": false,
+          "desc": "下拉菜单组件",
+          "author": "yangjinjun3"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Tabbar",
+          "cName": "标签栏",
+          "setup": true,
+          "desc": "标签栏",
+          "author": "Drjingfubo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "TabbarItem",
+          "cName": "标签栏子组件",
+          "setup": true,
+          "show": false,
+          "desc": "标签栏子组件",
+          "author": "Drjingfubo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Elevator",
+          "cName": "电梯楼层",
+          "desc": "用于列表快速定位以及索引的显示",
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Pagination",
+          "cName": "分页",
+          "desc": "当数据量较多时，采用分页的形式分隔长列表。",
+          "author": "yushuang24"
+        },
+        {
+          "version": "3.1.9",
+          "name": "Tabs",
+          "cName": "选项卡切换",
+          "desc": "常用于平级区域大块内容的的收纳和展现，支持内嵌标签形式和渲染循环数据形式",
+          "author": "richard1015"
+        },
+        {
+          "version": "3.1.9",
+          "name": "TabPane",
+          "cName": "选项卡子组件",
+          "desc": "",
+          "show": false,
+          "author": "richard1015"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Indicator",
+          "cName": "指示器",
+          "desc": "显示一个任务或流程的进度，常用语开通流程。",
+          "setup": true,
+          "author": "senyawang"
+        },
+        {
+          "version": "3.1.15",
+          "name": "SideNavbar",
+          "cName": "侧边栏导航",
+          "desc": "垂直展示的导航栏，用于内容选择和切换",
+          "author": "szg2008"
+        },
+        {
+          "version": "3.1.15",
+          "name": "SideNavbarItem",
+          "cName": "侧边栏导航子组件",
+          "desc": "",
+          "show": false,
+          "author": "szg2008"
+        },
+        {
+          "version": "3.1.15",
+          "name": "SubSideNavbar",
+          "cName": "侧边栏导航子组件",
+          "desc": "",
+          "show": false,
+          "author": "szg2008"
+        }
+      ]
+    },
+    {
+      "name": "数据录入",
+      "enName": "dentry",
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Range",
+          "cName": "区间选择器",
+          "desc": "滑动输入条，用于在给定的范围内选择一个值。",
+          "author": "zy19940510"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Searchbar",
+          "cName": "搜索栏",
+          "desc": "搜索栏",
+          "author": "zongyue3"
+        },
+        {
+          "name": "Cascader",
+          "cName": "级联选择器",
+          "desc": "级联选择，用于多层级数据的选择，典型场景为省市区选择.",
+          "author": "dongj0316"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Calendar",
+          "cName": "日历",
+          "desc": "日历组件",
+          "author": "songchenglin1"
+        },
+        {
+          "version": "4.3.0",
+          "name": "CalendarCard",
+          "cName": "日历卡片",
+          "desc": "日历卡片组件",
+          "setup": true,
+          "author": "eiinu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Checkbox",
+          "cName": "复选按钮",
+          "desc": "复选按钮",
+          "author": "Ymm0008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "CheckboxGroup",
+          "cName": "多选按钮组",
+          "desc": "多选按钮组",
+          "show": false,
+          "author": "Ymm0008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "DatePicker",
+          "cName": "日期选择器",
+          "desc": "提供多个选型集合供用户选择,支持单列选择和多列级联,通常与弹出层配合使用",
+          "author": "yangkaixuan"
+        },
+        {
+          "version": "3.0.0",
+          "name": "InputNumber",
+          "cName": "数字输入框",
+          "setup": true,
+          "desc": "数字输入框组件",
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Input",
+          "cName": "输入框",
+          "desc": "输入框组件",
+          "setup": true,
+          "author": "gxx158"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Radio",
+          "cName": "单选按钮",
+          "desc": "单选按钮",
+          "setup": true,
+          "author": "Ymm0008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "RadioGroup",
+          "cName": "单选按钮组",
+          "desc": "单选按钮组",
+          "show": false,
+          "setup": true,
+          "author": "Ymm0008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Rate",
+          "cName": "评分",
+          "desc": "评分组件",
+          "setup": true,
+          "author": "undo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Picker",
+          "cName": "选择器",
+          "desc": "提供多个选型集合供用户选择,支持单列选择和多列级联,通常与弹出层配合使用",
+          "author": "yangkaixuan"
+        },
+        {
+          "version": "3.0.0",
+          "name": "ShortPassword",
+          "cName": "短密码",
+          "desc": "短密码组件",
+          "author": "Drjingfubo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Textarea",
+          "cName": "文本域",
+          "setup": true,
+          "desc": "文本输入",
+          "author": "gx"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Uploader",
+          "cName": "上传",
+          "desc": "上传文件、图片",
+          "author": "richard1015"
+        },
+        {
+          "version": "3.0.0",
+          "name": "NumberKeyboard",
+          "cName": "数字键盘",
+          "desc": "虚拟数字键盘",
+          "author": "Drjingfubo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Form",
+          "cName": "表单",
+          "desc": "1",
+          "setup": true,
+          "author": "richard1015"
+        },
+        {
+          "version": "3.0.0",
+          "name": "FormItem",
+          "cName": "表单Item",
+          "desc": "表单Item",
+          "show": false,
+          "setup": true,
+          "author": "richard1015"
+        }
+      ]
+    },
+    {
+      "name": "操作反馈",
+      "enName": "feedback",
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Swipe",
+          "cName": "滑动手势",
+          "desc": "列表项左滑删除场景使用",
+          "setup": true,
+          "author": "richard1015"
+        },
+        {
+          "name": "SwipeGroup",
+          "cName": "滑动手势",
+          "show": false,
+          "desc": "Swipe 的集合，用于控制互斥",
+          "setup": true,
+          "author": "eiinu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "ActionSheet",
+          "cName": "动作面板",
+          "desc": "底部弹出动作菜单面板",
+          "author": "zhangyufei"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Backtop",
+          "cName": "返回顶部",
+          "setup": true,
+          "desc": "较长页面快捷返回顶部",
+          "author": "liqiong43"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Drag",
+          "cName": "拖拽",
+          "desc": "拖拽组件",
+          "author": "Drjingfubo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Dialog",
+          "funcCall": true,
+          "cName": "对话框",
+          "desc": "模态对话框，在浮层中显示，引导用户进行相关操作，支持图片对话框。",
+          "author": "dsj"
+        },
+        {
+          "version": "3.0.0",
+          "name": "InfiniteLoading",
+          "cName": "滚动加载",
+          "desc": "列表滚动到底部自动加载更多数据",
+          "taro": false,
+          "author": "yangxiaolu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "PullRefresh",
+          "cName": "下拉刷新",
+          "desc": "在列表中通过手指下拉刷新加载新内容的交互操作",
+          "taro": false,
+          "author": "yangxiaolu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Notify",
+          "funcCall": true,
+          "cName": "消息通知",
+          "desc": "在页面顶部展示消息提示，支持函数调用和组件调用两种方式",
+          "author": "wangyue217"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Switch",
+          "cName": "开关",
+          "desc": "用来打开或关闭选项",
+          "setup": true,
+          "author": "zongyue3"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Toast",
+          "cName": "吐司",
+          "funcCall": true,
+          "desc": "轻提示",
+          "author": "undo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Audio",
+          "cName": "音频播放器",
+          "desc": "音频播放器",
+          "taro": false,
+          "author": "yangxiaolu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "AudioOperate",
+          "cName": "音频操作按钮",
+          "desc": "音频操作按钮",
+          "show": false,
+          "taro": false,
+          "author": "yangxiaolu"
+        }
+      ]
+    },
+    {
+      "name": "展示组件",
+      "enName": "exhibition",
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Avatar",
+          "cName": "头像",
+          "desc": "头像",
+          "author": "ailululu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "AvatarGroup",
+          "cName": "头像组件",
+          "show": false,
+          "desc": "头像组合组件",
+          "author": "ailululu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "List",
+          "cType": "操作反馈",
+          "cName": "虚拟列表",
+          "desc": "可在成千上万条数据渲染时只渲染用户最大可见条数，提升页面渲染性能",
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Progress",
+          "cName": "进度条",
+          "desc": "用来展示进度",
+          "setup": true,
+          "author": "Drjingubo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "CircleProgress",
+          "cName": "环形进度条",
+          "desc": "用来展示进度",
+          "setup": true,
+          "author": "Drjingubo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Noticebar",
+          "cName": "公告栏",
+          "desc": "用于循环播放展示一组消息通知",
+          "author": "yangxiaolu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Empty",
+          "cName": "空状态",
+          "setup": true,
+          "desc": "空状态时占位提示",
+          "author": "wujia8"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Video",
+          "cName": "视频播放器",
+          "desc": "视频播放组件",
+          "taro": false,
+          "author": "zy19940510"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Steps",
+          "cName": "步骤条",
+          "setup": true,
+          "desc": "步骤条",
+          "author": "ailululu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Step",
+          "cName": "步骤条子组件",
+          "setup": true,
+          "show": false,
+          "desc": "步骤条子组件",
+          "author": "ailululu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Swiper",
+          "cName": "轮播",
+          "desc": "轮播",
+          "author": "suzigang"
+        },
+        {
+          "version": "3.0.0",
+          "name": "SwiperItem",
+          "cName": "轮播图子组件",
+          "show": false,
+          "desc": "轮播图子组件",
+          "author": "suzigang"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Price",
+          "cName": "价格",
+          "setup": true,
+          "desc": "价格组件",
+          "author": "ailululu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "ImagePreview",
+          "funcCall": true,
+          "cName": "图片预览",
+          "desc": "图片预览",
+          "author": "zongyue3"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Countup",
+          "cName": "数字滚动",
+          "desc": "数字滚动组件，动态变化展示",
+          "author": "Ymm0008"
+        },
+        {
+          "name": "Countdown",
+          "cName": "倒计时",
+          "setup": true,
+          "desc": "倒计时",
+          "author": "yangxiaolu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Badge",
+          "cName": "徽标",
+          "desc": "徽标",
+          "setup": true,
+          "author": "liqiong"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Tag",
+          "cName": "标签",
+          "setup": true,
+          "desc": "标签",
+          "author": "liqiong"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Popover",
+          "cName": "气泡弹出框",
+          "desc": "气泡弹出框",
+          "author": "liqiong"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Skeleton",
+          "cName": "骨架屏",
+          "desc": "骨架屏",
+          "setup": true,
+          "author": "liqiong"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Collapse",
+          "cName": "折叠面板",
+          "setup": true,
+          "desc": "折叠面板",
+          "author": "Ymm0008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "CollapseItem",
+          "cName": "折叠面板-item",
+          "show": false,
+          "setup": true,
+          "desc": "折叠面板-item",
+          "author": "Ymm0008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Table",
+          "cName": "表格",
+          "desc": "用于展示多条结构类似的数据，并具有一定的操作功能",
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Animate",
+          "cType": "展示组件",
+          "cName": "动画/动效",
+          "desc": "给页面元素添加动画效果",
+          "setup": true,
+          "author": "lijiamiao"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Ellipsis",
+          "cType": "展示组件",
+          "cName": "文本省略",
+          "desc": "文本省略",
+          "author": "yangxiaolu3"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Watermark",
+          "cType": "展示组件",
+          "cName": "水印",
+          "desc": "页面上添加特定的文字或图案。适用于防止信息盗用。",
+          "setup": true,
+          "author": "liukun"
+        },
+        {
+          "version": "3.0.0",
+          "name": "TrendArrow",
+          "cType": "展示组件",
+          "cName": "趋势箭头",
+          "desc": "带有箭头指示的百分比数字,用以展示指标趋势",
+          "setup": true,
+          "author": "liukun"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Tour",
+          "cType": "展示组件",
+          "cName": "引导",
+          "desc": "漫游式引导组件",
+          "author": "yangxiaolu"
+        }
+      ]
+    },
+    {
+      "name": "特色组件",
+      "enName": "business",
+      "packages": [
+        {
+          "version": "3.0.0",
+          "name": "Address",
+          "cName": "地址",
+          "desc": "地址组件",
+          "author": "yangxiaolu3"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Barrage",
+          "cName": "弹幕",
+          "desc": "用于视频弹幕等展示",
+          "author": "Ymm0008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Signature",
+          "cName": "签名",
+          "desc": "签名组件",
+          "author": "guoxiaoxiao"
+        },
+        {
+          "version": "3.0.0",
+          "name": "TimeSelect",
+          "cName": "配送时间",
+          "desc": "配送时间",
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "TimePannel",
+          "cName": "配送时间",
+          "desc": "配送时间",
+          "show": false,
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "TimeDetail",
+          "cName": "配送时间",
+          "desc": "配送时间",
+          "show": false,
+          "author": "szg2008"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Sku",
+          "cName": "商品规格选择",
+          "desc": "商品规格选择",
+          "author": "yangxiaolu3"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Card",
+          "cName": "商品卡片",
+          "desc": "展示商品",
+          "author": "Drjingfubo"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Ecard",
+          "cType": "特色组件",
+          "cName": "虚拟电子卡",
+          "desc": "虚拟电子卡选择",
+          "author": "yangxiaolu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "AddressList",
+          "cName": "地址列表",
+          "desc": "展示收货地址列表",
+          "author": "yushuang24"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Category",
+          "cName": "商品分类",
+          "desc": "商品分类展示",
+          "author": "liqiong43"
+        },
+        {
+          "version": "3.0.0",
+          "name": "CategoryPane",
+          "cName": "商品分类面板",
+          "desc": "商品分类面板",
+          "show": false,
+          "author": "liqiong43"
+        },
+        {
+          "name": "Comment",
+          "cType": "特色组件",
+          "cName": "商品评论",
+          "desc": "商品评论",
+          "author": "yangxiaolu"
+        },
+        {
+          "version": "3.0.0",
+          "name": "Invoice",
+          "cType": "特色组件",
+          "cName": "发票",
+          "desc": "发票",
+          "setup": true,
+          "author": "ailululu"
+        },
+        {
+          "version": "1.0.0",
+          "name": "AvatarCropper",
+          "cName": "头像裁剪",
+          "desc": "仿微信头像裁剪功能",
+          "author": "Marvin"
+        }
+      ]
+    }
+  ]
+}

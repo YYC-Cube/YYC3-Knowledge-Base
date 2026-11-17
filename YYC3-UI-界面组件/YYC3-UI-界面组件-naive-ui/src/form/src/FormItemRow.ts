@@ -1,0 +1,58 @@
+import type { ExtractPublicPropTypes } from '../../_utils'
+import type { FormItemColRef } from './interface'
+import { defineComponent, h, ref } from 'vue'
+import { keep } from '../../_utils'
+import NRow, { rowPropKeys, rowProps } from '../../legacy-grid/src/Row'
+import NFormItemCol, {
+  formItemColPropKeys,
+  formItemColProps
+} from './FormItemCol'
+
+export const formItemRowProps = {
+  ...rowProps,
+  ...formItemColProps
+}
+
+export type FormItemRowProps = ExtractPublicPropTypes<typeof formItemRowProps>
+
+export default defineComponent({
+  name: 'FormItemRow',
+  props: formItemRowProps,
+  setup() {
+    const formItemColInstRef = ref<FormItemColRef | null>(null)
+    const validate = ((...args: any[]) => {
+      const { value } = formItemColInstRef
+      if (value) {
+        return value.validate(...args)
+      }
+    }) as FormItemColRef['validate']
+    const restoreValidation: FormItemColRef['restoreValidation'] = () => {
+      const { value } = formItemColInstRef
+      if (value) {
+        value.restoreValidation()
+      }
+    }
+    return {
+      // reduce dts: string ref only, type unused in render
+      formItemColInstRef: formItemColInstRef as unknown,
+      validate,
+      restoreValidation
+    }
+  },
+  render() {
+    return h(NRow, keep(this.$props, rowPropKeys), {
+      default: () => {
+        const colProps = keep(this.$props, formItemColPropKeys)
+        return h(
+          NFormItemCol,
+          {
+            ref: 'formItemColInstRef',
+            ...colProps,
+            span: 24
+          },
+          this.$slots
+        )
+      }
+    })
+  }
+})

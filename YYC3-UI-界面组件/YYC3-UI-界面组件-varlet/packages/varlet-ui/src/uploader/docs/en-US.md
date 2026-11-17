@@ -1,0 +1,611 @@
+# Uploader
+
+### Intro
+
+It provides the ability to read files and preview pictures and videos.
+Get the file upload server by listening for `after-read` events.
+
+### Basic Usage
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([])
+
+function handleAfterRead(file) {
+  console.log(file)
+}
+</script>
+
+<template>
+  <var-uploader v-model="files" @after-read="handleAfterRead"/>
+</template>
+```
+
+### Variants
+
+Use `variant` to set the paper appearance of upload items. The supported variants are `standard`, `outlined`, and `filled`. Only the `standard` variant applies `elevation`.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const standardFiles = ref([])
+const outlinedFiles = ref([])
+const filledFiles = ref([])
+</script>
+
+<template>
+  <var-uploader v-model="standardFiles" variant="standard" />
+  <var-uploader v-model="outlinedFiles" variant="outlined" />
+  <var-uploader v-model="filledFiles" variant="filled" />
+</template>
+```
+
+### File Preview
+
+By analyzing the file URL suffix name to determine the file type, support image and video preview.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg'
+  },
+  {
+    url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
+    cover: 'https://varletjs.org/cover.jpg'
+  }
+])
+</script>
+
+<template>
+  <var-uploader v-model="files"/>
+</template>
+```
+
+### Custom Preview
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { Dialog } from '@varlet/ui'
+
+const files = ref([
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg'
+  }
+])
+
+function handlePreview(file) {
+  Dialog({
+    title: 'Custom Preview',
+    message: file.url.slice(0, 100),
+  })
+}
+</script>
+
+<template>
+  <var-uploader v-model="files" prevent-default-preview @preview="handlePreview"/>
+</template>
+```
+
+### Upload State
+
+Three uploading states, `loading`, `success` and `error`, are provided, and tool functions are provided to quickly obtain files with corresponding states.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg',
+    state: 'loading'
+  },
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg',
+    state: 'success'
+  },
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg',
+    state: 'error'
+  }
+])
+
+function handleAfterRead(file) {
+  file.state = 'loading'
+
+  setTimeout(() => {
+    file.state = 'success'
+  }, 1000)
+}
+</script>
+
+<template>
+  <var-uploader v-model="files" @after-read="handleAfterRead"/>
+</template>
+```
+
+### Use Progress
+
+```html
+<script setup>
+import { ref, onUnmounted } from 'vue'
+
+const files = ref([])
+let timer
+
+function handleAfterRead(file) {
+  file.state = 'loading'
+
+  timer = window.setInterval(() => {
+    if (file.progress === 100) {
+      window.clearInterval(timer)
+      file.state = 'success'
+      return
+    }
+
+    file.progress += 10
+  }, 250)
+}
+
+onUnmounted(() => {
+  window.clearInterval(timer)
+})
+</script>
+
+<template>
+  <var-uploader v-model="files" @after-read="handleAfterRead"/>
+</template>
+```
+
+### File Maxlength
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([])
+</script>
+
+<template>
+  <var-uploader v-model="files" :maxlength="1"/>
+</template>
+```
+
+### File Size Limit
+
+If the limit is exceeded, the file will be blocked. You can get the file by listening for the `oversize` event.
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { Snackbar } from '@varlet/ui'
+
+const files = ref([])
+</script>
+
+<template>
+  <var-uploader v-model="files" :maxsize="1024" @oversize="Snackbar.warning('file size exceeds limit')" />
+</template>
+```
+
+### File List Filter
+
+Filter files through the `before-filter` event, and return a `VarFile` array after filtering.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([])
+
+function handleBeforeFilter(files) {
+  return files.filter(file => file.name.endsWith('png'))
+}
+</script>
+
+<template>
+  <var-uploader v-model="files" multiple @before-filter="handleBeforeFilter" />
+</template>
+
+```
+
+### Upload Preprocessing
+
+Operate on a file by registering a `before-read` event that returns a false value to prevent the file from being read.
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { Snackbar } from '@varlet/ui'
+
+const files = ref([])
+
+function handleBeforeRead(file) {
+  if (file.file.size <= 1 * 1024 * 1024) {
+    Snackbar.success('the file is less than 1M, the upload is successful')
+    return true
+  } else {
+    Snackbar.warning('the file is larger than 1M and cannot be uploaded')
+    return false
+  }
+}
+</script>
+
+<template>
+  <var-uploader v-model="files" @before-read="handleBeforeRead"/>
+</template>
+```
+
+### Upload Button Click Event
+
+By listen the `click-action` event, you can intercept the click behavior of the upload button, and manually trigger the browser to select the file through the `chooseFile` method in the callback.
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { Snackbar } from '@varlet/ui'
+
+const files = ref([])
+
+function handleClickAction(chooseFile) {
+  Snackbar.loading('delay 1s')
+
+  window.setTimeout(() => {
+    Snackbar.clear()
+    chooseFile()
+  }, 1000)
+}
+</script>
+
+<template>
+  <var-uploader v-model="files" @click-action="handleClickAction" />
+</template>
+```
+
+### Disabled
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([])
+</script>
+
+<template>
+  <var-uploader disabled v-model="files"/>
+</template>
+```
+
+### Readonly
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([])
+</script>
+
+<template>
+  <var-uploader readonly v-model="files"/>
+</template>
+```
+
+### Remove Preprocessing
+
+Before deleting the file, the `before-remove` event is triggered, and a falsy value is returned to prevent the delete operation.
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { Dialog } from '@varlet/ui'
+
+const files = ref([
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg'
+  }
+])
+
+async function handleBeforeRemove() {
+  const action = await Dialog({
+    title: 'Delete or not?',
+    message: 'Cannot be withdrawn after deletion'
+  })
+
+  return action === 'confirm'
+}
+</script>
+
+<template>
+  <var-uploader v-model="files" @before-remove="handleBeforeRemove" />
+</template>
+```
+
+### Customize Upload Styles
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref()
+</script>
+
+<template>
+  <var-uploader v-model="files">
+    <var-button type="primary">Upload</var-button>
+  </var-uploader>
+</template>
+```
+
+### Validate
+
+The values are validated by passing in an array of validator, If the validator returns `true`, the validation passes.
+Other values are converted to text as a user prompt.
+The second argument is a collection of utility functions that can quickly get a collection of files that match the state.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg',
+    state: 'error',
+  },
+])
+</script>
+
+<template>
+  <var-uploader
+    :rules="(v, u) => u.getError().length === 0 || 'There is a file that failed to upload'"
+    v-model="files"
+  />
+</template>
+```
+
+### Validate with Zod
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { z } from 'zod'
+
+const files = ref([
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg',
+    state: 'error',
+  },
+])
+</script>
+
+<template>
+  <var-uploader
+    :rules="
+      z.array(z.any()).refine(v => v.filter(file => file.state === 'error').length === 0, 'There is a file that failed to upload')
+    "
+    v-model="files"
+  />
+</template>
+```
+
+### Custom Render File List
+
+You can use the `hide-list` to hide component files list, then you can render this list by custom.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg',
+    state: 'loading',
+  },
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg',
+    state: 'success',
+  },
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg',
+    state: 'error',
+  },
+])
+</script>
+
+<template>
+  <var-space>
+    <img
+      class="uploader-example-file"
+      v-for="f in files"
+      :key="f.id"
+      :src="f.cover"
+    />
+    <var-uploader hide-list v-model="files">
+      <var-button round type="primary">
+        <var-icon :size="28" name="upload" />
+      </var-button>
+    </var-uploader>
+  </var-space>
+</template>
+
+<style>
+.uploader-example-file {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 12px;
+  object-fit: cover;
+}
+</style>
+```
+
+### Custom Remove Button
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([
+  {
+    url: 'https://varletjs.org/cat.jpg',
+    cover: 'https://varletjs.org/cat.jpg'
+  },
+  {
+    url: 'https://www.runoob.com/try/demo_source/mov_bbb.mp4',
+    cover: 'https://varletjs.org/cover.jpg'
+  }
+])
+</script>
+
+<template>
+  <var-uploader v-model="files">
+    <template #remove-button="{ remove }">
+      <div class="custom-remove-button">
+        <var-icon color="#fff" name="window-close" @click.stop="remove"></var-icon>
+      </div>
+    </template>
+  </var-uploader>
+</template>
+
+<style>
+.custom-remove-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+}
+</style>
+```
+
+## API
+
+### Props
+
+| Prop | Description | Type | Default |
+| --- | ----------------------------------------------------------------------- | --- | --- |
+| `v-model`  | File list | _VarFile[]_ | `[]` |
+| `accept`   | Accepted file type, consistent with the native attribute | _string_ | `image/*` |
+| `capture`  | Get the file, the same as the native property | _string_ | `-` |
+| `multiple` | Whether to select multiple files | _boolean_ | `false` |
+| `readonly` | Whether the readonly | _boolean_ | `false` |
+| `disabled` | Whether the disabled | _boolean_ | `false` |
+| `variant` ***3.20.3*** | Appearance variant, optional values are `standard` `outlined` `filled` | _string_ | `standard` |
+| `elevation`| Elevation level, options `true` `false` and level of `0-24`, only effective with the `standard` variant | _string \| number \| boolean_|  `true` |
+| `removable` | Whether the removable | _boolean_ | `true` |
+| `maxlength` | Maximum number of files | _string \| number_ | `-` |
+| `maxsize`   | Maximum file size, the unit is `byte` | _string \| number_ | `-` |
+| `previewed` | Whether to allow preview | _boolean_ | `true` |
+| `prevent-default-preview` | Prevent default preview behavior | _boolean_ | `false` |
+| `ripple`    | Whether to open ripple | _boolean_ | `true` |
+| `hide-list` | Whether to hide the file list | _boolean_ | `false` |
+| `resolve-type` | The file preprocessing type, can be set to `default` `file` `data-url` (`default`, the image type contains dataURL and File object, other types contain only File object. `file`, which contains only File object. `data-url`, all file types contain dataURL and File object) | _string_ | `default` |
+| `validate-trigger` | Timing to trigger validation. The optional value is `onChange` `onRemove` | _UploaderValidateTrigger[]_ | `['onChange', 'onRemove']` |
+| `rules` | Validation rules, return `true` to indicate verification passes, other types of values ​​will be converted into text as user prompts. [Zod validation](#/en-US/zodValidation) is supported since `3.5.0` | _((v: VarFile[]) => any) \| ZodType \| Array<((v: VarFile[]) => any) \| ZodType>_ | `-` |
+
+### VarFile
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `file` | Native file | _File_ | `-` |
+| `name` | File name | _string_ | `-` |
+| `url` | File url | _string_ | `-` |
+| `cover` | File cover image | _string_ | `-` |
+| `fit` | Cover image fill mode, Optional value is `fill` `contain` `cover` `none` `scale-down` | _string_ | `-` |
+| `state` | File upload state, Optional value is `loading` `success` `error` | _string_ | `-` |
+| `state` | File upload progress, range [0, 100] | _number_ | `-` |
+
+### VarFileUtils
+
+| Method | Description | Arguments | Return |
+| --- | --- | --- | --- |
+| `getLoading` | Gets a collection of files for `state` is `loading` | `-` | `VarFile[]` |
+| `getSuccess` | Gets a collection of files for `state` is `success` | `-` | `VarFile[]` |
+| `getError` | Gets a collection of files for `state` is `error` | `-` | `VarFile[]` |
+
+### Methods
+
+| Method | Description | Arguments | Return |
+| --- | --- | --- | --- |
+| `chooseFile` | Trigger the file selection action and display the file list | `-` | `-` |
+| `closePreview` | Close preview file popup | `-` | `-` |
+| `getLoading` | Gets a collection of files for `state` is `loading` | `-` | `VarFile[]` |
+| `getSuccess` | Gets a collection of files for `state` is `success` | `-` | `VarFile[]` |
+| `getError` |  Gets a collection of files for `state` is `error` | `-` | `VarFile[]` |
+| `validate` | Trigger validate | `-` | `valid: Promise<boolean>` |
+| `resetValidation` | Clearing validate messages | `-` | `-` |
+| `reset` | Clear the value of the binding(set to `[]`)and validate messages | `-` | `-` |
+
+### Events
+
+| Event | Description | Arguments |
+| --- | --- | --- |
+| `before-filter` | Triggered before the event `before-read` to filter the file list | `files: VarFile[]` |
+| `before-read` | Triggered returns a false value before a file is read to prevent the file from being read(support promise) | `file: VarFile` |
+| `after-read` | Triggered after the file is read | `file: VarFile` |
+| `oversize` | Triggered when the file size limit is exceeded | `file: VarFile` |
+| `before-remove` | Triggered before file deletion, return false value to prevent file deletion (support promise) | `file: VarFile` |
+| `remove` | Triggered when deleting a file. There is a true value to prevent deleting a file (support promise) | `file: VarFile` |
+| `preview` | Triggered when a file is previewed | `file: VarFile` |
+| `click-action`| Intercept click behavior of upload button | `chooseFile: () => void, event: Event` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --- | --- | --- |
+| `default` | Upload action content | `-` |
+| `extra-message` | Extra message | `-` |
+| `remove-button` ***3.8.0*** | Remove button | `remove: () => void` |
+
+### Style Variables
+
+Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+
+| Variable | Default |
+| --- | --- |
+| `--uploader-action-background`            | `#f7f8fa`                                                                                    |
+| `--uploader-action-icon-color`            | `#888`                                                                                       |
+| `--uploader-action-icon-size`             | `24px`                                                                                       |
+| `--uploader-action-margin`                | `0 10px 10px 0`                                                                              |
+| `--uploader-file-size`                    | `80px`                                                                                       |
+| `--uploader-file-margin`                  | `0 10px 10px 0`                                                                              |
+| `--uploader-file-name-background`         | `#f7f8fa`                                                                                    |
+| `--uploader-file-name-color`              | `#888`                                                                                       |
+| `--uploader-file-name-font-size`          | `12px`                                                                                       |
+| `--uploader-file-name-padding`            | `10px`                                                                                       |
+| `--uploader-file-border-radius`            | `0`                                                                                       |
+| `--uploader-file-text-align`              | `center`                                                                                     |
+| `--uploader-file-close-background`        | `rgba(0, 0, 0, 0.3)`                                                                         |
+| `--uploader-file-close-size`              | `24px`                                                                                       |
+| `--uploader-file-close-icon-font-size`    | `14px`                                                                                       |
+| `--uploader-file-close-icon-color`        | `#fff`                                                                                       |
+| `--uploader-file-cover-fit`               | `cover`                                                                                      |
+| `--uploader-file-cover-background`        | `#f7f8fa`                                                                                    |
+| `--uploader-outlined-background`          | `transparent`                                                                                |
+| `--uploader-filled-background`            | `hsla(0, 0%, 93%, 1)`                                                                        |
+| `--uploader-outline-color`                | `var(--color-outline)`                                                                       |
+| `--uploader-preview-video-width`          | `100vw`                                                                                      |
+| `--uploader-preview-video-height`         | `100vw`                                                                                      |
+| `--uploader-file-indicator-height`        | `4px`                                                                                        |
+| `--uploader-file-indicator-normal-color`  | `var(--color-disabled)`                                                                      |
+| `--uploader-file-indicator-success-color` | `var(--color-success)`                                                                       |
+| `--uploader-file-indicator-error-color`   | `var(--color-danger)`                                                                        |
+| `--uploader-file-progress-color`   | `var(--color-primary)`                                                                        |
+| `--uploader-disabled-color`               | `#ddd`              |
+| `--uploader-disabled-text-color`          | `var(--color-text-disabled)`      |
+| `--uploader-loading-background`           | `linear-gradient(90deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.3), hsla(0, 0%, 100%, 0))` |

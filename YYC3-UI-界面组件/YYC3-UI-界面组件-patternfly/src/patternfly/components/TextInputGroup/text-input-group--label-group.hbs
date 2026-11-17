@@ -1,0 +1,42 @@
+{{#*inline "text-input-group--label-group-list-item"}}
+  {{#> label-group-list-item}}
+    {{> label
+      label--IsRemovable=true
+      label--IsOutlined=true
+      label--id=(concat label-group--id '-label-' text-input-group--label-group-list-item--count)
+      label-text--value=(concat "Label " text-input-group--label-group-list-item--count)}}
+  {{/label-group-list-item}}
+{{/inline}}
+
+{{#> label-group label-group--id=(concat text-input-group--id '-label-group')}}
+  {{#> label-group-main}}
+    {{#> label-group-list label-group-list--attribute='aria-label="Label group list"'}}
+      {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="one"}}
+      {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="two"}}
+      {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="three"}}
+      {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="four"}}
+      {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="five"}}
+      {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="six"}}
+      {{#if text-input-group--label-group--IsLong}}
+        {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="seven"}}
+        {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="eight"}}
+        {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="nine"}}
+        {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="ten"}}
+        {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="eleven"}}
+        {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="twelve"}}
+        {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="thirteen"}}
+        {{> text-input-group--label-group-list-item text-input-group--label-group-list-item--count="fourteen"}}
+      {{else}}
+        {{#> label-group-list-item}}
+          {{#> label label--type="button" label--modifier="pf-m-overflow"}}
+            {{#> label-content}}
+              {{#> label-text}}
+                8 more
+              {{/label-text}}
+          {{/label-content}}
+          {{/label}}
+        {{/label-group-list-item}}
+      {{/if}}
+    {{/label-group-list}}
+  {{/label-group-main}}
+{{/label-group}}

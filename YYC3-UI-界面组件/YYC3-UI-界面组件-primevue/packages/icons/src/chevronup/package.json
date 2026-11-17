@@ -1,0 +1,11 @@
+{
+    "main": "./ChevronUpIcon.vue",
+    "module": "./ChevronUpIcon.vue",
+    "types": "./ChevronUpIcon.d.ts",
+    "browser": {
+        "./sfc": "./ChevronUpIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

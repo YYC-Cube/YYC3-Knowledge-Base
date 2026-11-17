@@ -1,0 +1,112 @@
+{{!--
+------------------------------------
+Tabs list content options
+------------------------------------
+__tabs-list-secondary--HasIcons: bool
+__tabs-list-secondary--IsScrollable: bool
+__tabs-list-secondary--IsShort: bool
+__tabs-list-secondary--IsLong: bool
+__tabs-item--NoText: bool
+------------------------------------
+--}}
+
+{{#if __tabs-list-secondary--IsScrollable}}
+  {{#unless __tabs-list--NoScrollButtons}}
+    {{#if __tabs-list--DisabledFirstScrollButton}}
+      {{> tabs-scroll-button tabs-scroll-button--IsLeft="true" tabs-scroll-button--IsDisabled="true"}}
+    {{else}}
+      {{> tabs-scroll-button tabs-scroll-button--IsLeft="true"}}
+    {{/if}}
+  {{/unless}}
+{{/if}}
+
+{{#> tabs-list}}
+  {{> __tabs-item
+    __tabs-item--id="sub-1"
+    __tabs-item--icon-name="rh-ui-template-fill"
+    __tabs-item--aria-label="Item 1"
+    __tabs-item--text="Item 1"
+    }}
+  {{> __tabs-item
+    __tabs-item--id="sub-2"
+    __tabs-item--icon-name="rh-ui-link"
+    __tabs-item--aria-label="Item 2"
+    __tabs-item--text="Item 2"
+    }}
+  {{> __tabs-item
+    __tabs-item--current="true"
+    __tabs-item--id="sub-3"
+    __tabs-item--icon-name="rh-ui-arrow-circle-right-fill"
+    __tabs-item--aria-label="Item 3"
+    __tabs-item--text="Item 3"
+    }}
+
+  {{#unless __tabs-list-secondary--IsShort}}
+    {{#if __tabs-list--IsDisabled}}
+      {{> __tabs-item
+        __tabs-item--id="sub-disabled"
+        __tabs-item--icon-name="rh-ui-balance-scale-fill"
+        __tabs-item--aria-label="Disabled"
+        __tabs-item--text="Disabled"
+        tabs-link--IsDisabled="true"
+        }}
+      {{> __tabs-item
+        __tabs-item--id="sub-aria-disabled"
+        __tabs-item--icon-name="rh-ui-notification-fill"
+        __tabs-item--aria-label="ARIA disabled"
+        __tabs-item--text="ARIA disabled"
+        tabs-link--IsAriaDisabled="true"
+        }}
+    {{else}}
+      {{> __tabs-item
+        __tabs-item--id="sub-4"
+        __tabs-item--icon-name="rh-ui-balance-scale-fill"
+        __tabs-item--aria-label="Item 4"
+        __tabs-item--text="Item 4"
+        }}
+      {{> __tabs-item
+        __tabs-item--id="sub-5"
+        __tabs-item--icon-name="rh-ui-notification-fill"
+        __tabs-item--aria-label="Item 5"
+        __tabs-item--text="Item 5"
+        }}
+    {{/if}}
+    {{> __tabs-item
+      __tabs-item--id="sub-6"
+      __tabs-item--icon-name="rh-ui-catalogue-alt-fill"
+      __tabs-item--aria-label="Item 6"
+      __tabs-item--text="Item 6"
+      }}
+
+    {{#if __tabs-list-secondary--IsLong}}
+      {{> __tabs-item
+        __tabs-item--id="sub-7"
+        __tabs-item--icon-name="rh-ui-pie-chart-fill"
+        __tabs-item--aria-label="Item 7"
+        __tabs-item--text="Item 7"
+        }}
+      {{> __tabs-item
+        __tabs-item--id="sub-8"
+        __tabs-item--icon-name="rh-ui-truck-fill"
+        __tabs-item--aria-label="Item 8"
+        __tabs-item--text="Item 8"
+        }}
+      {{> __tabs-item
+        __tabs-item--id="sub-9"
+        __tabs-item--icon-name="rh-ui-resources-full"
+        __tabs-item--aria-label="Item 9"
+        __tabs-item--text="Item 9"
+        }}
+    {{/if}}
+  {{/unless}}
+{{/tabs-list}}
+
+{{#if __tabs-list-secondary--IsScrollable}}
+  {{#unless __tabs-list--NoScrollButtons}}
+    {{#if __tabs-list--DisabledLastScrollButton}}
+      {{> tabs-scroll-button tabs-scroll-button--IsRight="true" tabs-scroll-button--IsDisabled="true"}}
+    {{else}}
+      {{> tabs-scroll-button tabs-scroll-button--IsRight="true"}}
+    {{/if}}
+  {{/unless}}
+{{/if}}

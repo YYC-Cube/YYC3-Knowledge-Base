@@ -1,0 +1,14 @@
+<div class="{{pfv}}empty-state__icon{{#if empty-state-icon--modifier}} {{empty-state-icon--modifier}}{{/if}}"
+  {{#if empty-state-icon--attribute}}
+    {{{empty-state-icon--attribute}}}
+  {{/if}}>
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{else}}
+    {{#if empty-state-icon--type}}
+      {{pfIcon empty-state-icon--type}}
+    {{else}}
+      {{pfIcon "rh-ui-module"}}
+    {{/if}}
+  {{/if}}
+</div>

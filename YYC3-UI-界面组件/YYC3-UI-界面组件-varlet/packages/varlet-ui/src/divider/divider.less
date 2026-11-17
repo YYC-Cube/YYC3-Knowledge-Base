@@ -1,0 +1,80 @@
+:root {
+  --divider-color: var(--color-outline);
+  --divider-text-color: #888;
+  --divider-text-margin: 8px 0;
+  --divider-text-padding: 0 8px;
+  --divider-inset: 72px;
+}
+
+.var-divider {
+  position: relative;
+  width: 100%;
+  height: 0;
+  border: none;
+  border-top: 1px solid var(--divider-color);
+  margin: var(--divider-text-margin);
+  font-size: var(--font-size-md);
+  color: var(--divider-text-color);
+
+  &--vertical {
+    width: 0;
+    height: auto;
+    align-self: stretch;
+    margin: 0 var(--divider-text-margin);
+    border-top: none;
+    border-left: 1px solid var(--divider-color);
+  }
+
+  &--inset {
+    width: calc(100% - var(--divider-inset));
+    left: var(--divider-inset);
+  }
+
+  &__text {
+    display: inline-block;
+    padding: var(--divider-text-padding);
+  }
+
+  &--with-text {
+    background-color: transparent;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+
+    &::before,
+    &::after {
+      display: inline-block;
+      content: '';
+      flex: 1;
+      height: 0;
+      border-top: 1px solid var(--divider-color);
+    }
+  }
+
+  &--dashed {
+    border-top-style: dashed;
+  }
+
+  &--dashed&--vertical {
+    border-top: none;
+    border-left-style: dashed;
+  }
+
+  &--hairline {
+    transform: scaleY(0.5);
+  }
+
+  &--hairline&--with-text {
+    transform: none;
+    &::before,
+    &::after {
+      transform: scaleY(0.5);
+    }
+  }
+
+  &--hairline&--vertical {
+    transform: scaleX(0.5);
+  }
+}

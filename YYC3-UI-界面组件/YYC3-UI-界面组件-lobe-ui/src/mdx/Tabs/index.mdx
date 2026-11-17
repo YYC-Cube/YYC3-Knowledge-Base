@@ -1,0 +1,37 @@
+---
+title: Tabs
+description: A component for creating tabbed content in MDX documents that allows switching between different content sections.
+category: Built-ins
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { mdxTabsClasses } from './stable';
+
+## Example
+
+<Demo of={DemoIndex} />
+
+## APIs
+
+### Tabs
+
+<Api name="Tabs" from=".." migrationKey="heading:%5B%22Tabs%22%5D:0" />
+
+### Tab
+
+<Api name="Tab" from=".." migrationKey="heading:%5B%22Tab%22%5D:0" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Tabs`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/mdx/Tabs.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={mdxTabsClasses} />

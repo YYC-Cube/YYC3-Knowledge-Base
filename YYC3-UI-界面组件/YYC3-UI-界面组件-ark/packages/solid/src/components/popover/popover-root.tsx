@@ -1,0 +1,49 @@
+import { mergeProps } from '@zag-js/solid'
+import type { JSX } from 'solid-js'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { PresenceProvider, type UsePresenceProps, splitPresenceProps, usePresence } from '../presence/index.tsx'
+import { type UsePopoverProps, usePopover } from './use-popover.ts'
+import { PopoverProvider } from './use-popover-context.ts'
+
+export interface PopoverRootBaseProps extends UsePopoverProps, UsePresenceProps {}
+export interface PopoverRootProps extends PopoverRootBaseProps {
+  children?: JSX.Element
+}
+
+export const PopoverRoot = (props: PopoverRootProps) => {
+  const [presenceProps, popoverProps] = splitPresenceProps(props)
+  const [usePopoverProps, localProps] = createSplitProps<UsePopoverProps>()(popoverProps, [
+    'autoFocus',
+    'closeOnEscape',
+    'closeOnInteractOutside',
+    'defaultOpen',
+    'finalFocusEl',
+    'id',
+    'ids',
+    'initialFocusEl',
+    'modal',
+    'onEscapeKeyDown',
+    'onFocusOutside',
+    'onInteractOutside',
+    'onOpenChange',
+    'onPointerDownOutside',
+    'onRequestDismiss',
+    'open',
+    'persistentElements',
+    'portalled',
+    'positioning',
+    'restoreFocus',
+    'translations',
+    'triggerValue',
+    'defaultTriggerValue',
+    'onTriggerValueChange',
+  ])
+  const api = usePopover(usePopoverProps)
+  const apiPresence = usePresence(mergeProps(presenceProps, () => ({ present: api().open })))
+
+  return (
+    <PopoverProvider value={api}>
+      <PresenceProvider value={apiPresence}>{localProps.children}</PresenceProvider>
+    </PopoverProvider>
+  )
+}

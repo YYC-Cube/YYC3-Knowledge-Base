@@ -1,0 +1,52 @@
+@use '../../styles/variable.scss'as *;
+@use '../../styles/mixin/mixin.scss'as *;
+
+// 默认文字字号
+$text-font-size: var(--wot-text-font-size, $typography-body-size-main) !default;
+// 默认文字行高
+$text-line-height: var(--wot-text-line-height, $typography-body-line-height-size-main) !default;
+// 主色文字颜色
+$text-primary-color: var(--wot-text-primary-color, $primary-6) !default;
+// 成功文字颜色
+$text-success-color: var(--wot-text-success-color, $success-main) !default;
+// 错误文字颜色
+$text-error-color: var(--wot-text-error-color, $danger-main) !default;
+// 警告文字颜色
+$text-warning-color: var(--wot-text-warning-color, $warning-main) !default;
+// 默认文字颜色
+$text-default-color: var(--wot-text-default-color, $text-auxiliary) !default;
+
+@include b(text) {
+  font-size: $text-font-size;
+  line-height: $text-line-height;
+
+  @include when(bold) {
+    font-weight: bold;
+  }
+
+  @for $i from 1 through 5 {
+    &.is-lines-#{$i} {
+      @include multiEllipsis($i);
+    }
+  }
+
+  @include when(default) {
+    color: $text-default-color;
+  }
+
+  @include when(primary) {
+    color: $text-primary-color;
+  }
+
+  @include when(error) {
+    color: $text-error-color;
+  }
+
+  @include when(warning) {
+    color: $text-warning-color;
+  }
+
+  @include when(success) {
+    color: $text-success-color;
+  }
+}

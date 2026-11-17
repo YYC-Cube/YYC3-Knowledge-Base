@@ -1,0 +1,67 @@
+name: Nightly Release
+description: Automatically release nightly builds
+
+inputs:
+  checkout-repo:
+    description: 'Repository to checkout'
+    required: true
+  checkout-ref:
+    description: 'Ref to checkout'
+    required: true
+  release-id:
+    description: 'Release ID'
+    required: true
+  npm-tag:
+    description: 'NPM tag'
+    required: true
+
+outputs:
+  full-version:
+    description: 'Full version'
+    value: ${{ steps.get-version.outputs.full-version }}
+
+runs:
+  using: composite
+  steps:
+    - run: |
+        git config --global user.email "actions@github.com"
+        git config --global user.name "GitHub Actions"
+      shell: bash
+    - uses: actions/checkout@v6
+      with:
+        repository: ${{ inputs.checkout-repo }}
+        ref: ${{ inputs.checkout-ref }}
+        fetch-depth: 0
+    - uses: vuetifyjs/setup-action@cb5ac088588387e65433a762de90c0b06d878677 # master
+    - run: >-
+        node -e "
+          const json = require('./lerna.json');
+          delete json.command.publish.allowBranch;
+          fs.writeFileSync('./lerna.json', JSON.stringify(json, null, 2))"
+      shell: bash
+    - id: get-version
+      run: echo "full-version=$(node -e "console.log(require('./lerna.json').version)")-${{ inputs.release-id }}" >> $GITHUB_OUTPUT
+      shell: bash
+    - run: pnpm lerna version ${{ steps.get-version.outputs.full-version }} --no-push --no-commit-hooks --force-publish --yes
+      shell: bash
+    - run: pnpm conventional-changelog -p vuetify --outfile ./packages/vuetify/CHANGELOG.md -r 2
+      shell: bash
+    - run: >-
+        node -e "fs.writeFileSync(
+          './package.json',
+          JSON.stringify({ ...require('./package.json'), name: '@vuetify/nightly' }, null, 2)
+        )"
+      shell: bash
+      working-directory: ./packages/vuetify
+    - run: pnpm run --filter @vuetify/nightly build
+      shell: bash
+    - run: pnpm run --filter @vuetify/api-generator build
+      shell: bash
+    - run: npm install -g npm@latest
+      shell: bash
+    - name: NPM Release
+      run: |
+        pnpm publish ./packages/vuetify --no-git-checks --tag ${{ inputs.npm-tag }} --access public
+      shell: bash
+      env:
+        NPM_API_KEY: ${{ inputs.npm-token }}

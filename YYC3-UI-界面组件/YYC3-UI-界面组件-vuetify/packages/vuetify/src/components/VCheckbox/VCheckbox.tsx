@@ -1,0 +1,121 @@
+// Styles
+import './VCheckbox.sass'
+
+// Components
+import { makeVCheckboxBtnProps, VCheckboxBtn } from './VCheckboxBtn'
+import { makeVInputProps, VInput } from '@/components/VInput/VInput'
+
+// Composables
+import { useFocus } from '@/composables/focus'
+import { FormKey } from '@/composables/form'
+import { forwardRefs } from '@/composables/forwardRefs'
+import { useProxiedModel } from '@/composables/proxiedModel'
+
+// Utilities
+import { inject, provide, shallowRef, useId } from 'vue'
+import { filterInputAttrs, genericComponent, noop, omit, propsFactory, useRender } from '@/util'
+
+// Types
+import type { InjectionKey } from 'vue'
+import type { VSelectionControlSlots } from '../VSelectionControl/VSelectionControl'
+import type { VInputSlots } from '@/components/VInput/VInput'
+import type { GenericProps } from '@/util'
+
+export type VCheckboxSlots = Omit<VInputSlots, 'default'> & VSelectionControlSlots
+
+export const VCheckboxGroupSymbol: InjectionKey<boolean> = Symbol.for('vuetify:v-checkbox-group')
+
+export const makeVCheckboxProps = propsFactory({
+  ...omit(makeVInputProps(), ['direction', 'glow']),
+  ...omit(makeVCheckboxBtnProps(), ['inline']),
+}, 'VCheckbox')
+
+export const VCheckbox = genericComponent<new <T>(
+  props: {
+    modelValue?: T | null
+    'onUpdate:modelValue'?: (value: T | null) => void
+  },
+  slots: VCheckboxSlots,
+) => GenericProps<typeof props, typeof slots>>()({
+  name: 'VCheckbox',
+
+  inheritAttrs: false,
+
+  props: makeVCheckboxProps(),
+
+  emits: {
+    'update:modelValue': (value: any) => true,
+    'update:focused': (focused: boolean) => true,
+  },
+
+  setup (props, { attrs, slots }) {
+    const form = inject(FormKey, null)
+    if (form && inject(VCheckboxGroupSymbol, false)) {
+      provide(FormKey, {
+        ...form,
+        register: noop,
+        unregister: noop,
+        update: noop,
+      })
+    }
+
+    const model = useProxiedModel(props, 'modelValue')
+    const { isFocused, focus, blur } = useFocus(props)
+    const inputRef = shallowRef<VInput>()
+    const checkboxBtnRef = shallowRef<VCheckboxBtn>()
+
+    const uid = useId()
+
+    useRender(() => {
+      const [rootAttrs, controlAttrs] = filterInputAttrs(attrs)
+      const inputProps = VInput.filterProps(props)
+      const checkboxProps = VCheckboxBtn.filterProps(props)
+
+      return (
+        <VInput
+          ref={ inputRef }
+          class={[
+            'v-checkbox',
+            props.class,
+          ]}
+          { ...rootAttrs }
+          { ...inputProps }
+          v-model={ model.value }
+          id={ props.id || `checkbox-${uid}` }
+          focused={ isFocused.value }
+          style={ props.style }
+        >
+          {{
+            ...slots,
+            default: ({
+              id,
+              messagesId,
+              isDisabled,
+              isReadonly,
+              isValid,
+            }) => (
+              <VCheckboxBtn
+                ref={ checkboxBtnRef }
+                { ...checkboxProps }
+                id={ id.value }
+                aria-describedby={ messagesId.value }
+                disabled={ isDisabled.value }
+                readonly={ isReadonly.value }
+                { ...controlAttrs }
+                error={ isValid.value === false }
+                v-model={ model.value }
+                onFocus={ focus }
+                onBlur={ blur }
+                v-slots={ slots }
+              />
+            ),
+          }}
+        </VInput>
+      )
+    })
+
+    return forwardRefs({ isFocused }, checkboxBtnRef, inputRef)
+  },
+})
+
+export type VCheckbox = InstanceType<typeof VCheckbox>

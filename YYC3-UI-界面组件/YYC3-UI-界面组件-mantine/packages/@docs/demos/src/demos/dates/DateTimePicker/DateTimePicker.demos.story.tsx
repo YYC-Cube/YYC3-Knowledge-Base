@@ -1,0 +1,69 @@
+import { renderDemo } from '../../../render-demo';
+import * as demos from './index';
+
+export default { title: 'DateTimePicker' };
+
+export const Demo_usage = {
+  name: '⭐ Demo: usage',
+  render: renderDemo(demos.usage),
+};
+
+export const Demo_withSeconds = {
+  name: '⭐ Demo: withSeconds',
+  render: renderDemo(demos.withSeconds),
+};
+
+export const Demo_modal = {
+  name: '⭐ Demo: modal',
+  render: renderDemo(demos.modal),
+};
+
+export const Demo_configurator = {
+  name: '⭐ Demo: configurator',
+  render: renderDemo(demos.configurator),
+};
+
+export const Demo_clearable = {
+  name: '⭐ Demo: clearable',
+  render: renderDemo(demos.clearable),
+};
+
+export const Demo_clearSectionMode = {
+  name: '⭐ Demo: clearSectionMode',
+  render: renderDemo(demos.clearSectionMode),
+};
+
+export const Demo_format = {
+  name: '⭐ Demo: format',
+  render: renderDemo(demos.format),
+};
+
+export const Demo_formatFunction = {
+  name: '⭐ Demo: formatFunction',
+  render: renderDemo(demos.formatFunction),
+};
+
+export const Demo_disabled = {
+  name: '⭐ Demo: disabled',
+  render: renderDemo(demos.disabled),
+};
+
+export const Demo_timePickerProps = {
+  name: '⭐ Demo: timePickerProps',
+  render: renderDemo(demos.timePickerProps),
+};
+
+export const Demo_presets = {
+  name: '⭐ Demo: presets',
+  render: renderDemo(demos.presets),
+};
+
+export const Demo_range = {
+  name: '⭐ Demo: range',
+  render: renderDemo(demos.range),
+};
+
+export const Demo_nativeLevelSelect = {
+  name: '⭐ Demo: nativeLevelSelect',
+  render: renderDemo(demos.nativeLevelSelect),
+};

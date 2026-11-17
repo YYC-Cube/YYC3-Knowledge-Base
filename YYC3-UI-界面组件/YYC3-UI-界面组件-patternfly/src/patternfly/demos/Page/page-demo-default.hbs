@@ -1,0 +1,17 @@
+{{#> page page--id=page-demo-default--id}}
+  {{> masthead-template}}
+  {{> page-template-sidebar}}
+  {{#> page-main page-main--attribute=(concat 'id="main-content-' page--id '"')}}
+    {{#if page-demo-default--HasNoContent}}
+      {{> @partial-block}}
+    {{else}}
+      {{> page-template-breadcrumb}}
+      {{> page-template-title}}
+      {{#if @partial-block}}
+        {{> @partial-block}}
+      {{else}}
+        {{> page-template-gallery}}
+      {{/if}}
+    {{/if}}
+  {{/page-main}}
+{{/page}}

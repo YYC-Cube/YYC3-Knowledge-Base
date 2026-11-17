@@ -1,0 +1,35 @@
+name: Test CI
+on:
+  pull_request:
+  push:
+    branches:
+      - '!main'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: CI
+        run: pnpm run ci
+
+      - name: Test and coverage
+        run: pnpm run test:coverage
+
+      - name: Documentation verification
+        run: pnpm run docs:build
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5

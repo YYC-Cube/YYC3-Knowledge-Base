@@ -1,0 +1,30 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import type { UseCarouselReturn } from './use-carousel.ts'
+import { CarouselProvider } from './use-carousel-context.ts'
+
+interface RootProviderProps {
+  value: UseCarouselReturn
+}
+
+export interface CarouselRootProviderBaseProps extends RootProviderProps, PolymorphicProps {}
+export interface CarouselRootProviderProps extends HTMLProps<'div'>, CarouselRootProviderBaseProps {}
+
+const splitRootProviderProps = createSplitProps<RootProviderProps>()
+
+export const CarouselRootProvider = forwardRef<HTMLDivElement, CarouselRootProviderProps>((props, ref) => {
+  const [{ value: carousel }, localProps] = splitRootProviderProps(props, ['value'])
+  const mergedProps = mergeProps(carousel.getRootProps(), localProps)
+
+  return (
+    <CarouselProvider value={carousel}>
+      <ark.div {...mergedProps} ref={ref} />
+    </CarouselProvider>
+  )
+})
+
+CarouselRootProvider.displayName = 'CarouselRootProvider'

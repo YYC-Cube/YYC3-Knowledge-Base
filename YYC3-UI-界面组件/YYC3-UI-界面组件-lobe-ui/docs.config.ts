@@ -1,0 +1,67 @@
+import { defineDocsConfig } from '@lobehub/docs-kit/src/config';
+
+import legacyRedirects from './compatibility.json';
+
+export default defineDocsConfig({
+  alias: {
+    '@': 'src',
+    // docs-kit consumes published `es/*` subpaths. Resolve those imports back
+    // to source while developing @lobehub/ui itself.
+    '@lobehub/ui/form': 'src/FormKit',
+    '@lobehub/ui/pro-table': 'src/ProTable',
+    // Published @lobehub/icons still imports the removed `base-ui` subpath; drop once it ships a
+    // release that imports from `@lobehub/ui`.
+    '@lobehub/ui/base-ui': 'src',
+    '@lobehub/ui/es': 'src',
+    '@lobehub/ui': 'src',
+  },
+  atomDirs: [{ dir: 'src' }],
+  description: 'A modern React component library for building LobeHub products.',
+  favicons: {
+    appleTouchIcon: '/apple-touch-icon.png',
+    icon: '/favicon.ico',
+    icon16: '/favicon-16x16.png',
+    icon32: '/favicon-32x32.png',
+  },
+  homePage: './docs/home/home.tsx',
+  legacyRedirects,
+  publicDocs: ['docs/design-tokens.mdx', 'docs/migration-v6.mdx', 'docs/styling-overrides.mdx'],
+  siteUrl: 'https://ui.lobehub.com',
+  stylex: './config/stylex.ts',
+  themeConfig: {
+    analytics: {
+      plausible: {
+        domain: 'ui.lobehub.com',
+        source: 'https://plausible.lobehub-inc.cn/js/script.js',
+      },
+    },
+    apiHeader: {
+      docUrl: '{github}/edit/master/{atomId}',
+      github: 'https://github.com/lobehub/lobe-ui',
+      sourceUrl: '{github}/tree/master/{atomId}',
+    },
+    giscus: {
+      category: 'Q&A',
+      categoryId: 'DIC_kwDOJloKoM4CXsCu',
+      repo: 'lobehub/lobe-ui',
+      repoId: 'R_kgDOJloKoA',
+    },
+    metadata: {
+      openGraph: {
+        image:
+          'https://repository-images.githubusercontent.com/643435168/7514a374-d7de-4c8b-ad61-5460bc0bfe35',
+      },
+    },
+    navItems: [
+      { href: '/design-tokens', icon: 'swatch-book', label: 'Design Tokens' },
+      { href: '/migration-v6', icon: 'milestone', label: 'Migrating to v6' },
+      { href: '/styling-overrides', icon: 'paintbrush', label: 'Styling Overrides' },
+    ],
+    prefersColor: 'auto',
+    socialLinks: [
+      { href: 'https://github.com/lobehub/lobe-ui', icon: 'github', label: 'GitHub' },
+      { href: 'https://www.npmjs.com/package/@lobehub/ui', icon: 'npm', label: 'NPM' },
+    ],
+  },
+  title: 'Lobe UI',
+});

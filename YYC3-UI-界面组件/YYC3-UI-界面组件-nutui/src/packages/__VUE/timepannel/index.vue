@@ -1,0 +1,48 @@
+<template>
+  <view :class="classes" @click="handlePannel(pannelKey)">{{ name }}</view>
+</template>
+
+<script lang="ts">
+import { reactive, toRefs, inject, computed } from 'vue'
+import { createComponent } from '@/packages/utils/create'
+const { componentName, create } = createComponent('time-pannel')
+export default create({
+  name: 'timepannel',
+  props: {
+    name: {
+      type: String,
+      default: ''
+    },
+    pannelKey: {
+      type: [Number, String],
+      default: 0
+    }
+  },
+  emits: ['change'],
+  setup: (props, { emit }) => {
+    const currentKey = inject('currentKey')
+
+    const state = reactive({
+      currentKey
+    })
+
+    const classes = computed(() => {
+      const prefixCls = componentName
+      return {
+        [prefixCls]: true,
+        'nut-time-pannel--curr': state.currentKey == props.pannelKey
+      }
+    })
+
+    const handlePannel = (pannelKey: number | string) => {
+      emit('change', pannelKey)
+    }
+
+    return {
+      ...toRefs(state),
+      classes,
+      handlePannel
+    }
+  }
+})
+</script>

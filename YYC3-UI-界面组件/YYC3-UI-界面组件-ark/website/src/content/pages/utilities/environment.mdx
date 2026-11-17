@@ -1,0 +1,67 @@
+---
+id: environment
+title: Environment
+description: Set up components for custom environments like iframes, Shadow DOM, or Electron.
+---
+
+## Motivation
+
+We use [Zag.js](https://zagjs.com/overview/composition#custom-window-environment) internally, which relies on DOM query
+methods like `document.querySelectorAll` and `document.getElementById`. In custom environments like iframes, Shadow DOM,
+or Electron, these methods might not work as expected.
+
+To handle this, Ark UI includes the `EnvironmentProvider`, allowing you to set the appropriate root node or document,
+ensuring correct DOM queries.
+
+## Setup
+
+To support custom environments like an iframe, Shadow DOM or Electron, render the `EnvironmentProvider` component to
+provide the environment context to all Ark UI components.
+
+<ExampleCode id="setup" component="environment" />
+
+### Usage in iframe
+
+The `EnvironmentProvider` component will automatically detect the current environment and set the correct environment
+context. However, you can also manually set the `Document` like shown in this React example below:
+
+```jsx
+import Frame, { FrameContextConsumer } from 'react-frame-component'
+import { EnvironmentProvider } from '@ark-ui/react'
+
+export const App = () => (
+  <Frame title="IFrame Context">
+    <FrameContextConsumer>
+      {({ document }) => <EnvironmentProvider value={document}>{/* Your App */}</EnvironmentProvider>}
+    </FrameContextConsumer>
+  </Frame>
+)
+```
+
+### Usage in Shadow DOM
+
+Here's an example of how to set the `EnvironmentProvider`'s value with Shadow DOM in Solid.js `Portal` component.
+
+```jsx
+import { EnvironmentProvider } from '@ark-ui/react'
+import { Index, Portal } from 'solid-js/web'
+
+export const App = () => {
+  let portalNode
+  return (
+    <Portal ref={portalNode} useShadow={true}>
+      <EnvironmentProvider value={() => portalNode?.shadowRoot ?? document}>{/* Your App */}</EnvironmentProvider>
+    </Portal>
+  )
+}
+```
+
+## Context
+
+Use the `useEnvironmentContext` hook to access the `RootNode`, `Document`, and `Window`.
+
+<ExampleCode id="usage" component="environment" />
+
+## API Reference
+
+<ComponentTypes id="environment" />

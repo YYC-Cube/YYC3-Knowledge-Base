@@ -1,0 +1,342 @@
+import { join, resolve } from 'path';
+
+import { copy as fileCopy } from 'fs-extra';
+import analyzer from 'rollup-plugin-analyzer';
+import copy from 'rollup-plugin-copy';
+import esbuild from 'rollup-plugin-esbuild';
+import ignoreImport from 'rollup-plugin-ignore-import';
+import multiInput from 'rollup-plugin-multi-input';
+import postcss from 'rollup-plugin-postcss';
+import staticImport from 'rollup-plugin-static-import';
+import styles from 'rollup-plugin-styles';
+import { terser } from 'rollup-plugin-terser';
+import { DEFAULT_EXTENSIONS } from '@babel/core';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import nodeResolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import url from '@rollup/plugin-url';
+
+import pkg from '../packages/tdesign-react/package.json';
+
+// TODO: replace path with utils
+
+const name = 'tdesign';
+const externalDeps = Object.keys(pkg.dependencies || {});
+const externalPeerDeps = Object.keys(pkg.peerDependencies || {});
+const banner = `/**
+ * ${name} v${pkg.version}
+ * (c) ${new Date().getFullYear()} ${pkg.author}
+ * @license ${pkg.license}
+ */
+`;
+const input = 'packages/components/index-lib.ts';
+const inputList = [
+  'packages/components/**/*.ts',
+  'packages/components/**/*.jsx',
+  'packages/components/**/*.tsx',
+  '!packages/components/_util/react-19-adapter.ts', // 单独处理 external
+  '!packages/components/**/_example',
+  '!packages/components/**/_example-js',
+  '!packages/components/**/*.d.ts',
+  '!packages/components/**/__tests__',
+  '!packages/components/**/_usage',
+];
+
+const getPlugins = ({
+  env,
+  isProd = false,
+  ignoreLess = true,
+  extractOneCss = false,
+  extractMultiCss = false,
+} = {}) => {
+  const plugins = [
+    nodeResolve({
+      extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx'],
+    }),
+    commonjs(),
+    esbuild({
+      include: /\.[jt]sx?$/,
+      target: 'esnext',
+      minify: false,
+      jsx: 'transform',
+      jsxFactory: 'React.createElement',
+      jsxFragment: 'React.Fragment',
+      tsconfig: resolve(__dirname, '../tsconfig.build.json'),
+    }),
+    babel({
+      babelHelpers: 'runtime',
+      extensions: [...DEFAULT_EXTENSIONS, '.ts', '.tsx'],
+    }),
+    json(),
+    url(),
+    replace({
+      preventAssignment: true,
+      values: {
+        __VERSION__: JSON.stringify(pkg.version),
+      },
+    }),
+  ];
+
+  // css
+  if (extractOneCss) {
+    plugins.push(
+      postcss({
+        extract: `${isProd ? `${name}.min` : name}.css`,
+        minimize: isProd,
+        sourceMap: true,
+        extensions: ['.sass', '.scss', '.css', '.less'],
+      }),
+    );
+  } else if (extractMultiCss) {
+    plugins.push(
+      staticImport({
+        baseDir: 'packages/components',
+        include: ['packages/components/**/style/css.js'],
+      }),
+      ignoreImport({
+        include: ['packages/components/*/style/*'],
+        body: 'import "./css.js";',
+      }),
+    );
+  } else if (ignoreLess) {
+    plugins.push(ignoreImport({ extensions: ['*.less'] }));
+  } else {
+    plugins.push(
+      staticImport({
+        baseDir: 'packages/components',
+        include: ['packages/components/**/style/index.js'],
+      }),
+      staticImport({
+        baseDir: 'packages/common',
+        include: ['packages/common/style/web/**/*.less'],
+      }),
+      ignoreImport({
+        include: ['packages/components/*/style/*'],
+        body: 'import "./style/index.js";',
+      }),
+    );
+  }
+
+  if (env) {
+    plugins.push(
+      replace({
+        preventAssignment: true,
+        values: {
+          'process.env.NODE_ENV': JSON.stringify(env),
+        },
+      }),
+    );
+  }
+
+  if (isProd) {
+    plugins.push(
+      terser({
+        output: {
+          /* eslint-disable */
+          ascii_only: true,
+          /* eslint-enable */
+        },
+      }),
+    );
+  }
+
+  return plugins;
+};
+
+const cssConfig = {
+  input: ['packages/components/**/style/index.js'],
+  plugins: [multiInput({ relative: 'packages/components/' }), styles({ mode: 'extract' })],
+  output: {
+    banner,
+    dir: './packages/tdesign-react/es',
+    sourcemap: true,
+    assetFileNames: '[name].css',
+  },
+};
+
+// 按需加载组件 不带 css 样式
+const libConfig = {
+  input: inputList.concat('!packages/components/index-lib.ts'),
+  external: externalDeps.concat(externalPeerDeps),
+  plugins: [multiInput({ relative: 'packages/components/' })].concat(getPlugins()),
+  output: {
+    banner,
+    dir: 'packages/tdesign-react/lib/',
+    format: 'esm',
+    sourcemap: true,
+    chunkFileNames: '_chunks/dep-[hash].js',
+  },
+};
+
+// 按需加载组件 带 css 样式
+const esConfig = {
+  input: inputList.concat('!packages/components/index-lib.ts'),
+  // 为了保留 style/css.js
+  treeshake: false,
+  external: externalDeps.concat(externalPeerDeps),
+  plugins: [multiInput({ relative: 'packages/components/' })].concat(getPlugins({ extractMultiCss: true })),
+  output: {
+    banner,
+    dir: 'packages/tdesign-react/es/',
+    format: 'esm',
+    sourcemap: true,
+    chunkFileNames: '_chunks/dep-[hash].js',
+  },
+};
+
+// 按需加载组件 带原始 less 文件，可定制主题
+const esmConfig = {
+  input: inputList.concat('!packages/components/index-lib.ts'),
+  // 为了保留 style/index.js
+  treeshake: false,
+  external: externalDeps.concat(externalPeerDeps),
+  plugins: [
+    multiInput({ relative: 'packages/components/' }),
+    copy({
+      targets: [
+        {
+          src: 'packages/common/style/web/**/*.less',
+          dest: 'packages/tdesign-react/esm/common',
+          rename: (_, __, fullPath) => `${fullPath.replace('packages/common', '')}`,
+        },
+      ],
+      verbose: true,
+    }),
+  ].concat(getPlugins({ ignoreLess: false })),
+  output: {
+    banner,
+    dir: 'packages/tdesign-react/esm/',
+    format: 'esm',
+    sourcemap: true,
+    chunkFileNames: '_chunks/dep-[hash].js',
+  },
+};
+
+const cjsExternalException = ['lodash-es'];
+const cjsExternal = externalDeps.concat(externalPeerDeps).filter((value) => !cjsExternalException.includes(value));
+// commonjs 导出规范，不带 css 样式
+const cjsConfig = {
+  input: inputList,
+  external: cjsExternal,
+  plugins: [multiInput({ relative: 'packages/components/' })].concat(getPlugins()),
+  output: {
+    banner,
+    dir: 'packages/tdesign-react/cjs/',
+    format: 'cjs',
+    sourcemap: true,
+    exports: 'named',
+    chunkFileNames: '_chunks/dep-[hash].js',
+  },
+};
+
+const umdConfig = {
+  input,
+  external: externalPeerDeps,
+  plugins: getPlugins({
+    env: 'development',
+    extractOneCss: true,
+  }).concat(analyzer({ limit: 5, summaryOnly: true })),
+  output: {
+    name: 'TDesign',
+    banner,
+    format: 'umd',
+    exports: 'named',
+    globals: { react: 'React' },
+    sourcemap: true,
+    file: `packages/tdesign-react/dist/${name}.js`,
+  },
+};
+
+const umdMinConfig = {
+  input,
+  external: externalPeerDeps,
+  plugins: getPlugins({
+    isProd: true,
+    extractOneCss: true,
+    env: 'production',
+  }),
+  output: {
+    name: 'TDesign',
+    banner,
+    format: 'umd',
+    exports: 'named',
+    globals: { react: 'React' },
+    sourcemap: true,
+    file: `packages/tdesign-react/dist/${name}.min.js`,
+  },
+};
+
+// 单独导出 reset.css 到 dist 目录，兼容旧版本样式
+const resetCss = {
+  input: 'packages/common/style/web/_reset.less',
+  output: {
+    file: 'packages/tdesign-react/dist/reset.css',
+  },
+  plugins: [postcss({ extract: true })],
+};
+
+// 适配 React 19 的 adapter
+const adapterInput = 'packages/components/_util/react-19-adapter.ts';
+const adapterExternal = ['react-dom', './react-render'];
+
+function postWritePlugin() {
+  return {
+    name: 'post-write-plugin',
+    async writeBundle(outputOptions) {
+      // 1. 获取写入的目录路径
+      const outputDir = outputOptions.dir;
+      const filePath = join(outputDir, 'react-19-adapter.js');
+
+      async function copyMultipleDest(src, destArray) {
+        try {
+          // 并行复制到所有目标路径
+          await Promise.all(destArray.map((dest) => fileCopy(src, dest)));
+          console.log('adapter has been coped.');
+        } catch (err) {
+          console.error('copy failed:', err);
+        }
+      }
+
+      copyMultipleDest(filePath, [
+        'packages/tdesign-react/lib/_util/react-19-adapter.js',
+        'packages/tdesign-react/esm/_util/react-19-adapter.js',
+      ]);
+    },
+  };
+}
+
+const adapterEsConfig = {
+  input: adapterInput,
+  external: adapterExternal,
+  plugins: [postWritePlugin()],
+  output: {
+    banner,
+    dir: 'packages/tdesign-react/es/_util/',
+    format: 'esm',
+  },
+};
+
+const adapterCjsConfig = {
+  input: adapterInput,
+  external: adapterExternal,
+  output: {
+    banner,
+    dir: 'packages/tdesign-react/cjs/_util/',
+    format: 'cjs',
+  },
+};
+
+export default [
+  cssConfig,
+  libConfig,
+  cjsConfig,
+  esConfig,
+  esmConfig,
+  umdConfig,
+  umdMinConfig,
+  resetCss,
+  adapterEsConfig,
+  adapterCjsConfig,
+];

@@ -1,0 +1,19 @@
+<span class="{{pfv}}badge
+  {{#if badge--IsRead}}pf-m-read {{/if}}
+  {{#if badge--IsUnread}}pf-m-unread {{/if}}
+  {{#if badge--IsDisabled}}pf-m-disabled {{/if}}
+  {{#if badge--modifier}} {{badge--modifier}}{{/if}}"
+  {{#if badge--attribute}}
+    {{{badge--attribute}}}
+  {{/if}}>
+  {{#if badge--text}}
+    {{badge--text}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+  {{#if badge--IsUnread}}
+    {{#unless badge--IsDisabled}}
+      {{#> screen-reader}}unread messages{{/screen-reader}}
+    {{/unless}}
+  {{/if}}
+</span>

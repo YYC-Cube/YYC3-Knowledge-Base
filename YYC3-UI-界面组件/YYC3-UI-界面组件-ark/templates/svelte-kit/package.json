@@ -1,0 +1,27 @@
+{
+  "name": "svelte-kit",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --open",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+  },
+  "dependencies": {
+    "@ark-ui/svelte": "workspace:*"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "7.0.1",
+    "@sveltejs/kit": "2.70.3",
+    "@sveltejs/vite-plugin-svelte": "7.3.1",
+    "lucide-svelte": "1.0.1",
+    "svelte": "5.57.2",
+    "svelte-check": "4.7.6",
+    "typescript": "6.0.3",
+    "vite": "8.3.4"
+  }
+}

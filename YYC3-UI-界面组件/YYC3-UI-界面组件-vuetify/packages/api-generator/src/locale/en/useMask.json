@@ -1,0 +1,10 @@
+{
+  "description": "Applies, removes and validates input masks.",
+  "exposed": {
+    "isComplete": "Check if a string is complete for the mask.",
+    "isDelimiter": "Check if the character at the given index of a masked string comes from the mask rather than from user input.",
+    "isValid": "Check if a string is valid for the mask.",
+    "mask": "Apply mask to a string.",
+    "unmask": "Remove mask from a string."
+  }
+}

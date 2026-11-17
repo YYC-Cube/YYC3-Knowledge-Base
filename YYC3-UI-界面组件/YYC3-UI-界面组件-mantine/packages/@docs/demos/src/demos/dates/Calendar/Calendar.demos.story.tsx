@@ -1,0 +1,34 @@
+import { renderDemo } from '../../../render-demo';
+import * as demos from './index';
+
+export default { title: 'Calendar' };
+
+export const Demo_usage = {
+  name: '⭐ Demo: usage',
+  render: renderDemo(demos.usage),
+};
+
+export const Demo_isStatic = {
+  name: '⭐ Demo: isStatic',
+  render: renderDemo(demos.isStatic),
+};
+
+export const Demo_picker = {
+  name: '⭐ Demo: picker',
+  render: renderDemo(demos.picker),
+};
+
+export const Demo_weekPicker = {
+  name: '⭐ Demo: weekPicker',
+  render: renderDemo(demos.weekPicker),
+};
+
+export const Demo_fullWidth = {
+  name: '⭐ Demo: fullWidth',
+  render: renderDemo(demos.fullWidth),
+};
+
+export const Demo_nativeLevelSelect = {
+  name: '⭐ Demo: nativeLevelSelect',
+  render: renderDemo(demos.nativeLevelSelect),
+};

@@ -1,0 +1,11 @@
+.root {
+  --combobox-shell-navbar-width: 300px;
+
+  @mixin smaller-than $docs-mdx-breakpoint {
+    --combobox-shell-navbar-width: 0;
+  }
+}
+
+.main {
+  padding-inline-start: var(--combobox-shell-navbar-width);
+}

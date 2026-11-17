@@ -1,0 +1,105 @@
+import { SelectHTMLAttributes, VNode } from 'vue'
+import {
+  BasicAttributes,
+  ListenerProp,
+  Rules as SelectRules,
+  Variant as SelectVariant,
+  SetPropsDefaults,
+  VarComponent,
+} from './varComponent'
+
+export declare const selectProps: Record<keyof SelectProps, any>
+
+export type SelectValidateTrigger = 'onFocus' | 'onBlur' | 'onChange' | 'onClick' | 'onClear' | 'onClose'
+
+export type SelectTextAlign = 'left' | 'right' | 'center'
+
+export type SelectSize = 'small' | 'normal'
+
+export type SelectMenuRadius = 'normal' | 'large'
+
+export type SelectOptionLabelRender = (option: SelectOption, checked: boolean) => VNodeChild
+
+export type SelectOptionLabel = string | VNode | SelectOptionLabelRender
+
+export type SelectFilterMethod = (pattern: string, option: SelectOption) => boolean
+
+export interface SelectOption {
+  label?: SelectOptionLabel
+  value?: any
+  disabled?: boolean
+
+  [key: PropertyKey]: any
+}
+
+export interface SelectProps extends BasicAttributes {
+  modelValue?: any
+  options?: SelectOption[]
+  labelKey?: string
+  valueKey?: string
+  variant?: SelectVariant
+  size?: SelectSize
+  menuRadius?: SelectMenuRadius
+  placeholder?: string
+  multiple?: boolean
+  offsetY?: number | string
+  chip?: boolean
+  line?: boolean
+  hint?: boolean
+  textColor?: string
+  focusColor?: string
+  blurColor?: string
+  disabled?: boolean
+  readonly?: boolean
+  clearable?: boolean
+  separator?: string
+  textAlign?: SelectTextAlign
+  validateTrigger?: Array<SelectValidateTrigger>
+  rules?: SelectRules
+  tabindex?: SelectHTMLAttributes['tabindex']
+  filterable?: boolean
+  filter?: SelectFilterMethod
+  onFocus?: ListenerProp<(e: Event) => void>
+  onBlur?: ListenerProp<(e: Event) => void>
+  onClick?: ListenerProp<(e: Event) => void>
+  onClear?: ListenerProp<(value: any) => void>
+  onClose?: ListenerProp<(value: any) => void>
+  onChange?: ListenerProp<(value: any) => void>
+  'onUpdate:modelValue'?: ListenerProp<(value: any) => void>
+}
+
+export interface SelectArrowIconData {
+  focus: boolean
+  menuOpen: boolean
+}
+
+export interface SelectClearIconData {
+  clear: (e: Event) => void
+}
+
+export class Select extends VarComponent {
+  static setPropsDefaults: SetPropsDefaults<SelectProps>
+
+  $props: SelectProps
+
+  $slots: {
+    selected(): VNode[]
+    'prepend-icon'(): VNode[]
+    'clear-icon'(data: SelectClearIconData): VNode[]
+    'append-icon'(): VNode[]
+    'arrow-icon'(data: SelectArrowIconData): VNode[]
+    empty(): VNode[]
+  }
+
+  focus(): void
+
+  blur(): void
+
+  validate(): Promise<boolean>
+
+  resetValidation(): void
+
+  reset(): void
+}
+
+export class _SelectComponent extends Select {}

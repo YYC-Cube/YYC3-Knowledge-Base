@@ -1,0 +1,124 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 浮动按钮触发器宽度
+$fab-trigger-width: var(--wot-fab-trigger-width, $n-60) !default;
+// 浮动按钮触发器高度
+$fab-trigger-height: var(--wot-fab-trigger-height, $n-60) !default;
+// 动作列表主轴内边距
+$fab-actions-padding: var(--wot-fab-actions-padding, $padding-extra-loose) !default;
+// 浮动按钮层级
+$fab-z-index: var(--wot-fab-z-index, 99) !default;
+// 动作按钮展开/收起动画偏移距离
+$fab-transition-offset: var(--wot-fab-transition-offset, $n-40) !default;
+// 浮动按钮触发器图标大小
+$fab-trigger-icon-size: var(--wot-fab-trigger-icon-size, $n-32) !default;
+
+@include b(fab) {
+  position: fixed;
+  z-index: $fab-z-index;
+
+  @include edeep(trigger) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $fab-trigger-width;
+    height: $fab-trigger-height;
+
+    .wd-button__icon {
+      font-size: $fab-trigger-icon-size;
+    }
+  }
+
+  :deep() {
+    @include e(actions) {
+      position: absolute;
+      z-index: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: $fab-actions-padding 0;
+
+      @include m(left, right) {
+        height: 100%;
+        top: 0;
+        padding: 0 $fab-actions-padding;
+      }
+
+      @include m(left) {
+        flex-direction: row-reverse;
+        right: 100%;
+      }
+
+      @include m(right) {
+        flex-direction: row;
+        left: 100%;
+      }
+
+      @include m(top, bottom) {
+        width: 100%;
+        left: 0;
+      }
+
+      @include m(top) {
+        flex-direction: column-reverse;
+        bottom: 100%;
+      }
+
+      @include m(bottom) {
+        flex-direction: column;
+        top: 100%;
+      }
+    }
+
+    // 动画
+    @include e(transition-enter-active, transition-leave-active) {
+      transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+
+    @include e(transition-enter) {
+      @include m(top) {
+        opacity: 0;
+        transform: translateY($fab-transition-offset);
+      }
+
+      @include m(bottom) {
+        opacity: 0;
+        transform: translateY(calc(-1 * $fab-transition-offset));
+      }
+
+      @include m(left) {
+        opacity: 0;
+        transform: translateX($fab-transition-offset);
+      }
+
+      @include m(right) {
+        opacity: 0;
+        transform: translateX(calc(-1 * $fab-transition-offset));
+      }
+    }
+
+    @include e(transition-leave-to) {
+      @include m(top) {
+        opacity: 0;
+        transform: translateY($fab-transition-offset);
+      }
+
+      @include m(bottom) {
+        opacity: 0;
+        transform: translateY(calc(-1 * $fab-transition-offset));
+      }
+
+      @include m(left) {
+        opacity: 0;
+        transform: translateX($fab-transition-offset);
+      }
+
+      @include m(right) {
+        opacity: 0;
+        transform: translateX(calc(-1 * $fab-transition-offset));
+      }
+    }
+  }
+}

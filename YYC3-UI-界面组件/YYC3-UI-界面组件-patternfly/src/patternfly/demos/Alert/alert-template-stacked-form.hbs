@@ -1,0 +1,93 @@
+{{#> form form--id=alert-template-stacked-form--id form--modifier=(concat alert-template-stacked-form--modifier " pf-m-limit-width")}}
+  {{#> form-alert}}
+    {{#> alert alert--modifier="pf-m-danger pf-m-inline" alert--attribute='aria-label="Inline danger alert"'}}
+      {{#> alert-icon alert-icon--type="exclamation-circle"}}
+      {{/alert-icon}}
+      {{#> alert-title}}
+        {{#> screen-reader}}Danger alert:{{/screen-reader}}
+        Fill out all required fields before continuing.
+      {{/alert-title}}
+    {{/alert}}
+  {{/form-alert}}
+  {{#> form-group form-group--id=(concat form--id '-name')}}
+    {{#> form-group-label}}
+      {{#> form-label form-label--attribute=(concat 'for="' form-group--id '"') required='true'}}
+        Full name
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control}}
+      {{#> form-control controlType="input" input="true" form-control--IsError="true" form-control--IsRequired='true' form-control--attribute=(concat 'type="text" id="' form-group--id '" name="' form-group--id '" aria-invalid="true" aria-describedby="' form-group--id '-helper"')}}
+      {{/form-control}}
+      {{> form-helper-text helper-text--value='Required field' helper-text-item--IsError=true}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--id=(concat form--id '-email')}}
+    {{#> form-group-label}}
+      {{#> form-label form-label--attribute=(concat 'for="' form-group--id '"') required="true"}}
+        Email
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control}}
+      {{#> form-control controlType="input" input="true" form-control--IsRequired='true' form-control--attribute=(concat 'type="text" value="patternfly.com" id="' form-group--id '" name="' form-group--id '" aria-describedby="' form-group--id '-helper"')}}
+      {{/form-control}}
+      {{> form-helper-text helper-text--value='Enter a valid email address: example@gmail.com' helper-text-item--IsError=true}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--id=(concat form--id '-state')}}
+    {{#> form-group-label}}
+      {{#> form-label form-label--attribute=(concat 'for="' form-group--id '"') required='true'}}
+        State of residence
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control}}
+      {{#> form-control controlType="select" form-control--IsError='true' form-control--IsRequired='true' form-control--attribute=(concat 'aria-invalid="true" id="select-group-error" name="select-group-error" aria-label="Error state select group example" aria-describedby="' form-group--id '-helper"')}}
+        <option value="">Select a state</option>
+        <option value="Option 1">CA</option>
+        <option value="Option 2">FL</option>
+        <option value="Option 3">MA</option>
+        <option value="Option 4">NY</option>
+      {{/form-control}}
+      {{> form-helper-text helper-text--value='Required field' helper-text-item--IsError=true}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--IsCheckGroup=true form-group--id=(concat form--id '-check-group') form-group--aria-describedby=(concat form-group--id '-check-group-helper')}}
+    {{#> form-group-label form-group-label--modifier="pf-m-no-padding-top"}}
+      {{#> form-label form-label--attribute=(concat 'for="' form-group--id '"') required='true'}}
+        How can we contact you?
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control form-group-control--modifier="pf-m-stack" check-input--aria-describedby=(concat form-group--id '-helper')}}
+      {{> form-helper-text helper-text--value='At least one contact method must be selected' helper-text-item--IsError=true}}
+      {{#> check check--id="alt-form-checkbox1"}}
+        {{#> check-input}}{{/check-input}}
+        {{#> check-label}}Email{{/check-label}}
+      {{/check}}
+      {{#> check check--id="alt-form-checkbox2"}}
+        {{#> check-input}}{{/check-input}}
+        {{#> check-label}}Phone{{/check-label}}
+      {{/check}}
+      {{#> check check--id="alt-form-checkbox3"}}
+        {{#> check-input}}{{/check-input}}
+        {{#> check-label}}Mail{{/check-label}}
+      {{/check}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--modifier="pf-m-action"}}
+    {{#> form-group-control}}
+      {{#> action-list}}
+        {{#> action-list-group}}
+          {{#> action-list-item}}
+            {{#> button button--IsPrimary=true button--IsSubmit=true}}
+              Submit
+            {{/button}}
+          {{/action-list-item}}
+          {{#> action-list-item}}
+            {{#> button button--IsSecondary=true}}
+              Cancel
+            {{/button}}
+          {{/action-list-item}}
+        {{/action-list-group}}
+      {{/action-list}}
+    {{/form-group-control}}
+  {{/form-group}}
+{{/form}}

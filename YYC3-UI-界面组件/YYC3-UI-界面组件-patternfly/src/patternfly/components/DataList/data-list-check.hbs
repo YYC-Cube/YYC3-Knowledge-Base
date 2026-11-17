@@ -1,0 +1,9 @@
+<div class="{{pfv}}data-list__check{{#if data-list-check--modifier}} {{data-list-check--modifier}}{{/if}}"
+  {{#if data-list-check--attribute}}
+    {{{data-list-check--attribute}}}
+  {{/if}}>
+  {{> check
+      check--IsStandalone=true
+      check--IsLabelWrapped=true
+      check--id=(concat data-list--id '-' data-list-item--id)}}
+</div>

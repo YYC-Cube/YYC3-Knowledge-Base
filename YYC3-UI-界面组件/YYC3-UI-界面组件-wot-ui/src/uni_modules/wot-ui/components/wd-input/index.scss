@@ -1,0 +1,130 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 输入框内边距
+$input-padding: var(--wot-input-padding, $padding-loose $padding-loose) !default;
+// 输入框背景色
+$input-bg: var(--wot-input-bg, $filled-oppo) !default;
+// 输入框内高度
+$input-inner-height: var(--wot-input-inner-height, $n-20) !default;
+// 输入框内字号
+$input-inner-font-size: var(--wot-input-inner-font-size, $typography-body-size-main) !default;
+// 输入框文字颜色
+$input-inner-color: var(--wot-input-inner-color, $text-main) !default;
+// 输入框占位符颜色
+$input-inner-placeholder-color: var(--wot-input-inner-placeholder-color, $text-placeholder) !default;
+// 输入框禁用颜色
+$input-disabled-color: var(--wot-input-disabled-color, $text-disabled) !default;
+// 输入框图标颜色
+$input-icon-color: var(--wot-input-icon-color, $icon-secondary) !default;
+// 输入框图标字号
+$input-icon-font-size: var(--wot-input-icon-font-size, $n-18) !default;
+// 输入框图标间距
+$input-icon-margin: var(--wot-input-icon-margin, $spacing-tight) !default;
+// 输入框字数统计间距
+$input-count-margin: var(--wot-input-count-margin, $spacing-extra-loose) !default;
+// 输入框字数统计颜色
+$input-count-color: var(--wot-input-count-color, $text-auxiliary) !default;
+// 输入框字数统计字号
+$input-count-font-size: var(--wot-input-count-font-size, $typography-body-size-main) !default;
+// 输入框字数统计行高
+$input-count-line-height: var(--wot-input-count-line-height, $typography-body-line-height-size-main) !default;
+// 输入框错误颜色
+$input-error-color: var(--wot-input-error-color, $danger-main) !default;
+
+@include b(input) {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: $input-padding;
+  -webkit-tap-highlight-color: transparent;
+  text-align: left;
+  background: $input-bg;
+
+  @include e(prefix) {
+    margin-right: $input-icon-margin;
+    font-size: $input-icon-font-size;
+    line-height: initial;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  @include edeep(icon, clear) {
+    font-size: $input-icon-font-size;
+    line-height: $input-icon-font-size;
+    color: $input-icon-color;
+  }
+
+  @include e(suffix) {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    line-height: initial;
+
+    :deep(.wd-input__icon),
+    :deep(.wd-input__clear) {
+      margin-left: $input-icon-margin;
+    }
+  }
+
+  @include when(disabled) {
+    .wd-input__inner,
+    .wd-input__placeholder {
+      color: $input-disabled-color;
+    }
+  }
+
+  @include when(error) {
+    .wd-input__inner {
+      color: $input-error-color;
+    }
+  }
+
+  @include e(inner) {
+    flex: 1;
+    height: $input-inner-height;
+    font-size: $input-inner-font-size;
+    color: $input-inner-color;
+    outline: none;
+    border: none;
+    background: none;
+    padding: 0;
+    box-sizing: border-box;
+    min-height: $input-inner-height;
+
+    &::-webkit-input-placeholder {
+      color: $input-inner-placeholder-color;
+    }
+
+    @include when(align-right) {
+      text-align: right;
+    }
+  }
+
+  @include e(placeholder) {
+    color: $input-inner-placeholder-color;
+  }
+
+  @include e(readonly-mask) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+  }
+
+  @include e(count) {
+    margin-left: $input-count-margin;
+    font-size: $input-count-font-size;
+    line-height: $input-count-line-height;
+    color: $input-count-color;
+  }
+
+  @include when(compact) {
+    padding: 0;
+    background: transparent;
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "@vant/use",
+  "version": "1.6.0",
+  "description": "Vant Composition API",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "rslib dev",
+    "build": "rslib build",
+    "release": "vant-cli release",
+    "prepare": "pnpm build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vant-ui/vant.git",
+    "directory": "packages/vant-use"
+  },
+  "bugs": "https://github.com/vant-ui/vant/issues",
+  "author": "chenjiahan",
+  "license": "MIT",
+  "devDependencies": {
+    "@rslib/core": "^0.23.2",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.42"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  }
+}

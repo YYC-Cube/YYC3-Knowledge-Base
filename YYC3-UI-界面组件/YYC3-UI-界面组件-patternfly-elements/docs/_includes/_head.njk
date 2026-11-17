@@ -1,0 +1,27 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#004080">
+  <meta name="generator" content="Eleventy">
+  <meta name="description" content="{{ title }} - PatternFly Elements">
+  <meta name="pf-auto-reveal" content="true">
+  <title>{{ element.title or title }} - PatternFly Elements</title>
+  <link href="{{ '/images/favicon.ico' | url }}" rel="shortcut icon">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&family=Red+Hat+Text&family=Overpass+Mono&display=swap"
+    rel="stylesheet">
+
+  <noscript>
+    <link rel="stylesheet" href="{{ '../../core/styles/pf--noscript.min.css' | url }}">
+  </noscript>
+
+  <link rel="stylesheet" href="{{ '/prism.css' | url }}">
+  <link rel="stylesheet" href="{{ '/main.css' | url }}">
+  <link rel="stylesheet" href="{{ '/assets/@rhds/elements/rh-footer/rh-footer-lightdom.css' | url }}">
+
+  <script type="importmap">{{ importMap|dump|safe }}</script>
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+  <script type="module" src="/main.mjs"></script>
+</head>

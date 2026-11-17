@@ -1,0 +1,24 @@
+default.check-filename = true
+
+[default.extend-words]
+actived = "actived"
+Colum = "Colum"
+ded = "ded"
+destory ="destory"
+nd = "nd"
+loosing = "loosing"
+ba = "ba"
+Impossibile = "Impossibile"
+
+[files]
+extend-exclude = [
+  "CHANGELOG*.md",
+  "changelog.json",
+  "echarts.js",
+  "packages/components/locale/*",
+  "packages/uniapp-components/locale/*",
+  "packages/uniapp-components/npm/**/*",
+  "packages/uniapp-pro-components/chat/npm/**/*",
+  "packages/tdesign-uniapp/app/common/uni.css",
+  "packages/tdesign-uniapp/app/uni_modules/**/*",
+]

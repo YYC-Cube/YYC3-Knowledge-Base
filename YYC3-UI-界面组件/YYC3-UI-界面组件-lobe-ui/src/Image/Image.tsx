@@ -1,0 +1,260 @@
+'use client';
+
+import clsx from 'clsx';
+import {
+  memo,
+  type MouseEvent,
+  type PointerEvent,
+  type SyntheticEvent,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+
+import { Flexbox } from '@/Flex';
+import Skeleton from '@/Skeleton';
+import { styleProps } from '@/styles/stylex/props';
+import { stylish } from '@/styles/stylex/stylish';
+import { useThemeMode } from '@/styles/theme/scope';
+import { toDataAttributes } from '@/utils/bem';
+
+import { imageMarker } from './marker.stylex';
+import { usePreviewGroupContext } from './PreviewGroup';
+import { imageClasses } from './stable';
+import { FALLBACK_DARK, FALLBACK_LIGHT, styles } from './style';
+import type { ImagePreviewOptions, ImageProps } from './type';
+import { DEFAULT_AUTO_ZOOM_THRESHOLD, DEFAULT_MAX_SCALE } from './viewer/geometry';
+import PreviewOutlet from './viewer/PreviewOutlet';
+import { openPreview, type PreviewEntry } from './viewer/registry';
+
+const resolvePreview = (
+  groupPreview: boolean | ImagePreviewOptions | undefined,
+  imagePreview: boolean | ImagePreviewOptions | undefined,
+): ImagePreviewOptions | false => {
+  if (imagePreview === false) return false;
+  if (imagePreview === undefined && groupPreview === false) return false;
+
+  const groupOptions = typeof groupPreview === 'object' ? groupPreview : undefined;
+  const imageOptions = typeof imagePreview === 'object' ? imagePreview : undefined;
+
+  return { ...groupOptions, ...imageOptions };
+};
+
+const variantStyles = {
+  borderless: stylish.variantBorderlessWithoutHover,
+  filled: styles.filled,
+  outlined: stylish.variantOutlinedWithoutHover,
+};
+
+const Image = memo<ImageProps>(
+  ({
+    ref,
+    style,
+    preview,
+    isLoading,
+    maxHeight = '100%',
+    maxWidth = '100%',
+    minHeight,
+    minWidth,
+    actions,
+    className,
+    alwaysShowActions,
+    variant = 'filled',
+    objectFit,
+    classNames,
+    styles: customStyles,
+    onClick,
+    onError,
+    onPointerDown,
+    width,
+    height,
+    size,
+    src,
+    alt,
+    loading = 'lazy',
+    ...rest
+  }) => {
+    const { isDarkMode } = useThemeMode();
+    const [hasError, setHasError] = useState(false);
+    const lastSrcRef = useRef(src);
+    const imgRef = useRef<HTMLImageElement>(null);
+    const preOpenFocusRef = useRef<HTMLElement | null>(null);
+    const id = useId();
+    const group = usePreviewGroupContext();
+
+    if (lastSrcRef.current !== src) {
+      lastSrcRef.current = src;
+      if (hasError) setHasError(false);
+    }
+
+    const resolvedWidth = width ?? size;
+    const resolvedHeight = height ?? size;
+
+    const resolvedPreview = resolvePreview(group?.preview, preview);
+    const previewEnabled = resolvedPreview !== false;
+    const resolvedOptions = useMemo(
+      () =>
+        previewEnabled
+          ? {
+              autoZoomThreshold: DEFAULT_AUTO_ZOOM_THRESHOLD,
+              defaultZoom: 'auto' as const,
+              maxScale: DEFAULT_MAX_SCALE,
+              ...resolvedPreview,
+            }
+          : undefined,
+      [previewEnabled, resolvedPreview],
+    );
+    const previewSrc = resolvedOptions?.src;
+
+    useEffect(() => {
+      if (!group) return;
+      return group.register({
+        getElement: () => imgRef.current,
+        id,
+        options: resolvedOptions,
+        previewSrc,
+        src: src ?? '',
+      });
+    }, [group, id, src, previewSrc, resolvedOptions]);
+
+    const handleError = useCallback(
+      (event: SyntheticEvent<HTMLImageElement>) => {
+        setHasError(true);
+        onError?.(event);
+      },
+      [onError],
+    );
+
+    const handlePointerDown = useCallback(
+      (event: PointerEvent<HTMLImageElement>) => {
+        onPointerDown?.(event);
+        const active = document.activeElement;
+        preOpenFocusRef.current =
+          active instanceof HTMLElement &&
+          active !== document.body &&
+          active !== document.documentElement
+            ? active
+            : null;
+      },
+      [onPointerDown],
+    );
+
+    const handleClick = useCallback(
+      (event: MouseEvent<HTMLImageElement>) => {
+        onClick?.(event);
+        if (!previewEnabled || !imgRef.current || !resolvedOptions) return;
+        const clickedEntry: PreviewEntry = {
+          element: imgRef.current,
+          options: resolvedOptions,
+          previewSrc,
+          src: imgRef.current.currentSrc || imgRef.current.src,
+        };
+        const openerFocusElement = preOpenFocusRef.current;
+
+        if (!group) {
+          openPreview(clickedEntry, undefined, 0, openerFocusElement);
+          return;
+        }
+
+        const galleryEntries: PreviewEntry[] = [];
+        let clickedIndex = -1;
+        for (const groupEntry of group.getEntries()) {
+          const element = groupEntry.getElement();
+          if (!element || !groupEntry.options) continue;
+          if (element === imgRef.current) clickedIndex = galleryEntries.length;
+          galleryEntries.push({
+            element,
+            options: groupEntry.options,
+            previewSrc: groupEntry.previewSrc,
+            src: element.currentSrc || element.src,
+          });
+        }
+        openPreview(
+          clickedEntry,
+          galleryEntries,
+          clickedIndex >= 0 ? clickedIndex : 0,
+          openerFocusElement,
+        );
+      },
+      [onClick, previewEnabled, resolvedOptions, previewSrc, group],
+    );
+
+    if (isLoading)
+      return (
+        <div onClick={onClick}>
+          <Skeleton
+            height={resolvedHeight}
+            style={{ maxHeight, maxWidth, minHeight, minWidth }}
+            width={resolvedWidth}
+          />
+        </div>
+      );
+
+    return (
+      <Flexbox
+        ref={ref}
+        {...toDataAttributes({ variant })}
+        {...styleProps(
+          [styles.root, variantStyles[variant], imageMarker],
+          clsx(imageClasses(), className),
+          style,
+        )}
+      >
+        {actions && (
+          <div
+            {...styleProps(
+              [styles.actions, !alwaysShowActions && styles.actionsHidden],
+              clsx(imageClasses('actions'), !alwaysShowActions && 'actions-hidden'),
+            )}
+          >
+            {actions}
+          </div>
+        )}
+        <div
+          {...styleProps(
+            styles.wrapper,
+            clsx(imageClasses('wrapper'), classNames?.wrapper),
+            customStyles?.wrapper,
+          )}
+        >
+          <img
+            alt={alt}
+            height={resolvedHeight}
+            loading={loading}
+            ref={imgRef}
+            src={hasError ? (isDarkMode ? FALLBACK_DARK : FALLBACK_LIGHT) : src}
+            width={resolvedWidth}
+            className={
+              styleProps(
+                [styles.image, previewEnabled && styles.previewable],
+                clsx(imageClasses('image'), classNames?.image),
+              ).className
+            }
+            style={{
+              height: resolvedHeight,
+              maxHeight,
+              maxWidth,
+              minHeight,
+              minWidth,
+              objectFit,
+              width: resolvedWidth,
+              ...customStyles?.image,
+            }}
+            onClick={handleClick}
+            onError={handleError}
+            onPointerDown={handlePointerDown}
+            {...rest}
+          />
+        </div>
+        {previewEnabled && <PreviewOutlet elementRef={imgRef} />}
+      </Flexbox>
+    );
+  },
+);
+
+Image.displayName = 'Image';
+
+export default Image;

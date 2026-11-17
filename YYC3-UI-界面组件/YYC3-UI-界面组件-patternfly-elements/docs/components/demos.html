@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="PatternFly Elements: A set of community-created web components based on PatternFly design.">
+  <link href="/brand/logo/svg/pfe-icon-blue.svg"
+        rel="shortcut icon">
+  <title>{{ demo.title or (demo.tagName) }} | PatternFly Elements</title>
+  <link rel="preconnect"
+        href="https://ga.jspm.io">
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com">
+  <script type="importmap">{{ importMap | dump | safe }}</script>
+  <link rel="stylesheet"
+        href="/main.css">
+  <noscript>
+    <link href="/core/styles/pf--noscript.min.css"
+          rel="stylesheet">
+  </noscript>
+  <script async
+          src="https://ga.jspm.io/npm:es-module-shims@2.0.10/dist/es-module-shims.js"></script>
+
+  <style>
+    html,
+    body,
+    main {
+      min-height: 100%;
+    }
+  </style>
+  <noscript>
+    <style>
+      :not(:defined) {
+        opacity: 1;
+      }
+    </style>
+  </noscript>
+</head>
+
+<body>
+  <main>
+    <div data-demo="{{demo.tagName}}">{% if demo.filePath %}
+      {%- include demo.filePath -%}{% endif %}
+    </div>
+  </main>
+</body>
+
+</html>

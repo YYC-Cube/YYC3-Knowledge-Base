@@ -1,0 +1,90 @@
+---
+id: avatar
+title: Avatar
+description: A graphical representation of the user, often used in profile sections.
+---
+
+<ComponentPreview id="Avatar" />
+
+## Anatomy
+
+<Anatomy id="avatar" />
+
+```tsx
+<Avatar.Root>
+  <Avatar.Fallback />
+  <Avatar.Image />
+</Avatar.Root>
+```
+
+## Examples
+
+### Basic
+
+Display a user's profile image with a fallback.
+
+<Example id="basic" />
+
+### Events
+
+Use `onStatusChange` to listen for loading state changes.
+
+<Example id="events" />
+
+### Root Provider
+
+An alternative way to control the avatar is to use the `RootProvider` component and the `useAvatar` hook. This way you
+can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+## Guides
+
+### Next.js Image
+
+Here's an example of how to use the `Image` component from `next/image`.
+
+```tsx
+import { Avatar, useAvatarContext } from '@ark-ui/react/avatar'
+import { getImageProps, type ImageProps } from 'next/image'
+
+const AvatarNextImage = (props: ImageProps) => {
+  const avatar = useAvatarContext()
+
+  const { hidden, ...arkImageProps } = avatar.getImageProps()
+  const nextImage = getImageProps(props)
+
+  return (
+    <img
+      {...arkImageProps}
+      {...nextImage.props}
+      style={{
+        ...props.style,
+        // use visibility instead
+        visibility: hidden ? 'hidden' : 'visible',
+      }}
+    />
+  )
+}
+
+const Demo = () => {
+  return (
+    <Avatar.Root>
+      <Avatar.Fallback>JD</Avatar.Fallback>
+      <AvatarNextImage src="..." alt="" width={80} height={80} />
+    </Avatar.Root>
+  )
+}
+```
+
+> Refer to this [Github Discussion](https://github.com/chakra-ui/ark/discussions/3147) for more information.
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="avatar" />
+
+### Context
+
+<ContextType id="avatar" />

@@ -1,0 +1,70 @@
+<script lang="ts">
+  import { type JsonNode, getRootNode, nodeToString, nodeToValue } from '@zag-js/json-tree-utils'
+  import { createSplitProps } from '../../utils/create-split-props.ts'
+  import { TreeView, createTreeCollection, type TreeViewRootProps } from '../tree-view/index.ts'
+  import { getBranchValues } from './get-branch-value.ts'
+  import { type JsonTreeViewOptions, JsonTreeViewPropsProvider } from './json-tree-view-props-context.ts'
+
+  export interface JsonTreeViewRootBaseProps extends JsonTreeViewOptions {
+    /**
+     * The data to display in the tree.
+     */
+    data: unknown
+    /**
+     * The default expand level.
+     */
+    defaultExpandedDepth?: number
+  }
+
+  export interface JsonTreeViewRootProps
+    extends Omit<TreeViewRootProps<JsonNode>, 'collection'>, JsonTreeViewRootBaseProps {}
+
+  let {
+    data,
+    defaultExpandedDepth,
+    expandedValue = $bindable<string[]>(),
+    selectedValue = $bindable<string[]>(),
+    focusedValue = $bindable<string>(),
+    checkedValue = $bindable<string[]>(),
+    ...props
+  }: JsonTreeViewRootProps = $props()
+
+  const splitJsonTreeViewProps = createSplitProps<JsonTreeViewOptions>()
+
+  const [jsonTreeProps, localProps] = $derived(
+    splitJsonTreeViewProps(props, [
+      'maxPreviewItems',
+      'collapseStringsAfterLength',
+      'quotesOnKeys',
+      'groupArraysAfterLength',
+      'showNonenumerable',
+    ]),
+  )
+
+  const collection = $derived(
+    createTreeCollection<JsonNode>({
+      nodeToValue,
+      nodeToString,
+      rootNode: getRootNode(data),
+    }),
+  )
+
+  const defaultExpandedValue = $derived(
+    defaultExpandedDepth != null ? getBranchValues(collection, defaultExpandedDepth) : undefined,
+  )
+
+  JsonTreeViewPropsProvider(() => jsonTreeProps)
+</script>
+
+<TreeView.Root
+  data-scope="json-tree-view"
+  {collection}
+  {defaultExpandedValue}
+  bind:expandedValue
+  bind:selectedValue
+  bind:focusedValue
+  bind:checkedValue
+  {...localProps}
+>
+  {@render props.children?.()}
+</TreeView.Root>

@@ -1,0 +1,6 @@
+{{> check
+    check--IsStandalone=(inverse card--IsSelectable)
+    check-label--text=(ternary card--IsSelectable " " false)
+    check-label--attribute=(concat 'id="' card--id '-check-label" name="' card--id '-check" for="' card--id '-check" name="' card--id '-check"')
+    check-input--attribute=(concat 'id="' card--id '-check" name="' card--id '-check" aria-labelledby="' card--id ' "')
+  }}

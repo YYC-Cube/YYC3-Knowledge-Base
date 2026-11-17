@@ -1,0 +1,71 @@
+import { useCallback, useEffect, useRef } from 'react';
+import { useCallbackRef } from '../utils';
+
+export function useThrottledCallbackWithClearTimeout<T extends (...args: any[]) => any>(
+  callback: T,
+  wait: number
+) {
+  const handleCallback = useCallbackRef(callback);
+  const latestInArgsRef = useRef<Parameters<T>>(null);
+  const latestOutArgsRef = useRef<Parameters<T>>(null);
+  const active = useRef(true);
+  const waitRef = useRef(wait);
+  const timeoutRef = useRef<number>(-1);
+
+  const clearTimeout = () => {
+    window.clearTimeout(timeoutRef.current);
+    timeoutRef.current = -1;
+    active.current = true;
+    latestInArgsRef.current = null;
+    latestOutArgsRef.current = null;
+  };
+
+  const callThrottledCallback = useCallback(
+    (...args: Parameters<T>) => {
+      latestInArgsRef.current = args;
+      latestOutArgsRef.current = args;
+      active.current = false;
+      try {
+        handleCallback(...args);
+      } catch (error) {
+        active.current = true;
+        throw error;
+      }
+    },
+    [handleCallback]
+  );
+
+  const timerCallback = useCallback(() => {
+    if (latestInArgsRef.current && latestInArgsRef.current !== latestOutArgsRef.current) {
+      callThrottledCallback(...latestInArgsRef.current);
+
+      timeoutRef.current = window.setTimeout(timerCallback, waitRef.current);
+    } else {
+      active.current = true;
+    }
+  }, [callThrottledCallback]);
+
+  const throttled = useCallback(
+    (...args: Parameters<T>) => {
+      if (active.current) {
+        callThrottledCallback(...args);
+        timeoutRef.current = window.setTimeout(timerCallback, waitRef.current);
+      } else {
+        latestInArgsRef.current = args;
+      }
+    },
+    [callThrottledCallback, timerCallback]
+  );
+
+  useEffect(() => {
+    waitRef.current = wait;
+  }, [wait]);
+
+  return [throttled, clearTimeout] as const;
+}
+
+export function useThrottledCallback<T extends (...args: any[]) => any>(callback: T, wait: number) {
+  const [throttled, clearTimeout] = useThrottledCallbackWithClearTimeout(callback, wait);
+  useEffect(() => clearTimeout, []);
+  return throttled;
+}

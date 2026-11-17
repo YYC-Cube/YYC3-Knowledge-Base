@@ -1,0 +1,99 @@
+name: Upload To WeixinMiniProgram
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '上传版本号（留空则使用 package.json 的 version）'
+        required: false
+        type: string
+      description:
+        description: '版本描述'
+        required: false
+        type: string
+        default: '手动发布版本'
+      branch:
+        description: '要使用的分支'
+        required: false
+        type: string
+        default: 'main'
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch || github.ref }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build WeChat mini program
+        run: pnpm build:mp-weixin
+
+      - name: Resolve upload version
+        shell: bash
+        env:
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+            version="$REQUESTED_VERSION"
+            if [[ -z "$version" ]]; then
+              version="$(node -p "require('./package.json').version")"
+            fi
+          else
+            version="${GITHUB_REF_NAME#v}"
+          fi
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid upload version: $version" >&2
+            exit 1
+          fi
+          echo "UPLOAD_VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Upload WeChat mini program
+        uses: wot-ui/ci-action@v2
+        with:
+          platform: weixin
+          project-path: dist/build/mp-weixin
+          appid: ${{ secrets.MP_APPID }}
+          private-key: ${{ secrets.MP_PRIVATE_KEY }}
+          upload-version: ${{ env.UPLOAD_VERSION }}
+          upload-desc: ${{ inputs.description || '自动发布版本' }}
+          setting: '{"useProjectConfig":true,"minifyJS":true,"minifyWXML":true,"minifyWXSS":true,"minify":true}'
+          json-output: ${{ runner.temp }}/weixin-upload.json
+          summary: ${{ runner.temp }}/weixin-upload-summary.md
+
+      - name: Publish upload summary
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f "$RUNNER_TEMP/weixin-upload-summary.md" ]]; then
+            cat "$RUNNER_TEMP/weixin-upload-summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Archive upload result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weixin-upload-result
+          path: |
+            ${{ runner.temp }}/weixin-upload.json
+            ${{ runner.temp }}/weixin-upload-summary.md
+          if-no-files-found: warn

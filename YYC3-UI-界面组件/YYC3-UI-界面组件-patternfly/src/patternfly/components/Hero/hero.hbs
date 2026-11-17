@@ -1,0 +1,10 @@
+<div class="{{pfv}}hero
+  {{setModifiers
+    hero--IsGlass='pf-m-glass'
+    hero--modifier=hero--modifier
+  }}"
+  {{#if hero--attribute}}
+    {{{hero--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

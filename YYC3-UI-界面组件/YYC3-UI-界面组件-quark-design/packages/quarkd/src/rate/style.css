@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  align-items: center;
+  color: #ddd;
+  cursor: pointer;
+}
+
+:host([disabled]) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+:host([readonly]) {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+:host quark-icon-star {
+  margin-right: 5px;
+}
+
+:host quark-icon-star:hover {
+  cursor: pointer;
+}

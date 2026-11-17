@@ -1,0 +1,76 @@
+{
+    "name": "@primevue/monorepo",
+    "version": "4.5.5",
+    "author": "PrimeTek Informatics",
+    "homepage": "https://primevue.org/",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/primefaces/primevue.git"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/primefaces/primevue/issues"
+    },
+    "scripts": {
+        "setup": "pnpm run clean && pnpm run init",
+        "clean": "npx rimraf --glob **/node_modules **/dist **/.nuxt ./pnpm-lock.yaml",
+        "init": "pnpm install",
+        "link": "pnpm --filter './packages/*' dev:link",
+        "release": "pnpm run build && pnpm recursive publish --filter './packages/*' --no-git-checks --report-summary",
+        "release:beta": "pnpm run build && pnpm recursive publish --filter './packages/*' --no-git-checks --report-summary --tag beta",
+        "release:rc": "pnpm run build && pnpm recursive publish --filter './packages/*' --no-git-checks --report-summary --tag rc",
+        "build": "NODE_ENV=production pnpm run build:check && pnpm run build:packages",
+        "build:check": "pnpm run format:check && pnpm run security:check",
+        "build:packages": "pnpm run build:metadata && pnpm run build:resolver && pnpm run build:core && pnpm run build:lib && pnpm run build:module && pnpm run build:themes && pnpm run build:icons && pnpm run build:mcp && pnpm run build:forms && pnpm run build:apps",
+        "build:apps": "pnpm run build:showcase && pnpm run build:volt",
+        "build:resolver": "pnpm --filter auto-import-resolver build",
+        "build:core": "pnpm --filter core build",
+        "build:metadata": "pnpm --filter metadata build",
+        "build:module": "pnpm --filter nuxt-module build",
+        "build:lib": "pnpm --filter primevue build",
+        "build:themes": "pnpm --filter themes build",
+        "build:icons": "pnpm --filter icons build",
+        "build:mcp": "pnpm --filter mcp build",
+        "build:forms": "pnpm --filter forms build",
+        "build:showcase": "pnpm --filter showcase build",
+        "build:llm": "pnpm --filter showcase build:llmdocs",
+        "build:volt": "pnpm --filter volt build",
+        "build:apidoc": "pnpm --filter themes build:tokens && pnpm --filter showcase build:apidoc",
+        "dev": "pnpm --filter showcase dev",
+        "preview": "pnpm --filter showcase preview",
+        "hot:dev": "DEV_ENV=hot pnpm --filter showcase dev",
+        "volt:dev": "pnpm --filter volt dev",
+        "module:dev": "pnpm --filter @primevue/nuxt-module dev",
+        "security:check": "pnpm audit --prod --audit-level high",
+        "typecheck": "pnpm --filter volt typecheck",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "format": "prettier --write \"**/*.{js,mjs,jsx,ts,tsx,json,md}\"",
+        "format:check": "prettier --check \"**/*.{js,mjs,jsx,ts,tsx,json,md}\"",
+        "test:unit": "pnpm --filter primevue test:unit"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "^7.21.5",
+        "@rollup/plugin-alias": "^5.1.0",
+        "@rollup/plugin-babel": "^6.0.3",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-terser": "^0.4.4",
+        "eslint": "^9.19.0",
+        "eslint-config-prettier": "^10.0.1",
+        "eslint-plugin-prettier": "^5.2.3",
+        "eslint-plugin-vue": "^9.32.0",
+        "globals": "^15.14.0",
+        "pnpm": "^9.6.0",
+        "prettier": "^3.5.2",
+        "rollup-plugin-postcss": "^4.0.0",
+        "rollup-plugin-vue": "^6.0.0-beta.9",
+        "typescript": "5.7.3"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "packageManager": "pnpm@9.6.0",
+    "engines": {
+        "node": ">=12.11.0"
+    }
+}

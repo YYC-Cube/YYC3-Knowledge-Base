@@ -1,0 +1,31 @@
+---
+title: BackBottom
+description: BackBottom is a scroll navigation button that appears when users have scrolled up in a chat interface. It monitors scroll position and automatically shows/hides based on a configurable visibility threshold. When clicked, it smoothly scrolls the target container back to the bottom, making it ideal for chat applications where new messages appear at the bottom.
+category: Navigation
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { chatBackBottomClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} />
+
+## APIs
+
+<Api name="BackBottom" from=".." migrationKey="unheaded:0" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `BackBottom`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/chat/BackBottom.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={chatBackBottomClasses} />

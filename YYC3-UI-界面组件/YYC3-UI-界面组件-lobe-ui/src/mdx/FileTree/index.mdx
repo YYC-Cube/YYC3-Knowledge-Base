@@ -1,0 +1,41 @@
+---
+title: FileTree
+description: A component for displaying file and folder structures in MDX documents.
+category: Built-ins
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { mdxFileTreeClasses } from './stable';
+
+## Example
+
+<Demo of={DemoIndex} />
+
+## APIs
+
+### FileTree
+
+<Api name="FileTree" from=".." migrationKey="heading:%5B%22FileTree%22%5D:0" />
+
+### File
+
+<Api name="File" from=".." migrationKey="heading:%5B%22File%22%5D:0" />
+
+### Folder
+
+<Api name="Folder" from=".." migrationKey="heading:%5B%22Folder%22%5D:0" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `FileTree`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/mdx/FileTree.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={mdxFileTreeClasses} />

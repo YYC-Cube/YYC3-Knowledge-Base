@@ -1,0 +1,45 @@
+import * as segmentGroup from '@zag-js/radio-group'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import type { RootEmits } from './segment-group.types.ts'
+
+export interface UseSegmentGroupProps extends Optional<Omit<segmentGroup.Props, 'dir' | 'getRootNode'>, 'id'> {
+  /**
+   * The v-model value of the segment group
+   */
+  modelValue?: segmentGroup.Props['value']
+}
+
+export interface UseSegmentGroupReturn extends ComputedRef<segmentGroup.Api<PropTypes>> {}
+
+export const useSegmentGroup = (
+  props: MaybeRefOrGetter<UseSegmentGroupProps> = {},
+  emit?: EmitFn<RootEmits>,
+): UseSegmentGroupReturn => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+
+  const context = computed<segmentGroup.Props>(() => {
+    const localProps = toValue<UseSegmentGroupProps>(props)
+
+    return {
+      id,
+      dir: locale.value.dir,
+      value: localProps.modelValue,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localProps),
+      onValueChange: (details) => {
+        emit?.('valueChange', details)
+        emit?.('update:modelValue', details.value)
+        localProps.onValueChange?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(segmentGroup.machine, context)
+  return computed(() => segmentGroup.connect(service, normalizeProps))
+}

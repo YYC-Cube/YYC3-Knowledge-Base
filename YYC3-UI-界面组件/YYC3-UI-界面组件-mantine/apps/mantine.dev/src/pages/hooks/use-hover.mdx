@@ -1,0 +1,28 @@
+import { UseHoverDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.useHover);
+
+## Usage
+
+<Demo data={UseHoverDemos.usage} />
+
+## Definition
+
+```tsx
+interface UseHoverReturnValue<T extends HTMLElement = any> {
+  hovered: boolean;
+  ref: React.RefCallback<T | null>;
+}
+
+function useHover<T extends HTMLElement = any>(): UseHoverReturnValue<T>
+```
+
+## Exported types
+
+The `UseHoverReturnValue` type is exported from `@mantine/hooks`;
+
+```tsx
+import type { UseHoverReturnValue } from '@mantine/hooks';
+```

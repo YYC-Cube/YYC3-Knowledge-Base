@@ -1,0 +1,50 @@
+---
+title: ChatLoading 对话加载
+description: 用于对话场景中的加载状态组件。
+spline: chat
+isComponent: true
+---
+
+<div style="background: #ecf2fe; padding: 14px 24px; border-radius: 3px; color: #555a65">
+  <div style="border-left: 2px solid #c6c6c6; padding: 0 8px;margin-bottom: 16px">该组件于 1.12.0 版本上线，请留意版本</div>
+  <div style="border-left: 2px solid #0052d9; padding: 0 8px">渲染框架支持情况：WebView</div>
+</div>
+
+## 引入
+
+全局引入，在 miniprogram 根目录下的`app.json`中配置，局部引入，在需要引入的页面或组件的`index.json`中配置。
+
+```json
+"usingComponents": {
+  "t-chat-loading": "tdesign-miniprogram/chat-loading/chat-loading"
+}
+```
+
+## 代码演示
+
+<a href="https://developers.weixin.qq.com/s/GQYNbtmE8g4C" title="在开发者工具中预览效果" target="_blank" rel="noopener noreferrer"> 在开发者工具中预览效果 </a>
+
+<blockquote style="background-color: #d9e1ff; font-size: 15px; line-height: 26px;margin: 16px 0 0;padding: 16px; border-radius: 6px; color: #0052d9" >
+<p>Tips: 请确保开发者工具为打开状态。导入开发者工具后，依次执行：npm i > 构建npm包 > 勾选 "将JS编译成ES5"</p>
+</blockquote>
+
+### 01 组件类型
+
+支持多种加载中动效类型，包括 gradient、moving、dots
+
+{{ base }}
+
+#### 带文案描述的加载组件
+
+{{ text }}
+
+## API
+
+### ChatLoading Props
+
+名称 | 类型 | 默认值 | 描述 | 必传
+-- | -- | -- | -- | --
+style | Object | - | 样式 | N
+custom-style | Object | - | 样式，一般用于开启虚拟化组件节点场景 | N
+animation | String | moving | 加载的状态形式。可选项：skeleton/moving/gradient/dots | N
+text | String | - | 加载过程展示的文字内容 | N

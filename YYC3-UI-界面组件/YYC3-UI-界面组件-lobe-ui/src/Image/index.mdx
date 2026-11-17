@@ -1,0 +1,168 @@
+---
+title: Image
+description: Image is an enhanced image component with a self-contained zoom-and-pan preview viewer, custom actions, and various display styles. Preview is powered by a Base UI dialog with FLIP open/close transitions, deep zoom, and gallery navigation — it no longer wraps Ant Design's Image.
+category: Data Display
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import DemoGallery from './demos/Gallery.tsx?demo';
+import DemoFallback from './demos/Fallback.tsx?demo';
+import DemoCustomActions from './demos/CustomActions.tsx?demo';
+import DemoDualSource from './demos/DualSource.tsx?demo';
+import DemoDeepZoom from './demos/DeepZoom.tsx?demo';
+import DemoDefaultZoom from './demos/DefaultZoom.tsx?demo';
+import DemoToolbarAddon from './demos/ToolbarAddon.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { imageClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Gallery
+
+Wrap multiple `Image` components in `Image.PreviewGroup` to preview them together, with arrow buttons, a counter, and `←`/`→` keyboard navigation.
+
+<Demo of={DemoGallery} layout="center" />
+
+## Fallback
+
+<Demo of={DemoFallback} layout="center" />
+
+## Custom Actions
+
+<Demo of={DemoCustomActions} layout="center" />
+
+## Dual Source Preview
+
+`preview.src` lets the thumbnail stay lightweight while the viewer opens instantly against it, then swaps in a higher-resolution image in place once it finishes loading — no layout jump.
+
+<Demo of={DemoDualSource} layout="center" />
+
+## Deep Zoom
+
+Ctrl/Cmd + wheel, double-click, or the toolbar's zoom buttons zoom in past the fitted size for pixel-level detail; drag to pan once zoomed. `preview.maxScale` raises the zoom ceiling for large source images.
+
+<Demo of={DemoDeepZoom} layout="center" />
+
+## Default Zoom
+
+`preview.defaultZoom` picks the scale the viewer opens at. The default, `auto`, opens an image at its natural size when it is at most `preview.autoZoomThreshold` times the fitted size, and falls back to the fitted size beyond that. This keeps screenshots and text-bearing images legible on open — fitting a 2560px-wide screenshot into a 1400px viewport halves its text — while a photo many times the viewport still opens whole rather than showing a corner of itself.
+
+`auto` reads a raster image as captured at the screen's `devicePixelRatio` and stays fitted while the image is at most that many times the fitted size. The same 2560px screenshot taken on a 2x screen was 1280px wide there, so fitting it already shows it at its captured size with every pixel intact, and 100% would double it. With the default threshold of 2, a 2x screen therefore opens every image fitted.
+
+Opening above the fitted size also means the image overflows the viewport, so it is immediately pannable. Scrolling down zooms back out to the fitted size before the next scroll dismisses the viewer.
+
+<Demo of={DemoDefaultZoom} layout="center" />
+
+## Toolbar Addon
+
+`preview.toolbarAddon` appends custom controls to the end of the preview toolbar — here, a button that opens the original file in a new tab.
+
+<Demo of={DemoToolbarAddon} layout="center" />
+
+## Interaction Model
+
+The preview viewer opens with a FLIP transition from the clicked thumbnail's on-screen position and returns to it on close (or fades, if the thumbnail is no longer available or `prefers-reduced-motion` is set).
+
+**Zoom & pan**
+
+- Scrolling up always zooms in, at any scale. Scrolling down zooms out until the fitted size, which is the zoom floor.
+- Ctrl/Cmd + wheel (trackpad pinch) zooms from any state, in either direction.
+- The toolbar zoom buttons zoom around the viewport center; the wheel zooms around the cursor.
+- The toolbar's expand/shrink button toggles between the fitted size and 100%, and is disabled for an image small enough that the two coincide. The toolbar percentage beside it is a readout only.
+- `0` resets to the opening state, which also clears rotation and flips.
+- Double-click toggles between fitted and a zoomed-in target scale.
+- Dragging pans whenever the image overflows the viewport, clamped so it can't be dragged past its edges. An image that fits entirely stays centered — there is nothing off-screen to reveal.
+
+**Closing**
+
+- Scrolling down while already at the fitted size closes the viewer once the accumulated scroll passes a threshold — the dismiss gesture is the continuation of zooming out. A large zoom-out overshoot re-arms after ~300ms of wheel idle rather than closing immediately, and a rotated or flipped image is never dismissed this way.
+- Clicking the backdrop, the close button, or pressing Esc while the viewer is untouched closes immediately. "Untouched" means still at the opening scale with no rotation or flip — so an image that opened at 100% under `defaultZoom` still closes on the first Esc or click.
+- Clicking the image itself closes after a short delay unless a second click arrives in time (in which case it double-click-zooms instead of closing).
+- Esc is layered: once zoomed away from the opening scale, or rotated or flipped, the first Esc resets; only a second Esc closes.
+
+**Gallery**
+
+- Inside `Image.PreviewGroup`, the arrow buttons, on-screen counter, and `←`/`→` keys navigate between images; rotation and flips clear on every switch, and each image lands at its own `defaultZoom` scale.
+- Outside a gallery (a single previewable `Image`), `←`/`→` are left alone for the browser/page to handle.
+
+## Breaking Changes
+
+The preview viewer was rewritten from scratch on top of a Base UI dialog and no longer wraps `rc-image` / Ant Design's `Image` preview. The following antd/rc-image passthrough is **no longer supported**:
+
+- `PreviewGroup`'s `items` prop — build the group from `Image` children instead.
+- `minScale`, `onVisibleChange`, and other rc-image `ImagePreviewType` render/lifecycle props.
+- Any other undocumented antd `Image`/`rc-image` preview props that used to pass through via `...rest`.
+
+`preview` now only accepts `boolean | { src?, defaultZoom?, autoZoomThreshold?, maxScale?, fetchImage?, onDownload?, onOpenChange?, toolbarAddon? }` (see below).
+
+> In apps without an app-level `ToastHost` (see `@lobehub/ui`), a copy/download toast fired after the viewer has already closed is dropped rather than shown standalone. This is an accepted limitation — mount a `ToastHost` at the app root to avoid it.
+
+## APIs
+
+### Image
+
+<Api name="Image" migrationKey="heading:%5B%22Image%22%5D:0" />
+
+> Additional props are spread onto the underlying `<img>` element.
+
+### PreviewGroup
+
+| Property | Description                         | Type                             | Default |
+| -------- | ----------------------------------- | -------------------------------- | ------- |
+| enable   | Whether to enable the preview group | `boolean`                        | `true`  |
+| preview  | Preview options for the whole group | `boolean \| ImagePreviewOptions` | -       |
+
+> Each `Image` resolves its own `preview` against the group's: an option object is merged over the group's (per-image keys win), and a per-image `preview` of any kind takes precedence over the group's. `preview={false}` on the group is therefore a default for children that don't set their own — a child passing `preview={false}` opts out of an enabled group, and a child passing an options object opts back into a disabled one.
+
+### ImagePreviewOptions
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| src | Higher-resolution source swapped in after the viewer opens with `src` | `string` | - |
+| defaultZoom | Scale the viewer opens at. `fit` always shows the whole frame, `actual` always opens at 100%, and `auto` opens at 100% only when the image is more than `devicePixelRatio` and at most `autoZoomThreshold` times the fitted size | `'auto' \| 'actual' \| 'fit'` | `'auto'` |
+| autoZoomThreshold | How many times the fitted size an image may be and still open at 100% under `defaultZoom: 'auto'`. Ignored by the other policies | `number` | `2` |
+| maxScale | Maximum zoom scale relative to the fitted size. Raised automatically when `defaultZoom` resolves above it, so the opening scale is always reachable | `number` | `8` |
+| fetchImage | Resolve the previewed source to a `Blob` for copy and the default download. Use this to fetch through a CORS-safe proxy or signed URL. Thrown errors surface as copy/download failure toasts; the default CORS `window.open` fallback is not used | `(source: string) => Promise<Blob>` | - |
+| onDownload | Replace the default download action. When omitted, download uses `fetchImage` (or a CORS `fetch`) then saves the blob | `(source: string) => void \| Promise<void>` | - |
+| onOpenChange | Called when the preview viewer opens or closes | `(open: boolean) => void` | - |
+| toolbarAddon | Additional content appended to the preview toolbar | `ReactNode` | - |
+
+### useImagePreview
+
+Opens the viewer from your own trigger for an `<img>` that `Image` doesn't render, such as an image inside a rich-text editor. The viewer animates from that element, the same as clicking an `Image`.
+
+```tsx
+const imgRef = useRef<HTMLImageElement>(null);
+const { open, outlet } = useImagePreview(imgRef, { src: fullSizeUrl });
+
+return (
+  <>
+    <img ref={imgRef} src={thumbUrl} />
+    <button onClick={open}>Zoom</button>
+    {outlet}
+  </>
+);
+```
+
+| Argument / Return | Description | Type |
+| --- | --- | --- |
+| elementRef | The `<img>` the viewer opens from and returns to | `RefObject<HTMLImageElement \| null>` |
+| options | Same as `ImagePreviewOptions` | `ImagePreviewOptions` |
+| open | Opens the viewer; does nothing until `elementRef` has an element | `() => void` |
+| outlet | Render it once next to the image; the viewer mounts there while open | `ReactNode` |
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Image`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/Image.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={imageClasses} />

@@ -1,0 +1,24 @@
+{
+  "name": "@tdesign/miniprogram-test",
+  "author": "tdesign",
+  "private": true,
+  "scripts": {
+    "cover": "jest --coverage",
+    "badge": "node scripts/coverage-badge.js",
+    "test": "jest && jest -c jest.e2e.config.js",
+    "test:snap-update": "npm run test:unit -- -u",
+    "test:demo": "node scripts/gen-demo-test.js",
+    "test:unit": "jest",
+    "test:e2e": "jest -c jest.e2e.config.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "catalog:",
+    "babel-jest": "catalog:",
+    "jest": "catalog:",
+    "jest-html-reporter": "catalog:",
+    "jsdom": "catalog:",
+    "lodash": "catalog:",
+    "miniprogram-simulate": "catalog:miniprogram"
+  }
+}

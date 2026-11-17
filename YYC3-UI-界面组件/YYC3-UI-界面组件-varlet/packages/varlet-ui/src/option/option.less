@@ -1,0 +1,47 @@
+:root {
+  --option-height: 38px;
+  --option-padding: 0 12px;
+  --option-font-size: 16px;
+  --option-selected-background: var(--field-decorator-focus-color);
+  --option-text-color: #555;
+  --option-disabled-color: var(--color-text-disabled);
+}
+
+.var-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--option-height);
+  padding: var(--option-padding);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--option-text-color);
+  outline: none;
+
+  &__cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.2;
+    background: transparent;
+  }
+
+  &__text {
+    font-size: var(--option-font-size);
+  }
+
+  &--selected-background {
+    background: var(--option-selected-background);
+  }
+
+  &--selected-color {
+    color: var(--option-selected-background);
+  }
+
+  &--disabled {
+    color: var(--option-disabled-color);
+    cursor: not-allowed;
+  }
+}

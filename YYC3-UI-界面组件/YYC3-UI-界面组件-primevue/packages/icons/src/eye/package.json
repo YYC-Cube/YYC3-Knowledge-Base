@@ -1,0 +1,11 @@
+{
+    "main": "./EyeIcon.vue",
+    "module": "./EyeIcon.vue",
+    "types": "./EyeIcon.d.ts",
+    "browser": {
+        "./sfc": "./EyeIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

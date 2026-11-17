@@ -1,0 +1,41 @@
+import { DocsFooter } from '../DocsFooter';
+import { Shell } from '../Shell';
+import { HomePageCombobox } from './HomePageCombobox/HomePageCombobox';
+import { HomePageCommunity } from './HomePageCommunity/HomePageCommunity';
+import { HomePageComponents } from './HomePageComponents/HomePageComponents';
+import { HomePageDarkColorScheme } from './HomePageDarkColorScheme/HomePageDarkColorScheme';
+import { HomePageExtensions } from './HomePageExtensions/HomePageExtensions';
+import { HomePageForm } from './HomePageForm/HomePageForm';
+import { HomePageGetStarted } from './HomePageGetStarted/HomePageGetStarted';
+import { HomePageHooks } from './HomePageHooks/HomePageHooks';
+import { HomePageJoin } from './HomePageJoin/HomePageJoin';
+import { HomePageJumbotron } from './HomePageJumbotron/HomePageJumbotron';
+import { HomePageLLM } from './HomePageLLM/HomePageLLM';
+import { HomePageSponsors } from './HomePageSponsors/HomePageSponsors';
+import { HomePageStyles } from './HomePageStyles/HomePageStyles';
+import { HomePageUI } from './HomePageUI/HomePageUI';
+import classes from './HomePage.module.css';
+
+export function HomePage() {
+  return (
+    <Shell withNavbar={false} fluid withNav={false}>
+      <div className={classes.root}>
+        <HomePageJumbotron />
+        <HomePageSponsors />
+        <HomePageLLM />
+        <HomePageComponents />
+        <HomePageHooks />
+        <HomePageStyles />
+        <HomePageDarkColorScheme />
+        <HomePageCombobox />
+        <HomePageExtensions />
+        <HomePageForm />
+        <HomePageUI />
+        <HomePageCommunity />
+        <HomePageJoin />
+        <HomePageGetStarted />
+      </div>
+      <DocsFooter withNavbar={false} />
+    </Shell>
+  );
+}

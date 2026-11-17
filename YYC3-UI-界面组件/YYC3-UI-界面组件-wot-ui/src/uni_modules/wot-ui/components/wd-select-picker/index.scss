@@ -1,0 +1,78 @@
+@use '../../styles/mixin/mixin.scss' as *;
+@use '../../styles/variable.scss' as *;
+
+// 选择器背景色
+$select-picker-bg: var(--wot-select-picker-bg, $filled-oppo) !default;
+// loading 状态下透明度
+$select-picker-loading-opacity: var(--wot-select-picker-loading-opacity, $opacity-disabled) !default;
+// loading 图标尺寸
+$select-picker-loading-icon-size: var(--wot-select-picker-loading-icon-size, $n-48) !default;  
+// 内容区水平内边距
+$select-picker-wrapper-padding-horizontal: var(--wot-select-picker-wrapper-padding-horizontal, $padding-main) !default;
+// 内容区最大高度
+$select-picker-wrapper-max-height: var(--wot-select-picker-wrapper-max-height, $n-375) !default;
+// 选中态文字颜色
+$select-picker-text-active-color: var(--wot-select-picker-text-active-color, $primary-6) !default;
+// 底部内边距
+$select-picker-footer-padding: var(--wot-select-picker-footer-padding, $padding-tight $padding-loose) !default;
+// 确认区域上边框颜色
+$select-picker-footer-border-color: var(--wot-select-picker-footer-border-color, $border-light) !default;
+// 选项内边距
+$select-picker-item-padding: var(--wot-select-picker-item-padding, $padding-extra-loose $padding-zero) !default;
+
+@include b(select-picker) {
+  @include e(loading) {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+  }
+
+  @include edeep(loading-icon){
+    opacity: 1;
+    font-size: $select-picker-loading-icon-size;
+  }
+
+  @include edeep(popup) {
+    background: $select-picker-bg;
+  }
+
+  @include e(wrapper) {
+    padding: 0 $select-picker-wrapper-padding-horizontal;
+    position: relative;
+    height: $select-picker-wrapper-max-height;
+    box-sizing: border-box;
+    overflow: auto;
+
+    @include when(loading) {
+      overflow: hidden;
+      .wd-select-picker__checkbox,
+      .wd-select-picker__radio{
+        opacity: $select-picker-loading-opacity;
+      }
+    }
+  }
+  @include e(text-active) {
+    color: $select-picker-text-active-color;
+  }
+
+  @include e(checkbox-item,radio-item) {
+    padding: $select-picker-item-padding;
+  }
+
+  @include edeep(radio-label,checkbox-label) {
+    @include lineEllipsis;
+  } 
+
+  @include e(footer) {
+    display: flex;
+    align-items: center;
+    padding: $select-picker-footer-padding;
+    @include pixelBorder(top, 0, $select-picker-footer-border-color);
+  }
+}

@@ -1,0 +1,45 @@
+---
+title: ActionIconGroup
+description: ActionIconGroup is a component for rendering multiple buttons with unified styling and layout control. It handles groups of ActionIcon components with consistent appearance and behavior.
+category: General
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { actionIconGroupClasses } from './stable';
+
+## Introduction
+
+ActionIconGroup is a container component for organizing and managing multiple ActionIcons. It provides unified styling and layout control, ensuring consistent presentation of multiple icon buttons.
+
+## Basic Usage
+
+<Demo of={DemoIndex} layout="bare" />
+
+## APIs
+
+### ActionIconGroup
+
+<Api name="ActionIconGroup" migrationKey="heading:%5B%22ActionIconGroup%22%5D:0" />
+
+### ActionIconGroupEvent
+
+| Property | Description                      | Type         |
+| -------- | -------------------------------- | ------------ |
+| key      | The key of the clicked item      | `string`     |
+| keyPath  | The key path of the clicked item | `string[]`   |
+| domEvent | The DOM event                    | `MouseEvent` |
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `ActionIconGroup`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/ActionIconGroup.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={actionIconGroupClasses} />

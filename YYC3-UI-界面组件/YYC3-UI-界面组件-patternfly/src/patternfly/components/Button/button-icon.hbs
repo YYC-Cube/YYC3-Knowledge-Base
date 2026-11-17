@@ -1,0 +1,24 @@
+<span class="{{pfv}}button__icon
+  {{#unless button--IsIcon}}
+    {{ternary button-icon--IsEnd 'pf-m-end' 'pf-m-start'}}
+  {{/unless}}
+  {{#if button-icon--modifier}} {{button-icon--modifier}}{{/if}}"
+  {{#if button-icon--attribute}}
+    {{{button-icon--attribute}}}
+  {{/if}}>
+  {{#if button--IsFavorite}}
+    <span class="{{pfv}}button__icon-favorite">{{> icon-outlined-star}}</span>
+    <span class="{{pfv}}button__icon-favorited">{{> icon-star}}</span>
+  {{else if button--IsSettings}}
+    {{pfIcon "rh-ui-settings-fill"}}
+  {{else if button--IsHamburger}}
+    {{> hamburger-icon}}
+  {{else if button--icon}}
+    {{pfIcon button--icon}}
+  {{else if button--icon-template}}
+    {{! renders a hbs partial if passed as the value for button--icon-template}}
+    {{> (lookup . "button--icon-template")}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</span>

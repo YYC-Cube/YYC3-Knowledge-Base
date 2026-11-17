@@ -1,0 +1,11 @@
+{
+    "main": "./SearchMinusIcon.vue",
+    "module": "./SearchMinusIcon.vue",
+    "types": "./SearchMinusIcon.d.ts",
+    "browser": {
+        "./sfc": "./SearchMinusIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

@@ -1,0 +1,38 @@
+import React from 'react';
+import MockDate from 'mockdate';
+import { fireEvent, render, vi } from '@test/utils';
+
+import Calendar from '../Calendar';
+// 固定时间，当使用 new Date() 时，返回固定时间，防止“当前时间”的副作用影响，导致 snapshot 变更，mockdate 插件见 https://github.com/boblauer/MockDate
+MockDate.set('2021-08-27');
+
+describe('Calendar', () => {
+  describe('props', () => {
+    test('theme[card]', () => {
+      const { container } = render(<Calendar theme={'card'}></Calendar>);
+      expect(container.children[0].classList.contains('t-calendar--card')).toBeTruthy();
+    });
+
+    test('fillWithZero', () => {
+      const { getAllByText } = render(<Calendar fillWithZero={true} />);
+      const tableCell = getAllByText(/^0/i);
+      expect(tableCell[0]).toBeInTheDocument();
+    });
+  });
+
+  describe('events', () => {
+    test('onCellClick', async () => {
+      const mockFn = vi.fn();
+      const { container } = render(<Calendar onCellClick={mockFn}></Calendar>);
+      fireEvent.click(container.querySelector('.t-calendar__table-body-cell'));
+      expect(mockFn).toHaveBeenCalled();
+    });
+
+    test('onCellDoubleClick', async () => {
+      const mockFn = vi.fn();
+      const { container } = render(<Calendar onCellDoubleClick={mockFn}></Calendar>);
+      fireEvent.doubleClick(container.querySelector('.t-calendar__table-body-cell'));
+      expect(mockFn).toHaveBeenCalledTimes(1);
+    });
+  });
+});

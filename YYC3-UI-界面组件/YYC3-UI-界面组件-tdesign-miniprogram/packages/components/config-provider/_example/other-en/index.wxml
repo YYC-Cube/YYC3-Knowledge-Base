@@ -1,0 +1,70 @@
+<wxs src="../config-provider.wxs" module="_this" />
+
+<t-config-provider :global-config="globalConfig">
+  <!-- rate -->
+  <view class="rate-demo-cell">
+    <view class="rate-demo-cell__title">Rating</view>
+
+    <t-rate value="{{rateValue}}" show-text bind:change="onRateChange" />
+  </view>
+
+  <!-- calendar -->
+  <t-calendar
+    visible="{{visible}}"
+    value="{{value}}"
+    bind:confirm="handleCalendarConfirm"
+    bind:close="onCalendarClose"
+  />
+  <t-cell arrow title="Single select date" note="{{_this.formatTimestamp(value)}}" bind:tap="handleCalendar" />
+
+  <!-- date-time-picker -->
+  <t-cell
+    title="Select time"
+    hover
+    note="{{dateText || 'YY-MM-DD'}}"
+    arrow
+    data-mode="date"
+    bindtap="showPicker"
+    class="test"
+    t-class="panel-item"
+  />
+
+  <t-date-time-picker
+    auto-close
+    showWeek
+    visible="{{dateVisible}}"
+    mode="date"
+    default-value="{{date}}"
+    format="YYYY-MM-DD ddd"
+    filter="{{filter}}"
+    formatter="{{formatter}}"
+    popup-props="{{popupProps}}"
+    bindchange="onConfirm"
+    bindpick="onColumnChange"
+    bindcancel="hidePicker"
+    bindclose="handleClose"
+  />
+
+  <!-- comment -->
+  <view class="comment-demo">
+    <t-comment
+      avatar="{{commentAvatar}}"
+      author="Name1"
+      content="This is a comment content."
+      datetime="Today 16:38"
+      folds="{{commentFold}}"
+      bind:folds="handleUpdateFold"
+    >
+      <view slot="reply">
+        <view wx:for="{{visibleReplies}}" wx:key="author">
+          <t-comment
+            avatar="{{item.avatar}}"
+            author="{{item.author}}"
+            content="{{item.content}}"
+            datetime="{{item.datetime}}"
+          />
+        </view>
+      </view>
+    </t-comment>
+  </view>
+</t-config-provider>

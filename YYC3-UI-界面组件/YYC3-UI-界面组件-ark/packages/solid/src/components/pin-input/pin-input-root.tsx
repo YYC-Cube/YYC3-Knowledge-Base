@@ -1,0 +1,46 @@
+import { mergeProps } from '@zag-js/solid'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+import { type UsePinInputProps, usePinInput } from './use-pin-input.ts'
+import { PinInputProvider } from './use-pin-input-context.ts'
+
+export interface PinInputRootBaseProps extends UsePinInputProps, PolymorphicProps<'div'> {}
+export interface PinInputRootProps extends HTMLProps<'div'>, PinInputRootBaseProps {}
+
+export const PinInputRoot = (props: PinInputRootProps) => {
+  const [usePinInputProps, localProps] = createSplitProps<UsePinInputProps>()(props, [
+    'autoFocus',
+    'autoSubmit',
+    'blurOnComplete',
+    'count',
+    'defaultValue',
+    'disabled',
+    'form',
+    'id',
+    'ids',
+    'invalid',
+    'mask',
+    'name',
+    'onValueChange',
+    'onValueComplete',
+    'onValueInvalid',
+    'otp',
+    'pattern',
+    'placeholder',
+    'readOnly',
+    'required',
+    'sanitizeValue',
+    'selectOnFocus',
+    'translations',
+    'type',
+    'value',
+  ])
+  const pinInput = usePinInput(usePinInputProps)
+  const mergedProps = mergeProps(() => pinInput().getRootProps(), localProps)
+
+  return (
+    <PinInputProvider value={pinInput}>
+      <ark.div {...mergedProps} />
+    </PinInputProvider>
+  )
+}

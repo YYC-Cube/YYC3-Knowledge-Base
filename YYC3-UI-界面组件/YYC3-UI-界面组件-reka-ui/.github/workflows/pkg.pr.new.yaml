@@ -1,0 +1,23 @@
+name: Publish Any Commit (v2)
+on: [push, pull_request]
+
+jobs:
+  build:
+    if: |
+      (github.event_name == 'push' && !contains(github.event.head_commit.message, 'docs:')) ||
+      (github.event_name == 'pull_request' && !contains(github.event.pull_request.title, 'docs:'))
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup (Install node & pnpm)
+        uses: ./.github/actions/setup
+
+      - name: Build Reka UI and plugins
+        run: pnpm run build
+
+      - run: pnpm dlx pkg-pr-new publish --compact ./packages/core
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

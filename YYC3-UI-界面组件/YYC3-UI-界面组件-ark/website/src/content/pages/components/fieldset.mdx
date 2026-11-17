@@ -1,0 +1,56 @@
+---
+id: fieldset
+title: Fieldset
+description: A set of form controls optionally grouped under a common name.
+---
+
+## Anatomy
+
+<Anatomy id="fieldset" />
+
+```tsx
+<Fieldset.Root>
+  <Fieldset.Legend />
+  <Fieldset.HelperText />
+  <Fieldset.ErrorText />
+</Fieldset.Root>
+```
+
+## Examples
+
+The `Fieldset` component provides contexts such as `invalid` and `disabled` for form elements. While most Ark UI
+components natively support these contexts, you can also use the `Field` component with standard HTML form elements.
+
+### Basic
+
+<Example id="basic" />
+
+### Field
+
+This example demonstrates how to use the `Field` component with a standard input field within a `Fieldset`.
+
+<Example id="with-field" />
+
+### Checkbox
+
+This example shows how to use the `Fieldset` component with other Ark UI form elements like `Checkbox`.
+
+<Example id="with-checkbox" />
+
+### Root Provider
+
+An alternative way to control the fieldset is to use the `RootProvider` component and the `useFieldset` hook. This way
+you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Input with Select
+
+This example shows how to use the `Fieldset` component with `Field.Input` and `Select` to create a interactive phone
+input component.
+
+<Example id="phone-input" />
+
+## API Reference
+
+<ComponentTypes id="fieldset" />

@@ -1,0 +1,18 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { useTourContext } from './use-tour-context.ts'
+
+export interface TourArrowBaseProps extends PolymorphicProps {}
+export interface TourArrowProps extends HTMLProps<'div'>, TourArrowBaseProps {}
+
+export const TourArrow = forwardRef<HTMLDivElement, TourArrowProps>((props, ref) => {
+  const tour = useTourContext()
+  const mergedProps = mergeProps(tour.getArrowProps(), props)
+
+  return tour.step?.arrow ? <ark.div {...mergedProps} ref={ref} /> : null
+})
+
+TourArrow.displayName = 'TourArrow'

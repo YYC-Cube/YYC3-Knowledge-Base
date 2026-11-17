@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./tsc/type",
+    "emitDeclarationOnly": true
+  },
+  "include": ["src/packages/taro.build.ts", "src/packages/locale", "src/packages/utils", "src/packages/resolver"],
+  "exclude": ["node_modules"]
+}

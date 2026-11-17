@@ -1,0 +1,73 @@
+---
+id: highlight
+title: Highlight
+description: Used to emphasize specific words or phrases within a larger body of text.
+---
+
+<ComponentPreview id="Highlight" />
+
+## Usage
+
+The Highlight component takes a `text` prop containing the full text and a `query` prop specifying the text to
+highlight. It then renders the text with highlighted portions wrapped in `<mark>` tags.
+
+<Example id="basic" />
+
+### Dynamic Query
+
+Control the `query` prop with state to create an interactive search highlighting experience.
+
+<Example id="dynamic-query" />
+
+### Multiple Queries
+
+You can highlight multiple terms by passing an array of strings to the `query` prop.
+
+<Example id="multiple" />
+
+### Case Sensitivity
+
+By default, the highlighting is case-sensitive. Use the `ignoreCase` prop to make it case-insensitive.
+
+<Example id="ignore-case" />
+
+### Match All
+
+By default, the Highlight component matches the first occurrence of the query. To highlight all occurrences of the
+query, set the `matchAll` prop to `true`.
+
+<Example id="match-all" />
+
+### Exact Match
+
+By default, the Highlight component matches partial words. Use the `exactMatch` prop to only highlight whole words that
+match the query exactly.
+
+<Example id="exact-match" />
+
+## API Reference
+
+<ComponentTypes id="highlight" />
+
+## Customization
+
+The Highlight component wraps matched text in `<mark>` tags. Pass a `className` (or `class` in Solid/Svelte/Vue) to
+style the highlighted portions.
+
+```tsx
+<Highlight
+  text="Ark UI is a headless component library for building accessible web applications."
+  query="component"
+  className="highlight-mark"
+/>
+```
+
+Style the `mark` tags using CSS to customize the appearance of highlighted text.
+
+```css
+.highlight-mark {
+  background-color: #ffe5e4;
+  color: #c9453b;
+  border-radius: 0.125rem;
+}
+```

@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": [
+    "src",
+    "dev",
+  ],
+  "exclude": ["dev/dist/**/*"],
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],
+      "@test": ["./test/index.ts"]
+    },
+    "types": [
+      "node",
+      "vue-router"
+    ],
+    "stripInternal": true,
+    "skipLibCheck": false
+  }
+}

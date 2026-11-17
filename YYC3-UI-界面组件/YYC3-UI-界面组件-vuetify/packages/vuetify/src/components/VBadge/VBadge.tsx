@@ -1,0 +1,169 @@
+// Styles
+import './VBadge.sass'
+
+// Components
+import { VIcon } from '@/components/VIcon'
+import { VThemeProvider } from '@/components/VThemeProvider'
+
+// Composables
+import { useBackgroundColor, useTextColor } from '@/composables/color'
+import { makeComponentProps } from '@/composables/component'
+import { makeDimensionProps, useDimension } from '@/composables/dimensions'
+import { IconValue } from '@/composables/icons'
+import { useLocale } from '@/composables/locale'
+import { makeLocationProps, useLocation } from '@/composables/location'
+import { makeRoundedProps, useRounded } from '@/composables/rounded'
+import { makeTagProps } from '@/composables/tag'
+import { makeThemeProps, useTheme } from '@/composables/theme'
+import { makeTransitionProps, MaybeTransition } from '@/composables/transition'
+
+// Utilities
+import { toRef } from 'vue'
+import { convertToUnit, genericComponent, pickWithRest, propsFactory, useRender } from '@/util'
+
+export type VBadgeSlots = {
+  default: never
+  badge: never
+}
+
+export const makeVBadgeProps = propsFactory({
+  bordered: Boolean,
+  color: String,
+  content: [Number, String],
+  dot: Boolean,
+  dotSize: [Number, String],
+  floating: Boolean,
+  icon: IconValue,
+  inline: Boolean,
+  label: {
+    type: String,
+    default: '$vuetify.badge',
+  },
+  max: [Number, String],
+  modelValue: {
+    type: Boolean,
+    default: true,
+  },
+  offsetX: [Number, String],
+  offsetY: [Number, String],
+  textColor: String,
+
+  ...makeComponentProps(),
+  ...makeLocationProps({ location: 'top end' } as const),
+  ...makeRoundedProps(),
+  ...makeTagProps(),
+  ...makeThemeProps(),
+  ...makeTransitionProps({ transition: 'scale-rotate-transition' }),
+  ...makeDimensionProps(),
+}, 'VBadge')
+
+export const VBadge = genericComponent<VBadgeSlots>()({
+  name: 'VBadge',
+
+  inheritAttrs: false,
+
+  props: makeVBadgeProps(),
+
+  setup (props, ctx) {
+    const { backgroundColorClasses, backgroundColorStyles } = useBackgroundColor(() => props.color)
+    const { roundedClasses, roundedStyles } = useRounded(props)
+    const { t } = useLocale()
+    const { textColorClasses, textColorStyles } = useTextColor(() => props.textColor)
+
+    const theme = useTheme()
+    // use props.theme and fallback to inherited
+    const themeClasses = toRef(() => theme.isDisabled ? undefined : `${theme.prefix}theme--${props.theme ?? theme.name.value}`)
+
+    const { locationStyles } = useLocation(props, true, side => {
+      const base = props.floating
+        ? (props.dot ? 2 : 4)
+        : (props.dot ? Number(props.dotSize ?? 8) : 12)
+
+      return base + (
+        ['top', 'bottom'].includes(side) ? Number(props.offsetY ?? 0)
+        : ['left', 'right'].includes(side) ? Number(props.offsetX ?? 0)
+        : 0
+      )
+    })
+
+    const { dimensionStyles } = useDimension(props)
+
+    useRender(() => {
+      const value = Number(props.content)
+      const content = (!props.max || isNaN(value)) ? props.content
+        : value <= Number(props.max) ? value
+        : `${props.max}+`
+
+      const [badgeAttrs, attrs] = pickWithRest(ctx.attrs as Record<string, any>, [
+        'aria-atomic',
+        'aria-label',
+        'aria-live',
+        'role',
+        'title',
+      ])
+
+      return (
+        <props.tag
+          class={[
+            'v-badge',
+            {
+              'v-badge--bordered': props.bordered,
+              'v-badge--dot': props.dot,
+              'v-badge--floating': props.floating,
+              'v-badge--inline': props.inline,
+            },
+            props.class,
+          ]}
+          { ...attrs }
+          style={ props.style }
+        >
+          <div class="v-badge__wrapper">
+            { ctx.slots.default?.() }
+
+            <MaybeTransition transition={ props.transition }>
+              <span
+                v-show={ props.modelValue }
+                class={[
+                  'v-badge__badge',
+                  themeClasses.value,
+                  backgroundColorClasses.value,
+                  roundedClasses.value,
+                  textColorClasses.value,
+                ]}
+                style={[
+                  backgroundColorStyles.value,
+                  textColorStyles.value,
+                  dimensionStyles.value,
+                  props.inline ? {} : locationStyles.value,
+                  props.dot && props.dotSize ? {
+                    width: convertToUnit(props.dotSize),
+                    height: convertToUnit(props.dotSize),
+                  } : {},
+                  roundedStyles.value,
+                ]}
+                aria-atomic="true"
+                aria-label={ t(props.label, value) }
+                aria-live="polite"
+                role="status"
+                { ...badgeAttrs }
+              >
+                <VThemeProvider theme={ props.theme }>
+                  {
+                    props.dot ? undefined
+                    : ctx.slots.badge ? ctx.slots.badge?.()
+                    : props.icon ? <VIcon icon={ props.icon } />
+                    : content
+                  }
+                </VThemeProvider>
+              </span>
+            </MaybeTransition>
+          </div>
+        </props.tag>
+      )
+    })
+
+    return {}
+  },
+})
+
+export type VBadge = InstanceType<typeof VBadge>

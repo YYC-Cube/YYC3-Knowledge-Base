@@ -1,0 +1,46 @@
+:root {
+  --tab-padding: 12px;
+  --tab-active-color: var(--color-primary);
+  --tab-inactive-color: #646566;
+  --tab-disabled-color: var(--color-text-disabled);
+  --tab-font-size: var(--font-size-md);
+  --tab-font-weight: 400;
+  --tab-active-font-size: var(--font-size-md);
+  --tab-active-font-weight: 400;
+}
+
+.var-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 auto;
+  padding: 0 var(--tab-padding);
+  font-size: var(--tab-font-size);
+  font-weight: var(--tab-font-weight);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &--active {
+    color: var(--tab-active-color);
+    font-size: var(--tab-active-font-size);
+    font-weight: var(--tab-active-font-weight);
+  }
+
+  &--inactive {
+    color: var(--tab-inactive-color);
+  }
+
+  &--disabled {
+    color: var(--tab-disabled-color);
+    cursor: not-allowed;
+  }
+
+  &--horizontal {
+    flex-direction: row;
+  }
+
+  &--vertical {
+    flex-direction: column;
+  }
+}

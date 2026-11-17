@@ -1,0 +1,46 @@
+{{#> notification-drawer}}
+  {{#> notification-drawer-body}}
+    {{#> notification-drawer-group notification-drawer-group--IsExpanded=card-demo--notication-drawer--IsOpen}}
+      {{#> notification-drawer-group-toggle}}
+        {{#> notification-drawer-group-toggle-title}}
+          {{#> l-flex}}
+            {{#> notification-drawer-group-toggle-title}}
+              {{#> l-flex l-flex--modifier="pf-m-space-items-sm"}}
+                {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-md"}}
+                  <span>Notifications</span>
+                {{/l-flex-item}}
+                {{> label
+                    label--id="default-red-icon"
+                    label--color="red"
+                    label-text--value="1"
+                    label-icon--value="exclamation-circle"}}
+                {{> label
+                    label--id="default-orange-icon"
+                    label--color="orange"
+                    label-text--value="3"
+                    label-icon--value="exclamation-triangle"}}
+                {{> label
+                    label--id="default-green-icon"
+                    label--color="green"
+                    label-text--value="3"
+                    label-icon--value="check-circle"}}
+                {{> label
+                    label--id="default-blue-icon"
+                    label--color="blue"
+                    label-text--value="3"
+                    label-icon--value="info-circle"}}
+                {{> label
+                    label--id="default-blue-icon"
+                    label--color="teal"
+                    label-text--value="3"
+                    label-icon--value="bell"}}
+              {{/l-flex}}
+            {{/notification-drawer-group-toggle-title}}
+          {{/l-flex}}
+        {{/notification-drawer-group-toggle-title}}
+        {{> notification-drawer-group-toggle-icon}}
+      {{/notification-drawer-group-toggle}}
+      {{> card-demo--notification-list}}
+    {{/notification-drawer-group}}
+  {{/notification-drawer-body}}
+{{/notification-drawer}}

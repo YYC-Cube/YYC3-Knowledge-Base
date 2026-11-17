@@ -1,0 +1,17 @@
+<div class="{{pfv}}card__title{{#if card-title--modifier}} {{card-title--modifier}}{{/if}}"
+  {{#if card-title--id}}
+    id="{{card-title--id}}"
+  {{/if}}
+  {{#if card-title--attribute}}
+    {{{card-title--attribute}}}
+  {{/if}}>
+  {{#if card-title-text--value}}
+    {{> card-title-text}}
+  {{/if}}
+  {{#if card-subtitle-text}}
+    {{> card-subtitle}}
+  {{/if}}
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</div>

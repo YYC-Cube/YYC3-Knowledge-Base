@@ -1,0 +1,182 @@
+import { use, useRef } from 'react';
+import { useMergedRef } from '@mantine/hooks';
+import {
+  BoxProps,
+  CompoundStylesApiProps,
+  createEventHandler,
+  createScopedKeydownHandler,
+  MantineColor,
+  parseThemeColor,
+  polymorphicFactory,
+  PolymorphicFactory,
+  useDirection,
+  useMantineTheme,
+  useProps,
+} from '../../../core';
+import { AccordionChevron } from '../../Accordion';
+import { UnstyledButton } from '../../UnstyledButton';
+import { useMenuContext } from '../Menu.context';
+import { SubMenuContext } from '../MenuSub/MenuSub.context';
+import classes from '../Menu.module.css';
+
+export type MenuSubItemStylesNames = 'item' | 'itemLabel' | 'itemSection' | 'itemIndicator';
+
+export interface MenuSubItemProps extends BoxProps, CompoundStylesApiProps<MenuSubItemFactory> {
+  'data-disabled'?: boolean;
+
+  /** Item label */
+  children?: React.ReactNode;
+
+  /** Key of `theme.colors` or any valid CSS color */
+  color?: MantineColor;
+
+  /** Section displayed at the start of the label */
+  leftSection?: React.ReactNode;
+
+  /** Section displayed at the end of the label */
+  rightSection?: React.ReactNode;
+
+  /** Sets disabled attribute, applies disabled styles */
+  disabled?: boolean;
+
+  /** If set, the menu is closed when the item is clicked. Overrides `closeOnItemClick` prop on the `Menu` component. */
+  closeMenuOnClick?: boolean;
+}
+
+export type MenuSubItemFactory = PolymorphicFactory<{
+  props: MenuSubItemProps;
+  defaultRef: HTMLButtonElement;
+  defaultComponent: 'button';
+  stylesNames: MenuSubItemStylesNames;
+  compound: true;
+}>;
+
+export const MenuSubItem = polymorphicFactory<MenuSubItemFactory>((props) => {
+  const {
+    classNames,
+    className,
+    style,
+    styles,
+    vars,
+    color,
+    leftSection,
+    rightSection,
+    children,
+    disabled,
+    'data-disabled': dataDisabled,
+    closeMenuOnClick,
+    ref,
+    ...others
+  } = useProps('MenuSubItem', null, props);
+
+  const ctx = useMenuContext();
+  const subCtx = use(SubMenuContext);
+  const theme = useMantineTheme();
+  const { dir } = useDirection();
+  const openKey = dir === 'rtl' ? 'ArrowLeft' : 'ArrowRight';
+  const closeKey = dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft';
+  const itemRef = useRef<HTMLButtonElement>(null);
+  const _others: any = others;
+
+  const colors = color ? theme.variantColorResolver({ color, theme, variant: 'light' }) : undefined;
+  const parsedThemeColor = color ? parseThemeColor({ color, theme }) : null;
+
+  const handleKeydown = createEventHandler<any>(_others.onKeyDown, (event) => {
+    if (event.key === openKey) {
+      subCtx?.open();
+      subCtx?.focusFirstItem();
+    }
+
+    if (event.key === closeKey && subCtx?.parentContext) {
+      subCtx.parentContext.close();
+      subCtx.parentContext.focusParentItem();
+    }
+  });
+
+  const handleClick = createEventHandler(_others.onClick, () => {
+    if (!dataDisabled && closeMenuOnClick) {
+      ctx.closeDropdownImmediately();
+    }
+  });
+
+  const handleMouseMove = createEventHandler<any>(_others.onMouseMove, () => {
+    if (!ctx.hasSearch) {
+      return;
+    }
+    const dropdown = itemRef.current?.closest('[data-menu-dropdown]');
+    if (!dropdown) {
+      return;
+    }
+    dropdown.querySelectorAll<HTMLElement>('[data-menu-active]').forEach((node) => {
+      if (node !== itemRef.current && node.closest('[data-menu-dropdown]') === dropdown) {
+        node.removeAttribute('data-menu-active');
+      }
+    });
+  });
+
+  const referenceProps = subCtx?.getReferenceProps({
+    onMouseEnter: _others.onMouseEnter,
+    onMouseLeave: _others.onMouseLeave,
+    onPointerEnter: _others.onPointerEnter,
+    onPointerLeave: _others.onPointerLeave,
+  });
+
+  return (
+    <UnstyledButton
+      onMouseDown={(event) => event.preventDefault()}
+      {...others}
+      {...referenceProps}
+      unstyled={ctx.unstyled}
+      tabIndex={ctx.menuItemTabIndex}
+      {...ctx.getStyles('item', { className, style, styles, classNames })}
+      ref={useMergedRef(itemRef, ref, subCtx?.setReference)}
+      role="menuitem"
+      disabled={disabled}
+      aria-disabled={_others['aria-disabled'] ?? (disabled || dataDisabled || undefined)}
+      data-menu-item
+      data-sub-menu-item
+      data-disabled={disabled || dataDisabled || undefined}
+      data-mantine-stop-propagation
+      onClick={handleClick}
+      onMouseMove={handleMouseMove}
+      onKeyDown={createScopedKeydownHandler({
+        siblingSelector: '[data-menu-item]:not([data-disabled])',
+        parentSelector: '[data-menu-dropdown]',
+        activateOnFocus: false,
+        loop: ctx.loop,
+        dir,
+        orientation: 'vertical',
+        onKeyDown: handleKeydown,
+      })}
+      __vars={{
+        '--menu-item-color':
+          parsedThemeColor?.isThemeColor && parsedThemeColor?.shade === undefined
+            ? `var(--mantine-color-${parsedThemeColor.color}-6)`
+            : colors?.color,
+        '--menu-item-hover': colors?.hover,
+      }}
+    >
+      {ctx.alignItemsLabels === 'all' && (
+        <div {...ctx.getStyles('itemIndicator', { styles, classNames })} data-placeholder />
+      )}
+      {leftSection && (
+        <div {...ctx.getStyles('itemSection', { styles, classNames })} data-position="left">
+          {leftSection}
+        </div>
+      )}
+
+      {children && (
+        <div {...ctx.getStyles('itemLabel', { styles, classNames })} data-menu-item-label>
+          {children}
+        </div>
+      )}
+
+      <div {...ctx.getStyles('itemSection', { styles, classNames })} data-position="right">
+        {rightSection || <AccordionChevron {...ctx.getStyles('chevron')} size={14} />}
+      </div>
+    </UnstyledButton>
+  );
+});
+
+MenuSubItem.classes = classes;
+MenuSubItem.displayName = '@mantine/core/MenuSubItem';

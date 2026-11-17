@@ -1,0 +1,11 @@
+{
+    "main": "./TimesCircleIcon.vue",
+    "module": "./TimesCircleIcon.vue",
+    "types": "./TimesCircleIcon.d.ts",
+    "browser": {
+        "./sfc": "./TimesCircleIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

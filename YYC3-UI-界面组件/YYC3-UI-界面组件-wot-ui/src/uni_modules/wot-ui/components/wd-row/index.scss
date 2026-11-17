@@ -1,0 +1,6 @@
+@use '../../styles/mixin/mixin.scss' as *;
+
+@include b(row) {
+  display: flex;
+  flex-wrap: wrap;
+}

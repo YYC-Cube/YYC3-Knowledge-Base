@@ -1,0 +1,28 @@
+import { Editable } from '@ark-ui/solid/editable'
+import { PencilIcon } from 'lucide-solid'
+import { createSignal } from 'solid-js'
+import styles from 'styles/editable.module.css'
+
+export const Controlled = () => {
+  const [value, setValue] = createSignal('Hello World')
+
+  return (
+    <Editable.Root
+      class={styles.Root}
+      placeholder="Enter text..."
+      value={value()}
+      onValueChange={(e) => setValue(e.value)}
+    >
+      <Editable.Label class={styles.Label}>Label</Editable.Label>
+      <Editable.Area class={styles.Area}>
+        <Editable.Input class={styles.Input} />
+        <Editable.Preview class={styles.Preview} />
+      </Editable.Area>
+      <Editable.Control class={styles.Control}>
+        <Editable.EditTrigger class={styles.EditTrigger}>
+          <PencilIcon />
+        </Editable.EditTrigger>
+      </Editable.Control>
+    </Editable.Root>
+  )
+}

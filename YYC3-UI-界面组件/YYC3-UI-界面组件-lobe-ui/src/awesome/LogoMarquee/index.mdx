@@ -1,0 +1,33 @@
+---
+title: LogoMarquee
+description: An endless, pausable strip of logos with labels, for showing integrations or supported providers.
+category: Landing
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { awesomeLogoMarqueeClasses } from './stable';
+
+## Default
+
+Items accept an icon component such as `OpenAI` from `@lobehub/icons`, or any React node. The strip pauses on hover and stops when reduced motion is preferred.
+
+<Demo of={DemoIndex} layout="bare" />
+
+## APIs
+
+<Api name="LogoMarquee" from=".." />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `LogoMarquee`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/awesome/LogoMarquee.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={awesomeLogoMarqueeClasses} />

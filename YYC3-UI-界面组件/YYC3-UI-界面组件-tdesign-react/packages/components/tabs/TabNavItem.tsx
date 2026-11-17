@@ -1,0 +1,97 @@
+import React from 'react';
+import classNames from 'classnames';
+import { CloseIcon as TdCloseIcon } from 'tdesign-icons-react';
+
+import noop from '../_util/noop';
+import useDomRefCallback from '../hooks/useDomRefCallback';
+import useGlobalIcon from '../hooks/useGlobalIcon';
+import useRipple from '../hooks/useRipple';
+import { useTabClass } from './useTabClass';
+
+import type { MouseEvent } from 'react';
+import type { StyledProps } from '../common';
+import type { DragSortInnerProps } from '../hooks/useDragSorter';
+import type { TdTabPanelProps, TdTabsProps } from './type';
+
+export interface TabNavItemProps extends TdTabPanelProps, StyledProps {
+  // 当前 item 是否处于激活态
+  isActive: boolean;
+  // 点击事件
+  onClick: (e: MouseEvent) => void;
+  theme: 'normal' | 'card';
+  placement: string;
+  size?: 'medium' | 'large';
+  index: number;
+  innerRef(ref: HTMLElement): void;
+  onTabRemove: TdTabsProps['onRemove'];
+  dragProps?: DragSortInnerProps;
+}
+
+const TabNavItem: React.FC<TabNavItemProps> = (props) => {
+  const {
+    label,
+    removable,
+    isActive,
+    onClick = noop,
+    theme,
+    placement,
+    onRemove = noop,
+    value,
+    size = 'medium',
+    disabled = false,
+    index,
+    onTabRemove = noop,
+    innerRef,
+    dragProps,
+  } = props;
+
+  const { CloseIcon } = useGlobalIcon({ CloseIcon: TdCloseIcon });
+
+  const isCard = theme === 'card';
+
+  // 样式变量和常量定义
+  const { tdTabsClassGenerator, tdClassGenerator, tdSizeClassGenerator } = useTabClass();
+
+  // 斜八度动画
+  const [navItemDom, setRefCurrent] = useDomRefCallback();
+  useRipple(disabled ? null : navItemDom);
+  return (
+    <div
+      {...dragProps}
+      ref={innerRef}
+      onClick={disabled ? noop : onClick}
+      className={classNames(
+        tdTabsClassGenerator('nav-item'),
+        isCard ? tdTabsClassGenerator('nav--card') : '',
+        tdSizeClassGenerator(size),
+        isActive ? tdClassGenerator('is-active') : '',
+        tdClassGenerator(`is-${placement}`),
+        disabled ? tdClassGenerator('is-disabled') : '',
+        props.className,
+      )}
+    >
+      {/* 根据新的 dom 结构和样式进行改动，卡片类型情况下不需要 nav-item-wrapper 这个 div */}
+      {isCard ? (
+        <span className={classNames(tdTabsClassGenerator('nav-item-text-wrapper'))}>{label}</span>
+      ) : (
+        <div ref={setRefCurrent} className={classNames(tdTabsClassGenerator('nav-item-wrapper'))}>
+          <span className={classNames(tdTabsClassGenerator('nav-item-text-wrapper'))}>{label}</span>
+        </div>
+      )}
+      {removable && !disabled ? (
+        <span
+          className={classNames('remove-btn')}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove({ value, e });
+            onTabRemove({ value, e, index });
+          }}
+        >
+          <CloseIcon />
+        </span>
+      ) : null}
+    </div>
+  );
+};
+
+export default TabNavItem;

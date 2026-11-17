@@ -1,0 +1,20 @@
+import { mergeProps } from '@zag-js/solid'
+import { Index } from 'solid-js'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+import { useDatePickerContext } from './use-date-picker-context.ts'
+
+export interface DatePickerYearSelectBaseProps extends PolymorphicProps<'select'> {}
+export interface DatePickerYearSelectProps extends HTMLProps<'select'>, DatePickerYearSelectBaseProps {}
+
+export const DatePickerYearSelect = (props: DatePickerYearSelectProps) => {
+  const datePicker = useDatePickerContext()
+  const mergedProps = mergeProps(() => datePicker().getYearSelectProps(), props)
+
+  return (
+    <ark.select {...mergedProps}>
+      <Index each={datePicker().getYears()}>
+        {(year) => <ark.option value={year().value}>{year().label}</ark.option>}
+      </Index>
+    </ark.select>
+  )
+}

@@ -1,0 +1,58 @@
+<{{#if table-td--type}}{{table-td--type}}{{else}}td{{/if}} class="{{pfv}}table__td
+  {{#if table-td--IsToggle}} {{pfv}}table__toggle{{/if}}
+  {{#if table-td--IsCheckbox}} {{pfv}}table__check{{/if}}
+  {{#if table-td--IsAction}} {{pfv}}table__action{{/if}}
+  {{#if table-td--IsOverflowMenu}} {{pfv}}table__action{{/if}}
+  {{#if table-td--IsIcon}} {{pfv}}table__icon{{/if}}
+  {{#if table-td--IsCompoundExpansionToggle}} {{pfv}}table__compound-expansion-toggle{{/if}}
+  {{#if table-td--IsStickyColumn}} {{pfv}}table__sticky-column{{/if}}
+  {{#if table-td--IsFavorite}} {{pfv}}table__favorite{{/if}}
+  {{#if table-td--IsDraggable}} {{pfv}}table__draggable{{/if}}
+  {{#if table--IsCompact}} pf-m-compact{{/if}}
+  {{#if table-td--modifier}} {{table-td--modifier}}{{/if}}"
+  {{#unless table-td--IsEmpty}}
+    {{#unless table-td--type}}
+      {{#if table--IsTree-view}}
+        role="gridcell"
+      {{else}}
+        role="cell"
+      {{/if}}
+    {{/unless}}
+  {{/unless}}
+  {{#if table-td--attribute}}
+    {{{table-td--attribute}}}
+  {{/if}}
+  {{#if table-td--data-label}}
+    data-label="{{table-td--data-label}}"
+  {{/if}}>
+  {{#unless table-td--IsEmpty}}
+    {{#if table-td--IsCompoundExpansionToggle}}
+      {{#> table-button table-button--attribute=table-th--button--attribute}}
+        {{#> table-text}}
+          {{> @partial-block}}
+        {{/table-text}}
+      {{/table-button}}
+    {{else if table-td--IsFavorite}}
+      {{> table-favorite-button}}
+    {{else if table-td--IsDraggable}}
+      {{> table-draggable-button}}
+    {{else if table-td--IsToggle}}
+      {{#> wrapper table-td--row-index=(ternary table-tr--tree--index table-tr--tree--index table-tr--index)}}
+      {{> button
+          button--aria-label='Toggle row'
+          button--IsSmall=table--IsCompact
+          button--IsPlain=true
+          button--IsIcon=true
+          button--icon-template="table-toggle-icon"
+          button--AriaExpanded=(ternary table-tr--IsExpanded table-tr--IsExpanded false)
+          button--modifier=(ternary table-tr--IsExpanded "pf-m-expanded" "")
+          button--id=(concat table--id '-expandable-toggle-' table-td--row-index)
+          button--aria-label="Details"
+          button--aria-labelledby=(concat table--id '-node-' table-td--row-index ' ' table--id '-expandable-toggle-' table-td--row-index)
+          button--id=(dasherize table--id 'toggle' table-td--row-index)}}
+        {{/wrapper}}
+    {{else if @partial-block}}
+      {{> @partial-block}}
+    {{/if}}
+  {{/unless}}
+</{{#if table-td--type}}{{table-td--type}}{{else}}td{{/if}}>

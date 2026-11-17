@@ -1,0 +1,161 @@
+import { PaginationDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Pagination);
+
+## Usage
+
+<Demo data={PaginationDemos.configurator} />
+
+## Example with chunked content
+
+<Demo data={PaginationDemos.withContent} />
+
+## Controlled
+
+To control the component state, provide `value` and `onChange` props:
+
+```tsx
+import { useState } from 'react';
+import { Pagination } from '@mantine/core';
+
+function Demo() {
+  const [activePage, setPage] = useState(1);
+  return (
+    <Pagination value={activePage} onChange={setPage} total={10} />
+  );
+}
+```
+
+## Siblings
+
+Control the number of active item siblings with the `siblings` prop:
+
+<Demo data={PaginationDemos.siblings} />
+
+## Boundaries
+
+Control the number of items displayed after previous and before next buttons with the `boundaries` prop:
+
+<Demo data={PaginationDemos.boundaries} />
+
+## Responsive layout
+
+Set `layout="responsive"` to use CSS container queries to show a compact "Page X of Y" label
+when the container is narrow. Use `formatLabel` prop to customize the label text.
+
+<Demo data={PaginationDemos.responsive} />
+
+## Hide pages controls
+
+Set `withPages={false}` to hide the pages controls:
+
+<Demo data={PaginationDemos.withPages} />
+
+<StylesApiSelectors component="Pagination" />
+
+<Demo data={PaginationDemos.stylesApi} />
+
+## Compound components
+
+You can use the following compound components to have full control over the `Pagination` rendering:
+
+- `Pagination.Root` – context provider
+- `Pagination.Items` – items list
+- `Pagination.Next` – next control
+- `Pagination.Previous` – previous control
+- `Pagination.First` – first control
+- `Pagination.Last` – last control
+- `Pagination.Label` – compact label for responsive layout
+
+<Demo data={PaginationDemos.composition} />
+
+## Controls as links
+
+<Demo data={PaginationDemos.links} />
+
+## Change icons
+
+<Demo data={PaginationDemos.icons} />
+
+<AutoContrast component="Pagination" withVariant={false} />
+
+<Demo data={PaginationDemos.autoContrast} />
+
+## Controls size
+
+By default, pagination controls have reduced size compared to inputs and buttons.
+If you want controls to have the same size as inputs and buttons, you can use `input-` prefix for the `size` prop:
+
+<Demo data={PaginationDemos.size} />
+
+## Start value
+
+Set `startValue` to define the starting page number. For example, with `startValue={5}` and `total={15}`,
+the pagination range will be from 5 to 15:
+
+<Demo data={PaginationDemos.startValue} />
+
+## URL synchronization
+
+You can synchronize pagination state with URL query parameters. This pattern is commonly used for list views where you want to share the URL with a specific page selected.
+
+### Next.js
+
+```tsx
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Pagination } from '@mantine/core';
+
+function Demo() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const page = Number(searchParams.get('page')) || 1;
+
+  const handlePageChange = (p: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', p.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  return <Pagination total={10} value={page} onChange={handlePageChange} />;
+}
+```
+
+### react-router-dom
+
+```tsx
+import { useSearchParams } from 'react-router-dom';
+import { Pagination } from '@mantine/core';
+
+function Demo() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
+
+  const handlePageChange = (p: number) => {
+    setSearchParams({ page: p.toString() });
+  };
+
+  return <Pagination total={10} value={page} onChange={handlePageChange} />;
+}
+```
+
+### nuqs
+
+Example using [nuqs](https://nuqs.dev/):
+
+```tsx
+import { useQueryState, parseAsInteger } from 'nuqs';
+import { Pagination } from '@mantine/core';
+
+function Demo() {
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
+  return <Pagination total={10} value={page} onChange={setPage} />;
+}
+```
+
+## use-pagination hook
+
+If you need more flexibility, the `@mantine/hooks` package exports the [use-pagination](/hooks/use-pagination/) hook.
+You can use it to create custom pagination components.

@@ -1,0 +1,14 @@
+<div class="{{pfv}}toolbar
+  {{setModifiers
+      toolbar--IsStatic='pf-m-static'
+      toolbar--IsVertical='pf-m-vertical'
+      toolbar--modifier=toolbar--modifier
+    }}"
+  {{#if toolbar--id}}
+    id="{{toolbar--id}}"
+  {{/if}}
+  {{#if toolbar--attribute}}
+    {{{toolbar--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

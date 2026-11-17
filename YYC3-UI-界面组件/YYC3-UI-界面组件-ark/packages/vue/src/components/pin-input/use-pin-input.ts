@@ -1,0 +1,60 @@
+import * as pinInput from '@zag-js/pin-input'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import { useFieldContext } from '../field/index.ts'
+import type { RootEmits } from './pin-input.ts'
+
+export interface UsePinInputProps extends Optional<Omit<pinInput.Props, 'dir' | 'getRootNode'>, 'id'> {
+  /**
+   * The v-model value of the pin input
+   */
+  modelValue?: pinInput.Props['value']
+}
+
+export interface UsePinInputReturn extends ComputedRef<pinInput.Api<PropTypes>> {}
+
+export const usePinInput = (props: MaybeRefOrGetter<UsePinInputProps> = {}, emit?: EmitFn<RootEmits>) => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+  const field = useFieldContext()
+
+  const context = computed<pinInput.Props>(() => {
+    const localeProps = toValue<UsePinInputProps>(props)
+
+    return {
+      id,
+      ids: {
+        label: field?.value.ids.label,
+        hiddenInput: field?.value.ids.control,
+      },
+      disabled: field?.value.disabled,
+      readOnly: field?.value.readOnly,
+      required: field?.value.required,
+      invalid: field?.value.invalid,
+      dir: locale.value.dir,
+      value: localeProps.modelValue,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localeProps),
+      onValueChange: (details) => {
+        emit?.('valueChange', details)
+        emit?.('update:modelValue', details.value)
+        localeProps.onValueChange?.(details)
+      },
+      onValueComplete: (details) => {
+        emit?.('valueComplete', details)
+        localeProps.onValueComplete?.(details)
+      },
+      onValueInvalid: (details) => {
+        emit?.('valueInvalid', details)
+        localeProps.onValueInvalid?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(pinInput.machine, context)
+  return computed(() => pinInput.connect(service, normalizeProps))
+}

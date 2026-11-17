@@ -1,0 +1,213 @@
+@import '../common/style/base.less';
+
+@action-sheet: ~'@{prefix}-action-sheet';
+
+@action-sheet-disabled-color: var(--td-action-sheet-disabled-color, @text-color-disabled);
+@action-sheet-border-color: var(--td-action-sheet-border-color, @component-stroke);
+@action-sheet-gap-color: var(--td-action-sheet-gap-color, @bg-color-page);
+@action-sheet-color: var(--td-action-sheet-color, @text-color-primary);
+@action-sheet-border-radius: var(--td-action-sheet-border-radius, @radius-extraLarge);
+@action-sheet-description-font: var(--td-action-sheet-description-font, @font-body-medium);
+@action-sheet-description-color: var(--td-action-sheet-description-color, @text-color-placeholder);
+@action-sheet-cancel-color: var(--td-action-sheet-cancel-color, @text-color-primary);
+@action-sheet-dot-size: var(--td-action-sheet-dot-size, 16rpx);
+@action-sheet-dot-color: var(--td-action-sheet-dot-color, @text-color-disabled);
+@action-sheet-dot-active-color: var(--td-action-sheet-dot-active-color, @brand-color);
+@action-sheet-max-height: var(--td-action-sheet-max-height, 54vh);
+
+.@{action-sheet} {
+  &__content {
+    color: @action-sheet-color;
+    border-top-left-radius: @action-sheet-border-radius;
+    border-top-right-radius: @action-sheet-border-radius;
+    background-color: @bg-color-container;
+    overflow: hidden;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  &.@{action-sheet}--list {
+    .@{action-sheet}__content {
+      display: flex;
+      flex-direction: column;
+      max-height: @action-sheet-max-height;
+      overflow: hidden;
+    }
+
+    .@{action-sheet}__description,
+    .@{action-sheet}__footer {
+      flex-shrink: 0;
+    }
+
+    .@{action-sheet}__list {
+      flex: auto;
+      min-height: 0;
+    }
+  }
+
+  &--grid {
+    padding-top: @spacer;
+
+    .@{action-sheet}__description {
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  &--left {
+    .@{action-sheet}__description {
+      text-align: left;
+    }
+
+    .@{action-sheet}__list-item {
+      &-content,
+      &-desc {
+        justify-content: start;
+      }
+
+      &-icon--suffix {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .flex-center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ellipsis() {
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__grid {
+    padding-bottom: @spacer;
+
+    &--swiper {
+      padding-bottom: @spacer-3;
+    }
+  }
+
+  &__description {
+    color: @action-sheet-description-color;
+    font: @action-sheet-description-font;
+    text-align: center;
+    padding: @spacer-1 @spacer-2;
+
+    &:focus {
+      outline: 0;
+    }
+    .border(bottom, @action-sheet-border-color);
+  }
+
+  &__list {
+    overflow-y: auto;
+
+    &-item {
+      flex-direction: column;
+      padding: @spacer-2;
+
+      &:not(:last-child) {
+        .border(bottom, @action-sheet-border-color);
+      }
+
+      .flex-center();
+
+      &:focus {
+        outline: 0;
+      }
+
+      &--disabled {
+        color: @action-sheet-disabled-color;
+      }
+
+      &-content,
+      &-desc {
+        width: 100%;
+
+        .flex-center();
+      }
+
+      &-text {
+        font: @font-body-large;
+      }
+
+      &-desc {
+        font: @font-body-small;
+        color: @action-sheet-description-color;
+        margin-top: @spacer;
+      }
+
+      &-text,
+      &-desc {
+        .ellipsis();
+      }
+
+      &-icon {
+        font-size: 48rpx;
+        margin-right: @spacer;
+
+        &--suffix {
+          margin-right: 0;
+          margin-left: @spacer;
+        }
+      }
+    }
+  }
+
+  &__swiper-wrap {
+    margin-top: calc(@spacer / 2);
+    position: relative;
+  }
+
+  &__footer {
+    background-color: @bg-color-container;
+  }
+
+  &__gap-list {
+    height: 16rpx;
+    background-color: @action-sheet-gap-color;
+  }
+
+  &__gap-grid {
+    height: 1rpx;
+    background-color: @action-sheet-border-color;
+  }
+
+  &__cancel {
+    padding: @spacer-1 @spacer-2;
+    font: @font-body-large;
+    color: @action-sheet-cancel-color;
+
+    .flex-center();
+  }
+
+  &__dots {
+    position: absolute;
+    left: 50%;
+    bottom: @spacer-2;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+
+    &-item {
+      width: @action-sheet-dot-size;
+      height: @action-sheet-dot-size;
+      background-color: @action-sheet-dot-color;
+      border-radius: @radius-circle;
+      margin: 0 @spacer;
+      transition: all 0.4s ease-in;
+
+      &.@{prefix}-is-active {
+        background-color: @action-sheet-dot-active-color;
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+import React from 'react';
+import classNames from 'classnames';
+import { ChevronDownIcon as TdChevronDownIcon } from 'tdesign-icons-react';
+
+import parseTNode from '../_util/parseTNode';
+import useGlobalIcon from '../hooks/useGlobalIcon';
+import { useLocaleReceiver } from '../locale/LocalReceiver';
+import Tooltip from '../tooltip';
+import useClassName from './hooks/useClassName';
+
+import type { MouseEvent } from 'react';
+import type { TNode } from '../common';
+import type { TooltipProps } from '../tooltip';
+import type { SortType } from './type';
+
+type SortTypeEnums = Array<'desc' | 'asc'>;
+
+export interface SorterButtonProps {
+  sortType: SortType;
+  sortOrder: string;
+  sortIcon: TNode;
+  tooltipProps?: TooltipProps;
+  hideSortTips?: boolean;
+  onSortIconClick: (e: MouseEvent<HTMLSpanElement>, p: { descending: boolean }) => void;
+}
+
+export default function SorterButton(props: SorterButtonProps) {
+  const { sortType = 'all' } = props;
+  const { ChevronDownIcon } = useGlobalIcon({
+    ChevronDownIcon: TdChevronDownIcon,
+  });
+  const { tableSortClasses, negativeRotate180 } = useClassName();
+  const [locale] = useLocaleReceiver('table');
+
+  const allowSortTypes: SortTypeEnums = sortType === 'all' ? ['asc', 'desc'] : [sortType];
+
+  const onSortIconClick = (e: MouseEvent<HTMLSpanElement>, direction: string) => {
+    props?.onSortIconClick(e, { descending: direction === 'desc' });
+  };
+
+  function getSortIcon(direction: string, activeClass: string) {
+    const defaultIcon = parseTNode(locale.sortIcon, undefined, <ChevronDownIcon />);
+    const icon = props.sortIcon || defaultIcon;
+    const sortClassName = [
+      activeClass,
+      tableSortClasses.sortIcon,
+      tableSortClasses.iconDirection[direction],
+      { [negativeRotate180]: direction === 'asc' },
+    ];
+    return (
+      <span
+        key={direction}
+        className={classNames(sortClassName)}
+        onClick={(e: MouseEvent<HTMLSpanElement>) => onSortIconClick(e, direction)}
+      >
+        {icon}
+      </span>
+    );
+  }
+
+  const classes = [tableSortClasses.trigger, { [tableSortClasses.doubleIcon]: allowSortTypes.length > 1 }];
+  const tooltips = {
+    asc: locale.sortAscendingOperationText,
+    desc: locale.sortDescendingOperationText,
+  };
+  const sortButton = allowSortTypes.map((direction: string) => {
+    const activeClass = direction === props.sortOrder ? tableSortClasses.iconActive : tableSortClasses.iconDefault;
+    const cancelTips = locale.sortCancelOperationText;
+    const tips = direction === props.sortOrder ? cancelTips : tooltips[direction];
+    if (props.hideSortTips ?? locale.hideSortTips) return getSortIcon(direction, activeClass);
+    return (
+      <Tooltip content={tips} key={direction} placement="right" {...props.tooltipProps} showArrow={false}>
+        {getSortIcon(direction, activeClass)}
+      </Tooltip>
+    );
+  });
+  return <div className={classNames(classes)}>{sortButton}</div>;
+}
+
+SorterButton.displayName = 'SorterButton';

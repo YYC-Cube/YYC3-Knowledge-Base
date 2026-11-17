@@ -1,0 +1,58 @@
+---
+title: FilterSidebar
+description: FilterSidebar splits a dashboard page into a resizable filter rail and a content pane. On narrow screens the same choices move into a drawer behind a summary button.
+category: Layout
+order: 4
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import {
+  dashboardFilterSidebarClasses,
+  dashboardFilterRowClasses,
+  dashboardFilterOptionClasses,
+} from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+`FilterRow` is the label-and-count pair for a tree node. `FilterOption` is a choice in a flat list. `useInFilterSplit` reports when the split itself is the card, so a nested table can drop its own frame.
+
+## APIs
+
+### FilterSidebar
+
+<Api name="FilterSidebar" />
+
+### FilterOption
+
+<Api name="FilterOption" from="." />
+
+### FilterRow
+
+<Api name="FilterRow" from="." />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `FilterSidebar`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/dashboard/FilterSidebar.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+### FilterSidebar
+
+<StableClassTable of={dashboardFilterSidebarClasses} />
+
+### FilterRow
+
+<StableClassTable of={dashboardFilterRowClasses} />
+
+### FilterOption
+
+<StableClassTable of={dashboardFilterOptionClasses} />

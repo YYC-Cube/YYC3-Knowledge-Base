@@ -1,0 +1,523 @@
+import { __InputStylesNames } from '@mantine/core';
+import {
+  inputDefaultProps,
+  inputStylesApiSelectors,
+  render,
+  screen,
+  tests,
+  userEvent,
+} from '@mantine-tests/core';
+import {
+  clickInput,
+  datesTests,
+  expectNoModal,
+  expectNoPopover,
+  expectOpenedModal,
+  expectOpenedPopover,
+  expectValue,
+} from '@mantine-tests/dates';
+import { DatesProvider } from '../DatesProvider';
+import { DateTimePicker, DateTimePickerProps } from './DateTimePicker';
+
+const defaultProps: DateTimePickerProps = {
+  popoverProps: { withinPortal: false, transitionProps: { duration: 0 } },
+  modalProps: { withinPortal: false, transitionProps: { duration: 0 } },
+  timePickerProps: { 'aria-label': 'test-time-picker', hoursInputLabel: 'test-time-picker-hours' },
+  submitButtonProps: { 'aria-label': 'test-submit' },
+  clearButtonProps: { 'aria-label': 'test-clear' },
+  ariaLabels: {
+    monthLevelControl: 'level-control',
+    yearLevelControl: 'level-control',
+    nextMonth: 'next',
+    previousMonth: 'previous',
+    nextYear: 'next',
+    previousYear: 'previous',
+    nextDecade: 'next',
+    previousDecade: 'previous',
+  },
+};
+
+const defaultPropsWithInputProps: DateTimePickerProps = {
+  ...defaultProps,
+  ...(inputDefaultProps as any),
+};
+
+const getTimePicker = () => screen.getByLabelText('test-time-picker-hours');
+const getSubmitButton = () => screen.getByLabelText('test-submit');
+const getClearButton = () => screen.queryAllByLabelText('test-clear')[0];
+
+describe('@mantine/dates/DateTimePicker', () => {
+  tests.axe([
+    <DateTimePicker aria-label="test-label" key="1" />,
+    <DateTimePicker placeholder="test-placeholder" key="2" />,
+    <DateTimePicker aria-label="test-label" error key="3" />,
+    <DateTimePicker aria-label="test-label" error="test-error" id="test" key="4" />,
+    <DateTimePicker aria-label="test-label" description="test-description" key="5" />,
+  ]);
+
+  tests.itSupportsSystemProps<DateTimePickerProps, __InputStylesNames>({
+    component: DateTimePicker,
+    props: defaultPropsWithInputProps,
+    displayName: '@mantine/dates/DateTimePicker',
+    stylesApiSelectors: [...inputStylesApiSelectors],
+  });
+
+  tests.itSupportsInputProps<DateTimePickerProps>({
+    component: DateTimePicker,
+    props: defaultPropsWithInputProps,
+    selector: 'button',
+  });
+
+  tests.itSupportsSharedInputDefaults<DateTimePickerProps>({
+    component: DateTimePicker,
+    props: defaultPropsWithInputProps,
+    componentName: 'DateTimePicker',
+  });
+
+  datesTests.itSupportsClearableProps({
+    component: DateTimePicker,
+    props: {
+      ...defaultProps,
+      defaultValue: '2022-04-11',
+    },
+  });
+
+  datesTests.itSupportsYearsListProps({
+    component: DateTimePicker,
+    props: {
+      ...defaultProps,
+      defaultLevel: 'decade',
+      defaultValue: '2022-04-11',
+      popoverProps: { opened: true, withinPortal: false, transitionProps: { duration: 0 } },
+    },
+  });
+
+  datesTests.itSupportsMonthsListProps({
+    component: DateTimePicker,
+    props: {
+      ...defaultProps,
+      defaultLevel: 'year',
+      defaultValue: '2022-04-11',
+      popoverProps: { opened: true, withinPortal: false, transitionProps: { duration: 0 } },
+    },
+  });
+
+  it('toggles popover when input is clicked (dropdownType="popover")', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} />);
+
+    await clickInput(container);
+    expectOpenedPopover(container);
+    expectNoModal(container);
+
+    await clickInput(container);
+    expectNoPopover(container);
+  });
+
+  it('toggles modal when input is clicked (dropdownType="modal")', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} dropdownType="modal" />);
+
+    await clickInput(container);
+    expectOpenedModal(container);
+    expectNoPopover(container);
+
+    await clickInput(container);
+    expectNoModal(container);
+  });
+
+  it('closes dropdown when user presses Enter in TimePicker', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} defaultValue="2022-04-11" />);
+    await clickInput(container);
+    expectOpenedPopover(container);
+
+    await userEvent.type(getTimePicker(), '{Enter}');
+    expectNoPopover(container);
+  });
+
+  it('closes dropdown when user clicks on submit button', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} defaultValue="2022-04-11" />);
+    await clickInput(container);
+    expectOpenedPopover(container);
+
+    await userEvent.click(getSubmitButton());
+    expectNoPopover(container);
+  });
+
+  it('closes when a submit button onClick handler is provided', async () => {
+    const spy = jest.fn();
+    const { container } = render(
+      <DateTimePicker
+        {...defaultProps}
+        submitButtonProps={{
+          onClick: spy,
+          'aria-label': defaultProps.submitButtonProps!['aria-label'],
+        }}
+      />
+    );
+    await clickInput(container);
+    expectOpenedPopover(container);
+
+    await userEvent.click(getSubmitButton());
+
+    expect(spy).toHaveBeenCalled();
+    expectNoPopover(container);
+  });
+
+  it('supports placeholder styles selector in classNames', () => {
+    const classNames: DateTimePickerProps['classNames'] = {
+      placeholder: 'test-placeholder-class',
+    };
+
+    render(
+      <DateTimePicker {...defaultProps} classNames={classNames} placeholder="test-placeholder" />
+    );
+
+    expect(screen.getByText('test-placeholder')).toHaveClass('test-placeholder-class');
+  });
+
+  it('supports uncontrolled state', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} defaultValue="2022-04-11" />);
+
+    await clickInput(container);
+    await userEvent.click(container.querySelectorAll('table button')[6]);
+    expectValue(container, '03/04/2022 00:00');
+
+    await userEvent.clear(getTimePicker());
+    await userEvent.type(getTimePicker(), '14:45');
+    expectValue(container, '03/04/2022 14:45');
+  });
+
+  it('supports controlled state', async () => {
+    const spy = jest.fn();
+
+    const { container } = render(
+      <DateTimePicker {...defaultProps} value="2022-04-11" onChange={spy} />
+    );
+
+    await clickInput(container);
+    await userEvent.click(container.querySelectorAll('table button')[6]);
+    expectValue(container, '11/04/2022 00:00');
+    expect(spy).toHaveBeenLastCalledWith('2022-04-03 00:00:00');
+  });
+
+  it('displays correct value when withSeconds is set', () => {
+    const { container } = render(
+      <DateTimePicker {...defaultProps} value="2022-04-11T14:45:54" withSeconds />
+    );
+
+    expectValue(container, '11/04/2022 14:45:54');
+  });
+
+  it('displays correct value when withSeconds is set via timePickerProps', () => {
+    const { container } = render(
+      <DateTimePicker
+        {...defaultProps}
+        value="2022-04-11T14:45:54"
+        timePickerProps={{ ...defaultProps.timePickerProps, withSeconds: true }}
+      />
+    );
+
+    expectValue(container, '11/04/2022 14:45:54');
+  });
+
+  it('supports custom valueFormat', () => {
+    const { container } = render(
+      <DateTimePicker
+        {...defaultProps}
+        value="2022-04-11T14:45:54"
+        valueFormat="DD MMMM, YYYY hh:mm:ss A"
+      />
+    );
+
+    expectValue(container, '11 April, 2022 02:45:54 PM');
+  });
+
+  it('supports valueFormat as a function', () => {
+    const valueFormat = jest.fn((date: string) => `formatted-${date}`);
+    const { container } = render(
+      <DateTimePicker {...defaultProps} value="2022-04-11 14:45:54" valueFormat={valueFormat} />
+    );
+
+    expect(valueFormat).toHaveBeenCalledWith('2022-04-11 14:45:54');
+    expectValue(container, 'formatted-2022-04-11 14:45:54');
+  });
+
+  it('supports localization for custom valueFormat', () => {
+    const { container } = render(
+      <DateTimePicker
+        {...defaultProps}
+        value="2022-04-11T14:45:54"
+        valueFormat="DD MMMM, YYYY hh:mm:ss"
+        locale="ru"
+      />
+    );
+
+    expectValue(container, '11 апреля, 2022 02:45:54');
+  });
+
+  it('supports localization for custom valueFormat om DatesProvider', () => {
+    const { container } = render(
+      <DatesProvider settings={{ locale: 'ru' }}>
+        <DateTimePicker
+          {...defaultProps}
+          value="2022-04-11T14:45:54"
+          valueFormat="DD MMMM, YYYY hh:mm:ss"
+        />
+      </DatesProvider>
+    );
+
+    expectValue(container, '11 апреля, 2022 02:45:54');
+  });
+
+  it('focuses TimePicker after date was selected', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} />);
+    await clickInput(container);
+    await userEvent.click(container.querySelector('table button')!);
+    expect(getTimePicker()).toHaveFocus();
+  });
+
+  // https://github.com/mantinedev/mantine/issues/9128
+  it('selects TimePicker hours value after date was selected', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} />);
+    await clickInput(container);
+    await userEvent.click(container.querySelector('table button')!);
+
+    await userEvent.keyboard('1');
+    expect(getTimePicker()).toHaveFocus();
+    expect(getTimePicker()).toHaveValue('01');
+  });
+
+  it('renders clear button based on clearable prop and current value', () => {
+    const { rerender } = render(<DateTimePicker {...defaultProps} value="2022-04-11" clearable />);
+
+    expect(getClearButton()).toBeInTheDocument();
+
+    rerender(<DateTimePicker {...defaultProps} value="2022-04-11" clearable={false} />);
+    expect(getClearButton()).toBe(undefined);
+
+    rerender(<DateTimePicker {...defaultProps} value={null} clearable />);
+    expect(getClearButton()).toBe(undefined);
+  });
+
+  it('clears input when clear button is clicked', async () => {
+    const { container } = render(
+      <DateTimePicker {...defaultProps} defaultValue="2022-04-11" clearable />
+    );
+
+    expectValue(container, '11/04/2022 00:00');
+    await userEvent.click(getClearButton());
+    expectValue(container, '');
+  });
+
+  it('calls onChange with null when controlled input is cleared', async () => {
+    const spy = jest.fn();
+    const { container } = render(
+      <DateTimePicker {...defaultProps} value="2022-04-11" clearable onChange={spy} />
+    );
+
+    expectValue(container, '11/04/2022 00:00');
+    await userEvent.click(getClearButton());
+    expectValue(container, '11/04/2022 00:00');
+    expect(spy).toHaveBeenCalledWith(null);
+  });
+
+  it('does not open popover if readOnly prop is set', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} readOnly />);
+    expectNoPopover(container);
+    await clickInput(container);
+    expectNoPopover(container);
+  });
+
+  it('allows changing levels in popover', async () => {
+    const { container } = render(<DateTimePicker {...defaultProps} defaultValue="2022-04-11" />);
+    await clickInput(container);
+    await userEvent.click(screen.getByLabelText('level-control'));
+    await userEvent.click(screen.getByLabelText('level-control'));
+    await userEvent.click(screen.getByLabelText('previous'));
+    await userEvent.click(container.querySelector('table button')!);
+    await userEvent.click(container.querySelector('table button')!);
+    await userEvent.click(container.querySelectorAll('table button')[4]);
+    expectValue(container, '01/01/2010 00:00');
+  });
+
+  it('render hidden input with given value', () => {
+    const { container } = render(
+      <DateTimePicker
+        {...defaultProps}
+        value="2022-04-11 14:56:45"
+        name="hidden-name"
+        form="hidden-form"
+      />
+    );
+    const input = container.querySelector('input[type="hidden"]');
+    expect(input).toHaveValue('2022-04-11 14:56:45');
+    expect(input).toHaveAttribute('name', 'hidden-name');
+    expect(input).toHaveAttribute('form', 'hidden-form');
+  });
+
+  it('has correct default __staticSelector', () => {
+    const { container } = render(
+      <DateTimePicker
+        {...defaultProps}
+        popoverProps={{ opened: true, withinPortal: false, transitionProps: { duration: 0 } }}
+      />
+    );
+
+    expect(container.querySelector('[data-dates-input]')).toHaveClass(
+      'mantine-DateTimePicker-input'
+    );
+
+    expect(container.querySelector('table button')).toHaveClass('mantine-DateTimePicker-day');
+  });
+
+  describe('range type', () => {
+    const rangeProps: any = {
+      ...defaultProps,
+      type: 'range',
+      endTimePickerProps: {
+        'aria-label': 'test-end-time-picker',
+        hoursInputLabel: 'test-end-time-picker-hours',
+      },
+    };
+
+    it('renders two TimePickers in range mode', async () => {
+      const { container } = render(
+        <DateTimePicker {...rangeProps} defaultValue={['2022-04-11', '2022-04-15']} />
+      );
+
+      await clickInput(container);
+      expect(screen.getByLabelText('test-time-picker-hours')).toBeInTheDocument();
+      expect(screen.getByLabelText('test-end-time-picker-hours')).toBeInTheDocument();
+    });
+
+    it('displays formatted range value', () => {
+      const { container } = render(
+        <DateTimePicker
+          {...rangeProps}
+          defaultValue={['2022-04-11 14:30:00', '2022-04-15 16:00:00']}
+        />
+      );
+
+      expectValue(container, '11/04/2022 14:30 – 15/04/2022 16:00');
+    });
+
+    it('supports valueFormat as a function in range mode', () => {
+      const { container } = render(
+        <DateTimePicker
+          {...rangeProps}
+          defaultValue={['2022-04-11 14:30:00', '2022-04-15 16:00:00']}
+          valueFormat={(date) => `f(${date})`}
+        />
+      );
+
+      expectValue(container, 'f(2022-04-11 14:30:00) – f(2022-04-15 16:00:00)');
+    });
+
+    it('supports range uncontrolled state', async () => {
+      const spy = jest.fn();
+      const { container } = render(<DateTimePicker {...rangeProps} onChange={spy} />);
+
+      await clickInput(container);
+      await userEvent.click(container.querySelectorAll('table button')[0]);
+
+      expect(spy).toHaveBeenCalled();
+      const lastCall = spy.mock.calls[spy.mock.calls.length - 1][0];
+      expect(Array.isArray(lastCall)).toBe(true);
+      expect(lastCall[0]).toBeTruthy();
+    });
+
+    it('supports range controlled state', async () => {
+      const spy = jest.fn();
+      const { container } = render(
+        <DateTimePicker {...rangeProps} value={['2022-04-11', '2022-04-15']} onChange={spy} />
+      );
+
+      await clickInput(container);
+      await userEvent.click(container.querySelectorAll('table button')[0]);
+
+      expect(spy).toHaveBeenCalled();
+      const lastCall = spy.mock.calls[spy.mock.calls.length - 1][0];
+      expect(Array.isArray(lastCall)).toBe(true);
+    });
+
+    it('clears range value when clear button is clicked', async () => {
+      const spy = jest.fn();
+      const { container } = render(
+        <DateTimePicker
+          {...rangeProps}
+          defaultValue={['2022-04-11', '2022-04-15']}
+          clearable
+          onChange={spy}
+        />
+      );
+
+      expectValue(container, '11/04/2022 00:00 – 15/04/2022 00:00');
+      await userEvent.click(getClearButton());
+      expectValue(container, '');
+    });
+
+    it('displays range info text in dropdown', async () => {
+      const { container } = render(
+        <DateTimePicker
+          {...rangeProps}
+          defaultValue={['2022-04-11 14:30:00', '2022-04-15 16:00:00']}
+        />
+      );
+
+      await clickInput(container);
+      const rangeInfo = container.querySelector('.mantine-DateTimePicker-rangeInfo');
+      expect(rangeInfo).toBeInTheDocument();
+      expect(rangeInfo!.textContent).toContain('11/04/2022');
+      expect(rangeInfo!.textContent).toContain('15/04/2022');
+    });
+
+    it('closes dropdown when submit button is clicked in range mode', async () => {
+      const { container } = render(
+        <DateTimePicker {...rangeProps} defaultValue={['2022-04-11', '2022-04-15']} />
+      );
+      await clickInput(container);
+      expectOpenedPopover(container);
+
+      await userEvent.click(getSubmitButton());
+      expectNoPopover(container);
+    });
+
+    it('preserves time component of range presets', async () => {
+      const spy = jest.fn();
+      const { container } = render(
+        <DateTimePicker
+          {...rangeProps}
+          withSeconds
+          defaultValue={['2022-04-11 10:00:00', '2022-04-15 12:00:00']}
+          onChange={spy}
+          presets={[
+            {
+              value: ['2022-04-12 09:15:30', '2022-04-16 18:45:00'],
+              label: 'Custom range',
+            },
+          ]}
+        />
+      );
+
+      await clickInput(container);
+      await userEvent.click(screen.getByText('Custom range'));
+
+      expect(spy).toHaveBeenLastCalledWith(['2022-04-12 09:15:30', '2022-04-16 18:45:00']);
+      expectValue(container, '12/04/2022 09:15:30 – 16/04/2022 18:45:00');
+    });
+
+    it('render hidden input with range value', () => {
+      const { container } = render(
+        <DateTimePicker
+          {...rangeProps}
+          value={['2022-04-11 14:56:45', '2022-04-15 16:00:00']}
+          name="hidden-name"
+          form="hidden-form"
+        />
+      );
+      const input = container.querySelector('input[type="hidden"]');
+      expect(input).toHaveValue('2022-04-11 14:56:45 – 2022-04-15 16:00:00');
+      expect(input).toHaveAttribute('name', 'hidden-name');
+      expect(input).toHaveAttribute('form', 'hidden-form');
+    });
+  });
+});

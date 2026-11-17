@@ -1,0 +1,88 @@
+---
+id: steps
+title: Steps
+description: Used to guide users through a series of steps in a process
+---
+
+<ComponentPreview id="Steps" />
+
+## Anatomy
+
+<Anatomy id="steps" />
+
+```tsx
+<Steps.Root>
+  <Steps.List>
+    <Steps.Item>
+      <Steps.Trigger>
+        <Steps.Indicator />
+      </Steps.Trigger>
+      <Steps.Separator />
+    </Steps.Item>
+  </Steps.List>
+  <Steps.Content />
+  <Steps.CompletedContent />
+  <Steps.PrevTrigger />
+  <Steps.NextTrigger />
+</Steps.Root>
+```
+
+## Examples
+
+### Basic
+
+Here's a basic example of the `Steps` component.
+
+<Example component="steps" id="basic" />
+
+### Controlled
+
+Using the `RootProvider` component, you can control the active step by using the `step` prop and handling the
+`onStepChange` event.
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the steps is to use the `RootProvider` component and the `useSteps` hook. This way you can
+access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Vertical
+
+Use the `orientation` prop to display the steps vertically.
+
+<Example id="vertical" />
+
+## Guides
+
+### Styling
+
+Each item exposes its state through data attributes:
+
+```css
+[data-scope='steps'][data-part='item'][data-current] {
+  /* the active step */
+}
+
+[data-scope='steps'][data-part='item'][data-complete] {
+  /* steps before the active one */
+}
+
+[data-scope='steps'][data-part='item'][data-incomplete] {
+  /* steps after the active one */
+}
+```
+
+The current step's trigger has `aria-current="step"`.
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="steps" />
+
+### Context
+
+<ContextType id="steps" />

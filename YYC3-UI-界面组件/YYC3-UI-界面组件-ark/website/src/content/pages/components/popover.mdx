@@ -1,0 +1,160 @@
+---
+id: popover
+title: Popover
+description: An overlay that displays additional information or options when triggered.
+---
+
+<ComponentPreview id="Popover" />
+
+## Anatomy
+
+<Anatomy id="popover" />
+
+```tsx
+<Popover.Root>
+  <Popover.Trigger />
+  <Popover.Anchor />
+  <Popover.Positioner>
+    <Popover.Arrow>
+      <Popover.ArrowTip />
+    </Popover.Arrow>
+    <Popover.Content>
+      <Popover.Title />
+      <Popover.Description />
+      <Popover.CloseTrigger />
+    </Popover.Content>
+  </Popover.Positioner>
+</Popover.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled
+
+Use the `open` and `onOpenChange` props to control the open state of the popover.
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the popover is to use the `RootProvider` component and the `usePopover` hook. This way you
+can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Arrow
+
+Use `Popover.Arrow` and `Popover.ArrowTip` to render an arrow pointing to the trigger.
+
+<Example id="arrow" />
+
+### Placement
+
+To change the placement of the popover, set the `positioning` prop.
+
+By default it only flips to the opposite side when there isn't room. Pass a list of placements to `positioning.flip`
+to choose the fallbacks, so it can move above or below instead.
+
+<Example id="positioning" />
+
+### Close Behavior
+
+The popover is designed to close on blur and when the <kbd>esc</kbd> key is pressed.
+
+- To prevent it from closing on blur (clicking or focusing outside), pass the `closeOnInteractOutside` prop and set it
+  to `false`.
+- To prevent it from closing when the <kbd>esc</kbd> key is pressed, pass the `closeOnEsc` prop and set it to `false`.
+
+<Example id="close-behavior" />
+
+### Modality
+
+In some cases, you might want the popover to be modal. This means that it'll:
+
+- trap focus within its content
+- block scrolling on the body
+- disable pointer interactions outside the popover
+- hide content behind the popover from screen readers
+
+To make the popover modal, set the `modal` prop to `true`. When `modal={true}`, we set the `portalled` attribute to
+`true` as well.
+
+<Example id="modal" />
+
+### Anchor
+
+Use `Popover.Anchor` to position the popover relative to a different element than the trigger.
+
+<Example id="anchor" />
+
+### Same Width
+
+Use `positioning.sameWidth` to make the popover match the width of its trigger element.
+
+<Example id="same-width" />
+
+### Dialog Integration
+
+When rendering a popover inside a dialog, you have two options for proper layering:
+
+1. **Keep the Portal with `lazyMount` and `unmountOnExit`** - This ensures the popover is properly unmounted when the
+   dialog closes, preventing stale DOM nodes.
+
+2. **Remove the Portal** - Render the popover inline within the dialog content. This works well but may have z-index
+   considerations.
+
+<Example id="with-dialog" />
+
+### Nested
+
+Popovers can be nested within each other. Each nested popover maintains its own open state and positioning.
+
+<Example id="nested" />
+
+### Multiple Triggers
+
+Share a single popover across multiple trigger elements. Pass a `value` to each `Popover.Trigger` — the popover
+repositions to whichever trigger is activated without closing.
+
+<Example id="multiple-triggers" />
+
+## Guides
+
+### Available Size
+
+The following css variables are exposed to the `Popover.Positioner` which you can use to style the `Popover.Content`
+
+```css
+/* width of the popover trigger */
+--reference-width: <pixel-value>;
+/* width of the available viewport */
+--available-width: <pixel-value>;
+/* height of the available viewport */
+--available-height: <pixel-value>;
+```
+
+For example, if you want to make sure the maximum height doesn't exceed the available height, use the following css:
+
+```css
+[data-scope='popover'][data-part='content'] {
+  max-height: calc(var(--available-height) - 100px);
+}
+```
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="popover" />
+
+### Context
+
+<ContextType id="popover" />
+
+## Accessibility
+
+### Keyboard Support
+
+<KeyBindingsTable id="popover" />

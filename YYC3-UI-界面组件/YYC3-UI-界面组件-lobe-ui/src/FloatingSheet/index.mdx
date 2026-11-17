@@ -1,0 +1,37 @@
+---
+title: FloatingSheet
+description: Container-embedded bottom sheet with drag-to-resize, snap points, overlay/inline layout modes, and elevated/embedded visual variants.
+category: Feedback
+---
+
+import DemoPlayground from './demos/playground.tsx?demo';
+import DemoIndex from './demos/index.tsx?demo';
+import DemoInline from './demos/inline.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { floatingSheetClasses } from './stable';
+
+## Props Playground
+
+<Demo of={DemoPlayground} layout="bare" />
+
+## Overlay Mode (Default)
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Inline Mode
+
+<Demo of={DemoInline} layout="bare" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `FloatingSheet`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/FloatingSheet.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={floatingSheetClasses} />

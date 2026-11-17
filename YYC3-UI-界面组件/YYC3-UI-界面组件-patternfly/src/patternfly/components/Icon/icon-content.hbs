@@ -1,0 +1,8 @@
+<span class="{{~pfv}}icon__content
+  {{~#if shouldMirrorRTL}} {{pfv 'unset-prefix'}}m-mirror-inline-rtl{{/if}}
+  {{~#if icon-content--modifier}} {{icon-content--modifier}}{{/if}}"
+  {{#if icon-content--attribute}}
+    {{{icon-content--attribute}}}
+  {{/if}}>
+  {{>@partial-block}}
+</span>

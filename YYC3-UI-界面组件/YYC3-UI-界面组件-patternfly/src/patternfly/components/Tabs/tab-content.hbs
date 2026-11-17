@@ -1,0 +1,18 @@
+<section class="{{pfv}}tab-content{{#if tab-content--modifier}} {{tab-content--modifier}}{{/if}}"
+  {{#if tab-content--attribute}}
+    {{{tab-content--attribute}}}
+  {{/if}}
+  role="tabpanel"
+  tabindex="0"
+  {{!-- set hidden by default --}}
+  {{#unless tab-content--IsActive}}
+    hidden
+  {{/unless}}
+  {{!-- add option to explicitly set hidden for nested tab content --}}
+  {{#if tab-content--IsHidden}}
+    hidden
+  {{/if}}>
+  {{#> tab-content-body}}
+    {{> @partial-block}}
+  {{/tab-content-body}}
+</section>

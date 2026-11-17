@@ -1,0 +1,63 @@
+import React, { forwardRef } from 'react';
+import classNames from 'classnames';
+import { isNumber, isString } from 'lodash-es';
+
+import useConfig from '../hooks/useConfig';
+
+import type { StyledProps } from '../common';
+import type { TdInputAdornmentProps } from './type';
+
+export interface InputAdornmentProps extends TdInputAdornmentProps, StyledProps {
+  children?: React.ReactNode;
+  onChange?: (...args: any[]) => void;
+}
+
+const InputAdornment = forwardRef<HTMLDivElement, InputAdornmentProps>((props, ref) => {
+  const { classPrefix } = useConfig();
+  const { prepend, append, children, className, style, ...wrapperProps } = props;
+
+  const renderAddon = (type: string, classPrefix: string, Content) => {
+    if (typeof Content === 'undefined') return null;
+
+    let addonNode: React.ReactNode;
+    const isContentNode = isString(Content) || isNumber(Content);
+
+    if (typeof Content === 'function') {
+      addonNode = <Content />;
+    } else {
+      addonNode = isContentNode ? <span className={`${classPrefix}-input-adornment__text`}>{Content}</span> : Content;
+    }
+
+    return addonNode ? <span className={`${classPrefix}-input-adornment__${type}`}>{addonNode}</span> : addonNode;
+  };
+
+  const renderChildren = () =>
+    React.Children.map(children, (child) => {
+      if (!child) return null;
+      if (React.isValidElement(child)) {
+        const childProps = (child as React.ReactElement<any>).props;
+        return React.cloneElement(child, {
+          ...wrapperProps,
+          ...childProps,
+          onChange: (...args) => {
+            // @ts-ignore
+            wrapperProps?.onChange?.call?.(null, ...args);
+            childProps?.onChange?.call?.(null, ...args);
+          },
+        });
+      }
+      return child;
+    });
+
+  return (
+    <div ref={ref} style={style} className={classNames(`${classPrefix}-input-adornment`, className)}>
+      {renderAddon('prepend', classPrefix, prepend)}
+      {renderChildren()}
+      {renderAddon('append', classPrefix, append)}
+    </div>
+  );
+});
+
+InputAdornment.displayName = 'InputAdornment';
+
+export default InputAdornment;

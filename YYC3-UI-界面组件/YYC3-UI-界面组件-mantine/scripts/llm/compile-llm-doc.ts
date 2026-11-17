@@ -1,0 +1,2145 @@
+#!/usr/bin/env tsx
+import path from 'path';
+import glob from 'fast-glob';
+import fs from 'fs-extra';
+import remarkMdx from 'remark-mdx';
+import remarkParse from 'remark-parse';
+import remarkStringify from 'remark-stringify';
+import { unified } from 'unified';
+import { visit } from 'unist-util-visit';
+import { allVersions } from '@mantinex/mantine-meta';
+import { DEFAULT_THEME } from '../../packages/@mantine/core/src/core/MantineProvider/default-theme';
+import { defaultCssVariablesResolver } from '../../packages/@mantine/core/src/core/MantineProvider/MantineCssVariables/default-css-variables-resolver';
+import { extractCodeVariable, loadDemoCode } from '../utils/demo-loader';
+import { resolveImportName } from './mcp/import-name';
+import { parseMdxMetadataEntries } from './mcp/mdx-metadata';
+
+interface CompilerConfig {
+  rootDir: string;
+  siteUrl: string;
+  mdxPaths: {
+    docs: string;
+    help: string;
+  };
+  demosPath: string;
+  stylesApiPath: string;
+  propsDataPath: string;
+  mdxDataPath: string;
+  publicPath?: string;
+}
+
+interface PageFileInfo {
+  category: string;
+  title: string;
+  description?: string;
+  route: string;
+  fileName: string;
+  content: string;
+}
+
+const rootPackageJson = fs.readJsonSync(path.join(process.cwd(), 'package.json'));
+
+const config: CompilerConfig = {
+  rootDir: process.cwd(),
+  siteUrl: process.env.LLM_DOCS_SITE_URL || 'https://mantine.dev',
+  mdxPaths: {
+    docs: './apps/mantine.dev/src/pages',
+    help: './apps/help.mantine.dev/src/pages/q',
+  },
+  demosPath: './packages/@docs/demos/src/demos',
+  stylesApiPath: './packages/@docs/styles-api/src/data',
+  propsDataPath: './apps/mantine.dev/src/.docgen',
+  mdxDataPath: './apps/mantine.dev/src/mdx/data',
+  publicPath: './apps/mantine.dev/public',
+};
+
+class MantineLLMCompiler {
+  private config: CompilerConfig;
+  private output: string[] = [];
+  private pageFiles: PageFileInfo[] = [];
+  private mdxMetadata = new Map<string, any>();
+  private stylesApiData = new Map<
+    string,
+    {
+      selectors?: Record<string, string>;
+      vars?: Record<string, Record<string, string> | any>;
+      modifiers?: Array<{
+        modifier?: string;
+        selector?: string;
+        condition?: string;
+        value?: string;
+      }>;
+      raw: string;
+    }
+  >();
+  private propsData = new Map<string, any>();
+  private propsComponentNames = new Set<string>();
+  private stylesApiDemoCache = new Map<string, boolean>();
+  private knownLlmFiles = new Set<string>();
+
+  private escapeTableCell(value: unknown): string {
+    const str = String(value ?? '-')
+      .replace(/<code>([\s\S]*?)<\/code>/g, '`$1`')
+      .replace(/\|/g, '\\|')
+      .replace(/\n/g, ' ')
+      .trim();
+    return str.length > 0 ? str : '-';
+  }
+
+  constructor(config: CompilerConfig) {
+    this.config = config;
+  }
+
+  async compile() {
+    // Load all metadata first
+    await this.loadMdxMetadata();
+    await this.loadStylesApiData();
+    await this.loadPropsData();
+
+    this.addHeader();
+
+    // Process main documentation
+    await this.processMdxFiles();
+
+    // Process FAQ content
+    await this.processFaqContent();
+
+    // Write output
+    await this.writeOutput();
+
+    // Compilation complete
+  }
+
+  private addHeader() {
+    this.output.push('# Mantine UI Library - Complete Documentation');
+    this.output.push('');
+    this.output.push(
+      'This file contains comprehensive documentation for the Mantine UI library including:'
+    );
+    this.output.push('- Complete component documentation with all usage examples');
+    this.output.push('- Full demo code for every example shown in the documentation');
+    this.output.push('- Complete props tables with types and descriptions for all components');
+    this.output.push('- Styles API documentation showing all available selectors');
+    this.output.push('- FAQ and troubleshooting guides');
+    this.output.push('');
+    this.output.push(
+      'All code examples use production npm package imports (e.g., @mantine/core, @mantine/hooks)'
+    );
+    this.output.push('');
+    this.output.push('='.repeat(80));
+    this.output.push('');
+  }
+
+  private async loadMdxMetadata() {
+    const dataFiles = await glob('mdx-*-data.ts', {
+      cwd: this.config.mdxDataPath,
+      absolute: true,
+    });
+
+    for (const file of dataFiles) {
+      try {
+        const content = await fs.readFile(file, 'utf-8');
+
+        // Extract MDX data exports
+        const exportMatch = content.match(/export const MDX_\w+_DATA[^=]*=\s*{([\s\S]*?)};/);
+        if (!exportMatch) {
+          continue;
+        }
+
+        const entries = parseMdxMetadataEntries(exportMatch[1]);
+        for (const [key, metadata] of entries) {
+          this.mdxMetadata.set(key, metadata);
+        }
+      } catch (error) {
+        // Warning: Could not parse file
+      }
+    }
+
+    // Loaded metadata
+  }
+
+  private async loadStylesApiData() {
+    // Loading Styles API data
+
+    const stylesFiles = await glob('**/*.styles-api.ts', {
+      cwd: this.config.stylesApiPath,
+      absolute: true,
+    });
+
+    // First pass: load all files to build the data
+    for (const file of stylesFiles) {
+      try {
+        const content = await fs.readFile(file, 'utf-8');
+        // const componentName = path.basename(file, '.styles-api.ts');
+
+        // Parse the TypeScript file to extract the StylesApi exports
+        // Look for export const ComponentStylesApi: StylesApiData<ComponentFactory> = { ... }
+        const stylesApiRegex =
+          /export const (\w+)StylesApi:\s*StylesApiData<[^>]+>\s*=\s*({[\s\S]*?})\s*;/g;
+        let match;
+
+        while ((match = stylesApiRegex.exec(content)) !== null) {
+          const exportName = match[1];
+          const dataObject = match[2];
+
+          // Parse selectors
+          const selectorsMatch = dataObject.match(/selectors:\s*({[\s\S]*?})\s*(?:,|$)/);
+          const selectors: Record<string, string> = {};
+
+          if (selectorsMatch) {
+            const selectorsContent = selectorsMatch[1];
+
+            // First, handle spread operators (e.g., ...InputStylesApi.selectors)
+            const spreadRegex = /\.\.\.(\w+)\.selectors/g;
+            let spreadMatch;
+            while ((spreadMatch = spreadRegex.exec(selectorsContent)) !== null) {
+              // Note: We'll handle spreads later by looking up the referenced component
+              // For now, just add a placeholder
+              selectors[`_spread_${spreadMatch[1]}`] = 'inherited';
+            }
+
+            // Extract key-value pairs from the selectors object
+            // Match pattern: selector: 'description with `code`'
+            const selectorLines = selectorsContent.split('\n');
+            for (const line of selectorLines) {
+              // Match either single quotes, double quotes, or backticks
+              const selectorMatch = line.match(/(\w+):\s*(['"`])(.*?)\2/);
+              if (selectorMatch) {
+                selectors[selectorMatch[1]] = selectorMatch[3];
+              }
+            }
+          }
+
+          // Parse vars
+          const varsMatch = dataObject.match(/vars:\s*({[\s\S]*?})\s*(?:,|$)/);
+          const vars: Record<string, Record<string, string>> = {};
+
+          if (varsMatch) {
+            const varsContent = varsMatch[1];
+            // Extract nested var definitions
+            // Pattern: componentName: { '--var-name': 'description' }
+            const componentVarRegex = /(\w+):\s*({[^}]+})/g;
+            let varMatch;
+            while ((varMatch = componentVarRegex.exec(varsContent)) !== null) {
+              const varComponent = varMatch[1];
+              const varDefs = varMatch[2];
+              vars[varComponent] = {};
+
+              // Extract individual CSS variables
+              // Match pattern: '--var-name': 'description with `code`'
+              const cssVarLines = varDefs.split('\n');
+              for (const line of cssVarLines) {
+                // Match CSS variable pattern with nested quotes
+                const cssVarMatch = line.match(/(['"`])(--[^'"`]+)\1:\s*(['"`])(.*?)\3/);
+                if (cssVarMatch) {
+                  vars[varComponent][cssVarMatch[2]] = cssVarMatch[4];
+                }
+              }
+            }
+
+            // Also check for direct references to other vars (e.g., vars: { indicator: RadioStylesApi.vars.root })
+            const varRefRegex = /(\w+):\s*(\w+)\.vars\.(\w+)/g;
+            let varRefMatch;
+            while ((varRefMatch = varRefRegex.exec(varsContent)) !== null) {
+              vars[`_ref_${varRefMatch[1]}`] = { from: varRefMatch[2], component: varRefMatch[3] };
+            }
+          }
+
+          // Parse modifiers if present
+          const modifiersMatch = dataObject.match(/modifiers:\s*\[([\s\S]*?)\]/);
+          const modifiers: any[] = [];
+
+          if (modifiersMatch) {
+            const modifiersContent = modifiersMatch[1];
+            // Extract modifier objects
+            const modifierRegex = /{([^}]+)}/g;
+            let modifierMatch;
+            while ((modifierMatch = modifierRegex.exec(modifiersContent)) !== null) {
+              const modifierContent = modifierMatch[1];
+              const modifier: any = {};
+
+              // Extract modifier properties
+              const propRegex = /(\w+):\s*(['"`])([\s\S]*?)\2/g;
+              let propMatch;
+              while ((propMatch = propRegex.exec(modifierContent)) !== null) {
+                modifier[propMatch[1]] = propMatch[3];
+              }
+
+              // Also handle 'value' property
+              const valueMatch = modifierContent.match(/value:\s*(['"`])([\s\S]*?)\1/);
+              if (valueMatch) {
+                modifier.value = valueMatch[2];
+              }
+
+              if (Object.keys(modifier).length > 0) {
+                modifiers.push(modifier);
+              }
+            }
+          }
+
+          // Store the parsed data
+          const key = exportName.toLowerCase().replace('stylescontent', '').replace('styles', '');
+          this.stylesApiData.set(key, {
+            selectors,
+            vars,
+            modifiers,
+            raw: content,
+          });
+        }
+      } catch (error) {
+        // Could not load styles API
+      }
+    }
+
+    // Loaded Styles API data
+
+    // Second pass: resolve spread selectors and variable references
+    for (const [_key, data] of this.stylesApiData.entries()) {
+      // Resolve spread selectors
+      if (data.selectors) {
+        const resolvedSelectors: Record<string, string> = {};
+
+        for (const [selector, description] of Object.entries(data.selectors)) {
+          if (selector.startsWith('_spread_')) {
+            // Extract the referenced component name
+            const refComponent = selector.replace('_spread_', '').replace('StylesApi', '');
+            const refData = this.stylesApiData.get(refComponent.toLowerCase());
+
+            if (refData && refData.selectors) {
+              // Copy all selectors from the referenced component
+              for (const [refSelector, refDescription] of Object.entries(refData.selectors)) {
+                if (!refSelector.startsWith('_spread_')) {
+                  resolvedSelectors[refSelector] = refDescription;
+                }
+              }
+            }
+          } else {
+            resolvedSelectors[selector] = description;
+          }
+        }
+
+        data.selectors = resolvedSelectors;
+      }
+
+      // Resolve variable references
+      if (data.vars) {
+        const resolvedVars: Record<string, Record<string, string> | any> = {};
+
+        for (const [varKey, varValue] of Object.entries(data.vars)) {
+          if (varKey.startsWith('_ref_')) {
+            // This is a reference to another component's vars
+            const actualKey = varKey.replace('_ref_', '');
+            const refInfo = varValue as any;
+            if (refInfo.from && refInfo.component) {
+              // Find the referenced component's vars
+              const refComponentName = refInfo.from.replace('StylesApi', '').toLowerCase();
+              const refData = this.stylesApiData.get(refComponentName);
+              if (refData && refData.vars && refData.vars[refInfo.component]) {
+                resolvedVars[actualKey] = refData.vars[refInfo.component];
+              }
+            }
+          } else {
+            resolvedVars[varKey] = varValue;
+          }
+        }
+
+        data.vars = resolvedVars;
+      }
+    }
+  }
+
+  private async loadPropsData() {
+    // Loading props data
+
+    // Load from docgen.json
+    const docgenPath = path.join(this.config.propsDataPath, 'docgen.json');
+    const docgenExists = await fs.pathExists(docgenPath);
+
+    if (docgenExists) {
+      try {
+        const docgenData = await fs.readJson(docgenPath);
+
+        // Store props data for each component
+        for (const [componentName, componentData] of Object.entries(docgenData)) {
+          if (componentData && typeof componentData === 'object') {
+            this.propsComponentNames.add(componentName);
+            this.propsData.set(componentName.toLowerCase(), componentData);
+            // Also store with original case for flexibility
+            this.propsData.set(componentName, componentData);
+          }
+        }
+      } catch (error) {
+        // Could not load docgen data
+      }
+    }
+
+    // Loaded props data
+  }
+
+  private getCategoryPackageName(category: string): string | null {
+    const categoryPackageMap: Record<string, string | null> = {
+      core: '@mantine/core',
+      hooks: '@mantine/hooks',
+      dates: '@mantine/dates',
+      charts: '@mantine/charts',
+      'code-highlight': '@mantine/code-highlight',
+      x: '@mantine/x',
+      form: '@mantine/form',
+      schedule: '@mantine/schedule',
+      emoji: '@mantine/emoji',
+      guides: null,
+      theming: null,
+      styles: null,
+      other: null,
+    };
+
+    return categoryPackageMap[category] ?? null;
+  }
+
+  private async processMdxFiles() {
+    // Processing MDX documentation files
+
+    const mdxFiles = await glob('**/*.mdx', {
+      cwd: this.config.mdxPaths.docs,
+      absolute: true,
+      ignore: ['**/.changelog/**/*.mdx'],
+    });
+
+    // Build known llms file names list for safe link rewriting
+    this.knownLlmFiles.clear();
+    for (const file of mdxFiles) {
+      const relativePath = path.relative(this.config.mdxPaths.docs, file);
+      const route = this.getRouteFromRelative(relativePath);
+      this.knownLlmFiles.add(this.getPageFileName(route));
+    }
+
+    const categories = {
+      core: [] as string[],
+      hooks: [] as string[],
+      dates: [] as string[],
+      charts: [] as string[],
+      'code-highlight': [] as string[],
+      guides: [] as string[],
+      theming: [] as string[],
+      styles: [] as string[],
+      x: [] as string[],
+      form: [] as string[],
+      schedule: [] as string[],
+      emoji: [] as string[],
+      other: [] as string[],
+    };
+
+    // Categorize files
+    for (const file of mdxFiles) {
+      const relativePath = path.relative(this.config.mdxPaths.docs, file);
+      const category = relativePath.split('/')[0] as keyof typeof categories;
+
+      if (category in categories) {
+        categories[category].push(file);
+      } else {
+        categories.other.push(file);
+      }
+    }
+
+    // Process by category
+    for (const [category, files] of Object.entries(categories)) {
+      if (files.length === 0) {
+        continue;
+      }
+
+      const packageName = this.getCategoryPackageName(category);
+      this.output.push(`## ${category.toUpperCase()} COMPONENTS AND FEATURES`);
+      if (packageName) {
+        this.output.push(`Primary Package: ${packageName}`);
+      }
+      this.output.push('');
+
+      for (const file of files) {
+        const sectionStart = this.output.length;
+        const pageInfo = await this.processSingleMdx(file);
+        const sectionEnd = this.output.length;
+
+        if (pageInfo) {
+          const sectionLines = this.output.slice(sectionStart, sectionEnd);
+
+          // Normalize heading level for standalone page
+          if (sectionLines.length > 0 && sectionLines[0].startsWith('### ')) {
+            sectionLines[0] = `# ${sectionLines[0].slice(4)}`;
+          }
+
+          // Trim trailing separator and blank lines from standalone page content
+          while (sectionLines.length > 0 && sectionLines[sectionLines.length - 1].trim() === '') {
+            sectionLines.pop();
+          }
+
+          if (sectionLines.length > 0 && sectionLines[sectionLines.length - 1] === '-'.repeat(80)) {
+            sectionLines.pop();
+          }
+
+          while (sectionLines.length > 0 && sectionLines[sectionLines.length - 1].trim() === '') {
+            sectionLines.pop();
+          }
+
+          const relativePath = path.relative(this.config.mdxPaths.docs, file);
+          const route = this.getRouteFromRelative(relativePath);
+          const fileName = this.getPageFileName(route);
+
+          this.pageFiles.push({
+            category,
+            title: pageInfo.title,
+            description: pageInfo.description,
+            route,
+            fileName,
+            content: sectionLines.join('\n'),
+          });
+        }
+      }
+    }
+  }
+
+  private getRouteFromRelative(relativePath: string): string {
+    let route = `/${relativePath.replace(/\\/g, '/').replace(/\.mdx$/, '')}`;
+
+    if (route.endsWith('/index')) {
+      route = route.slice(0, -'/index'.length) || '/';
+    }
+
+    return route;
+  }
+
+  private getPageFileName(route: string): string {
+    const trimmed = route.replace(/^\/+/, '');
+    const base = trimmed === '' ? 'index' : trimmed.replace(/\//g, '-');
+    return `${base}.md`;
+  }
+
+  private mapMantineDocsUrlToLlm(url: string): string {
+    const siteUrl = this.config.siteUrl.replace(/\/+$/, '');
+    let pathName = '';
+    let hash = '';
+
+    if (url.startsWith('/')) {
+      const [pathPart, hashPart] = url.split('#');
+      pathName = pathPart;
+      hash = hashPart ? `#${hashPart}` : '';
+    } else if (
+      url.startsWith('https://mantine.dev/') ||
+      url.startsWith('http://mantine.dev/') ||
+      url.startsWith(`${siteUrl}/`)
+    ) {
+      try {
+        const parsed = new URL(url);
+        pathName = parsed.pathname;
+        hash = parsed.hash || '';
+      } catch {
+        return url;
+      }
+    } else {
+      return url;
+    }
+
+    if (!pathName || pathName.startsWith('/llms')) {
+      return url;
+    }
+
+    let route = pathName.replace(/\/+$/, '');
+    if (route === '') {
+      return `${siteUrl}/llms.txt${hash}`;
+    }
+
+    if (route.endsWith('/index')) {
+      route = route.slice(0, -'/index'.length) || '/';
+    }
+
+    const fileName = this.getPageFileName(route);
+    if (!this.knownLlmFiles.has(fileName)) {
+      if (url.startsWith('/')) {
+        return `https://mantine.dev${url}`;
+      }
+      return url;
+    }
+    return `${siteUrl}/llms/${fileName}${hash}`;
+  }
+
+  private async processSingleMdx(
+    filePath: string
+  ): Promise<{ title: string; description?: string } | null> {
+    try {
+      const content = await fs.readFile(filePath, 'utf-8');
+      const fileName = path.basename(filePath, '.mdx');
+
+      // Extract component name from MDX file
+      const componentMatch = content.match(/Layout\(MDX_DATA\.(\w+)\)/);
+      const componentName = componentMatch ? componentMatch[1] : fileName;
+
+      // Try to get metadata from our loaded data
+      const metadata = this.mdxMetadata.get(componentName.toLowerCase());
+      const packageName = metadata?.package || this.inferPackageFromPath(filePath);
+      const componentTitle = metadata?.title || componentName;
+
+      this.output.push(`### ${componentTitle}`);
+
+      if (packageName) {
+        this.output.push(`Package: ${packageName}`);
+
+        const importName = resolveImportName({
+          title: metadata?.title,
+          mdxKey: componentName,
+          isLandingPage: Boolean(metadata?.hideInSearch),
+        });
+
+        if (importName) {
+          this.output.push(`Import: import { ${importName} } from '${packageName}';`);
+        }
+      }
+
+      if (metadata?.description) {
+        this.output.push(`Description: ${metadata.description}`);
+      }
+
+      this.output.push('');
+
+      // Extract and process MDX content with embedded demos
+      const processedContent = await this.extractMdxContent(content, packageName, componentName);
+      this.output.push(processedContent);
+
+      // Add props documentation
+      await this.addComponentProps(componentName);
+
+      // Add Styles API documentation
+      if (!processedContent.includes('#### Styles API')) {
+        await this.addComponentStylesApi(componentName);
+      }
+
+      this.output.push('');
+      this.output.push('-'.repeat(80));
+      this.output.push('');
+      return { title: componentTitle, description: metadata?.description };
+    } catch (error) {
+      // Error processing file
+      return null;
+    }
+  }
+
+  private inferPackageFromPath(filePath: string): string | null {
+    const relativePath = path.relative(this.config.mdxPaths.docs, filePath);
+    const category = relativePath.split('/')[0];
+    return this.getCategoryPackageName(category);
+  }
+
+  private async extractMdxContent(
+    content: string,
+    packageName?: string,
+    componentName?: string
+  ): Promise<string> {
+    // Remove only the top-level imports and export default Layout
+    // Split content into lines to handle imports more carefully
+    const lines = content.split('\n');
+    const cleanedLines: string[] = [];
+    let inCodeBlock = false;
+    let skipNextLines = 0;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+
+      // Track code blocks
+      if (line.trim().startsWith('```')) {
+        inCodeBlock = !inCodeBlock;
+      }
+
+      // Skip lines if we're in a multi-line import
+      if (skipNextLines > 0) {
+        skipNextLines--;
+        continue;
+      }
+
+      // Only remove imports that are not in code blocks
+      if (!inCodeBlock) {
+        // Check for imports at the beginning of the file (before any content)
+        const isTopLevelImport =
+          cleanedLines.filter((l) => l.trim() && !l.trim().startsWith('import')).length === 0;
+
+        if (isTopLevelImport && line.trim().startsWith('import')) {
+          // Check if it's a multi-line import
+          if (line.includes('{') && !line.includes('}')) {
+            // Find the end of the import
+            for (let j = i + 1; j < lines.length; j++) {
+              skipNextLines++;
+              if (lines[j].includes('}')) {
+                break;
+              }
+            }
+          }
+          continue;
+        }
+
+        if (isTopLevelImport && line.trim().startsWith('export default Layout')) {
+          continue;
+        }
+      }
+
+      cleanedLines.push(line);
+    }
+
+    const cleanContent = cleanedLines.join('\n');
+
+    // Store demos we find for later processing
+    const demosToInclude: Array<{ name: string; packageName?: string }> = [];
+
+    // Process with remark to extract text content
+    const processor = unified()
+      .use(remarkParse as any)
+      .use(remarkMdx as any)
+      .use(() => {
+        return (tree: any) => {
+          const processMdxJsxElement = (node: any, index: number | undefined, parent: any) => {
+            // Handle InstallScript components
+            if (node.name === 'InstallScript' && node.attributes) {
+              const packagesAttr = node.attributes.find((attr: any) => attr.name === 'packages');
+              if (packagesAttr) {
+                const packages = packagesAttr.value || '';
+
+                // Create installation instructions for both npm and yarn
+                node.type = 'paragraph';
+                node.children = [
+                  {
+                    type: 'text',
+                    value: `INSTALLSCRIPT::${packages}::END`,
+                  },
+                ];
+              }
+            }
+            // Handle Demo components
+            else if (node.name === 'Demo' && node.attributes) {
+              const dataAttr = node.attributes.find((attr: any) => attr.name === 'data');
+              if (dataAttr) {
+                let demoName = '';
+
+                // Simple case: direct string value
+                if (typeof dataAttr.value === 'string') {
+                  demoName = dataAttr.value;
+                }
+                // Complex case: expression like {AccordionDemos.configurator}
+                else if (
+                  dataAttr.value &&
+                  dataAttr.value.type === 'mdxJsxAttributeValueExpression'
+                ) {
+                  // Extract from value.value
+                  demoName = dataAttr.value.value || '';
+                }
+
+                if (demoName) {
+                  demosToInclude.push({ name: demoName, packageName });
+
+                  // Create a marker for where to insert the demo
+                  node.type = 'paragraph';
+                  node.children = [
+                    {
+                      type: 'text',
+                      value: `DEMOPLACEHOLDER::${demoName}::END`,
+                    },
+                  ];
+                }
+              }
+            }
+            // Handle shared content components by creating placeholders
+            else if (
+              [
+                'AutoContrast',
+                'ComboboxData',
+                'ComboboxFiltering',
+                'ComboboxLargeData',
+                'FlexboxGapSupport',
+                'GetElementRef',
+                'Gradient',
+                'InputAccessibility',
+                'InputFeatures',
+                'InputSections',
+                'Polymorphic',
+                'ServerComponentsIncompatible',
+                'TargetComponent',
+                'WrapperProps',
+              ].includes(node.name)
+            ) {
+              if (
+                ['AutoContrast', 'GetElementRef', 'Gradient', 'Polymorphic'].includes(node.name)
+              ) {
+                if (parent && parent.children && index !== undefined) {
+                  parent.children.splice(index, 1);
+                  return index;
+                }
+                return;
+              }
+
+              // Create placeholder for shared component content
+              const attributesStr =
+                node.attributes?.map((attr: any) => `${attr.name}="${attr.value}"`).join('|') || '';
+
+              // Reconstruct the original JSX for preservation
+              const jsxProps =
+                node.attributes
+                  ?.map((attr: any) => {
+                    if (attr.value === true || attr.name === 'withNext') {
+                      return attr.name;
+                    }
+                    return `${attr.name}="${attr.value}"`;
+                  })
+                  .join(' ') || '';
+              const originalJsx = `<${node.name} ${jsxProps} />`;
+
+              node.type = 'paragraph';
+              node.children = [
+                {
+                  type: 'text',
+                  value: `SHAREDCONTENT::${node.name}::${attributesStr}::JSX::${originalJsx}::END`,
+                },
+              ];
+            }
+            // Render StylesApiSelectors components as placeholders
+            else if (node.name === 'StylesApiSelectors') {
+              const componentAttr = node.attributes?.find((attr: any) => attr.name === 'component');
+              let stylesComponent = componentName || '';
+
+              if (typeof componentAttr?.value === 'string') {
+                stylesComponent = componentAttr.value;
+              } else if (
+                componentAttr?.value &&
+                componentAttr.value.type === 'mdxJsxAttributeValueExpression'
+              ) {
+                stylesComponent = String(componentAttr.value.value || componentName || '');
+              }
+
+              node.type = 'paragraph';
+              node.children = [
+                {
+                  type: 'text',
+                  value: `STYLESAPIPLACEHOLDER::${stylesComponent}::END`,
+                },
+              ];
+            } else if (node.name === 'VersionsList') {
+              node.type = 'paragraph';
+              node.children = [
+                {
+                  type: 'text',
+                  value: 'VERSIONSLISTPLACEHOLDER::END',
+                },
+              ];
+            } else if (node.name === 'CssVariablesList') {
+              node.type = 'paragraph';
+              node.children = [
+                {
+                  type: 'text',
+                  value: 'CSSVARIABLESLISTPLACEHOLDER::END',
+                },
+              ];
+            }
+            // Remove other unwanted components
+            else if (
+              [
+                'KeyboardEventsTable',
+                'DataTable',
+                'PropsTable',
+                'SponsorButton',
+                'LlmButton',
+                'Video',
+                'ExamplesButton',
+                'ComboboxDisclaimer',
+                'ComboboxProps',
+                'ClearSectionMode',
+                'StylePropsTable',
+                'ThemeColors',
+                'CssFilesList',
+                'LogoAssets',
+                'TemplatesList',
+                'FrameworksGuides',
+                'PackagesInstallation',
+                'GetTemplates',
+                'NpmScript',
+                'MantineProvider',
+                'DemoContainer',
+                'StorybookGallery',
+                'NextSteps',
+                'PageHeader',
+                'ComponentDescription',
+                'PackageInstall',
+                'GettingStarted',
+                'MdxProvider',
+                'MdxLink',
+                'Title',
+                'Head',
+              ].includes(node.name)
+            ) {
+              if (parent && parent.children && index !== undefined) {
+                parent.children.splice(index, 1);
+                return index; // Return index to continue from same position
+              }
+            }
+            // Remove any unresolved MDX components that are not explicitly handled
+            else if (parent && parent.children && index !== undefined) {
+              parent.children.splice(index, 1);
+              return index;
+            }
+          };
+
+          // Remove component references and convert demos (flow + inline jsx elements)
+          visit(tree, 'mdxJsxFlowElement', processMdxJsxElement as any);
+          visit(tree, 'mdxJsxTextElement', processMdxJsxElement as any);
+
+          // Convert internal links to full URLs
+          visit(tree, 'link', (node: any) => {
+            if (node.url) {
+              node.url = this.mapMantineDocsUrlToLlm(node.url);
+            }
+          });
+
+          // Fix code block formatting
+          visit(tree, 'code', (node: any) => {
+            if (node.value) {
+              // Replace any malformed backtick sequences
+              node.value = node.value.replace(/\/`\/`\/`/g, '```');
+            }
+          });
+        };
+      })
+      .use(remarkStringify as any);
+
+    let result = String(await processor.process(cleanContent));
+
+    // Now replace each demo placeholder with the actual demo code
+    for (const demo of demosToInclude) {
+      if (await this.isStylesApiDemo(demo.name)) {
+        const placeholder = `DEMOPLACEHOLDER::${demo.name}::END`;
+        result = result.replace(placeholder, `REMOVESTYLESAPIDEMO::${demo.name}::END`);
+        continue;
+      }
+
+      const demoCode = await this.loadDemoCode(demo.name);
+      if (demoCode) {
+        // Check if this is a code highlighting demo that shows example output
+        const exampleCodeMatch = demoCode.match(/const exampleCode\s*=\s*`([\s\S]+?)`;/);
+        let demoSection = '';
+
+        if (exampleCodeMatch) {
+          // For code highlighting demos, show the example output first
+          const exampleCode = exampleCodeMatch[1].trim();
+
+          demoSection = ['', '```tsx', exampleCode, '```', '', '```tsx', demoCode, '```', ''].join(
+            '\n'
+          );
+        } else {
+          // Regular demo
+          demoSection = ['```tsx', demoCode, '```', ''].join('\n');
+        }
+
+        const placeholder = `DEMOPLACEHOLDER::${demo.name}::END`;
+        result = this.replaceAllLiteral(result, placeholder, demoSection);
+      } else {
+        // If we can't find the demo, remove the placeholder
+        result = this.replaceAllLiteral(result, `DEMOPLACEHOLDER::${demo.name}::END`, '');
+      }
+    }
+
+    // Fallback pass: resolve any unreplaced demo placeholders
+    const unresolvedPlaceholders = Array.from(
+      new Set(result.match(/DEMOPLACEHOLDER::[^:]+::END/g) || [])
+    );
+    for (const unresolved of unresolvedPlaceholders) {
+      const demoName = unresolved.replace('DEMOPLACEHOLDER::', '').replace('::END', '');
+      const demoCode = await this.loadDemoCode(demoName);
+      if (demoCode) {
+        const demoSection = ['```tsx', demoCode, '```', ''].join('\n');
+        result = this.replaceAllLiteral(result, unresolved, demoSection);
+      } else {
+        result = this.replaceAllLiteral(result, unresolved, '');
+      }
+    }
+
+    result = this.removeSectionsWithPlaceholder(result, 'REMOVESTYLESAPIDEMO::');
+    result = this.removeSectionsByTitle(result, ['Migrate with LLM agents']);
+    result = this.replaceAllLiteral(result, '{packageJson.version}', rootPackageJson.version);
+
+    // Replace InstallScript placeholders with installation instructions
+    // Also remove any duplicate "After installation" text that follows
+    const installScriptRegex =
+      /INSTALLSCRIPT::([^:]+)::END(?:\s*After installation import package styles[\s\S]*?```[\s\S]*?```)?/g;
+    result = result.replace(installScriptRegex, (_match, packages) => {
+      const packageList = packages.trim();
+      let installSection = `\`\`\`bash
+yarn add ${packageList}
+\`\`\`
+
+\`\`\`bash
+npm install ${packageList}
+\`\`\``;
+
+      // Add style imports for packages that have styles
+      const packagesWithStyles = [
+        '@mantine/core',
+        '@mantine/dates',
+        '@mantine/code-highlight',
+        '@mantine/spotlight',
+        '@mantine/tiptap',
+        '@mantine/dropzone',
+        '@mantine/emoji',
+        '@mantine/carousel',
+        '@mantine/lightbox',
+        '@mantine/nprogress',
+        '@mantine/notifications',
+        '@mantine/charts',
+      ];
+
+      // Check if any of the packages need style imports
+      const needsStyles = packageList
+        .split(' ')
+        .some((pkg: string) => packagesWithStyles.includes(pkg.trim()));
+
+      if (needsStyles) {
+        installSection += `
+
+After installation import package styles at the root of your application:
+
+\`\`\`tsx
+import '@mantine/core/styles.css';`;
+
+        // Add specific package styles with comments
+        packageList.split(' ').forEach((pkg: string) => {
+          const trimmedPkg = pkg.trim();
+          if (trimmedPkg !== '@mantine/core' && packagesWithStyles.includes(trimmedPkg)) {
+            const pkgShortName = trimmedPkg.split('/').pop();
+            installSection += `
+// ‼️ import ${pkgShortName} styles after core package styles
+import '${trimmedPkg}/styles.css';`;
+          }
+        });
+
+        installSection += `
+\`\`\``;
+      }
+
+      return installSection;
+    });
+
+    // Replace shared content placeholders with actual content
+    const sharedContentRegex = /SHAREDCONTENT::([^:]+)::([^:]*?)::JSX::(.+?)::END/g;
+    result = result.replace(
+      sharedContentRegex,
+      (_match, componentName, attributesStr, _originalJsx) => {
+        // Parse attributes from string
+        const attributes: any[] = [];
+        if (attributesStr) {
+          const attrPairs = attributesStr.split('|');
+          for (const pair of attrPairs) {
+            const [name, value] = pair.split('=');
+            if (name && value) {
+              attributes.push({ name, value: value.replace(/"/g, '') });
+            }
+          }
+        }
+
+        const content = this.getSharedComponentContent(componentName, attributes);
+        return content;
+      }
+    );
+
+    // Replace StylesApiSelectors placeholders with actual generated styles API docs
+    const stylesApiRegex = /STYLESAPIPLACEHOLDER::([^:]*?)::END/g;
+    result = result.replace(stylesApiRegex, (_match, stylesComponentName) => {
+      const targetComponent = (stylesComponentName || componentName || '').trim();
+      if (!targetComponent) {
+        return '';
+      }
+
+      return this.getComponentStylesApiMarkdown(targetComponent);
+    });
+
+    result = result.replace('VERSIONSLISTPLACEHOLDER::END', this.getVersionsListContent());
+    result = result.replace('CSSVARIABLESLISTPLACEHOLDER::END', this.getCssVariablesListContent());
+
+    return result;
+  }
+
+  private getCssVariablesListContent(): string {
+    const resolved = defaultCssVariablesResolver(DEFAULT_THEME);
+    const lines: string[] = [];
+
+    const renderTable = (title: string, vars: Record<string, string>) => {
+      lines.push(`## ${title}`);
+      lines.push('');
+      lines.push('| Variable | Value |');
+      lines.push('|----------|-------|');
+      for (const key of Object.keys(vars)) {
+        lines.push(
+          `| ${this.escapeTableCell(`\`${key}\``)} | ${this.escapeTableCell(`\`${vars[key]}\``)} |`
+        );
+      }
+      lines.push('');
+    };
+
+    renderTable('CSS variables not depending on color scheme', resolved.variables);
+    renderTable('Light color scheme only variables', resolved.light);
+    renderTable('Dark color scheme only variables', resolved.dark);
+
+    return lines.join('\n').trim();
+  }
+
+  private replaceAllLiteral(input: string, search: string, replacement: string): string {
+    return input.split(search).join(replacement);
+  }
+
+  private getVersionsListContent(): string {
+    const lines: string[] = [];
+    const siteUrl = this.config.siteUrl.replace(/\/+$/, '');
+
+    lines.push('## Releases');
+    lines.push('');
+
+    for (const version of allVersions as any[]) {
+      const changelogUrl = version.link ? this.mapMantineDocsUrlToLlm(version.link) : null;
+      const githubUrl = version.github || '';
+
+      if (changelogUrl) {
+        lines.push(`### [${version.version}](${changelogUrl}) (${version.date})`);
+      } else {
+        lines.push(`### ${version.version} (${version.date})`);
+      }
+
+      if (githubUrl) {
+        lines.push(`- GitHub release: ${githubUrl}`);
+      }
+
+      const patches = Array.isArray(version.patches) ? version.patches : [];
+      const validPatches = patches.filter((patch: any) => patch?.version && patch?.date);
+
+      if (validPatches.length > 0) {
+        lines.push('- Patches:');
+        for (const patch of validPatches) {
+          lines.push(
+            `  - [${patch.version}](https://github.com/mantinedev/mantine/releases/tag/${patch.version}) (${patch.date})`
+          );
+        }
+      }
+
+      lines.push('');
+    }
+
+    lines.push(`See all releases: ${siteUrl}/changelog/all-releases`);
+    lines.push('');
+
+    return lines.join('\n');
+  }
+
+  private removeSectionsWithPlaceholder(content: string, placeholderPrefix: string): string {
+    const lines = content.split('\n');
+    let idx = lines.findIndex((line) => line.includes(placeholderPrefix));
+
+    while (idx !== -1) {
+      let start = idx;
+      while (start > 0 && !lines[start].match(/^##\s+/)) {
+        start -= 1;
+      }
+      if (!lines[start].match(/^##\s+/)) {
+        start = idx;
+      }
+
+      let end = idx + 1;
+      while (end < lines.length && !lines[end].match(/^##\s+/)) {
+        end += 1;
+      }
+
+      lines.splice(start, end - start);
+      idx = lines.findIndex((line) => line.includes(placeholderPrefix));
+    }
+
+    return lines.filter((line) => !line.includes(placeholderPrefix)).join('\n');
+  }
+
+  private removeSectionsByTitle(content: string, titles: string[]): string {
+    const lines = content.split('\n');
+    const result: string[] = [];
+    let skipping = false;
+
+    for (let i = 0; i < lines.length; i++) {
+      const headingMatch = lines[i].match(/^(#{2,})\s+(.+)/);
+
+      if (headingMatch) {
+        if (titles.includes(headingMatch[2].trim())) {
+          skipping = true;
+          continue;
+        }
+
+        if (skipping) {
+          skipping = false;
+        }
+      }
+
+      if (!skipping) {
+        result.push(lines[i]);
+      }
+    }
+
+    return result.join('\n');
+  }
+
+  private async resolveDemoFilePath(demoName: string): Promise<string | null> {
+    const [componentWithDemos, demoId] = demoName.split('.');
+    const component = componentWithDemos.replace(/Demos$/, '');
+
+    const demoPattern = `**/${component}/${component}.demo.${demoId}.tsx`;
+    const kebabCasePattern = `**/${component
+      .replace(/([A-Z])/g, '-$1')
+      .toLowerCase()
+      .slice(1)}/${component}.demo.${demoId}.tsx`;
+
+    let demoFiles = await glob(demoPattern, {
+      cwd: this.config.demosPath,
+      absolute: true,
+    });
+
+    if (demoFiles.length === 0) {
+      demoFiles = await glob(kebabCasePattern, {
+        cwd: this.config.demosPath,
+        absolute: true,
+      });
+    }
+
+    if (demoFiles.length > 0) {
+      return demoFiles[0];
+    }
+
+    const [namespaceName, exportName] = demoName.split('.');
+    const mainIndexPath = path.resolve(this.config.demosPath, '..', 'index.ts');
+
+    try {
+      const mainIndex = await fs.readFile(mainIndexPath, 'utf-8');
+      const namespaceMatch = mainIndex.match(
+        new RegExp(`export \\* as ${namespaceName} from ['"]([^'"]+)['"]`)
+      );
+
+      if (!namespaceMatch) {
+        return null;
+      }
+
+      const namespaceDirRel = namespaceMatch[1];
+      const namespaceDir = path.resolve(path.dirname(mainIndexPath), namespaceDirRel);
+      const namespaceIndexPath = path.join(namespaceDir, 'index.ts');
+      const namespaceIndex = await fs.readFile(namespaceIndexPath, 'utf-8');
+
+      const exportMatch = namespaceIndex.match(
+        new RegExp(`export\\s*\\{\\s*${exportName}\\s*\\}\\s*from\\s*['"]([^'"]+)['"]`)
+      );
+
+      if (!exportMatch) {
+        return null;
+      }
+
+      const demoFileRel = exportMatch[1];
+      const extensions = ['.tsx', '.ts'];
+      for (const ext of extensions) {
+        const demoFilePath = path.resolve(namespaceDir, demoFileRel + ext);
+        if (await fs.pathExists(demoFilePath)) {
+          return demoFilePath;
+        }
+      }
+    } catch (e) {
+      return null;
+    }
+
+    return null;
+  }
+
+  private async isStylesApiDemo(demoName: string): Promise<boolean> {
+    if (this.stylesApiDemoCache.has(demoName)) {
+      return this.stylesApiDemoCache.get(demoName)!;
+    }
+
+    const demoPath = await this.resolveDemoFilePath(demoName);
+    if (!demoPath) {
+      this.stylesApiDemoCache.set(demoName, false);
+      return false;
+    }
+
+    try {
+      const content = await fs.readFile(demoPath, 'utf-8');
+      const isStylesApi = /type:\s*['"]styles-api['"]/.test(content);
+      this.stylesApiDemoCache.set(demoName, isStylesApi);
+      return isStylesApi;
+    } catch (e) {
+      this.stylesApiDemoCache.set(demoName, false);
+      return false;
+    }
+  }
+
+  private async loadDemoCode(demoName: string): Promise<string | null> {
+    return loadDemoCode(demoName, this.config.demosPath);
+  }
+
+  private async extractCodeVariable(
+    varName: string,
+    content: string,
+    demoDir: string
+  ): Promise<string> {
+    return extractCodeVariable(varName, content, demoDir);
+  }
+
+  private getSharedComponentContent(componentName: string, attributes: any[]): string {
+    // Extract component prop from attributes
+    const componentAttr = attributes?.find((attr: any) => attr.name === 'component');
+    const component = componentAttr?.value || 'Component';
+
+    switch (componentName) {
+      case 'AutoContrast': {
+        const withVariantAttr = attributes?.find((attr: any) => attr.name === 'withVariant');
+        const withVariant = withVariantAttr ? withVariantAttr.value !== 'false' : true;
+
+        let autoContrastContent = `## autoContrast
+
+${component} supports autoContrast prop and [theme.autoContrast](https://mantine.dev/theming/theme-object/#autocontrast). If autoContrast is set either on ${component} or on theme, content color will be adjusted to have sufficient contrast with the value specified in color prop.
+
+Note that autoContrast feature works only if you use color prop to change background color.`;
+
+        if (withVariant) {
+          autoContrastContent += ' autoContrast works only with filled variant.';
+        }
+
+        return autoContrastContent;
+      }
+
+      case 'GetElementRef': {
+        const refTypeAttr = attributes?.find((attr: any) => attr.name === 'refType');
+        const refType = refTypeAttr?.value || 'HTMLElement';
+        const refTypeMap: Record<string, string> = {
+          div: 'HTMLDivElement',
+          button: 'HTMLButtonElement',
+          input: 'HTMLInputElement',
+          textarea: 'HTMLTextAreaElement',
+          select: 'HTMLSelectElement',
+          a: 'HTMLAnchorElement',
+        };
+        const actualRefType = refTypeMap[refType] || refType;
+        return `## Get element ref
+
+\`\`\`tsx
+import { useRef } from 'react';
+import { ${component} } from '@mantine/core';
+
+function Demo() {
+  const ref = useRef<${actualRefType}>(null);
+  return <${component} ref={ref} />;
+}
+\`\`\``;
+      }
+
+      case 'Polymorphic': {
+        const defaultElementAttr = attributes?.find((attr: any) => attr.name === 'defaultElement');
+        const changeToElementAttr = attributes?.find(
+          (attr: any) => attr.name === 'changeToElement'
+        );
+        const withNextAttr = attributes?.find((attr: any) => attr.name === 'withNext');
+
+        const defaultElement = defaultElementAttr?.value || 'div';
+        const changeToElement = changeToElementAttr?.value || 'span';
+        const withNext = withNextAttr !== undefined;
+
+        let polymorphicContent = `## Polymorphic component
+
+${component} is a polymorphic component – its default root element is ${defaultElement}, but it can be changed to any other element or component with component prop:
+
+\`\`\`tsx
+import { ${component} } from '@mantine/core';
+
+function Demo() {
+  return <${component} component="${changeToElement}" />;
+}
+\`\`\``;
+
+        if (withNext) {
+          polymorphicContent += `
+
+You can also use components in component prop, for example, Next.js Link:
+
+\`\`\`tsx
+import Link from 'next/link';
+import { ${component} } from '@mantine/core';
+
+function Demo() {
+  return <${component} component={Link} href="/" />;
+}
+\`\`\``;
+        }
+
+        polymorphicContent += `
+
+**Polymorphic components with TypeScript**
+
+Note that polymorphic components props types are different from regular components – they do not extend HTML element props of the default element. For example, ${component}Props does not extend React.ComponentProps<'${defaultElement}'> although ${defaultElement} is the default element.
+
+If you want to create a wrapper for a polymorphic component that is not polymorphic (does not support component prop), then your component props interface should extend HTML element props.`;
+
+        return polymorphicContent;
+      }
+
+      case 'ServerComponentsIncompatible': {
+        return `## Server components
+
+${component} is not compatible with React Server Components as it uses useEffect and other client-side features. You can use it in client components only.`;
+      }
+
+      case 'Gradient': {
+        return `## Gradient
+
+${component} supports Mantine color format in color prop. Color can be specified as:
+- Mantine color name (e.g., 'blue')
+- CSS color value (e.g., '#fff', 'rgba(255, 255, 255, 0.8)')
+- Gradient string (e.g., 'linear-gradient(45deg, blue, red)')`;
+      }
+
+      case 'InputAccessibility': {
+        return `## Accessibility
+
+${component} provides better accessibility support when used in forms. Make sure to associate the input with a label for better screen reader support.`;
+      }
+
+      case 'FlexboxGapSupport': {
+        return `## Browser support
+
+Flex component uses CSS flexbox gap to add spacing between children. Flexbox gap is supported by all modern browsers, but if you need to support older browsers, use Space component instead.`;
+      }
+
+      case 'ComboboxData': {
+        return `## Data prop
+
+Data that is used in ${component} must be an array of strings or objects with value and label properties. You can also specify additional properties that will be available in renderOption function.`;
+      }
+
+      case 'ComboboxFiltering': {
+        return `## Filtering
+
+${component} provides built-in filtering functionality. You can control filtering behavior with filter prop or implement custom filtering logic.`;
+      }
+
+      case 'ComboboxLargeData': {
+        return `## Large datasets
+
+${component} can handle large datasets efficiently. Consider implementing virtualization for datasets with thousands of items to improve performance.`;
+      }
+
+      case 'InputFeatures': {
+        const elementAttr = attributes?.find((attr: any) => attr.name === 'element');
+        const element = elementAttr?.value || 'input';
+        return `${component} component supports [Input](https://mantine.dev/core/input) and [Input.Wrapper](https://mantine.dev/core/input) components features and all ${element} element props. ${component} documentation does not include all features supported by the component – see [Input](https://mantine.dev/core/input) documentation to learn about all available features.`;
+      }
+
+      case 'InputSections': {
+        return `## Input sections
+
+${component} supports left and right sections to display icons, buttons or other content alongside the input.`;
+      }
+
+      case 'TargetComponent': {
+        return `## Target component
+
+The target element determines where the ${component} will be positioned relative to.`;
+      }
+
+      case 'WrapperProps': {
+        return `## Wrapper props
+
+${component} supports additional props that are passed to the wrapper element for more customization options.`;
+      }
+
+      default: {
+        return `## ${componentName}
+
+Additional information about ${component} component.`;
+      }
+    }
+  }
+
+  private async addComponentProps(componentName: string) {
+    const mainPropsData = this.propsData.get(componentName.toLowerCase());
+    const subcomponentNames = [...this.propsComponentNames].filter(
+      (name) => name.startsWith(componentName) && name !== componentName
+    );
+    const allComponents = [
+      { displayName: componentName, data: mainPropsData },
+      ...subcomponentNames.map((name) => ({
+        displayName: `${componentName}.${name.slice(componentName.length)}`,
+        data: this.propsData.get(name) || this.propsData.get(name.toLowerCase()),
+      })),
+    ].filter((entry) => entry.data && entry.data.props);
+
+    if (allComponents.length === 0) {
+      return;
+    }
+
+    this.output.push('');
+    this.output.push('#### Props');
+    this.output.push('');
+
+    for (const entry of allComponents) {
+      this.output.push(`**${entry.displayName} props**`);
+      this.output.push('');
+      this.output.push('| Prop | Type | Default | Description |');
+      this.output.push('|------|------|---------|-------------|');
+
+      for (const [propName, propData] of Object.entries(entry.data.props as any)) {
+        const { type, defaultValue, description, required } = propData as any;
+        const typeStr = type?.name || 'unknown';
+        const defaultStr = defaultValue?.value || (required ? 'required' : '-');
+        const descStr = description || '-';
+
+        this.output.push(
+          `| ${this.escapeTableCell(propName)} | ${this.escapeTableCell(typeStr)} | ${this.escapeTableCell(defaultStr)} | ${this.escapeTableCell(descStr)} |`
+        );
+      }
+
+      this.output.push('');
+    }
+  }
+
+  private getComponentStylesApiMarkdown(componentName: string): string {
+    const lines: string[] = [];
+
+    // Get all styles data for this component (including sub-components like Radio.Group)
+    const allStylesData: Array<{ name: string; data: any }> = [];
+
+    // First, get the main component styles
+    const mainData = this.stylesApiData.get(componentName.toLowerCase());
+    if (mainData && mainData.selectors && Object.keys(mainData.selectors).length > 0) {
+      allStylesData.push({ name: componentName, data: mainData });
+    }
+
+    // Then, look for sub-components (e.g., RadioGroup, RadioIndicator, RadioCard)
+    for (const [key, data] of this.stylesApiData.entries()) {
+      if (key.startsWith(componentName.toLowerCase()) && key !== componentName.toLowerCase()) {
+        const subName = key.replace(componentName.toLowerCase(), '');
+        // Convert radioindicator -> Radio.Indicator, radiogroup -> Radio.Group
+        const formattedSubName = subName
+          .replace(/^groupsection$/, '.GroupSection')
+          .replace(/^group$/, '.Group')
+          .replace(/^indicator$/, '.Indicator')
+          .replace(/^card$/, '.Card')
+          .replace(/^tabs$/, '.Tabs');
+
+        if (data.selectors && Object.keys(data.selectors).length > 0) {
+          allStylesData.push({ name: componentName + formattedSubName, data });
+        }
+      }
+    }
+
+    if (allStylesData.length === 0) {
+      return '';
+    }
+
+    lines.push('');
+    lines.push('#### Styles API');
+    lines.push('');
+    lines.push(
+      `${componentName} component supports Styles API. With Styles API, you can customize styles of any inner element. Follow the documentation to learn how to use CSS modules, CSS variables and inline styles to get full control over component styles.`
+    );
+    lines.push('');
+
+    // Process each component's styles
+    for (const { name, data } of allStylesData) {
+      const componentPrefix = name.replace(/\./g, '');
+
+      // Add selectors table
+      if (data.selectors && Object.keys(data.selectors).length > 0) {
+        lines.push(`**${name} selectors**`);
+        lines.push('');
+        lines.push('| Selector | Static selector | Description |');
+        lines.push('|----------|----------------|-------------|');
+
+        for (const [selector, description] of Object.entries(data.selectors)) {
+          // Skip spread placeholders
+          if (selector.startsWith('_spread_')) {
+            continue;
+          }
+
+          // Generate the CSS class name from the selector
+          const className = `.mantine-${componentPrefix}-${selector}`;
+          lines.push(
+            `| ${this.escapeTableCell(selector)} | ${this.escapeTableCell(className)} | ${this.escapeTableCell(description)} |`
+          );
+        }
+        lines.push('');
+      }
+
+      // Add CSS variables table
+      if (data.vars && Object.keys(data.vars).length > 0) {
+        const hasActualVars = Object.keys(data.vars).some((k) => !k.startsWith('_ref_'));
+
+        if (hasActualVars) {
+          lines.push(`**${name} CSS variables**`);
+          lines.push('');
+          lines.push('| Selector | Variable | Description |');
+          lines.push('|----------|----------|-------------|');
+
+          for (const [component, variables] of Object.entries(data.vars)) {
+            // Skip reference entries
+            if (component.startsWith('_ref_')) {
+              continue;
+            }
+
+            if (typeof variables === 'object' && variables && !(variables as any).from) {
+              for (const [varName, description] of Object.entries(variables)) {
+                lines.push(
+                  `| ${this.escapeTableCell(component)} | ${this.escapeTableCell(varName)} | ${this.escapeTableCell(description)} |`
+                );
+              }
+            }
+          }
+          lines.push('');
+        }
+      }
+
+      // Add data attributes table
+      if (data.modifiers && data.modifiers.length > 0) {
+        lines.push(`**${name} data attributes**`);
+        lines.push('');
+        lines.push('| Selector | Attribute | Condition | Value |');
+        lines.push('|----------|-----------|-----------|-------|');
+
+        for (const modifier of data.modifiers) {
+          const selector = modifier.selector || '-';
+          const attribute = modifier.modifier || '-';
+          const condition = modifier.condition || '-';
+          const value = modifier.value || '-';
+          lines.push(
+            `| ${this.escapeTableCell(selector)} | ${this.escapeTableCell(attribute)} | ${this.escapeTableCell(condition)} | ${this.escapeTableCell(value)} |`
+          );
+        }
+        lines.push('');
+      }
+    }
+
+    return lines.join('\n');
+  }
+
+  private async addComponentStylesApi(componentName: string) {
+    const stylesApi = this.getComponentStylesApiMarkdown(componentName);
+    if (!stylesApi) {
+      return;
+    }
+
+    this.output.push(stylesApi);
+  }
+
+  private async processFaqContent() {
+    // Processing FAQ content
+
+    this.output.push('## FREQUENTLY ASKED QUESTIONS');
+    this.output.push('');
+
+    const faqFiles = await glob('**/*.mdx', {
+      cwd: this.config.mdxPaths.help,
+      absolute: true,
+    });
+
+    for (const file of faqFiles) {
+      const sectionStart = this.output.length;
+      const pageInfo = await this.processSingleFaq(file);
+      const sectionEnd = this.output.length;
+
+      if (pageInfo) {
+        const sectionLines = this.output.slice(sectionStart, sectionEnd);
+
+        while (sectionLines.length > 0 && sectionLines[sectionLines.length - 1].trim() === '') {
+          sectionLines.pop();
+        }
+
+        if (sectionLines.length > 0 && sectionLines[sectionLines.length - 1] === '-'.repeat(40)) {
+          sectionLines.pop();
+        }
+
+        while (sectionLines.length > 0 && sectionLines[sectionLines.length - 1].trim() === '') {
+          sectionLines.pop();
+        }
+
+        const relativePath = path.relative(this.config.mdxPaths.help, file);
+        const faqRoute = `/q${this.getRouteFromRelative(relativePath)}`;
+        const fileName = this.getPageFileName(faqRoute);
+
+        this.pageFiles.push({
+          category: 'faq',
+          title: pageInfo.title,
+          description: pageInfo.description,
+          route: faqRoute,
+          fileName,
+          content: sectionLines.join('\n'),
+        });
+      }
+    }
+  }
+
+  private async processSingleFaq(
+    filePath: string
+  ): Promise<{ title: string; description?: string } | null> {
+    try {
+      const content = await fs.readFile(filePath, 'utf-8');
+
+      // Extract metadata from export const meta object
+      let title = '';
+      let description = '';
+      const metaMatch = content.match(/export const meta = {([\s\S]*?)};/);
+      if (metaMatch) {
+        const metaContent = metaMatch[1];
+        // Extract title
+        const titleMatch = metaContent.match(/title:\s*['"`]([^'"`]+)['"`]/);
+        if (titleMatch) {
+          title = titleMatch[1];
+        }
+        // Extract description
+        const descMatch = metaContent.match(/description:\s*['"`]([^'"`]+)['"`]/);
+        if (descMatch) {
+          description = descMatch[1];
+        }
+      }
+
+      // Format title as # {title}
+      if (title) {
+        this.output.push(`# ${title}`);
+      }
+
+      // Add description on the next line
+      if (description) {
+        this.output.push(description);
+      }
+
+      this.output.push('');
+
+      // Process FAQ content with custom extraction
+      const processedContent = await this.extractFaqContent(content, filePath);
+      this.output.push(processedContent);
+      this.output.push('');
+      this.output.push('-'.repeat(40));
+      this.output.push('');
+      return {
+        title: title || path.basename(filePath, '.mdx'),
+        description: description || undefined,
+      };
+    } catch (error) {
+      // Error processing FAQ
+      return null;
+    }
+  }
+
+  private async extractFaqContent(content: string, filePath: string): Promise<string> {
+    // First, extract all code blocks to preserve them
+    const codeBlocks: string[] = [];
+    const codeBlockRegex = /```[\w]*\n([\s\S]*?)\n```/g;
+    let match;
+    while ((match = codeBlockRegex.exec(content)) !== null) {
+      codeBlocks.push(match[0]);
+    }
+
+    // Replace code blocks with placeholders temporarily
+    let contentWithPlaceholders = content;
+    codeBlocks.forEach((block, index) => {
+      contentWithPlaceholders = contentWithPlaceholders.replace(
+        block,
+        `CODEBLOCK_PLACEHOLDER_${index}`
+      );
+    });
+
+    // Remove imports, export default Layout, and meta export (but not from code blocks)
+    let inImportBlock = false;
+    const contentLines = contentWithPlaceholders.split('\n').filter((line) => {
+      const trimmed = line.trim();
+
+      // Check if we're starting an import
+      if (trimmed.startsWith('import ')) {
+        inImportBlock = !line.includes(';');
+        return false;
+      }
+
+      // Check if we're in a multi-line import
+      if (inImportBlock) {
+        if (line.includes(';')) {
+          inImportBlock = false;
+        }
+        return false;
+      }
+
+      // Skip export default Layout
+      if (trimmed.startsWith('export default Layout')) {
+        return false;
+      }
+
+      return true;
+    });
+
+    // Remove the meta export
+    let contentWithoutMeta = contentLines
+      .join('\n')
+      .replace(/export const meta = {[\s\S]*?};/g, '');
+
+    // Restore code blocks
+    codeBlocks.forEach((block, index) => {
+      contentWithoutMeta = contentWithoutMeta.replace(`CODEBLOCK_PLACEHOLDER_${index}`, block);
+    });
+
+    // Extract demo names from imports
+    const demoNames: string[] = [];
+    const importMatch = content.match(/import\s*{([^}]+)}\s*from\s*['"]@\/demos\/[^'"]+['"]/);
+    if (importMatch) {
+      const imports = importMatch[1].split(',').map((name) => name.trim());
+      demoNames.push(...imports);
+    }
+
+    // Process with unified/remark
+    const processor = unified()
+      .use(remarkParse as any)
+      .use(remarkMdx as any)
+      .use(() => {
+        return (tree: any) => {
+          visit(
+            tree,
+            'mdxJsxFlowElement',
+            (node: any, _index: number | undefined, _parent: any) => {
+              if (node.name === 'Demo' && node.attributes) {
+                const dataAttr = node.attributes.find((attr: any) => attr.name === 'data');
+                if (dataAttr) {
+                  let demoName = '';
+
+                  // Handle different attribute value formats
+                  if (
+                    dataAttr.value &&
+                    typeof dataAttr.value === 'object' &&
+                    dataAttr.value.type === 'mdxJsxAttributeValueExpression'
+                  ) {
+                    // Expression like {AlignInputButton}
+                    demoName = dataAttr.value.value || '';
+                  } else if (typeof dataAttr.value === 'string') {
+                    // Direct string value
+                    demoName = dataAttr.value;
+                  }
+
+                  if (demoName) {
+                    // For FAQ demos, we need to load them specially
+                    node.type = 'paragraph';
+                    node.children = [
+                      {
+                        type: 'text',
+                        value: `FAQDEMOPLACEHOLDER::${demoName}::END`,
+                      },
+                    ];
+                  }
+                }
+              }
+            }
+          );
+        };
+      })
+      .use(remarkStringify as any);
+
+    let result = String(await processor.process(contentWithoutMeta));
+
+    // Load and replace FAQ demos - find all placeholders in the result
+    const placeholderRegex = /FAQDEMOPLACEHOLDER::([^:]+)::END/g;
+    let placeholderMatch;
+    while ((placeholderMatch = placeholderRegex.exec(result)) !== null) {
+      const demoName = placeholderMatch[1];
+      const placeholder = placeholderMatch[0];
+      const demoCode = await this.loadFaqDemoCode(demoName, filePath);
+      if (demoCode) {
+        const demoSection = [`#### Example: ${demoName}`, '', '```tsx', demoCode, '```', ''].join(
+          '\n'
+        );
+        result = result.replace(placeholder, demoSection);
+      } else {
+        result = result.replace(placeholder, '');
+      }
+    }
+
+    return result;
+  }
+
+  private async loadFaqDemoCode(demoName: string, faqFilePath: string): Promise<string | null> {
+    try {
+      // FAQ demos are in the same directory structure as the FAQ pages
+      const faqDir = path.dirname(faqFilePath);
+      const demosDir = path.join(path.dirname(path.dirname(faqDir)), 'demos');
+      const demoFile = path.join(demosDir, `${demoName}.demo.tsx`);
+
+      // First try the exact file name
+      if (await fs.pathExists(demoFile)) {
+        const content = await fs.readFile(demoFile, 'utf-8');
+
+        // Look for the named export
+        const exportRegex = new RegExp(
+          `export const ${demoName}:\\s*MantineDemo\\s*=\\s*{[\\s\\S]*?}\\s*;`
+        );
+        const exportMatch = content.match(exportRegex);
+
+        if (exportMatch) {
+          // Extract code from the export
+          const exportContent = exportMatch[0];
+
+          // Check if it's a multi-file demo (code is an array)
+          const codeArrayMatch = exportContent.match(/code:\s*\[/);
+          if (codeArrayMatch) {
+            // For multi-file demos, we need to extract from the array structure
+            // Look for all code references in the array
+            const codeRefs = exportContent.match(/code:\s*(\w+)/g);
+            if (codeRefs) {
+              // Try to find a variable that ends with 'Code' and contains TSX
+              for (const codeRefMatch of codeRefs) {
+                const codeRef = codeRefMatch.replace(/code:\s*/, '').trim();
+                if (codeRef && !codeRef.startsWith('[')) {
+                  const codeVarMatch = content.match(
+                    new RegExp(`const ${codeRef}\\s*=\\s*\`([\\s\\S]*?)\``, 'm')
+                  );
+                  if (codeVarMatch) {
+                    const code = codeVarMatch[1];
+                    // Check if this looks like TSX code (has JSX elements or React imports)
+                    if (
+                      code.includes('import') &&
+                      (code.includes("from '@mantine") ||
+                        code.includes('function') ||
+                        code.includes('return'))
+                    ) {
+                      return code.trim();
+                    }
+                  }
+                }
+              }
+            }
+          } else {
+            // Single file demo
+            const codeMatch = exportContent.match(/code:\s*([^,}]+)/);
+            if (codeMatch) {
+              const codeRef = codeMatch[1].trim();
+
+              // If code is a variable reference, find its definition
+              if (
+                !codeRef.startsWith('`') &&
+                !codeRef.startsWith('"') &&
+                !codeRef.startsWith("'")
+              ) {
+                const codeVarMatch = content.match(
+                  new RegExp(`const ${codeRef}\\s*=\\s*\`([\\s\\S]*?)\``, 'm')
+                );
+                if (codeVarMatch) {
+                  return codeVarMatch[1].trim();
+                }
+              } else {
+                // Direct string
+                const match = codeRef.match(/^['"`]([^'"`]*?)['"`]$/);
+                if (match) {
+                  return match[1];
+                }
+              }
+            }
+          }
+        }
+
+        // Fallback: look for const code = `...`
+        const codeMatch = content.match(/const code\s*=\s*`([\s\S]*?)`;?/);
+        if (codeMatch) {
+          return codeMatch[1].trim();
+        }
+      } else {
+        // If exact file doesn't exist, search all demo files in the directory
+        const allDemoFiles = await glob('*.demo.tsx', { cwd: demosDir, absolute: true });
+
+        for (const file of allDemoFiles) {
+          const content = await fs.readFile(file, 'utf-8');
+
+          // Look for the named export
+          const exportRegex = new RegExp(
+            `export const ${demoName}:\\s*MantineDemo\\s*=\\s*{[\\s\\S]*?}\\s*;`
+          );
+          const exportMatch = content.match(exportRegex);
+
+          if (exportMatch) {
+            // Extract code from the export
+            const exportContent = exportMatch[0];
+
+            // Check if it's a multi-file demo (code is an array)
+            const codeArrayMatch = exportContent.match(/code:\s*\[/);
+            if (codeArrayMatch) {
+              // For multi-file demos, we need to extract from the array structure
+              // Look for all code references in the array
+              const codeRefs = exportContent.match(/code:\s*(\w+)/g);
+              if (codeRefs) {
+                // Try to find a variable that ends with 'Code' and contains TSX
+                for (const codeRefMatch of codeRefs) {
+                  const codeRef = codeRefMatch.replace(/code:\s*/, '').trim();
+                  if (codeRef && !codeRef.startsWith('[')) {
+                    const codeVarMatch = content.match(
+                      new RegExp(`const ${codeRef}\\s*=\\s*\`([\\s\\S]*?)\``, 'm')
+                    );
+                    if (codeVarMatch) {
+                      const code = codeVarMatch[1];
+                      // Check if this looks like TSX code (has JSX elements or React imports)
+                      if (
+                        code.includes('import') &&
+                        (code.includes("from '@mantine") ||
+                          code.includes('function') ||
+                          code.includes('return'))
+                      ) {
+                        return code.trim();
+                      }
+                    }
+                  }
+                }
+              }
+            } else {
+              // Single file demo
+              const codeMatch = exportContent.match(/code:\s*([^,}]+)/);
+              if (codeMatch) {
+                const codeRef = codeMatch[1].trim();
+
+                // If code is a variable reference, find its definition
+                if (
+                  !codeRef.startsWith('`') &&
+                  !codeRef.startsWith('"') &&
+                  !codeRef.startsWith("'")
+                ) {
+                  const codeVarMatch = content.match(
+                    new RegExp(`const ${codeRef}\\s*=\\s*\`([\\s\\S]*?)\``, 'm')
+                  );
+                  if (codeVarMatch) {
+                    return codeVarMatch[1].trim();
+                  }
+                } else {
+                  // Direct string
+                  const match = codeRef.match(/^['"`]([^'"`]*?)['"`]$/);
+                  if (match) {
+                    return match[1];
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      // Silent fail
+    }
+    return null;
+  }
+
+  private async writeOutput() {
+    const fullContent = this.output.join('\n');
+
+    if (!this.config.publicPath) {
+      return;
+    }
+
+    const publicDir = this.config.publicPath;
+    const llmsDir = path.join(publicDir, 'llms');
+
+    await fs.ensureDir(llmsDir);
+
+    // Write full documentation file
+    const fullPath = path.join(publicDir, 'llms-full.txt');
+    await fs.writeFile(fullPath, fullContent, 'utf-8');
+
+    // Write per-page markdown files
+    for (const page of this.pageFiles) {
+      const pagePath = path.join(llmsDir, page.fileName);
+      await fs.writeFile(pagePath, page.content, 'utf-8');
+    }
+
+    // Write index file with overview and links
+    const indexPath = path.join(publicDir, 'llms.txt');
+    const indexContent = this.buildIndexContent();
+    await fs.writeFile(indexPath, indexContent, 'utf-8');
+  }
+
+  private buildIndexContent(): string {
+    const lines: string[] = [];
+
+    lines.push('# Mantine UI - LLM Documentation');
+    lines.push('');
+    lines.push('This index lists Mantine documentation pages formatted for LLMs.');
+    lines.push('Each link points to a standalone Markdown file under the /llms path.');
+    lines.push('');
+    lines.push('For a single consolidated file with all content, use:');
+    lines.push(`- ${this.config.siteUrl.replace(/\/+$/, '')}/llms-full.txt`);
+    lines.push('');
+
+    const categoryOrder = [
+      'core',
+      'hooks',
+      'form',
+      'dates',
+      'charts',
+      'schedule',
+      'code-highlight',
+      'emoji',
+      'guides',
+      'theming',
+      'styles',
+      'x',
+      'other',
+    ];
+
+    const pagesByCategory = new Map<string, PageFileInfo[]>();
+
+    for (const page of this.pageFiles) {
+      const list = pagesByCategory.get(page.category) || [];
+      list.push(page);
+      pagesByCategory.set(page.category, list);
+    }
+
+    const faqPages = pagesByCategory.get('faq');
+    if (faqPages && faqPages.length > 0) {
+      lines.push('## FAQ');
+      lines.push('');
+
+      const sortedFaqPages = [...faqPages].sort((a, b) => a.title.localeCompare(b.title));
+
+      for (const page of sortedFaqPages) {
+        const url = `${this.config.siteUrl.replace(/\/+$/, '')}/llms/${page.fileName}`;
+        const description = page.description?.trim();
+
+        if (description) {
+          lines.push(`- [${page.title}](${url}): ${description}`);
+        } else {
+          lines.push(`- [${page.title}](${url})`);
+        }
+      }
+
+      lines.push('');
+    }
+
+    for (const category of categoryOrder) {
+      const pages = pagesByCategory.get(category);
+      if (!pages || pages.length === 0) {
+        continue;
+      }
+
+      lines.push(`## ${category.charAt(0).toUpperCase()}${category.slice(1)}`);
+      lines.push('');
+
+      const sortedPages = [...pages].sort((a, b) => a.title.localeCompare(b.title));
+
+      for (const page of sortedPages) {
+        const url = `${this.config.siteUrl.replace(/\/+$/, '')}/llms/${page.fileName}`;
+        const description = page.description?.trim();
+
+        if (description) {
+          lines.push(`- [${page.title}](${url}): ${description}`);
+        } else {
+          lines.push(`- [${page.title}](${url})`);
+        }
+      }
+
+      lines.push('');
+    }
+
+    return lines.join('\n');
+  }
+}
+
+// Run the compiler
+const compiler = new MantineLLMCompiler(config);
+compiler.compile().catch((error) => {
+  // oxlint-disable-next-line no-console
+  console.error('Failed to compile LLM documentation.', error);
+  // Handle compilation error
+  process.exit(1);
+});

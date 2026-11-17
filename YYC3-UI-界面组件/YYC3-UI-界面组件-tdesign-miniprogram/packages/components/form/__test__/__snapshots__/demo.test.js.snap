@@ -1,0 +1,892 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form Form horizontal demo works fine 1`] = `
+<horizontal>
+  <t-form
+    class="form"
+    data="{{
+      Object {
+        "age": 3,
+        "birth": "",
+        "description": 2,
+        "gender": "",
+        "name": "",
+        "password": "",
+        "photo": Array [
+          Object {
+            "name": "uploaded1.png",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example4.png",
+          },
+          Object {
+            "name": "uploaded2.png",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example6.png",
+          },
+        ],
+        "place": "",
+        "resume": "",
+      }
+    }}"
+    id="form"
+    labelAlign="left"
+    resetType="initial"
+    rules="{{
+      Object {
+        "birth": Array [
+          Object {
+            "message": "不能为空",
+            "validator": [Function],
+          },
+        ],
+        "description": Array [
+          Object {
+            "message": "分数过低会影响整体评价",
+            "validator": [Function],
+          },
+        ],
+        "gender": Array [
+          Object {
+            "message": "不能为空",
+            "validator": [Function],
+          },
+        ],
+        "name": Array [
+          Object {
+            "message": "只能输入8个字符英文",
+            "pattern": "[a-zA-Z]{8}",
+            "validator": [Function],
+          },
+        ],
+        "password": Array [
+          Object {
+            "message": "长度大于6个字符",
+            "validator": [Function],
+          },
+        ],
+        "place": Array [
+          Object {
+            "message": "不能为空",
+            "validator": [Function],
+          },
+        ],
+        "resume": Array [
+          Object {
+            "message": "不能为空",
+            "validator": [Function],
+          },
+        ],
+      }
+    }}"
+    scrollToFirstError="smooth"
+    showErrorMessage="{{true}}"
+    usingCustomNavbar="{{true}}"
+    bind:reset="onReset"
+    bind:submit="onSubmit"
+  >
+    <t-form-item
+      label="用户名"
+      name="name"
+    >
+      <t-input
+        borderless="{{true}}"
+        data-field="name"
+        disabled="{{false}}"
+        placeholder="请输入用户名"
+        value=""
+        bind:change="onInputChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="密码"
+      name="password"
+    >
+      <t-input
+        borderless="{{true}}"
+        clearable="{{false}}"
+        data-field="password"
+        disabled="{{false}}"
+        placeholder="请输入密码"
+        type="password"
+        value=""
+        bind:change="onInputChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="性别"
+      name="gender"
+    >
+      <t-radio-group
+        borderless="{{true}}"
+        class="box"
+        disabled="{{false}}"
+        value=""
+        bind:change="onRadioChange"
+      >
+        <t-radio
+          block="{{false}}"
+          label="男"
+          name="radio"
+          value="man"
+        />
+        <t-radio
+          block="{{false}}"
+          label="女"
+          name="radio"
+          value="women"
+        />
+        <t-radio
+          block="{{false}}"
+          label="保密"
+          name="radio"
+          value="secret"
+        />
+      </t-radio-group>
+    </t-form-item>
+    <t-form-item
+      arrow="{{true}}"
+      label="生日"
+      name="birth"
+    >
+      <t-input
+        borderless="{{true}}"
+        disabled="{{false}}"
+        placeholder="请输入生日"
+        readonly="{{true}}"
+        value=""
+        bind:tap="showDatePicker"
+      />
+      <t-date-time-picker
+        end=""
+        format="YYYY-MM-DD"
+        mode="date"
+        start=""
+        title="选择日期"
+        visible="{{false}}"
+        bind:change="onDatePickerConfirm"
+        bind:close="onDatePickerClose"
+      />
+    </t-form-item>
+    <t-form-item
+      arrow="{{true}}"
+      label="籍贯"
+      name="place"
+    >
+      <t-input
+        borderless="{{true}}"
+        disabled="{{false}}"
+        placeholder="请选择籍贯"
+        readonly="{{true}}"
+        value=""
+        bind:tap="showCascader"
+      />
+      <t-cascader
+        options="{{
+          Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "label": "东城区",
+                      "value": "110101",
+                    },
+                    Object {
+                      "label": "西城区",
+                      "value": "110102",
+                    },
+                    Object {
+                      "label": "朝阳区",
+                      "value": "110105",
+                    },
+                    Object {
+                      "label": "丰台区",
+                      "value": "110106",
+                    },
+                    Object {
+                      "label": "石景山区",
+                      "value": "110107",
+                    },
+                    Object {
+                      "label": "海淀区",
+                      "value": "110108",
+                    },
+                    Object {
+                      "label": "门头沟区",
+                      "value": "110109",
+                    },
+                    Object {
+                      "label": "房山区",
+                      "value": "110111",
+                    },
+                    Object {
+                      "label": "通州区",
+                      "value": "110112",
+                    },
+                    Object {
+                      "label": "顺义区",
+                      "value": "110113",
+                    },
+                    Object {
+                      "label": "昌平区",
+                      "value": "110114",
+                    },
+                    Object {
+                      "label": "大兴区",
+                      "value": "110115",
+                    },
+                    Object {
+                      "label": "怀柔区",
+                      "value": "110116",
+                    },
+                    Object {
+                      "label": "平谷区",
+                      "value": "110117",
+                    },
+                    Object {
+                      "label": "密云区",
+                      "value": "110118",
+                    },
+                    Object {
+                      "label": "延庆区",
+                      "value": "110119",
+                    },
+                  ],
+                  "label": "北京市",
+                  "value": "110100",
+                },
+              ],
+              "label": "北京市",
+              "value": "110000",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "label": "和平区",
+                      "value": "120101",
+                    },
+                    Object {
+                      "label": "河东区",
+                      "value": "120102",
+                    },
+                    Object {
+                      "label": "河西区",
+                      "value": "120103",
+                    },
+                    Object {
+                      "label": "南开区",
+                      "value": "120104",
+                    },
+                    Object {
+                      "label": "河北区",
+                      "value": "120105",
+                    },
+                    Object {
+                      "label": "红桥区",
+                      "value": "120106",
+                    },
+                    Object {
+                      "label": "东丽区",
+                      "value": "120110",
+                    },
+                    Object {
+                      "label": "西青区",
+                      "value": "120111",
+                    },
+                    Object {
+                      "label": "津南区",
+                      "value": "120112",
+                    },
+                    Object {
+                      "label": "北辰区",
+                      "value": "120113",
+                    },
+                    Object {
+                      "label": "武清区",
+                      "value": "120114",
+                    },
+                    Object {
+                      "label": "宝坻区",
+                      "value": "120115",
+                    },
+                    Object {
+                      "label": "滨海新区",
+                      "value": "120116",
+                    },
+                    Object {
+                      "label": "宁河区",
+                      "value": "120117",
+                    },
+                    Object {
+                      "label": "静海区",
+                      "value": "120118",
+                    },
+                    Object {
+                      "label": "蓟州区",
+                      "value": "120119",
+                    },
+                  ],
+                  "label": "天津市",
+                  "value": "120100",
+                },
+              ],
+              "label": "天津市",
+              "value": "120000",
+            },
+          ]
+        }}"
+        title="选择地址"
+        value="120119"
+        visible="{{false}}"
+        bind:change="onChangeCascader"
+        bind:visible-change="onCascaderVisibleChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="年限"
+      name="age"
+    >
+      <t-stepper
+        disabled="{{false}}"
+        theme="filled"
+        value="{{3}}"
+        bind:change="onChangeStepper"
+      />
+    </t-form-item>
+    <t-form-item
+      label="自我评价"
+      name="description"
+    >
+      <t-rate
+        allowHalf="{{true}}"
+        disabled="{{false}}"
+        gap="{{8}}"
+        value="{{2}}"
+        variant="filled"
+        bind:change="onRateChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="个人简介"
+      name="resume"
+      tClassLabel="my-label"
+    >
+      <t-textarea
+        class="textarea"
+        disabled="{{false}}"
+        indicator="{{true}}"
+        maxlength="{{50}}"
+        placeholder="请输入个人简介"
+        value=""
+        bind:change="onTextareaChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="上传照片"
+      name="photo"
+    >
+      <t-upload
+        action="https://service-bv448zsw-1257786608.gz.apigw.tencentcs.com/api/upload-demo"
+        class="upload"
+        disabled="{{false}}"
+        files="{{
+          Array [
+            Object {
+              "name": "uploaded1.png",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/example4.png",
+            },
+            Object {
+              "name": "uploaded2.png",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/example6.png",
+            },
+          ]
+        }}"
+        gridConfig="{{
+          Object {
+            "column": 3,
+          }
+        }}"
+        max="{{6}}"
+        multiple="{{true}}"
+        bind:change="onChangeUpload"
+        bind:fail="onFail"
+        bind:preview="onPreview"
+        bind:progress="onProgress"
+        bind:remove="onRemove"
+        bind:success="onSuccess"
+      />
+    </t-form-item>
+    <wx-view
+      class="button-group"
+    >
+      <t-button
+        formType="submit"
+        size="large"
+        theme="primary"
+        bind:tap="submit"
+      >
+        提交
+      </t-button>
+      <t-button
+        formType="reset"
+        size="large"
+        theme="default"
+        variant="base"
+        bind:tap="reset"
+      >
+        重置
+      </t-button>
+    </wx-view>
+  </t-form>
+</horizontal>
+`;
+
+exports[`Form Form vertical demo works fine 1`] = `
+<vertical>
+  <t-form
+    data="{{
+      Object {
+        "age": 3,
+        "birth": "",
+        "description": 2,
+        "gender": "",
+        "name": "",
+        "password": "",
+        "photo": Array [
+          Object {
+            "name": "uploaded1.png",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example4.png",
+          },
+          Object {
+            "name": "uploaded2.png",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example6.png",
+          },
+        ],
+        "place": "",
+        "resume": "",
+      }
+    }}"
+    id="form"
+    labelAlign="top"
+    resetType="empty"
+    rules="{{
+      Object {
+        "birth": Array [
+          Object {
+            "message": "不能为空",
+            "validator": [Function],
+          },
+        ],
+        "description": Array [
+          Object {
+            "message": "分数过低会影响整体评价",
+            "validator": [Function],
+          },
+        ],
+        "gender": Array [
+          Object {
+            "message": "不能为空",
+            "validator": [Function],
+          },
+        ],
+        "name": Array [
+          Object {
+            "message": "只能输入8个字符英文",
+            "pattern": "[a-zA-Z]{8}",
+            "validator": [Function],
+          },
+        ],
+        "password": Array [
+          Object {
+            "message": "长度大于6个字符",
+            "validator": [Function],
+          },
+        ],
+        "place": Array [
+          Object {
+            "message": "不能为空",
+            "validator": [Function],
+          },
+        ],
+        "resume": Array [
+          Object {
+            "message": "不能为空",
+            "validator": [Function],
+          },
+        ],
+      }
+    }}"
+    scrollToFirstError="smooth"
+    showErrorMessage="{{true}}"
+    usingCustomNavbar="{{true}}"
+    bind:reset="onReset"
+    bind:submit="onSubmit"
+  >
+    <t-form-item
+      label="用户名"
+      name="name"
+    >
+      <t-input
+        borderless="{{true}}"
+        data-field="name"
+        disabled="{{false}}"
+        placeholder="请输入用户名"
+        value=""
+        bind:change="onInputChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="密码"
+      name="password"
+    >
+      <t-input
+        borderless="{{true}}"
+        clearable="{{false}}"
+        data-field="password"
+        disabled="{{false}}"
+        placeholder="请输入密码"
+        type="password"
+        value=""
+        bind:change="onInputChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="性别"
+      name="gender"
+    >
+      <t-radio-group
+        borderless="{{true}}"
+        class="box"
+        disabled="{{false}}"
+        value=""
+        bind:change="onRadioChange"
+      >
+        <t-radio
+          block="{{false}}"
+          label="男"
+          name="radio"
+          value="man"
+        />
+        <t-radio
+          block="{{false}}"
+          label="女"
+          name="radio"
+          value="women"
+        />
+        <t-radio
+          block="{{false}}"
+          label="保密"
+          name="radio"
+          value="secret"
+        />
+      </t-radio-group>
+    </t-form-item>
+    <t-form-item
+      arrow="{{true}}"
+      label="生日"
+      name="birth"
+    >
+      <t-input
+        borderless="{{true}}"
+        data-field="birth"
+        disabled="{{false}}"
+        placeholder="请输入生日"
+        readonly="{{true}}"
+        value=""
+        bind:tap="showDatePicker"
+      />
+      <t-date-time-picker
+        end=""
+        format="YYYY-MM-DD"
+        mode="date"
+        start=""
+        title="选择日期"
+        visible="{{false}}"
+        bind:change="onDatePickerConfirm"
+        bind:close="onDatePickerClose"
+      />
+    </t-form-item>
+    <t-form-item
+      arrow="{{true}}"
+      label="籍贯"
+      name="place"
+    >
+      <t-input
+        borderless="{{true}}"
+        disabled="{{false}}"
+        placeholder="请选择籍贯"
+        readonly="{{true}}"
+        value=""
+        bind:tap="showCascader"
+      />
+      <t-cascader
+        options="{{
+          Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "label": "东城区",
+                      "value": "110101",
+                    },
+                    Object {
+                      "label": "西城区",
+                      "value": "110102",
+                    },
+                    Object {
+                      "label": "朝阳区",
+                      "value": "110105",
+                    },
+                    Object {
+                      "label": "丰台区",
+                      "value": "110106",
+                    },
+                    Object {
+                      "label": "石景山区",
+                      "value": "110107",
+                    },
+                    Object {
+                      "label": "海淀区",
+                      "value": "110108",
+                    },
+                    Object {
+                      "label": "门头沟区",
+                      "value": "110109",
+                    },
+                    Object {
+                      "label": "房山区",
+                      "value": "110111",
+                    },
+                    Object {
+                      "label": "通州区",
+                      "value": "110112",
+                    },
+                    Object {
+                      "label": "顺义区",
+                      "value": "110113",
+                    },
+                    Object {
+                      "label": "昌平区",
+                      "value": "110114",
+                    },
+                    Object {
+                      "label": "大兴区",
+                      "value": "110115",
+                    },
+                    Object {
+                      "label": "怀柔区",
+                      "value": "110116",
+                    },
+                    Object {
+                      "label": "平谷区",
+                      "value": "110117",
+                    },
+                    Object {
+                      "label": "密云区",
+                      "value": "110118",
+                    },
+                    Object {
+                      "label": "延庆区",
+                      "value": "110119",
+                    },
+                  ],
+                  "label": "北京市",
+                  "value": "110100",
+                },
+              ],
+              "label": "北京市",
+              "value": "110000",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "label": "和平区",
+                      "value": "120101",
+                    },
+                    Object {
+                      "label": "河东区",
+                      "value": "120102",
+                    },
+                    Object {
+                      "label": "河西区",
+                      "value": "120103",
+                    },
+                    Object {
+                      "label": "南开区",
+                      "value": "120104",
+                    },
+                    Object {
+                      "label": "河北区",
+                      "value": "120105",
+                    },
+                    Object {
+                      "label": "红桥区",
+                      "value": "120106",
+                    },
+                    Object {
+                      "label": "东丽区",
+                      "value": "120110",
+                    },
+                    Object {
+                      "label": "西青区",
+                      "value": "120111",
+                    },
+                    Object {
+                      "label": "津南区",
+                      "value": "120112",
+                    },
+                    Object {
+                      "label": "北辰区",
+                      "value": "120113",
+                    },
+                    Object {
+                      "label": "武清区",
+                      "value": "120114",
+                    },
+                    Object {
+                      "label": "宝坻区",
+                      "value": "120115",
+                    },
+                    Object {
+                      "label": "滨海新区",
+                      "value": "120116",
+                    },
+                    Object {
+                      "label": "宁河区",
+                      "value": "120117",
+                    },
+                    Object {
+                      "label": "静海区",
+                      "value": "120118",
+                    },
+                    Object {
+                      "label": "蓟州区",
+                      "value": "120119",
+                    },
+                  ],
+                  "label": "天津市",
+                  "value": "120100",
+                },
+              ],
+              "label": "天津市",
+              "value": "120000",
+            },
+          ]
+        }}"
+        title="选择地址"
+        value="120119"
+        visible="{{false}}"
+        bind:change="onChangeCascader"
+        bind:visible-change="onCascaderVisibleChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="年限"
+      name="age"
+    >
+      <t-stepper
+        disabled="{{false}}"
+        theme="filled"
+        value="{{3}}"
+        bind:change="onChangeStepper"
+      />
+    </t-form-item>
+    <t-form-item
+      label="自我评价"
+      name="description"
+    >
+      <t-rate
+        allowHalf="{{true}}"
+        disabled="{{false}}"
+        gap="{{8}}"
+        value="{{2}}"
+        variant="filled"
+        bind:change="onRateChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="个人简介"
+      name="resume"
+    >
+      <t-textarea
+        class="textarea"
+        disabled="{{false}}"
+        indicator="{{true}}"
+        maxlength="{{50}}"
+        placeholder="请输入个人简介"
+        value=""
+        bind:change="onTextareaChange"
+      />
+    </t-form-item>
+    <t-form-item
+      label="上传照片"
+      labelAlign="top"
+      name="photo"
+    >
+      <t-upload
+        action="https://service-bv448zsw-1257786608.gz.apigw.tencentcs.com/api/upload-demo"
+        class="upload"
+        disabled="{{false}}"
+        files="{{
+          Array [
+            Object {
+              "name": "uploaded1.png",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/example4.png",
+            },
+            Object {
+              "name": "uploaded2.png",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/example6.png",
+            },
+          ]
+        }}"
+        gridConfig="{{
+          Object {
+            "column": 4,
+          }
+        }}"
+        max="{{8}}"
+        multiple="{{true}}"
+        bind:change="onChangeUpload"
+        bind:fail="onFail"
+        bind:preview="onPreview"
+        bind:progress="onProgress"
+        bind:remove="onRemove"
+        bind:success="onSuccess"
+      />
+    </t-form-item>
+    <wx-view
+      class="button-group"
+    >
+      <t-button
+        size="large"
+        theme="primary"
+        type="submit"
+        variant="light"
+        bind:tap="submit"
+      >
+        提交
+      </t-button>
+      <t-button
+        size="large"
+        theme="default"
+        type="reset"
+        variant="base"
+        bind:tap="reset"
+      >
+        重置
+      </t-button>
+    </wx-view>
+  </t-form>
+</vertical>
+`;

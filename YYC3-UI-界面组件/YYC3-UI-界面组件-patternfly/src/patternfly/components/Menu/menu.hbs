@@ -1,0 +1,20 @@
+<div class="{{pfv}}menu{{#if menu--modifier}} {{menu--modifier}}{{/if}}{{#unless menu--IsDrilledInReset}}{{#if menu--IsDrilledIn}} pf-m-drilled-in{{/if}}{{/unless}}"
+  {{#if menu--attribute}}
+    {{{menu--attribute}}}
+  {{/if}}
+  {{#if menu--width}}
+    width="{{menu--width}}"
+  {{/if}}
+  {{#if menu--IsHidden}}
+    hidden
+  {{/if}}>
+  {{#if menu--IsSubmenu}}
+    {{#> menu-content}}
+      {{#> menu-list menu-list--modifier=""}}
+        {{> @partial-block}}
+      {{/menu-list}}
+    {{/menu-content}}
+  {{else}}
+    {{> @partial-block}}
+  {{/if}}
+</div>

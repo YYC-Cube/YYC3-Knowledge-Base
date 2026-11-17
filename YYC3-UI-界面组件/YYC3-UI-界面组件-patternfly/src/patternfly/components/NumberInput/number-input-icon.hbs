@@ -1,0 +1,18 @@
+{{#> button
+  button--IsControl=true
+  button--IsIcon=true
+  button--IsDisabled=number-input-icon--IsDisabled
+  button--aria-label=(ternary number-input-icon--IsMinus "Minus" "Plus")}}
+  <span class="{{pfv}}number-input__icon{{#if number-input-icon--modifier}} {{number-input-icon--modifier}}{{/if}}"
+    {{#if number-input-icon--attribute}}
+      {{{number-input-icon--attribute}}}
+    {{/if}}>
+    {{#if number-input-icon--IsMinus}}
+      {{pfIcon "rh-ui-minus"}}
+    {{else}}
+      {{pfIcon "rh-ui-add"}}
+    {{/if}}
+  </span>
+{{/button}}
+
+

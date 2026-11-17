@@ -1,0 +1,38 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log*
+
+# Misc
+.DS_Store
+.fleet
+.idea
+.eslintcache
+coverage
+**/.DS_Store
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Custom
+api-generator/typedoc.json
+apps/showcase/components.d.ts
+
+.claude
+.report
+.agents
+docs/plans
+docs/superpowers
+CLAUDE.md

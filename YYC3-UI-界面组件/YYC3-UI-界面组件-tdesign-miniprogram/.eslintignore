@@ -1,0 +1,12 @@
+**/*.wxs
+miniprogram_dist
+node_modules
+
+# special files
+echarts.js
+
+npm/
+dist/
+_tdesign/
+pages-more/
+packages/tdesign-uniapp/app/

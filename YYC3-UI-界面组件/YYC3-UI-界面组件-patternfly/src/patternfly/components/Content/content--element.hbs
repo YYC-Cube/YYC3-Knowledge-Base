@@ -1,0 +1,16 @@
+<{{content--element--type}} class="{{#unless content--element--ExcludeClass}}{{pfv}}content--{{content--element--type}}{{/unless}}
+  {{setModifiers
+    content--element--IsEditorial="pf-m-editorial"
+    content--element--IsPlain="pf-m-plain"
+    content--element--IsPageTitle="pf-m-page-title"
+    content--element--modifier=content--element--modifier
+  }}"
+  {{#if content--element--attribute}}
+    {{{content--element--attribute}}}
+  {{/if}}>
+  {{#if @partial-block}}
+    {{> @partial-block content--element--IsPlain=reset}}
+  {{/if}}
+{{#unlessIfEquals content--element--type "hr"}}
+  </{{content--element--type}}>
+{{~/unlessIfEquals}}

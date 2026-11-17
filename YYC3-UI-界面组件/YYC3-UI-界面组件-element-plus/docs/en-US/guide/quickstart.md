@@ -1,0 +1,245 @@
+---
+title: Quick Start
+lang: en-US
+---
+
+# Quick Start
+
+This section describes how to use Element Plus in your project.
+
+## Usage
+
+### Full Import
+
+If you don’t care about the bundle size so much, it’s more convenient to use full import.
+
+```ts [main.ts]
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import App from './App.vue'
+
+const app = createApp(App)
+
+app.use(ElementPlus)
+app.mount('#app')
+```
+
+#### Volar support
+
+If you use volar, please add the global component type definition to `compilerOptions.types` in `tsconfig.json`.
+
+```json [tsconfig.json]
+{
+  "compilerOptions": {
+    // ...
+    "types": ["element-plus/global"]
+  }
+}
+```
+
+### On-demand Import
+
+You need to use an additional plugin to import components you used.
+
+#### Auto import <el-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</el-tag>
+
+First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
+
+::: code-group
+
+```shell [npm]
+$ npm install -D unplugin-vue-components unplugin-auto-import
+```
+
+```shell [yarn]
+$ yarn add -D unplugin-vue-components unplugin-auto-import
+```
+
+```shell [pnpm]
+$ pnpm install -D unplugin-vue-components unplugin-auto-import
+```
+
+:::
+
+Then add the code below into your `Vite` or `Webpack` config file.
+
+::: code-group
+
+```ts [vite.config.ts]
+import { defineConfig } from 'vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+export default defineConfig({
+  // ...
+  plugins: [
+    // ...
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
+})
+```
+
+```js [webpack.config.js]
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+
+module.exports = {
+  // ...
+  plugins: [
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
+  ],
+}
+```
+
+:::
+
+For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
+
+#### Nuxt
+
+For Nuxt users, you only need to install `@element-plus/nuxt`.
+
+::: code-group
+
+```shell [npm]
+$ npm install -D @element-plus/nuxt
+```
+
+```shell [yarn]
+$ yarn add -D @element-plus/nuxt
+```
+
+```shell [pnpm]
+$ pnpm install -D @element-plus/nuxt
+```
+
+:::
+
+Then add the code below into your config file.
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: ['@element-plus/nuxt'],
+})
+```
+
+::: tip
+If you are using `pnpm`, please note that the [dayjs](https://github.com/iamkun/dayjs) package used internally by Element Plus is not a [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
+
+In order to ensure that it can be converted into a JavaScript modules before startup, you need to configure pnpm to hoist dependencies.
+
+For pnpm 10.5.x and earlier, add the following configuration to a `.npmrc` file in the project root:
+
+```ini
+shamefully-hoist=true
+node-linker=hoisted
+```
+
+For pnpm 10.6.x and later, add the following configuration to `pnpm-workspace.yaml`:
+
+```yaml
+shamefullyHoist: true
+nodeLinker: hoisted
+```
+
+Alternatively, you can install the dayjs dependency explicitly in your project:
+
+```bash
+pnpm add dayjs
+```
+
+:::
+
+For more configuration options, please refer to the [docs](https://github.com/element-plus/element-plus-nuxt#readme).
+
+### Manually import
+
+Element Plus provides out of box [Tree Shaking](https://webpack.js.org/guides/tree-shaking/)
+functionalities based on ES Module.
+
+But you need install [unplugin-element-plus](https://github.com/element-plus/unplugin-element-plus) for style import.
+And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#readme) for how to configure it.
+
+```vue [App.vue]
+<template>
+  <el-button>I am ElButton</el-button>
+</template>
+
+<script setup lang="ts">
+import { ElButton } from 'element-plus'
+</script>
+```
+
+```ts [vite.config.ts]
+import { defineConfig } from 'vite'
+import ElementPlus from 'unplugin-element-plus/vite'
+
+export default defineConfig({
+  // ...
+  plugins: [ElementPlus()],
+})
+```
+
+## Starter Template
+
+We provide a [Vite Template](https://github.com/element-plus/element-plus-vite-starter).
+
+For Nuxt users we have a [Nuxt Template](https://github.com/element-plus/element-plus-nuxt-starter).
+
+For Laravel users we have a [Laravel Template](https://github.com/element-plus/element-plus-in-laravel-starter).
+
+## Global Configuration
+
+When registering Element Plus, you can pass a global config object with `size` and
+`zIndex` to set the default `size` for form components, and `zIndex` for
+popup components, the default value for `zIndex` is `2000`.
+
+Full import:
+
+```ts [main.ts]
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
+import App from './App.vue'
+
+const app = createApp(App)
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
+```
+
+On-demand:
+
+```vue [App.vue]
+<template>
+  <el-config-provider :size="size" :z-index="zIndex">
+    <app />
+  </el-config-provider>
+</template>
+
+<script setup lang="ts">
+import { ElConfigProvider } from 'element-plus'
+
+const zIndex = 3000
+const size = 'small'
+</script>
+```
+
+## Using Nuxt.js
+
+We can also use [Nuxt.js](https://nuxt.com). Please refer to [Element Plus Nuxt.js starter template](https://github.com/element-plus/element-plus-nuxt-starter) for more details.
+
+## Let's Get Started
+
+You can bootstrap your project from now on. For each components usage, please
+refer to [the individual component documentation](../component/button.md).

@@ -1,0 +1,11 @@
+{
+    "main": "./InfoCircleIcon.vue",
+    "module": "./InfoCircleIcon.vue",
+    "types": "./InfoCircleIcon.d.ts",
+    "browser": {
+        "./sfc": "./InfoCircleIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

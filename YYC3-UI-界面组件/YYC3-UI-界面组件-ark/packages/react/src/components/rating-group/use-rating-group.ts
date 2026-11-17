@@ -1,0 +1,35 @@
+'use client'
+
+import * as rating from '@zag-js/rating-group'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/react'
+import { useId } from 'react'
+import { useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { Optional } from '../../types.ts'
+import { useFieldContext } from '../field/index.ts'
+
+export interface UseRatingGroupProps extends Optional<Omit<rating.Props, 'dir' | 'getRootNode'>, 'id'> {}
+export interface UseRatingGroupReturn extends rating.Api<PropTypes> {}
+
+export const useRatingGroup = (props?: UseRatingGroupProps): UseRatingGroupReturn => {
+  const id = useId()
+  const { getRootNode } = useEnvironmentContext()
+  const { dir } = useLocaleContext()
+  const field = useFieldContext()
+
+  const machineProps: rating.Props = {
+    id,
+    ids: {
+      label: field?.ids.label,
+      hiddenInput: field?.ids.control,
+    },
+    dir,
+    disabled: field?.disabled,
+    readOnly: field?.readOnly,
+    required: field?.required,
+    getRootNode,
+    ...props,
+  }
+
+  const service = useMachine(rating.machine, machineProps)
+  return rating.connect(service, normalizeProps)
+}

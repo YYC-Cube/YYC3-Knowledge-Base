@@ -1,0 +1,146 @@
+  {{!--
+Options: [
+  toolbar-template--HasToggleGroup
+  toolbar-template--HasExpandAll
+  toolbar-template--HasBulkSelect
+  toolbar-template--HasSearchFilter
+  toolbar-template--HasFilterGroup
+  toolbar-template--HasMenu
+  toolbar-template--HasSortButton
+  toolbar-template--HasOverflowMenu
+  toolbar-template--HasOverflowMenuSecondButton
+  toolbar-template--HasIconButtonGroup
+  toolbar-template--HasViewToggle
+  toolbar-template--HasNoPagination
+] --}}
+
+{{#> toolbar toolbar--id=toolbar-template--id toolbar--modifier=toolbar-template--modifier toolbar--attribute=toolbar-template--attribute}}
+  {{#> toolbar-content}}
+    {{#> toolbar-content-section toolbar-content-section--modifier="pf-m-nowrap"}}
+      {{!-- partial --}}
+      {{#if @partial-block}}
+        {{> @partial-block}}
+      {{/if}}
+
+      {{!-- expand all --}}
+      {{#if toolbar-template--HasExpandAll}}
+        {{#> toolbar-item toolbar-item--modifier="pf-m-expand-all"}}
+          {{> button button--IsPlain=true button--IsIcon=true button--icon-template="toolbar-expand-all-icon" button--aria-label="Expand all rows"}}
+        {{/toolbar-item}}
+      {{/if}}
+
+      {{!-- toggle group --}}
+      {{#if toolbar-template--HasToggleGroup}}
+        {{#> toolbar-group toolbar-group--IsToggleGroup=true toolbar-group--modifier="pf-m-show-on-xl"}}
+          {{> toolbar-toggle menu-toggle-icon='rh-ui-filter-fill'}}
+          {{> toolbar-template-content}}
+        {{/toolbar-group}}
+      {{else}}
+        {{> toolbar-template-content}}
+      {{/if}}
+
+      {{!-- sort --}}
+      {{#if toolbar-template--HasSortButton}}
+        {{#> toolbar-item}}
+          {{#> button button--IsPlain=true button--IsIcon=true button--aria-label="Sort"}}
+            {{#> icon shouldMirrorRTL=true}}
+              {{#> icon-content}}
+                {{pfIcon "sort-amount-down"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/button}}
+        {{/toolbar-item}}
+      {{/if}}
+
+      {{!-- mobile sort dropdown --}}
+      {{#if toolbar-template--HasSortButtonMobile}}
+        {{#> toolbar-item toolbar-item--modifier="pf-m-hidden-on-xl"}}
+          {{#> menu-toggle menu-toggle--IsPlain=true menu-toggle--attribute='aria-label="Sort by"'}}
+            {{#> menu-toggle-icon}}
+              {{#> icon shouldMirrorRTL=true}}
+                {{#> icon-content}}
+                  {{pfIcon "sort-amount-down"}}
+                {{/icon-content}}
+              {{/icon}}
+            {{/menu-toggle-icon}}
+          {{/menu-toggle}}
+        {{/toolbar-item}}
+      {{/if}}
+
+      {{!-- overflow menu --}}
+      {{#if toolbar-template--HasOverflowMenu}}
+        {{#> overflow-menu overflow-menu--id=(concat toolbar--id '-overflow-menu')}}
+          {{#> overflow-menu-content overflow-menu-content--modifier="pf-v6-u-display-none pf-v6-u-display-flex-on-lg"}}
+            {{#> overflow-menu-group overflow-menu-group--modifier="pf-m-button-group"}}
+              {{#> overflow-menu-item}}
+                {{#> button button--IsPrimary=true}}
+                  {{#if toolbar-template--OverflowButton1Text}}
+                    {{toolbar-template--OverflowButton1Text}}
+                  {{else}}
+                    Create instance
+                  {{/if}}
+                {{/button}}
+              {{/overflow-menu-item}}
+
+              {{!-- second button --}}
+              {{#if toolbar-template--HasOverflowMenuSecondButton}}
+                {{#> overflow-menu-item}}
+                  {{#> button button--IsSecondary=true}}
+                    {{#if toolbar-template--OverflowButton2Text}}
+                      {{toolbar-template--OverflowButton2Text}}
+                    {{else}}
+                      Action
+                    {{/if}}
+                  {{/button}}
+                {{/overflow-menu-item}}
+              {{/if}}
+            {{/overflow-menu-group}}
+          {{/overflow-menu-content}}
+          {{#> overflow-menu-control overflow-menu-button--aria-label="Menu with additional options"}}
+            {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize overflow-menu--id 'toggle')}}
+          {{/overflow-menu-control}}
+        {{/overflow-menu}}
+      {{/if}}
+
+      {{!-- icon button group --}}
+      {{#if toolbar-template--HasIconButtonGroup}}
+        {{#> toolbar-group toolbar-group--IsActionGroupPlain=true}}
+          {{#> toolbar-item}}
+            {{> button button--IsPlain=true button--IsIcon=true button--icon="edit" button--aria-label="Edit"}}
+          {{/toolbar-item}}
+          {{#> toolbar-item}}
+            {{> button button--IsPlain=true button--IsIcon=true button--icon="clone" button--aria-label="Clone"}}
+          {{/toolbar-item}}
+          {{#> toolbar-item}}
+            {{> button button--IsPlain=true button--IsIcon=true button--icon="sync" button--aria-label="Sync"}}
+          {{/toolbar-item}}
+        {{/toolbar-group}}
+      {{/if}}
+
+      {{!-- view toggle --}}
+      {{#if toolbar-template--HasViewToggle}}
+        {{#> toolbar-group toolbar-group--IsActionGroupPlain=true toolbar-group--modifier="pf-m-align-end"}}
+          {{#> toolbar-item}}
+            {{> button button--IsPlain=true button--IsIcon=true button--icon="th" button--aria-label="Grid view"}}
+          {{/toolbar-item}}
+          {{#> toolbar-item}}
+            {{> button button--IsPlain=true button--IsIcon=true button--icon="list-ul" button--aria-label="List view"}}
+          {{/toolbar-item}}
+        {{/toolbar-group}}
+      {{/if}}
+
+      {{!-- pagination --}}
+      {{#unless toolbar-template--HasNoPagination}}
+        {{#> toolbar-item toolbar-item--modifier='pf-m-pagination'}}
+          {{#> pagination pagination--IsCompact="true"}}
+            {{> pagination-menu-toggle pagination-menu-toggle--id=(concat toolbar--id '-top-pagination')}}
+            {{> pagination-nav-content pagination-nav--aria-label="Toolbar top pagination"}}
+          {{/pagination}}
+        {{/toolbar-item}}
+      {{/unless}}
+    {{/toolbar-content-section}}
+
+    {{!-- expandable content --}}
+    {{> toolbar-expandable-content}}
+  {{/toolbar-content}}
+{{/toolbar}}

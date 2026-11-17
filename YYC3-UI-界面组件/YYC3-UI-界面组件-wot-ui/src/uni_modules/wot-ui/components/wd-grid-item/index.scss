@@ -1,0 +1,187 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 网格项文字字号
+$grid-item-font-size: var(--wot-grid-item-font-size, $typography-body-size-extra-large) !default;
+// 网格项文字行高
+$grid-item-line-height: var(--wot-grid-item-line-height, $typography-body-line-height-size-extra-large) !default;
+// 网格项背景色
+$grid-item-bg: var(--wot-grid-item-bg, $filled-oppo) !default;
+// 网格项内容内边距
+$grid-item-padding: var(--wot-grid-item-padding, $padding-loose $padding-loose) !default;
+// 网格项悬浮背景色
+$grid-item-hover-bg: var(--wot-grid-item-hover-bg, $feedback-hover) !default;
+// 网格项图标尺寸
+$grid-item-icon-size: var(--wot-grid-item-icon-size, $n-32) !default;
+// 网格项图标颜色
+$grid-item-icon-color: var(--wot-grid-item-icon-color, $icon-secondary) !default;
+// 网格项边框宽度
+$grid-item-border-width: var(--wot-grid-item-border-width, $stroke-main) !default;
+// 网格项边框颜色
+$grid-item-border-color: var(--wot-grid-item-border-color, $border-main) !default;
+// 网格项文字颜色
+$grid-item-text-color: var(--wot-grid-item-text-color, $text-main) !default;
+// 网格项文字间距
+$grid-item-text-spacing: var(--wot-grid-item-text-spacing, $spacing-super-tight) !default;
+
+@include b(grid-item) {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+
+  @include when(border) {
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: $grid-item-border-width;
+      transform: scaleY(0.5);
+      background-color: $grid-item-border-color;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: $grid-item-border-width;
+      transform: scaleX(0.5);
+      height: 100%;
+      background-color: $grid-item-border-color;
+      bottom: 0;
+      right: 0;
+    }
+  }
+
+  // 第一行元素
+  @include when(first) {
+    &::after {
+      content: "";
+      position: absolute;
+      width: $grid-item-border-width;
+      transform: scaleX(0.5);
+      height: 100%;
+      background-color: $grid-item-border-color;
+      bottom: 0;
+      right: 0;
+    }
+  }
+
+  // 每行右侧的元素
+  @include when(right) {
+    &::after {
+      display: none;
+    }
+  }
+
+  @include when(last) {
+    &::after {
+      display: none;
+    }
+  }
+
+  @include e(wrapper) {
+    display: inline-flex;
+
+    // 当 wrapper 后面紧跟 text 时，给 text 添加间距
+    + .wd-grid-item__text {
+      margin-top: $grid-item-text-spacing;
+    }
+  }
+
+  @include e(content) {
+    height: 100%;
+    padding: $grid-item-padding;
+    background: $grid-item-bg;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include when(square) {
+      box-sizing: border-box;
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 100%;
+    }
+
+    @include when(center) {
+      align-items: center;
+      justify-content: center;
+    }
+
+    @include when(horizontal) {
+      flex-direction: row;
+
+      .wd-grid-item__wrapper + .wd-grid-item__text {
+        margin-top: 0;
+        margin-left: $grid-item-text-spacing;
+      }
+    }
+
+    @include when(reverse) {
+      flex-direction: column-reverse;
+
+      .wd-grid-item__wrapper + .wd-grid-item__text {
+        margin-top: 0;
+        margin-bottom: $grid-item-text-spacing;
+      }
+
+      &.is-horizontal {
+        flex-direction: row-reverse;
+
+        .wd-grid-item__wrapper + .wd-grid-item__text {
+          margin-left: 0;
+          margin-right: $grid-item-text-spacing;
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    @include when(around) {
+      &::after {
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+        border: $grid-item-border-width solid $grid-item-border-color;
+        transform-origin: top left;
+        transform: scale(0.5);
+        box-sizing: border-box;
+      }
+    }
+
+    @include m(hover) {
+      background-color: $grid-item-hover-bg !important;
+    }
+  }
+
+  @include e(text) {
+    width: 100%;
+    font-size: $grid-item-font-size;
+    line-height: $grid-item-line-height;
+    color: $grid-item-text-color;
+
+    @include when(ellipsis) {
+      @include lineEllipsis;
+    }
+  }
+
+  @include edeep(icon) {
+    font-size: $grid-item-icon-size;
+    color: $grid-item-icon-color;
+  }
+
+  @include e(badge) {
+    display: inline-flex;
+  }
+}

@@ -1,0 +1,17 @@
+.demo :deep(.t-navbar .t-navbar__content) {
+    padding-top: 0 !important;
+}
+
+
+.block {
+    display: block;
+}
+
+:deep(.block + .block) {
+    margin-top: 48rpx;
+}
+
+.demo {
+    --td-navbar-bg-color: var(--td-bg-color-container);
+    --td-navbar-color: var(--text-color-primary);
+}

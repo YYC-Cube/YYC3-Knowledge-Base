@@ -1,0 +1,53 @@
+<script lang="ts">
+import type { JsonNodeHastElement } from '@zag-js/json-tree-utils'
+import type { TreeViewTreeProps } from '../tree-view/tree-view-tree.vue'
+import type { JsonTreeViewNodeBaseProps } from './json-tree-view-node.vue'
+
+export interface JsonTreeViewTreeBaseProps extends JsonTreeViewNodeBaseProps {}
+
+export interface JsonTreeViewTreeProps extends TreeViewTreeProps, JsonTreeViewTreeBaseProps {}
+</script>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { createSplitProps } from '../create-split-props.ts'
+import TreeViewTree from '../tree-view/tree-view-tree.vue'
+import { useTreeViewContext } from '../tree-view/use-tree-view-context.ts'
+import JsonTreeViewNode from './json-tree-view-node.vue'
+
+const props = defineProps<JsonTreeViewTreeProps>()
+
+const splitTreeNodeProps = createSplitProps<JsonTreeViewNodeBaseProps>()
+const [nodeProps, treeProps] = splitTreeNodeProps(props, ['indentGuide'])
+
+const tree = useTreeViewContext()
+const children = computed(() => tree.value.collection.getNodeChildren(tree.value.collection.rootNode))
+
+defineSlots<{
+  arrow(): unknown
+  indentGuide(): unknown
+  renderValue(props: { node: JsonNodeHastElement }): unknown
+}>()
+</script>
+
+<template>
+  <TreeViewTree data-scope="json-tree-view" v-bind="treeProps">
+    <JsonTreeViewNode
+      v-for="(child, index) in children"
+      :key="index"
+      :node="child"
+      :index-path="[index]"
+      v-bind="nodeProps"
+    >
+      <template v-if="$slots.arrow" #arrow>
+        <slot name="arrow" />
+      </template>
+      <template v-if="$slots.indentGuide" #indentGuide>
+        <slot name="indentGuide" />
+      </template>
+      <template #renderValue="{ node: childNode }">
+        <slot name="renderValue" :node="childNode" />
+      </template>
+    </JsonTreeViewNode>
+  </TreeViewTree>
+</template>

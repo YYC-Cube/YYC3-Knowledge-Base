@@ -1,0 +1,20 @@
+{{#> button
+  button--AriaExpanded=(ternary notification-badge--IsExpanded notification-badge--IsExpanded false)
+  button--IsClicked=notification-badge--IsExpanded
+  button--IsStateful=true
+  button--aria-label=notification-badge--aria-label
+  button--IsUnread=notification-badge--IsUnread
+  button--IsAttention=notification-badge--IsAttention
+  button--IsRead=(inverse (concat notification-badge--IsUnread notification-badge--IsAttention))
+  button--IsIcon=true
+  button--modifier=notification-badge--modifier
+  button--count=notification-badge--count
+  }}
+    {{#if notification-badge--IsTask}}
+      {{pfIcon "rh-ui-task-fill"}}
+    {{else if notification-badge--IsAttention}}
+      {{pfIcon "rh-ui-attention-bell-fill"}}
+    {{else}}
+      {{pfIcon "rh-ui-notification-fill"}}
+    {{/if}}
+{{/button}}

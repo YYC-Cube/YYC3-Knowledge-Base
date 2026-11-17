@@ -1,0 +1,43 @@
+---
+title: StatCard
+description: StatCard is one metric in its own card. It renders exactly like an item of a split MetricStrip, with a label row (optional action and corner mark), a figure, and a semantic delta and hint.
+category: Data Display
+order: 0
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import DemoAligned from './demos/aligned.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { dashboardStatCardClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Migration
+
+`prominent` and `wash` are deprecated and ignored; the card always uses the MetricStrip item scale. `delta` no longer draws a trend icon, and `hint` sits after the delta on the same line.
+
+## Header controls stay aligned
+
+The label row has a fixed height. A `Segmented` or `ActionIcon` in `action` sits centered on the label and never makes its card taller, so values, previous-period lines and charts line up across a row whether or not a card has a control. The control sits on the trailing edge of the label row, and `chart` renders a sparkline or area chart at full card width under the delta and hint. Use compact controls there: `Segmented size="small"` and `ActionIcon size="small"`. `Surface` headers follow the same rule for `extra`.
+
+<Demo of={DemoAligned} />
+
+## APIs
+
+<Api name="StatCard" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `StatCard`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/dashboard/StatCard.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={dashboardStatCardClasses} />

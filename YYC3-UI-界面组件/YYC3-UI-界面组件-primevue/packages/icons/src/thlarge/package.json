@@ -1,0 +1,11 @@
+{
+    "main": "./ThLargeIcon.vue",
+    "module": "./ThLargeIcon.vue",
+    "types": "./ThLargeIcon.d.ts",
+    "browser": {
+        "./sfc": "./ThLargeIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

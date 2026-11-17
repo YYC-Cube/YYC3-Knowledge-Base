@@ -1,0 +1,143 @@
+---
+id: collapsible
+title: Collapsible
+description: An interactive component that can be expanded or collapsed.
+---
+
+<ComponentPreview id="Collapsible" />
+
+## Anatomy
+
+<Anatomy id="collapsible" />
+
+```tsx
+<Collapsible.Root>
+  <Collapsible.Trigger>
+    <Collapsible.Indicator />
+  </Collapsible.Trigger>
+  <Collapsible.Content />
+</Collapsible.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Disabled
+
+Use the `disabled` prop to disable the collapsible and prevent it from being toggled.
+
+<Example id="disabled" />
+
+### Partial Collapse
+
+Use the `collapsedHeight` or `collapsedWidth` props to create a "show more/less" pattern. When set, the content
+maintains the specified dimensions when collapsed instead of collapsing to 0px.
+
+We expose the `--collapsed-height` or `--collapsed-width` variables to use in your CSS animations.
+
+<Example id="partial-collapse" />
+
+> Interactive elements (links, buttons, inputs) within the collapsed area automatically become `inert` to prevent
+> keyboard navigation to hidden content.
+
+### Nested Collapsibles
+
+You can nest collapsibles within collapsibles to create hierarchical content structures.
+
+<Example id="nested" />
+
+### Lazy Mount
+
+Use `lazyMount` to delay mounting the content until first opened, and `unmountOnExit` to remove it from the DOM when
+collapsed. Combining both ensures the component is only in the DOM while expanded.
+
+<Example id="lazy-mount" />
+
+### Root Provider
+
+An alternative way to control the collapsible is to use the `RootProvider` component and the `useCollapsible` hook. This
+way you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+## Guides
+
+### Indicator Animation
+
+To rotate the indicator icon (such as a chevron) when the collapsible opens and closes, use CSS transforms with the
+`data-state` attribute:
+
+```css
+[data-scope='collapsible'][data-part='indicator'] {
+  transition: transform 200ms;
+
+  &[data-state='open'] {
+    transform: rotate(180deg);
+  }
+}
+```
+
+### Open vs Visible
+
+When using `useCollapsible` or `useCollapsibleContext`, you can access the `open` and `visible` state properties. They
+seem similar but serve different purposes:
+
+- **`open`**: Indicates the intended state of the collapsible. This is `true` when the collapsible should be expanded
+  and `false` when it should be collapsed. This changes immediately when triggered.
+
+- **`visible`**: Indicates whether the content is currently visible in the DOM. This accounts for exit animations - the
+  content remains `visible` while the closing animation plays, even though `open` is already `false`. Once the animation
+  completes, `visible` becomes `false`.
+
+### Content Animation
+
+Use the `--height` and/or `--width` CSS variables to animate the size of the content when it expands or closes.
+
+If you use `collapsedHeight` or `collapsedWidth`, update your CSS animations to use the `--collapsed-height` or
+`--collapsed-width` variables as the starting/ending point:
+
+```css
+@keyframes expand {
+  from {
+    height: var(--collapsed-height, 0);
+  }
+  to {
+    height: var(--height);
+  }
+}
+
+@keyframes collapse {
+  from {
+    height: var(--height);
+  }
+  to {
+    height: var(--collapsed-height, 0);
+  }
+}
+
+[data-scope='collapsible'][data-part='content'] {
+  &[data-state='open'] {
+    animation: expand 250ms;
+  }
+  &[data-state='closed'] {
+    animation: collapse 250ms;
+  }
+}
+```
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="collapsible" />
+
+### Context
+
+<ContextType id="collapsible" />
+
+## Accessibility
+
+### Keyboard Support
+
+<KeyBindingsTable id="collapsible" />

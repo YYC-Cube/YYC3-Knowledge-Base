@@ -1,0 +1,86 @@
+import { TextInputDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.TextInput);
+
+## Usage
+
+<InputFeatures component="TextInput" element="input" />
+
+<Demo data={TextInputDemos.usage} />
+
+## Loading state
+
+Set `loading` prop to display a loading indicator. By default, the loader is displayed on the right side of the input.
+You can change the position with the `loadingPosition` prop to `'left'` or `'right'`. This is useful for async operations like API calls, searches, or validations:
+
+<Demo data={TextInputDemos.loading} />
+
+## Controlled
+
+```tsx
+import { useState } from 'react';
+import { TextInput } from '@mantine/core';
+
+function Demo() {
+  const [value, setValue] = useState('');
+  return (
+    <TextInput
+      value={value}
+      onChange={(event) => setValue(event.currentTarget.value)}
+    />
+  );
+}
+```
+
+## Uncontrolled
+
+`TextInput` can be used with uncontrolled forms the same way as a native `input[type="text"]`.
+Set the `name` attribute to include text input value in `FormData` object on form submission.
+To control the initial value in uncontrolled forms, use the `defaultValue` prop.
+
+Example usage of uncontrolled `TextInput` with `FormData`:
+
+```tsx
+import { TextInput } from '@mantine/core';
+
+function Demo() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Text input value:', formData.get('name'));
+      }}
+    >
+      <TextInput label="Enter your name" name="name" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+<InputSections component="TextInput" />
+
+<Demo data={TextInputDemos.sections} />
+
+## Error state
+
+<Demo data={TextInputDemos.error} />
+
+## Success state
+
+<Demo data={TextInputDemos.success} />
+
+## Disabled state
+
+<Demo data={TextInputDemos.disabled} />
+
+<StylesApiSelectors component="TextInput" />
+
+<Demo data={TextInputDemos.stylesApi} />
+
+<GetElementRef component="TextInput" refType="input" />
+
+<InputAccessibility component="TextInput" />

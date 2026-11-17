@@ -1,0 +1,91 @@
+@use '../../styles/mixin/mixin.scss' as *;
+@use '../../styles/variable.scss' as *;
+
+// 选项字号
+$sidebar-item-font-size: var(--wot-sidebar-item-font-size, $typography-body-size-main) !default;
+// 选项行高
+$sidebar-item-line-height: var(--wot-sidebar-item-line-height, $typography-body-line-height-size-main) !default;
+// 选项文字颜色
+$sidebar-item-color: var(--wot-sidebar-item-color, $text-main) !default;
+// 选项内边距
+$sidebar-item-padding: var(--wot-sidebar-item-padding, $padding-extra-tight $padding-extra-loose) !default;
+// 选项背景色
+$sidebar-item-bg: var(--wot-sidebar-item-bg, $filled-bottom) !default;
+// 选项最小高度
+$sidebar-item-min-height: var(--wot-sidebar-item-min-height, $n-52) !default;
+// 选项点击态背景色
+$sidebar-item-bg-hover: var(--wot-sidebar-item-bg-hover, $feedback-active) !default;
+// 激活项背景色
+$sidebar-item-bg-active: var(--wot-sidebar-item-bg-active, $filled-oppo) !default;
+// 激活项文字颜色
+$sidebar-item-color-active: var(--wot-sidebar-item-color-active, $primary-6) !default;
+// 激活项字重
+$sidebar-item-font-weight-active: var(--wot-sidebar-item-font-weight-active, $font-weight-semibold) !default;
+// 激活指示条宽度
+$sidebar-item-indicator-width: var(--wot-sidebar-item-indicator-width, $n-2) !default;
+// 激活指示条高度
+$sidebar-item-indicator-height: var(--wot-sidebar-item-indicator-height, $n-20) !default;
+// 圆角大小
+$sidebar-item-border-radius: var(--wot-sidebar-item-border-radius, $radius-large) !default;
+// 禁用状态文字颜色
+$sidebar-item-color-disabled: var(--wot-sidebar-item-color-disabled, $text-disabled) !default;
+// 图标大小
+$sidebar-item-icon-size: var(--wot-sidebar-item-icon-size, $n-20) !default;
+// 图标右边距
+$sidebar-item-icon-margin-right: var(--wot-sidebar-item-icon-margin-right, $padding-ultra-tight) !default;
+
+@include b(sidebar-item) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: $sidebar-item-padding;
+  font-size: $sidebar-item-font-size;
+  color: $sidebar-item-color;
+  background: $sidebar-item-bg;
+  min-height: $sidebar-item-min-height;
+  box-sizing: border-box;
+  white-space: wrap;
+  line-height: $sidebar-item-line-height;
+
+  @include m(active) {
+    font-weight: $sidebar-item-font-weight-active;
+    background: $sidebar-item-bg-active;
+    color: $sidebar-item-color-active;
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: $sidebar-item-indicator-width;
+      height: $sidebar-item-indicator-height;
+      background: $sidebar-item-color-active;
+      transform: translateY(-50%);
+      content: '';
+      border-radius: $sidebar-item-indicator-width;
+    }
+  }
+
+  @include m(prefix) {
+    border-bottom-right-radius: $sidebar-item-border-radius;
+  }
+
+  @include m(suffix) {
+    border-top-right-radius: $sidebar-item-border-radius;
+  }
+
+  @include m(disabled) {
+    color: $sidebar-item-color-disabled;
+    cursor: not-allowed;
+  }
+
+  @include edeep(badge) {
+    z-index: 2;
+    word-break: break-all;
+  }
+
+  @include edeep(icon) {
+    font-size: $sidebar-item-icon-size;
+    margin-right: $sidebar-item-icon-margin-right;
+  }
+}

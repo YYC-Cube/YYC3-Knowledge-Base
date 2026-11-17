@@ -1,0 +1,69 @@
+---
+title: LobeHub UI Kit
+description: Lobe UI is an open-source UI component library for building AIGC web apps.
+order: 0
+---
+
+Lobe UI is an open-source UI component library for building AIGC web apps.
+
+## Start building your AIGC app now
+
+```bash
+pnpm add @lobehub/ui
+```
+
+```tsx | pure
+import '@lobehub/ui/theme.css';
+import '@lobehub/ui/style.css';
+// optional document resets (body font, background, scrollbars)
+import '@lobehub/ui/global.css';
+
+import { Button, ConfigProvider } from '@lobehub/ui';
+import { motion } from 'motion/react';
+
+export default () => (
+  <ConfigProvider motion={motion}>
+    <Button>Hello AIGC</Button>
+  </ConfigProvider>
+);
+```
+
+`@lobehub/ui/style.css` holds the styles of every component. To load only the components you use, import `@lobehub/ui/css/<Component>.css` for each of them instead, e.g. `@lobehub/ui/css/Alert.css` or `@lobehub/ui/css/chat/ChatItem.css`. Each file holds everything that component renders, so `css/chat/ChatItem.css` already covers the `Markdown` it renders and importing `css/Markdown.css` as well only repeats rules. Every component page lists its file under Styles. Import either `style.css` or the per-component files, not both.
+
+Built-in texts are English. For another locale, pass `locale` and `resources` to `ConfigProvider`, e.g. `<ConfigProvider locale="zh-CN" motion={motion} resources={zhCn}>` with `import { zhCn } from '@lobehub/ui/i18n'`.
+
+Lobe UI CSS is emitted inside the `lobe-base`, `lobe-popup` and `lobe-ui` cascade layers, so unlayered CSS always wins over it. Put global resets (`button { font: inherit }`, normalize.css, ...) in a layer declared before them:
+
+```css
+@layer reset, lobe-base, lobe-popup, lobe-ui;
+
+@layer reset {
+  button {
+    font: inherit;
+  }
+}
+```
+
+This `@layer` statement must be the first CSS your app loads, before `theme.css` and `style.css`: the first declaration of a layer fixes its order and later order statements are ignored.
+
+With Tailwind v4, use one merged statement as the very first CSS, before `@import 'tailwindcss'`, `theme.css` and `style.css`:
+
+```css
+@layer theme, base, lobe-base, lobe-popup, lobe-ui, components, utilities;
+```
+
+The lobe layers sit after Tailwind's `base` (preflight), so preflight loses to Lobe UI, and before `components` / `utilities`, so Tailwind utilities still beat Lobe UI.
+
+Upgrading from 5.x? Follow [Migrating to v6](/migration-v6): v6 drops Ant Design, `ThemeProvider` and the `@lobehub/ui/base-ui` subpath, and ships a codemod for the mechanical part.
+
+### Themeable
+
+Customize colors, typography, breakpoints, and other design foundations through the theme system.
+
+### Fast
+
+Avoid unnecessary style-prop processing at runtime while retaining a flexible component API.
+
+### Light and dark UI
+
+Build interfaces that adapt consistently to light and dark appearance preferences.

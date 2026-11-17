@@ -1,0 +1,43 @@
+{{#> form form--id=button-template-form--id form--modifier=(concat button-template-form--modifier " pf-m-limit-width")}}
+  {{#> form-group form-group--id="-login"}}
+    {{#> form-group-label}}
+      {{#> form-label form-label--attribute=(concat 'for="' form--id form-group--id '"') required="true"}}
+        Username
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control}}
+      {{#> form-control controlType="input" input="true" form-control--IsRequired='true' form-control--attribute=(concat 'type="text" id="' form--id form-group--id '" name="' form--id form-group--id '" value="johndoe"')}}{{/form-control}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--id="-password"}}
+    {{#> form-group-label}}
+      {{#> form-label form-label--attribute=(concat 'for="' form--id form-group--id '"') required="true"}}
+        Password
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control}}
+      {{#> form-control controlType="input" input="true" form-control--IsRequired='true' form-control--attribute=(concat 'type="password" value="p@ssw0rd" id="' form--id form-group--id '" name="' form--id form-group--id '"')}}{{/form-control}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--modifier="pf-m-action"}}
+    {{#> action-list}}
+      {{#> action-list-group}}
+        {{#> action-list-item}}
+          {{#if button-template-form--IsLoading}}
+            {{#> button button--IsPrimary=true button--IsProgress=true button--IsInProgress=true button--IsSubmit=true}}
+              Linking account
+            {{/button}}
+          {{else if button-template-form--IsComplete}}
+            {{#> button button--IsPrimary=true button--IsSubmit=true button--icon="check-circle"}}
+              Logged in
+            {{/button}}
+          {{else}}
+            {{#> button button--IsPrimary=true button--IsSubmit=true}}
+              Link account and log in
+            {{/button}}
+          {{/if}}
+        {{/action-list-item}}
+      {{/action-list-group}}
+    {{/action-list}}
+  {{/form-group}}
+{{/form}}

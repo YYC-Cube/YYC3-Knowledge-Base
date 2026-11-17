@@ -1,0 +1,18 @@
+<div class="{{pfv}}form__field-group
+  {{setModifiers
+    form-field-group--IsExpanded='pf-m-expanded'
+    form-field-group--IsExpandable='pf-m-expandable'
+    form-field-group--modifier=form-field-group--modifier
+  }}"
+  role="group"
+  {{#unless form-field-group--HasNoTitle}}
+    aria-labelledby="{{form-field-group--id}}-title"
+  {{/unless}}
+  {{#if form-field-group--attribute}}
+    {{{form-field-group--attribute}}}
+  {{/if}}>
+  {{#if form-field-group--IsExpandable}}
+    {{> form-field-group-toggle}}
+  {{/if}}
+  {{> @partial-block}}
+</div>

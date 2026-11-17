@@ -1,0 +1,141 @@
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import user from '@testing-library/user-event'
+import { axe } from 'vitest-axe'
+import { ComponentUnderTest } from './basic.tsx'
+import { ControlledComponentUnderTest } from './controlled.tsx'
+
+describe('Checkbox', () => {
+  it('should have no a11y violations', async () => {
+    const { container } = render(<ComponentUnderTest />)
+    const results = await axe(container)
+
+    expect(results).toHaveNoViolations()
+  })
+
+  it('should handle check and unchecked', async () => {
+    const onChange = vi.fn()
+    render(<ComponentUnderTest onChange={onChange} />)
+
+    const checkbox = screen.getByRole('checkbox')
+
+    await user.click(checkbox)
+    expect(checkbox).toBeChecked()
+  })
+
+  it('should invoke onCheckedChange', async () => {
+    const onCheckedChange = vi.fn()
+    render(<ComponentUnderTest onCheckedChange={onCheckedChange} />)
+
+    const checkbox = screen.getByText('Checkbox')
+
+    fireEvent.click(checkbox)
+    await waitFor(() => expect(onCheckedChange).toHaveBeenCalledWith({ checked: true }))
+  })
+
+  it('should handle indeterminate state properly', async () => {
+    render(<ComponentUnderTest checked="indeterminate" />)
+
+    expect(screen.getByTestId('control')).toHaveAttribute('data-state', 'indeterminate')
+  })
+
+  it('should allow controlled usage', async () => {
+    render(<ControlledComponentUnderTest />)
+
+    const checkbox = screen.getByRole('checkbox')
+
+    expect(checkbox).not.toBeChecked()
+
+    await user.click(screen.getByText('set checked'))
+    await waitFor(() => expect(checkbox).toBeChecked())
+  })
+})
+
+import { Checkbox } from '@ark-ui/react/checkbox'
+import { Field } from '@ark-ui/react/field'
+import { CheckIcon, MinusIcon } from 'lucide-react'
+import styles from 'styles/checkbox.module.css'
+
+const WithField = (props: Field.RootProps) => (
+  <Field.Root {...props}>
+    <Checkbox.Root className={styles.Root}>
+      <Checkbox.Control className={styles.Control}>
+        <Checkbox.Indicator className={styles.Indicator}>
+          <CheckIcon />
+        </Checkbox.Indicator>
+        <Checkbox.Indicator className={styles.Indicator} indeterminate>
+          <MinusIcon />
+        </Checkbox.Indicator>
+      </Checkbox.Control>
+      <Checkbox.Label className={styles.Label}>Label</Checkbox.Label>
+      <Checkbox.HiddenInput />
+    </Checkbox.Root>
+    <Field.HelperText>Additional Info</Field.HelperText>
+    <Field.ErrorText>Error Info</Field.ErrorText>
+  </Field.Root>
+)
+
+describe('Checkbox / Field', () => {
+  it('should set checkbox as required', async () => {
+    render(<WithField required />)
+    expect(screen.getByRole('checkbox', { name: /label/i })).toBeRequired()
+  })
+
+  it('should set input as disabled', async () => {
+    render(<WithField disabled />)
+    expect(screen.getByRole('checkbox', { name: /label/i })).toBeDisabled()
+  })
+
+  it('should set input as readonly', async () => {
+    render(<WithField readOnly />)
+    expect(screen.getByText('Label')).toHaveAttribute('data-readonly')
+  })
+
+  it('should display helper text', async () => {
+    render(<WithField />)
+    expect(screen.getByText('Additional Info')).toBeInTheDocument()
+  })
+
+  it('should display error text when error is present', async () => {
+    render(<WithField invalid />)
+    expect(screen.getByText('Error Info')).toBeInTheDocument()
+  })
+
+  it('should focus on input when label is clicked', async () => {
+    render(<WithField />)
+    await user.click(screen.getByText(/label/i))
+    expect(screen.getByRole('checkbox', { name: /label/i })).toHaveFocus()
+  })
+
+  it('should not display error text when no error is present', async () => {
+    render(<WithField />)
+    expect(screen.queryByText('Error Info')).not.toBeInTheDocument()
+  })
+})
+
+const WithGroup = () => (
+  <Checkbox.Group>
+    <Checkbox.Root value="one">
+      <Checkbox.Label>One</Checkbox.Label>
+      <Checkbox.HiddenInput />
+    </Checkbox.Root>
+    <Checkbox.Root value="two" disabled>
+      <Checkbox.Label>Two</Checkbox.Label>
+      <Checkbox.HiddenInput />
+    </Checkbox.Root>
+    <Checkbox.Root value="three">
+      <Checkbox.Label>Three</Checkbox.Label>
+      <Checkbox.HiddenInput />
+    </Checkbox.Root>
+  </Checkbox.Group>
+)
+
+describe('Checkbox / Group', () => {
+  it('should allow individual checkbox to be disabled', async () => {
+    render(<WithGroup />)
+
+    const checkboxes = screen.getAllByRole('checkbox')
+    expect(checkboxes[0]).not.toBeDisabled()
+    expect(checkboxes[1]).toBeDisabled()
+    expect(checkboxes[2]).not.toBeDisabled()
+  })
+})

@@ -1,0 +1,32 @@
+---
+title: FilterStrip
+description: FilterStrip is one Surface of selectable counts that acts as a radio group. A tone colors a count only when it is above zero. Number formatting and the empty placeholder are props.
+category: Data Display
+order: 6
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { dashboardFilterStripClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} />
+
+## APIs
+
+<Api name="FilterStrip" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `FilterStrip`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/dashboard/FilterStrip.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={dashboardFilterStripClasses} />

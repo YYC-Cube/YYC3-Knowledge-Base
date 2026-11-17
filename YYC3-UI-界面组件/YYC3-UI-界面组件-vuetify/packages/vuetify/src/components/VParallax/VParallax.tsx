@@ -1,0 +1,112 @@
+// Styles
+import './VParallax.sass'
+
+// Components
+import { VImg } from '@/components/VImg'
+
+// Composables
+import { useDisplay } from '@/composables'
+import { makeComponentProps } from '@/composables/component'
+import { useElementIntersection } from '@/composables/intersectionObserver'
+import { useElementSize } from '@/composables/resizeObserver'
+
+// Utilities
+import { computed, onBeforeUnmount, shallowRef, toRef, watch } from 'vue'
+import { clamp, genericComponent, getScrollParent, PREFERS_REDUCED_MOTION, propsFactory, useRender } from '@/util'
+
+// Types
+import type { VImgSlots } from '@/components/VImg/VImg'
+
+function floor (val: number) {
+  return Math.floor(Math.abs(val)) * Math.sign(val)
+}
+
+export const makeVParallaxProps = propsFactory({
+  scale: {
+    type: [Number, String],
+    default: 0.5,
+  },
+
+  ...makeComponentProps(),
+}, 'VParallax')
+
+export const VParallax = genericComponent<VImgSlots>()({
+  name: 'VParallax',
+
+  props: makeVParallaxProps(),
+
+  setup (props, { slots }) {
+    const { height: displayHeight } = useDisplay()
+
+    const root = shallowRef<VImg>()
+    const el = toRef(() => root.value?.$el as HTMLElement | undefined)
+    const { height: containerHeight } = useElementSize(el)
+    const { isIntersecting } = useElementIntersection(el)
+
+    let scrollParent: Element | Document
+    watch(isIntersecting, val => {
+      if (val) {
+        scrollParent = getScrollParent(el.value)
+        scrollParent = scrollParent === document.scrollingElement ? document : scrollParent
+        scrollParent.addEventListener('scroll', onScroll, { passive: true })
+        onScroll()
+      } else {
+        scrollParent.removeEventListener('scroll', onScroll)
+      }
+    })
+
+    onBeforeUnmount(() => {
+      scrollParent?.removeEventListener('scroll', onScroll)
+    })
+
+    watch(displayHeight, onScroll)
+    watch(containerHeight, onScroll)
+
+    const scale = computed(() => {
+      return 1 - clamp(Number(props.scale))
+    })
+
+    let frame = -1
+    function onScroll () {
+      if (!isIntersecting.value || PREFERS_REDUCED_MOTION()) return
+
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
+        if (!el.value) return
+        const img = el.value.querySelector('.v-img__img') as HTMLElement | null
+        if (!img) return
+
+        const scrollHeight = scrollParent instanceof Document ? document.documentElement.clientHeight : scrollParent.clientHeight
+        const scrollPos = scrollParent instanceof Document ? window.scrollY : scrollParent.scrollTop
+        const top = el.value.getBoundingClientRect().top + scrollPos
+        const height = containerHeight.value
+
+        const center = top + (height - scrollHeight) / 2
+        const translate = floor((scrollPos - center) * scale.value)
+        const sizeScale = Math.max(1, (scale.value * (scrollHeight - height) + height) / height)
+
+        img.style.setProperty('transform', `translateY(${translate}px) scale(${sizeScale})`)
+      })
+    }
+
+    useRender(() => (
+      <VImg
+        class={[
+          'v-parallax',
+          { 'v-parallax--active': isIntersecting.value },
+          props.class,
+        ]}
+        style={ props.style }
+        ref={ root }
+        cover
+        onLoadstart={ onScroll }
+        onLoad={ onScroll }
+        v-slots={ slots }
+      />
+    ))
+
+    return {}
+  },
+})
+
+export type VParallax = InstanceType<typeof VParallax>

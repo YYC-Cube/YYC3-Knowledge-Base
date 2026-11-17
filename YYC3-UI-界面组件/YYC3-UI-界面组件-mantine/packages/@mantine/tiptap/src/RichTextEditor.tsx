@@ -1,0 +1,326 @@
+import { useMemo } from 'react';
+import { Editor } from '@tiptap/react';
+import {
+  Box,
+  BoxProps,
+  ElementProps,
+  factory,
+  Factory,
+  StylesApiProps,
+  useProps,
+  useStyles,
+} from '@mantine/core';
+import type { ImageUploadResult } from './extensions/UploadImage';
+import { DEFAULT_LABELS, RichTextEditorLabels } from './labels';
+import { RichTextEditorProvider } from './RichTextEditor.context';
+import {
+  RichTextEditorContent,
+  type RichTextEditorContentProps,
+} from './RichTextEditorContent/RichTextEditorContent';
+import * as controls from './RichTextEditorControl';
+import type { RichTextEditorColorControlProps } from './RichTextEditorControl/RichTextEditorColorControl';
+import {
+  RichTextEditorControl,
+  type RichTextEditorControlProps,
+} from './RichTextEditorControl/RichTextEditorControl';
+import {
+  RichTextEditorDetailsControl,
+  type RichTextEditorDetailsControlProps,
+} from './RichTextEditorControl/RichTextEditorDetailsControl';
+import {
+  RichTextEditorImageUploadControl,
+  type RichTextEditorImageUploadControlProps,
+} from './RichTextEditorControl/RichTextEditorImageUploadControl';
+import {
+  RichTextEditorInvisibleCharactersControl,
+  type RichTextEditorInvisibleCharactersControlProps,
+} from './RichTextEditorControl/RichTextEditorInvisibleCharactersControl';
+import type { RichTextEditorLinkControlProps } from './RichTextEditorControl/RichTextEditorLinkControl';
+import {
+  RichTextEditorSourceCodeControl,
+  type RichTextEditorSourceCodeControlProps,
+} from './RichTextEditorControl/RichTextEditorSourceCodeControl';
+import {
+  RichTextEditorTableInsertControl,
+  type RichTextEditorTableInsertControlProps,
+} from './RichTextEditorControl/RichTextEditorTableInsertControl';
+import {
+  RichTextEditorControlsGroup,
+  type RichTextEditorControlsGroupProps,
+} from './RichTextEditorControlsGroup/RichTextEditorControlsGroup';
+import {
+  RichTextEditorToolbar,
+  type RichTextEditorToolbarProps,
+} from './RichTextEditorToolbar/RichTextEditorToolbar';
+import classes from './RichTextEditor.module.css';
+
+export type RichTextEditorVariant = 'default' | 'subtle';
+
+export type RichTextEditorStylesNames =
+  | 'linkEditorSave'
+  | 'linkEditorDropdown'
+  | 'root'
+  | 'content'
+  | 'Typography'
+  | 'control'
+  | 'controlIcon'
+  | 'controlsGroup'
+  | 'toolbar'
+  | 'linkEditor'
+  | 'linkEditorInput'
+  | 'linkEditorExternalControl'
+  | 'tableInsertDropdown'
+  | 'tableInsertGrid'
+  | 'tableInsertCell'
+  | 'tableInsertLabel';
+
+export interface RichTextEditorProps
+  extends BoxProps, StylesApiProps<RichTextEditorFactory>, ElementProps<'div'> {
+  /** Tiptap editor instance */
+  editor: Editor | null;
+
+  /** Determines whether code highlight styles should be added @default true */
+  withCodeHighlightStyles?: boolean;
+
+  /** Determines whether typography styles should be added @default true */
+  withTypographyStyles?: boolean;
+
+  /** Called if `RichTextEditor.SourceCode` clicked.  */
+  onSourceCodeTextSwitch?: (isSourceCodeModeActive: boolean) => void;
+
+  /** Called when an image file is picked with `RichTextEditor.ImageUpload` control, must return a promise that resolves to the uploaded image URL or to an object with `src` and optional `alt` and `title`. Takes precedence over `onImageUpload` option of the extension created with `getUploadImageExtension`. */
+  onImageUpload?: (file: File) => Promise<string | ImageUploadResult>;
+
+  /** Called when an image picked with `RichTextEditor.ImageUpload` control fails to upload. Takes precedence over `onImageUploadError` option of the extension created with `getUploadImageExtension`. */
+  onImageUploadError?: (file: File, error: unknown) => void;
+
+  /** Labels that are used in controls */
+  labels?: Partial<RichTextEditorLabels>;
+
+  /** Child editor components */
+  children: React.ReactNode;
+}
+
+export type RichTextEditorFactory = Factory<{
+  props: RichTextEditorProps;
+  ref: HTMLDivElement;
+  stylesNames: RichTextEditorStylesNames;
+  variant: RichTextEditorVariant;
+  staticComponents: {
+    Content: typeof RichTextEditorContent;
+    Control: typeof RichTextEditorControl;
+    Toolbar: typeof RichTextEditorToolbar;
+    ControlsGroup: typeof RichTextEditorControlsGroup;
+    Bold: typeof controls.BoldControl;
+    Italic: typeof controls.ItalicControl;
+    Strikethrough: typeof controls.StrikeThroughControl;
+    Underline: typeof controls.UnderlineControl;
+    ClearFormatting: typeof controls.ClearFormattingControl;
+    H1: typeof controls.H1Control;
+    H2: typeof controls.H2Control;
+    H3: typeof controls.H3Control;
+    H4: typeof controls.H4Control;
+    H5: typeof controls.H5Control;
+    H6: typeof controls.H6Control;
+    BulletList: typeof controls.BulletListControl;
+    OrderedList: typeof controls.OrderedListControl;
+    Link: typeof controls.RichTextEditorLinkControl;
+    Unlink: typeof controls.UnlinkControl;
+    Blockquote: typeof controls.BlockquoteControl;
+    AlignLeft: typeof controls.AlignLeftControl;
+    AlignRight: typeof controls.AlignRightControl;
+    AlignCenter: typeof controls.AlignCenterControl;
+    AlignJustify: typeof controls.AlignJustifyControl;
+    Superscript: typeof controls.SuperscriptControl;
+    Subscript: typeof controls.SubscriptControl;
+    Code: typeof controls.CodeControl;
+    CodeBlock: typeof controls.CodeBlockControl;
+    ColorPicker: typeof controls.RichTextEditorColorPickerControl;
+    Color: typeof controls.RichTextEditorColorControl;
+    Highlight: typeof controls.HighlightControl;
+    Hr: typeof controls.HrControl;
+    UnsetColor: typeof controls.UnsetColorControl;
+    Undo: typeof controls.UndoControl;
+    Redo: typeof controls.RedoControl;
+    TaskList: typeof controls.TaskListControl;
+    TaskListSink: typeof controls.TaskListSinkControl;
+    TaskListLift: typeof controls.TaskListLiftControl;
+    SourceCode: typeof RichTextEditorSourceCodeControl;
+    ImageUpload: typeof RichTextEditorImageUploadControl;
+    TableInsert: typeof RichTextEditorTableInsertControl;
+    TableDelete: typeof controls.TableDeleteControl;
+    TableColumnBefore: typeof controls.TableColumnBeforeControl;
+    TableColumnAfter: typeof controls.TableColumnAfterControl;
+    TableColumnDelete: typeof controls.TableColumnDeleteControl;
+    TableRowBefore: typeof controls.TableRowBeforeControl;
+    TableRowAfter: typeof controls.TableRowAfterControl;
+    TableRowDelete: typeof controls.TableRowDeleteControl;
+    TableToggleHeaderRow: typeof controls.TableToggleHeaderRowControl;
+    TableToggleHeaderColumn: typeof controls.TableToggleHeaderColumnControl;
+    TableMergeCells: typeof controls.TableMergeCellsControl;
+    TableSplitCell: typeof controls.TableSplitCellControl;
+    Details: typeof RichTextEditorDetailsControl;
+    InvisibleCharacters: typeof RichTextEditorInvisibleCharactersControl;
+  };
+}>;
+
+const defaultProps = {
+  withCodeHighlightStyles: true,
+  withTypographyStyles: true,
+  variant: 'default',
+} satisfies Partial<RichTextEditorProps>;
+
+export const RichTextEditor = factory<RichTextEditorFactory>((_props) => {
+  const props = useProps('RichTextEditor', defaultProps, _props);
+  const {
+    classNames,
+    className,
+    style,
+    styles,
+    unstyled,
+    vars,
+    editor,
+    withCodeHighlightStyles,
+    withTypographyStyles,
+    onSourceCodeTextSwitch,
+    onImageUpload,
+    onImageUploadError,
+    labels,
+    children,
+    variant,
+    attributes,
+    ...others
+  } = props;
+
+  const getStyles = useStyles<RichTextEditorFactory>({
+    name: 'RichTextEditor',
+    classes,
+    props,
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    attributes,
+    vars,
+  });
+
+  const mergedLabels = useMemo(() => ({ ...DEFAULT_LABELS, ...labels }), [labels]);
+
+  return (
+    <RichTextEditorProvider
+      value={{
+        editor,
+        getStyles,
+        labels: mergedLabels,
+        withCodeHighlightStyles,
+        withTypographyStyles,
+        onSourceCodeTextSwitch,
+        onImageUpload,
+        onImageUploadError,
+        unstyled,
+        variant,
+      }}
+    >
+      <Box {...getStyles('root')} {...others}>
+        {children}
+      </Box>
+    </RichTextEditorProvider>
+  );
+});
+
+RichTextEditor.classes = classes;
+RichTextEditor.displayName = '@mantine/tiptap/RichTextEditor';
+
+// Generic components
+RichTextEditor.Content = RichTextEditorContent;
+RichTextEditor.Control = RichTextEditorControl;
+RichTextEditor.Toolbar = RichTextEditorToolbar;
+RichTextEditor.ControlsGroup = RichTextEditorControlsGroup;
+
+// Controls components
+RichTextEditor.Bold = controls.BoldControl;
+RichTextEditor.Italic = controls.ItalicControl;
+RichTextEditor.Strikethrough = controls.StrikeThroughControl;
+RichTextEditor.Underline = controls.UnderlineControl;
+RichTextEditor.ClearFormatting = controls.ClearFormattingControl;
+RichTextEditor.H1 = controls.H1Control;
+RichTextEditor.H2 = controls.H2Control;
+RichTextEditor.H3 = controls.H3Control;
+RichTextEditor.H4 = controls.H4Control;
+RichTextEditor.H5 = controls.H5Control;
+RichTextEditor.H6 = controls.H6Control;
+RichTextEditor.BulletList = controls.BulletListControl;
+RichTextEditor.OrderedList = controls.OrderedListControl;
+RichTextEditor.Link = controls.RichTextEditorLinkControl;
+RichTextEditor.Unlink = controls.UnlinkControl;
+RichTextEditor.Blockquote = controls.BlockquoteControl;
+RichTextEditor.AlignLeft = controls.AlignLeftControl;
+RichTextEditor.AlignRight = controls.AlignRightControl;
+RichTextEditor.AlignCenter = controls.AlignCenterControl;
+RichTextEditor.AlignJustify = controls.AlignJustifyControl;
+RichTextEditor.Superscript = controls.SuperscriptControl;
+RichTextEditor.Subscript = controls.SubscriptControl;
+RichTextEditor.Code = controls.CodeControl;
+RichTextEditor.CodeBlock = controls.CodeBlockControl;
+RichTextEditor.ColorPicker = controls.RichTextEditorColorPickerControl;
+RichTextEditor.Color = controls.RichTextEditorColorControl;
+RichTextEditor.Highlight = controls.HighlightControl;
+RichTextEditor.Hr = controls.HrControl;
+RichTextEditor.UnsetColor = controls.UnsetColorControl;
+RichTextEditor.Undo = controls.UndoControl;
+RichTextEditor.Redo = controls.RedoControl;
+RichTextEditor.TaskList = controls.TaskListControl;
+RichTextEditor.TaskListSink = controls.TaskListSinkControl;
+RichTextEditor.TaskListLift = controls.TaskListLiftControl;
+RichTextEditor.SourceCode = RichTextEditorSourceCodeControl;
+RichTextEditor.ImageUpload = RichTextEditorImageUploadControl;
+
+// Table controls
+RichTextEditor.TableInsert = RichTextEditorTableInsertControl;
+RichTextEditor.TableDelete = controls.TableDeleteControl;
+RichTextEditor.TableColumnBefore = controls.TableColumnBeforeControl;
+RichTextEditor.TableColumnAfter = controls.TableColumnAfterControl;
+RichTextEditor.TableColumnDelete = controls.TableColumnDeleteControl;
+RichTextEditor.TableRowBefore = controls.TableRowBeforeControl;
+RichTextEditor.TableRowAfter = controls.TableRowAfterControl;
+RichTextEditor.TableRowDelete = controls.TableRowDeleteControl;
+RichTextEditor.TableToggleHeaderRow = controls.TableToggleHeaderRowControl;
+RichTextEditor.TableToggleHeaderColumn = controls.TableToggleHeaderColumnControl;
+RichTextEditor.TableMergeCells = controls.TableMergeCellsControl;
+RichTextEditor.TableSplitCell = controls.TableSplitCellControl;
+
+// Details control
+RichTextEditor.Details = RichTextEditorDetailsControl;
+
+// Invisible characters control
+RichTextEditor.InvisibleCharacters = RichTextEditorInvisibleCharactersControl;
+
+export namespace RichTextEditor {
+  export type Props = RichTextEditorProps;
+  export type StylesNames = RichTextEditorStylesNames;
+  export type Factory = RichTextEditorFactory;
+
+  export namespace Toolbar {
+    export type Props = RichTextEditorToolbarProps;
+  }
+
+  export namespace Control {
+    export type Props = RichTextEditorControlProps;
+    export type ColorProps = RichTextEditorColorControlProps;
+    export type LinkProps = RichTextEditorLinkControlProps;
+    export type SourceCodeProps = RichTextEditorSourceCodeControlProps;
+    export type ImageUploadProps = RichTextEditorImageUploadControlProps;
+    export type TableInsertProps = RichTextEditorTableInsertControlProps;
+    export type DetailsProps = RichTextEditorDetailsControlProps;
+    export type InvisibleCharactersProps = RichTextEditorInvisibleCharactersControlProps;
+  }
+
+  export namespace Content {
+    export type Props = RichTextEditorContentProps;
+  }
+
+  export namespace ControlsGroup {
+    export type Props = RichTextEditorControlsGroupProps;
+  }
+}

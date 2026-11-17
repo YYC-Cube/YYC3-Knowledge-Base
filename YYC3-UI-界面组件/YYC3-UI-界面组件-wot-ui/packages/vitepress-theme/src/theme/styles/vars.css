@@ -1,0 +1,136 @@
+/**
+ * Colors
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vt-c-brand-1: #1c64fd;
+  --vt-c-brand-2: #4480ff;
+  --vt-c-brand-3: #7ca4ff;
+  --vt-c-brand-4: #b8cfff;
+  --vt-c-brand-dark-1: #164ed1;
+  --vt-c-brand-dark-2: #1341ad;
+  --vt-c-brand-soft: #1c64fd14;
+  --vt-c-accent-purple: #8059f3;
+  --vt-c-accent-cyan: #6ed8ff;
+  --vt-c-accent-mint: #64cddd;
+}
+
+.dark {
+  --vt-c-brand-1: #4480ff;
+  --vt-c-brand-2: #7ca4ff;
+  --vt-c-brand-3: #b8cfff;
+  --vt-c-brand-4: #e5edff;
+  --vt-c-brand-dark-1: #1c64fd;
+  --vt-c-brand-dark-2: #164ed1;
+  --vt-c-brand-soft: #1c64fd14;
+  --vt-c-accent-purple: #9775fa;
+  --vt-c-accent-cyan: #45c7ff;
+  --vt-c-accent-mint: #90dbe7;
+}
+
+:root {
+  --vp-c-brand-1: var(--vt-c-brand-1);
+  --vp-c-brand-2: var(--vt-c-brand-2);
+  --vp-c-brand-3: var(--vt-c-brand-3);
+  --vp-c-brand-soft: var(--vt-c-brand-soft);
+
+  --vp-c-brand: var(--vp-c-brand-1);
+  --vp-c-brand-light: var(--vp-c-brand-2);
+  --vp-c-brand-lighter: var(--vt-c-brand-3);
+  --vp-c-brand-lightest: var(--vt-c-brand-4);
+  --vp-c-brand-dark: var(--vt-c-brand-dark-1);
+  --vp-c-brand-darker: var(--vt-c-brand-dark-2);
+  --vp-c-brand-dimm: var(--vt-c-brand-soft);
+
+  --vp-button-brand-bg: var(--vp-c-brand-1);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-active-border: var(--vp-c-brand-3);
+  --vp-button-brand-active-text: var(--vp-c-white);
+  --vp-button-brand-active-bg: var(--vp-c-brand-dark);
+}
+
+/**
+ * Component: Home
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
+      var(--vt-c-brand-1) 30%,
+      var(--vt-c-accent-purple));
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(56px);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(72px);
+  }
+}
+
+/**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-custom-block-tip-border: var(--vp-c-brand-1);
+  --vp-custom-block-tip-text: var(--vp-c-brand-darker);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
+}
+
+/**
+ * Component: Algolia
+ * -------------------------------------------------------------------------- */
+
+.DocSearch {
+  --docsearch-primary-color: var(--vp-c-brand) !important;
+}
+
+/**
+ * VitePress: Custom fix
+ * -------------------------------------------------------------------------- */
+
+/*
+  Use lighter colors for links in dark mode for a11y.
+  Also specify some classes twice to have higher specificity
+  over scoped class data attribute.
+*/
+.dark .vp-doc a,
+.dark .vp-doc a>code,
+.dark .VPNavBarMenuLink.VPNavBarMenuLink:hover,
+.dark .VPNavBarMenuLink.VPNavBarMenuLink.active,
+.dark .link.link:hover,
+.dark .link.link.active,
+.dark .edit-link-button.edit-link-button,
+.dark .pager-link .title {
+  color: var(--vp-c-brand-lighter);
+}
+
+.dark .vp-doc a:hover,
+.dark .vp-doc a>code:hover {
+  color: var(--vp-c-brand-lightest);
+  opacity: 1;
+}
+
+/* Transition by color instead of opacity */
+.dark .vp-doc .custom-block a {
+  transition: color 0.25s;
+}
+
+.vp-sponsor.aside .vp-sponsor-grid.mini .vp-sponsor-grid-image {
+  max-width: 124px;
+}
+/* side bar */
+
+:root {
+  --vp-sidebar-width: 338px;
+  --vp-sidebar-bg-color: var(--vp-c-bg);
+}
+
+.dark {
+  --vp-sidebar-bg-color: var(--vp-c-bg-alt);
+}

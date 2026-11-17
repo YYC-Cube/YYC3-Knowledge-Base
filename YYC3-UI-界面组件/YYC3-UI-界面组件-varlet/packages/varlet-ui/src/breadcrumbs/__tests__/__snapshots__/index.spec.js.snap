@@ -1,0 +1,67 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`breadcrumbs basic usage 1`] = `
+"<div class="var-breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content var-breadcrumb--active">HOME</div>
+    <div class="var-breadcrumb__separator" aria-hidden="true">/</div>
+  </div>
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content var-breadcrumb--active">LINK 1</div>
+    <div class="var-breadcrumb__separator" aria-hidden="true">/</div>
+  </div>
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content">LINK 2</div>
+    <!--v-if-->
+  </div>
+</div>"
+`;
+
+exports[`breadcrumbs parent and child separator 1`] = `
+"<div class="var-breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content var-breadcrumb--active">HOME</div>
+    <div class="var-breadcrumb__separator" aria-hidden="true">-</div>
+  </div>
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content var-breadcrumb--active">LINK 1</div>
+    <div class="var-breadcrumb__separator" aria-hidden="true">-</div>
+  </div>
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content">LINK 2</div>
+    <!--v-if-->
+  </div>
+</div>"
+`;
+
+exports[`breadcrumbs parent separator 1`] = `
+"<div class="var-breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content var-breadcrumb--active">HOME</div>
+    <div class="var-breadcrumb__separator" aria-hidden="true">+</div>
+  </div>
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content var-breadcrumb--active">LINK 1</div>
+    <div class="var-breadcrumb__separator" aria-hidden="true">+</div>
+  </div>
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content">LINK 2</div>
+    <!--v-if-->
+  </div>
+</div>"
+`;
+
+exports[`breadcrumbs slots 1`] = `
+"<div class="var-breadcrumbs" role="navigation" aria-label="Breadcrumbs">
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content var-breadcrumb--active">HOME</div><span>*</span>
+  </div>
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content var-breadcrumb--active">LINK 1</div><span>*</span>
+  </div>
+  <div class="var-breadcrumb">
+    <div class="var-breadcrumb__content">LINK 2</div>
+    <!--v-if-->
+  </div>
+</div>"
+`;

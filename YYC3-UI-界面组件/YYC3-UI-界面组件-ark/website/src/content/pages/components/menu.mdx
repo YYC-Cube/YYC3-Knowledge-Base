@@ -1,0 +1,190 @@
+---
+id: menu
+title: Menu
+description: A list of options that appears when a user interacts with a button.
+---
+
+<ComponentPreview id="Menu" />
+
+## Anatomy
+
+<Anatomy id="menu" />
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger>
+    <Menu.Indicator />
+  </Menu.Trigger>
+  <Menu.Positioner>
+    <Menu.Content>
+      <Menu.Arrow>
+        <Menu.ArrowTip />
+      </Menu.Arrow>
+      <Menu.Item />
+      <Menu.ItemGroup>
+        <Menu.ItemGroupLabel />
+        <Menu.Item />
+      </Menu.ItemGroup>
+      <Menu.Separator />
+    </Menu.Content>
+  </Menu.Positioner>
+</Menu.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Item Selection
+
+Use `onSelect` to handle item selection. The callback receives the item's `id`.
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the menu is to use the `RootProvider` component and the `useMenu` hook. This way you can
+access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Grouping
+
+Use `Menu.ItemGroup` and `Menu.ItemGroupLabel` to organize related menu items.
+
+<Example id="group" />
+
+### Links
+
+To render menu items as links, use the `asChild` prop to replace the default element with an anchor tag.
+
+<Example id="links" />
+
+### Checkbox
+
+To add a checkbox to a menu item, use the `Menu.Checkbox` component.
+
+<Example id="checkbox-items" />
+
+### Radio Group
+
+To group radio option items, use the `Menu.RadioGroup` component.
+
+<Example id="radio-items" />
+
+### Context Menu
+
+To show the menu when a trigger element is right-clicked, use the `Menu.ContextTrigger` component.
+
+Context menus are also opened during a long-press of roughly `700ms` when the pointer is pen or touch.
+
+Pass a `value` to each `Menu.ContextTrigger` to share one menu across several targets. Right-clicking another trigger
+while the menu is open moves it there, and `onTriggerValueChange` reports which trigger is active.
+
+<Example id="context" />
+
+### Nested
+
+To show a nested menu, render another `Menu` component and use the `Menu.TriggerItem` component to open the submenu.
+
+<Example id="nested" />
+
+### Menu in Dialog
+
+When rendering a menu inside a dialog, use `lazyMount` and `unmountOnExit` to ensure proper cleanup when the dialog
+closes.
+
+<Example id="menu-in-dialog" />
+
+### Menu Item Dialog
+
+Open a confirmation dialog from a menu item. This pattern is useful for destructive actions like delete that require
+user confirmation.
+
+<Example id="menu-item-dialog" />
+
+### Multiple Triggers
+
+Share a single menu across multiple trigger elements. Pass a `value` to each `Menu.Trigger` — the menu repositions to
+whichever trigger is activated.
+
+<Example id="multiple-triggers" />
+
+## Guides
+
+### Custom IDs
+
+Ark UI autogenerates ids for menu items internally. Passing a custom `id` prop breaks the internal `getElementById`
+functionality used by the component.
+
+```tsx
+// ❌ Don't do this
+<Menu.Item id="custom-id" value="custom-value">
+  Custom Item
+</Menu.Item>
+
+// ✅ Do this
+<Menu.Item value="custom-value">
+  Custom Item
+</Menu.Item>
+```
+
+### Links
+
+To render a menu item as a link, render the link as the menu item itself using the `asChild` prop, not as a child of the
+menu item.
+
+> This pattern ensures the link element receives the correct ARIA attributes and keyboard interactions from the menu
+> item.
+
+Here's an example of a reusable `MenuItemLink` component:
+
+```tsx
+interface MenuItemLinkProps extends Menu.ItemProps {
+  href?: string
+  target?: string
+}
+
+export const MenuItemLink = (props: MenuItemLinkProps) => {
+  const { href, target, children, ...rest } = props
+  return (
+    <Menu.Item {...rest} asChild>
+      <a href={href} target={target}>
+        {children}
+      </a>
+    </Menu.Item>
+  )
+}
+```
+
+Pressing <kbd>Enter</kbd> on a link item calls `onSelect` and closes the menu. The details include `modifiers`, so you
+can let the browser handle <kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> and skip your own handling:
+
+```tsx
+<Menu.Root
+  onSelect={(details) => {
+    if (details.modifiers.metaKey || details.modifiers.ctrlKey) return
+    // ...
+  }}
+>
+  {/* ... */}
+</Menu.Root>
+```
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="menu" />
+
+### Context
+
+<ContextType id="menu" />
+
+## Accessibility
+
+Complies with the [Menu WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/).
+
+### Keyboard Support
+
+<KeyBindingsTable id="menu" />

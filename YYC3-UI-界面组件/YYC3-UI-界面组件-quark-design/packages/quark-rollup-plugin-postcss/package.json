@@ -1,0 +1,92 @@
+{
+  "name": "@quarkd/rollup-plugin-postcss",
+  "version": "1.0.0",
+  "description": "Seamless integration between Rollup and PostCSS",
+  "main": "src/index.js",
+  "files": [
+    "src/*",
+    "types/index.d.ts"
+  ],
+  "scripts": {
+    "test": "npm run lint && jest",
+    "test:cov": "npm run lint && jest --coverage",
+    "build": "echo \"Error: no build specified\"",
+    "lint": "xo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egoist/rollup-plugin-postcss.git"
+  },
+  "keywords": [
+    "postcss",
+    "rollup"
+  ],
+  "author": "EGOIST <0x142857@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/egoist/rollup-plugin-postcss/issues"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "types": "./types/index.d.ts",
+  "homepage": "https://github.com/egoist/rollup-plugin-postcss#readme",
+  "devDependencies": {},
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "concat-with-sourcemaps": "^1.1.0",
+    "cssnano": "^5.0.1",
+    "import-cwd": "^3.0.0",
+    "p-queue": "^6.6.2",
+    "pify": "^5.0.0",
+    "postcss-load-config": "^3.0.0",
+    "postcss-modules": "^4.0.0",
+    "promise.series": "^0.2.0",
+    "resolve": "^1.19.0",
+    "rollup-pluginutils": "^2.8.2",
+    "safe-identifier": "^0.4.2",
+    "style-inject": "^0.3.0"
+  },
+  "peerDependencies": {
+    "postcss": "8.x"
+  },
+  "xo": {
+    "extends": "rem",
+    "envs": [
+      "jest"
+    ],
+    "rules": {
+      "import/prefer-default-export": 0,
+      "import/extensions": 0,
+      "import/no-unassigned-import": 0,
+      "@typescript-eslint/semi": 0,
+      "eslint-comments/disable-enable-pair": 0,
+      "promise/prefer-await-to-then": 0
+    }
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "6"
+          }
+        }
+      ]
+    ]
+  },
+  "release": {
+    "branches": [
+      "master",
+      "next"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

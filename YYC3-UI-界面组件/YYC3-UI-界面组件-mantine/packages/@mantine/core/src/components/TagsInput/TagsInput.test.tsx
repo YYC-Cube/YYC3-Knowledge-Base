@@ -1,0 +1,509 @@
+import { useState } from 'react';
+import { act, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import {
+  externalInputFill,
+  inputDefaultProps,
+  inputStylesApiSelectors,
+  render,
+  tests,
+} from '@mantine-tests/core';
+import { TagsInput, TagsInputProps, TagsInputStylesNames } from './TagsInput';
+
+const defaultProps: TagsInputProps = {
+  ...inputDefaultProps,
+  data: ['test-1', 'test-2'],
+};
+
+describe('@mantine/core/TagsInput', () => {
+  tests.axe([
+    <TagsInput aria-label="test-label" data={['test-1', 'test-2']} key="1" />,
+    <TagsInput label="test-label" data={['test-1', 'test-2']} key="2" />,
+    <TagsInput label="test-label" error data={['test-1', 'test-2']} key="3" />,
+    <TagsInput
+      label="test-label"
+      error="test-error"
+      id="test"
+      data={['test-1', 'test-2']}
+      key="4"
+    />,
+    <TagsInput
+      label="test-label"
+      description="test-description"
+      data={['test-1', 'test-2']}
+      key="5"
+    />,
+  ]);
+
+  tests.itSupportsSystemProps<TagsInputProps, TagsInputStylesNames>({
+    component: TagsInput,
+    props: defaultProps,
+    displayName: '@mantine/core/TagsInput',
+    stylesApiSelectors: [...inputStylesApiSelectors],
+  });
+
+  tests.itSupportsInputProps<TagsInputProps>({
+    component: TagsInput,
+    props: defaultProps,
+    selector: 'input',
+  });
+
+  tests.itSupportsSharedInputDefaults<TagsInputProps>({
+    component: TagsInput,
+    props: defaultProps,
+    componentName: 'TagsInput',
+  });
+
+  it('correctly handles custom isDuplicate', async () => {
+    const user = userEvent.setup();
+    render(
+      <TagsInput
+        role="combobox"
+        data={['test-1']}
+        isDuplicate={(value) => value.startsWith('test')}
+      />
+    );
+
+    const input = screen.getByRole('combobox');
+
+    await user.type(input, 'test-2');
+    await user.keyboard('{Enter}');
+
+    expect(screen.queryByText('test-2')).not.toBeInTheDocument();
+  });
+
+  it('calls onMaxTags when maxTags limit is reached', async () => {
+    const onMaxTags = jest.fn();
+    render(<TagsInput maxTags={2} onMaxTags={onMaxTags} />);
+    const user = userEvent.setup();
+    const input = screen.getByRole('combobox');
+
+    await user.type(input, 'test-1{Enter}');
+    await user.type(input, 'test-2{Enter}');
+    expect(onMaxTags).not.toHaveBeenCalled();
+
+    await user.type(input, 'test-3{Enter}');
+    expect(onMaxTags).toHaveBeenCalledWith('test-3');
+  });
+
+  it('supports renderPill prop', () => {
+    const { container } = render(
+      <TagsInput
+        defaultValue={['React', 'Angular']}
+        renderPill={({ value }) => <span className="test-pill">{value}</span>}
+      />
+    );
+
+    expect(container.querySelectorAll('.test-pill')).toHaveLength(2);
+    expect(container.querySelectorAll('.test-pill')[0]).toHaveTextContent('React');
+    expect(container.querySelectorAll('.test-pill')[1]).toHaveTextContent('Angular');
+  });
+
+  it('handles default split chars (comma)', async () => {
+    render(<TagsInput />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.type(input, 'React,');
+    expect(screen.getByText('React')).toBeInTheDocument();
+
+    await userEvent.type(input, 'Angular,');
+    expect(screen.getByText('Angular')).toBeInTheDocument();
+
+    await userEvent.type(input, 'Vue{Enter}');
+    expect(screen.getByText('Vue')).toBeInTheDocument();
+  });
+
+  it('handles custom split chars', async () => {
+    render(<TagsInput splitChars={[';', '|']} />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.type(input, 'React;');
+    expect(screen.getByText('React')).toBeInTheDocument();
+
+    await userEvent.type(input, 'Angular|');
+    expect(screen.getByText('Angular')).toBeInTheDocument();
+
+    await userEvent.type(input, 'Vue{Enter}');
+    expect(screen.getByText('Vue')).toBeInTheDocument();
+  });
+
+  it('handles paste with split chars', async () => {
+    render(<TagsInput />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.click(input);
+    await userEvent.paste('React,Angular,Vue');
+
+    expect(screen.getByText('React')).toBeInTheDocument();
+    expect(screen.getByText('Angular')).toBeInTheDocument();
+    expect(screen.getByText('Vue')).toBeInTheDocument();
+  });
+
+  it('removes last tag with Backspace', async () => {
+    render(<TagsInput defaultValue={['React', 'Angular', 'Vue']} />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.click(input);
+    await userEvent.keyboard('{Backspace}');
+
+    expect(screen.getByText('React')).toBeInTheDocument();
+    expect(screen.getByText('Angular')).toBeInTheDocument();
+    expect(screen.queryByText('Vue')).not.toBeInTheDocument();
+  });
+
+  it('accepts value on blur when acceptValueOnBlur is true', async () => {
+    render(<TagsInput acceptValueOnBlur />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.type(input, 'React');
+    await userEvent.tab();
+
+    expect(screen.getByText('React')).toBeInTheDocument();
+  });
+
+  it('does not accept value on blur when acceptValueOnBlur is false', async () => {
+    render(<TagsInput acceptValueOnBlur={false} />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.type(input, 'React');
+    await userEvent.tab();
+
+    expect(screen.queryByText('React')).not.toBeInTheDocument();
+  });
+
+  it('allows duplicate tags when allowDuplicates is true', async () => {
+    render(<TagsInput allowDuplicates />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.type(input, 'React{Enter}');
+    await userEvent.type(input, 'React{Enter}');
+
+    expect(screen.getAllByText('React')).toHaveLength(2);
+  });
+
+  it('prevents duplicate tags by default', async () => {
+    render(<TagsInput />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.type(input, 'React{Enter}');
+    await userEvent.type(input, 'React{Enter}');
+
+    expect(screen.getAllByText('React')).toHaveLength(1);
+  });
+
+  it('calls onRemove when tag is removed', async () => {
+    const onRemove = jest.fn();
+    const { container } = render(
+      <TagsInput defaultValue={['React', 'Angular']} onRemove={onRemove} />
+    );
+
+    const removeButtons = container.querySelectorAll('.mantine-Pill-remove');
+    await userEvent.click(removeButtons[0] as HTMLElement);
+
+    expect(onRemove).toHaveBeenCalledWith('React');
+  });
+
+  it('calls onClear when clear button is clicked', async () => {
+    const onClear = jest.fn();
+    const { container } = render(
+      <TagsInput defaultValue={['React', 'Angular']} clearable onClear={onClear} />
+    );
+
+    const clearButton = container.querySelector('.mantine-InputClearButton-root') as HTMLElement;
+    await userEvent.click(clearButton);
+
+    expect(onClear).toHaveBeenCalled();
+  });
+
+  it('adds tag on Enter key', async () => {
+    render(<TagsInput />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.type(input, 'React{Enter}');
+
+    expect(screen.getByText('React')).toBeInTheDocument();
+  });
+
+  it('prevents changes when readOnly is true', async () => {
+    render(<TagsInput defaultValue={['React']} readOnly />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.type(input, 'Angular{Enter}');
+
+    expect(screen.getByText('React')).toBeInTheDocument();
+    expect(screen.queryByText('Angular')).not.toBeInTheDocument();
+  });
+
+  it('prevents tag removal when readOnly is true', () => {
+    const { container } = render(<TagsInput defaultValue={['React', 'Angular']} readOnly />);
+
+    expect(container.querySelectorAll('.mantine-Pill-remove')).toHaveLength(0);
+  });
+
+  it('does not add tags on paste when readOnly is true', async () => {
+    const onChange = jest.fn();
+    render(<TagsInput defaultValue={['React']} readOnly onChange={onChange} />);
+    const input = screen.getByRole('combobox');
+
+    await userEvent.click(input);
+    await userEvent.paste('Angular,Vue');
+
+    expect(screen.getByText('React')).toBeInTheDocument();
+    expect(screen.queryByText('Angular')).not.toBeInTheDocument();
+    expect(screen.queryByText('Vue')).not.toBeInTheDocument();
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('prevents duplicate tags with case-insensitive check using default splitChars', async () => {
+    const user = userEvent.setup();
+    const onDuplicate = jest.fn();
+    render(<TagsInput role="combobox" data={[]} onDuplicate={onDuplicate} />);
+
+    const input = screen.getByRole('combobox');
+
+    await user.type(input, 'One,');
+    await user.type(input, 'one,');
+    await user.type(input, 'ONE,');
+
+    expect(screen.getByText('One')).toBeInTheDocument();
+    expect(screen.queryAllByText('one')).toHaveLength(0);
+    expect(screen.queryAllByText('ONE')).toHaveLength(0);
+    expect(onDuplicate).toHaveBeenCalledTimes(2);
+    expect(onDuplicate).toHaveBeenCalledWith('one');
+    expect(onDuplicate).toHaveBeenCalledWith('ONE');
+  });
+
+  it('prevents duplicate tags with case-insensitive check using custom splitChars', async () => {
+    const user = userEvent.setup();
+    const onDuplicate = jest.fn();
+    render(<TagsInput role="combobox" data={[]} splitChars={['|']} onDuplicate={onDuplicate} />);
+
+    const input = screen.getByRole('combobox');
+
+    await user.type(input, 'One|');
+    await user.type(input, 'one|');
+    await user.type(input, 'ONE|');
+
+    expect(screen.getByText('One')).toBeInTheDocument();
+    expect(screen.queryAllByText('one')).toHaveLength(0);
+    expect(screen.queryAllByText('ONE')).toHaveLength(0);
+    expect(onDuplicate).toHaveBeenCalledTimes(2);
+    expect(onDuplicate).toHaveBeenCalledWith('one');
+    expect(onDuplicate).toHaveBeenCalledWith('ONE');
+  });
+
+  it('prevents duplicate tags when using Enter with custom splitChars', async () => {
+    const user = userEvent.setup();
+    const onDuplicate = jest.fn();
+    render(<TagsInput role="combobox" data={[]} splitChars={['|']} onDuplicate={onDuplicate} />);
+
+    const input = screen.getByRole('combobox');
+
+    await user.type(input, 'One');
+    await user.keyboard('{Enter}');
+    expect(screen.getByText('One')).toBeInTheDocument();
+
+    await user.type(input, 'one');
+    await user.keyboard('{Enter}');
+    expect(screen.queryAllByText('one')).toHaveLength(0);
+
+    await user.type(input, 'TWO');
+    await user.keyboard('{Enter}');
+    expect(screen.getByText('TWO')).toBeInTheDocument();
+
+    expect(onDuplicate).toHaveBeenCalledTimes(1);
+    expect(onDuplicate).toHaveBeenCalledWith('one');
+  });
+
+  it('correctly handles custom isDuplicate with splitChars', async () => {
+    const user = userEvent.setup();
+    const onDuplicate = jest.fn();
+    render(
+      <TagsInput
+        role="combobox"
+        data={[]}
+        splitChars={['|']}
+        isDuplicate={(value) => value.startsWith('test')}
+        onDuplicate={onDuplicate}
+      />
+    );
+
+    const input = screen.getByRole('combobox');
+
+    await user.type(input, 'test-1|');
+    await user.type(input, 'test-2|');
+    await user.type(input, 'hello|');
+
+    expect(screen.queryByText('test-1')).not.toBeInTheDocument();
+    expect(screen.queryByText('test-2')).not.toBeInTheDocument();
+    expect(screen.getByText('hello')).toBeInTheDocument();
+    expect(onDuplicate).toHaveBeenCalledTimes(2);
+    expect(onDuplicate).toHaveBeenCalledWith('test-1');
+    expect(onDuplicate).toHaveBeenCalledWith('test-2');
+  });
+
+  it('allows duplicate tags when allowDuplicates is true with splitChars', async () => {
+    const user = userEvent.setup();
+    render(<TagsInput role="combobox" data={[]} splitChars={['|']} allowDuplicates />);
+
+    const input = screen.getByRole('combobox');
+
+    await user.type(input, 'One|');
+    await user.type(input, 'one|');
+    await user.type(input, 'ONE|');
+
+    const tags = screen.queryAllByText(/^(One|one|ONE)$/);
+    expect(tags).toHaveLength(3);
+  });
+
+  describe('withPillsReorder', () => {
+    function Controlled({
+      onChangeSpy,
+      renderPill,
+    }: {
+      onChangeSpy?: (value: string[]) => void;
+      renderPill?: TagsInputProps['renderPill'];
+    }) {
+      const [value, setValue] = useState(['a', 'b', 'c']);
+      return (
+        <TagsInput
+          {...defaultProps}
+          data={[]}
+          withPillsReorder
+          renderPill={renderPill}
+          value={value}
+          onChange={(next) => {
+            setValue(next);
+            onChangeSpy?.(next);
+          }}
+        />
+      );
+    }
+
+    const getPills = () =>
+      Array.from(document.querySelectorAll<HTMLElement>('[data-mantine-pill-index]'));
+
+    it('keeps pills out of the tab order and exposes aria-keyshortcuts', () => {
+      render(<Controlled />);
+      const pills = getPills();
+      expect(pills).toHaveLength(3);
+      pills.forEach((pill) => {
+        expect(pill).toHaveAttribute('tabindex', '-1');
+        expect(pill).toHaveAttribute('aria-keyshortcuts', 'Alt+ArrowLeft Alt+ArrowRight');
+      });
+    });
+
+    it('does not enable reorder when disabled or readOnly', () => {
+      const { rerender } = render(
+        <TagsInput {...defaultProps} value={['a', 'b']} withPillsReorder disabled />
+      );
+      expect(getPills()).toHaveLength(0);
+      rerender(<TagsInput {...defaultProps} value={['a', 'b']} withPillsReorder readOnly />);
+      expect(getPills()).toHaveLength(0);
+    });
+
+    it('reorders pills with Alt+Arrow keys and follows focus', async () => {
+      const spy = jest.fn();
+      render(<Controlled onChangeSpy={spy} />);
+      getPills()[0].focus();
+      await userEvent.keyboard('{Alt>}{ArrowRight}{/Alt}');
+      expect(spy).toHaveBeenLastCalledWith(['b', 'a', 'c']);
+      expect(getPills()[1]).toHaveFocus();
+    });
+
+    it('focuses the last pill when ArrowLeft is pressed in the empty input', async () => {
+      render(<Controlled />);
+      const input = screen.getByRole('combobox');
+      act(() => input.focus());
+      await userEvent.keyboard('{ArrowLeft}');
+      const pills = getPills();
+      expect(pills[pills.length - 1]).toHaveFocus();
+    });
+
+    it('navigates between pills with bare ArrowLeft / ArrowRight', async () => {
+      render(<Controlled />);
+      const pills = getPills();
+      pills[2].focus();
+      await userEvent.keyboard('{ArrowLeft}');
+      expect(pills[1]).toHaveFocus();
+      await userEvent.keyboard('{ArrowRight}');
+      expect(pills[2]).toHaveFocus();
+    });
+
+    it('returns focus to the input on ArrowRight from the last pill, even when renderPill contains another input', async () => {
+      const renderPill: TagsInputProps['renderPill'] = ({ value, reorderProps }) => (
+        <span {...reorderProps} data-testid={`custom-pill-${value}`}>
+          <input data-testid={`pill-input-${value}`} aria-label={`pill-${value}`} />
+        </span>
+      );
+      render(<Controlled renderPill={renderPill} />);
+      const pills = getPills();
+      pills[pills.length - 1].focus();
+      await userEvent.keyboard('{ArrowRight}');
+      expect(screen.getByRole('combobox')).toHaveFocus();
+    });
+  });
+
+  describe('external input changes (autofill)', () => {
+    it('does not display phantom text', async () => {
+      render(<TagsInput {...defaultProps} name="test" />);
+      await externalInputFill(screen.getByRole('combobox'), 'test-1');
+      expect(screen.getByRole('combobox')).toHaveValue('');
+      expect(document.querySelector('input[name="test"]')).toHaveValue('');
+    });
+
+    it('does not turn an external fill into a tag on blur', async () => {
+      render(<TagsInput {...defaultProps} name="test" acceptValueOnBlur />);
+      await externalInputFill(screen.getByRole('combobox'), 'test-1');
+      await userEvent.click(screen.getByRole('combobox'));
+      await userEvent.tab();
+      expect(document.querySelector('input[name="test"]')).toHaveValue('');
+    });
+
+    it('does not interfere with typing', async () => {
+      render(<TagsInput {...defaultProps} name="test" />);
+      await userEvent.type(screen.getByRole('combobox'), 'new-tag{enter}');
+      expect(screen.getByRole('combobox')).toHaveValue('');
+      expect(document.querySelector('input[name="test"]')).toHaveValue('new-tag');
+    });
+  });
+
+  it('links listbox to the rendered label with aria-labelledby', () => {
+    const { rerender } = render(
+      <TagsInput label="Test label" data={['test-1', 'test-2']} dropdownOpened />
+    );
+    expect(screen.getByRole('listbox')).toHaveAccessibleName('Test label');
+
+    rerender(
+      <>
+        <TagsInput
+          label="Test label"
+          labelProps={{ id: 'custom-label-id' }}
+          data={['test-1', 'test-2']}
+          dropdownOpened
+        />
+      </>
+    );
+    expect(screen.getByRole('listbox')).toHaveAttribute('aria-labelledby', 'custom-label-id');
+    expect(screen.getByRole('listbox')).toHaveAccessibleName('Test label');
+  });
+
+  it('does not reference label in aria-labelledby when label is excluded from inputWrapperOrder', () => {
+    render(
+      <TagsInput
+        label="Test label"
+        aria-label="Test aria-label"
+        inputWrapperOrder={['input']}
+        data={['test-1', 'test-2']}
+        dropdownOpened
+      />
+    );
+    expect(screen.getByRole('listbox')).not.toHaveAttribute('aria-labelledby');
+    expect(screen.getByRole('listbox')).toHaveAccessibleName('Test aria-label');
+  });
+
+  it('passes loaderProps to the Loader component', () => {
+    const { container } = render(<TagsInput loading loaderProps={{ className: 'test-loader' }} />);
+    expect(container.querySelector('.test-loader')).toBeInTheDocument();
+  });
+});

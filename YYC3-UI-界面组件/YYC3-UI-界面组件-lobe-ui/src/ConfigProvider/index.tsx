@@ -1,0 +1,203 @@
+'use client';
+
+import {
+  createContext,
+  type CSSProperties,
+  type ElementType,
+  memo,
+  type ReactNode,
+  use,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+
+import FontLoader from '@/FontLoader';
+import { installGlobalFocusRing } from '@/GlobalFocusRing';
+import {
+  type I18nContextValue,
+  type TranslationKey,
+  type TranslationResourcesInput,
+  type TranslationResourcesMap,
+} from '@/i18n/types';
+import { MotionComponent, type MotionComponentType } from '@/MotionProvider';
+import { type CDN, type CdnApi, genCdnUrl } from '@/utils/genCdnUrl';
+
+import AppElementContext from './AppElementContext';
+import { DEFAULT_WEB_FONTS } from './cdnAssets';
+
+export const LOBE_THEME_APP_ID = 'lobe-ui-theme-app';
+
+export type Direction = 'ltr' | 'rtl';
+
+export interface Config {
+  aAs?: ElementType;
+  customCdnFn?: CdnFn;
+  globalFocusRing?: boolean;
+  imgAs?: ElementType;
+  imgUnoptimized?: boolean;
+  proxy?: CDN | 'custom';
+}
+
+export const ConfigContext = createContext<Config | null>(null);
+
+const DirectionContext = createContext<Direction>('ltr');
+
+// Internal i18n context
+const I18nContextInternal = createContext<I18nContextValue>({
+  locale: 'en',
+  t: (key: TranslationKey) => key,
+});
+
+export interface ConfigProviderProps {
+  children: ReactNode;
+  config?: Config;
+  customFonts?: string[];
+  direction?: Direction;
+  enableCustomFonts?: boolean;
+  // i18n props - flattened at top level
+  locale?: string;
+  motion: MotionComponentType;
+  resources?: TranslationResourcesInput;
+}
+
+const isThenable = (value: unknown): value is Promise<TranslationResourcesMap> =>
+  typeof (value as { then?: unknown })?.then === 'function';
+
+const ConfigProvider = memo<ConfigProviderProps>(
+  ({
+    children,
+    config,
+    customFonts,
+    direction = 'ltr',
+    enableCustomFonts = true,
+    locale,
+    resources,
+    motion,
+  }) => {
+    const [portalHost, setPortalHost] = useState<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+      if (config?.globalFocusRing === false) return;
+      return installGlobalFocusRing();
+    }, [config?.globalFocusRing]);
+
+    const fallbackLocale = locale ?? 'en';
+    const [resolvedResources, setResolvedResources] = useState<TranslationResourcesMap | undefined>(
+      () => (resources && !isThenable(resources) ? resources : undefined),
+    );
+    const [resolvedLocale, setResolvedLocale] = useState(fallbackLocale);
+    const latestRequestId = useRef(0);
+
+    useEffect(() => {
+      const requestId = ++latestRequestId.current;
+
+      if (!resources) {
+        setResolvedResources(undefined);
+        setResolvedLocale(fallbackLocale);
+        return;
+      }
+
+      if (isThenable(resources)) {
+        const targetLocale = fallbackLocale;
+        resources
+          .then((nextResources) => {
+            if (latestRequestId.current !== requestId) return;
+            setResolvedResources(nextResources);
+            setResolvedLocale(targetLocale);
+          })
+          .catch(() => {
+            if (latestRequestId.current !== requestId) return;
+          });
+        return;
+      }
+
+      setResolvedResources(resources);
+      setResolvedLocale(fallbackLocale);
+    }, [fallbackLocale, resources]);
+
+    const currentResources = isThenable(resources) ? resolvedResources : resources;
+    const currentLocale = isThenable(resources) ? resolvedLocale : fallbackLocale;
+
+    const i18nValue = useMemo((): I18nContextValue => {
+      const resourceList = Array.isArray(currentResources)
+        ? currentResources
+        : currentResources
+          ? Object.values(currentResources)
+          : [];
+      const mergedResources = Object.assign({}, ...resourceList);
+      const t = (key: TranslationKey): string => mergedResources[key] || key;
+      return { locale: currentLocale, t };
+    }, [currentLocale, currentResources]);
+
+    return (
+      <I18nContextInternal value={i18nValue}>
+        <ConfigContext value={config ?? null}>
+          <DirectionContext value={direction}>
+            <MotionComponent value={motion}>
+              <AppElementContext value={portalHost}>
+                {enableCustomFonts && <WebFonts customFonts={customFonts} />}
+                {children}
+                <div
+                  data-lobe-portal-host=""
+                  id={LOBE_THEME_APP_ID}
+                  ref={setPortalHost}
+                  style={portalHostStyle}
+                />
+              </AppElementContext>
+            </MotionComponent>
+          </DirectionContext>
+        </ConfigContext>
+      </I18nContextInternal>
+    );
+  },
+);
+
+// `position: fixed` + `right: 0` gives base-ui Positioners a viewport-wide containing block and a
+// stacking context; no `pointer-events: none`, which popup descendants would inherit
+const portalHostStyle: CSSProperties = {
+  height: 0,
+  left: 0,
+  position: 'fixed',
+  right: 0,
+  top: 0,
+  zIndex: 1100,
+};
+
+const WebFonts = ({ customFonts }: { customFonts?: string[] }) => {
+  const genCdnUrl = useCdnFn();
+  const urls = useMemo(
+    () => customFonts || DEFAULT_WEB_FONTS.map((asset) => genCdnUrl(asset)),
+    [customFonts, genCdnUrl],
+  );
+
+  return urls.map((url) => <FontLoader key={url} url={url} />);
+};
+
+export const useDirection = () => use(DirectionContext);
+
+export { useAppElement } from './AppElementContext';
+
+// useCdnFn
+export type CdnFn = ({ pkg, version, path }: CdnApi) => string;
+
+const cdnFallback: CdnFn = ({ pkg, version, path }) =>
+  genCdnUrl({ path, pkg, proxy: 'aliyun', version });
+
+export const useCdnFn = (): CdnFn => {
+  const config = use(ConfigContext);
+  if (!config) return cdnFallback;
+  if (config?.proxy !== 'custom')
+    return ({ pkg, version, path }) =>
+      genCdnUrl({ path, pkg, proxy: config.proxy as any, version });
+  return config?.customCdnFn || cdnFallback;
+};
+
+// useI18n hook
+export const useI18n = () => use(I18nContextInternal);
+
+// Export I18nContext for external reference
+export { I18nContextInternal as I18nContext };
+
+export default ConfigProvider;

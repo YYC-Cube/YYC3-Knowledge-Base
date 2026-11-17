@@ -1,0 +1,16 @@
+@use '../../styles/variable.scss' as *;
+@use '../../styles/mixin/mixin.scss' as *;
+
+
+@include b(tab) {
+  width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+
+  @include e(body) {
+    @include m(inactive) {
+      height: 0;
+      transition: height 0.3s ease-in-out;
+    }
+  }
+}

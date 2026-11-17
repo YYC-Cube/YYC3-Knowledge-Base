@@ -1,0 +1,9 @@
+<p class="{{pfv}}alert__title{{#if alert-title--modifier}} {{alert-title--modifier}}{{/if}}"
+  {{#if alert--IsExpandable}}
+    id="{{alert--id}}-title"
+  {{/if}}
+  {{#if alert-title--attribute}}
+    {{{alert-title--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</p>

@@ -1,0 +1,16 @@
+export default {
+  basicUsage: 'Basic Usage',
+  multipleSelection: 'Multiple Selection',
+  disableCheckmark: 'Disable Checkmark',
+  disabled: 'Disabled',
+  readonly: 'Readonly',
+  size: 'Size',
+  options: 'Options API',
+  customFields: 'Custom Fields',
+  formValidation: 'Form Validation',
+  day: 'Day',
+  week: 'Week',
+  month: 'Month',
+  chooseDay: 'Please choose day',
+  validate: 'Validate',
+}

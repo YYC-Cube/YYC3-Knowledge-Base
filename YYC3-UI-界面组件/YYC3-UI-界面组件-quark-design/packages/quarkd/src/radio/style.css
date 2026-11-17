@@ -1,0 +1,132 @@
+:host([radiogrouphost]) {
+  font-size: var(--radio-font-size, 16px);
+  color: var(--radio-color, #242729);
+  display: block;
+}
+
+:host([radiohost]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host([radiohost]) * {
+  cursor: pointer;
+}
+
+:host([radiogrouphost][direction="horizontal"]) .quark-radio-group-wrapper {
+  display: flex;
+}
+:host([radiogrouphost][direction="horizontal"]) ::slotted(*) {
+  margin-right: var(--radio-horizontal-gap, 20px);
+}
+
+:host([radiohost]) .quark-radio {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+:host([radiohost][name][direction="horizontal"]) {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+
+:host label {
+  display: inline-flex;
+  align-items: center;
+  height: var(--radio-label-height, 100%);
+  line-height: var(--radio-label-height, 100%);
+}
+
+:host label.quark-radio-hide {
+  display: none;
+}
+
+:host .quark-radio-container {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: var(--radio-size, 16px);
+  width: var(--radio-size, 16px);
+  margin-right: var(--radio-label-gap, 8px);
+  flex-shrink: 0;
+  background: #ffffff;
+  border-radius: 50%;
+  border: 1px solid quark-formPlaceholderColor;
+}
+
+:host .quark-radio-icon {
+  height: 100%;
+  width: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition-duration: 0.2s;
+  transition-property: visibility, opacity;
+}
+
+:host([size="normal"]) .quark-radio-container {
+  height: var(--radio-size, 16px);
+  width: var(--radio-size, 16px);
+}
+
+:host([size="big"]) .quark-radio-container {
+  height: var(--radio-size, 20px);
+  width: var(--radio-size, 20px);
+}
+
+:host([disabled]) * {
+  cursor: not-allowed;
+}
+
+:host([disabled]) .quark-radio-container {
+  background: #f0f3f5;
+}
+
+:host .quark-radio-container .quark-radio-disabled {
+  display: none;
+}
+
+:host([disabled][checked]) .quark-radio-container .quark-radio-disabled {
+  display: block;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  z-index: 3;
+}
+
+:host([shape="square"]) .quark-radio-container {
+  border-radius: 4px;
+}
+
+:host([disabled][checked][shape="square"])
+  .quark-radio-container
+  .quark-radio-disabled {
+  border-radius: 4px;
+}
+
+:host([shape="square"][size="big"]) .quark-radio-container span {
+  border-radius: 5px;
+}
+
+:host([checked]) .quark-radio-container {
+  background: var(--radio-background, quark-primaryColor);
+  border: 1px solid transparent;
+}
+
+:host([checked]) .quark-radio-icon {
+  visibility: visible;
+  opacity: 1;
+  transition-duration: 0.2s;
+  transition-property: visibility, opacity;
+}
+
+:host input[type="radio"i] {
+  margin: 0;
+}

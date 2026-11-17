@@ -1,0 +1,1617 @@
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+import { act, createEvent, fireEvent } from '@testing-library/react';
+import { DatesProvider } from '@mantine/dates';
+import { render, screen, tests, userEvent } from '@mantine-tests/core';
+import { toDateString } from '../../utils';
+import { DayView, DayViewProps, DayViewStylesNames } from './DayView';
+
+const defaultProps: DayViewProps = {
+  date: '2025-11-03',
+  events: [
+    {
+      id: 1,
+      title: 'Morning Standup',
+      start: `2025-11-03 09:00:00`,
+      end: `2025-11-03 09:30:00`,
+      color: 'blue',
+      payload: {},
+    },
+  ],
+};
+
+const allDayEvents = [
+  {
+    id: 1,
+    title: 'All-day event 1',
+    color: 'blue',
+    start: '2025-11-03',
+    end: '2025-11-04',
+    payload: {},
+  },
+  {
+    id: 2,
+    title: 'All-day event 2',
+    color: 'blue',
+    start: '2025-11-03',
+    end: '2025-11-04',
+    payload: {},
+  },
+  {
+    id: 3,
+    title: 'All-day event 3',
+    color: 'red',
+    start: '2025-11-03',
+    end: '2025-11-04',
+    payload: {},
+  },
+];
+
+describe('@mantine/schedule/DayView', () => {
+  tests.itSupportsSystemProps<DayViewProps, DayViewStylesNames>({
+    component: DayView,
+    props: defaultProps,
+    varsResolver: true,
+    displayName: '@mantine/schedule/DayView',
+    providerStylesApi: false,
+    stylesApiSelectors: [
+      'dayView',
+      'dayViewAllDay',
+      'dayViewAllDayEvents',
+      'dayViewSlot',
+      'dayViewSlots',
+      'dayViewTimeSlots',
+      'dayViewInner',
+      'header',
+      'headerControl',
+      'viewSelect',
+      'event',
+      'eventInner',
+    ],
+  });
+
+  it('renders day view for the given date', () => {
+    const { container } = render(<DayView {...defaultProps} />);
+    expect(screen.getByText('November 3, 2025')).toBeInTheDocument();
+    // 97 slots: 96 intervals + all-day slot
+    expect(container.querySelectorAll('.mantine-DayView-dayViewSlot')).toHaveLength(97);
+  });
+
+  it('supports custom intervalMinutes', () => {
+    const { container } = render(<DayView {...defaultProps} intervalMinutes={60} />);
+    // 25 slots: 24 intervals + all-day slot
+    expect(container.querySelectorAll('.mantine-DayView-dayViewSlot')).toHaveLength(25);
+  });
+
+  it('supports custom startTime and endTime', () => {
+    const { container } = render(
+      <DayView {...defaultProps} startTime="08:00:00" endTime="12:00:00" intervalMinutes={60} />
+    );
+    // 5 slots: 4 intervals + all-day slot
+    expect(container.querySelectorAll('.mantine-DayView-dayViewSlot')).toHaveLength(5);
+  });
+
+  it('supports locale (prop)', () => {
+    render(<DayView {...defaultProps} locale="ru" />);
+    expect(screen.getByText('ноябрь 3, 2025')).toBeInTheDocument();
+  });
+
+  it('supports locale (DatesProvider)', () => {
+    render(
+      <DatesProvider settings={{ locale: 'ru' }}>
+        <DayView {...defaultProps} />
+      </DatesProvider>
+    );
+
+    expect(screen.getByText('ноябрь 3, 2025')).toBeInTheDocument();
+  });
+
+  it('renders all-day slot based on withAllDaySlot prop', () => {
+    const { container, rerender } = render(<DayView {...defaultProps} withAllDaySlot />);
+    expect(
+      container.querySelector('.mantine-DayView-dayViewSlot[data-all-day]')
+    ).toBeInTheDocument();
+
+    rerender(<DayView {...defaultProps} withAllDaySlot={false} />);
+    expect(
+      container.querySelector('.mantine-DayView-dayViewSlot[data-all-day]')
+    ).not.toBeInTheDocument();
+  });
+
+  it('supports withSubHourGridLines={false}', () => {
+    const { container, rerender } = render(<DayView {...defaultProps} />);
+    expect(container.querySelector('.mantine-DayView-dayView')).not.toHaveAttribute(
+      'data-hide-sub-hour-grid-lines'
+    );
+
+    rerender(<DayView {...defaultProps} withSubHourGridLines={false} />);
+    expect(container.querySelector('.mantine-DayView-dayView')).toHaveAttribute(
+      'data-hide-sub-hour-grid-lines'
+    );
+  });
+
+  it('supports custom slotLabelFormat (dayjs string)', () => {
+    render(<DayView {...defaultProps} slotLabelFormat="h:mm A" />);
+    expect(screen.getByText('1:00 AM')).toBeInTheDocument();
+  });
+
+  it('supports custom slotLabelFormat (function)', () => {
+    render(<DayView {...defaultProps} slotLabelFormat={(date) => `Time: ${date}`} />);
+    expect(screen.getByText('Time: 2025-11-03 01:00:00')).toBeInTheDocument();
+  });
+
+  it('supports custom headerFormat (dayjs string)', () => {
+    render(<DayView {...defaultProps} headerFormat="DD/MM/YYYY" />);
+    expect(screen.getByText('03/11/2025')).toBeInTheDocument();
+  });
+
+  it('supports custom headerFormat (function)', () => {
+    render(<DayView {...defaultProps} headerFormat={(date) => `Date: ${date}`} />);
+    expect(screen.getByText('Date: 2025-11-03 00:00:00')).toBeInTheDocument();
+  });
+
+  it('displays current time indicator based on withCurrentTimeIndicator prop', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2025-11-03T10:30:00Z'));
+
+    const { container, rerender } = render(<DayView {...defaultProps} withCurrentTimeIndicator />);
+    expect(container.querySelector('.mantine-DayView-currentTimeIndicator')).toBeInTheDocument();
+
+    rerender(<DayView {...defaultProps} withCurrentTimeIndicator={false} />);
+    expect(
+      container.querySelector('.mantine-DayView-currentTimeIndicator')
+    ).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it('aligns the current time indicator with the slot grid when endTime does not divide evenly by intervalMinutes', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2025-11-03 02:00:00'));
+
+    const { container } = render(
+      <DayView
+        {...defaultProps}
+        withCurrentTimeIndicator
+        startTime="00:00:00"
+        endTime="02:30:00"
+        intervalMinutes={60}
+        getCurrentTime={() => '2025-11-03 02:00:00'}
+      />
+    );
+
+    // Canvas is rounded up from 02:30 to 03:00 (3 whole slots), so 02:00 sits at 120/180 = 66.66%
+    const indicator = container.querySelector('.mantine-DayView-currentTimeIndicator');
+    expect(indicator?.getAttribute('style')).toContain('66.66');
+    jest.useRealTimers();
+  });
+
+  it('displays time bubble in the current time indicator based on withCurrentTimeBubble prop', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2025-11-03 10:30:00'));
+
+    const { container, rerender } = render(
+      <DayView
+        {...defaultProps}
+        withCurrentTimeIndicator
+        withCurrentTimeBubble
+        slotLabelFormat="h:mm A"
+      />
+    );
+    expect(
+      container.querySelector('.mantine-DayView-currentTimeIndicatorTimeBubble')
+    ).toHaveTextContent('10:30 AM');
+
+    rerender(
+      <DayView
+        {...defaultProps}
+        withCurrentTimeIndicator
+        withCurrentTimeBubble={false}
+        slotLabelFormat="h:mm A"
+      />
+    );
+    expect(
+      container.querySelector('.mantine-DayView-currentTimeIndicatorTimeBubble')
+    ).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it('uses getCurrentTime to decide whether the indicator is displayed by default', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2025-11-03 10:30:00'));
+
+    const { container, rerender } = render(<DayView {...defaultProps} date="2025-11-04" />);
+    expect(
+      container.querySelector('.mantine-DayView-currentTimeIndicator')
+    ).not.toBeInTheDocument();
+
+    rerender(
+      <DayView {...defaultProps} date="2025-11-04" getCurrentTime={() => '2025-11-04 10:30:00'} />
+    );
+    expect(container.querySelector('.mantine-DayView-currentTimeIndicator')).toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it('uses getCurrentTime for the current time bubble', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2025-11-03 10:30:00'));
+
+    const { container } = render(
+      <DayView
+        {...defaultProps}
+        withCurrentTimeIndicator
+        withCurrentTimeBubble
+        slotLabelFormat="HH:mm"
+        getCurrentTime={() => '2025-11-03 20:45:00'}
+      />
+    );
+    expect(
+      container.querySelector('.mantine-DayView-currentTimeIndicatorTimeBubble')
+    ).toHaveTextContent('20:45');
+    jest.useRealTimers();
+  });
+
+  it('supports __staticSelector prop', () => {
+    const { container } = render(<DayView {...defaultProps} __staticSelector="TestDayView" />);
+    expect(container.querySelector('.mantine-TestDayView-dayView')).toBeInTheDocument();
+  });
+
+  it('hides header when withHeader={false}', () => {
+    const { container, rerender } = render(<DayView {...defaultProps} withHeader={false} />);
+    expect(container.querySelector('.mantine-DayView-header')).not.toBeInTheDocument();
+
+    rerender(<DayView {...defaultProps} withHeader />);
+    expect(container.querySelector('.mantine-DayView-header')).toBeInTheDocument();
+  });
+
+  it('calls onDateChange when navigating with header controls', async () => {
+    const spy = jest.fn();
+    render(<DayView {...defaultProps} onDateChange={spy} />);
+
+    await userEvent.click(screen.getByRole('button', { name: 'Previous' }));
+    expect(spy).toHaveBeenCalledWith(toDateString(dayjs('2025-11-02')));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(spy).toHaveBeenCalledWith(toDateString(dayjs('2025-11-04')));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Today' }));
+    expect(spy).toHaveBeenCalledWith(expect.any(String));
+  });
+
+  it('navigates to getCurrentTime date when Today control is clicked', async () => {
+    const spy = jest.fn();
+    render(
+      <DayView {...defaultProps} onDateChange={spy} getCurrentTime={() => '2025-12-25 10:00:00'} />
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'Today' }));
+    expect(spy).toHaveBeenCalledWith(toDateString(dayjs('2025-12-25 10:00:00')));
+  });
+
+  it('calls onViewChange when view button is clicked', async () => {
+    const spy = jest.fn();
+    render(<DayView {...defaultProps} onViewChange={spy} />);
+    await userEvent.click(screen.getByRole('tab', { name: 'Switch to week view' }));
+    expect(spy).toHaveBeenCalledWith('week');
+  });
+
+  it('supports previousControlProps, nextControlProps, todayControlProps and viewSelectProps props', () => {
+    const { container } = render(
+      <DayView
+        {...defaultProps}
+        previousControlProps={{ 'data-previous-prop': 'test' }}
+        nextControlProps={{ 'data-next-prop': 'test' }}
+        todayControlProps={{ 'data-today-prop': 'test' }}
+        viewSelectProps={{ 'data-view-select-prop': 'test' }}
+      />
+    );
+
+    expect(
+      container.querySelector('button.mantine-DayView-headerControl[data-previous-prop]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('button.mantine-DayView-headerControl[data-next-prop]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('button.mantine-DayView-headerControl[data-today-prop]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('.mantine-DayView-viewSelect[data-view-select-prop]')
+    ).toBeInTheDocument();
+  });
+
+  it('renders given events', () => {
+    render(
+      <DayView
+        {...defaultProps}
+        events={[
+          {
+            id: 1,
+            title: 'Test event 1',
+            color: 'blue',
+            start: `${defaultProps.date} 10:00:00`,
+            end: `${defaultProps.date} 11:00:00`,
+            payload: {},
+          },
+          {
+            id: 2,
+            title: 'Test event 2',
+            color: 'blue',
+            start: `${defaultProps.date} 13:00:00`,
+            end: `${defaultProps.date} 14:00:00`,
+            payload: {},
+          },
+        ]}
+      />
+    );
+
+    expect(screen.getByText('Test event 1')).toBeInTheDocument();
+    expect(screen.getByText('Test event 2')).toBeInTheDocument();
+  });
+
+  it('renders MoreEvents component when there are more than 2 all-day events', () => {
+    render(
+      <DayView
+        {...defaultProps}
+        events={[
+          {
+            id: 1,
+            title: 'All-day event 1',
+            color: 'blue',
+            start: '2025-11-03',
+            end: '2025-11-04',
+            payload: {},
+          },
+          {
+            id: 2,
+            title: 'All-day event 2',
+            color: 'blue',
+            start: '2025-11-03',
+            end: '2025-11-04',
+            payload: {},
+          },
+          {
+            id: 3,
+            title: 'All-day event 3',
+            color: 'blue',
+            start: '2025-11-03',
+            end: '2025-11-04',
+            payload: {},
+          },
+        ]}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: /more/ })).toBeInTheDocument();
+  });
+
+  it('does not render MoreEvents when all-day events count is 2 or less', () => {
+    render(
+      <DayView
+        {...defaultProps}
+        events={[
+          {
+            id: 1,
+            title: 'All-day event 1',
+            color: 'blue',
+            start: '2025-11-03',
+            end: '2025-11-04',
+            payload: {},
+          },
+          {
+            id: 2,
+            title: 'All-day event 2',
+            color: 'blue',
+            start: '2025-11-03',
+            end: '2025-11-04',
+            payload: {},
+          },
+        ]}
+      />
+    );
+
+    expect(screen.queryByRole('button', { name: /more/ })).not.toBeInTheDocument();
+  });
+
+  it('MoreEvents receives correct events data', async () => {
+    render(<DayView {...defaultProps} events={allDayEvents} />);
+    await userEvent.click(screen.getByRole('button', { name: /more/ }));
+    expect(screen.getByText('All-day event 3')).toBeInTheDocument();
+  });
+
+  it('passes props down to MoreEvents component with moreEventsProps', async () => {
+    render(
+      <DayView
+        {...defaultProps}
+        events={allDayEvents}
+        moreEventsProps={{ dropdownType: 'modal', modalTitle: 'All-day events test' }}
+      />
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: /more/ }));
+    expect(screen.getByRole('heading', { name: 'All-day events test' })).toBeInTheDocument();
+  });
+
+  it('forwards renderEventBody to MoreEvents', async () => {
+    render(
+      <DayView
+        {...defaultProps}
+        events={allDayEvents}
+        renderEventBody={(event) => <span>Body[{event.title}]</span>}
+      />
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: /more/ }));
+    expect(screen.getByText('Body[All-day event 3]')).toBeInTheDocument();
+  });
+
+  it('forwards renderEvent to MoreEvents', async () => {
+    render(
+      <DayView
+        {...defaultProps}
+        events={allDayEvents}
+        renderEvent={(event, props) => (
+          <a href={`#event-${event.id}`} data-testid={`custom-event-${event.id}`}>
+            {props.children}
+          </a>
+        )}
+      />
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: /more/ }));
+
+    const customized = screen.getByTestId('custom-event-3');
+    expect(customized.tagName).toBe('A');
+    expect(customized).toHaveAttribute('href', '#event-3');
+  });
+
+  it('forwards onEventClick to MoreEvents', async () => {
+    const spy = jest.fn();
+    render(<DayView {...defaultProps} events={allDayEvents} onEventClick={spy} />);
+
+    await userEvent.click(screen.getByRole('button', { name: /more/ }));
+    await userEvent.click(screen.getByText('All-day event 3'));
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 3, title: 'All-day event 3' }),
+      expect.any(Object)
+    );
+  });
+
+  it('supports renderEventBody prop', () => {
+    render(
+      <DayView
+        {...defaultProps}
+        events={[
+          {
+            id: 1,
+            title: 'Test event',
+            color: 'blue',
+            start: `${defaultProps.date} 10:00:00`,
+            end: `${defaultProps.date} 11:00:00`,
+            payload: {},
+          },
+        ]}
+        renderEventBody={(event) => (
+          <div>
+            <strong>{event.title}</strong>
+            <div>Custom body</div>
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getByText('Test event')).toBeInTheDocument();
+    expect(screen.queryAllByText('Custom body').length).toBeGreaterThan(0);
+  });
+
+  it('supports custom labels prop for header elements', () => {
+    render(
+      <DayView
+        {...defaultProps}
+        labels={{
+          today: 'Hoy',
+          previous: 'Anterior',
+          next: 'Siguiente',
+          switchToDayView: 'Ver día',
+          switchToWeekView: 'Ver semana',
+          switchToMonthView: 'Ver mes',
+          switchToYearView: 'Ver año',
+        }}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Hoy' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Anterior' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Siguiente' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Ver día' })).toBeInTheDocument();
+  });
+
+  describe('keyboard navigation', () => {
+    it('only first slot should be in tab order', () => {
+      render(
+        <DayView {...defaultProps} startTime="08:00:00" endTime="10:00:00" intervalMinutes={60} />
+      );
+
+      expect(screen.getByRole('button', { name: 'Time slot 08:00:00 - 09:00:00' })).toHaveAttribute(
+        'tabIndex',
+        '0'
+      );
+      expect(screen.getByRole('button', { name: 'Time slot 09:00:00 - 10:00:00' })).toHaveAttribute(
+        'tabIndex',
+        '-1'
+      );
+    });
+
+    it('supports ArrowDown/ArrowUp to navigate between slots', async () => {
+      render(
+        <DayView {...defaultProps} startTime="08:00:00" endTime="10:00:00" intervalMinutes={60} />
+      );
+
+      screen.getByRole('button', { name: 'Time slot 08:00:00 - 09:00:00' }).focus();
+      await userEvent.keyboard('{ArrowDown}');
+      expect(screen.getByRole('button', { name: 'Time slot 09:00:00 - 10:00:00' })).toHaveFocus();
+
+      await userEvent.keyboard('{ArrowUp}');
+      expect(screen.getByRole('button', { name: 'Time slot 08:00:00 - 09:00:00' })).toHaveFocus();
+    });
+
+    it('does not move focus past boundaries', async () => {
+      render(
+        <DayView {...defaultProps} startTime="08:00:00" endTime="10:00:00" intervalMinutes={60} />
+      );
+
+      const firstSlot = screen.getByRole('button', { name: 'Time slot 08:00:00 - 09:00:00' });
+      firstSlot.focus();
+      await userEvent.keyboard('{ArrowUp}');
+      expect(firstSlot).toHaveFocus();
+
+      const lastSlot = screen.getByRole('button', { name: 'Time slot 09:00:00 - 10:00:00' });
+      lastSlot.focus();
+      await userEvent.keyboard('{ArrowDown}');
+      expect(lastSlot).toHaveFocus();
+    });
+
+    it('does not navigate with arrow keys in static mode', () => {
+      render(
+        <DayView
+          {...defaultProps}
+          startTime="08:00:00"
+          endTime="10:00:00"
+          intervalMinutes={60}
+          mode="static"
+        />
+      );
+
+      expect(screen.getByRole('button', { name: 'Time slot 08:00:00 - 09:00:00' })).toHaveAttribute(
+        'tabIndex',
+        '-1'
+      );
+      expect(screen.getByRole('button', { name: 'Time slot 09:00:00 - 10:00:00' })).toHaveAttribute(
+        'tabIndex',
+        '-1'
+      );
+    });
+  });
+
+  describe('event interaction callbacks', () => {
+    const eventsData = [
+      {
+        id: 1,
+        title: 'Test Event',
+        start: '2025-11-03 09:00:00',
+        end: '2025-11-03 10:00:00',
+        color: 'blue',
+        payload: {},
+      },
+    ];
+
+    it('calls onTimeSlotClick when time slot is clicked', async () => {
+      const spy = jest.fn();
+      const { container } = render(<DayView {...defaultProps} onTimeSlotClick={spy} />);
+
+      const slot = container.querySelector(
+        '.mantine-DayView-dayViewSlot[data-hour-start]'
+      ) as HTMLButtonElement;
+      expect(slot).toBeInTheDocument();
+      await userEvent.click(slot);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          slotStart: expect.any(String),
+          slotEnd: expect.any(String),
+          nativeEvent: expect.any(Object),
+        })
+      );
+
+      const { slotStart, slotEnd } = spy.mock.calls[0][0];
+      expect(slotStart).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
+      expect(slotEnd).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
+      expect(slotEnd > slotStart).toBe(true);
+    });
+
+    it('calls onAllDaySlotClick when all-day slot is clicked', async () => {
+      const spy = jest.fn();
+      render(<DayView {...defaultProps} onAllDaySlotClick={spy} />);
+
+      const allDaySlot = screen.getByRole('button', { name: 'Time slot All day' });
+      await userEvent.click(allDaySlot);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(expect.any(String), expect.any(Object));
+    });
+
+    it('calls onEventClick when event is clicked', async () => {
+      const spy = jest.fn();
+      render(<DayView {...defaultProps} events={eventsData} onEventClick={spy} />);
+
+      const event = screen.getByText('Test Event');
+      await userEvent.click(event);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: expect.anything(),
+          title: expect.any(String),
+        }),
+        expect.any(Object)
+      );
+    });
+
+    it('does not call onTimeSlotClick in static mode', async () => {
+      const spy = jest.fn();
+      render(
+        <DayView
+          {...defaultProps}
+          mode="static"
+          startTime="08:00:00"
+          endTime="10:00:00"
+          intervalMinutes={60}
+          onTimeSlotClick={spy}
+        />
+      );
+
+      const slot = screen.getByRole('button', { name: 'Time slot 08:00:00 - 09:00:00' });
+      await userEvent.click(slot);
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('does not call onAllDaySlotClick in static mode', async () => {
+      const spy = jest.fn();
+      render(<DayView {...defaultProps} mode="static" onAllDaySlotClick={spy} />);
+
+      const allDaySlot = screen.getByRole('button', { name: 'Time slot All day' });
+      await userEvent.click(allDaySlot);
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('does not call onEventClick in static mode', async () => {
+      const spy = jest.fn();
+      const { container } = render(
+        <DayView {...defaultProps} mode="static" events={eventsData} onEventClick={spy} />
+      );
+
+      const event = container.querySelector(
+        '.mantine-ScheduleEvent-eventInner'
+      ) as HTMLButtonElement;
+      if (event) {
+        await userEvent.click(event);
+      }
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getTimeSlotProps', () => {
+    it('spreads props returned by getTimeSlotProps onto time slots', () => {
+      const { container } = render(
+        <DayView
+          {...defaultProps}
+          startTime="09:00:00"
+          endTime="10:59:59"
+          intervalMinutes={60}
+          getTimeSlotProps={({ start }) => {
+            if (start === '2025-11-03 09:00:00') {
+              return { 'data-business': true };
+            }
+            return undefined;
+          }}
+        />
+      );
+
+      const slots = container.querySelectorAll('.mantine-DayView-dayViewSlot:not([data-all-day])');
+      expect(slots[0]).toHaveAttribute('data-business', 'true');
+      expect(slots[1]).not.toHaveAttribute('data-business');
+    });
+
+    it('composes onClick from getTimeSlotProps with onTimeSlotClick', async () => {
+      const externalClickSpy = jest.fn();
+      const timeSlotClickSpy = jest.fn();
+
+      const { container } = render(
+        <DayView
+          {...defaultProps}
+          startTime="09:00:00"
+          endTime="09:59:59"
+          intervalMinutes={60}
+          onTimeSlotClick={timeSlotClickSpy}
+          getTimeSlotProps={() => ({ onClick: externalClickSpy })}
+        />
+      );
+
+      const slot = container.querySelector(
+        '.mantine-DayView-dayViewSlot:not([data-all-day])'
+      ) as HTMLButtonElement;
+      await userEvent.click(slot);
+
+      expect(timeSlotClickSpy).toHaveBeenCalledTimes(1);
+      expect(externalClickSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not call getTimeSlotProps onClick in static mode', async () => {
+      const externalClickSpy = jest.fn();
+
+      const { container } = render(
+        <DayView
+          {...defaultProps}
+          mode="static"
+          startTime="09:00:00"
+          endTime="09:59:59"
+          intervalMinutes={60}
+          getTimeSlotProps={() => ({ onClick: externalClickSpy })}
+        />
+      );
+
+      const slot = container.querySelector(
+        '.mantine-DayView-dayViewSlot:not([data-all-day])'
+      ) as HTMLButtonElement;
+      await userEvent.click(slot);
+
+      expect(externalClickSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('business hours', () => {
+    it('marks slots and labels that contain a business hours boundary as partial', () => {
+      const { container } = render(
+        <DayView
+          {...defaultProps}
+          highlightBusinessHours
+          businessHours={['07:42', '19:01:00']}
+          intervalMinutes={15}
+        />
+      );
+
+      const partialSlot = screen.getByLabelText('Time slot 07:30:00 - 07:45:00');
+      expect(partialSlot).toHaveAttribute('data-partial-business-hours');
+      expect(partialSlot).not.toHaveAttribute('data-business-hours');
+      expect(partialSlot).not.toHaveAttribute('data-non-business-hours');
+      expect(partialSlot.style.getPropertyValue('--business-hours-from')).toBe('80%');
+      expect(partialSlot.style.getPropertyValue('--business-hours-to')).toBe('100%');
+
+      const endSlot = screen.getByLabelText('Time slot 19:00:00 - 19:15:00');
+      expect(endSlot).toHaveAttribute('data-partial-business-hours');
+      expect(endSlot.style.getPropertyValue('--business-hours-from')).toBe('0%');
+      expect(endSlot.style.getPropertyValue('--business-hours-to')).toBe('6.67%');
+
+      expect(screen.getByLabelText('Time slot 07:45:00 - 08:00:00')).toHaveAttribute(
+        'data-business-hours'
+      );
+      expect(screen.getByLabelText('Time slot 07:15:00 - 07:30:00')).toHaveAttribute(
+        'data-non-business-hours'
+      );
+
+      const partialLabels = container.querySelectorAll<HTMLElement>(
+        '.mantine-DayView-dayViewSlotLabel[data-partial-business-hours]'
+      );
+      expect(partialLabels).toHaveLength(2);
+      expect(partialLabels[0].style.getPropertyValue('--business-hours-from')).toBe('70%');
+      expect(partialLabels[0].style.getPropertyValue('--business-hours-to')).toBe('100%');
+      expect(partialLabels[1].style.getPropertyValue('--business-hours-from')).toBe('0%');
+      expect(partialLabels[1].style.getPropertyValue('--business-hours-to')).toBe('1.67%');
+    });
+
+    it('paints a truncated last slot against its rendered duration', () => {
+      render(
+        <DayView
+          {...defaultProps}
+          highlightBusinessHours
+          businessHours={['09:00:00', '10:15:00']}
+          intervalMinutes={60}
+          startTime="08:00:00"
+          endTime="10:30:00"
+        />
+      );
+
+      const lastSlot = screen.getByLabelText('Time slot 10:00:00 - 10:30:00');
+      expect(lastSlot).toHaveAttribute('data-partial-business-hours');
+      expect(lastSlot.style.getPropertyValue('--business-hours-to')).toBe('25%');
+    });
+
+    it('paints a last slot that crosses midnight against its rendered duration', () => {
+      render(
+        <DayView
+          {...defaultProps}
+          highlightBusinessHours
+          businessHours={['09:00:00', '23:30:00']}
+          intervalMinutes={120}
+          startTime="07:00:00"
+        />
+      );
+
+      const lastSlot = screen.getByLabelText('Time slot 23:00:00 - 23:59:59');
+      expect(lastSlot).toHaveAttribute('data-partial-business-hours');
+      expect(lastSlot.style.getPropertyValue('--business-hours-to')).toBe('25%');
+    });
+
+    it('does not mark slots as partial when boundaries align with the slot grid', () => {
+      const { container } = render(
+        <DayView
+          {...defaultProps}
+          highlightBusinessHours
+          businessHours={['09:00:00', '17:00:00']}
+          intervalMinutes={15}
+        />
+      );
+
+      expect(container.querySelector('[data-partial-business-hours]')).toBeNull();
+      expect(screen.getByLabelText('Time slot 09:00:00 - 09:15:00')).toHaveAttribute(
+        'data-business-hours'
+      );
+      expect(screen.getByLabelText('Time slot 08:45:00 - 09:00:00')).toHaveAttribute(
+        'data-non-business-hours'
+      );
+    });
+  });
+
+  describe('startScrollTime', () => {
+    it('calls scrollTo on mount when startScrollTime is set', () => {
+      const scrollToSpy = jest.fn();
+      const originalScrollTo = Element.prototype.scrollTo;
+      Element.prototype.scrollTo = scrollToSpy;
+
+      render(<DayView {...defaultProps} startScrollTime="09:00:00" />);
+
+      expect(scrollToSpy).toHaveBeenCalledWith({ left: 0, top: expect.any(Number) });
+      Element.prototype.scrollTo = originalScrollTo;
+    });
+
+    it('does not call scrollTo when startScrollTime is not provided', () => {
+      const scrollToSpy = jest.fn();
+      const originalScrollTo = Element.prototype.scrollTo;
+      Element.prototype.scrollTo = scrollToSpy;
+
+      render(<DayView {...defaultProps} />);
+
+      expect(scrollToSpy).not.toHaveBeenCalled();
+      Element.prototype.scrollTo = originalScrollTo;
+    });
+  });
+
+  describe('withAgenda prop', () => {
+    it('does not render agenda button by default', () => {
+      render(<DayView {...defaultProps} />);
+      expect(screen.queryByText('Agenda')).not.toBeInTheDocument();
+    });
+
+    it('renders agenda button when withAgenda is true', () => {
+      render(<DayView {...defaultProps} withAgenda />);
+      expect(screen.getAllByText('Agenda').length).toBeGreaterThan(0);
+    });
+
+    it('shows AgendaView when agenda button is clicked', async () => {
+      const { container } = render(<DayView {...defaultProps} withAgenda />);
+
+      expect(container.querySelector('.mantine-DayView-agendaView')).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+
+      expect(container.querySelector('.mantine-DayView-agendaView')).toBeInTheDocument();
+    });
+
+    it('passes eventTimeFormat to AgendaView', async () => {
+      render(<DayView {...defaultProps} withAgenda eventTimeFormat="h:mm A" />);
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+      expect(screen.getByText('9:00 AM – 9:30 AM')).toBeInTheDocument();
+    });
+
+    it('toggles AgendaView off when agenda button is clicked again', async () => {
+      const { container } = render(<DayView {...defaultProps} withAgenda />);
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+      expect(container.querySelector('.mantine-DayView-agendaView')).toBeInTheDocument();
+
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+      expect(container.querySelector('.mantine-DayView-agendaView')).not.toBeInTheDocument();
+    });
+
+    it('passes the current day as the agenda range', async () => {
+      render(<DayView {...defaultProps} withAgenda />);
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+      expect(screen.getByText('November 3, 2025 – November 3, 2025')).toBeInTheDocument();
+    });
+
+    it('renders both regular and compact agenda buttons', () => {
+      const { container } = render(<DayView {...defaultProps} withAgenda />);
+      const agendaButtons = container.querySelectorAll('[data-type="agenda"]');
+      expect(agendaButtons).toHaveLength(2);
+    });
+  });
+
+  describe('eventResizeInterval prop', () => {
+    it('resizes on eventResizeInterval independently of intervalMinutes', () => {
+      const rect = {
+        top: 0,
+        left: 0,
+        right: 480,
+        bottom: 480,
+        width: 480,
+        height: 480,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      };
+      const spy = jest
+        .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+        .mockReturnValue(rect as DOMRect);
+      const onEventResize = jest.fn();
+
+      const { container } = render(
+        <DayView
+          date="2025-11-03"
+          startTime="08:00:00"
+          endTime="16:00:00"
+          intervalMinutes={30}
+          eventResizeInterval={15}
+          withEventResize
+          onEventResize={onEventResize}
+          events={[
+            {
+              id: 1,
+              title: 'Event',
+              start: '2025-11-03 09:00:00',
+              end: '2025-11-03 09:30:00',
+              color: 'blue',
+              payload: {},
+            },
+          ]}
+        />
+      );
+
+      const handle = container.querySelector('[data-edge="bottom"]')!;
+      fireEvent.pointerDown(handle);
+      act(() => {
+        // clientY 165 = 165 min from 08:00 = 10:45, a 15-min boundary off the 30-min grid.
+        document.dispatchEvent(new MouseEvent('pointermove', { clientY: 165 }));
+        document.dispatchEvent(new MouseEvent('pointerup'));
+      });
+
+      expect(onEventResize).toHaveBeenCalledWith(
+        expect.objectContaining({ newEnd: '2025-11-03 10:45:00' })
+      );
+      spy.mockRestore();
+    });
+  });
+
+  describe('eventDragInterval prop', () => {
+    const dragEvents = [
+      {
+        id: 1,
+        title: 'E',
+        start: '2025-11-03 09:00:00',
+        end: '2025-11-03 09:30:00',
+        color: 'blue',
+        payload: {},
+      },
+    ];
+
+    // Give each time slot a distinct 30px rect so getSlotIndexFromDragPoint resolves
+    // a real slot and a real sub-slot offset (blanket rects would collapse to slot 0).
+    const mockSlotRects = (container: HTMLElement) => {
+      const slots = Array.from(
+        container.querySelectorAll('.mantine-DayView-dayViewSlot:not([data-all-day])')
+      );
+      slots.forEach((node, i) => {
+        (node as HTMLElement).getBoundingClientRect = () =>
+          ({
+            top: i * 30,
+            bottom: (i + 1) * 30,
+            left: 0,
+            right: 480,
+            width: 480,
+            height: 30,
+            x: 0,
+            y: i * 30,
+            toJSON: () => {},
+          }) as DOMRect;
+      });
+    };
+
+    // jsdom drops the `dataTransfer` passed to fireEvent, so build the event and attach
+    // it (plus clientY) explicitly — the drop path needs `types` to include application/json.
+    const fireDrag = (node: Element, type: 'dragStart' | 'dragOver' | 'drop', clientY?: number) => {
+      const event = createEvent[type](node);
+      Object.defineProperty(event, 'dataTransfer', {
+        value: {
+          effectAllowed: 'move',
+          types: ['application/json'],
+          getData: jest.fn(),
+          setData: jest.fn(),
+        },
+      });
+      if (clientY !== undefined) {
+        Object.defineProperty(event, 'clientY', { value: clientY, configurable: true });
+      }
+      fireEvent(node, event);
+    };
+
+    it('drops on eventDragInterval independently of intervalMinutes', () => {
+      const onEventDrop = jest.fn();
+      const { container } = render(
+        <DayView
+          date="2025-11-03"
+          startTime="08:00:00"
+          endTime="16:00:00"
+          intervalMinutes={30}
+          eventDragInterval={15}
+          withEventsDragAndDrop
+          onEventDrop={onEventDrop}
+          events={dragEvents}
+        />
+      );
+
+      mockSlotRects(container);
+      const eventNode = container.querySelector('[data-event-id="1"]')!;
+      const slotsContainer = container.querySelector('.mantine-DayView-dayViewTimeSlots')!;
+
+      // clientY 165 lands in the 10:30 slot (slot 5 of 30px), +15px = 10:45,
+      // a 15-min boundary the 30-min grid alone cannot produce.
+      fireDrag(eventNode, 'dragStart');
+      fireDrag(slotsContainer, 'drop', 165);
+
+      expect(onEventDrop).toHaveBeenCalledWith(
+        expect.objectContaining({ newStart: '2025-11-03 10:45:00' })
+      );
+    });
+
+    it('shows a drag ghost at the snapped position and clears it', () => {
+      const { container } = render(
+        <DayView
+          date="2025-11-03"
+          startTime="08:00:00"
+          endTime="16:00:00"
+          intervalMinutes={30}
+          eventDragInterval={15}
+          withEventsDragAndDrop
+          onEventDrop={jest.fn()}
+          events={dragEvents}
+        />
+      );
+
+      mockSlotRects(container);
+      const eventNode = container.querySelector('[data-event-id="1"]')!;
+      const slotsContainer = container.querySelector('.mantine-DayView-dayViewTimeSlots')!;
+
+      fireDrag(eventNode, 'dragStart');
+      fireDrag(slotsContainer, 'dragOver', 165);
+
+      expect(container.querySelector('.mantine-DayView-dayViewDragPreview')).toBeInTheDocument();
+      // The slot cell highlight is suppressed while the ghost outline is shown.
+      expect(
+        container.querySelector('.mantine-DayView-dayViewSlot[data-drop-target]')
+      ).not.toBeInTheDocument();
+
+      fireEvent.dragLeave(slotsContainer);
+      expect(
+        container.querySelector('.mantine-DayView-dayViewDragPreview')
+      ).not.toBeInTheDocument();
+    });
+
+    it('does not render a ghost when eventDragInterval is unset', () => {
+      const { container } = render(
+        <DayView
+          date="2025-11-03"
+          startTime="08:00:00"
+          endTime="16:00:00"
+          intervalMinutes={30}
+          withEventsDragAndDrop
+          onEventDrop={jest.fn()}
+          events={dragEvents}
+        />
+      );
+
+      mockSlotRects(container);
+      const eventNode = container.querySelector('[data-event-id="1"]')!;
+      const slotsContainer = container.querySelector('.mantine-DayView-dayViewTimeSlots')!;
+
+      fireDrag(eventNode, 'dragStart');
+      fireDrag(slotsContainer, 'dragOver', 165);
+
+      expect(
+        container.querySelector('.mantine-DayView-dayViewDragPreview')
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  describe('background events', () => {
+    const backgroundEventProps: DayViewProps = {
+      date: '2025-11-03',
+      events: [
+        {
+          id: 'bg-1',
+          title: 'Unavailable',
+          start: '2025-11-03 12:00:00',
+          end: '2025-11-03 13:00:00',
+          color: 'gray',
+          display: 'background',
+        },
+      ],
+    };
+
+    it('renders background events as non-interactive divs by default', async () => {
+      const spy = jest.fn();
+      const { container } = render(<DayView {...backgroundEventProps} onEventClick={spy} />);
+      const bgEvent = container.querySelector('.mantine-DayView-dayViewBackgroundEvent')!;
+
+      expect(bgEvent).toBeInTheDocument();
+      expect(bgEvent.tagName).toBe('DIV');
+      expect(bgEvent).toHaveTextContent('Unavailable');
+
+      await userEvent.click(bgEvent);
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('calls onEventClick when a background event is clicked with withInteractiveBackgroundEvents', async () => {
+      const spy = jest.fn();
+      const { container } = render(
+        <DayView {...backgroundEventProps} withInteractiveBackgroundEvents onEventClick={spy} />
+      );
+      const bgEvent = container.querySelector('.mantine-DayView-dayViewBackgroundEvent')!;
+
+      expect(bgEvent.tagName).toBe('BUTTON');
+      expect(bgEvent).toHaveAttribute('data-interactive');
+
+      await userEvent.click(bgEvent);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy.mock.calls[0][0].id).toBe('bg-1');
+    });
+
+    it('does not make background events interactive in static mode', () => {
+      const { container } = render(
+        <DayView {...backgroundEventProps} withInteractiveBackgroundEvents mode="static" />
+      );
+      const bgEvent = container.querySelector('.mantine-DayView-dayViewBackgroundEvent')!;
+      expect(bgEvent.tagName).toBe('DIV');
+    });
+  });
+
+  describe('background events resize', () => {
+    const handleSelector = '.mantine-DayView-dayViewBackgroundEventResizeHandle';
+
+    const resizeProps: DayViewProps = {
+      date: '2025-11-03',
+      startTime: '08:00:00',
+      endTime: '16:00:00',
+      intervalMinutes: 30,
+      events: [
+        {
+          id: 'bg-1',
+          title: 'Unavailable',
+          start: '2025-11-03 12:00:00',
+          end: '2025-11-03 13:00:00',
+          color: 'gray',
+          display: 'background',
+        },
+      ],
+    };
+
+    const mockContainerRect = () =>
+      jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+        top: 0,
+        left: 0,
+        right: 480,
+        bottom: 480,
+        width: 480,
+        height: 480,
+        x: 0,
+        y: 0,
+        toJSON: () => {},
+      } as DOMRect);
+
+    it('renders resize handles with withEventResize and withInteractiveBackgroundEvents', () => {
+      const { container } = render(
+        <DayView {...resizeProps} withEventResize withInteractiveBackgroundEvents />
+      );
+
+      const handles = container.querySelectorAll(handleSelector);
+      expect(handles).toHaveLength(2);
+      expect(handles[0]).toHaveAttribute('data-edge', 'top');
+      expect(handles[1]).toHaveAttribute('data-edge', 'bottom');
+      expect(container.querySelector('.mantine-DayView-dayViewBackgroundEvent')).toHaveAttribute(
+        'data-resizable'
+      );
+    });
+
+    it('does not render resize handles without withInteractiveBackgroundEvents', () => {
+      const { container } = render(<DayView {...resizeProps} withEventResize />);
+      expect(container.querySelector(handleSelector)).not.toBeInTheDocument();
+    });
+
+    it('does not render resize handles without withEventResize', () => {
+      const { container } = render(<DayView {...resizeProps} withInteractiveBackgroundEvents />);
+      expect(container.querySelector(handleSelector)).not.toBeInTheDocument();
+    });
+
+    it('does not render resize handles in static mode', () => {
+      const { container } = render(
+        <DayView {...resizeProps} withEventResize withInteractiveBackgroundEvents mode="static" />
+      );
+      expect(container.querySelector(handleSelector)).not.toBeInTheDocument();
+    });
+
+    it('does not render resize handles on all day background events', () => {
+      const { container } = render(
+        <DayView
+          {...resizeProps}
+          withEventResize
+          withInteractiveBackgroundEvents
+          events={[
+            {
+              id: 'bg-all-day',
+              title: 'Holiday',
+              start: '2025-11-03 00:00:00',
+              end: '2025-11-04 00:00:00',
+              color: 'gray',
+              display: 'background',
+            },
+          ]}
+        />
+      );
+
+      expect(container.querySelector(handleSelector)).not.toBeInTheDocument();
+    });
+
+    it('respects canResizeEvent for background events', () => {
+      const { container } = render(
+        <DayView
+          {...resizeProps}
+          withEventResize
+          withInteractiveBackgroundEvents
+          canResizeEvent={(event) => event.display !== 'background'}
+        />
+      );
+
+      expect(container.querySelector(handleSelector)).not.toBeInTheDocument();
+    });
+
+    it('calls onEventResize when a background event edge is dragged', () => {
+      const spy = mockContainerRect();
+      const onEventResize = jest.fn();
+
+      const { container } = render(
+        <DayView
+          {...resizeProps}
+          withEventResize
+          withInteractiveBackgroundEvents
+          onEventResize={onEventResize}
+        />
+      );
+
+      fireEvent.pointerDown(container.querySelectorAll(handleSelector)[1]);
+      act(() => {
+        document.dispatchEvent(new MouseEvent('pointermove', { clientY: 360 }));
+        document.dispatchEvent(new MouseEvent('pointerup'));
+      });
+
+      expect(onEventResize).toHaveBeenCalledWith(
+        expect.objectContaining({
+          eventId: 'bg-1',
+          newStart: '2025-11-03 12:00:00',
+          newEnd: '2025-11-03 14:00:00',
+        })
+      );
+      spy.mockRestore();
+    });
+
+    it('does not call onEventClick when a resize ends on the background event', () => {
+      const spy = mockContainerRect();
+      const onEventClick = jest.fn();
+
+      const { container } = render(
+        <DayView
+          {...resizeProps}
+          withEventResize
+          withInteractiveBackgroundEvents
+          onEventClick={onEventClick}
+        />
+      );
+
+      const bgEvent = container.querySelector('.mantine-DayView-dayViewBackgroundEvent')!;
+      fireEvent.pointerDown(container.querySelectorAll(handleSelector)[1]);
+      act(() => {
+        document.dispatchEvent(new MouseEvent('pointermove', { clientY: 360 }));
+        document.dispatchEvent(new MouseEvent('pointerup'));
+      });
+      fireEvent.click(bgEvent);
+
+      expect(onEventClick).not.toHaveBeenCalled();
+      spy.mockRestore();
+    });
+  });
+
+  describe('eventOverlapMode', () => {
+    const overlappingEvents = [
+      {
+        id: 1,
+        title: 'First',
+        start: '2025-11-03 10:00:00',
+        end: '2025-11-03 12:00:00',
+        color: 'blue',
+      },
+      {
+        id: 2,
+        title: 'Second',
+        start: '2025-11-03 10:30:00',
+        end: '2025-11-03 12:00:00',
+        color: 'violet',
+      },
+      {
+        id: 3,
+        title: 'Third',
+        start: '2025-11-03 11:00:00',
+        end: '2025-11-03 12:00:00',
+        color: 'cyan',
+      },
+    ];
+
+    const getEventStyles = (container: HTMLElement) =>
+      Array.from(container.querySelectorAll<HTMLElement>('[data-event-id]')).map((element) => ({
+        insetInlineStart: element.style.insetInlineStart,
+        width: element.style.width,
+        zIndex: element.style.getPropertyValue('--event-z-index'),
+        zIndexRaised: element.style.getPropertyValue('--event-z-index-raised'),
+        cascade: element.hasAttribute('data-cascade'),
+      }));
+
+    it('splits the available width between overlapping events by default', () => {
+      const { container } = render(<DayView date="2025-11-03" events={overlappingEvents} />);
+
+      expect(getEventStyles(container)).toStrictEqual([
+        {
+          insetInlineStart: '0%',
+          width: '33.33333333333333%',
+          zIndex: '3',
+          zIndexRaised: '6',
+          cascade: false,
+        },
+        {
+          insetInlineStart: '33.333333333333336%',
+          width: '33.33333333333333%',
+          zIndex: '4',
+          zIndexRaised: '6',
+          cascade: false,
+        },
+        {
+          insetInlineStart: '66.66666666666667%',
+          width: '33.33333333333333%',
+          zIndex: '5',
+          zIndexRaised: '6',
+          cascade: false,
+        },
+      ]);
+    });
+
+    it('indents and stacks overlapping events when eventOverlapMode is cascade', () => {
+      const { container } = render(
+        <DayView date="2025-11-03" events={overlappingEvents} eventOverlapMode="cascade" />
+      );
+
+      expect(getEventStyles(container)).toStrictEqual([
+        { insetInlineStart: '0%', width: '100%', zIndex: '3', zIndexRaised: '6', cascade: true },
+        { insetInlineStart: '20%', width: '80%', zIndex: '4', zIndexRaised: '6', cascade: true },
+        { insetInlineStart: '40%', width: '60%', zIndex: '5', zIndexRaised: '6', cascade: true },
+      ]);
+    });
+
+    it('applies the default raise delay of 600ms', () => {
+      const { container } = render(
+        <DayView date="2025-11-03" events={overlappingEvents} eventOverlapMode="cascade" />
+      );
+      const root = container.querySelector('.mantine-DayView-dayView') as HTMLElement;
+
+      expect(root.style.getPropertyValue('--event-raise-delay')).toBe('600ms');
+    });
+
+    it('supports a custom eventOverlapRaiseDelay', () => {
+      const { container } = render(
+        <DayView
+          date="2025-11-03"
+          events={overlappingEvents}
+          eventOverlapMode="cascade"
+          eventOverlapRaiseDelay={250}
+        />
+      );
+      const root = container.querySelector('.mantine-DayView-dayView') as HTMLElement;
+
+      expect(root.style.getPropertyValue('--event-raise-delay')).toBe('250ms');
+    });
+  });
+
+  describe('drop validation', () => {
+    const movingEvent = {
+      id: 1,
+      title: 'Moving',
+      start: '2025-11-03 09:00:00',
+      end: '2025-11-03 09:30:00',
+      color: 'blue',
+      payload: {},
+    };
+
+    const blockingEvent = {
+      id: 2,
+      title: 'Blocking',
+      start: '2025-11-03 08:00:00',
+      end: '2025-11-03 09:00:00',
+      color: 'red',
+      payload: {},
+    };
+
+    const fireDrag = (node: Element, type: 'dragStart' | 'drop') => {
+      const event = createEvent[type](node);
+      Object.defineProperty(event, 'dataTransfer', {
+        value: {
+          effectAllowed: 'move',
+          types: ['application/json'],
+          getData: jest.fn(),
+          setData: jest.fn(),
+        },
+      });
+      Object.defineProperty(event, 'clientX', { value: 0, configurable: true });
+      Object.defineProperty(event, 'clientY', { value: 0, configurable: true });
+      fireEvent(node, event);
+    };
+
+    // jsdom reports empty rects, so the drop resolves to the first slot (08:00).
+    const dropOnFirstSlot = (props: Partial<DayViewProps>) => {
+      const { container } = render(
+        <DayView
+          date="2025-11-03"
+          startTime="08:00:00"
+          endTime="16:00:00"
+          withEventsDragAndDrop
+          events={[movingEvent, blockingEvent]}
+          {...props}
+        />
+      );
+
+      fireDrag(container.querySelector('[data-event-id="1"]')!, 'dragStart');
+      fireDrag(container.querySelector('.mantine-DayView-dayViewTimeSlots')!, 'drop');
+    };
+
+    it('calls onEventDrop when the placement is allowed', () => {
+      const onEventDrop = jest.fn();
+      dropOnFirstSlot({ onEventDrop, preventEventOverlap: true, events: [movingEvent] });
+
+      expect(onEventDrop).toHaveBeenCalledTimes(1);
+      expect(onEventDrop.mock.calls[0][0]).toMatchObject({
+        eventId: 1,
+        newStart: '2025-11-03 08:00:00',
+      });
+    });
+
+    it('does not call onEventDrop when preventEventOverlap finds a conflict', () => {
+      const onEventDrop = jest.fn();
+      const onEventPlacementRejected = jest.fn();
+      dropOnFirstSlot({ onEventDrop, onEventPlacementRejected, preventEventOverlap: true });
+
+      expect(onEventDrop).not.toHaveBeenCalled();
+      expect(onEventPlacementRejected).toHaveBeenCalledTimes(1);
+      expect(onEventPlacementRejected.mock.calls[0][0].conflicts[0].id).toBe(2);
+    });
+
+    it('does not call onEventDrop when canDropEvent returns false', () => {
+      const onEventDrop = jest.fn();
+      const canDropEvent = jest.fn(() => false);
+      dropOnFirstSlot({ onEventDrop, canDropEvent });
+
+      expect(canDropEvent).toHaveBeenCalledTimes(1);
+      expect(onEventDrop).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe('@mantine/schedule/DayView slotLabelInterval', () => {
+  const props: DayViewProps = {
+    ...defaultProps,
+    startTime: '08:00:00',
+    endTime: '12:00:00',
+    intervalMinutes: 15,
+    withAllDaySlot: false,
+  };
+
+  const getLabels = (container: HTMLElement) =>
+    Array.from(container.querySelectorAll<HTMLElement>('.mantine-DayView-dayViewSlotLabel'));
+
+  it('renders one label per hour by default', () => {
+    const { container } = render(<DayView {...props} />);
+    const labels = getLabels(container);
+    expect(labels).toHaveLength(4);
+    expect(labels.map((label) => label.textContent)).toEqual(['08:00', '09:00', '10:00', '11:00']);
+    expect(labels[0]).not.toHaveAttribute('data-sub-hour');
+    expect(labels[0].style.getPropertyValue('--slot-label-size')).toBe('1');
+  });
+
+  it('renders a label for every slot with slotLabelInterval equal to intervalMinutes', () => {
+    const { container } = render(<DayView {...props} slotLabelInterval={15} />);
+    const labels = getLabels(container);
+    expect(labels).toHaveLength(16);
+    expect(labels[1].textContent).toBe('08:15');
+    expect(labels[0]).not.toHaveAttribute('data-sub-hour');
+    expect(labels[1]).toHaveAttribute('data-sub-hour');
+    expect(labels[1].style.getPropertyValue('--slot-label-size')).toBe('0.25');
+  });
+
+  it('renders a label every 30 minutes with slotLabelInterval={30}', () => {
+    const { container } = render(<DayView {...props} slotLabelInterval={30} />);
+    const labels = getLabels(container);
+    expect(labels).toHaveLength(8);
+    expect(labels.map((label) => label.textContent).slice(0, 3)).toEqual([
+      '08:00',
+      '08:30',
+      '09:00',
+    ]);
+    expect(labels[0].style.getPropertyValue('--slot-label-size')).toBe('0.5');
+  });
+
+  it('falls back to hour labels for invalid slotLabelInterval values', () => {
+    const { container } = render(<DayView {...props} slotLabelInterval={7} />);
+    expect(getLabels(container)).toHaveLength(4);
+  });
+
+  it('rounds slotLabelInterval up to a multiple of intervalMinutes', () => {
+    const { container } = render(<DayView {...props} slotLabelInterval={20} />);
+    expect(getLabels(container)).toHaveLength(8);
+  });
+
+  it('never renders labels more often than slots', () => {
+    const { container } = render(<DayView {...props} slotLabelInterval={5} />);
+    expect(getLabels(container)).toHaveLength(16);
+  });
+
+  it('renders an empty leading label when startTime is before the first label', () => {
+    const { container } = render(<DayView {...props} startTime="08:30:00" />);
+    const labels = getLabels(container);
+    expect(labels).toHaveLength(4);
+    expect(labels[0].textContent).toBe('');
+    expect(labels[0].style.getPropertyValue('--slot-label-size')).toBe('0.5');
+    expect(labels[1].textContent).toBe('09:00');
+    expect(labels[1].style.getPropertyValue('--slot-label-size')).toBe('1');
+  });
+
+  it('sizes labels to the slots when intervalMinutes is longer than an hour', () => {
+    const { container } = render(
+      <DayView {...props} startTime="09:00:00" endTime="15:00:00" intervalMinutes={120} />
+    );
+    const labels = getLabels(container);
+    expect(labels.map((label) => label.textContent)).toEqual(['09:00', '11:00', '13:00']);
+    expect(labels[0].style.getPropertyValue('--slot-label-size')).toBe('2');
+  });
+
+  it('truncates the last label at endTime', () => {
+    const { container } = render(<DayView {...props} endTime="11:30:00" />);
+    const labels = getLabels(container);
+    expect(labels).toHaveLength(4);
+    expect(labels[3].style.getPropertyValue('--slot-label-size')).toBe('0.5');
+  });
+
+  it('applies business hours modifiers to sub-hour labels', () => {
+    const { container } = render(
+      <DayView
+        {...props}
+        slotLabelInterval={30}
+        highlightBusinessHours
+        businessHours={['09:30:00', '11:00:00']}
+      />
+    );
+    const labels = getLabels(container);
+    expect(labels[2]).toHaveAttribute('data-non-business-hours');
+    expect(labels[3]).toHaveAttribute('data-business-hours');
+  });
+});

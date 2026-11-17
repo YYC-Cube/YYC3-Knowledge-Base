@@ -1,0 +1,28 @@
+// Component variables follow this formula:
+// --#{${nameDasherized}}__element--modifier--state--PropertyCamelCase
+// @debug ${nameDasherized}; // check your variable names located in src/patternfly/sass-utilities/component-namespaces
+
+// The value of component scoped variables is always defined by a global variable:
+
+.#{${nameDasherized}} {
+  // Example block variable
+  --#{${nameDasherized}}--Color: var(--#{$pf-global}--Color--dark);
+
+  // Example modifier variable
+  --#{${nameDasherized}}--m-danger--BackgroundColor: var(--#{$pf-global}--danger-color);
+
+  // Example element variable
+  --#{${nameDasherized}}__element--FontSize: var(--#{$pf-global}--FontSize--2xl);
+
+  color: var(--#{${nameDasherized}}--Color);
+
+  // Modifier
+  &.pf-m-danger {
+    background-color: var(--#{${nameDasherized}}--m-danger--BackgroundColor);
+  }
+}
+
+// Element
+.#{${nameDasherized}}__element {
+  font-size: var(--#{${nameDasherized}}__element--FontSize);
+}

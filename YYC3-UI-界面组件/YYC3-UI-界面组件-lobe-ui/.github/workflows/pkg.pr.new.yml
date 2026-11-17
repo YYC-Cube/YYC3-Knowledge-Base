@@ -1,0 +1,36 @@
+name: Pkg Pr New CI
+on:
+  pull_request:
+  push:
+    branches:
+      - '!master'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: CI
+        run: pnpm run ci
+
+      - name: Test
+        run: pnpm run test
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Release
+        run: pnpm dlx pkg-pr-new publish --comment=update

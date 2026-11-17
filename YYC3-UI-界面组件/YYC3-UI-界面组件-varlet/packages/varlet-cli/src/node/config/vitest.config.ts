@@ -1,0 +1,26 @@
+import { cpus } from 'os'
+import vue from '@vitejs/plugin-vue'
+import jsx from '@vitejs/plugin-vue-jsx'
+import { defineConfig } from 'vite-plus'
+import { VITE_RESOLVE_EXTENSIONS } from '../shared/constant.js'
+
+const cpuNum = Math.max(cpus().length - 1, 1)
+
+export default defineConfig({
+  resolve: {
+    extensions: VITE_RESOLVE_EXTENSIONS,
+  },
+
+  plugins: [vue(), jsx()],
+
+  test: {
+    environment: 'jsdom',
+    coverage: {
+      provider: 'istanbul',
+      include: ['src/**/*.{vue,ts,tsx,js,jsx}'],
+      exclude: ['**/*.d.ts', '**/*.md', '**/example/**', '**/__tests__/**'],
+    },
+    globals: true,
+    vmMemoryLimit: Math.min((1 / cpuNum) * 2, 0.2),
+  },
+})

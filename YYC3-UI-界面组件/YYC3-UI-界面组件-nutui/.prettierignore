@@ -1,0 +1,60 @@
+**/*.html
+**/*.txt
+**/*.yaml
+**/*.svg
+**/*.ttf
+**/*.woff
+**/*.eot
+package.json
+CHANGELOG.md
+README.md
+README_EN.md
+publish/
+
+
+# gitignore
+.DS_Store
+node_modules
+dist
+/libs
+/scripts/upload.js
+yarn.lock
+package-lock.json
+/cache
+/src/nutui.ts
+/src/packages/index.ts
+/src/packages/index.build.ts
+/src/packages/taro.ts
+/src/packages/taro.build.ts
+src/packages/vscode-extension/*.vsix
+/.nyc_output
+/coverage
+/tsc
+/site_docs
+
+# packagse
+
+## nutui-taro-demo
+packages/nutui-taro-demo/src/app.config.ts
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# vitest
+/html

@@ -1,0 +1,6 @@
+<{{#if grid--type}}{{grid--type}}{{else}}div{{/if}} class="{{pfv 'l'}}grid{{#if grid--modifier}} {{grid--modifier}}{{/if}}"
+  {{#if grid--attribute}}
+    {{{grid--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</{{#if grid--type}}{{grid--type}}{{else}}div{{/if}}>

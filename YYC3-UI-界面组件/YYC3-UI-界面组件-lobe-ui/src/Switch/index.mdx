@@ -1,0 +1,42 @@
+---
+title: Switch
+description: Base UI-powered Switch component.
+category: Data Entry
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import DemoAsyncLoading from './demos/asyncLoading.tsx?demo';
+import DemoAtoms from './demos/atoms.tsx?demo';
+import DemoNativeButton from './demos/nativeButton.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { switchClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} />
+
+## Async Loading
+
+<Demo of={DemoAsyncLoading} />
+
+## Native Button in Form
+
+<Demo of={DemoNativeButton} />
+
+## Atom Components
+
+<Demo of={DemoAtoms} />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Switch`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/Switch.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={switchClasses} />

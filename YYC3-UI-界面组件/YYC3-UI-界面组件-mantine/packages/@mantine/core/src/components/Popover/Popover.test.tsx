@@ -1,0 +1,456 @@
+import { act, fireEvent } from '@testing-library/react';
+import { render, screen, tests, userEvent } from '@mantine-tests/core';
+import { Popover, PopoverProps, PopoverStylesNames } from './Popover';
+import { PopoverContextMenu } from './PopoverContextMenu/PopoverContextMenu';
+import { PopoverDropdown } from './PopoverDropdown/PopoverDropdown';
+import { PopoverTarget } from './PopoverTarget/PopoverTarget';
+
+const defaultProps: PopoverProps = {
+  opened: true,
+  withinPortal: false,
+  withArrow: true,
+  children: 'test-children',
+};
+
+function TestContainer(props: Partial<PopoverProps>) {
+  return (
+    <Popover transitionProps={{ duration: 0 }} withinPortal={false} {...props}>
+      <Popover.Target>
+        <button type="button">test-target</button>
+      </Popover.Target>
+
+      <Popover.Dropdown>
+        <div>test-dropdown</div>
+        <input aria-label="1" />
+        <input aria-label="2" data-autofocus />
+        <input aria-label="3" />
+      </Popover.Dropdown>
+    </Popover>
+  );
+}
+
+describe('@mantine/core/Popover', () => {
+  tests.axe([<TestContainer opened key="1" />, <TestContainer opened={false} key="2" />]);
+  tests.itHasExtend({ component: Popover });
+  tests.itRendersChildren({ component: Popover, props: defaultProps });
+  tests.itSupportsStylesApi<PopoverProps, PopoverStylesNames>({
+    component: TestContainer,
+    props: defaultProps,
+    selectors: ['dropdown', 'arrow'],
+    providerName: 'Popover',
+  });
+
+  it('supports uncontrolled mode', async () => {
+    render(<TestContainer />);
+    expect(screen.queryAllByText('test-dropdown')).toHaveLength(0);
+
+    await userEvent.click(screen.getByRole('button'));
+    expect(screen.getByText('test-dropdown')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button'));
+    expect(screen.queryAllByText('test-dropdown')).toHaveLength(0);
+  });
+
+  it('correctly handles defaultOpened prop', () => {
+    render(<TestContainer defaultOpened />);
+    expect(screen.getByText('test-dropdown')).toBeInTheDocument();
+  });
+
+  it('calls onOpen and onClose functions when dropdown state changes', async () => {
+    const onOpen = jest.fn();
+    const onClose = jest.fn();
+    render(<TestContainer onOpen={onOpen} onClose={onClose} />);
+
+    await userEvent.click(screen.getByRole('button'));
+    expect(onOpen).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(0);
+
+    await userEvent.click(screen.getByRole('button'));
+    expect(onOpen).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('supports controlled mode', async () => {
+    const spy = jest.fn();
+    render(<TestContainer opened onChange={spy} />);
+
+    await userEvent.click(screen.getByRole('button'));
+    expect(spy).toHaveBeenCalledTimes(0);
+
+    await userEvent.type(screen.getByRole('dialog'), '{Escape}');
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenLastCalledWith(false);
+
+    await userEvent.click(document.body);
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(spy).toHaveBeenLastCalledWith(false);
+  });
+
+  it('correctly handles closeOnClickOutside={false}', async () => {
+    const spy = jest.fn();
+    render(<TestContainer defaultOpened closeOnClickOutside={false} onClose={spy} />);
+    await userEvent.click(document.body);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('correctly handles closeOnClickOutside={true}', async () => {
+    const spy = jest.fn();
+    render(<TestContainer defaultOpened closeOnClickOutside onClose={spy} />);
+    await userEvent.click(document.body);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('correctly handles closeOnEscape={false}', async () => {
+    const spy = jest.fn();
+    render(<TestContainer defaultOpened closeOnEscape={false} onClose={spy} />);
+    await userEvent.type(screen.getByRole('dialog'), '{Escape}');
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('correctly handles closeOnEscape={true}', async () => {
+    const spy = jest.fn();
+    render(<TestContainer defaultOpened closeOnEscape onClose={spy} />);
+    await userEvent.type(screen.getByRole('dialog'), '{Escape}');
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('does not close when outside element stops propagation', async () => {
+    const spy = jest.fn();
+    render(
+      <>
+        <TestContainer defaultOpened onClose={spy} />
+        <div
+          role="presentation"
+          data-testid="outside-target"
+          onMouseDown={(event) => event.stopPropagation()}
+        />
+      </>
+    );
+    await userEvent.click(screen.getByTestId('outside-target'));
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('closes when outside element stops propagation and clickOutsideCapture is set', async () => {
+    const spy = jest.fn();
+    render(
+      <>
+        <TestContainer defaultOpened clickOutsideCapture onClose={spy} />
+        <div
+          role="presentation"
+          data-testid="outside-target"
+          onMouseDown={(event) => event.stopPropagation()}
+        />
+      </>
+    );
+    await userEvent.click(screen.getByTestId('outside-target'));
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('sets dropdown z-index based on zIndex prop', () => {
+    render(<TestContainer defaultOpened zIndex={452} />);
+    expect(screen.getByRole('dialog')).toHaveStyle({ zIndex: 452 });
+  });
+
+  it('correctly handles withArrow={true}', () => {
+    const { container } = render(<TestContainer defaultOpened withArrow />);
+    expect(container.querySelectorAll('.mantine-Popover-arrow')).toHaveLength(1);
+  });
+
+  it('correctly handles withArrow={false}', () => {
+    const { container } = render(<TestContainer defaultOpened withArrow={false} />);
+    expect(container.querySelectorAll('.mantine-Popover-arrow')).toHaveLength(0);
+  });
+
+  it('updates dropdown placement when position prop changes while opened', async () => {
+    const offsetHeight = jest
+      .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+      .mockReturnValue(100);
+    const offsetWidth = jest
+      .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
+      .mockReturnValue(100);
+
+    const { rerender } = render(<TestContainer opened position="bottom" />);
+    await act(() => Promise.resolve());
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-position', 'bottom');
+
+    rerender(
+      <>
+        <TestContainer opened position="top-end" />
+      </>
+    );
+    await act(() => Promise.resolve());
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-position', 'top-end');
+
+    offsetHeight.mockRestore();
+    offsetWidth.mockRestore();
+  });
+
+  it('keeps dropdown side locked when its content grows after opening', async () => {
+    let dropdownHeight = 100;
+    const offsetHeight = jest
+      .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+      .mockImplementation(() => dropdownHeight);
+    const offsetWidth = jest
+      .spyOn(HTMLElement.prototype, 'offsetWidth', 'get')
+      .mockReturnValue(200);
+    const clientHeight = jest
+      .spyOn(document.documentElement, 'clientHeight', 'get')
+      .mockReturnValue(768);
+    const clientWidth = jest
+      .spyOn(document.documentElement, 'clientWidth', 'get')
+      .mockReturnValue(1024);
+    const wait = () => act(() => new Promise((resolve) => setTimeout(resolve, 100)));
+
+    render(<TestContainer position="bottom" transitionProps={{ duration: 10 }} />, undefined, {
+      env: 'default',
+    });
+
+    const target = screen.getByRole('button', { name: 'test-target' });
+    const targetRect = jest.spyOn(target, 'getBoundingClientRect').mockReturnValue({
+      x: 0,
+      y: 500,
+      top: 500,
+      left: 0,
+      right: 200,
+      bottom: 530,
+      width: 200,
+      height: 30,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    await userEvent.click(target);
+    await wait();
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-position', 'bottom');
+
+    dropdownHeight = 300;
+    await act(async () => {
+      window.dispatchEvent(new Event('resize'));
+    });
+    await wait();
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-position', 'bottom');
+
+    targetRect.mockRestore();
+    clientWidth.mockRestore();
+    clientHeight.mockRestore();
+    offsetWidth.mockRestore();
+    offsetHeight.mockRestore();
+  });
+
+  it('exposes PopoverTarget and PopoverDropdown as static properties', () => {
+    expect(Popover.Dropdown).toBe(PopoverDropdown);
+    expect(Popover.Target).toBe(PopoverTarget);
+    expect(Popover.ContextMenu).toBe(PopoverContextMenu);
+  });
+
+  describe('Popover.ContextMenu', () => {
+    function ContextMenuContainer({ disabled }: { disabled?: boolean } = {}) {
+      return (
+        <Popover transitionProps={{ duration: 0 }} withinPortal={false}>
+          <Popover.ContextMenu disabled={disabled}>
+            <div data-testid="context-area">Right-click me</div>
+          </Popover.ContextMenu>
+          <Popover.Dropdown>
+            <div>test-context-dropdown</div>
+          </Popover.Dropdown>
+        </Popover>
+      );
+    }
+
+    it('opens the popover on contextmenu event', () => {
+      render(<ContextMenuContainer />);
+      expect(screen.queryByText('test-context-dropdown')).not.toBeInTheDocument();
+
+      fireEvent.contextMenu(screen.getByTestId('context-area'), { clientX: 100, clientY: 200 });
+
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+    });
+
+    it('prevents default browser context menu', () => {
+      render(<ContextMenuContainer />);
+      const target = screen.getByTestId('context-area');
+      const event = new MouseEvent('contextmenu', { bubbles: true, cancelable: true });
+      fireEvent(target, event);
+      expect(event.defaultPrevented).toBe(true);
+    });
+
+    it('does not open and does not prevent default when disabled', () => {
+      render(<ContextMenuContainer disabled />);
+      const target = screen.getByTestId('context-area');
+      const event = new MouseEvent('contextmenu', { bubbles: true, cancelable: true });
+      fireEvent(target, event);
+      expect(event.defaultPrevented).toBe(false);
+      expect(screen.queryByText('test-context-dropdown')).not.toBeInTheDocument();
+    });
+
+    it('preserves custom onContextMenu handler on the wrapped child', () => {
+      const handler = jest.fn();
+      render(
+        <Popover transitionProps={{ duration: 0 }} withinPortal={false}>
+          <Popover.ContextMenu>
+            <div data-testid="context-area" onContextMenu={handler}>
+              Right-click me
+            </div>
+          </Popover.ContextMenu>
+          <Popover.Dropdown>
+            <div>test-context-dropdown</div>
+          </Popover.Dropdown>
+        </Popover>
+      );
+
+      fireEvent.contextMenu(screen.getByTestId('context-area'), { clientX: 10, clientY: 10 });
+      expect(handler).toHaveBeenCalledTimes(1);
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+    });
+
+    it('sets data-expanded on the wrapped child when popover is open', () => {
+      render(<ContextMenuContainer />);
+      const area = screen.getByTestId('context-area');
+      expect(area).not.toHaveAttribute('data-expanded');
+
+      fireEvent.contextMenu(area, { clientX: 10, clientY: 10 });
+
+      expect(screen.getByTestId('context-area')).toHaveAttribute('data-expanded', 'true');
+    });
+
+    it('does not intercept right-click when parent Popover is disabled', () => {
+      render(
+        <Popover transitionProps={{ duration: 0 }} withinPortal={false} disabled>
+          <Popover.ContextMenu>
+            <div data-testid="context-area">Right-click me</div>
+          </Popover.ContextMenu>
+          <Popover.Dropdown>
+            <div>test-context-dropdown</div>
+          </Popover.Dropdown>
+        </Popover>
+      );
+      const target = screen.getByTestId('context-area');
+      const event = new MouseEvent('contextmenu', { bubbles: true, cancelable: true });
+      fireEvent(target, event);
+      expect(event.defaultPrevented).toBe(false);
+      expect(screen.queryByText('test-context-dropdown')).not.toBeInTheDocument();
+    });
+
+    it('does not toggle closed when right-clicked again while open', () => {
+      render(<ContextMenuContainer />);
+      const area = screen.getByTestId('context-area');
+
+      fireEvent.contextMenu(area, { clientX: 10, clientY: 10 });
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+
+      fireEvent.contextMenu(area, { clientX: 50, clientY: 50 });
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+    });
+
+    it('closes the popover when the trigger is left-clicked while open', async () => {
+      render(<ContextMenuContainer />);
+      const area = screen.getByTestId('context-area');
+
+      fireEvent.contextMenu(area, { clientX: 10, clientY: 10 });
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+
+      await userEvent.click(area);
+      expect(screen.queryByText('test-context-dropdown')).not.toBeInTheDocument();
+    });
+
+    it('does not close the popover on the mousedown that precedes a right-click', () => {
+      render(<ContextMenuContainer />);
+      const area = screen.getByTestId('context-area');
+
+      fireEvent.contextMenu(area, { clientX: 10, clientY: 10 });
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+
+      fireEvent.mouseDown(area, { button: 2, clientX: 50, clientY: 50 });
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+
+      fireEvent.contextMenu(area, { clientX: 50, clientY: 50 });
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+    });
+  });
+
+  describe('Popover.ContextMenu touch support', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    function TouchContainer({
+      disabled,
+      longPressDelay,
+    }: {
+      disabled?: boolean;
+      longPressDelay?: number;
+    } = {}) {
+      return (
+        <Popover transitionProps={{ duration: 0 }} withinPortal={false}>
+          <Popover.ContextMenu disabled={disabled} longPressDelay={longPressDelay}>
+            <div data-testid="context-area">Long-press me</div>
+          </Popover.ContextMenu>
+          <Popover.Dropdown>
+            <div>test-context-dropdown</div>
+          </Popover.Dropdown>
+        </Popover>
+      );
+    }
+
+    it('opens the popover on touch long-press', async () => {
+      render(<TouchContainer />);
+      const area = screen.getByTestId('context-area');
+
+      fireEvent.touchStart(area, { touches: [{ clientX: 30, clientY: 40 }] });
+      expect(screen.queryByText('test-context-dropdown')).not.toBeInTheDocument();
+
+      await act(async () => {
+        jest.advanceTimersByTime(500);
+      });
+
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+    });
+
+    it('does not open on a short tap', async () => {
+      render(<TouchContainer />);
+      const area = screen.getByTestId('context-area');
+
+      fireEvent.touchStart(area, { touches: [{ clientX: 30, clientY: 40 }] });
+      await act(async () => {
+        jest.advanceTimersByTime(200);
+      });
+      fireEvent.touchEnd(area, { changedTouches: [{ clientX: 30, clientY: 40 }] });
+      await act(async () => {
+        jest.advanceTimersByTime(500);
+      });
+
+      expect(screen.queryByText('test-context-dropdown')).not.toBeInTheDocument();
+    });
+
+    it('does not open via touch when disabled', async () => {
+      render(<TouchContainer disabled />);
+      const area = screen.getByTestId('context-area');
+
+      fireEvent.touchStart(area, { touches: [{ clientX: 30, clientY: 40 }] });
+      await act(async () => {
+        jest.advanceTimersByTime(500);
+      });
+
+      expect(screen.queryByText('test-context-dropdown')).not.toBeInTheDocument();
+    });
+
+    it('respects a custom longPressDelay', async () => {
+      render(<TouchContainer longPressDelay={1000} />);
+      const area = screen.getByTestId('context-area');
+
+      fireEvent.touchStart(area, { touches: [{ clientX: 0, clientY: 0 }] });
+      await act(async () => {
+        jest.advanceTimersByTime(500);
+      });
+      expect(screen.queryByText('test-context-dropdown')).not.toBeInTheDocument();
+
+      await act(async () => {
+        jest.advanceTimersByTime(500);
+      });
+      expect(screen.getByText('test-context-dropdown')).toBeInTheDocument();
+    });
+  });
+});

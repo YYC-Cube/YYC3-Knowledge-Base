@@ -1,0 +1,57 @@
+import type { ContentProps } from '@zag-js/navigation-menu'
+import { mergeProps } from '@zag-js/solid'
+import { createMemo, Show } from 'solid-js'
+import { Portal } from 'solid-js/web'
+import type { Assign } from '../../types.ts'
+import { composeRefs } from '../../utils/compose-refs.ts'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { useRenderStrategyContext } from '../../utils/render-strategy.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+import { PresenceProvider, usePresence } from '../presence/index.tsx'
+import { useNavigationMenuContext } from './use-navigation-menu-context.ts'
+import { useNavigationMenuItemPropsContext } from './use-navigation-menu-item-props-context.ts'
+
+export interface NavigationMenuContentBaseProps extends Partial<ContentProps>, PolymorphicProps<'div'> {}
+export interface NavigationMenuContentProps extends Assign<HTMLProps<'div'>, NavigationMenuContentBaseProps> {}
+
+const splitContentProps = createSplitProps<ContentProps>()
+
+export const NavigationMenuContent = (props: NavigationMenuContentProps) => {
+  const api = useNavigationMenuContext()
+  const itemContext = useNavigationMenuItemPropsContext()
+
+  const value = createMemo(() => props.value ?? itemContext?.value)
+  const combinedProps = mergeProps(props, () => ({ value: value() }))
+
+  const [contentProps, localProps] = splitContentProps(combinedProps, ['value'])
+  const renderStrategyProps = useRenderStrategyContext()
+  const presenceApi = usePresence(
+    mergeProps(renderStrategyProps, () => ({
+      present: api().value === contentProps.value,
+    })),
+  )
+  const mergedProps = mergeProps(
+    () => api().getContentProps(contentProps),
+    () => presenceApi().presenceProps,
+    localProps,
+  )
+
+  const viewportNode = createMemo(() => (api().isViewportRendered ? api().getViewportNode() : null))
+  const isViewportRendered = createMemo(() => api().isViewportRendered)
+
+  const content = (
+    <PresenceProvider value={presenceApi}>
+      <Show when={!presenceApi().unmounted}>
+        <ark.div {...mergedProps} ref={composeRefs(presenceApi().ref, props.ref)} />
+      </Show>
+    </PresenceProvider>
+  )
+
+  return (
+    <Show when={isViewportRendered() && viewportNode()} fallback={content}>
+      <ark.div {...api().getViewportProxyProps(contentProps)} />
+      <ark.div {...api().getTriggerProxyProps(contentProps)} />
+      <Portal mount={viewportNode()!}>{content}</Portal>
+    </Show>
+  )
+}

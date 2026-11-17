@@ -1,0 +1,12 @@
+<span class="{{pfv}}wizard__toggle-status-icon{{#if wizard-toggle-status-icon--modifier}} {{wizard-toggle-status-icon--modifier}}{{/if}}"
+  {{#if wizard-toggle-status-icon--attribute}}
+    {{{wizard-toggle-status-icon--attribute}}}
+  {{/if}}>
+  {{#if wizard-toggle-list-item--IsSuccess}}
+    {{pfIcon "rh-ui-check-circle-fill"}}
+  {{else if wizard-toggle-list-item--IsWarning}}
+    {{pfIcon "rh-ui-warning-fill"}}
+  {{else}}
+    {{pfIcon "rh-ui-error-fill"}}
+  {{/if}}
+</span>

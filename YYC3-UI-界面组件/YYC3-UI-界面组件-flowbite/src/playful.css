@@ -1,0 +1,17 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@import "tailwindcss";
+@import "./themes/playful.css";
+@plugin "./../plugin.js";
+@plugin "flowbite-typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@import "./docs.css";
+
+/*
+“Have the courage to follow your heart and intuition. They somehow already know what you truly want to become. Everything else is secondary.”
+― Steve Jobs
+*/
+

@@ -1,0 +1,71 @@
+﻿{
+  "compilerOptions": {
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext",
+    "outDir": "lib",
+    "declaration": true,
+    "sourceMap": true,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "tdesign-react": [
+        "./packages/components"
+      ],
+      "tdesign-react/*": [
+        "./packages/components/*"
+      ],
+      "tdesign-react/es/locale/*": [
+        "./packages/components/locale/*"
+      ],
+      "@tdesign-react/chat": [
+        "./packages/pro-components/chat"
+      ],
+      "@tdesign-react/chat/*": [
+        "./packages/pro-components/chat/*"
+      ],
+      "@test/utils": [
+        "./test/utils"
+      ],
+      "@common/*": [
+        "./packages/common/*"
+      ],
+    },
+    "types": [
+      "node",
+      "jest",
+      "vitest/globals",
+      "@testing-library/jest-dom",
+      "@testing-library/react"
+    ],
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": false
+  },
+  "include": [
+    "./packages/components",
+    "./packages/pro-components",
+    "./globals.d.ts",
+    "./test/config/index.d.ts",
+    "**/**/__tests__/*"
+  ],
+  "exclude": [
+    "**/*.jsx",
+    "**/**/_usage/*",
+    "node_modules",
+    "dist",
+    "lib",
+    "esm",
+    "cjs",
+    "es"
+  ],
+  "compileOnSave": false
+}

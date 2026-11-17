@@ -1,0 +1,14 @@
+{{#> toolbar-item toolbar-item--modifier=(concat 'pf-m-search-filter ' toolbar-item-search-filter--modifier)}}
+  {{#> input-group input-group--attribute=(concat 'aria-label="search filter" role="group"')}}
+    {{#> input-group-item}}
+      {{> menu-toggle
+          menu-toggle--id=(concat toolbar--id '-search-filter-menu')
+          menu-toggle--text=(ternary toolbar-items-search-filter--text toolbar-items-search-filter--text 'Name')
+          menu-toggle--icon='rh-ui-filter-fill'
+        }}
+    {{/input-group-item}}
+    {{#> input-group-item input-group-item--IsFill=true}}
+      {{> text-input-group--search-input text-input-group--id=(concat toolbar--id '-text-input-group-search-input-group') text-input-group-text-input--placeholder=(ternary toolbar-items-search-filter--text toolbar-items-search-filter--text 'Filter by name')}}
+    {{/input-group-item}}
+  {{/input-group}}
+{{/toolbar-item}}

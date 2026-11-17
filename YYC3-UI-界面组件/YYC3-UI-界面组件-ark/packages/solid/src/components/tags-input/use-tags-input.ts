@@ -1,0 +1,35 @@
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/solid'
+import * as tagsInput from '@zag-js/tags-input'
+import { type Accessor, createMemo, createUniqueId } from 'solid-js'
+import { useEnvironmentContext, useLocaleContext } from '../../providers/index.tsx'
+import type { MaybeAccessor, Optional } from '../../types.ts'
+import { runIfFn } from '../../utils/run-if-fn.ts'
+import { useFieldContext } from '../field/index.tsx'
+
+export interface UseTagsInputProps extends Optional<Omit<tagsInput.Props, 'dir' | 'getRootNode'>, 'id'> {}
+export interface UseTagsInputReturn extends Accessor<tagsInput.Api<PropTypes>> {}
+
+export const useTagsInput = (props?: MaybeAccessor<UseTagsInputProps>): UseTagsInputReturn => {
+  const id = createUniqueId()
+  const locale = useLocaleContext()
+  const environment = useEnvironmentContext()
+  const field = useFieldContext()
+
+  const machineProps = createMemo<tagsInput.Props>(() => ({
+    id,
+    ids: {
+      label: field?.().ids.label,
+      hiddenInput: field?.().ids.control,
+    },
+    dir: locale().dir,
+    disabled: field?.().disabled,
+    invalid: field?.().invalid,
+    readOnly: field?.().readOnly,
+    required: field?.().required,
+    getRootNode: environment().getRootNode,
+    ...runIfFn(props),
+  }))
+
+  const service = useMachine(tagsInput.machine, machineProps)
+  return createMemo(() => tagsInput.connect(service, normalizeProps))
+}

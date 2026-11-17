@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "styleIsolation": "apply-shared",
+  "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-popover": "tdesign-miniprogram/popover/popover"
+  }
+}

@@ -1,0 +1,166 @@
+:root {
+  --swipe-indicator-color: #fff;
+  --swipe-indicators-offset: 10px;
+  --swipe-indicator-offset: 4px;
+  --swipe-navigation-z-index: 9;
+  --swipe-navigation-button-width: 36px;
+  --swipe-navigation-button-height: 36px;
+  --swipe-navigation-button-border-radius: 50%;
+  --swipe-navigation-icon-size: 20px;
+  --swipe-navigation-prev-left: 8px;
+  --swipe-navigation-next-right: 8px;
+  --swipe-navigation-prev-top: 8px;
+  --swipe-navigation-next-bottom: 8px;
+}
+
+.var-swipe {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+
+  &__track {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition-property: transform;
+  }
+
+  &__navigation {
+    position: absolute;
+    top: 50%;
+    z-index: var(--swipe-navigation-z-index);
+
+    &-prev {
+      left: 0;
+      transform: translate(var(--swipe-navigation-prev-left), -50%);
+
+      &-button[var-swipe-cover] {
+        width: var(--swipe-navigation-button-width);
+        height: var(--swipe-navigation-button-height);
+        border-radius: var(--swipe-navigation-button-border-radius);
+      }
+
+      &-button-icon[var-swipe-cover] {
+        font-size: var(--swipe-navigation-icon-size);
+      }
+    }
+
+    &-next {
+      right: 0;
+      transform: translate(calc(-1 * var(--swipe-navigation-next-right)), -50%);
+
+      &-button[var-swipe-cover] {
+        width: var(--swipe-navigation-button-width);
+        height: var(--swipe-navigation-button-height);
+        border-radius: var(--swipe-navigation-button-border-radius);
+      }
+
+      &-button-icon[var-swipe-cover] {
+        font-size: var(--swipe-navigation-icon-size);
+      }
+    }
+  }
+
+  &__indicators {
+    position: absolute;
+    display: flex;
+    bottom: var(--swipe-indicators-offset);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &__indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--swipe-indicator-color);
+    opacity: 0.3;
+    margin: 0 var(--swipe-indicator-offset);
+    transition: opacity 0.3s;
+  }
+
+  &--vertical {
+    flex-direction: column;
+  }
+
+  &--indicators-vertical {
+    flex-direction: column;
+    left: var(--swipe-indicators-offset);
+    bottom: 50%;
+    transform: translateY(50%);
+  }
+
+  &--indicator-active {
+    opacity: 1;
+  }
+
+  &--indicator-vertical {
+    margin: var(--swipe-indicator-offset) 0;
+  }
+
+  &--navigation-vertical {
+    &-prev {
+      top: 0;
+      left: 50%;
+      right: unset;
+      transform: translate(-50%, var(--swipe-navigation-prev-top));
+    }
+
+    &-next {
+      bottom: 0;
+      left: 50%;
+      right: unset;
+      top: unset;
+      transform: translate(-50%, calc(-1 * var(--swipe-navigation-next-bottom)));
+    }
+  }
+
+  &--navigation-prev-animation {
+    &-enter-active,
+    &-leave-active {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
+
+    &-enter-from,
+    &-leave-to {
+      transform: translate(-100%, -50%);
+    }
+  }
+
+  &--navigation-next-animation {
+    &-enter-active,
+    &-leave-active {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
+
+    &-enter-from,
+    &-leave-to {
+      transform: translate(100%, -50%);
+    }
+  }
+
+  &--navigation-vertical-prev-animation {
+    &-enter-active,
+    &-leave-active {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
+
+    &-enter-from,
+    &-leave-to {
+      transform: translate(-50%, -100%);
+    }
+  }
+
+  &--navigation-vertical-next-animation {
+    &-enter-active,
+    &-leave-active {
+      transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.5, 1);
+    }
+
+    &-enter-from,
+    &-leave-to {
+      transform: translate(-50%, 100%);
+    }
+  }
+}

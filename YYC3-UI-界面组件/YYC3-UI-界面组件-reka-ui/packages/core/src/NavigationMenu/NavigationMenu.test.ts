@@ -1,0 +1,473 @@
+import type { DOMWrapper, VueWrapper } from '@vue/test-utils'
+import userEvent from '@testing-library/user-event'
+import { fireEvent } from '@testing-library/vue'
+import { mount } from '@vue/test-utils'
+import { useDebounceFn } from '@vueuse/core'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { axe } from 'vitest-axe'
+import { defineComponent, h, nextTick, ref } from 'vue'
+import { sleep } from '@/test'
+import { NavigationMenuContent, NavigationMenuLink, NavigationMenuList, NavigationMenuRoot, NavigationMenuTrigger, NavigationMenuViewport } from '.'
+
+import NavigationMenuUnmountOnHideFalse from './__test__/NavigationMenuUnmountOnHideFalse.vue'
+import NavigationMenuItem from './NavigationMenuItem.vue'
+import NavigationMenu from './story/_NavigationMenu.vue'
+
+vi.mock('@vueuse/core', async () => {
+  const actual = await vi.importActual('@vueuse/core')
+  return {
+    ...actual,
+    useDebounceFn: vi.fn(),
+
+  }
+})
+
+describe('given default NavigationMenu', () => {
+  let wrapper: VueWrapper<InstanceType<typeof NavigationMenu>>
+  let content: DOMWrapper<HTMLDivElement>
+
+  beforeEach(() => {
+    document.body.innerHTML = ''
+    wrapper = mount(NavigationMenu, { attachTo: document.body })
+
+    // @ts-expect-error simple mock
+    vi.mocked(useDebounceFn).mockImplementation((cb: (val: string) => void, _delay: string) => {
+      return function (arg: string) {
+        cb(arg)
+      }
+    })
+  })
+
+  afterEach(() => {
+    wrapper.unmount()
+  })
+
+  it('should pass axe accessibility tests', async () => {
+    expect(await axe(wrapper.element)).toHaveNoViolations()
+  })
+
+  describe('after clicking on button to open menu', () => {
+    beforeEach(async () => {
+      const button = wrapper.find('button').element
+      button.focus()
+      button.click()
+      await nextTick()
+      content = wrapper.find('[data-dismissable-layer]')
+    })
+
+    it('should pass axe accessibility tests', async () => {
+      expect(await axe(document.body)).toHaveNoViolations()
+    })
+
+    it('should render a focus proxy that is tabbable but not aria-hidden', () => {
+      // The trigger renders a tabbable sentinel (tabindex="0") that catches
+      // focus leaving the trigger and redirects it into the content. A tabbable
+      // element must not be aria-hidden (axe `aria-hidden-focus`).
+      const proxies = document.querySelectorAll('span[tabindex="0"]')
+      expect(proxies).toHaveLength(1)
+      expect(proxies[0].getAttribute('aria-hidden')).toBeNull()
+    })
+
+    describe('after pressing tab', async () => {
+      beforeEach(async () => {
+        await userEvent.tab()
+      })
+
+      it('should focus on the first item in menu', () => {
+        const links = content.findAll('a')
+        expect(links[0].element).toBe(document.activeElement)
+      })
+    })
+
+    describe('after pressing down key', async () => {
+      beforeEach(async () => {
+        await fireEvent.keyDown(document.activeElement!, { key: 'ArrowDown' })
+        await sleep(0)
+      })
+
+      it('should focus on the first item in menu', () => {
+        const links = content.findAll('a')
+        expect(links[0].element).toBe(document.activeElement)
+      })
+
+      it('should focus on the last item in menu', async () => {
+        const links = content.findAll('a')
+        for (let i = 0; i < links.length; i++) {
+          await fireEvent.keyDown(document.activeElement!, { key: 'ArrowDown' })
+          await sleep(0)
+        }
+        expect(links.at(-1).element).toBe(document.activeElement)
+      })
+    })
+
+    // TODO: Better dismissable test
+    // describe('after interacting outside', () => {
+    //   beforeEach(async () => {
+    //     await fireEvent.pointerDown(document.body)
+    //     await sleep(0)
+    //   })
+
+    //   it('should close the content', () => {
+    //     expect(wrapper.find('[data-dismissable-layer]').exists()).toBe(false)
+    //   })
+    // })
+  })
+
+  it('keeps active content open when clicking inside with unmountOnHide disabled', async () => {
+    const wrapper = mount(NavigationMenuUnmountOnHideFalse, { attachTo: document.body })
+
+    await wrapper.find('[data-testid="trigger-one"]').trigger('click')
+    await wrapper.vm.$nextTick()
+    await sleep(0)
+
+    expect(wrapper.find('[data-testid="model-value"]').text()).toBe('one')
+
+    // Open second content; first stays mounted but becomes inactive
+    await wrapper.find('[data-testid="trigger-two"]').trigger('click')
+    await wrapper.vm.$nextTick()
+    await sleep(0)
+
+    expect(wrapper.find('[data-testid="model-value"]').text()).toBe('two')
+
+    // Click inside active content-two; inactive content-one should not interfere
+    await fireEvent.pointerDown(wrapper.find('[data-testid="inside-two"]').element)
+    await wrapper.vm.$nextTick()
+    await sleep(0)
+
+    // Content-two should remain open (content-one's dismiss handler returned early)
+    expect(wrapper.find('[data-testid="model-value"]').text()).toBe('two')
+
+    wrapper.unmount()
+  })
+
+  describe('menu triggers', () => {
+    const findMenuItem = () => wrapper.findComponent(NavigationMenuItem)
+
+    const findTriggerButton = () => findMenuItem().find('button')
+
+    const findLinkContent = () => wrapper.find('[data-dismissable-layer]')
+
+    async function useRealDebounceFn() {
+      const { useDebounceFn: realUseDebounceFn } = await vi.importActual<typeof import('@vueuse/core')>('@vueuse/core')
+      vi.mocked(useDebounceFn).mockImplementation(realUseDebounceFn)
+    }
+
+    it('should open menu on click by default', async () => {
+      const button = findTriggerButton()
+
+      button.trigger('click')
+
+      await wrapper.vm.$nextTick()
+
+      const content = findLinkContent()
+
+      expect(content.exists()).toBeTruthy()
+    })
+
+    it('should open menu on hover by default', async () => {
+      const button = findTriggerButton()
+
+      button.trigger('pointermove', { pointerType: 'mouse' })
+
+      await wrapper.vm.$nextTick()
+
+      const content = findLinkContent()
+
+      expect(content.exists()).toBeTruthy()
+    })
+
+    it('should not trigger content on click', async () => {
+      await wrapper.setProps({ disableClickTrigger: true })
+
+      const button = findTriggerButton()
+
+      button.trigger('click', { pointerType: 'mouse' })
+
+      await wrapper.vm.$nextTick()
+
+      const content = findLinkContent()
+
+      expect(content.exists()).toBeFalsy()
+    })
+
+    it('should not trigger content on hover', async () => {
+      await wrapper.setProps({ disableHoverTrigger: true })
+      const button = findTriggerButton()
+
+      button.trigger('pointermove', { pointerType: 'mouse' })
+
+      await wrapper.vm.$nextTick()
+
+      const content = findLinkContent()
+
+      expect(content.exists()).toBeFalsy()
+    })
+
+    it('should close menu when clicking top-level link with hover disabled', async () => {
+      await wrapper.setProps({
+        disableHoverTrigger: true,
+        disablePointerLeaveClose: true,
+      })
+
+      const button = findTriggerButton().element
+      button.click()
+      await wrapper.vm.$nextTick()
+
+      // Menu should be open
+      expect(findLinkContent().exists()).toBeTruthy()
+
+      // Click the top-level Github link
+      const topLevelLink = wrapper.find('a[href="https://github.com/unovue"]').element as HTMLElement
+      topLevelLink.click()
+      await sleep(0)
+      await wrapper.vm.$nextTick()
+
+      // Menu should be closed
+      expect(findLinkContent().exists()).toBeFalsy()
+    })
+
+    it('switching triggers keeps menu open', async () => {
+      vi.useFakeTimers()
+      await useRealDebounceFn()
+
+      const localWrapper = mount(NavigationMenu, { attachTo: document.body })
+      const triggers = localWrapper.findAll('[data-navigation-menu-trigger]')
+      const findContent = () => localWrapper.find('[data-dismissable-layer]')
+
+      await triggers[0].trigger('pointermove', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(200)
+      await nextTick()
+
+      expect(findContent().exists()).toBe(true)
+
+      await triggers[0].trigger('pointerleave', { pointerType: 'mouse' })
+      await triggers[1].trigger('pointermove', { pointerType: 'mouse' })
+      await nextTick()
+
+      expect(triggers[1].attributes('data-state')).toBe('open')
+      expect(findContent().exists()).toBe(true)
+
+      await vi.advanceTimersByTimeAsync(150)
+      await nextTick()
+
+      expect(findContent().exists()).toBe(true)
+
+      localWrapper.unmount()
+      vi.useRealTimers()
+    })
+
+    it('leaving content closes menu', async () => {
+      vi.useFakeTimers()
+      await useRealDebounceFn()
+
+      const localWrapper = mount(NavigationMenu, { attachTo: document.body })
+      const findContent = () => localWrapper.find('[data-dismissable-layer]')
+
+      await localWrapper.find('[data-navigation-menu-trigger]').trigger('pointermove', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(200)
+      await nextTick()
+
+      expect(findContent().exists()).toBe(true)
+
+      await findContent().trigger('pointerleave', { pointerType: 'mouse' })
+      await vi.advanceTimersByTimeAsync(150)
+      await nextTick()
+
+      expect(findContent().exists()).toBe(false)
+
+      localWrapper.unmount()
+      vi.useRealTimers()
+    })
+  })
+})
+
+describe('given NavigationMenuTrigger with consumer event listeners', () => {
+  beforeEach(() => {
+    // @ts-expect-error simple mock
+    vi.mocked(useDebounceFn).mockImplementation((cb: (val: string) => void) => (arg: string) => cb(arg))
+  })
+
+  function mountNavigationMenu(triggerListeners: Record<string, (event: Event) => void> = {}) {
+    document.body.innerHTML = ''
+    const value = ref('')
+    const wrapper = mount(defineComponent({
+      setup: () => () => h(NavigationMenuRoot, {
+        'modelValue': value.value,
+        'onUpdate:modelValue': (next: string) => { value.value = next },
+      }, () => h(NavigationMenuList, () => h(NavigationMenuItem, { value: 'learn' }, () => [
+        h(NavigationMenuTrigger, triggerListeners, () => 'Learn'),
+        h(NavigationMenuContent, () => h(NavigationMenuLink, { href: '#' }, () => 'Docs')),
+      ]))),
+    }), { attachTo: document.body })
+    return { value, trigger: wrapper.find('[data-navigation-menu-trigger]') }
+  }
+
+  it('should open on click', async () => {
+    const { value, trigger } = mountNavigationMenu()
+    await trigger.trigger('click')
+    expect(value.value).toBe('learn')
+  })
+
+  it('should not open on click when the consumer prevents default', async () => {
+    const { value, trigger } = mountNavigationMenu({ onClick: event => event.preventDefault() })
+    await trigger.trigger('click')
+    expect(value.value).toBe('')
+  })
+
+  it('should open on mouse pointermove', async () => {
+    const { value, trigger } = mountNavigationMenu()
+    await trigger.trigger('pointermove', { pointerType: 'mouse' })
+    expect(value.value).toBe('learn')
+  })
+
+  it('should not open on mouse pointermove when the consumer prevents default', async () => {
+    const { value, trigger } = mountNavigationMenu({ onPointermove: event => event.preventDefault() })
+    await trigger.trigger('pointermove', { pointerType: 'mouse' })
+    expect(value.value).toBe('')
+  })
+
+  it('should hand the entry key to the content', async () => {
+    const { value, trigger } = mountNavigationMenu()
+    await trigger.trigger('click')
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
+    trigger.element.dispatchEvent(event)
+    expect([value.value, event.defaultPrevented]).toEqual(['learn', true])
+  })
+
+  it('should not handle the entry key when the consumer prevents default', async () => {
+    const { trigger } = mountNavigationMenu({ onKeydown: event => event.preventDefault() })
+    await trigger.trigger('click')
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
+    const stopPropagation = vi.spyOn(event, 'stopPropagation')
+    trigger.element.dispatchEvent(event)
+    expect(stopPropagation).not.toHaveBeenCalled()
+  })
+})
+
+describe('given an open NavigationMenuTrigger', () => {
+  beforeEach(() => {
+    // @ts-expect-error simple mock
+    vi.mocked(useDebounceFn).mockImplementation((cb: (val: string) => void) => (arg: string) => cb(arg))
+  })
+
+  it.each([
+    { withViewport: false, ownsContent: false },
+    { withViewport: true, ownsContent: true },
+  ])('should render the aria-owns span only with a viewport (withViewport: $withViewport)', async ({ withViewport, ownsContent }) => {
+    document.body.innerHTML = ''
+    const wrapper = mount(defineComponent({
+      setup: () => () => h(NavigationMenuRoot, { modelValue: 'learn' }, () => [
+        h(NavigationMenuList, () => h(NavigationMenuItem, { value: 'learn' }, () => [
+          h(NavigationMenuTrigger, () => 'Learn'),
+          h(NavigationMenuContent, () => h(NavigationMenuLink, { href: '#' }, () => 'Docs')),
+        ])),
+        withViewport ? h(NavigationMenuViewport) : null,
+      ]),
+    }), { attachTo: document.body })
+    await nextTick()
+
+    expect(document.querySelector('span[aria-owns]') !== null).toBe(ownsContent)
+    wrapper.unmount()
+  })
+})
+
+describe('given NavigationMenu and the Space key', () => {
+  beforeEach(() => {
+    // @ts-expect-error simple mock
+    vi.mocked(useDebounceFn).mockImplementation((cb: (val: string) => void) => (arg: string) => cb(arg))
+  })
+
+  async function mountNavigationMenu({ asChild = false } = {}) {
+    document.body.innerHTML = ''
+    const value = ref('')
+    const onLinkClick = vi.fn((event: Event) => event.preventDefault())
+    const wrapper = mount(defineComponent({
+      setup: () => () => h(NavigationMenuRoot, {
+        'modelValue': value.value,
+        'onUpdate:modelValue': (next: string) => { value.value = next },
+      }, () => h(NavigationMenuList, () => [
+        h(NavigationMenuItem, { value: 'learn' }, () => [
+          asChild
+            ? h(NavigationMenuTrigger, { asChild: true }, () => h('span', { tabindex: 0 }, 'Learn'))
+            : h(NavigationMenuTrigger, () => 'Learn'),
+          h(NavigationMenuContent, () => h(NavigationMenuLink, { href: '#' }, () => 'Docs')),
+        ]),
+        h(NavigationMenuItem, () => h(NavigationMenuLink, { 'href': '#github', 'data-testid': 'link', 'onClick': onLinkClick }, () => 'GitHub')),
+      ])),
+    }), { attachTo: document.body })
+    // Vue ignores bubbling events stamped in the same millisecond its listeners were attached
+    const mountedAt = Date.now()
+    await vi.waitFor(() => expect(Date.now()).toBeGreaterThan(mountedAt))
+    return { wrapper, value, onLinkClick, trigger: wrapper.find('[data-navigation-menu-trigger]') }
+  }
+
+  function pressSpace(element: Element, repeat = false) {
+    const event = new KeyboardEvent('keydown', { key: ' ', keyCode: 32, repeat, bubbles: true, cancelable: true })
+    element.dispatchEvent(event)
+    return event
+  }
+
+  it('should toggle the trigger', async () => {
+    const { wrapper, value, trigger } = await mountNavigationMenu()
+    pressSpace(trigger.element)
+    await nextTick()
+    expect(value.value).toBe('learn')
+    pressSpace(trigger.element)
+    await nextTick()
+    expect(value.value).toBe('')
+    wrapper.unmount()
+  })
+
+  it.each([
+    ['a button trigger', false],
+    ['a non-button asChild trigger', true],
+  ])('should toggle %s once while Space is held down', async (_, asChild) => {
+    const { wrapper, value, trigger } = await mountNavigationMenu({ asChild })
+    expect(trigger.element.tagName).toBe(asChild ? 'SPAN' : 'BUTTON')
+    pressSpace(trigger.element)
+    await nextTick()
+    const repeats = [pressSpace(trigger.element, true)]
+    await nextTick()
+    expect(value.value).toBe('learn')
+    expect(repeats.every(event => event.defaultPrevented)).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('should leave Space on a link to the browser', async () => {
+    const { wrapper, onLinkClick } = await mountNavigationMenu()
+    const event = pressSpace(wrapper.find('[data-testid="link"]').element)
+    await nextTick()
+    expect(onLinkClick).not.toHaveBeenCalled()
+    expect(event.defaultPrevented).toBe(false)
+    wrapper.unmount()
+  })
+})
+
+describe('given NavigationMenuTrigger inside a form', () => {
+  function mountInForm(triggerProps: Record<string, unknown> = {}) {
+    document.body.innerHTML = ''
+    const onSubmit = vi.fn((event: Event) => event.preventDefault())
+    const wrapper = mount(defineComponent({
+      setup: () => () => h('form', { onSubmit }, h(NavigationMenuRoot, () => h(NavigationMenuList, () => h(NavigationMenuItem, { value: 'learn' }, () => [
+        h(NavigationMenuTrigger, triggerProps, () => 'Learn'),
+        h(NavigationMenuContent, () => h(NavigationMenuLink, { href: '#' }, () => 'Docs')),
+      ])))),
+    }), { attachTo: document.body })
+    return { onSubmit, trigger: wrapper.get('[data-navigation-menu-trigger]') }
+  }
+
+  it('should not submit the form when the trigger is clicked', async () => {
+    const { trigger, onSubmit } = mountInForm()
+
+    expect(trigger.attributes('type')).toBe('button')
+    await trigger.trigger('click')
+
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('should keep an explicit type', () => {
+    const { trigger } = mountInForm({ type: 'submit' })
+
+    expect(trigger.attributes('type')).toBe('submit')
+  })
+})

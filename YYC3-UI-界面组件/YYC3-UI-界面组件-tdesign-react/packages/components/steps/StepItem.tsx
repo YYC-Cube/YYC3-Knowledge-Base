@@ -1,0 +1,102 @@
+import React, { useContext } from 'react';
+import classNames from 'classnames';
+import { CheckIcon as TdCheckIcon, CloseIcon as TdCloseIcon } from 'tdesign-icons-react';
+
+import useConfig from '../hooks/useConfig';
+import useDefaultProps from '../hooks/useDefaultProps';
+import useGlobalIcon from '../hooks/useGlobalIcon';
+import { stepItemDefaultProps } from './defaultProps';
+import StepsContext from './StepsContext';
+
+import type { StyledProps } from '../common';
+import type { TdStepItemProps } from './type';
+
+export interface StepItemProps extends TdStepItemProps, StyledProps {
+  index?: number;
+  children?: React.ReactNode;
+}
+
+const StepItem: React.FC<StepItemProps> = (originalProps) => {
+  const props = useDefaultProps<StepItemProps>(originalProps, stepItemDefaultProps);
+  const { index, icon, title, content, value, children, style, status } = props;
+
+  const { current, theme, onChange, readOnly } = useContext(StepsContext);
+  const { classPrefix, steps: globalStepsConfig } = useConfig();
+  const { CloseIcon, CheckIcon } = useGlobalIcon({ CloseIcon: TdCloseIcon, CheckIcon: TdCheckIcon });
+
+  const canClick = status !== 'process' && !readOnly;
+
+  // 步骤条每一步展示的图标
+  const iconNode = React.useMemo<React.ReactNode>(() => {
+    if (!icon || theme !== 'default') {
+      return null;
+    }
+
+    // 自定义图标直接返回
+    if (icon !== true) {
+      return icon;
+    }
+
+    const iconCls = `${classPrefix}-steps-item__icon--number`;
+
+    // 根据状态返回对应的默认图标
+    const getDefaultIconByStatus = () => {
+      switch (status) {
+        case 'error':
+          return globalStepsConfig.errorIcon || <CloseIcon />;
+        case 'finish':
+          return globalStepsConfig.checkIcon || <CheckIcon />;
+        default:
+          return Number(index) + 1;
+      }
+    };
+
+    return <span className={iconCls}>{getDefaultIconByStatus()}</span>;
+  }, [icon, classPrefix, theme, status, globalStepsConfig, index, CloseIcon, CheckIcon]);
+
+  function onStepClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (!canClick) {
+      return;
+    }
+    const currentValue = value ?? index;
+    onChange(currentValue, current, { e });
+  }
+
+  return (
+    <div
+      style={style}
+      className={classNames({
+        [`${classPrefix}-steps-item`]: true,
+        [`${classPrefix}-steps-item--wait`]: status === 'default',
+        [`${classPrefix}-steps-item--error`]: status === 'error',
+        [`${classPrefix}-steps-item--finish`]: status === 'finish',
+        [`${classPrefix}-steps-item--process`]: status === 'process',
+        [props.className]: !!props.className,
+      })}
+    >
+      <div
+        className={classNames(`${classPrefix}-steps-item__inner`, {
+          [`${classPrefix}-steps-item--clickable`]: canClick,
+        })}
+        onClick={onStepClick}
+      >
+        <div
+          className={classNames(`${classPrefix}-steps-item__icon`, {
+            [`${classPrefix}-steps-item-${status}`]: status,
+          })}
+        >
+          {iconNode}
+        </div>
+        <div className={`${classPrefix}-steps-item__content`}>
+          <div className={`${classPrefix}-steps-item__title`}>{title}</div>
+          <div className={`${classPrefix}-steps-item__description`}>{content}</div>
+          {children ? <div className={`${classPrefix}-steps-item__extra`}>{children}</div> : null}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+StepItem.displayName = 'StepItem';
+
+export default StepItem;

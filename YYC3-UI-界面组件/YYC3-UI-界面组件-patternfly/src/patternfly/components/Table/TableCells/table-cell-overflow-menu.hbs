@@ -1,0 +1,24 @@
+{{#> table-cell table-cell--classname='__action'}}
+  {{#> overflow-menu overflow-menu--id=(dasherize table--id 'overflow-menu' table-tr--index)}}
+    {{#if table-cell-overflow-menu--IsCondensed}}
+      {{#> overflow-menu-control menu-toggle--aria-label="Actions"}}
+        {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--aria-label='Menu toggle' menu-toggle--IsPlain--id=(dasherize overflow-menu--id 'toggle')}}
+      {{/overflow-menu-control}}
+    {{else}}
+      {{#> overflow-menu-content}}
+        {{#> overflow-menu-group overflow-menu-group--modifier="pf-m-button-group"}}
+          {{#> overflow-menu-item}}
+            {{#> button button--IsPrimary=true}}
+              Start
+            {{/button}}
+          {{/overflow-menu-item}}
+          {{#> overflow-menu-item}}
+            {{#> button button--IsSecondary=true}}
+              Stop
+            {{/button}}
+          {{/overflow-menu-item}}
+        {{/overflow-menu-group}}
+      {{/overflow-menu-content}}
+    {{/if}}
+  {{/overflow-menu}}
+{{/table-cell}}

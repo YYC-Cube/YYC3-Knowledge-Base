@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "paths": {
+      "styles/*": ["../../.storybook/modules/*"]
+    },
+    "noPropertyAccessFromIndexSignature": false,
+    "types": ["vitest/globals"],
+    "lib": ["ESNext", "DOM"]
+  },
+  "include": ["src", "../../.storybook/modules/css-modules.d.ts"]
+}

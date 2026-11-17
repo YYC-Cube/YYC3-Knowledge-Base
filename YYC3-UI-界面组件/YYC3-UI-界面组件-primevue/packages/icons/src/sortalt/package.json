@@ -1,0 +1,11 @@
+{
+    "main": "./SortAltIcon.vue",
+    "module": "./SortAltIcon.vue",
+    "types": "./SortAltIcon.d.ts",
+    "browser": {
+        "./sfc": "./SortAltIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

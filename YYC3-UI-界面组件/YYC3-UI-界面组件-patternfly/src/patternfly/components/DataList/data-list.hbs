@@ -1,0 +1,13 @@
+<ul class="{{pfv}}data-list
+  {{#if data-list--IsCompact}} pf-m-compact{{/if}}
+  {{#if data-list--IsPlain}} pf-m-plain{{/if}}
+  {{#if data-list--modifier}} {{data-list--modifier}}{{/if}}"
+  role="list"
+  {{#if data-list--attribute}}
+    {{{data-list--attribute}}}
+  {{/if}}
+  {{#if data-list--id}}
+    id="{{{data-list--id}}}"
+  {{/if}}>
+  {{> @partial-block}}
+</ul>

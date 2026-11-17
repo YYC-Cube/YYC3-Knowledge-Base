@@ -1,0 +1,40 @@
+---
+title: DownloadButton
+description: DownloadButton is a React component used to download content from a Blob URL. It provides a button with a download icon that, when clicked, triggers a download of the specified content. It also displays a tooltip indicating the file type being downloaded.
+category: Data Entry
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import DemoCustomFile from './demos/customFile.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { downloadButtonClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="center" />
+
+## Custom
+
+<Demo of={DemoCustomFile} />
+
+## APIs
+
+### DownloadButton
+
+<Api name="DownloadButton" migrationKey="heading:%5B%22DownloadButton%22%5D:0" />
+
+Additionally, DownloadButton inherits all properties from [ActionIcon](/components/action-icon) component except for those specified above. When clicked, it automatically changes the icon to a checkmark for 2 seconds to indicate successful download initiation.
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `DownloadButton`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/DownloadButton.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={downloadButtonClasses} />

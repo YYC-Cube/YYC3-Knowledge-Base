@@ -1,0 +1,61 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+  import type { ContentProps } from '@zag-js/navigation-menu'
+
+  export interface NavigationMenuContentBaseProps
+    extends Partial<ContentProps>, PolymorphicProps<'div'>, RefAttribute {}
+  export interface NavigationMenuContentProps extends Assign<HTMLProps<'div'>, NavigationMenuContentBaseProps> {}
+</script>
+
+<script lang="ts">
+  import { createSplitProps } from '$lib/utils/create-split-props'
+  import { useRenderStrategyPropsContext } from '$lib/utils/render-strategy'
+  import { mergeProps } from '@zag-js/svelte'
+  import type { RequiredBy } from '@zag-js/types'
+  import { Ark } from '../factory/index.ts'
+  import { Portal } from '../portal/index.ts'
+  import { usePresence } from '../presence/index.ts'
+  import { useNavigationMenuContext } from './use-navigation-menu-context.ts'
+  import { useNavigationMenuItemPropsContext } from './use-navigation-menu-item-props-context.ts'
+
+  let { ref = $bindable(null), ...props }: NavigationMenuContentProps = $props()
+
+  const splitContentProps = createSplitProps<ContentProps>()
+
+  const navigationMenu = useNavigationMenuContext()
+  const itemContext = useNavigationMenuItemPropsContext()
+
+  const value = $derived(props.value ?? itemContext()?.value)
+
+  const combinedProps = $derived(mergeProps(props, { value }) as RequiredBy<NavigationMenuContentProps, 'value'>)
+  const [contentProps, localProps] = $derived(splitContentProps(combinedProps, ['value']))
+
+  const renderStrategyProps = useRenderStrategyPropsContext()
+
+  const presence = usePresence(() => ({
+    ...renderStrategyProps(),
+    present: navigationMenu().value === value,
+  }))
+
+  const mergedProps = $derived(
+    mergeProps(navigationMenu().getContentProps(contentProps), presence().getPresenceProps(), localProps),
+  )
+
+  const viewportNode = $derived(navigationMenu().isViewportRendered ? navigationMenu().getViewportNode() : null)
+
+  function setNode(node: Element | null) {
+    presence().setNode(node)
+  }
+</script>
+
+{#if navigationMenu().isViewportRendered && viewportNode}
+  <div {...navigationMenu().getViewportProxyProps(contentProps)}></div>
+  <div {...navigationMenu().getTriggerProxyProps(contentProps)}></div>
+  <Portal container={viewportNode}>
+    {#if !presence().unmounted}
+      <Ark as="div" bind:ref {...mergedProps} {@attach setNode} />
+    {/if}
+  </Portal>
+{:else if !presence().unmounted}
+  <Ark as="div" bind:ref {...mergedProps} {@attach setNode} />
+{/if}

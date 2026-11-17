@@ -1,0 +1,11 @@
+{
+    "main": "./BanIcon.vue",
+    "module": "./BanIcon.vue",
+    "types": "./BanIcon.d.ts",
+    "browser": {
+        "./sfc": "./BanIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

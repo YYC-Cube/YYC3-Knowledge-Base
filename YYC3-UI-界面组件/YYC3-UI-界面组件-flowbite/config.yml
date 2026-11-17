@@ -1,0 +1,30 @@
+languageCode:           "en"
+title:                  "Flowbite"
+baseURL:                "https://flowbite.com/docs/"
+enableInlineShortcodes: true
+
+params:
+  homepage: "https://flowbite.com"
+  current_version: 4.0.2
+  authors: Flowbite
+  social_image_path: /docs/images/og-image.png
+
+markup:
+  goldmark:
+    renderer:
+      unsafe:           true
+  highlight:
+    noClasses:          false
+    style:              colorful
+  tableOfContents:
+    startLevel:         2
+    endLevel:           6
+
+buildDrafts:            true
+buildFuture:            true
+
+enableRobotsTXT:        true
+metaDataFormat:         "yaml"
+disableKinds:           ["404", "taxonomy", "RSS"]
+
+publishDir:             "_gh_pages"

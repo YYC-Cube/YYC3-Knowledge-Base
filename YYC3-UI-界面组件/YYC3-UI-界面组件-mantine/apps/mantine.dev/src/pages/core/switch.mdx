@@ -1,0 +1,228 @@
+import { SwitchDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Switch);
+
+## Usage
+
+<Demo data={SwitchDemos.configurator} />
+
+## Controlled
+
+```tsx
+import { useState } from 'react';
+import { Switch } from '@mantine/core';
+
+function Demo() {
+  const [checked, setChecked] = useState(false);
+  return (
+    <Switch
+      checked={checked}
+      onChange={(event) => setChecked(event.currentTarget.checked)}
+    />
+  );
+}
+```
+
+## Uncontrolled
+
+`Switch` can be used with uncontrolled forms the same way as a native `input[type="checkbox"]`.
+Set the `name` attribute to include switch value in `FormData` object on form submission.
+To control the initial checked state in uncontrolled forms, use `defaultChecked` prop.
+
+Example usage of uncontrolled `Switch` with `FormData`:
+
+```tsx
+import { Switch } from '@mantine/core';
+
+function Demo() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Switch value:', !!formData.get('notifications'));
+      }}
+    >
+      <Switch label="Enable notifications" name="notifications" defaultChecked />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Read only
+
+Set `readOnly` prop to prevent the user from changing the value. The switch still
+follows the `checked` prop, but clicking it or pressing <kbd>Space</kbd> does not toggle
+it and does not call `onChange`:
+
+```tsx
+import { useState } from 'react';
+import { Switch } from '@mantine/core';
+
+function Demo() {
+  const [checked, setChecked] = useState(true);
+  return (
+    <>
+      <Switch checked={checked} readOnly label="Read only switch" />
+      <button type="button" onClick={() => setChecked((c) => !c)}>
+        Toggle from outside
+      </button>
+    </>
+  );
+}
+```
+
+## States
+
+<Demo data={SwitchDemos.states} />
+
+## Inner Labels
+
+<Demo data={SwitchDemos.labels} />
+
+## Icon labels
+
+<Demo data={SwitchDemos.iconLabels} />
+
+## Thumb icon
+
+<Demo data={SwitchDemos.thumbIcon} />
+
+
+## With tooltip
+
+Set `refProp="rootRef"` on [Tooltip](/core/tooltip/) and other similar components to make them work with `Switch`:
+
+<Demo data={SwitchDemos.tooltip} />
+
+## Pointer cursor
+
+By default, the switch input and label have `cursor: default` (same as native `input[type="checkbox"]`).
+To change the cursor to pointer, set `cursorType` on the [theme](/theming/theme-object/):
+
+```tsx
+import { createTheme, MantineProvider, Switch } from '@mantine/core';
+
+const theme = createTheme({
+  cursorType: 'pointer',
+});
+
+function Demo() {
+  return (
+    <MantineProvider theme={theme}>
+      <Switch label="Pointer cursor" />
+    </MantineProvider>
+  );
+}
+```
+
+<WrapperProps component="Switch" />
+
+## Switch.Group
+
+<Demo data={SwitchDemos.groupConfigurator} />
+
+## Switch.Group with uncontrolled forms
+
+`Switch.Group` can be used with uncontrolled forms, it renders a hidden input
+which joins all checked values into a single string using `hiddenInputValuesSeparator` prop.
+
+Props for usage with uncontrolled forms:
+- `name` – name attribute passed to the hidden input
+- `hiddenInputValuesSeparator` – string used to join checked values into a single string, `','` by default
+- `hiddenInputProps` – additional props passed to the hidden input
+
+```tsx
+export function UncontrolledForm() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Switch group value:', formData.get('frameworks'));
+      }}
+    >
+      <Switch.Group label="Frameworks" name="frameworks" hiddenInputValuesSeparator="|">
+        <Switch label="React" value="react" />
+        <Switch label="Angular" value="ng" />
+      </Switch.Group>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## maxSelectedValues
+
+Use `maxSelectedValues` prop to limit the number of selected values in `Switch.Group`.
+When the limit is reached, the remaining switches are disabled and cannot be selected.
+
+<Demo data={SwitchDemos.maxSelectedValues} />
+
+## Switch.Group disabled
+
+<Demo data={SwitchDemos.groupDisabled} />
+
+## Controlled Switch.Group
+
+```tsx
+import { useState } from 'react';
+import { Switch } from '@mantine/core';
+
+function Demo() {
+  const [value, setValue] = useState<string[]>([]);
+
+  return (
+    <Switch.Group value={value} onChange={setValue}>
+      <Switch value="react" label="React" />
+      <Switch value="svelte" label="Svelte" />
+    </Switch.Group>
+  );
+}
+```
+
+## Change styles based on checked state
+
+<Demo data={SwitchDemos.styles} />
+
+<StylesApiSelectors component="Switch" />
+
+<Demo data={SwitchDemos.stylesApi} />
+
+## Get input ref
+
+```tsx
+import { useRef } from 'react';
+import { Switch } from '@mantine/core';
+
+function Demo() {
+  const ref = useRef<HTMLInputElement>(null);
+  return <Switch ref={ref} />;
+}
+```
+
+## Accessibility
+
+`Switch` is a regular `input[type="checkbox"]`. Set `aria-label` if the `Switch` is used without the `label` prop:
+
+```tsx
+import { Switch } from '@mantine/core';
+
+// -> not ok, input is not labeled
+function Bad() {
+  return <Switch />;
+}
+
+// -> ok, input has aria-label
+function Good() {
+  return <Switch aria-label="I agree to everything" />;
+}
+
+// -> ok, input has associated label
+function AlsoGood() {
+  return <Switch label="I agree to everything" />;
+}
+```

@@ -1,0 +1,288 @@
+import { mount } from '@vue/test-utils'
+import { h } from 'vue'
+import { NRadio, NRadioGroup } from '../index'
+
+describe('n-radio', () => {
+  it('should work with import on demand', () => {
+    mount(NRadio)
+  })
+
+  it('should work with `checked` prop', async () => {
+    const wrapper = mount(NRadio, { props: { checked: false } })
+    expect(wrapper.find('.n-radio').classes()).not.toContain('n-radio--checked')
+    await wrapper.setProps({ checked: true })
+    expect(wrapper.find('.n-radio').classes()).toContain('n-radio--checked')
+    wrapper.unmount()
+  })
+
+  it('should work with `defaultChecked` prop', async () => {
+    let wrapper = mount(NRadio, { props: { defaultChecked: true } })
+    expect(wrapper.find('.n-radio').classes()).toContain('n-radio--checked')
+
+    wrapper = mount(NRadio, { props: { defaultChecked: false } })
+    expect(wrapper.find('.n-radio').classes()).not.toContain('n-radio--checked')
+    wrapper.unmount()
+  })
+
+  it('should work with `disabled` prop', async () => {
+    const wrapper = mount(NRadio, { props: { disabled: false } })
+    expect(wrapper.find('.n-radio').classes()).not.toContain(
+      'n-radio--disabled'
+    )
+    await wrapper.setProps({ disabled: true })
+    expect(wrapper.find('.n-radio').classes()).toContain('n-radio--disabled')
+    wrapper.unmount()
+  })
+
+  it('should work with `name` prop', async () => {
+    const wrapper = mount(NRadio, { props: { name: 'randomName111' } })
+
+    const radio = wrapper.find('input[type=radio]')
+
+    expect(radio.attributes('name')).toEqual('randomName111')
+
+    await wrapper.setProps({ name: 'randomName222' })
+
+    expect(radio.attributes('name')).toEqual('randomName222')
+    wrapper.unmount()
+  })
+
+  it('should render default slot content', async () => {
+    const wrapper = mount(NRadio, { slots: { default: 'MySlotContent' } })
+
+    const radio = wrapper.find('.n-radio__label')
+
+    expect(radio.text()).toContain('MySlotContent')
+    wrapper.unmount()
+  })
+
+  it('should work with `label` prop', async () => {
+    const wrapper = mount(NRadio, { props: { label: 'MyRandomLabel' } })
+
+    const radio = wrapper.find('.n-radio__label')
+
+    expect(radio.text()).toContain('MyRandomLabel')
+
+    await wrapper.setProps({ label: 'MyNewRandomLabel' })
+
+    expect(radio.text()).toContain('MyNewRandomLabel')
+    wrapper.unmount()
+  })
+
+  it('should render default slot content in priority of label', async () => {
+    const wrapper = mount(NRadio, {
+      props: { label: 'MyRandomLabel' },
+      slots: { default: 'MySlotContent' }
+    })
+
+    const radio = wrapper.find('.n-radio__label')
+
+    expect(radio.text()).not.toContain('MyRandomLabel')
+    expect(radio.text()).toContain('MySlotContent')
+    wrapper.unmount()
+  })
+
+  it('should work with `size` prop', async () => {
+    ;(['small', 'medium', 'large'] as const).forEach((size) => {
+      const wrapper = mount(NRadio, { props: { size } })
+      expect(wrapper.find('.n-radio').attributes('style')).toMatchSnapshot()
+      wrapper.unmount()
+    })
+  })
+
+  it('should work with `onUpdate:checked` prop', async () => {
+    const onUpdate1 = vi.fn()
+    const onUpdate2 = vi.fn()
+    const wrapper = mount(NRadio, {
+      props: { 'onUpdate:checked': onUpdate1, onUpdateChecked: onUpdate2 },
+      // special case for trigger click with radio input need `attachTo`
+      // https://github.com/vuejs/test-utils/issues/1470
+      attachTo: document.body
+    })
+
+    await wrapper.find('.n-radio').trigger('click')
+    expect(onUpdate1).toHaveBeenCalled()
+    expect(onUpdate2).toHaveBeenCalled()
+    wrapper.unmount()
+  })
+})
+
+describe('n-radio-group', () => {
+  it('should work with import on demand', () => {
+    mount(NRadioGroup, {
+      slots: {
+        default: () => [
+          h(NRadio, null, { default: () => 'test-item1' }),
+          h(NRadio, null, { default: () => 'test-item2' })
+        ]
+      }
+    })
+  })
+
+  it('should work with `disabled` prop', async () => {
+    const wrapper = mount(NRadioGroup, {
+      slots: {
+        default: () => [
+          h(NRadio, null, { default: () => 'test-item1' }),
+          h(NRadio, null, { default: () => 'test-item2' })
+        ]
+      }
+    })
+    expect(wrapper.find('.n-radio--disabled').exists()).not.toBe(true)
+
+    await wrapper.setProps({ disabled: true })
+    expect(wrapper.findAll('.n-radio')[0].classes()).toContain(
+      'n-radio--disabled'
+    )
+    expect(wrapper.findAll('.n-radio')[1].classes()).toContain(
+      'n-radio--disabled'
+    )
+    wrapper.unmount()
+  })
+
+  it('should work with `name` prop', async () => {
+    const wrapper = mount(NRadioGroup, {
+      props: {
+        name: 'randomName111'
+      },
+      slots: {
+        default: () => [
+          h(NRadio, null, { default: () => 'test-item1' }),
+          h(NRadio, null, { default: () => 'test-item2' })
+        ]
+      }
+    })
+
+    const radio1 = wrapper.findAll('input[type=radio]')[0]
+    const radio2 = wrapper.findAll('input[type=radio]')[1]
+
+    expect(radio1.attributes('name')).toEqual('randomName111')
+    expect(radio2.attributes('name')).toEqual('randomName111')
+
+    await wrapper.setProps({ name: 'randomName222' })
+
+    expect(radio1.attributes('name')).toEqual('randomName222')
+    expect(radio2.attributes('name')).toEqual('randomName222')
+    wrapper.unmount()
+  })
+
+  it('should work with `size` prop', async () => {
+    ;(['small', 'medium', 'large'] as const).forEach((size) => {
+      const wrapper = mount(NRadioGroup, {
+        props: {
+          size
+        },
+        slots: {
+          default: () => [
+            h(NRadio, null, { default: () => 'test-item1' }),
+            h(NRadio, null, { default: () => 'test-item2' })
+          ]
+        }
+      })
+      expect(
+        wrapper.find('.n-radio-group').attributes('style')
+      ).toMatchSnapshot()
+      wrapper.unmount()
+    })
+  })
+
+  it('should work with `value` prop', async () => {
+    const wrapper = mount(NRadioGroup, {
+      props: {
+        value: 'test1'
+      },
+      slots: {
+        default: () => [
+          h(NRadio, { value: 'test1' }, { default: () => 'test-item1' }),
+          h(NRadio, { value: 'test2' }, { default: () => 'test-item2' })
+        ]
+      }
+    })
+    expect(wrapper.findAll('.n-radio')[0].classes()).toContain(
+      'n-radio--checked'
+    )
+    expect(wrapper.findAll('.n-radio')[1].classes()).not.toContain(
+      'n-radio--checked'
+    )
+
+    await wrapper.setProps({ value: 'test2' })
+    expect(wrapper.findAll('.n-radio')[1].classes()).toContain(
+      'n-radio--checked'
+    )
+    expect(wrapper.findAll('.n-radio')[0].classes()).not.toContain(
+      'n-radio--checked'
+    )
+    wrapper.unmount()
+  })
+
+  it('should work with `options` prop', async () => {
+    const onUpdateValue = vi.fn()
+    const wrapper = mount(NRadioGroup, {
+      attachTo: document.body,
+      props: {
+        defaultValue: false,
+        options: [
+          { label: 'False', value: false },
+          { label: 'True', value: true },
+          { label: 'Disabled', value: 'disabled', disabled: true }
+        ],
+        onUpdateValue
+      }
+    })
+    const radios = wrapper.findAll('.n-radio')
+    expect(radios).toHaveLength(3)
+    expect(radios[0].text()).toContain('False')
+    expect(radios[0].classes()).toContain('n-radio--checked')
+    expect(radios[2].classes()).toContain('n-radio--disabled')
+
+    await radios[1].trigger('click')
+    expect(onUpdateValue).toHaveBeenCalledWith(true)
+    wrapper.unmount()
+  })
+
+  it('should support custom option fields and ignore the default slot', () => {
+    const wrapper = mount(NRadioGroup, {
+      props: {
+        value: 2,
+        options: [
+          { name: 'One', id: 1 },
+          { name: 'Two', id: 2 }
+        ],
+        labelField: 'name',
+        valueField: 'id'
+      },
+      slots: {
+        default: () => h(NRadio, { value: 3, label: 'Ignored' })
+      }
+    })
+    const radios = wrapper.findAll('.n-radio')
+    expect(radios).toHaveLength(2)
+    expect(radios.map(radio => radio.text())).toEqual(['One', 'Two'])
+    expect(
+      radios.map(radio => radio.find('input').attributes('value'))
+    ).toEqual(['1', '2'])
+    expect(radios[1].classes()).toContain('n-radio--checked')
+    expect(wrapper.text()).not.toContain('Ignored')
+    wrapper.unmount()
+  })
+
+  it('should work with `on-update:value` prop', async () => {
+    const onUpdate = vi.fn()
+    const wrapper = mount(NRadioGroup, {
+      attachTo: document.body,
+      props: {
+        onUpdateValue: onUpdate
+      },
+      slots: {
+        default: () => [
+          h(NRadio, { value: 'test1' }, { default: () => 'test-item1' }),
+          h(NRadio, { value: 'test2' }, { default: () => 'test-item2' })
+        ]
+      }
+    })
+
+    await wrapper.findAll('.n-radio')[1].trigger('click')
+    expect(onUpdate).toHaveBeenCalled()
+    wrapper.unmount()
+  })
+})

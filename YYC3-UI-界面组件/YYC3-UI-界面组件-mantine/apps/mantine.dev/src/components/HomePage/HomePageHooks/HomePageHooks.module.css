@@ -1,0 +1,46 @@
+.root {
+  padding-block: var(--hp-block-spacing);
+}
+
+.column {
+  max-width: var(--hp-column-max-width);
+}
+
+.demos {
+  margin-top: 50px;
+
+  @mixin smaller-than $mantine-breakpoint-md {
+    margin-top: 20px;
+  }
+}
+
+.title {
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
+.titleLink {
+  color: var(--mantine-color-bright);
+  text-decoration: none;
+  font-family: var(--docs-font-primary);
+  font-size: 28px;
+}
+
+.description {
+  color: var(--mantine-color-dimmed);
+  font-size: var(--mantine-font-size-lg);
+  max-width: 500px;
+
+  @mixin smaller-than $mantine-breakpoint-md {
+    font-size: var(--mantine-font-size-sm);
+  }
+}
+
+.header {
+  height: 120px;
+
+  @mixin smaller-than $mantine-breakpoint-md {
+    height: auto;
+    margin-bottom: var(--mantine-spacing-sm);
+  }
+}

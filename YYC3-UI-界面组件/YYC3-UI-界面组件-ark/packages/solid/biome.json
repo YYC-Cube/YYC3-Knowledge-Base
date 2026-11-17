@@ -1,0 +1,19 @@
+{
+  "root": false,
+  "$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["../../biome.json"],
+  "linter": {
+    "rules": {
+      "style": {
+        "noNonNullAssertion": "off"
+      },
+      "suspicious": {
+        "noAssignInExpressions": "off"
+      },
+      "correctness": {
+        "useJsxKeyInIterable": "off",
+        "useImportExtensions": "error"
+      }
+    }
+  }
+}

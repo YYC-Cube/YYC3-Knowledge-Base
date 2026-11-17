@@ -1,0 +1,9 @@
+<div class="{{pfv}}alert
+  {{~#if alert--IsExpandable}} pf-m-expandable{{/if}}
+  {{~#if alert--IsExpanded}} pf-m-expanded{{/if}}
+  {{~#if alert--modifier}} {{alert--modifier}}{{/if}}"
+  {{#if alert--attribute}}
+    {{{alert--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

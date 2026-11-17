@@ -1,0 +1,40 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { type JSX, forwardRef } from 'react'
+import type { Assign } from '../../types.ts'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import type { CollectionItem } from '../collection/index.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { PresenceProvider, type UsePresenceProps, splitPresenceProps, usePresence } from '../presence/index.ts'
+import type { UseSelectReturn } from './use-select.ts'
+import { SelectProvider } from './use-select-context.ts'
+
+interface RootProviderProps<T extends CollectionItem> {
+  value: UseSelectReturn<T>
+}
+export interface SelectRootProviderBaseProps<T extends CollectionItem>
+  extends RootProviderProps<T>, UsePresenceProps, PolymorphicProps {}
+export interface SelectRootProviderProps<T extends CollectionItem>
+  extends HTMLProps<'div'>, SelectRootProviderBaseProps<T> {}
+
+const SelectImpl = <T extends CollectionItem>(props: SelectRootProviderProps<T>, ref: React.Ref<HTMLDivElement>) => {
+  const [presenceProps, selectProps] = splitPresenceProps(props)
+  const [{ value: select }, localProps] = createSplitProps<RootProviderProps<T>>()(selectProps, ['value'])
+  const presence = usePresence(mergeProps({ present: select.open }, presenceProps))
+  const mergedProps = mergeProps(select.getRootProps(), localProps)
+
+  return (
+    <SelectProvider value={select}>
+      <PresenceProvider value={presence}>
+        <ark.div {...mergedProps} ref={ref} />
+      </PresenceProvider>
+    </SelectProvider>
+  )
+}
+
+export type SelectRootProviderComponent<P = {}> = <T extends CollectionItem>(
+  props: Assign<SelectRootProviderProps<T>, P> & React.RefAttributes<HTMLDivElement>,
+) => JSX.Element
+
+export const SelectRootProvider = forwardRef(SelectImpl) as SelectRootProviderComponent

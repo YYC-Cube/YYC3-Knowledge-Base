@@ -1,0 +1,13 @@
+{{removeWhiteSpaceForPrettier}} &nbsp; {{removeWhiteSpaceForPrettier}} <span class="{{pfv}}form__group-label-help{{#if form-group-label-help--modifier}} {{form-group-label-help--modifier}}{{/if}}"
+  {{#if form-group-label-help--attribute}}
+    {{{form-group-label-help--attribute}}}
+  {{/if}}>
+  {{> button
+    button--IsPlain=true
+    button--HasNoPadding=true
+    button--IsIcon=true
+    button--icon-template="icon-help"
+    button--IsSpan=true
+    button--aria-label=(ternary form-group-label-help--aria-label form-group-label-help--aria-label (concat 'More information for ' form-group--id))
+    button--aria-describedby=(ternary form-group-label-help--aria-describedby form-group-label-help--aria-describedby false)}}
+{{removeWhiteSpaceForPrettier}} </span>

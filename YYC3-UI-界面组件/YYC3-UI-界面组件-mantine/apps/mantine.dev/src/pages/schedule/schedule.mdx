@@ -1,0 +1,212 @@
+import { ScheduleDemos, WeekViewDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Schedule);
+
+## Usage
+
+Schedule is a unified component that combines all schedule views (Day, Week, Month, Year) with automatic
+view switching. Use the view selector in the header to switch between different views.
+
+<Demo data={ScheduleDemos.usage} />
+
+## Controlled state
+
+Use `view`, `onViewChange`, `date` and `onDateChange` props to control the current view and date.
+
+<Demo data={ScheduleDemos.controlled} />
+
+## View-specific props
+
+Use `dayViewProps`, `weekViewProps`, `monthViewProps` and `yearViewProps` to pass props
+to the corresponding view component, for example to set different time ranges for Day and Week views.
+
+<Demo data={ScheduleDemos.viewProps} />
+
+## Default view
+
+Set `defaultView` to control which view is shown initially when using uncontrolled mode.
+
+<Demo data={ScheduleDemos.defaultView} />
+
+## Custom header
+
+You can build a custom header using `ScheduleHeader` compound components combined with your own controls.
+Disable the default header on all views by passing `withHeader={false}` through view-specific props.
+
+<Demo data={ScheduleDemos.customHeader} />
+
+## Agenda view
+
+Set `withAgenda` prop to display an "Agenda" button in the header of DayView, WeekView
+and MonthView. When clicked, it opens an `AgendaView` showing events for the currently
+visible date range.
+
+<Demo data={ScheduleDemos.withAgenda} />
+
+## Drag and drop
+
+Enable event drag and drop by setting `withEventsDragAndDrop` prop. Events can be dragged
+to different time slots and days across all views.
+
+<Demo data={ScheduleDemos.dragDrop} />
+
+## Create and update events
+
+Set `withDragSlotSelect` prop to allow users to select a range by dragging across time slots
+or day cells. When the drag ends, `onSlotDragEnd` is called with the range start and end dates.
+Combine it with slot, day and event click callbacks to create and edit events in all views.
+
+<Demo data={ScheduleDemos.eventForm} />
+
+## External drag and drop
+
+Use `onExternalEventDrop` to allow dragging items from outside the component into
+the schedule. External items must set data in `dataTransfer` during their `onDragStart`.
+The callback receives the `DataTransfer` object and the drop target datetime.
+
+<Demo data={ScheduleDemos.externalDragDrop} />
+
+## Bidirectional drag and drop
+
+Combine `onExternalEventDrop` with `withEventsDragAndDrop` to drag items both to and from
+the schedule. When an event is dragged, the schedule sets `application/json` data with `{ eventId }`
+in `dataTransfer`, read it in your drop zone to identify the event.
+
+<Demo data={ScheduleDemos.bidirectionalDragDrop} />
+
+## Event resize
+
+Enable event resizing by setting `withEventResize` prop. Users can drag the top or bottom
+edge of an event to adjust its start or end time. Use `onEventResize` callback to handle
+the resize. Event resize works in Day and Week views.
+
+<Demo data={ScheduleDemos.eventResize} />
+
+## Drop validation
+
+By default, every drop and resize is committed and the application decides in `onEventDrop` /
+`onEventResize` whether to accept it. Use the validation props to reject a placement before
+it is committed, based on where the event is being dropped:
+
+<DataTable
+  head={['Prop', 'Description']}
+  data={[
+    [
+      <><code>preventEventOverlap</code></>,
+      'Rejects placements that would overlap another event. Pass a function to decide per pair of events.',
+    ],
+    [
+      <><code>canDropEvent</code></>,
+      <>Called while an event is dragged over a target and again before the drop is committed, return <code>false</code> to reject the drop</>,
+    ],
+    [
+      <><code>canResizeEventTo</code></>,
+      <>Called on every pointer move while an event is resized and again before the resize is committed, return <code>false</code> to reject the new size</>,
+    ],
+    [
+      <><code>canDropExternalEvent</code></>,
+      <>Called while an external item is dragged over a target and again before the drop is committed, return <code>false</code> to reject the drop</>,
+    ],
+    [<><code>onEventPlacementRejected</code></>, 'Called when a drop or resize is rejected'],
+  ]}
+/>
+
+A placement is allowed only when the overlap check passes and the matching callback does not
+return `false`. The callbacks are called many times while the event is dragged, so they must be
+pure and cheap. Do not show notifications, update state or send requests from them,
+use `onEventPlacementRejected` for that.
+
+While the event is over an invalid target, `data-invalid` attribute is set on the drag ghost
+(rendered only when `eventDragInterval` is set) and on the event that is being resized.
+`MonthView`, `ResourcesMonthView` and the all-day row of `WeekView` have no drag ghost,
+the rejection is only reported with `onEventPlacementRejected`.
+
+<Demo data={WeekViewDemos.preventEventOverlap} />
+
+### What counts as a conflict
+
+`preventEventOverlap` compares the new range with other events of the view. These events
+are not counted as conflicts:
+
+- The moving event itself
+- Events with `display: 'background'`
+- All-day events when the moving event is timed, and timed events when the moving event is all-day
+
+An event that ends at 10:00 and an event that starts at 10:00 do not conflict.
+In `Resources*` views, the event is checked against the events of the target resource.
+
+`preventEventOverlap` only sees the events of the current view, a conflict outside of the visible
+range is not detected. If you need a complete check, validate the placement in `onEventDrop` as well.
+
+### Blocking drops onto closed hours
+
+To block drops onto a closed zone, use `canDropEvent` with `isEventsOverlap` helper:
+
+```tsx
+import { isEventsOverlap, ScheduleEventData } from '@mantine/schedule';
+
+<WeekView
+  canDropEvent={({ start, end }) =>
+    !closedZones.some((zone) => isEventsOverlap({ start, end } as ScheduleEventData, zone))
+  }
+/>;
+```
+
+### Rejection data
+
+`onEventPlacementRejected` is called with an object that always has the following fields:
+
+- `action` – `drop`, `resize` or `external-drop`
+- `start` – start of the rejected placement
+- `reason` – `'overlap'` when the overlap check found a conflict, `'rejected'` when a callback returned `false`
+- `conflicts` – events that the placement overlaps
+- `resourceId` – only in `Resources*` views: the target resource for `drop` and `external-drop`, the event's own resource for `resize`
+
+Other fields depend on `action`:
+
+<DataTable
+  head={['action', 'Extra fields']}
+  data={[
+    [<><code>drop</code></>, <><code>event</code>, <code>end</code></>],
+    [<><code>resize</code></>, <><code>event</code>, <code>end</code>, <code>edge</code></>],
+    [<><code>external-drop</code></>, <><code>dataTransfer</code></>],
+  ]}
+/>
+
+`preventEventOverlap` does not apply to external drops: the schedule does not know the duration
+of an external item. `canDropExternalEvent` can read only `dataTransfer.types`, the data itself
+is not available while the drag is in progress.
+
+## Recurring events
+
+Schedule automatically expands recurring events for the visible date range in each view.
+See [Recurring events guide](/schedule/recurring-events) for full documentation.
+
+<Demo data={ScheduleDemos.recurringEvents} />
+
+## Background events
+
+Set `display="background"` on an event to render it as a full-width, non-interactive
+block behind regular events. Background events work in Day, Week, and Month views.
+
+<Demo data={ScheduleDemos.backgroundEvents} />
+
+## Responsive layout
+
+Schedule supports `layout="responsive"` prop that automatically switches between views
+based on the container width. Resize the container below to see the view change.
+On small screens, the month view is replaced with [MobileMonthView](/schedule/mobile-month-view).
+It takes `weekendDays` and `withWeekendDays` from `monthViewProps`, use `mobileMonthViewProps`
+to override them or to set other mobile-specific options.
+
+<Demo data={ScheduleDemos.responsiveLayout} />
+
+## View components
+
+For more control over individual views, use the view components directly:
+- [DayView](/schedule/day-view) - Single day with time slots
+- [WeekView](/schedule/week-view) - Full week with time slots
+- [MonthView](/schedule/month-view) - Calendar month grid
+- [YearView](/schedule/year-view) - Full year overview

@@ -1,0 +1,14 @@
+<span class="{{pfv}}table__sort-indicator{{#if table-sort-indicator--modifier}} {{table-sort-indicator--modifier}}{{/if}}"
+  {{#if table-sort-indicator--attribute}}
+    {{{table-sort-indicator--attribute}}}
+  {{/if}}>
+  {{#if table-th--IsSelected}}
+    {{#if table-th--IsAsc}}
+      {{pfIcon "rh-ui-sort-up-small-to-large"}}
+    {{else}}
+      {{pfIcon "rh-ui-sort-down-small-to-large"}}
+    {{/if}}
+  {{else}}
+    {{pfIcon "rh-ui-arrow-up-down"}}
+  {{/if}}
+</span>

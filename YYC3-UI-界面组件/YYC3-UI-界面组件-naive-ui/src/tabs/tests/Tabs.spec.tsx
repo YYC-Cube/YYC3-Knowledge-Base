@@ -1,0 +1,759 @@
+/* eslint-disable unused-imports/no-unused-vars */
+import { mount } from '@vue/test-utils'
+import { sleep } from 'seemly'
+import { h, ref } from 'vue'
+import { AddIcon } from '../../_internal/icons'
+import { c } from '../../_utils/cssr'
+import { NConfigProvider } from '../../config-provider'
+import { NTabPane, NTabs } from '../index'
+
+describe('n-tabs', () => {
+  it('should work with import on demand', () => {
+    mount(NTabs)
+  })
+
+  it('should work with callback types', () => {
+    function onUpdateValue1(name: number): void {}
+    function onUpdateValue2(name: string): void {}
+    function onUpdateValue3(name: number | string): void {}
+    mount(NTabs, {
+      props: {
+        onUpdateValue: onUpdateValue1
+      }
+    })
+    mount(NTabs, {
+      props: {
+        onUpdateValue: onUpdateValue2
+      }
+    })
+    mount(NTabs, {
+      props: {
+        onUpdateValue: onUpdateValue3
+      }
+    })
+  })
+
+  it('should work with empty tab-pane', () => {
+    mount(NTabs, {
+      props: {
+        defaultValue: 'a'
+      },
+      slots: {
+        default: () =>
+          h(NTabPane, {
+            tab: 'a',
+            name: 'a'
+          })
+      }
+    })
+  })
+
+  it('should show AddIcon with `addable` `on-add` prop', async () => {
+    const onAdd = vi.fn()
+    const wrapper = mount(NTabs, {
+      props: {
+        type: 'card',
+        addable: true,
+        onAdd
+      }
+    })
+
+    expect(wrapper.findComponent(AddIcon).exists()).toBe(true)
+    const addIcon = wrapper.find('.n-tabs-tab--addable')
+    await addIcon.trigger('click')
+    expect(onAdd).toHaveBeenCalled()
+  })
+
+  it('should work with `justify-content` prop', async () => {
+    const wrapper = mount(NTabs)
+
+    await wrapper.setProps({ justifyContent: 'space-between' })
+    expect(wrapper.find('.n-tabs-wrapper').attributes('style')).toContain(
+      'justify-content: space-between;'
+    )
+
+    await wrapper.setProps({ justifyContent: 'space-around' })
+    expect(wrapper.find('.n-tabs-wrapper').attributes('style')).toContain(
+      'justify-content: space-around;'
+    )
+
+    await wrapper.setProps({ justifyContent: 'space-evenly' })
+    expect(wrapper.find('.n-tabs-wrapper').attributes('style')).toContain(
+      'justify-content: space-evenly;'
+    )
+  })
+
+  it('should work with `closable` prop', async () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        type: 'card',
+        defaultValue: '1'
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          })
+        ]
+      }
+    })
+    expect(wrapper.find('.n-base-close').exists()).toBe(false)
+
+    await wrapper.setProps({ closable: true })
+    expect(wrapper.find('.n-base-close').exists()).toBe(true)
+  })
+
+  it('should work with `size` prop', async () => {
+    const wrapper = mount(NTabs)
+
+    await wrapper.setProps({ size: 'small' })
+    expect(wrapper.find('.n-tabs').attributes('style')).toMatchSnapshot()
+
+    await wrapper.setProps({ size: 'medium' })
+    expect(wrapper.find('.n-tabs').attributes('style')).toMatchSnapshot()
+
+    await wrapper.setProps({ size: 'large' })
+    expect(wrapper.find('.n-tabs').attributes('style')).toMatchSnapshot()
+  })
+
+  it('should work with `tabs-padding` prop', async () => {
+    const wrapper = mount(NTabs)
+
+    expect(
+      wrapper.find('.n-tabs-scroll-padding').attributes('style')
+    ).toContain('width: 0px;')
+
+    await wrapper.setProps({ tabsPadding: 100 })
+    expect(
+      wrapper.find('.n-tabs-scroll-padding').attributes('style')
+    ).toContain('width: 100px;')
+  })
+
+  it('should work with `display-directive` prop', async () => {
+    const displayDirectives: Array<'show' | 'if' | 'show:lazy'> = [
+      'show',
+      'if',
+      'show:lazy'
+    ]
+    const wrapper = mount(NTabs, {
+      props: { value: 'show' },
+      slots: {
+        default: () =>
+          displayDirectives.map(directive => (
+            <NTabPane
+              displayDirective={directive}
+              tab={directive}
+              name={directive}
+            >
+              {{
+                default: () => (
+                  <span class={`test-${directive.replace(':', '-')}`} />
+                )
+              }}
+            </NTabPane>
+          ))
+      }
+    })
+    await wrapper.setProps({ value: 'if' })
+    expect(wrapper.find('.test-show').exists()).toEqual(true)
+    expect(wrapper.find('.test-if').exists()).toEqual(true)
+    expect(wrapper.find('.test-show-lazy').exists()).toEqual(false)
+    await wrapper.setProps({ value: 'show:lazy' })
+    expect(wrapper.find('.test-show').exists()).toEqual(true)
+    expect(wrapper.find('.test-if').exists()).toEqual(false)
+    expect(wrapper.find('.test-show-lazy').exists()).toEqual(true)
+    await wrapper.setProps({ value: 'show' })
+    expect(wrapper.find('.test-show').exists()).toEqual(true)
+    expect(wrapper.find('.test-if').exists()).toEqual(false)
+    expect(wrapper.find('.test-show-lazy').exists()).toEqual(true)
+  })
+
+  it('should work with `on-before-leave` prop', async () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        type: 'card',
+        defaultValue: '3',
+        onBeforeLeave: async (name: string) => {
+          switch (name) {
+            case '1':
+              return false
+            case '2':
+              return await new Promise<boolean>((resolve) => {
+                setTimeout(() => {
+                  resolve(true)
+                }, 1000)
+              })
+            default:
+              return true
+          }
+        }
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          }),
+          h(NTabPane, {
+            tab: '2',
+            name: '2'
+          }),
+          h(NTabPane, {
+            tab: '3',
+            name: '3'
+          })
+        ]
+      }
+    })
+    const tabs = wrapper.findAll('.n-tabs-tab')
+    expect(tabs[2].classes()).toContain('n-tabs-tab--active')
+    await tabs[0].trigger('click')
+    expect(tabs[2].classes()).toContain('n-tabs-tab--active')
+    await tabs[1].trigger('click')
+    expect(tabs[2].classes()).toContain('n-tabs-tab--active')
+    await sleep(1000)
+    expect(tabs[1].classes()).toContain('n-tabs-tab--active')
+  })
+
+  it('should work with `pane-class` prop', () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        paneClass: 'test'
+      },
+      slots: {
+        default: () =>
+          h(
+            NTabPane,
+            {
+              tab: 'Oasis',
+              name: 'oasis'
+            },
+            'Wonderwall'
+          )
+      }
+    })
+
+    expect(wrapper.find('.n-tab-pane').classes('test')).toBe(true)
+  })
+
+  it('should work with `pane-style` prop', () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        paneStyle: {
+          color: 'red'
+        }
+      },
+      slots: {
+        default: () =>
+          h(
+            NTabPane,
+            {
+              tab: 'Oasis',
+              name: 'oasis'
+            },
+            'Wonderwall'
+          )
+      }
+    })
+
+    expect(wrapper.find('.n-tab-pane').attributes('style')).toBe('color: red;')
+  })
+
+  it('should work with `tab-style` prop', () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        tabStyle: {
+          color: 'red'
+        }
+      },
+      slots: {
+        default: () =>
+          h(
+            NTabPane,
+            {
+              tab: 'Oasis',
+              name: 'oasis'
+            },
+            'Wonderwall'
+          )
+      }
+    })
+
+    expect(wrapper.find('.n-tabs-tab').attributes('style')).toBe('color: red;')
+  })
+
+  it('should work with `type` prop', () => {
+    ;(['bar', 'line', 'card', 'segment'] as const).forEach((type) => {
+      const wrapper = mount(NTabs, {
+        props: {
+          type
+        },
+        slots: {
+          default: () =>
+            h(
+              NTabPane,
+              {
+                tab: 'Oasis',
+                name: 'oasis'
+              },
+              { default: () => 'Wonderwall' }
+            )
+        }
+      })
+
+      expect(wrapper.find('.n-tabs').classes()).toContain(
+        `n-tabs--${type}-type`
+      )
+      wrapper.unmount()
+    })
+  })
+
+  it('should work with `on-close` prop', async () => {
+    const onClose = vi.fn()
+    const wrapper = mount(NTabs, {
+      props: {
+        type: 'card',
+        defaultValue: '1',
+        closable: true,
+        onClose
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          })
+        ]
+      }
+    })
+
+    const addIcon = wrapper.find('.n-base-close')
+    await addIcon.trigger('click')
+    expect(onClose).toHaveBeenCalled()
+  })
+
+  it('should work with `prefix` `suffix` slots', async () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        defaultValue: '1'
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          })
+        ],
+        prefix: () => 'test-prefix',
+        suffix: () => 'test-suffix'
+      }
+    })
+
+    expect(wrapper.find('.n-tabs-nav__prefix').exists()).toBe(true)
+    expect(wrapper.find('.n-tabs-nav__prefix').text()).toBe('test-prefix')
+    expect(wrapper.find('.n-tabs-nav__suffix').exists()).toBe(true)
+    expect(wrapper.find('.n-tabs-nav__suffix').text()).toBe('test-suffix')
+  })
+
+  it('should only disable bar transition for the first nav resize', async () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        defaultValue: '1'
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          }),
+          h(NTabPane, {
+            tab: '2',
+            name: '2'
+          })
+        ]
+      }
+    })
+    const barEl = wrapper.find('.n-tabs-bar').element as HTMLElement
+    using addSpy = vi.spyOn(barEl.classList, 'add')
+
+    ;(wrapper.vm as any).handleNavResize({
+      contentRect: {
+        width: 100,
+        height: 20
+      }
+    })
+    await sleep(80)
+    ;(wrapper.vm as any).handleNavResize({
+      contentRect: {
+        width: 120,
+        height: 20
+      }
+    })
+
+    expect(
+      addSpy.mock.calls.filter(([className]) => {
+        return className === 'transition-disabled'
+      })
+    ).toHaveLength(1)
+  })
+
+  it('should work with `tab-class` prop', () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        defaultValue: '1',
+        tabClass: 'foo'
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          })
+        ]
+      }
+    })
+    expect(wrapper.find('.n-tabs-tab').classes()).toContain('foo')
+  })
+
+  it('should work with `add-tab-class` prop', () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        defaultValue: '1',
+        type: 'card',
+        addTabClass: 'foo',
+        addable: true
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          })
+        ]
+      }
+    })
+    expect(wrapper.find('.n-tabs-tab.n-tabs-tab--addable').classes()).toContain(
+      'foo'
+    )
+    expect(
+      wrapper.find('.n-tabs-tab:not(.n-tabs-tab--addable)').classes()
+    ).not.toContain('foo')
+  })
+
+  it('should work with `add-tab-style` prop', () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        defaultValue: '1',
+        type: 'card',
+        addTabStyle: {
+          fontSize: '64px'
+        },
+        addable: true
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          })
+        ]
+      }
+    })
+    expect(
+      wrapper.find('.n-tabs-tab.n-tabs-tab--addable').attributes('style')
+    ).toContain('64px')
+    expect(
+      wrapper.find('.n-tabs-tab:not(.n-tabs-tab--addable)').attributes('style')
+    ).toBe(undefined)
+  })
+
+  it('should work with `placement` prop', async () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        defaultValue: '1'
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          })
+        ]
+      }
+    })
+
+    for (const placement of ['top', 'right', 'bottom', 'left'] as const) {
+      await wrapper.setProps({ placement })
+      expect(wrapper.find('.n-tabs').classes()).toContain(
+        `n-tabs--${placement}`
+      )
+      expect(wrapper.find('.n-tabs-nav').classes()).toContain(
+        `n-tabs-nav--${placement}`
+      )
+    }
+  })
+
+  it('should map `placement` start/end to left/right', async () => {
+    const wrapper = mount(NTabs, {
+      props: {
+        defaultValue: '1',
+        placement: 'start'
+      },
+      slots: {
+        default: () => [
+          h(NTabPane, {
+            tab: '1',
+            name: '1'
+          })
+        ]
+      }
+    })
+
+    expect(wrapper.find('.n-tabs').classes()).toContain('n-tabs--left')
+    expect(wrapper.find('.n-tabs').classes()).not.toContain('n-tabs--start')
+
+    await wrapper.setProps({ placement: 'end' })
+    expect(wrapper.find('.n-tabs').classes()).toContain('n-tabs--right')
+    expect(wrapper.find('.n-tabs').classes()).not.toContain('n-tabs--end')
+  })
+
+  it('should work with RTL', () => {
+    const wrapper = mount({
+      render() {
+        return (
+          <NConfigProvider rtl={[{ name: 'Tabs', style: c(null) }]}>
+            {{
+              default: () => (
+                <NTabs defaultValue="1" placement="start">
+                  {{
+                    default: () => [
+                      h(NTabPane, {
+                        tab: '1',
+                        name: '1'
+                      })
+                    ]
+                  }}
+                </NTabs>
+              )
+            }}
+          </NConfigProvider>
+        )
+      }
+    })
+
+    expect(wrapper.find('.n-tabs').classes()).toContain('n-tabs--rtl')
+    expect(wrapper.find('.n-tabs').classes()).toContain('n-tabs--right')
+
+    wrapper.unmount()
+
+    const endWrapper = mount({
+      render() {
+        return (
+          <NConfigProvider rtl={[{ name: 'Tabs', style: c(null) }]}>
+            {{
+              default: () => (
+                <NTabs defaultValue="1" placement="end">
+                  {{
+                    default: () => [
+                      h(NTabPane, {
+                        tab: '1',
+                        name: '1'
+                      })
+                    ]
+                  }}
+                </NTabs>
+              )
+            }}
+          </NConfigProvider>
+        )
+      }
+    })
+
+    expect(endWrapper.find('.n-tabs').classes()).toContain('n-tabs--rtl')
+    expect(endWrapper.find('.n-tabs').classes()).toContain('n-tabs--left')
+    endWrapper.unmount()
+  })
+
+  it('should derive scroll shadows with negative RTL scrollLeft', async () => {
+    const wrapper = mount({
+      render() {
+        return (
+          <NConfigProvider rtl={[{ name: 'Tabs', style: c(null) }]}>
+            {{
+              default: () => (
+                <NTabs
+                  defaultValue="1"
+                  type="card"
+                  showScrollButton
+                  style="max-width: 200px"
+                >
+                  {{
+                    default: () =>
+                      [1, 2, 3, 4, 5, 6].map(i =>
+                        h(NTabPane, {
+                          tab: `Tab ${i}`,
+                          name: String(i)
+                        })
+                      )
+                  }}
+                </NTabs>
+              )
+            }}
+          </NConfigProvider>
+        )
+      }
+    })
+
+    const tabsVm = wrapper.findComponent(NTabs).vm as any
+    const scrollEl = document.createElement('div')
+    Object.defineProperty(scrollEl, 'offsetWidth', { value: 200 })
+    Object.defineProperty(scrollEl, 'scrollWidth', { value: 600 })
+
+    Object.defineProperty(scrollEl, 'scrollLeft', {
+      value: -200,
+      writable: true
+    })
+    tabsVm.handleScroll({ target: scrollEl })
+    await sleep(80)
+    expect(tabsVm.startReachedRef).toBe(false)
+    expect(tabsVm.endReachedRef).toBe(false)
+
+    Object.defineProperty(scrollEl, 'scrollLeft', { value: 0 })
+    tabsVm.handleScroll({ target: scrollEl })
+    await sleep(80)
+    expect(tabsVm.startReachedRef).toBe(true)
+    expect(tabsVm.endReachedRef).toBe(false)
+
+    Object.defineProperty(scrollEl, 'scrollLeft', { value: -400 })
+    tabsVm.handleScroll({ target: scrollEl })
+    await sleep(80)
+    expect(tabsVm.startReachedRef).toBe(false)
+    expect(tabsVm.endReachedRef).toBe(true)
+
+    wrapper.unmount()
+  })
+
+  it('should refresh bar position when switching RTL', async () => {
+    const rtlRef = ref<{ name: string, style: any }[] | undefined>(undefined)
+    const wrapper = mount({
+      attachTo: document.body,
+      setup() {
+        return () => (
+          <NConfigProvider rtl={rtlRef.value as any}>
+            {{
+              default: () => (
+                <NTabs defaultValue="b" type="line">
+                  {{
+                    default: () => [
+                      h(NTabPane, { tab: 'A', name: 'a' }),
+                      h(NTabPane, { tab: 'B', name: 'b' }),
+                      h(NTabPane, { tab: 'C', name: 'c' })
+                    ]
+                  }}
+                </NTabs>
+              )
+            }}
+          </NConfigProvider>
+        )
+      }
+    })
+
+    const tabEl = wrapper.find('[data-name="b"]').element as HTMLElement
+    const barEl = wrapper.find('.n-tabs-bar').element as HTMLElement
+    Object.defineProperty(tabEl, 'offsetWidth', { value: 60 })
+    Object.defineProperty(tabEl, 'offsetLeft', {
+      value: 80,
+      configurable: true
+    })
+    ;(wrapper.findComponent(NTabs).vm as any).syncBarPosition()
+    await sleep(0)
+    expect(barEl.style.left).toBe('80px')
+
+    // After RTL layout, active tab moves to the right
+    Object.defineProperty(tabEl, 'offsetLeft', {
+      value: 200,
+      configurable: true
+    })
+    rtlRef.value = [{ name: 'Tabs', style: c(null) }]
+    await sleep(0)
+    await sleep(0)
+    expect(barEl.style.left).toBe('200px')
+
+    wrapper.unmount()
+  })
+
+  it('should position segment capsule with offsetLeft under RTL', async () => {
+    const wrapper = mount({
+      attachTo: document.body,
+      render() {
+        return (
+          <NConfigProvider rtl={[{ name: 'Tabs', style: c(null) }]}>
+            {{
+              default: () => (
+                <NTabs defaultValue="b" type="segment">
+                  {{
+                    default: () => [
+                      h(NTabPane, { tab: 'A', name: 'a' }),
+                      h(NTabPane, { tab: 'B', name: 'b' }),
+                      h(NTabPane, { tab: 'C', name: 'c' })
+                    ]
+                  }}
+                </NTabs>
+              )
+            }}
+          </NConfigProvider>
+        )
+      }
+    })
+
+    const tabEl = wrapper.find('[data-name="b"]').element as HTMLElement
+    const capsuleEl = wrapper.find('.n-tabs-capsule').element as HTMLElement
+    Object.defineProperty(tabEl, 'offsetLeft', { value: 100 })
+    Object.defineProperty(tabEl, 'offsetTop', { value: 3 })
+    Object.defineProperty(tabEl, 'offsetWidth', { value: 100 })
+    Object.defineProperty(tabEl, 'offsetHeight', { value: 34 })
+    ;(wrapper.findComponent(NTabs).vm as any).handleSegmentResize()
+    await sleep(0)
+    expect(capsuleEl.style.transform).toBe('translate(100px, 3px)')
+    expect(capsuleEl.style.width).toBe('100px')
+
+    wrapper.unmount()
+  })
+
+  it('should position bar with offsetLeft under RTL', async () => {
+    const wrapper = mount({
+      attachTo: document.body,
+      render() {
+        return (
+          <NConfigProvider rtl={[{ name: 'Tabs', style: c(null) }]}>
+            {{
+              default: () => (
+                <NTabs defaultValue="b" type="line">
+                  {{
+                    default: () => [
+                      h(NTabPane, { tab: 'A', name: 'a' }),
+                      h(NTabPane, { tab: 'B', name: 'b' }),
+                      h(NTabPane, { tab: 'C', name: 'c' })
+                    ]
+                  }}
+                </NTabs>
+              )
+            }}
+          </NConfigProvider>
+        )
+      }
+    })
+
+    const tabEl = wrapper.find('[data-name="b"]').element as HTMLElement
+    const barEl = wrapper.find('.n-tabs-bar').element as HTMLElement
+    Object.defineProperty(tabEl, 'offsetLeft', { value: 120 })
+    Object.defineProperty(tabEl, 'offsetWidth', { value: 60 })
+    ;(wrapper.findComponent(NTabs).vm as any).syncBarPosition()
+    await sleep(0)
+    expect(barEl.style.left).toBe('120px')
+    expect(barEl.style.maxWidth).toBe('60px')
+
+    wrapper.unmount()
+  })
+})

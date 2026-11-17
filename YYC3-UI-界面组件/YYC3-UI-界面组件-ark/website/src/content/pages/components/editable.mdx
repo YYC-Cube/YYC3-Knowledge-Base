@@ -1,0 +1,123 @@
+---
+id: editable
+title: Editable
+description: A component that allows users to edit text in place.
+---
+
+<ComponentPreview id="Editable" />
+
+## Anatomy
+
+<Anatomy id="editable" />
+
+```tsx
+<Editable.Root>
+  <Editable.Label />
+  <Editable.Area>
+    <Editable.Input />
+    <Editable.Preview />
+  </Editable.Area>
+  <Editable.Control>
+    <Editable.EditTrigger />
+    <Editable.SubmitTrigger />
+    <Editable.CancelTrigger />
+  </Editable.Control>
+</Editable.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled
+
+Use the `value` and `onValueChange` props to control the editable state.
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the editable is to use the `RootProvider` component and the `useEditable` hook. This way
+you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Context
+
+Access the editable's state with `Editable.Context` or the `useEditableContext` hook—great for showing keyboard hints
+when editing.
+
+<Example id="context" />
+
+### Controls
+
+In some cases, you might need to use custom controls to toggle the edit and read mode. We use the render prop pattern to
+provide access to the internal state of the component.
+
+<Example id="controls" />
+
+### Textarea
+
+Use the `asChild` prop on `Editable.Input` to render a textarea for multi-line editing.
+
+<Example id="textarea" />
+
+### Field
+
+The `Field` component helps manage form-related state and accessibility attributes of an editable. It includes handling
+ARIA labels, helper text, and error text to ensure proper accessibility.
+
+<Example id="with-field" />
+
+## Guides
+
+### Auto-resizing
+
+To auto-grow the editable as the content changes, set the `autoResize` prop to `true`.
+
+```tsx
+<Editable.Root placeholder="Placeholder" autoResize>
+  {/*...*/}
+</Editable.Root>
+```
+
+### Max Length
+
+Use the `maxLength` prop to set a maximum number of characters that can be entered into the editable.
+
+```tsx
+<Editable.Root placeholder="Placeholder" autoResize maxLength={10}>
+  {/*...*/}
+</Editable.Root>
+```
+
+### Double Click
+
+The editable supports two modes of activating the "edit" state:
+
+- when the preview part is focused (with pointer or keyboard).
+- when the preview part is double-clicked.
+
+To change the mode to double-click, pass the prop `activationMode="dblclick"`.
+
+```tsx
+<Editable.Root placeholder="Placeholder" activationMode="dblclick">
+  {/*...*/}
+</Editable.Root>
+```
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="editable" />
+
+### Context
+
+<ContextType id="editable" />
+
+## Accessibility
+
+### Keyboard Support
+
+<KeyBindingsTable id="editable" />

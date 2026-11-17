@@ -1,0 +1,52 @@
+import * as radioGroup from '@zag-js/radio-group'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { toBooleanValue } from '../../utils/boolean.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import { useFieldsetContext } from '../fieldset/index.ts'
+import type { RootEmits } from './radio-group.types.ts'
+
+export interface UseRadioGroupProps extends Optional<Omit<radioGroup.Props, 'dir' | 'getRootNode'>, 'id'> {
+  /**
+   * The v-model value of the radio group
+   */
+  modelValue?: radioGroup.Props['value']
+}
+export interface UseRadioGroupReturn extends ComputedRef<radioGroup.Api<PropTypes>> {}
+
+export const useRadioGroup = (
+  props: MaybeRefOrGetter<UseRadioGroupProps> = {},
+  emit?: EmitFn<RootEmits>,
+): UseRadioGroupReturn => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+  const fieldset = useFieldsetContext()
+
+  const context = computed<radioGroup.Props>(() => {
+    const localProps = toValue<UseRadioGroupProps>(props)
+    const fieldsetContext = fieldset?.value
+    return {
+      id,
+      ids: {
+        label: fieldsetContext?.ids?.legend,
+      },
+      disabled: toBooleanValue(fieldsetContext?.disabled),
+      invalid: fieldsetContext?.invalid,
+      dir: locale.value.dir,
+      value: localProps.modelValue,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localProps),
+      onValueChange: (details) => {
+        emit?.('valueChange', details)
+        emit?.('update:modelValue', details.value)
+        localProps.onValueChange?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(radioGroup.machine, context)
+  return computed(() => radioGroup.connect(service, normalizeProps))
+}

@@ -1,0 +1,298 @@
+import React, { forwardRef, isValidElement, useCallback, useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
+import {
+  CheckCircleFilledIcon as TdCheckCircleFilledIcon,
+  CheckIcon as TdCheckIcon,
+  CloseCircleFilledIcon as TdCloseCircleFilledIcon,
+  CloseIcon as TdCloseIcon,
+  ErrorCircleFilledIcon as TdErrorCircleFilledIcon,
+  ErrorIcon as TdErrorIcon,
+} from 'tdesign-icons-react';
+import { getBackgroundColor } from '@tdesign/common-js/utils/helper';
+
+import useConfig from '../hooks/useConfig';
+import useDefaultProps from '../hooks/useDefaultProps';
+import useGlobalIcon from '../hooks/useGlobalIcon';
+import { progressDefaultProps } from './defaultProps';
+
+import type { StyledProps } from '../common';
+import type { TdProgressProps } from './type';
+
+export interface ProgressProps extends TdProgressProps, StyledProps {}
+/**
+ * 按钮组件
+ */
+const Progress = forwardRef<HTMLDivElement, ProgressProps>((props, ref) => {
+  const { classPrefix } = useConfig();
+  const {
+    CheckCircleIcon,
+    CloseCircleIcon,
+    ErrorCircleIcon,
+    CheckCircleFilledIcon,
+    CloseCircleFilledIcon,
+    ErrorCircleFilledIcon,
+  } = useGlobalIcon({
+    CheckCircleIcon: TdCheckIcon,
+    CloseCircleIcon: TdCloseIcon,
+    ErrorCircleIcon: TdErrorIcon,
+    CheckCircleFilledIcon: TdCheckCircleFilledIcon,
+    CloseCircleFilledIcon: TdCloseCircleFilledIcon,
+    ErrorCircleFilledIcon: TdErrorCircleFilledIcon,
+  });
+
+  const {
+    theme,
+    percentage,
+    label,
+    color = '',
+    trackColor,
+    strokeWidth,
+    size,
+    className,
+    style,
+    status: customizeStatus,
+  } = useDefaultProps<ProgressProps>(props, progressDefaultProps);
+
+  const status = !customizeStatus && percentage >= 100 ? 'success' : customizeStatus;
+
+  // plump 模式下的 label 位置计算
+  const innerRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
+  const [labelPosition, setLabelPosition] = useState<'inside' | 'outside'>('inside');
+
+  const getLabelPosition = useCallback(() => {
+    if (!innerRef.current || !labelRef.current) return 'inside';
+
+    const innerWidth = innerRef.current.offsetWidth; // 填充区域宽度
+    const labelWidth = labelRef.current.offsetWidth; // 文字实际宽度
+    const padding = 8; // 左右 padding
+
+    return innerWidth >= labelWidth + padding ? 'inside' : 'outside';
+  }, []);
+
+  useEffect(() => {
+    // 仅在 plump 模式下启用
+    if (theme !== 'plump') return;
+
+    // 初始计算
+    setLabelPosition(getLabelPosition() as 'inside' | 'outside');
+
+    // 如果不支持 ResizeObserver，仅使用初始计算
+    if (typeof ResizeObserver === 'undefined') return;
+
+    const observer = new ResizeObserver(() => {
+      setLabelPosition(getLabelPosition() as 'inside' | 'outside');
+    });
+
+    if (innerRef.current) {
+      observer.observe(innerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [theme, percentage, label, getLabelPosition]);
+
+  let iconMap = {
+    success: CheckCircleFilledIcon,
+    error: CloseCircleFilledIcon,
+    warning: ErrorCircleFilledIcon,
+  };
+  // 进度条展示内容
+  const getInfoContent = () => {
+    if (!label) {
+      return '';
+    }
+    let info: React.ReactNode;
+    // 为布尔值，默认百分百展示，否则之间展示 label 内容
+    if (typeof label === 'boolean') {
+      info = <div className={`${classPrefix}-progress__info`}>{`${percentage}%`}</div>;
+      if (['success', 'error', 'warning'].includes(status)) {
+        const Icon = iconMap[status];
+        info = (
+          <div className={`${classPrefix}-progress__info`}>
+            <Icon className={`${classPrefix}-progress__icon`} />
+          </div>
+        );
+      }
+    } else {
+      info = <div className={`${classPrefix}-progress__info`}>{label}</div>;
+    }
+    return info;
+  };
+  const statusClassName = `${classPrefix}-progress--status--${status}`;
+  let progressDom: React.ReactNode;
+  if (theme === 'circle') {
+    iconMap = {
+      success: CheckCircleIcon,
+      error: CloseCircleIcon,
+      warning: ErrorCircleIcon,
+    };
+    // 获取直径
+    const getDiameter = (): number => {
+      let diameter = 112;
+      if (!size) {
+        return diameter;
+      }
+      switch (size) {
+        case 'small':
+          diameter = 72;
+          break;
+        case 'medium':
+          diameter = 112;
+          break;
+        case 'large':
+          diameter = 160;
+          break;
+        default:
+          diameter = Number(size);
+          break;
+      }
+      return diameter;
+    };
+    // 获取环形进度条 环的宽度
+    const getCircleStokeWidth = (): number => {
+      if (!strokeWidth) {
+        if (size === 'small') {
+          return 4;
+        }
+      }
+      if (typeof strokeWidth !== 'number' || Number.isNaN(strokeWidth)) {
+        return 6;
+      }
+      return strokeWidth;
+    };
+    // 环形进度条尺寸(进度条占位空间，长宽占位)
+    const circleStokeWidth = getCircleStokeWidth();
+    // 直径
+    const diameter = getDiameter();
+    // 半径
+    const radius = diameter / 2;
+    // 内环半径
+    const innerRadius = radius - circleStokeWidth;
+
+    const perimeter = Math.PI * 2 * radius;
+    const percent = percentage / 100;
+    const strokeDasharray = `${perimeter * percent}  ${perimeter * (1 - percent)}`;
+    // 自适应文字，根据半路，适度调整
+    const fontSizeRatio = innerRadius * 0.27;
+    const circleBoxStyle = {
+      width: diameter,
+      height: diameter,
+      fontSize: 4 + fontSizeRatio,
+    } as React.CSSProperties;
+    const circlePathStyle = {
+      stroke: color,
+      strokeLinecap: circleStokeWidth < 30 ? 'round' : 'buff',
+    } as React.CSSProperties;
+    const circleCenterInViewBox = radius + circleStokeWidth / 2;
+    progressDom = (
+      <div
+        ref={ref}
+        className={classNames(`${classPrefix}-progress--circle`, {
+          [`${statusClassName}`]: status,
+        })}
+        style={circleBoxStyle}
+      >
+        {getInfoContent()}
+        <svg
+          width={diameter}
+          height={diameter}
+          viewBox={`0 0 ${diameter + circleStokeWidth} ${diameter + circleStokeWidth}`}
+        >
+          <circle
+            cx={circleCenterInViewBox}
+            cy={circleCenterInViewBox}
+            r={radius}
+            strokeWidth={circleStokeWidth}
+            stroke={trackColor || 'var(--td-bg-color-component)'}
+            fill="none"
+          ></circle>
+          {percentage > 0 && (
+            <circle
+              cx={circleCenterInViewBox}
+              cy={circleCenterInViewBox}
+              r={radius}
+              strokeWidth={circleStokeWidth}
+              fill="none"
+              transform={`matrix(0,-1,1,0,0,${diameter + circleStokeWidth})`}
+              strokeDasharray={strokeDasharray}
+              className={`${classPrefix}-progress__circle-inner`}
+              style={circlePathStyle}
+            ></circle>
+          )}
+        </svg>
+      </div>
+    );
+    return <div className={className}>{progressDom}</div>;
+  }
+  // 进度条轨道高度
+  const getHeight = (): string => {
+    if (strokeWidth) {
+      return typeof strokeWidth === 'string' ? strokeWidth : `${strokeWidth}px`;
+    }
+  };
+  const trackStyle = {
+    height: getHeight(),
+    backgroundColor: trackColor,
+    borderRadius: getHeight(),
+  } as React.CSSProperties;
+  const barStyle = {
+    width: `${percentage}%`,
+    background: getBackgroundColor(color),
+    borderRadius: getHeight(),
+  } as React.CSSProperties;
+  if (theme === 'plump') {
+    progressDom = (
+      <div
+        ref={ref}
+        className={classNames(`${classPrefix}-progress__bar`, `${classPrefix}-progress--plump`, {
+          [`${statusClassName}`]: status,
+          [`${classPrefix}-progress--over-ten`]: labelPosition === 'inside',
+          [`${classPrefix}-progress--under-ten`]: labelPosition === 'outside',
+        })}
+        style={trackStyle}
+      >
+        {labelPosition === 'inside' ? (
+          <div ref={innerRef} className={`${classPrefix}-progress__inner`} style={barStyle}>
+            {label && (
+              <div ref={labelRef} className={`${classPrefix}-progress__info`} style={{ color: '#fff' }}>
+                {isValidElement(label) ? label : `${percentage}%`}
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <div ref={innerRef} className={`${classPrefix}-progress__inner`} style={barStyle}></div>
+            {label && (
+              <div ref={labelRef} className={`${classPrefix}-progress__info`}>
+                {isValidElement(label) ? label : `${percentage}%`}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+  } else {
+    progressDom = (
+      <div
+        ref={ref}
+        className={classNames(`${classPrefix}-progress--thin`, {
+          [`${statusClassName}`]: status,
+        })}
+      >
+        <div className={`${classPrefix}-progress__bar`} style={trackStyle}>
+          <div className={`${classPrefix}-progress__inner`} style={barStyle}></div>
+        </div>
+        {getInfoContent()}
+      </div>
+    );
+  }
+  return (
+    <div className={className} style={style}>
+      {progressDom}
+    </div>
+  );
+});
+
+Progress.displayName = 'Progress';
+
+export default Progress;

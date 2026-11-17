@@ -1,0 +1,11 @@
+{
+    "main": "./SearchPlusIcon.vue",
+    "module": "./SearchPlusIcon.vue",
+    "types": "./SearchPlusIcon.d.ts",
+    "browser": {
+        "./sfc": "./SearchPlusIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

@@ -1,0 +1,78 @@
+{{#> l-flex l-flex--modifier="pf-m-flex-1 pf-m-align-self-stretch pf-m-align-items-stretch"}}
+  {{#> card card--modifier="pf-m-plain" l-flex--modifier=reset l-flex-item--modifier=reset}}
+    {{#> card-body}}
+      {{#> l-flex l-flex--modifier=(concat 'pf-m-column ' (pfv 'u') 'h-100 pf-m-space-items-sm')}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-column-on-md pf-m-row-on-lg pf-m-spacer-md-on-md pf-m-spacer-sm-on-lg"}}
+          {{#> label-group label-group--id="label-group-overflow"}}
+            {{#> label-group-main}}
+              {{#> label-group-list label-group-list--attribute='aria-label="Group of labels"'}}
+                {{#> label-group-list-item}}
+                  {{#> label label--color="blue" label--IsOutlined=true}}
+                    {{#> label-icon}}
+                      {{#if card-template-expandable-status-card--label-icon}}
+                        {{pfIcon card-template-expandable-status-card--label-icon}}
+                      {{else}}
+                        {{pfIcon "rh-ui-port"}}
+                      {{/if}}
+                    {{/label-icon}}
+                    {{> label-text label-text--value=(ternary card-template-expandable-status-card--label-text card-template-expandable-status-card--label-text 'Performance')}}
+                  {{/label}}
+                {{/label-group-list-item}}
+                {{#if card-template-expandable-status-card--label--HasOverflowLabel}}
+                  {{#> label-group-list-item}}
+                    {{> label label-text--value="1 more" label--IsOverflow=true}}
+                  {{/label-group-list-item}}
+                {{/if}}
+              {{/label-group-list}}
+            {{/label-group-main}}
+          {{/label-group}}
+          <a href="#">
+            {{#if card-template-expandable-status-card--header-link--text}}
+              {{card-template-expandable-status-card--header-link--text}}
+            {{else}}
+              378 systems
+            {{/if}}
+          </a>
+        {{/l-flex}}
+        {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-md"}}
+          <p>
+            {{#if card-template-expandable-status-card--body--text}}
+              {{{card-template-expandable-status-card--body--text}}}
+            {{else}}
+              Upgrade your kernel version to remediate ntpd time sync issues, kernel panics, network instabilities and issues with system performance
+            {{/if}}
+          </p>
+        {{/l-flex-item}}
+        {{#> l-flex l-flex--modifier="pf-m-grow pf-m-column pf-m-row-on-lg pf-m-justify-content-flex-end pf-m-justify-content-flex-start-on-lg pf-m-align-content-flex-end-on-lg" l-flex--attribute='style="row-gap: var(--pf-6-global--spacer--md);"'}}
+          {{#if card-template-expandable-status-card--HasIncident}}
+            {{#> l-flex-item l-flex-item--attribute='style="margin-block-end: -.25em"'}}
+              {{> label label--status="danger" label-text--value="Incident"}}
+            {{/l-flex-item}}
+            {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-align-items-center pf-m-nowrap"}}
+              {{#> icon}}
+                {{#> icon-content icon-content--modifier="pf-m-danger"}}
+                  {{pfIcon "rh-ui-connected"}}
+                {{/icon-content}}
+              {{/icon}}
+              <p class="{{pfv 'u'}}color-200">System reboot <b class="{{pfv 'u'}}color-100">is</b> required</p>
+            {{/l-flex}}
+          {{else}}
+            {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-align-items-center pf-m-nowrap"}}
+              {{#> icon}}
+                {{#> icon-content icon-content--modifier="pf-m-success"}}
+                  {{pfIcon "rh-ui-connected"}}
+                {{/icon-content}}
+              {{/icon}}
+              <p class="{{pfv 'u'}}color-200">System reboot <b class="{{pfv 'u'}}color-100">is not</b> required</p>
+            {{/l-flex}}
+          {{/if}}
+        {{/l-flex}}
+      {{/l-flex}}
+    {{/card-body}}
+    {{#> card-footer}}
+      {{#> button button--IsAnchor=true button--IsLink=true button--IsInline=true button-icon--IsEnd=true button--icon="arrow-right" button--url="#"}}
+        View pathway {{! TODO - fix icon in RTL}}
+      {{/button}}
+    {{/card-footer}}
+  {{/card}}
+{{/l-flex}}

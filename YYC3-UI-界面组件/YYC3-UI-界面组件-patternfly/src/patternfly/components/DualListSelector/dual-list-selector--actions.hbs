@@ -1,0 +1,19 @@
+{{#> dual-list-selector-tools-actions}}
+  {{#> dual-list-selector-tools-actions-item}}
+    {{#> button button--IsPlain=true button--attribute='aria-label="Sort"' button--IsIcon=true}}
+      {{#> icon shouldMirrorRTL=true}}
+        {{#> icon-content}}
+          {{pfIcon "rh-ui-sort-down-large-to-small"}}
+        {{/icon-content}}
+      {{/icon}}
+    {{/button}}
+  {{/dual-list-selector-tools-actions-item}}
+  {{#> dual-list-selector-tools-actions-item}}
+    {{> menu-toggle
+        menu-toggle--IsPlain=true
+        menu-toggle--HasKebab=true
+        menu-toggle--id=(dasherize dual-list-selector-pane--id 'menu-toggle')
+        menu-toggle--aria-label='Dual list item menu toggle'
+      }}
+  {{/dual-list-selector-tools-actions-item}}
+{{/dual-list-selector-tools-actions}}

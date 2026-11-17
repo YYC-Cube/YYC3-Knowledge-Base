@@ -1,0 +1,53 @@
+@use '../../styles/variable.scss' as *;
+@use '../../styles/mixin/mixin.scss' as *;
+
+// 单元格组背景色
+$cell-group-bg: var(--wot-cell-group-bg, $filled-oppo) !default;
+// 标题区域内边距
+$cell-group-padding: var(--wot-cell-group-padding, $padding-loose) !default;
+// 标题文字字重
+$cell-group-font-weight: var(--wot-cell-group-font-weight, $font-weight-medium) !default;
+// 标题文字颜色
+$cell-group-title-color: var(--wot-cell-group-title-color, $text-main) !default;
+// 右侧辅助文字颜色
+$cell-group-value-color: var(--wot-cell-group-value-color, $text-secondary) !default;
+// 右侧辅助文字字号
+$cell-group-value-font-size: var(--wot-cell-group-value-font-size, $typography-body-size-main) !default;
+// 标题文字字号
+$cell-group-title-font-size: var(--wot-cell-group-title-font-size, $typography-body-size-main) !default;
+// 插入模式圆角
+$cell-group-insert-radius: var(--wot-cell-group-insert-radius, $radius-large) !default;
+// 插入模式外边距
+$cell-group-insert-margin: var(--wot-cell-group-insert-margin, $spacing-zero $spacing-extra-loose) !default;
+
+@include b(cell-group) {
+  background: $cell-group-bg;
+
+  @include when(border) {
+    .wd-cell-group__title {
+      @include halfPixelBorder;
+    }
+  }
+  @include e(title) {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: $cell-group-padding;
+    background: $cell-group-bg;
+    font-size: $cell-group-title-font-size;
+    color: $cell-group-title-color;
+    font-weight: $cell-group-font-weight;
+  }
+  @include e(right) {
+    color: $cell-group-value-color;
+    font-size: $cell-group-value-font-size;
+  }
+  @include e(body) {
+    background: $cell-group-bg;
+  }
+  @include m(insert) {
+    border-radius: $cell-group-insert-radius;
+    overflow: hidden;
+    margin: $cell-group-insert-margin;
+  }
+}

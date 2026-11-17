@@ -1,0 +1,68 @@
+@use '../../styles/mixin/mixin.scss' as *;
+@use '../../styles/variable.scss' as *;
+
+$index-bar-sidebar-right: var(--wot-index-bar-sidebar-right, $spacing-super-tight) !default; // 索引侧边栏右侧偏移
+$index-bar-index-font-size: var(--wot-index-bar-index-font-size, $typography-label-size-main) !default; // 索引项文字字号
+$index-bar-index-width: var(--wot-index-bar-index-width, $typography-label-line-height-size-main) !default; // 索引项宽度
+$index-bar-index-height: var(--wot-index-bar-index-height, $typography-label-line-height-size-main) !default; // 索引项高度
+$index-bar-index-font-weight: var(--wot-index-bar-index-font-weight, $font-weight-medium) !default; // 索引项字重
+$index-bar-index-color: var(--wot-index-bar-index-color, $text-auxiliary) !default; // 索引项文字颜色
+$index-bar-index-border-radius: var(--wot-index-bar-index-border-radius, $radius-full) !default; // 索引项圆角
+$index-bar-index-color-active: var(--wot-index-bar-index-color-active, $text-white) !default; // 激活索引项文字颜色
+$index-bar-index-bg-active: var(--wot-index-bar-index-bg-active, $primary-6) !default; // 激活索引项背景色
+$index-bar-current-index-size: var(--wot-index-bar-current-index-size, $n-56) !default; // 当前索引提示尺寸
+$index-bar-current-index-bg: var(--wot-index-bar-current-index-bg, $primary-6) !default; // 当前索引提示背景色
+$index-bar-current-index-color: var(--wot-index-bar-current-index-color, $text-white) !default; // 当前索引提示文字颜色
+$index-bar-current-index-font-size: var(--wot-index-bar-current-index-font-size, $typography-title-size-extra-large) !default; // 当前索引提示文字字号
+$index-bar-current-index-z-index: var(--wot-index-bar-current-index-z-index, 10) !default; // 当前索引提示层级
+
+@include b(index-bar) {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  @include e(content) {
+    width: 100%;
+    height: 100%;
+  }
+
+  @include e(current-index) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: $index-bar-current-index-z-index;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $index-bar-current-index-size;
+    height: $index-bar-current-index-size;
+    font-size: $index-bar-current-index-font-size;
+    color: $index-bar-current-index-color;
+    background-color: $index-bar-current-index-bg;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @include e(sidebar) {
+    position: absolute;
+    top: 50%;
+    right: $index-bar-sidebar-right;
+    transform: translateY(-50%);
+  }
+
+  @include e(index) {
+    color: $index-bar-index-color;
+    font-size: $index-bar-index-font-size;
+    font-weight: $index-bar-index-font-weight;
+    height: $index-bar-index-height;
+    width: $index-bar-index-width;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $index-bar-index-border-radius;
+    @include when(active) {
+      color: $index-bar-index-color-active;
+      background: $index-bar-index-bg-active;
+    }
+  }
+}

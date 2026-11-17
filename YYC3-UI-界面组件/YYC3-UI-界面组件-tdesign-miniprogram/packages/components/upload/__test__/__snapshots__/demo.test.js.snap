@@ -1,0 +1,404 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Upload Upload drag demo works fine 1`] = `
+<drag>
+  <wx-view
+    class="wrapper"
+  >
+    <t-upload
+      disabled="{{true}}"
+      draggable="{{true}}"
+      files="{{
+        Array [
+          Object {
+            "name": "uploaded1.png",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example4.png",
+          },
+          Object {
+            "name": "uploaded2.png",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example6.png",
+          },
+          Object {
+            "name": "uploaded3.png",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example5.png",
+          },
+        ]
+      }}"
+      gridConfig="{{
+        Object {
+          "column": 4,
+          "height": 160,
+          "width": 160,
+        }
+      }}"
+      mediaType="{{
+        Array [
+          "video",
+          "image",
+        ]
+      }}"
+      bind:click="handleClick"
+      bind:drop="handleDrop"
+      bind:remove="handleRemove"
+      bind:success="handleSuccess"
+    />
+  </wx-view>
+</drag>
+`;
+
+exports[`Upload Upload messageFile demo works fine 1`] = `
+<messageFile>
+  <wx-view
+    class="wrapper"
+  >
+    <t-upload
+      config="{{
+        Object {
+          "count": 1,
+        }
+      }}"
+      disabled="{{true}}"
+      files="{{
+        Array [
+          Object {
+            "name": "uploaded1.png",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example4.png",
+          },
+        ]
+      }}"
+      gridConfig="{{
+        Object {
+          "column": 4,
+          "height": 160,
+          "width": 160,
+        }
+      }}"
+      mediaType="{{
+        Array [
+          "video",
+          "image",
+        ]
+      }}"
+      source="messageFile"
+      bind:remove="handleRemove"
+      bind:success="handleSuccess"
+    />
+  </wx-view>
+</messageFile>
+`;
+
+exports[`Upload Upload multiple demo works fine 1`] = `
+<multiple>
+  <wx-view
+    class="wrapper"
+  >
+    <t-upload
+      disabled="{{true}}"
+      files="{{
+        Array [
+          Object {
+            "name": "uploaded1.png",
+            "removeBtn": true,
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example4.png",
+          },
+          Object {
+            "name": "uploaded2.png",
+            "removeBtn": true,
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example6.png",
+          },
+          Object {
+            "name": "uploaded3.png",
+            "removeBtn": true,
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example5.png",
+          },
+        ]
+      }}"
+      gridConfig="{{
+        Object {
+          "column": 4,
+          "height": 160,
+          "width": 160,
+        }
+      }}"
+      mediaType="{{
+        Array [
+          "video",
+          "image",
+        ]
+      }}"
+      removeBtn="{{false}}"
+      bind:click="handleClick"
+      bind:remove="handleRemove"
+      bind:sort-end="handleSortEnd"
+      bind:success="handleSuccess"
+    />
+  </wx-view>
+</multiple>
+`;
+
+exports[`Upload Upload single demo works fine 1`] = `
+<single>
+  <wx-view
+    class="wrapper"
+  >
+    <t-upload
+      disabled="{{true}}"
+      files="{{Array []}}"
+      max="{{1}}"
+      mediaType="{{
+        Array [
+          "video",
+          "image",
+        ]
+      }}"
+      bind:add="handleAdd"
+      bind:remove="handleRemove"
+    />
+  </wx-view>
+</single>
+`;
+
+exports[`Upload Upload status demo works fine 1`] = `
+<status>
+  <wx-view
+    class="wrapper"
+  >
+    <t-upload
+      disabled="{{true}}"
+      files="{{
+        Array [
+          Object {
+            "name": "uploaded1.png",
+            "status": "loading",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example4.png",
+          },
+          Object {
+            "name": "uploaded2.png",
+            "percent": 68,
+            "status": "loading",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example5.png",
+          },
+          Object {
+            "name": "uploaded3.png",
+            "status": "reload",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example6.png",
+          },
+          Object {
+            "name": "uploaded4.png",
+            "status": "failed",
+            "type": "image",
+            "url": "https://tdesign.gtimg.com/mobile/demos/example5.png",
+          },
+        ]
+      }}"
+      gridConfig="{{
+        Object {
+          "column": 4,
+          "height": 160,
+          "width": 160,
+        }
+      }}"
+      mediaType="{{
+        Array [
+          "video",
+          "image",
+        ]
+      }}"
+      bind:click="handleClick"
+      bind:remove="handleRemove"
+      bind:success="handleSuccess"
+    />
+  </wx-view>
+</status>
+`;
+
+exports[`Upload Upload theme demo works fine 1`] = `
+<theme>
+  <wx-view
+    class="wrapper"
+  >
+    <wx-view
+      class="upload-demo"
+    >
+      <wx-view
+        class="upload-demo__title"
+      >
+        宫格布局上传
+      </wx-view>
+      <t-upload
+        disabled="{{true}}"
+        draggable="{{true}}"
+        files="{{
+          Array [
+            Object {
+              "name": "loading-file.txt",
+              "status": "loading",
+              "url": "",
+            },
+            Object {
+              "name": "loading-file2.txt",
+              "percent": 68,
+              "status": "loading",
+              "url": "",
+            },
+            Object {
+              "name": "failed-file.txt",
+              "status": "reload",
+              "url": "",
+            },
+            Object {
+              "name": "error-file.txt",
+              "status": "failed",
+              "url": "",
+            },
+            Object {
+              "name": "report.xlsx",
+              "size": 153600,
+              "status": "done",
+              "url": "",
+            },
+            Object {
+              "name": "document.pdf",
+              "size": 327680,
+              "status": "done",
+              "url": "",
+            },
+            Object {
+              "name": "presentation.pptx",
+              "size": 524288,
+              "status": "done",
+              "url": "",
+            },
+            Object {
+              "name": "article.docx",
+              "size": 262144,
+              "status": "done",
+              "url": "",
+            },
+            Object {
+              "name": "image-loading.png",
+              "status": "loading",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/upload6.png",
+            },
+            Object {
+              "name": "image-percent.png",
+              "percent": 68,
+              "status": "loading",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/upload6.png",
+            },
+            Object {
+              "name": "image-reload.png",
+              "status": "reload",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/upload6.png",
+            },
+            Object {
+              "name": "image-failed.png",
+              "status": "failed",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/upload6.png",
+            },
+            Object {
+              "name": "image-done.png",
+              "status": "done",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/upload6.png",
+            },
+          ]
+        }}"
+        source="messageFile"
+        theme="grid"
+        bind:add="handleGridAdd"
+        bind:drop="handleGridDrop"
+        bind:remove="handleGridRemove"
+      />
+    </wx-view>
+    <wx-view
+      class="upload-demo"
+      style="margin-top: 32rpx"
+    >
+      <wx-view
+        class="upload-demo__title"
+      >
+        列表布局上传
+      </wx-view>
+      <t-upload
+        disabled="{{true}}"
+        draggable="{{true}}"
+        files="{{
+          Array [
+            Object {
+              "name": "Technical Design Document.pdf",
+              "percent": 30,
+              "size": 222208,
+              "status": "loading",
+              "url": "",
+            },
+            Object {
+              "name": "Technical Design Document.pdf",
+              "size": 222208,
+              "status": "failed",
+              "url": "",
+            },
+            Object {
+              "name": "Design Mockup.png",
+              "size": 1048576,
+              "status": "done",
+              "type": "image",
+              "url": "https://tdesign.gtimg.com/mobile/demos/upload6.png",
+            },
+            Object {
+              "name": "Product Demo.mp4",
+              "size": 5242880,
+              "status": "done",
+              "type": "video",
+              "url": "",
+            },
+            Object {
+              "name": "Project Proposal.docx",
+              "size": 131072,
+              "status": "done",
+              "url": "",
+            },
+            Object {
+              "name": "Financial Report.xlsx",
+              "size": 262144,
+              "status": "done",
+              "url": "",
+            },
+            Object {
+              "name": "User Manual.pdf",
+              "size": 524288,
+              "status": "done",
+              "url": "",
+            },
+            Object {
+              "name": "Quarterly Review.pptx",
+              "size": 786432,
+              "status": "done",
+              "url": "",
+            },
+          ]
+        }}"
+        source="messageFile"
+        theme="list"
+        bind:add="handleListAdd"
+        bind:drop="handleListDrop"
+        bind:remove="handleListRemove"
+      />
+    </wx-view>
+  </wx-view>
+</theme>
+`;

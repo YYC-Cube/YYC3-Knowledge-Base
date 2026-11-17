@@ -1,0 +1,144 @@
+import React, { forwardRef, useContext } from 'react';
+import classNames from 'classnames';
+import {
+  CheckCircleFilledIcon as TdCheckCircleFilledIcon,
+  CloseIcon as TdCloseIcon,
+  InfoCircleFilledIcon as TdInfoCircleFilledIcon,
+} from 'tdesign-icons-react';
+
+import noop from '../_util/noop';
+import parseTNode from '../_util/parseTNode';
+import useConfig from '../hooks/useConfig';
+import useDefaultProps from '../hooks/useDefaultProps';
+import useGlobalIcon from '../hooks/useGlobalIcon';
+import { notificationDefaultProps } from './defaultProps';
+import { NotificationRemoveContext } from './NotificationList';
+
+import type { StyledProps } from '../common';
+import type { NotificationInstance, TdNotificationProps } from './type';
+
+export interface NotificationProps extends TdNotificationProps, StyledProps {
+  id?: string;
+}
+
+export const Notification = forwardRef<NotificationInstance, NotificationProps>((props, ref) => {
+  const {
+    title,
+    content,
+    theme,
+    icon,
+    closeBtn,
+    footer,
+    duration,
+    onCloseBtnClick = noop,
+    onDurationEnd = noop,
+    style,
+    className,
+    id,
+  } = useDefaultProps<NotificationProps>(props, notificationDefaultProps);
+
+  const { classPrefix } = useConfig();
+  const baseClassPrefix = `${classPrefix}-notification`;
+  const { CloseIcon, InfoCircleFilledIcon, CheckCircleFilledIcon } = useGlobalIcon({
+    CloseIcon: TdCloseIcon,
+    InfoCircleFilledIcon: TdInfoCircleFilledIcon,
+    CheckCircleFilledIcon: TdCheckCircleFilledIcon,
+  });
+
+  const remove = useContext(NotificationRemoveContext);
+
+  React.useImperativeHandle(ref, () => ({ close: () => remove(id) }));
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  React.useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (duration > 0) {
+      timer = setTimeout(() => {
+        clearTimeout(timer);
+        onDurationEnd();
+      }, duration);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, []);
+
+  const renderIcon = () => {
+    if (typeof icon === 'boolean' && !icon) {
+      return null;
+    }
+
+    const IconWrapper = ({ children }) => <div className={`${baseClassPrefix}__icon`}>{children}</div>;
+
+    // 调整优先级，icon 优先级最高
+    if (React.isValidElement(icon)) {
+      return <IconWrapper>{icon}</IconWrapper>;
+    }
+
+    if (theme && theme === 'success') {
+      return (
+        <IconWrapper>
+          <CheckCircleFilledIcon className={`${classPrefix}-is-success`} />
+        </IconWrapper>
+      );
+    }
+    if (theme && ['info', 'warning', 'error'].indexOf(theme) >= 0) {
+      return (
+        <IconWrapper>
+          <InfoCircleFilledIcon className={`${classPrefix}-is-${theme}`} />
+        </IconWrapper>
+      );
+    }
+    return null;
+  };
+
+  const renderCloseBtn = () => {
+    if (typeof closeBtn === 'boolean') {
+      return (
+        closeBtn && (
+          <CloseIcon
+            className={`${baseClassPrefix}-icon-close`}
+            onClick={(e) => {
+              onCloseBtnClick({ e });
+            }}
+          />
+        )
+      );
+    }
+    return (
+      <div
+        className={`${baseClassPrefix}-close`}
+        onClick={(e) => {
+          onCloseBtnClick({ e });
+        }}
+      >
+        {parseTNode(closeBtn)}
+      </div>
+    );
+  };
+
+  return (
+    <div
+      className={classNames(className, baseClassPrefix, {
+        [`${baseClassPrefix}-is-${theme}`]: theme,
+      })}
+      style={style}
+    >
+      {renderIcon()}
+      <div className={`${baseClassPrefix}__main`}>
+        <div className={`${baseClassPrefix}__title__wrap`}>
+          <span className={`${baseClassPrefix}__title`}>{title}</span>
+          {renderCloseBtn()}
+        </div>
+        {content && <div className={`${baseClassPrefix}__content`}>{parseTNode(content)}</div>}
+        {footer && <div className={`${baseClassPrefix}__detail`}>{parseTNode(footer)}</div>}
+      </div>
+    </div>
+  );
+});
+
+Notification.displayName = 'Notification';
+
+export default Notification;

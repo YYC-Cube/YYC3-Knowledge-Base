@@ -1,0 +1,57 @@
+import type { PropTypes } from '@zag-js/vue'
+import type * as treeView from '@zag-js/tree-view'
+import { type JsonNode, getRootNode, nodeToString, nodeToValue } from '@zag-js/json-tree-utils'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue } from 'vue'
+import { createSplitProps } from '../create-split-props.ts'
+import { type UseTreeViewProps, createTreeCollection, useTreeView } from '../tree-view/index.ts'
+import { getBranchValues } from './get-branch-value.ts'
+import type { JsonTreeViewOptions } from './json-tree-view-props-context.ts'
+
+export interface UseJsonTreeViewProps extends Omit<UseTreeViewProps<JsonNode>, 'collection'>, JsonTreeViewOptions {
+  data: unknown
+  defaultExpandedDepth?: number
+}
+
+export interface UseJsonTreeViewReturn extends ComputedRef<
+  treeView.Api<PropTypes, JsonNode> & { options: JsonTreeViewOptions }
+> {}
+
+const splitJsonTreeViewProps = createSplitProps<JsonTreeViewOptions>()
+
+export const useJsonTreeView = (props: MaybeRefOrGetter<UseJsonTreeViewProps>): UseJsonTreeViewReturn => {
+  const splitProps = computed(() =>
+    splitJsonTreeViewProps(toValue(props), [
+      'maxPreviewItems',
+      'collapseStringsAfterLength',
+      'quotesOnKeys',
+      'groupArraysAfterLength',
+      'showNonenumerable',
+    ]),
+  )
+
+  const collection = computed(() =>
+    createTreeCollection<JsonNode>({
+      nodeToValue,
+      nodeToString,
+      rootNode: getRootNode(toValue(props).data),
+    }),
+  )
+
+  const machineProps = computed<UseTreeViewProps<JsonNode>>(() => {
+    const { data: _, defaultExpandedDepth, ...restProps } = splitProps.value[1]
+
+    const defaultExpandedValue =
+      defaultExpandedDepth != null ? getBranchValues(collection.value, defaultExpandedDepth) : undefined
+
+    return {
+      defaultExpandedValue,
+      ...restProps,
+      collection: collection.value,
+      typeahead: false,
+    }
+  })
+
+  const treeView = useTreeView(machineProps)
+
+  return computed(() => ({ ...treeView.value, options: splitProps.value[0] }))
+}

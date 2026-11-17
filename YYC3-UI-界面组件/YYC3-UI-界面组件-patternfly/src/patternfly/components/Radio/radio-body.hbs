@@ -1,0 +1,10 @@
+<span class="{{pfv}}radio__body{{#if radio-body--modifier}} {{radio-body--modifier}}{{/if}}"
+  {{#if radio-body--attribute}}
+    {{{radio-body--attribute}}}
+  {{/if}}>
+  {{#if radio-body--text}}
+    {{radio-body--text}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</span>

@@ -1,0 +1,84 @@
+{
+  "name": "@varlet/ui",
+  "version": "3.20.10",
+  "description": "A Vue3 component library based on Material Design 2 and 3, supporting mobile and desktop.",
+  "keywords": [
+    "Vue3",
+    "Mobile",
+    "Material Design",
+    "UI",
+    "Components"
+  ],
+  "homepage": "https://varletjs.org",
+  "bugs": {
+    "url": "https://github.com/varletjs/varlet/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varletjs/varlet.git"
+  },
+  "license": "MIT",
+  "author": "haoziqaq <357229046@qq.com>",
+  "sideEffects": [
+    "es/**/style/*",
+    "lib/**/style/*",
+    "es/style.mjs",
+    "lib/style.js",
+    "*.css"
+  ],
+  "main": "lib/varlet.cjs.js",
+  "jsdelivr": "umd/varlet.js",
+  "unpkg": "umd/varlet.js",
+  "module": "es/index.mjs",
+  "typings": "types/index.d.ts",
+  "style": "es/varlet.css",
+  "files": [
+    "json",
+    "lib",
+    "es",
+    "umd",
+    "highlight",
+    "types"
+  ],
+  "scripts": {
+    "build": "varlet-cli build",
+    "compile": "varlet-cli compile",
+    "compile:style-vars": "varlet-cli compile:style-vars",
+    "create": "varlet-cli create -i",
+    "dev": "varlet-cli dev",
+    "preview": "varlet-cli preview",
+    "test": "varlet-cli test",
+    "test:coverage": "varlet-cli test -cov",
+    "test:watch": "varlet-cli test -w -cov"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.6",
+    "@varlet/icons": "workspace:*",
+    "@varlet/shared": "workspace:*",
+    "@varlet/use": "workspace:*",
+    "dayjs": "^1.10.4",
+    "decimal.js": "^10.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
+    "@varlet/cli": "workspace:*",
+    "@varlet/touch-emulator": "workspace:*",
+    "@varlet/ui": "workspace:*",
+    "@vue/runtime-core": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "clipboard": "^2.0.6",
+    "jsdom": "catalog:",
+    "live-server": "catalog:",
+    "shiki": "^1.21.0",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:",
+    "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  },
+  "web-types": "highlight/web-types.en-US.json"
+}

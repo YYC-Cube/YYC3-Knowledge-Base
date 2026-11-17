@@ -1,0 +1,27 @@
+{
+  "name": "@vuetify/api-generator",
+  "type": "module",
+  "version": "4.3.3",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "build": "node src/index.ts",
+    "lint": "node ../../scripts/eslint.js src",
+    "lint:fix": "pnpm lint --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "deepmerge": "catalog:",
+    "piscina": "catalog:",
+    "prettier": "catalog:",
+    "ts-morph": "catalog:",
+    "vue": "catalog:",
+    "vuetify": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/stringify-object": "catalog:",
+    "eslint": "catalog:",
+    "stringify-object": "catalog:"
+  }
+}

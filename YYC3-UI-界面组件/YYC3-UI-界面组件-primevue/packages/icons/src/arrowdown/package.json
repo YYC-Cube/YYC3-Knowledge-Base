@@ -1,0 +1,11 @@
+{
+    "main": "./ArrowDownIcon.vue",
+    "module": "./ArrowDownIcon.vue",
+    "types": "./ArrowDownIcon.d.ts",
+    "browser": {
+        "./sfc": "./ArrowDownIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

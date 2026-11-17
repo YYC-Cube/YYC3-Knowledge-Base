@@ -1,0 +1,13 @@
+{{#> login-main-header}}
+  {{#> title titleType="h1" title--modifier="pf-m-3xl"}}
+    Log in to your account
+  {{/title}}
+  {{#> login-main-header-desc}}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  {{/login-main-header-desc}}
+  {{#if __login-main-header--HasLangaugeSelector}}
+    {{#> login-main-header-utilities}}
+      {{> menu-toggle menu-toggle--id="login-select" menu-toggle--text="English"}}
+    {{/login-main-header-utilities}}
+  {{/if}}
+{{/login-main-header}}

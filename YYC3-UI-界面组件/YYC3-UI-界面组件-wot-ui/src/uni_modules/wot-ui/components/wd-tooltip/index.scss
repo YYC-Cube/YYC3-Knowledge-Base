@@ -1,0 +1,77 @@
+@use '../../styles/mixin/mixin.scss' as *;
+@use '../../styles/variable.scss' as *;
+
+// 背景色
+$tooltip-bg: var(--wot-tooltip-bg, $filled-oppo) !default;
+// 文字颜色
+$tooltip-color: var(--wot-tooltip-color, $text-secondary) !default;
+// 阴影效果
+$tooltip-box-shadow: var(--wot-tooltip-box-shadow, 0 12px 48px 16px rgba(39, 43, 59, 0.03), 0 9px 28px 8px rgba(39, 43, 59, 0.05), 0 5px 12px 4px rgba(39, 43, 59, 0.06)) !default;
+// 箭头阴影效果
+$tooltip-arrow-box-shadow: var(--wot-tooltip-arrow-box-shadow, 0 12px 48px 16px rgba(39, 43, 59, 0.03), 0 9px 28px 8px rgba(39, 43, 59, 0.05), 0 5px 12px 4px rgba(39, 43, 59, 0.06)) !default;
+// 圆角大小
+$tooltip-radius: var(--wot-tooltip-radius, $radius-main) !default;
+// 箭头大小
+$tooltip-arrow-size: var(--wot-tooltip-arrow-size, $n-8) !default;
+// 字号
+$tooltip-font-size: var(--wot-tooltip-font-size, $typography-body-size-main) !default;
+// 内边距
+$tooltip-padding: var(--wot-tooltip-padding, $padding-loose) !default;
+// 关闭按钮大小
+$tooltip-close-icon-size: var(--wot-tooltip-close-icon-size, $n-12) !default;
+// 关闭按钮颜色
+$tooltip-close-icon-color: var(--wot-tooltip-close-icon-color, $icon-secondary) !default;
+// 关闭按钮内边距
+$tooltip-close-icon-padding: var(--wot-tooltip-close-icon-padding, $padding-super-tight) !default;
+// 层级
+$tooltip-z-index: var(--wot-tooltip-z-index, 500) !default;
+// 行高
+$tooltip-line-height: var(--wot-tooltip-line-height, $typography-body-line-height-size-main) !default;
+
+@include b(tooltip) {
+  position: relative;
+  display: inline-block;
+
+  @include edeep(pos) {
+    position: absolute;
+    box-sizing: border-box;
+    min-width: 138px;
+    background-clip: padding-box;
+    z-index: $tooltip-z-index;
+  }
+
+  @include e(hidden) {
+    left: -100vw;
+    bottom: -100vh;
+    visibility: hidden;
+  }
+
+  @include e(container) {
+    position: relative;
+    z-index: $tooltip-z-index;
+    box-shadow: $tooltip-box-shadow;
+    border-radius: $tooltip-radius;
+    background: $tooltip-bg;
+  }
+
+  @include e(inner) {
+    position: relative;
+    padding: $tooltip-padding;
+    white-space: nowrap;
+    line-height: $tooltip-line-height;
+    font-size: $tooltip-font-size;
+    text-align: center;
+    color: $tooltip-color;
+  }
+
+  @include edeep(close-icon) {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: $tooltip-close-icon-size;
+    padding: $tooltip-close-icon-padding;
+    color: $tooltip-close-icon-color;
+  }
+
+  @include triangleArrow($tooltip-arrow-size, $tooltip-bg);
+}

@@ -1,0 +1,160 @@
+import { act, renderHook } from '@testing-library/react';
+import { FormMode } from '../../types';
+import { useForm } from '../../use-form';
+
+function tests(mode: FormMode) {
+  it('removes list item with given index (root property)', () => {
+    const hook = renderHook(() =>
+      useForm({ mode, initialValues: { a: [{ b: 1 }, { b: 2 }, { b: 3 }] } })
+    );
+
+    act(() => hook.result.current.removeListItem('a', 1));
+    expect(hook.result.current.getValues()).toStrictEqual({ a: [{ b: 1 }, { b: 3 }] });
+  });
+
+  it('does not change values if given path does not exist', () => {
+    const hook = renderHook(() =>
+      useForm({ mode, initialValues: { a: [{ b: 1 }, { b: 2 }, { b: 3 }] } })
+    );
+
+    act(() => hook.result.current.removeListItem('does.not.exist', 1));
+    expect(hook.result.current.getValues()).toStrictEqual({ a: [{ b: 1 }, { b: 2 }, { b: 3 }] });
+  });
+
+  it('removes list item with given index (nested list)', () => {
+    const hook = renderHook(() =>
+      useForm({
+        mode,
+        initialValues: {
+          a: [
+            { b: [{ c: [{ d: 1 }, { d: 2 }, { d: 3 }] }, { c: [{ d: 1 }, { d: 2 }, { d: 3 }] }] },
+          ],
+        },
+      })
+    );
+
+    act(() => hook.result.current.removeListItem('a.0.b.1.c', 1));
+    expect(hook.result.current.getValues()).toStrictEqual({
+      a: [{ b: [{ c: [{ d: 1 }, { d: 2 }, { d: 3 }] }, { c: [{ d: 1 }, { d: 3 }] }] }],
+    });
+  });
+
+  it('updates errors of associated fields when list item is removed', () => {
+    const hook = renderHook(() =>
+      useForm({
+        mode,
+        initialValues: {
+          name: '',
+          a: [{ b: 1 }, { b: 2 }, { b: 3 }],
+        },
+        initialErrors: {
+          name: 'name-error',
+          'a.0.b': 'error-1',
+          'a.1.b': 'error-2',
+          'a.2.b': 'error-3',
+        },
+      })
+    );
+
+    expect(hook.result.current.errors).toStrictEqual({
+      name: 'name-error',
+      'a.0.b': 'error-1',
+      'a.1.b': 'error-2',
+      'a.2.b': 'error-3',
+    });
+
+    act(() => hook.result.current.removeListItem('a', 1));
+    expect(hook.result.current.errors).toStrictEqual({
+      name: 'name-error',
+      'a.0.b': 'error-1',
+      'a.1.b': 'error-3',
+    });
+  });
+
+  it('updates errors of a list of primitive values when list item is removed', () => {
+    const hook = renderHook(() =>
+      useForm({
+        mode,
+        initialValues: {
+          name: '',
+          a: ['x', 'y', 'z'],
+        },
+        initialErrors: {
+          name: 'name-error',
+          'a.0': 'error-1',
+          'a.1': 'error-2',
+          'a.2': 'error-3',
+        },
+      })
+    );
+
+    act(() => hook.result.current.removeListItem('a', 1));
+    expect(hook.result.current.errors).toStrictEqual({
+      name: 'name-error',
+      'a.0': 'error-1',
+      'a.1': 'error-3',
+    });
+  });
+
+  it('keeps errors and dirty state of unrelated fields when removing a list item', () => {
+    const hook = renderHook(() =>
+      useForm({
+        mode,
+        initialValues: {
+          items: [{ name: 'first' }, { name: 'second' }],
+          lineitems: [{ name: 'other' }],
+          billing: { items: [{ name: 'nested' }] },
+        },
+        initialErrors: {
+          'items.0.name': 'removed-error',
+          'items.1.name': 'remaining-error',
+          'lineitems.0.name': 'other-error',
+          'billing.items.0.name': 'nested-error',
+        },
+        initialDirty: {
+          'items.0.name': true,
+          'lineitems.0.name': true,
+          'billing.items.0.name': true,
+        },
+      })
+    );
+
+    act(() => hook.result.current.removeListItem('items', 0));
+    expect(hook.result.current.errors).toStrictEqual({
+      'items.0.name': 'remaining-error',
+      'lineitems.0.name': 'other-error',
+      'billing.items.0.name': 'nested-error',
+    });
+    expect(hook.result.current.getDirty()).toStrictEqual({
+      'lineitems.0.name': true,
+      'billing.items.0.name': true,
+    });
+  });
+
+  it('calls onValuesChange when removeListItem is called', () => {
+    const spy = jest.fn();
+    const hook = renderHook(() =>
+      useForm({
+        mode,
+        onValuesChange: spy,
+        initialValues: {
+          a: [{ b: 1 }, { b: 2 }, { b: 3 }],
+        },
+      })
+    );
+
+    act(() => hook.result.current.removeListItem('a', 1));
+    expect(spy).toHaveBeenCalledWith(
+      { a: [{ b: 1 }, { b: 3 }] },
+      { a: [{ b: 1 }, { b: 2 }, { b: 3 }] }
+    );
+  });
+}
+
+describe('@mantine/form/removeListItem-controlled', () => {
+  tests('controlled');
+});
+
+describe('@mantine/form/removeListItem-uncontrolled', () => {
+  tests('uncontrolled');
+});

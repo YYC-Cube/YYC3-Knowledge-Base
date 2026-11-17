@@ -1,0 +1,63 @@
+<template>
+  <page-wraper>
+    <view class="page-count-to">
+      <demo-group :title="$t('zu-jian-lei-xing')">
+        <demo-group-item :title="$t('jiBenYongFa')">
+          <wd-count-to :endVal="endVal" suffix="年" color="var(--wot-success-main)" />
+          <wd-count-to prefix="￥" :decimals="2" :endVal="186.321" suffix="%" color="var(--wot-primary-6)" />
+          <wd-count-to prefix="￥" :decimals="2" :endVal="21286.321" suffix="%" color="var(--wot-danger-main)" />
+          <wd-count-to prefix="￥" :decimals="2" :endVal="21286.321" suffix="%" color="var(--wot-warning-main)" :duration="2000" />
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('zu-jian-yang-shi')">
+        <demo-group-item :title="$t('she-zhi-zhu-ti')">
+          <wd-count-to type="primary" prefix="￥" :startVal="0" :endVal="888888" suffix="%" />
+          <wd-count-to type="error" prefix="￥" :startVal="0" :endVal="888888" suffix="%" />
+          <wd-count-to type="success" prefix="￥" :startVal="0" :endVal="888888" suffix="%" />
+          <wd-count-to type="warning" prefix="￥" :startVal="0" :endVal="888888" suffix="%" />
+          <wd-count-to prefix="￥" :startVal="0" :endVal="888888" suffix="%" />
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('te-shu-yang-shi')">
+        <demo-group-item :title="$t('shou-dong-kong-zhi')">
+          <wd-count-to
+            ref="countTo"
+            :auto-start="false"
+            prefix="￥"
+            :startVal="1000"
+            :decimals="3"
+            :endVal="9999.32"
+            suffix="%"
+            color="var(--wot-primary-6)"
+          />
+
+          <wd-grid clickable border>
+            <wd-grid-item :text="$t('kai-shi')" icon="play-circle" @click="start" />
+            <wd-grid-item :text="$t('zan-ting')" icon="pause-circle" @click="pause" />
+            <wd-grid-item :text="$t('zhong-zhi')" icon="refresh" @click="reset" />
+          </wd-grid>
+        </demo-group-item>
+      </demo-group>
+    </view>
+  </page-wraper>
+</template>
+<script lang="ts" setup>
+import type { CountToInstance } from '@/uni_modules/wot-ui/components/wd-count-to/types'
+import { ref } from 'vue'
+
+const endVal = ref<number>(2024)
+const countTo = ref<CountToInstance>()
+
+const start = () => {
+  countTo.value!.start()
+}
+const pause = () => {
+  countTo.value!.pause()
+}
+const reset = () => {
+  countTo.value!.reset()
+}
+</script>
+<style lang="scss" scoped></style>

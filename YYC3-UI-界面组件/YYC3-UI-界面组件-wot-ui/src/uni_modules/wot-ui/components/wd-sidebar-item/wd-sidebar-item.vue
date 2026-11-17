@@ -1,0 +1,120 @@
+<template>
+  <view
+    @click="handleClick"
+    :class="`wd-sidebar-item ${active ? 'wd-sidebar-item--active' : ''} ${prefix ? 'wd-sidebar-item--prefix' : ''}  ${
+      suffix ? 'wd-sidebar-item--suffix' : ''
+    } ${disabled ? 'wd-sidebar-item--disabled' : ''} ${customClass}`"
+    :style="customStyle"
+  >
+    <slot name="icon"></slot>
+    <template v-if="!$slots.icon && hasIcon">
+      <wd-icon custom-class="wd-sidebar-item__icon" :name="icon" :class-prefix="iconPrefix" :css-icon="cssIcon"></wd-icon>
+    </template>
+    <wd-badge v-bind="customBadgeProps" custom-class="wd-sidebar-item__badge">
+      {{ label }}
+    </wd-badge>
+  </view>
+</template>
+
+<script lang="ts">
+export default {
+  name: 'wd-sidebar-item',
+  options: {
+    addGlobalClass: true,
+    // #ifndef MP-TOUTIAO
+    virtualHost: true,
+    // #endif
+    styleIsolation: 'shared'
+  }
+}
+</script>
+
+<script lang="ts" setup>
+import wdIcon from '../wd-icon/wd-icon.vue'
+import wdBadge from '../wd-badge/wd-badge.vue'
+import { computed } from 'vue'
+import { useParent } from '../../composables/useParent'
+import { SIDEBAR_KEY } from '../wd-sidebar/types'
+import { sidebarItemProps } from './types'
+import type { BadgeProps } from '../wd-badge/types'
+import { deepAssign, isDef, isString, isUndefined, omitBy } from '../../common/util'
+
+const props = defineProps(sidebarItemProps)
+
+const { parent: sidebar } = useParent(SIDEBAR_KEY)
+
+const hasIcon = computed(() => Boolean(props.icon || (isString(props.cssIcon) && props.cssIcon)))
+
+const customBadgeProps = computed(() => {
+  const badgeProps: Partial<BadgeProps> = deepAssign(
+    isDef(props.badgeProps) ? omitBy(props.badgeProps, isUndefined) : {},
+    omitBy(
+      {
+        max: props.max,
+        isDot: props.isDot,
+        value: props.badge
+      },
+      isUndefined
+    )
+  )
+  if (!isDef(badgeProps.max)) {
+    badgeProps.max = 99
+  }
+  return badgeProps
+})
+
+const active = computed(() => {
+  let active: boolean = false
+  if (sidebar.value && sidebar.value.props.modelValue === props.value) {
+    active = true
+  }
+  return active
+})
+
+const prefix = computed(() => {
+  let prefix: boolean = false
+  if (sidebar.value) {
+    let activeIndex: number = sidebar.value.children.findIndex((c: any) => {
+      return c.value === sidebar.value!.props.modelValue
+    })
+
+    let currentIndex: number = sidebar.value.children.findIndex((c: any) => {
+      return c.value === props.value
+    })
+
+    if (currentIndex === activeIndex - 1) {
+      prefix = true
+    }
+  }
+  return prefix
+})
+
+const suffix = computed(() => {
+  let suffix: boolean = false
+  if (sidebar.value) {
+    let activeIndex: number = sidebar.value.children.findIndex((c: any) => {
+      return c.value === sidebar.value!.props.modelValue
+    })
+
+    let currentIndex: number = sidebar.value.children.findIndex((c: any) => {
+      return c.value === props.value
+    })
+
+    if (currentIndex === activeIndex + 1) {
+      suffix = true
+    }
+  }
+  return suffix
+})
+
+function handleClick() {
+  if (props.disabled) {
+    return
+  }
+  sidebar.value && sidebar.value.setChange(props.value, props.label)
+}
+</script>
+
+<style lang="scss">
+@use './index.scss';
+</style>

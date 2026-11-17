@@ -1,0 +1,41 @@
+---
+title: Hero
+description: Hero is a component for creating attractive landing page hero sections with a title, description, and customizable action buttons.
+category: Data Display
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { awesomeHeroClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## APIs
+
+<Api name="Hero" from=".." migrationKey="unheaded:0" />
+
+### HeroAction
+
+| Property     | Description                     | Type                     | Default |
+| ------------ | ------------------------------- | ------------------------ | ------- |
+| text         | Button text                     | `string`                 | -       |
+| link         | URL to navigate to              | `string`                 | -       |
+| type         | Button type                     | `'primary' \| 'default'` | -       |
+| github       | Whether to show GitHub icon     | `boolean`                | -       |
+| openExternal | Whether to open link in new tab | `boolean`                | -       |
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Hero`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/awesome/Hero.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={awesomeHeroClasses} />

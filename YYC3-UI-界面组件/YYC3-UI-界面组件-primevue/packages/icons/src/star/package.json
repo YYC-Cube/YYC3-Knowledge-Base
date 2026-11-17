@@ -1,0 +1,11 @@
+{
+    "main": "./StarIcon.vue",
+    "module": "./StarIcon.vue",
+    "types": "./StarIcon.d.ts",
+    "browser": {
+        "./sfc": "./StarIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

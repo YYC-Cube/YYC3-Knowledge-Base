@@ -1,0 +1,97 @@
+<template>
+  <page-wraper>
+    <view class="page-slide-verify">
+      <demo-group :title="$t('zu-jian-lei-xing')">
+        <demo-group-item :title="$t('ji-chu-yong-fa')">
+          <wd-slide-verify @success="handleSuccess" @fail="handleFail" />
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('zu-jian-zhuang-tai')">
+        <demo-group-item :title="$t('jin-yong-zhuang-tai')">
+          <wd-slide-verify disabled />
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('zu-jian-yang-shi')">
+        <demo-group-item :title="$t('zi-ding-yi-wen-an')">
+          <wd-slide-verify :text="$t('qing-tuo-dong-hua-kuai')" :success-text="$t('yan-zheng-cheng-gong')" />
+        </demo-group-item>
+        <demo-group-item :title="$t('zi-ding-yi-yan-se')">
+          <wd-slide-verify background-color="var(--wot-primary-1, #E8F4FF)" active-background-color="var(--wot-primary-5, #4D94FF)" />
+        </demo-group-item>
+        <demo-group-item :title="$t('zi-ding-yi-tu-biao')">
+          <wd-slide-verify icon="arrow-right" success-icon="thumb-up-fill" />
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('te-shu-yang-shi')">
+        <demo-group-item :title="$t('zi-ding-yi-rong-cuo-fan-wei')">
+          <wd-slide-verify :tolerance="20" />
+        </demo-group-item>
+        <demo-group-item :title="$t('zhong-zhi-fang-fa')">
+          <wd-slide-verify ref="slideVerifyRef" @success="handleSuccess" @fail="handleFail" />
+          <wd-button class="page-slide-verify__reset-button" type="primary" @click="handleReset">{{ $t('zhong-zhi') }}</wd-button>
+        </demo-group-item>
+        <demo-group-item :title="$t('cha-cao-yong-fa')">
+          <wd-slide-verify>
+            <template #text>
+              <text>{{ $t('hua-dong-yan-zheng') }}</text>
+            </template>
+            <template #success-text>
+              <text>{{ $t('yan-zheng-tong-guo') }}</text>
+            </template>
+            <template #icon>
+              <view>drag</view>
+            </template>
+            <template #success-icon>
+              <view class="page-slide-verify__success-icon-text">OK</view>
+            </template>
+          </wd-slide-verify>
+        </demo-group-item>
+      </demo-group>
+    </view>
+  </page-wraper>
+</template>
+
+<script lang="ts" setup>
+import { useToast } from '@/uni_modules/wot-ui'
+import type { SlideVerifyInstance } from '@/uni_modules/wot-ui/components/wd-slide-verify/types'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const toast = useToast()
+const { t } = useI18n()
+
+const slideVerifyRef = ref<SlideVerifyInstance>()
+
+function handleSuccess() {
+  toast.success(t('yan-zheng-cheng-gong'))
+}
+
+function handleFail() {
+  toast.error(t('yan-zheng-shi-bai-qing-chong-shi'))
+}
+
+function handleReset() {
+  slideVerifyRef.value?.reset()
+  toast.info(t('yi-zhong-zhi'))
+}
+</script>
+
+<style lang="scss" scoped>
+.page-slide-verify {
+  :deep(.wd-slide-verify) {
+    width: auto;
+    margin: 0 $spacing-super-loose;
+  }
+
+  &__reset-button {
+    margin-top: $spacing-super-loose;
+  }
+
+  &__success-icon-text {
+    color: $danger-main;
+  }
+}
+</style>

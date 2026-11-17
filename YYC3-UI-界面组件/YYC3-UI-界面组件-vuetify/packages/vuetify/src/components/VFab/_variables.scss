@@ -1,0 +1,32 @@
+@use 'sass:math';
+@use 'sass:map';
+@use '../../styles/settings';
+@use '../../styles/tools';
+
+$fab-height: 56px !default;
+$fab-font-size: map.get(settings.$typography, 'label-large', 'size') !default;
+$fab-transition-duration: 0.2s !default;
+$fab-transition-timing-function: settings.$standard-easing !default;
+$fab-width-ratio: math.div(16, 9) !default;
+$fab-padding-ratio: 2.25 !default;
+$fab-elevation: 3 !default;
+$fab-hover-elevation: 4 !default;
+
+$fab-size-scales: (
+  'x-small': -2,
+  'small': -1,
+  'default': 0,
+  'large': 2,
+  'x-large': 5
+) !default;
+
+$fab-sizes: () !default;
+$fab-sizes: map.merge(
+  (
+    'height': $fab-height,
+    'font-size': $fab-font-size,
+    'width-ratio': $fab-width-ratio,
+    'padding-ratio': $fab-padding-ratio
+  ),
+  $fab-sizes
+);

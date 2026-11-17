@@ -1,0 +1,169 @@
+{{#> reset grid--attribute=reset grid-item--attribute=reset grid--modifier=reset grid-item--modifier=reset l-flex--attribute=reset l-flex-item--attribute=reset l-flex--modifier=reset l-flex-item--modifier=reset}}
+  {{#> card card--id=card-template-status--id}}
+    {{#> card-header}}
+      {{#> title titleType="h2" title--modifier="pf-m-xl"}}
+        Status
+      {{/title}}
+    {{/card-header}}
+    {{#> card-body}}
+      {{#> gallery gallery--modifier="pf-m-gutter" gallery--attribute='style="--pf-v6-l-gallery--GridTemplateColumns--min: 100%; --pf-v6-l-gallery--GridTemplateColumns--min-on-sm: 180px; --pf-v6-l-gallery--GridTemplateColumns--min-on-lg: 150px; --pf-v6-l-gallery--GridTemplateColumns--max-on-sm: 1fr;"'}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-nowrap"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-success"}}
+                {{pfIcon "rh-ui-check-circle-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex-item}}
+            <span>Cluster</span>
+          {{/l-flex-item}}
+        {{/l-flex}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-nowrap"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-danger"}}
+                {{pfIcon "rh-ui-error-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex-item l-flex-item--modifier="pf-v6-u-text-nowrap"}}
+            <span class="popover-parent">
+              <a href="#">Control Panel</a>
+              {{> card-demo--popover popover--id=(concat card--id '-popover')}}
+            </span>
+          {{/l-flex-item}}
+        {{/l-flex}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-nowrap"}}
+          {{#> l-flex-item l-flex-item--modifier="pf-v6-u-text-nowrap"}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-danger"}}
+                {{pfIcon "rh-ui-error-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-none"}}
+            {{#> l-flex-item}}
+              <a href="#">Operators</a>
+            {{/l-flex-item}}
+            {{#> l-flex-item}}
+              <span class="pf-v6-u-text-color-subtle">1 degraded</span>
+            {{/l-flex-item}}
+          {{/l-flex}}
+        {{/l-flex}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-nowrap"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-success"}}
+                {{pfIcon "rh-ui-check-circle-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-none"}}
+            {{#> l-flex-item}}
+              <a href="#">Image Vulnerabilities</a>
+            {{/l-flex-item}}
+            {{#> l-flex-item}}
+              <span class="{{pfv 'u'}}color-200">0 vulnerabilities</span>
+            {{/l-flex-item}}
+          {{/l-flex}}
+        {{/l-flex}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-nowrap"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-success"}}
+                {{pfIcon "rh-ui-check-circle-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-none"}}
+            {{#> l-flex-item}}
+              <a href="#">Storage</a>
+            {{/l-flex-item}}
+            {{#> l-flex-item}}
+              <span class="{{pfv 'u'}}color-200">Degraded</span>
+            {{/l-flex-item}}
+          {{/l-flex}}
+        {{/l-flex}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-nowrap"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-success"}}
+                {{pfIcon "rh-ui-check-circle-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-none"}}
+            {{#> l-flex-item}}
+              <a href="#">Hardware</a>
+            {{/l-flex-item}}
+          {{/l-flex}}
+        {{/l-flex}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm pf-m-nowrap"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-success"}}
+                {{pfIcon "rh-ui-check-circle-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-none"}}
+            {{#> l-flex-item}}
+              <a href="#">Insights</a>
+            {{/l-flex-item}}
+          {{/l-flex}}
+        {{/l-flex}}
+      {{/gallery}}
+    {{/card-body}}
+    {{#unless card-template-status--HideNotificationDrawer}}
+      {{> divider}}
+      {{#> notification-drawer}}
+        {{#> notification-drawer-body}}
+          {{#> notification-drawer-group notification-drawer-group--IsExpanded=card-demo--notication-drawer--IsOpen}}
+            {{#> notification-drawer-group-toggle}}
+              {{#> notification-drawer-group-toggle-title}}
+                {{#> l-flex}}
+                  {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-md"}}
+                    Notifications
+                  {{/l-flex-item}}
+                  {{#> label-group label-group--id="label-group-notifications"}}
+                    {{#> label-group-main}}
+                      {{#> label-group-list label-group-list--attribute='aria-label="Group of labels"'}}
+                        {{#> label-group-list-item}}
+                          {{> label
+                              label--id="default-danger"
+                              label--status="danger"
+                              label-text--value="1"}}
+                        {{/label-group-list-item}}
+                        {{#> label-group-list-item}}
+                          {{> label
+                              label--id="default-warning"
+                              label--status="warning"
+                              label-text--value="1"}}
+                        {{/label-group-list-item}}
+                        {{#> label-group-list-item}}
+                          {{> label
+                              label--id="default-success"
+                              label--status="success"
+                              label-text--value="3"}}
+                        {{/label-group-list-item}}
+                        {{#> label-group-list-item}}
+                          {{> label
+                              label--id="default-info"
+                              label--status="info"
+                              label-text--value="3"}}
+                        {{/label-group-list-item}}
+                      {{/label-group-list}}
+                    {{/label-group-main}}
+                  {{/label-group}}
+                {{/l-flex}}
+              {{/notification-drawer-group-toggle-title}}
+              {{> notification-drawer-group-toggle-icon}}
+            {{/notification-drawer-group-toggle}}
+            {{> card-demo--notification-list}}
+          {{/notification-drawer-group}}
+        {{/notification-drawer-body}}
+      {{/notification-drawer}}
+    {{/unless}}
+  {{/card}}
+{{/reset}}

@@ -1,0 +1,67 @@
+import React from 'react';
+
+import parseTNode from '../../_util/parseTNode';
+import useDrag from '../hooks/useDrag';
+
+import type { ReactNode } from 'react';
+import type { UploadDragEvents } from '../hooks/useDrag';
+import type { CommonDisplayFileProps } from '../interface';
+import type { TdUploadProps } from '../type';
+
+export interface CustomFileProps extends CommonDisplayFileProps {
+  dragEvents: UploadDragEvents;
+  draggable?: boolean;
+  // 拖拽区域
+  dragContent?: TdUploadProps['dragContent'];
+  trigger?: TdUploadProps['trigger'];
+  triggerUpload?: () => void;
+  // 非拖拽场景，是触发元素；拖拽场景是拖拽区域
+  childrenNode?: ReactNode;
+}
+
+const CustomFile = (props: CustomFileProps) => {
+  const { classPrefix, displayFiles, accept } = props;
+  const drag = useDrag({ ...props.dragEvents, accept });
+  const { dragActive } = drag;
+
+  const dragEvents = props.draggable
+    ? {
+        onDrop: drag.handleDrop,
+        onDragEnter: drag.handleDragenter,
+        onDragOver: drag.handleDragover,
+        onDragLeave: drag.handleDragleave,
+      }
+    : {};
+
+  const renderDragContent = () => {
+    const childrenContent = parseTNode(props.childrenNode, { dragActive, files: displayFiles });
+    const triggerContent = parseTNode(props.trigger, { dragActive, files: displayFiles });
+    return (
+      <div
+        className={`${classPrefix}-upload__dragger ${classPrefix}-upload__dragger-center`}
+        {...dragEvents}
+        onClick={props.triggerUpload}
+      >
+        <div className={`${classPrefix}-upload__trigger`}>
+          {parseTNode(props.dragContent, { dragActive, files: displayFiles }) || triggerContent || childrenContent}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      {props.draggable ? (
+        renderDragContent()
+      ) : (
+        <div className={`${classPrefix}-upload__trigger`} onClick={props.triggerUpload}>
+          {props.childrenNode || props.children}
+        </div>
+      )}
+    </>
+  );
+};
+
+CustomFile.displayName = 'CustomFile';
+
+export default CustomFile;

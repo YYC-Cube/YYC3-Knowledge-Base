@@ -1,0 +1,13 @@
+<span class="{{pfv}}radio__description{{#if radio-description--modifier}} {{radio-description--modifier}}{{/if}}"
+  {{#if radio-description--text}}
+    id="{{radio--id}}-description"
+  {{/if}}
+  {{#if radio-description--attribute}}
+    {{{radio-description--attribute}}}
+  {{/if}}>
+  {{#if radio-description--text}}
+    {{radio-description--text}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</span>

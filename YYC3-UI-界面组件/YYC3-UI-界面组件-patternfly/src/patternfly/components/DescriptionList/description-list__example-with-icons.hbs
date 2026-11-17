@@ -1,0 +1,69 @@
+{{#> description-list}}
+  {{#> description-list-group}}
+    {{#> description-list-term}}
+      {{#> description-list-icon}}
+        {{pfIcon "rh-ui-wrap-text"}}
+      {{/description-list-icon}} 
+      {{#> description-list-text}}
+        This is a long description that should wrap to multiple lines in cases where the viewport is quite narrow.
+      {{/description-list-text}}
+    {{/description-list-term}}
+    {{#> description-list-description}}
+      example
+    {{/description-list-description}}
+  {{/description-list-group}}
+  {{#> description-list-group}}
+    {{#> description-list-term}}
+      {{#> description-list-icon}}
+        {{pfIcon "rh-ui-catalog-alt-fill"}}
+      {{/description-list-icon}}
+      {{#> description-list-text}}
+        Namespace
+      {{/description-list-text}}
+    {{/description-list-term}}
+    {{#> description-list-description}}
+      <a href="#">mary-test</a>
+    {{/description-list-description}}
+  {{/description-list-group}}
+  {{#> description-list-group}}
+    {{#> description-list-term}}
+      {{#> description-list-icon}}
+        {{pfIcon "rh-ui-key-fill"}}
+      {{/description-list-icon}}
+      {{#> description-list-text}}
+        Labels
+      {{/description-list-text}}
+    {{/description-list-term}}
+    {{#> description-list-description}}
+      example
+    {{/description-list-description}}
+  {{/description-list-group}}
+  {{#> description-list-group}}
+    {{#> description-list-term}}
+      {{#> description-list-icon}}
+        {{pfIcon "rh-ui-language-fill"}}
+      {{/description-list-icon}}
+      {{#> description-list-text}}
+        Pod selector
+      {{/description-list-text}}
+    {{/description-list-term}}
+    {{#> description-list-description}}
+      {{#> button button--IsLink=true button--icon="rh-ui-add-circle-fill" button--IsInline=true}}
+        app=MyApp
+      {{/button}}
+    {{/description-list-description}}
+  {{/description-list-group}}
+  {{#> description-list-group}}
+    {{#> description-list-term}}
+      {{#> description-list-icon}}
+        {{pfIcon "rh-ui-flag-fill"}}
+      {{/description-list-icon}}
+      {{#> description-list-text}}
+        Annotation
+      {{/description-list-text}}
+    {{/description-list-term}}
+    {{#> description-list-description}}
+      2 Annotations
+    {{/description-list-description}}
+  {{/description-list-group}}
+{{/description-list}}

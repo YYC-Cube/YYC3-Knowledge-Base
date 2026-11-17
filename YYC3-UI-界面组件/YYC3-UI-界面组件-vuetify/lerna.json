@@ -1,0 +1,17 @@
+{
+  "command": {
+    "publish": {
+      "allowBranch": [
+        "master",
+        "dev",
+        "next"
+      ],
+      "message": "chore(release): publish %s"
+    },
+    "version": {
+      "push": true
+    }
+  },
+  "npmClient": "pnpm",
+  "version": "4.3.3"
+}

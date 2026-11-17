@@ -1,0 +1,95 @@
+name: pr-preview
+on:
+  issue_comment:
+    types: [created]
+  pull_request_target:
+jobs:
+  check-permissions:
+    uses: patternfly/.github/.github/workflows/check-team-membership.yml@main
+    secrets: inherit
+  build-upload:
+    needs: check-permissions
+    if: needs.check-permissions.outputs.allowed == 'true'
+    runs-on: ubuntu-latest
+    env:
+      SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      GH_PR_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+      GH_PR_NUM:   ${{ needs.check-permissions.outputs.pr-number }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # Yes, we really want to checkout the PR
+      - run: |
+          git fetch origin pull/$GH_PR_NUM/head:tmp
+          git checkout tmp
+
+      - name: Resolve base branch
+        id: base
+        run: |
+          BASE_REF=$(gh pr view "$GH_PR_NUM" --json baseRefName -q .baseRefName)
+          echo "ref=$BASE_REF" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+
+      - run: |
+          git fetch origin "$BASE_REF"
+          git rev-parse "origin/$BASE_REF"
+          git rev-parse HEAD
+          git rev-parse "origin/$BASE_REF..HEAD"
+          git log "origin/$BASE_REF..HEAD" --format="%b"
+        env:
+          BASE_REF: ${{ steps.base.outputs.ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+          check-latest: true
+      
+      - name: Enable Corepack
+        shell: bash
+        run: corepack enable
+      
+      - uses: actions/cache@v4
+        id: yarn-cache
+        name: Load Yarn cache
+        with:
+          # Cache Yarn and Cypress binaries
+          path: |
+            ~/.cache/Cypress
+            ~/.cache/yarn
+            .yarn/cache
+          key: ${{ runner.os }}-pr-yarn-cache-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pr-yarn-cache-
+      
+      - name: Install dependencies
+        shell: bash
+        run: yarn install --immutable --network-timeout 100000
+      - run: yarn lint:sass
+        name: Lint SASS
+        if: always()
+      - run: yarn lint:js
+        name: Lint JS
+        if: always()
+      - run: yarn build-patternfly
+        name: Build patternfly
+      - uses: actions/cache@v4
+        id: docs-cache
+        name: Load webpack cache
+        with:
+          path: '.cache'
+          key: ${{ runner.os }}-pr-v4-${{ hashFiles('yarn.lock') }}
+      - run: yarn build:docs
+        name: Build docs
+      - run: node .github/upload-preview.js public
+        name: Upload docs
+        if: always()
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome
+      - run: yarn serve & yarn test
+        name: a11y tests
+      - run: node .github/upload-preview.js coverage
+        name: Upload a11y report
+        if: always()

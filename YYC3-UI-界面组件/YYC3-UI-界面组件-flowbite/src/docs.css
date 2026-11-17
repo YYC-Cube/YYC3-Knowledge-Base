@@ -1,0 +1,353 @@
+
+:root {
+    --shiki-foreground: #e1e4e8;               /* General editor foreground */
+    --shiki-background: #24292e;               /* Editor background */
+
+    --shiki-token-constant: var(--color-shiki-fg-brand);           /* constants, numbers, enums #79b8ff */
+    --shiki-token-string: var(--color-shiki-fg-brand-subtle);             /* #9ecbff string literals */
+    --shiki-token-comment: #6a737d;            /* comments */
+    --shiki-token-keyword: #f97583;            /* keywords (if, return, etc.) */
+    --shiki-token-parameter: #e1e4e8;          /* function parameters */
+    --shiki-token-function: #b392f0;           /* function & entity names */
+    --shiki-token-string-expression: var(--color-shiki-fg-brand);  /* string interpolation / embedded expressions #79b8ff */
+    --shiki-token-punctuation: #e1e4e8;        /* default text / punctuation */
+    --shiki-token-link: var(--color-shiki-fg-brand);               /* links and URLs #79b8ff */
+}
+
+.yt-video {
+    height: 250px;
+}
+
+@media only screen and (min-width: 768px) {
+	.yt-video {
+		height: 350px;
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	.yt-video {
+		height: 450px;
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	.collapse.collapsed {
+		display: none;
+	}
+}
+
+#TableOfContents > ul {
+	@apply overflow-x-hidden font-medium;
+}
+
+#TableOfContents > ul > li {
+	@apply py-2;
+}
+
+#TableOfContents > ul > li > a {
+	@apply block pl-2.5 font-medium border-l text-body hover:text-heading border-transparent duration-200 transition-none hover:border-default after:content-['#'] after:text-fg-brand after:ml-2 after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-100;
+}
+
+#TableOfContents > ul > li > ul > li > a {
+	@apply pl-6 border-l border-transparent duration-200 text-body hover:text-heading transition-none hover:border-default after:content-['#'] after:text-fg-brand after:ml-2 after:opacity-0 hover:after:opacity-100 after:transition-opacity after:duration-100;
+}
+
+#TableOfContents > ul > li > ul {
+	@apply pt-2;
+}
+
+#TableOfContents > ul > li > ul > li {
+	@apply py-2;
+}
+
+#TableOfContents > ul > li > ul > li:last-of-type {
+	@apply pb-0;
+}
+
+.highlight {
+	@apply overflow-hidden;
+}
+
+#mainContent > h2:first-child {
+	@apply mt-0;
+}
+
+#mainContent > h2 {
+	@apply mt-8 mb-4 text-2xl font-medium text-heading dark:text-white;
+}
+
+#mainContent > h3,
+#mainContent > h4 {
+	@apply mt-8 mb-4 text-xl font-medium text-heading dark:text-white;
+}
+
+#mainContent > p {
+	@apply mb-4 text-base font-normal text-body;
+}
+
+#mainContent > p > a,
+#mainContent > ul > li > a,
+#mainContent > ol > li > a,
+#mainContent > ul > li > p > a,
+#mainContent > ol > li > p > a {
+	@apply font-medium text-body underline decoration-1 underline-offset-2 decoration-fg-brand;
+}
+
+#mainContent > p > a:hover,
+#mainContent > ul > li > a:hover,
+#mainContent > ol > li > a:hover,
+#mainContent > ul > li > p > a:hover,
+#mainContent > ol > li > p > a:hover {
+	@apply text-heading decoration-2 dark:text-white;
+}
+
+#mainContent > p > code,
+#mainContent > ul > li > code,
+#mainContent > ol > li > code {
+	@apply px-2 mx-1 py-1 rounded-base bg-neutral-tertiary-soft font-mono text-sm text-fg-brand break-all inline-block;
+}
+
+#introContent {
+	background-size: 1256px;
+}
+
+#mainContent > ul {
+	list-style: disc;
+}
+
+#mainContent > ol {
+	list-style: decimal;
+}
+
+#mainContent p > strong {
+	@apply text-heading dark:text-white;
+}
+
+#mainContent > ul,
+#mainContent > ol {
+	padding-left: 1rem;
+}
+
+#mainContent > ul > li,
+#mainContent > ol > li {
+	@apply mb-4 text-base font-normal text-body;
+}
+
+#carbonads * {
+	margin: initial;
+	padding: initial;
+}
+#carbonads {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+		Helvetica, Arial, sans-serif;
+	@apply m-0;
+}
+#carbonads {
+	display: flex;
+	max-width: 330px;
+	box-shadow: 0 1px 4px 1px hsla(0, 0%, 0%, 0.1);
+	z-index: 100;
+	@apply bg-neutral-tertiary text-body;
+}
+#carbonads a {
+	color: inherit;
+	text-decoration: none;
+}
+#carbonads a:hover {
+	color: inherit;
+}
+#carbonads span {
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+#carbonads .carbon-wrap {
+	display: flex;
+}
+#carbonads .carbon-img {
+	display: block;
+	margin: 0;
+	line-height: 1;
+}
+#carbonads .carbon-img img {
+	display: block;
+}
+#carbonads .carbon-text {
+	font-size: 13px;
+	padding: 10px;
+	margin-bottom: 16px;
+	line-height: 1.5;
+	text-align: left;
+}
+#carbonads .carbon-poweredby {
+	@apply bg-neutral-tertiary;
+	display: block;
+	padding: 6px 8px;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+	font-size: 8px;
+	line-height: 1;
+	/* border-left-radius: 3px; */
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+/* Search */
+
+.DocSearch.DocSearch-Button {
+	@apply p-3 m-0 md:w-32 border-buffer items-center justify-center focus:outline-none focus:ring-4 focus:ring-neutral-tertiary md:justify-between h-[36px] w-[36px] md:bg-neutral-secondary-soft bg-neutral-primary rounded-base border md:border-default md:border-solid shadow-none xl:pl-3 flex hover:bg-neutral-tertiary xl:w-64 hover:shadow-none focus:shadow-none;
+}
+
+.DocSearch-Button-Placeholder {
+	@apply text-sm font-normal text-body;
+}
+
+.DocSearch-Search-Icon {
+	@apply text-body w-3 h-3;
+}
+
+.DocSearch-MagnifierLabel .DocSearch-Search-Icon {
+	@apply w-3 h-3;
+}
+
+.DocSearch-Hit-icon {
+	@apply text-body-subtle;
+}
+
+.DocSearch-Button-Keys {
+	@apply items-center min-w-0;
+}
+
+.DocSearch-Button-Key:first-child {
+  @apply mr-px text-base;
+}
+
+.DocSearch-Button-Key {
+	@apply w-auto pt-1 pb-0 m-0 text-xs font-normal text-body shadow-none bg-none;
+}
+
+.DocSearch-Button .DocSearch-Search-Icon {
+	@apply text-body w-4 h-4;
+}
+.DocSearch-Hits mark {
+	@apply text-fg-brand dark:text-white decoration-2 underline-offset-2 decoration-brand dark:decoration-white;
+}
+
+.DocSearch-Hit[aria-selected=true] a {
+	@apply bg-brand dark:bg-brand;
+}
+
+.DocSearch-Hit-source {
+	@apply pb-1 text-body bg-neutral-primary-medium;
+}
+
+.DocSearch-Container {
+	@apply bg-dark/50 dark:bg-dark/80;
+}
+
+.DocSearch-Modal {
+	@apply mx-auto mt-[1rem] max-h-[calc(100vh-2rem)] w-full max-w-[calc(100vw-2rem)] overflow-hidden shadow-none rounded-lg lg:mt-[4rem] lg:max-h-none lg:max-w-xl bg-transparent;
+}
+
+.DocSearch-SearchBar {
+	@apply p-0 border-b border-default-medium bg-neutral-primary-medium rounded-t-base;
+}
+
+.DocSearch-Form {
+	@apply shadow-none bg-neutral-primary-medium;
+}
+
+.DocSearch-Input {
+	@apply text-sm text-body shadow-none dark:text-white focus:shadow-none focus:ring-0 bg-neutral-primary-medium;
+}
+
+.DocSearch-LoadingIndicator svg, .DocSearch-MagnifierLabel svg {
+	@apply w-4 h-4;
+}
+
+.DocSearch-Commands {
+	@apply hidden;
+}
+
+.DocSearch-Footer {
+	@apply h-12 border-t border-default-medium shadow-none bg-neutral-primary-medium rounded-b-base;
+}
+
+.DocSearch-Dropdown {
+	@apply bg-neutral-primary-medium;
+}
+
+.DocSearch-Hit {
+	@apply pb-2 shadow-none;
+}
+
+.DocSearch-Hit a {
+	@apply rounded-lg shadow-none bg-neutral-secondary-strong dark:hover:bg-brand;
+}
+
+.DocSearch-Hit-path {
+	@apply text-body-subtle;
+}
+
+.DocSearch-Hit[aria-selected=true] .DocSearch-Hit-Select-Icon,
+.DocSearch-Hit-action-button {
+	@apply hidden;
+}
+
+.DocSearch-Hit .DocSearch-Hit-action:last-child {
+  @apply w-5 h-5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='m10 16 4-4-4-4'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg ... %3E...%3C/svg%3E");
+}
+
+
+.DocSearch-Hit[aria-selected=true] .DocSearch-Hit-action:last-child {
+	@apply stroke-body text-body;
+}
+
+.DocSearch-Screen-Icon,
+.DocSearch-NoResults-Prefill-List,
+.DocSearch-Cancel {
+	@apply hidden;
+}
+
+.DocSearch-Title {
+	@apply mb-1 text-base font-normal text-body;
+}
+
+.DocSearch-Hit-Container {
+	@apply text-body;
+}
+
+.DocSearch-Logo svg {
+	@apply text-body;
+}
+
+.DocSearch-Reset {
+	@apply text-body hover:text-heading;
+}
+
+.formkit-alert.formkit-alert-success {
+	@apply p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-gray-800 dark:text-green-400 font-medium;
+}
+
+.formkit-alert.formkit-alert-error:not(:empty) {
+	@apply p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-gray-800 dark:text-red-400;
+}
+
+/* html {
+  @apply scroll-smooth;
+} */
+
+#navWrapper::-webkit-scrollbar,
+#toc::-webkit-scrollbar {
+	display: none; /* Chrome, Safari and Opera */
+}
+
+#navWrapper, #toc {
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+  	scrollbar-width: none; /* Firefox */
+}

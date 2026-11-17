@@ -1,0 +1,61 @@
+.root {
+  --primary-swatch-size: 220px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.primarySwatch {
+  width: 100%;
+  height: calc(var(--primary-swatch-size) / 1.5);
+  border-radius: var(--mantine-radius-md);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  position: relative;
+  transition:
+    background-color 100ms ease,
+    color 100ms ease;
+}
+
+.swatches {
+  align-items: center;
+  display: flex;
+  gap: 2px;
+}
+
+.secondarySwatch {
+  width: 10%;
+  height: calc(var(--primary-swatch-size) / 10);
+  font-size: var(--mantine-font-size-xs);
+  font-family: var(--mantine-font-family-monospace);
+  text-transform: uppercase;
+}
+
+.name {
+  position: absolute;
+  top: 12px;
+  inset-inline-start: 12px;
+  text-transform: capitalize;
+  font-family: var(--docs-font-primary);
+  font-weight: 600;
+}
+
+.colorIndex {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+  font-family: var(--docs-font-primary);
+  font-weight: 600;
+}
+
+.colorValue {
+  position: absolute;
+  bottom: 12px;
+  inset-inline-end: 12px;
+  text-transform: uppercase;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--mantine-font-size-sm);
+}

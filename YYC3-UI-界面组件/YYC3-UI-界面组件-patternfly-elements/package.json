@@ -1,0 +1,315 @@
+{
+  "name": "@patternfly/patternfly-elements",
+  "private": true,
+  "type": "module",
+  "description": "Monorepo for the PatternFly Elements project.",
+  "repository": {
+    "type": "git",
+    "url": "github:patternfly/patternfly-elements"
+  },
+  "engines": {
+    "node": "^22"
+  },
+  "scripts": {
+    "🐒-DEV": "❓ Development aids",
+    "start": "wireit",
+    "serve": "wireit",
+    "dev": "wireit",
+    "🚧-BUILD": "❓ Make packages and artifacts",
+    "build": "wireit",
+    "build:create": "wireit",
+    "analyze": "wireit",
+    "docs": "wireit",
+    "site": "npm run build",
+    "new": "npm run build:create && ./tools/create-element/bin/main.js",
+    "🧪-TEST": "❓ Test packages",
+    "test": "wireit",
+    "test:ci": "wireit",
+    "test:ssr": "wireit",
+    "test:watch": "wtr --watch",
+    "e2e": "wireit",
+    "e2e:update": "wireit",
+    "🚚-DIST": "❓ Publish packages",
+    "leftover-check": "bash scripts/leftover-check.sh",
+    "⚙️--UTIL": "❓ Manages the repo",
+    "postinstall": "wireit",
+    "clean": "git clean -dfx -e node_modules -e .husky",
+    "nuke": "git clean -dfx",
+    "lint": "eslint",
+    "patch": "patch-package",
+    "husky": "husky"
+  },
+  "wireit": {
+    "postinstall": {
+      "dependencies": [
+        "patch",
+        "husky"
+      ]
+    },
+    "build": {
+      "dependencies": [
+        "build:tools",
+        "analyze",
+        "docs",
+        "build:core",
+        "build:lightdom",
+        "build:elements",
+        "build:create",
+        "build:react"
+      ]
+    },
+    "analyze": {
+      "command": "npm run -ws --if-present analyze",
+      "files": [
+        "elements/*/demo/*.html",
+        "elements/**/*.ts",
+        "elements/**/*.css",
+        "core/**/*.ts",
+        "tools/**/*.ts"
+      ],
+      "output": [
+        "elements/custom-elements.json",
+        "core/pfe-core/custom-elements.json"
+      ]
+    },
+    "build:create": {
+      "command": "tsc -b tools/create-element",
+      "files": [
+        "tools/create-element/*.ts",
+        "tools/create-element/generator/**/*.ts"
+      ],
+      "output": [
+        "tools/create-element/*.tsbuildinfo"
+      ],
+      "dependencies": [
+        "build:core",
+        "build:tools"
+      ]
+    },
+    "build:elements": {
+      "command": "tspc --build elements/tsconfig.build.json --pretty",
+      "dependencies": [
+        "build:core"
+      ],
+      "files": [
+        "elements/*/*.ts",
+        "!elements/*/*.d.ts",
+        "elements/*/*.css",
+        "elements/tsconfig.json",
+        "tsconfig.settings.json"
+      ],
+      "output": [
+        "elements/*/*.js",
+        "elements/*/*.js.map",
+        "elements/*/*.d.ts",
+        "elements/*.tsbuildinfo"
+      ]
+    },
+    "build:tools": {
+      "command": "tsc --build tools/pfe-tools --pretty",
+      "files": [
+        "tools/pfe-tools/*.ts",
+        "tools/pfe-tools/**/*.ts",
+        "!tools/**/*.d.ts"
+      ],
+      "output": [
+        "tools/pfe-tools/**/*.js",
+        "tools/pfe-tools/**/*.map",
+        "tools/pfe-tools/**/*.d.ts",
+        "tools/**/*.tsbuildinfo"
+      ]
+    },
+    "build:core": {
+      "command": "tspc --build ./core/pfe-core --pretty",
+      "dependencies": [
+        "build:tools"
+      ],
+      "files": [
+        "core/**/*.ts",
+        "core/tsconfig.json",
+        "!core/**/*.d.ts"
+      ],
+      "output": [
+        "core/**/*.js",
+        "core/**/*.map",
+        "core/**/*.d.ts",
+        "core/**/*.tsbuildinfo"
+      ]
+    },
+    "build:react": {
+      "command": "npx tsx scripts/generate-react-wrappers.ts",
+      "dependencies": [
+        "build:core",
+        "analyze"
+      ],
+      "files": [
+        "elements/custom-elements.json",
+        "scripts/generate-react-wrappers.ts",
+        "tools/pfe-tools/react/generate-wrappers.ts"
+      ],
+      "output": [
+        "react/**/*"
+      ]
+    },
+    "build:lightdom": {
+      "command": "npm run build:lightdom --workspaces --if-present",
+      "dependencies": [
+        "build:core"
+      ]
+    },
+    "docs": {
+      "command": "eleventy --incremental",
+      "files": [
+        "elements/*/docs/*",
+        "docs/**/*"
+      ],
+      "output": [
+        "_site"
+      ],
+      "dependencies": [
+        "build:core",
+        "build:elements",
+        "analyze"
+      ]
+    },
+    "dev": {
+      "command": "web-dev-server --open --watch",
+      "service": true,
+      "dependencies": [
+        "build:elements",
+        "analyze"
+      ]
+    },
+    "watch:core": {
+      "service": true,
+      "command": "tspc --build --watch ./core/pfe-core --pretty"
+    },
+    "watch:analyze": {
+      "service": true,
+      "command": "nodemon --quiet --watch elements/**/*.ts core/**/*.ts tools/**/*.ts --ext ts --ignore node_modules --exec 'npm run analyze'"
+    },
+    "serve": {
+      "service": true,
+      "command": "eleventy --serve",
+      "dependencies": [
+        "build:core",
+        "build:elements"
+      ]
+    },
+    "start": {
+      "dependencies": [
+        "dev",
+        "serve"
+      ]
+    },
+    "test": {
+      "command": "wtr",
+      "files": [
+        "**/*.ts",
+        "**/*.css"
+      ],
+      "output": [],
+      "dependencies": [
+        "build:tools",
+        "build:core"
+      ]
+    },
+    "new": {
+      "command": "./tools/create-element/bin/main.js",
+      "dependencies": [
+        "build:create"
+      ]
+    },
+    "test:ci": {
+      "command": "wtr",
+      "files": [
+        "**/*.ts",
+        "**/*.css"
+      ],
+      "output": [],
+      "dependencies": [
+        "build:tools",
+        "build:core"
+      ]
+    },
+    "test:ssr": {
+      "command": "npx playwright test -g ssr --update-snapshots",
+      "dependencies": [
+        "clean",
+        "build:tools",
+        "build:core",
+        "build:elements"
+      ]
+    },
+    "e2e": {
+      "command": "PW_EXPERIMENTAL_TS_ESM=1 playwright test",
+      "dependencies": [
+        "build:tools",
+        "build:core",
+        "analyze",
+        "docs",
+        "build:elements"
+      ]
+    },
+    "e2e:update": {
+      "command": "PW_EXPERIMENTAL_TS_ESM=1 playwright test --update-snapshots",
+      "dependencies": [
+        "build:tools",
+        "build:core",
+        "analyze",
+        "docs",
+        "build:elements"
+      ]
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix"
+  },
+  "devDependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/exec": "^1.1.1",
+    "@actions/glob": "^0.5.0",
+    "@commitlint/cli": "^19.4.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@lit/react": "^1.0.8",
+    "@octokit/core": "^6.1.2",
+    "@patternfly/patternfly": "^4.224.5",
+    "@pwrs/cem": "^0.7.5",
+    "@pwrs/mappa": "^0.0.4",
+    "@rhds/elements": "^4.0.1",
+    "@types/koa__router": "^12.0.5",
+    "@types/node": "^22.19.0",
+    "@types/numeral": "^2.0.5",
+    "@types/prismjs": "^1.26.5",
+    "@types/prompts": "^2.4.9",
+    "chalk": "^5.6.2",
+    "commitlint": "^19.4.0",
+    "eslint": "^9.39.2",
+    "execa": "^9.6.1",
+    "fuse.js": "^7.1.0",
+    "husky": "^9.1.7",
+    "leasot": "^14.4.0",
+    "lit": "^3.3.2",
+    "nodemon": "^3.1.11",
+    "nunjucks": "^3.2.4",
+    "postcss-nesting": "^13.0.2",
+    "prompts": "^2.4.2",
+    "typescript": "^5.9.3",
+    "wireit": "^0.14.12",
+    "zero-md": "^3.1.7"
+  },
+  "optionalDependencies": {
+    "@esbuild/darwin-arm64": "^0.27.2",
+    "@esbuild/linux-x64": "^0.27.2",
+    "@pwrs/cem-darwin-arm64": "^0.7.5",
+    "@pwrs/cem-darwin-x64": "^0.9.19",
+    "@pwrs/cem-linux-arm64": "^0.7.5",
+    "@pwrs/cem-linux-x64": "^0.7.5",
+    "@rollup/rollup-darwin-arm64": "^4.54.0"
+  },
+  "workspaces": [
+    "./core/*",
+    "./elements",
+    "./tools/*"
+  ]
+}

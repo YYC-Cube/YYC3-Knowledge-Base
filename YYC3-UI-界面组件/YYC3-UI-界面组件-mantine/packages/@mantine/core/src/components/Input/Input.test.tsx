@@ -1,0 +1,259 @@
+import { createRef } from 'react';
+import { render, screen, tests } from '@mantine-tests/core';
+import { Input, InputProps, InputStylesNames } from './Input';
+import { InputClearButton } from './InputClearButton/InputClearButton';
+import { InputDescription } from './InputDescription/InputDescription';
+import { InputError } from './InputError/InputError';
+import { InputLabel } from './InputLabel/InputLabel';
+import { InputPlaceholder } from './InputPlaceholder/InputPlaceholder';
+import { InputSuccess } from './InputSuccess/InputSuccess';
+import { InputWrapper } from './InputWrapper/InputWrapper';
+
+const defaultProps: InputProps = {
+  rightSection: 'right',
+  leftSection: 'left',
+};
+
+const getInputWrapper = (element: HTMLElement) => element.querySelector('.mantine-Input-wrapper')!;
+
+describe('@mantine/core/Input', () => {
+  tests.axe([
+    <Input aria-label="test-input" key="1" />,
+    <Input placeholder="test-input" key="2" />,
+    <Input placeholder="test-input" error key="3" />,
+    <Input.Wrapper
+      id="test-id"
+      label="test-label"
+      description="test-description"
+      error="test-error"
+      key="4"
+    >
+      <Input id="test-id" />
+    </Input.Wrapper>,
+  ]);
+
+  tests.itSupportsSystemProps<InputProps, InputStylesNames>({
+    component: Input,
+    props: defaultProps,
+    varsResolver: true,
+    polymorphic: true,
+    polymorphicSelector: '.mantine-Input-input',
+    displayName: '@mantine/core/Input',
+    stylesApiSelectors: ['input', 'section', 'wrapper'],
+  });
+
+  tests.itSupportsFocusEvents<InputProps>({
+    component: Input,
+    props: defaultProps,
+    selector: '.mantine-Input-input',
+  });
+
+  tests.itSupportsInputSections<InputProps>({
+    component: Input,
+    props: defaultProps,
+  });
+
+  it('sets data-error attribute based on error prop', () => {
+    const { rerender, container } = render(<Input error />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('data-error');
+    expect(getInputWrapper(container)).toHaveAttribute('data-error');
+
+    rerender(<Input error={false} />);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('data-error');
+    expect(getInputWrapper(container)).not.toHaveAttribute('data-error');
+  });
+
+  it('sets data-success attribute based on success prop', () => {
+    const { rerender, container } = render(<Input success />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('data-success');
+    expect(getInputWrapper(container)).toHaveAttribute('data-success');
+
+    rerender(<Input success={false} />);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('data-success');
+    expect(getInputWrapper(container)).not.toHaveAttribute('data-success');
+  });
+
+  it('does not set data-success when error is also set', () => {
+    const { container } = render(<Input error success />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('data-error');
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('data-success');
+    expect(getInputWrapper(container)).toHaveAttribute('data-error');
+    expect(getInputWrapper(container)).not.toHaveAttribute('data-success');
+  });
+
+  it('sets data-multiline attribute based on multiline prop', () => {
+    const { rerender, container } = render(<Input multiline />);
+    expect(getInputWrapper(container)).toHaveAttribute('data-multiline');
+
+    rerender(<Input multiline={false} />);
+    expect(getInputWrapper(container)).not.toHaveAttribute('data-multiline');
+  });
+
+  it('sets data-with-left-section attribute based on leftSection prop', () => {
+    const { rerender, container } = render(<Input leftSection="test" />);
+    expect(getInputWrapper(container)).toHaveAttribute('data-with-left-section');
+
+    rerender(<Input leftSection={null} />);
+    expect(getInputWrapper(container)).not.toHaveAttribute('data-with-left-section');
+  });
+
+  it('sets data-with-right-section attribute based on rightSection prop', () => {
+    const { rerender, container } = render(<Input rightSection="test" />);
+    expect(getInputWrapper(container)).toHaveAttribute('data-with-right-section');
+
+    rerender(<Input rightSection={null} />);
+    expect(getInputWrapper(container)).not.toHaveAttribute('data-with-right-section');
+  });
+
+  it('sets data-with-bottom-section attribute based on __bottomSection prop', () => {
+    const { rerender, container } = render(<Input __bottomSection="test" />);
+    expect(getInputWrapper(container)).toHaveAttribute('data-with-bottom-section');
+
+    rerender(<Input __bottomSection={null} />);
+    expect(getInputWrapper(container)).not.toHaveAttribute('data-with-bottom-section');
+  });
+
+  it('sets data-pointer attribute based on pointer prop', () => {
+    const { rerender, container } = render(<Input pointer />);
+    expect(getInputWrapper(container)).toHaveAttribute('data-pointer');
+
+    rerender(<Input pointer={false} />);
+    expect(getInputWrapper(container)).not.toHaveAttribute('data-pointer');
+  });
+
+  it('sets data-disabled attribute based on disabled prop', () => {
+    const { rerender } = render(<Input disabled />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('data-disabled');
+
+    rerender(<Input disabled={false} />);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('data-disabled');
+  });
+
+  it('sets aria-invalid attribute based on error prop', () => {
+    const { rerender } = render(<Input error />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true');
+
+    rerender(<Input error={false} />);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-invalid');
+  });
+
+  it('sets data-variant attribute based on variant prop', () => {
+    const { rerender, container } = render(<Input variant="filled" />);
+    expect(getInputWrapper(container)).toHaveAttribute('data-variant', 'filled');
+    expect(screen.getByRole('textbox')).toHaveAttribute('data-variant', 'filled');
+
+    rerender(<Input variant="unstyled" />);
+    expect(getInputWrapper(container)).toHaveAttribute('data-variant', 'unstyled');
+    expect(screen.getByRole('textbox')).toHaveAttribute('data-variant', 'unstyled');
+  });
+
+  it('has aria-describedby attribute with id of description element', () => {
+    render(
+      <Input.Wrapper label="test" description="test-description" id="test-id">
+        <Input id="test-id" />
+      </Input.Wrapper>
+    );
+
+    expect(screen.getByRole('textbox')).toHaveAttribute(
+      'aria-describedby',
+      screen.getByText('test-description').id
+    );
+  });
+
+  it('has aria-describedby attribute with id of error element', () => {
+    render(
+      <Input.Wrapper label="test" error="test-error" id="test-id">
+        <Input id="test-id" />
+      </Input.Wrapper>
+    );
+
+    expect(screen.getByRole('textbox')).toHaveAttribute(
+      'aria-describedby',
+      screen.getByText('test-error').id
+    );
+  });
+
+  it('sets disabled attribute based on disabled prop', () => {
+    const { rerender } = render(<Input disabled />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('disabled');
+
+    rerender(<Input disabled={false} />);
+    expect(screen.getByRole('textbox')).not.toHaveAttribute('disabled');
+  });
+
+  it('allows setting size attribute on the input element', () => {
+    render(<Input inputSize="5" />);
+    expect(screen.getByRole('textbox')).toHaveAttribute('size', '5');
+  });
+
+  it('displays given __clearSection in right section if __clearable is true', () => {
+    const { rerender } = render(<Input __clearable __clearSection="clear" />);
+    expect(screen.getByText('clear')).toBeInTheDocument();
+
+    rerender(<Input __clearable={false} __clearSection="clear" />);
+    expect(screen.queryByText('clear')).not.toBeInTheDocument();
+  });
+
+  it('displays __clearSection next to rightSection', () => {
+    render(
+      <Input __clearable __clearSection={<span>clear</span>} rightSection={<span>right</span>} />
+    );
+    expect(screen.getByText('clear')).toBeInTheDocument();
+    expect(screen.getByText('right')).toBeInTheDocument();
+  });
+
+  it('displays __defaultRightSection if __clearable is false and __clearSection is set', () => {
+    const { rerender } = render(
+      <Input
+        __clearable={false}
+        __clearSection="clear"
+        __defaultRightSection={<span>default-right-section</span>}
+      />
+    );
+    expect(screen.getByText('default-right-section')).toBeInTheDocument();
+    expect(screen.queryByText('clear')).not.toBeInTheDocument();
+
+    rerender(
+      <Input
+        __clearable
+        __clearSection="clear"
+        __defaultRightSection={<span>default-right-section</span>}
+      />
+    );
+    expect(screen.queryByText('default-right-section')).toBeInTheDocument();
+    expect(screen.getByText('clear')).toBeInTheDocument();
+
+    rerender(
+      <Input
+        rightSection={<span>right-section</span>}
+        __clearable
+        __clearSection="clear"
+        __defaultRightSection={<span>default-right-section</span>}
+      />
+    );
+    expect(screen.queryByText('default-right-section')).not.toBeInTheDocument();
+    expect(screen.queryByText('clear')).toBeInTheDocument();
+    expect(screen.getByText('right-section')).toBeInTheDocument();
+  });
+
+  it('sets rootRef on the wrapper element', () => {
+    const ref = createRef<HTMLDivElement>();
+    const { container } = render(<Input rootRef={ref} />);
+    expect(ref.current).toBe(getInputWrapper(container));
+  });
+
+  it('exposes compound components', () => {
+    expect(Input.Wrapper).toBe(InputWrapper);
+    expect(Input.Label).toBe(InputLabel);
+    expect(Input.Description).toBe(InputDescription);
+    expect(Input.Error).toBe(InputError);
+    expect(Input.Success).toBe(InputSuccess);
+    expect(Input.Placeholder).toBe(InputPlaceholder);
+    expect(Input.ClearButton).toBe(InputClearButton);
+  });
+
+  it('passes loaderProps to the Loader component', () => {
+    const { container } = render(<Input loading loaderProps={{ className: 'test-loader' }} />);
+    expect(container.querySelector('.test-loader')).toBeInTheDocument();
+  });
+});

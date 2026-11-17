@@ -1,0 +1,10 @@
+<span class="{{pfv}}progress__status-icon{{#if progress-status-icon--modifier}} {{progress-status-icon--modifier}}{{/if}}"
+  {{#if progress-status-icon--attribute}}
+    {{{progress-status-icon--attribute}}}
+  {{/if}}>
+  {{#if progress-status-icon--type}}
+    {{pfIcon progress-status-icon--type}}
+  {{else}}
+    {{> @partial-block}}
+  {{/if}}
+</span>

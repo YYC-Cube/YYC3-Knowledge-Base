@@ -1,0 +1,15 @@
+<script lang="ts">
+  import type { HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { useTimerContext } from './use-timer-context.ts'
+
+  export interface TimerSeparatorBaseProps extends PolymorphicProps<'div'>, RefAttribute {}
+  export interface TimerSeparatorProps extends HTMLProps<'div'>, TimerSeparatorBaseProps {}
+
+  let { ref = $bindable(null), ...props }: TimerSeparatorProps = $props()
+  const timer = useTimerContext()
+  const mergedProps = $derived(mergeProps(timer().getSeparatorProps(), props))
+</script>
+
+<Ark as="div" bind:ref {...mergedProps} />

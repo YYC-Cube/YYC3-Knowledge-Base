@@ -1,0 +1,58 @@
+{
+  "version": "3.20.10",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bootstrap": "pnpm install && node scripts/bootstrap.mjs",
+    "build": "pnpm --dir ./packages/varlet-ui build",
+    "build:play": "pnpm --dir ./packages/varlet-ui-playground build",
+    "changelog": "rt changelog",
+    "clean": "rt clean",
+    "compile": "pnpm --dir ./packages/varlet-ui compile",
+    "compile:style-vars": "pnpm --dir ./packages/varlet-ui compile:style-vars",
+    "create": "pnpm --dir ./packages/varlet-ui run create",
+    "dev": "pnpm --dir ./packages/varlet-ui dev",
+    "dev:play": "pnpm --dir ./packages/varlet-ui-playground dev",
+    "format": "vp fmt",
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "vp config --hooks-dir .vite-hooks && rt hook",
+    "lint": "vp lint --fix",
+    "preview": "pnpm --dir ./packages/varlet-ui preview",
+    "preview:play": "pnpm --dir ./packages/varlet-ui-playground preview",
+    "release": "node scripts/release.mjs",
+    "release:extension": "pnpm --dir ./packages/varlet-vscode-extension release",
+    "test": "pnpm --dir ./packages/varlet-ui test",
+    "test:coverage": "pnpm --dir ./packages/varlet-ui test:coverage",
+    "test:watch": "pnpm --dir ./packages/varlet-ui test:watch"
+  },
+  "devDependencies": {
+    "@varlet/cli": "workspace:*",
+    "esbuild": "0.28.1",
+    "nanospinner": "^1.1.0",
+    "rattail": "catalog:",
+    "tinyexec": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "engines": {
+    "node": "^22.18.0 || ^24.11.0 || >=26.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.9",
+  "pnpm": {
+    "overrides": {
+      "vite@*": "catalog:",
+      "vitest@*": "catalog:"
+    },
+    "peerDependencyRules": {
+      "allowAny": [
+        "vite",
+        "vitest"
+      ],
+      "allowedVersions": {
+        "vite": "*",
+        "vitest": "*"
+      }
+    }
+  }
+}

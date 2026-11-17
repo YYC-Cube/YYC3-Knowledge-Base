@@ -1,0 +1,17 @@
+{{#> breadcrumb-item}}
+  {{> breadcrumb-item-divider}}
+  {{#> breadcrumb-dropdown}}
+    {{#> menu-toggle menu-toggle--IsText=true menu-toggle--IsPlain=true menu-toggle--IsSmall=true}}
+      {{#> menu-toggle-count}}
+        {{#> badge badge--modifier="pf-m-read"}}
+          {{menu-toggle--badge--text}}
+        {{/badge}}
+      {{/menu-toggle-count}}
+      {{#> menu-toggle-controls}}
+        {{#> menu-toggle-toggle-icon}}
+          {{pfIcon "rh-ui-caret-down-fill"}}
+        {{/menu-toggle-toggle-icon}}
+      {{/menu-toggle-controls}}
+    {{/menu-toggle}}
+  {{/breadcrumb-dropdown}}
+{{/breadcrumb-item}}

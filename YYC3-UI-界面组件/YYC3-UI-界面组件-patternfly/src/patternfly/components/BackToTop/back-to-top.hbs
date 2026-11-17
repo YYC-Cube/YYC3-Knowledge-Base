@@ -1,0 +1,8 @@
+<div class="{{pfv}}back-to-top{{#if back-to-top--modifier}} {{back-to-top--modifier}}{{/if}}"
+  {{#if back-to-top--attribute}}
+    {{{back-to-top--attribute}}}
+  {{/if}}>
+  {{#> button button--IsAnchor=true button--icon="angle-up" button-icon--IsEnd=true button--url=(concat '#' back-to-top--target) button--IsPrimary=true}}
+    Back to top
+  {{/button}}
+</div>

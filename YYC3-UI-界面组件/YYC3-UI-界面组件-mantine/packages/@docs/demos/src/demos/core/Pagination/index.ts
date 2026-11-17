@@ -1,0 +1,14 @@
+export { configurator } from './Pagination.demo.configurator';
+export { siblings } from './Pagination.demo.siblings';
+export { boundaries } from './Pagination.demo.boundaries';
+export { usage } from './Pagination.demo.usage';
+export { stylesApi } from './Pagination.demo.stylesApi';
+export { composition } from './Pagination.demo.composition';
+export { icons } from './Pagination.demo.icons';
+export { links } from './Pagination.demo.links';
+export { withContent } from './Pagination.demo.withContent';
+export { autoContrast } from './Pagination.demo.autoContrast';
+export { withPages } from './Pagination.demo.withPages';
+export { size } from './Pagination.demo.size';
+export { startValue } from './Pagination.demo.startValue';
+export { responsive } from './Pagination.demo.responsive';

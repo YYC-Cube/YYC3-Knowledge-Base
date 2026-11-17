@@ -1,0 +1,39 @@
+import { mergeProps } from '@zag-js/solid'
+import type { JSX } from 'solid-js'
+import type { Assign } from '../../types.ts'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import {
+  type RenderStrategyProps,
+  RenderStrategyProvider,
+  splitRenderStrategyProps,
+} from '../../utils/render-strategy.ts'
+import type { TreeNode } from '../collection/index.tsx'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+import type { UseTreeViewReturn } from './use-tree-view.ts'
+import { TreeViewProvider } from './use-tree-view-context.ts'
+
+interface RootProviderProps<T extends TreeNode> {
+  value: UseTreeViewReturn<T>
+}
+export interface TreeViewRootProviderBaseProps<T extends TreeNode>
+  extends RootProviderProps<T>, RenderStrategyProps, PolymorphicProps<'div'> {}
+export interface TreeViewRootProviderProps<T extends TreeNode>
+  extends HTMLProps<'div'>, TreeViewRootProviderBaseProps<T> {}
+
+export const TreeViewRootProvider = <T extends TreeNode>(props: TreeViewRootProviderProps<T>) => {
+  const [renderStrategyProps, treeViewProps] = splitRenderStrategyProps(props)
+  const [{ value: treeView }, localProps] = createSplitProps<RootProviderProps<T>>()(treeViewProps, ['value'])
+  const mergedProps = mergeProps(() => treeView().getRootProps(), localProps)
+
+  return (
+    <TreeViewProvider value={treeView}>
+      <RenderStrategyProvider value={renderStrategyProps}>
+        <ark.div {...mergedProps} />
+      </RenderStrategyProvider>
+    </TreeViewProvider>
+  )
+}
+
+export type TreeViewRootProviderComponent<P = {}> = <T extends TreeNode>(
+  props: Assign<TreeViewRootProviderProps<T>, P>,
+) => JSX.Element

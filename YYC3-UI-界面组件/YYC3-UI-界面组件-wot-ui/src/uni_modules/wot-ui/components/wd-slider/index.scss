@@ -1,0 +1,485 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+/* ================================ 组件SCSS变量 ================================ */
+
+/* 轨道 (Track) */
+$slider-bar-height: var(--wot-slider-bar-height, $n-2) !default; // 轨道高度
+$slider-bar-height-capsule: var(--wot-slider-bar-height-capsule, $n-24) !default; // 胶囊轨道高度
+$slider-bar-bg: var(--wot-slider-bar-bg, $filled-strong) !default; // 轨道背景色
+$slider-bar-radius: var(--wot-slider-bar-radius, $radius-full) !default; // 轨道圆角
+$slider-bar-height-vertical: var(--wot-slider-bar-height-vertical, $n-248) !default; // 垂直轨道高度
+
+/* 进度条 (Range) */
+$slider-line-bg: var(--wot-slider-line-bg, $primary-6) !default; // 进度条背景色
+$slider-line-height: var(--wot-slider-line-height, $n-2) !default; // 进度条高度
+$slider-line-height-capsule: var(--wot-slider-line-height-capsule, $n-18) !default; // 胶囊进度条高度
+
+/* 滑块 (Thumb) */
+$slider-dot-size: var(--wot-slider-dot-size, $n-24) !default; // 滑块尺寸
+$slider-dot-bg: var(--wot-slider-dot-bg, $filled-oppo) !default; // 滑块背景色
+$slider-dot-shadow: var(--wot-slider-dot-shadow, 0 2px 8px 0 rgba(0, 0, 0, 0.1)) !default; // 滑块阴影
+
+/* 气泡提示 (Popover) */
+$slider-dot-popover-bg: var(--wot-slider-dot-popover-bg, $opacfilled-tooltip-toast-cover) !default; // 气泡提示背景色
+$slider-dot-popover-color: var(--wot-slider-dot-popover-color, $text-white) !default; // 气泡提示文字颜色
+$slider-dot-popover-radius: var(--wot-slider-dot-popover-radius, $radius-main) !default; // 气泡提示圆角
+$slider-dot-popover-padding: var(--wot-slider-dot-popover-padding, $padding-extra-tight $padding-loose) !default; // 气泡提示内边距
+$slider-dot-popover-font-size: var(--wot-slider-dot-popover-font-size, $typography-body-size-main) !default; // 气泡提示文字字号
+$slider-dot-popover-line-height: var(--wot-slider-dot-popover-line-height, $typography-body-line-height-size-main) !default; // 气泡提示行高
+$slider-dot-popover-gap: var(--wot-slider-dot-popover-gap, $n-3) !default; // 气泡提示与滑块间距
+$slider-dot-popover-arrow-width: var(--wot-slider-dot-popover-arrow-width, $n-12) !default; // 气泡提示箭头宽度
+$slider-dot-popover-arrow-height: var(--wot-slider-dot-popover-arrow-height, $n-6) !default; // 气泡提示箭头高度
+$slider-dot-popover-duration-exit: var(--wot-slider-dot-popover-duration-exit, 100ms) !default; // 气泡提示离场动画时长
+$slider-dot-popover-easing-exit: var(--wot-slider-dot-popover-easing-exit, cubic-bezier(0.4, 0, 1, 1)) !default; // 气泡提示离场动画缓动
+$slider-dot-popover-duration-enter: var(--wot-slider-dot-popover-duration-enter, 200ms) !default; // 气泡提示入场动画时长
+$slider-dot-popover-easing-enter: var(--wot-slider-dot-popover-easing-enter, cubic-bezier(0.34, 1.56, 0.64, 1)) !default; // 气泡提示入场动画缓动
+
+/* 刻度 (Scale) */
+$slider-scale-size: var(--wot-slider-scale-size, $n-6) !default; // 刻度尺寸
+$slider-scale-border-radius: var(--wot-slider-scale-border-radius, $radius-full) !default; // 刻度圆角
+$slider-scale-bg: var(--wot-slider-scale-bg, $filled-strong) !default; // 刻度背景色
+$slider-scale-bg-active: var(--wot-slider-scale-bg-active, $primary-6) !default; // 激活刻度背景色
+$slider-scale-capsule-bg: var(--wot-slider-scale-capsule-bg, $filled-strong) !default; // 胶囊刻度背景色
+$slider-scale-capsule-width: var(--wot-slider-scale-capsule-width, $n-2) !default; // 胶囊刻度宽度
+$slider-scale-capsule-border-radius: var(--wot-slider-scale-capsule-border-radius, $radius-zero) !default; // 胶囊刻度圆角
+$slider-scale-desc-font-size: var(--wot-slider-scale-desc-font-size, $typography-body-size-main) !default; // 刻度描述文字字号
+$slider-scale-desc-line-height: var(--wot-slider-scale-desc-line-height, $typography-body-line-height-size-main) !default; // 刻度描述行高
+$slider-scale-desc-color: var(--wot-slider-scale-desc-color, $text-main) !default; // 刻度描述文字颜色
+$slider-scale-desc-spacing: var(--wot-slider-scale-desc-spacing, $spacing-tight) !default; // 刻度描述间距
+$slider-marks-desc-spacing: var(--wot-slider-marks-desc-spacing, calc($slider-dot-size / 2 + $spacing-tight)) !default; // 标记描述间距
+$slider-marks-desc-capsule-spacing: var(--wot-slider-marks-desc-capsule-spacing, calc($slider-dot-size + $spacing-super-tight)) !default; // 胶囊标记描述间距
+$slider-marks-extra-padding: var(--wot-slider-marks-extra-padding, $padding-super-loose) !default; // 标记额外内边距
+$slider-marks-extra-capsule-padding: var(--wot-slider-marks-extra-capsule-padding, $padding-ultra-loose) !default; // 胶囊标记额外内边距
+
+/* 布局 (Layout) */
+$slider-capsule-track-inset: var(--wot-slider-capsule-track-inset, $n-3) !default; // 胶囊轨道内缩距离
+$slider-extreme-spacing: var(--wot-slider-extreme-spacing, $spacing-loose) !default; // 极值文字与轨道间距
+
+/* 极值文字 (Extreme Value) */
+$slider-value-font-size: var(--wot-slider-value-font-size, $typography-body-size-main) !default; // 极值文字字号
+$slider-value-color: var(--wot-slider-value-color, $text-secondary) !default; // 极值文字颜色
+
+/* 状态 (States) */
+$slider-opacity-disabled: var(--wot-slider-opacity-disabled, $opacity-disabled) !default; // 禁用态透明度
+
+@include b(slider) {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  position: relative;
+
+  @include m(with-extreme) {
+    @include me(bar) {
+      margin-left: $slider-extreme-spacing;
+      margin-right: $slider-extreme-spacing;
+    }
+  }
+
+  @include e(bar) {
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+
+    // 默认（线状）样式
+    @include m(default) {
+      height: $slider-bar-height;
+      background: $slider-bar-bg;
+      border-radius: $slider-bar-radius;
+    }
+
+    // 管道（胶囊）样式
+    @include m(capsule) {
+      height: $slider-bar-height-capsule;
+      background: $slider-bar-bg;
+      border-radius: $slider-bar-radius;
+      padding: 0 $slider-capsule-track-inset;
+      display: flex;
+      align-items: center;
+    }
+
+    @include when(disabled) {
+      cursor: not-allowed;
+    }
+  }
+
+  @include e(track) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @include e(line) {
+    position: relative;
+    height: 100%;
+    background: $slider-line-bg;
+    border-radius: inherit;
+
+    @include m(capsule) {
+      height: $slider-line-height-capsule;
+    }
+
+    @include m(single) {
+      border-radius: inherit;
+    }
+
+    @include when(disabled) {
+      opacity: $slider-opacity-disabled;
+    }
+  }
+
+  @include e(dot) {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  @include e(dot-popover) {
+    position: absolute;
+    bottom: calc(100% + #{$slider-dot-popover-gap});
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    transform-origin: center bottom;
+    opacity: 0;
+    /* 出场 transition：目标是隐藏态，所以写在这里 */
+    transition: opacity $slider-dot-popover-duration-exit $slider-dot-popover-easing-exit,
+      transform $slider-dot-popover-duration-exit $slider-dot-popover-easing-exit;
+    pointer-events: none;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include when(visible) {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+      pointer-events: auto;
+      /* 入场 transition：目标是可见态，所以写在这里 */
+      transition: opacity $slider-dot-popover-duration-enter $slider-dot-popover-easing-enter,
+        transform $slider-dot-popover-duration-enter $slider-dot-popover-easing-enter;
+    }
+  }
+
+  @include e(dot-popover-text) {
+    background: $slider-dot-popover-bg;
+    padding: $slider-dot-popover-padding;
+    border-radius: $slider-dot-popover-radius;
+    color: $slider-dot-popover-color;
+    font-size: $slider-dot-popover-font-size;
+    line-height: $slider-dot-popover-line-height;
+    white-space: nowrap;
+  }
+
+  @include e(dot-popover-arrow) {
+    position: relative;
+    border-left: calc(#{$slider-dot-popover-arrow-width} / 2) solid transparent;
+    border-right: calc(#{$slider-dot-popover-arrow-width} / 2) solid transparent;
+    border-top: $slider-dot-popover-arrow-height solid $slider-dot-popover-bg;
+  }
+
+  @include e(dot-slider) {
+    width: $slider-dot-size;
+    height: $slider-dot-size;
+    background: $slider-dot-bg;
+    border-radius: 50%;
+    box-shadow: $slider-dot-shadow;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  @include e(scale-item) {
+    position: absolute;
+
+    @include m(default) {
+      width: $slider-scale-size;
+      height: $slider-scale-size;
+      background: $slider-scale-bg;
+      border-radius: $slider-scale-border-radius;
+    }
+
+    @include when(active) {
+      background: $slider-scale-bg-active;
+    }
+
+    // 管道样式下的刻度变为垂直分割线（间隙）
+    @include m(capsule) {
+      width: $slider-scale-capsule-width;
+      height: 100%;
+      background: $slider-scale-capsule-bg;
+      border-radius: $slider-scale-capsule-border-radius;
+
+      @include when(active) {
+        background: $slider-scale-capsule-bg;
+      }
+      
+      &:first-child,
+      &:last-child {
+        background: transparent;
+      }
+    }
+
+    @include when(disabled) {
+      opacity: $slider-opacity-disabled;
+    }
+  }
+
+  @include e(value) {
+    font-size: $slider-value-font-size;
+    color: $slider-value-color;
+    flex-shrink: 0;
+  }
+
+  @include m(horizontal) {
+    &.wd-slider--marks {
+      padding-bottom: $slider-marks-extra-padding;
+    }
+
+    @include me(scale-desc) {
+      position: absolute;
+      top: $slider-marks-desc-spacing;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: $slider-scale-desc-font-size;
+      line-height: $slider-scale-desc-line-height;
+      color: $slider-scale-desc-color;
+      white-space: nowrap;
+    }
+
+    &.wd-slider--theme-capsule {
+
+      &.wd-slider--marks {
+        padding-bottom: $slider-marks-extra-capsule-padding;
+      }
+
+      .wd-slider__scale-desc {
+        top: $slider-marks-desc-capsule-spacing;
+      }
+    }
+
+    @include me(bar) {
+      @include m(default) {
+        margin-top: calc($slider-dot-size / 2 - $slider-bar-height);
+        margin-bottom: calc($slider-dot-size / 2 - $slider-bar-height);
+      }
+
+      // 管道样式下的特殊处理
+      @include m(capsule) {
+        @include me(track) {
+          left: $slider-capsule-track-inset;
+          right: $slider-capsule-track-inset;
+        }
+
+        @include me(dot-slider) {
+          width: $slider-dot-size;
+          height: $slider-dot-size;
+        }
+      }
+    }
+
+    @include me(dot) {
+      top: 50%;
+      transform: translateY(-50%);
+
+      // 双滑块定位
+      @include m(left) {
+        left: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      @include m(right) {
+        right: 0;
+        transform: translate(50%, -50%);
+      }
+    }
+
+    // 单滑块定位在右端
+    @include me(line) {
+      @include m(single) {
+        @include me(dot) {
+          right: 0;
+          transform: translate(50%, -50%);
+        }
+      }
+    }
+
+    // 刻度在轨道垂直居中
+    @include me(scale-item) {
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      // 管道模式刻度保持贴顶
+      @include m(capsule) {
+        top: 0;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  @include m(vertical) {
+    flex-direction: column;
+    height: $slider-bar-height-vertical;
+    width: auto;
+    align-items: center;
+
+    &.wd-slider--with-extreme {
+      .wd-slider__bar {
+        margin-top: $slider-extreme-spacing;
+        margin-bottom: $slider-extreme-spacing;
+      }
+    }
+
+    &.wd-slider--marks {
+      padding-left: $slider-marks-extra-padding;
+    }
+
+    @include me(bar) {
+      width: auto;
+      flex: 1;
+
+      @include m(default) {
+        width: $slider-bar-height;
+        height: 100%;
+        margin: unset calc($slider-dot-size / 2);
+      }
+
+      @include m(capsule) {
+        width: $slider-bar-height-capsule;
+        height: 100%;
+        padding: $slider-capsule-track-inset 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        @include edeep(track) {
+          top: $slider-capsule-track-inset;
+          bottom: $slider-capsule-track-inset;
+        }
+
+        @include edeep(dot-slider) {
+          width: $slider-dot-size;
+          height: $slider-dot-size;
+          transform: rotate(90deg);
+        }
+      }
+
+      @include m(default) {
+        @include edeep(dot-slider) {
+          transform: rotate(90deg);
+        }
+      }
+    }
+
+    @include me(line) {
+      width: 100%;
+      height: 100%;
+      position: relative;
+
+      @include m(capsule) {
+        width: $slider-line-height-capsule;
+      }
+
+      @include me(dot) {
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+      }
+
+      @include m(single) {
+        @include me(dot) {
+          bottom: 0;
+          transform: translate(-50%, 50%);
+        }
+      }
+
+      @include me(dot) {
+        @include m(left) {
+          top: 0;
+          bottom: auto;
+          transform: translate(-50%, -50%);
+        }
+
+        @include m(right) {
+          bottom: 0;
+          top: auto;
+          transform: translate(-50%, 50%);
+        }
+      }
+    }
+
+    @include me(dot-popover) {
+      bottom: auto;
+      top: 50%;
+      left: calc(100% + #{$slider-dot-popover-gap});
+      transform: translateY(-50%) scale(0);
+      transform-origin: left center;
+      flex-direction: row-reverse;
+      align-items: center;
+
+      @include when(visible) {
+        transform: translateY(-50%) scale(1);
+      }
+    }
+
+    @include me(dot-popover-arrow) {
+      border-left: none;
+      border-right: $slider-dot-popover-arrow-height solid $slider-dot-popover-bg;
+      border-top: calc(#{$slider-dot-popover-arrow-width} / 2) solid transparent;
+      border-bottom: calc(#{$slider-dot-popover-arrow-width} / 2) solid transparent;
+    }
+
+    @include me(scale-item) {
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      @include m(capsule) {
+        left: 0;
+        width: 100%;
+        height: 2px;
+        transform: translateY(-50%);
+      }
+    }
+
+    @include me(scale-desc) {
+      position: absolute;
+      top: 50%;
+      left: auto;
+      right: $slider-marks-desc-spacing;
+      font-size: $slider-scale-desc-font-size;
+      line-height: $slider-scale-desc-line-height;
+      color: $slider-scale-desc-color;
+      transform: translateY(-50%);
+      text-align: right;
+    }
+
+    &.wd-slider--theme-capsule {
+
+      &.wd-slider--marks {
+        padding-left: $slider-marks-extra-capsule-padding;
+      }
+
+      .wd-slider__scale-desc {
+        right: $slider-marks-desc-capsule-spacing;
+      }
+    }
+  }
+
+  @include when(disabled) {
+    opacity: $slider-opacity-disabled;
+    pointer-events: none;
+  }
+}

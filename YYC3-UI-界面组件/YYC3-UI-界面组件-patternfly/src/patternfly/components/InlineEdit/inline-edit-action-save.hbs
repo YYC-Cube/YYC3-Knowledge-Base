@@ -1,0 +1,23 @@
+{{#if inline-edit-action-save--IsIcon}}
+  {{#if inline-edit-action-save--IsInvalid}}
+    {{#> inline-edit-action}}
+      {{> button button--IsPlain=true button--IsDisabled=true button--attribute='aria-label="Save edits"' button--IsIcon=true button--icon="check"}}
+    {{/inline-edit-action}}
+  {{else}}
+    {{#> inline-edit-action inline-edit-action--modifier="pf-m-valid"}}
+      {{> button button--IsPlain=true button--attribute='aria-label="Save edits"' button--IsIcon=true button--icon="check"}}
+    {{/inline-edit-action}}
+  {{/if}}
+{{else}}
+  {{#> inline-edit-action}}
+    {{#if inline-edit-action-save--IsInvalid}}
+      {{#> button button--IsPrimary=true button--IsDisabled=true}}
+        Primary disabled
+      {{/button}}
+    {{else}}
+      {{#> button button--IsPrimary=true}}
+        Save
+      {{/button}}
+    {{/if}}
+  {{/inline-edit-action}}
+{{/if}}

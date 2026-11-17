@@ -1,0 +1,177 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+// 操作块背景色
+$switch-color-action-bg: var(--wot-switch-color-action-bg, $base-white) !default;
+// 操作块图标颜色
+$switch-color-action-icon: var(--wot-switch-color-action-icon, $primary-6) !default;
+// 激活态背景色
+$switch-color-active-bg: var(--wot-switch-color-active-bg, $primary-6) !default;
+// 内部文案激活态颜色
+$switch-color-inner-active-text: var(--wot-switch-color-inner-active-text, $text-white) !default;
+// 内部文案非激活态颜色
+$switch-color-inner-inactive-text: var(--wot-switch-color-inner-inactive-text, $text-auxiliary) !default;
+// 内部图标激活态颜色
+$switch-color-active-icon: var(--wot-switch-color-active-icon, $icon-white) !default;
+// 非激活态背景色
+$switch-color-inactive-bg: var(--wot-switch-color-inactive-bg, $filled-strong) !default;
+// 非激活态图标颜色
+$switch-color-inactive-icon: var(--wot-switch-color-inactive-icon, $icon-auxiliary) !default;
+
+// 水平内边距
+$switch-left-right-padding: var(--wot-switch-left-right-padding, $padding-tight) !default;
+// 垂直内边距
+$switch-top-bottom-padding: var(--wot-switch-top-bottom-padding, $padding-ultra-tight) !default;
+
+// 组件尺寸
+$switch-size: var(--wot-switch-size, $n-26) !default;
+// 内部图标尺寸
+$switch-size-icon: var(--wot-switch-size-icon, 0.5em) !default;
+// 操作块高度
+$switch-size-action-height: var(--wot-switch-size-action-height, 1em) !default;
+// 操作块宽度
+$switch-size-action-width: var(--wot-switch-size-action-width, 1em) !default;
+// 操作块图标尺寸
+$switch-size-action-icon: var(--wot-switch-size-action-icon, 0.5em) !default;
+// 内部容器高度
+$switch-size-inner-height: var(--wot-switch-size-inner-height, calc($switch-size-action-height + $switch-top-bottom-padding * 2)) !default;
+// 内部容器最小宽度
+$switch-size-inner-min-width: var(--wot-switch-size-inner-min-width, calc(1.8em + $switch-top-bottom-padding * 2)) !default;
+
+// 内部文案字号
+$switch-inner-font-size: var(--wot-switch-inner-font-size, $typography-body-size-main) !default;
+
+// 方角模式圆角
+$switch-radius: var(--wot-switch-radius, $radius-main) !default;
+// 圆角模式圆角
+$switch-radius-full: var(--wot-switch-radius-full, $radius-full) !default;
+
+// 方角模式操作块圆角
+$switch-radius-action: var(--wot-switch-radius-action, $radius-small) !default;
+// 圆角模式操作块圆角
+$switch-radius-action-full: var(--wot-switch-radius-action-full, $radius-full) !default;
+
+// 图标与文案间距
+$switch-spacing: var(--wot-switch-spacing, $spacing-super-tight) !default;
+// 过渡时长
+$switch-transition-duration: var(--wot-switch-transition-duration, 0.3s) !default;
+// 禁用态透明度
+$switch-disabled: var(--wot-switch-disabled, $opacity-disabled) !default;
+
+@include b(switch) {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  font-size: $switch-size;
+  vertical-align: middle;
+
+  @include when(disabled) {
+    opacity: $switch-disabled;
+  }
+
+  @include when(loading) {
+    opacity: $opacity-overlay;
+  }
+
+  @include e(inner) {
+    box-sizing: border-box;
+    font-size: inherit;
+    display: flex;
+    align-items: center;
+    min-width: $switch-size-inner-min-width;
+    height: $switch-size-inner-height;
+    transition: all $switch-transition-duration ease;
+    border-radius: $switch-radius-full;
+    padding: $switch-top-bottom-padding $switch-left-right-padding;
+  }
+
+  @include e(action) {
+    position: absolute;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: inherit;
+    width: $switch-size-action-width;
+    height: $switch-size-action-height;
+    background: $switch-color-action-bg;
+    border-radius: $switch-radius-action-full;
+    transition: all $switch-transition-duration ease;
+    left: $switch-top-bottom-padding;
+  }
+
+  @include m(round) {
+    .wd-switch__inner {
+      border-radius: $switch-radius-full;
+    }
+    .wd-switch__action {
+      border-radius: $switch-radius-action-full;
+    }
+  }
+
+  @include m(square) {
+    .wd-switch__inner {
+      border-radius: $switch-radius;
+    }
+    .wd-switch__action {
+      border-radius: $switch-radius-action;
+    }
+  }
+
+  @include edeep(action-loading) {
+    font-size: $switch-size-action-icon;
+  }
+
+  @include e(action-text) {}
+
+  @include e(inner-text) {
+    font-size: $switch-inner-font-size;
+  }
+
+  @include edeep(inner-icon) {
+    font-size: $switch-size-icon;
+  }
+
+    @include edeep(action-icon) {
+    font-size: $switch-size-action-icon;
+    color: $switch-color-action-icon;
+  }
+
+
+  @include when(active) {
+    .wd-switch__inner {
+      background: $switch-color-active-bg;
+      padding-right: calc($switch-size-action-width + $switch-top-bottom-padding);
+    }
+
+    :deep(.wd-switch__inner-icon) {
+      color: $switch-color-active-icon;
+      margin-right: $switch-spacing;
+    }
+
+    .wd-switch__inner-text {
+      color: $switch-color-inner-active-text;
+      margin-right: $switch-spacing;
+    }
+
+    .wd-switch__action {
+      left: calc(100% - $switch-size-action-width - $switch-top-bottom-padding);
+    }
+  }
+
+  @include when(inactive) {
+    .wd-switch__inner {
+      background: $switch-color-inactive-bg;
+      padding-left: calc($switch-size-action-width + $switch-top-bottom-padding);
+    }
+
+    :deep(.wd-switch__inner-icon) {
+      color: $switch-color-inactive-icon;
+      margin-left: $switch-spacing;
+    }
+
+    .wd-switch__inner-text {
+      color: $switch-color-inner-inactive-text;
+      margin-left: $switch-spacing;
+    }
+  }
+}

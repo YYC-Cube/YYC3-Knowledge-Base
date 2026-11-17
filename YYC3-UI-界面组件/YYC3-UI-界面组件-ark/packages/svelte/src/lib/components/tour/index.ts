@@ -1,0 +1,66 @@
+export { waitForElement, waitForElementValue, waitForPromise, type WaitOptions } from '@zag-js/tour'
+export { waitForEvent, type WaitForEventOptions } from './wait-for-event.ts'
+export type {
+  ElementIds as TourElementIds,
+  FocusOutsideEvent as TourFocusOutsideEvent,
+  InteractOutsideEvent as TourInteractOutsideEvent,
+  IntlTranslations as TourIntlTranslations,
+  Point as TourPoint,
+  PointerDownOutsideEvent as TourPointerDownOutsideEvent,
+  ProgressTextDetails as TourProgressTextDetails,
+  ScrollToTargetDetails as TourScrollToTargetDetails,
+  StatusChangeDetails as TourStatusChangeDetails,
+  StepAction as TourStepAction,
+  StepActionFn as TourStepActionFn,
+  StepActionMap as TourStepActionMap,
+  StepActionType as TourStepActionType,
+  StepBaseDetails as TourStepBaseDetails,
+  StepChangeDetails as TourStepChangeDetails,
+  StepDetails as TourStepDetails,
+  StepEffectArgs as TourStepEffectArgs,
+  StepEffectCleanup as TourStepEffectCleanup,
+  StepPlacement as TourStepPlacement,
+  StepsChangeDetails as TourStepsChangeDetails,
+  StepStatus as TourStepStatus,
+  StepType as TourStepType,
+} from '@zag-js/tour'
+export {
+  default as TourActionTrigger,
+  type TourActionTriggerBaseProps,
+  type TourActionTriggerProps,
+} from './tour-action-trigger.svelte'
+export { default as TourActions, type TourActionsProps } from './tour-actions.svelte'
+export { default as TourArrowTip, type TourArrowTipBaseProps, type TourArrowTipProps } from './tour-arrow-tip.svelte'
+export { default as TourArrow, type TourArrowBaseProps, type TourArrowProps } from './tour-arrow.svelte'
+export { default as TourBackdrop, type TourBackdropBaseProps, type TourBackdropProps } from './tour-backdrop.svelte'
+export {
+  default as TourCloseTrigger,
+  type TourCloseTriggerBaseProps,
+  type TourCloseTriggerProps,
+} from './tour-close-trigger.svelte'
+export { default as TourContent, type TourContentBaseProps, type TourContentProps } from './tour-content.svelte'
+export { default as TourContext, type TourContextProps } from './tour-context.svelte'
+export { default as TourControl, type TourControlBaseProps, type TourControlProps } from './tour-control.svelte'
+export {
+  default as TourDescription,
+  type TourDescriptionBaseProps,
+  type TourDescriptionProps,
+} from './tour-description.svelte'
+export {
+  default as TourPositioner,
+  type TourPositionerBaseProps,
+  type TourPositionerProps,
+} from './tour-positioner.svelte'
+export {
+  default as TourProgressText,
+  type TourProgressTextBaseProps,
+  type TourProgressTextProps,
+} from './tour-progress-text.svelte'
+export { default as TourRoot, type TourRootBaseProps, type TourRootProps } from './tour-root.svelte'
+export { default as TourSpotlight, type TourSpotlightBaseProps, type TourSpotlightProps } from './tour-spotlight.svelte'
+export { default as TourTitle, type TourTitleBaseProps, type TourTitleProps } from './tour-title.svelte'
+export { tourAnatomy } from './tour.anatomy.ts'
+export { useTourContext, type UseTourContext } from './use-tour-context.ts'
+export { useTour, type UseTourProps, type UseTourReturn } from './use-tour.svelte.ts'
+
+export * as Tour from './tour.ts'

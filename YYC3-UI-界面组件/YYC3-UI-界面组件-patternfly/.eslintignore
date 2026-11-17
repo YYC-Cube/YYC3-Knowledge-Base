@@ -1,0 +1,9 @@
+dist/
+public/
+coverage/
+node_modules/
+static/
+scripts/template/
+.cache/
+patternfly-docs/generated/
+backstop_data/

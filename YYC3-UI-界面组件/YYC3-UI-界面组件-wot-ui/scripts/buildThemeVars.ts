@@ -1,0 +1,215 @@
+/* eslint-disable quotes */
+import fs from 'fs'
+import path from 'path'
+
+type ThemeVarField = {
+  fieldName: string
+  comment: string
+}
+
+type ThemeVarGroup = {
+  typeName: string
+  fields: ThemeVarField[]
+}
+
+const themeVarsFilePath = path.resolve(__dirname, '../src/uni_modules/wot-ui/components/wd-config-provider/theme-vars.ts')
+const globalScssPath = path.resolve(__dirname, '../src/uni_modules/wot-ui/styles/variable.scss')
+const componentsRootPath = path.resolve(__dirname, '../src/uni_modules/wot-ui/components')
+
+const toCamelCase = (value: string) => {
+  const segments = value.split('-').filter(Boolean)
+  if (!segments.length) return value
+  const [first, ...rest] = segments
+  return `${first}${rest.map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1)).join('')}`
+}
+
+const normalizeComment = (value: string) => value.replace(/\s+/g, ' ').trim()
+
+const hasStatementTerminator = (line: string) => {
+  let quote = ''
+  let escaped = false
+  let content = ''
+
+  for (let index = 0; index < line.length; index++) {
+    const char = line[index]
+    const nextChar = line[index + 1]
+
+    if (escaped) {
+      escaped = false
+      content += char
+      continue
+    }
+
+    if (char === '\\') {
+      escaped = true
+      content += char
+      continue
+    }
+
+    if (quote) {
+      if (char === quote) quote = ''
+      content += char
+      continue
+    }
+
+    if (char === '"' || char === "'") {
+      quote = char
+      content += char
+      continue
+    }
+
+    if (char === '/' && nextChar === '/') {
+      break
+    }
+
+    content += char
+  }
+
+  return content.trimEnd().endsWith(';')
+}
+
+const parseScssVariableFields = (scssContent: string, captureComment: boolean) => {
+  const lines = scssContent.split('\n')
+  const fields: ThemeVarField[] = []
+  let pendingComment = ''
+  let statement = ''
+  let statementComment = ''
+
+  const parseStatement = (value: string, comment: string) => {
+    const variableMatch = value.match(/^\s*\$([A-Za-z0-9_-]+)\s*:\s*[\s\S]*?!default;\s*(?:\/\/\s*(.+))?\s*$/)
+    if (!variableMatch) return
+
+    const variableName = variableMatch[1]
+    const inlineComment = variableMatch[2] ? normalizeComment(variableMatch[2]) : ''
+    const fieldName = toCamelCase(variableName)
+    const fieldComment = captureComment ? inlineComment || comment : ''
+    fields.push({ fieldName, comment: fieldComment })
+  }
+
+  lines.forEach((line) => {
+    if (statement) {
+      statement += `\n${line}`
+      if (hasStatementTerminator(line)) {
+        parseStatement(statement, statementComment)
+        statement = ''
+        statementComment = ''
+      }
+      return
+    }
+
+    const inlineCommentMatch = line.match(/^\s*\/\/\s*(.+)\s*$/)
+    if (captureComment && inlineCommentMatch) {
+      pendingComment = normalizeComment(inlineCommentMatch[1])
+      return
+    }
+
+    if (/^\s*\$[A-Za-z0-9_-]+\s*:/.test(line)) {
+      statement = line
+      statementComment = pendingComment
+      pendingComment = ''
+      if (hasStatementTerminator(line)) {
+        parseStatement(statement, statementComment)
+        statement = ''
+        statementComment = ''
+      }
+      return
+    }
+
+    pendingComment = ''
+  })
+
+  return fields
+}
+
+const getComponentScssFiles = () => {
+  const entries = fs.readdirSync(componentsRootPath, { withFileTypes: true })
+  const files = entries
+    .filter((entry) => entry.isDirectory() && entry.name.startsWith('wd-'))
+    .map((entry) => path.join(componentsRootPath, entry.name, 'index.scss'))
+    .filter((filePath) => fs.existsSync(filePath))
+    .sort((a, b) => a.localeCompare(b))
+  return files
+}
+
+const buildBaseThemeVars = () => {
+  const content = fs.readFileSync(globalScssPath, 'utf8')
+  const fields = parseScssVariableFields(content, true)
+  const fieldMap = new Map<string, ThemeVarField>()
+  fields.forEach((field) => {
+    if (!fieldMap.has(field.fieldName)) {
+      fieldMap.set(field.fieldName, field)
+    }
+  })
+  return Array.from(fieldMap.values()).sort((a, b) => a.fieldName.localeCompare(b.fieldName))
+}
+
+const buildComponentThemeVars = () => {
+  const groups: ThemeVarGroup[] = []
+  const files = getComponentScssFiles()
+
+  files.forEach((filePath) => {
+    const componentDirName = path.basename(path.dirname(filePath))
+    const componentName = toCamelCase(componentDirName.replace(/^wd-/, ''))
+    const typeName = `${componentName}ThemeVars`
+    const content = fs.readFileSync(filePath, 'utf8')
+    const parsedFields = parseScssVariableFields(content, true)
+    const fieldMap = new Map<string, ThemeVarField>()
+
+    parsedFields.forEach((field) => {
+      if (!fieldMap.has(field.fieldName)) {
+        fieldMap.set(field.fieldName, field)
+      }
+    })
+
+    const fields = Array.from(fieldMap.values()).sort((a, b) => a.fieldName.localeCompare(b.fieldName))
+    if (fields.length) {
+      groups.push({ typeName, fields })
+    }
+  })
+
+  return groups.sort((a, b) => a.typeName.localeCompare(b.typeName))
+}
+
+const renderTypeBlock = (typeName: string, fields: ThemeVarField[]) => {
+  const lines = fields.map((field) => {
+    if (field.comment) {
+      return `  ${field.fieldName}?: string // ${field.comment}`
+    }
+    return `  ${field.fieldName}?: string`
+  })
+  return `export type ${typeName} = {\n${lines.join('\n')}\n}\n`
+}
+
+const generateThemeVarsFileContent = (baseFields: ThemeVarField[], componentGroups: ThemeVarGroup[]) => {
+  let tsContent = `/* eslint-disable */
+// This file is generated by scripts/buildThemeVars.ts.
+
+${renderTypeBlock('baseThemeVars', baseFields)}
+`
+
+  componentGroups.forEach((group) => {
+    tsContent += `${renderTypeBlock(group.typeName, group.fields)}\n`
+  })
+
+  const unionTypes = componentGroups.map((group) => group.typeName)
+  if (unionTypes.length) {
+    tsContent += `export type ConfigProviderThemeVars = baseThemeVars &\n  ${unionTypes.join(' &\n  ')}\n`
+  } else {
+    tsContent += 'export type ConfigProviderThemeVars = baseThemeVars\n'
+  }
+
+  return tsContent
+}
+
+const baseFields = buildBaseThemeVars()
+const componentGroups = buildComponentThemeVars()
+
+if (!baseFields.length || !componentGroups.length) {
+  throw new Error(`Theme vars generation failed: base=${baseFields.length}, components=${componentGroups.length}`)
+}
+
+const tsContent = generateThemeVarsFileContent(baseFields, componentGroups)
+
+fs.writeFileSync(themeVarsFilePath, tsContent)
+
+console.log(`TS file generated successfully! base: ${baseFields.length}, components: ${componentGroups.length}`)

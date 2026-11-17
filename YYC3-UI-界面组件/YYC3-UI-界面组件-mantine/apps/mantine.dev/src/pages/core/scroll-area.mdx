@@ -1,0 +1,104 @@
+import { ScrollAreaDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.ScrollArea);
+
+## Usage
+
+The `ScrollArea` component supports the following props:
+
+- `type` defines scrollbars behavior:
+  - `hover` – scrollbars are visible on hover
+  - `scroll` – scrollbars are visible on scroll
+  - `auto` – similar to `overflow: auto` – scrollbars are always visible when the content is overflowing
+  - `always` – same as `auto`, but scrollbars are always visible regardless of whether the content is overflowing
+  - `never` – scrollbars are always hidden
+- `offsetScrollbars` – adds padding to offset scrollbars with the following options:
+  - `true` – adds padding to offset both scrollbars
+  - `x` – adds padding to offset horizontal scrollbar only
+  - `y` – adds padding to offset vertical scrollbar only
+  - `present` – adds padding only when scrollbars are visible
+- `scrollbarSize` – scrollbar size, controls scrollbar and thumb width/height
+- `scrollHideDelay` – delay in ms to hide scrollbars, applicable only when type is `hover` or `scroll`
+- `overscrollBehavior` – controls [overscroll-behavior](https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior) of the viewport
+
+<Demo data={ScrollAreaDemos.usage} />
+
+## Offset size
+
+By default, `offsetScrollbars` reserves a gap equal to `scrollbarSize`. To change the gap without changing the scrollbar size, set the `--scrollarea-offset-size` CSS variable with the `style` or `vars` prop. The gap stays on the scrollbar side, including in RTL and with `verticalScrollbarPosition`:
+
+<Demo data={ScrollAreaDemos.offsetSize} />
+
+## Horizontal scrollbars
+
+<Demo data={ScrollAreaDemos.horizontal} />
+
+## Disable horizontal scrollbars
+
+To disable horizontal scrollbars, set the `scrollbars="y"` prop:
+
+<Demo data={ScrollAreaDemos.scrollbars} />
+
+## Vertical scrollbar position
+
+By default, the vertical scrollbar follows the inline-end edge: it is rendered on the right side
+in LTR and on the left side in RTL. Set the `verticalScrollbarPosition` prop to `left` or `right`
+to pin the vertical scrollbar to a physical side regardless of direction.
+
+This is useful for RTL applications where users expect the vertical scrollbar to stay on the right,
+matching the behavior of most desktop software (Windows, Office, Gmail, etc.). The prop also
+realigns the offset padding, the corner and the horizontal scrollbar gap, so it works correctly
+with `offsetScrollbars` and `scrollbars="xy"`. When the prop is omitted, the default
+direction-based behavior is preserved.
+
+<Demo data={ScrollAreaDemos.verticalScrollbarPosition} />
+
+## Subscribe to scroll position changes
+
+Set the `onScrollPositionChange` function to subscribe to scroll position changes.
+It will be called each time the user scrolls with x and y coordinates:
+
+<Demo data={ScrollAreaDemos.scrollPosition} />
+
+## Scroll boundary callbacks
+
+`ScrollArea` component supports callbacks that are triggered when scrolling reaches boundaries:
+
+<Demo data={ScrollAreaDemos.boundaries} />
+
+## Scroll to position
+
+To programmatically scroll to any position,
+get the viewport element ref with the `viewportRef` prop and call the `scrollTo` method:
+
+<Demo data={ScrollAreaDemos.scrollTo} />
+
+## Start scroll position
+
+Use the `startScrollPosition` prop to set the initial scroll position when the component mounts.
+Unlike using `viewportRef` with `useEffect`, this approach avoids the flash of content at position (0, 0):
+
+<Demo data={ScrollAreaDemos.startScrollPosition} />
+
+## Styles API
+
+<Demo data={ScrollAreaDemos.stylesApi} />
+
+## Scroll element into view
+
+<Demo data={ScrollAreaDemos.scrollIntoView} />
+
+## ScrollArea.Autosize
+
+`ScrollArea.Autosize` component allows to create scrollable containers when given max-height is reached.
+It also supports a callback for detecting when vertical overflow occurs:
+
+- onOverflowChange – triggered when content exceeds max-height, making the container scrollable or not
+
+<Demo data={ScrollAreaDemos.maxHeight} />
+
+## ScrollArea.Autosize with Popover
+
+<Demo data={ScrollAreaDemos.autosizePopover} />

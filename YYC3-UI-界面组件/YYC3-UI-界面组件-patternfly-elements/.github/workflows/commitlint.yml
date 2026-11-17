@@ -1,0 +1,67 @@
+# This workflow will validate the title of a PR to ensure it meets conventional commit standards
+name: Validate conventional commit syntax
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+  pull_request_review:
+    types:
+      - submitted
+
+permissions:
+  pull-requests: write
+
+# Separate jobs can run concurrently
+jobs:
+  prTitle:
+    name: Validate conventional commit format for title
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+      - run: npm ci --prefer-offline
+      - run: npm i @commitlint/load
+
+      - id: prlint
+        uses: kevintyj/prlint@v2
+
+      - id: comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: commitlint
+          message: |
+            ## ${{ steps.prlint.outputs.lint-status }}
+
+            <details><summary>More Info</summary>
+
+            ```json
+            ${{ toJSON(fromJSON(steps.prlint.outputs.lint-details)) }}
+            ```
+
+            </details>
+
+      - uses: actions/github-script@v7
+        env:
+          PR_TITLE_VALID: ${{ fromJSON(steps.prlint.outputs.lint-details).valid }}
+          PR_LINT_STATUS: ${{ steps.prlint.outputs.lint-status }}
+        with:
+          script: |
+            const { PR_LINT_STATUS, PR_TITLE_VALID } = process.env;
+
+            if (PR_TITLE_VALID.toString() !== 'true')
+              core.setFailed(PR_LINT_STATUS);
+

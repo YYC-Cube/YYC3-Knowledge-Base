@@ -1,0 +1,16 @@
+<div class="{{pfv}}slider__thumb{{#if slider-thumb--modifier}} {{slider-thumb--modifier}}{{/if}}"
+  role="slider"
+  aria-valuemin="{{slider--value-min}}"
+  aria-valuemax="{{slider--value-max}}"
+  aria-valuenow="{{slider--value-now}}"
+  aria-label="Value"
+  {{#unless slider--IsDisabled}}
+    tabindex="0"
+  {{/unless}}
+  {{#if slider--IsDisabled}}
+    aria-disabled="true"
+  {{/if}}
+  {{#if slider-thumb--attribute}}
+    {{{slider-thumb--attribute}}}
+  {{/if}}>
+</div>

@@ -1,0 +1,16 @@
+{{!-- TODO: update toolbar content when all other components are ready --}}
+{{#> toolbar-content-section}}
+  {{#if menu-template--HasContextSelector}}
+    {{#> toolbar-item}}
+      {{> masthead-template-context-selector}}
+    {{/toolbar-item}}
+  {{/if}}
+
+  {{#if masthead-template--HasHorizontalNav}}
+    {{> masthead-template-horizontal-nav}}
+  {{else if masthead-template--HasDockedNav}}
+    {{> masthead-template-docked-nav}}
+  {{else}}
+    {{> masthead-template-content-icon-group}}
+  {{/if}}
+{{/toolbar-content-section}}

@@ -1,0 +1,20 @@
+import { render, screen, tests } from '@mantine-tests/core';
+import { ButtonGroup, ButtonGroupProps, ButtonGroupStylesNames } from './ButtonGroup';
+
+const defaultProps: ButtonGroupProps = {};
+
+describe('@mantine/core/ButtonGroup', () => {
+  tests.itSupportsSystemProps<ButtonGroupProps, ButtonGroupStylesNames>({
+    component: ButtonGroup,
+    props: defaultProps,
+    varsResolver: true,
+    children: true,
+    displayName: '@mantine/core/ButtonGroup',
+    stylesApiSelectors: ['group'],
+  });
+
+  it('adds data-orientation attribute to root element based on orientation prop', () => {
+    render(<ButtonGroup orientation="vertical" />);
+    expect(screen.getByRole('group')).toHaveAttribute('data-orientation', 'vertical');
+  });
+});

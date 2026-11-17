@@ -1,0 +1,53 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+  import type { UseSwitchProps } from './use-switch.svelte.ts'
+
+  export interface SwitchRootBaseProps extends UseSwitchProps, PolymorphicProps<'label'>, RefAttribute {}
+  export interface SwitchRootProps extends Assign<HTMLProps<'label'>, SwitchRootBaseProps> {}
+</script>
+
+<script lang="ts">
+  import { createSplitProps } from '$lib/utils/create-split-props'
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { useSwitch } from './use-switch.svelte.ts'
+  import { SwitchProvider } from './use-switch-context.ts'
+
+  let { ref = $bindable(null), checked = $bindable(), ...props }: SwitchRootProps = $props()
+  const providedId = $props.id()
+
+  const [useSwitchProps, localProps] = $derived(
+    createSplitProps<UseSwitchProps>()(props, [
+      'checked',
+      'defaultChecked',
+      'disabled',
+      'form',
+      'id',
+      'ids',
+      'invalid',
+      'label',
+      'name',
+      'onCheckedChange',
+      'readOnly',
+      'required',
+      'value',
+    ]),
+  )
+
+  const resolvedProps = $derived<UseSwitchProps>({
+    ...useSwitchProps,
+    id: useSwitchProps.id ?? providedId,
+    checked,
+    onCheckedChange(details) {
+      useSwitchProps.onCheckedChange?.(details)
+      if (checked !== undefined) checked = details.checked
+    },
+  })
+
+  const switchMachine = useSwitch(() => resolvedProps)
+  const mergedProps = $derived(mergeProps(switchMachine().getRootProps(), localProps))
+
+  SwitchProvider(switchMachine)
+</script>
+
+<Ark as="label" bind:ref {...mergedProps} />

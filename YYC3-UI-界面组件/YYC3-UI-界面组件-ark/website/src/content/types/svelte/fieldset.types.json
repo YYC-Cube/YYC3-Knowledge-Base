@@ -1,0 +1,75 @@
+{
+  "Context": {
+    "props": {
+      "render": {
+        "type": "Snippet<[() => { setRootRef: (el: Element | null) => void; ids: { legend: string; errorText: string; helperText: string; }; disabled: boolean; invalid: boolean; getRootProps: () => HTMLFieldsetAttributes; getLegendProps: () => HTMLAttributes<...>; getHelperTextProps: () => HTMLAttributes<...>; getErrorTextProps: () ...",
+        "isRequired": true
+      }
+    }
+  },
+  "ErrorText": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'span'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "HelperText": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'span'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Legend": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'legend'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Root": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'fieldset'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "disabled": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Indicates whether the fieldset is disabled."
+      },
+      "id": { "type": "string", "isRequired": false, "description": "The id of the fieldset." },
+      "invalid": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Indicates whether the fieldset is invalid."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "RootProvider": {
+    "props": {
+      "value": {
+        "type": "() => { setRootRef: (el: Element | null) => void; ids: { legend: string; errorText: string; helperText: string; }; disabled: boolean; invalid: boolean; getRootProps: () => HTMLFieldsetAttributes; getLegendProps: () => HTMLAttributes<...>; getHelperTextProps: () => HTMLAttributes<...>; getErrorTextProps: () => HTMLAt...",
+        "isRequired": true
+      },
+      "asChild": {
+        "type": "Snippet<[PropsFn<'fieldset'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  }
+}

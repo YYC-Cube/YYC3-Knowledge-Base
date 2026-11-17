@@ -1,0 +1,30 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import type { UseSignaturePadReturn } from './use-signature-pad.ts'
+import { SignaturePadProvider } from './use-signature-pad-context.ts'
+
+interface RootProviderProps {
+  value: UseSignaturePadReturn
+}
+
+export interface SignaturePadRootProviderBaseProps extends RootProviderProps, PolymorphicProps {}
+export interface SignaturePadRootProviderProps extends HTMLProps<'div'>, SignaturePadRootProviderBaseProps {}
+
+const splitRootProviderProps = createSplitProps<RootProviderProps>()
+
+export const SignaturePadRootProvider = forwardRef<HTMLDivElement, SignaturePadRootProviderProps>((props, ref) => {
+  const [{ value: signaturePad }, localProps] = splitRootProviderProps(props, ['value'])
+  const mergedProps = mergeProps(signaturePad.getRootProps(), localProps)
+
+  return (
+    <SignaturePadProvider value={signaturePad}>
+      <ark.div {...mergedProps} ref={ref} />
+    </SignaturePadProvider>
+  )
+})
+
+SignaturePadRootProvider.displayName = 'SignaturePadRootProvider'

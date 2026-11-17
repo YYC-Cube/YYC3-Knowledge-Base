@@ -1,0 +1,30 @@
+import React from 'react';
+import classNames from 'classnames';
+import { pick } from 'lodash-es';
+
+import useDefaultProps from '../hooks/useDefaultProps';
+import Panel from './components/Panel';
+import { cascaderDefaultProps } from './defaultProps';
+import { useCascaderContext } from './hooks';
+
+import type { StyledProps } from '../common';
+import type { TdCascaderProps } from './interface';
+
+export interface CascaderProps extends TdCascaderProps, StyledProps {}
+
+const CascaderPanel: React.FC<CascaderProps> = (originalProps) => {
+  const props = useDefaultProps<CascaderProps>(originalProps, cascaderDefaultProps);
+  const { cascaderContext } = useCascaderContext(props);
+  return (
+    <Panel
+      className={classNames(props.className)}
+      style={props.style}
+      cascaderContext={cascaderContext}
+      {...pick(props, ['trigger', 'onChange', 'empty', 'option', 'columnHeader', 'columnFooter'])}
+    ></Panel>
+  );
+};
+
+CascaderPanel.displayName = 'CascaderPanel';
+
+export default CascaderPanel;

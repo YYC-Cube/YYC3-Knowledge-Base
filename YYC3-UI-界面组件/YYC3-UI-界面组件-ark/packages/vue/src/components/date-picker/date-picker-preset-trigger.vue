@@ -1,0 +1,31 @@
+<script lang="ts">
+import type { PresetTriggerProps } from '@zag-js/date-picker'
+import type { ButtonHTMLAttributes } from 'vue'
+import type { PolymorphicProps } from '../factory.ts'
+
+export interface DatePickerPresetTriggerBaseProps extends PresetTriggerProps, PolymorphicProps {}
+export interface DatePickerPresetTriggerProps
+  extends
+    DatePickerPresetTriggerBaseProps,
+    /**
+     * @vue-ignore
+     */
+    Omit<ButtonHTMLAttributes, 'value'> {}
+</script>
+
+<script setup lang="ts">
+import { ark } from '../factory.ts'
+import { useDatePickerContext } from './use-date-picker-context.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+
+const props = defineProps<DatePickerPresetTriggerProps>()
+const datePicker = useDatePickerContext()
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.button v-bind="datePicker.getPresetTriggerProps(props)" :as-child="asChild">
+    <slot />
+  </ark.button>
+</template>

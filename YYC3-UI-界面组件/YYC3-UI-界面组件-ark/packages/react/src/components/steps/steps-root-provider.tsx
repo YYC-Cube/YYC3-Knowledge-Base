@@ -1,0 +1,30 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import type { UseStepsReturn } from './use-steps.ts'
+import { StepsProvider } from './use-steps-context.ts'
+
+interface RootProviderProps {
+  value: UseStepsReturn
+}
+
+export interface StepsRootProviderBaseProps extends RootProviderProps, PolymorphicProps {}
+export interface StepsRootProviderProps extends HTMLProps<'div'>, StepsRootProviderBaseProps {}
+
+const splitRootProviderProps = createSplitProps<RootProviderProps>()
+
+export const StepsRootProvider = forwardRef<HTMLDivElement, StepsRootProviderProps>((props, ref) => {
+  const [{ value: steps }, rootProps] = splitRootProviderProps(props, ['value'])
+  const mergedProps = mergeProps(steps.getRootProps(), rootProps)
+
+  return (
+    <StepsProvider value={steps}>
+      <ark.div {...mergedProps} ref={ref} />
+    </StepsProvider>
+  )
+})
+
+StepsRootProvider.displayName = 'StepsRootProvider'

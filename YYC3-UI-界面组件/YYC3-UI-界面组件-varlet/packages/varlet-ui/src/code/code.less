@@ -1,0 +1,22 @@
+:root {
+  --code-font-size: 14px;
+  --code-line-height: 1.7;
+}
+
+.var-code {
+  width: 100%;
+  line-height: var(--code-line-height);
+  font-size: var(--code-font-size);
+
+  pre {
+    width: 100%;
+    margin: 0;
+    overflow: auto;
+    background-color: transparent !important;
+  }
+
+  &--word-wrap pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}

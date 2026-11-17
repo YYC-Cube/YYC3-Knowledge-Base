@@ -1,0 +1,33 @@
+---
+title: SpotlightCard
+description: SpotlightCard displays a grid of items with an interactive spotlight effect that follows the mouse cursor over each card.
+category: Data Display
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { awesomeSpotlightCardClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## APIs
+
+<Api name="SpotlightCard" from=".." migrationKey="unheaded:0" />
+
+> SpotlightCard also inherits all div element properties
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `SpotlightCard`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/awesome/SpotlightCard.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={awesomeSpotlightCardClasses} />

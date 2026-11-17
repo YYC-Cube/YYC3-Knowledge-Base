@@ -1,0 +1,87 @@
+<script lang="ts">
+import type {
+  MenuContentEmits,
+  MenuContentProps,
+} from '@/Menu'
+import { useForwardExpose, useForwardPropsEmits } from '@/shared'
+
+export type ContextMenuContentEmits = Omit<MenuContentEmits, 'entryFocus'>
+
+export interface ContextMenuContentProps
+  extends Omit<
+    MenuContentProps,
+    | 'side'
+    | 'sideOffset'
+    | 'align'
+    | 'arrowPadding'
+    | 'updatePositionStrategy'
+  > {}
+</script>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { MenuContent } from '@/Menu'
+import { omitEntryFocusListener } from '@/Menu/utils'
+import { injectContextMenuRootContext } from './ContextMenuRoot.vue'
+
+defineOptions({
+  inheritAttrs: false,
+})
+
+const props = withDefaults(defineProps<ContextMenuContentProps>(), {
+  alignOffset: 0,
+  avoidCollisions: true,
+  collisionBoundary: () => [],
+  collisionPadding: 0,
+  sticky: 'partial',
+  hideWhenDetached: false,
+})
+const emits = defineEmits<ContextMenuContentEmits>()
+const forwarded = useForwardPropsEmits(props, emits)
+
+useForwardExpose()
+const rootContext = injectContextMenuRootContext()
+const hasInteractedOutside = ref(false)
+</script>
+
+<template>
+  <MenuContent
+    side="right"
+    :side-offset="2"
+    align="start"
+    update-position-strategy="always"
+    :style="{
+      '--reka-context-menu-content-transform-origin':
+        'var(--reka-popper-transform-origin)',
+      '--reka-context-menu-content-available-width':
+        'var(--reka-popper-available-width)',
+      '--reka-context-menu-content-available-height':
+        'var(--reka-popper-available-height)',
+      '--reka-context-menu-trigger-width': 'var(--reka-popper-anchor-width)',
+      '--reka-context-menu-trigger-height':
+        'var(--reka-popper-anchor-height)',
+    }"
+    v-bind="{ ...forwarded, ...omitEntryFocusListener($attrs) }"
+    @close-auto-focus="
+      (event) => {
+        if (!event.defaultPrevented && hasInteractedOutside) {
+          event.preventDefault();
+        }
+        hasInteractedOutside = false;
+      }
+    "
+    @interact-outside="
+      (event) => {
+        const originalEvent = event.detail.originalEvent as PointerEvent
+        // Prevent closing when right click (button=2) on the trigger element or its descendants
+        if (originalEvent.button === 2 && rootContext.triggerElement.value?.contains(event.target as Node)) {
+          event.preventDefault()
+        }
+        if (!event.defaultPrevented && !rootContext.modal.value)
+          hasInteractedOutside = true;
+      }
+    "
+  >
+    <slot />
+  </MenuContent>
+</template>

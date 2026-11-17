@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "paths": {
+      "styles/*": ["../../.storybook/modules/*"]
+    },
+    "ignoreDeprecations": "6.0",
+    "noPropertyAccessFromIndexSignature": false
+  },
+  "include": ["src", "../../.storybook/modules/css-modules.d.ts"]
+}

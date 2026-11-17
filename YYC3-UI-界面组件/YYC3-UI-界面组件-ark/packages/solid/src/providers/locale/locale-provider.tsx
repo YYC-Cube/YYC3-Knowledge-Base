@@ -1,0 +1,22 @@
+import { type Locale, isRTL } from '@zag-js/i18n-utils'
+import { type ParentProps, createMemo } from 'solid-js'
+import { LocaleContextProvider } from './use-locale-context.ts'
+
+export interface LocaleProviderProps extends ParentProps {
+  /**
+   * The locale to use for the application.
+   * @default 'en-US'
+   */
+  locale: string
+}
+
+export const LocaleProvider = (props: LocaleProviderProps) => {
+  const context = createMemo(
+    (): Locale => ({
+      locale: props.locale,
+      dir: isRTL(props.locale) ? 'rtl' : 'ltr',
+    }),
+  )
+
+  return <LocaleContextProvider value={context}>{props.children}</LocaleContextProvider>
+}

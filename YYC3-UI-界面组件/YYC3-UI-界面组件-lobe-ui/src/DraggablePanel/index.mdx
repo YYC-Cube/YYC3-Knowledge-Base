@@ -1,0 +1,48 @@
+---
+title: DraggablePanel
+description: An edge-anchored panel that can be resized by dragging, by keyboard, or collapsed. Built on motion values, so a drag never re-renders React.
+category: Layout
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import DemoDragToCollapse from './demos/DragToCollapse.tsx?demo';
+import DemoKeyboard from './demos/Keyboard.tsx?demo';
+import DemoComposition from './demos/Composition.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { draggablePanelClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Drag to Collapse
+
+<Demo of={DemoDragToCollapse} layout="bare" />
+
+## Keyboard
+
+<Demo of={DemoKeyboard} layout="bare" />
+
+## Composition
+
+<Demo of={DemoComposition} layout="bare" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `DraggablePanel`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/DraggablePanel.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={draggablePanelClasses} />
+
+The handle and the toggle repeat `data-placement`.
+
+## APIs
+
+<Api name="DraggablePanel" />

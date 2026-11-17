@@ -1,0 +1,111 @@
+import { type Accessor, createMemo } from 'solid-js'
+import { useControllableState } from '../../utils/use-controllable-state.ts'
+import { useFieldsetContext } from '../fieldset/index.tsx'
+
+export interface UseCheckboxGroupProps {
+  /**
+   * The initial value of `value` when uncontrolled
+   */
+  defaultValue?: Accessor<string[]> | string[]
+  /**
+   * The controlled value of the checkbox group
+   */
+  value?: Accessor<string[]>
+  /**
+   * The name of the input fields in the checkbox group
+   * (Useful for form submission).
+   */
+  name?: string
+  /**
+   * The callback to call when the value changes
+   */
+  onValueChange?: (value: string[]) => void
+  /**
+   * If `true`, the checkbox group is disabled
+   */
+  disabled?: boolean
+  /**
+   * If `true`, the checkbox group is read-only
+   */
+  readOnly?: boolean
+  /**
+   * If `true`, the checkbox group is invalid
+   */
+  invalid?: boolean
+  /**
+   * The maximum number of selected values
+   */
+  maxSelectedValues?: number
+}
+
+export interface CheckboxGroupItemProps {
+  value: string | undefined
+}
+
+export function useCheckboxGroup(props: UseCheckboxGroupProps = {}) {
+  const fieldset = useFieldsetContext()
+  const disabled = () => props.disabled ?? fieldset?.()?.disabled
+  const invalid = () => props.invalid ?? fieldset?.()?.invalid
+  const interactive = createMemo(() => !(disabled() || props.readOnly))
+
+  const [value, setValue] = useControllableState({
+    value: props.value,
+    defaultValue: props.defaultValue || [],
+    onChange: props.onValueChange,
+  })
+
+  return createMemo(() => {
+    const isChecked = (val: string | undefined) => {
+      return value().some((v) => String(v) === String(val))
+    }
+
+    const toggleValue = (val: string) => {
+      isChecked(val) ? removeValue(val) : addValue(val)
+    }
+
+    const isAtMax = props.maxSelectedValues != null && value().length >= props.maxSelectedValues
+
+    const addValue = (val: string) => {
+      if (!interactive()) return
+      if (isChecked(val)) return
+      if (isAtMax) return
+      setValue(value().concat(val))
+    }
+
+    const removeValue = (val: string) => {
+      if (!interactive()) return
+      setValue(value().filter((v) => String(v) !== String(val)))
+    }
+
+    const getItemProps = (itemProps: CheckboxGroupItemProps) => {
+      const checked = itemProps.value != null ? isChecked(itemProps.value) : undefined
+      return {
+        checked,
+        onCheckedChange() {
+          if (itemProps.value != null) {
+            toggleValue(itemProps.value)
+          }
+        },
+        name: props.name,
+        disabled: disabled() || (isAtMax && !checked),
+        readOnly: props.readOnly,
+        invalid: invalid(),
+      }
+    }
+
+    return {
+      isChecked,
+      value,
+      name: props.name,
+      disabled: disabled(),
+      readOnly: props.readOnly,
+      invalid: invalid(),
+      setValue,
+      addValue,
+      toggleValue,
+      getItemProps,
+    }
+  })
+}
+
+export type UseCheckboxGroupReturn = ReturnType<typeof useCheckboxGroup>

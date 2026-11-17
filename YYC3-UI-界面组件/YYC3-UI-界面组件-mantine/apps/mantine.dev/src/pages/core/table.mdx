@@ -1,0 +1,99 @@
+import { TableDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Table);
+
+## Usage
+
+Table data for all examples:
+
+```tsx
+const elements = [
+  { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
+  { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
+  { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
+  { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
+  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
+];
+```
+
+<Demo data={TableDemos.usage} />
+
+## data prop
+
+You can use the `data` prop to automatically generate table rows from an array of React nodes.
+The `data` prop accepts an object with the following properties:
+
+- `head` – an array of React nodes (`React.ReactNode[]`) to render `Table.Th` in `Table.Thead`
+- `foot` – an array of React nodes (`React.ReactNode[]`) to render `Table.Th` in `Table.Tfoot`
+- `body` - an array of arrays of React nodes (`React.ReactNode[][]`) to render `Table.Td` in `Table.Tbody`
+- `caption` – a React node to render `Table.Caption`
+
+<Demo data={TableDemos.data} />
+
+## Sticky header
+
+Set `stickyHeader` to make the table header sticky. To customize the top position of the header, use the `stickyHeaderOffset` prop:
+it is useful when you have a fixed header in your application. For example, the Mantine documentation website has a fixed
+header with 60px height:
+
+<Demo data={TableDemos.stickyHeader} />
+
+## Spacing
+
+To control spacing, use the `horizontalSpacing` and `verticalSpacing` props. Both props support spacing from `theme.spacing` and any valid CSS value to set cell padding:
+
+<Demo data={TableDemos.spacingConfigurator} />
+
+## Caption and tfoot
+
+Table supports tfoot and caption elements. Set the `captionSide` prop (top or bottom) to change the caption position.
+
+<Demo data={TableDemos.captions} />
+
+## Striped and rows hover
+
+<Demo data={TableDemos.configurator} />
+
+## Scroll container
+
+To prevent viewport overflow, wrap `Table` with `Table.ScrollContainer`.
+The component accepts a `minWidth` prop which sets the minimum width below which the table will be scrollable.
+
+<Demo data={TableDemos.scrollContainer} />
+
+By default, `Table.ScrollContainer` uses [ScrollArea](/core/scroll-area), you can change it
+to native scrollbars by setting `type="native"`:
+
+<Demo data={TableDemos.scrollContainerNative} />
+
+You can also set the `maxHeight` prop on `Table.ScrollContainer` to limit the table height:
+
+<Demo data={TableDemos.scrollContainerMaxHeight} />
+
+## Vertical variant
+
+Set `variant="vertical"` to render the table with a vertical layout:
+
+<Demo data={TableDemos.vertical} />
+
+## Tabular numbers
+
+Set the `tabularNums` prop to render numbers in tabular style. It sets
+`font-variant-numeric: tabular-nums` which makes numbers have equal width.
+This is useful when you have columns with numbers and you want them to be aligned:
+
+<Demo data={TableDemos.tabularNums} />
+
+## Example: Table virtualization
+
+This example demonstrates how to use `Table.ScrollContainer` with `@tanstack/react-virtual`
+to efficiently render large datasets. Only the visible rows are rendered in the DOM,
+which significantly improves performance for tables with thousands of rows.
+
+<Demo data={TableDemos.virtualized} />
+
+## Example: Table with row selection
+
+<Demo data={TableDemos.rowSelection} />

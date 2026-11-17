@@ -1,0 +1,56 @@
+'use client'
+
+import { type FocusTrapOptions, trapFocus } from '@zag-js/focus-trap'
+import { forwardRef, useRef } from 'react'
+import type { Assign } from '../../types.ts'
+import { useComposedRefs } from '../../utils/compose-refs.ts'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { useSafeLayoutEffect } from '../../utils/use-safe-layout-effect.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+
+export interface TrapOptions extends Pick<
+  FocusTrapOptions,
+  | 'onActivate'
+  | 'onDeactivate'
+  | 'initialFocus'
+  | 'fallbackFocus'
+  | 'returnFocusOnDeactivate'
+  | 'setReturnFocus'
+  | 'persistentElements'
+> {
+  /**
+   * Whether the focus trap is disabled.
+   */
+  disabled?: boolean | undefined
+}
+
+export interface FocusTrapBaseProps extends PolymorphicProps, TrapOptions {}
+
+export interface FocusTrapProps extends Assign<HTMLProps<'div'>, FocusTrapBaseProps> {}
+
+const splitTrapProps = createSplitProps<TrapOptions>()
+
+export const FocusTrap = forwardRef<HTMLDivElement, FocusTrapProps>((props, ref) => {
+  const localRef = useRef<HTMLDivElement | null>(null)
+  const [trapProps, localProps] = splitTrapProps(props, [
+    'disabled',
+    'onActivate',
+    'onDeactivate',
+    'initialFocus',
+    'fallbackFocus',
+    'returnFocusOnDeactivate',
+    'setReturnFocus',
+    'persistentElements',
+  ])
+  const composedRefs = useComposedRefs(localRef, ref)
+
+  useSafeLayoutEffect(() => {
+    const node = localRef.current
+    if (!node || trapProps.disabled) return
+    return trapFocus(node, trapProps)
+  }, [ref, trapProps])
+
+  return <ark.div ref={composedRefs} {...localProps} />
+})
+
+FocusTrap.displayName = 'FocusTrap'

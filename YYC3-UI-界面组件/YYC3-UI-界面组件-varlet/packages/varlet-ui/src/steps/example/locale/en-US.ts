@@ -1,0 +1,16 @@
+export default {
+  basicUsage: 'Basic Usage',
+  customStyle: 'Custom Style',
+  customIconWithSlots: 'Customize Icon With Slots',
+  dynamicSteps: 'Dynamic Steps',
+  vertical: 'Vertical Mode',
+  next: 'next',
+  first: 'Step1',
+  second: 'Step2',
+  third: 'Step3',
+  fourth: 'Step4',
+  fifth: 'Step5',
+  placeholder: 'Change the number of steps',
+  step: 'Step',
+  text: 'do something...',
+}

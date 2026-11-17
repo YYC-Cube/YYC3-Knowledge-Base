@@ -1,0 +1,107 @@
+import type { Template } from './data';
+
+export const COMMUNITY_TEMPLATES_DATA: Template[] = [
+  {
+    type: 'next',
+    name: 't3-template',
+    link: 'https://github.com/WillKirkmanM/mantine-t3-template',
+    description: 'Next.js app router T3 stack template',
+  },
+  {
+    type: 'next',
+    name: 'next-tailwind-template',
+    link: 'https://github.com/songkeys/next-app-mantine-tailwind-template',
+    description: 'Next.js app router + Mantine + Tailwind template',
+  },
+  {
+    type: 'next',
+    name: 'next-bun-template',
+    link: 'https://github.com/KennethAduan/kenstack-bun-nextjs-mantine/',
+    description: 'Next.js app router + Mantine + Bun template',
+  },
+  {
+    type: 'next',
+    name: 'ship-template',
+    link: 'https://github.com/paralect/ship',
+    description: 'Fullstack boilerplate with Next.js, auth, MongoDB, Turborepo',
+  },
+  {
+    type: 'next',
+    name: 'next-turborepo-template',
+    link: 'https://github.com/ynssenem/next-mantine-turborepo',
+    description: 'App router + Mantine + Turborepo template',
+  },
+  {
+    type: 'next',
+    name: 'nextra-documentation-template',
+    link: 'https://github.com/gfazioli/next-app-nextra-template',
+    description: 'Nextra + Mantine template',
+  },
+  {
+    type: 'next',
+    name: 'fumadocs-documentation-template',
+    link: 'https://github.com/gfazioli/next-app-fumadocs-template',
+    description: 'Fumadocs + Mantine template',
+  },
+  {
+    type: 'next',
+    name: 'next-saas-template',
+    link: 'https://github.com/AshutoshDash1999/nextjs-mantine-boilerplate',
+    description: 'Next.js SaaS boilerplate with Mantine',
+  },
+  {
+    type: 'next',
+    name: 'shaadkit-template',
+    link: 'https://github.com/shaadcode/shaadkit',
+    description: 'Next.js + Mantine + next-intl + Storybook + Vitest + Playwright template',
+  },
+  {
+    type: 'vite',
+    name: 'nx-vite-monorepo-template',
+    link: 'https://github.com/dipiash/nx-vite-react-ts-mantine-boilerplate',
+    description:
+      'NX monorepo template with: Vite, GraphQL / Apollo, Typescript, Storybook / CSS Modules',
+  },
+  {
+    type: 'vite',
+    name: 'dashboard-template',
+    link: 'https://github.com/auronvila/mantine-template',
+    description: 'Vite + Redux + i18next + auth + Mantine dashboard template',
+  },
+  {
+    type: 'vite',
+    name: 'supabase-template',
+    link: 'https://github.com/LanVukusic/mantine-supabase-template',
+    description: 'Vite + Supabase + Mantine template',
+  },
+  {
+    type: 'vite',
+    name: 'waku-template',
+    link: 'https://github.com/doiska/waku-mantine-starter',
+    description: 'Vite + Waku + Mantine template',
+  },
+  {
+    type: 'vite',
+    name: 'tanstack-start-cloudflare-template',
+    link: 'https://github.com/tylim88/Tanstack-Start-Mantine-Tailwind-Template',
+    description: 'Tanstack Start + Cloudflare + Mantine template',
+  },
+  {
+    type: 'vite',
+    name: 'bun-vite-template',
+    link: 'https://github.com/LewisDamy/bun-vite-template',
+    description: 'Bun + Vite + Mantine template',
+  },
+  {
+    type: 'vite',
+    name: 'electron-vite-template',
+    link: 'https://github.com/saulotarsobc/sc-electron-boilerplate',
+    description: 'Electron + Vite + React desktop app template',
+  },
+  {
+    type: 'react-router',
+    name: 'react-router-template',
+    link: 'https://github.com/samui-build/react-router-mantine',
+    description: 'Basic react-router + Mantine template',
+  },
+];

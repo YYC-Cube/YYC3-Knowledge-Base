@@ -1,0 +1,30 @@
+name: sync h5 demo to github.io
+
+on:
+  push:
+    branches:
+      - main # default branch
+    paths:
+      - '.github/workflows/**'
+      - '**'
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    # if: github.repository == 'hellof2e/quark-design'
+    steps:
+      - uses: actions/checkout@v2
+      # 会有很多 npm 包在外层，link 使用
+      # - run: cd example && npm i --legacy-peer-deps && npm run build
+      - run: yarn
+      - run: yarn run link
+      - run: yarn push2io
+      - name : Sync
+        uses : JamesIves/github-pages-deploy-action@v4
+        with :
+          branch : main # action 应该部署到的分支。
+          folder : dist # 操作应该部署的文件夹。
+          clean: false
+          repository-name: quark-ecosystem/quarkd-docs # 仓库名称。
+          token: ${{ secrets.GIT_ACTION }}
+          target-folder: h5 # 部署到 demo 目录下

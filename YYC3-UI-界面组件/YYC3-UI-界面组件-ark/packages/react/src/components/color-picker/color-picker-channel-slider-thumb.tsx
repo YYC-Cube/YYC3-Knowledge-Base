@@ -1,0 +1,27 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { useColorPickerChannelPropsContext } from './use-color-picker-channel-props-context.ts'
+import { useColorPickerContext } from './use-color-picker-context.ts'
+import { useColorPickerFormatPropsContext } from './use-color-picker-format-context.ts'
+
+export interface ColorPickerChannelSliderThumbBaseProps extends PolymorphicProps {}
+export interface ColorPickerChannelSliderThumbProps extends HTMLProps<'div'>, ColorPickerChannelSliderThumbBaseProps {}
+
+export const ColorPickerChannelSliderThumb = forwardRef<HTMLDivElement, ColorPickerChannelSliderThumbProps>(
+  (props, ref) => {
+    const colorPicker = useColorPickerContext()
+
+    const channelProps = useColorPickerChannelPropsContext()
+    const formatProps = useColorPickerFormatPropsContext()
+    const channelSliderProps = { ...channelProps, ...formatProps }
+
+    const mergedProps = mergeProps(colorPicker.getChannelSliderThumbProps(channelSliderProps), props)
+
+    return <ark.div {...mergedProps} ref={ref} />
+  },
+)
+
+ColorPickerChannelSliderThumb.displayName = 'ColorPickerChannelSliderThumb'

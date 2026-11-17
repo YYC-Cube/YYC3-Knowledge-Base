@@ -1,0 +1,43 @@
+{{#> code-editor}}
+  {{#> code-editor-header}}
+    {{#> code-editor-tab}}
+      {{#> code-editor-tab-icon}}
+        {{pfIcon "rh-ui-code"}}
+      {{/code-editor-tab-icon}}
+      {{#> code-editor-tab-text}}
+        YAML
+      {{/code-editor-tab-text}}
+    {{/code-editor-tab}}
+  {{/code-editor-header}}
+  {{#> code-editor-main}}
+    {{#> code-editor-upload}}
+      {{#> empty-state}}
+        {{#> empty-state-header}}
+          {{> empty-state-icon empty-state-icon--type="rh-ui-code"}}
+          {{#> empty-state-title}}
+            {{#> empty-state-title-text empty-state-title-text--element="h4"}}
+              Start editing
+            {{/empty-state-title-text}}
+          {{/empty-state-title}}
+        {{/empty-state-header}}
+
+        {{#> empty-state-body}}
+          Drag a file here or browse to upload.
+        {{/empty-state-body}}
+
+        {{#> empty-state-footer}}
+          {{#> empty-state-actions}}
+            {{#> button button--IsPrimary=true}}
+              Browse
+            {{/button}}
+          {{/empty-state-actions}}
+          {{#> empty-state-actions}}
+            {{#> button button--IsLink=true}}
+              Start from scratch
+            {{/button}}
+          {{/empty-state-actions}}
+        {{/empty-state-footer}}
+      {{/empty-state}}
+    {{/code-editor-upload}}
+  {{/code-editor-main}}
+{{/code-editor}}

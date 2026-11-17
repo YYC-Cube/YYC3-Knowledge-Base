@@ -1,0 +1,39 @@
+<script lang="ts">
+  import { Portal } from '@ark-ui/svelte/portal'
+  import { Select, createListCollection } from '@ark-ui/svelte/select'
+  import { ChevronsUpDownIcon } from 'lucide-svelte'
+  import styles from 'styles/select.module.css'
+
+  const collection = createListCollection({
+    items: ['React', 'Solid', 'Vue', 'Svelte', 'Angular', 'Alpine'],
+  })
+</script>
+
+<Select.Root class={styles.Root} {collection} lazyMount unmountOnExit>
+  <Select.Label class={styles.Label}>Framework</Select.Label>
+  <Select.Control class={styles.Control}>
+    <Select.Trigger class={styles.Trigger}>
+      <Select.ValueText class={styles.ValueText} placeholder="Select a Framework" />
+      <Select.Indicator class={styles.Indicator}>
+        <ChevronsUpDownIcon />
+      </Select.Indicator>
+    </Select.Trigger>
+    <Select.ClearTrigger class={styles.ClearTrigger}>Clear</Select.ClearTrigger>
+  </Select.Control>
+  <Portal>
+    <Select.Positioner>
+      <Select.Content class={styles.Content}>
+        <Select.ItemGroup class={styles.ItemGroup}>
+          <Select.ItemGroupLabel class={styles.ItemGroupLabel}>Frameworks</Select.ItemGroupLabel>
+          {#each collection.items as item}
+            <Select.Item class={styles.Item} {item}>
+              <Select.ItemText class={styles.ItemText}>{item}</Select.ItemText>
+              <Select.ItemIndicator class={styles.ItemIndicator}>✓</Select.ItemIndicator>
+            </Select.Item>
+          {/each}
+        </Select.ItemGroup>
+      </Select.Content>
+    </Select.Positioner>
+  </Portal>
+  <Select.HiddenSelect />
+</Select.Root>

@@ -1,0 +1,177 @@
+import { StepperDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Stepper);
+
+## Usage
+
+<Demo data={StepperDemos.usage} />
+
+## Allow step select
+
+To disable step selection, set the `allowStepSelect` prop on the `Stepper.Step` component.
+It can be used to prevent the user from reaching the next steps while letting them go back and forth between steps they've already reached before:
+
+<Demo data={StepperDemos.allowStepSelect} />
+
+## Disable next steps selection
+
+Another way to disable the selection of upcoming steps is to use the `allowNextStepsSelect` directly on the `Stepper` component.
+This is useful when you don't need to control the behavior specifically for each step.
+
+<Demo data={StepperDemos.allowNextStepsSelect} />
+
+## Color, radius and size
+
+<Demo data={StepperDemos.configurator} />
+
+Component size is controlled by two props: `size` and `iconSize`.
+The `size` prop controls icon size, label and description font size.
+`iconSize` allows you to overwrite the icon size separately from other size values:
+
+<Demo data={StepperDemos.iconSizeConfigurator} />
+
+## With custom icons
+
+You can replace the step icon by setting the `icon` prop on the `Stepper.Step` component.
+To change the completed check icon, set `completedIcon` on the `Stepper` component.
+You can use any React node as an icon: component, string, number:
+
+<Demo data={StepperDemos.icons} />
+
+You can use `Stepper` with icons only. Note that in this case, you will have to
+set `aria-label` or `title` on the `Stepper.Step` component to make it accessible:
+
+<Demo data={StepperDemos.iconsOnly} />
+
+You can also change the completed icon for each step, for example, to indicate an error state:
+
+<Demo data={StepperDemos.stepColor} />
+
+## Vertical orientation
+
+<Demo data={StepperDemos.orientation} />
+
+## Label position
+
+Set `labelPosition="bottom"` to display the step label and description below the step icon:
+
+<Demo data={StepperDemos.labelPosition} />
+
+## Icon position
+
+To change the step icon and body arrangement, set `iconPosition="right"`:
+
+<Demo data={StepperDemos.iconPosition} />
+
+## Loading state
+
+To indicate the loading state, set the `loading` prop on the Step component; the `Loader` will replace the step icon.
+You can configure the default loader in the [theme](/theming/theme-object/).
+
+<Demo data={StepperDemos.loading} />
+
+<StylesApiSelectors component="Stepper" />
+
+<Demo data={StepperDemos.stylesApi} />
+
+Examples of styles customization with Styles API:
+
+<Demo data={StepperDemos.stylesApi2} />
+
+<br />
+
+<Demo data={StepperDemos.stylesApi3} />
+
+## Get step ref
+
+You can get refs of the step button and stepper root element (div):
+
+```tsx
+import { useRef } from 'react';
+import { Stepper } from '@mantine/core';
+
+function MyStepper() {
+  const firstStep = useRef<HTMLButtonElement>(null);
+  const stepper = useRef<HTMLDivElement>(null);
+
+  return (
+    <Stepper ref={stepper} active={0}>
+      <Stepper.Step label="First step" ref={firstStep} />
+      <Stepper.Step label="Second step" />
+    </Stepper>
+  );
+}
+```
+
+## Wrap Stepper.Step
+
+`Stepper` component relies on `Stepper.Step` order. Wrapping `Stepper.Step` is not supported.
+Instead, you will need to use different approaches:
+
+```tsx
+import { Stepper } from '@mantine/core';
+
+// This will not work, step children will not render
+function WillNotWork() {
+  return (
+    <Stepper.Step label="Nope" description="It will not work">
+      This part will not render
+    </Stepper.Step>
+  );
+}
+
+// Create a separate component for children
+function WillWork() {
+  return <div>This will work as expected!</div>;
+}
+
+function Demo() {
+  return (
+    <Stepper active={1}>
+      <Stepper.Step label="Regular step">First step</Stepper.Step>
+      {/* Wrapped Stepper.Step will not render children, do not do that */}
+      <WillNotWork />
+      <Stepper.Step label="Step with custom content">
+        <WillWork />
+      </Stepper.Step>
+      <Stepper.Step label="Regular step">Third step</Stepper.Step>
+    </Stepper>
+  );
+}
+```
+
+## Accessibility
+
+`<Stepper.Step />` components render a button element; set `aria-label` or `title` props
+to make the component visible for screen readers in case you do not specify `label` or `description`:
+
+```tsx
+import { Stepper } from '@mantine/core';
+
+function Demo() {
+  return (
+    <Stepper active={0}>
+      {/* Not ok, no label for screen reader */}
+      <Stepper.Step />
+
+      {/* Ok, label and description */}
+      <Stepper.Step label="Step 1" description="Create an account" />
+
+      {/* Ok, aria-label */}
+      <Stepper.Step aria-label="Create an account" />
+    </Stepper>
+  );
+}
+```
+
+## Keyboard Navigation
+
+Stepper supports full keyboard navigation:
+
+- **Tab / Shift+Tab** - Move focus between clickable steps
+- **Space / Enter** - Activate the focused step
+- Each step is a button element with proper ARIA attributes
+
+Inactive steps that are not clickable are skipped during Tab navigation. The tabIndex is automatically managed based on whether a step is clickable or not.

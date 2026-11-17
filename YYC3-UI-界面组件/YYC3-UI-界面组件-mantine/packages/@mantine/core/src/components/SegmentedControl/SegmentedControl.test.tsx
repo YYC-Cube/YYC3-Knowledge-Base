@@ -1,0 +1,180 @@
+import { useState } from 'react';
+import { act } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
+import { render, screen, tests, userEvent } from '@mantine-tests/core';
+import { MantineProvider } from '../../core';
+import {
+  SegmentedControl,
+  SegmentedControlProps,
+  SegmentedControlStylesNames,
+} from './SegmentedControl';
+
+const defaultProps: SegmentedControlProps = {
+  transitionDuration: 0,
+  data: ['First', 'Second', 'Third'],
+};
+
+describe('@mantine/core/SegmentedControl', () => {
+  tests.axe([
+    <SegmentedControl {...defaultProps} key="1" />,
+    <SegmentedControl {...defaultProps} aria-label="group label" key="2" />,
+  ]);
+
+  tests.itSupportsSystemProps<SegmentedControlProps, SegmentedControlStylesNames>({
+    component: SegmentedControl,
+    props: defaultProps,
+    varsResolver: true,
+    displayName: '@mantine/core/SegmentedControl',
+    stylesApiSelectors: ['root', 'label', 'input', 'control', 'indicator', 'innerLabel'],
+  });
+
+  it('does not call Math.random during server rendering', () => {
+    const spy = jest.spyOn(Math, 'random');
+    try {
+      renderToString(
+        <MantineProvider>
+          <SegmentedControl {...defaultProps} />
+        </MantineProvider>
+      );
+      expect(spy).not.toHaveBeenCalled();
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it('prevents value changes when readOnly is true', async () => {
+    const spy = jest.fn();
+    render(<SegmentedControl {...defaultProps} value="First" onChange={spy} readOnly />);
+
+    const radios = screen.getAllByRole('radio');
+    expect(radios[0]).toBeChecked();
+    await userEvent.click(radios[1]);
+
+    expect(radios[0]).toBeChecked();
+    expect(radios[1]).not.toBeChecked();
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('allows value changes when readOnly is false', async () => {
+    const spy = jest.fn();
+    render(<SegmentedControl {...defaultProps} value="First" onChange={spy} readOnly={false} />);
+
+    const radios = screen.getAllByRole('radio');
+    expect(radios[0]).toBeChecked();
+    await userEvent.click(radios[1]);
+
+    expect(spy).toHaveBeenCalledWith('Second');
+  });
+
+  it('keeps the indicator mounted when data is replaced with a list of the same length', async () => {
+    const minutes = ['10', '30', '60'];
+    const days = ['7', '30', '90'];
+
+    function Wrapper() {
+      const [swapped, setSwapped] = useState(false);
+      return (
+        <>
+          <button type="button" onClick={() => setSwapped((v) => !v)}>
+            swap
+          </button>
+          <SegmentedControl
+            transitionDuration={0}
+            data={swapped ? days : minutes}
+            value={swapped ? '7' : '10'}
+            onChange={() => {}}
+          />
+        </>
+      );
+    }
+
+    const getIndicator = () => document.querySelector('.mantine-SegmentedControl-indicator');
+    render(<Wrapper />);
+    expect(getIndicator()).not.toBe(null);
+
+    const swap = screen.getByRole('button', { name: 'swap' });
+
+    await userEvent.click(swap);
+    expect(getIndicator()).not.toBe(null);
+
+    await userEvent.click(swap);
+    expect(getIndicator()).not.toBe(null);
+
+    await userEvent.click(swap);
+    expect(getIndicator()).not.toBe(null);
+  });
+
+  it('does not keep a detached label as the indicator target when the selected item is removed', async () => {
+    function Wrapper() {
+      const [removed, setRemoved] = useState(false);
+      return (
+        <>
+          <button type="button" onClick={() => setRemoved(true)}>
+            remove
+          </button>
+          <SegmentedControl
+            transitionDuration={0}
+            data={removed ? ['1', '2'] : ['1', '2', '3']}
+            value="3"
+            onChange={() => {}}
+          />
+        </>
+      );
+    }
+
+    render(<Wrapper />);
+    expect(document.querySelector('.mantine-SegmentedControl-indicator')).not.toBe(null);
+
+    await userEvent.click(screen.getByRole('button', { name: 'remove' }));
+
+    expect(document.querySelector('.mantine-SegmentedControl-indicator')).toBe(null);
+  });
+
+  it('moves the indicator with the selected item when data order changes', async () => {
+    const original = Element.prototype.getBoundingClientRect;
+    jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (
+      this: Element
+    ) {
+      const rect = original.call(this);
+      const control = this.closest('.mantine-SegmentedControl-control');
+      if (!control || !control.parentElement) {
+        return rect;
+      }
+
+      const index = Array.from(control.parentElement.children)
+        .filter((node) => node.classList.contains('mantine-SegmentedControl-control'))
+        .indexOf(control);
+
+      return { ...rect, top: index * 40, height: 40, width: 100 };
+    });
+
+    function Wrapper() {
+      const [reversed, setReversed] = useState(false);
+      const data = reversed ? ['3', '2', '1'] : ['1', '2', '3'];
+      return (
+        <>
+          <button type="button" onClick={() => setReversed((v) => !v)}>
+            reverse
+          </button>
+          <SegmentedControl
+            transitionDuration={0}
+            orientation="vertical"
+            data={data}
+            value="1"
+            onChange={() => {}}
+          />
+        </>
+      );
+    }
+
+    render(<Wrapper />);
+    const getIndicator = () =>
+      document.querySelector<HTMLElement>('.mantine-SegmentedControl-indicator')!;
+    expect(getIndicator().style.transform).toBe('translateY(0px) translateX(0px)');
+
+    await userEvent.click(screen.getByRole('button', { name: 'reverse' }));
+    await act(async () => {});
+
+    expect(getIndicator().style.transform).toBe('translateY(80px) translateX(0px)');
+    jest.restoreAllMocks();
+  });
+});

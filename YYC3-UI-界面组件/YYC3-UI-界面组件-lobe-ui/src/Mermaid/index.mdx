@@ -1,0 +1,146 @@
+---
+title: Mermaid
+description: Mermaid is a component for rendering Mermaid diagrams in React. It supports various diagram types like flowcharts, sequence diagrams, class diagrams, and more with customizable styling and interactive features.
+category: Data Display
+---
+
+import DemoMermaid from './demos/mermaid.tsx?demo';
+import DemoMermaid2 from './demos/mermaid-2.tsx?demo';
+import DemoMermaid3 from './demos/mermaid-3.tsx?demo';
+import DemoMermaid4 from './demos/mermaid-4.tsx?demo';
+import DemoMermaid5 from './demos/mermaid-5.tsx?demo';
+import DemoMermaid6 from './demos/mermaid-6.tsx?demo';
+import DemoMermaid7 from './demos/mermaid-7.tsx?demo';
+import DemoMermaid8 from './demos/mermaid-8.tsx?demo';
+import DemoMermaid9 from './demos/mermaid-9.tsx?demo';
+import DemoMermaid10 from './demos/mermaid-10.tsx?demo';
+import DemoMermaid11 from './demos/mermaid-11.tsx?demo';
+import DemoMermaid12 from './demos/mermaid-12.tsx?demo';
+import DemoMermaid13 from './demos/mermaid-13.tsx?demo';
+import DemoMermaid14 from './demos/mermaid-14.tsx?demo';
+import DemoMermaid15 from './demos/mermaid-15.tsx?demo';
+import DemoMermaid16 from './demos/mermaid-16.tsx?demo';
+import DemoMermaid17 from './demos/mermaid-17.tsx?demo';
+import DemoMermaid18 from './demos/mermaid-18.tsx?demo';
+import DemoIndex from './demos/index.tsx?demo';
+import DemoFullFeatured from './demos/FullFeatured.tsx?demo';
+import DemoActionsRender from './demos/ActionsRender.tsx?demo';
+import DemoStreaming from './demos/Streaming.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { mermaidClasses, syntaxMermaidClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Full Featured
+
+<Demo of={DemoFullFeatured} layout="bare" />
+
+## Actions Render
+
+<Demo of={DemoActionsRender} />
+
+## Streaming
+
+While a diagram is still streaming, chunks that are not valid syntax yet keep the last rendered diagram on screen; errors are only reported once streaming ends.
+
+<Demo of={DemoStreaming} />
+
+## Diagram Syntax
+
+### Flowchart
+
+<Demo of={DemoMermaid} />
+
+### Sequence Diagram
+
+<Demo of={DemoMermaid2} />
+
+### Class Diagram
+
+<Demo of={DemoMermaid3} />
+
+### State Diagram
+
+<Demo of={DemoMermaid4} />
+
+### Entity Relationship Diagram
+
+<Demo of={DemoMermaid5} />
+
+### User Journey Diagram
+
+<Demo of={DemoMermaid6} />
+
+### Gantt
+
+<Demo of={DemoMermaid7} />
+
+### Pie Chart
+
+<Demo of={DemoMermaid8} />
+
+### Quadrant Chart
+
+<Demo of={DemoMermaid9} />
+
+### Requirement Diagram
+
+<Demo of={DemoMermaid10} />
+
+### Gitgraph Diagrams
+
+<Demo of={DemoMermaid11} />
+
+### Mindmap
+
+<Demo of={DemoMermaid12} />
+
+### Timeline Diagram
+
+<Demo of={DemoMermaid13} />
+
+### Sankey diagram
+
+<Demo of={DemoMermaid14} />
+
+### XY Chart
+
+<Demo of={DemoMermaid15} />
+
+### Kanban Diagram
+
+<Demo of={DemoMermaid16} />
+
+### Architecture Diagrams
+
+<Demo of={DemoMermaid17} />
+
+### Flowchart with HTML Labels
+
+<Demo of={DemoMermaid18} />
+
+## APIs
+
+<Api name="Mermaid" migrationKey="unheaded:0" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Mermaid`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/Mermaid.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+### Mermaid
+
+<StableClassTable of={mermaidClasses} />
+
+### SyntaxMermaid
+
+<StableClassTable of={syntaxMermaidClasses} />

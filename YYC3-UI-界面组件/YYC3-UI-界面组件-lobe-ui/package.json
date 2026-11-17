@@ -1,0 +1,314 @@
+{
+  "name": "@lobehub/ui",
+  "version": "6.15.2",
+  "description": "Lobe UI is an open-source UI component library for building AIGC web apps",
+  "keywords": [
+    "lobehub",
+    "components",
+    "chatbot components",
+    "react components",
+    "react ui"
+  ],
+  "homepage": "https://github.com/lobehub/lobe-ui",
+  "bugs": {
+    "url": "https://github.com/lobehub/lobe-ui/issues/new"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lobehub/lobe-ui.git"
+  },
+  "license": "MIT",
+  "author": "LobeHub <i@lobehub.com>",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./es/index.d.mts",
+      "import": "./es/index.mjs",
+      "default": "./es/index.mjs"
+    },
+    "./i18n": {
+      "types": "./es/i18n/index.d.mts",
+      "import": "./es/i18n/index.mjs"
+    },
+    "./i18n/resources/*": {
+      "types": "./es/i18n/resources/*.d.mts",
+      "import": "./es/i18n/resources/*.mjs"
+    },
+    "./i18n/*": {
+      "types": "./es/i18n/*.d.mts",
+      "import": "./es/i18n/*.mjs"
+    },
+    "./awesome": {
+      "types": "./es/awesome/index.d.mts",
+      "import": "./es/awesome/index.mjs"
+    },
+    "./brand": {
+      "types": "./es/brand/index.d.mts",
+      "import": "./es/brand/index.mjs"
+    },
+    "./spline": {
+      "types": "./es/spline/index.d.mts",
+      "import": "./es/spline/index.mjs"
+    },
+    "./chat": {
+      "types": "./es/chat/index.d.mts",
+      "import": "./es/chat/index.mjs"
+    },
+    "./dashboard": {
+      "types": "./es/dashboard/index.d.mts",
+      "import": "./es/dashboard/index.mjs"
+    },
+    "./color": {
+      "types": "./es/color/index.d.mts",
+      "import": "./es/color/index.mjs"
+    },
+    "./icons": {
+      "types": "./es/icons/index.d.mts",
+      "import": "./es/icons/index.mjs"
+    },
+    "./mdx": {
+      "types": "./es/mdx/index.d.mts",
+      "import": "./es/mdx/index.mjs"
+    },
+    "./mobile": {
+      "types": "./es/mobile/index.d.mts",
+      "import": "./es/mobile/index.mjs"
+    },
+    "./storybook": {
+      "types": "./es/storybook/index.d.mts",
+      "import": "./es/storybook/index.mjs"
+    },
+    "./eslint": {
+      "types": "./es/eslint/index.d.mts",
+      "import": "./es/eslint/index.mjs"
+    },
+    "./form": {
+      "types": "./es/FormKit/index.d.mts",
+      "import": "./es/FormKit/index.mjs"
+    },
+    "./pro-table": {
+      "types": "./es/ProTable/index.d.mts",
+      "import": "./es/ProTable/index.mjs"
+    },
+    "./global.css": "./es/global.css",
+    "./theme.css": "./es/theme.css",
+    "./style.css": "./es/style.css",
+    "./css/*": "./es/css/*",
+    "./stylex/cssVar.stylex": {
+      "types": "./es/stylex/cssVar.stylex.ts",
+      "import": "./es/stylex/cssVar.stylex.js",
+      "default": "./es/stylex/cssVar.stylex.js"
+    },
+    "./stylex/media.stylex": {
+      "types": "./es/stylex/media.stylex.ts",
+      "import": "./es/stylex/media.stylex.js",
+      "default": "./es/stylex/media.stylex.js"
+    },
+    "./es/*": {
+      "types": "./es/*.d.mts",
+      "import": "./es/*.mjs"
+    }
+  },
+  "main": "es/index.mjs",
+  "module": "es/index.mjs",
+  "types": "es/index.d.mts",
+  "files": [
+    "es"
+  ],
+  "scripts": {
+    "build": "tsdown && tsx ./scripts/buildThemeCss.ts && tsx ./scripts/publishStylexTokens.ts && tsx ./scripts/checkStylexBuild.ts && npm run build:packages",
+    "build:packages": "tsx ./scripts/build.ts",
+    "build:stylex-vars": "tsx ./scripts/buildStylexVars.ts",
+    "build:watch": "tsdown --watch",
+    "ci": "npm run lint:circular && npm run lint && npm run type-check",
+    "clean": "rm -r es lib dist coverage .eslintcache node_modules/.cache",
+    "dev": "lobedocs dev",
+    "docs:build": "lobedocs build",
+    "docs:build-analyze": "cross-env ANALYZE=1 lobedocs build",
+    "docs:dev": "lobedocs dev",
+    "gen:icons": "tsx ./scripts/icons/index.ts",
+    "lint": "eslint \"{src,tests}/**/*.{js,jsx,ts,tsx}\" --fix",
+    "lint:circular": "dpdm src/**/*.{ts,tsx}  --warning false  --tree false  --exit-code circular:1  -T true",
+    "lint:md": "remark . --quiet --frail --output",
+    "lint:style": "stylelint \"{src,tests}/**/*.{js,jsx,ts,tsx}\" --fix",
+    "prepack": "clean-package",
+    "postpack": "clean-package restore",
+    "prepare": "husky && npm run setup",
+    "prettier": "prettier -c --write --no-error-on-unmatched-pattern \"**/**\"",
+    "pull": "git pull",
+    "release": "semantic-release",
+    "setup": "lobedocs typegen",
+    "start": "pnpm run docs:dev",
+    "test": "vitest --passWithNoTests",
+    "test:coverage": "vitest run --coverage  --passWithNoTests",
+    "test:update": "vitest -u",
+    "type-check": "tsrs --noEmit"
+  },
+  "lint-staged": {
+    "*.{md,mdx}": [
+      "prettier --write --no-error-on-unmatched-pattern"
+    ],
+    "*.json": [
+      "prettier --write --no-error-on-unmatched-pattern"
+    ],
+    "*.{js,jsx}": [
+      "prettier --write",
+      "stylelint --fix",
+      "eslint --fix"
+    ],
+    "*.{ts,tsx}": [
+      "prettier --parser=typescript --write",
+      "stylelint --fix",
+      "eslint --fix"
+    ]
+  },
+  "dependencies": {
+    "@base-ui/react": "1.9.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/modifiers": "^9.0.0",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
+    "@emotion/css": "^11.13.5",
+    "@emotion/serialize": "^1.3.3",
+    "@giscus/react": "^3.1.0",
+    "@lobehub/streamdown": "^1.4.0",
+    "@mdx-js/mdx": "^3.1.1",
+    "@pierre/diffs": "1.6.1",
+    "@pierre/highlights": "^0.2.0",
+    "@stylexjs/stylex": "0.19.1",
+    "@tanstack/form-core": "^1.33.5",
+    "@tanstack/react-table": "^9.2.8",
+    "@tanstack/react-virtual": "^3.14.18",
+    "boring-avatars": "^2.0.4",
+    "chroma-js": "^3.2.0",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.21",
+    "emoji-mart": "^5.6.0",
+    "es-toolkit": "^1.52.0",
+    "hast-util-from-html-isomorphic": "^2.0.0",
+    "hast-util-to-text": "^4.0.2",
+    "katex": "^0.18.1 || ^0.19.0",
+    "leva": "^0.10.1",
+    "lucide-react": "^1.55.0",
+    "mdast-util-gfm-autolink-literal": "^2.0.1",
+    "motion": "^13.0.0 || ^14.0.0",
+    "pele": "^1.6.0",
+    "re-resizable": "^6.11.2",
+    "react-avatar-editor": "^16.0.0",
+    "react-error-boundary": "^6.1.6",
+    "react-hotkeys-hook": "^5.3.3",
+    "react-markdown": "^10.1.0",
+    "rehype-github-alerts": "^4.2.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-breaks": "^4.0.0",
+    "remark-cjk-friendly": "^2.3.2",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "unified": "^11.0.5",
+    "unist-util-visit-parents": "^6.0.2",
+    "uqr": "^0.1.3",
+    "vfile": "^6.0.3",
+    "virtua": "^0.53.5"
+  },
+  "devDependencies": {
+    "@bramus/specificity": "2.4.3",
+    "@commitlint/cli": "^21.2.3",
+    "@lobehub/docs-kit": "^6.2.1",
+    "@lobehub/eslint-config": "2.1.6",
+    "@lobehub/fluent-emoji": "^4.1.0",
+    "@lobehub/icons": "^5.10.1",
+    "@lobehub/lint": "^2.1.6",
+    "@material/material-color-utilities": "0.4.0",
+    "@mdx-js/rollup": "3.1.1",
+    "@playwright/test": "1.64.0",
+    "@react-router/dev": "8.4.0",
+    "@splinetool/runtime": "1.12.98",
+    "@stylexjs/eslint-plugin": "0.19.1",
+    "@stylexjs/unplugin": "0.19.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/chroma-js": "^3.1.2",
+    "@types/hast": "^3.0.5",
+    "@types/mdx": "^2.0.14",
+    "@types/node": "26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/unist": "^3.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.71.1",
+    "@typescript-eslint/parser": "^8.71.1",
+    "@vitest/coverage-v8": "^5.0.4",
+    "bippy": "0.6.1",
+    "cheerio": "^1.2.0",
+    "clean-package": "^2.2.0",
+    "code-inspector-plugin": "^2.0.9",
+    "commitlint": "^21.2.3",
+    "concurrently": "^10.0.6",
+    "conventional-changelog-gitmoji-config": "1.5.2",
+    "cross-env": "^10.1.0",
+    "dotenv": "^18.0.7",
+    "dpdm": "^4.3.0",
+    "eslint": "^10.12.0",
+    "figma-js": "1.16.1-0",
+    "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
+    "lint-staged": "^17.6.0",
+    "mdast-util-to-markdown": "^2.2.0",
+    "next-themes": "^0.4.6",
+    "pagefind": "1.5.2",
+    "prettier": "^3.9.10",
+    "prettier-plugin-packagejson": "^3.0.2",
+    "prettier-plugin-sh": "^0.20.2",
+    "prettier-plugin-sort-json": "^4.2.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-live": "5.0.1",
+    "react-router": "8.4.0",
+    "remark": "^15.0.1",
+    "remark-cli": "^12.0.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^6.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "rollup-plugin-visualizer": "7.1.1",
+    "semantic-release": "^25.0.9",
+    "stylelint": "^16.26.1",
+    "svgo": "^4.1.0",
+    "tsdown": "^0.23.1",
+    "tsrs": "0.18.0-ts7.1.0-dev.20260929",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "unist-util-is": "^6.0.1",
+    "unist-util-visit": "^5.1.0",
+    "vite": "8.3.4",
+    "vitest": "^5.0.4",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.6"
+  },
+  "peerDependencies": {
+    "@lobehub/fluent-emoji": "^5.0.0-beta.1",
+    "@lobehub/icons": "^6.0.0-beta.1",
+    "@splinetool/runtime": "^1.12.0",
+    "motion": "^13.0.0 || ^14.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@splinetool/runtime": {
+      "optional": true
+    }
+  },
+  "packageManager": "pnpm@12.3.4+sha512.961aa41fb077da3a04a441d9f8e15ebc0c96da8ef710b2eb67bf9ee7cb0610eabd48f1fd85f51cffe73846785fa0f87c56a3a872a1d893f8446741b5cce45457",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org"
+  }
+}

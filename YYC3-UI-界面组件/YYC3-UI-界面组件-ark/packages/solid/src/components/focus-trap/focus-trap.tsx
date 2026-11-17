@@ -1,0 +1,50 @@
+import { type FocusTrapOptions, trapFocus } from '@zag-js/focus-trap'
+import { createEffect, onCleanup } from 'solid-js'
+import type { Assign } from '../../types.ts'
+import { composeRefs } from '../../utils/compose-refs.ts'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+
+export interface TrapOptions extends Pick<
+  FocusTrapOptions,
+  | 'onActivate'
+  | 'onDeactivate'
+  | 'initialFocus'
+  | 'fallbackFocus'
+  | 'returnFocusOnDeactivate'
+  | 'setReturnFocus'
+  | 'persistentElements'
+> {
+  /**
+   * Whether the focus trap is disabled.
+   */
+  disabled?: boolean
+}
+
+export interface FocusTrapBaseProps extends PolymorphicProps<'div'>, TrapOptions {}
+
+export interface FocusTrapProps extends Assign<HTMLProps<'div'>, FocusTrapBaseProps> {}
+
+export const FocusTrap = (props: FocusTrapProps) => {
+  let localNode!: HTMLDivElement
+
+  const [trapProps, localProps] = createSplitProps<TrapOptions>()(props, [
+    'disabled',
+    'onActivate',
+    'onDeactivate',
+    'initialFocus',
+    'fallbackFocus',
+    'returnFocusOnDeactivate',
+    'setReturnFocus',
+    'persistentElements',
+  ])
+
+  createEffect(() => {
+    if (!localNode || trapProps.disabled) return
+    const autoFocusNode = localNode.querySelector<HTMLElement>('[autofocus], [data-autofocus]')
+    trapProps.initialFocus ||= autoFocusNode ?? undefined
+    onCleanup(trapFocus(localNode, trapProps))
+  })
+
+  return <ark.div {...localProps} ref={composeRefs((el) => (localNode = el), props.ref)} />
+}

@@ -1,0 +1,82 @@
+{{#> card}}
+  {{#> card-header}}
+    {{#> title titleType="h2" title--modifier="pf-m-lg"}}
+      Status
+    {{/title}}
+  {{/card-header}}
+  {{#> card-body}}
+    {{#> grid grid--modifier="pf-m-all-6-col-on-sm pf-m-all-3-col-on-lg pf-m-gutter"}}
+      {{#> grid-item}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-success"}}
+                {{pfIcon "rh-ui-check-circle-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex-item}}
+            <span>Cluster</span>
+          {{/l-flex-item}}
+        {{/l-flex}}
+      {{/grid-item}}
+      {{#> grid-item}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-danger"}}
+                {{pfIcon "rh-ui-error-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex-item}}
+            <span class="popover-parent">
+              <a href="#">Control Panel</a>
+              {{> card-demo--popover popover--id=(concat card--id '-popover')}}
+            </span>
+          {{/l-flex-item}}
+        {{/l-flex}}
+      {{/grid-item}}
+      {{#> grid-item}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-danger"}}
+                {{pfIcon "rh-ui-error-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-none"}}
+            {{#> l-flex-item}}
+              <a href="#">Operators</a>
+            {{/l-flex-item}}
+            {{#> l-flex-item}}
+              <span class="{{pfv 'u'}}color-400">1 degraged</span>
+            {{/l-flex-item}}
+          {{/l-flex}}
+        {{/l-flex}}
+      {{/grid-item}}
+      {{#> grid-item}}
+        {{#> l-flex l-flex--modifier="pf-m-space-items-sm"}}
+          {{#> l-flex-item}}
+            {{#> icon }}
+              {{#> icon-content icon-content--modifier="pf-m-success"}}
+                {{pfIcon "rh-ui-check-circle-fill"}}
+              {{/icon-content}}
+            {{/icon}}
+          {{/l-flex-item}}
+          {{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-none"}}
+            {{#> l-flex-item}}
+              <a href="#">Image Vulnerabilities</a>
+            {{/l-flex-item}}
+            {{#> l-flex-item}}
+              <span class="{{pfv 'u'}}color-400">0 vulnerable images</span>
+            {{/l-flex-item}}
+          {{/l-flex}}
+        {{/l-flex}}
+      {{/grid-item}}
+    {{/grid}}
+  {{/card-body}}
+  {{> divider}}
+  {{> card-demo--notification-drawer notification-drawer--id=(concat card--id '-notification-drawer')}}
+{{/card}}

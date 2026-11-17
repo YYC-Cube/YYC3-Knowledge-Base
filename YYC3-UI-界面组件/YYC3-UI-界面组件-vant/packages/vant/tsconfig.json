@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "allowJs": true,
+    "noImplicitThis": true,
+    "types": ["@rstest/core/globals", "vue/jsx", "csstype"]
+  },
+  "include": ["src/**/*", "docs/**/*", "test/**/*"],
+  "exclude": ["**/node_modules", "**/.*/"]
+}

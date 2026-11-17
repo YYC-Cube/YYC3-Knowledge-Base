@@ -1,0 +1,66 @@
+export interface Template {
+  name: string;
+  link: string;
+  description: string;
+  type: 'next' | 'vite' | 'react-router' | 'tanstack-start';
+}
+
+export const TEMPLATES_DATA: Template[] = [
+  {
+    type: 'next',
+    name: 'next-app-template',
+    link: 'https://github.com/mantinedev/next-app-template',
+    description: 'Next.js template with app router and full setup: Jest, Storybook, oxlint',
+  },
+  {
+    type: 'next',
+    name: 'next-pages-template',
+    link: 'https://github.com/mantinedev/next-pages-template',
+    description: 'Next.js template with pages router and full setup: Jest, Storybook, oxlint',
+  },
+  {
+    type: 'next',
+    name: 'next-app-min-template',
+    link: 'https://github.com/mantinedev/next-app-min-template',
+    description:
+      'Next.js template with app router and minimal setup – no additional tools included, only default Next.js configuration',
+  },
+  {
+    type: 'next',
+    name: 'next-pages-min-template',
+    link: 'https://github.com/mantinedev/next-pages-min-template',
+    description:
+      'Next.js template with pages router and minimal setup – no additional tools included, only default Next.js configuration',
+  },
+  {
+    type: 'next',
+    name: 'next-vanilla-extract-template',
+    link: 'https://github.com/mantinedev/next-vanilla-extract-template',
+    description: 'Next.js template with Vanilla extract example',
+  },
+  {
+    type: 'vite',
+    name: 'vite-template',
+    link: 'https://github.com/mantinedev/vite-template',
+    description: 'Vite template with full setup: Vitest, oxfmt, Storybook, oxlint',
+  },
+  {
+    type: 'vite',
+    name: 'vite-min-template',
+    link: 'https://github.com/mantinedev/vite-min-template',
+    description:
+      'Vite template with minimal setup – no additional tools included, only default Vite configuration',
+  },
+  {
+    type: 'vite',
+    name: 'vite-vanilla-extract-template',
+    link: 'https://github.com/mantinedev/vite-vanilla-extract-template',
+    description: 'Vite template with Vanilla extract example',
+  },
+  {
+    type: 'tanstack-start',
+    name: 'mantine-tanstack-start-template',
+    link: 'https://github.com/mantinedev/mantine-tanstack-start-template',
+    description: 'TanStack Start template with full setup: Vitest, oxfmt, Storybook, oxlint',
+  },
+];

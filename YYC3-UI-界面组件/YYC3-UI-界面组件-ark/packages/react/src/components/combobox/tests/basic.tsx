@@ -1,0 +1,82 @@
+import type { Optional } from '@ark-ui/react'
+import { Combobox, createListCollection } from '@ark-ui/react/combobox'
+import { Field } from '@ark-ui/react/field'
+import { Portal } from '@ark-ui/react/portal'
+
+interface Item {
+  label: string
+  value: string
+  disabled?: boolean | undefined
+}
+
+export const ComponentUnderTest = (props: Optional<Combobox.RootProps<Item>, 'collection'>) => {
+  const collection = createListCollection({
+    items: [
+      { label: 'React', value: 'react' },
+      { label: 'Solid', value: 'solid' },
+      { label: 'Vue', value: 'vue' },
+      { label: 'Svelte', value: 'svelte', disabled: true },
+    ],
+  })
+  return (
+    <Combobox.Root collection={collection} {...props}>
+      <Combobox.Label>Framework</Combobox.Label>
+      <Combobox.Control>
+        <Combobox.Input />
+        <Combobox.Trigger>Open</Combobox.Trigger>
+        <Combobox.ClearTrigger>Clear</Combobox.ClearTrigger>
+      </Combobox.Control>
+      <Portal>
+        <Combobox.Positioner data-testid="positioner">
+          <Combobox.Content>
+            <Combobox.ItemGroup>
+              <Combobox.ItemGroupLabel>Frameworks</Combobox.ItemGroupLabel>
+              {collection.items.map((item) => (
+                <Combobox.Item key={item.value} item={item}>
+                  <Combobox.ItemText>{item.label}</Combobox.ItemText>
+                  <Combobox.ItemIndicator>✓</Combobox.ItemIndicator>
+                </Combobox.Item>
+              ))}
+            </Combobox.ItemGroup>
+            <Combobox.List />
+          </Combobox.Content>
+        </Combobox.Positioner>
+      </Portal>
+    </Combobox.Root>
+  )
+}
+
+export const ComboboxWithField = (props: Field.RootProps) => {
+  const collection = createListCollection({
+    items: [
+      { label: 'React', value: 'react' },
+      { label: 'Solid', value: 'solid' },
+      { label: 'Vue', value: 'vue' },
+      { label: 'Svelte', value: 'svelte' },
+    ],
+  })
+  return (
+    <Field.Root {...props}>
+      <Combobox.Root collection={collection}>
+        <Combobox.Label>Label</Combobox.Label>
+        <Combobox.Control>
+          <Combobox.Input />
+          <Combobox.Trigger>Open</Combobox.Trigger>
+          <Combobox.ClearTrigger>Clear</Combobox.ClearTrigger>
+        </Combobox.Control>
+        <Combobox.Positioner>
+          <Combobox.Content>
+            {collection.items.map((item) => (
+              <Combobox.Item key={item.value} item={item}>
+                <Combobox.ItemText>{item.label}</Combobox.ItemText>
+                <Combobox.ItemIndicator>✓</Combobox.ItemIndicator>
+              </Combobox.Item>
+            ))}
+          </Combobox.Content>
+        </Combobox.Positioner>
+      </Combobox.Root>
+      <Field.HelperText>Additional Info</Field.HelperText>
+      <Field.ErrorText>Error Info</Field.ErrorText>
+    </Field.Root>
+  )
+}

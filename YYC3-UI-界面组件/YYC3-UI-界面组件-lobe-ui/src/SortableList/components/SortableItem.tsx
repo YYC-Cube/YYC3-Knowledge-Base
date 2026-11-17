@@ -1,0 +1,93 @@
+'use client';
+
+import type { DraggableSyntheticListeners } from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import clsx from 'clsx';
+import { createContext, memo, useMemo } from 'react';
+
+import { type FlexboxProps } from '@/Flex';
+import { Flexbox } from '@/Flex';
+import { styleProps } from '@/styles/stylex/props';
+import { stylish } from '@/styles/stylex/stylish';
+import { toDataAttributes } from '@/utils/bem';
+
+import { sortableListClasses } from '../stable';
+import { styles } from '../style';
+
+interface Context {
+  attributes: Record<string, any>;
+  listeners: DraggableSyntheticListeners;
+  ref: (node: HTMLElement | null) => void;
+}
+
+const variantStyles = {
+  borderless: stylish.variantBorderlessWithoutHover,
+  filled: stylish.variantFilledWithoutHover,
+  outlined: stylish.variantOutlinedWithoutHover,
+};
+
+export const SortableItemContext = createContext<Context>({
+  attributes: {},
+  listeners: undefined,
+  ref() {},
+});
+
+export interface SortableItemProps extends Omit<FlexboxProps, 'id'> {
+  id: string | number;
+  variant?: 'borderless' | 'filled' | 'outlined';
+}
+
+const SortableItem = memo<SortableItemProps>(
+  ({ variant = 'borderless', className, children, id, style, ...rest }) => {
+    const {
+      attributes,
+      isDragging,
+      listeners,
+      setNodeRef,
+      setActivatorNodeRef,
+      transform,
+      transition,
+    } = useSortable({ id });
+    const context = useMemo(
+      () => ({
+        attributes,
+        listeners,
+        ref: setActivatorNodeRef,
+      }),
+      [attributes, listeners, setActivatorNodeRef],
+    );
+
+    return (
+      <SortableItemContext value={context}>
+        <Flexbox
+          horizontal
+          align={'center'}
+          as={'li'}
+          gap={4}
+          ref={setNodeRef}
+          className={
+            styleProps(
+              [styles.item, variantStyles[variant], variant !== 'borderless' && styles.itemVariant],
+              clsx(sortableListClasses('item'), className),
+            ).className
+          }
+          style={{
+            opacity: isDragging ? 0.4 : undefined,
+            transform: CSS.Translate.toString(transform),
+            transition,
+            ...style,
+          }}
+          {...toDataAttributes({ dragging: isDragging, variant })}
+          {...rest}
+        >
+          {children}
+        </Flexbox>
+      </SortableItemContext>
+    );
+  },
+);
+
+SortableItem.displayName = 'SortableItem';
+
+export default SortableItem;

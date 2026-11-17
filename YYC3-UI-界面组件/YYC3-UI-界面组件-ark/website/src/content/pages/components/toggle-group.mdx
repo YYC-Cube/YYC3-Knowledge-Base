@@ -1,0 +1,63 @@
+---
+id: toggle-group
+title: Toggle Group
+description: A set of two-state buttons that can be toggled on or off.
+---
+
+<ComponentPreview id="ToggleGroup" />
+
+## Anatomy
+
+<Anatomy id="toggle-group" />
+
+```tsx
+<ToggleGroup.Root>
+  <ToggleGroup.Item />
+</ToggleGroup.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled
+
+Use the `value` and `onValueChange` props to control the toggle group state.
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the toggle group is to use the `RootProvider` component and the `useToggleGroup` hook.
+This way you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Multiple
+
+Demonstrates how to enable `multiple` selection within the group.
+
+<Example id="multiple" />
+
+### With Tooltip
+
+Pair an item with a `Tooltip.Trigger` via `asChild`, matching their ids with `ids.item` and `ids.trigger` so they share
+one element and tab stop.
+
+<Example id="with-tooltip" />
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="toggle-group" />
+
+### Context
+
+<ContextType id="toggle-group" />
+
+## Accessibility
+
+### Keyboard Support
+
+<KeyBindingsTable id="toggle-group" />

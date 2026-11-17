@@ -1,0 +1,96 @@
+---
+id: tooltip
+title: Tooltip
+description: A label that provides information on hover or focus.
+---
+
+<ComponentPreview id="Tooltip" />
+
+## Anatomy
+
+<Anatomy id="tooltip" />
+
+```tsx
+<Tooltip.Root>
+  <Tooltip.Trigger />
+  <Tooltip.Positioner>
+    <Tooltip.Arrow>
+      <Tooltip.ArrowTip />
+    </Tooltip.Arrow>
+    <Tooltip.Content />
+  </Tooltip.Positioner>
+</Tooltip.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled
+
+To create a controlled Tooltip component, manage the state of whether the tooltip is open using the `open` prop:
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the tooltip is to use the `RootProvider` component and the `useTooltip` hook. This way you
+can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Arrow
+
+To display an arrow pointing to the trigger from the tooltip, use the `Tooltip.Arrow` and `Tooltip.ArrowTip` components:
+
+<Example id="arrow" />
+
+### Delay
+
+To configure the open and close delay for the Tooltip, use the `closeDelay` and `openDelay` props:
+
+<Example id="delay" />
+
+### Positioning
+
+To customize the position of the Tooltip relative to the trigger, use the `positioning` prop:
+
+<Example id="positioning" />
+
+### Context
+
+Access the tooltip's state and methods with `Tooltip.Context` or the `useTooltipContext` hook:
+
+<Example id="context" />
+
+### Within Fixed Containers
+
+When rendering a tooltip inside a fixed-position container, set `positioning.strategy` to `"fixed"` to ensure proper
+positioning.
+
+<Example id="within-fixed" />
+
+### Multiple Triggers
+
+Share a single tooltip across multiple trigger elements. Pass a `value` to each `Tooltip.Trigger` — the tooltip
+repositions to whichever trigger is hovered without closing.
+
+<Example id="multiple-triggers" />
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="tooltip" />
+
+### Context
+
+<ContextType id="tooltip" />
+
+## Accessibility
+
+Complies with the [Tooltip WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/).
+
+### Keyboard Support
+
+<KeyBindingsTable id="tooltip" />

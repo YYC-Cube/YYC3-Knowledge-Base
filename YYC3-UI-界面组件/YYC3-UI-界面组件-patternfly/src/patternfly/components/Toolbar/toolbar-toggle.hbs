@@ -1,0 +1,11 @@
+<div class="{{pfv}}toolbar__toggle{{#if toolbar-toggle--modifier}} {{toolbar-toggle--modifier}}{{/if}}"
+  {{#if toolbar-toggle--attribute}}
+    {{{toolbar-toggle--attribute}}}
+  {{/if}}>
+  {{> menu-toggle
+      menu-toggle--icon='rh-ui-filter-fill'
+      menu-toggle--IsPlain=true
+      menu-toggle--IsExpanded=toolbar-expandable-content--IsExpanded
+      menu-toggle--attribute=(concat 'aria-label="Show filters" aria-controls="' toolbar--id '-expandable-content"')
+    }}
+</div>

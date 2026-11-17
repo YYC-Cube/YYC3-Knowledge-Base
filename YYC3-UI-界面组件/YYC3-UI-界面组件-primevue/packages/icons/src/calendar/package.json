@@ -1,0 +1,11 @@
+{
+    "main": "./CalendarIcon.vue",
+    "module": "./CalendarIcon.vue",
+    "types": "./CalendarIcon.d.ts",
+    "browser": {
+        "./sfc": "./CalendarIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

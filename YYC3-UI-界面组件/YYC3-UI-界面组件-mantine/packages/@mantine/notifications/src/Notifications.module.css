@@ -1,0 +1,99 @@
+.root {
+  width: calc(100% - var(--mantine-spacing-md) * 2);
+  position: fixed;
+  z-index: var(--notifications-z-index);
+  max-width: var(--notifications-container-width);
+
+  &:where([data-position='top-center']) {
+    top: var(--mantine-spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &:where([data-position='top-left']) {
+    top: var(--mantine-spacing-md);
+    left: var(--mantine-spacing-md);
+  }
+
+  &:where([data-position='top-right']) {
+    top: var(--mantine-spacing-md);
+    right: var(--mantine-spacing-md);
+  }
+
+  &:where([data-position='bottom-center']) {
+    bottom: var(--mantine-spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &:where([data-position='bottom-left']) {
+    bottom: var(--mantine-spacing-md);
+    left: var(--mantine-spacing-md);
+  }
+
+  &:where([data-position='bottom-right']) {
+    bottom: var(--mantine-spacing-md);
+    right: var(--mantine-spacing-md);
+  }
+}
+
+.notification {
+  &:where(& + &) {
+    margin-top: var(--mantine-spacing-md);
+  }
+
+  :where([data-layout='stacked']) & {
+    margin-top: 0;
+  }
+}
+
+.root:where([data-layout='stacked']) {
+  & > * {
+    display: grid;
+  }
+}
+
+.progress {
+  position: absolute;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--notification-color);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: opacity 200ms ease;
+  animation:
+    notifications-progress var(--notifications-progress-duration) linear forwards,
+    notifications-progress-fade-in 200ms ease;
+
+  @mixin rtl {
+    transform-origin: right center;
+  }
+
+  &:where([data-position='top']) {
+    top: 0;
+    bottom: auto;
+  }
+
+  &:where([data-paused]) {
+    opacity: 0;
+    animation-play-state: paused, running;
+  }
+}
+
+@keyframes notifications-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes notifications-progress-fade-in {
+  from {
+    opacity: 0;
+  }
+}

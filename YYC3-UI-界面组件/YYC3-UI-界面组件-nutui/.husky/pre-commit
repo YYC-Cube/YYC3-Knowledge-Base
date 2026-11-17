@@ -1,0 +1,2 @@
+node ./scripts/verifymail.js
+npx --no-install nano-staged

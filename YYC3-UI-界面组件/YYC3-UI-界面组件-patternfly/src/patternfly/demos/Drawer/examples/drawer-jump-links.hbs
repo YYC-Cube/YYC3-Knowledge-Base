@@ -1,0 +1,26 @@
+{{> page-template page-template--id=drawer-jump-links--id}}
+
+{{#*inline "page-template-main-content"}}
+  {{#> drawer drawer--id=(concat page-template--id '-drawer') jump-links-template--id=(concat page-template--id '-jump-links')}}
+    {{#> drawer-main}}
+      {{#> drawer-content drawer-content--attribute=(concat 'id="' drawer--id '-scrollable-container"')}}
+        {{#> sidebar}}
+          {{#> sidebar-panel sidebar-panel--modifier="pf-m-sticky pf-m-gutter"}}
+            {{#> page-main-section}}
+              {{#> jump-links jump-links--IsExpandable="true" jump-links--modifier="pf-m-vertical pf-m-non-expandable-on-md"}}
+                {{> jump-links-header}}
+                {{> jump-links-template-list}}
+              {{/jump-links}}
+            {{/page-main-section}}
+          {{/sidebar-panel}}
+          {{#> sidebar-content}}
+            {{#> page-main-section}}
+              {{> jump-links-template-content}}
+            {{/page-main-section}}
+          {{/sidebar-content}}
+        {{/sidebar}}
+      {{/drawer-content}}
+      {{> drawer-example-panel}}
+    {{/drawer-main}}
+  {{/drawer}}
+{{/inline}}

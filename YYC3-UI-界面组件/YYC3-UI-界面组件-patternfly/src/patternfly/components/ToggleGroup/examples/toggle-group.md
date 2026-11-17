@@ -1,0 +1,415 @@
+---
+id: Toggle group
+section: components
+cssPrefix: pf-v6-c-toggle-group
+---
+
+## Examples
+
+### Default
+```hbs
+{{#> toggle-group}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected"}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected"}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute="disabled"}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+```
+
+### With icon
+```hbs
+{{#> toggle-group}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Copy button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-copy'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Undo button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-undo'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Share button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-share-alt'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected" toggle-group-button--attribute='aria-label="Copy button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-copy'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Undo button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-undo'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Share button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-share-alt'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Copy button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-copy'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Undo button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-undo'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Share button" disabled'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-share-alt'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+```
+
+### Icon-and-text
+```hbs
+{{#> toggle-group}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-copy'}}
+      {{/toggle-group-icon}}
+      {{#> toggle-group-text}}
+        Copy
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute='aria-label="Undo button"'}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-undo'}}
+      {{/toggle-group-icon}}
+      {{#> toggle-group-text}}
+        Undo
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected"}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-share-alt'}}
+      {{/toggle-group-icon}}
+      {{#> toggle-group-text}}
+        Share
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Copy
+      {{/toggle-group-text}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-copy'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Undo
+      {{/toggle-group-text}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-undo'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected"}}
+      {{#> toggle-group-text}}
+        Share
+      {{/toggle-group-text}}
+      {{#> toggle-group-icon}}
+        {{pfIcon 'rh-ui-share-alt'}}
+      {{/toggle-group-icon}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+```
+
+### Compact
+```hbs
+{{#> toggle-group toggle-group--modifier="pf-m-compact"}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group toggle-group--modifier="pf-m-compact"}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected"}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected"}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group toggle-group--modifier="pf-m-compact"}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute="disabled"}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+```
+
+### Full width toggle
+To make toggle group items fill the available space, use `.pf-m-fill`. In the following example, the toggle group items fill the width of the parent as the window size changes.
+```hbs
+{{#> toggle-group toggle-group--modifier="pf-m-fill"}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group toggle-group--modifier="pf-m-fill"}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected"}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--modifier="pf-m-selected"}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+
+<br/>
+
+{{#> toggle-group toggle-group--modifier="pf-m-fill"}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 1
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button}}
+      {{#> toggle-group-text}}
+        Option 2
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+  {{#> toggle-group-item}}
+    {{#> toggle-group-button toggle-group-button--attribute="disabled"}}
+      {{#> toggle-group-text}}
+        Option 3
+      {{/toggle-group-text}}
+    {{/toggle-group-button}}
+  {{/toggle-group-item}}
+{{/toggle-group}}
+```
+
+## Documentation
+
+### Accessibility
+| Attribute | Applied to | Outcome |
+| -- | -- | -- |
+| `aria-label="[button label text]"` | `.pf-v6-c-toggle-group__button` | Provides an accessible name for the button when an icon is used instead of text. **Required when icon is used with no supporting text** |
+| `disabled` | `.pf-v6-c-toggle-group__button` | When a button element is used, indicates that it is unavailable and removes it from keyboard focus. **Required when button is disabled** |
+
+### Usage
+| Class | Applied to | Outcome |
+| -- | -- | -- |
+| `.pf-v6-c-toggle-group` | `<div>` | Initiates the toggle group. **Required** |
+| `.pf-v6-c-toggle-group__button` | `<button>` | Initiates the toggle group button. **Required** |
+| `.pf-v6-c-toggle-group__item` | `<div>` | Initiates the toggle group item wrapper. **Required** |
+| `.pf-v6-c-toggle-group__text` | `<span>` | Initiates the toggle button text element. |
+| `.pf-v6-c-toggle-group__icon` | `<span>` | Initiates the toggle button icon element. |
+| `.pf-m-compact` | `.pf-v6-c-toggle-group` | Modifies the toggle group for compact styles. |
+| `.pf-m-fill` | `.pf-v6-c-toggle-group` | Modifies the group items to fill the available space. |
+| `.pf-m-selected` | `.pf-v6-c-toggle-group__button` | Modifies the toggle button group button for the selected state. |

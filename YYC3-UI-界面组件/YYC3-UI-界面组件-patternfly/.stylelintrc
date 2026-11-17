@@ -1,0 +1,112 @@
+{
+  "extends": [
+    "stylelint-config-recess-order",
+    "stylelint-config-standard-scss"
+  ],
+  "plugins": [
+    "stylelint-order",
+    "stylelint-scss"
+  ],
+  "ignoreFiles": [
+    "./src/patternfly/assets/fontawesome/*.scss",
+    "./src/patternfly/assets/pficon/*.scss",
+    "./scripts/template/**/*.scss",
+    "./scripts/gulp/*.scss"
+  ],
+  "rules": {
+    "at-rule-empty-line-before": [ "always", {
+      "except": [
+        "blockless-after-same-name-blockless",
+        "first-nested"
+      ],
+      "ignore": ["after-comment"],
+      "ignoreAtRules": "else"
+    }],
+    "alpha-value-notation": null,
+    "annotation-no-unknown": [ true, {
+      "ignoreAnnotations": [
+        "=",
+        "default"
+      ]
+    }],
+    "color-function-notation": null,
+    "color-named": "never",
+    "color-hex-length": null,
+    "comment-empty-line-before": ["always", {
+      "except": ["first-nested"],
+      "ignore": [
+        "after-comment",
+        "stylelint-commands"
+      ]
+    }],
+    "custom-property-pattern": "^pf-(v[56]|t-)-(color|global|chart|[lcud])-.+$",
+    "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-no-important": true,
+    "declaration-property-value-disallowed-list": {
+      "/^--/": ["/^:/"]
+    },
+    "font-weight-notation": "numeric",
+    "import-notation": "string",
+    "keyframes-name-pattern": null,
+    "max-nesting-depth": 3,
+    "media-query-no-invalid": null,
+    "nesting-selector-no-missing-scoping-root": [
+      true,
+      {
+        "ignoreAtRules": ["mixin", "include", "media", "content"]
+      }
+    ],
+    "no-descending-specificity": null,
+    "no-invalid-position-declaration": [
+      true,
+      {
+        "ignoreAtRules": ["include", "mixin", "media", "content"]
+      }
+    ],
+    "no-unknown-animations": true,
+    "order/order": [
+      "custom-properties",
+      "declarations"
+    ],
+    "property-disallowed-list": [
+      "text-decoration"
+    ],
+    "property-layout-mappings": [
+      "flow-relative",
+      { "ignoreProperties": ["width", "max-width", "min-width", "height", "max-height", "min-height", "overflow-x", "overflow-y", "border-width"] }
+    ],
+    "scss/declaration-nested-properties": "never",
+    "scss/dollar-variable-colon-space-after": "at-least-one-space",
+    "scss/dollar-variable-colon-space-before": "never",
+    "scss/dollar-variable-empty-line-before": ["always", {
+      "except": [
+        "first-nested",
+        "after-comment",
+        "after-dollar-variable"
+      ]
+    }],
+    "scss/dollar-variable-pattern": ["^pf-v[56]-", {"ignore": "local"}],
+    "scss/double-slash-comment-empty-line-before": ["always", {
+      "except": ["first-nested"],
+      "ignore": [
+        "between-comments",
+        "stylelint-commands"
+      ]
+    }],
+    "scss/double-slash-comment-whitespace-inside": "always",
+    "scss/at-mixin-pattern": "^pf-",
+    "scss/no-global-function-names": null,
+    "scss/comment-no-loud": true,
+    "scss/percent-placeholder-pattern": "^pf-",
+    "selector-class-pattern": "pf-",
+    "selector-max-attribute": 2,
+    "selector-max-class": 4,
+    "selector-max-combinators": 4,
+    "selector-max-compound-selectors": 4,
+    "selector-max-id": 0,
+    "selector-max-type": 2,
+    "selector-nested-pattern": "^(?!.*&[-_])",
+    "selector-no-qualifying-type": true,
+    "value-keyword-case": ["lower", { "ignoreKeywords": ["Helvetica", "Arial", "Courier"] }]
+  }
+}

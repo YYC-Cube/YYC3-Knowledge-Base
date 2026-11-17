@@ -1,0 +1,55 @@
+dist
+miniprogram_dist
+__snippets__
+
+_wechatide
+_example
+!packages/components/**/_example/
+!packages/pro-components/**/_example/
+!packages/uniapp-components/**/_example/
+!packages/uniapp-pro-components/**/_example/
+
+packages/tdesign-miniprogram/example/pages/*
+!packages/tdesign-miniprogram/example/pages/gulp-error
+!packages/tdesign-miniprogram/example/pages/home
+
+packages/tdesign-miniprogram/test/e2e
+packages/tdesign-miniprogram/test/unit
+packages/tdesign-miniprogram/test/unit-virtualHost
+
+# about uniapp
+packages/tdesign-uniapp/example/src/_tdesign*
+packages/tdesign-uniapp/example/src/pages-more/
+packages/tdesign-uniapp/npm_dist/
+packages/tdesign-uniapp-chat/npm_dist/
+
+# about app of uniapp
+packages/tdesign-uniapp/app/uni_modules/tdesign-uniapp*/
+packages/tdesign-uniapp/app/unpackage/
+packages/tdesign-uniapp/app/pages-more/
+packages/tdesign-uniapp/app/pages/
+packages/tdesign-uniapp/app/components/
+packages/tdesign-uniapp/app/mixins/
+packages/tdesign-uniapp/app/style/
+packages/tdesign-uniapp/app/tdesign-uniapp-raw/
+
+
+.DS_Store
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.pnpm-store/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*

@@ -1,0 +1,50 @@
+---
+title: ConsoleShell
+description: ConsoleShell is a dashboard frame with a collapsible sidebar, a compact navigation drawer, and an inset workspace card. Brand, navigation, and account slots stay empty so the shell can be reused without a product identity.
+category: Layout
+order: 0
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { dashboardConsoleShellClasses, dashboardConsoleBrandClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+The sidebar collapses to an icon rail, and folds into a drawer below the laptop breakpoint. Mod+B toggles it while focus is inside the shell. Pass `storageKey` to remember the rail.
+
+## Loading
+
+Set `loading` for a pre-session or hydrate fallback. The shell keeps `brand`, `tools` and `storageKey` from the caller, swaps `navigation` and `footer` for skeletons, and renders `loadingContent` (default `PageLoading`) in the workspace. Pass `loadingNavigation={<ConsoleNavSkeleton groups={groups} />}` to mirror the real menu.
+
+## APIs
+
+### ConsoleShell
+
+<Api name="ConsoleShell" />
+
+### ConsoleBrand
+
+<Api name="ConsoleBrand" from="." />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `ConsoleShell`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/dashboard/ConsoleShell.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+### ConsoleShell
+
+<StableClassTable of={dashboardConsoleShellClasses} />
+
+### ConsoleBrand
+
+<StableClassTable of={dashboardConsoleBrandClasses} />

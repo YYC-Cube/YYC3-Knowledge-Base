@@ -1,0 +1,33 @@
+name: Publish Any Commit
+
+on:
+  pull_request:
+  push:
+    branches:
+    - '**'
+    tags:
+    - '!**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      with:
+        fetch-depth: 0
+
+    - run: npm i -g --force corepack && corepack enable
+
+    - name: Set node
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      with:
+        node-version-file: '.node-version'
+        cache: pnpm
+
+    - name: Bootstrap
+      run: pnpm bootstrap
+
+    - name: Release
+      run: pnpm dlx pkg-pr-new publish --compact --pnpm './packages/*'

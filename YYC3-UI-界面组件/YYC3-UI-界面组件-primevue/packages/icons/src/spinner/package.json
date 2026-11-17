@@ -1,0 +1,11 @@
+{
+    "main": "./SpinnerIcon.vue",
+    "module": "./SpinnerIcon.vue",
+    "types": "./SpinnerIcon.d.ts",
+    "browser": {
+        "./sfc": "./SpinnerIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

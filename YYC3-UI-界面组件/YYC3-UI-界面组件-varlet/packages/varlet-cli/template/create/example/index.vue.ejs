@@ -1,0 +1,17 @@
+<script setup>
+import <%- bigCamelizeNamespace + bigCamelizeName %> from '..'
+<% if (!locale) { -%>
+import { AppType } from '@varlet/cli/client'
+<% } -%>
+<% if (locale) { -%>
+import { watchLang, AppType } from '@varlet/cli/client'
+import { use, t } from './locale'
+
+watchLang(use)
+<% } -%>
+</script>
+
+<template>
+  <app-type>Mobile phone example code</app-type>
+  <var-<%- kebabCaseName %>/>
+</template>

@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.node.json",
+  "include": ["../packages/components/**/ssr/*.vue", "**/*"],
+  "compilerOptions": {
+    "isolatedModules": false,
+    "module": "ESNext",
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "jsx": "preserve",
+    "esModuleInterop": true
+  }
+}

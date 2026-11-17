@@ -1,0 +1,41 @@
+<script lang="ts">
+import type { HTMLAttributes, UnwrapRef } from 'vue'
+import type { RenderStrategyProps } from '../../utils/use-render-strategy.ts'
+import type { PolymorphicProps } from '../factory.ts'
+import type { UseTabsReturn } from './use-tabs.ts'
+
+interface RootProviderProps {
+  value: UnwrapRef<UseTabsReturn>
+}
+
+export interface TabsRootProviderBaseProps extends RootProviderProps, RenderStrategyProps, PolymorphicProps {}
+export interface TabsRootProviderProps
+  extends
+    TabsRootProviderBaseProps,
+    /**
+     * @vue-ignore
+     */
+    HTMLAttributes {}
+</script>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { RenderStrategyPropsProvider } from '../../utils/use-render-strategy.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+import { ark } from '../factory.ts'
+import { TabsProvider } from './use-tabs-context.ts'
+
+const props = defineProps<TabsRootProviderProps>()
+const tabs = computed(() => props.value)
+
+TabsProvider(tabs)
+RenderStrategyPropsProvider(computed(() => ({ lazyMount: props.lazyMount, unmountOnExit: props.unmountOnExit })))
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.div v-bind="tabs.getRootProps()" :as-child="asChild">
+    <slot />
+  </ark.div>
+</template>

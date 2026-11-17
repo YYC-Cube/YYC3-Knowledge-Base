@@ -1,0 +1,172 @@
+:root {
+  --tabs-item-horizontal-height: 44px;
+  --tabs-item-vertical-height: 66px;
+  --tabs-radius: 2px;
+  --tabs-padding: 12px;
+  --tabs-indicator-size: 2px;
+  --tabs-indicator-border-radius: 0;
+  --tabs-indicator-background: var(--color-primary);
+  --tabs-background: #fff;
+  --tabs-indicator-inner-size: 100%;
+  --tabs-short-indicator-size: 3px;
+  --tabs-short-indicator-inner-size: 32px;
+  --tabs-short-indicator-border-radius: 3px;
+}
+
+.var-tabs {
+  border-radius: var(--tabs-radius);
+  background: var(--tabs-background);
+  overflow: hidden;
+  transition: background-color 0.25s;
+
+  &__tab-wrap {
+    position: relative;
+    display: flex;
+    height: 100%;
+  }
+
+  &__indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    transition-property: width, transform;
+    transition-duration: 0.3s;
+  }
+
+  &__indicator-inner {
+    background: var(--tabs-indicator-background);
+    border-radius: var(--tabs-indicator-border-radius);
+  }
+
+  &--layout-horizontal {
+    flex-direction: row;
+
+    &-scrollable {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &-padding {
+      padding: 0 var(--tabs-padding);
+    }
+
+    &-indicator {
+      left: 0;
+      bottom: 0;
+      height: var(--tabs-indicator-size);
+    }
+
+    &-reverse-indicator {
+      left: 0;
+      top: 0;
+      height: var(--tabs-indicator-size);
+    }
+
+    &-indicator-inner {
+      width: var(--tabs-indicator-inner-size);
+      height: 100%;
+    }
+  }
+
+  &--layout-vertical {
+    flex-direction: column;
+
+    &-scrollable {
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &-padding {
+      padding: 0;
+    }
+
+    &-indicator {
+      left: 0;
+      top: 0;
+      width: var(--tabs-indicator-size);
+    }
+
+    &-reverse-indicator {
+      right: 0;
+      top: 0;
+      width: var(--tabs-indicator-size);
+    }
+
+    &-indicator-inner {
+      width: 100%;
+      height: var(--tabs-indicator-inner-size);
+    }
+  }
+
+  &--item-horizontal {
+    height: var(--tabs-item-horizontal-height);
+  }
+
+  &--item-vertical {
+    height: var(--tabs-item-vertical-height);
+  }
+
+  &--indicator-short {
+    &.var-tabs--layout-horizontal-indicator,
+    &.var-tabs--layout-horizontal-reverse-indicator {
+      height: var(--tabs-short-indicator-size);
+
+      .var-tabs__indicator-inner {
+        width: var(--tabs-short-indicator-inner-size);
+        max-width: 100%;
+      }
+    }
+
+    &.var-tabs--layout-vertical-indicator,
+    &.var-tabs--layout-vertical-reverse-indicator {
+      width: var(--tabs-short-indicator-size);
+
+      .var-tabs__indicator-inner {
+        height: var(--tabs-short-indicator-inner-size);
+        max-height: 100%;
+      }
+    }
+
+    &.var-tabs--layout-horizontal-indicator .var-tabs__indicator-inner {
+      border-radius: var(--tabs-short-indicator-border-radius) var(--tabs-short-indicator-border-radius) 0 0;
+    }
+
+    &.var-tabs--layout-horizontal-reverse-indicator .var-tabs__indicator-inner {
+      border-radius: 0 0 var(--tabs-short-indicator-border-radius) var(--tabs-short-indicator-border-radius);
+    }
+
+    &.var-tabs--layout-vertical-indicator .var-tabs__indicator-inner {
+      border-radius: 0 var(--tabs-short-indicator-border-radius) var(--tabs-short-indicator-border-radius) 0;
+    }
+
+    &.var-tabs--layout-vertical-reverse-indicator .var-tabs__indicator-inner {
+      border-radius: var(--tabs-short-indicator-border-radius) 0 0 var(--tabs-short-indicator-border-radius);
+    }
+  }
+
+  &--fixed-bottom {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 99;
+  }
+
+  &--safe-area {
+    padding-bottom: constant(safe-area-inset-bottom); // iOS < 11.2
+    padding-bottom: env(safe-area-inset-bottom); // iOS >= 11.2
+    box-sizing: content-box !important;
+  }
+}

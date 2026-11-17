@@ -1,0 +1,584 @@
+import React, { useState } from 'react';
+import {
+  externalInputFill,
+  inputDefaultProps,
+  inputStylesApiSelectors,
+  render,
+  screen,
+  tests,
+  userEvent,
+} from '@mantine-tests/core';
+import { Input } from '../Input';
+import { Select, SelectProps, SelectStylesNames } from './Select';
+
+const defaultProps: SelectProps = {
+  ...inputDefaultProps,
+  data: ['test-1', 'test-2'],
+};
+
+describe('@mantine/core/Select', () => {
+  tests.axe([
+    <Select aria-label="test-label" data={['test-1', 'test-2']} key="1" />,
+    <Select aria-label="test-label" dropdownOpened data={['test-1', 'test-2']} key="2" />,
+    <Select label="test-label" data={['test-1', 'test-2']} key="3" />,
+    <Select label="test-label" error data={['test-1', 'test-2']} key="4" />,
+    <Select label="test-label" error="test-error" id="test" data={['test-1', 'test-2']} key="5" />,
+    <Select
+      label="test-label"
+      description="test-description"
+      data={['test-1', 'test-2']}
+      key="6"
+    />,
+  ]);
+
+  tests.itSupportsSystemProps<SelectProps, SelectStylesNames>({
+    component: Select,
+    props: defaultProps,
+    displayName: '@mantine/core/Select',
+    stylesApiSelectors: [...inputStylesApiSelectors],
+  });
+
+  tests.itSupportsInputProps<SelectProps>({
+    component: Select,
+    props: defaultProps,
+    selector: 'input',
+  });
+
+  tests.itSupportsSharedInputDefaults<SelectProps>({
+    component: Select,
+    props: defaultProps,
+    componentName: 'Select',
+  });
+
+  it('supports uncontrolled state', async () => {
+    render(<Select {...defaultProps} />);
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'test-1' }));
+    expect(screen.getByRole('combobox')).toHaveValue('test-1');
+  });
+
+  it('allows deselecting option', async () => {
+    render(<Select {...defaultProps} defaultValue="test-1" />);
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'test-1' }));
+    expect(screen.getByRole('combobox')).toHaveValue('');
+  });
+
+  it('does not allow to deselect option if allowDeselect is false', async () => {
+    render(<Select {...defaultProps} defaultValue="test-1" allowDeselect={false} />);
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'test-1' }));
+    expect(screen.getByRole('combobox')).toHaveValue('test-1');
+  });
+
+  it('supports controlled state', async () => {
+    const spy = jest.fn();
+    render(<Select {...defaultProps} value="test-1" onChange={spy} />);
+    expect(screen.getByRole('combobox')).toHaveValue('test-1');
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'test-2' }));
+    expect(screen.getByRole('combobox')).toHaveValue('test-1');
+    expect(spy).toHaveBeenCalledWith('test-2', { label: 'test-2', value: 'test-2' });
+  });
+
+  it('calls onChange with null value and option when selected option is deselected', async () => {
+    const spy = jest.fn();
+    render(<Select {...defaultProps} defaultValue="test-1" onChange={spy} />);
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'test-1' }));
+    expect(spy).toHaveBeenCalledWith(null, null);
+  });
+
+  it('calls onChange with null value and option when clear button is clicked', async () => {
+    const spy = jest.fn();
+    const { container } = render(
+      <Select {...defaultProps} defaultValue="test-1" clearable onChange={spy} />
+    );
+    await userEvent.click(container.querySelector('.mantine-InputClearButton-root')!);
+    expect(spy).toHaveBeenCalledWith(null, null);
+  });
+
+  it('opens/closes dropdown on input click', async () => {
+    render(<Select {...defaultProps} />);
+    expect(screen.queryByRole('listbox')).toBe(null);
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByRole('listbox')).toBeVisible();
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.queryByRole('listbox')).toBe(null);
+  });
+
+  it('closes dropdown when focus leaves non-searchable select', async () => {
+    render(
+      <>
+        <Select {...defaultProps} />
+        <button type="button">next</button>
+      </>
+    );
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByRole('listbox')).toBeVisible();
+    await userEvent.tab();
+    expect(screen.getByRole('button', { name: 'next' })).toHaveFocus();
+    expect(screen.queryByRole('listbox')).toBe(null);
+    expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('keeps dropdown open when option is clicked with mouse in non-searchable select', async () => {
+    const spy = jest.fn();
+    render(<Select {...defaultProps} onChange={spy} />);
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'test-2' }));
+    expect(spy).toHaveBeenCalledWith('test-2', expect.objectContaining({ value: 'test-2' }));
+    expect(screen.getByRole('combobox')).toHaveFocus();
+  });
+
+  it('allows controlling dropdown state with dropdownOpened prop', async () => {
+    const { rerender } = render(<Select {...defaultProps} dropdownOpened />);
+    expect(screen.getByRole('listbox')).toBeVisible();
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByRole('listbox')).toBeVisible();
+
+    rerender(<Select {...defaultProps} dropdownOpened={false} />);
+    expect(screen.queryByRole('listbox')).toBe(null);
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.queryByRole('listbox')).toBe(null);
+  });
+
+  it('sets aria-disabled on disabled options', () => {
+    render(
+      <Select
+        {...defaultProps}
+        dropdownOpened
+        data={[
+          { value: 'test-1', label: 'test-1' },
+          { value: 'test-2', label: 'test-2', disabled: true },
+        ]}
+      />
+    );
+    expect(screen.getByRole('option', { name: 'test-1' })).not.toHaveAttribute('aria-disabled');
+    expect(screen.getByRole('option', { name: 'test-2' })).toHaveAttribute('aria-disabled', 'true');
+  });
+
+  it('allows searching options with searchable prop', async () => {
+    render(<Select {...defaultProps} searchable />);
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.type(screen.getByRole('combobox'), 'test-1');
+    expect(screen.getByRole('option', { name: 'test-1' })).toBeVisible();
+    expect(screen.queryByRole('option', { name: 'test-2' })).toBe(null);
+  });
+
+  it('displays nothing found message if no options matched search query', async () => {
+    render(<Select {...defaultProps} searchable nothingFoundMessage="Nothing found" />);
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.type(screen.getByRole('combobox'), 'test-3');
+    expect(screen.getByText('Nothing found')).toBeVisible();
+  });
+
+  it('displays the nothing found message if there is no data', async () => {
+    render(<Select {...defaultProps} data={[]} nothingFoundMessage="No data" />);
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByText('No data')).toBeVisible();
+  });
+
+  it('allows controlling search value with searchValue prop', async () => {
+    render(<Select {...defaultProps} searchable searchValue="test-1" />);
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByRole('option', { name: 'test-1' })).toBeVisible();
+    expect(screen.queryByRole('option', { name: 'test-2' })).toBe(null);
+  });
+
+  it('calls onSearchChange when search value changes', async () => {
+    const spy = jest.fn();
+    render(<Select {...defaultProps} searchable onSearchChange={spy} />);
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.type(screen.getByRole('combobox'), 'test-1');
+    expect(spy).toHaveBeenCalledWith('test-1');
+  });
+
+  it('sets input value on the hidden input', async () => {
+    render(<Select {...defaultProps} name="test-select" />);
+    expect(document.querySelector('input[name="test-select"]')).toHaveValue('');
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'test-1' }));
+    expect(screen.getByRole('combobox')).toHaveValue('test-1');
+    expect(document.querySelector('input[name="test-select"]')).toHaveValue('test-1');
+  });
+
+  it('allows selecting multiple Selects with react testing library', async () => {
+    render(
+      <>
+        <Select label="First" data={['first-1', 'first-2']} />
+        <Select label="Second" data={['second-1', 'second-2']} />
+      </>
+    );
+
+    await userEvent.click(screen.getByRole('combobox', { name: 'First' }));
+    expect(screen.queryByRole('listbox', { name: 'First' })).toBeVisible();
+
+    await userEvent.click(screen.getByRole('combobox', { name: 'Second' }));
+    expect(screen.queryByRole('listbox', { name: 'Second' })).toBeVisible();
+  });
+
+  it('supports dynamically changing data', async () => {
+    const Wrapper: React.FunctionComponent = () => {
+      const [data, setData] = useState([{ value: '1', label: 'initial-label' }]);
+      return (
+        <>
+          <Select label="First" data={data} value="1" />
+          <button type="button" onClick={() => setData([{ value: '1', label: 'new-label' }])}>
+            Set Data
+          </button>
+        </>
+      );
+    };
+
+    render(<Wrapper />);
+
+    expect(screen.getByRole('combobox')).toHaveValue('initial-label');
+    await userEvent.click(screen.getByRole('button'));
+    expect(screen.getByRole('combobox')).toHaveValue('new-label');
+  });
+
+  it('opens dropdown on focus when openOnFocus is true and searchable', async () => {
+    render(<Select {...defaultProps} searchable openOnFocus />);
+    expect(screen.queryByRole('listbox')).toBe(null);
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByRole('listbox')).toBeVisible();
+  });
+
+  it('does not open dropdown on focus when openOnFocus is false', async () => {
+    render(<Select {...defaultProps} searchable openOnFocus={false} />);
+    await userEvent.tab();
+    expect(screen.getByRole('combobox')).toHaveFocus();
+    expect(screen.queryByRole('listbox')).toBe(null);
+  });
+
+  it('does not open dropdown on focus when openOnFocus is true but not searchable', async () => {
+    render(<Select {...defaultProps} openOnFocus />);
+    const input = screen.getByRole('combobox');
+    await userEvent.tab();
+    expect(input).toHaveFocus();
+    expect(screen.queryByRole('listbox')).toBe(null);
+  });
+
+  it('selects highlighted option on blur when autoSelectOnBlur is true', async () => {
+    render(<Select {...defaultProps} searchable autoSelectOnBlur />);
+    const input = screen.getByRole('combobox');
+    await userEvent.click(input);
+    await userEvent.keyboard('{ArrowDown}');
+    await userEvent.tab();
+    expect(input).toHaveValue('test-1');
+  });
+
+  it('renders loading indicator when loading prop is set', () => {
+    const { container } = render(<Select {...defaultProps} loading />);
+    expect(container.querySelector('.mantine-Loader-root')).toBeInTheDocument();
+  });
+
+  it('supports uncontrolled state with numeric values', async () => {
+    render(
+      <Select
+        data={[
+          { value: 1, label: 'One' },
+          { value: 2, label: 'Two' },
+        ]}
+      />
+    );
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'One' }));
+    expect(screen.getByRole('combobox')).toHaveValue('One');
+  });
+
+  it('supports controlled state with numeric values', async () => {
+    const spy = jest.fn();
+    render(
+      <Select
+        value={1}
+        onChange={spy}
+        data={[
+          { value: 1, label: 'One' },
+          { value: 2, label: 'Two' },
+        ]}
+      />
+    );
+    expect(screen.getByRole('combobox')).toHaveValue('One');
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'Two' }));
+    expect(spy).toHaveBeenCalledWith(2, { label: 'Two', value: 2 });
+  });
+
+  it('allows deselecting option with numeric values', async () => {
+    render(
+      <Select
+        defaultValue={1}
+        data={[
+          { value: 1, label: 'One' },
+          { value: 2, label: 'Two' },
+        ]}
+      />
+    );
+    expect(screen.getByRole('combobox')).toHaveValue('One');
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('option', { name: 'One' }));
+    expect(screen.getByRole('combobox')).toHaveValue('');
+  });
+
+  it('inherits classNames and styles from Input.extend defaultProps in theme', () => {
+    const theme = {
+      components: {
+        Input: Input.extend({
+          defaultProps: {
+            classNames: { input: 'theme-input-class', wrapper: 'theme-wrapper-class' },
+            styles: { input: { color: 'rgb(255, 0, 0)' } },
+          },
+        }),
+      },
+    };
+
+    render(<Select {...defaultProps} />, theme);
+    const input = screen.getByRole('combobox');
+    expect(input).toHaveClass('theme-input-class');
+    expect(input).toHaveStyle({ color: 'rgb(255, 0, 0)' });
+  });
+
+  it('displays clear button when clearable is true and value is set', () => {
+    const { container } = render(
+      <Select data={['test-1', 'test-2']} value="test-1" clearable onChange={() => {}} />
+    );
+    expect(container.querySelector('.mantine-InputClearButton-root')).toBeInTheDocument();
+  });
+
+  it('does not display clear button when clearable is true and value is null', () => {
+    const { container } = render(
+      <Select data={['test-1', 'test-2']} value={null} clearable onChange={() => {}} />
+    );
+    expect(container.querySelector('.mantine-InputClearButton-root')).not.toBeInTheDocument();
+  });
+
+  it('displays clear button when clearable is true and value is false', () => {
+    const { container } = render(
+      <Select
+        data={[{ value: false, label: 'False option' }]}
+        value={false}
+        clearable
+        onChange={() => {}}
+      />
+    );
+    expect(container.querySelector('.mantine-InputClearButton-root')).toBeInTheDocument();
+  });
+
+  it('displays clear button when clearable is true and value is 0', () => {
+    const { container } = render(
+      <Select data={[{ value: 0, label: 'Zero option' }]} value={0} clearable onChange={() => {}} />
+    );
+    expect(container.querySelector('.mantine-InputClearButton-root')).toBeInTheDocument();
+  });
+
+  it('displays clear button when clearable is true and value is an empty string', () => {
+    const { container } = render(
+      <Select
+        data={[
+          { value: '', label: 'Empty' },
+          { value: 'test-1', label: 'Test 1' },
+        ]}
+        value=""
+        clearable
+        onChange={() => {}}
+      />
+    );
+    expect(container.querySelector('.mantine-InputClearButton-root')).toBeInTheDocument();
+  });
+
+  it('allows to change controlled search value when value is controlled and selected', async () => {
+    const Wrapper: React.FunctionComponent = () => {
+      const [value, setValue] = useState<string | null>('Angular');
+      const [searchValue, setSearchValue] = useState('');
+
+      return (
+        <Select
+          {...defaultProps}
+          value={value}
+          onChange={setValue}
+          searchable
+          searchValue={searchValue}
+          onSearchChange={setSearchValue}
+          data={['React', 'Angular', 'Svelte']}
+        />
+      );
+    };
+
+    render(<Wrapper />);
+
+    await userEvent.click(screen.getByRole('combobox'));
+    // Type backspace to remove last character
+    await userEvent.type(screen.getByRole('combobox'), '{backspace}');
+    expect(screen.getByRole('combobox')).toHaveValue('Angula');
+  });
+
+  describe('external input changes (autofill)', () => {
+    const autofillProps: SelectProps = {
+      ...defaultProps,
+      searchable: true,
+      name: 'test-select',
+      data: ['Germany', 'Armenia'],
+    };
+
+    const getHiddenInput = () => document.querySelector('input[name="test-select"]');
+
+    it('selects the option with a matching label', async () => {
+      render(<Select {...autofillProps} />);
+      await externalInputFill(screen.getByRole('combobox'), 'Germany');
+      expect(screen.getByRole('combobox')).toHaveValue('Germany');
+      expect(getHiddenInput()).toHaveValue('Germany');
+    });
+
+    it('ignores label casing and surrounding whitespace when matching', async () => {
+      render(<Select {...autofillProps} />);
+      await externalInputFill(screen.getByRole('combobox'), '  gERMANY ');
+      expect(screen.getByRole('combobox')).toHaveValue('Germany');
+      expect(getHiddenInput()).toHaveValue('Germany');
+    });
+
+    it('matches options nested in groups', async () => {
+      render(
+        <Select {...autofillProps} data={[{ group: 'Europe', items: ['Germany', 'Georgia'] }]} />
+      );
+      await externalInputFill(screen.getByRole('combobox'), 'Georgia');
+      expect(screen.getByRole('combobox')).toHaveValue('Georgia');
+      expect(getHiddenInput()).toHaveValue('Georgia');
+    });
+
+    it('does not display a value that was not selected when the label does not match', async () => {
+      render(<Select {...autofillProps} />);
+      await externalInputFill(screen.getByRole('combobox'), 'Georgia');
+      expect(screen.getByRole('combobox')).toHaveValue('');
+      expect(getHiddenInput()).toHaveValue('');
+    });
+
+    it('restores the label of the selected option when the label does not match', async () => {
+      render(<Select {...autofillProps} defaultValue="Armenia" />);
+      await externalInputFill(screen.getByRole('combobox'), 'Georgia');
+      expect(screen.getByRole('combobox')).toHaveValue('Armenia');
+      expect(getHiddenInput()).toHaveValue('Armenia');
+    });
+
+    it('does not deselect the option when its own label is filled in', async () => {
+      render(<Select {...autofillProps} defaultValue="Armenia" allowDeselect />);
+      await externalInputFill(screen.getByRole('combobox'), 'Armenia');
+      expect(screen.getByRole('combobox')).toHaveValue('Armenia');
+      expect(getHiddenInput()).toHaveValue('Armenia');
+    });
+
+    it('does not select anything when several options share the filled in label', async () => {
+      render(
+        <Select
+          {...autofillProps}
+          data={[
+            { value: '1', label: 'John Smith' },
+            { value: '2', label: 'John Smith' },
+          ]}
+        />
+      );
+
+      await externalInputFill(screen.getByRole('combobox'), 'John Smith');
+      expect(screen.getByRole('combobox')).toHaveValue('');
+      expect(getHiddenInput()).toHaveValue('');
+    });
+
+    it('does not select disabled options', async () => {
+      render(
+        <Select
+          {...autofillProps}
+          data={[{ value: 'Germany', label: 'Germany', disabled: true }]}
+        />
+      );
+      await externalInputFill(screen.getByRole('combobox'), 'Germany');
+      expect(screen.getByRole('combobox')).toHaveValue('');
+      expect(getHiddenInput()).toHaveValue('');
+    });
+
+    it('calls onChange with the matched option', async () => {
+      const spy = jest.fn();
+      render(<Select {...autofillProps} onChange={spy} />);
+      await externalInputFill(screen.getByRole('combobox'), 'Germany');
+      expect(spy).toHaveBeenCalledWith('Germany', { value: 'Germany', label: 'Germany' });
+    });
+
+    it('does not call onChange when the label does not match', async () => {
+      const spy = jest.fn();
+      render(<Select {...autofillProps} onChange={spy} />);
+      await externalInputFill(screen.getByRole('combobox'), 'Georgia');
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('does not call onSearchChange with the filled in value when the label does not match', async () => {
+      const spy = jest.fn();
+      render(<Select {...autofillProps} onSearchChange={spy} />);
+      await externalInputFill(screen.getByRole('combobox'), 'Georgia');
+      expect(spy).not.toHaveBeenCalledWith('Georgia');
+    });
+
+    it('does not open the dropdown', async () => {
+      render(<Select {...autofillProps} />);
+      await externalInputFill(screen.getByRole('combobox'), 'Georgia');
+      expect(screen.queryByRole('option')).toBe(null);
+    });
+
+    it('does not display phantom text in a non-searchable Select', async () => {
+      render(<Select {...autofillProps} searchable={false} />);
+      await externalInputFill(screen.getByRole('combobox'), 'Georgia');
+      expect(screen.getByRole('combobox')).toHaveValue('');
+      expect(getHiddenInput()).toHaveValue('');
+    });
+
+    it('does not change the value of a readOnly Select', async () => {
+      render(<Select {...autofillProps} readOnly defaultValue="Armenia" />);
+      await externalInputFill(screen.getByRole('combobox'), 'Germany');
+      expect(screen.getByRole('combobox')).toHaveValue('Armenia');
+      expect(getHiddenInput()).toHaveValue('Armenia');
+    });
+
+    it('does not interfere with typing', async () => {
+      render(<Select {...autofillProps} />);
+      await userEvent.click(screen.getByRole('combobox'));
+      await userEvent.type(screen.getByRole('combobox'), 'Germ');
+      expect(screen.getByRole('combobox')).toHaveValue('Germ');
+      expect(screen.getByRole('option', { name: 'Germany' })).toBeVisible();
+      expect(screen.queryByRole('option', { name: 'Armenia' })).toBe(null);
+      expect(getHiddenInput()).toHaveValue('');
+    });
+  });
+
+  it('links listbox to the rendered label with aria-labelledby', () => {
+    const { rerender } = render(
+      <Select label="Test label" data={['test-1', 'test-2']} dropdownOpened />
+    );
+    expect(screen.getByRole('listbox')).toHaveAccessibleName('Test label');
+
+    rerender(
+      <>
+        <Select
+          label="Test label"
+          labelProps={{ id: 'custom-label-id' }}
+          data={['test-1', 'test-2']}
+          dropdownOpened
+        />
+      </>
+    );
+    expect(screen.getByRole('listbox')).toHaveAttribute('aria-labelledby', 'custom-label-id');
+    expect(screen.getByRole('listbox')).toHaveAccessibleName('Test label');
+  });
+
+  it('does not reference label in aria-labelledby when label is excluded from inputWrapperOrder', () => {
+    render(
+      <Select
+        label="Test label"
+        aria-label="Test aria-label"
+        inputWrapperOrder={['input']}
+        data={['test-1', 'test-2']}
+        dropdownOpened
+      />
+    );
+    expect(screen.getByRole('listbox')).not.toHaveAttribute('aria-labelledby');
+    expect(screen.getByRole('listbox')).toHaveAccessibleName('Test aria-label');
+  });
+});

@@ -1,0 +1,15 @@
+<{{#if titleType}}{{titleType}}{{else}}h1{{/if}} class="{{pfv}}title
+  {{setModifiers
+    title--IsPageTitle='pf-m-page-title'
+    title--modifier=title--modifier
+  }}"
+	{{#if title--attribute}}
+    {{{title--attribute}}}
+  {{/if}}>
+  {{#if title--text}}
+    {{title--text}}
+  {{/if}}
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</{{#if titleType}}{{titleType}}{{else}}h1{{/if}}>

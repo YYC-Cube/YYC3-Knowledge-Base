@@ -1,0 +1,247 @@
+import React, { useImperativeHandle, useRef, useState } from 'react';
+import classNames from 'classnames';
+import { isArray, isFunction } from 'lodash-es';
+import { CloseCircleFilledIcon as TdCloseCircleFilledIcon } from 'tdesign-icons-react';
+
+import parseTNode from '../_util/parseTNode';
+import useConfig from '../hooks/useConfig';
+import useControlled from '../hooks/useControlled';
+import useDefaultProps from '../hooks/useDefaultProps';
+import useGlobalIcon from '../hooks/useGlobalIcon';
+import Input from '../input';
+import { rangeInputDefaultProps } from './defaultProps';
+
+import type { StyledProps, TNode } from '../common';
+import type { InputRef } from '../input';
+import type { RangeInputInstanceFunctions, RangeInputValue, TdRangeInputProps } from './type';
+
+export interface RangeInputProps extends TdRangeInputProps, StyledProps {}
+
+export interface RangeInputRefInterface extends React.RefObject<unknown>, RangeInputInstanceFunctions {
+  currentElement: HTMLFormElement;
+}
+
+function calcArrayValue<T>(value: T | T[]) {
+  return Array.isArray(value) ? value : [value, value];
+}
+
+const renderIcon = (classPrefix: string, type: 'prefix' | 'suffix', icon: TNode) => {
+  const result = parseTNode(icon);
+
+  const iconClassName = icon ? `${classPrefix}-range-input__${type}-icon` : '';
+
+  return result ? <span className={`${classPrefix}-range-input__${type} ${iconClassName}`}>{result}</span> : null;
+};
+
+const RangeInput = React.forwardRef<RangeInputInstanceFunctions, RangeInputProps>((originalProps, ref) => {
+  const { classPrefix } = useConfig();
+  const { CloseCircleFilledIcon } = useGlobalIcon({
+    CloseCircleFilledIcon: TdCloseCircleFilledIcon,
+  });
+
+  const props = useDefaultProps<RangeInputProps>(originalProps, rangeInputDefaultProps);
+
+  const {
+    className,
+    style,
+    activeIndex,
+    borderless,
+    disabled,
+    format,
+    inputProps,
+    label,
+    placeholder,
+    separator,
+    status,
+    size,
+    tips,
+    suffix,
+    prefixIcon,
+    suffixIcon,
+    clearable,
+    showClearIconOnEmpty,
+    readOnly,
+    readonly,
+    onClick,
+    onEnter,
+    onClear,
+    onFocus,
+    onBlur,
+    onMouseenter,
+    onMouseleave,
+    onChange: onChangeFromProps,
+    ...restProps
+  } = props;
+  const readOnlyProp = readOnly || readonly;
+
+  const name = `${classPrefix}-range-input`;
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const inputRefs = {
+    firstInputRef: useRef<InputRef>(null),
+    secondInputRef: useRef<InputRef>(null),
+  };
+
+  const [isFocused, toggleIsFocused] = useState(false);
+  const [isHover, toggleIsHover] = useState(false);
+  const [firstFormat, secondFormat] = calcArrayValue(format);
+  const [firstPlaceholder = '请输入内容', secondPlaceholder = '请输入内容'] = calcArrayValue(placeholder);
+  const [firstInputProps, secondInputProps] = calcArrayValue(inputProps);
+
+  const [value, onChange] = useControlled(props, 'value', onChangeFromProps);
+  const [firstValue, secondValue] = value || [];
+  const [firstDisabled, secondDisabled] = isArray(disabled) ? disabled : [disabled, disabled];
+  const allDisabled = !!(firstDisabled && secondDisabled);
+  const anyDisabled = !!(firstDisabled || secondDisabled);
+
+  const isShowClearIcon = ((clearable && value?.length && !anyDisabled) || showClearIconOnEmpty) && isHover;
+  let suffixIconNew = suffixIcon;
+
+  if (isShowClearIcon) {
+    suffixIconNew = <CloseCircleFilledIcon className={`${name}__suffix-clear`} onClick={handleClear} />;
+  }
+
+  const labelContent = isFunction(label) ? label() : label;
+  const prefixIconContent = renderIcon(classPrefix, 'prefix', parseTNode(prefixIcon));
+  const suffixContent = isFunction(suffix) ? suffix() : suffix;
+  const suffixIconContent = renderIcon(classPrefix, 'suffix', parseTNode(suffixIconNew));
+
+  function handleClear(e: React.MouseEvent<SVGSVGElement>) {
+    onClear?.({ e });
+    onChange?.(['', ''], { e, trigger: 'clear', position: 'all' });
+  }
+
+  function handleEnter(rangeValue: RangeInputValue, context) {
+    onEnter?.(rangeValue, context);
+  }
+
+  function handleFocus(rangeValue: RangeInputValue, context) {
+    onFocus?.(rangeValue, context);
+    toggleIsFocused(true);
+  }
+
+  function handleBlur(rangeValue: RangeInputValue, context) {
+    onBlur?.(rangeValue, context);
+    toggleIsFocused(false);
+  }
+
+  function handleMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
+    toggleIsHover(true);
+    onMouseenter?.({ e });
+    // @ts-ignore
+    props.onMouseEnter?.({ e });
+  }
+
+  function handleMouseLeave(e: React.MouseEvent<HTMLDivElement>) {
+    toggleIsHover(false);
+    onMouseleave?.({ e });
+    // @ts-ignore
+    props.onMouseLeave?.({ e });
+  }
+
+  useImperativeHandle(ref, () => ({
+    currentElement: wrapperRef.current,
+    firstInputElement: inputRefs.firstInputRef.current,
+    secondInputElement: inputRefs.secondInputRef.current,
+    focus(options) {
+      const { position = 'first' } = options || {};
+      (inputRefs[`${position}InputRef`].current as InputRef)?.focus();
+    },
+    blur(options) {
+      const { position = 'first' } = options || {};
+      (inputRefs[`${position}InputRef`].current as InputRef)?.blur();
+    },
+    select(options) {
+      const { position = 'first' } = options || {};
+      (inputRefs[`${position}InputRef`].current as InputRef)?.select();
+    },
+  }));
+
+  return (
+    <div
+      ref={wrapperRef}
+      style={style}
+      className={classNames(name, className, {
+        [`${classPrefix}-is-disabled`]: allDisabled,
+        [`${classPrefix}-is-focused`]: isFocused,
+        [`${classPrefix}-is-${status}`]: status,
+        [`${classPrefix}-size-l`]: size === 'large',
+        [`${classPrefix}-size-s`]: size === 'small',
+        [`${name}--prefix`]: prefixIconContent || labelContent,
+        [`${name}--suffix`]: suffixContent || suffixIconContent,
+        [`${name}--borderless`]: borderless,
+      })}
+      {...restProps}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className={`${name}__inner`}>
+        {prefixIconContent}
+        {labelContent ? <div className={`${classPrefix}-input__prefix`}>{labelContent}</div> : null}
+        <Input
+          ref={inputRefs.firstInputRef}
+          className={`${name}__inner-left`}
+          inputClass={classNames({
+            [`${classPrefix}-is-focused`]: activeIndex === 0,
+            [`${classPrefix}-is-disabled`]: isArray(disabled) && firstDisabled,
+          })}
+          placeholder={firstPlaceholder}
+          disabled={firstDisabled}
+          readOnly={readOnlyProp}
+          format={firstFormat}
+          value={firstValue}
+          onClick={({ e }) => onClick?.({ e, position: 'first' })}
+          onClear={() => onChange?.([], { position: 'first', trigger: 'input' })}
+          onEnter={(val, { e }) => handleEnter([val, secondValue], { e, position: 'first' })}
+          onFocus={(val, { e }) => handleFocus([val, secondValue], { e, position: 'first' })}
+          onBlur={(val, { e }) => handleBlur([val, secondValue], { e, position: 'first' })}
+          onChange={(val, { e }) =>
+            onChange?.([val, secondValue], {
+              e,
+              position: 'first',
+              trigger: 'input',
+            })
+          }
+          {...firstInputProps}
+        />
+
+        <div className={`${name}__inner-separator`}>{separator}</div>
+
+        <Input
+          ref={inputRefs.secondInputRef}
+          className={`${name}__inner-right`}
+          inputClass={classNames({
+            [`${classPrefix}-is-focused`]: activeIndex === 1,
+            [`${classPrefix}-is-disabled`]: isArray(disabled) && secondDisabled,
+          })}
+          placeholder={secondPlaceholder}
+          disabled={secondDisabled}
+          readOnly={readOnlyProp}
+          format={secondFormat}
+          value={secondValue}
+          onClick={({ e }) => onClick?.({ e, position: 'second' })}
+          onClear={() => onChange?.([], { position: 'second', trigger: 'input' })}
+          onEnter={(val, { e }) => handleEnter([firstValue, val], { e, position: 'second' })}
+          onFocus={(val, { e }) => handleFocus([firstValue, val], { e, position: 'second' })}
+          onBlur={(val, { e }) => handleBlur([firstValue, val], { e, position: 'second' })}
+          onChange={(val, { e }) =>
+            onChange?.([firstValue, val], {
+              e,
+              position: 'second',
+              trigger: 'input',
+            })
+          }
+          {...secondInputProps}
+        />
+        {suffixContent ? <div className={`${name}__suffix`}>{suffixContent}</div> : null}
+        {suffixIconContent}
+      </div>
+      {tips && <div className={`${name}__tips`}>{tips}</div>}
+    </div>
+  );
+});
+
+RangeInput.displayName = 'RangeInput';
+
+export default RangeInput;

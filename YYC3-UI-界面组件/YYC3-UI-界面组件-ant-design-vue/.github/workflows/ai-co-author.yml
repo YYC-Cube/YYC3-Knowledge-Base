@@ -1,0 +1,77 @@
+name: AI Co-Author Check
+
+on:
+  pull_request:
+    branches: [main, feat/vapor]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  check-ai-co-author:
+    name: Require AI Co-Author
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check all commits for AI co-author
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # AI co-author patterns (case-insensitive)
+          AI_PATTERNS=(
+            "Co-Authored-By:.*Claude"
+            "Co-Authored-By:.*Copilot"
+            "Co-Authored-By:.*Cursor"
+            "Co-Authored-By:.*Codex"
+          )
+
+          # Build combined regex
+          REGEX=$(IFS='|'; echo "${AI_PATTERNS[*]}")
+
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          echo "Checking commits ${BASE_SHA:0:7}..${HEAD_SHA:0:7}"
+          echo ""
+
+          FAILED=0
+          TOTAL=0
+
+          while IFS= read -r COMMIT_SHA; do
+            TOTAL=$((TOTAL + 1))
+            MESSAGE=$(git log -1 --format="%B" "$COMMIT_SHA")
+            SHORT_SHA="${COMMIT_SHA:0:7}"
+            SUBJECT=$(git log -1 --format="%s" "$COMMIT_SHA")
+
+            if echo "$MESSAGE" | grep -qiE "$REGEX"; then
+              echo "✅ ${SHORT_SHA} ${SUBJECT}"
+            else
+              echo "❌ ${SHORT_SHA} ${SUBJECT}"
+              echo "   Missing AI Co-Authored-By trailer"
+              FAILED=$((FAILED + 1))
+            fi
+          done < <(git rev-list "$BASE_SHA".."$HEAD_SHA")
+
+          echo ""
+          echo "─────────────────────────────────"
+          echo "Total: ${TOTAL} commits, ${FAILED} missing AI co-author"
+
+          if [ "$FAILED" -gt 0 ]; then
+            echo ""
+            echo "❌ Every commit must include an AI co-author trailer."
+            echo ""
+            echo "Supported AI tools:"
+            echo "  Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+            echo "  Co-Authored-By: GitHub Copilot <noreply@github.com>"
+            echo "  Co-Authored-By: Cursor <noreply@cursor.com>"
+            echo "  Co-Authored-By: Codex <noreply@openai.com>"
+            echo ""
+            echo "Add the trailer to the end of your commit message."
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ All commits have AI co-author. Nice!"

@@ -1,0 +1,30 @@
+{
+  "name": "@tdesign/miniprogram-chat-site",
+  "author": "tdesign",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "site": "vite build --configLoader runner",
+    "site:dev": "vite --configLoader runner",
+    "site:preview": "cross-env NODE_ENV=development vite build --configLoader runner --mode preview && cp dist/index.html dist/404.html",
+    "site:prerender": "node scripts/prerender.mjs"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "catalog:",
+    "@tdesign/site-components": "catalog:tdesign",
+    "@tdesign/theme-generator": "catalog:tdesign",
+    "@types/prismjs": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
+    "gray-matter": "catalog:",
+    "playwright": "catalog:",
+    "prismjs": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-tdoc": "catalog:"
+  }
+}

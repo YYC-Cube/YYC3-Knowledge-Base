@@ -1,0 +1,59 @@
+<{{#if wizard-nav-link--IsLink}}a href="#"{{else}}button{{/if}} class="{{pfv}}wizard__nav-link
+  {{~#if wizard-nav-link--IsCurrent}}
+    pf-m-current
+  {{/if}}
+  {{~#if wizard-nav-item--IsSuccess}}
+    pf-m-success
+  {{/if}}
+  {{~#if wizard-nav-item--IsWarning}}
+    pf-m-warning
+  {{/if}}
+  {{~#if wizard-nav-item--IsDanger}}
+    pf-m-danger
+  {{/if}}
+  {{~#if wizard-nav-link--IsDisabled}}
+    {{~#if wizard-nav-link--IsLink}}
+      pf-m-disabled
+    {{/if}}
+  {{/if}}
+  {{~#if wizard-nav-link--modifier}}
+    {{wizard-nav-link--modifier}}
+  {{/if}}"
+  {{#unless wizard-nav-link--IsLink}}
+    type="button"
+  {{/unless}}
+  {{#if wizard-nav-link--IsCurrentPage}}
+    aria-current="page"
+  {{/if}}
+  {{#if wizard-nav-link--IsDisabled}}
+    {{#if wizard-nav-link--IsLink}}
+      aria-disabled="true"
+      tabindex="-1"
+    {{else}}
+      disabled
+    {{/if}}
+  {{/if}}
+  {{#if wizard-nav-item--IsExpandable}}
+    {{#if wizard-nav-item--IsExpanded}}
+      aria-expanded="true"
+    {{else}}
+      aria-expanded="false"
+    {{/if}}
+  {{/if}}
+  {{#if wizard-nav-link--attribute}}
+    {{{wizard-nav-link--attribute}}}
+  {{/if}}>
+  {{#ifAny wizard-nav-item--IsSuccess wizard-nav-item--IsDanger wizard-nav-item--IsWarning}}
+    {{> wizard-nav-link-status-icon}}
+  {{/ifAny}}
+  {{#> wizard-nav-link-main}}
+    {{#> wizard-nav-link-text}}
+      {{> @partial-block}}
+    {{/wizard-nav-link-text}}
+    {{#if wizard-nav-item--IsExpandable}}
+      {{#> wizard-nav-link-toggle}}
+        {{> wizard-nav-link-toggle-icon}}
+      {{/wizard-nav-link-toggle}}
+    {{/if}}
+  {{/wizard-nav-link-main}}
+</{{#if wizard-nav-link--IsLink}}a{{else}}button{{/if}}>

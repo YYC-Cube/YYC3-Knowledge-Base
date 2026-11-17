@@ -1,0 +1,809 @@
+import { mount } from '@vue/test-utils'
+import { expect, test, vi } from 'vite-plus/test'
+import { createApp, h, nextTick } from 'vue'
+import { z } from 'zod'
+import AutoComplete from '..'
+import { trigger, triggerKeyboard } from '../../utils/test'
+
+test('auto-complete plugin', () => {
+  const app = createApp({}).use(AutoComplete)
+  expect(app.component(AutoComplete.name)).toBeTruthy()
+})
+
+test('auto-complete modelValue', async () => {
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: '',
+      'onUpdate:modelValue': onUpdateModelValue,
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+  await wrapper.find('input').setValue('a')
+  expect(onUpdateModelValue).toHaveBeenCalledWith('a')
+  wrapper.unmount()
+})
+
+test('auto-complete options', async () => {
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      'onUpdate:modelValue': onUpdateModelValue,
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+        {
+          value: 'Option 2',
+          label: 'Option 2',
+        },
+      ],
+    },
+  })
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('')
+
+  await trigger(document.querySelector('.var-menu-option'), 'click')
+  expect(onUpdateModelValue).toHaveBeenCalledWith('Option 1')
+  wrapper.unmount()
+})
+
+test('auto-complete getShow', async () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+        {
+          value: 'Option 2',
+          label: 'Option 2',
+        },
+      ],
+      getShow: (value) => value === 'b',
+    },
+  })
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.find('input').trigger('blur')
+
+  await wrapper.setProps({ modelValue: 'b' })
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('')
+
+  wrapper.unmount()
+})
+
+test('auto-complete options custom key', async () => {
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      labelKey: 'name',
+      valueKey: 'id',
+      'onUpdate:modelValue': onUpdateModelValue,
+      options: [
+        {
+          id: 'Option Id 1',
+          name: 'Option Name 1',
+        },
+        {
+          id: 'Option Id 2',
+          name: 'Option Name 2',
+        },
+      ],
+    },
+  })
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('')
+
+  await trigger(document.querySelector('.var-menu-option'), 'click')
+  expect(onUpdateModelValue).toHaveBeenCalledWith('Option Id 1')
+  wrapper.unmount()
+})
+
+test('auto-complete placeholder', () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      placeholder: 'Hello',
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+  wrapper.unmount()
+})
+
+test('auto-complete maxlength', async () => {
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      maxlength: 1,
+      'onUpdate:modelValue': onUpdateModelValue,
+    },
+  })
+
+  await wrapper.find('input').setValue('123')
+  expect(onUpdateModelValue).toHaveBeenCalledWith('1')
+
+  wrapper.unmount()
+})
+
+test('auto-complete maxlength for handle auto complete', async () => {
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      maxlength: 3,
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+        {
+          value: 'Option 2',
+          label: 'Option 2',
+        },
+      ],
+      'onUpdate:modelValue': onUpdateModelValue,
+    },
+  })
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('')
+
+  await trigger(document.querySelector('.var-menu-option'), 'click')
+  expect(onUpdateModelValue).toHaveBeenCalledWith('Opt')
+
+  wrapper.unmount()
+})
+
+test('auto-complete disabled', async () => {
+  const onUpdateModelValue = vi.fn()
+  const onClick = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      disabled: true,
+      modelValue: 'a',
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+        {
+          value: 'Option 2',
+          label: 'Option 2',
+        },
+      ],
+      onClick,
+      'onUpdate:modelValue': onUpdateModelValue,
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+
+  await wrapper.trigger('click')
+  expect(onClick).not.toHaveBeenCalled()
+
+  wrapper.unmount()
+})
+
+test('auto-complete readonly', async () => {
+  const onUpdateModelValue = vi.fn()
+  const onClick = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      readonly: true,
+      modelValue: 'a',
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+        {
+          value: 'Option 2',
+          label: 'Option 2',
+        },
+      ],
+      onClick,
+      'onUpdate:modelValue': onUpdateModelValue,
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+
+  await wrapper.trigger('click')
+  expect(onClick).toBeCalledTimes(1)
+
+  wrapper.unmount()
+})
+
+test('auto-complete clearable', async () => {
+  const onClear = vi.fn()
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      clearable: true,
+      onClear,
+      'onUpdate:modelValue': onUpdateModelValue,
+    },
+  })
+
+  await wrapper.find('.var-icon-close-circle').trigger('click')
+  expect(onClear).toHaveBeenCalledWith('')
+  expect(onUpdateModelValue).toHaveBeenCalledWith('')
+  wrapper.unmount()
+})
+
+test('auto complete onInput onChange onFocus onBlur', async () => {
+  const onUpdateModelValue = vi.fn()
+  const onInput = vi.fn()
+  const onChange = vi.fn()
+  const onFocus = vi.fn()
+  const onBlur = vi.fn()
+
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: '',
+      'onUpdate:modelValue': onUpdateModelValue,
+      onInput,
+      onChange,
+      onFocus,
+      onBlur,
+    },
+  })
+
+  await wrapper.trigger('focusin')
+  expect(onFocus).toHaveBeenCalledTimes(1)
+  await wrapper.find('input').trigger('blur')
+  expect(onBlur).toHaveBeenCalledTimes(1)
+
+  await wrapper.find('input').setValue('a')
+  expect(onInput).toHaveBeenCalledTimes(1)
+  expect(onChange).toHaveBeenCalledTimes(1)
+
+  wrapper.unmount()
+})
+
+test('auto-complete hint and line', () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      hint: false,
+      line: false,
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+  wrapper.unmount()
+})
+
+test('auto-complete custom color', () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      textColor: 'red',
+      focusColor: 'blue',
+      blurColor: 'green',
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+  wrapper.unmount()
+})
+
+test('auto-complete size', () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      size: 'small',
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+  wrapper.unmount()
+})
+
+test('auto-complete variant', () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      variant: 'outlined',
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+  wrapper.unmount()
+})
+
+test('auto-complete popover class by variant', () => {
+  const standard = mount(AutoComplete, {
+    props: {
+      variant: 'standard',
+    },
+  })
+
+  expect(standard.findComponent({ name: 'VarMenuSelect' }).props('popoverClass')).toBe(
+    'var-auto-complete--standard-menu-margin',
+  )
+  standard.unmount()
+
+  const filled = mount(AutoComplete, {
+    props: {
+      variant: 'filled',
+    },
+  })
+
+  expect(filled.findComponent({ name: 'VarMenuSelect' }).props('popoverClass')).toBe(
+    'var-auto-complete--filled-menu-margin',
+  )
+  filled.unmount()
+
+  const outlined = mount(AutoComplete, {
+    props: {
+      variant: 'outlined',
+    },
+  })
+
+  expect(outlined.findComponent({ name: 'VarMenuSelect' }).props('popoverClass')).toBe('')
+  outlined.unmount()
+})
+
+test('auto-complete slots', () => {
+  const wrapper = mount(AutoComplete, {
+    slots: {
+      'append-icon': () => 'append-icon',
+      'prepend-icon': () => 'prepend-icon',
+      'clear-icon': () => 'clear-icon',
+      'extra-message': () => 'extra-message',
+    },
+  })
+
+  expect(wrapper.html()).toMatchSnapshot()
+  wrapper.unmount()
+})
+
+test('auto-complete extra-message slot renders', async () => {
+  const wrapper = mount(AutoComplete, {
+    slots: {
+      'extra-message': () => 'extra-message',
+    },
+  })
+
+  await nextTick()
+  expect(wrapper.vm.$slots['extra-message']).toBeTruthy()
+  expect(wrapper.findComponent({ name: 'VarInput' }).vm.$slots['extra-message']).toBeTruthy()
+  wrapper.unmount()
+})
+
+test('auto-complete passes extra-message slot to input', () => {
+  const wrapper = mount(AutoComplete, {
+    slots: {
+      'extra-message': () => 'extra-message',
+    },
+    global: {
+      stubs: {
+        VarMenuSelect: {
+          template: '<div><slot /><slot name="options" /></div>',
+        },
+        VarInput: {
+          template: '<div class="stub-input"><slot name="extra-message" /></div>',
+        },
+        VarFormDetails: true,
+      },
+    },
+  })
+
+  expect(wrapper.find('.stub-input').text()).toContain('extra-message')
+  wrapper.unmount()
+})
+
+test('auto-complete tabindex behavior', () => {
+  const defaultTab = mount(AutoComplete)
+
+  expect(defaultTab.attributes('tabindex')).toBe('0')
+  defaultTab.unmount()
+
+  const disabledTab = mount(AutoComplete, {
+    props: {
+      disabled: true,
+    },
+  })
+
+  expect(disabledTab.attributes('tabindex')).toBeUndefined()
+  disabledTab.unmount()
+
+  const customTab = mount(AutoComplete, {
+    props: {
+      tabindex: '3',
+    },
+  })
+
+  expect(customTab.attributes('tabindex')).toBe('3')
+  customTab.unmount()
+})
+test('auto-complete validation', async () => {
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: '',
+      rules: [(v) => !!v || 'Required'],
+      'onUpdate:modelValue': onUpdateModelValue,
+    },
+  })
+
+  await wrapper.vm.validate()
+  expect(wrapper.html()).toMatchSnapshot()
+
+  wrapper.vm.resetValidation()
+  await nextTick()
+  expect(wrapper.html()).toMatchSnapshot()
+
+  wrapper.vm.reset()
+  await nextTick()
+  expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
+  wrapper.unmount()
+})
+
+test('auto-complete click outside', async () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+        {
+          value: 'Option 2',
+          label: 'Option 2',
+        },
+      ],
+    },
+  })
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  await nextTick()
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('')
+
+  await trigger(document, 'click')
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+
+  wrapper.unmount()
+})
+
+test('auto-complete ignore click outside after clear', async () => {
+  const onBlur = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      clearable: true,
+      onBlur,
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+      ],
+    },
+  })
+
+  await wrapper.trigger('focusin')
+  await wrapper.find('.var-icon-close-circle').trigger('click')
+  await trigger(document, 'click')
+
+  expect(onBlur).not.toHaveBeenCalled()
+
+  wrapper.unmount()
+})
+
+test('auto-complete select option by keyboard', async () => {
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      'onUpdate:modelValue': onUpdateModelValue,
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+        {
+          value: 'Option 2',
+          label: 'Option 2',
+        },
+      ],
+    },
+  })
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  await nextTick()
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('')
+
+  await triggerKeyboard(window, 'keydown', { key: 'ArrowDown' })
+  await trigger(document.querySelector('.var-menu-option'), 'focus')
+  await triggerKeyboard(window, 'keydown', { key: 'Enter' })
+  expect(onUpdateModelValue).toHaveBeenCalledWith('Option 1')
+
+  wrapper.unmount()
+})
+
+test('auto-complete close menu by keyboard tab', async () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+        {
+          value: 'Option 2',
+          label: 'Option 2',
+        },
+      ],
+    },
+  })
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  await nextTick()
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('')
+
+  await triggerKeyboard(window, 'keydown', { key: 'Tab' })
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+
+  wrapper.unmount()
+})
+
+test('auto-complete keyboard ignores when menu hidden', async () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+      ],
+    },
+  })
+
+  await triggerKeyboard(window, 'keydown', { key: 'ArrowDown' })
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+
+  wrapper.unmount()
+})
+
+test('auto-complete keyboard focuses input for other keys', async () => {
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+      ],
+    },
+  })
+
+  const focusSpy = vi.fn()
+  wrapper.vm.input.focus = focusSpy
+
+  await wrapper.trigger('focusin')
+  await triggerKeyboard(window, 'keydown', { key: 'A' })
+
+  expect(focusSpy).toHaveBeenCalled()
+
+  wrapper.unmount()
+})
+
+test('auto-complete blur ignored when menu open', async () => {
+  const onBlur = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      options: [
+        {
+          value: 'Option 1',
+          label: 'Option 1',
+        },
+      ],
+      onBlur,
+    },
+  })
+
+  await wrapper.trigger('focusin')
+  await wrapper.find('input').trigger('blur')
+  expect(onBlur).not.toHaveBeenCalled()
+
+  wrapper.unmount()
+})
+
+test('auto-complete key-escape focuses input', () => {
+  const wrapper = mount(AutoComplete)
+  const focusSpy = vi.fn()
+  wrapper.vm.input.focus = focusSpy
+
+  wrapper.vm.handleKeyEscape()
+  expect(focusSpy).toHaveBeenCalled()
+
+  wrapper.unmount()
+})
+test('auto-complete handle same value by option', async () => {
+  const onChange = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      options: [
+        {
+          value: 'a',
+          label: 'a',
+        },
+      ],
+      onChange,
+    },
+  })
+
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('none')
+  await wrapper.trigger('focusin')
+  await nextTick()
+  expect(document.querySelector('.var-menu__menu').style.display).toBe('')
+
+  await trigger(document.querySelector('.var-menu-option'), 'click')
+  expect(onChange).toHaveBeenCalledTimes(0)
+
+  wrapper.unmount()
+})
+
+test('auto-complete focus and blur methods', () => {
+  const onFocus = vi.fn()
+  const onBlur = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      onFocus,
+      onBlur,
+    },
+  })
+
+  wrapper.vm.focus()
+  expect(onFocus).toHaveBeenCalledTimes(1)
+
+  wrapper.vm.blur()
+  expect(onBlur).toHaveBeenCalledTimes(1)
+
+  wrapper.unmount()
+})
+
+test('auto-complete clear-icon scoped clear method', async () => {
+  const onClear = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: 'a',
+      clearable: true,
+      onClear,
+    },
+    slots: {
+      'clear-icon': ({ clear }) =>
+        h('div', [h('div', { class: 'target', onClick: clear }), h('div', { class: 'other' })]),
+    },
+  })
+
+  await wrapper.find('.other').trigger('click')
+  expect(onClear).toHaveBeenCalledTimes(0)
+
+  await wrapper.find('.target').trigger('click')
+  expect(onClear).toHaveBeenCalledTimes(1)
+
+  wrapper.unmount()
+})
+
+test('auto-complete blur without focus', () => {
+  const onBlur = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      onBlur,
+    },
+  })
+
+  wrapper.vm.blur()
+  expect(onBlur).toHaveBeenCalledTimes(0)
+
+  wrapper.vm.focus()
+  wrapper.vm.blur()
+  expect(onBlur).toHaveBeenCalledTimes(1)
+  wrapper.unmount()
+})
+
+test('auto-complete valiation with zod', async () => {
+  const onUpdateModelValue = vi.fn()
+  const wrapper = mount(AutoComplete, {
+    props: {
+      modelValue: '',
+      rules: z.string().min(1, 'Required'),
+      'onUpdate:modelValue': onUpdateModelValue,
+    },
+  })
+
+  await wrapper.vm.validate()
+  expect(wrapper.html()).toMatchSnapshot()
+
+  wrapper.vm.resetValidation()
+  await nextTick()
+  expect(wrapper.html()).toMatchSnapshot()
+
+  wrapper.vm.reset()
+  await nextTick()
+  expect(onUpdateModelValue).toHaveBeenCalledTimes(1)
+  wrapper.unmount()
+})
+
+test.each(['standard', 'outlined', 'filled'])(
+  'auto-complete menu-radius changes the popup without changing the %s input',
+  async (variant) => {
+    const onUpdateModelValue = vi.fn()
+    const wrapper = mount(AutoComplete, {
+      props: {
+        modelValue: 'a',
+        variant,
+        options: [
+          { label: 'First', value: 'first' },
+          { label: 'Last', value: 'last' },
+        ],
+        'onUpdate:modelValue': onUpdateModelValue,
+      },
+    })
+
+    try {
+      const menuSelect = wrapper.findComponent({ name: 'VarMenuSelect' })
+      const input = wrapper.findComponent({ name: 'VarInput' })
+      const inputClasses = input.attributes('class')
+      const popup = document.querySelector('.var-menu-select__menu')
+      const defaultClasses = popup.className
+      expect(wrapper.props('menuRadius')).toBe('normal')
+      expect(menuSelect.props('radius')).toBe('normal')
+      expect(menuSelect.props('placement')).toBe('bottom')
+
+      await wrapper.trigger('focusin')
+      await wrapper.setProps({ menuRadius: 'large' })
+      expect(menuSelect.props('radius')).toBe('large')
+      expect(popup.classList.contains('var-menu-select--radius-large')).toBe(true)
+      expect(popup.parentElement.classList.contains('var-menu--radius-large')).toBe(true)
+      expect(input.attributes('class')).toBe(inputClasses)
+      expect(input.props('variant')).toBe(variant)
+      expect(input.attributes('menu-radius')).toBeUndefined()
+      expect(popup.querySelectorAll(':scope > .var-auto-complete__options > .var-menu-option')).toHaveLength(2)
+
+      await wrapper.setProps({ menuRadius: 'normal' })
+      expect(menuSelect.props('radius')).toBe('normal')
+      expect(popup.className).toBe(defaultClasses)
+      expect(popup.parentElement.classList.contains('var-menu--radius-large')).toBe(false)
+
+      await wrapper.setProps({ menuRadius: 'large' })
+      await trigger(popup.querySelector('.var-menu-option'), 'click')
+      expect(onUpdateModelValue).toHaveBeenCalledWith('first')
+    } finally {
+      wrapper.unmount()
+    }
+  },
+)

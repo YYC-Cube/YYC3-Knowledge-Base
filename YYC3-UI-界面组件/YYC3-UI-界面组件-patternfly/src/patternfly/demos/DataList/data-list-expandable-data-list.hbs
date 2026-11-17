@@ -1,0 +1,96 @@
+{{#> data-list data-list--id=(concat page--id '-data-list') data-list--attribute='aria-label="Data list expandable demo"'}}
+  {{#> data-list-item data-list-item--id="item-1" data-list-item--expanded="true"}}
+    {{#> data-list-item-row}}
+      {{#> data-list-item-control}}
+        {{#> data-list-toggle button--attribute=(concat 'aria-labelledby="ex-toggle1 ' data-list--id '-item-1" id="ex-toggle1" aria-label="Toggle details for" aria-expanded="false" aria-controls="content-1"')}}{{/data-list-toggle}}
+        {{#> data-list-check data-list-check-checkbox--attribute=(concat 'type="checkbox" name="check-expandable-check1" aria-labelledby="' data-list--id '-item-1"')}}{{/data-list-check}}
+      {{/data-list-item-control}}
+      {{#> data-list-item-content}}
+        {{#> data-list-cell data-list-cell--modifier="pf-m-align-left"}}
+          {{> data-list-content-1}}
+        {{/data-list-cell}}
+        {{> data-list--action-buttons}}
+      {{/data-list-item-content}}
+    {{/data-list-item-row}}
+    {{#> data-list-expandable-content data-list-expandable-content--attribute='id="content-1" aria-label="Content details"'}}
+      {{#> data-list-expandable-content-body data-list-expandable-content-body--modifier="pf-m-no-padding"}}
+        {{> data-list-expandable-compact-table}}
+      {{/data-list-expandable-content-body}}
+    {{/data-list-expandable-content}}
+  {{/data-list-item}}
+
+  {{#> data-list-item data-list-item--id="item-2"}}
+    {{#> data-list-item-row}}
+      {{#> data-list-item-control}}
+        {{#> data-list-toggle button--attribute=(concat 'aria-labelledby="ex-toggle2 ' data-list--id '-item-2" id="ex-toggle2" aria-label="Toggle details for" aria-expanded="false" aria-controls="content-2"')}}{{/data-list-toggle}}
+        {{#> data-list-check data-list-check-checkbox--attribute=(concat 'type="checkbox" name="check-expandable-check2" aria-labelledby="' data-list--id '-item-2"')}}{{/data-list-check}}
+      {{/data-list-item-control}}
+      {{#> data-list-item-content}}
+        {{#> data-list-cell data-list-cell--modifier="pf-m-align-left"}}
+          {{> data-list-content-2}}
+        {{/data-list-cell}}
+        {{> data-list--action-buttons}}
+      {{/data-list-item-content}}
+    {{/data-list-item-row}}
+    {{#> data-list-expandable-content data-list-expandable-content--attribute='id="content-2" aria-label="Content details"'}}
+      {{#> data-list-expandable-content-body data-list-expandable-content-body--modifier="pf-m-no-padding"}}
+      {{/data-list-expandable-content-body}}
+    {{/data-list-expandable-content}}
+  {{/data-list-item}}
+
+  {{#> data-list-item data-list-item--id="item-3"}}
+    {{#> data-list-item-row}}
+      {{#> data-list-item-control}}
+        {{#> data-list-toggle button--attribute=(concat 'aria-labelledby="ex-toggle3 ' data-list--id '-item-3" id="ex-toggle3" aria-label="Toggle details for" aria-expanded="false" aria-controls="content-3"')}}{{/data-list-toggle}}
+        {{#> data-list-check data-list-check-checkbox--attribute=(concat 'type="checkbox" name="check-expandable-check3" aria-labelledby="' data-list--id '-item-3"')}}{{/data-list-check}}
+      {{/data-list-item-control}}
+      {{#> data-list-item-content}}
+        {{#> data-list-cell data-list-cell--modifier="pf-m-align-left"}}
+          {{> data-list-content-3}}
+        {{/data-list-cell}}
+      {{/data-list-item-content}}
+    {{/data-list-item-row}}
+    {{#> data-list-expandable-content data-list-expandable-content--attribute='id="content-3" aria-label="Content details"'}}
+      {{#> data-list-expandable-content-body data-list-expandable-content-body--modifier="pf-m-no-padding"}}
+      {{/data-list-expandable-content-body}}
+    {{/data-list-expandable-content}}
+  {{/data-list-item}}
+
+  {{#> data-list-item data-list-item--id="item-4"}}
+    {{#> data-list-item-row}}
+      {{#> data-list-item-control}}
+        {{#> data-list-toggle button--attribute=(concat 'aria-labelledby="ex-toggle4 ' data-list--id '-item-4" id="ex-toggle4" aria-label="Toggle details for" aria-expanded="false" aria-controls="content-4"')}}{{/data-list-toggle}}
+        {{#> data-list-check data-list-check-checkbox--attribute=(concat 'type="checkbox" name="check-expandable-check4" aria-labelledby="' data-list--id '-item-4"')}}{{/data-list-check}}
+      {{/data-list-item-control}}
+      {{#> data-list-item-content}}
+        {{#> data-list-cell data-list-cell--modifier="pf-m-align-left"}}
+          {{> data-list-content-4}}
+        {{/data-list-cell}}
+        {{> data-list--action-buttons}}
+      {{/data-list-item-content}}
+    {{/data-list-item-row}}
+    {{#> data-list-expandable-content data-list-expandable-content--attribute='id="content-4" aria-label="Content details"'}}
+      {{#> data-list-expandable-content-body data-list-expandable-content-body--modifier="pf-m-no-padding"}}
+      {{/data-list-expandable-content-body}}
+    {{/data-list-expandable-content}}
+  {{/data-list-item}}
+
+  {{#> data-list-item data-list-item--id="item-5"}}
+    {{#> data-list-item-row}}
+      {{#> data-list-item-control}}
+        {{#> data-list-toggle button--attribute=(concat 'aria-labelledby="ex-toggle5 ' data-list--id '-item-5" id="ex-toggle5" aria-label="Toggle details for" aria-expanded="false" aria-controls="content-5"')}}{{/data-list-toggle}}
+        {{#> data-list-check data-list-check-checkbox--attribute=(concat 'type="checkbox" name="check-expandable-check5" aria-labelledby="' data-list--id '-item-5"')}}{{/data-list-check}}
+      {{/data-list-item-control}}
+      {{#> data-list-item-content}}
+        {{#> data-list-cell data-list-cell--modifier="pf-m-align-left"}}
+          {{> data-list-content-5}}
+        {{/data-list-cell}}
+        {{> data-list--action-buttons}}
+      {{/data-list-item-content}}
+    {{/data-list-item-row}}
+    {{#> data-list-expandable-content data-list-expandable-content--attribute='id="content-5" aria-label="Content details"'}}
+      {{#> data-list-expandable-content-body data-list-expandable-content-body--modifier="pf-m-no-padding"}}
+      {{/data-list-expandable-content-body}}
+    {{/data-list-expandable-content}}
+  {{/data-list-item}}
+{{/data-list}}

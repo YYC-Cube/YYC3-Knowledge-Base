@@ -1,0 +1,29 @@
+demo:
+  - elements/*/demo/*
+  - core/*/demo/*
+
+generator:
+  - tools/create-element/**/*
+
+doc:
+  - docs/**/*
+  - elements/**/*.{md,txt}
+
+functionality:
+  - elements/*/*.{ts,html}
+  - core/*/*.{ts,html}
+
+styles:
+  - elements/*/*.css
+  - tokens/**/*
+
+tests:
+  - elements/*/test/*
+
+tools:
+  - scripts/*
+  - tools/**/*
+  - elements/*/tsconfig.json
+  - .github/**/*
+  - ./.*
+  - ./*.{js,json,yml}

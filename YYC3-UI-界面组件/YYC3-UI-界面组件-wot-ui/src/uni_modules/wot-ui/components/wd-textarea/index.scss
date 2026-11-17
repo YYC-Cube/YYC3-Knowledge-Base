@@ -1,0 +1,120 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 文本域内边距
+$textarea-padding: var(--wot-textarea-padding, $padding-loose $padding-loose) !default;
+// 文本域背景色
+$textarea-bg: var(--wot-textarea-bg, $filled-oppo) !default;
+// 文本域最小高度
+$textarea-inner-min-height: var(--wot-textarea-inner-min-height, $n-20) !default;
+// 文本域字号
+$textarea-inner-font-size: var(--wot-textarea-inner-font-size, $typography-body-size-main) !default;
+// 文本域行高
+$textarea-inner-line-height: var(--wot-textarea-inner-line-height, $typography-body-line-height-size-main) !default;
+// 文本域文字颜色
+$textarea-inner-color: var(--wot-textarea-inner-color, $text-main) !default;
+// 占位符颜色
+$textarea-inner-placeholder-color: var(--wot-textarea-inner-placeholder-color, $text-placeholder) !default;
+// 禁用态颜色
+$textarea-disabled-color: var(--wot-textarea-disabled-color, $text-disabled) !default;
+// 图标颜色
+$textarea-icon-color: var(--wot-textarea-icon-color, $icon-secondary) !default;
+// 图标字号
+$textarea-icon-font-size: var(--wot-textarea-icon-font-size, $n-18) !default;
+// 图标间距
+$textarea-icon-margin: var(--wot-textarea-icon-margin, $spacing-tight) !default;
+// 字数统计颜色
+$textarea-count-color: var(--wot-textarea-count-color, $text-auxiliary) !default;
+// 字数统计字号
+$textarea-count-font-size: var(--wot-textarea-count-font-size, $typography-body-size-main) !default;
+// 字数统计行高
+$textarea-count-line-height: var(--wot-textarea-count-line-height, $typography-body-line-height-size-main) !default;
+// 错误颜色
+$textarea-error-color: var(--wot-textarea-error-color, $danger-main) !default;
+
+@include b(textarea) {
+  -webkit-tap-highlight-color: transparent;
+  text-align: left;
+  background: $textarea-bg;
+  padding: $textarea-padding;
+
+  @include e(placeholder) {
+    color: $textarea-inner-placeholder-color;
+    line-height: $textarea-inner-line-height;
+  }
+
+  @include e(body) {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  @include e(inner) {
+    flex: 1;
+    width: 100%;
+    min-height: $textarea-inner-min-height;
+    line-height: $textarea-inner-line-height;
+    font-size: $textarea-inner-font-size;
+    color: $textarea-inner-color;
+    outline: none;
+    background: none;
+    border: none;
+    padding: 0;
+    box-sizing: border-box;
+    word-break: break-word;
+
+    &::-webkit-input-placeholder {
+      color: $textarea-inner-placeholder-color;
+      line-height: $textarea-inner-line-height;
+    }
+  }
+
+  @include edeep(prefix) {
+    flex: none;
+    margin-right: $textarea-icon-margin;
+    font-size: $textarea-icon-font-size;
+    color: $textarea-icon-color;
+    line-height: $textarea-inner-line-height;
+  }
+
+  @include edeep(clear) {
+    margin-left: $textarea-icon-margin;
+    font-size: $textarea-icon-font-size;
+    color: $textarea-icon-color;
+  }
+
+  @include e(count) {
+    text-align: right;
+    font-size: $textarea-count-font-size;
+    color: $textarea-count-color;
+    line-height: $textarea-count-line-height;
+  }
+
+  @include e(readonly-mask) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+  }
+
+  @include when(disabled) {
+    .wd-textarea__inner,
+    .wd-textarea__placeholder {
+      color: $textarea-disabled-color;
+    }
+  }
+
+  @include when(error) {
+    .wd-textarea__inner {
+      color: $textarea-error-color;
+    }
+  }
+
+  @include when(compact) {
+    padding: 0;
+    background: transparent;
+  }
+}

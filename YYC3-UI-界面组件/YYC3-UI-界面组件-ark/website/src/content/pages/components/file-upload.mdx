@@ -1,0 +1,182 @@
+---
+id: file-upload
+title: File Upload
+description: A component that is used to upload multiple files.
+---
+
+<ComponentPreview id="FileUpload" />
+
+## Anatomy
+
+<Anatomy id="file-upload" />
+
+```tsx
+<FileUpload.Root>
+  <FileUpload.Label />
+  <FileUpload.Dropzone>
+    <FileUpload.Trigger />
+  </FileUpload.Dropzone>
+  <FileUpload.ItemGroup>
+    <FileUpload.Item>
+      <FileUpload.ItemPreview>
+        <FileUpload.ItemPreviewImage />
+      </FileUpload.ItemPreview>
+      <FileUpload.ItemName />
+      <FileUpload.ItemSizeText />
+      <FileUpload.ItemDeleteTrigger />
+    </FileUpload.Item>
+  </FileUpload.ItemGroup>
+  <FileUpload.ClearTrigger />
+  <FileUpload.HiddenInput />
+</FileUpload.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Initial Files
+
+Use the `defaultAcceptedFiles` prop to set the initial files in the file upload component.
+
+<Example id="initial-files" />
+
+### Clear Trigger
+
+Use the `ClearTrigger` to remove all uploaded files at once.
+
+<Example id="clear-trigger" />
+
+### Dropzone
+
+Use the `Dropzone` to enable drag-and-drop. It exposes a `data-dragging` attribute for styling.
+
+<Example id="dropzone" />
+
+### Directory Upload
+
+Use the `directory` prop to upload entire folders. Access file paths through `file.webkitRelativePath`.
+
+<Example id="directory-upload" />
+
+> When uploading directories with many files, set `maxFiles` to a higher value or remove it entirely to prevent
+> rejections.
+
+### Accepted File Types
+
+Use the `accept` prop to restrict file types. Accepts MIME types (`image/png`) or extensions (`.pdf`).
+
+<Example id="accepted-file-types" />
+
+### Error Handling
+
+Set constraints with `maxFiles`, `maxFileSize`, `minFileSize`, and `accept`. Rejected files include error codes like
+`TOO_MANY_FILES`, `FILE_INVALID_TYPE`, `FILE_TOO_LARGE`, or `FILE_EXISTS`.
+
+<Example id="error-handling" />
+
+### File Transformations
+
+Use `transformFiles` to process files before they're added. Useful for image compression, format conversion, or
+resizing.
+
+<Example id="transform-files" />
+
+### Field
+
+Use `Field` to add helper text and error handling.
+
+<Example id="with-field" />
+
+### Root Provider
+
+An alternative way to control the file upload is to use the `RootProvider` component and the `useFileUpload` hook. This
+way you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Pasting Files
+
+Use `setClipboardFiles` to enable pasting images from the clipboard.
+
+<Example id="pasting-files" />
+
+### Media Capture
+
+Use `capture` to access the device camera. Set to `"environment"` for back camera or `"user"` for front camera.
+
+<Example id="media-capture" />
+
+### Rejected Files
+
+Access `rejectedFiles` from the context to display validation errors.
+
+<Example id="rejected-files" />
+
+## Guides
+
+### File Previews
+
+Use `ItemPreview` with type matching to show appropriate previews based on file format.
+
+- `type="image/*"`: Shows image thumbnails using `ItemPreviewImage`
+- `type="video/*"`: For video file previews
+- `type="application/pdf"`: For PDF files
+- `type=".*"`: Generic fallback for any file type
+
+```tsx
+<FileUpload.ItemPreview type="image/*">
+  <FileUpload.ItemPreviewImage />
+</FileUpload.ItemPreview>
+
+<FileUpload.ItemPreview type="video/*">
+  <VideoIcon />
+</FileUpload.ItemPreview>
+
+<FileUpload.ItemPreview type="application/pdf">
+  <PdfIcon />
+</FileUpload.ItemPreview>
+
+<FileUpload.ItemPreview type=".*">
+  <FileIcon />
+</FileUpload.ItemPreview>
+```
+
+### Disable Dropzone
+
+To disable drag-and-drop functionality, set `allowDrop` to `false`.
+
+```tsx
+<FileUpload.Root allowDrop={false}>{/* ... */}</FileUpload.Root>
+```
+
+### Prevent Document Drop
+
+By default, we prevent accidental navigation when files are dropped outside the dropzone. Set `preventDocumentDrop` to
+`false` to disable this.
+
+```tsx
+<FileUpload.Root preventDocumentDrop={false}>{/* ... */}</FileUpload.Root>
+```
+
+### Prevent Double Open
+
+Use `disableClick` on `Dropzone` when delegating clicks to a nested `Trigger`. This prevents the file picker from
+opening twice.
+
+```tsx
+<FileUpload.Dropzone disableClick>
+  <FileUpload.Trigger>Choose Files</FileUpload.Trigger>
+  Drag files here
+</FileUpload.Dropzone>
+```
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="file-upload" />
+
+### Context
+
+<ContextType id="file-upload" />

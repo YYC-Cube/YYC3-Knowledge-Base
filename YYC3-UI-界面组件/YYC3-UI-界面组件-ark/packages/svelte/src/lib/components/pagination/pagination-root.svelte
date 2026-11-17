@@ -1,0 +1,59 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+  import type { UsePaginationProps } from './use-pagination.svelte.ts'
+
+  export interface PaginationRootBaseProps extends UsePaginationProps, PolymorphicProps<'nav'>, RefAttribute {}
+  export interface PaginationRootProps extends Assign<HTMLProps<'nav'>, PaginationRootBaseProps> {}
+</script>
+
+<script lang="ts">
+  import { createSplitProps } from '$lib/utils/create-split-props'
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { PaginationProvider } from './use-pagination-context.ts'
+  import { usePagination } from './use-pagination.svelte.ts'
+
+  let { ref = $bindable(null), page = $bindable(), pageSize = $bindable(), ...props }: PaginationRootProps = $props()
+  const providedId = $props.id()
+
+  const [paginationProps, localProps] = $derived(
+    createSplitProps<UsePaginationProps>()(props, [
+      'boundaryCount',
+      'count',
+      'defaultPage',
+      'defaultPageSize',
+      'getPageUrl',
+      'id',
+      'ids',
+      'onPageChange',
+      'onPageSizeChange',
+      'page',
+      'pageSize',
+      'siblingCount',
+      'translations',
+      'type',
+    ]),
+  )
+
+  const resolvedProps = $derived<UsePaginationProps>({
+    ...paginationProps,
+    id: paginationProps.id ?? providedId,
+    page,
+    pageSize,
+    onPageChange(details) {
+      paginationProps.onPageChange?.(details)
+      if (page !== undefined) page = details.page
+    },
+    onPageSizeChange(details) {
+      paginationProps.onPageSizeChange?.(details)
+      if (pageSize !== undefined) pageSize = details.pageSize
+    },
+  })
+
+  const pagination = usePagination(() => resolvedProps)
+  const mergedProps = $derived(mergeProps(pagination().getRootProps(), localProps))
+
+  PaginationProvider(pagination)
+</script>
+
+<Ark as="nav" bind:ref {...mergedProps} />

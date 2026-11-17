@@ -1,0 +1,11 @@
+{
+    "main": "./BarsIcon.vue",
+    "module": "./BarsIcon.vue",
+    "types": "./BarsIcon.d.ts",
+    "browser": {
+        "./sfc": "./BarsIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

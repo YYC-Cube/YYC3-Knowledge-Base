@@ -1,0 +1,10 @@
+import <%- bigCamelizeName %> from '..'
+import <%- bigCamelizeNamespace + bigCamelizeName %> from '../<%- bigCamelizeName %>'
+import { createApp } from 'vue'
+import { mount } from '@vue/test-utils'
+import { expect, test } from 'vite-plus/test'
+
+test('test <%- kebabCaseName %> plugin', () => {
+  const app = createApp({}).use(<%- bigCamelizeName %>)
+  expect(app.component(<%- bigCamelizeName %>.name)).toBeTruthy()
+})

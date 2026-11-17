@@ -1,0 +1,11 @@
+{
+    "main": "./FilterIcon.vue",
+    "module": "./FilterIcon.vue",
+    "types": "./FilterIcon.d.ts",
+    "browser": {
+        "./sfc": "./FilterIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

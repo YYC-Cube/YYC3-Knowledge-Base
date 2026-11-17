@@ -1,0 +1,11 @@
+{
+    "main": "./WindowMaximizeIcon.vue",
+    "module": "./WindowMaximizeIcon.vue",
+    "types": "./WindowMaximizeIcon.d.ts",
+    "browser": {
+        "./sfc": "./WindowMaximizeIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

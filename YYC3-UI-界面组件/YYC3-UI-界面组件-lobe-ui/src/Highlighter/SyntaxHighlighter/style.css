@@ -1,0 +1,72 @@
+@layer lobe-ui {
+  @keyframes lobe-syntax-highlighter-fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .lobe-syntax-highlighter pre {
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  .lobe-syntax-highlighter-shiki pre {
+    user-select: none;
+  }
+
+  .lobe-syntax-highlighter-shiki pre code {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .lobe-syntax-highlighter-shiki pre code .line {
+    user-select: text;
+
+    display: block;
+
+    width: calc(100% + 32px);
+    margin-block: 0;
+    margin-inline: -16px;
+    padding-block: 0;
+    padding-inline: 16px;
+  }
+
+  .lobe-syntax-highlighter-shiki pre code .line:empty::before {
+    content: '\200B';
+  }
+
+  .lobe-syntax-highlighter-transparent pre {
+    background: transparent !important;
+  }
+
+  .lobe-syntax-highlighter-animated .animate-fade-in,
+  .lobe-syntax-highlighter-animated .katex-html > .katex-base,
+  .lobe-syntax-highlighter-animated code:not(:has(span.line)) {
+    opacity: 1;
+    animation: lobe-syntax-highlighter-fade-in 1s ease-in-out;
+  }
+
+  .lobe-syntax-highlighter-animated span.line > span.stream-char {
+    opacity: 0;
+    animation: lobe-syntax-highlighter-fade-in var(--lobe-syntax-highlighter-stream-fade)
+      cubic-bezier(0.33, 0, 0.67, 1) forwards;
+  }
+
+  .lobe-syntax-highlighter-animated .katex-display .katex-html span {
+    mask: none !important;
+    animation: none !important;
+  }
+
+  .lobe-syntax-highlighter-padded pre {
+    padding: 16px;
+  }
+
+  .lobe-syntax-highlighter-unpadded pre {
+    padding: 0;
+  }
+}

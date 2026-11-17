@@ -1,0 +1,19 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+
+  export interface NumberInputScrubberBaseProps extends PolymorphicProps<'div'>, RefAttribute {}
+  export interface NumberInputScrubberProps extends Assign<HTMLProps<'div'>, NumberInputScrubberBaseProps> {}
+</script>
+
+<script lang="ts">
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { useNumberInputContext } from './use-number-input-context.ts'
+
+  let { ref = $bindable(null), ...props }: NumberInputScrubberProps = $props()
+
+  const numberInput = useNumberInputContext()
+  const mergedProps = $derived(mergeProps(numberInput().getScrubberProps(), props))
+</script>
+
+<Ark as="div" bind:ref {...mergedProps} />

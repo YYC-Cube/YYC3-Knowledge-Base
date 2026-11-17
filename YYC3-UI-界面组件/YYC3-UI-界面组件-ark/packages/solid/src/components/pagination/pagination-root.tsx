@@ -1,0 +1,35 @@
+import { mergeProps } from '@zag-js/solid'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+import { type UsePaginationProps, usePagination } from './use-pagination.ts'
+import { PaginationProvider } from './use-pagination-context.ts'
+
+export interface PaginationRootBaseProps extends UsePaginationProps, PolymorphicProps<'nav'> {}
+export interface PaginationRootProps extends HTMLProps<'nav'>, PaginationRootBaseProps {}
+
+export const PaginationRoot = (props: PaginationRootProps) => {
+  const [usePaginationProps, localProps] = createSplitProps<UsePaginationProps>()(props, [
+    'boundaryCount',
+    'count',
+    'defaultPage',
+    'defaultPageSize',
+    'getPageUrl',
+    'id',
+    'ids',
+    'onPageChange',
+    'onPageSizeChange',
+    'page',
+    'pageSize',
+    'siblingCount',
+    'translations',
+    'type',
+  ])
+  const api = usePagination(usePaginationProps)
+  const mergedProps = mergeProps(() => api().getRootProps(), localProps)
+
+  return (
+    <PaginationProvider value={api}>
+      <ark.nav {...mergedProps} />
+    </PaginationProvider>
+  )
+}

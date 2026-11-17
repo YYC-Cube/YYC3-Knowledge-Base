@@ -1,0 +1,83 @@
+import { SuperComponent, wxComponent, RelationsOptions } from '../common/src/index';
+import config from '../common/config';
+import avatarProps from './props';
+import { calcIcon, systemInfo } from '../common/utils';
+import type { TdAvatarProps } from './type';
+
+const { prefix } = config;
+const name = `${prefix}-avatar`;
+
+export interface AvatarProps extends TdAvatarProps {}
+
+@wxComponent()
+export default class Avatar extends SuperComponent {
+  options: WechatMiniprogram.Component.ComponentOptions = {
+    multipleSlots: true,
+  };
+
+  externalClasses = [
+    `${prefix}-class`,
+    `${prefix}-class-image`,
+    `${prefix}-class-icon`,
+    `${prefix}-class-alt`,
+    `${prefix}-class-content`,
+  ];
+
+  properties = avatarProps;
+
+  data = {
+    prefix,
+    classPrefix: name,
+    isShow: true,
+    isImgExist: true,
+    zIndex: 0,
+    windowWidth: systemInfo.windowWidth,
+  };
+
+  relations: RelationsOptions = {
+    '../avatar-group/avatar-group': {
+      type: 'ancestor',
+      linked(parent) {
+        this.parent = parent;
+
+        this.setData({
+          shape: this.data.shape || parent.data.shape || 'circle',
+          size: this.data.size || parent.data.size,
+          bordered: true,
+        });
+      },
+    },
+  };
+
+  observers = {
+    icon(icon) {
+      this.setData({
+        _icon: calcIcon(icon),
+      });
+    },
+
+    image(image) {
+      // 图片地址变化时重置加载失败标记，避免切换后无法重新渲染
+      if (image) {
+        this.setData({
+          isImgExist: true,
+        });
+      }
+    },
+  };
+
+  methods = {
+    hide() {
+      this.setData({
+        isShow: false,
+      });
+    },
+
+    onLoadError(e: WechatMiniprogram.CustomEvent) {
+      this.setData({
+        isImgExist: !this.properties.hideOnLoadFailed,
+      });
+      this.triggerEvent('error', e.detail);
+    },
+  };
+}

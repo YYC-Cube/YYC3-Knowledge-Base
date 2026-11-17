@@ -1,0 +1,107 @@
+name: 向 Wot UI 反馈 Bug
+description: 创建一个 Issue 描述你遇到的问题。
+title: "[Bug 上报] 请在此填写标题"
+labels: ["🐞bug: need confirm"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        在向我们提交 Bug 报告前，请优先使用以下方式尝试解决问题：
+        - 在组件文档 [wot-ui](https://wot-ui.cn/) 确认使用方法是否正确
+        - 尝试在 [Issue](https://github.com/wot-ui/wot-ui/issues) 列表中搜索相同问题
+        - 如果不是反馈 Bug，请到 [Discussions 讨论区](https://github.com/wot-ui/wot-ui/discussions) 发帖。
+
+  - type: input
+    id: version
+    attributes:
+      label: Wot UI 版本号
+      description: 你正在使用的组件库版本号
+      placeholder: 例如：0.1.1
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: 平台
+      multiple: true
+      description: 选择对应的平台
+      options:
+        - h5
+        - 微信小程序
+        - 支付宝小程序
+        - APP
+        - 钉钉小程序
+        - 其他小程序
+    validations:
+      required: true
+
+  - type: input
+    id: reproduce
+    attributes:
+      label: 最小复现 Demo Git 仓库地址（必填）
+      description: |
+        请提供一个可公开访问、无需额外权限的最小复现 Git 仓库地址（如 GitHub、Gitee 或 GitLab 仓库）。
+        不接受“无”、无关链接、截图、文档地址、代码片段或仅有在线预览的页面；未提供有效复现仓库的 Issue 将被直接关闭。
+        你可以通过 [create-uni](https://github.com/uni-helper/create-uni) 快速创建 Wot UI 项目，并仅保留触发问题所需的代码。
+      placeholder: 例如：https://github.com/your-name/wot-ui-reproduction
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: reproduce-confirmations
+    attributes:
+      label: 复现 Demo 确认项
+      description: 请逐项确认；以下条件均满足后再提交 Issue。
+      options:
+        - label: 我提供的是与本 Issue 直接相关的最小复现 Git 仓库，不是“无”、占位内容或无关项目。
+          required: true
+        - label: 该仓库可公开访问，无需申请权限、登录特定账号或依赖公司内网。
+          required: true
+        - label: 该仓库包含完整依赖和清晰的运行说明，维护者可以独立安装、运行并复现问题。
+          required: true
+        - label: 我已确认仓库中不包含密钥、账号、个人信息或其他敏感数据。
+          required: true
+
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: 重现步骤
+      description: |
+        请提供一个最简洁清晰的重现步骤，方便我们快速重现问题。
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望的结果是什么？
+    validations:
+      required: true
+
+  - type: textarea
+    id: actually-happening
+    attributes:
+      label: 实际的结果是什么？
+    validations:
+      required: true
+
+  - type: textarea
+    id: uni-app
+    attributes:
+      label: 环境信息
+      description: |
+        在这里填写你的环境信息
+        - 发行平台: [如 微信小程序、H5平台、App等]
+        - 操作系统 [如 iOS 12.1.2、Android 7.0]
+        - HBuilderX版本 [如使用HBuilderX，则需提供 HBuilderX 版本号]
+        - uni-app版本 [如使用Vue-cli创建/运行项目，则提供`npm run info`的运行结果]
+        - 设备信息 [如 iPhone8 Plus]
+
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 其他补充信息
+      description: |
+        根据你的分析，出现这个问题的原因可能在哪里，或者你认为可能产生关联的信息：比如 Vue 版本、vite 版本、Node 版本、采用哪种自动引入方案等，或者进行了哪些配置，使用了哪些插件等信息。

@@ -1,0 +1,32 @@
+---
+title: PageToolbar
+description: PageToolbar is the row under a page header. Filters start at the left edge and actions hold the right edge, also after the row wraps on a narrow screen.
+category: Layout
+order: 6
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { dashboardPageToolbarClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} />
+
+## APIs
+
+<Api name="PageToolbar" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `PageToolbar`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/dashboard/PageToolbar.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={dashboardPageToolbarClasses} />

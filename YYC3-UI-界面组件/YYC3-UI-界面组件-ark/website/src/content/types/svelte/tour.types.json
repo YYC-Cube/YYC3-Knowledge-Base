@@ -1,0 +1,162 @@
+{
+  "ActionTrigger": {
+    "props": {
+      "action": { "type": "StepAction", "isRequired": true },
+      "asChild": {
+        "type": "Snippet<[PropsFn<'button'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Arrow": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "ArrowTip": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Backdrop": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "CloseTrigger": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'button'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Content": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Context": { "props": { "render": { "type": "Snippet<[UseTourContext]>", "isRequired": true } } },
+  "Control": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Description": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Positioner": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "ProgressText": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Root": {
+    "props": {
+      "tour": { "type": "UseTourReturn", "isRequired": true },
+      "immediate": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to synchronize the present change immediately or defer it to the next frame"
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "onExitComplete": {
+        "type": "VoidFunction",
+        "isRequired": false,
+        "description": "Function called when the animation ends in the closed state"
+      },
+      "present": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the node is present (controlled by the user)"
+      },
+      "skipAnimationOnMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to allow the initial presence animation."
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "Spotlight": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Title": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'h2'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  }
+}

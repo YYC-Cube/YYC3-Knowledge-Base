@@ -1,0 +1,95 @@
+---
+title: 更新日志
+spline: explain
+toc: false
+docClass: timeline
+---
+
+## 🌈 1.0.0 `2026-10-15`
+
+### 🐞 Bug Fixes
+
+- `ChatRecord`: 修复类型引入路径错误问题 @novlan1 ([#4598](https://github.com/Tencent/tdesign-miniprogram/pull/4598))
+
+## 🌈 0.3.0 `2026-08-06`
+
+### 🚀 Features
+
+- `ChatRecord`: 新增语音输入组件 @zydemail ([#4474](https://github.com/Tencent/tdesign-miniprogram/pull/4474))
+- `ChatSender`: 新增 `allowSpeech` 属性，表示是否允许语音输入 @zydemail ([#4474](https://github.com/Tencent/tdesign-miniprogram/pull/4474))
+
+### 🐞 Bug Fixes
+
+- `ChatMarkdown`: 修复 App 下粗体样式无法显示的问题 @novlan1 ([#4578](https://github.com/Tencent/tdesign-miniprogram/pull/4578))
+
+## 🌈 0.2.4 `2026-06-12`
+
+### 🚀 Features
+
+- `ChatMarkdown`: 新增 `streaming` 属性，表示流式输出配置项目，可用于控制尾部光标的显示与隐藏 @mimaoxiao ([#4390](https://github.com/Tencent/tdesign-miniprogram/pull/4390))
+- `ChatMessage`: `chatContentProps` 属性新增 `thinking` 配置项，支持透传给 `ChatThinking` 组件 @mimaoxiao ([#4410](https://github.com/Tencent/tdesign-miniprogram/pull/4410))
+
+### 🐞 Bug Fixes
+
+- `ChatMarkdown`: 支持表格横向滚动 @novlan1 ([#4506](https://github.com/Tencent/tdesign-miniprogram/pull/4506))
+- `ChatThinking`: 修复 `collapsed` 属性没有监听到的问题 @mimaoxiao ([#4410](https://github.com/Tencent/tdesign-miniprogram/pull/4410))
+
+## 🌈 0.2.3 `2026-04-09`
+
+### 🚀 Features
+
+- `ChatContent`: 透传 `click` 事件 @zydemail ([#4388](https://github.com/Tencent/tdesign-miniprogram/pull/4388))
+- `ChatMarkdown`: 扩展 `click` 事件触发源，从点击链接触发，改为所有事件冒泡到的节点都会触发 @mimaoxiao ([#4372](https://github.com/Tencent/tdesign-miniprogram/pull/4372))
+- `ChatMessage`: 透传 `click` 事件 @zydemail ([#4388](https://github.com/Tencent/tdesign-miniprogram/pull/4388))
+- `ChatThinking`: 修复 `collapsed` 属性无效，支持内容输出结束后自动收起 @zydemail ([#4354](https://github.com/Tencent/tdesign-miniprogram/pull/4354))
+
+## 🌈 0.2.2 `2026-03-23`
+
+### 🚨 Breaking Changes
+
+- `ChatSender`: 附件末尾没有添加入口，移除无实际意义的 `fileAdd` 事件 @zydemail ([#4331](https://github.com/Tencent/tdesign-miniprogram/pull/4331))
+
+### 🐞 Bug Fixes
+
+- `Attachments`: 修复小程序下使用标签选择器的警告问题 @novlan1 ([#4320](https://github.com/Tencent/tdesign-miniprogram/pull/4320))
+- `ChatActionbar`: 修复 `actionBar` 属性无效以及长按气泡框不显示浮层的问题 @zydemail ([#4348](https://github.com/Tencent/tdesign-miniprogram/pull/4348))
+- `ChatMarkdown`: 修复组件输入值为一个空项的列表时出现 `undefined` 的问题 @mimaoxiao ([#4334](https://github.com/Tencent/tdesign-miniprogram/pull/4334))
+
+### 📝 Documentation
+
+- `Attachments`: 移除 `addable` 属性相关文档描述 @zydemail ([#4331](https://github.com/Tencent/tdesign-miniprogram/pull/4331))
+
+## 🌈 0.2.1 `2026-03-04`
+
+### 🚀 Features
+
+- `ChatThinking`: 新增 `content` 插槽 @zydemail ([#4270](https://github.com/Tencent/tdesign-miniprogram/pull/4270))
+
+## 🌈 0.2.0 `2026-01-30`
+
+### 🚀 Features
+
+- `ChatActionbar`: actionbar 支持长按展示 @mimaoxiao ([#4211](https://github.com/Tencent/tdesign-miniprogram/pull/4211))
+
+### 🐞 Bug Fixes
+
+- `ChatContent`: 修复英文单词在换行时被截断的问题 @mimaoxiao ([#4227](https://github.com/Tencent/tdesign-miniprogram/pull/4227))
+- `ChatList`: 修复 `scrollToBottom` 在 `reverse` 为 `false` 时，滑动的方向错误 @zydemail ([#4191](https://github.com/Tencent/tdesign-miniprogram/pull/4191))
+
+## 🌈 0.1.3 `2026-01-05`
+
+### 🚀 Features
+
+- `ChatMarkdown`: 兼容 `APP-PLUS` 平台 @novlan1 ([#142](https://github.com/novlan1/tdesign-uniapp/pull/142))
+
+## 🌈 0.1.2 `2025-11-25`
+
+### 🚀 Features
+
+- `ChatMarkdown`: 兼容 `Vue2.x` @novlan1 ([#92](https://github.com/novlan1/tdesign-uniapp/pull/92))
+
+## 🌈 0.1.1 `2025-11-17`
+
+### 🐞 Bug Fixes
+
+- `Attachments`: 修复图标点击事件冒泡问题 @novlan1 ([#72](https://github.com/novlan1/tdesign-uniapp/pull/72))

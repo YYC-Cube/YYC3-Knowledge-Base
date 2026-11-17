@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.settings.json",
+  "exclude": [
+    "bin",
+    "node_modules",
+    "templates",
+    "templates/**/*",
+    "**/node_modules/**",
+    "*.tsbuildinfo"
+  ],
+  "include": [
+    "."
+  ]
+}

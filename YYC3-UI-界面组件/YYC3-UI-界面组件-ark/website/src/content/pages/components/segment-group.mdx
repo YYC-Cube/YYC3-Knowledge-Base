@@ -1,0 +1,58 @@
+---
+id: segment-group
+title: Segment Group
+description: Organizes and navigates between sections in a view.
+---
+
+<ComponentPreview id="SegmentGroup" />
+
+## Anatomy
+
+<Anatomy id="segmented-control" />
+
+```tsx
+<SegmentGroup.Root>
+  <SegmentGroup.Indicator />
+  <SegmentGroup.Item>
+    <SegmentGroup.ItemText />
+    <SegmentGroup.ItemControl />
+    <SegmentGroup.ItemHiddenInput />
+  </SegmentGroup.Item>
+</SegmentGroup.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled
+
+To create a controlled SegmentGroup component, manage the current selected segment using the `value` prop and update it
+when the `onValueChange` event handler is called:
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the segment group is to use the `RootProvider` component and the `useSegmentGroup` hook.
+This way you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Disabled
+
+To disable a segment, simply pass the `disabled` prop to the `SegmentGroup.Item` component:
+
+<Example id="disabled" />
+
+## API Reference
+
+<ComponentTypes id="radio-group" replace={{ 'radio-group': 'segment-group', 'radio group': 'segment group' }} />
+
+## Accessibility
+
+Complies with the [Radio WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/).
+
+### Keyboard Support
+
+<KeyBindingsTable id="radio-group" />

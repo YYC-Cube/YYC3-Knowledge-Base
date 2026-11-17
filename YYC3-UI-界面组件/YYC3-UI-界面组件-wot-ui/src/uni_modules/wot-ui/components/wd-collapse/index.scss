@@ -1,0 +1,71 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 折叠面板背景颜色
+$collapse-bg: var(--wot-collapse-bg, $filled-oppo) !default;
+// 折叠内容文字颜色
+$collapse-body-color: var(--wot-collapse-body-color, $text-auxiliary) !default;
+// 折叠内容文字字号
+$collapse-body-font-size: var(--wot-collapse-body-font-size, $typography-label-size-large) !default;
+// 折叠容器左右内边距
+$collapse-padding: var(--wot-collapse-padding, $padding-loose) !default;
+// 折叠内容区域内边距
+$collapse-body-padding: var(--wot-collapse-body-padding, $padding-extra-loose $padding-loose) !default;
+// 折叠标题文字颜色
+$collapse-title-color: var(--wot-collapse-title-color, $text-main) !default;
+// 折叠标题文字字号
+$collapse-title-font-size: var(--wot-collapse-title-font-size, $typography-body-size-extra-large) !default;
+// 折叠箭头尺寸
+$collapse-arrow-size: var(--wot-collapse-arrow-size, $n-16) !default;
+// 折叠箭头颜色
+$collapse-arrow-color: var(--wot-collapse-arrow-color, $icon-main) !default;
+// 更多按钮文字字号
+$collapse-more-font-size: var(--wot-collapse-more-font-size, $typography-body-size-main) !default;
+// 更多按钮文字颜色
+$collapse-more-color: var(--wot-collapse-more-color, $primary-6) !default;
+// 更多按钮上边距
+$collapse-more-margin-top: var(--wot-collapse-more-margin-top, $spacing-main) !default;
+// 更多按钮文字右侧间距
+$collapse-more-text-margin-right: var(--wot-collapse-more-text-margin-right, $spacing-super-tight) !default;
+
+@include b(collapse) {
+  background: $collapse-bg;
+
+  @include when(viewmore) {
+    padding: $collapse-padding;
+  }
+  @include e(content) {
+    font-size: $collapse-body-font-size;
+    color: $collapse-body-color;
+
+    @include when(retract) {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+  @include e(more) {
+    display: inline-block;
+    font-size: $collapse-more-font-size;
+    margin-top: $collapse-more-margin-top;
+    color: $collapse-more-color;
+    user-select: none;
+  }
+  @include e(more-txt) {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: $collapse-more-text-margin-right;
+  }
+  @include e(arrow) {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.1s;
+    font-size: $collapse-arrow-size;
+    height: $collapse-arrow-size;
+    line-height: $collapse-arrow-size;
+
+    @include when(retract) {
+      transform: rotate(-180deg);
+    }
+  }
+}

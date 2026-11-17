@@ -1,0 +1,14 @@
+<div class="{{pfv}}drawer
+  {{~#if drawer-panel--IsOpen}} pf-m-expanded{{/if}}
+  {{~#if drawer--IsInline}} pf-m-inline{{/if}}
+  {{~#if drawer--IsStatic}} pf-m-static{{/if}}
+  {{~#if drawer--IsPanelLeft}} pf-m-panel-left{{/if}}
+  {{~#if drawer--IsPanelBottom}} pf-m-panel-bottom{{/if}}
+  {{~#if drawer--IsPill}} pf-m-pill{{/if}}
+  {{~#if drawer--IsViewport}} pf-m-viewport{{/if}}
+  {{~#if drawer--modifier}} {{drawer--modifier}}{{/if}}"
+  {{#if drawer--attribute}}
+    {{{drawer--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

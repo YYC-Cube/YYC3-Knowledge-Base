@@ -1,0 +1,304 @@
+import { useState } from 'react';
+import {
+  Button,
+  Checkbox,
+  Group,
+  NativeSelect,
+  Select,
+  Stack,
+  Textarea,
+  TextInput,
+} from '@mantine/core';
+import { formRootRule, isNotEmpty, useForm } from '../index';
+import { FormBase } from './_base';
+
+export default { title: 'Form' };
+
+export function Usage() {
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      name: '',
+      terms: false,
+      area: '',
+      select: '',
+      nested: { field: 'test' },
+      nestList: [{ name: 'test', key: 'test' }],
+    },
+    validate: {
+      name: (value) => (value.length === 0 ? 'Required' : null),
+      nested: {
+        field: (value) => (value === 'test' ? 'Invalid' : null),
+        [formRootRule]: (value) => {
+          console.log('validate nested', value);
+          return 'error';
+        },
+      },
+
+      nestList: {
+        [formRootRule]: (value) => (value.length === 0 ? 'List is required' : null),
+      },
+    },
+  });
+
+  return (
+    <FormBase form={form}>
+      <TextInput label="Name" {...form.getInputProps('name')} />
+      <Checkbox
+        mt="md"
+        label="Accept terms of use"
+        {...form.getInputProps('terms', { type: 'checkbox' })}
+      />
+      <Textarea label="area" {...form.getInputProps('area')} />
+      <NativeSelect
+        label="native select"
+        data={['React', 'Angular']}
+        {...form.getInputProps('select')}
+      />
+
+      <Button onClick={() => form.setValues({ name: 'test' })}>Set values</Button>
+    </FormBase>
+  );
+}
+
+export function ErrorOnSubmit() {
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      email: 'a@a',
+    },
+    validate: {
+      email: (value) => (value.includes('@') ? null : 'Invalid email'),
+    },
+  });
+
+  return (
+    <form
+      onSubmit={form.onSubmit(() => {
+        form.setFieldError('email', 'Server error');
+      })}
+    >
+      <TextInput label="Email" {...form.getInputProps('email')} />
+
+      <Button type="submit">Submit</Button>
+    </form>
+  );
+}
+
+interface FormValues {
+  name: string;
+  terms: boolean;
+  area: string;
+  select: string;
+}
+
+export function Initialize() {
+  const form = useForm<FormValues>({
+    initialValues: { name: '', terms: false, area: '', select: '' },
+    validate: {
+      name: (value) => (value.length === 0 ? 'Required' : null),
+    },
+  });
+
+  return (
+    <FormBase form={form}>
+      <TextInput label="Name" {...form.getInputProps('name')} />
+      <Checkbox
+        mt="md"
+        label="Accept terms of use"
+        {...form.getInputProps('terms', { type: 'checkbox' })}
+      />
+      <Textarea label="area" {...form.getInputProps('area')} />
+      <NativeSelect
+        label="native select"
+        data={['React', 'Angular']}
+        {...form.getInputProps('select')}
+      />
+
+      <Button
+        onClick={() =>
+          form.initialize({
+            name: 'Mantine',
+            terms: true,
+            area: 'Some area',
+            select: 'React',
+          })
+        }
+      >
+        Initialize
+      </Button>
+    </FormBase>
+  );
+}
+
+export function ControlMode() {
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: { name: 'initial', terms: false, area: 'test', select: 'Angular' },
+    validate: {
+      name: (value) => (value.length === 0 ? 'Required' : null),
+    },
+  });
+
+  console.log('render');
+
+  return (
+    <FormBase form={form}>
+      <Select
+        label="select"
+        defaultDropdownOpened
+        data={['React', 'Angular']}
+        key={form.key('select')}
+        {...form.getInputProps('select')}
+      />
+
+      <TextInput label="Name" key={form.key('name')} {...form.getInputProps('name')} />
+      <Checkbox
+        mt="md"
+        label="Accept terms of use"
+        key={form.key('terms')}
+        {...form.getInputProps('terms', { type: 'checkbox' })}
+      />
+      <Textarea label="area" key={form.key('area')} {...form.getInputProps('area')} />
+      <Group mt="xl">
+        <Button onClick={() => form.setFieldValue('name', 'test-name')}>Set name</Button>
+        <Button
+          onClick={() =>
+            form.setValues({ name: 'updated', terms: true, area: 'updated', select: 'React' })
+          }
+        >
+          Set form values
+        </Button>
+        <Button
+          onClick={() =>
+            form.initialize({ name: 'updated', terms: true, area: 'updated', select: 'React' })
+          }
+        >
+          Initialize
+        </Button>
+      </Group>
+    </FormBase>
+  );
+}
+
+export function FocusOnError() {
+  const [counter, setCounter] = useState(0);
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    validateInputOnChange: true,
+    initialValues: { name: '', terms: false, area: '', select: '', nested: { field: 'test' } },
+    validate: {
+      name: (value) => (value.length === 0 ? 'Required' : null),
+      area: (value) => (value.length === 0 ? 'Required' : null),
+    },
+  });
+
+  form.watch('name', (value) => {
+    setCounter((c) => c + 1);
+    console.log('name', value, { counter });
+  });
+
+  form.watch('area', (value) => {
+    console.log('area', value, { counter });
+  });
+
+  return (
+    <form
+      onSubmit={form.onSubmit(
+        () => {},
+        (errors) => {
+          form.getInputNode(Object.keys(errors)[0])?.focus();
+        }
+      )}
+    >
+      <TextInput label="Name" {...form.getInputProps('name')} />
+      <Checkbox
+        mt="md"
+        label="Accept terms of use"
+        {...form.getInputProps('terms', { type: 'checkbox' })}
+      />
+      <Textarea label="area" {...form.getInputProps('area')} />
+      <NativeSelect
+        label="native select"
+        data={['React', 'Angular']}
+        {...form.getInputProps('select')}
+      />
+
+      <Button onClick={() => form.setValues({ name: 'test' })}>Set values</Button>
+      <Button type="submit">Submit</Button>
+    </form>
+  );
+}
+
+export function ReorderWithErrors() {
+  const emptyObject = () => ({
+    value1: '',
+    value2: '',
+    key: window.crypto.randomUUID(),
+  });
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: {
+      sortable: [
+        emptyObject(),
+        {
+          value1: '1',
+          value2: '1',
+          key: window.crypto.randomUUID(),
+        },
+      ],
+    },
+    validate: {
+      sortable: {
+        value1: isNotEmpty('Should not be empty'),
+        value2: isNotEmpty('Should not be empty'),
+      },
+    },
+  });
+
+  const fields = form.getValues().sortable.map((element, i) => (
+    <>
+      <Group key={element.key}>
+        <TextInput
+          placeholder="input"
+          key={form.key(`sortable.${element.key}.value1`)}
+          {...form.getInputProps(`sortable.${i}.value1`)}
+        />
+        <TextInput
+          placeholder="input"
+          key={form.key(`sortable.${element.key}.value2`)}
+          {...form.getInputProps(`sortable.${i}.value2`)}
+        />
+        <Button
+          variant="default"
+          disabled={i === 0}
+          onClick={() => form.reorderListItem('sortable', { from: i, to: i - 1 })}
+        >
+          Up
+        </Button>
+        <Button
+          variant="default"
+          disabled={i === form.getValues().sortable.length - 1}
+          onClick={() => form.reorderListItem('sortable', { from: i, to: i + 1 })}
+        >
+          Down
+        </Button>
+      </Group>
+    </>
+  ));
+
+  return (
+    <form onSubmit={form.onSubmit(() => {})} style={{ padding: 40 }}>
+      <Stack mb="lg">{fields}</Stack>
+
+      <Group>
+        <Button onClick={() => form.insertListItem('sortable', emptyObject())} variant="default">
+          Add
+        </Button>
+        <Button type="submit">Submit</Button>
+      </Group>
+    </form>
+  );
+}

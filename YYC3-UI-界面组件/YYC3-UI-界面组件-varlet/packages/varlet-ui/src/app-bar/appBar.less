@@ -1,0 +1,98 @@
+:root {
+  --app-bar-color: var(--color-primary);
+  --app-bar-title-padding: 0 12px;
+  --app-bar-title-font-size: var(--font-size-lg);
+  --app-bar-text-color: #fff;
+  --app-bar-surface-color: #fff;
+  --app-bar-surface-text-color: rgba(0, 0, 0, 0.87);
+  --app-bar-surface-border-bottom: thin solid var(--color-outline);
+  --app-bar-height: 54px;
+  --app-bar-large-height: 64px;
+  --app-bar-left-gap: 6px;
+  --app-bar-right-gap: 6px;
+  --app-bar-border-radius: 4px;
+  --app-bar-font-size: var(--font-size-lg);
+  --app-bar-border-bottom: thin solid var(--color-outline);
+}
+
+.var-app-bar {
+  position: relative;
+  width: 100%;
+  font-size: var(--app-bar-font-size);
+  background: var(--app-bar-color);
+  color: var(--app-bar-text-color);
+  transition: background-color 0.25s;
+
+  &__toolbar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--app-bar-height);
+  }
+
+  &__title {
+    font-size: var(--app-bar-title-font-size);
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: var(--app-bar-title-padding);
+  }
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__left {
+    position: absolute;
+    top: 0;
+    left: var(--app-bar-left-gap);
+  }
+
+  &__right {
+    position: absolute;
+    top: 0;
+    right: var(--app-bar-right-gap);
+  }
+
+  &--round {
+    border-radius: var(--app-bar-border-radius);
+  }
+
+  &--large &__toolbar {
+    height: var(--app-bar-large-height);
+  }
+
+  &--surface {
+    background: var(--app-bar-surface-color);
+    color: var(--app-bar-surface-text-color);
+  }
+
+  &--safe-area-top {
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+    box-sizing: content-box !important;
+  }
+
+  &--fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  &--border {
+    border-bottom: var(--app-bar-border-bottom);
+  }
+
+  &--surface&--border {
+    border-bottom: var(--app-bar-surface-border-bottom);
+  }
+}

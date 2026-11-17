@@ -1,0 +1,10 @@
+<div class="{{pfv}}jump-links__label{{#if jump-links-label--modifier}} {{jump-links-label--modifier}}{{/if}}"
+  {{#if jump-links-label--attribute}}
+    {{{jump-links-label--attribute}}}
+  {{/if}}>
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{else}}
+    Jump to section
+  {{/if}}
+</div>

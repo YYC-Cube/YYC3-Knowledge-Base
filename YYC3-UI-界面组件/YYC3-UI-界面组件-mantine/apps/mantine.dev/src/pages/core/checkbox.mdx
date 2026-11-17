@@ -1,0 +1,340 @@
+import { CheckboxDemos, TableDemos, ThemingDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Checkbox);
+
+## Usage
+
+<Demo data={CheckboxDemos.configurator} />
+
+## Controlled state
+
+Use `checked` and `onChange` props to control `Checkbox` state:
+
+```tsx
+import { useState } from 'react';
+import { Checkbox } from '@mantine/core';
+
+function Demo() {
+  const [checked, setChecked] = useState(false);
+  return (
+    <Checkbox
+      checked={checked}
+      onChange={(event) => setChecked(event.currentTarget.checked)}
+    />
+  );
+}
+```
+
+## Read only
+
+Set the `readOnly` prop to prevent the checkbox value from being changed by user
+interaction. The checkbox still displays its current value and reflects programmatic
+updates to the `checked` prop, but clicking it (or pressing <kbd>Space</kbd>) does not
+toggle its state and does not call the `onChange` handler:
+
+```tsx
+import { useState } from 'react';
+import { Checkbox } from '@mantine/core';
+
+function Demo() {
+  const [checked, setChecked] = useState(true);
+  return (
+    <>
+      <Checkbox checked={checked} readOnly label="Read only checkbox" />
+      <button type="button" onClick={() => setChecked((c) => !c)}>
+        Toggle from outside
+      </button>
+    </>
+  );
+}
+```
+
+## Checkbox with @mantine/form
+
+Example of using `Checkbox` with [@mantine/form](/form/use-form):
+
+<Demo data={CheckboxDemos.withUseForm} />
+
+## Checkbox with uncontrolled forms
+
+`Checkbox` can be used with uncontrolled forms the same way as native `input[type="checkbox"]`.
+Set the `name` attribute to include checkbox value in `FormData` object on form submission.
+To control initial checked state in uncontrolled forms, use `defaultChecked` prop.
+
+Example usage of uncontrolled `Checkbox` with `FormData`:
+
+```tsx
+import { Checkbox } from '@mantine/core';
+
+function Demo() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Checkbox value:', !!formData.get('terms'));
+      }}
+    >
+      <Checkbox label="Accept terms and conditions" name="terms" defaultChecked />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## States
+
+<Demo data={CheckboxDemos.states} />
+
+## Light variant
+
+`Checkbox` supports `filled` (default), `outline` and `light` variants. With `variant="light"`, checked and indeterminate states have a light background and a contrasting icon. Colors of the `light` variant are resolved with [theme.variantColorResolver](/theming/colors#colors-variant-resolver), the same way as in [Button](/core/button/) – `color` can be a key of `theme.colors` or any valid CSS color:
+
+<Demo data={CheckboxDemos.lightVariant} />
+
+## Error state
+
+Use the `error` prop to display error message below the checkbox label.
+If you want to apply error styles to checkbox without error message, user boolean `error` prop.
+If you want to display error message without applying error styles, set `withErrorStyles={false}`.
+
+<Demo data={CheckboxDemos.error} />
+
+## Change icons
+
+<Demo data={CheckboxDemos.icon} />
+
+## Change icon color
+
+Use the `iconColor` prop to change the icon color. You can reference colors from `theme.colors` or use any valid CSS color:
+
+<Demo data={CheckboxDemos.iconColor} />
+
+## Indeterminate state
+
+`Checkbox` supports indeterminate state. When the `indeterminate` prop is set,
+the `checked` prop is ignored (checkbox always has checked styles):
+
+<Demo
+  data={CheckboxDemos.indeterminate}
+  demoProps={{ toggle: true }}
+/>
+
+## Label with link
+
+<Demo data={CheckboxDemos.anchor} />
+
+## Checkbox with tooltip
+
+You can change the target element to which the tooltip is attached with `refProp`:
+
+- If `refProp` is not set, the tooltip is attached to the checkbox input
+- If `refProp="rootRef"` is set, the tooltip is attached to the root element (contains label, input and other elements)
+
+<Demo data={CheckboxDemos.tooltip} />
+
+## Pointer cursor
+
+By default, checkbox input and label have `cursor: default` (same as native `input[type="checkbox"]`).
+To change the cursor to pointer, set `cursorType` on [theme](/theming/theme-object/):
+
+<Demo data={ThemingDemos.cursorType} />
+
+<AutoContrast component="Checkbox" />
+
+<Demo data={CheckboxDemos.autoContrast} />
+
+## Add custom sizes
+
+You can add any number of custom sizes with [data-size](/styles/data-attributes/) attribute:
+
+<Demo data={CheckboxDemos.customSize} />
+
+<WrapperProps component="Checkbox" />
+
+## Checkbox.Group
+
+`Checkbox.Group` manages the state of multiple checkboxes, it accepts `value` and `onChange`
+props, which are used to control the state of checkboxes inside the group. The `value` prop should be an array of strings, where each string is the value of a checkbox.
+The `onChange` prop should be a function that receives the new value as an array of strings.
+
+```tsx
+import { useState } from 'react';
+import { Checkbox } from '@mantine/core';
+
+function Demo() {
+  const [value, setValue] = useState<string[]>([]);
+
+  return (
+    <Checkbox.Group value={value} onChange={setValue}>
+      <Checkbox value="react" label="React" />
+      <Checkbox value="svelte" label="Svelte" />
+    </Checkbox.Group>
+  );
+}
+```
+
+`Checkbox.Group` component supports all [Input.Wrapper](/core/input/#inputwrapper-component)
+props.
+
+<Demo data={CheckboxDemos.groupConfigurator} />
+
+## Checkbox.Group disabled
+
+<Demo data={CheckboxDemos.groupDisabled} />
+
+## maxSelectedValues
+
+Use `maxSelectedValues` prop to limit the number of selected values in `Checkbox.Group`.
+When the limit is reached, the remaining checkboxes are disabled and cannot be selected.
+
+<Demo data={CheckboxDemos.maxSelectedValues} />
+
+## Checkbox.Group with @mantine/form
+
+Example of using `Checkbox.Group` with [@mantine/form](/form/use-form):
+
+<Demo data={CheckboxDemos.groupWithUseForm} />
+
+## Checkbox.Group with uncontrolled forms
+
+`Checkbox.Group` can be used with uncontrolled forms, it renders a hidden input
+which joins all checked values into a single string using `hiddenInputValuesSeparator` prop.
+
+Props for usage with uncontrolled forms:
+- `name` – name attribute passed to the hidden input
+- `hiddenInputValuesSeparator` – string used to join checked values into a single string, `','` by default
+- `hiddenInputProps` – additional props passed to the hidden input
+
+```tsx
+export function UncontrolledForm() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Checkbox group value:', formData.get('frameworks'));
+      }}
+    >
+      <Checkbox.Group label="Frameworks" name="frameworks" hiddenInputValuesSeparator="|">
+        <Checkbox label="React" value="react" />
+        <Checkbox label="Angular" value="ng" />
+      </Checkbox.Group>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Checkbox.Indicator
+
+`Checkbox.Indicator` looks exactly the same as the `Checkbox` component, but it does not
+have any semantic meaning, it's just a visual representation of checkbox state. You
+can use it in any place where you need to display checkbox state without any interaction
+related to the indicator. For example, it is useful in cards based on buttons, trees, etc.
+
+Note that `Checkbox.Indicator` cannot be focused or selected with keyboard. It is not
+accessible and should not be used as a replacement for the `Checkbox` component.
+
+`Checkbox.Indicator` supports the same `variant` values as `Checkbox`: `filled`, `outline` and `light`.
+
+<Demo data={CheckboxDemos.indicator} />
+
+## Checkbox.Card component
+
+`Checkbox.Card` component can be used as a replacement for `Checkbox` to build custom
+cards/buttons/other things that work as checkboxes. The root element of the component
+has `role="checkbox"` attribute, it is accessible by default and supports the same
+keyboard interactions as `input[type="checkbox"]`.
+
+<Demo data={CheckboxDemos.card} />
+
+You can use `Checkbox.Card` with `Checkbox.Group` the same way as the `Checkbox` component:
+
+<Demo data={CheckboxDemos.cardGroup} />
+
+<GetElementRef component="Checkbox" refType="input" />
+
+The example above shows how to get ref of the checkbox input element.
+To get ref of the root element, use `rootRef` prop:
+
+```tsx
+import { useRef } from 'react';
+import { Checkbox } from '@mantine/core';
+
+function Demo() {
+  const ref = useRef<HTMLDivElement>(null);
+  return <Checkbox rootRef={ref} />;
+}
+```
+
+<StylesApiSelectors component="Checkbox" />
+
+<Demo data={CheckboxDemos.stylesApi} />
+
+## Example: Table with row selection
+
+<Demo data={TableDemos.rowSelection} />
+
+## Example: Customize with Styles API
+
+<Demo data={CheckboxDemos.customize} />
+
+## wrapperProps
+
+Most of the `Checkbox` props are passed down to the `input` element.
+If you want to pass props to the root element instead, use `wrapperProps` prop.
+
+```tsx
+import { Checkbox } from '@mantine/core';
+
+function Demo() {
+  return (
+    <Checkbox
+      label="My checkbox"
+      wrapperProps={{ 'data-root-element': true }}
+    />
+  );
+}
+```
+
+## id attribute
+
+By default, `Checkbox` generates a random `id` attribute for the input element
+to associate it with the label. You can supply your own `id` attribute with `id` prop.
+It will be used in `id` attribute of the input element and `htmlFor` attribute of the label element.
+
+```tsx
+import { Checkbox } from '@mantine/core';
+
+function Demo() {
+  return <Checkbox id="my-checkbox" label="My checkbox" />;
+}
+```
+
+## Accessibility
+
+Checkbox component is based on the native `input[type="checkbox"]` element, so it is accessible by default.
+
+Set `aria-label` or `label` prop to make the checkbox accessible for screen readers:
+
+```tsx
+import { Checkbox } from '@mantine/core';
+
+// Not ok, input is not labeled
+function Bad() {
+  return <Checkbox />;
+}
+
+// Ok, input is labelled by aria-label
+function GoodAriaLabel() {
+  return <Checkbox aria-label="My checkbox" />;
+}
+
+// Ok, input is labelled by label element
+function GoodLabel() {
+  return <Checkbox label="My checkbox" />;
+}
+```

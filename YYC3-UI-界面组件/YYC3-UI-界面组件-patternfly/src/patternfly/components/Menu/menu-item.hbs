@@ -1,0 +1,74 @@
+<{{#if menu-item--IsLink}}a{{else if menu-item--type}}{{menu-item--type}}{{else if menu-list-item--IsCheckbox}}label{{else}}button{{/if}} class="{{pfv}}menu__item{{#if menu-item--modifier}} {{menu-item--modifier}}{{/if}}
+  {{#if menu-item--IsSelected}} pf-m-selected{{/if}}
+  {{#if menu-list-item--IsCurrent}} pf-m-current{{/if}}"
+  {{#if menu-list-item--IsCheckbox}}
+    for="{{menu--id}}-check-{{menu-list-item--id}}-input"
+  {{else}}
+    {{#if menu-item--IsLink}}
+      href="#"
+      {{#ifAny menu-list-item--IsDisabled menu-list-item--IsAriaDisabled}}
+        aria-disabled="true"
+      {{/ifAny}}
+      {{#if menu-list-item--IsDisabled}}
+        tabindex="-1"
+      {{/if}}
+    {{else if (hasNone menu-list-item--IsLoading)}}
+      type="button"
+      {{#if menu-list-item--IsDisabled}}
+        disabled
+      {{else if menu-list-item--IsAriaDisabled}}
+        aria-disabled="true"
+      {{/if}}
+    {{/if}}
+    role="{{#if menu-item--role}}{{menu-item--role}}{{else}}menuitem{{/if}}"
+    {{#if menu-item--aria-selected}}
+      aria-selected="{{menu-item--aria-selected}}"
+    {{/if}}
+  {{/if}}
+  {{#if menu-item--attribute}}
+    {{{menu-item--attribute}}}
+  {{/if}}
+  {{!-- aria-expanded value can still be passed manually --}}
+  {{#if menu-list-item--IsExpandable}}
+    {{#if menu-item--IsExpanded}}
+      aria-expanded="true"
+    {{else}}
+      aria-expanded="false"
+    {{/if}}
+  {{/if}}>
+  {{#ifAny menu--HasChecks menu-list-item--IsCheckbox}}
+    {{#> menu-item-main}}
+      {{#> menu-item-check}}
+        {{#> check
+          check--id=(dasherize menu--id 'check' menu-list-item--id)
+          check--IsStandalone=true
+          check--IsDisabled=menu-list-item--IsDisabled
+          check-input--IsChecked=(ternary menu-item--IsChecked true menu-list-item--IsChecked)}}
+        {{/check}}
+      {{/menu-item-check}}
+      {{#> menu-item-text}}
+        {{{menu-item--text}}}
+      {{/menu-item-text}}
+    {{/menu-item-main}}
+  {{else ifAny menu-item--IsSelected menu--HasChecks}}
+    {{#> menu-item-main}}
+      {{#> menu-item-text}}
+        {{{menu-item--text}}}
+      {{/menu-item-text}}
+      {{#if menu-item--IsSelected}}
+        {{> menu-item-select-icon}}
+      {{/if}}
+      {{#if menu--HasChecks}}
+        {{> check check--IsChecked=menu-item--IsChecked}}
+      {{/if}}
+    {{/menu-item-main}}
+  {{else ifAny menu-item--text @partial-block}}
+    {{#if menu-item--text}}
+      {{#> menu-item-text}}
+        {{{menu-item--text}}}
+      {{/menu-item-text}}
+    {{else if @partial-block}}
+      {{> @partial-block}}
+    {{/if}}
+  {{/ifAny}}
+</{{#if menu-item--IsLink}}a{{else if menu-item--type}}{{menu-item--type}}{{else if menu-list-item--IsCheckbox}}label{{else}}button{{/if}}>

@@ -1,0 +1,37 @@
+<script lang="ts">
+import type { ItemGroupProps } from '@zag-js/file-upload'
+import { computed, type HTMLAttributes } from 'vue'
+import type { PolymorphicProps } from '../factory.ts'
+import { pick } from '@zag-js/utils'
+
+export interface FileUploadItemGroupBaseProps extends PolymorphicProps, ItemGroupProps {}
+export interface FileUploadItemGroupProps
+  extends
+    FileUploadItemGroupBaseProps,
+    /**
+     * @vue-ignore
+     */
+    HTMLAttributes {}
+</script>
+
+<script setup lang="ts">
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+import { ark } from '../factory.ts'
+import { useFileUploadContext } from './use-file-upload-context.ts'
+import { FileUploadItemGroupPropsProvider } from './use-file-upload-item-group-props-context.ts'
+
+const props = defineProps<FileUploadItemGroupProps>()
+const groupProps = computed(() => pick(props, ['type']))
+
+const fileUpload = useFileUploadContext()
+
+FileUploadItemGroupPropsProvider(groupProps)
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.ul v-bind="fileUpload.getItemGroupProps(groupProps)" :as-child="asChild">
+    <slot />
+  </ark.ul>
+</template>

@@ -1,0 +1,158 @@
+<script lang="ts">
+import type { Point } from '@/Menu/utils'
+import type { PrimitiveProps } from '@/Primitive'
+
+export interface ContextMenuTriggerProps extends PrimitiveProps {
+  /**
+   * When `true`, the context menu would not open when right-clicking.
+   *
+   * Note that this will also restore the native context menu.
+   */
+  disabled?: boolean
+}
+</script>
+
+<script setup lang="ts">
+import { computed, nextTick, onMounted, ref, toRefs, watch } from 'vue'
+import { MenuAnchor } from '@/Menu'
+import { Primitive } from '@/Primitive'
+import { useForwardExpose } from '@/shared'
+import { injectContextMenuRootContext } from './ContextMenuRoot.vue'
+import { isTouchOrPen } from './utils'
+
+defineOptions({
+  inheritAttrs: false,
+})
+
+const props = withDefaults(defineProps<ContextMenuTriggerProps>(), {
+  as: 'span',
+  disabled: false,
+})
+const { disabled } = toRefs(props)
+
+const { forwardRef, currentElement } = useForwardExpose()
+const rootContext = injectContextMenuRootContext()
+const point = ref<Point>({ x: 0, y: 0 })
+const isPointerOpen = ref(false)
+// Set while a pointer open request waits for the (possibly controlled) open state.
+let pendingPointerOpen = false
+const virtualEl = computed(() => ({
+  getBoundingClientRect: () =>
+    ({
+      width: 0,
+      height: 0,
+      left: point.value.x,
+      right: point.value.x,
+      top: point.value.y,
+      bottom: point.value.y,
+      ...point.value,
+    } as DOMRect),
+}))
+
+const reference = computed(() =>
+  isPointerOpen.value
+    ? virtualEl.value
+    : rootContext.triggerElement.value,
+)
+
+// Pick the anchor when the menu opens, and keep it while closing so the
+// content doesn't jump to the trigger during its exit animation.
+watch(
+  () => rootContext.open.value,
+  (open) => {
+    if (open) {
+      isPointerOpen.value = pendingPointerOpen
+      pendingPointerOpen = false
+    }
+  },
+)
+
+const longPressTimer = ref(0)
+function clearLongPress() {
+  window.clearTimeout(longPressTimer.value)
+}
+
+async function handleOpen(event: MouseEvent | PointerEvent) {
+  point.value = { x: event.clientX, y: event.clientY }
+
+  // Already open: move the menu to the new pointer position.
+  if (rootContext.open.value) {
+    isPointerOpen.value = true
+    return
+  }
+
+  pendingPointerOpen = true
+  rootContext.onOpenChange(true)
+
+  await nextTick()
+
+  // A controlled parent may have refused the request.
+  pendingPointerOpen = false
+}
+
+async function handleContextMenu(event: PointerEvent) {
+  if (!disabled.value) {
+    await nextTick()
+    if (!event.defaultPrevented) {
+      clearLongPress()
+      handleOpen(event)
+      event.preventDefault()
+    }
+  }
+}
+
+async function handlePointerDown(event: PointerEvent) {
+  if (!disabled.value) {
+    await nextTick()
+
+    if (isTouchOrPen(event) && !event.defaultPrevented) {
+      // clear the long press here in case there's multiple touch points
+      clearLongPress()
+      longPressTimer.value = window.setTimeout(handleOpen, rootContext.pressOpenDelay.value, event)
+    }
+  }
+}
+
+async function handlePointerEvent(event: PointerEvent) {
+  if (!disabled.value) {
+    await nextTick()
+    if (isTouchOrPen(event) && !event.defaultPrevented)
+      clearLongPress()
+  }
+}
+
+onMounted(() => {
+  if (currentElement.value) {
+    rootContext.triggerElement.value = currentElement.value
+  }
+})
+</script>
+
+<template>
+  <MenuAnchor
+    as="template"
+    :reference="reference"
+  />
+
+  <Primitive
+    :ref="forwardRef"
+    :as="as"
+    :as-child="asChild"
+    :data-state="rootContext.open.value ? 'open' : 'closed'"
+    :data-disabled="disabled ? '' : undefined"
+    :style="{
+      WebkitTouchCallout: 'none',
+      // Only while open: a right click on the trigger then moves the menu instead of closing and
+      // reopening it. Closed, it must not catch clicks while another layer disables pointer events.
+      pointerEvents: rootContext.open.value ? 'auto' : undefined,
+    }"
+    v-bind="$attrs"
+    @contextmenu="handleContextMenu"
+    @pointerdown="handlePointerDown"
+    @pointermove="handlePointerEvent"
+    @pointercancel="handlePointerEvent"
+    @pointerup="handlePointerEvent"
+  >
+    <slot />
+  </Primitive>
+</template>

@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "scripts": {
+    "prepare": "rs hooks",
+    "dev": "pnpm --dir ./packages/vant dev",
+    "lint": "rs lint",
+    "test": "pnpm --dir ./packages/vant test",
+    "test:watch": "pnpm --dir ./packages/vant test:watch",
+    "test:update": "pnpm --dir ./packages/vant test:update",
+    "test:coverage": "pnpm --dir ./packages/vant test:coverage",
+    "build": "pnpm --dir ./packages/vant build",
+    "build:site": "pnpm --dir ./packages/vant build:site"
+  },
+  "engines": {
+    "pnpm": ">= 10.34.7"
+  },
+  "packageManager": "pnpm@10.34.7",
+  "devDependencies": {
+    "@vant/cli": "workspace:*",
+    "rstack": "^0.8.0"
+  },
+  "overrides": {
+    "esbuild": "^0.28.2"
+  }
+}

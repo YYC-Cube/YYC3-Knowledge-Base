@@ -1,0 +1,19 @@
+name: Sync to Gitee
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 1 * * *'
+
+jobs:
+  deploy-site-sync-gitee:
+    if: github.repository == 'jd-opensource/nutui'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync to Gitee
+        uses: wearerequired/git-mirror-action@master
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.GITEE_RSA_PRIVATE_KEY }}
+        with:
+          source-repo: git@github.com:jd-opensource/nutui.git
+          destination-repo: git@gitee.com:jd-platform-opensource/nutui.git

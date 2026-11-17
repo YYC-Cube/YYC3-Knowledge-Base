@@ -1,0 +1,52 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+  import type { UseStepsProps } from './use-steps.svelte.ts'
+
+  export interface StepsRootBaseProps extends UseStepsProps, PolymorphicProps<'div'>, RefAttribute {}
+  export interface StepsRootProps extends Assign<HTMLProps<'div'>, StepsRootBaseProps> {}
+</script>
+
+<script lang="ts">
+  import { createSplitProps } from '$lib/utils/create-split-props'
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { useSteps } from './use-steps.svelte.ts'
+  import { StepsProvider } from './use-steps-context.ts'
+
+  let { ref = $bindable(null), step = $bindable(), ...props }: StepsRootProps = $props()
+  const providedId = $props.id()
+
+  const [useStepsProps, localProps] = $derived(
+    createSplitProps<UseStepsProps>()(props, [
+      'count',
+      'defaultStep',
+      'id',
+      'ids',
+      'isStepSkippable',
+      'isStepValid',
+      'linear',
+      'onStepChange',
+      'onStepComplete',
+      'onStepInvalid',
+      'orientation',
+      'step',
+    ]),
+  )
+
+  const resolvedProps = $derived<UseStepsProps>({
+    ...useStepsProps,
+    id: useStepsProps.id ?? providedId,
+    step,
+    onStepChange(details) {
+      useStepsProps.onStepChange?.(details)
+      if (step !== undefined) step = details.step
+    },
+  })
+
+  const stepsApi = useSteps(() => resolvedProps)
+  const mergedProps = $derived(mergeProps(stepsApi().getRootProps(), localProps))
+
+  StepsProvider(stepsApi)
+</script>
+
+<Ark as="div" bind:ref {...mergedProps} />

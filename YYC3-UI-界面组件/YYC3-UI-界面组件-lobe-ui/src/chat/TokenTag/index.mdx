@@ -1,0 +1,33 @@
+---
+title: TokenTag
+description: TokenTag is a dynamic button component that visualizes token usage with emoji indicators and textual information. It displays either remaining or used tokens with visual states (normal, low, overload) based on usage percentage. The component adapts to different screen sizes and supports customizable text labels and button shapes.
+category: Data Display
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { chatTokenTagClasses } from './stable';
+
+## Default
+
+The remaining tokens are calculated based on the `maxValue` and `value` props. The component has three types of visual styles: normal (😀), low (😅), and overload (🤯), which are determined by the percentage of remaining tokens. The component is memoized for performance optimization.
+
+<Demo of={DemoIndex} layout="bare" />
+
+## APIs
+
+<Api name="TokenTag" from=".." />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `TokenTag`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/chat/TokenTag.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={chatTokenTagClasses} />

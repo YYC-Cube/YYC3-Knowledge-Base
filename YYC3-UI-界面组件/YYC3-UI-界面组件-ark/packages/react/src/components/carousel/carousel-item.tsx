@@ -1,0 +1,23 @@
+'use client'
+
+import type { ItemProps } from '@zag-js/carousel'
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { useCarouselContext } from './use-carousel-context.ts'
+
+export interface CarouselItemBaseProps extends ItemProps, PolymorphicProps {}
+export interface CarouselItemProps extends HTMLProps<'div'>, CarouselItemBaseProps {}
+
+const splitItemProps = createSplitProps<ItemProps>()
+
+export const CarouselItem = forwardRef<HTMLDivElement, CarouselItemProps>((props, ref) => {
+  const [itemProps, localProps] = splitItemProps(props, ['index', 'snapAlign'])
+  const carousel = useCarouselContext()
+  const mergedProps = mergeProps(carousel.getItemProps(itemProps), localProps)
+
+  return <ark.div {...mergedProps} ref={ref} />
+})
+
+CarouselItem.displayName = 'CarouselItem'

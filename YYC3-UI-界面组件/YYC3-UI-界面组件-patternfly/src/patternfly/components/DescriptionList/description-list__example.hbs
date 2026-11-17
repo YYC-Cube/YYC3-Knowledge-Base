@@ -1,0 +1,60 @@
+{{#> description-list}}
+  {{#> description-list-group}}
+    {{#> description-list-term}}
+      {{#> description-list-text}}
+        Name
+      {{/description-list-text}}
+    {{/description-list-term}}
+    {{#> description-list-description}}
+      {{#if description-list--IsLongDescription}}
+        This is a long description that should wrap to multiple lines in a multi-column layout.
+      {{else}}
+        example
+      {{/if}}
+    {{/description-list-description}}
+  {{/description-list-group}}
+  {{#> description-list-group}}
+    {{#> description-list-term}}
+      {{#> description-list-text}}
+        Namespace
+      {{/description-list-text}}
+    {{/description-list-term}}
+    {{#> description-list-description}}
+      <a href="#">mary-test</a>
+    {{/description-list-description}}
+  {{/description-list-group}}
+  {{#> description-list-group}}
+    {{#> description-list-term}}
+      {{#> description-list-text}}
+        Labels
+      {{/description-list-text}}
+    {{/description-list-term}}
+    {{#> description-list-description}}
+      example
+    {{/description-list-description}}
+  {{/description-list-group}}
+  {{#unless description-list__example--IsShort}}
+    {{#> description-list-group}}
+      {{#> description-list-term}}
+        {{#> description-list-text}}
+          Pod selector
+        {{/description-list-text}}
+      {{/description-list-term}}
+      {{#> description-list-description}}
+        {{#> button button--IsLink=true button--icon="rh-ui-add-circle-fill" button--IsInline=true}}
+          app=MyApp
+        {{/button}}
+      {{/description-list-description}}
+    {{/description-list-group}}
+    {{#> description-list-group}}
+      {{#> description-list-term}}
+        {{#> description-list-text}}
+          Annotation
+        {{/description-list-text}}
+      {{/description-list-term}}
+      {{#> description-list-description}}
+        2 Annotations
+      {{/description-list-description}}
+    {{/description-list-group}}
+  {{/unless}}
+{{/description-list}}

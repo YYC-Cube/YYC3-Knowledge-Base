@@ -1,0 +1,15 @@
+<div class="{{pfv}}compass__header
+  {{#unless compass-header--IsCollapsed}}
+    pf-m-expanded
+  {{/unless}}
+  {{setModifiers
+    compass-header--modifier=compass-header--modifier
+  }}"
+  {{#if compass-header--IsCollapsed}}
+    inert
+  {{/if}}
+  {{#if compass-header--attribute}}
+    {{{compass-header--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

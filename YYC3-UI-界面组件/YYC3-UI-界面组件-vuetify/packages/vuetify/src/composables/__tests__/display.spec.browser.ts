@@ -1,0 +1,366 @@
+// Composables
+import { createDisplay, DisplaySymbol, useDisplay } from '../display'
+
+// Utilities
+import { page, render } from '@test'
+import { defineComponent, effectScope, h, inject, nextTick } from 'vue'
+
+const breakpoints = [
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+  'xxl',
+  'smAndDown',
+  'smAndUp',
+  'mdAndDown',
+  'mdAndUp',
+  'lgAndDown',
+  'lgAndUp',
+  'xlAndDown',
+  'xlAndUp',
+] as const
+
+describe('display', () => {
+  it.each([
+    [
+      {
+        description: 'Huawei Smartwatch',
+        width: 400,
+        height: 400,
+        name: 'xs',
+      },
+      [
+        'xs',
+        'smAndDown',
+        'mdAndDown',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'Galaxy S5 (portrait)',
+        width: 360,
+        height: 640,
+        name: 'xs',
+      },
+      [
+        'xs',
+        'smAndDown',
+        'mdAndDown',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'Galaxy S5 (landscape)',
+        width: 640,
+        height: 360,
+        name: 'sm',
+      },
+      [
+        'sm',
+        'smAndDown',
+        'smAndUp',
+        'mdAndDown',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'iPhone 6 (portrait)',
+        width: 375,
+        height: 667,
+        name: 'xs',
+      },
+      [
+        'xs',
+        'smAndDown',
+        'mdAndDown',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'iPhone 6 (landscape)',
+        width: 667,
+        height: 375,
+        name: 'sm',
+      },
+      [
+        'sm',
+        'smAndDown',
+        'smAndUp',
+        'mdAndDown',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'iPad (portrait)',
+        width: 768,
+        height: 1024,
+        name: 'sm',
+      },
+      [
+        'sm',
+        'smAndDown',
+        'smAndUp',
+        'mdAndDown',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'iPad (landscape)',
+        width: 1024,
+        height: 768,
+        name: 'md',
+      },
+      [
+        'md',
+        'smAndUp',
+        'mdAndDown',
+        'mdAndUp',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'iPad Pro (portrait)',
+        width: 1024,
+        height: 1366,
+        name: 'md',
+      },
+      [
+        'md',
+        'smAndUp',
+        'mdAndDown',
+        'mdAndUp',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'iPad Pro (landscape)',
+        width: 1366,
+        height: 1024,
+        name: 'lg',
+      },
+      [
+        'lg',
+        'smAndUp',
+        'mdAndUp',
+        'lgAndDown',
+        'lgAndUp',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'WSXGA+ (portrait)',
+        width: 1050,
+        height: 1680,
+        name: 'md',
+      },
+      [
+        'md',
+        'smAndUp',
+        'mdAndDown',
+        'mdAndUp',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'WSXGA+ (landscape)',
+        width: 1680,
+        height: 1050,
+        name: 'xl',
+      },
+      [
+        'xl',
+        'smAndUp',
+        'mdAndUp',
+        'lgAndUp',
+        'xlAndDown',
+        'xlAndUp',
+      ],
+    ],
+    [
+      {
+        description: 'FHD (portrait)',
+        width: 1080,
+        height: 1920,
+        name: 'md',
+      },
+      [
+        'md',
+        'smAndUp',
+        'mdAndDown',
+        'mdAndUp',
+        'lgAndDown',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'FHD (landscape)',
+        width: 1920,
+        height: 1080,
+        name: 'xl',
+      },
+      [
+        'xl',
+        'smAndUp',
+        'mdAndUp',
+        'lgAndUp',
+        'xlAndDown',
+        'xlAndUp',
+      ],
+    ],
+    [
+      {
+        description: 'WQHD (portrait)',
+        width: 1440,
+        height: 2560,
+        name: 'lg',
+      },
+      [
+        'lg',
+        'smAndUp',
+        'mdAndUp',
+        'lgAndDown',
+        'lgAndUp',
+        'xlAndDown',
+      ],
+    ],
+    [
+      {
+        description: 'WQHD (landscape)',
+        width: 2560,
+        height: 1440,
+        name: 'xxl',
+      },
+      [
+        'xxl',
+        'smAndUp',
+        'mdAndUp',
+        'lgAndUp',
+        'xlAndUp',
+      ],
+    ],
+  ])('should calculate breakpoint for $description', async (options, expected) => {
+    await page.viewport(options.width, options.height)
+
+    const scope = effectScope()
+    const display = scope.run(() => createDisplay())!
+
+    const matched = breakpoints.reduce<(typeof breakpoints[number])[]>((acc, breakpoint) => {
+      if (display[breakpoint].value) acc.push(breakpoint)
+      return acc
+    }, [])
+
+    expect(matched).toEqual(expected)
+  })
+
+  it('should override default thresholds', async () => {
+    const scope = effectScope()
+    const { name } = scope.run(() => createDisplay({
+      thresholds: { sm: 400 },
+    }))!
+
+    await page.viewport(400, 900)
+    await expect.poll(() => name.value).toBe('sm')
+
+    await page.viewport(399, 900)
+    await expect.poll(() => name.value).toBe('xs')
+  })
+
+  it('should remove the ssr resize listener when the scope stops', async () => {
+    const add = vi.spyOn(window, 'addEventListener')
+    const remove = vi.spyOn(window, 'removeEventListener')
+    const scope = effectScope()
+
+    try {
+      const update = scope.run(() => {
+        return createDisplay(undefined, { clientWidth: 1024, clientHeight: 768 }).update
+      })!
+
+      update()
+      await nextTick()
+
+      expect(add).toHaveBeenCalledWith('resize', expect.any(Function), { passive: true })
+
+      scope.stop()
+
+      expect(remove).toHaveBeenCalledWith('resize', expect.any(Function), { passive: true })
+    } finally {
+      scope.stop()
+      add.mockRestore()
+      remove.mockRestore()
+    }
+  })
+
+  it('should use the same media query for a component mobileBreakpoint as the global mobile flag', async () => {
+    await page.viewport(1600, 900)
+
+    const original = window.matchMedia.bind(window)
+    const spy = vi.spyOn(window, 'matchMedia').mockImplementation(query => {
+      const list = original(query)
+
+      if (query !== '(min-width: 1145px)') return list
+
+      return new Proxy(list, {
+        get (target, prop, receiver) {
+          if (prop === 'matches') return false
+
+          const value = Reflect.get(target, prop, receiver)
+          return typeof value === 'function' ? value.bind(target) : value
+        },
+      })
+    })
+
+    try {
+      let local = false
+      let global = false
+
+      render(defineComponent({
+        setup () {
+          const display = inject(DisplaySymbol)!
+          const { mobile } = useDisplay({ mobile: null, mobileBreakpoint: 'lg' })
+          local = mobile.value
+          global = display.mobile.value
+
+          return () => h('div')
+        },
+      }))
+
+      expect(global).toBe(true)
+      expect(local).toBe(true)
+    } finally {
+      spy.mockRestore()
+    }
+  })
+
+  it('should allow breakpoint strings for mobileBreakpoint', async () => {
+    const scope = effectScope()
+    const { mobile } = scope.run(() => createDisplay({ mobileBreakpoint: 'lg' }))!
+
+    await page.viewport(1920, 900)
+    await expect.poll(() => mobile.value).toBe(false)
+
+    await page.viewport(600, 900)
+    await expect.poll(() => mobile.value).toBe(true)
+  })
+})

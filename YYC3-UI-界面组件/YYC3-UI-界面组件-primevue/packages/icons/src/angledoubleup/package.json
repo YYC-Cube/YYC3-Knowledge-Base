@@ -1,0 +1,11 @@
+{
+    "main": "./AngleDoubleUpIcon.vue",
+    "module": "./AngleDoubleUpIcon.vue",
+    "types": "./AngleDoubleUpIcon.d.ts",
+    "browser": {
+        "./sfc": "./AngleDoubleUpIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

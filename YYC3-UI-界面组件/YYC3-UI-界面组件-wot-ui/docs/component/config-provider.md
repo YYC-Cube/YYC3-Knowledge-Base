@@ -1,0 +1,348 @@
+# ConfigProvider 全局配置
+
+用于为 `Wot` 组件提供主题模式和主题变量配置，支持深色模式、主题定制和跨组件树共享配置。
+
+## 组件类型
+
+### 深色模式
+
+将 `theme` 设置为 `dark` 后，可以让当前 `ConfigProvider` 包裹范围内的 `Wot` 组件切换为深色风格。
+
+::: warning 注意
+使用深色模式前，需要在入口文件（如 `App.vue`）中引入主题变量文件：
+
+- npm 安装：`@use '@wot-ui/ui/styles/theme/index.scss' as *;`
+- uni_modules 安装：`@use '@/uni_modules/wot-ui/styles/theme/index.scss' as *;`
+:::
+
+::: tip 提示
+`ConfigProvider` 只影响 `Wot` 组件自身的主题表现，不会自动修改页面全局文本色或背景色。你可以结合全局样式自行处理页面背景和文本颜色。
+:::
+
+::: code-group
+```vue [vue]
+<wd-config-provider theme="dark">
+  <wd-button type="primary">深色模式按钮</wd-button>
+</wd-config-provider>
+```
+```scss [App.vue - npm]
+/* App.vue */
+@use '@wot-ui/ui/styles/theme/index.scss' as *;
+```
+```scss [App.vue - uni_modules]
+/* App.vue */
+@use '@/uni_modules/wot-ui/styles/theme/index.scss' as *;
+```
+:::
+
+
+
+
+## 切换主题
+
+通过响应式地更新 `theme`，可以在浅色和深色模式之间切换。
+
+::: code-group
+
+```vue [vue]
+<wd-config-provider :theme="theme">
+  <wd-button type="primary">当前模式：{{ theme }}</wd-button>
+</wd-config-provider>
+```
+
+```ts [ts]
+import { ref } from 'vue'
+
+const theme = ref<'light' | 'dark'>('light')
+
+setTimeout(() => {
+  theme.value = 'dark'
+}, 1000)
+```
+
+```scss [App.vue - npm]
+/* App.vue */
+@use '@wot-ui/ui/styles/theme/index.scss' as *;
+```
+```scss [App.vue - uni_modules]
+/* App.vue */
+@use '@/uni_modules/wot-ui/styles/theme/index.scss' as *;
+```
+
+:::
+
+## 主题定制
+
+### 通过 CSS 变量覆盖
+
+`Wot UI` 组件通过 CSS 变量组织样式。你可以直接覆盖这些变量来调整组件外观。
+
+```css
+:root,
+page {
+  --wot-button-primary-bg: green;
+}
+```
+
+### 通过 ConfigProvider 覆盖
+
+`ConfigProvider` 支持通过 `theme-vars` 覆盖主题变量，仅影响当前包裹范围内的组件。
+
+::: tip 提示
+`ConfigProvider` 仅影响它的子组件样式，不会直接修改全局 `root` 节点样式。
+:::
+
+::: code-group
+
+```html [vue]
+<wd-config-provider :theme-vars="themeVars">
+  <view style="margin: 16px">
+    <wd-button round block type="primary">提交</wd-button>
+  </view>
+</wd-config-provider>
+```
+
+```ts [ts]
+import { reactive } from 'vue'
+
+const themeVars = reactive({
+  buttonPrimaryBg: '#07c160',
+  buttonPrimaryColor: '#ffffff'
+})
+```
+
+:::
+
+### 在 TypeScript 中使用
+
+在 TypeScript 中定义 `themeVars` 时，建议使用组件库提供的 `ConfigProviderThemeVars` 类型，以获得完整的类型提示。
+
+::: code-group
+
+```ts [ts]
+import type { ConfigProviderThemeVars } from '@wot-ui/ui'
+
+const themeVars: ConfigProviderThemeVars = {
+  buttonPrimaryBgColor: '#07c160',
+  buttonPrimaryColor: '#ffffff'
+}
+```
+
+```ts [ts]
+import type { ConfigProviderThemeVars } from '@/uni_modules/wot-ui/components/wd-config-provider/types'
+
+const localThemeVars: ConfigProviderThemeVars = {
+  cellTitleColor: '#4d80f0'
+}
+```
+
+:::
+
+
+
+## 特殊样式
+
+### 全局共享
+
+如需在应用层共享主题配置，可以结合虚拟根组件 [uni-ku-root](https://github.com/uni-ku/root) 使用。
+
+#### 安装
+
+::: code-group
+
+```bash [npm]
+npm i -D @uni-ku/root
+```
+
+```bash [yarn]
+yarn add -D @uni-ku/root
+```
+
+```bash [pnpm]
+pnpm add -D @uni-ku/root
+```
+
+:::
+
+#### 引入
+
+- CLI 项目：直接编辑根目录下的 vite.config.(js|ts)
+- HBuilderX 项目：需要在根目录下创建 vite.config.(js|ts)
+
+```ts
+import { defineConfig } from 'vite'
+import UniKuRoot from '@uni-ku/root'
+import Uni from '@dcloudio/vite-plugin-uni'
+
+export default defineConfig({
+  plugins: [UniKuRoot(), Uni()]
+})
+```
+
+::: tip
+若存在会修改 pages.json 的插件，需要将 `UniKuRoot` 放置在这些插件之后。
+:::
+
+#### 使用
+
+1. 创建根组件并处理全局配置组件。
+
+```vue
+<script setup lang="ts">
+import { useTheme } from './composables/useTheme'
+
+const { theme, themeVars } = useTheme({
+  buttonPrimaryBgColor: '#07c160',
+  buttonPrimaryColor: '#ffffff'
+})
+</script>
+
+<template>
+  <wd-config-provider :theme="theme" :theme-vars="themeVars">
+    <KuRootView />
+  </wd-config-provider>
+</template>
+```
+
+2. 编写控制主题的组合式函数。
+
+```ts
+import type { ConfigProviderThemeVars } from '@wot-ui/ui'
+import { ref } from 'vue'
+
+const theme = ref<'light' | 'dark'>('light')
+const themeVars = ref<ConfigProviderThemeVars>()
+
+export function useTheme(vars?: ConfigProviderThemeVars) {
+  if (vars) themeVars.value = vars
+
+  function toggleTheme(mode?: 'light' | 'dark') {
+    theme.value = mode || (theme.value === 'light' ? 'dark' : 'light')
+  }
+
+  return {
+    theme,
+    themeVars,
+    toggleTheme
+  }
+}
+```
+
+3. 在任意页面中使用切换主题模式。
+
+```vue
+<script setup lang="ts">
+import { useTheme } from '@/composables/useTheme'
+
+const { theme, toggleTheme } = useTheme()
+</script>
+
+<template>
+  <button @click="toggleTheme">切换主题，当前模式：{{ theme }}</button>
+</template>
+```
+
+## 组合式函数
+
+### useConfigProvider
+
+详细文档请查看 [useConfigProvider](/component/use-config-provider)。
+
+在微信小程序等环境中，由于组件渲染机制限制，被渲染在插槽中的组件或通过 `root-portal` 移动到根节点的组件，可能无法继承外层 `ConfigProvider` 的 provide 上下文。为了解决这个问题，组件库提供了 `useConfigProvider`，允许你在逻辑层显式注入配置。
+
+#### 引入
+
+```ts
+import { useConfigProvider } from '@wot-ui/ui'
+```
+
+#### 使用
+
+`useConfigProvider` 接受一个包含 `themeVars` 的对象，`themeVars` 支持普通对象、`reactive` 对象或 `Ref` 对象。
+
+```vue
+<script setup lang="ts">
+import { reactive } from 'vue'
+import { useConfigProvider } from '@wot-ui/ui'
+
+const themeVars = reactive({
+  buttonPrimaryBg: '#07c160',
+  buttonPrimaryColor: '#ffffff'
+})
+
+useConfigProvider({ themeVars })
+</script>
+```
+
+## 全局组件配置
+
+`ConfigProvider` 支持为子组件统一设置默认值，减少重复配置。
+
+### 作用范围一览
+
+不同配置项实际影响的组件不同，请按需配置。
+
+| 配置项 | 作用范围（当前生效的组件） |
+| --- | --- |
+| `button.size` | `wd-button` |
+| `button.variant` | `wd-button` |
+| `button.type` | `wd-button` |
+| `button.round` | `wd-button` |
+| `tag.size` | `wd-tag` |
+| `tag.variant` | `wd-tag` |
+| `tag.round` | `wd-tag` |
+
+::: tip 提示
+未在上表中列出的组件（如 `wd-input`、`wd-avatar` 等）当前**不受**全局配置影响，需要继续在组件上直接传 prop。后续版本会逐步扩大接入范围。
+:::
+
+### 组件专属配置
+
+通过 `button` / `tag` 等属性为特定组件设置全局默认值。
+
+- **`button`**：`{ size, variant, type, round }` —— 影响 `wd-button` 的默认尺寸、变体、类型、圆角
+- **`tag`**：`{ size, variant, round }` —— 影响 `wd-tag` 的默认尺寸、变体、圆角
+
+::: code-group
+
+```vue [vue]
+<wd-config-provider :button="{ size: 'large', variant: 'plain', round: true }" :tag="{ size: 'small', variant: 'light' }">
+  <wd-button>大号朴素圆角按钮</wd-button>
+  <wd-tag>小号浅色标签</wd-tag>
+</wd-config-provider>
+```
+
+:::
+
+::: tip 关于命令式 API
+`useToast()` / `useDialog()` 等命令式 API 是通过函数式调用使用的，**不读取** `ConfigProvider` 配置，需要在调用时直接传入 `options`（如 `useToast().show({ msg, duration })`）。这是 wot-ui 当前的设计取舍，目的是避免模块单例在 Vite 预构建 / 多实例场景下带来的同步问题。
+:::
+
+### 配置优先级
+
+```text
+组件 prop > 组件专属配置（如 button.size） > 组件内置默认值
+```
+
+### 生效边界
+
+1. **嵌套合并**：`ConfigProvider` 可以嵌套，内层配置会与外层做深度合并，同名键以内层为准；未指定的键继承外层。
+2. **Portal / 小程序插槽兜底**：通过 `root-portal` 移出文档流或在小程序原生插槽中渲染的组件无法通过 inject 拿到 provider 上下文，此时可使用 `useConfigProvider` 组合式函数在逻辑层显式注入主题（详见 [useConfigProvider](/component/use-config-provider)）。
+
+
+## ConfigProvider Attributes
+
+| 参数 | 说明 | 类型 | 默认值 | 作用范围 |
+| --- | --- | --- | --- | --- |
+| theme | 主题风格，可选值为 `light`、`dark` | string | `light` | 所有 Wot 组件 |
+| theme-vars | 自定义主题变量 | `ConfigProviderThemeVars` | `{}` | 所有 Wot 组件 |
+| button | Button 组件全局配置，支持 `size` / `variant` / `type` / `round` | `{ size?: string; variant?: string; type?: string; round?: boolean }` | `{}` | `wd-button` |
+| tag | Tag 组件全局配置，支持 `size` / `variant` / `round` | `{ size?: string; variant?: string; round?: boolean }` | `{}` | `wd-tag` |
+| custom-class | 根节点自定义样式类 | string | `''` | 根节点 |
+| custom-style | 根节点自定义样式 | string | `''` | 根节点 |
+
+## ConfigProvider Slots
+
+| 名称 | 说明 |
+| --- | --- |
+| default | 默认插槽，用于包裹需要应用主题的子组件 |

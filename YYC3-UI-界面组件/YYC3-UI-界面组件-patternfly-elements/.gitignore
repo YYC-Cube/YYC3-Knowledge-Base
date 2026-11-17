@@ -1,0 +1,135 @@
+# Development files
+node_modules
+**/node_modules
+
+.wireit
+.lvimrc
+tmp
+.tmp
+
+# Generator config file
+project.conf.json
+
+####################################################
+##                                                ##
+##                    ARTIFACTS                   ##
+##                                                ##
+####################################################
+## ignore js, map, and css in element dirs
+## since we build our typescript sources in-place
+## except files which we want to commit,
+## like demo js and config files
+
+pfe.min.js
+
+*.js.map
+**/*.LEGAL.txt
+*.tsbuildinfo
+test-results
+test-report
+
+/elements/react
+
+elements/**/_temp
+core/**/_temp
+tools/**/_temp
+
+elements/**/dist
+core/**/dist
+tools/**/dist
+
+elements/**/*.js
+core/**/*.js
+tools/**/*.js
+
+elements/**/*.js.map
+core/**/*.js.map
+tools/**/*.js.map
+
+elements/**/*.d.ts
+core/**/*.d.ts
+tools/**/*.d.ts
+
+elements/*/package-lock.json
+core/*/package-lock.json
+tools/*/package-lock.json
+
+elements/*/test/**/*.png
+core/*/test/**/*.png
+tools/*/test/**/*.png
+
+!elements/**/*.config.js
+!core/**/*.config.js
+!tools/**/*.config.js
+
+!elements/*/demo/*
+!core/*/demo/*
+!tools/*/demo/*
+
+!elements/pf-icon/demo/icons/**/*.js
+
+!scripts/**/*.js
+
+!tools/eslint-plugin/index.js
+!tools/eslint-config/**/*.js
+
+*.tgz
+custom-elements.json
+
+####################################################
+##                                                ##
+##                      LOGS                      ##
+##                                                ##
+####################################################
+lerna-debug.log
+npm-debug.log*
+local.log
+
+# Local files
+.env
+*.local.umd.js
+*.local.js
+
+test/.wct-kludge
+
+core/pfe-core/demo/*
+!core/pfe-core/demo/example.html
+
+# Mac-specific
+.DS_Store
+
+# IDEs
+.vimrc
+.sonarlint
+.history
+
+# Temp files
+*~
+*.swp
+
+# Documentation
+/_site
+/docs/demo.js
+/docs/demo.js.map
+/docs/_data/todos.json
+/docs/bundle.js
+/docs/bundle.js.map
+/docs/demo/**/*.css
+/docs/demo/**/*.js
+/docs/demo/**/*.d.ts
+/docs/demo/**/*.js.map
+/docs/demo/demo.js.LEGAL.txt
+/docs/demo/components.ts
+!/docs/demo/demo.css
+!/docs/core/styles/demo.njk
+
+
+# E2E
+/test/vrt-snapshots/
+/test/vrt-results/
+/test
+browserstack.err
+!docs/demo/web-dev-server.demo.config.js
+
+# Local Netlify folder
+.netlify

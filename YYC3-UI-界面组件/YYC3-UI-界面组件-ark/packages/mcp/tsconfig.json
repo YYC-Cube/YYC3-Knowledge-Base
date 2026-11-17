@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node24/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,301 @@
+import { TooltipDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Tooltip);
+
+## Usage
+
+<Demo data={TooltipDemos.usage} />
+
+## Tooltip children
+
+Tooltip requires an element or a component as a single child –
+strings, fragments, numbers and multiple elements/components are not supported and **will throw an error**.
+Custom components must provide a prop to get the root element ref;
+all Mantine components support ref out of the box.
+
+```tsx
+import { Badge, Tooltip } from '@mantine/core';
+
+function Demo() {
+  return (
+    <>
+      <Tooltip label="OK">
+        <button>Native button – ok</button>
+      </Tooltip>
+
+      <Tooltip label="OK">
+        <Badge>Mantine component – ok</Badge>
+      </Tooltip>
+
+      <Tooltip label="Throws">
+        Raw string, NOT OK – will throw an error
+      </Tooltip>
+
+      {/* Number, NOT OK – will throw an error */}
+      <Tooltip label="Throws">{2}</Tooltip>
+
+      <Tooltip label="Throws">
+        <>Fragment, NOT OK, will throw an error</>
+      </Tooltip>
+
+      <Tooltip label="Throws">
+        <div>More than one node</div>
+        <div>NOT OK, will throw an error</div>
+      </Tooltip>
+    </>
+  );
+}
+```
+
+## Tooltip target
+
+The `target` prop is an alternative to `children`. It accepts a string (selector),
+an HTML element or a ref object with an HTML element. Use the `target` prop when you do
+not render the tooltip target as a JSX element.
+
+Example of using the `target` prop with a string selector:
+
+<Demo data={TooltipDemos.target} />
+
+## Hide detached
+
+Use the `hideDetached` prop to configure how the tooltip behaves when the target
+element is removed from the DOM, hidden with `display: none`, or scrolled out of
+the viewport or of a scrollable container that clips it.
+
+By default, `hideDetached` is enabled – the tooltip is hidden with the target element.
+You can change this behavior with `hideDetached={false}`.
+
+Note that `hideDetached` has no effect on [Tooltip.Floating](#floating-tooltip) –
+it is positioned relative to the mouse pointer rather than to a target element.
+
+In test environments based on jsdom (Jest, Vitest) every element reports a zero-size rectangle,
+so the target is always considered detached and the tooltip is hidden. Set `env="test"` on
+[MantineProvider](/theming/mantine-provider/#env) in your test wrapper, as described in the
+[Jest](/guides/jest) and [Vitest](/guides/vitest) guides, or pass `hideDetached={false}` –
+otherwise `hideDetached` detection is disabled only in the `test` environment.
+
+To see the difference, try to scroll the root element of the following demo:
+
+<Demo data={TooltipDemos.hideDetached} demoProps={{ defaultExpanded: false }} />
+
+## Required ref prop
+
+Custom components that are rendered inside `Tooltip` are required to support `ref` prop:
+
+```tsx
+// Example of code that WILL NOT WORK
+import { Tooltip } from '@mantine/core';
+
+function MyComponent() {
+  return <div>My component</div>;
+}
+
+// This will not work – MyComponent does not support ref
+function Demo() {
+  return (
+    <Tooltip label="Does not work">
+      <MyComponent />
+    </Tooltip>
+  );
+}
+```
+
+The component must support `ref` prop:
+
+```tsx
+// Example of code that will work
+import { Tooltip } from '@mantine/core';
+
+const MyComponent = ({ ref, ...props }) => (
+  <div ref={ref} {...props}>
+    My component
+  </div>
+);
+
+// Works correctly – ref is forwarded
+function Demo() {
+  return (
+    <Tooltip label="Works fine">
+      <MyComponent />
+    </Tooltip>
+  );
+}
+```
+
+## Color
+
+<Demo data={TooltipDemos.configurator} />
+
+## Offset
+
+Set the `offset` prop to a number to change the tooltip position relative to the target element.
+This way you can control the tooltip offset on the main axis only.
+
+<Demo data={TooltipDemos.offset} />
+
+To control the offset on both axes, pass an object with `mainAxis` and `crossAxis` properties:
+
+<Demo data={TooltipDemos.offsetAxis} />
+
+## Arrow
+
+Set the `withArrow` prop to add an arrow to the tooltip. The arrow is a `div` element rotated with `transform: rotate(45deg)`.
+
+The `arrowPosition` prop determines how the arrow is positioned relative to the target element when `position` is set to `*-start` and `*-end` values on the `Popover` component.
+By default, the value is `center` – the arrow is positioned in the center of the target element if it is possible.
+
+If you change `arrowPosition` to `side`, then the arrow will be positioned on the side of the target element,
+and you will be able to control the arrow offset with the `arrowOffset` prop. Note that when `arrowPosition` is set to `center`,
+the `arrowOffset` prop is ignored.
+
+If you set `arrowPosition` to `merge`, the arrow will form a right triangle merged with the corresponding
+corner of the tooltip, and the border radius of that corner will be removed. This mode only works
+with `*-start` and `*-end` positions. Note that `arrowOffset` and `arrowRadius` props are ignored
+when `arrowPosition` is set to `merge`.
+
+<Demo data={TooltipDemos.arrow} />
+
+## Controlled
+
+<Demo data={TooltipDemos.controlled} />
+
+## Change events
+
+Events that trigger the tooltip can be changed with the `events` prop; it accepts an object
+with the following properties that determine which events will trigger the tooltip:
+
+- `hover` – mouse hover event, `true` by default
+- `focus` – focus/blur events excluding clicks on the target element, `false` by default
+- `touch` – events for touchscreen devices, `false` by default
+
+```tsx
+import { Tooltip } from '@mantine/core';
+
+function Demo() {
+  return (
+    <Tooltip
+      label="Tooltip"
+      events={{ hover: true, focus: true, touch: false }}
+    >
+      <button>target</button>
+    </Tooltip>
+  );
+}
+```
+
+## Interactive tooltip
+
+By default, the tooltip closes as soon as the pointer leaves the target element, and the tooltip body ignores pointer events. Set the `interactive` prop to keep the tooltip open while the pointer travels from the target to the tooltip and rests over its content.
+
+The `interactive` prop satisfies the _hoverable_ condition of [WCAG 2.1 success criterion 1.4.13: Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html), so the pointer can reach the tooltip body without dismissing it, for example to read or select its content.
+
+Do not put interactive or focusable content (links, buttons, inputs) inside a tooltip. Interactive content should be put in a [Popover](/core/popover) instead, which is reachable by mouse, keyboard, and touch.
+
+Note that an interactive tooltip receives pointer events, which means that while it is open, it intercepts clicks and hover events of the elements that it overlaps. The tooltip stops receiving pointer events as soon as it starts closing. The `interactive` prop is not supported by `Tooltip.Floating`, which always follows the mouse.
+
+<Demo data={TooltipDemos.interactive} />
+
+## Multiline
+
+To enable multiline mode, set the `multiline` prop to enable line breaks and the `w` [style prop](/styles/style-props) to set the tooltip width:
+
+<Demo data={TooltipDemos.multiline} />
+
+## Inline
+
+Set the `inline` prop to use `Tooltip` with inline elements:
+
+<Demo data={TooltipDemos.inline} />
+
+## Change transition
+
+Tooltip is built with the [Transition](/core/transition/) component; it supports `transitionProps` props:
+
+```tsx
+import { Button, Tooltip } from '@mantine/core';
+
+function Demo() {
+  return (
+    <Tooltip
+      label="Tooltip with custom transition"
+      transitionProps={{ transition: 'skew-up', duration: 300 }}
+    >
+      <Button>Button with tooltip</Button>
+    </Tooltip>
+  );
+}
+```
+
+All available premade transitions:
+
+<Demo data={TooltipDemos.transitions} />
+
+## Close and open delay
+
+You can delay tooltip open/close events by setting the `openDelay` and `closeDelay` props in ms:
+
+<Demo data={TooltipDemos.delay} />
+
+## Tooltip delay group
+
+The `Tooltip.Group` component can be used to sync open and close delays for multiple tooltips:
+
+<Demo data={TooltipDemos.group} />
+
+## Floating tooltip
+
+`Tooltip.Floating` component has the same API as the Tooltip component but the tooltip will follow the mouse:
+
+<Demo data={TooltipDemos.floating} />
+
+## Accessibility
+
+Tooltip follows the [WAI-ARIA tooltip pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/):
+
+- The tooltip body has `role="tooltip"` attribute
+- The target element has `aria-describedby` attribute
+- `Tooltip.Floating` is ignored by screen readers
+- Uncontrolled tooltips are dismissed with `Escape` without moving the pointer or focus
+
+By default, Tooltip is not triggered by focus events and thus users who use a screen reader
+or navigate with the keyboard will not be able to get tooltip content. Set the `events` prop to enable
+focus/blur tooltip events:
+
+```tsx
+import { Button, Tooltip } from '@mantine/core';
+
+// Tooltip will be visible for screen readers
+function Demo() {
+  return (
+    <Tooltip
+      label="Tooltip"
+      events={{ hover: true, focus: true, touch: false }}
+    >
+      <Button>Button with tooltip</Button>
+    </Tooltip>
+  );
+}
+```
+
+[WCAG 2.1 success criterion 1.4.13: Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html)
+additionally requires content that appears on hover to be dismissable, hoverable and persistent.
+Tooltip is persistent out of the box and dismissable if its opened state is not controlled
+(`Escape` closes it without moving the pointer – if you control the `opened` prop, you are responsible
+for handling `Escape` yourself). Tooltip is not hoverable by default – set the
+[interactive](#interactive-tooltip) prop to make the tooltip body hoverable:
+
+```tsx
+import { Button, Tooltip } from '@mantine/core';
+
+// Tooltip stays open while the pointer is over its content
+function Demo() {
+  return (
+    <Tooltip label="Tooltip" interactive>
+      <Button>Button with tooltip</Button>
+    </Tooltip>
+  );
+}
+```

@@ -1,0 +1,11 @@
+{
+    "main": "./CheckIcon.vue",
+    "module": "./CheckIcon.vue",
+    "types": "./CheckIcon.d.ts",
+    "browser": {
+        "./sfc": "./CheckIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

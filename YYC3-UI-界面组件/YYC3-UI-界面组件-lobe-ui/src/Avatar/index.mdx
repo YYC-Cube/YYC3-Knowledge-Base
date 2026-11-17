@@ -1,0 +1,123 @@
+---
+title: Avatar
+description: Avatar and AvatarGroup with emoji, image, text fallback and loading overlay support, built on Base UI-era primitives.
+category: Data Display
+---
+
+import DemoBordered from './demos/Bordered.tsx?demo';
+import DemoEmoji from './demos/Emoji.tsx?demo';
+import DemoFallback from './demos/Fallback.tsx?demo';
+import DemoGroup from './demos/Group.tsx?demo';
+import DemoGroupRing from './demos/GroupRing.tsx?demo';
+import DemoImageFallback from './demos/ImageFallback.tsx?demo';
+import DemoIndex from './demos/index.tsx?demo';
+import DemoPlayground from './demos/Playground.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { avatarClasses, avatarGroupClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Emoji
+
+<Demo of={DemoEmoji} layout="bare" />
+
+## Playground
+
+<Demo of={DemoPlayground} layout="bare" />
+
+## Generated Fallback
+
+When there is no image, emoji or custom node (a plain text `avatar` such as a name, only a `title`, or an image that failed to load), Avatar draws a generated [boring-avatars](https://boringavatars.com/) SVG. `fallbackVariant` picks the style: `marble` (default), `beam`, `pixel`, `sunset`, `ring`, `bauhaus`, or `text` to render the uppercase text instead (`sliceText` applies to this mode).
+
+The shape is seeded by `title`, then `alt`, then the `avatar` string, so the same name always gets the same avatar. The default palette is a fixed charcoal / violet / cream / yellow / orange set (`#383838` `#7858f9` `#f8f7bf` `#ffdd1f` `#f88c13`), so an avatar looks the same in light and dark mode; pass `fallbackColors` with concrete color strings (not CSS variables) to use your own. Emoji avatars are always rendered as emoji, the `+N` count of `AvatarGroup` stays text, and an Avatar with no seed at all keeps the plain placeholder background.
+
+<Demo of={DemoFallback} />
+
+## Image with Fallback
+
+<Demo of={DemoImageFallback} layout="bare" />
+
+## Bordered and Loading
+
+<Demo of={DemoBordered} layout="bare" />
+
+## Group
+
+<Demo of={DemoGroup} />
+
+## Group with Rings
+
+Give an item a `ringColor` to draw a 2px ring outside its separator border, for example the live cursor color of a collaborator. An item `style.boxShadow` overrides the ring.
+
+<Demo of={DemoGroupRing} />
+
+## APIs
+
+### Avatar
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| avatar | Image URL, emoji, or custom React node | `string \| ReactNode` | - |
+| title | Fallback seed / text; also the default image `alt` | `string` | - |
+| alt | Native `alt` attribute of the rendered image | `string` | `'avatar'` |
+| size | Width and height in pixels; drives font size | `number` | `48` |
+| shape | Avatar shape | `'circle' \| 'square'` | `'square'` |
+| background | Background color, ignored for images and custom nodes | `string` | - |
+| variant | Visual variant | `'borderless' \| 'filled' \| 'outlined'` | `'borderless'` |
+| shadow | Apply the lobe shadow style | `boolean` | - |
+| bordered | Show the outer ring | `boolean` | - |
+| borderedColor | Custom color for the outer ring | `string` | - |
+| loading | Show a full-size spinning overlay | `boolean` | - |
+| animation | Use the animated emoji variant | `boolean` | - |
+| sliceText | Slice text to its first two characters (`fallbackVariant="text"`) | `boolean` | `true` |
+| fallbackVariant | Rendering when there is no image, emoji or custom node | `'marble' \| 'beam' \| 'pixel' \| 'sunset' \| 'ring' \| 'bauhaus' \| 'text'` | `'marble'` |
+| fallbackColors | Palette of the generated fallback; concrete colors only | `string[]` | built-in palette |
+| emojiScaleWithBackground | Scale the emoji down when a background is present | `boolean` | `true` |
+| crossOrigin | Native `crossOrigin` attribute of the image | `'' \| 'anonymous' \| 'use-credentials'` | - |
+| draggable | Native `draggable` attribute of the image | `boolean` | `false` |
+| unoptimized | Compatibility with next/image-based avatars; no effect | `boolean` | - |
+| tooltipProps | Reserved for tooltip integration; not rendered yet | `Record<string, unknown>` | - |
+| classNames | Semantic class names: `root`, `img`, `content`, `fallback`, `loading` | `AvatarClassNames` | - |
+| styles | Semantic styles: `root`, `img`, `content`, `fallback`, `loading` | `AvatarStyles` | - |
+| ref | Reference to the root element | `Ref<HTMLDivElement>` | - |
+
+Font size is derived from `size`: `size * 0.5` for text and `size * 0.7` for emoji. The border radius is `50%` for `circle`; for `square` it is `33%` below `24px` and `size / 6` (at least 2px) otherwise. When no valid `background` is given and the content is text, the background falls back to `colorBorder` with a contrast-safe text color.
+
+### AvatarGroup
+
+Also accepts all shared visual props of `Avatar` (`variant`, `bordered`, `shadow`, `size`, `background`, `animation`, `draggable`, `shape`, `fallbackVariant`, `fallbackColors`) plus `Flexbox` props. Items may override `fallbackVariant`.
+
+| Property | Description | Type | Default |
+| --- | --- | --- | --- |
+| items | Avatar list with a required `key` per item; an item may set `ringColor` | `AvatarGroupItemType[]` | - |
+| max | Render at most `max` avatars and a `+N` count | `number` | - |
+| gap | Overlap between avatars in pixels | `number` | `-size / 4` |
+| zIndexReverse | Reverse the stacking order | `boolean` | - |
+| onClick | Called with the clicked item and its key | `({ item, key }) => void` | - |
+| classNames | `avatar` and `count` class names | `{ avatar?: string; count?: string }` | - |
+| styles | `avatar` and `count` styles | `{ avatar?: CSSProperties; count?: CSSProperties }` | - |
+| ref | Reference to the container element | `Ref<HTMLDivElement>` | - |
+
+`Avatar.Group` is also attached as a static property of the default export, so `<Avatar.Group />` and `<AvatarGroup />` are interchangeable.
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Avatar`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/Avatar.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+### Avatar
+
+<StableClassTable of={avatarClasses} />
+
+### AvatarGroup
+
+<StableClassTable of={avatarGroupClasses} />

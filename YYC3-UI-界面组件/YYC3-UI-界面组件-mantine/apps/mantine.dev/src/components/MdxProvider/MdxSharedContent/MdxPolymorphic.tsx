@@ -1,0 +1,98 @@
+import { TypeScriptCircleIcon } from '@mantinex/dev-icons';
+import { MdxInfo } from '../MdxInfo/MdxInfo';
+import { MdxLink } from '../MdxLink/MdxLink';
+import { MdxCodeHighlight } from '../MdxPre/MdxPre';
+import { MdxTitle } from '../MdxTitle/MdxTitle';
+import { MdxCode, MdxParagraph } from '../MdxTypography/MdxTypography';
+
+interface MdxPolymorphicProps {
+  component: string;
+  defaultElement: string;
+  changeToElement: string;
+  withNext?: string;
+  package?: string;
+}
+
+function getElementCode(input: MdxPolymorphicProps) {
+  return `import { ${input.component} } from '${input.package || '@mantine/core'}';
+
+function Demo() {
+  return <${input.component} component="${input.changeToElement}" />;
+}
+  `;
+}
+
+function getNextLinkCode(input: MdxPolymorphicProps) {
+  return `import Link from 'next/link';
+import { ${input.component} } from '${input.package || '@mantine/core'}';
+
+function Demo() {
+  return <${input.component} component={Link} href="/" />;
+}`;
+}
+
+function getInterfaceCode(input: MdxPolymorphicProps) {
+  return `import type { ${input.component}Props, ElementProps } from '${
+    input.package || '@mantine/core'
+  }';
+
+interface My${input.component}Props extends ${input.component}Props,
+  ElementProps<'${input.changeToElement}', keyof ${input.component}Props> {}`;
+}
+
+export function MdxPolymorphic(props: MdxPolymorphicProps) {
+  return (
+    <>
+      <MdxTitle id="polymorphic-component">Polymorphic component</MdxTitle>
+      <MdxParagraph>
+        <MdxCode>{props.component}</MdxCode> is a{' '}
+        <MdxLink href="/guides/polymorphic/">polymorphic component</MdxLink> – its default root
+        element is <MdxCode>{props.defaultElement}</MdxCode>, but it can be changed to any other
+        element or component with the <MdxCode>component</MdxCode> prop:
+      </MdxParagraph>
+
+      <MdxCodeHighlight language="tsx" code={getElementCode(props)} />
+      {props.withNext && (
+        <>
+          <MdxParagraph>
+            You can also use components in the <MdxCode>component</MdxCode> prop, for example,
+            Next.js <MdxCode>Link</MdxCode>:
+          </MdxParagraph>
+          <MdxCodeHighlight language="tsx" code={getNextLinkCode(props)} />
+        </>
+      )}
+
+      <MdxInfo icon={<TypeScriptCircleIcon size={32} />} color="#3178C6">
+        <MdxParagraph>
+          <span style={{ fontSize: 18, fontWeight: 500, fontFamily: 'var(--docs-font-primary)' }}>
+            Polymorphic components with TypeScript
+          </span>
+        </MdxParagraph>
+
+        <MdxParagraph>
+          Note that polymorphic component prop types are different from regular components – they do
+          not extend HTML element props of the default element. For example,{' '}
+          <MdxCode>{props.component}Props</MdxCode> does not extend{' '}
+          <MdxCode>
+            React.ComponentProps{"'<'"}div{"'>'"}
+          </MdxCode>{' '}
+          although <MdxCode>{props.defaultElement}</MdxCode> is the default element.
+        </MdxParagraph>
+
+        <MdxParagraph>
+          If you want to create a wrapper for a polymorphic component that is not polymorphic (does
+          not support the <MdxCode>component</MdxCode> prop), then your component props interface
+          should extend HTML element props, for example:{' '}
+        </MdxParagraph>
+
+        <MdxCodeHighlight language="tsx" code={getInterfaceCode(props)} />
+
+        <MdxParagraph>
+          If you want your component to remain polymorphic after wrapping, use the{' '}
+          <MdxCode>polymorphic</MdxCode> function described in{' '}
+          <MdxLink href="/guides/polymorphic/">this guide</MdxLink>.
+        </MdxParagraph>
+      </MdxInfo>
+    </>
+  );
+}

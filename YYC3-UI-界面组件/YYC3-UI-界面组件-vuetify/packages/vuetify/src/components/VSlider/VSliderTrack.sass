@@ -1,0 +1,350 @@
+@use 'sass:map'
+@use 'sass:selector'
+@use '../../styles/settings'
+@use '../../styles/tools'
+@use './variables' as *
+
+// Masks the end on $side with the full track radius; border-radius would scale it down on segments narrower than the radius
+@mixin slider-pill-end ($side)
+  $radius: min(var(--v-slider-pill-track-radius), var(--v-slider-track-size) / 2)
+  $corner: radial-gradient(circle closest-side, #000 calc(100% - 1px), transparent)
+  $solid: linear-gradient(#000 0 0)
+  $opposite: map.get((left: right, right: left, top: bottom, bottom: top), $side)
+  @if $side == left or $side == right
+    mask: $corner $side top / calc(#{$radius} * 2) calc(#{$radius} * 2) no-repeat, $corner $side bottom / calc(#{$radius} * 2) calc(#{$radius} * 2) no-repeat, $solid $side center / #{$radius} calc(100% - #{$radius} * 2) no-repeat, $solid $opposite center / calc(100% - #{$radius}) 100% no-repeat
+  @else
+    mask: $corner left $side / calc(#{$radius} * 2) calc(#{$radius} * 2) no-repeat, $corner right $side / calc(#{$radius} * 2) calc(#{$radius} * 2) no-repeat, $solid center $side / calc(100% - #{$radius} * 2) #{$radius} no-repeat, $solid center $opposite / 100% calc(100% - #{$radius}) no-repeat
+
+@include tools.layer('components')
+  // Theme
+  .v-slider-track__background
+    background-color: rgb(var(--v-theme-surface-variant))
+
+    @media (forced-colors: active)
+      background-color: highlight
+
+  .v-slider-track__fill
+    background-color: rgb(var(--v-theme-surface-variant))
+
+    @media (forced-colors: active)
+      background-color: highlight
+
+  .v-slider-track__tick
+    background-color: rgb(var(--v-theme-surface-variant))
+
+    &--filled
+      background-color: $slider-tick-background
+
+  // Elements
+  .v-slider-track
+    border-radius: $slider-track-border-radius
+
+    @media (forced-colors: active)
+      border: thin solid buttontext
+
+  .v-slider-track
+    &__background, &__fill
+      position: absolute
+      transition: $slider-transition
+      border-radius: inherit
+
+      .v-slider--pressed &
+        transition: none
+
+      .v-input--error:not(.v-input--disabled) &
+        background-color: currentColor
+
+  .v-slider-track__ticks
+    height: 100%
+    width: 100%
+    position: relative
+
+  .v-slider-track__tick
+    position: absolute
+    opacity: 0
+    transition: 0.2s opacity settings.$standard-easing
+    border-radius: $slider-tick-border-radius
+    width: var(--v-slider-tick-size)
+    height: var(--v-slider-tick-size)
+    transform: translate(calc(var(--v-slider-tick-size) / -2), calc(var(--v-slider-tick-size) / -2))
+
+    &--first .v-slider-track__tick-label
+      @include tools.ltr()
+        transform: none
+
+      @include tools.rtl()
+        transform: translateX(100%)
+
+    &--last .v-slider-track__tick-label
+      @include tools.ltr()
+        transform: translateX(-100%)
+
+      @include tools.rtl()
+        transform: none
+
+  .v-slider-track__tick-label
+    position: absolute
+    user-select: none
+    white-space: nowrap
+
+  // Horizontal
+  .v-slider.v-input--horizontal
+    .v-slider-track
+      display: flex
+      align-items: center
+      width: 100%
+      height: $slider-track-active-size
+      touch-action: pan-y
+
+      &__background
+        inset-inline-start: 0
+        width: 100%
+        height: var(--v-slider-track-size)
+
+      &__fill
+        inset-inline-start: var(--v-slider-value-start)
+        width: calc(var(--v-slider-value-stop) - var(--v-slider-value-start))
+        height: inherit
+
+    .v-slider-track__tick
+      inset-inline-start: var(--v-slider-tick-position)
+      margin-top: calc(#{$slider-track-active-size} / 2)
+
+      @include tools.rtl()
+        transform: translate(calc(var(--v-slider-tick-size) / 2), calc(var(--v-slider-tick-size) / -2))
+
+      .v-slider-track__tick-label
+        margin-top: calc(var(--v-slider-track-size) / 2 + #{$slider-tick-label-margin-top})
+
+        @include tools.ltr()
+          transform: translateX(-50%)
+
+        @include tools.rtl()
+          transform: translateX(50%)
+
+      &--first
+        margin-inline-start: calc(var(--v-slider-tick-size) + 1px)
+
+        .v-slider-track__tick-label
+          @include tools.ltr()
+            transform: translateX(0%)
+
+          @include tools.rtl()
+            transform: translateX(0%)
+
+      &--last
+        margin-inline-start: calc(100% - var(--v-slider-tick-size) - 1px)
+
+        .v-slider-track__tick-label
+          @include tools.ltr()
+            transform: translateX(-100%)
+
+          @include tools.rtl()
+            transform: translateX(100%)
+
+  // Vertical
+  .v-slider.v-input--vertical
+    .v-slider-track
+      height: 100%
+      display: flex
+      justify-content: center
+      width: $slider-track-active-size
+      touch-action: pan-x
+
+      &__background
+        top: 0
+        height: 100%
+        width: var(--v-slider-track-size)
+
+      &__fill
+        top: calc(100% - var(--v-slider-value-stop))
+        height: calc(var(--v-slider-value-stop) - var(--v-slider-value-start))
+        width: inherit
+
+    .v-slider-track__ticks
+      height: 100%
+
+    .v-slider-track__tick
+      bottom: var(--v-slider-tick-position)
+      margin-inline-start: calc(#{$slider-track-active-size} / 2)
+      transform: translate(calc(var(--v-slider-tick-size) / -2), calc(var(--v-slider-tick-size) / 2))
+
+      @include tools.rtl()
+        transform: translate(calc(var(--v-slider-tick-size) / 2), calc(var(--v-slider-tick-size) / 2))
+
+      &--first
+        bottom: calc(0% + var(--v-slider-tick-size) + 1px)
+      &--last
+        bottom: calc(100% - var(--v-slider-tick-size) - 1px)
+
+      .v-slider-track__tick-label
+        margin-inline-start: calc(var(--v-slider-track-size) / 2 + #{$slider-tick-label-margin-start})
+        transform: translateY(-50%)
+
+  // Modifiers
+  .v-slider-track__ticks--always-show, .v-slider--focused
+    .v-slider-track__tick
+      opacity: 1
+
+  .v-slider-track__background--opacity
+    opacity: 0.38
+
+  // Pill variant
+  .v-slider--variant-pill
+    .v-slider-track
+      // A segment collapsed to nothing must not let the inactive track into the other edge's gap
+      --v-slider-pill-before-end: min(var(--v-slider-value-start) - var(--v-slider-pill-start-gap), var(--v-slider-value-stop) - var(--v-slider-pill-stop-gap))
+      --v-slider-pill-after-start: max(var(--v-slider-value-stop) + var(--v-slider-pill-stop-gap), var(--v-slider-value-start) + var(--v-slider-pill-start-gap))
+      --v-slider-pill-after-start-offset: max(var(--v-slider-value-stop-offset) + var(--v-slider-pill-stop-gap), var(--v-slider-value-start-offset) + var(--v-slider-pill-start-gap))
+      --v-slider-pill-stop-indicator-inset: clamp(0px, #{$slider-pill-stop-indicator-offset}, (var(--v-slider-track-size) - #{$slider-pill-stop-indicator-size}) / 2)
+      border-radius: var(--v-slider-pill-track-radius)
+
+    .v-slider-track__background,
+    .v-slider-track__fill
+      border-radius: $slider-pill-track-inner-radius
+
+    .v-slider-track__background--opacity
+      opacity: $slider-pill-track-background-opacity
+
+    &.v-input--horizontal
+      .v-slider-track__background--before,
+      .v-slider-track__fill--start
+        @include tools.ltr()
+          @include slider-pill-end(left)
+        @include tools.rtl()
+          @include slider-pill-end(right)
+
+      .v-slider-track__background--after,
+      .v-slider-track__fill--end
+        @include tools.ltr()
+          @include slider-pill-end(right)
+        @include tools.rtl()
+          @include slider-pill-end(left)
+
+    &.v-input--vertical
+      .v-slider-track__background--before,
+      .v-slider-track__fill--start
+        @include slider-pill-end(bottom)
+
+      .v-slider-track__background--after,
+      .v-slider-track__fill--end
+        @include slider-pill-end(top)
+
+    .v-slider-track__stop
+      position: absolute
+
+      &--start
+        --v-slider-tick-position: calc(var(--v-slider-pill-stop-indicator-inset) + #{$slider-pill-stop-indicator-size} / 2)
+
+      &--end
+        --v-slider-tick-position: calc(100% - var(--v-slider-pill-stop-indicator-inset) - #{$slider-pill-stop-indicator-size} / 2)
+
+    &.v-input--horizontal
+      .v-slider-track
+        height: var(--v-slider-track-size)
+
+        &__fill
+          inset-inline-start: calc(var(--v-slider-value-start) + var(--v-slider-pill-start-gap))
+          width: calc(var(--v-slider-value-stop) - var(--v-slider-value-start) - var(--v-slider-pill-start-gap) - var(--v-slider-pill-stop-gap))
+          height: var(--v-slider-track-size)
+
+      .v-slider-track__background--before
+        inset-inline-start: 0
+        width: var(--v-slider-pill-before-end)
+
+      .v-slider-track__background--after
+        inset-inline-start: var(--v-slider-pill-after-start)
+        width: calc(100% - var(--v-slider-pill-after-start))
+
+    &.v-input--vertical
+      .v-slider-track
+        width: var(--v-slider-track-size)
+
+        &__fill
+          top: calc(100% - var(--v-slider-value-stop) + var(--v-slider-pill-stop-gap))
+          height: calc(var(--v-slider-value-stop) - var(--v-slider-value-start) - var(--v-slider-pill-start-gap) - var(--v-slider-pill-stop-gap))
+          width: var(--v-slider-track-size)
+
+      .v-slider-track__background--before
+        top: calc(100% - var(--v-slider-pill-before-end))
+        height: var(--v-slider-pill-before-end)
+
+      .v-slider-track__background--after
+        top: 0
+        height: calc(100% - var(--v-slider-pill-after-start))
+
+    .v-slider-track__tick,
+    .v-slider-track__stop
+      // Collapses to 0 when the dot is inside a thumb gap
+      --v-slider-pill-tick-size: clamp(0px, 1000 * min(max(var(--v-slider-tick-position) - var(--v-slider-value-start), var(--v-slider-value-start) - var(--v-slider-tick-position)) - var(--v-slider-pill-start-gap), max(var(--v-slider-tick-position) - var(--v-slider-value-stop), var(--v-slider-value-stop) - var(--v-slider-tick-position)) - var(--v-slider-pill-stop-gap)), #{$slider-pill-stop-indicator-size})
+      width: $slider-pill-stop-indicator-size
+      height: $slider-pill-stop-indicator-size
+      border-radius: $slider-pill-stop-indicator-border-radius
+      background-color: currentColor
+
+      &--filled
+        background-color: $slider-pill-tick-filled-background
+
+      &--first, &--last
+        background-color: transparent
+
+    &.v-input--horizontal
+      .v-slider-track__stop
+        inset-inline-start: var(--v-slider-tick-position)
+
+      .v-slider-track__tick,
+      .v-slider-track__stop
+        width: var(--v-slider-pill-tick-size)
+        top: 50%
+        margin-top: 0
+        transform: translate(-50%, -50%)
+
+        @include tools.rtl()
+          transform: translate(50%, -50%)
+
+    &.v-input--vertical
+      .v-slider-track__stop
+        bottom: var(--v-slider-tick-position)
+
+      .v-slider-track__tick,
+      .v-slider-track__stop
+        height: var(--v-slider-pill-tick-size)
+        inset-inline-start: 50%
+        margin-inline-start: 0
+        transform: translate(-50%, 50%)
+
+        @include tools.rtl()
+          transform: translate(50%, 50%)
+
+    // Lines up background images across segments as if they were one track
+    &.v-input--horizontal
+      .v-slider-track__background,
+      .v-slider-track__fill
+        background-size: var(--v-slider-track-length) 100%
+
+      .v-slider-track__background--before
+        @include tools.rtl()
+          background-position-x: right
+
+      .v-slider-track__background--after
+        background-position-x: calc(-1 * var(--v-slider-pill-after-start-offset))
+
+        @include tools.rtl()
+          background-position-x: right calc(-1 * var(--v-slider-pill-after-start-offset))
+
+      .v-slider-track__fill
+        background-position-x: calc(-1 * (var(--v-slider-value-start-offset) + var(--v-slider-pill-start-gap)))
+
+        @include tools.rtl()
+          background-position-x: right calc(-1 * (var(--v-slider-value-start-offset) + var(--v-slider-pill-start-gap)))
+
+    &.v-input--vertical
+      .v-slider-track__background,
+      .v-slider-track__fill
+        background-size: 100% var(--v-slider-track-length)
+
+      .v-slider-track__background--before
+        background-position-y: bottom
+
+      .v-slider-track__fill
+        background-position-y: calc(-1 * (var(--v-slider-track-length) - var(--v-slider-value-stop-offset) + var(--v-slider-pill-stop-gap)))

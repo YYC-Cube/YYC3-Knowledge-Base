@@ -1,0 +1,42 @@
+import * as carousel from '@zag-js/carousel'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import type { RootEmits } from './carousel.types.ts'
+
+export interface UseCarouselProps extends Optional<Omit<carousel.Props, 'dir' | 'getRootNode'>, 'id'> {}
+export interface UseCarouselReturn extends ComputedRef<carousel.Api<PropTypes>> {}
+
+export const useCarousel = (props: MaybeRefOrGetter<UseCarouselProps>, emit?: EmitFn<RootEmits>): UseCarouselReturn => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+
+  const context = computed<carousel.Props>(() => {
+    const localProps = toValue<UseCarouselProps>(props)
+    return {
+      id,
+      dir: locale.value.dir,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localProps),
+      onAutoplayStatusChange: (details) => {
+        emit?.('autoplayStatusChange', details)
+        localProps.onAutoplayStatusChange?.(details)
+      },
+      onDragStatusChange: (details) => {
+        emit?.('dragStatusChange', details)
+        localProps.onDragStatusChange?.(details)
+      },
+      onPageChange: (details) => {
+        emit?.('pageChange', details)
+        emit?.('update:page', details.page)
+        localProps.onPageChange?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(carousel.machine, context)
+  return computed(() => carousel.connect(service, normalizeProps))
+}

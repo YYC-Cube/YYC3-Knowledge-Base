@@ -1,0 +1,272 @@
+export interface RichTextEditorLabels {
+  /** RichTextEditor.Bold control aria-label */
+  boldControlLabel: string;
+
+  /** RichTextEditor.Hr control aria-label */
+  hrControlLabel: string;
+
+  /** RichTextEditor.Italic control aria-label */
+  italicControlLabel: string;
+
+  /** RichTextEditor.Underline control aria-label */
+  underlineControlLabel: string;
+
+  /** RichTextEditor.Strike control aria-label */
+  strikeControlLabel: string;
+
+  /** RichTextEditor.ClearFormatting control aria-label */
+  clearFormattingControlLabel: string;
+
+  /** RichTextEditor.Link control aria-label */
+  linkControlLabel: string;
+
+  /** RichTextEditor.Unlink control aria-label */
+  unlinkControlLabel: string;
+
+  /** RichTextEditor.BulletList control aria-label */
+  bulletListControlLabel: string;
+
+  /** RichTextEditor.OrderedList control aria-label */
+  orderedListControlLabel: string;
+
+  /** RichTextEditor.H1 control aria-label */
+  h1ControlLabel: string;
+
+  /** RichTextEditor.H2 control aria-label */
+  h2ControlLabel: string;
+
+  /** RichTextEditor.H3 control aria-label */
+  h3ControlLabel: string;
+
+  /** RichTextEditor.H4 control aria-label */
+  h4ControlLabel: string;
+
+  /** RichTextEditor.H5 control aria-label */
+  h5ControlLabel: string;
+
+  /** RichTextEditor.H6 control aria-label */
+  h6ControlLabel: string;
+
+  /** RichTextEditor.Blockquote control aria-label */
+  blockquoteControlLabel: string;
+
+  /** RichTextEditor.AlignLeft control aria-label */
+  alignLeftControlLabel: string;
+
+  /** RichTextEditor.AlignCenter control aria-label */
+  alignCenterControlLabel: string;
+
+  /** RichTextEditor.AlignRight control aria-label */
+  alignRightControlLabel: string;
+
+  /** RichTextEditor.AlignJustify control aria-label */
+  alignJustifyControlLabel: string;
+
+  /** RichTextEditor.Code control aria-label */
+  codeControlLabel: string;
+
+  /** RichTextEditor.CodeBlock control aria-label */
+  codeBlockControlLabel: string;
+
+  /** RichTextEditor.Subscript control aria-label */
+  subscriptControlLabel: string;
+
+  /** RichTextEditor.Superscript control aria-label */
+  superscriptControlLabel: string;
+
+  /** RichTextEditor.ColorPicker control aria-label */
+  colorPickerControlLabel: string;
+
+  /** RichTextEditor.UnsetColor control aria-label */
+  unsetColorControlLabel: string;
+
+  /** RichTextEditor.Highlight control aria-label */
+  highlightControlLabel: string;
+
+  /** RichTextEditor.Undo control aria-label */
+  undoControlLabel: string;
+
+  /** RichTextEditor.Redo control aria-label */
+  redoControlLabel: string;
+
+  /** A function go get RichTextEditor.Color control aria-label based on color that control applies */
+  colorControlLabel: (color: string) => string;
+
+  /** RichTextEditor.SourceCode control aria-label */
+  sourceCodeControlLabel: string;
+
+  /** Aria-label for link editor url input */
+  linkEditorInputLabel: string;
+
+  /** Placeholder for link editor url input */
+  linkEditorInputPlaceholder: string;
+
+  /** Content of external button tooltip in link editor when the link was chosen to open in a new tab */
+  linkEditorExternalLink: string;
+
+  /** Content of external button tooltip in link editor when the link was chosen to open in the same tab */
+  linkEditorInternalLink: string;
+
+  /** Save button content in link editor */
+  linkEditorSave: string;
+
+  /** Cancel button title text in color picker control */
+  colorPickerCancel: string;
+
+  /** Clear button title text in color picker control */
+  colorPickerClear: string;
+
+  /** Color picker button title text in color picker control */
+  colorPickerColorPicker: string;
+
+  /** Palette button title text in color picker control */
+  colorPickerPalette: string;
+
+  /** Save button title text in color picker control */
+  colorPickerSave: string;
+
+  /** Aria-label for color palette colors */
+  colorPickerColorLabel: (color: string) => string;
+
+  /** Aria-label for task list control */
+  tasksControlLabel: string;
+
+  /** Aria-label for task list sink task */
+  tasksSinkLabel: string;
+
+  /** Aria-label for task list lift task */
+  tasksLiftLabel: string;
+
+  /** RichTextEditor.ImageUpload control aria-label */
+  imageUploadControlLabel?: string;
+
+  /** RichTextEditor.TableInsert control aria-label */
+  tableInsertControlLabel?: string;
+
+  /** A function to get RichTextEditor.TableInsert grid cell aria-label based on selected size */
+  tableInsertLabel?: (columns: number, rows: number) => string;
+
+  /** RichTextEditor.TableDelete control aria-label */
+  tableDeleteControlLabel?: string;
+
+  /** RichTextEditor.TableColumnBefore control aria-label */
+  tableColumnBeforeControlLabel?: string;
+
+  /** RichTextEditor.TableColumnAfter control aria-label */
+  tableColumnAfterControlLabel?: string;
+
+  /** RichTextEditor.TableColumnDelete control aria-label */
+  tableColumnDeleteControlLabel?: string;
+
+  /** RichTextEditor.TableRowBefore control aria-label */
+  tableRowBeforeControlLabel?: string;
+
+  /** RichTextEditor.TableRowAfter control aria-label */
+  tableRowAfterControlLabel?: string;
+
+  /** RichTextEditor.TableRowDelete control aria-label */
+  tableRowDeleteControlLabel?: string;
+
+  /** RichTextEditor.TableToggleHeaderRow control aria-label */
+  tableToggleHeaderRowControlLabel?: string;
+
+  /** RichTextEditor.TableToggleHeaderColumn control aria-label */
+  tableToggleHeaderColumnControlLabel?: string;
+
+  /** RichTextEditor.TableMergeCells control aria-label */
+  tableMergeCellsControlLabel?: string;
+
+  /** RichTextEditor.TableSplitCell control aria-label */
+  tableSplitCellControlLabel?: string;
+
+  /** RichTextEditor.Details control aria-label */
+  detailsControlLabel?: string;
+
+  /** RichTextEditor.InvisibleCharacters control aria-label */
+  invisibleCharactersControlLabel?: string;
+}
+
+/**
+ * Labels after they have been merged with `DEFAULT_LABELS` – every entry is guaranteed to be
+ * present. `RichTextEditorLabels` itself keeps the newer entries optional so that a fully
+ * typed localization object written against an earlier version still compiles.
+ */
+export type ResolvedRichTextEditorLabels = Required<RichTextEditorLabels>;
+
+export const DEFAULT_LABELS: ResolvedRichTextEditorLabels = {
+  // Controls labels
+  linkControlLabel: 'Link',
+  colorPickerControlLabel: 'Text color',
+  highlightControlLabel: 'Highlight text',
+  colorControlLabel: (color) => `Set text color ${color}`,
+  boldControlLabel: 'Bold',
+  italicControlLabel: 'Italic',
+  underlineControlLabel: 'Underline',
+  strikeControlLabel: 'Strikethrough',
+  clearFormattingControlLabel: 'Clear formatting',
+  unlinkControlLabel: 'Remove link',
+  bulletListControlLabel: 'Bullet list',
+  orderedListControlLabel: 'Ordered list',
+  sourceCodeControlLabel: 'Switch between text/source code',
+  h1ControlLabel: 'Heading 1',
+  h2ControlLabel: 'Heading 2',
+  h3ControlLabel: 'Heading 3',
+  h4ControlLabel: 'Heading 4',
+  h5ControlLabel: 'Heading 5',
+  h6ControlLabel: 'Heading 6',
+  blockquoteControlLabel: 'Blockquote',
+  alignLeftControlLabel: 'Align text: left',
+  alignCenterControlLabel: 'Align text: center',
+  alignRightControlLabel: 'Align text: right',
+  alignJustifyControlLabel: 'Align text: justify',
+  codeControlLabel: 'Code',
+  codeBlockControlLabel: 'Code block',
+  subscriptControlLabel: 'Subscript',
+  superscriptControlLabel: 'Superscript',
+  unsetColorControlLabel: 'Unset color',
+  hrControlLabel: 'Horizontal line',
+  undoControlLabel: 'Undo',
+  redoControlLabel: 'Redo',
+
+  // Task list
+  tasksControlLabel: 'Task list',
+  tasksSinkLabel: 'Decrease task level',
+  tasksLiftLabel: 'Increase task level',
+  imageUploadControlLabel: 'Upload image',
+
+  // Table
+  tableInsertControlLabel: 'Insert table',
+  tableInsertLabel: (columns, rows) => `Insert ${columns} × ${rows} table`,
+  tableDeleteControlLabel: 'Delete table',
+  tableColumnBeforeControlLabel: 'Add column before',
+  tableColumnAfterControlLabel: 'Add column after',
+  tableColumnDeleteControlLabel: 'Delete column',
+  tableRowBeforeControlLabel: 'Add row before',
+  tableRowAfterControlLabel: 'Add row after',
+  tableRowDeleteControlLabel: 'Delete row',
+  tableToggleHeaderRowControlLabel: 'Toggle header row',
+  tableToggleHeaderColumnControlLabel: 'Toggle header column',
+  tableMergeCellsControlLabel: 'Merge cells',
+  tableSplitCellControlLabel: 'Split cell',
+
+  // Details
+  detailsControlLabel: 'Toggle collapsible section',
+
+  // Invisible characters
+  invisibleCharactersControlLabel: 'Toggle invisible characters',
+
+  // Link editor
+  linkEditorInputLabel: 'Enter URL',
+  linkEditorInputPlaceholder: 'https://example.com/',
+  linkEditorExternalLink: 'Open link in a new tab',
+  linkEditorInternalLink: 'Open link in the same tab',
+  linkEditorSave: 'Save',
+
+  // Color picker control
+  colorPickerCancel: 'Cancel',
+  colorPickerClear: 'Clear color',
+  colorPickerColorPicker: 'Color picker',
+  colorPickerPalette: 'Color palette',
+  colorPickerSave: 'Save',
+  colorPickerColorLabel: (color) => `Set text color ${color}`,
+};

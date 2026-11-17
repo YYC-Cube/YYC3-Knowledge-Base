@@ -1,0 +1,22 @@
+<nav class="{{pfv}}nav
+  {{setModifiers
+      nav--IsHorizontal='pf-m-horizontal'
+      nav--IsHorizontalSubnav='pf-m-horizontal pf-m-subnav'
+      nav--IsScrollable='pf-m-scrollable'
+      nav--IsDocked='pf-m-docked'
+      nav--modifier=nav--modifier
+    }}"
+  {{#ifAny aria-label nav--aria-label}}
+    aria-label="{{aria-label}}{{nav--aria-label}}"
+  {{/ifAny}}
+  {{#if nav--attribute}}
+    {{{nav--attribute}}}
+  {{/if}}>
+  {{#if nav--HasScroll}}
+    {{> nav-scroll-button nav-scroll-button--IsStart=true nav-scroll-button--IsDisabled=nav-scroll-button--IsStartDisabled}}
+    {{> @partial-block}}
+    {{> nav-scroll-button nav-scroll-button--IsEnd=true  nav-scroll-button--IsDisabled=nav-scroll-button--IsEndDisabled}}
+  {{else}}
+    {{> @partial-block}}
+  {{/if}}
+</nav>

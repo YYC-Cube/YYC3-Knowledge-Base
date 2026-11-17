@@ -1,0 +1,44 @@
+import { UseIdleDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.useIdle);
+
+## Usage
+
+The `use-idle` hook detects if the user does nothing for a given time in milliseconds:
+
+<Demo data={UseIdleDemos.usage} />
+
+## Custom events
+
+By default, the hook will listen to `keydown`, `mousemove`, `touchmove`, `click`, `scroll`, and `wheel` events to set the idle status.
+To change that, provide a list of events in the `options` argument:
+
+<Demo data={UseIdleDemos.events} />
+
+## Initial state
+
+By default, the hook will return an idle state.
+To change this, provide an initial state value in the `options` argument:
+
+<Demo data={UseIdleDemos.state} />
+
+## Definition
+
+```tsx
+interface UseIdleOptions {
+  events?: (keyof DocumentEventMap)[];
+  initialState?: boolean;
+}
+
+function useIdle(timeout: number, options?: UseIdleOptions): boolean;
+```
+
+## Exported types
+
+The `UseIdleOptions` type is exported from `@mantine/hooks`;
+
+```tsx
+import type { UseIdleOptions } from '@mantine/hooks';
+```

@@ -1,0 +1,12 @@
+export { usage } from './FileInput.demo.usage';
+export { error } from './FileInput.demo.error';
+export { success } from './FileInput.demo.success';
+export { disabled } from './FileInput.demo.disabled';
+export { stylesApi } from './FileInput.demo.stylesApi';
+export { clearable } from './FileInput.demo.clearable';
+export { clearSectionMode } from './FileInput.demo.clearSectionMode';
+export { accept } from './FileInput.demo.accept';
+export { multiple } from './FileInput.demo.multiple';
+export { valueComponent } from './FileInput.demo.valueComponent';
+export { sections } from './FileInput.demo.sections';
+export { loading } from './FileInput.demo.loading';

@@ -1,0 +1,37 @@
+'use client'
+
+import type { ItemProps } from '@zag-js/radio-group'
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { parts } from './segment-group.anatomy.ts'
+import { useSegmentGroupContext } from './use-segment-group-context.ts'
+import { SegmentGroupItemProvider } from './use-segment-group-item-context.ts'
+import { SegmentGroupItemPropsProvider } from './use-segment-group-item-props-context.ts'
+
+export interface SegmentGroupItemBaseProps extends ItemProps, PolymorphicProps {}
+export interface SegmentGroupItemProps extends HTMLProps<'label'>, SegmentGroupItemBaseProps {}
+
+const splitItemProps = createSplitProps<ItemProps>()
+
+export const SegmentGroupItem = forwardRef<HTMLLabelElement, SegmentGroupItemProps>((props, ref) => {
+  const [itemProps, localProps] = splitItemProps(props, ['value', 'disabled', 'invalid'])
+  const segmentGroup = useSegmentGroupContext()
+  const mergedProps = mergeProps(
+    segmentGroup.getItemProps(itemProps),
+    parts.item.attrs as Record<string, string>,
+    localProps,
+  )
+  const itemState = segmentGroup.getItemState(itemProps)
+
+  return (
+    <SegmentGroupItemPropsProvider value={itemProps}>
+      <SegmentGroupItemProvider value={itemState}>
+        <ark.label {...mergedProps} ref={ref} />
+      </SegmentGroupItemProvider>
+    </SegmentGroupItemPropsProvider>
+  )
+})
+
+SegmentGroupItem.displayName = 'SegmentGroupItem'

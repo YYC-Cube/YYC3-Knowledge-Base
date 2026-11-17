@@ -1,0 +1,48 @@
+// Rstest Snapshot v1
+
+exports[`should render correctly when SSR 1`] = `
+<div class="van-signature">
+  <div class="van-signature__content">
+    <canvas>
+    </canvas>
+  </div>
+  <div class="van-signature__footer">
+    <button
+      type="button"
+      class="van-button van-button--default van-button--small"
+      style
+    >
+      <div class="van-button__content">
+        <span class="van-button__text">
+          <!--[-->
+          Clear
+        </span>
+      </div>
+    </button>
+    <button
+      type="button"
+      class="van-button van-button--default van-button--small"
+      style
+    >
+      <div class="van-button__content">
+        <span class="van-button__text">
+          <!--[-->
+          Undo
+        </span>
+      </div>
+    </button>
+    <button
+      type="button"
+      class="van-button van-button--primary van-button--small"
+      style
+    >
+      <div class="van-button__content">
+        <span class="van-button__text">
+          <!--[-->
+          Confirm
+        </span>
+      </div>
+    </button>
+  </div>
+</div>
+`;

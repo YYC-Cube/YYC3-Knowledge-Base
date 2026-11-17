@@ -1,0 +1,45 @@
+import * as passwordInput from '@zag-js/password-input'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import { useFieldContext } from '../field/index.ts'
+import type { RootEmits } from './password-input.types.ts'
+
+export interface UsePasswordInputProps extends Optional<Omit<passwordInput.Props, 'dir' | 'getRootNode'>, 'id'> {}
+
+export interface UsePasswordInputReturn extends ComputedRef<passwordInput.Api<PropTypes>> {}
+
+export const usePasswordInput = (props: MaybeRefOrGetter<UsePasswordInputProps> = {}, emit?: EmitFn<RootEmits>) => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+  const field = useFieldContext()
+
+  const context = computed<passwordInput.Props>(() => {
+    const localeProps = toValue<UsePasswordInputProps>(props)
+
+    return {
+      id,
+      ids: {
+        input: field?.value.ids.control,
+      },
+      disabled: field?.value.disabled,
+      readOnly: field?.value.readOnly,
+      required: field?.value.required,
+      invalid: field?.value.invalid,
+      dir: locale.value.dir,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localeProps),
+      onVisibilityChange: (details) => {
+        emit?.('visibilityChange', details)
+        emit?.('update:visible', details.visible)
+        localeProps.onVisibilityChange?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(passwordInput.machine, context)
+  return computed(() => passwordInput.connect(service, normalizeProps))
+}

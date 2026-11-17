@@ -1,0 +1,121 @@
+'use client';
+
+import { Edit3 } from 'lucide-react';
+import { memo } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+
+import ActionIcon from '@/ActionIcon';
+import { Flexbox } from '@/Flex';
+import { useControlledState } from '@/hooks/useControlledState';
+import { cx } from '@/styles';
+import { styleProps } from '@/styles/stylex/props';
+import { toDataAttributes } from '@/utils/bem';
+import { isComposingKey } from '@/utils/isComposingKey';
+
+import ControlInput from './ControlInput';
+import { editableTextClasses } from './stable';
+import { sizeStyles, styles as localStyles } from './style';
+import type { EditableTextProps } from './type';
+
+const EditableText = memo<EditableTextProps>(
+  ({
+    value,
+    showEditIcon = true,
+    onChange,
+    editing,
+    onEditingChange,
+    onChangeEnd,
+    onFocus,
+    onBlur,
+    className,
+    inputProps,
+    onValueChanging,
+    gap = 8,
+    style,
+    size = 'small',
+    styles,
+    classNames,
+    variant = 'borderless',
+    ...rest
+  }) => {
+    const [edited, setEdited] = useControlledState(false, {
+      onChange: onEditingChange,
+      value: editing,
+    });
+
+    useHotkeys(
+      'esc',
+      () => {
+        setEdited(false);
+      },
+      {
+        enableOnFormTags: true,
+        enabled: edited,
+        ignoreEventWhen: isComposingKey,
+        preventDefault: true,
+      },
+    );
+
+    const sizeStyle = sizeStyles[size ?? 'middle'];
+
+    const input = (
+      <ControlInput
+        size={size}
+        value={value as string}
+        variant={variant}
+        {...styleProps(
+          [sizeStyle, size === 'small' && localStyles.inputSmall],
+          cx(editableTextClasses('input'), className, classNames?.input),
+          { ...style, ...styles?.input },
+        )}
+        onBlur={onBlur}
+        onChange={onChange}
+        onFocus={onFocus}
+        onValueChanging={onValueChanging}
+        onChangeEnd={(v) => {
+          onChangeEnd?.(v);
+          setEdited(false);
+        }}
+        {...inputProps}
+      />
+    );
+
+    const content = (
+      <>
+        <span className={editableTextClasses('text')}>{value}</span>
+        {showEditIcon && (
+          <ActionIcon
+            className={editableTextClasses('edit')}
+            icon={Edit3}
+            size="small"
+            title={'Edit'}
+            onClick={() => {
+              setEdited(!edited);
+            }}
+          />
+        )}
+      </>
+    );
+
+    return (
+      <Flexbox
+        horizontal
+        align={'center'}
+        gap={gap}
+        {...toDataAttributes({ editing: edited, size, variant })}
+        {...styleProps(
+          [localStyles.root, sizeStyle],
+          cx(editableTextClasses(), className, classNames?.container),
+          { ...style, ...styles?.container },
+        )}
+        {...rest}
+      >
+        {edited ? input : content}
+      </Flexbox>
+    );
+  },
+);
+
+EditableText.displayName = 'EditableText';
+
+export default EditableText;

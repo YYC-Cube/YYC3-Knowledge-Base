@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "target": "ES2019",
+    "outDir": "./lib",
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "declaration": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["**/node_modules", "**/.*/"]
+}

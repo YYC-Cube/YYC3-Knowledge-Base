@@ -1,0 +1,86 @@
+---
+id: floating-panel
+title: Floating Panel
+description: Used to display content in a non-modal floating window.
+---
+
+<ComponentPreview id="FloatingPanel" />
+
+## Anatomy
+
+<Anatomy id="floating-panel" />
+
+```tsx
+<FloatingPanel.Root>
+  <FloatingPanel.Trigger />
+  <FloatingPanel.Positioner>
+    <FloatingPanel.Content>
+      <FloatingPanel.DragTrigger>
+        <FloatingPanel.Header>
+          <FloatingPanel.Title />
+          <FloatingPanel.Control>
+            <FloatingPanel.StageTrigger />
+            <FloatingPanel.CloseTrigger />
+          </FloatingPanel.Control>
+        </FloatingPanel.Header>
+      </FloatingPanel.DragTrigger>
+      <FloatingPanel.Body />
+      <FloatingPanel.ResizeTrigger />
+    </FloatingPanel.Content>
+  </FloatingPanel.Positioner>
+</FloatingPanel.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled size
+
+To control the size of the floating panel programmatically, you can pass the `size` `onResize` prop to the machine.
+
+<Example id="controlled-size" />
+
+### Controlled position
+
+To control the position of the floating panel programmatically, you can pass the `position` and `onPositionChange` prop
+to the machine.
+
+<Example id="controlled-position" />
+
+### Anchor Position
+
+Use the `getAnchorPosition` function to compute the initial position of the floating panel. This function is called when
+the panel is opened and receives the `triggerRect` and `boundaryRect`.
+
+<Example id="anchor-position" />
+
+### Open State
+
+To control the open state of the floating panel programmatically, you can pass the `open` and `onOpenChange` prop to the
+machine.
+
+<Example id="controlled-open" />
+
+### Lazy Mount
+
+To lazy mount the floating panel, you can pass the `lazyMount` prop to the machine.
+
+<Example id="lazy-mount" />
+
+### Context
+
+To access the context of the floating panel, you can use the `useFloatingPanelContext` hook or the
+`FloatingPanel.Context` component.
+
+<Example id="context" />
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="floating-panel" />
+
+### Context
+
+<ContextType id="floating-panel" />

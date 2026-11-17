@@ -1,0 +1,92 @@
+---
+meta:
+  nav: Bottom navigation
+  title: Bottom navigation component
+  description: The bottom navigation component is used for mobile devices and acts as the primary navigation for your application.
+  keywords: bottom navigation, vuetify bottom navigation component, vue bottom navigation component
+related:
+  - /components/buttons/
+  - /components/icons/
+  - /components/tabs/
+features:
+  figma: true
+  label: 'C: VBottomNavigation'
+  report: true
+  github: /components/VBottomNavigation/
+  spec: https://m2.material.io/components/bottom-navigation
+---
+
+# Bottom navigation
+
+The `v-bottom-navigation` component is an alternative to the sidebar. It is primarily used for mobile applications and comes in three variants, **icons** and **text**, and **shift**.
+
+<PageFeatures />
+
+## Usage
+
+While `v-bottom navigation` is meant to be used with [vue-router](https://router.vuejs.org/), you can also programmatically control the active state of the buttons by using the **value** property. A button is given a default value of its _index_ with `v-bottom-navigation`.
+
+<ExamplesUsage name="v-bottom-navigation" />
+
+<PromotedEntry />
+
+## API
+
+| Component | Description |
+| - | - |
+| [v-bottom-navigation](/api/v-bottom-navigation/) | Primary Component |
+| [v-btn](/api/v-btn/) | Sub-component used for modifying the `v-bottom-navigation` state |
+
+<ApiInline hide-links />
+
+::: info
+
+For styles to apply properly when setting the **mode** prop to `shift`, `v-btn` text is **required** to be wrapped in a `span` tag.
+
+:::
+
+## Examples
+
+### Props
+
+#### Color
+
+The **color** prop sets the color of the selected button. Use **bg-color** to color the background of the bottom navigation.
+
+<ExamplesExample file="v-bottom-navigation/prop-color" />
+
+#### Grow
+
+Using the **grow** property forces [v-btn](/components/buttons/) components to _fill_ all available space. Buttons have a maximum width of **168px** per the [Bottom Navigation MD specification](https://m2.material.io/components/bottom-navigation#specs).
+
+<ExamplesExample file="v-bottom-navigation/prop-grow" />
+
+#### Horizontal
+
+Adjust the style of buttons and icons by setting the **mode** prop to `horizontal`. This positions button text *inline* with the provided [v-icon](/components/icons/).
+
+<ExamplesExample file="v-bottom-navigation/prop-horizontal" />
+
+#### Shift
+
+Setting the **mode** prop to `shift` hides button text when not active. This provides an alternative visual style to the `v-bottom-navigation` component.
+
+::: info
+  For this to work, `v-btn` text is **required** to be wrapped in a `span` tag.
+:::
+
+<ExamplesExample file="v-bottom-navigation/prop-shift" />
+
+#### Toggle
+
+Since `v-bottom-navigation` supports v-model, use the **active** prop to control the display state.
+
+<ExamplesExample file="v-bottom-navigation/prop-toggle" />
+
+### Misc
+
+#### Navigation buttons
+
+Use [v-navigation-btn](/components/navigation-buttons/) instead of v-btn for a Material Design 3 bar. The same items work in a drawer rail on larger screens.
+
+<ExamplesExample file="v-bottom-navigation/misc-navigation-buttons" />

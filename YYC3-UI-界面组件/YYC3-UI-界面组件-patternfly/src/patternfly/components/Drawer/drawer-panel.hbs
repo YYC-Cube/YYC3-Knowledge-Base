@@ -1,0 +1,26 @@
+<{{#if drawer-panel--type}}{{{drawer-panel--type}}}{{else}}div{{/if}} class="{{pfv}}drawer__panel
+  {{setModifiers
+    drawer-panel--IsResizable='pf-m-resizable'
+    drawer-panel--modifier=drawer-panel--modifier
+  }}"
+  {{#unless drawer-IsStatic}}
+    {{#unless drawer-panel--IsOpen}}
+      hidden
+    {{/unless}}
+  {{/unless}}
+  {{#if drawer-panel--attribute}}
+    {{{drawer-panel--attribute}}}
+  {{/if}}>
+  {{#if drawer-panel--IsResizable}}
+    {{#if drawer--IsPanelBottom}}
+      {{> drawer-splitter}}
+    {{else}}
+      {{> drawer-splitter drawer-splitter--IsVertical="true"}}
+    {{/if}}
+    {{#> drawer-panel-main}}
+      {{> @partial-block}}
+    {{/drawer-panel-main}}
+  {{else}}
+    {{> @partial-block}}
+  {{/if}}
+</{{#if drawer-panel--type}}{{{drawer-panel--type}}}{{else}}div{{/if}}>

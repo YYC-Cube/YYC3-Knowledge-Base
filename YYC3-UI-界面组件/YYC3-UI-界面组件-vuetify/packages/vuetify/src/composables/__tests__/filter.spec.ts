@@ -1,0 +1,263 @@
+// Composables
+import { createDefaultFilter, defaultFilter, filterItems, useFilter } from '../filter'
+import { transformItem, transformItems } from '../list-items'
+
+// Utilities
+import { nextTick, ref } from 'vue'
+import { deepEqual } from '@/util'
+
+const itemProps = {
+  itemTitle: 'title',
+  itemValue: 'value',
+  itemType: 'type',
+  itemChildren: 'children',
+  itemProps: 'props',
+  returnObject: false,
+  valueComparator: deepEqual,
+}
+
+describe('filter', () => {
+  describe('defaultFilter', () => {
+    it.each([
+      [null, null, -1],
+      ['foo', null, -1],
+      ['foo', 'foo', [[0, 3]]],
+      ['foo', 'f', [[0, 1]]],
+      [null, 'foo', -1],
+      ['foo', 'bar', -1],
+      [1, '1', [[0, 1]]],
+      ['1', '1', [[0, 1]]],
+    ])('should compare %s to %s and return a match result', (text, query, expected) => {
+      // @ts-expect-error
+      expect(defaultFilter(text, query)).toStrictEqual(expected)
+    })
+
+    it('does not fold accents by default', () => {
+      expect(defaultFilter('café', 'cafe')).toBe(-1)
+    })
+
+    describe('ignoreAccents', () => {
+      it("folds both sides when true ('cafe' finds 'café', ranges map to the original)", () => {
+        expect(createDefaultFilter(true)('café', 'cafe')).toStrictEqual([[0, 4]])
+      })
+
+      it('maps ranges back to a decomposed source string', () => {
+        const decomposed = 'cafe\u0301' // 'cafe' + combining acute => 5 code units
+        expect(decomposed).toHaveLength(5)
+        expect(createDefaultFilter(true)(decomposed, 'cafe')).toStrictEqual([[0, 5]])
+      })
+
+      it("'target' finds accented entries from a plain query", () => {
+        expect(createDefaultFilter('target')('Łódź', 'odz')).toStrictEqual([[1, 4]])
+      })
+
+      it("'target' keeps the query accented", () => {
+        expect(createDefaultFilter('target')('London', 'Łó')).toBe(-1)
+      })
+
+      it("'query' folds an accented query to match plain text", () => {
+        expect(createDefaultFilter('query')('cafe', 'café')).toStrictEqual([[0, 4]])
+      })
+    })
+  })
+
+  describe('filterItems', () => {
+    const items = Array.from({ length: 5 }, (v, k) => transformItem(itemProps, {
+      title: `Foo-${k}`,
+      value: `fizz-${k}`,
+    }))
+
+    it.each([
+      [['title'], 'foo', 5, [0, 1, 2, 3, 4]],
+      [['title', 'value'], 'fizz', 5, [0, 1, 2, 3, 4]],
+      [['title', 'value'], 'foo-0', 1, [0]],
+    ])('should filter items by some with %s filterKeys with query %s', (filterKeys: string[], query, expectedLength, expectedMatches) => {
+      const matches = filterItems(items, query, { filterKeys, filterMode: 'some' })
+      expect(matches).toHaveLength(expectedLength)
+      expect(matches.map(match => match.index)).toEqual(expectedMatches)
+    })
+
+    it.each([
+      [['title'], 'foo', 5],
+      [['title', 'value'], 'fizz', 0],
+      [['title', 'value'], 'foo-0', 0],
+      [['title', 'value'], '0', 1],
+    ])('should filter items by every with %s filterKeys with query %s', (filterKeys: string[], query, expected) => {
+      expect(filterItems(items, query, { filterKeys, filterMode: 'every' })).toHaveLength(expected)
+    })
+
+    it('should filter by mode using customKeyFilter', () => {
+      const customKeyFilter = {
+        title: (s: string, q: string) => s === q,
+        value: (s: string) => s === '1',
+      }
+      const items = [
+        { title: 'foo', subtitle: 'bar', value: '1', custom: '1' },
+        { title: 'fizz', subtitle: 'buzz', value: '1', custom: 'bar' },
+        { title: 'foobar', subtitle: 'fizzbuzz', value: '2', custom: 'bar' },
+        { title: 'buzz', subtitle: 'buzz', value: '1', custom: 'buzz' },
+      ] as any
+      const filterKeys = ['title', 'value', 'subtitle', 'custom']
+
+      expect(filterItems(items, 'foo', {
+        filterKeys,
+        customKeyFilter,
+        filterMode: 'some',
+      })).toHaveLength(3)
+
+      expect(filterItems(items, 'fizz', {
+        filterKeys,
+        customKeyFilter,
+        filterMode: 'union',
+      })).toHaveLength(2)
+
+      expect(filterItems(items, 'fizz', {
+        filterKeys,
+        customKeyFilter,
+        filterMode: 'intersection',
+      })).toHaveLength(0)
+
+      expect(filterItems(items, 'buzz', {
+        filterKeys,
+        customKeyFilter,
+        filterMode: 'every',
+      })).toHaveLength(1)
+    })
+
+    it('should filter by mode using customKeyFilter without query', () => {
+      const customKeyFilter = {
+        title: (s: string) => s.length < 5,
+        value: (s: string) => s === '1',
+      }
+      const items = [
+        { title: 'foo', subtitle: 'bar', value: '1' },
+        { title: 'fizz', subtitle: 'buzz', value: '1' },
+        { title: 'foobar', subtitle: 'fizzbuzz', value: '2' },
+        { title: 'buzz', subtitle: 'buzz', value: '2' },
+      ] as any
+      const filterKeys = ['title', 'value']
+
+      expect(filterItems(items, '', {
+        filterKeys,
+        customKeyFilter,
+        filterMode: 'some',
+      })).toHaveLength(3)
+
+      expect(filterItems(items, '', {
+        filterKeys,
+        customKeyFilter,
+        filterMode: 'union',
+      })).toHaveLength(2)
+
+      expect(filterItems(items, '', {
+        filterKeys,
+        customKeyFilter,
+        filterMode: 'intersection',
+      })).toHaveLength(2)
+
+      expect(filterItems(items, '', {
+        filterKeys,
+        customKeyFilter,
+        filterMode: 'every',
+      })).toHaveLength(2)
+    })
+
+    // https://github.com/vuetifyjs/vuetify/pull/21876
+    it('should return filtered rows when all columns have filters', () => {
+      const customKeyFilter = {
+        title: (s: string) => s.length < 5,
+        subtitle: (s: string) => s.startsWith('b'),
+        value: (s: any) => Number(s) > 0,
+      }
+      const items = [
+        { title: 'foo', subtitle: 'bar', value: 1 },
+        { title: 'fizz', subtitle: 'buzz', value: 1 },
+        { title: 'foobar', subtitle: 'fizzbuzz', value: 2 },
+      ] as any
+
+      expect(filterItems(items, '', {
+        customKeyFilter,
+        filterMode: 'intersection',
+      })).toHaveLength(2)
+    })
+  })
+
+  describe('useFilter', () => {
+    const items = Array.from({ length: 50 }, (v, k) => ({
+      text: `item-${k}`,
+      value: k,
+    }))
+
+    it.each([
+      ['', items.length],
+      [null, items.length],
+      ['1', 14],
+      [1, 14],
+      ['0', 5],
+      ['14', 1],
+      ['foo', 0],
+    ])('should return an array of filtered items from value %s', (text: any, expected: number) => {
+      const { filteredItems } = useFilter({}, ref(transformItems(itemProps, items)), ref(text))
+
+      expect(filteredItems.value).toHaveLength(expected)
+    })
+
+    it('should accept a custom filter function', async () => {
+      function filterFn (text: string, query?: string, item?: any) {
+        if (typeof query !== 'string') return true
+        return item.title.toLocaleLowerCase().includes(query.toLocaleLowerCase())
+      }
+      const query = ref('zz')
+      const props = { filterFn, filterKeys: ['title'] }
+      const items = ref(transformItems(itemProps, [
+        { title: 'foo' },
+        { title: 'bar' },
+        { title: 'fizz' },
+        { title: 'buzz' },
+      ]))
+      const { filteredItems } = useFilter(props, items, query)
+
+      expect(filteredItems.value.map(item => item.raw.title)).toEqual(['fizz', 'buzz'])
+
+      query.value = 'foo'
+      await nextTick()
+
+      expect(filteredItems.value.map(item => item.raw.title)).toEqual(['foo'])
+
+      items.value.push(transformItem(itemProps, { title: 'foobar' }))
+      await nextTick()
+
+      expect(filteredItems.value.map(item => item.raw.title)).toEqual(['foo', 'foobar'])
+    })
+
+    it('should order by prefix tier, then filter key order, within groups', () => {
+      const items = ref(transformItems(itemProps, [
+        { title: 'Gibraltar' },
+        { title: 'Big Brother' },
+        { title: 'Hidden', aliases: ['Secret', 'Brisk'] },
+        { title: 'United Kingdom', aliases: ['UK', 'Great Britain'] },
+        { title: 'Brazil' },
+        { title: 'BR' },
+        { type: 'subheader', title: 'Other' },
+        { title: 'Tom Brown' },
+        { title: 'Abra' },
+        { title: 'Smith-Brooks' },
+      ]))
+      const props = { filterKeys: ['title', 'raw.aliases'], filteredOrder: 'prefix' as const }
+      const { filteredItems } = useFilter(props, items, ref('br'))
+
+      expect(filteredItems.value.map(item => item.title)).toEqual([
+        'BR',
+        'Brazil',
+        'Hidden',
+        'Big Brother',
+        'United Kingdom',
+        'Gibraltar',
+        'Other',
+        'Tom Brown',
+        'Smith-Brooks',
+        'Abra',
+      ])
+    })
+  })
+})

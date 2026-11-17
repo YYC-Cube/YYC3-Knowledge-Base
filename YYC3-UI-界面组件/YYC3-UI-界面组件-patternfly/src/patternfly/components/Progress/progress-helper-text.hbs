@@ -1,0 +1,10 @@
+<div class="{{pfv}}progress__helper-text {{#if progress-helper-text--modifier}} {{progress-helper-text--modifier}}{{/if}}"
+  {{#if progress-helper-text--attribute}}
+    {{{progress-helper-text--attribute}}}
+  {{/if}}>
+  {{#if helper-text--value}}
+    {{> helper-text helper-text--attribute=(concat 'id="' progress__id '-help-text"')}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</div>

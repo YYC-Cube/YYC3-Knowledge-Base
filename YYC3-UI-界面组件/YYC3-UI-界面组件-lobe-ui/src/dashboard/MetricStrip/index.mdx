@@ -1,0 +1,39 @@
+---
+title: MetricStrip
+description: MetricStrip shows peer metrics, either joined in one Surface divided into cells or split into one card per item. Each cell has a label, a figure, an optional semantic delta and hint, and can link (through renderLink / SurfaceLinkProvider) or act as a button.
+category: Data Display
+order: 5
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import DemoSplit from './demos/split.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { dashboardMetricStripClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} />
+
+## Split
+
+`variant="split"` gives every item its own card on the same responsive grid, with a gap. Each card is identical to `StatCard`.
+
+<Demo of={DemoSplit} />
+
+## APIs
+
+<Api name="MetricStrip" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `MetricStrip`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/dashboard/MetricStrip.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={dashboardMetricStripClasses} />

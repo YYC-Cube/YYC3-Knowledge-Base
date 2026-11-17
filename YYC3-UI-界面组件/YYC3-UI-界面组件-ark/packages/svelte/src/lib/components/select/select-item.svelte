@@ -1,0 +1,35 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+  import type { CollectionItem } from '../collection/index.ts'
+
+  export interface SelectItemBaseProps<T extends CollectionItem = CollectionItem>
+    extends PolymorphicProps<'div'>, RefAttribute {
+    item: T
+    disabled?: boolean
+  }
+  export interface SelectItemProps<T extends CollectionItem = CollectionItem> extends Assign<
+    HTMLProps<'div'>,
+    SelectItemBaseProps<T>
+  > {}
+</script>
+
+<script lang="ts" generics="T extends CollectionItem = CollectionItem">
+  import { Ark } from '$lib/components/factory'
+  import { createSplitProps } from '$lib/utils/create-split-props'
+  import type { ItemProps } from '@zag-js/select'
+  import { mergeProps } from '@zag-js/svelte'
+  import { useSelectContext } from './use-select-context.ts'
+  import { SelectItemProvider } from './use-select-item-context.ts'
+  import { SelectItemPropsProvider } from './use-select-item-props-context.ts'
+
+  let { ref = $bindable(null), ...props }: SelectItemProps<T> = $props()
+
+  const select = useSelectContext()
+  const [itemProps, localProps] = $derived(createSplitProps<ItemProps>()(props, ['item', 'persistFocus']))
+  const mergedProps = $derived(mergeProps(select().getItemProps(itemProps), localProps))
+
+  SelectItemProvider(() => select().getItemState(itemProps))
+  SelectItemPropsProvider(() => itemProps)
+</script>
+
+<Ark as="div" bind:ref {...mergedProps} />

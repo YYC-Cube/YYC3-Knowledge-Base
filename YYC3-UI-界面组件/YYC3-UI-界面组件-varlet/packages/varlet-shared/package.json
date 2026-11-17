@@ -1,0 +1,46 @@
+{
+  "name": "@varlet/shared",
+  "version": "3.20.10",
+  "description": "shared utils of varlet",
+  "keywords": [
+    "shared",
+    "utils",
+    "varlet"
+  ],
+  "bugs": {
+    "url": "https://github.com/varletjs/varlet/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/varletjs/varlet.git"
+  },
+  "license": "MIT",
+  "author": "haoziqaq <357229046@qq.com>",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "types": "./lib/index.d.ts"
+    }
+  },
+  "main": "lib/index.cjs",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch"
+  },
+  "dependencies": {
+    "rattail": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:"
+  }
+}

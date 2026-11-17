@@ -1,0 +1,18 @@
+{{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-md"}}
+  {{#> l-flex l-flex--modifier="pf-m-column pf-m-space-items-none"}}
+    {{#> l-flex-item}}
+      <p id='{{data-list--id}}-{{data-list-item--id}}'>patternfly</p>
+    {{/l-flex-item}}
+    {{#> l-flex-item}}
+      <small>Working repo for PatternFly 4 <a href="">https://pf4.patternfly.org/</a></small>
+    {{/l-flex-item}}
+  {{/l-flex}}
+  {{#> l-flex l-flex--modifier="pf-m-wrap"}}
+    {{> data-list--icon-text data-list--icon-text--icon="code-branch" data-list--icon-text--text="10"}}
+    {{> data-list--icon-text data-list--icon-text--icon="code" data-list--icon-text--text="4" data-list--icon-text--screenreader-text="Code blocks"}}
+    {{> data-list--icon-text data-list--icon-text--icon="cube" data-list--icon-text--text="5" data-list--icon-text--screenreader-text="Workspaces"}}
+    {{#> l-flex-item}}
+      Updated 2 days ago
+    {{/l-flex-item}}
+  {{/l-flex}}
+{{/l-flex}}

@@ -1,0 +1,55 @@
+# Gitignore for LobeHub
+################################################################
+
+# general
+.DS_Store
+.idea
+.vscode
+.history
+.temp
+.env.local
+venv
+temp
+tmp
+
+# dependencies
+node_modules
+*.log
+*.lock
+package-lock.json
+pnpm-lock.yaml
+
+# ci
+coverage
+.coverage
+.eslintcache
+.stylelintcache
+
+# production
+.react-router/
+dist
+es
+/lib/
+logs
+test-output
+
+# husky
+.husky/prepare-commit-msg
+
+# misc
+# add other ignore file below
+bun.lockb
+*.patch
+./server
+
+
+
+# Superpowers brainstorm artifacts
+.superpowers/
+
+# lobedocs generated (removed on exit)
+react-router.config.mjs
+.vercel
+
+# render bench output
+scripts/render-bench/results/

@@ -1,0 +1,107 @@
+import path from 'path';
+import fs from 'fs-extra';
+import gulp from 'gulp';
+import * as sass from 'sass';
+import stylelint from 'stylelint';
+import postcss from 'gulp-postcss';
+import cssnano from 'cssnano';
+import sourcemaps from 'gulp-sourcemaps';
+import rename from 'gulp-rename';
+import through2 from 'through2';
+
+const { src, watch, dest } = gulp;
+
+function compileSASS0(srcFiles) {
+  return srcFiles.pipe(
+    through2.obj((chunk, _, cb2) => {
+      let cssString;
+      let scss = chunk.contents.toString();
+      const relativePath = path.relative(path.join(chunk._cwd, '/src/patternfly'), chunk.history[0]);
+      const loggedPath = path.relative(process.cwd(), chunk.history[0]);
+      const numDirectories = relativePath.split(path.sep).length - 1;
+
+      try {
+        const css = sass.compileString(scss, {
+          // Pass filename for import resolution
+          url: new URL(`file://${chunk.history[0]}`)
+        });
+        cssString = css.css;
+        // TODO: Cleaner way to to do relative image assets in component CSS
+        if (numDirectories > 0) {
+          cssString = cssString.replace(/.\/assets\/images/g, `${'../'.repeat(numDirectories)}assets/images`);
+        }
+
+        stylelint
+          .lint({
+            files: chunk.history[0],
+            formatter: 'string'
+          })
+          .then(data => {
+            if (data.errored) {
+              console.error(data.output);
+            }
+          });
+      } catch (error) {
+        console.error(`Problem in ${loggedPath}: ${error}`);
+      }
+
+      // Not kosher, but prevents path problems with watchSASS
+      const outPath = path.join(chunk._cwd, 'dist', relativePath.replace(/\.scss$/, '.css'));
+      fs.ensureFileSync(outPath);
+      if (cssString) fs.writeFileSync(outPath, cssString);
+      cb2(null, chunk);
+    })
+  );
+}
+
+export function compileSASS(sassFiles) {
+  return compileSASS0(src(sassFiles, { encoding: false }));
+}
+
+// Helper
+function getDocCSSFiles() {
+  const res = [];
+  const fileContents = fs.readFileSync('./patternfly-docs/patternfly-docs.css.js', 'utf8');
+  const regex = /import ['"](.*\/dist\/.*)['"];?/g;
+
+  let result;
+  // eslint-disable-next-line no-cond-assign
+  while ((result = regex.exec(fileContents))) {
+    // Map CSS require to its SASS source file
+    const srcFile = result[1]
+      .replace('../dist/', path.join(process.cwd(), '/src/patternfly/'))
+      .replace(/.css$/, '.scss');
+    res.push(srcFile);
+  }
+
+  return res;
+}
+
+export function watchSASS(sassFiles, cb) {
+  const docCSSFiles = getDocCSSFiles();
+  const watcher = watch(sassFiles, { delay: 0 });
+
+  function compileDocSASS(sassFile) {
+    const toCompile = docCSSFiles;
+    compileSASS0(src(toCompile, { encoding: false }));
+    console.log('Compiled', toCompile.map(file => path.relative(process.cwd(), file)).join(' '));
+  }
+
+  watcher.on('change', compileDocSASS);
+  watcher.on('add', compileDocSASS);
+
+  cb();
+}
+
+const postcssOptions = {
+  preset: ['default', { mergeLonghand: false }]
+};
+
+export function minifyCSS() {
+  return src('./dist/patternfly.css', { encoding: false })
+    .pipe(rename('patternfly.min.css'))
+    .pipe(sourcemaps.init())
+    .pipe(postcss([cssnano(postcssOptions)]))
+    .pipe(sourcemaps.write('.'))
+    .pipe(dest('dist'));
+}

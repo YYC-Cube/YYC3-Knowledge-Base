@@ -1,0 +1,31 @@
+import type { PropType } from 'vue'
+import { buttonProps } from '../button'
+import { defineListenerProp, type ExtractPublicPropTypes } from '../utils/components'
+
+export const props = {
+  active: {
+    type: [Number, String] as PropType<number | string>,
+    default: 0,
+  },
+  zIndex: {
+    type: [Number, String] as PropType<number | string>,
+    default: 1,
+  },
+  animated: {
+    type: Boolean,
+    default: true,
+  },
+  fixed: Boolean,
+  border: Boolean,
+  bordered: Boolean,
+  variant: Boolean,
+  safeArea: Boolean,
+  activeColor: String,
+  inactiveColor: String,
+  placeholder: Boolean,
+  fabProps: Object as PropType<ExtractPublicPropTypes<typeof buttonProps>>,
+  onChange: defineListenerProp<(active: number | string) => void>(),
+  onBeforeChange: defineListenerProp<(active: number | string) => any | Promise<any>>(),
+  onFabClick: defineListenerProp<() => void>(),
+  'onUpdate:active': defineListenerProp<(active: string | number) => void>(),
+}

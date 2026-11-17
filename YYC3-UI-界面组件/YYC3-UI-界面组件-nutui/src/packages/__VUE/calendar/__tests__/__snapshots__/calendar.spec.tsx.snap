@@ -1,0 +1,1214 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Calendar: should render slot correctly 1`] = `
+"<view class="nut-calendar__header">
+  <view class="nut-calendar__header-title">日期选择</view>
+  <view class="nut-calendar__header-slot">
+    <div>近七天</div>
+  </view>
+  <view class="nut-calendar__header-subtitle">2022年03月</view>
+  <view class="nut-calendar__weekdays">
+    <view class="nut-calendar__weekday weekend">日</view>
+    <view class="nut-calendar__weekday">一</view>
+    <view class="nut-calendar__weekday">二</view>
+    <view class="nut-calendar__weekday">三</view>
+    <view class="nut-calendar__weekday">四</view>
+    <view class="nut-calendar__weekday">五</view>
+    <view class="nut-calendar__weekday weekend">六</view>
+  </view>
+</view>"
+`;
+
+exports[`Calendar: should render slot correctly 2`] = `
+"<view class="nut-calendar__body" style="transform: translateY(423px);">
+  <view class="nut-calendar__month">
+    <view class="nut-calendar__month-title">2022年02月</view>
+    <view class="nut-calendar__days">
+      <view class="nut-calendar__days-item">
+        <view class="nut-calendar__day weekend nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">1</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">2</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">3</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">4</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">5</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">6</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">7</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">8</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">9</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">10</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">11</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">12</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">13</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">14</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">15</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">16</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">17</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">18</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">19</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">20</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">21</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">22</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">23</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">24</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">25</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">26</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">27</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">28</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="nut-calendar__month">
+    <view class="nut-calendar__month-title">2022年03月</view>
+    <view class="nut-calendar__days">
+      <view class="nut-calendar__days-item">
+        <view class="nut-calendar__day weekend nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">1</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">2</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">3</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">4</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">5</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">6</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">7</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">8</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">9</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">10</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">11</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">12</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">13</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">14</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">15</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">16</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">17</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day nut-calendar__day--active">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">18</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">19</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">20</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">21</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">22</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">23</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">24</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">25</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">26</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">27</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">28</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">29</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">30</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">31</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="nut-calendar__month">
+    <view class="nut-calendar__month-title">2022年04月</view>
+    <view class="nut-calendar__days">
+      <view class="nut-calendar__days-item">
+        <view class="nut-calendar__day weekend nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day nut-calendar__day--disabled">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value"></view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom"></view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">1</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">2</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">3</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">4</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">5</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">6</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">7</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">8</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">9</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">10</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">11</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">12</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">13</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">14</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">15</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">16</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">17</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">18</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">19</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">20</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">21</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">22</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">23</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">24</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">25</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">26</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">27</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">28</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">29</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">30</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="nut-calendar__month">
+    <view class="nut-calendar__month-title">2022年05月</view>
+    <view class="nut-calendar__days">
+      <view class="nut-calendar__days-item">
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">1</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">2</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">3</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">4</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">5</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">6</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">7</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">8</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">9</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">10</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">上旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">11</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">12</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">13</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">14</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">15</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">16</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">17</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">18</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">19</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">20</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">中旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">21</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">22</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">23</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">24</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">25</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">26</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">27</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">28</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day weekend">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">29</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">30</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+        <view class="nut-calendar__day">
+          <!-- 日期显示slot -->
+          <view class="nut-calendar__day-value">31</view>
+          <!--v-if-->
+          <view class="nut-calendar__day-tips nut-calendar__day-tips--bottom">下旬</view>
+          <!--v-if-->
+          <!--v-if-->
+          <!--v-if-->
+        </view>
+      </view>
+    </view>
+  </view>
+</view>"
+`;

@@ -1,0 +1,162 @@
+'use client';
+
+import clsx from 'clsx';
+import {
+  ArrowBigUpIcon,
+  ArrowDownIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ArrowRightToLineIcon,
+  ArrowUpIcon,
+  ChevronUpIcon,
+  Command,
+  CornerDownLeftIcon,
+  Delete,
+  Grid2X2Icon,
+  MouseIcon,
+  Option,
+  SpaceIcon,
+} from 'lucide-react';
+import { memo, useEffect, useMemo, useState } from 'react';
+
+import { Center, Flexbox } from '@/Flex';
+import Icon from '@/Icon';
+import LeftClickIcon from '@/icons/lucideExtra/LeftClickIcon';
+import LeftDoubleClickIcon from '@/icons/lucideExtra/LeftDoubleClickIcon';
+import RightClickIcon from '@/icons/lucideExtra/RightClickIcon';
+import RightDoubleClickIcon from '@/icons/lucideExtra/RightDoubleClickIcon';
+import { styleProps } from '@/styles/stylex/props';
+import { stylish } from '@/styles/stylex/stylish';
+import { useThemeMode } from '@/styles/theme/scope';
+import { toDataAttributes } from '@/utils/bem';
+
+import { KeyMapEnum } from './const';
+import { hotkeyClasses } from './stable';
+import { styles } from './style';
+import type { HotkeyProps } from './type';
+import { checkIsAppleDevice, splitKeysByPlus, startCase } from './utils';
+
+const mappingKey = (isAppleDevice: boolean) => ({
+  [KeyMapEnum.Alt]: isAppleDevice ? <Icon icon={Option} size={{ size: '0.95em' }} /> : 'Alt',
+  [KeyMapEnum.Backspace]: isAppleDevice ? <Icon icon={Delete} /> : 'Backspace',
+  [KeyMapEnum.CommandOrControl]: isAppleDevice ? (
+    <Icon icon={Command} size={{ size: '0.95em' }} />
+  ) : (
+    'Ctrl'
+  ),
+  [KeyMapEnum.Ctrl]: isAppleDevice ? <Icon icon={ChevronUpIcon} /> : 'Ctrl',
+  [KeyMapEnum.Control]: isAppleDevice ? <Icon icon={ChevronUpIcon} /> : 'Ctrl',
+  [KeyMapEnum.Down]: <Icon icon={ArrowDownIcon} />,
+  [KeyMapEnum.Enter]: isAppleDevice ? <Icon icon={CornerDownLeftIcon} /> : 'Enter',
+  [KeyMapEnum.LeftClick]: <Icon icon={LeftClickIcon} size={{ size: '1.2em', strokeWidth: 1.75 }} />,
+  [KeyMapEnum.Left]: <Icon icon={ArrowLeftIcon} />,
+  [KeyMapEnum.Meta]: isAppleDevice ? (
+    <Icon icon={Command} size={{ size: '0.95em' }} />
+  ) : (
+    <Icon icon={Grid2X2Icon} />
+  ),
+  [KeyMapEnum.MiddleClick]: <Icon icon={MouseIcon} size={{ size: '1.2em', strokeWidth: 1.75 }} />,
+  [KeyMapEnum.Mod]: isAppleDevice ? <Icon icon={Command} size={{ size: '0.95em' }} /> : 'Ctrl',
+  [KeyMapEnum.RightClick]: (
+    <Icon icon={RightClickIcon} size={{ size: '1.2em', strokeWidth: 1.75 }} />
+  ),
+  [KeyMapEnum.RightDoubleClick]: (
+    <Icon icon={RightDoubleClickIcon} size={{ size: '1.2em', strokeWidth: 1.75 }} />
+  ),
+  [KeyMapEnum.LeftDoubleClick]: (
+    <Icon icon={LeftDoubleClickIcon} size={{ size: '1.2em', strokeWidth: 1.75 }} />
+  ),
+  [KeyMapEnum.Right]: <Icon icon={ArrowRightIcon} />,
+  [KeyMapEnum.Shift]: isAppleDevice ? (
+    <Icon icon={ArrowBigUpIcon} size={{ size: '1.15em', strokeWidth: 1.75 }} />
+  ) : (
+    'Shift'
+  ),
+  [KeyMapEnum.Space]: <Icon icon={SpaceIcon} />,
+  [KeyMapEnum.Tab]: isAppleDevice ? <Icon icon={ArrowRightToLineIcon} /> : 'Tab',
+  [KeyMapEnum.Up]: <Icon icon={ArrowUpIcon} />,
+  [KeyMapEnum.Comma]: ',',
+  [KeyMapEnum.Period]: '.',
+  [KeyMapEnum.Slash]: '?',
+  [KeyMapEnum.Semicolon]: ';',
+  [KeyMapEnum.Quote]: "'",
+  [KeyMapEnum.Backquote]: '`',
+  [KeyMapEnum.Backslash]: '\\',
+  [KeyMapEnum.BracketLeft]: '[',
+  [KeyMapEnum.BracketRight]: ']',
+  [KeyMapEnum.Minus]: '-',
+  [KeyMapEnum.Equal]: '+',
+});
+
+const variantStyles = {
+  borderless: [stylish.variantBorderlessWithoutHover, styles.borderless],
+  filled: stylish.variantFilledWithoutHover,
+  outlined: stylish.variantOutlinedWithoutHover,
+};
+
+const Hotkey = memo<HotkeyProps>(
+  ({
+    variant = 'filled',
+    classNames,
+    styles: customStyles,
+    keys,
+    inverseTheme,
+    isApple,
+    compact,
+    className,
+    style,
+    ...rest
+  }) => {
+    const { isDarkMode } = useThemeMode();
+    const isBorderless = variant === 'borderless';
+    const [keysGroup, setKeysGroup] = useState(() => splitKeysByPlus(keys));
+    const isAppleDevice = useMemo(() => checkIsAppleDevice(isApple), [isApple]);
+
+    useEffect(() => {
+      const newValue = splitKeysByPlus(keys);
+      setKeysGroup(newValue);
+    }, [keys]);
+
+    const mapping: Record<string, any> = useMemo(() => mappingKey(isAppleDevice), [isAppleDevice]);
+
+    const kbdProps = styleProps(
+      [
+        styles.root,
+        variantStyles[variant],
+        inverseTheme && (isDarkMode ? styles.inverseThemeDark : styles.inverseThemeLight),
+      ],
+      clsx(hotkeyClasses('kbd'), classNames?.kbdClassName),
+      customStyles?.kbdStyle,
+    );
+
+    return (
+      <Flexbox
+        horizontal
+        align={'center'}
+        className={clsx(hotkeyClasses(), className)}
+        gap={isBorderless ? 6 : 2}
+        style={style}
+        {...toDataAttributes({ compact, inverseTheme, variant })}
+        {...rest}
+      >
+        {compact || isBorderless ? (
+          <Center horizontal as={'kbd'} gap={6} {...kbdProps}>
+            {keysGroup.map((key, index) => (
+              <div key={index}>{mapping[key] ?? startCase(key)}</div>
+            ))}
+          </Center>
+        ) : (
+          keysGroup.map((key, index) => (
+            <Center as={'kbd'} key={index} {...kbdProps}>
+              {mapping[key] ?? startCase(key)}
+            </Center>
+          ))
+        )}
+      </Flexbox>
+    );
+  },
+);
+
+Hotkey.displayName = 'Hotkey';
+
+export default Hotkey;

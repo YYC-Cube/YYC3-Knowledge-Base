@@ -1,0 +1,71 @@
+name: Build Site Preview
+
+on: pull_request
+
+jobs:
+  release:
+    # Prevents changesets action from creating a PR on forks
+    if: github.repository == 'patternfly/patternfly-elements'
+    name: Build Site Preview
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - name: POP Debug Info
+        run: curl https://cachefly.cachefly.net/CacheFlyDebug
+
+      # Set up GitHub Actions caching for Wireit.
+      - uses: google/wireit@setup-github-actions-caching/v2
+
+      - run: npm ci --prefer-offline
+      - run: npm run docs
+
+      - name: Publish to Netlify
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_DEPLOY_ALIAS: deploy-preview-${{github.event.number}}
+        run: >
+              npx netlify-cli deploy
+              --dir _site
+              --filter @patternfly/elements
+              --alias $NETLIFY_DEPLOY_ALIAS
+
+      - name: Post Previews
+        uses: actions/github-script@v6
+        with:
+            script: |
+              const { owner, repo } = context.repo;
+              const issue_number = context.issue.number;
+              const { GITHUB_SHA, GITHUB_HEAD_REF } = process.env;
+              const NETLIFY_SITE_SLUG = 'patternfly-elements';
+              const PREVIEW_URL = `https://deploy-preview-${issue_number}--${NETLIFY_SITE_SLUG}.netlify.app/`;
+              const HEADER = `### <span aria-hidden="true">✅</span> Deploy Preview for *${repo}* ready!`;
+              const body = `${HEADER}
+
+
+              |  Name                                            | Link                  |
+              |--------------------------------------------------|-----------------------|
+              |<span aria-hidden="true">🔨</span> Latest commit  | ${GITHUB_SHA}         |
+              |<span aria-hidden="true">😎</span> Deploy Preview | [${PREVIEW_URL}][url] |
+              ---
+
+              _To edit notification comments on pull requests, go to your [Netlify site settings][settings]._
+
+
+              [url]: ${PREVIEW_URL}
+              [settings]: https://app.netlify.com/sites/${NETLIFY_SITE_SLUG}/settings/deploys#deploy-notifications`
+
+              const comments = await github.rest.issues.listComments({ owner, repo, issue_number });
+              const priorComment = comments.data.find(comment => comment.body.startsWith(HEADER));
+
+              if (priorComment) {
+                await github.rest.issues.updateComment({ owner, repo, comment_id: priorComment.id, body });
+              } else {
+                await github.rest.issues.createComment({ owner, repo, issue_number, body });
+              }

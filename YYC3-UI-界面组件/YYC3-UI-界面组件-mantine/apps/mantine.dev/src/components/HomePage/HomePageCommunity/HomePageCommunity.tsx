@@ -1,0 +1,96 @@
+import { ArrowSquareOutIcon } from '@phosphor-icons/react';
+import { Anchor, Avatar, Group, SimpleGrid, Text } from '@mantine/core';
+import { meta } from '@mantinex/mantine-meta';
+import { HomePageContainer } from '../shared/HomePageContainer/HomePageContainer';
+import { HomePageDescription } from '../shared/HomePageDescription/HomePageDescription';
+import { HomePageLearnMore } from '../shared/HomePageLearnMore/HomePageLearnMore';
+import { HomePageTitle } from '../shared/HomePageTitle/HomePageTitle';
+import { ReviewData, reviews } from './reviews-data';
+import classes from './HomePageCommunity.module.css';
+
+interface ReviewProps {
+  data: ReviewData;
+}
+
+function Review({ data }: ReviewProps) {
+  return (
+    <article className={classes.review}>
+      <div className={classes.reviewHeader}>
+        <Group gap="sm">
+          <Avatar src={data.author.avatar} alt={data.author.nickname} size={30} />
+          <Text
+            component="a"
+            href={`https://github.com/${data.author.nickname}`}
+            className={classes.reviewAuthor}
+          >
+            @{data.author.nickname}
+          </Text>
+        </Group>
+
+        <Anchor className={classes.reviewExternalLink} href={data.link} target="_blank">
+          <span>Open on GitHub</span>
+          <ArrowSquareOutIcon size={16} />
+        </Anchor>
+      </div>
+
+      <Text component="a" href={data.link} target="_blank" className={classes.reviewTitle}>
+        {data.title}
+      </Text>
+
+      <div className={classes.reviewBody} dangerouslySetInnerHTML={{ __html: data.body }} />
+    </article>
+  );
+}
+
+interface StatProps {
+  label: string;
+  value: string;
+  link: string;
+}
+
+function Stat({ label, value, link }: StatProps) {
+  return (
+    <a href={link} target="_blank" className={classes.stat} rel="noreferrer">
+      <Text className={classes.statValue}>{value}</Text>
+      <Text className={classes.statLabel}>{label}</Text>
+    </a>
+  );
+}
+
+export function HomePageCommunity() {
+  const items = reviews.map((data, index) => <Review key={index} data={data} />);
+
+  return (
+    <section className={classes.root}>
+      <HomePageContainer className={classes.container}>
+        <SimpleGrid cols={{ md: 2 }} spacing={60}>
+          <div>
+            <div className={classes.primaryColumn}>
+              <HomePageTitle order={2}>Trusted by thousands of developers</HomePageTitle>
+              <HomePageDescription>
+                30,000+ GitHub stars, 5M+ monthly downloads, 500+ contributors. Mantine is built in
+                the open and shaped by the developers who use it every day.
+              </HomePageDescription>
+
+              <HomePageLearnMore href="https://github.com/orgs/mantinedev/discussions/categories/kind-words">
+                View all reviews from the community
+              </HomePageLearnMore>
+
+              <div className={classes.stats}>
+                <Stat value="30,000+" label="Stars on GitHub" link={meta.gitHubLinks.mantine} />
+                <Stat
+                  value="5M+"
+                  label="Monthly downloads"
+                  link="https://www.npmjs.com/package/@mantine/hooks"
+                />
+                <Stat value="12,000+" label="Discord members" link={meta.discordLink} />
+              </div>
+            </div>
+          </div>
+
+          <div className={classes.secondaryColumn}>{items}</div>
+        </SimpleGrid>
+      </HomePageContainer>
+    </section>
+  );
+}

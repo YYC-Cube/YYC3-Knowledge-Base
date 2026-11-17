@@ -1,0 +1,11 @@
+{
+    "main": "./TimesIcon.vue",
+    "module": "./TimesIcon.vue",
+    "types": "./TimesIcon.d.ts",
+    "browser": {
+        "./sfc": "./TimesIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

@@ -1,0 +1,28 @@
+---
+title: LogoThree
+description: A 3D interactive logo component that renders a Spline-based 3D model of the LobeHub logo with a fallback image while loading.
+category: Spline
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import DemoLogoSpline from './demos/LogoSpline.tsx?demo';
+
+Import `LogoThree` and `LogoSpline` from `@lobehub/ui/spline`. They render through the Spline runtime, an optional peer dependency that loads only when the component renders. Install it in apps that use them:
+
+```bash
+pnpm add @splinetool/runtime
+```
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Spline
+
+<Demo of={DemoLogoSpline} layout="bare" />
+
+## APIs
+
+<Api name="LogoThree" from=".." migrationKey="unheaded:0" />
+
+Additionally, this component also accepts all properties from the Spline component.

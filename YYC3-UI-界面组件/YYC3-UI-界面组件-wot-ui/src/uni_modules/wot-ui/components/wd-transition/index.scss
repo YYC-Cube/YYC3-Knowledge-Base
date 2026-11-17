@@ -1,0 +1,67 @@
+@use '../../styles/mixin/mixin.scss' as *;
+
+@include b(transition) {
+  transition-timing-function: ease;
+
+  @include transitionFrame(fade) {
+    opacity: 0;
+  }
+
+  @include transitionActive(fade) {
+    transition-property: opacity;
+  }
+
+  @include transitionFrame(fade-up) {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+
+  @include transitionFrame(fade-down) {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+
+  @include transitionFrame(fade-left) {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+
+  @include transitionFrame(fade-right) {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+
+  @include transitionFrame(slide-up) {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  @include transitionFrame(slide-down) {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  @include transitionFrame(slide-left) {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  @include transitionFrame(slide-right) {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  @include transitionFrame(zoom-in) {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  @include transitionFrame(zoom-out) {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+
+  @include transitionActive(zoom-in, zoom-out, fade-up, fade-down, fade-left, fade-right) {
+    transition-property: opacity, transform;
+  }
+
+  @include transitionActive(slide-up, slide-down, slide-left, slide-right) {
+    transition-property: transform;
+  }
+}

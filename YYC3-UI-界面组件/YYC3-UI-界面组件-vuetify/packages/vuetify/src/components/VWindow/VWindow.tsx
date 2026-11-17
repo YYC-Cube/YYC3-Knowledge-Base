@@ -1,0 +1,431 @@
+// Styles
+import './VWindow.sass'
+
+// Components
+import { VBtn } from '@/components/VBtn'
+
+// Composables
+import { makeComponentProps } from '@/composables/component'
+import { useGroup } from '@/composables/group'
+import { useLocale, useRtl } from '@/composables/locale'
+import { makeTagProps } from '@/composables/tag'
+import { makeThemeProps, provideTheme } from '@/composables/theme'
+
+// Directives
+import vTouch from '@/directives/touch'
+
+// Utilities
+import { computed, nextTick, onScopeDispose, provide, ref, shallowRef, toRef, watch } from 'vue'
+import { convertToUnit, genericComponent, IN_BROWSER, isBoolean, PREFERS_REDUCED_MOTION, propsFactory, useRender } from '@/util'
+import { getScrollParent } from '@/util/getScrollParent'
+
+// Types
+import type { ComputedRef, InjectionKey, PropType, Ref } from 'vue'
+import type { GroupItemProvide, GroupProvide } from '@/composables/group'
+import type { IconValue } from '@/composables/icons'
+import type { TouchHandlers } from '@/directives/touch'
+import type { GenericProps } from '@/util'
+
+export type VWindowSlots = {
+  default: { group: GroupProvide }
+  additional: { group: GroupProvide }
+  prev: { props: ControlProps }
+  next: { props: ControlProps }
+}
+
+type WindowProvide = {
+  transition: ComputedRef<undefined | string>
+  transitionCount: Ref<number>
+  transitionHeight: Ref<undefined | string>
+  transitionDuration: Readonly<Ref<undefined | string>>
+  isReversed: Ref<boolean>
+  rootRef: Ref<HTMLElement | undefined>
+}
+
+type ControlProps = {
+  icon: IconValue
+  class: string
+  onClick: () => void
+  'aria-label': string
+}
+
+export const VWindowSymbol: InjectionKey<WindowProvide> = Symbol.for('vuetify:v-window')
+export const VWindowGroupSymbol: InjectionKey<GroupItemProvide> = Symbol.for('vuetify:v-window-group')
+
+export const makeVWindowProps = propsFactory({
+  continuous: Boolean,
+  nextIcon: {
+    type: [Boolean, String, Function, Object] as PropType<IconValue>,
+    default: '$next',
+  },
+  prevIcon: {
+    type: [Boolean, String, Function, Object] as PropType<IconValue>,
+    default: '$prev',
+  },
+  reverse: Boolean,
+  showArrows: {
+    type: [Boolean, String],
+    validator: (v: any) => isBoolean(v) || v === 'hover',
+  },
+  verticalArrows: [Boolean, String] as PropType<boolean | 'left' | 'right'>,
+  wheel: Boolean,
+  touch: {
+    type: [Object, Boolean] as PropType<boolean | TouchHandlers>,
+    default: undefined,
+  },
+  direction: {
+    type: String as PropType<'horizontal' | 'vertical'>,
+    default: 'horizontal',
+  },
+
+  modelValue: null,
+  disabled: Boolean,
+  selectedClass: {
+    type: String,
+    default: 'v-window-item--active',
+  },
+  // TODO: mandatory should probably not be exposed but do this for now
+  mandatory: {
+    type: [Boolean, String] as PropType<boolean | 'force'>,
+    default: 'force' as const,
+  },
+  crossfade: Boolean,
+  transitionDuration: Number,
+
+  ...makeComponentProps(),
+  ...makeTagProps(),
+  ...makeThemeProps(),
+}, 'VWindow')
+
+export const VWindow = genericComponent<new <T>(
+  props: {
+    modelValue?: T
+    'onUpdate:modelValue'?: (value: T) => void
+  },
+  slots: VWindowSlots,
+) => GenericProps<typeof props, typeof slots>>()({
+  name: 'VWindow',
+
+  directives: { vTouch },
+
+  props: makeVWindowProps(),
+
+  emits: {
+    'update:modelValue': (value: any) => true,
+  },
+
+  setup (props, { slots }) {
+    const { themeClasses } = provideTheme(props)
+    const { isRtl } = useRtl()
+    const { t } = useLocale()
+
+    const group = useGroup(props, VWindowGroupSymbol)
+    const { prev: groupPrev, next: groupNext } = group
+
+    let stepDirection = 0
+
+    function step (move: () => void, direction: number) {
+      move()
+      stepDirection = direction
+      nextTick(() => { stepDirection = 0 })
+    }
+
+    group.prev = () => step(groupPrev, -1)
+    group.next = () => step(groupNext, 1)
+
+    const rootRef = ref()
+    const isRtlReverse = computed(() => isRtl.value ? !props.reverse : props.reverse)
+    const isReversed = shallowRef(false)
+    const transition = computed(() => {
+      if (props.crossfade) {
+        return 'v-window-crossfade-transition'
+      }
+
+      const axis = props.direction === 'vertical' ? 'y' : 'x'
+      const isAxisReversed = props.direction === 'vertical' ? props.reverse : isRtlReverse.value
+      const reverse = isAxisReversed ? !isReversed.value : isReversed.value
+      const direction = reverse ? '-reverse' : ''
+
+      return `v-window-${axis}${direction}-transition`
+    })
+    const transitionCount = shallowRef(0)
+    const transitionHeight = ref<undefined | string>(undefined)
+
+    const activeIndex = computed(() => {
+      return group.items.value.findIndex(item => group.selected.value.includes(item.id))
+    })
+
+    // Fix for https://github.com/vuetifyjs/vuetify/issues/18447
+    watch(activeIndex, (newVal, oldVal) => {
+      let scrollableParent: HTMLElement | undefined
+      const savedScrollPosition = { left: 0, top: 0 }
+
+      if (IN_BROWSER && oldVal >= 0) {
+        scrollableParent = getScrollParent(rootRef.value)
+
+        savedScrollPosition.left = scrollableParent?.scrollLeft
+        savedScrollPosition.top = scrollableParent?.scrollTop
+      }
+
+      isReversed.value = stepDirection ? stepDirection < 0 : newVal < oldVal
+
+      nextTick(() => {
+        if (!IN_BROWSER || !scrollableParent) return
+
+        const currentScrollY = scrollableParent.scrollTop
+
+        if (currentScrollY !== savedScrollPosition.top) {
+          scrollableParent.scrollTo({ ...savedScrollPosition, behavior: 'instant' })
+        }
+
+        requestAnimationFrame(() => {
+          if (!scrollableParent) return
+
+          const rafScrollY = scrollableParent.scrollTop
+
+          if (rafScrollY !== savedScrollPosition.top) {
+            scrollableParent.scrollTo({ ...savedScrollPosition, behavior: 'instant' })
+          }
+        })
+      })
+    }, { flush: 'sync' }) // Run synchronously before DOM updates
+
+    provide(VWindowSymbol, {
+      transition,
+      isReversed,
+      transitionCount,
+      transitionHeight,
+      transitionDuration: toRef(() => PREFERS_REDUCED_MOTION() ? undefined : convertToUnit(props.transitionDuration, 'ms')),
+      rootRef,
+    })
+
+    const canMoveBack = toRef(() => props.continuous || activeIndex.value !== 0)
+    const canMoveForward = toRef(() => props.continuous || activeIndex.value !== group.items.value.length - 1)
+
+    function prev () {
+      canMoveBack.value && group.prev()
+    }
+
+    function next () {
+      canMoveForward.value && group.next()
+    }
+
+    let wheelTimeout = -1
+    let nestedEl: HTMLElement | undefined
+    let wheelAt = 0
+    let isScrollLatchStale = false
+
+    function lockWheel () {
+      window.clearTimeout(wheelTimeout)
+      wheelTimeout = window.setTimeout(() => {
+        wheelTimeout = -1
+      }, 150)
+    }
+
+    function findNestedScroller (target: Element | null, isVertical: boolean, delta: number) {
+      if (!target || !rootRef.value?.contains(target)) return undefined
+
+      for (let el = target as HTMLElement | null; el && el !== rootRef.value; el = el.parentElement) {
+        const style = window.getComputedStyle(el)
+        const overflow = isVertical ? style.overflowY : style.overflowX
+        if (overflow !== 'auto' && overflow !== 'scroll') continue
+
+        const max = isVertical ? el.scrollHeight - el.clientHeight : el.scrollWidth - el.clientWidth
+        // RTL scrollLeft runs from 0 down to -max
+        const position = isVertical ? el.scrollTop : el.scrollLeft + (style.direction === 'rtl' ? max : 0)
+        if (delta > 0 ? position < max - 1 : position >= 1) return el
+      }
+
+      return undefined
+    }
+
+    function onWheel (e: WheelEvent) {
+      if (
+        !props.wheel ||
+        props.disabled ||
+        e.defaultPrevented ||
+        group.items.value.length < 2
+      ) return
+
+      const isVertical = props.direction === 'vertical'
+      const scrollDelta = isVertical
+        ? (e.shiftKey ? 0 : e.deltaY)
+        : e.deltaX || (e.shiftKey ? e.deltaY : 0)
+      if (!scrollDelta) return
+
+      const now = performance.now()
+      const gap = now - wheelAt
+      if (gap > 500) isScrollLatchStale = false
+      wheelAt = now
+
+      // if mouse does not move continuous wheel events get stuck to an element that just left the screen
+      const isStale = !(e.target as Element).getClientRects().length
+      const isLocked = wheelTimeout >= 0 || transitionCount.value > 0
+      if (!isLocked) {
+        const target = isStale ? document.elementFromPoint(e.clientX, e.clientY) : e.target as Element
+        nestedEl = findNestedScroller(target, isVertical, scrollDelta)
+      }
+
+      if (nestedEl) {
+        if (isStale || isScrollLatchStale) {
+          e.preventDefault()
+          const scale = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? (isVertical ? nestedEl.clientHeight : nestedEl.clientWidth) : 1
+          nestedEl.scrollBy({ [isVertical ? 'top' : 'left']: scrollDelta * scale })
+        }
+        lockWheel()
+        return
+      }
+
+      const delta = !isVertical && isRtlReverse.value ? -scrollDelta : scrollDelta
+      const canMove = delta > 0 ? canMoveForward.value : canMoveBack.value
+      if (!canMove && !isLocked) return
+
+      e.preventDefault()
+      lockWheel()
+
+      if (!isLocked) {
+        isScrollLatchStale = true
+        delta > 0 ? next() : prev()
+      }
+    }
+
+    onScopeDispose(() => {
+      if (IN_BROWSER) window.clearTimeout(wheelTimeout)
+    })
+
+    const arrows = computed(() => {
+      const arrows = []
+
+      const prevProps = {
+        icon: isRtl.value && !props.verticalArrows ? props.nextIcon : props.prevIcon,
+        class: `v-window__${isRtlReverse.value ? 'right' : 'left'}`,
+        onClick: group.prev,
+        'aria-label': t('$vuetify.carousel.prev'),
+      }
+
+      arrows.push(canMoveBack.value
+        ? slots.prev
+          ? slots.prev({ props: prevProps })
+          : <VBtn { ...prevProps } />
+        : <div />
+      )
+
+      const nextProps = {
+        icon: isRtl.value && !props.verticalArrows ? props.prevIcon : props.nextIcon,
+        class: `v-window__${isRtlReverse.value ? 'left' : 'right'}`,
+        onClick: group.next,
+        'aria-label': t('$vuetify.carousel.next'),
+      }
+
+      arrows.push(canMoveForward.value
+        ? slots.next
+          ? slots.next({ props: nextProps })
+          : <VBtn { ...nextProps } />
+        : <div />
+      )
+
+      return arrows
+    })
+
+    const touchOptions = computed(() => {
+      if (props.touch === false) return props.touch
+
+      const options: TouchHandlers = {
+        left: () => {
+          isRtlReverse.value ? prev() : next()
+        },
+        right: () => {
+          isRtlReverse.value ? next() : prev()
+        },
+        start: ({ originalEvent }) => {
+          originalEvent.stopPropagation()
+        },
+      }
+
+      return {
+        ...options,
+        ...(props.touch === true ? {} : props.touch),
+      }
+    })
+
+    function onKeyDown (e: KeyboardEvent) {
+      const [backKey, forwardKey] = isRtl.value ? ['ArrowRight', 'ArrowLeft'] : ['ArrowLeft', 'ArrowRight']
+
+      if (
+        (props.direction === 'horizontal' && e.key === backKey) ||
+        (props.direction === 'vertical' && e.key === 'ArrowUp')
+      ) {
+        e.preventDefault()
+        prev()
+        nextTick(() => { canMoveBack.value ? focusArrow(0) : focusArrow(1) })
+      }
+
+      if (
+        (props.direction === 'horizontal' && e.key === forwardKey) ||
+        (props.direction === 'vertical' && e.key === 'ArrowDown')
+      ) {
+        e.preventDefault()
+        next()
+        nextTick(() => { canMoveForward.value ? focusArrow(1) : focusArrow(0) })
+      }
+    }
+
+    function focusArrow (index: number) {
+      const arrow = arrows.value[index]
+
+      if (!arrow) return
+
+      const arrowEl = Array.isArray(arrow) ? arrow[0] : arrow
+      arrowEl.el?.focus()
+    }
+
+    useRender(() => (
+      <props.tag
+        ref={ rootRef }
+        class={[
+          'v-window',
+          {
+            'v-window--show-arrows-on-hover': props.showArrows === 'hover',
+            'v-window--vertical-arrows': !!props.verticalArrows,
+            'v-window--crossfade': !!props.crossfade,
+          },
+          themeClasses.value,
+          props.class,
+        ]}
+        style={ props.style }
+        v-touch={ touchOptions.value }
+        onWheel={ onWheel }
+      >
+        <div
+          class="v-window__container"
+          style={{
+            height: transitionHeight.value,
+          }}
+        >
+          { slots.default?.({ group }) }
+
+          { props.showArrows !== false && (
+            <div
+              class={[
+                'v-window__controls',
+                { 'v-window__controls--left': props.verticalArrows === 'left' || props.verticalArrows === true },
+                { 'v-window__controls--right': props.verticalArrows === 'right' },
+              ]}
+              onKeydown={ onKeyDown }
+            >
+              { arrows.value }
+            </div>
+          )}
+        </div>
+
+        { slots.additional?.({ group }) }
+      </props.tag>
+    ))
+
+    return {
+      group,
+    }
+  },
+})
+
+export type VWindow = InstanceType<typeof VWindow>

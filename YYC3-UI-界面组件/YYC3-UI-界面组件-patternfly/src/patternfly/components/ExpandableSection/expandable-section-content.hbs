@@ -1,0 +1,14 @@
+<div class="{{pfv}}expandable-section__content{{#if expandable-section-content--modifier}} {{expandable-section-content--modifier}}{{/if}}"
+  {{#unless expandable-section--IsTruncate}}
+    {{#unless expandable-section--IsExpanded}}
+      hidden
+    {{/unless}}
+  {{/unless}}
+  id="{{expandable-section--id}}-content"
+  role="region"
+  aria-labelledby="{{expandable-section--id}}-toggle"
+  {{#if expandable-section-content--attribute}}
+    {{{expandable-section-content--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

@@ -1,0 +1,334 @@
+import React, { useMemo, useRef } from 'react';
+import classNames from 'classnames';
+import { isEqual, isFunction, isNumber, isString } from 'lodash-es';
+import { largeNumberToFixed } from '@tdesign/common-js/input-number/large-number';
+
+import { accAdd, numberToPercent } from '../_util/number';
+import useConfig from '../hooks/useConfig';
+import useControlled from '../hooks/useControlled';
+import useDefaultProps from '../hooks/useDefaultProps';
+import InputNumber from '../input-number/InputNumber';
+import { sliderDefaultProps } from './defaultProps';
+import SliderHandleButton from './SliderHandleButton';
+
+import type { StyledProps, TNode } from '../common';
+import type { MouseCallback } from '../hooks/useMouseEvent';
+import type { SliderValue, TdSliderProps } from './type';
+
+export interface SliderProps<T extends SliderValue = SliderValue> extends TdSliderProps<T>, StyledProps {}
+
+const LEFT_NODE = 0;
+const RIGHT_NODE = 1;
+type SliderHandleNode = typeof LEFT_NODE | typeof RIGHT_NODE;
+
+function resolveSliderValue(
+  value: SliderValue,
+  range: boolean,
+  min: number,
+  max: number,
+  preserveNumber: boolean,
+): SliderValue {
+  if (!range || (preserveNumber && isNumber(value))) return value;
+  if (value === undefined || (Array.isArray(value) && value.length === 0)) return [min, min];
+  if (isNumber(value)) return [min, Math.min(max, Math.max(min, value))];
+  return value;
+}
+
+const Slider = React.forwardRef<HTMLDivElement, SliderProps>((originalProps, ref) => {
+  const { classPrefix } = useConfig();
+  const props = useDefaultProps(originalProps, sliderDefaultProps);
+  const {
+    disabled,
+    inputNumberProps,
+    label,
+    layout,
+    marks,
+    max,
+    min,
+    range,
+    showStep,
+    step,
+    tooltipProps,
+    className,
+    style,
+    onChange,
+    onChangeEnd,
+  } = props;
+  const isVertical = layout === 'vertical';
+
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const initialDefaultValue = useRef(originalProps.defaultValue);
+  const [rawValue, internalOnChange] = useControlled(props, 'value', onChange);
+
+  const value = resolveSliderValue(
+    rawValue,
+    range,
+    min,
+    max,
+    // 保留显式数值输入的回调类型
+    originalProps.value !== undefined || initialDefaultValue.current !== undefined,
+  );
+  const renderValue = Array.isArray(value) ? value : [min, value];
+  const start = (renderValue[LEFT_NODE] - min) / (max - min);
+  const width = (renderValue[RIGHT_NODE] - renderValue[LEFT_NODE]) / (max - min);
+  const end = start + width;
+
+  const precision = useMemo(() => {
+    if (!Number.isInteger(step)) return step.toString().split('.')[1].length;
+    return undefined;
+  }, [step]);
+
+  const dots = useMemo<{ value: number; label: TNode; position: number }[]>(() => {
+    // 当 marks 为数字数组
+    if (Array.isArray(marks)) {
+      if (marks.some((mark) => typeof mark !== 'number')) {
+        console.warn('The props "marks" only support number!');
+        return [];
+      }
+      return marks.map((mark) => ({
+        value: mark,
+        position: (mark - min) / (max - min),
+        label: mark,
+      }));
+    }
+    // 当 marks 为对象
+    if (marks && typeof marks === 'object') {
+      const result = [];
+      Object.keys(marks).forEach((key) => {
+        const numberKey = Number(key);
+        if (typeof numberKey !== 'number') {
+          console.warn('The props "marks" key only support number!');
+        } else {
+          result.push({
+            value: numberKey,
+            label: marks[numberKey],
+            position: (numberKey - min) / (max - min),
+          });
+        }
+      });
+      return result;
+    }
+    return [];
+  }, [max, min, marks]);
+
+  const allDots = useMemo(() => {
+    // 默认
+    const result = [];
+    for (let i = min; i <= max; i = accAdd(i, step)) {
+      result.push({
+        value: i,
+        position: (i - min) / (max - min),
+      });
+    }
+    return result;
+  }, [max, min, step]);
+
+  const startDirection = isVertical ? 'bottom' : 'left';
+  const stepDirection = isVertical ? 'top' : 'left';
+  const sizeKey = isVertical ? 'height' : 'width';
+  const renderDots = isVertical ? dots.map((item) => ({ ...item, position: 1 - item.position })) : dots;
+
+  const handleInputChange = (newValue: number, nodeIndex: SliderHandleNode, isEnd?: boolean) => {
+    const safeValue = Number(newValue.toFixed(32));
+    let resultValue = Math.max(Math.min(max, safeValue), min);
+    if (precision) resultValue = Number(largeNumberToFixed(String(resultValue), precision));
+    // 判断是否出现左值大于右值
+    if (nodeIndex === LEFT_NODE && value && safeValue > value[RIGHT_NODE]) {
+      resultValue = value[RIGHT_NODE];
+    }
+    // 判断是否出现右值大于左值
+    if (nodeIndex === RIGHT_NODE && value && safeValue < value[LEFT_NODE]) {
+      resultValue = value[LEFT_NODE];
+    }
+    let finalValue: SliderValue;
+    if (Array.isArray(value)) {
+      const arrValue = value.slice();
+      arrValue[nodeIndex] = resultValue;
+      finalValue = arrValue;
+    } else {
+      finalValue = resultValue;
+    }
+    if (isEqual(value, finalValue)) {
+      if (isEnd) {
+        onChangeEnd?.(finalValue);
+      }
+      return;
+    }
+    internalOnChange(finalValue);
+  };
+
+  const createInput = (nodeIndex: SliderHandleNode) => {
+    const inputProps = typeof inputNumberProps === 'object' ? inputNumberProps : {};
+    const currentValue = renderValue[nodeIndex];
+
+    return (
+      <InputNumber
+        value={currentValue}
+        onChange={(v: number) => {
+          if (typeof v !== 'undefined') {
+            handleInputChange(Number(v), nodeIndex);
+          }
+        }}
+        className={classNames(`${classPrefix}-slider-input`, {
+          'is-vertical': isVertical,
+        })}
+        disabled={disabled}
+        theme="column"
+        min={min}
+        max={max}
+        {...inputProps}
+      />
+    );
+  };
+
+  const nearbyValueChange = (newValue: number, isEnd?: boolean) => {
+    const [left, right] = renderValue;
+    let buttonBias: SliderHandleNode = LEFT_NODE;
+    if (range && Array.isArray(value) && left === right) {
+      buttonBias = newValue > right ? RIGHT_NODE : LEFT_NODE;
+    } else if (Math.abs(newValue - left) > Math.abs(newValue - right)) {
+      buttonBias = RIGHT_NODE;
+    }
+    handleInputChange(newValue, buttonBias, isEnd);
+  };
+
+  const setPosition = (position: number, nodeIndex?: SliderHandleNode, isEnd?: boolean) => {
+    let index = 0;
+    let minDistance = 1;
+    for (let i = 0; i < allDots.length; i++) {
+      const diff = Math.abs(allDots[i].position - position);
+      if (minDistance > diff) {
+        index = i;
+        minDistance = diff;
+      }
+    }
+    const { value } = allDots[index];
+    if (nodeIndex === undefined && range) {
+      nearbyValueChange(value, isEnd);
+    } else {
+      handleInputChange(value, nodeIndex, isEnd);
+    }
+  };
+
+  const onSliderChange = (event: MouseCallback, nodeIndex?: SliderHandleNode, isEnd?: boolean) => {
+    if (disabled || !sliderRef.current) return;
+
+    const clientKey = isVertical ? 'clientY' : 'clientX';
+    const sliderPositionInfo = sliderRef.current.getBoundingClientRect();
+    const sliderOffset = sliderPositionInfo[startDirection];
+    const position = ((event[clientKey] - sliderOffset) / sliderPositionInfo[sizeKey]) * (isVertical ? -1 : 1);
+    setPosition(position, nodeIndex, isEnd);
+  };
+
+  const handleClickMarks = (event: React.MouseEvent, value: number) => {
+    event.stopPropagation();
+    nearbyValueChange(value, true);
+  };
+
+  const createHandleButton = (nodeIndex: SliderHandleNode, style: React.CSSProperties) => {
+    const currentValue = renderValue[nodeIndex];
+    // 模板替换
+    let tipLabel: React.ReactNode = currentValue;
+
+    if (isFunction(label)) {
+      tipLabel = label({
+        value: currentValue,
+        position: nodeIndex === LEFT_NODE ? 'start' : 'end',
+      });
+    }
+    if (isString(label)) {
+      tipLabel = label.replace(/\$\{value\}/g, currentValue.toString());
+    }
+    if (isNumber(tipLabel) && precision) tipLabel = largeNumberToFixed(String(tipLabel), precision);
+
+    return (
+      <SliderHandleButton
+        toolTipProps={{ content: tipLabel, ...tooltipProps }}
+        hideTips={label === false}
+        classPrefix={classPrefix}
+        layout={layout}
+        style={style}
+        onChange={(e) => onSliderChange(e, nodeIndex)}
+        onChangeEnd={(e) => onSliderChange(e, nodeIndex, true)}
+      />
+    );
+  };
+
+  return (
+    <div
+      style={{ ...style }}
+      className={classNames(`${classPrefix}-slider__container`, {
+        'is-vertical': isVertical,
+      })}
+      ref={ref}
+    >
+      <div
+        ref={sliderRef}
+        className={classNames(`${classPrefix}-slider`, className, {
+          [`${classPrefix}-is-disabled`]: disabled,
+          [`${classPrefix}-slider--vertical`]: isVertical,
+          [`${classPrefix}-slider--with-input`]: inputNumberProps,
+        })}
+        onClick={(e) => onSliderChange(e, undefined, true)}
+      >
+        <div className={classNames(`${classPrefix}-slider__rail`)}>
+          <div
+            style={{
+              [startDirection]: numberToPercent(start),
+              [sizeKey]: numberToPercent(width),
+            }}
+            className={classNames(`${classPrefix}-slider__track`)}
+          ></div>
+          {range
+            ? createHandleButton(LEFT_NODE, {
+                [startDirection]: numberToPercent(start),
+              })
+            : null}
+          {createHandleButton(RIGHT_NODE, {
+            [startDirection]: numberToPercent(end),
+          })}
+          <div className={`${classPrefix}-slider__stops`}>
+            {(showStep ? allDots : renderDots)
+              .filter(({ position }) => position !== 0 && position !== 1)
+              .map(({ value: dotValue, position }) => (
+                <div
+                  key={dotValue}
+                  style={{ [stepDirection]: numberToPercent(position) }}
+                  className={classNames(`${classPrefix}-slider__stop`)}
+                ></div>
+              ))}
+          </div>
+          <div className={classNames(`${classPrefix}-slider__mark`)}>
+            {renderDots.map(({ position, value, label }) => (
+              <div
+                key={value}
+                onClick={(event) => handleClickMarks(event, value)}
+                style={{ [stepDirection]: numberToPercent(position) }}
+                className={classNames(`${classPrefix}-slider__mark-text`)}
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {inputNumberProps ? (
+        <div
+          className={classNames(`${classPrefix}-slider__input-container`, {
+            'is-vertical': isVertical,
+          })}
+        >
+          {range && createInput(LEFT_NODE)}
+          {range && <div className={`${classPrefix}-slider__center-line`}></div>}
+          {createInput(RIGHT_NODE)}
+        </div>
+      ) : null}
+    </div>
+  );
+});
+
+Slider.displayName = 'Slider';
+
+export default Slider as <T extends SliderValue = SliderValue>(
+  props: SliderProps<T> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement;

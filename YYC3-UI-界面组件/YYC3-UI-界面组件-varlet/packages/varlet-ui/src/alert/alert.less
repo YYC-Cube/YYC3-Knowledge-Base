@@ -1,0 +1,146 @@
+:root {
+  --alert-padding: 16px;
+  --alert-border-radius: 4px;
+  --alert-icon-size: 22px;
+  --alert-icon-margin: 1px 12px 0 0;
+  --alert-close-icon-size: 22px;
+  --alert-close-icon-margin: 1px 0 0 12px;
+  --alert-standard-info-text-color: var(--color-on-info);
+  --alert-standard-danger-text-color: var(--color-on-danger);
+  --alert-standard-success-text-color: var(--color-on-success);
+  --alert-standard-warning-text-color: var(--color-on-warning);
+  --alert-danger-background: var(--color-danger);
+  --alert-success-background: var(--color-success);
+  --alert-warning-background: var(--color-warning);
+  --alert-info-background: var(--color-info);
+  --alert-tonal-danger-background: hsla(var(--hsl-danger), 0.12);
+  --alert-tonal-success-background: hsla(var(--hsl-success), 0.12);
+  --alert-tonal-warning-background: hsla(var(--hsl-warning), 0.12);
+  --alert-tonal-info-background: hsla(var(--hsl-info), 0.12);
+  --alert-tonal-danger-text-color: var(--color-danger);
+  --alert-tonal-success-text-color: var(--color-success);
+  --alert-tonal-warning-text-color: var(--color-warning);
+  --alert-tonal-info-text-color: var(--color-info);
+  --alert-message-font-size: 14px;
+  --alert-title-font-size: 16px;
+  --alert-title-font-weight: 500;
+  --alert-message-margin-top: 4px;
+  --alert-message-line-height: 1.5;
+  --alert-title-line-height: 1.5;
+}
+
+.var-alert {
+  display: flex;
+  padding: var(--alert-padding);
+  border-radius: var(--alert-border-radius);
+
+  &__icon {
+    display: inline-flex;
+    align-items: start;
+    margin: var(--alert-icon-margin);
+    font-size: var(--alert-icon-size);
+
+    .var-icon {
+      font-size: inherit;
+    }
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__title {
+    font-size: var(--alert-title-font-size);
+    font-weight: var(--alert-title-font-weight);
+    line-height: var(--alert-title-line-height);
+    word-break: normal;
+    word-wrap: break-word;
+  }
+
+  &__title + &__message {
+    margin-top: var(--alert-message-margin-top);
+  }
+
+  &__message {
+    font-size: var(--alert-message-font-size);
+    line-height: var(--alert-message-line-height);
+    margin-top: 2px;
+  }
+
+  &__close-icon {
+    display: inline-flex;
+    align-items: start;
+    cursor: pointer;
+    margin: var(--alert-close-icon-margin);
+    font-size: var(--alert-close-icon-size);
+
+    .var-icon {
+      font-size: inherit;
+    }
+  }
+
+  &--outlined {
+    border: thin solid currentColor;
+    background-color: transparent;
+  }
+
+  &--outlined&--info {
+    border-color: var(--alert-info-background);
+    color: var(--alert-info-background);
+  }
+
+  &--outlined&--success {
+    border-color: var(--alert-success-background);
+    color: var(--alert-success-background);
+  }
+
+  &--outlined&--warning {
+    border-color: var(--alert-warning-background);
+    color: var(--alert-warning-background);
+  }
+
+  &--outlined&--danger {
+    border-color: var(--alert-danger-background);
+    color: var(--alert-danger-background);
+  }
+
+  &--tonal&--info {
+    background-color: var(--alert-tonal-info-background);
+    color: var(--alert-tonal-info-text-color);
+  }
+
+  &--tonal&--success {
+    background-color: var(--alert-tonal-success-background);
+    color: var(--alert-tonal-success-text-color);
+  }
+
+  &--tonal&--warning {
+    background-color: var(--alert-tonal-warning-background);
+    color: var(--alert-tonal-warning-text-color);
+  }
+
+  &--tonal&--danger {
+    background-color: var(--alert-tonal-danger-background);
+    color: var(--alert-tonal-danger-text-color);
+  }
+
+  &--standard&--info {
+    background-color: var(--alert-info-background);
+    color: var(--alert-standard-info-text-color);
+  }
+
+  &--standard&--success {
+    background-color: var(--alert-success-background);
+    color: var(--alert-standard-success-text-color);
+  }
+
+  &--standard&--warning {
+    background-color: var(--alert-warning-background);
+    color: var(--alert-standard-warning-text-color);
+  }
+
+  &--standard&--danger {
+    background-color: var(--alert-danger-background);
+    color: var(--alert-standard-danger-text-color);
+  }
+}

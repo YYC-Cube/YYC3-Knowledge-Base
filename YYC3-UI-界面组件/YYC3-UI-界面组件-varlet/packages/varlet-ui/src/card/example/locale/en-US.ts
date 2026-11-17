@@ -1,0 +1,23 @@
+export default {
+  basicUsage: 'Basic Usage',
+  title: 'Dangerous',
+  showSubtitle: 'Show Subtitle',
+  outline: 'Outlined',
+  filled: 'Filled',
+  subtitle: 'The girl was dangerous',
+  horizontal: 'Horizontal',
+  description:
+    'The way she came into the place I knew right then and there.There was something different about this girl.The way she moved her hair her face her lines.Divinity in motion as she stalked the room.I could feel the aura of her presence.Every head turned feeling passion and lust.The girl was persuasive the girl I could not trust.The girl was bad.The girl was dangerous.',
+  showImage: 'Show Image',
+  useSlot: 'Use Slot',
+  action1: 'ACTION 1',
+  action2: 'ACTION 2',
+  showRipple: 'Ripple Effect',
+  customInteraction: 'Custom Ripple / Hover Effect',
+  floating: 'Floating',
+  hoverable: 'Hoverable',
+  surfaceLow: 'Subtle Background',
+  surfaceLowTip: 'surface="low" softens the background color. It currently only takes effect in the MD3 dark theme.',
+  surfaceLowShortDescription:
+    'The way she came into the place I knew right then and there. There was something different about this girl.',
+}

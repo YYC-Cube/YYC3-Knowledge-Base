@@ -1,0 +1,44 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import type { Assign } from '../../types.ts'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { type UseAngleSliderProps, useAngleSlider } from './use-angle-slider.ts'
+import { AngleSliderProvider } from './use-angle-slider-context.ts'
+
+export interface AngleSliderRootBaseProps extends UseAngleSliderProps, PolymorphicProps {}
+
+export interface AngleSliderRootProps extends Assign<HTMLProps<'div'>, AngleSliderRootBaseProps> {}
+
+const splitRootProps = createSplitProps<UseAngleSliderProps>()
+
+export const AngleSliderRoot = forwardRef<HTMLDivElement, AngleSliderRootProps>((props, ref) => {
+  const [useAngleSliderProps, localProps] = splitRootProps(props, [
+    'id',
+    'ids',
+    'name',
+    'invalid',
+    'readOnly',
+    'disabled',
+    'onValueChangeEnd',
+    'onValueChange',
+    'defaultValue',
+    'value',
+    'step',
+    'aria-label',
+    'aria-labelledby',
+  ])
+
+  const angleSlider = useAngleSlider(useAngleSliderProps)
+  const mergedProps = mergeProps(angleSlider.getRootProps(), localProps)
+
+  return (
+    <AngleSliderProvider value={angleSlider}>
+      <ark.div {...mergedProps} ref={ref} />
+    </AngleSliderProvider>
+  )
+})
+
+AngleSliderRoot.displayName = 'AngleSliderRoot'

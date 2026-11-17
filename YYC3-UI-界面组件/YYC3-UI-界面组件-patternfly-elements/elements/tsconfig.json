@@ -1,0 +1,24 @@
+{
+  "extends": "../tsconfig.settings.json",
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "*/demo/*.js",
+    "pf-icon/test/rh-icon*.js",
+    "custom-elements-manifest.config.js",
+    "react"
+  ],
+  "compilerOptions": {
+    "outDir": ".",
+    "rootDir": "."
+  },
+  "references": [
+    {
+      "path": "../core/pfe-core"
+    },
+    {
+      "path": "../tools/pfe-tools"
+    }
+  ]
+}

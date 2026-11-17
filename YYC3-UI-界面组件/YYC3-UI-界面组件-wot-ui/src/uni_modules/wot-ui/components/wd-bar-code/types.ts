@@ -1,0 +1,184 @@
+import type { ComponentPublicInstance, ExtractPropTypes } from 'vue'
+import { baseProps, makeBooleanProp, makeNumberProp, makeRequiredProp, makeStringProp, numericProp } from '../../common/props'
+
+export const DEFAULT_BAR_CODE_LINE_WIDTH = 2
+export const DEFAULT_BAR_CODE_WIDTH = 200
+
+export type BarCodeFormat =
+  | 'auto'
+  | 'CODE128'
+  | 'CODE128A'
+  | 'CODE128B'
+  | 'CODE128C'
+  | 'EAN13'
+  | 'EAN8'
+  | 'UPC'
+  | 'UPCE'
+  | 'CODE39'
+  | 'ITF14'
+  | 'MSI'
+  | 'MSI10'
+  | 'MSI11'
+  | 'MSI1010'
+  | 'MSI1110'
+  | 'pharmacode'
+  | 'codabar'
+
+export type BarCodeTextAlign = 'left' | 'center' | 'right'
+
+export type BarCodeTextPosition = 'bottom' | 'top'
+
+export const MAX_BAR_CODE_VALUE_LENGTH = 128
+
+export const BAR_CODE_FORMATS = [
+  'auto',
+  'CODE128',
+  'CODE128A',
+  'CODE128B',
+  'CODE128C',
+  'EAN13',
+  'EAN8',
+  'UPC',
+  'UPCE',
+  'CODE39',
+  'ITF14',
+  'MSI',
+  'MSI10',
+  'MSI11',
+  'MSI1010',
+  'MSI1110',
+  'pharmacode',
+  'codabar'
+] as const
+
+export function isValidBarCodeFormat(format: string): format is BarCodeFormat {
+  return (BAR_CODE_FORMATS as readonly string[]).includes(format)
+}
+
+export const barCodeProps = {
+  ...baseProps,
+  /**
+   * 条形码内容
+   * 类型: string | number
+   */
+  value: makeRequiredProp(numericProp),
+  /**
+   * 条形码格式
+   * 类型: string
+   * 可选值: auto、CODE128、CODE128A、CODE128B、CODE128C、EAN13、EAN8、UPC、UPCE、CODE39、ITF14、MSI、MSI10、MSI11、MSI1010、MSI1110、pharmacode、codabar
+   * 默认值: auto
+   */
+  format: makeStringProp('auto'),
+  /**
+   * 条形码整体宽度，必须为有限正数
+   * 类型: number
+   * 默认值: 200
+   */
+  width: makeNumberProp(DEFAULT_BAR_CODE_WIDTH),
+  /**
+   * 条形码整体高度，包含上下留白、条和文本
+   * 类型: number
+   * 默认值: 100
+   */
+  height: makeNumberProp(100),
+  /**
+   * 显示的文本，默认使用编码器生成的文本，包含自动补充的校验位
+   * 类型: string
+   * 默认值: ''
+   */
+  text: makeStringProp(''),
+  /**
+   * 字体
+   * 类型: string
+   * 默认值: monospace
+   */
+  font: makeStringProp('monospace'),
+  /**
+   * 条码文本的最大字号，文本宽度超出可用空间时自动缩小
+   * 类型: number
+   * 默认值: 20
+   */
+  fontSize: makeNumberProp(20),
+  /**
+   * 字体样式
+   * 类型: string
+   * 可选值: bold、italic、bold italic
+   * 默认值: ''
+   */
+  fontOptions: makeStringProp(''),
+  /**
+   * 文本与条码的间距，必须为有限非负数
+   * 类型: number
+   * 默认值: 2
+   */
+  textMargin: makeNumberProp(2),
+  /**
+   * 背景色
+   * 类型: string
+   * 默认值: #ffffff
+   */
+  background: makeStringProp('#ffffff'),
+  /**
+   * 线条颜色
+   * 类型: string
+   * 默认值: #000000
+   */
+  lineColor: makeStringProp('#000000'),
+  /**
+   * 边距，必须为有限非负数
+   * 类型: number
+   * 默认值: 10
+   */
+  margin: makeNumberProp(10),
+  /**
+   * 上边距，必须为有限非负数，未设置时使用 margin
+   * 类型: number
+   */
+  marginTop: Number,
+  /**
+   * 下边距，必须为有限非负数，未设置时使用 margin
+   * 类型: number
+   */
+  marginBottom: Number,
+  /**
+   * 左边距，必须为有限非负数，未设置时使用 margin
+   * 类型: number
+   */
+  marginLeft: Number,
+  /**
+   * 右边距，必须为有限非负数，未设置时使用 margin
+   * 类型: number
+   */
+  marginRight: Number,
+  /**
+   * 是否显示文本
+   * 类型: boolean
+   * 默认值: true
+   */
+  displayValue: makeBooleanProp(true),
+  /**
+   * 文本对齐方式，适用于普通格式及自定义文本；EAN13、EAN8、UPC、UPCE 默认数字保持分段居中
+   * 类型: string
+   * 可选值: left、center、right
+   * 默认值: center
+   */
+  textAlign: makeStringProp('center'),
+  /**
+   * 文本位置
+   * 类型: string
+   * 可选值: bottom、top
+   * 默认值: bottom
+   */
+  textPosition: makeStringProp('bottom')
+}
+
+export type BarCodeProps = ExtractPropTypes<typeof barCodeProps>
+
+export type BarCodeExpose = {
+  /**
+   * 导出条形码图片。
+   */
+  exportImage: () => Promise<string>
+}
+
+export type BarCodeInstance = ComponentPublicInstance<BarCodeProps, BarCodeExpose>

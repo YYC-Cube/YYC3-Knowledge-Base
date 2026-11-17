@@ -1,0 +1,35 @@
+{
+  "name": "@quarkd/reactify",
+  "version": "1.0.3",
+  "description": "web components react util",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "rimraf lib && npx tsc",
+    "release:major": "npm run release -- --release-as major",
+    "release:minor": "npm run release -- --release-as minor",
+    "release:patch": "npm run release -- --release-as patch",
+    "release": "npm run build && standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hellof2e/quark-design.git"
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.9",
+    "@types/react": "^16.0.0",
+    "react": "^16.10.0",
+    "typescript": "^4.3.5",
+    "standard-version": "^9.3.0",
+    "rimraf": "3.0.2"
+  },
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

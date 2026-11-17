@@ -1,0 +1,172 @@
+// Utilities
+import { computed, inject, provide, readonly, ref, toRef, watch } from 'vue'
+import { createVuetifyAdapter } from '@/locale/adapters/vuetify'
+import { createV0Rtl } from '@/util'
+// Types
+import type { InjectionKey, Ref, ShallowRef } from 'vue'
+
+export interface LocaleMessages {
+  [key: string]: LocaleMessages | string
+}
+
+export interface LocaleOptions {
+  decimalSeparator?: string
+  numericGroupSeparator?: string
+  messages?: LocaleMessages
+  locale?: string
+  fallback?: string
+  adapter?: LocaleInstance
+}
+
+export interface LocaleInstance {
+  name: string
+  decimalSeparator: ShallowRef<string>
+  numericGroupSeparator: ShallowRef<string>
+  messages: Ref<LocaleMessages>
+  current: Ref<string>
+  fallback: Ref<string>
+  t: (key: string, ...params: unknown[]) => string
+  n: (value: number) => string
+  provide: (props: LocaleOptions) => LocaleInstance
+}
+
+export const LocaleSymbol: InjectionKey<LocaleInstance & RtlInstance> = Symbol.for('vuetify:locale')
+
+export function createLocale (options?: LocaleOptions & RtlOptions) {
+  const i18n = options?.adapter?.name
+    ? options.adapter
+    : createVuetifyAdapter(options)
+
+  const rtl = createRtl(i18n, options)
+
+  return { ...i18n, ...rtl }
+}
+
+export function useLocale () {
+  const locale = inject(LocaleSymbol)
+
+  if (!locale) throw new Error('[Vuetify] Could not find injected locale instance')
+
+  return locale
+}
+
+export function provideLocale (props: LocaleOptions & RtlProps) {
+  const locale = inject(LocaleSymbol)
+
+  if (!locale) throw new Error('[Vuetify] Could not find injected locale instance')
+
+  const i18n = locale.provide(props)
+  const rtl = provideRtl(i18n, locale.rtl, props)
+
+  const data = { ...i18n, ...rtl }
+
+  provide(LocaleSymbol, data)
+
+  return data
+}
+
+// RTL
+
+export interface RtlOptions {
+  rtl?: Record<string, boolean>
+}
+
+export interface RtlProps {
+  rtl?: boolean
+}
+
+export interface RtlInstance {
+  isRtl: Readonly<Ref<boolean>>
+  rtl: Ref<Record<string, boolean>>
+  rtlClasses: Ref<string>
+}
+
+export const RtlSymbol: InjectionKey<RtlInstance> = Symbol.for('vuetify:rtl')
+
+function genDefaults () {
+  return {
+    af: false,
+    ar: true,
+    bg: false,
+    ca: false,
+    ckb: true,
+    cs: false,
+    de: false,
+    el: false,
+    en: false,
+    es: false,
+    et: false,
+    fa: true,
+    fi: false,
+    fr: false,
+    hr: false,
+    hu: false,
+    he: true,
+    id: false,
+    it: false,
+    ja: false,
+    km: false,
+    ko: false,
+    lv: false,
+    lt: false,
+    nl: false,
+    no: false,
+    pl: false,
+    pt: false,
+    ro: false,
+    ru: false,
+    sk: false,
+    sl: false,
+    srCyrl: false,
+    srLatn: false,
+    sv: false,
+    th: false,
+    tr: false,
+    az: false,
+    uk: false,
+    vi: false,
+    zhHans: false,
+    zhHant: false,
+  }
+}
+
+export function createRtl (i18n: LocaleInstance, options?: RtlOptions): RtlInstance {
+  // spread/copy to avoid server-side memory leak when options.rtl is shared between requests
+  const rtl = ref<Record<string, boolean>>(options?.rtl ? { ...options.rtl } : genDefaults())
+  const direction = createV0Rtl()
+
+  // The locale map stays the driver. Sync flush keeps isRtl current in the
+  // same tick as a locale change. createRtlPlugin is not installed: it would
+  // write `dir` on documentElement, and Vuetify exposes the v-locale class.
+  watch(
+    () => rtl.value[i18n.current.value] ?? false,
+    value => {
+      direction.isRtl.value = value
+    },
+    { flush: 'sync', immediate: true },
+  )
+
+  return {
+    isRtl: readonly(direction.isRtl),
+    rtl,
+    rtlClasses: toRef(() => `v-locale--is-${direction.isRtl.value ? 'rtl' : 'ltr'}`),
+  }
+}
+
+export function provideRtl (locale: LocaleInstance, rtl: RtlInstance['rtl'], props: RtlProps): RtlInstance {
+  const isRtl = computed(() => props.rtl ?? rtl.value[locale.current.value] ?? false)
+
+  return {
+    isRtl,
+    rtl,
+    rtlClasses: toRef(() => `v-locale--is-${isRtl.value ? 'rtl' : 'ltr'}`),
+  }
+}
+
+export function useRtl () {
+  const locale = inject(LocaleSymbol)
+
+  if (!locale) throw new Error('[Vuetify] Could not find injected rtl instance')
+
+  return { isRtl: locale.isRtl, rtlClasses: locale.rtlClasses }
+}

@@ -1,0 +1,131 @@
+{
+  "ItemContent": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "ItemIndicator": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Item": {
+    "props": {
+      "value": { "type": "string", "isRequired": true, "description": "The value of the accordion item." },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "disabled": { "type": "boolean", "isRequired": false, "description": "Whether the accordion item is disabled." }
+    }
+  },
+  "ItemTrigger": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Root": {
+    "emits": {
+      "focusChange": {
+        "type": "[details: FocusChangeDetails]",
+        "isRequired": true,
+        "description": "The callback fired when the focused accordion item changes."
+      },
+      "update:modelValue": {
+        "type": "[value: string[]]",
+        "isRequired": true,
+        "description": "The callback fired when the model value changes."
+      },
+      "valueChange": {
+        "type": "[details: ValueChangeDetails]",
+        "isRequired": true,
+        "description": "The callback fired when the state of expanded/collapsed accordion items changes."
+      }
+    },
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "collapsible": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether an accordion item can be closed after it has been expanded."
+      },
+      "defaultValue": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "The initial value of the expanded accordion items.\nUse when you don't need to control the value of the accordion."
+      },
+      "disabled": { "type": "boolean", "isRequired": false, "description": "Whether the accordion items are disabled" },
+      "id": { "type": "string", "isRequired": false, "description": "The unique identifier of the machine." },
+      "ids": {
+        "type": "Partial<{\n  root: string\n  item(value: string): string\n  itemContent(value: string): string\n  itemTrigger(value: string): string\n}>",
+        "isRequired": false,
+        "description": "The ids of the elements in the accordion. Useful for composition."
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "modelValue": { "type": "string[]", "isRequired": false, "description": "The v-model value of the accordion" },
+      "multiple": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether multiple accordion items can be expanded at the same time."
+      },
+      "orientation": {
+        "type": "'horizontal' | 'vertical'",
+        "defaultValue": "\"vertical\"",
+        "isRequired": false,
+        "description": "The orientation of the accordion items."
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "RootProvider": {
+    "props": {
+      "value": { "type": "AccordionApi<PropTypes>", "isRequired": true },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  }
+}

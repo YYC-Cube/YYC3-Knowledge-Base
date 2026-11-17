@@ -1,0 +1,66 @@
+// Utilities
+import { isFunction } from '@/util'
+
+// Types
+import type { DirectiveBinding } from 'vue'
+
+export interface MutationOptions {
+  attr?: boolean
+  char?: boolean
+  child?: boolean
+  sub?: boolean
+  once?: boolean
+  immediate?: boolean
+}
+
+export interface MutationDirectiveBinding extends Omit<DirectiveBinding, 'modifiers' | 'value'> {
+  value: MutationCallback | { handler: MutationCallback, options?: MutationObserverInit }
+  modifiers: MutationOptions
+}
+
+function mounted (el: HTMLElement, binding: MutationDirectiveBinding) {
+  const modifiers = binding.modifiers || {}
+  const value = binding.value
+  const { once, immediate, ...modifierKeys } = modifiers
+  const defaultValue = !Object.keys(modifierKeys).length
+
+  const handler = isFunction(value) ? value : value.handler
+  const options = isFunction(value)
+    ? {
+      attributes: modifierKeys?.attr ?? defaultValue,
+      characterData: modifierKeys?.char ?? defaultValue,
+      childList: modifierKeys?.child ?? defaultValue,
+      subtree: modifierKeys?.sub ?? defaultValue,
+    }
+    : value.options
+
+  const observer = new MutationObserver((
+    mutations: MutationRecord[] = [],
+    observer: MutationObserver
+  ) => {
+    handler?.(mutations, observer)
+
+    if (once) unmounted(el, binding)
+  })
+
+  if (immediate) handler?.([], observer)
+
+  el._mutate = Object(el._mutate)
+  el._mutate![binding.instance!.$.uid] = { observer }
+
+  observer.observe(el, options)
+}
+
+function unmounted (el: HTMLElement, binding: MutationDirectiveBinding) {
+  if (!el._mutate?.[binding.instance!.$.uid]) return
+
+  el._mutate[binding.instance!.$.uid]!.observer.disconnect()
+  delete el._mutate[binding.instance!.$.uid]
+}
+
+export const Mutate = {
+  mounted,
+  unmounted,
+}
+
+export default Mutate

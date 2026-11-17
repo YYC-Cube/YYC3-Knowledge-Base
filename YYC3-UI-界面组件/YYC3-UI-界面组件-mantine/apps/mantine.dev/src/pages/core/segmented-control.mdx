@@ -1,0 +1,180 @@
+import { SegmentedControlDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.SegmentedControl);
+
+## Usage
+
+<Demo data={SegmentedControlDemos.usage} />
+
+## Controlled
+
+```tsx
+import { useState } from 'react';
+import { SegmentedControl } from '@mantine/core';
+
+function Demo() {
+  const [value, setValue] = useState('react');
+
+  return (
+    <SegmentedControl
+      value={value}
+      onChange={setValue}
+      data={[
+        { label: 'React', value: 'react' },
+        { label: 'Angular', value: 'ng' },
+        { label: 'Vue', value: 'vue' },
+        { label: 'Svelte', value: 'svelte' },
+      ]}
+    />
+  );
+}
+```
+
+## Uncontrolled
+
+`SegmentedControl` can be used with uncontrolled forms the same way as a native input element.
+Set the `name` attribute to include segmented control value in `FormData` object on form submission.
+To control the initial value in uncontrolled forms, use the `defaultValue` prop.
+
+Example usage of uncontrolled `SegmentedControl` with `FormData`:
+
+```tsx
+import { SegmentedControl } from '@mantine/core';
+
+function Demo() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Segmented control value:', formData.get('framework'));
+      }}
+    >
+      <SegmentedControl
+        name="framework"
+        defaultValue="react"
+        data={[
+          { label: 'React', value: 'react' },
+          { label: 'Angular', value: 'ng' },
+          { label: 'Vue', value: 'vue' },
+          { label: 'Svelte', value: 'svelte' },
+        ]}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Data prop
+
+`SegmentedControl` supports two different data formats:
+
+1. An array of primitive values – used when `value` and `label` are the same
+2. An array of objects – used when `value` and `label` are different
+
+```tsx
+import { SegmentedControl } from '@mantine/core';
+
+function ArrayOfStrings() {
+  return (
+    <SegmentedControl data={['React', 'Angular', 'Svelte', 'Vue']} />
+  );
+}
+
+function ArrayOfObjects() {
+  return (
+    <SegmentedControl
+      data={[
+        { value: 'React', label: 'React' },
+        { value: 'Angular', label: 'Angular' },
+        { value: 'Svelte', label: 'Svelte' },
+        { value: 'Vue', label: 'Vue' },
+      ]}
+    />
+  );
+}
+```
+
+## Generic value type
+
+`SegmentedControl` supports generic value type. You can pass primitive values (numbers, strings, boolean, null)
+as the type argument. The generic type is used for `value`, `defaultValue`, `onChange` and `data` props.
+
+<Demo data={SegmentedControlDemos.generic} />
+
+Example with strings union:
+
+```tsx
+import { SegmentedControl } from '@mantine/core';
+
+function Demo() {
+  return (
+    <SegmentedControl<'orange' | 'grape' | 'apple'>
+      data={[
+        { value: 'orange', label: 'Orange' },
+        { value: 'grape', label: 'Grape' },
+        { value: 'apple', label: 'Apple' },
+      ]}
+    />
+  );
+}
+```
+
+## Disabled
+
+To disable a `SegmentedControl` item, use the array of objects `data` format and set `disabled: true`
+on the item that you want to disable. To disable the entire component, use the `disabled` prop.
+
+<Demo data={SegmentedControlDemos.disabled} />
+
+## React node as label
+
+You can use any React node as a label:
+
+<Demo data={SegmentedControlDemos.labels} />
+
+## Color
+
+By default, `SegmentedControl` uses `theme.white` with shadow in the light color scheme and `var(--mantine-color-dark-6)` background color for the indicator.
+Set the `color` prop to change the indicator `background-color`:
+
+<Demo data={SegmentedControlDemos.configurator} />
+
+## Auto contrast
+
+`SegmentedControl` supports `autoContrast` prop. If set to `true`, the label text color will automatically adjust
+to ensure optimal contrast against the indicator background color:
+
+<Demo data={SegmentedControlDemos.autoContrast} />
+
+## Transitions
+
+Change transition properties with:
+
+- `transitionDuration` – all transitions duration in ms, `200` by default
+- `transitionTimingFunction` – all transitions timing function, `ease` by default
+
+<Demo data={SegmentedControlDemos.transitions} />
+
+## readOnly
+
+Set the `readOnly` prop to prevent the value from being changed:
+
+<Demo data={SegmentedControlDemos.readOnly} />
+
+<StylesApiSelectors component="SegmentedControl" />
+
+<Demo data={SegmentedControlDemos.stylesApi} />
+
+## Accessibility and usability
+
+`SegmentedControl` uses radio inputs under the hood, so it is accessible by default with no extra steps required if you have text in labels.
+The component supports the same keyboard events as a regular radio group.
+
+If you do not have text in labels (for example, when you want to use `SegmentedControl` with icons only),
+use [VisuallyHidden](/core/visually-hidden) to make the component accessible:
+
+<Demo data={SegmentedControlDemos.iconsOnly} />

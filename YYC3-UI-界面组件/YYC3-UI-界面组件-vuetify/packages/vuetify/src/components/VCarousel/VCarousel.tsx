@@ -1,0 +1,232 @@
+// Styles
+import './VCarousel.sass'
+
+// Components
+import { VBtn } from '@/components/VBtn'
+import { VDefaultsProvider } from '@/components/VDefaultsProvider'
+import { VProgressLinear } from '@/components/VProgressLinear'
+import { makeVWindowProps, VWindow } from '@/components/VWindow/VWindow'
+
+// Composables
+import { injectNestedDefaults } from '@/composables/defaults'
+import { IconValue } from '@/composables/icons'
+import { useLocale, useRtl } from '@/composables/locale'
+import { useProxiedModel } from '@/composables/proxiedModel'
+
+// Utilities
+import { nextTick, onMounted, ref, shallowRef, toRef, watch } from 'vue'
+import { convertToUnit, genericComponent, isString, propsFactory, useRender } from '@/util'
+
+// Types
+import type { PropType } from 'vue'
+import type { VWindowSlots } from '@/components/VWindow/VWindow'
+import type { GroupProvide } from '@/composables/group'
+import type { GenericProps } from '@/util'
+
+export const makeVCarouselProps = propsFactory({
+  color: String,
+  cycle: Boolean,
+  delimiterIcon: {
+    type: IconValue,
+    default: '$delimiter',
+  },
+  height: {
+    type: [Number, String],
+    default: 500,
+  },
+  hideDelimiters: Boolean,
+  hideDelimiterBackground: Boolean,
+  interval: {
+    type: [Number, String],
+    default: 6000,
+    validator: (value: string | number) => Number(value) > 0,
+  },
+  pauseOnHover: Boolean,
+  progress: [Boolean, String],
+  verticalDelimiters: [Boolean, String] as PropType<boolean | 'left' | 'right'>,
+
+  ...makeVWindowProps({
+    continuous: true,
+    mandatory: 'force' as const,
+    showArrows: true,
+  }),
+}, 'VCarousel')
+
+type VCarouselSlots = Omit<VWindowSlots, 'additional'> & {
+  item: {
+    props: Record<string, any>
+    item: {
+      id: string
+      value: unknown
+      disabled: boolean | undefined
+    }
+  }
+}
+
+export const VCarousel = genericComponent<new <T>(
+  props: {
+    modelValue?: T
+    'onUpdate:modelValue'?: (value: T) => void
+  },
+  slots: VCarouselSlots,
+) => GenericProps<typeof props, typeof slots>>()({
+  name: 'VCarousel',
+
+  props: makeVCarouselProps(),
+
+  emits: {
+    'update:modelValue': (value: any) => true,
+  },
+
+  setup (props, { slots }) {
+    const model = useProxiedModel(props, 'modelValue')
+    const { t } = useLocale()
+    const { isRtl } = useRtl()
+    const windowRef = ref<VWindow>()
+    const delimiterDefaults = injectNestedDefaults<VBtn['$props']>('VBtn')
+
+    const isHovering = shallowRef(false)
+    const isFocused = shallowRef(false)
+    const isCycling = toRef(() => props.cycle && !isFocused.value && !(props.pauseOnHover && isHovering.value))
+
+    let slideTimeout = -1
+    watch([isCycling, model, () => props.interval], restartTimeout)
+
+    onMounted(startTimeout)
+
+    function startTimeout () {
+      if (!isCycling.value || !windowRef.value) return
+
+      slideTimeout = window.setTimeout(
+        windowRef.value.group.next,
+        Number(props.interval) > 0 ? Number(props.interval) : 6000
+      )
+    }
+
+    function restartTimeout () {
+      window.clearTimeout(slideTimeout)
+      if (isCycling.value) window.requestAnimationFrame(startTimeout)
+    }
+
+    function onFocusin (e: FocusEvent) {
+      isFocused.value = (e.target as HTMLElement).matches(':focus-visible')
+    }
+
+    function onFocusout (e: FocusEvent) {
+      if (!windowRef.value?.$el.contains(e.relatedTarget)) isFocused.value = false
+    }
+
+    function onDelimiterKeyDown (e: KeyboardEvent, group: GroupProvide) {
+      const [backKey, forwardKey] = isRtl.value ? ['ArrowRight', 'ArrowLeft'] : ['ArrowLeft', 'ArrowRight']
+
+      if (
+        (props.direction === 'horizontal' && e.key === backKey) ||
+        (props.direction === 'vertical' && e.key === 'ArrowUp')
+      ) {
+        e.preventDefault()
+        group.prev()
+        nextTick(() => windowRef.value?.$el.querySelector('.v-btn--active')?.focus())
+      }
+
+      if (
+        (props.direction === 'horizontal' && e.key === forwardKey) ||
+        (props.direction === 'vertical' && e.key === 'ArrowDown')
+      ) {
+        e.preventDefault()
+        group.next()
+        nextTick(() => windowRef.value?.$el.querySelector('.v-btn--active')?.focus())
+      }
+    }
+
+    useRender(() => {
+      const windowProps = VWindow.filterProps(props)
+
+      return (
+        <VWindow
+          ref={ windowRef }
+          { ...windowProps }
+          v-model={ model.value }
+          class={[
+            'v-carousel',
+            {
+              'v-carousel--hide-delimiter-background': props.hideDelimiterBackground,
+              'v-carousel--vertical-delimiters': props.verticalDelimiters,
+            },
+            props.class,
+          ]}
+          style={[
+            { height: convertToUnit(props.height) },
+            props.style,
+          ]}
+          onFocusin={ onFocusin }
+          onFocusout={ onFocusout }
+          onPointerenter={ () => isHovering.value = true }
+          onPointerleave={ () => isHovering.value = false }
+        >
+          {{
+            default: slots.default,
+            additional: ({ group }: { group: GroupProvide }) => (
+              <>
+                { !props.hideDelimiters && (
+                  <div
+                    class="v-carousel__controls"
+                    style={{
+                      left: props.verticalDelimiters === 'left' && props.verticalDelimiters ? 0 : 'auto',
+                      right: props.verticalDelimiters === 'right' ? 0 : 'auto',
+                    }}
+                  >
+                    { group.items.value.length > 0 && (
+                      <VDefaultsProvider
+                        defaults={{
+                          VBtn: {
+                            color: props.color,
+                            icon: props.delimiterIcon,
+                            size: delimiterDefaults.value?.size ?? 'x-small',
+                            variant: delimiterDefaults.value?.variant ?? 'text',
+                          },
+                        }}
+                        scoped
+                      >
+                        { group.items.value.map((item, index) => {
+                          const props = {
+                            id: `carousel-item-${item.id}`,
+                            'aria-label': t('$vuetify.carousel.ariaLabel.delimiter', index + 1, group.items.value.length),
+                            class: [
+                              'v-carousel__controls__item',
+                              group.isSelected(item.id) && 'v-btn--active',
+                            ],
+                            onClick: () => group.select(item.id, true),
+                            onKeydown: (e: KeyboardEvent) => onDelimiterKeyDown(e, group),
+                          }
+
+                          return slots.item
+                            ? slots.item({ props, item })
+                            : (<VBtn { ...item } { ...props } />)
+                        })}
+                      </VDefaultsProvider>
+                    )}
+                  </div>
+                )}
+
+                { props.progress && (
+                  <VProgressLinear
+                    absolute
+                    class="v-carousel__progress"
+                    color={ isString(props.progress) ? props.progress : undefined }
+                    modelValue={ (group.getItemIndex(model.value) + 1) / group.items.value.length * 100 }
+                  />
+                )}
+              </>
+            ),
+            prev: slots.prev,
+            next: slots.next,
+          }}
+        </VWindow>
+      )
+    })
+
+    return {}
+  },
+})
+
+export type VCarousel = InstanceType<typeof VCarousel>

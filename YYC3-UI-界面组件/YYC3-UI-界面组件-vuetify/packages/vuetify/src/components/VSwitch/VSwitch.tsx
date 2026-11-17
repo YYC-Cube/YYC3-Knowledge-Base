@@ -1,0 +1,307 @@
+// Styles
+import './VSwitch.sass'
+
+// Components
+import { VScaleTransition } from '@/components/transitions'
+import { VDefaultsProvider } from '@/components/VDefaultsProvider/VDefaultsProvider'
+import { VIcon } from '@/components/VIcon'
+import { makeVInputProps, VInput } from '@/components/VInput/VInput'
+import { VProgressCircular } from '@/components/VProgressCircular'
+import { makeVSelectionControlProps, VSelectionControl } from '@/components/VSelectionControl/VSelectionControl'
+
+// Composables
+import { useBackgroundColor } from '@/composables/color'
+import { useFocus } from '@/composables/focus'
+import { forwardRefs } from '@/composables/forwardRefs'
+import { LoaderSlot, useLoader } from '@/composables/loader'
+import { useProxiedModel } from '@/composables/proxiedModel'
+import { makeSizeProps } from '@/composables/size'
+
+// Utilities
+import { shallowRef, toRef, useId } from 'vue'
+import { filterInputAttrs, genericComponent, isString, omit, propsFactory, SUPPORTS_MATCH_MEDIA, useRender } from '@/util'
+
+// Types
+import type { ComputedRef, PropType, Ref } from 'vue'
+import type { VInputSlots } from '@/components/VInput/VInput'
+import type { VSelectionControlSlots } from '@/components/VSelectionControl/VSelectionControl'
+import type { IconValue } from '@/composables/icons'
+import type { LoaderSlotProps } from '@/composables/loader'
+import type { GenericProps } from '@/util'
+
+export type VSwitchSlot = {
+  model: Ref<boolean>
+  isValid: ComputedRef<boolean | null>
+}
+
+export type VSwitchSlots =
+  & VInputSlots
+  & VSelectionControlSlots
+  & {
+    loader: LoaderSlotProps
+    thumb: { icon: IconValue | undefined } & VSwitchSlot
+    'track-false': VSwitchSlot
+    'track-true': VSwitchSlot
+  }
+
+export const makeVSwitchProps = propsFactory({
+  inset: {
+    type: [Boolean, String] as PropType<boolean | 'tonal' | 'material' | 'square'>,
+    default: false,
+  },
+  flat: Boolean,
+  thumbColor: String,
+  loading: {
+    type: [Boolean, String],
+    default: false,
+  },
+
+  ...omit(makeVInputProps(), ['glow']),
+  ...makeVSelectionControlProps(),
+  ...makeSizeProps(),
+}, 'VSwitch')
+
+const predefinedSizes = ['x-small', 'small', 'default', 'large', 'x-large']
+const iconSizes: Record<string, number> = {
+  'x-small': 11,
+  small: 14,
+  default: 16,
+  large: 18,
+  'x-large': 22,
+}
+
+export const VSwitch = genericComponent<new <T>(
+  props: {
+    modelValue?: T | null
+    'onUpdate:modelValue'?: (value: T | null) => void
+  },
+  slots: VSwitchSlots,
+) => GenericProps<typeof props, typeof slots>>()({
+  name: 'VSwitch',
+
+  inheritAttrs: false,
+
+  props: makeVSwitchProps(),
+
+  emits: {
+    'update:focused': (focused: boolean) => true,
+    'update:modelValue': (value: any) => true,
+    'update:indeterminate': (value: boolean) => true,
+  },
+
+  setup (props, { attrs, slots }) {
+    const indeterminate = useProxiedModel(props, 'indeterminate')
+    const model = useProxiedModel(props, 'modelValue')
+    const { loaderClasses } = useLoader(props)
+    const { isFocused, focus, blur } = useFocus(props)
+    const {
+      backgroundColorClasses: thumbColorClasses,
+      backgroundColorStyles: thumbColorStyles,
+    } = useBackgroundColor(() => props.thumbColor)
+    const control = shallowRef<VSelectionControl>()
+    const inputRef = shallowRef<VInput>()
+    const isForcedColorsModeActive = SUPPORTS_MATCH_MEDIA && window.matchMedia('(forced-colors: active)').matches
+
+    const loaderColor = toRef(() => {
+      return isString(props.loading) && props.loading !== ''
+        ? props.loading
+        : props.color
+    })
+
+    const uid = useId()
+    const id = toRef(() => props.id || `switch-${uid}`)
+
+    const isPredefinedSize = toRef(() => predefinedSizes.includes(props.size as string))
+    const iconSize = toRef(() => {
+      return isPredefinedSize.value ? iconSizes[props.size as string] : Math.round(16 * Number(props.size) / 32)
+    })
+
+    function onChange () {
+      if (indeterminate.value) {
+        indeterminate.value = false
+      }
+    }
+    function onTrackClick (e: Event) {
+      e.stopPropagation()
+      e.preventDefault()
+      control.value?.input?.click()
+    }
+
+    useRender(() => {
+      const [rootAttrs, controlAttrs] = filterInputAttrs(attrs)
+      const inputProps = VInput.filterProps(props)
+      const controlProps = VSelectionControl.filterProps(props)
+      const isMaterial = ['material', 'square'].includes(String(props.inset))
+      const hasThumbColor = !isForcedColorsModeActive && !!props.thumbColor
+
+      return (
+        <VInput
+          ref={ inputRef }
+          class={[
+            'v-switch',
+            { 'v-switch--flat': props.flat },
+            { 'v-switch--inset': !!props.inset },
+            { 'v-switch--inset-material': isMaterial },
+            { 'v-switch--inset-square': props.inset === 'square' },
+            { 'v-switch--indeterminate': indeterminate.value },
+            isPredefinedSize.value ? `v-switch--size-${props.size}` : undefined,
+            loaderClasses.value,
+            props.class,
+          ]}
+          { ...rootAttrs }
+          { ...inputProps }
+          v-model={ model.value }
+          id={ id.value }
+          focused={ isFocused.value }
+          style={[
+            { '--v-switch-scale': isPredefinedSize.value ? undefined : Number(props.size) / 32 },
+            props.style,
+          ]}
+        >
+          {{
+            ...slots,
+            default: ({
+              id,
+              messagesId,
+              isDisabled,
+              isReadonly,
+              isValid,
+            }) => {
+              const slotProps = {
+                model,
+                isValid,
+              }
+
+              return (
+                <VSelectionControl
+                  ref={ control }
+                  { ...controlProps }
+                  v-model={ model.value }
+                  id={ id.value }
+                  aria-describedby={ messagesId.value }
+                  type="checkbox"
+                  onUpdate:modelValue={ onChange }
+                  indeterminate={ indeterminate.value }
+                  disabled={ isDisabled.value }
+                  readonly={ isReadonly.value }
+                  onFocus={ focus }
+                  onBlur={ blur }
+                  { ...controlAttrs }
+                >
+                  {{
+                    ...slots,
+                    default: ({ backgroundColorClasses, backgroundColorStyles }) => (
+                      <div
+                        class={[
+                          'v-switch__track',
+                          !isForcedColorsModeActive ? backgroundColorClasses.value : undefined,
+                        ]}
+                        style={ backgroundColorStyles.value }
+                        onClick={ onTrackClick }
+                      >
+                        { slots['track-true'] && (
+                          <div key="prepend" class="v-switch__track-true">
+                            { slots['track-true'](slotProps) }
+                          </div>
+                        )}
+
+                        { slots['track-false'] && (
+                          <div key="append" class="v-switch__track-false">
+                            { slots['track-false'](slotProps) }
+                          </div>
+                        )}
+                      </div>
+                    ),
+                    input: ({
+                      inputNode,
+                      icon,
+                      model: isSelected,
+                      backgroundColorClasses,
+                      backgroundColorStyles,
+                      textColorClasses,
+                      textColorStyles,
+                    }) => (
+                      <>
+                        { inputNode }
+                        <div
+                          class={[
+                            'v-switch__thumb',
+                            { 'v-switch__thumb--filled': icon || props.loading },
+                            isForcedColorsModeActive ? undefined
+                            : (hasThumbColor && isSelected.value) ? thumbColorClasses.value
+                            : isMaterial ? backgroundColorClasses.value
+                            : props.inset ? undefined
+                            : backgroundColorClasses.value,
+                          ]}
+                          style={[
+                            (hasThumbColor && isSelected.value) ? thumbColorStyles.value
+                            : isMaterial
+                              ? (backgroundColorClasses.value.length || backgroundColorStyles.value.backgroundColor
+                                ? { backgroundColor: 'currentColor' }
+                                : undefined)
+                              : props.inset ? undefined
+                              : backgroundColorStyles.value,
+                          ]}
+                        >
+                          { slots.thumb ? (
+                            <VDefaultsProvider
+                              defaults={{
+                                VIcon: {
+                                  icon,
+                                  size: isMaterial ? iconSize.value : 'x-small',
+                                },
+                              }}
+                            >
+                              { slots.thumb({ ...slotProps, icon }) }
+                            </VDefaultsProvider>
+                          ) : (
+                            <VScaleTransition>
+                              { !props.loading ? (
+                                (icon && (
+                                  <VIcon
+                                    key={ String(icon) }
+                                    class={ isMaterial ? textColorClasses.value : undefined }
+                                    style={ isMaterial ? textColorStyles.value : undefined }
+                                    icon={ icon }
+                                    size={ isMaterial ? iconSize.value : 'x-small' }
+                                  />
+                                ))) : (
+                                <LoaderSlot
+                                  name="v-switch"
+                                  active
+                                  color={ isValid.value === false ? undefined : loaderColor.value }
+                                >
+                                  { slotProps => (
+                                    slots.loader
+                                      ? slots.loader(slotProps)
+                                      : (
+                                        <VProgressCircular
+                                          active={ slotProps.isActive }
+                                          color={ slotProps.color }
+                                          indeterminate
+                                          size={ iconSize.value }
+                                          width="2"
+                                        />
+                                      )
+                                  )}
+                                </LoaderSlot>
+                              )}
+                            </VScaleTransition>
+                          )}
+                        </div>
+                      </>
+                    ),
+                  }}
+                </VSelectionControl>
+              )
+            },
+          }}
+        </VInput>
+      )
+    })
+
+    return forwardRefs({ isFocused }, control, inputRef)
+  },
+})
+
+export type VSwitch = InstanceType<typeof VSwitch>

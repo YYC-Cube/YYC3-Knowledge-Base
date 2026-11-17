@@ -1,0 +1,183 @@
+@import '../common/style/base.less';
+
+// themes
+@tag-default-color: var(--td-tag-default-color, @bg-color-component);
+@tag-default-light-color: var(--td-tag-default-light-color, @bg-color-secondarycontainer);
+@tag-primary-color: var(--td-tag-primary-color, @brand-color);
+@tag-primary-light-color: var(--td-tag-primary-light-color, @brand-color-light);
+@tag-success-color: var(--td-tag-success-color, @success-color);
+@tag-success-light-color: var(--td-tag-success-light-color, @success-color-1);
+@tag-warning-color: var(--td-tag-warning-color, @warning-color);
+@tag-warning-light-color: var(--td-tag-warning-light-color, @warning-color-1);
+@tag-danger-color: var(--td-tag-danger-color, @error-color);
+@tag-danger-light-color: var(--td-tag-danger-light-color, @error-color-1);
+
+// variant
+@tag-outline-bg-color: var(--td-tag-outline-bg-color, @bg-color-container);
+@tag-default-font-color: var(--td-tag-default-font-color, @text-color-primary);
+
+// status
+@tag-disabled-color: var(--td-tag-disabled-color, @text-color-disabled);
+@tag-disabled-background-color: var(--td-tag-disabled-background-color, @bg-color-component-disabled);
+@tag-disabled-border-color: var(--td-tag-disabled-border-color, @component-border);
+
+// size
+@tag-small-padding: var(--td-tag-small-padding, 2rpx 10rpx);
+@tag-medium-padding: var(--td-tag-medium-padding, 2rpx 14rpx);
+@tag-large-padding: var(--td-tag-large-padding, calc(@spacer / 4) 14rpx);
+@tag-extra-large-padding: var(--td-tag-extra-large-padding, @spacer 30rpx);
+
+@tag-small-font: var(--td-tag-small-font, @font-body-extraSmall);
+@tag-medium-font: var(--td-tag-medium-font, @font-body-small);
+@tag-large-font: var(--td-tag-large-font, @font-body-medium);
+@tag-extra-large-font: var(--td-tag-extra-large-font, @font-body-medium);
+
+@tag-small-icon-size: var(--td-tag-small-icon-size, 24rpx);
+@tag-medium-icon-size: var(--td-tag-medium-icon-size, 28rpx);
+@tag-large-icon-size: var(--td-tag-large-icon-size, 32rpx);
+@tag-extra-large-icon-size: var(--td-tag-extra-large-icon-size, 32rpx);
+
+@tag-square-border-radius: var(--td-tag-square-border-radius, @radius-small);
+@tag-round-border-radius: var(--td-tag-round-border-radius, @radius-round);
+@tag-mark-border-radius: var(--td-tag-mark-border-radius, @radius-round);
+
+.genVariant(@variant) {
+  @themes: default, primary, success, warning, danger;
+  each(@themes, {
+    @theme-color: 'tag-@{value}-color';
+    @theme-light-color: 'tag-@{value}-light-color';
+
+    &.@{prefix}-tag--@{value} {
+      color: if(@variant = dark, @text-color-anti, @@theme-color);
+      border-color: if(@variant = light, @@theme-light-color, @@theme-color);
+      background-color: if(@variant = dark, @@theme-color, @@theme-light-color);
+    }
+  });
+}
+
+.@{prefix}-tag {
+  display: inline-flex;
+  align-items: center;
+  border: 2rpx solid transparent;
+  box-sizing: border-box;
+  border-radius: @tag-square-border-radius;
+  user-select: none;
+  vertical-align: middle;
+
+  &__text {
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon:not(:empty) + &__text:not(:empty) {
+    margin-left: calc(@spacer / 2);
+  }
+
+  &--small {
+    padding: @tag-small-padding;
+    font: @tag-small-font;
+
+    .@{prefix}-icon,
+    .@{prefix}-icon-close {
+      font-size: @tag-small-icon-size;
+    }
+  }
+
+  &--medium {
+    padding: @tag-medium-padding;
+    font: @tag-medium-font;
+
+    .@{prefix}-icon,
+    .@{prefix}-icon-close {
+      font-size: @tag-medium-icon-size;
+    }
+  }
+
+  &--large {
+    padding: @tag-large-padding;
+    font: @tag-large-font;
+
+    .@{prefix}-icon,
+    .@{prefix}-icon-close {
+      font-size: @tag-large-icon-size;
+    }
+  }
+
+  &--extra-large {
+    padding: @tag-extra-large-padding;
+    font: @tag-extra-large-font;
+
+    .@{prefix}-icon,
+    .@{prefix}-icon-close {
+      font-size: @tag-extra-large-icon-size;
+    }
+  }
+
+  &.@{prefix}-tag {
+    &--square {
+      border-radius: @tag-square-border-radius;
+
+      &.@{prefix}-tag--extra-large {
+        border-radius: calc(@tag-square-border-radius * 2);
+      }
+    }
+
+    &--round {
+      border-radius: @tag-round-border-radius;
+    }
+
+    &--mark {
+      border-radius: 0 @tag-mark-border-radius @tag-mark-border-radius 0;
+    }
+  }
+
+  &--dark {
+    .genVariant(dark);
+    &.@{prefix}-tag--default {
+      color: @tag-default-font-color;
+    }
+  }
+
+  &--outline {
+    .genVariant(outline);
+    &.@{prefix}-tag--default {
+      color: @tag-default-font-color;
+    }
+    each(@themes, {
+      &.@{prefix}-tag--@{value} {
+        background-color: @tag-outline-bg-color;
+      }
+    });
+  }
+
+  &--light {
+    .genVariant(light);
+    &.@{prefix}-tag--default {
+      color: @tag-default-font-color;
+    }
+  }
+
+  &--light-outline {
+    .genVariant(light-outline);
+    &.@{prefix}-tag--default {
+      color: @tag-default-font-color;
+      border-color: @component-border;
+    }
+  }
+
+  &.@{prefix}-tag--closable {
+    &.@{prefix}-tag--disabled {
+      cursor: not-allowed;
+      color: @tag-disabled-color;
+      background-color: @tag-disabled-background-color;
+      border-color: @tag-disabled-border-color;
+    }
+  }
+}

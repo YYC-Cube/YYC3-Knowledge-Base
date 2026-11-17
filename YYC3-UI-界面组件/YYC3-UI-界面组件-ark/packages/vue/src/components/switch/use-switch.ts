@@ -1,0 +1,46 @@
+import * as zagSwitch from '@zag-js/switch'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import { useFieldContext } from '../field/index.ts'
+import type { RootEmits } from './switch.ts'
+
+export interface UseSwitchProps extends Optional<Omit<zagSwitch.Props, 'dir' | 'getRootNode'>, 'id'> {}
+
+export interface UseSwitchReturn extends ComputedRef<zagSwitch.Api<PropTypes>> {}
+
+export const useSwitch = (props: MaybeRefOrGetter<UseSwitchProps> = {}, emit?: EmitFn<RootEmits>): UseSwitchReturn => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+  const field = useFieldContext()
+
+  const context = computed<zagSwitch.Props>(() => {
+    const localProps = toValue<UseSwitchProps>(props)
+
+    return {
+      id,
+      ids: {
+        label: field?.value.ids.label,
+        hiddenInput: field?.value.ids.control,
+      },
+      disabled: field?.value.disabled,
+      readOnly: field?.value.readOnly,
+      invalid: field?.value.invalid,
+      required: field?.value.required,
+      dir: locale.value.dir,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localProps),
+      onCheckedChange(details) {
+        emit?.('checkedChange', details)
+        emit?.('update:checked', details.checked)
+        localProps.onCheckedChange?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(zagSwitch.machine, context)
+  return computed(() => zagSwitch.connect(service, normalizeProps))
+}

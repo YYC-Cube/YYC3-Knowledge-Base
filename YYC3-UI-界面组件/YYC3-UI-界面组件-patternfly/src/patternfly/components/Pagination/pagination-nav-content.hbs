@@ -1,0 +1,30 @@
+{{#> pagination-nav}}
+  {{#unless pagination--IsCompact}}
+    {{#> pagination-nav-control pagination-nav-control--modifier="pf-m-first"}}
+      {{> button button--IsPlain=true button--IsIcon=true button--icon="rh-microns-double-caret-left" button--IsDisabled=true button--attribute='aria-label="Go to first page"'}}
+    {{/pagination-nav-control}}
+  {{/unless}}
+  {{#> pagination-nav-control pagination-nav-control--modifier="pf-m-prev"}}
+    {{> button button--IsPlain=true button--IsIcon=true button--icon="rh-microns-caret-left" button--IsDisabled=true button--attribute='aria-label="Go to previous page"'}}
+  {{/pagination-nav-control}}
+  {{#unless pagination--IsCompact}}
+    {{#> pagination-nav-page-select}}
+      {{#if pagination-nav-content--IsDisabled}}
+        {{> form-control input="true" controlType="input" form-control--IsDisabled='true' form-control--attribute='aria-label="Current page" type="number" min="1" max="4" value="1"'}}
+      {{else}}
+        {{> form-control input="true" controlType="input" form-control--attribute='aria-label="Current page" type="number" min="1" max="4" value="1"'}}
+      {{/if}}
+      {{#unless pagination--IsIndeterminate}}
+        <span aria-hidden="true">of 4</span>
+      {{/unless}}
+    {{/pagination-nav-page-select}}
+  {{/unless}}
+  {{#> pagination-nav-control pagination-nav-control--modifier="pf-m-next"}}
+    {{> button button--IsPlain=true button--IsIcon=true button--icon="rh-microns-caret-right" button--IsDisabled=pagination-nav-content--IsDisabled button--attribute='aria-label="Go to next page"'}}
+  {{/pagination-nav-control}}
+  {{#unless pagination--IsCompact}}
+    {{#> pagination-nav-control pagination-nav-control--modifier="pf-m-last"}}
+      {{> button button--IsPlain=true button--IsIcon=true button--icon="rh-microns-double-caret-right" button--IsDisabled=pagination-nav-content--IsDisabled button--attribute='disabled aria-label="Go to last page"'}}
+    {{/pagination-nav-control}}
+  {{/unless}}
+{{/pagination-nav}}

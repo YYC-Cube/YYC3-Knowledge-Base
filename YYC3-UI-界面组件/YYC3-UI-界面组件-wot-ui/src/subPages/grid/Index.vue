@@ -1,0 +1,232 @@
+<template>
+  <page-wraper :demo-config="{ transparent: true }">
+    <view class="page-grid">
+      <demo-group :title="$t('zu-jian-lei-xing')">
+        <demo-group-item :title="$t('jiBenYongFa')" transparent no-padding>
+          <wd-grid clickable>
+            <wd-grid-item icon="image" :text="$t('wen-zi')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-0')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-1')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-2')" />
+          </wd-grid>
+        </demo-group-item>
+
+        <demo-group-item :title="$t('nei-rong-cha-cao')" transparent no-padding>
+          <wd-grid>
+            <wd-grid-item>
+              <image class="page-grid__image" :src="img" />
+            </wd-grid-item>
+            <wd-grid-item>
+              <image class="page-grid__image" :src="img" />
+            </wd-grid-item>
+            <wd-grid-item use-slot>
+              <image class="page-grid__image" :src="img" />
+            </wd-grid-item>
+          </wd-grid>
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('zu-jian-bian-ti')">
+        <demo-group-item :title="$t('zi-ding-yi-lie-shu')" transparent no-padding>
+          <wd-grid :column="3">
+            <wd-grid-item icon="image" :text="$t('wen-zi-3')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-4')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-5')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-6')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-7')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-8')" />
+          </wd-grid>
+        </demo-group-item>
+
+        <demo-group-item :title="$t('zheng-fang-xing-ge-zi')" transparent no-padding>
+          <wd-grid square :column="4" border :gutter="10">
+            <wd-grid-item icon="image" :text="$t('wen-zi-22')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-23')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-24')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-25')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-26')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-27')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-28')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-29')" />
+          </wd-grid>
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('zu-jian-yang-shi')">
+        <demo-group-item :title="$t('zi-ding-yi-bei-jing-yan-se')" transparent no-padding>
+          <wd-grid class="page-grid__custom-bg-grid">
+            <wd-grid-item icon="image" :text="$t('wen-zi-9')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-10')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-11')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-12')" />
+          </wd-grid>
+        </demo-group-item>
+
+        <demo-group-item :title="$t('xian-shi-border')">
+          <wd-grid :column="3" border>
+            <wd-grid-item icon="image" :text="$t('wen-zi-13')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-14')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-15')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-16')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-17')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-18')" />
+          </wd-grid>
+        </demo-group-item>
+
+        <demo-group-item :title="$t('she-ding-ge-jian-xi')" transparent no-padding>
+          <wd-grid :gutter="10" :column="4">
+            <wd-grid-item icon="image" :text="$t('wen-zi-30')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-31')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-32')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-33')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-34')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-35')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-36')" />
+            <wd-grid-item icon="image" :text="$t('wen-zi-37')" />
+          </wd-grid>
+        </demo-group-item>
+
+        <demo-group-item :title="$t('ti-shi-xin-xi')" transparent no-padding>
+          <wd-grid>
+            <wd-grid-item is-dot icon="gift" :text="$t('wen-zi-38')" />
+            <wd-grid-item :value="100" :max="99" icon="desktop" :text="$t('wen-zi-39')" />
+          </wd-grid>
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('bu-ju-neng-li')">
+        <demo-group-item :title="$t('heng-xiang-bu-ju')" transparent no-padding>
+          <wd-grid direction="horizontal" :column="2">
+            <wd-grid-item icon="image" :text="$t('tu-biao-ju-zuo')" />
+            <wd-grid-item icon="settings" :text="$t('she-zhi-xuan-xiang')" />
+            <wd-grid-item icon="tag" :text="$t('ka-quan-zhong-xin')" />
+            <wd-grid-item icon="list" :text="$t('ding-dan-lie-biao')" />
+          </wd-grid>
+        </demo-group-item>
+        <demo-group-item :title="$t('heng-xiang-bu-ju-tu-biao-tiao-huan')" transparent no-padding>
+          <wd-grid direction="horizontal" reverse :column="2" border>
+            <wd-grid-item icon="image" :text="$t('tu-biao-ju-you')" />
+            <wd-grid-item icon="settings" :text="$t('she-zhi-xuan-xiang-0')" />
+            <wd-grid-item icon="tag" :text="$t('ka-quan-zhong-xin-0')" />
+            <wd-grid-item icon="list" :text="$t('ding-dan-lie-biao-0')" />
+          </wd-grid>
+        </demo-group-item>
+      </demo-group>
+
+      <demo-group :title="$t('te-shu-yang-shi')">
+        <demo-group-item :title="$t('tu-biao-cha-cao')" transparent no-padding>
+          <wd-grid>
+            <wd-grid-item :text="$t('wen-zi-19')" icon-size="36px">
+              <template #icon>
+                <image class="page-grid__slot-image" :src="img" />
+              </template>
+            </wd-grid-item>
+            <wd-grid-item :text="$t('wen-zi-20')" icon-size="36px">
+              <template #icon>
+                <image class="page-grid__slot-image" :src="img" />
+              </template>
+            </wd-grid-item>
+            <wd-grid-item :text="$t('wen-zi-21')" icon-size="36px">
+              <template #icon>
+                <image class="page-grid__slot-image" :src="img" />
+              </template>
+            </wd-grid-item>
+          </wd-grid>
+        </demo-group-item>
+
+        <demo-group-item :title="$t('wen-zi-cha-cao')" transparent no-padding>
+          <wd-grid>
+            <wd-grid-item icon="image">
+              <template #text>
+                <view class="page-grid__text">{{ $t('zi-ding-yi-wen-zi-cha-cao') }}</view>
+              </template>
+            </wd-grid-item>
+            <wd-grid-item icon="image">
+              <template #text>
+                <view class="page-grid__text">{{ $t('zi-ding-yi-wen-zi-cha-cao-0') }}</view>
+              </template>
+            </wd-grid-item>
+            <wd-grid-item icon="image">
+              <template #text>
+                <view class="page-grid__text">{{ $t('zi-ding-yi-wen-zi-cha-cao-1') }}</view>
+              </template>
+            </wd-grid-item>
+          </wd-grid>
+        </demo-group-item>
+
+        <demo-group-item :title="$t('ziDingYiYangShi')" transparent no-padding>
+          <wd-grid>
+            <wd-grid-item
+              ellipsis
+              custom-class="page-grid__item"
+              icon="search-line"
+              :text="$t('wot-ui-yi-ge-gao-yan-zhi-qing-liang-hua-de-uniapp-zu-jian-ku')"
+            />
+            <wd-grid-item
+              ellipsis
+              custom-class="page-grid__item"
+              icon="settings"
+              :text="$t('ji-yu-vue3ts-kai-fa-ti-gong-70-gao-zhi-liang-zu-jian-zhi-chi-an-hei-mo-shi-guo-ji-hua-he-zi-ding-yi-zhu-ti')"
+            />
+          </wd-grid>
+        </demo-group-item>
+
+        <demo-group-item :title="$t('ye-mian-dao-hang')" transparent no-padding>
+          <wd-grid clickable>
+            <wd-grid-item link-type="redirectTo" url="/pages/button/Index" @itemclick="click" icon="edit" :text="$t('redirect-to')" />
+            <wd-grid-item link-type="navigateTo" url="/pages/button/Index" @itemclick="click" icon="edit" :text="$t('navigate-to')" />
+          </wd-grid>
+        </demo-group-item>
+      </demo-group>
+    </view>
+  </page-wraper>
+</template>
+<script lang="ts" setup>
+import { useToast } from '@/uni_modules/wot-ui'
+import blackMao from '../static/images/black-mao.png'
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+
+const img = ref<string>(blackMao)
+
+const toast = useToast()
+function click() {
+  toast.show(t('cheng-gong-tiao-zhuan'))
+}
+</script>
+<style lang="scss" scoped>
+.page-grid {
+  &__custom-bg-grid {
+    :deep(.wd-grid-item__content) {
+      background: $filled-bottom;
+    }
+  }
+
+  &__image {
+    display: inline-block;
+    width: 100%;
+    height: 90px;
+    vertical-align: middle;
+    background-size: cover;
+  }
+
+  &__slot-image {
+    width: $n-36;
+    height: $n-36;
+    border-radius: $radius-main;
+  }
+
+  &__text {
+    margin-top: $spacing-tight;
+    color: $warning-main;
+  }
+}
+
+:deep(.page-grid__item) {
+  color: $danger-main;
+  text-align: left !important;
+  padding: 0 $padding-main;
+  background: $filled-oppo;
+}
+</style>

@@ -1,0 +1,97 @@
+{
+    "name": "@primevue/nuxt-module",
+    "version": "4.5.5",
+    "author": "PrimeTek Informatics",
+    "description": "Nuxt module for PrimeVue",
+    "homepage": "https://primevue.org/",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/primefaces/primevue.git",
+        "directory": "packages/nuxt-module"
+    },
+    "bugs": {
+        "url": "https://github.com/primefaces/primevue/issues"
+    },
+    "keywords": [
+        "vue",
+        "vue.js",
+        "vue3",
+        "nuxt",
+        "nuxt3",
+        "primevue",
+        "primevue nuxt module",
+        "primevue nuxt3",
+        "primevue 4"
+    ],
+    "type": "module",
+    "sideEffects": false,
+    "main": "./src/module.ts",
+    "types": "./src/types.d.ts",
+    "files": [
+        "dist"
+    ],
+    "build": {
+        "externals": [
+            "primevue",
+            "@primevue/metadata",
+            "@primevue/auto-import-resolver",
+            "unplugin-vue-components",
+            "@primeuix/utils",
+            "@primeuix/utils/object",
+            "@primeuix/utils/dom"
+        ]
+    },
+    "publishConfig": {
+        "main": "./dist/module.cjs",
+        "types": "./dist/types.d.ts",
+        "exports": {
+            ".": {
+                "types": "./dist/types.d.ts",
+                "import": "./dist/module.mjs",
+                "require": "./dist/module.cjs"
+            }
+        },
+        "access": "public"
+    },
+    "scripts": {
+        "build": "NODE_ENV=production INPUT_DIR=src/ OUTPUT_DIR=dist/ pnpm run build:package",
+        "build:package": "pnpm run build:prebuild && pnpm run prepack",
+        "build:prebuild": "node ./scripts/prebuild.mjs",
+        "prepack": "nuxt-module-build build",
+        "dev": "nuxi dev playground",
+        "dev:build": "nuxi build playground",
+        "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+        "dev:link": "pnpm link --global && npm link",
+        "test": "vitest run",
+        "test:watch": "vitest watch",
+        "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+    },
+    "dependencies": {
+        "@nuxt/kit": "^3",
+        "@primeuix/styled": "catalog:",
+        "@primeuix/utils": "catalog:",
+        "primevue": "workspace:*",
+        "@primevue/auto-import-resolver": "workspace:*",
+        "@primevue/metadata": "workspace:*",
+        "@primevue/forms": "workspace:*",
+        "unplugin-vue-components": "28.4.1",
+        "pathe": "^1.1.2"
+    },
+    "devDependencies": {
+        "@primeuix/themes": "catalog:",
+        "@nuxt/devtools": "^2.1.0",
+        "@nuxt/eslint-config": "^1.1.0",
+        "@nuxt/module-builder": "^0.8.4",
+        "@nuxt/schema": "^3",
+        "@nuxt/test-utils": "^3",
+        "@types/node": "latest",
+        "changelogen": "^0.6.0",
+        "nuxt": "catalog:app",
+        "vitest": "^3.0.7",
+        "vue-tsc": "~2.1.6"
+    },
+    "engines": {
+        "node": ">=12.11.0"
+    }
+}

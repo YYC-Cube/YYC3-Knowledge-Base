@@ -1,0 +1,33 @@
+---
+title: Collapsible
+description: Controlled show / hide with the same height and fade motion as Accordion panels, for sections that render their own header.
+category: Data Display
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { collapsibleClasses } from './stable';
+
+## Default
+
+`open` drives the panel; the content is unmounted when closed unless `keepMounted` is set.
+
+<Demo of={DemoIndex} />
+
+## APIs
+
+<Api name="Collapsible" from=".." />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Collapsible`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/Collapsible.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={collapsibleClasses} />

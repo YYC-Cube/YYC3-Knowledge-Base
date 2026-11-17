@@ -1,0 +1,127 @@
+@keyframes slide {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, -2076px, 0); /* The image width */
+  }
+}
+
+.root {
+  height: 692px;
+  background-color: var(--mantine-color-body);
+  position: relative;
+  overflow: hidden;
+
+  @mixin dark {
+    background-color: var(--mantine-color-dark-7);
+  }
+
+  @mixin smaller-than $mantine-breakpoint-md {
+    height: auto;
+  }
+}
+
+.container {
+  position: relative;
+  padding-top: 200px;
+  padding-bottom: var(--hp-block-spacing);
+
+  @mixin smaller-than $mantine-breakpoint-md {
+    padding-top: 80px;
+  }
+}
+
+.image {
+  height: calc(2052px * 3);
+  position: absolute;
+  width: 1000px;
+  background-size: contain;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  background-repeat: repeat-y;
+  animation: slide 120s linear infinite;
+
+  @mixin smaller-than $mantine-breakpoint-md {
+    display: none;
+  }
+}
+
+.main {
+  position: relative;
+  z-index: 3;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(-95deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 1) 60%);
+
+  @mixin dark {
+    background: linear-gradient(
+      -95deg,
+      alpha(var(--mantine-color-dark-7), 0.5) 0%,
+      var(--mantine-color-dark-7) 60%
+    );
+  }
+}
+
+.action {
+  height: 60px;
+  width: 220px;
+  border-radius: var(--mantine-radius-md);
+  font-size: var(--mantine-font-size-lg);
+  padding-inline: var(--mantine-spacing-lg);
+  font-weight: 600;
+  padding-top: 3px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+
+  transition:
+    box-shadow 100ms ease,
+    transform 100ms ease;
+
+  @mixin hover {
+    box-shadow: var(--mantine-shadow-md);
+    transform: translateY(-1px) scale(1.01);
+  }
+
+  &[data-get-started] {
+    background: var(--hp-primary-bg);
+    box-shadow: var(--hp-primary-shadow);
+    border-bottom: var(--hp-primary-border);
+  }
+
+  &[data-github] {
+    background-color: var(--mantine-color-dark-7);
+    color: var(--mantine-color-white);
+    font-weight: 600;
+
+    @mixin hover {
+      background-color: var(--mantine-color-black);
+    }
+
+    @mixin dark {
+      border-color: var(--mantine-color-dark-5);
+      background-color: var(--mantine-color-gray-1);
+      color: var(--mantine-color-black);
+    }
+  }
+
+  @mixin smaller-than $mantine-breakpoint-xs {
+    width: 100%;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: var(--mantine-spacing-lg);
+  margin-top: 40px;
+
+  @mixin smaller-than $mantine-breakpoint-xs {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,225 @@
+# 开关
+
+### 介绍
+
+开关选择器。
+
+### 基本使用
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <var-switch v-model="value" />
+</template>
+```
+
+### 禁用
+
+```html
+<template>
+  <var-switch v-model="value" disabled />
+</template>
+```
+
+### 只读
+
+```html
+<template>
+  <var-switch v-model="value" readonly />
+</template>
+```
+
+### 自定义颜色
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <var-switch v-model="value" color="var(--color-warning)" close-color="var(--color-info)" />
+</template>
+```
+
+### 不同大小
+
+通过 `size` 属性改变 Switch 大小。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <var-switch v-model="value" size="15" />
+  <var-switch v-model="value" />
+  <var-switch v-model="value" size="25" />
+</template>
+```
+
+### 加载状态
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <var-switch v-model="value" loading />
+</template>
+```
+
+### 值的校验
+
+通过传入一个校验器数组可以对值进行校验，校验器返回 `true` 则为校验通过。
+以外的值将转换为文本作为用户提示。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <var-switch v-model="value" :rules="v => v === true || '错误!'"/>
+</template>
+```
+
+### 使用 Zod 校验
+
+```html
+<script setup>
+import { ref } from 'vue'
+import { z } from 'zod'
+
+const value = ref(true)
+</script>
+
+<template>
+  <var-switch v-model="value" :rules="z.boolean().refine(v => v === true, '错误!')" />
+</template>
+```
+
+### 异步变更
+
+在某些场景下需要等待服务器返回成功之后再执行变更。
+设置 `lazy-change` 后会阻止组件本身的绑定值更新操作，
+并注册 `before-change` 事件进行手动更新。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+
+function handleBeforeChange(value, change) {
+  setTimeout(() => change(value), 500)
+}
+</script>
+
+<template>
+  <var-switch 
+    lazy-change
+    v-model="value"
+    @before-change="handleBeforeChange"
+  />
+</template>
+```
+
+### 变体
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <var-switch variant v-model="value" />
+</template>
+```
+
+## API
+
+### 属性
+
+| 参数               | 说明 | 类型 | 默认值 |
+|------------------| -------------- | -------- | ---------- |
+| `v-model`        | 开关选中状态	| _any_ | `false` |
+| `active-value`   | 开关打开时的值	| _any_ | `true` |
+| `inactive-value` | 开关关闭时的值	| _any_ | `false` |
+| `disabled`       | 是否禁用| _boolean_ | `false` |
+| `readonly`       | 是否只读 | _boolean_ | `false` |
+| `loading`        | 是否为加载状态 | _boolean_ | `false` |
+| `ripple`         | 是否启用水波纹 | _boolean_ | `true` |
+| `button-elevation` ***3.2.7*** | 控制按钮的海拔效果 | _boolean_ | `true` |
+| `color`          | 打开状态下的颜色 | _string_ | `-` |
+| `loading-color`  | 加载图标的颜色 | _string_ | `-` |
+| `close-color`    | 关闭状态下的颜色 | _string_ | `-` |
+| `size`           | switch 的大小 | _string \| number_ | `-` |
+| `rules` | 验证规则，返回 `true` 表示验证通过，其它类型的值将转换为文本作为用户提示。自 `3.5.0` 开始支持 [Zod 验证](#/zh-CN/zodValidation)  | _((v: any) => any) \| ZodType \| Array<((v: any) => any) \| ZodType>_ | `-` |
+| `lazy-change`    | 是否允许触发 `before-change` 事件 | _boolean_  | `false` |
+| `validate-trigger` | 触发验证的时机，可选值为 `onChange` `onLazyChange` | _SwitchValidateTrigger[]_ | `['onChange', 'onLazyChange']` |
+| `variant` ***3.2.3*** | 变体模式 | _boolean_ | `false` |
+| `tabindex` ***3.12.2*** | 与原生 input 的 tabindex 属性一致  | _string_ | `-` |
+
+### 事件
+
+| 事件名 | 说明 | 回调参数 |
+| ----- | -------------- | -------- |
+| `click` | 点击时触发 | `event: Event` |
+| `change` | 开关状态切换时触发 | `value: any` |
+| `before-change` | 变更之前(仅限 `lazy-change` 模式)触发 | `value: any` <br> `change: (value: any) => void` |
+
+### 样式变量
+
+以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+
+| 变量名 | 默认值 |
+| --- | --- |
+| `--switch-track-background` | `#fff` |
+| `--switch-track-active-background` | `var(--color-primary)` |
+| `--switch-track-error-background` | `var(--color-danger)` |
+| `--switch-ripple-color` | `var(--color-primary)` |
+| `--switch-handle-background` | `var(--color-on-primary)` |
+| `--switch-handle-color` | `var(--color-primary)` |
+| `--switch-handle-active-color` | `var(--color-on-primary)` |
+| `--switch-handle-active-background` | `var(--color-primary)` |
+| `--switch-handle-error-background` | `var(--color-danger)` |
+| `--switch-disabled-opacity` | `var(--opacity-disabled)` |
+| `--switch-variant-width` | `52px` |
+| `--switch-variant-height` | `32px` |
+| `--switch-variant-track-border-color` | `#888` |
+| `--switch-variant-track-background` | `var(--color-surface-container-highest)` |
+| `--switch-variant-handle-width` | `24px` |
+| `--switch-variant-handle-height` | `24px` |
+| `--switch-variant-handle-color` | `var(--color-on-primary)` |
+| `--switch-variant-handle-active-color` | `var(--color-primary)` |
+| `--switch-variant-handle-background` | `#888` |
+| `--switch-variant-handle-active-background` | `var(--color-on-primary)` |
+| `--switch-width` | `40px` |
+| `--switch-height` | `24px` |
+| `--switch-track-width` | `38px` |
+| `--switch-track-height` | `14.4px` |
+| `--switch-track-border-radius` | `calc(20px * 2 / 3)` |
+| `--switch-handle-width` | `20px` |
+| `--switch-handle-height` | `20px` |
+| `--switch-ripple-size` | `40px` |
+| `--switch-ripple-left` | `-10px` |
+| `--switch-ripple-active-left` | `10px` |
+| `--switch-loading-size` | `16px` |
+| `--switch-variant-ripple-left` | `-4px` |
+| `--switch-variant-ripple-active-left` | `16px` |

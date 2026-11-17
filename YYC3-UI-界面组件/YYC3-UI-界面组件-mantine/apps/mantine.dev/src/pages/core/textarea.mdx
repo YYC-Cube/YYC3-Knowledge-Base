@@ -1,0 +1,102 @@
+import { TextareaDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Textarea);
+
+## Usage
+
+<InputFeatures component="Textarea" element="textarea" />
+
+<Demo data={TextareaDemos.configurator} />
+
+## Loading state
+
+Set `loading` prop to display a loading indicator. By default, the loader is displayed on the right side of the input.
+You can change the position with the `loadingPosition` prop to `'left'` or `'right'`. This is useful for async operations like API calls, searches, or validations:
+
+<Demo data={TextareaDemos.loading} />
+
+## Controlled
+
+```tsx
+import { useState } from 'react';
+import { Textarea } from '@mantine/core';
+
+function Demo() {
+  const [value, setValue] = useState('');
+  return (
+    <Textarea
+      value={value}
+      onChange={(event) => setValue(event.currentTarget.value)}
+    />
+  );
+}
+```
+
+## Uncontrolled
+
+`Textarea` can be used with uncontrolled forms the same way as a native `textarea` element.
+Set the `name` attribute to include textarea value in `FormData` object on form submission.
+To control the initial value in uncontrolled forms, use the `defaultValue` prop.
+
+Example usage of uncontrolled `Textarea` with `FormData`:
+
+```tsx
+import { Textarea } from '@mantine/core';
+
+function Demo() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Textarea value:', formData.get('message'));
+      }}
+    >
+      <Textarea label="Enter your message" name="message" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Bottom section
+
+Use `bottomSection` prop to render content inside the input border at the bottom.
+This is useful for displaying character counters, hints, or other supplementary information:
+
+<Demo data={TextareaDemos.bottomSection} />
+
+## Autosize
+
+The autosize textarea height grows until maxRows are reached or indefinitely if maxRows is not set:
+
+<Demo data={TextareaDemos.autosize} />
+
+## Enable resize
+
+By default, [resize](https://developer.mozilla.org/en-US/docs/Web/CSS/resize) is `none`;
+to enable it, set the `resize` prop to `vertical` or `both`:
+
+<Demo data={TextareaDemos.resize} />
+
+## Error state
+
+<Demo data={TextareaDemos.error} />
+
+## Success state
+
+<Demo data={TextareaDemos.success} />
+
+## Disabled state
+
+<Demo data={TextareaDemos.disabled} />
+
+<StylesApiSelectors component="Textarea" />
+
+<Demo data={TextareaDemos.stylesApi} />
+
+<GetElementRef component="Textarea" refType="textarea" />
+
+<InputAccessibility component="Textarea" />

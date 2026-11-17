@@ -1,0 +1,82 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: #fff;
+}
+
+:host .quark-empty {
+  padding: var(--empty-padding, 32px 0);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+:host .quark-empty-image {
+  width: var(--empty-image-width, 191px);
+}
+
+:host .quark-empty-title {
+  margin-top: 12px;
+  text-align: center;
+  font-size: var(--empty-title-font-size, 16px);
+  line-height: var(--empty-title-line-height, 22px);
+  color: var(--empty-title-color, quark-textBaseColor);
+  white-space: var(--empty-white-space, pre-wrap);
+}
+
+:host .quark-empty-title:empty {
+  margin-top: 0;
+}
+
+:host .quark-empty-desc {
+  margin-top: 8px;
+  font-size: var(--empty-desc-font-size, 14px);
+  color: var(--empty-desc-color, quark-textSecondaryColor);
+  width: var(--empty-desc-width);
+  white-space: var(--empty-white-space, pre-wrap);
+  line-height: var(--empty-title-line-height, 20px);
+  text-align: center;
+}
+
+:host .quark-empty-desc:empty {
+  margin-top: 0;
+}
+:host .quark-empty-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: var(--empty-button-font-size, 16px);
+  color: var(--empty-button-text-color, #fff);
+  font-weight: 500;
+  font-family: PingFangSC-Medium, PingFang SC;
+  margin-top: var(--empty-button-margin-top, 20px);;
+  background-color: var(--empty-button-background-color, quark-primaryColor);
+  line-height: var(--empty-button-line-height, 22px);
+  padding: var(--empty-button-padding-column, 9px) var(--empty-button-padding-row, 34px);
+  border-radius: var(--empty-button-border-radius, 20px);
+}
+
+:host([type="local"]) .quark-empty-title {
+  margin-top: 4px;
+  font-size: var(--empty-title-font-size, 14px);
+  line-height: var(--empty-title-line-height, 20px);
+}
+
+:host([type="local"]) .quark-empty-desc {
+  margin-top: 6px;
+  font-size: var(--empty-desc-font-size, 12px);
+  line-height: var(--empty-title-line-height, 17px);
+}
+
+:host([type="local"]) .quark-empty-button {
+  font-size: var(--empty-button-font-size, 14px);
+  margin-top: var(--empty-button-margin-top, 12px);;
+  line-height: var(--empty-button-line-height, 20px);
+  padding: var(--empty-button-padding-column, 6px) var(--empty-button-padding-row, 26px);
+  border-radius: var(--empty-button-border-radius, 16px);
+}

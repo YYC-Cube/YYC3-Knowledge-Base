@@ -1,0 +1,237 @@
+<template>
+  <view
+    :id="tId"
+    :style="'' + tools._style([customStyle])"
+    :class="
+      '' +
+      tools.cls(classPrefix, [placement, theme, ['checked', dataChecked], ['block', block], ['disabled', iDisabled]]) +
+      ' ' +
+      tClass
+    "
+    aria-role="checkbox"
+    :aria-checked="dataChecked ? (dataIndeterminate ? 'mixed' : true) : false"
+    :aria-disabled="iDisabled ? true : false"
+    @click.stop="handleTap"
+  >
+    <view
+      v-if="theme == 'default'"
+      :class="
+        '' +
+        tools.cls(classPrefix + '__icon', [placement, ['checked', dataChecked], ['disabled', iDisabled]]) +
+        ' ' +
+        tClassIcon
+      "
+    >
+      <slot v-if="icon === 'slot'" name="icon" />
+      <view v-else-if="tools.isArray(icon)" :class="classPrefix + '__icon-wrapper'">
+        <image
+          :src="dataChecked ? (dataIndeterminate && icon[2] ? icon[2] : icon[0]) : icon[1]"
+          :class="classPrefix + '__icon-image'"
+        />
+      </view>
+      <view
+        v-else-if="icon == 'circle' || icon == 'rectangle'"
+        :class="
+          '' +
+          tools.cls(classPrefix + '__icon-' + icon, [
+            ['checked', dataChecked],
+            ['disabled', iDisabled],
+          ])
+        "
+      >
+        <t-icon v-if="dataChecked" :name="dataIndeterminate ? 'remove-1' : 'check-1'" />
+      </view>
+      <view v-else-if="icon == 'line'" :class="'' + tools.cls(classPrefix + '__icon-line', [['disabled', iDisabled]])">
+        <t-icon v-if="dataChecked" :name="dataIndeterminate ? 'minus' : 'check'" />
+      </view>
+    </view>
+    <view :class="classPrefix + '__content'" data-target="text" @click.stop="handleTap">
+      <view
+        :class="
+          '' +
+          tools.cls(classPrefix + '__title', [
+            ['disabled', iDisabled],
+            ['checked', dataChecked],
+          ]) +
+          ' ' +
+          tClassLabel
+        "
+        :style="'-webkit-line-clamp:' + maxLabelRow"
+      >
+        <block v-if="label">
+          {{ label }}
+        </block>
+        <slot />
+        <slot name="label" />
+      </view>
+      <view
+        :class="'' + tools.cls(classPrefix + '__description', [['disabled', iDisabled]]) + ' ' + tClassContent"
+        :style="'-webkit-line-clamp:' + maxContentRow"
+      >
+        <block v-if="content">
+          {{ content }}
+        </block>
+        <slot name="content" />
+      </view>
+    </view>
+    <view
+      v-if="theme == 'default' && !dataBorderless"
+      :class="'' + tools.cls(classPrefix + '__border', [placement]) + ' ' + tClassBorder"
+    />
+  </view>
+</template>
+<script>
+import { prefix, ISOLATED_RELATION_KEY } from '../common/config';
+import { ChildrenMixin, RELATION_MAP } from '../common/relation';
+import { uniComponent } from '../common/src/index';
+import { coalesce } from '../common/utils';
+import tools from '../common/utils.wxs';
+import TIcon from '../icon/icon';
+
+import props from './props';
+
+const name = `${prefix}-checkbox`;
+
+export default {
+  components: {
+    TIcon,
+  },
+  ...uniComponent({
+    name,
+    options: {
+      styleIsolation: 'shared',
+    },
+    controlledProps: [
+      {
+        key: 'checked',
+        event: 'change',
+      },
+    ],
+    externalClasses: [
+      `${prefix}-class`,
+      `${prefix}-class-label`,
+      `${prefix}-class-icon`,
+      `${prefix}-class-content`,
+      `${prefix}-class-border`,
+    ],
+    mixins: [ChildrenMixin(RELATION_MAP.Checkbox)],
+    props: {
+      ...props,
+      theme: {
+        type: String,
+        default: 'default',
+      },
+      tId: {
+        type: String,
+      },
+    },
+    data() {
+      return {
+        prefix,
+        classPrefix: name,
+        iDisabled: false,
+        tools,
+
+        dataBorderless: this.borderless,
+        dataIndeterminate: this.indeterminate,
+        dataChecked: coalesce(this.checked, this.defaultChecked),
+      };
+    },
+    computed: {
+      isIsolated() {
+        return this.relationKey === ISOLATED_RELATION_KEY;
+      },
+    },
+    watch: {
+      borderless: {
+        handler(v) {
+          this.dataBorderless = v;
+        },
+        immediate: true,
+      },
+      indeterminate: {
+        handler(v) {
+          this.dataIndeterminate = v;
+        },
+        immediate: true,
+      },
+      checked: {
+        handler(v) {
+          this.dataChecked = v;
+        },
+        immediate: true,
+      },
+      disabled: {
+        handler(v) {
+          this.iDisabled = v;
+        },
+        immediate: true,
+      },
+    },
+    mounted() {},
+    methods: {
+      innerAfterLinked() {
+        if (this.isIsolated) return;
+        const parent = this[RELATION_MAP.Checkbox];
+        const { value, disabled, borderless } = parent;
+        const { dataValue, checked, checkAll, item, dataIndeterminate } = this;
+        const valueSet = new Set(value);
+        const checkedFromParent = valueSet.has(this.value);
+        const data = {
+          iDisabled: this.disabled == null ? disabled : this.disabled,
+        };
+
+        data.dataBorderless = !!coalesce(this.borderless, borderless);
+
+        data.dataChecked = this.dataChecked || checkedFromParent;
+        if (this.dataChecked) {
+          parent.updateValue({
+            value: dataValue,
+            checked,
+            checkAll,
+            item,
+            indeterminate: dataIndeterminate,
+            trigger: 'init',
+          });
+        }
+
+        if (this.checkAll) {
+          data.dataChecked = valueSet.size > 0;
+          // data.indeterminate =
+        }
+
+        Object.keys(data).forEach((key) => {
+          this[key] = data[key];
+        });
+      },
+      handleTap(e) {
+        const { iDisabled, readonly, contentDisabled } = this;
+        const { target } = e.currentTarget.dataset;
+
+        if (iDisabled || readonly || (target === 'text' && contentDisabled)) return;
+
+        const { value, label, checkAll, dataIndeterminate } = this;
+        const checked = !this.dataChecked;
+        const parent = this[RELATION_MAP.Checkbox];
+
+        if (parent && !this.isIsolated) {
+          parent.updateValue({
+            value,
+            checkAll,
+            indeterminate: dataIndeterminate,
+            checked,
+            item: { label, value, checked },
+          });
+        } else {
+          this._trigger('change', { context: { value, label }, checked });
+        }
+      },
+
+      setDisabled(disabled) {
+        this.iDisabled = this.disabled || disabled;
+      },
+    },
+  }),
+};
+</script>
+<style scoped src="./checkbox.css"></style>

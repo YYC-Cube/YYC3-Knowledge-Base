@@ -1,0 +1,47 @@
+'use client'
+
+import type { OptionItemProps } from '@zag-js/menu'
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { useMenuContext } from './use-menu-context.ts'
+import { MenuItemProvider } from './use-menu-item-context.ts'
+import { useMenuItemGroupContext } from './use-menu-item-group-context.ts'
+import { MenuItemPropsProvider } from './use-menu-option-item-props-context.ts'
+
+type PartialOptionItemProps = Omit<OptionItemProps, 'type' | 'checked' | 'onCheckedChange'>
+
+export interface MenuRadioItemBaseProps extends PartialOptionItemProps, PolymorphicProps {}
+export interface MenuRadioItemProps extends HTMLProps<'div'>, MenuRadioItemBaseProps {}
+
+const splitOptionItemProps = createSplitProps<PartialOptionItemProps>()
+
+export const MenuRadioItem = forwardRef<HTMLDivElement, MenuRadioItemProps>((props, ref) => {
+  const [partialItemProps, localProps] = splitOptionItemProps(props, [
+    'closeOnSelect',
+    'disabled',
+    'value',
+    'valueText',
+  ])
+  const menu = useMenuContext()
+  const itemGroup = useMenuItemGroupContext()
+  const optionItemProps: OptionItemProps = {
+    ...partialItemProps,
+    checked: itemGroup.value === partialItemProps.value,
+    type: 'radio',
+    onCheckedChange: () => itemGroup.onValueChange?.({ value: partialItemProps.value }),
+  }
+  const mergedProps = mergeProps(menu.getOptionItemProps(optionItemProps), localProps)
+  const optionItemState = menu.getOptionItemState(optionItemProps)
+
+  return (
+    <MenuItemPropsProvider value={optionItemProps}>
+      <MenuItemProvider value={optionItemState}>
+        <ark.div {...mergedProps} ref={ref} />
+      </MenuItemProvider>
+    </MenuItemPropsProvider>
+  )
+})
+
+MenuRadioItem.displayName = 'MenuRadioItem'

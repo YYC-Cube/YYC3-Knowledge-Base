@@ -1,0 +1,475 @@
+import { useState } from 'react';
+import {
+  CartesianGrid,
+  Label,
+  LabelList,
+  Legend,
+  ScatterChart as ReChartsScatterChart,
+  ReferenceArea,
+  ReferenceDot,
+  ReferenceLine,
+  ResponsiveContainer,
+  Scatter,
+  ScatterProps,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import {
+  Box,
+  BoxProps,
+  createVarsResolver,
+  ElementProps,
+  factory,
+  Factory,
+  getThemeColor,
+  MantineColor,
+  StylesApiProps,
+  useMantineTheme,
+  useProps,
+  useResolvedStylesApi,
+  useStyles,
+} from '@mantine/core';
+import { ChartLegend, ChartLegendStylesNames } from '../ChartLegend';
+import { ChartTooltip, ChartTooltipStylesNames } from '../ChartTooltip';
+import { BaseChartStylesNames, GridChartBaseProps } from '../types';
+import { getLegendPosition } from '../utils';
+import classes from '../grid-chart.module.css';
+
+export interface ScatterChartSeries {
+  color: MantineColor;
+  name: string;
+  data: Record<string, number>[];
+  yAxisId?: string;
+}
+
+export type ScatterChartStylesNames =
+  | 'scatter'
+  | Exclude<BaseChartStylesNames, 'brush'>
+  | ChartLegendStylesNames
+  | ChartTooltipStylesNames;
+
+export type ScatterChartCssVariables = {
+  root: '--chart-text-color' | '--chart-grid-color';
+};
+
+export interface ScatterChartProps
+  extends
+    Omit<
+      GridChartBaseProps,
+      'dataKey' | 'data' | 'unit' | 'valueFormatter' | 'withBrush' | 'brushProps'
+    >,
+    BoxProps,
+    StylesApiProps<ScatterChartFactory>,
+    ElementProps<'div'> {
+  /** Keys that should be used to retrieve data from the data array on x and y axis */
+  dataKey: { x: string; y: string };
+
+  /** Data that is used to build the chart */
+  data: ScatterChartSeries[];
+
+  /** Units displayed after value on axis and inside the tooltip */
+  unit?: { x?: string; y?: string };
+
+  /** Labels that should be used instead of keys names in the tooltip */
+  labels?: { x?: string; y?: string };
+
+  /** A function to format values on x/y axis and in the tooltip */
+  valueFormatter?:
+    | GridChartBaseProps['valueFormatter']
+    | { x?: GridChartBaseProps['valueFormatter']; y?: GridChartBaseProps['valueFormatter'] };
+
+  /** Props passed down to recharts `ScatterChart` component */
+  scatterChartProps?: React.ComponentProps<typeof ReChartsScatterChart>;
+
+  /** Props passed down to recharts `Scatter` component */
+  scatterProps?: Partial<Omit<ScatterProps, 'ref'>>;
+
+  /** If set, displays labels next to points for the given axis */
+  pointLabels?: 'x' | 'y';
+}
+
+function getAxis(key: string, dataKey: { x: string; y: string }) {
+  return key === dataKey.x ? 'x' : 'y';
+}
+
+export type ScatterChartFactory = Factory<{
+  props: ScatterChartProps;
+  ref: HTMLDivElement;
+  stylesNames: ScatterChartStylesNames;
+  vars: ScatterChartCssVariables;
+}>;
+
+const defaultProps = {
+  withXAxis: true,
+  withYAxis: true,
+  withTooltip: true,
+  tooltipAnimationDuration: 0,
+  tickLine: 'y',
+  strokeDasharray: '5 5',
+  gridAxis: 'x',
+  accessibilityLayer: true,
+} satisfies Partial<ScatterChartProps>;
+
+const varsResolver = createVarsResolver<ScatterChartFactory>((theme, { textColor, gridColor }) => ({
+  root: {
+    '--chart-text-color': textColor ? getThemeColor(textColor, theme) : undefined,
+    '--chart-grid-color': gridColor ? getThemeColor(gridColor, theme) : undefined,
+  },
+}));
+
+export const ScatterChart = factory<ScatterChartFactory>((_props) => {
+  const props = useProps('ScatterChart', defaultProps, _props);
+  const {
+    classNames,
+    className,
+    style,
+    styles,
+    unstyled,
+    vars,
+    referenceLines,
+    referenceAreas,
+    referenceDots,
+    dir,
+    withLegend,
+    withTooltip,
+    withXAxis,
+    withYAxis,
+    withRightYAxis,
+    xAxisProps,
+    yAxisProps,
+    rightYAxisProps,
+    orientation,
+    scatterChartProps,
+    legendProps,
+    data,
+    gridAxis,
+    tickLine,
+    strokeDasharray,
+    gridProps,
+    tooltipAnimationDuration,
+    tooltipProps,
+    children,
+    onMouseLeave,
+    dataKey,
+    textColor,
+    gridColor,
+    xAxisLabel,
+    yAxisLabel,
+    rightYAxisLabel,
+    unit,
+    labels,
+    valueFormatter,
+    scatterProps,
+    pointLabels,
+    attributes,
+    accessibilityLayer,
+    ...others
+  } = props;
+
+  const getFormatter = (axis: 'x' | 'y') =>
+    typeof valueFormatter === 'function' ? valueFormatter : valueFormatter?.[axis];
+  const xFormatter = getFormatter('x');
+  const yFormatter = getFormatter('y');
+
+  const theme = useMantineTheme();
+
+  const mappedData = data.map((item) => ({
+    ...item,
+    data: item.data.map((point) => ({ ...point, name: item.name })),
+  }));
+
+  const { resolvedClassNames, resolvedStyles } = useResolvedStylesApi<ScatterChartFactory>({
+    classNames,
+    styles,
+    props,
+  });
+
+  const getStyles = useStyles<ScatterChartFactory>({
+    name: 'ScatterChart',
+    classes,
+    props,
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    attributes,
+    vars,
+    varsResolver,
+  });
+
+  const withXTickLine = gridAxis !== 'none' && (tickLine === 'x' || tickLine === 'xy');
+  const withYTickLine = gridAxis !== 'none' && (tickLine === 'y' || tickLine === 'xy');
+  const [highlightedArea, setHighlightedArea] = useState<string | number | null>(null);
+  const shouldHighlight = highlightedArea !== null;
+  const handleMouseLeave = (event: React.MouseEvent<HTMLDivElement>) => {
+    setHighlightedArea(null);
+    onMouseLeave?.(event);
+  };
+
+  const referenceLinesItems = referenceLines?.map(
+    ({ color: lineColor, labelPosition, ...line }, index) => {
+      const color = getThemeColor(lineColor, theme);
+      return (
+        <ReferenceLine
+          key={index}
+          stroke={lineColor ? color : 'var(--chart-grid-color)'}
+          strokeWidth={1}
+          {...line}
+          label={{
+            fill: lineColor ? color : 'currentColor',
+            fontSize: 12,
+            position: labelPosition ?? 'insideBottomLeft',
+            ...(typeof line.label === 'object' ? line.label : { value: line.label }),
+          }}
+          {...getStyles('referenceLine')}
+        />
+      );
+    }
+  );
+
+  const referenceAreasItems = referenceAreas?.map(
+    ({ color: areaColor, labelPosition, ...area }, index) => {
+      const color = getThemeColor(areaColor, theme);
+      return (
+        <ReferenceArea
+          key={index}
+          fill={areaColor ? color : 'var(--chart-grid-color)'}
+          fillOpacity={0.2}
+          stroke={areaColor ? color : 'var(--chart-grid-color)'}
+          strokeOpacity={0.6}
+          {...area}
+          label={{
+            fill: areaColor ? color : 'currentColor',
+            fontSize: 12,
+            position: labelPosition ?? 'insideTop',
+            ...(typeof area.label === 'object' ? area.label : { value: area.label }),
+          }}
+          {...getStyles('referenceArea')}
+        />
+      );
+    }
+  );
+
+  const referenceDotsItems = referenceDots?.map(
+    ({ color: dotColor, labelPosition, ...dot }, index) => {
+      const color = getThemeColor(dotColor, theme);
+      return (
+        <ReferenceDot
+          key={index}
+          r={5}
+          fill={dotColor ? color : 'var(--chart-grid-color)'}
+          stroke="var(--mantine-color-body)"
+          strokeWidth={2}
+          {...dot}
+          label={{
+            fill: dotColor ? color : 'currentColor',
+            fontSize: 12,
+            position: labelPosition ?? 'top',
+            ...(typeof dot.label === 'object' ? dot.label : { value: dot.label }),
+          }}
+          {...getStyles('referenceDot')}
+        />
+      );
+    }
+  );
+
+  const scatters = mappedData.map((item, index) => {
+    const dimmed = shouldHighlight && highlightedArea !== item.name;
+    return (
+      <Scatter
+        data={item.data}
+        fill={getThemeColor(item.color, theme)}
+        key={index}
+        isAnimationActive={false}
+        fillOpacity={dimmed ? 0.1 : 1}
+        yAxisId={item.yAxisId || undefined}
+        {...scatterProps}
+      >
+        {pointLabels && <LabelList dataKey={dataKey[pointLabels]} fontSize={8} dy={10} />}
+        {scatterProps?.children}
+      </Scatter>
+    );
+  });
+
+  const sharedYAxisProps = {
+    type: 'number' as const,
+    axisLine: false,
+    dataKey: dataKey.y,
+    tickLine: withYTickLine ? { stroke: 'currentColor' } : false,
+    allowDecimals: true,
+    unit: unit?.y,
+    tickFormatter: yFormatter,
+    ...getStyles('axis'),
+  };
+
+  return (
+    <Box {...getStyles('root')} onMouseLeave={handleMouseLeave} dir={dir || 'ltr'} {...others}>
+      <ResponsiveContainer {...getStyles('container')}>
+        <ReChartsScatterChart
+          margin={{
+            bottom: xAxisLabel ? 30 : undefined,
+            left: yAxisLabel ? 10 : undefined,
+            right: yAxisLabel || rightYAxisLabel ? 5 : undefined,
+          }}
+          accessibilityLayer={accessibilityLayer}
+          {...scatterChartProps}
+        >
+          {referenceAreasItems}
+          <CartesianGrid
+            strokeDasharray={strokeDasharray as string}
+            vertical={gridAxis === 'y' || gridAxis === 'xy'}
+            horizontal={gridAxis === 'x' || gridAxis === 'xy'}
+            {...getStyles('grid')}
+            {...gridProps}
+          />
+          <XAxis
+            type="number"
+            hide={!withXAxis}
+            dataKey={dataKey.x}
+            tick={{ transform: 'translate(0, 10)', fontSize: 12, fill: 'currentColor' }}
+            stroke=""
+            interval="preserveStartEnd"
+            tickLine={withXTickLine ? { stroke: 'currentColor' } : false}
+            minTickGap={5}
+            unit={unit?.x}
+            tickFormatter={xFormatter}
+            {...getStyles('axis')}
+            {...xAxisProps}
+          >
+            {xAxisLabel && (
+              <Label position="insideBottom" offset={-20} fontSize={12} {...getStyles('axisLabel')}>
+                {xAxisLabel}
+              </Label>
+            )}
+            {xAxisProps?.children}
+          </XAxis>
+          <YAxis
+            hide={!withYAxis}
+            tick={{ transform: 'translate(-10, 0)', fontSize: 12, fill: 'currentColor' }}
+            {...sharedYAxisProps}
+            {...yAxisProps}
+          >
+            {yAxisLabel && (
+              <Label
+                position="insideLeft"
+                angle={-90}
+                textAnchor="middle"
+                fontSize={12}
+                offset={-5}
+                {...getStyles('axisLabel')}
+              >
+                {yAxisLabel}
+              </Label>
+            )}
+            {yAxisProps?.children}
+          </YAxis>
+
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            hide={!withRightYAxis}
+            tick={{ transform: 'translate(10, 0)', fontSize: 12, fill: 'currentColor' }}
+            {...sharedYAxisProps}
+            {...rightYAxisProps}
+          >
+            {rightYAxisLabel && (
+              <Label
+                position="insideRight"
+                angle={90}
+                textAnchor="middle"
+                fontSize={12}
+                offset={-5}
+                {...getStyles('axisLabel')}
+              >
+                {rightYAxisLabel}
+              </Label>
+            )}
+            {rightYAxisProps?.children}
+          </YAxis>
+
+          {withTooltip && (
+            <Tooltip
+              animationDuration={tooltipAnimationDuration}
+              isAnimationActive={tooltipAnimationDuration !== 0}
+              position={{ y: 0 }}
+              cursor={{
+                stroke: 'var(--chart-grid-color)',
+                strokeWidth: 1,
+                strokeDasharray,
+              }}
+              content={({ label, payload, labelFormatter }) => (
+                <ChartTooltip
+                  type="scatter"
+                  label={labelFormatter && payload ? labelFormatter(label, payload) : label}
+                  payload={
+                    labels
+                      ? payload?.map((item) => ({
+                          ...item,
+                          name: labels[getAxis(item.name as string, dataKey)] || item.name,
+                          value:
+                            getFormatter(getAxis(item.name as string, dataKey))?.(
+                              item.value as number
+                            ) ?? item.value,
+                        }))
+                      : payload?.map((item) => ({
+                          ...item,
+                          value:
+                            getFormatter(getAxis(item.name as string, dataKey))?.(
+                              item.value as number
+                            ) ?? item.value,
+                        }))
+                  }
+                  classNames={resolvedClassNames}
+                  styles={resolvedStyles}
+                  series={data}
+                  attributes={attributes}
+                />
+              )}
+              {...tooltipProps}
+            />
+          )}
+
+          {withLegend && (
+            <Legend
+              verticalAlign="top"
+              content={(payload) => (
+                <ChartLegend
+                  payload={payload.payload?.map((item, index) => ({
+                    ...item,
+                    dataKey: data[index].name,
+                  }))}
+                  onHighlight={setHighlightedArea}
+                  legendPosition={getLegendPosition(legendProps, 'top')}
+                  classNames={resolvedClassNames}
+                  styles={resolvedStyles}
+                  series={data}
+                  attributes={attributes}
+                />
+              )}
+              height={44}
+              {...legendProps}
+            />
+          )}
+
+          {referenceLinesItems}
+          {scatters}
+          {referenceDotsItems}
+        </ReChartsScatterChart>
+      </ResponsiveContainer>
+    </Box>
+  );
+});
+
+ScatterChart.displayName = '@mantine/charts/ScatterChart';
+ScatterChart.classes = classes;
+ScatterChart.varsResolver = varsResolver;
+
+export namespace ScatterChart {
+  export type Props = ScatterChartProps;
+  export type StylesNames = ScatterChartStylesNames;
+  export type CssVariables = ScatterChartCssVariables;
+  export type Factory = ScatterChartFactory;
+  export type Series = ScatterChartSeries;
+}

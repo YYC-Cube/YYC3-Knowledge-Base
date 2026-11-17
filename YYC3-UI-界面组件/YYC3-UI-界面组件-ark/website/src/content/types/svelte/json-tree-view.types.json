@@ -1,0 +1,188 @@
+{
+  "JsonTreeViewRoot": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "canRename": {
+        "type": "(node: JsonNode<any>, indexPath: IndexPath) => boolean",
+        "isRequired": false,
+        "description": "Function to determine if a node can be renamed"
+      },
+      "checkedValue": { "type": "string[]", "isRequired": false, "description": "The controlled checked node value" },
+      "collapseStringsAfterLength": { "type": "number", "isRequired": false },
+      "data": { "type": "{}", "isRequired": false, "description": "The data to display in the tree." },
+      "defaultCheckedValue": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "The initial checked node value when rendered.\nUse when you don't need to control the checked node value."
+      },
+      "defaultExpandedDepth": { "type": "number", "isRequired": false, "description": "The default expand level." },
+      "defaultExpandedValue": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "The initial expanded node ids when rendered.\nUse when you don't need to control the expanded node value."
+      },
+      "defaultFocusedValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The initial focused node value when rendered.\nUse when you don't need to control the focused node value."
+      },
+      "defaultSelectedValue": {
+        "type": "string[]",
+        "isRequired": false,
+        "description": "The initial selected node value when rendered.\nUse when you don't need to control the selected node value."
+      },
+      "expandedValue": { "type": "string[]", "isRequired": false, "description": "The controlled expanded node ids" },
+      "expandOnClick": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "isRequired": false,
+        "description": "Whether clicking on a branch should open it or not"
+      },
+      "focusedValue": { "type": "string", "isRequired": false, "description": "The value of the focused node" },
+      "groupArraysAfterLength": { "type": "number", "isRequired": false },
+      "id": { "type": "string", "isRequired": false, "description": "The unique identifier of the machine." },
+      "ids": {
+        "type": "Partial<{ root: string; tree: string; label: string; node: (value: string) => string }>",
+        "isRequired": false,
+        "description": "The ids of the tree elements. Useful for composition."
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "loadChildren": {
+        "type": "(details: LoadChildrenDetails<JsonNode<any>>) => Promise<JsonNode<any>[]>",
+        "isRequired": false,
+        "description": "Function to load children for a node asynchronously.\nWhen provided, branches will wait for this promise to resolve before expanding."
+      },
+      "maxPreviewItems": { "type": "number", "isRequired": false },
+      "onBeforeRename": {
+        "type": "(details: RenameCompleteDetails) => boolean",
+        "isRequired": false,
+        "description": "Called before a rename is completed. Return false to prevent the rename."
+      },
+      "onCheckedChange": {
+        "type": "(details: CheckedChangeDetails) => void",
+        "isRequired": false,
+        "description": "Called when the checked value changes"
+      },
+      "onExpandedChange": {
+        "type": "(details: ExpandedChangeDetails<JsonNode<any>>) => void",
+        "isRequired": false,
+        "description": "Called when the tree is opened or closed"
+      },
+      "onFocusChange": {
+        "type": "(details: FocusChangeDetails<JsonNode<any>>) => void",
+        "isRequired": false,
+        "description": "Called when the focused node changes"
+      },
+      "onLoadChildrenComplete": {
+        "type": "(details: LoadChildrenCompleteDetails<JsonNode<any>>) => void",
+        "isRequired": false,
+        "description": "Called when a node finishes loading children"
+      },
+      "onLoadChildrenError": {
+        "type": "(details: LoadChildrenErrorDetails<JsonNode<any>>) => void",
+        "isRequired": false,
+        "description": "Called when loading children fails for one or more nodes"
+      },
+      "onRenameComplete": {
+        "type": "(details: RenameCompleteDetails) => void",
+        "isRequired": false,
+        "description": "Called when a node label rename is completed"
+      },
+      "onRenameStart": {
+        "type": "(details: RenameStartDetails<JsonNode<any>>) => void",
+        "isRequired": false,
+        "description": "Called when a node starts being renamed"
+      },
+      "onSelectionChange": {
+        "type": "(details: SelectionChangeDetails<JsonNode<any>>) => void",
+        "isRequired": false,
+        "description": "Called when the selection changes"
+      },
+      "quotesOnKeys": { "type": "boolean", "isRequired": false, "description": "Whether to show quotes on the keys." },
+      "ref": { "type": "Element", "isRequired": false },
+      "scrollToIndexFn": {
+        "type": "(details: ScrollToIndexDetails<JsonNode<any>>) => void",
+        "isRequired": false,
+        "description": "Function to scroll to a specific index.\nUseful for virtualized tree views."
+      },
+      "selectedValue": { "type": "string[]", "isRequired": false, "description": "The controlled selected node value" },
+      "selectionMode": {
+        "type": "'single' | 'multiple'",
+        "defaultValue": "\"single\"",
+        "isRequired": false,
+        "description": "Whether the tree supports multiple selection\n- \"single\": only one node can be selected\n- \"multiple\": multiple nodes can be selected"
+      },
+      "showNonenumerable": { "type": "boolean", "isRequired": false },
+      "translations": {
+        "type": "IntlTranslations",
+        "isRequired": false,
+        "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+      },
+      "typeahead": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "isRequired": false,
+        "description": "Whether the tree supports typeahead search"
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "JsonTreeViewRootProvider": {
+    "props": {
+      "value": { "type": "UseJsonTreeViewReturn", "isRequired": true },
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "ref": { "type": "Element", "isRequired": false },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "JsonTreeViewTree": {
+    "props": {
+      "arrow": { "type": "Snippet<[]>", "isRequired": false, "description": "The icon to use for the arrow." },
+      "asChild": {
+        "type": "Snippet<[PropsFn<'ul'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "indentGuide": {
+        "type": "boolean | Snippet<[]>",
+        "isRequired": false,
+        "description": "The indent guide to use for the tree."
+      },
+      "ref": { "type": "Element", "isRequired": false },
+      "renderValue": {
+        "type": "Snippet<[JsonNodeHastElement]>",
+        "isRequired": false,
+        "description": "The function to render the value of the node."
+      }
+    }
+  }
+}

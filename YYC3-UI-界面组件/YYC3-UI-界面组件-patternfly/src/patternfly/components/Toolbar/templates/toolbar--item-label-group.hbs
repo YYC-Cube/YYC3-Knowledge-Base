@@ -1,0 +1,62 @@
+{{#> toolbar-item}}
+  {{#> label-group label-group--modifier="pf-m-category"}}
+    {{#> label-group-main}}
+      {{#> label-group-label label-group-label--attribute=(concat 'id="' label-group--id '-label-group-label"')}}
+        {{label-group--label}}
+      {{/label-group-label}}
+      {{#> label-group-list label-group-list--attribute=(concat 'aria-labelledby="' label-group--id '-label-group-label"')}}
+        {{#> label-group-list-item}}
+          {{#> label label--IsOutlined=true}}
+            {{#> label-content}}
+              {{#> label-text label-text--attribute=(concat 'id="' label-group--id 'label-one"')}}
+                Label one
+              {{/label-text}}
+            {{/label-content}}
+            {{#> label-actions}}
+              {{> button
+                button--IsPlain=true
+                button--IsIcon=true
+                button--icon="rh-microns-close"
+                button--HasNoPadding=true
+                button--attribute=(concat 'aria-labelledby="' label-group--id 'remove-label-one ' label-group--id 'label-one" aria-label="Remove" id="' label-group--id 'remove-label-one"')}}
+          {{/label-actions}}
+          {{/label}}
+        {{/label-group-list-item}}
+        {{#> label-group-list-item}}
+          {{#> label label--IsOutlined=true}}
+            {{#> label-content}}
+              {{#> label-text label-text--attribute=(concat 'id="' label-group--id 'label-two"')}}
+                Label two
+              {{/label-text}}
+            {{/label-content}}
+            {{#> label-actions}}
+              {{> button
+                button--IsPlain=true
+                button--IsIcon=true
+                button--icon="rh-microns-close"
+                button--HasNoPadding=true
+                button--attribute=(concat 'aria-labelledby="' label-group--id 'remove-label-two ' label-group--id 'label-two" aria-label="Remove" id="' label-group--id 'remove-label-two"')}}
+          {{/label-actions}}
+          {{/label}}
+        {{/label-group-list-item}}
+        {{#> label-group-list-item}}
+          {{#> label label--IsOutlined=true}}
+            {{#> label-content}}
+              {{#> label-text label-text--attribute=(concat 'id="' label-group--id 'label-three"')}}
+                Label three
+              {{/label-text}}
+            {{/label-content}}
+            {{#> label-actions}}
+              {{> button
+                button--IsPlain=true
+                button--IsIcon=true
+                button--icon="rh-microns-close"
+                button--HasNoPadding=true
+                button--attribute=(concat 'aria-labelledby="' label-group--id 'remove-label-three ' label-group--id 'label-three" aria-label="Remove" id="' label-group--id 'remove-label-three"')}}
+          {{/label-actions}}
+          {{/label}}
+        {{/label-group-list-item}}
+      {{/label-group-list}}
+    {{/label-group-main}}
+  {{/label-group}}
+{{/toolbar-item}}

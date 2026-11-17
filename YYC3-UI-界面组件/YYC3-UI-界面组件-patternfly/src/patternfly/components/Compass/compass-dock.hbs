@@ -1,0 +1,13 @@
+<div class="{{pfv}}compass__dock
+  {{setModifiers
+    compass-dock--IsExpanded='pf-m-expanded'
+    compass-dock--IsOverlay='pf-m-overlay'
+    compass-dock--modifier=compass-dock--modifier
+  }}"
+  {{#if compass-dock--attribute}}
+    {{{compass-dock--attribute}}}
+  {{/if}}>
+  {{#> compass-dock-main}}
+    {{> @partial-block}}
+  {{/compass-dock-main}}
+</div>

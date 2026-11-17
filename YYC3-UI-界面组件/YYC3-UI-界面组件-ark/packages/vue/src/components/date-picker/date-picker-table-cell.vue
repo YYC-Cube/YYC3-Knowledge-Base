@@ -1,0 +1,45 @@
+<script lang="ts">
+import type { TdHTMLAttributes } from 'vue'
+import type { PolymorphicProps } from '../factory.ts'
+import type { DatePickerTableCellPropsContext } from './use-date-picker-table-cell-props-context.ts'
+
+export interface DatePickerTableCellBaseProps extends DatePickerTableCellPropsContext, PolymorphicProps {}
+export interface DatePickerTableCellProps
+  extends
+    DatePickerTableCellBaseProps,
+    /**
+     * @vue-ignore
+     */
+    TdHTMLAttributes {}
+</script>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { ark } from '../factory.ts'
+import { useDatePickerContext } from './use-date-picker-context.ts'
+import { DatePickerTableCellPropsProvider } from './use-date-picker-table-cell-props-context.ts'
+import { DEFAULT_VIEW_PROPS_CONTEXT, useDatePickerViewPropsContext } from './use-date-picker-view-props-context.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+
+const props = defineProps<DatePickerTableCellProps>()
+const datePicker = useDatePickerContext()
+const viewProps = useDatePickerViewPropsContext(DEFAULT_VIEW_PROPS_CONTEXT)
+DatePickerTableCellPropsProvider(props)
+
+const tableCellProps = computed(() => {
+  return {
+    day: datePicker.value.getDayTableCellProps,
+    month: datePicker.value.getMonthTableCellProps,
+    year: datePicker.value.getYearTableCellProps,
+    // @ts-expect-error use filter guard
+  }[viewProps.view ?? 'day'](props)
+})
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.td v-bind="tableCellProps" :as-child="asChild">
+    <slot />
+  </ark.td>
+</template>

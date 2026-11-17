@@ -1,0 +1,200 @@
+---
+id: Page
+section: components
+wrapperTag: div
+---
+
+import './Page.css'
+
+## Demos
+
+### Basic
+```hbs isFullscreen
+{{> page-template page-template--id="page-demo-basic"}}
+```
+
+### Multiple sidebar body elements
+```hbs isFullscreen
+{{> page-template page-template--id="multiple-sidebar-body-elements-demo"}}
+
+{{#*inline "page-template-sidebar"}}
+  {{#> page-sidebar page-sidebar--ExcludeSidebarBody="true" page-sidebar--modifier="pf-m-expanded"}}
+    {{#> page-sidebar-body page-sidebar-body--modifier="pf-m-page-insets"}}
+      {{#> content}}
+        <p>Custom sidebar content</p>
+      {{/content}}
+    {{/page-sidebar-body}}
+    {{#> page-sidebar-body}}
+      {{> page-template-sidebar-nav}}
+    {{/page-sidebar-body}}
+    {{#> page-sidebar-body page-sidebar-body--modifier="pf-m-fill pf-m-page-insets"}}
+      {{#> content}}
+        <p>Custom sidebar content</p>
+      {{/content}}
+    {{/page-sidebar-body}}
+    {{#> page-sidebar-body page-sidebar-body--modifier="pf-m-no-fill pf-m-page-insets"}}
+      {{#> content}}
+        <p>&copy;&nbsp;Copyright</p>
+      {{/content}}
+    {{/page-sidebar-body}}
+  {{/page-sidebar}}
+{{/inline}}
+```
+
+### Sticky horizontal subnav
+```hbs isFullscreen
+{{> page-template
+      page-template--id="page-demo-sticky-top-horizontal-subnav"
+      page-template-gallery--IsLongGallery="true"
+      page-template--HasHorizontalSubnav="true"
+      page-template-horizontal-subnav--modifier="pf-m-sticky-top"
+}}
+```
+
+### Sticky breadcrumb
+```hbs isFullscreen
+{{> page-template
+      page-template--id="page-demo-sticky-top-breadcrumb"
+      page-template-gallery--IsLongGallery="true"
+      page-template-breadcrumb--modifier="pf-m-sticky-top"
+}}
+```
+
+### Sticky breadcrumb on medium
+```hbs isFullscreen
+{{> page-template
+      page-template--id="page-demo-sticky-top-breadcrumb"
+      page-template-gallery--IsLongGallery="true"
+      page-template-breadcrumb--modifier="pf-m-sticky-top-on-md-height"
+}}
+```
+
+### Sticky section group
+```hbs isFullscreen
+{{> page-template
+      page-template--id="page-demo-sticky-top-section-group"
+      page-template--HasNoBreadcrumb="true"
+      page-template--HasNoTitle="true"
+      page-template-gallery--IsLongGallery="true"
+}}
+
+{{#*inline "page-template-section"}}
+  {{#> page-main-group page-main-group--modifier="pf-m-sticky-top"}}
+    {{> page-template-breadcrumb}}
+    {{> page-template-title}}
+  {{/page-main-group}}
+  {{> page-template-gallery}}
+{{/inline}}
+```
+
+### Sticky section bottom
+```hbs isFullscreen
+{{> page-template
+      page-template--id="page-demo-sticky-section-bottom"
+      page-template--HasFooter="true"
+      page-template-gallery--IsLongGallery="true"
+      page-template-footer--modifier="pf-m-sticky-bottom"
+}}
+```
+
+### Overflow scroll
+```hbs isFullscreen
+{{> page-template
+      page-template--id="page-demo-overflow-scroll"
+      page-template--HasFooter="true"
+      page-template-gallery--IsLongGallery="true"
+      page-template-gallery--modifier="pf-m-overflow-scroll"
+      page-template-gallery--attribute='tabindex="0"'
+      page-template-title--modifier="pf-m-shadow-bottom"
+      page-template-footer--modifier="pf-m-shadow-top"
+}}
+```
+
+### Centered section
+```hbs isFullscreen
+{{> page-template
+      page-template--id="page-demo-centered-section"
+}}
+
+{{#*inline "page-template-main-content"}}
+  {{#> page-main-section page-main-section--IsLimitWidth="true" page-main-section--modifier="pf-m-align-center" page-main-section--attribute='aria-labelledby="centered-page-sections-title"'}}
+    {{#> content}}
+      <h1 id="centered-page-sections-title">Centering page sections</h1>
+      <p>When a width limited page section is wider than the value of <code>--pf-v6-c-page--section--m-limit-width--MaxWidth</code>, the section will be centered in the main section.</p>
+      <p>All of the page sections on this page are centered.</p>
+    {{/content~}}
+  {{/page-main-section}}
+  {{> divider}}
+  {{#> page-main-section page-main-section--IsLimitWidth="true" page-main-section--modifier="pf-m-align-center" page-main-section--attribute='aria-label="Gallery cards section"'}}
+    {{> page-template-gallery-cards}}
+  {{/page-main-section}}
+  {{> divider}}
+  {{#> page-main-section page-main-section--IsLimitWidth="true" page-main-section--modifier="pf-m-align-center pf-v6-u-text-align-center" page-main-section--attribute='aria-label="Centered text section"'}}
+    {{#> card}}
+      {{#> card-body}}
+        <p>The content in this section is also centered using the <code>.pf-v6-u-text-align-center</code> utility class.</p>
+      {{/card-body}}
+    {{/card}}
+  {{/page-main-section}}
+{{/inline}}
+```
+
+### Context selector in sidebar
+```hbs isFullscreen
+{{> page-template page-template--id="page-context-selector" page-template-sidebar--HasContextSelector=true}}
+```
+
+### Context selector expanded in sidebar
+```hbs isFullscreen
+{{> page-template page-template--id="page-context-selector-expanded" page-template-sidebar--HasContextSelector=true page-template-context-selector--IsExpanded=true}}
+```
+
+### Sidebar collapsed
+```hbs isFullscreen
+{{> page-template page-template--id="page-demo-sidebar-collapsed" page-sidebar--modifier="pf-m-collapsed"}}
+```
+
+### Sidebar expanded
+```hbs isFullscreen
+{{> page-template page-template--id="page-demo-sidebar-expanded" page-sidebar--modifier="pf-m-expanded"}}
+```
+
+### No sidebar
+```hbs isFullscreen
+{{> page-template page-template--id="page-demo-no-sidebar" page-template--HasNoSidebar=true}}
+```
+
+### No sidebar or masthead
+```hbs isFullscreen
+{{> page-template page-template--id="page-demo-no-sidebar-masthead" page-template--HasNoSidebar=true page-template--HasNoMasthead=true}}
+```
+
+### Plain
+```hbs isFullscreen
+{{> page-template
+      page-template--id="page-demo-plain"
+      page-template-gallery--IsLongGallery=true
+      page-template--ExcludeSidebar=true
+      page--IsPlain=true
+      page-template--HasFooter=true
+}}
+
+{{#*inline "page-template-main-content"}}
+  {{#> page-main-section page-main-section--HasNoPadding=true page-main-section--IsPlain=true}}
+    {{#> panel panel--IsGlass=true panel--IsBordered=true}}
+      {{#> panel-main}}
+        {{#> panel-main-body}}
+          {{#> content}}
+            <h1>Page title</h1>
+            <p>This is a full page demo.</p>
+          {{/content}}
+        {{/panel-main-body}}
+      {{/panel-main}}
+    {{/panel}}
+  {{/page-main-section}}
+  {{#> page-main-section page-main-section--HasNoPadding=true page-main-section--IsPlain=true}}
+    {{> card-template-expandable-status card-template-expandable-status--id=(concat page-template--id '-expandable-status-card-1') card-template-expandable-status--IsGlass=true}}
+  {{/page-main-section}}
+  {{> card-template-gallery card-template-gallery--id="card-view-basic-example-gallery" card--IsGlass=true}}
+{{/inline}}
+```

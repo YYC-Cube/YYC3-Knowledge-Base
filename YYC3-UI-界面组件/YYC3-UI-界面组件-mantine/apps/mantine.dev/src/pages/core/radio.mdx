@@ -1,0 +1,222 @@
+import { RadioDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Radio);
+
+## Usage
+
+<Demo data={RadioDemos.configurator} />
+
+## Controlled
+
+```tsx
+import { useState } from 'react';
+import { Radio } from '@mantine/core';
+
+function Demo() {
+  const [checked, setChecked] = useState(false);
+  return (
+    <Radio
+      checked={checked}
+      onChange={(event) => setChecked(event.currentTarget.checked)}
+    />
+  );
+}
+```
+
+## Uncontrolled
+
+`Radio` can be used with uncontrolled forms the same way as a native `input[type="radio"]`.
+Set the `name` and `value` attributes to include radio value in `FormData` object on form submission.
+To control the initial checked state in uncontrolled forms, use `defaultChecked` prop.
+
+Example usage of uncontrolled `Radio` with `FormData`:
+
+```tsx
+import { Radio } from '@mantine/core';
+
+function Demo() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Radio value:', formData.get('option'));
+      }}
+    >
+      <Radio name="option" value="option1" label="Option 1" />
+      <Radio name="option" value="option2" label="Option 2" defaultChecked />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Read only
+
+Set `readOnly` prop to prevent the radio from being changed by the user. The radio
+still reflects `checked` prop updates, but clicking it or pressing <kbd>Space</kbd> does not
+change its state and does not call `onChange`:
+
+```tsx
+import { useState } from 'react';
+import { Radio } from '@mantine/core';
+
+function Demo() {
+  const [checked, setChecked] = useState(true);
+  return (
+    <>
+      <Radio checked={checked} readOnly value="react" label="Read only radio" />
+      <button type="button" onClick={() => setChecked((c) => !c)}>
+        Toggle from outside
+      </button>
+    </>
+  );
+}
+```
+
+## States
+
+<Demo data={RadioDemos.states} />
+
+## Light variant
+
+`Radio` supports `filled` (default), `outline` and `light` variants. With `variant="light"`, the checked state has a light background and a contrasting icon. Colors of the `light` variant are resolved with [theme.variantColorResolver](/theming/colors#colors-variant-resolver), the same way as in [Button](/core/button/) – `color` can be a key of `theme.colors` or any valid CSS color:
+
+<Demo data={RadioDemos.lightVariant} />
+
+## Change icon
+
+<Demo data={RadioDemos.icon} />
+
+## Change icon color
+
+<Demo data={RadioDemos.iconColor} />
+
+## Disabled state
+
+<Demo data={RadioDemos.disabled} />
+
+## Pointer cursor
+
+By default, the radio input and label have `cursor: default` (same as native `input[type="radio"]`).
+To change the cursor to pointer, set `cursorType` on the [theme](/theming/theme-object/):
+
+```tsx
+import { createTheme, MantineProvider, Radio } from '@mantine/core';
+
+const theme = createTheme({
+  cursorType: 'pointer',
+});
+
+function Demo() {
+  return (
+    <MantineProvider theme={theme}>
+      <Radio label="Pointer cursor" />
+    </MantineProvider>
+  );
+}
+```
+
+## Radio with tooltip
+
+You can change the target element to which the tooltip is attached with `refProp`:
+
+- If `refProp` is not set, the tooltip is attached to the radio input
+- If `refProp="rootRef"` is set, the tooltip is attached to the root element (contains label, input, and other elements)
+
+<Demo data={RadioDemos.tooltip} />
+
+<WrapperProps component="Radio" />
+
+## Radio.Group component
+
+<Demo data={RadioDemos.groupConfigurator} />
+
+## Radio.Group disabled state
+
+<Demo data={RadioDemos.groupDisabled} />
+
+## Controlled Radio.Group
+
+```tsx
+import { useState } from 'react';
+import { Radio } from '@mantine/core';
+
+function Demo() {
+  const [value, setValue] = useState('react');
+
+  return (
+    <Radio.Group
+      value={value}
+      onChange={setValue}
+      name="favoriteFramework"
+      label="Select your favorite framework/library"
+      description="This is anonymous"
+      withAsterisk
+    >
+      <Radio value="react" label="React" />
+      <Radio value="svelte" label="Svelte" />
+      <Radio value="ng" label="Angular" />
+      <Radio value="vue" label="Vue" />
+    </Radio.Group>
+  );
+}
+```
+
+## Radio.Indicator
+
+`Radio.Indicator` looks exactly the same as the `Radio` component, but it does not
+have any semantic meaning; it's just a visual representation of the radio state. You
+can use it in any place where you need to display the radio state without any interaction
+related to the indicator. For example, it is useful in cards based on buttons, trees, etc.
+
+Note that `Radio.Indicator` cannot be focused or selected with the keyboard. It is not
+accessible and should not be used as a replacement for the `Radio` component.
+
+`Radio.Indicator` supports the same `variant` values as `Radio`: `filled`, `outline` and `light`.
+
+<Demo data={RadioDemos.indicator} />
+
+## Radio.Card component
+
+`Radio.Card` component can be used as a replacement for `Radio` to build custom
+cards/buttons/other things that work as radios. The root element of the component
+has the `role="radio"` attribute; it is accessible by default and supports the same
+keyboard interactions as `input[type="radio"]`.
+
+<Demo data={RadioDemos.card} />
+
+You can use `Radio.Card` with `Radio.Group` the same way as the `Radio` component:
+
+<Demo data={RadioDemos.cardGroup} />
+
+<GetElementRef component="Radio" refType="input" />
+
+<StylesApiSelectors component="Radio" />
+
+<Demo data={RadioDemos.stylesApi} />
+
+## Accessibility
+
+Set the `aria-label` or `label` prop to make the radio accessible:
+
+```tsx
+import { Radio } from '@mantine/core';
+
+// Not ok, input is not labeled
+function Bad() {
+  return <Radio />;
+}
+
+// Ok, input is labeled by aria-label
+function GoodAriaLabel() {
+  return <Radio aria-label="My radio" />;
+}
+
+// Ok, input is labeled by label element
+function GoodLabel() {
+  return <Radio label="My radio" />;
+}
+```

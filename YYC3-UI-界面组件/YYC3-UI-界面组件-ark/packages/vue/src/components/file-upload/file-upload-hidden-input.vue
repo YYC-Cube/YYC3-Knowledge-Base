@@ -1,0 +1,32 @@
+<script lang="ts">
+import type { InputHTMLAttributes } from 'vue'
+import type { PolymorphicProps } from '../factory.ts'
+
+export interface FileUploadHiddenInputBaseProps extends PolymorphicProps {}
+export interface FileUploadHiddenInputProps
+  extends
+    FileUploadHiddenInputBaseProps,
+    /**
+     * @vue-ignore
+     */
+    InputHTMLAttributes {}
+</script>
+
+<script setup lang="ts">
+import { ark } from '../factory.ts'
+import { useFileUploadContext } from './use-file-upload-context.ts'
+import { useFieldContext } from '../field/index.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+
+defineProps<FileUploadHiddenInputProps>()
+const fileUpload = useFileUploadContext()
+const field = useFieldContext()
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.input :aria-describedby="field?.ariaDescribedby" v-bind="fileUpload.getHiddenInputProps()" :as-child="asChild">
+    <slot />
+  </ark.input>
+</template>

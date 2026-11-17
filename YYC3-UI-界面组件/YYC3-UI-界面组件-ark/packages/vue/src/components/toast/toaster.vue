@@ -1,0 +1,65 @@
+<script setup lang="ts">
+import * as toast from '@zag-js/toast'
+import { normalizeProps, useMachine } from '@zag-js/vue'
+import { type HTMLAttributes, type SlotsType, type VNodeChild, computed, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+import { type PolymorphicProps, ark } from '../factory.ts'
+import type { CreateToasterReturn } from './create-toaster.ts'
+import ToasterItem from './toaster-item.vue'
+
+export type ToastOptions = toast.Options<VNodeChild>
+
+export interface ToasterBaseProps extends PolymorphicProps {
+  toaster: CreateToasterReturn<any>
+  dir?: toast.GroupProps['dir']
+  getRootNode?: toast.GroupProps['getRootNode']
+  /**
+   * The human-readable label for the toast region.
+   * @default "Notifications"
+   */
+  label?: string | undefined
+}
+
+export interface ToasterProps
+  extends
+    ToasterBaseProps,
+    /** @vue-ignore */
+    Omit<HTMLAttributes, 'dir'>,
+    /** @vue-ignore */
+    SlotsType<{
+      default: ToastOptions
+    }> {}
+
+const props = defineProps<ToasterProps>()
+
+const locale = useLocaleContext(DEFAULT_LOCALE)
+const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+
+const service = useMachine(toast.group.machine, {
+  store: props.toaster,
+  id: useId(),
+  dir: props.dir ?? locale?.value.dir,
+  getRootNode: props.getRootNode ?? env?.value.getRootNode,
+})
+
+const api = computed(() => toast.group.connect(service, normalizeProps))
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.div v-bind="api.getGroupProps({ label: props.label })">
+    <ToasterItem
+      v-for="(toastItem, index) in api.getToasts()"
+      :key="toastItem.id"
+      :value="toastItem"
+      :parent="service"
+      :index="index"
+    >
+      <template #default="slotProps">
+        <slot v-bind="slotProps" />
+      </template>
+    </ToasterItem>
+  </ark.div>
+</template>

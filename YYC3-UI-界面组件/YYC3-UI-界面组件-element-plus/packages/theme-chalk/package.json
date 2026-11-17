@@ -1,0 +1,37 @@
+{
+  "name": "@element-plus/theme-chalk",
+  "version": "0.1.0",
+  "description": "Element component chalk theme.",
+  "keywords": [
+    "vue-components",
+    "element-plus",
+    "theme-chalk",
+    "theme-light"
+  ],
+  "homepage": "https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/README.md",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus#issues"
+  },
+  "license": "MIT",
+  "author": "yi.shyang@ele.me",
+  "main": "index.css",
+  "unpkg": "index.css",
+  "jsdelivr": "index.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "style": "index.css",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsx buildfile.ts"
+  },
+  "devDependencies": {
+    "@element-plus/build": "workspace:*",
+    "lightningcss": "^1.33.0",
+    "tinyglobby": "^0.2.17",
+    "sass-embedded": "^1.107.1",
+    "tsx": "catalog:"
+  },
+  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+}

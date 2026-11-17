@@ -1,0 +1,27 @@
+{
+  "extends": ["config:recommended"],
+  "enabledManagers": ["npm"],
+  "packageRules": [
+    {
+      "matchDatasources": ["npm"],
+      "enabled": false
+    },
+    {
+      "groupName": "PatternFly dependencies",
+      "matchDatasources": ["npm"],
+      "matchPackageNames": [
+        "@patternfly/documentation-framework",
+        "sass",
+        "backstopjs",
+        "/^stylelint/",
+        "/^@patternfly/react/"
+      ],
+      "enabled": true
+    },
+    {
+      "matchDatasources": ["npm"],
+      "matchPackageNames": ["@patternfly/patternfly-a11y"],
+      "enabled": true
+    }
+  ]
+}

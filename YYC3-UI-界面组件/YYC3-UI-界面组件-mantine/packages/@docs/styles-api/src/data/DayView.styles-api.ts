@@ -1,0 +1,93 @@
+import type { DayViewFactory } from '@mantine/schedule';
+import type { StylesApiData } from '../types';
+
+export const DayViewStylesApi: StylesApiData<DayViewFactory> = {
+  selectors: {
+    dayView: 'Root element',
+    dayViewInner: 'Inner container wrapping slot labels and slots',
+    dayViewScrollArea: 'Scroll area component',
+    dayViewAllDay: 'All-day events container',
+    dayViewAllDayEvents: 'All-day events wrapper',
+    dayViewSlot: 'Individual time slot element',
+    dayViewSlots: 'Container for all slots',
+    dayViewTimeSlots: 'Container for time slots (excludes all-day)',
+    dayViewSlotLabel: 'Time slot label element',
+    dayViewSlotLabels: 'Container for all slot labels',
+    dayViewBackgroundEvent: 'Background event element',
+    dayViewBackgroundEventResizeHandle: 'Resize handle of an interactive background event',
+    dayViewDragPreview: 'Ghost preview shown at the snapped position while dragging an event',
+    header: 'Header container, part of ScheduleHeader',
+    headerControl: 'Header control element, part of ScheduleHeader',
+    viewSelect: 'View select element, part of ScheduleHeader',
+    event: 'Event element, part of ScheduleEvent',
+    eventInner: 'Event inner element, part of ScheduleEvent',
+    eventResizeHandle: 'Event resize handle element, part of ScheduleEvent',
+    moreEventsButton: 'More events button, part of MoreEvents',
+    moreEventsList: 'More events list, part of MoreEvents',
+    moreEventsDropdown: 'More events dropdown, part of MoreEvents',
+    currentTimeIndicator: 'Current time indicator container, part of CurrentTimeIndicator',
+    currentTimeIndicatorLine: 'Current time indicator line, part of CurrentTimeIndicator',
+    currentTimeIndicatorThumb: 'Current time indicator thumb, part of CurrentTimeIndicator',
+    currentTimeIndicatorTimeBubble:
+      'Current time indicator time bubble, part of CurrentTimeIndicator',
+    agendaView: 'AgendaView root element, shown when agenda is open',
+    agendaViewHeader: 'AgendaView header container',
+    agendaViewHeaderLabel: 'AgendaView date range label',
+    agendaViewBody: 'AgendaView body container',
+    agendaViewDateGroup: 'AgendaView date group container',
+    agendaViewDateHeader: 'AgendaView date header text',
+    agendaViewEvent: 'AgendaView event item button',
+    agendaViewEventBody: 'AgendaView event body container',
+    agendaViewEventColor: 'AgendaView event color indicator',
+    agendaViewEventTitle: 'AgendaView event title text',
+    agendaViewEventTime: 'AgendaView event time label',
+    agendaViewNoEvents: 'AgendaView no events message',
+  },
+
+  vars: {
+    dayView: {
+      '--day-view-radius': 'Controls `border-radius` of the day view',
+      '--day-view-slot-height': 'Controls `height` of 1-hour time slots',
+      '--day-view-all-day-slot-height': 'Controls `height` of the all-day slot',
+      '--day-view-business-hours-bg':
+        'Controls `background-color` of time slots and labels inside business hours',
+      '--day-view-non-business-hours-bg':
+        'Controls `background-color` of time slots and labels outside business hours',
+    },
+  },
+
+  modifiers: [
+    {
+      modifier: 'data-hour-start',
+      selector: 'dayViewSlot',
+      condition: 'Slot is at the start of an hour',
+    },
+    {
+      modifier: 'data-business-hours',
+      selector: 'dayViewSlot',
+      condition: '`highlightBusinessHours` is true and slot is within business hours',
+    },
+    {
+      modifier: 'data-non-business-hours',
+      selector: 'dayViewSlot',
+      condition: '`highlightBusinessHours` is true and slot is outside business hours',
+    },
+    {
+      modifier: 'data-partial-business-hours',
+      selector: 'dayViewSlot',
+      condition:
+        '`highlightBusinessHours` is true and a business hours boundary falls inside the slot',
+    },
+    {
+      modifier: 'data-drop-target',
+      selector: 'dayViewSlot',
+      condition: 'Slot is the current drag drop target',
+    },
+    { modifier: 'data-static', selector: 'dayView', condition: '`mode="static"` is set' },
+    {
+      modifier: 'data-all-day',
+      selector: 'dayViewSlotLabel',
+      condition: 'Label is for all-day slot',
+    },
+  ],
+};

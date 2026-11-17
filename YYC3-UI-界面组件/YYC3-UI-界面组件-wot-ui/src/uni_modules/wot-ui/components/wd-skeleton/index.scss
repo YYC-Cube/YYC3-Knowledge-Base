@@ -1,0 +1,112 @@
+@use '../../styles/mixin/mixin.scss' as *;
+@use '../../styles/variable.scss' as *;
+
+// 行间距
+$skeleton-row-margin-bottom: var(--wot-skeleton-row-margin-bottom, $spacing-loose) !default;
+// 占位块背景色
+$skeleton-col-bg: var(--wot-skeleton-col-bg, $filled-strong) !default;
+// 文本占位高度
+$skeleton-text-height: var(--wot-skeleton-text-height, $n-16) !default;
+// 矩形占位高度
+$skeleton-rect-height: var(--wot-skeleton-rect-height, $n-16) !default;
+// 圆形占位尺寸
+$skeleton-circle-height: var(--wot-skeleton-circle-height, $n-48) !default;
+// 文本占位圆角
+$skeleton-text-border-radius: var(--wot-skeleton-text-border-radius, $radius-small) !default;
+// 矩形占位圆角
+$skeleton-rect-border-radius: var(--wot-skeleton-rect-border-radius, $radius-main) !default;
+// 圆形占位圆角
+$skeleton-circle-border-radius: var(--wot-skeleton-circle-border-radius, $radius-full) !default;
+// 渐变动画高亮色
+$skeleton-animation-gradient: var(--wot-skeleton-animation-gradient, $filled-bottom) !default;
+// 闪烁动画高亮色
+$skeleton-animation-flashed: var(--wot-skeleton-animation-flashed, $filled-bottom) !default;
+// 闪烁动画透明度
+$skeleton-animation-flashed-opacity: var(--wot-skeleton-animation-flashed-opacity, $opacity-backdrop) !default;
+
+@include b(skeleton) {
+  box-sizing: border-box;
+
+  @include e(row) {
+    justify-content: space-between;
+    margin-bottom: $skeleton-row-margin-bottom;
+    display: flex;
+    align-items: center;
+
+    &:only-child,
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  @include e(col) {
+    border-radius: $skeleton-text-border-radius;
+    background-color: $skeleton-col-bg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:first-child:last-child,
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  @include m(type) {
+    &-text {
+      width: 100%;
+      height: $skeleton-text-height;
+      border-radius: $skeleton-text-border-radius;
+    }
+
+    &-rect {
+      width: 100%;
+      height: $skeleton-rect-height;
+      border-radius: $skeleton-rect-border-radius;
+    }
+
+    &-circle {
+      flex-shrink: 0;
+      width: $skeleton-circle-height;
+      height: $skeleton-circle-height;
+      border-radius: $skeleton-circle-border-radius;
+    }
+  }
+  @include m(animation) {
+    &-gradient {
+      position: relative;
+      overflow-x: hidden;
+
+      &::after {
+        content: ' ';
+        position: absolute;
+        animation: wd-skeleton-gradient 1.5s linear infinite;
+        background: linear-gradient(90deg, transparent, $skeleton-animation-gradient, transparent);
+        inset: 0;
+      }
+    }
+
+    &-flashed {
+      animation: wd-skeleton-flashed 2s linear infinite;
+    }
+  }
+
+  @keyframes wd-skeleton-gradient {
+    0% {
+      transform: translateX(-100%) skewX(-15deg);
+    }
+    100% {
+      transform: translateX(100%) skewX(-15deg);
+    }
+  }
+  @keyframes wd-skeleton-flashed {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: $skeleton-animation-flashed-opacity;
+      background: $skeleton-animation-flashed;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}

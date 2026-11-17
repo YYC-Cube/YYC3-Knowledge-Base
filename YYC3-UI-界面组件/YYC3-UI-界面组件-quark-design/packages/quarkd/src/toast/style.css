@@ -1,0 +1,110 @@
+:host {
+  display: flex;
+  transition: quark-animationDurationBase;
+  position: relative;
+}
+
+:host quark-overlay {
+  background-color: transparent;
+}
+
+:host .quark-toast {
+  opacity: 0;
+  font-size: var(--toast-font-size, 14px);
+  padding: var(--toast-text-padding, 16px 20px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: var(--toast-direction, column);
+  align-items: center;
+  justify-content: center;
+  color: var(--toast-color, #fff);
+  background: rgb(0 0 0 / 80%);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  pointer-events: all;
+  width: var(--toast-width, max-content);
+  min-width: var(--toast-min-width, 120px);
+  max-width: var(--toast-max-width, 240px);
+  text-align: center;
+  transition: opacity var(--toast-transition-fade-in, 0.3s) ease-in;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+:host([position="top"]) .quark-toast {
+  top: var(--toast-position-top-distance, 20%);
+}
+:host([position="bottom"]) .quark-toast {
+  top: var(--toast-position-top-distance, 80%);
+}
+:host .quark-toast--horizontal {
+  flex-direction: row;
+  height: auto;
+  min-width: var(--toast-min-width, 120px);
+  max-width: var(--toast-max-width, 240px);
+}
+
+:host([show]) .quark-toast {
+  opacity: 1;
+}
+
+:host([type="text"]) .quark-toast {
+  height: auto;
+  min-width: var(--toast-min-width, 120px);
+  max-width: var(--toast-max-width, 240px);
+  white-space: normal;
+}
+
+quark-icon-whitesuccess-o,
+quark-icon-whiteerror-o,
+quark-icon-whitewarning-o {
+  margin-bottom: 14px;
+}
+
+:host quark-loading {
+  display: block;
+  margin-right: var(--toast-loading-right, 0);
+  margin-bottom: var(--toast-loading-bottom, 14px);
+}
+:host([type="loading"]) .quark-toast--horizontal quark-loading {
+  margin-bottom: var(--toast-loading-bottom) !important;
+  margin-right: var(--toast-loading-right, 18px) !important;
+}
+
+:host([show][type="loading"]) quark-loading {
+  opacity: 1;
+  display: block;
+}
+
+:host([show][type="loading"]) .quark-toast--horizontal quark-loading {
+  opacity: 1;
+  display: block;
+}
+
+:host(:not([type="text"])) .quark-toast:not(.quark-toast--horizontal) {
+  height: var(--toast-height, auto);
+  min-height: var(--toast-min-height, 120px);
+}
+
+:host(:not([type="text"])) quark-icon-whitesuccess-o,
+:host(:not([type="text"])) quark-icon-whiteerror-o,
+:host(:not([type="text"])) quark-icon-whitewarning-o {
+  margin-bottom: quark-vSpacingMd;
+}
+
+:host .quark-toast-leave {
+  opacity: 0;
+  transition: opacity var(--toast-transition-fade-out, 0.3s) ease-out;
+}
+:host .quark-loading-leave {
+  opacity: 0;
+  transition: opacity var(--toast-transition-fade-out, 0.4s) ease-out;
+}
+:host .hide-content{
+  width: auto;
+  white-space: nowrap;
+  display: inline-block; /* 使元素根据内容调整宽度 */
+  position: absolute;
+  left: 500px;
+}

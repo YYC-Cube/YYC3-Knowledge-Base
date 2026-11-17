@@ -1,0 +1,32 @@
+<tr class="{{pfv}}table__tr
+  {{#if table-tr--IsExpandable}} {{pfv}}table__expandable-row{{/if}}
+  {{#if table-tr--IsControlRow}} {{pfv}}table__control-row{{/if}}
+  {{#if table-tr--IsExpanded}} pf-m-expanded{{/if}}
+  {{#if table-tr--details--IsExpanded}} pf-m-tree-view-details-expanded{{/if}}
+  {{#if table-tr--IsClickable}} pf-m-clickable{{/if}}
+  {{#if table-tr--IsSelected}} pf-m-selected{{/if}}
+  {{#if table-tr--HasNoInset}} pf-m-no-inset{{/if}}
+  {{#if table-tr--modifier}} {{table-tr--modifier}}{{/if}}"
+  {{#if table--IsTree-view}}
+    {{#unless (concat table-tr--HasNoPosinset table--HasNoPosinset)}}
+      aria-level="{{ternary table--IsTree-view--level table--IsTree-view--level '1'}}"
+      aria-setsize="{{ternary table--IsTree-view--setsize table--IsTree-view--setsize '1'}}"
+      aria-posinset="{{ternary table--IsTree-view--posinset table--IsTree-view--posinset '1'}}"
+
+      {{!-- if leaf and not expanded, apply hidden --}}
+      {{#if table-tr--tree--IsLeaf}}
+        tabindex="-1"
+      {{else}}
+        tabindex="0"
+        aria-expanded="{{ternary table-tr--IsExpanded 'true' 'false'}}"
+      {{/if}}
+      {{ternary table-tr--IsHidden 'hidden' null}}
+    {{/unless}}
+  {{/if}}
+  role="row"
+  {{ternary table-tr--IsClickable 'tabindex="0"' null}}
+  {{#if table-tr--attribute}}
+    {{{table-tr--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</tr>

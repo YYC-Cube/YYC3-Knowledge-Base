@@ -1,0 +1,18 @@
+<span class="{{pfv}}menu-toggle__icon
+  {{setModifiers
+    menu-toggle-icon--IsMirrorInlineRTL=menu-toggle-icon--IsMirrorInlineRTL
+    menu-toggle-icon--modifier=menu-toggle-icon--modifier
+  }}"
+  {{#if menu-toggle-icon--attribute}}
+    {{{menu-toggle-icon--attribute}}}
+  {{/if}}>
+  {{#if menu-toggle--icon}}
+    {{#if menu-toggle--IsSettings}}
+      {{{pfIcon "rh-ui-settings-fill"}}}
+    {{else}}
+      {{pfIcon menu-toggle--icon}}
+    {{/if}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</span>

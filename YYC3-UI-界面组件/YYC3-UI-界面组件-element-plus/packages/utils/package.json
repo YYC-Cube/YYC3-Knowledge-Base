@@ -1,0 +1,23 @@
+{
+  "name": "@element-plus/utils",
+  "private": true,
+  "license": "MIT",
+  "main": "index.ts",
+  "peerDependencies": {
+    "@vue/shared": "catalog:",
+    "vue": "catalog:"
+  },
+  "dependencies": {
+    "@element-plus/constants": "workspace:^",
+    "@element-plus/icons-vue": "catalog:",
+    "@vueuse/core": "catalog:",
+    "lodash-unified": "catalog:",
+    "vue-component-type-helpers": "catalog:"
+  },
+  "devDependencies": {
+    "@vue/shared": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "expect-type": "^1.4.0",
+    "vue": "catalog:"
+  }
+}

@@ -1,0 +1,80 @@
+import React from 'react';
+import { fireEvent, render, vi } from '@test/utils';
+import userEvent from '@testing-library/user-event';
+
+import InputNumber from '../index';
+
+const InputNumberPlaceholder = '请输入内容';
+const InputNumberValue = 9;
+
+describe('InputNumber', () => {
+  describe('props', () => {
+    test('autofocus', () => {
+      const { container } = render(<InputNumber autofocus={true} />);
+      const wrapper = container.querySelector('input');
+      expect(wrapper.getAttribute('autofocus')).toBeDefined();
+    });
+
+    test('disabled', async () => {
+      const changeFn = vi.fn();
+      const { queryByPlaceholderText } = render(
+        <InputNumber placeholder={InputNumberPlaceholder} disabled onChange={changeFn} />,
+      );
+      expect((queryByPlaceholderText(InputNumberPlaceholder) as HTMLInputElement).disabled).toBeTruthy();
+    });
+
+    test('size[large]', async () => {
+      const { container } = render(<InputNumber placeholder={InputNumberPlaceholder} size="large" />);
+      expect(container.children[0].classList.contains('t-size-l')).toBeTruthy();
+    });
+
+    test('theme[column]', () => {
+      const { queryByPlaceholderText, container } = render(
+        <InputNumber placeholder={InputNumberPlaceholder} theme="column" defaultValue={5} />,
+      );
+
+      fireEvent.mouseEnter(container.firstChild);
+      fireEvent.click(container.querySelector('.t-input-number__increase'));
+      expect((queryByPlaceholderText(InputNumberPlaceholder) as HTMLInputElement).value).toBe('6');
+    });
+  });
+
+  describe('events', () => {
+    test('onBlur', async () => {
+      const blurFn = vi.fn();
+      const { queryByPlaceholderText } = render(<InputNumber placeholder={InputNumberPlaceholder} onBlur={blurFn} />);
+      const InputDom = queryByPlaceholderText(InputNumberPlaceholder);
+      fireEvent.change(InputDom, { target: { value: 1 } });
+      fireEvent.blur(InputDom);
+      expect(blurFn).toHaveBeenCalledTimes(1);
+    });
+
+    test('onEnter and onKeydown', async () => {
+      const user = userEvent.setup();
+      const onEnterFn = vi.fn();
+      const onKeydownFn = vi.fn();
+      const { queryByPlaceholderText } = render(
+        <InputNumber placeholder={InputNumberPlaceholder} onEnter={onEnterFn} onKeydown={onKeydownFn} />,
+      );
+      const InputNumberDom = queryByPlaceholderText(InputNumberPlaceholder);
+      await user.type(InputNumberDom, '123{enter}');
+
+      expect(onEnterFn).toHaveBeenCalled();
+      expect(onKeydownFn).toHaveBeenCalled();
+    });
+
+    test('onChange', () => {
+      const changeFn = vi.fn();
+      const { container, queryByPlaceholderText } = render(
+        <InputNumber placeholder={InputNumberPlaceholder} onChange={changeFn} />,
+      );
+      expect(container.children[0].classList.contains('t-input-number')).toBeTruthy();
+      expect(queryByPlaceholderText(InputNumberPlaceholder)).toBeInTheDocument();
+      fireEvent.change(queryByPlaceholderText(InputNumberPlaceholder), {
+        target: { value: InputNumberValue },
+      });
+      expect(changeFn).toHaveBeenCalledTimes(1);
+      expect(changeFn.mock.calls[0][0]).toBe(InputNumberValue);
+    });
+  });
+});

@@ -1,0 +1,101 @@
+@mixin dark-theme-vars {
+  /* 深色模式语义变量 */
+  /* 主色 */
+  --wot-primary-1: var(--wot-blue-10);
+  --wot-primary-2: var(--wot-blue-9);
+  --wot-primary-3: var(--wot-blue-8);
+  --wot-primary-4: var(--wot-blue-7);
+  --wot-primary-5: var(--wot-blue-6);
+  --wot-primary-6: var(--wot-blue-5);
+  --wot-primary-7: var(--wot-blue-4);
+  --wot-primary-8: var(--wot-blue-3);
+  --wot-primary-9: var(--wot-blue-2);
+  --wot-primary-10: var(--wot-blue-1);
+  /* 危险色 */
+  --wot-danger-main: var(--wot-red-5);
+  --wot-danger-hover: var(--wot-red-6);
+  --wot-danger-clicked: var(--wot-red-4);
+  --wot-danger-disabled: var(--wot-red-8);
+  --wot-danger-particular: var(--wot-red-9);
+  --wot-danger-surface: var(--wot-red-10);
+  /* 成功色 */
+  --wot-success-main: var(--wot-green-5);
+  --wot-success-hover: var(--wot-green-6);
+  --wot-success-clicked: var(--wot-green-4);
+  --wot-success-disabled: var(--wot-green-8);
+  --wot-success-particular: var(--wot-green-9);
+  --wot-success-surface: var(--wot-green-10);
+  /* 警告色 */
+  --wot-warning-main: var(--wot-orange-5);
+  --wot-warning-hover: var(--wot-orange-6);
+  --wot-warning-clicked: var(--wot-orange-4);
+  --wot-warning-disabled: var(--wot-orange-8);
+  --wot-warning-particular: var(--wot-orange-9);
+  --wot-warning-surface: var(--wot-orange-10);
+  /* 中性色 */
+  /* 文字 */
+  --wot-text-main: var(--wot-coolgrey-1);
+  --wot-text-secondary: var(--wot-coolgrey-3);
+  --wot-text-auxiliary: var(--wot-coolgrey-5);
+  --wot-text-disabled: var(--wot-coolgrey-7);
+  --wot-text-placeholder: var(--wot-coolgrey-6);
+  --wot-text-white: var(--wot-base-white);
+  /* 图标 */
+  --wot-icon-main: var(--wot-coolgrey-1);
+  --wot-icon-secondary: var(--wot-coolgrey-3);
+  --wot-icon-auxiliary: var(--wot-coolgrey-5);
+  --wot-icon-disabled: var(--wot-coolgrey-7);
+  --wot-icon-placeholder: var(--wot-coolgrey-6);
+  --wot-icon-white: var(--wot-base-white);
+  /* 边框 */
+  --wot-border-extra-strong: var(--wot-coolgrey-3);
+  --wot-border-strong: var(--wot-coolgrey-5);
+  --wot-border-main: var(--wot-coolgrey-7);
+  --wot-border-light: var(--wot-coolgrey-9);
+  --wot-border-white: var(--wot-base-white);
+  --wot-border-zero: var(--wot-base-transparent);
+  /* 填充 */
+  --wot-filled-extra-strong: var(--wot-coolgrey-7);
+  --wot-filled-strong: var(--wot-coolgrey-8);
+  --wot-filled-content: var(--wot-coolgrey-9);
+  --wot-filled-bottom: var(--wot-coolgrey-10);
+  --wot-filled-oppo: var(--wot-base-black);
+  --wot-filled-zero: var(--wot-base-transparent);
+  /* 分割线 */
+  --wot-divider-main: var(--wot-opacwhite-3_08);
+  --wot-divider-light: var(--wot-opacwhite-2_04);
+  --wot-divider-strong: var(--wot-opacwhite-4_15);
+  --wot-divider-white: var(--wot-base-white);
+  /* 反馈 */
+  --wot-feedback-hover: var(--wot-opacwhite-2_04);
+  --wot-feedback-active: var(--wot-opacwhite-3_08);
+  --wot-feedback-accent: var(--wot-blue-opac);
+  /* 填充色-透明度 */
+  --wot-opacfilled-tooltip-toast-cover: var(--wot-opac-9_75);
+  --wot-opacfilled-main-cover: var(--wot-opac-7_55);
+  --wot-opacfilled-light-cover: var(--wot-opac-6_30);
+  /* Picker View Mask */
+  --wot-picker-view-mask-start-color: var(--wot-opac-10_85);
+  --wot-picker-view-mask-end-color: var(--wot-opac-5_20);
+  /* 分类色 */
+  /* 黄色 */
+  --wot-classifyapplication-yellow-background: var(--wot-yellow-10);
+  --wot-classifyapplication-yellow-border: var(--wot-yellow-8);
+  --wot-classifyapplication-yellow-content: var(--wot-yellow-5);
+  /* 蓝色 */
+  --wot-classifyapplication-cyan-background: var(--wot-cyan-10);
+  --wot-classifyapplication-cyan-border: var(--wot-cyan-8);
+  --wot-classifyapplication-cyan-content: var(--wot-cyan-5);
+  /* 紫色 */
+  --wot-classifyapplication-purple-background: var(--wot-purple-10);
+  --wot-classifyapplication-purple-border: var(--wot-purple-8);
+  --wot-classifyapplication-purple-content: var(--wot-purple-5);
+  /* 靛色 */
+  --wot-classifyapplication-grape-background: var(--wot-grape-10);
+  --wot-classifyapplication-grape-border: var(--wot-grape-8);
+  --wot-classifyapplication-grape-content: var(--wot-grape-5);
+  /* 粉色 */
+  --wot-classifyapplication-pink-background: var(--wot-pink-10);
+  --wot-classifyapplication-pink-border: var(--wot-pink-8);
+  --wot-classifyapplication-pink-content: var(--wot-pink-5);
+}

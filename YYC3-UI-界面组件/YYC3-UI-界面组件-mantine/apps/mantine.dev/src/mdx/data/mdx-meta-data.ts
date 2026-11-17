@@ -1,0 +1,320 @@
+import { Frontmatter } from '@/types';
+
+export const MDX_META_DATA: Record<string, Frontmatter> = {
+  NotFound: {
+    title: '404',
+    slug: '/404',
+    hideHeader: true,
+    hideInSearch: true,
+    hideSiblings: true,
+  },
+
+  About: {
+    title: 'About Mantine',
+    slug: '/about',
+    search: 'Browser support, releases cycle, previous versions documentation',
+    hideSiblings: true,
+    hideHeader: true,
+  },
+
+  GettingStarted: {
+    title: 'Getting started',
+    search: 'Getting started with Mantine',
+    slug: '/getting-started',
+    hideSiblings: true,
+    hideHeader: true,
+  },
+
+  Support: {
+    title: 'Support',
+    slug: '/support',
+    hideInSearch: true,
+    hideSiblings: true,
+    hideHeader: true,
+  },
+
+  BrowserSupport: {
+    title: 'Browser support',
+    slug: '/browser-support',
+    search: 'Browser versions supported by Mantine',
+    hideSiblings: true,
+    hideHeader: true,
+  },
+
+  Contribute: {
+    title: 'Contributing to Mantine',
+    slug: '/contribute',
+    search: 'Learn how to contribute to Mantine',
+    hideSiblings: true,
+    hideHeader: true,
+  },
+
+  OxcConfig: {
+    title: 'oxc-config-mantine',
+    slug: '/oxc-config-mantine',
+    search: 'Linting and formatting configuration for Mantine projects',
+    hideSiblings: true,
+    hideHeader: true,
+  },
+
+  Changelog700: {
+    title: 'Version v7.0.0',
+    slug: '/changelog/7-0-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.0.0',
+    date: 'September 18th, 2023',
+    searchTags: '7-0-0, 700',
+  },
+
+  Changelog710: {
+    title: 'Version v7.1.0',
+    slug: '/changelog/7-1-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.1.0',
+    date: 'September 28th, 2023',
+    searchTags: '7-1-0, 710',
+  },
+
+  Changelog720: {
+    title: 'Version v7.2.0',
+    slug: '/changelog/7-2-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.2.0',
+    date: 'November 7th, 2023',
+    searchTags: '7-2-0, 720',
+  },
+
+  Changelog730: {
+    title: 'Version v7.3.0',
+    slug: '/changelog/7-3-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.3.0',
+    date: 'December 5th, 2023',
+    searchTags: '7-3-0, 730',
+  },
+
+  Changelog740: {
+    title: 'Version v7.4.0',
+    slug: '/changelog/7-4-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.4.0',
+    date: 'January 3rd, 2024',
+    searchTags: '7-4-0, 740',
+  },
+
+  Changelog750: {
+    title: 'Version v7.5.0',
+    slug: '/changelog/7-5-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.5.0',
+    date: 'January 26th, 2024',
+    searchTags: '7-5-0, 750',
+  },
+
+  Changelog760: {
+    title: 'Version v7.6.0',
+    slug: '/changelog/7-6-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.6.0',
+    date: 'February 27th, 2024',
+    searchTags: '7-6-0, 760',
+  },
+
+  Changelog770: {
+    title: 'Version v7.7.0',
+    slug: '/changelog/7-7-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.7.0',
+    date: 'March 26th, 2024',
+    searchTags: '7-7-0, 770',
+  },
+
+  Changelog780: {
+    title: 'Version v7.8.0',
+    slug: '/changelog/7-8-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.8.0',
+    date: 'April 12th, 2024',
+    searchTags: '7-8-0, 780',
+  },
+
+  Changelog790: {
+    title: 'Version v7.9.0',
+    slug: '/changelog/7-9-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.9.0',
+    date: 'May 2nd, 2024',
+    searchTags: '7-9-0, 790',
+  },
+
+  Changelog7100: {
+    title: 'Version v7.10.0',
+    slug: '/changelog/7-10-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.10.0',
+    date: 'May 23rd, 2024',
+    searchTags: '7-10-0, 7100',
+  },
+
+  Changelog7110: {
+    title: 'Version v7.11.0',
+    slug: '/changelog/7-11-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.11.0',
+    date: 'June 26th, 2024',
+    searchTags: '7-11-0, 7110',
+  },
+
+  Changelog7120: {
+    title: 'Version v7.12.0',
+    slug: '/changelog/7-12-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.12.0',
+    date: 'August 6th, 2024',
+    searchTags: '7-12-0, 7120',
+  },
+
+  Changelog7130: {
+    title: 'Version v7.13.0',
+    slug: '/changelog/7-13-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.13.0',
+    date: 'September 26th, 2024',
+    searchTags: '7-13-0, 7130',
+  },
+
+  Changelog7140: {
+    title: 'Version v7.14.0',
+    slug: '/changelog/7-14-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.14.0',
+    date: 'November 12th, 2024',
+    searchTags: '7-14-0, 7140',
+  },
+
+  Changelog7150: {
+    title: 'Version v7.15.0',
+    slug: '/changelog/7-15-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.15.0',
+    date: 'December 10th, 2024',
+    searchTags: '7-15-0, 7150',
+  },
+
+  Changelog7160: {
+    title: 'Version v7.16.0',
+    slug: '/changelog/7-16-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.16.0',
+    date: 'January 14th, 2025',
+    searchTags: '7-16-0, 7160',
+  },
+
+  Changelog7170: {
+    title: 'Version v7.17.0',
+    slug: '/changelog/7-17-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/7.17.0',
+    date: 'February 18th, 2025',
+    searchTags: '7-17-0, 7170',
+  },
+
+  Changelog800: {
+    title: 'Version v8.0.0',
+    slug: '/changelog/8-0-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/8.0.0',
+    date: 'May 5th, 2025',
+    searchTags: '8-0-0, 800',
+  },
+
+  Changelog810: {
+    title: 'Version v8.1.0',
+    slug: '/changelog/8-1-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/8.1.0',
+    date: 'June 10th, 2025',
+    searchTags: '8-1-0, 810',
+  },
+
+  Changelog820: {
+    title: 'Version v8.2.0',
+    slug: '/changelog/8-2-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/8.2.0',
+    date: 'July 22nd, 2025',
+    searchTags: '8-2-0, 820',
+  },
+
+  Changelog830: {
+    title: 'Version v8.3.0',
+    slug: '/changelog/8-3-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/8.3.0',
+    date: 'September 8th, 2025',
+    searchTags: '8-3-0, 830',
+  },
+
+  PreviousChangelogs: {
+    title: 'All releases',
+    slug: '/changelog/previous-versions',
+    hideHeader: true,
+  },
+
+  AllReleases: {
+    title: 'All releases',
+    slug: '/changelog/all-releases',
+    hideHeader: true,
+    hideInSearch: true,
+  },
+
+  Changelog900: {
+    title: 'Version v9.0.0',
+    slug: '/changelog/9-0-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.0.0',
+    date: 'March 31st, 2026',
+    searchTags: '9-0-0, 900',
+  },
+
+  Changelog910: {
+    title: 'Version v9.1.0',
+    slug: '/changelog/9-1-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.1.0',
+    date: 'April 21st, 2026',
+    searchTags: '9-1-0, 910',
+  },
+
+  Changelog920: {
+    title: 'Version v9.2.0',
+    slug: '/changelog/9-2-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.2.0',
+    date: 'May 12th, 2026',
+    searchTags: '9-2-0, 920',
+  },
+
+  Changelog930: {
+    title: 'Version v9.3.0',
+    slug: '/changelog/9-3-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.3.0',
+    date: 'June 2nd, 2026',
+    searchTags: '9-3-0, 930',
+  },
+
+  Changelog940: {
+    title: 'Version v9.4.0',
+    slug: '/changelog/9-4-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.4.0',
+    date: 'June 23rd, 2026',
+    searchTags: '9-4-0, 940',
+  },
+
+  Changelog950: {
+    title: 'Version v9.5.0',
+    slug: '/changelog/9-5-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.5.0',
+    date: 'July 28th, 2026',
+    searchTags: '9-5-0, 950',
+  },
+
+  Changelog960: {
+    title: 'Version v9.6.0',
+    slug: '/changelog/9-6-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.6.0',
+    date: 'September 1st, 2026',
+    searchTags: '9-6-0, 960',
+  },
+
+  Changelog970: {
+    title: 'Version v9.7.0',
+    slug: '/changelog/9-7-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.7.0',
+    date: 'October 6th, 2026',
+    searchTags: '9-7-0, 970',
+  },
+
+  Changelog980: {
+    title: 'Version v9.8.0',
+    slug: '/changelog/9-8-0',
+    release: 'https://github.com/mantinedev/mantine/releases/tag/9.8.0',
+    date: 'November 10th, 2026',
+    searchTags: '9-8-0, 980',
+  },
+};

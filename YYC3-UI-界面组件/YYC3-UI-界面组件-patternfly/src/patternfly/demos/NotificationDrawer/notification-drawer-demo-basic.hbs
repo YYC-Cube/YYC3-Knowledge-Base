@@ -1,0 +1,20 @@
+{{#> notification-drawer notification-drawer--id="drawer-demo-notification-drawer-basic"}}
+  {{#> notification-drawer-header}}
+    {{#> notification-drawer-header-title}}
+      Notifications
+    {{/notification-drawer-header-title}}
+    {{#> notification-drawer-header-status}}
+      {{#if notification-drawer-basic-list--AllRead}}
+        0 unread
+      {{else}}
+        3 unread
+    {{/if}}
+    {{/notification-drawer-header-status}}
+    {{#> notification-drawer-header-action}}
+      {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize notification-drawer--id 'header-action')}}
+    {{/notification-drawer-header-action}}
+  {{/notification-drawer-header}}
+  {{#> notification-drawer-body}}
+    {{> notification-drawer-basic-list}}
+  {{/notification-drawer-body}}
+{{/notification-drawer}}

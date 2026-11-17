@@ -1,0 +1,232 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 底部弹层背景色
+$action-sheet-bg: var(--wot-action-sheet-bg, $filled-oppo) !default;
+// 底部弹层圆角
+$action-sheet-radius: var(--wot-action-sheet-radius, $radius-large) !default;
+// 操作项背景色
+$action-sheet-action-bg: var(--wot-action-sheet-action-bg, $filled-oppo) !default;
+// 操作项字体大小
+$action-sheet-action-font-size: var(--wot-action-sheet-action-font-size, $typography-title-size-main) !default;
+// 操作项行高
+$action-sheet-action-line-height: var(--wot-action-sheet-action-line-height, $typography-title-line-height-size-main) !default;
+// 操作项文字颜色
+$action-sheet-action-color: var(--wot-action-sheet-action-color, $text-main) !default;
+// 操作项内边距
+$action-sheet-action-padding: var(--wot-action-sheet-action-padding, $padding-extra-loose $padding-loose) !default;
+// 取消按钮与操作项的间隔背景色
+$action-sheet-gap-bg: var(--wot-action-sheet-gap-bg, $filled-bottom) !default;
+// 取消按钮背景色
+$action-sheet-cancel-bg: var(--wot-action-sheet-cancel-bg, $filled-oppo) !default;
+// 取消按钮字体大小
+$action-sheet-cancel-font-size: var(--wot-action-sheet-cancel-font-size, $typography-title-size-main) !default;
+// 取消按钮行高
+$action-sheet-cancel-line-height: var(--wot-action-sheet-cancel-line-height, $typography-title-line-height-size-main) !default;
+// 取消按钮文字颜色
+$action-sheet-cancel-color: var(--wot-action-sheet-cancel-color, $text-main) !default;
+// 取消按钮内边距
+$action-sheet-cancel-padding: var(--wot-action-sheet-cancel-padding, $padding-extra-loose $padding-loose) !default;
+// 取消按钮顶部外边距
+$action-sheet-gap-height: var(--wot-action-sheet-gap-height, $spacing-tight) !default;
+// 描述文本字体大小
+$action-sheet-description-font-size: var(--wot-action-sheet-description-font-size, $typography-body-size-main) !default;
+// 描述文本行高
+$action-sheet-description-line-height: var(--wot-action-sheet-description-line-height, $typography-body-line-height-size-main) !default;
+// 描述文本颜色
+$action-sheet-description-color: var(--wot-action-sheet-description-color, $text-auxiliary) !default;
+// 描述文本顶部外边距
+$action-sheet-description-margin-top: var(--wot-action-sheet-description-margin-top, $spacing-tight) !default;
+// 面板区域背景色
+$action-sheet-panel-bg: var(--wot-action-sheet-panel-bg, $filled-oppo) !default;
+// 面板容器内边距
+$action-sheet-panels-wrap-padding: var(--wot-action-sheet-panels-wrap-padding, $padding-main $padding-zero) !default;
+// 面板列表内边距
+$action-sheet-panels-padding: var(--wot-action-sheet-panels-padding, $padding-zero $padding-main) !default;
+// 单个面板宽度
+$action-sheet-panel-width: var(--wot-action-sheet-panel-width, $n-88) !default;
+// 单个面板内边距
+$action-sheet-panel-padding: var(--wot-action-sheet-panel-padding, $padding-main $padding-zero) !default;
+// 面板图片尺寸
+$action-sheet-panel-img-size: var(--wot-action-sheet-panel-img-size, $n-24) !default;
+// 面板图片外边距
+$action-sheet-panel-img-spacing: var(--wot-action-sheet-panel-img-spacing, $spacing-zero auto $spacing-tight) !default;
+// 面板图片圆角
+$action-sheet-panel-img-radius: var(--wot-action-sheet-panel-img-radius, $radius-main) !default;
+// 面板标题字体大小
+$action-sheet-panel-title-font-size: var(--wot-action-sheet-panel-title-font-size, $typography-label-size-main) !default;
+// 面板标题行高
+$action-sheet-panel-title-line-height: var(--wot-action-sheet-panel-title-line-height, $typography-label-line-height-size-main) !default;
+// 面板标题颜色
+$action-sheet-panel-title-color: var(--wot-action-sheet-panel-title-color, $text-auxiliary) !default;
+// 标题背景色
+$action-sheet-title-bg: var(--wot-action-sheet-title-bg, $filled-oppo) !default;
+// 标题文字颜色
+$action-sheet-title-color: var(--wot-action-sheet-title-color, $text-main) !default;
+// 标题区域高度
+$action-sheet-title-height: var(--wot-action-sheet-title-height, $n-56) !default;
+// 标题字体大小
+$action-sheet-title-font-size: var(--wot-action-sheet-title-font-size, $typography-title-size-main) !default;
+// 标题行高
+$action-sheet-title-line-height: var(--wot-action-sheet-title-line-height, $typography-title-line-height-size-main) !default;
+// 标题字重
+$action-sheet-title-font-weight: var(--wot-action-sheet-title-font-weight, $font-weight-medium) !default;
+// 关闭图标右侧偏移
+$action-sheet-close-right: var(--wot-action-sheet-close-right, $spacing-loose) !default;
+// 关闭图标颜色
+$action-sheet-close-color: var(--wot-action-sheet-close-color, $icon-secondary) !default;
+// 关闭图标尺寸
+$action-sheet-close-font-size: var(--wot-action-sheet-close-font-size, $n-24) !default;
+// 激活态背景色
+$action-sheet-active-bg: var(--wot-action-sheet-active-bg, $filled-content) !default;
+// 禁用态文字颜色
+$action-sheet-disabled-color: var(--wot-action-sheet-disabled-color, $text-disabled) !default;
+// 加载图标尺寸
+$action-sheet-loading-size: var(--wot-action-sheet-loading-size, $n-20) !default;
+
+@include b(action-sheet-wrapper) {
+  @include edeep(popup) {
+    border-radius: $action-sheet-radius $action-sheet-radius 0 0;
+  }
+}
+
+@include b(action-sheet) {
+  background: $action-sheet-bg;
+  border-radius: $action-sheet-radius $action-sheet-radius 0 0;
+  overflow: hidden;
+
+  @include e(actions) {
+    max-height: 50vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @include e(action) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: $action-sheet-action-font-size;
+    line-height: $action-sheet-action-line-height;
+    color: $action-sheet-action-color;
+    background: $action-sheet-action-bg;
+    padding: $action-sheet-action-padding;
+    box-sizing: border-box;
+    
+    @include when(border){
+      @include pixelBorder;
+    }
+
+    &:not(&--disabled):not(&--loading):active {
+      background: $action-sheet-active-bg;
+    }
+
+    @include m(disabled) {
+      color: $action-sheet-disabled-color;
+      cursor: not-allowed;
+    }
+
+    @include m(loading) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: initial;
+    }
+  }
+
+  @include edeep(action-loading) {
+    width: $action-sheet-loading-size;
+    height: $action-sheet-loading-size;
+  }
+
+  @include e(description) {
+    margin-top: $action-sheet-description-margin-top;
+    font-size: $action-sheet-description-font-size;
+    line-height: $action-sheet-description-line-height;
+    color: $action-sheet-description-color;
+  }
+
+  @include e(gap) {
+    height: $action-sheet-gap-height;
+    background: $action-sheet-gap-bg;
+  }
+
+  @include e(cancel) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: $action-sheet-cancel-bg;
+    color: $action-sheet-cancel-color;
+    font-size: $action-sheet-cancel-font-size;
+    line-height: $action-sheet-cancel-line-height;
+    padding: $action-sheet-cancel-padding;
+
+    &:active {
+      background: $action-sheet-active-bg;
+    }
+  }
+
+  @include e(title) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $action-sheet-title-color;
+    height: $action-sheet-title-height;
+    font-size: $action-sheet-title-font-size;
+    font-weight: $action-sheet-title-font-weight;
+    line-height: $action-sheet-title-line-height;
+  }
+
+  @include edeep(close) {
+    position: absolute;
+    top: 50%;
+    right: $action-sheet-close-right;
+    color: $action-sheet-close-color;
+    font-size: $action-sheet-close-font-size;
+    transform: translateY(-50%);
+  }
+
+
+  @include e(panels-wrap) {
+    padding: $action-sheet-panels-wrap-padding;
+    background: $action-sheet-panel-bg;
+  }
+
+  @include e(panels) {
+    padding: $action-sheet-panels-padding;
+  }
+
+
+  @include e(panels-content) {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @include e(panel) {
+    width: $action-sheet-panel-width;
+    flex: 0 0 auto;
+    padding: $action-sheet-panel-padding;
+  }
+
+  @include edeep(panel-img) {
+    display: block;
+    font-size: $action-sheet-panel-img-size;
+    width: $action-sheet-panel-img-size;
+    height: $action-sheet-panel-img-size;
+    margin: $action-sheet-panel-img-spacing;
+    border-radius: $action-sheet-panel-img-radius;
+  }
+
+  @include e(panel-title) {
+    font-size: $action-sheet-panel-title-font-size;
+    line-height: $action-sheet-panel-title-line-height;
+    color: $action-sheet-panel-title-color;
+    text-align: center;
+
+    @include lineEllipsis;
+  }
+}

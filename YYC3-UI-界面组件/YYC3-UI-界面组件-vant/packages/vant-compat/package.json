@@ -1,0 +1,42 @@
+{
+  "name": "@vant/compat",
+  "version": "1.0.1",
+  "description": "Provide Vant 3 compatible behavior for Vant 4",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "dev": "rslib dev",
+    "build": "rslib build",
+    "release": "vant-cli release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vant-ui/vant.git",
+    "directory": "packages/vant-compat"
+  },
+  "bugs": "https://github.com/vant-ui/vant/issues",
+  "author": "chenjiahan",
+  "license": "MIT",
+  "devDependencies": {
+    "@rslib/core": "^0.23.2",
+    "@vue/runtime-core": "^3.5.42",
+    "typescript": "^5.9.3",
+    "vant": "workspace:*",
+    "vue": "^3.5.42"
+  }
+}

@@ -1,0 +1,20 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+
+  export interface RatingGroupControlBaseProps extends PolymorphicProps<'div'>, RefAttribute {}
+  export interface RatingGroupControlProps extends Assign<HTMLProps<'div'>, RatingGroupControlBaseProps> {}
+</script>
+
+<script lang="ts">
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { useFieldContext } from '../field/index.ts'
+  import { useRatingGroupContext } from './use-rating-group-context.ts'
+
+  let { ref = $bindable(null), ...props }: RatingGroupControlProps = $props()
+  const ratingGroup = useRatingGroupContext()
+  const field = useFieldContext()
+  const mergedProps = $derived(mergeProps(ratingGroup().getControlProps(), props))
+</script>
+
+<Ark as="div" bind:ref aria-describedby={field?.()?.ariaDescribedby} {...mergedProps} />

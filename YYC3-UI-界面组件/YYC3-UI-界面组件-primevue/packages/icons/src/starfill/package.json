@@ -1,0 +1,11 @@
+{
+    "main": "./StarFillIcon.vue",
+    "module": "./StarFillIcon.vue",
+    "types": "./StarFillIcon.d.ts",
+    "browser": {
+        "./sfc": "./StarFillIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

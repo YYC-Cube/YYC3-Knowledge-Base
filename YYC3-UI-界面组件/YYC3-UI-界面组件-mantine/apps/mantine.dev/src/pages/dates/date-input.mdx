@@ -1,0 +1,120 @@
+import { DateInputDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.DateInput);
+
+## DatePicker props
+
+`DateInput` supports most of the [DatePicker](/dates/date-picker/) props.
+Read through the [DatePicker](/dates/date-picker/) documentation to learn about all component features that are not listed on this page.
+
+## Usage
+
+<Demo data={DateInputDemos.usage} />
+
+## Presets
+
+Use the `presets` prop to add custom date presets. Presets are displayed next to the calendar:
+
+<Demo data={DateInputDemos.presets} />
+
+## Value format
+
+Use the `valueFormat` prop to change the [dayjs format](https://day.js.org/docs/en/display/format) of the value label.
+To use some custom formats, you need to enable the [custom parse format](https://day.js.org/docs/en/plugin/custom-parse-format) plugin:
+
+```tsx
+// Do this once in your application root file
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+```
+
+Example of using DateInput with a custom format:
+
+<Demo data={DateInputDemos.format} />
+
+`valueFormat` also accepts a function that receives the value as a `YYYY-MM-DD` string and returns
+the formatted value. Use it to format the value with
+[Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
+instead of dayjs – see [formatting without dayjs](/dates/getting-started/#formatting-without-dayjs).
+
+Note that `valueFormat` is also used to parse user input – a function cannot be used for that.
+When `valueFormat` is a function, typed values are parsed as `YYYY-MM-DD` strings.
+Set the `dateParser` prop to support other formats:
+
+```tsx
+import { DateInput } from '@mantine/dates';
+
+function Demo() {
+  return (
+    <DateInput
+      valueFormat={(date) =>
+        new Intl.DateTimeFormat('en-US', { dateStyle: 'long' }).format(new Date(`${date}T00:00:00`))
+      }
+      dateParser={(input) => {
+        const parsed = new Date(input);
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+      }}
+    />
+  );
+}
+```
+
+## With time
+
+If your `valueFormat` includes time (for example, `YYYY-MM-DD HH:mm`), set the `withTime` prop
+to preserve the time part of the value. Without `withTime`, the time portion is discarded and
+always defaults to `00:00`. When using `withTime`, you will also need to provide a custom `dateParser`
+that returns a date-time string:
+
+<Demo data={DateInputDemos.time} />
+
+## Date parser
+
+Use the `dateParser` prop to replace the default date parser. The parser function accepts user input (string)
+and must return a `Date` object:
+
+<Demo data={DateInputDemos.parser} />
+
+## Allow clear
+
+Set the `clearable` prop to allow removing the value from the input. The input will be cleared if the
+user selects the same date in the dropdown or clears the input value:
+
+<Demo data={DateInputDemos.clearable} />
+
+<ClearSectionMode />
+
+<Demo data={DateInputDemos.clearSectionMode} />
+
+## Min and max date
+
+Set the `minDate` and `maxDate` props to define minimum and maximum dates. If a date that is after `maxDate`
+or before `minDate` is entered, it will be considered invalid and the input value will be reverted
+to the last known valid date value.
+
+<Demo data={DateInputDemos.minMax} />
+
+## Disabled state
+
+<Demo data={DateInputDemos.disabled} />
+
+## Input props
+
+<InputFeatures component="DateInput" element="input" />
+
+<Demo data={DateInputDemos.configurator} />
+
+<GetElementRef
+  component="DateInput"
+  refType="input"
+  package="@mantine/dates"
+/>
+
+<InputAccessibility
+  component="DateInput"
+  packageName="@mantine/dates"
+/>

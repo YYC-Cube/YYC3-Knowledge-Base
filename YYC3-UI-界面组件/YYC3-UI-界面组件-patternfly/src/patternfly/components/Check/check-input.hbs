@@ -1,0 +1,23 @@
+<input class="{{pfv}}check__input{{#if check-input--modifier}} {{check-input--modifier}}{{/if}}"
+  type="checkbox"
+  {{#if check-input--aria-describedby}}
+    aria-describedby="{{check-input--aria-describedby}}"
+  {{else if check-description--text}}
+    aria-describedby="{{check--id}}-description"
+  {{/if}}
+  {{#if check--id}}
+    id="{{dasherize check--id 'input'}}"
+    name="{{dasherize check--id 'input'}}"
+  {{/if}}
+  {{#ifAny check--aria-label check--IsStandalone}}
+    aria-label="{{ternary check--aria-label check--aria-label 'Standalone check'}}"
+  {{/ifAny}}
+  {{#if check-input--IsChecked}}
+    checked
+  {{/if}}
+  {{#if check-input--IsDisabled}}
+    disabled
+  {{/if}}
+  {{#if check-input--attribute}}
+    {{{check-input--attribute}}}
+  {{/if}}>

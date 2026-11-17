@@ -1,0 +1,176 @@
+---
+id: checkbox
+title: Checkbox
+description: A control element that allows for multiple selections within a set.
+---
+
+<ComponentPreview id="Checkbox" />
+
+## Anatomy
+
+<Anatomy id="checkbox" />
+
+```tsx
+<Checkbox.Root>
+  <Checkbox.Control>
+    <Checkbox.Indicator />
+  </Checkbox.Control>
+  <Checkbox.Label />
+  <Checkbox.HiddenInput />
+</Checkbox.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Default Checked
+
+Use the `defaultChecked` prop to set the initial checked state in an uncontrolled manner. The checkbox will manage its
+own state internally.
+
+<Example id="default-checked" />
+
+### Controlled
+
+Use the `checked` and `onCheckedChange` props to programatically control the checkbox's state.
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the checkbox is to use the `RootProvider` component and the `useCheckbox` hook. This way
+you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Disabled
+
+Use the `disabled` prop to make the checkbox non-interactive.
+
+<Example id="disabled" />
+
+### Indeterminate
+
+Use the `indeterminate` prop to create a checkbox in an indeterminate state (partially checked).
+
+<Example id="indeterminate" />
+
+### Field
+
+The checkbox integrates smoothly with the `Field` component to handle form state, helper text, and error text for proper
+accessibility.
+
+<Example id="with-field" />
+
+### Form
+
+Pass the `name` and `value` props to the `Checkbox.Root` component to make the checkbox part of a form. The checkbox's
+value will be submitted with the form when the user submits it.
+
+<Example id="with-form" />
+
+### Context
+
+Access the checkbox's state and methods with `Checkbox.Context` or the `useCheckboxContext` hook.
+
+<Example id="context" />
+
+## Checkbox Group
+
+Use the `Checkbox.Group` component to manage a group of checkboxes. The `Checkbox.Group` component manages the state of
+the checkboxes and provides a way to access the checked values.
+
+```tsx
+<Checkbox.Group>
+  <Checkbox.Root>
+    <Checkbox.Control>
+      <Checkbox.Indicator />
+    </Checkbox.Control>
+    <Checkbox.Label />
+    <Checkbox.HiddenInput />
+  </Checkbox.Root>
+</Checkbox.Group>
+```
+
+<Example id="group" />
+
+### Controlled
+
+Use the `value` and `onValueChange` props to programmatically control the checkbox group's state. This example
+demonstrates how to manage selected checkboxes in an array and display the current selection.
+
+<Example id="group-controlled" />
+
+### Root Provider
+
+Use the `useCheckboxGroup` hook to create the checkbox group store and pass it to the `Checkbox.GroupProvider`
+component. This provides maximum control over the group programmatically, similar to how `RootProvider` works for
+individual checkboxes.
+
+<Example id="group-provider" />
+
+### Invalid
+
+Use the `invalid` prop on `Checkbox.Group` to mark the entire group as invalid for validation purposes. This applies the
+invalid state to all checkboxes within the group.
+
+<Example id="group-with-invalid" />
+
+### Max Selected
+
+Use the `maxSelectedValues` prop to limit the number of checkboxes that can be selected at once. Once the maximum is
+reached, remaining checkboxes become disabled.
+
+<Example id="group-with-max-selected" />
+
+### Select All
+
+Implement a "select all" checkbox that controls all checkboxes within a group. The parent checkbox automatically shows
+an indeterminate state when some (but not all) items are selected, and becomes fully checked when all items are
+selected.
+
+<Example id="group-with-select-all" />
+
+### Form
+
+Use the `Checkbox.Group` component within a form to handle multiple checkbox values with form submission. The `name`
+prop ensures all selected values are collected as an array when the form is submitted using `FormData.getAll()`.
+
+<Example id="group-with-form" />
+
+### Fieldset
+
+Use the `Fieldset` component with `Checkbox.Group` to provide semantic grouping with legend, helper text, and error text
+support.
+
+<Example id="group-with-fieldset" />
+
+## Guides
+
+### asChild Behavior
+
+The `Checkbox.Root` element of the checkbox is a `label` element. This is because the checkbox is a form control and
+should be associated with a label to provide context and meaning to the user. Otherwise, the HTML and accessibility
+structure will be invalid.
+
+> If you need to use the `asChild` property, make sure that the `label` element is the direct child of the
+> `Checkbox.Root` component.
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="checkbox" />
+
+### Context
+
+<ContextType id="checkbox" />
+
+## Accessibility
+
+Complies with the [Checkbox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/).
+
+### Keyboard Support
+
+<KeyBindingsTable id="checkbox" />

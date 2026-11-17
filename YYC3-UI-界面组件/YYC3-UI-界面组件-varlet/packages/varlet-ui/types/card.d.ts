@@ -1,0 +1,79 @@
+import { VNode } from 'vue'
+import { BasicAttributes, ListenerProp, SetPropsDefaults, VarComponent } from './varComponent'
+
+export declare const cardProps: Record<keyof CardProps, any>
+
+export type CardFit = 'fill' | 'contain' | 'cover' | 'none' | 'scale-down'
+
+export type CardLayout = 'row' | 'column'
+
+export type CardVariant = 'standard' | 'outlined' | 'filled'
+
+export type CardSurface = 'low'
+
+export interface CardRipple {
+  disabled?: boolean
+  color?: string
+}
+
+export interface CardHoverable {
+  disabled?: boolean
+  color?: string
+}
+
+export interface CardProps extends BasicAttributes {
+  variant?: CardVariant
+  surface?: CardSurface
+  hoverable?: boolean | CardHoverable
+  src?: string
+  fit?: CardFit
+  imageHeight?: string | number
+  imageWidth?: string | number
+  alt?: string
+  title?: string
+  subtitle?: string
+  description?: string
+  elevation?: boolean | number | string
+  ripple?: boolean | CardRipple
+  layout?: CardLayout
+  floating?: boolean
+  floatingDuration?: number
+  onClick?: ListenerProp<(e: Event) => void>
+  'onUpdate:floating'?: ListenerProp<(value: boolean) => void>
+
+  /**
+   * @deprecated
+   */
+  outline?: boolean
+}
+
+export interface CardTitleData {
+  slotClass: string
+}
+
+export interface CardSubtitleData {
+  slotClass: string
+}
+
+export interface CardDescriptionData {
+  slotClass: string
+}
+
+export class Card extends VarComponent {
+  static setPropsDefaults: SetPropsDefaults<CardProps>
+
+  $props: CardProps
+
+  $slots: {
+    image(): VNode[]
+    default(): VNode[]
+    title(data: CardTitleData): VNode[]
+    subtitle(data: CardSubtitleData): VNode[]
+    description(data: CardDescriptionData): VNode[]
+    extra(): VNode[]
+    'close-button'(): VNode[]
+    'floating-content'(): VNode[]
+  }
+}
+
+export class _CardComponent extends Card {}

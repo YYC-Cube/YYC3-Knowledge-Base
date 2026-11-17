@@ -1,0 +1,45 @@
+import * as progress from '@zag-js/progress'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import type { RootEmits } from './progress.types.ts'
+
+export interface UseProgressProps extends Optional<Omit<progress.Props, 'dir' | 'getRootNode'>, 'id'> {
+  /**
+   * The v-model value of the progress
+   */
+  modelValue?: progress.Props['value']
+}
+export interface UseProgressReturn extends ComputedRef<progress.Api<PropTypes>> {}
+
+export const useProgress = (
+  props: MaybeRefOrGetter<UseProgressProps> = {},
+  emit?: EmitFn<RootEmits>,
+): UseProgressReturn => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+
+  const context = computed<progress.Props>(() => {
+    const localeProps = toValue<UseProgressProps>(props)
+
+    return {
+      id,
+      dir: locale.value.dir,
+      locale: locale.value.locale,
+      value: localeProps.modelValue,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localeProps),
+      onValueChange: (details) => {
+        emit?.('valueChange', details)
+        emit?.('update:modelValue', details.value)
+        localeProps.onValueChange?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(progress.machine, context)
+  return computed(() => progress.connect(service, normalizeProps))
+}

@@ -1,0 +1,10 @@
+.code {
+  border-radius: var(--mantine-radius-md);
+  margin-top: var(--mantine-spacing-md);
+  margin-bottom: var(--mantine-spacing-md);
+
+  & pre,
+  & code {
+    border-radius: var(--mantine-radius-md);
+  }
+}

@@ -1,0 +1,201 @@
+'use client'
+
+import { SiStackblitz } from '@icons-pack/react-simple-icons'
+import { useState } from 'react'
+import { css } from 'styled-system/css'
+import { HStack } from 'styled-system/jsx'
+import { Switch } from '~/components/ui/switch'
+import { Tabs } from '~/components/ui/tabs'
+import { getPrimaryCssModules, rewriteCssImports, stripCss } from '~/lib/css-module-transform'
+import type { SupportedLang } from '~/lib/shiki-client'
+import { type Framework, openInStackblitz } from '~/lib/stackblitz'
+import { CodePreview } from './code-preview'
+
+interface ExampleMeta {
+  id: string
+  component?: string
+  framework: string
+}
+
+interface Props extends Omit<Tabs.RootProps, 'defaultValue'> {
+  code: string
+  lang?: SupportedLang
+  cssModules?: Record<string, string>
+  /** Sibling files the example imports, rendered as their own tabs. */
+  localFiles?: Record<string, string>
+  meta?: ExampleMeta
+}
+
+export const ExampleCodeTabs = (props: Props) => {
+  const { code, lang = 'tsx', meta, cssModules, localFiles = {}, ...rootProps } = props
+  const [showCss, setShowCss] = useState(true)
+  const [activeTab, setActiveTab] = useState('code')
+
+  const componentCss = cssModules ? getPrimaryCssModules(cssModules, meta?.component) : []
+
+  const globalCssContent = cssModules
+    ? [cssModules['theme.css'], cssModules['utilities.css'], cssModules['global.css']].filter(Boolean).join('\n\n')
+    : ''
+
+  const hasComponentCss = componentCss.length > 0
+  const hasGlobalCss = globalCssContent.length > 0
+
+  const displayCode = hasComponentCss && showCss ? rewriteCssImports(code) : stripCss(code)
+  const codeExtension = lang === 'vue' ? 'vue' : lang === 'svelte' ? 'svelte' : 'tsx'
+  const cssTabs =
+    hasComponentCss && showCss ? componentCss.map(([filename]) => ({ value: `css:${filename}`, label: filename })) : []
+
+  const localTabs = Object.keys(localFiles).map((name) => ({ value: `local:${name}`, label: name }))
+
+  const tabs = [
+    { value: 'code', label: `index.${codeExtension}` },
+    ...localTabs,
+    ...cssTabs,
+    ...(hasComponentCss && hasGlobalCss && showCss ? [{ value: 'global', label: 'global.css' }] : []),
+  ]
+
+  return (
+    <Tabs.Root
+      value={activeTab}
+      onValueChange={(e) => setActiveTab(e.value)}
+      variant="line"
+      borderWidth="1px"
+      borderColor="gray.dark.5"
+      borderRadius="lg"
+      overflow="hidden"
+      bg="gray.dark.2"
+      size="sm"
+      className="not-prose"
+      {...rootProps}
+      lazyMount
+    >
+      <HStack
+        gap="4"
+        bg="gray.dark.a2"
+        borderBottomWidth="1px"
+        borderBottomColor="gray.dark.5"
+        px="4"
+        alignItems="center"
+      >
+        {/* The tab row scrolls on its own so a long file list never runs under the controls. */}
+        <Tabs.List
+          bg="transparent"
+          boxShadow="none"
+          borderBottomWidth="0"
+          px="0"
+          alignItems="center"
+          flex="1"
+          minWidth="0"
+          overflowX="auto"
+          className={css({
+            scrollbarWidth: 'none',
+            '&::-webkit-scrollbar': { display: 'none' },
+            // Fade the clipped edge so a cut-off name reads as more content, not a glitch.
+            maskImage: 'linear-gradient(to right, black calc(100% - 24px), transparent)',
+          })}
+        >
+          {tabs.map((tab) => (
+            <Tabs.Trigger
+              key={tab.value}
+              value={tab.value}
+              color="gray.dark.11"
+              _selected={{ color: 'white' }}
+              pb="0"
+              h="39px"
+              flexShrink="0"
+            >
+              {tab.label}
+            </Tabs.Trigger>
+          ))}
+          <Tabs.Indicator />
+        </Tabs.List>
+        <HStack gap="4" flexShrink="0" className="dark">
+          {hasComponentCss && (
+            <Switch
+              size="sm"
+              checked={showCss}
+              onCheckedChange={(e) => {
+                setShowCss(e.checked)
+                if (!e.checked) setActiveTab('code')
+              }}
+            >
+              <span className={css({ fontSize: 'sm', color: 'gray.dark.11' })}>CSS</span>
+            </Switch>
+          )}
+          {meta && <StackblitzButton code={code} cssModules={cssModules} localFiles={localFiles} meta={meta} />}
+        </HStack>
+      </HStack>
+
+      <Tabs.Content key={`code-${showCss}`} value="code" pt="0">
+        <CodePreview code={displayCode} lang={lang} />
+      </Tabs.Content>
+
+      {Object.entries(localFiles).map(([name, content]) => (
+        <Tabs.Content key={name} value={`local:${name}`} pt="0">
+          <CodePreview
+            code={stripCss(content)}
+            lang={name.endsWith('.vue') ? 'vue' : name.endsWith('.svelte') ? 'svelte' : 'tsx'}
+          />
+        </Tabs.Content>
+      ))}
+
+      {hasComponentCss &&
+        showCss &&
+        componentCss.map(([filename, content]) => (
+          <Tabs.Content key={filename} value={`css:${filename}`} pt="0">
+            <CodePreview code={content} lang="css" />
+          </Tabs.Content>
+        ))}
+
+      {hasComponentCss && hasGlobalCss && showCss && (
+        <Tabs.Content value="global" pt="0">
+          <CodePreview code={globalCssContent} lang="css" />
+        </Tabs.Content>
+      )}
+    </Tabs.Root>
+  )
+}
+
+function StackblitzButton(props: {
+  code: string
+  cssModules: Record<string, string> | undefined
+  localFiles: Record<string, string>
+  meta: ExampleMeta
+}) {
+  const {
+    code,
+    cssModules = {},
+    localFiles,
+    meta: { id, component, framework },
+  } = props
+
+  return (
+    <button
+      type="button"
+      className={css({
+        h: '7',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '1.5',
+        color: 'gray.dark.11',
+        fontSize: 'sm',
+        fontWeight: 'medium',
+        cursor: 'pointer',
+        _hover: { color: 'white' },
+        _icon: { boxSize: '4', color: 'coral.8' },
+      })}
+      onClick={() => {
+        openInStackblitz(framework as Framework, {
+          code,
+          cssModules,
+          localFiles,
+          id,
+          component: component ?? 'Example',
+        })
+      }}
+    >
+      <SiStackblitz />
+      <span className={css({ hideBelow: 'sm' })}>Stackblitz</span>
+    </button>
+  )
+}

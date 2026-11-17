@@ -1,0 +1,59 @@
+---
+title: Tabs
+description: Base UI-powered Tabs with iOS-flavored interactions — no hover background, tap-scale feedback, and a sliding active indicator across rounded / square / point variants.
+category: Navigation
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import DemoAtoms from './demos/atoms.tsx?demo';
+import DemoImplicitDefault from './demos/implicitDefault.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { tabsClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## Implicit Initial Selection
+
+<Demo of={DemoImplicitDefault} />
+
+## Atom Components
+
+<Demo of={DemoAtoms} />
+
+## APIs
+
+### Tabs
+
+<Api name="Tabs" from=".." migrationKey="heading:%5B%22Tabs%22%5D:0" />
+
+### TabsItem
+
+| Property | Description                 | Type        | Default |
+| -------- | --------------------------- | ----------- | ------- |
+| key      | Unique key                  | `string`    | -       |
+| label    | Tab label                   | `ReactNode` | -       |
+| icon     | Leading icon                | `ReactNode` | -       |
+| children | Panel content               | `ReactNode` | -       |
+| disabled | Whether the tab is disabled | `boolean`   | `false` |
+
+### Variants
+
+- `rounded` (default) — pill-shaped filled background slides between tabs.
+- `square` — underline bar with square ends, anchored to the list bottom.
+- `point` — small dot indicator centered under the active tab.
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Tabs`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/Tabs.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={tabsClasses} />

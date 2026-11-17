@@ -1,0 +1,85 @@
+## Links
+
+## Finalizing Your Work
+
+Run these after every edit cycle — they take seconds:
+
+```bash
+npx oxlint -c oxlint.config.mjs path/to/changed/files
+npm run format:write:files path/to/changed/files
+
+# Run tests for specific path related to your changes
+npm run jest @mantine/charts
+npm run jest path/to/changed/file.test.ts
+```
+
+Run these **once**, before pushing or handing the work back — not after every commit:
+
+```bash
+npm run typecheck   # ~30s
+npm run build       # ~5-20s
+
+# Run stylelint only if you have made changes to styles or CSS files
+npm run stylelint
+
+# Run this script if you've changed dependencies in any package.json
+npm run syncpack
+```
+
+When a task produces several commits, a single typecheck + build pass at the end covers all of them. `npm run jest` is ~2s per package, so run it as often as you like — it catches most real breakage long before typecheck would.
+
+After running the commands above, check if `codex` CLI is available (`command -v codex`). If it is, run `/codex-code-review` to get an automated code review of unstaged changes and apply fixes.
+
+## Code Style
+
+**Comments Guidelines:**
+- **Do not include inline comments** that describe logic or implementation details unless explicitly requested
+- **Always preserve documentation comments** on interfaces, types, and function parameters (JSDoc-style comments with `/** */`)
+- The codebase prefers clean, self-documenting code for implementation
+- Type definitions and public APIs should maintain their documentation comments
+
+## Writing Documentation
+
+Before writing or editing `.mdx` pages (`apps/mantine.dev`, `apps/help.mantine.dev`), changelog pages, migration guides or demos in `packages/@docs/demos`, invoke the `mantine-docs` skill and follow it. Before handing the work back, run its checker: `python3 ~/.claude/skills/mantine-docs/scripts/check_docs.py`.
+
+Rules that break the page when ignored, for tools that cannot load the skill:
+
+- **Text that explains a demo goes before the demo**, never after it.
+- **Markdown pipe tables do not render** (no `remark-gfm`). Use `<DataTable />` or a list.
+- **`DataTable` cells are rendered as is**: backticks inside a string are displayed literally, use `<code>` elements.
+
+## Tests
+
+**Console output fails tests.** `jsdom.mocks.ts` turns every `console.error` and `console.warn` emitted during a test into a test failure, including React's "not wrapped in act(...)" warning. Fix the cause: wrap the update in `act` (use `renderWithAct` from `@mantine-tests/core` or `await act(async () => ...)` for floating-ui positioning and other microtask work), fix the invalid prop, or stabilize the effect. Never mock or filter the console to make the failure go away. A warning that fires between tests is reported on the next test, so read the "emitted while running" part of the message to find the test that caused it.
+
+**Jest hides console output when more than one test file runs.** Pass `--verbose` or run a single file to see it. Do not pipe jest output through `tail` or `grep "Tests:"` when checking a change; read the failures.
+
+**Verifying a new regression test:** temporarily revert the fix, confirm the test fails, then restore the fix. Do this for tests that cover async, timing or lifecycle behavior — that is where a test silently passes for the wrong reason. Skip it for straightforward assertions, where it is pure overhead.
+
+**`rerender` remounts unless the tree shape matches.** `render()` from `@mantine-tests/core` wraps its argument in a fragment, but `rerender(ui)` does not. Passing a differently shaped tree unmounts and remounts the subtree instead of updating it, so tests that change a prop silently test a fresh mount instead. Wrap `rerender` arguments in `<>...</>` to match:
+
+```tsx
+const { rerender } = render(<Provider adapter={a}>...</Provider>);
+rerender(<><Provider adapter={b}>...</Provider></>);
+```
+
+**`StrictMode` does not double-invoke effects** in the jest environment, so a test that relies on it to reproduce a double-mount bug will pass whether or not the bug is fixed.
+
+## Commit conventions
+
+Mantine is a monorepo, thus it is important to write correct commit messages to keep the git history clean and consistent. All commits made in this repository are divided into 3 groups:
+
+- package commits – Related to any particular package.
+- docs commits – Related to the documentation.
+- core commits – Only related to repository tooling and not associated with any package.
+
+Commit messages consists of 3 parts:
+```
+[area] Optional title: Message
+```
+
+Examples:
+- `[core] Fix documentation deployment script` – Change made in repository script, it is not related to documentation or any package
+- `[mantine.dev] Update report issues link` – Change related to documentation website
+- `[@mantine/core] Button: Add theme focus styles` – Change in @mantine/core package at Button component
+- `[@mantine/hooks] use-list-state: Add remove handler` – Change in @mantine/hooks package at use-list-state hook

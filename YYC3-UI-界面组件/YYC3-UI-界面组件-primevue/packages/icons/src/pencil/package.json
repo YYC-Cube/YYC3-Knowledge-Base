@@ -1,0 +1,11 @@
+{
+    "main": "./PencilIcon.vue",
+    "module": "./PencilIcon.vue",
+    "types": "./PencilIcon.d.ts",
+    "browser": {
+        "./sfc": "./PencilIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

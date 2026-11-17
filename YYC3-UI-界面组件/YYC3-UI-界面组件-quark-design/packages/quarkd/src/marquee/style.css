@@ -1,0 +1,31 @@
+:host {
+  flex: 1 1;
+  overflow: hidden;
+  /* height: 100%; */
+  display: flex;
+  align-items: center;
+  color: quark-textBaseColor;
+  font-size: quark-fontSizeBase;
+}
+
+:host .quark-marquee-title {
+  width: auto;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  padding: 0 4px;
+  white-space: nowrap;
+}
+
+:host .quark-marquee-paused {
+  animation-play-state: paused;
+}
+
+@keyframes quark-marquee-animation {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}

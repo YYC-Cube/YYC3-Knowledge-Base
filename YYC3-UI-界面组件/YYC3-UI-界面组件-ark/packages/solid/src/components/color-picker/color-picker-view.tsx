@@ -1,0 +1,29 @@
+import type { ColorFormat } from '@zag-js/color-picker'
+import { mergeProps } from '@zag-js/solid'
+import { Show } from 'solid-js'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+import { colorPickerAnatomy } from './color-picker.anatomy.ts'
+import { useColorPickerContext } from './use-color-picker-context.ts'
+import { ColorPickerFormatPropsProvider } from './use-color-picker-format-context.ts'
+
+interface FormatOptions {
+  format: ColorFormat
+}
+
+export interface ColorPickerViewBaseProps extends FormatOptions, PolymorphicProps<'div'> {}
+export interface ColorPickerViewProps extends HTMLProps<'div'>, ColorPickerViewBaseProps {}
+
+export const ColorPickerView = (props: ColorPickerViewProps) => {
+  const api = useColorPickerContext()
+  const [formatProps, localProps] = createSplitProps<FormatOptions>()(props, ['format'])
+  const mergedProps = mergeProps(() => colorPickerAnatomy.build().view.attrs, localProps)
+
+  return (
+    <ColorPickerFormatPropsProvider value={formatProps}>
+      <Show when={api().format === props.format}>
+        <ark.div data-format={props.format} {...mergedProps} />
+      </Show>
+    </ColorPickerFormatPropsProvider>
+  )
+}

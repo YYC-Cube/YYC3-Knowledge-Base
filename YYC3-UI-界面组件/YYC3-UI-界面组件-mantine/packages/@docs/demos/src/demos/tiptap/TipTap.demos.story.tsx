@@ -1,0 +1,89 @@
+import { renderDemo } from '../../render-demo';
+import * as demos from './index';
+
+export default { title: 'TipTap' };
+
+export const Demo_usage = {
+  name: '⭐ Demo: usage',
+  render: renderDemo(demos.usage),
+};
+
+export const Demo_colors = {
+  name: '⭐ Demo: colors',
+  render: renderDemo(demos.colors),
+};
+
+export const Demo_codeHighlight = {
+  name: '⭐ Demo: codeHighlight',
+  render: renderDemo(demos.codeHighlight),
+};
+
+export const Demo_bubbleMenu = {
+  name: '⭐ Demo: bubbleMenu',
+  render: renderDemo(demos.bubbleMenu),
+};
+
+export const Demo_floatingMenu = {
+  name: '⭐ Demo: floatingMenu',
+  render: renderDemo(demos.floatingMenu),
+};
+
+export const Demo_customControl = {
+  name: '⭐ Demo: customControl',
+  render: renderDemo(demos.customControl),
+};
+
+export const Demo_icons = {
+  name: '⭐ Demo: icons',
+  render: renderDemo(demos.icons),
+};
+
+export const Demo_placeholder = {
+  name: '⭐ Demo: placeholder',
+  render: renderDemo(demos.placeholder),
+};
+
+export const Demo_tasks = {
+  name: '⭐ Demo: tasks',
+  render: renderDemo(demos.tasks),
+};
+
+export const Demo_table = {
+  name: '⭐ Demo: table',
+  render: renderDemo(demos.table),
+};
+
+export const Demo_details = {
+  name: '⭐ Demo: details',
+  render: renderDemo(demos.details),
+};
+
+export const Demo_invisibleCharacters = {
+  name: '⭐ Demo: invisibleCharacters',
+  render: renderDemo(demos.invisibleCharacters),
+};
+
+export const Demo_typographyStyles = {
+  name: '⭐ Demo: typographyStyles',
+  render: renderDemo(demos.typographyStyles),
+};
+
+export const Demo_subtleVariant = {
+  name: '⭐ Demo: subtleVariant',
+  render: renderDemo(demos.subtleVariant),
+};
+
+export const Demo_sourceCodeSwitcher = {
+  name: '⭐ Demo: sourceCodeSwitcher',
+  render: renderDemo(demos.sourceCodeSwitcher),
+};
+
+export const Demo_imageUpload = {
+  name: '⭐ Demo: imageUpload',
+  render: renderDemo(demos.imageUpload),
+};
+
+export const Demo_imageUploadError = {
+  name: '⭐ Demo: imageUploadError',
+  render: renderDemo(demos.imageUploadError),
+};

@@ -1,0 +1,31 @@
+<script lang="ts">
+  import { JsonTreeView, useJsonTreeView } from '@ark-ui/svelte/json-tree-view'
+  import { ChevronRightIcon } from 'lucide-svelte'
+  import styles from 'styles/json-tree-view.module.css'
+
+  const id = $props.id()
+  const jsonTreeView = useJsonTreeView({
+    id,
+    defaultExpandedDepth: 1,
+    data: {
+      name: 'John Doe',
+      age: 30,
+      email: 'john.doe@example.com',
+      tags: ['tag1', 'tag2', 'tag3'],
+      address: {
+        street: '123 Main St',
+        city: 'Anytown',
+        state: 'CA',
+        zip: '12345',
+      },
+    },
+  })
+</script>
+
+<JsonTreeView.RootProvider class={styles.Root} value={jsonTreeView}>
+  <JsonTreeView.Tree class={styles.Tree}>
+    {#snippet arrow()}
+      <ChevronRightIcon />
+    {/snippet}
+  </JsonTreeView.Tree>
+</JsonTreeView.RootProvider>

@@ -1,0 +1,1129 @@
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+import { createEvent, fireEvent } from '@testing-library/react';
+import { DirectionProvider } from '@mantine/core';
+import { DatesProvider } from '@mantine/dates';
+import { render, screen, tests, userEvent } from '@mantine-tests/core';
+import { getWeekNumber, toDateString } from '../../utils';
+import { MonthView, MonthViewProps, MonthViewStylesNames } from './MonthView';
+
+const defaultProps: MonthViewProps = {
+  date: '2025-11-05',
+};
+
+describe('@mantine/schedule/MonthView', () => {
+  tests.itSupportsSystemProps<MonthViewProps, MonthViewStylesNames>({
+    component: MonthView,
+    props: {
+      ...defaultProps,
+      withWeekNumbers: true,
+      monthYearSelectProps: { popoverProps: { opened: true } },
+    },
+    varsResolver: true,
+    displayName: '@mantine/schedule/MonthView',
+    providerStylesApi: false,
+    stylesApiSelectors: [
+      // MonthView
+      'monthView',
+      'monthViewInner',
+      'monthViewDay',
+      'monthViewDayLabel',
+      'monthViewWeek',
+      'monthViewWeekNumber',
+      'monthViewWeekday',
+      'monthViewWeekdays',
+      'monthViewWeekdaysCorner',
+
+      // ScheduleHeader
+      'header',
+      'viewSelect',
+      'headerControl',
+
+      // MonthYearSelect
+      'monthYearSelectTarget',
+      'monthYearSelectDropdown',
+      'monthYearSelectControl',
+      'monthYearSelectList',
+      'monthYearSelectLabel',
+    ],
+  });
+
+  it('renders days of the month (date string)', () => {
+    const { container } = render(<MonthView {...defaultProps} />);
+    const days = container.querySelectorAll('.mantine-MonthView-monthViewDay');
+    expect(days.length).toStrictEqual(42);
+    expect(days[0].textContent).toStrictEqual('27'); // Oct 27
+    expect(days[days.length - 1].textContent).toStrictEqual('7'); // Dec 7
+  });
+
+  it('renders days of the month (Date object)', () => {
+    const { container } = render(<MonthView date={new Date(2025, 10, 5)} />);
+    const days = container.querySelectorAll('.mantine-MonthView-monthViewDay');
+    expect(days.length).toStrictEqual(42);
+    expect(days[0].textContent).toStrictEqual('27'); // Oct 27
+    expect(days[days.length - 1].textContent).toStrictEqual('7'); // Dec 7
+  });
+
+  it('supports consistentWeeks={false} prop', () => {
+    const { container } = render(<MonthView {...defaultProps} consistentWeeks={false} />);
+    const days = container.querySelectorAll('.mantine-MonthView-monthViewDay');
+    expect(days.length).toStrictEqual(35);
+    expect(days[0].textContent).toStrictEqual('27'); // Oct 27
+    expect(days[days.length - 1].textContent).toStrictEqual('30'); // Nov 30
+  });
+
+  it('renders week numbers when withWeekNumbers is true', () => {
+    const { container } = render(<MonthView {...defaultProps} withWeekNumbers />);
+    const weekNumbers = container.querySelectorAll('.mantine-MonthView-monthViewWeekNumber');
+    expect(weekNumbers.length).toStrictEqual(6);
+    expect(weekNumbers[0].textContent).toStrictEqual('44');
+    expect(weekNumbers[weekNumbers.length - 1].textContent).toStrictEqual('49');
+  });
+
+  it('renders weekdays names when withWeekDays is true', () => {
+    const { container } = render(<MonthView {...defaultProps} withWeekDays />);
+    const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+    expect(weekdays.length).toStrictEqual(7);
+    expect(weekdays[0].textContent).toStrictEqual('Mon');
+    expect(weekdays[weekdays.length - 1].textContent).toStrictEqual('Sun');
+  });
+
+  it('supports custom firstDayOfWeek (prop)', () => {
+    const { container } = render(<MonthView {...defaultProps} withWeekDays firstDayOfWeek={0} />);
+    const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+    expect(weekdays.length).toStrictEqual(7);
+    expect(weekdays[0].textContent).toStrictEqual('Sun');
+    expect(weekdays[weekdays.length - 1].textContent).toStrictEqual('Sat');
+
+    const firstWeekDays = container
+      .querySelectorAll('.mantine-MonthView-monthViewWeek')[0]
+      .querySelectorAll('.mantine-MonthView-monthViewDay');
+    expect(firstWeekDays[0].textContent).toStrictEqual('26'); // Oct 26
+    expect(firstWeekDays[firstWeekDays.length - 1].textContent).toStrictEqual('1'); // Nov 1
+  });
+
+  it('supports custom firstDayOfWeek (DatesProvider)', () => {
+    const { container } = render(
+      <DatesProvider settings={{ firstDayOfWeek: 0 }}>
+        <MonthView {...defaultProps} withWeekDays />
+      </DatesProvider>
+    );
+    const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+    expect(weekdays.length).toStrictEqual(7);
+    expect(weekdays[0].textContent).toStrictEqual('Sun');
+    expect(weekdays[weekdays.length - 1].textContent).toStrictEqual('Sat');
+  });
+
+  it('supports locale (prop)', () => {
+    const { container } = render(<MonthView {...defaultProps} withWeekDays locale="ru" />);
+    const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+    expect(weekdays[0].textContent).toStrictEqual('пнд');
+  });
+
+  it('supports locale (DatesProvider)', () => {
+    const { container } = render(
+      <DatesProvider settings={{ locale: 'ru' }}>
+        <MonthView {...defaultProps} withWeekDays />
+      </DatesProvider>
+    );
+    const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+    expect(weekdays[0].textContent).toStrictEqual('пнд');
+  });
+
+  it('does not render weekdays names when withWeekDays is false', () => {
+    const { container } = render(<MonthView {...defaultProps} withWeekDays={false} />);
+    const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+    expect(weekdays.length).toStrictEqual(0);
+    expect(container.querySelector('.mantine-MonthView-monthViewWeekdays')).not.toBeInTheDocument();
+  });
+
+  it('allows changing weekdayFormat', () => {
+    const { container } = render(<MonthView {...defaultProps} withWeekDays weekdayFormat="dddd" />);
+    const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+    expect(weekdays[0].textContent).toStrictEqual('Monday');
+    expect(weekdays[weekdays.length - 1].textContent).toStrictEqual('Sunday');
+  });
+
+  it('supports weekendDays prop', () => {
+    const { container } = render(<MonthView {...defaultProps} withWeekDays weekendDays={[1, 2]} />);
+    const days = container.querySelectorAll('.mantine-MonthView-monthViewDay');
+    expect(days[0]).toHaveAttribute('data-weekend'); // Oct 27, Monday
+    expect(days[1]).toHaveAttribute('data-weekend'); // Oct 28, Tuesday
+    expect(days[2]).not.toHaveAttribute('data-weekend'); // Oct 29, Wednesday
+    expect(days[days.length - 1]).not.toHaveAttribute('data-weekend'); // Nov 30, Sunday
+  });
+
+  it('allows setting empty array to weekendDays prop', () => {
+    const { container } = render(<MonthView {...defaultProps} withWeekDays weekendDays={[]} />);
+    const days = container.querySelectorAll('.mantine-MonthView-monthViewDay');
+    days.forEach((day) => {
+      expect(day).not.toHaveAttribute('data-weekend');
+    });
+  });
+
+  describe('withWeekendDays', () => {
+    it('renders all 7 columns by default', () => {
+      const { container } = render(<MonthView {...defaultProps} withWeekDays />);
+      expect(container.querySelectorAll('.mantine-MonthView-monthViewWeekday')).toHaveLength(7);
+      expect(container.querySelectorAll('.mantine-MonthView-monthViewDay')).toHaveLength(42);
+    });
+
+    it('hides weekend days when withWeekendDays is false', () => {
+      const { container } = render(
+        <MonthView {...defaultProps} withWeekDays withWeekendDays={false} weekdayFormat="dddd" />
+      );
+      const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+      const days = container.querySelectorAll('.mantine-MonthView-monthViewDay');
+
+      expect(weekdays).toHaveLength(5);
+      expect(weekdays[0].textContent).toStrictEqual('Monday');
+      expect(weekdays[weekdays.length - 1].textContent).toStrictEqual('Friday');
+      expect(days).toHaveLength(30);
+      days.forEach((day) => {
+        expect(day).not.toHaveAttribute('data-weekend');
+      });
+    });
+
+    it('sets --month-view-columns variable to the number of visible columns', () => {
+      const { container } = render(<MonthView {...defaultProps} withWeekendDays={false} />);
+      const root = container.querySelector('.mantine-MonthView-monthView') as HTMLElement;
+      expect(root).toHaveAttribute('data-without-weekend-days');
+      expect(root.style.getPropertyValue('--month-view-columns')).toBe('5');
+    });
+
+    it('respects custom weekendDays when hiding weekend days', () => {
+      const { container } = render(
+        <MonthView
+          {...defaultProps}
+          withWeekDays
+          withWeekendDays={false}
+          weekendDays={[1, 2]}
+          weekdayFormat="dddd"
+        />
+      );
+      const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+      expect(weekdays).toHaveLength(5);
+      expect(weekdays[0].textContent).toStrictEqual('Wednesday');
+      expect(weekdays[weekdays.length - 1].textContent).toStrictEqual('Sunday');
+      expect(container.querySelectorAll('.mantine-MonthView-monthViewDay')).toHaveLength(30);
+    });
+
+    it('hides weekend days relative to firstDayOfWeek', () => {
+      const { container } = render(
+        <MonthView
+          {...defaultProps}
+          withWeekDays
+          withWeekendDays={false}
+          firstDayOfWeek={0}
+          weekdayFormat="dddd"
+        />
+      );
+      const weekdays = container.querySelectorAll('.mantine-MonthView-monthViewWeekday');
+      expect(weekdays).toHaveLength(5);
+      expect(weekdays[0].textContent).toStrictEqual('Monday');
+      expect(weekdays[weekdays.length - 1].textContent).toStrictEqual('Friday');
+    });
+
+    it('does not render events that occur only on hidden weekend days', () => {
+      const events = [
+        {
+          id: 'weekday',
+          title: 'Standup',
+          start: '2025-11-05 10:00:00',
+          end: '2025-11-05 11:00:00',
+          color: 'blue',
+          payload: {},
+        },
+        {
+          id: 'weekend-only',
+          title: 'Weekend Brunch',
+          start: '2025-11-08 10:00:00',
+          end: '2025-11-08 11:00:00',
+          color: 'red',
+          payload: {},
+        },
+      ];
+
+      render(<MonthView {...defaultProps} withWeekendDays={false} events={events} />);
+
+      expect(screen.getByText('Standup')).toBeInTheDocument();
+      expect(screen.queryByText('Weekend Brunch')).not.toBeInTheDocument();
+    });
+
+    it('keeps keyboard navigation working after toggling withWeekendDays at runtime', async () => {
+      const { rerender } = render(<MonthView {...defaultProps} />);
+      rerender(<MonthView {...defaultProps} withWeekendDays={false} />);
+
+      // Nov 7 is Friday, the last visible column in a Monday-start week
+      const friday = screen.getByRole('button', { name: 'November 7, 2025' });
+      friday.focus();
+      await userEvent.keyboard('{ArrowRight}');
+
+      expect(screen.getByRole('button', { name: 'November 10, 2025' })).toHaveFocus();
+    });
+
+    it('clips events that span a hidden day within a week to the visible days', () => {
+      // Hide Wednesday (Nov 5), an interior column, and span an event Tue–Thu across it
+      const events = [
+        {
+          id: 'trip',
+          title: 'Trip',
+          start: '2025-11-04 10:00:00',
+          end: '2025-11-06 11:00:00',
+          color: 'blue',
+          payload: {},
+        },
+      ];
+
+      render(
+        <MonthView {...defaultProps} withWeekendDays={false} weekendDays={[3]} events={events} />
+      );
+
+      const fragments = screen
+        .getAllByText('Trip')
+        .map((node) => node.closest('.mantine-ScheduleEvent-event'));
+
+      expect(fragments).toHaveLength(2);
+      expect(fragments[0]).toHaveAttribute('data-clip-end');
+      expect(fragments[0]).not.toHaveAttribute('data-clip-start');
+      expect(fragments[1]).toHaveAttribute('data-clip-start');
+      expect(fragments[1]).not.toHaveAttribute('data-clip-end');
+    });
+  });
+
+  it('supports __staticSelector prop', () => {
+    const { container } = render(
+      <MonthView {...defaultProps} __staticSelector="Test" withWeekDays withWeekNumbers />
+    );
+
+    expect(container.querySelector('.mantine-Test-monthView')).toBeInTheDocument();
+    expect(container.querySelector('.mantine-MonthView-monthView')).not.toBeInTheDocument();
+  });
+
+  it('supports onDayClick prop', async () => {
+    const spy = jest.fn();
+    render(<MonthView {...defaultProps} onDayClick={spy} />);
+    await userEvent.click(screen.getByRole('button', { name: 'November 1, 2025' }));
+    expect(spy).toHaveBeenCalledWith('2025-11-01', expect.any(Object));
+  });
+
+  it('supports onWeekNumberClick prop', async () => {
+    const spy = jest.fn();
+    render(<MonthView {...defaultProps} withWeekNumbers onWeekNumberClick={spy} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Week 44' }));
+    expect(spy).toHaveBeenCalledWith('2025-10-27', expect.any(Object));
+  });
+
+  it('supports getDayProps prop', () => {
+    render(
+      <MonthView
+        {...defaultProps}
+        getDayProps={(date) =>
+          dayjs(date).date() === 1 ? { 'data-first-day-of-month': 'true' } : {}
+        }
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'November 1, 2025' })).toHaveAttribute(
+      'data-first-day-of-month'
+    );
+
+    expect(screen.getByRole('button', { name: 'November 2, 2025' })).not.toHaveAttribute(
+      'data-first-day-of-month'
+    );
+  });
+
+  it('adds className and style props to days with getDayProps', () => {
+    render(
+      <MonthView
+        {...defaultProps}
+        getDayProps={(date) =>
+          dayjs(date).date() === 1 ? { className: 'test-class', style: { color: '#E00999' } } : {}
+        }
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'November 1, 2025' })).toHaveClass('test-class');
+    expect(screen.getByRole('button', { name: 'November 1, 2025' })).toHaveStyle({
+      color: '#E00999',
+    });
+
+    expect(screen.getByRole('button', { name: 'November 2, 2025' })).not.toHaveClass('test-class');
+    expect(screen.getByRole('button', { name: 'November 2, 2025' })).not.toHaveStyle({
+      color: '#E00999',
+    });
+  });
+
+  it('supports getWeekNumberProps prop', () => {
+    render(
+      <MonthView
+        {...defaultProps}
+        withWeekNumbers
+        getWeekNumberProps={(date) =>
+          getWeekNumber([dayjs(date).format('YYYY-MM-DD')]) === 44
+            ? { 'data-first-week': 'true' }
+            : {}
+        }
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Week 44' })).toHaveAttribute('data-first-week');
+    expect(screen.getByRole('button', { name: 'Week 45' })).not.toHaveAttribute('data-first-week');
+  });
+
+  it('adds className and style props to week numbers with getWeekNumberProps', () => {
+    render(
+      <MonthView
+        {...defaultProps}
+        withWeekNumbers
+        getWeekNumberProps={(date) =>
+          getWeekNumber([dayjs(date).format('YYYY-MM-DD')]) === 44
+            ? { className: 'test-class', style: { color: '#E00999' } }
+            : {}
+        }
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Week 44' })).toHaveClass('test-class');
+    expect(screen.getByRole('button', { name: 'Week 44' })).toHaveStyle({ color: '#E00999' });
+
+    expect(screen.getByRole('button', { name: 'Week 45' })).not.toHaveClass('test-class');
+    expect(screen.getByRole('button', { name: 'Week 45' })).not.toHaveStyle({ color: '#E00999' });
+  });
+
+  it('sets data-today attribute on today date when highlightToday is true', () => {
+    jest.useFakeTimers().setSystemTime(new Date('2025-11-15'));
+    const { container, rerender } = render(<MonthView {...defaultProps} highlightToday />);
+    const today = container.querySelector('.mantine-MonthView-monthViewDay[data-today]')!;
+    expect(today).toBeInTheDocument();
+    expect(today.textContent).toStrictEqual('15');
+
+    rerender(<MonthView {...defaultProps} highlightToday={false} />);
+    expect(
+      container.querySelector('.mantine-MonthView-monthViewDay[data-today]')
+    ).not.toBeInTheDocument();
+    jest.useRealTimers();
+  });
+
+  it('supports withOutsideDays={false} prop', () => {
+    const { container } = render(<MonthView date="2025-11-01" withOutsideDays={false} />);
+    const days = container.querySelectorAll('button.mantine-MonthView-monthViewDay');
+    expect(days.length).toStrictEqual(30);
+    expect(days[0].textContent).toStrictEqual('1');
+  });
+
+  it('renders header based on withHeader prop', () => {
+    const { container, rerender } = render(<MonthView {...defaultProps} withHeader={false} />);
+    expect(container.querySelector('.mantine-MonthView-header')).not.toBeInTheDocument();
+
+    rerender(<MonthView {...defaultProps} withHeader />);
+    expect(container.querySelector('.mantine-MonthView-header')).toBeInTheDocument();
+  });
+
+  it('supports todayControlProps, nextControlProps, previousControlProps and viewSelectProps props', () => {
+    const { container } = render(
+      <MonthView
+        {...defaultProps}
+        todayControlProps={{ 'data-today-prop': 'test' }}
+        nextControlProps={{ 'data-next-prop': 'test' }}
+        previousControlProps={{ 'data-previous-prop': 'test' }}
+        viewSelectProps={{ 'data-view-select-prop': 'test' }}
+      />
+    );
+
+    expect(
+      container.querySelector('button.mantine-MonthView-headerControl[data-today-prop]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('button.mantine-MonthView-headerControl[data-next-prop]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('button.mantine-MonthView-headerControl[data-previous-prop]')
+    ).toBeInTheDocument();
+    expect(
+      container.querySelector('.mantine-MonthView-viewSelect[data-view-select-prop]')
+    ).toBeInTheDocument();
+  });
+
+  it('calls onDateChange when navigating with header controls', async () => {
+    const spy = jest.fn();
+    render(
+      <MonthView
+        {...defaultProps}
+        onDateChange={spy}
+        monthYearSelectProps={{ popoverProps: { opened: true }, startYear: 2020, endYear: 2030 }}
+      />
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'Previous' }));
+    expect(spy).toHaveBeenCalledWith(toDateString(dayjs('2025-10-01')));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(spy).toHaveBeenCalledWith(toDateString(dayjs('2025-12-01')));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Select month January' }));
+    expect(spy).toHaveBeenCalledWith(toDateString(dayjs('2025-01-01')));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Select year 2026' }));
+    expect(spy).toHaveBeenCalledWith(toDateString(dayjs('2026-11-01')));
+  });
+
+  it('calls onViewChange when view button is clicked', async () => {
+    const spy = jest.fn();
+    render(<MonthView {...defaultProps} onViewChange={spy} />);
+    await userEvent.click(screen.getByRole('tab', { name: 'Switch to day view' }));
+    expect(spy).toHaveBeenCalledWith('day');
+  });
+
+  it('supports custom labels prop for header elements', () => {
+    render(
+      <MonthView
+        {...defaultProps}
+        labels={{
+          today: 'Hoy',
+          previous: 'Anterior',
+          next: 'Siguiente',
+          switchToDayView: 'Ver día',
+          switchToWeekView: 'Ver semana',
+          switchToMonthView: 'Ver mes',
+          switchToYearView: 'Ver año',
+        }}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Hoy' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Anterior' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Siguiente' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Ver día' })).toBeInTheDocument();
+  });
+
+  it('supports scrollAreaProps', () => {
+    render(
+      <MonthView
+        {...defaultProps}
+        scrollAreaProps={{
+          'data-testid': 'test-scroll-area',
+          className: 'test-class',
+          style: { outline: '1px solid red' },
+        }}
+      />
+    );
+
+    const scrollArea = screen.getByTestId('test-scroll-area');
+    expect(scrollArea).toBeInTheDocument();
+    expect(scrollArea).toHaveClass('test-class');
+    expect(scrollArea).toHaveStyle({ outline: '1px solid red' });
+  });
+
+  describe('MoreEvents customization', () => {
+    const manyEventsOnOneDay = Array.from({ length: 5 }, (_, i) => ({
+      id: i + 1,
+      title: `Event ${i + 1}`,
+      start: '2025-11-05 10:00:00',
+      end: '2025-11-05 11:00:00',
+      color: 'blue',
+      payload: {},
+    }));
+
+    it('forwards renderEventBody to MoreEvents', async () => {
+      render(
+        <MonthView
+          {...defaultProps}
+          events={manyEventsOnOneDay}
+          maxEventsPerDay={2}
+          renderEventBody={(event) => <span>Body[{event.title}]</span>}
+        />
+      );
+
+      await userEvent.click(screen.getByRole('button', { name: /more/ }));
+      expect(screen.getByText('Body[Event 5]')).toBeInTheDocument();
+    });
+
+    it('forwards renderEvent to MoreEvents', async () => {
+      render(
+        <MonthView
+          {...defaultProps}
+          events={manyEventsOnOneDay}
+          maxEventsPerDay={2}
+          renderEvent={(event, props) => (
+            <a href={`#event-${event.id}`} data-testid={`custom-event-${event.id}`}>
+              {props.children}
+            </a>
+          )}
+        />
+      );
+
+      await userEvent.click(screen.getByRole('button', { name: /more/ }));
+
+      const customized = screen.getByTestId('custom-event-5');
+      expect(customized.tagName).toBe('A');
+      expect(customized).toHaveAttribute('href', '#event-5');
+    });
+
+    it('forwards onEventClick to MoreEvents', async () => {
+      const spy = jest.fn();
+      render(
+        <MonthView
+          {...defaultProps}
+          events={manyEventsOnOneDay}
+          maxEventsPerDay={2}
+          onEventClick={spy}
+        />
+      );
+
+      await userEvent.click(screen.getByRole('button', { name: /more/ }));
+      await userEvent.click(screen.getByText('Event 5'));
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({ id: 5, title: 'Event 5' }),
+        expect.any(Object)
+      );
+    });
+
+    it('forwards labels.moreLabel to MoreEvents', () => {
+      render(
+        <MonthView
+          {...defaultProps}
+          events={manyEventsOnOneDay}
+          maxEventsPerDay={2}
+          labels={{ moreLabel: (count) => `Show ${count} additional` }}
+        />
+      );
+
+      expect(screen.getByRole('button', { name: 'Show 3 additional' })).toBeInTheDocument();
+    });
+  });
+
+  describe('multi-day event clipping', () => {
+    const clippedMultiDayEvents = [
+      {
+        id: 'blocker-1',
+        title: 'Blocker 1',
+        start: '2025-11-11 10:00:00',
+        end: '2025-11-11 11:00:00',
+        color: 'blue',
+        payload: {},
+      },
+      {
+        id: 'blocker-2',
+        title: 'Blocker 2',
+        start: '2025-11-11 12:00:00',
+        end: '2025-11-11 13:00:00',
+        color: 'blue',
+        payload: {},
+      },
+      {
+        id: 'trip',
+        title: 'Trip',
+        start: '2025-11-10 10:00:00',
+        end: '2025-11-12 11:00:00',
+        color: 'blue',
+        payload: {},
+      },
+    ];
+
+    it('renders multi-day event fragments around a truncated day', () => {
+      render(<MonthView {...defaultProps} events={clippedMultiDayEvents} maxEventsPerDay={2} />);
+
+      const tripFragments = screen
+        .getAllByText('Trip')
+        .map((node) => node.closest('.mantine-ScheduleEvent-event'));
+
+      expect(tripFragments).toHaveLength(2);
+      expect(tripFragments[0]).toHaveAttribute('data-clip-end');
+      expect(tripFragments[0]).not.toHaveAttribute('data-clip-start');
+      expect(tripFragments[1]).toHaveAttribute('data-clip-start');
+      expect(tripFragments[1]).not.toHaveAttribute('data-clip-end');
+      expect(screen.getByRole('button', { name: '+1 more' })).toBeInTheDocument();
+    });
+
+    it('calls onEventClick with the original event when a clipped fragment is clicked', async () => {
+      const spy = jest.fn();
+      render(
+        <MonthView
+          {...defaultProps}
+          events={clippedMultiDayEvents}
+          maxEventsPerDay={2}
+          onEventClick={spy}
+        />
+      );
+
+      await userEvent.click(screen.getAllByText('Trip')[0]);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(expect.objectContaining({ id: 'trip' }), expect.any(Object));
+    });
+
+    it('starts dragging with the original event when a clipped fragment is dragged', () => {
+      const spy = jest.fn();
+      render(
+        <MonthView
+          {...defaultProps}
+          events={clippedMultiDayEvents}
+          maxEventsPerDay={2}
+          withEventsDragAndDrop
+          onEventDragStart={spy}
+        />
+      );
+
+      fireEvent.dragStart(screen.getAllByText('Trip')[0].closest('.mantine-ScheduleEvent-event')!, {
+        dataTransfer: {
+          setData: jest.fn(),
+        },
+      });
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(expect.objectContaining({ id: 'trip' }));
+    });
+  });
+
+  describe('keyboard navigation', () => {
+    it('only first day should be in tab order', async () => {
+      render(<MonthView {...defaultProps} />);
+
+      const oct27 = screen.getByRole('button', { name: 'October 27, 2025' });
+      expect(oct27).toHaveAttribute('tabIndex', '0');
+
+      const oct28 = screen.getByRole('button', { name: 'October 28, 2025' });
+      expect(oct28).toHaveAttribute('tabIndex', '-1');
+
+      const nov1 = screen.getByRole('button', { name: 'November 1, 2025' });
+      expect(nov1).toHaveAttribute('tabIndex', '-1');
+    });
+
+    it('first inside day should be in tab order when withOutsideDays is false', async () => {
+      render(<MonthView {...defaultProps} withOutsideDays={false} />);
+
+      const nov1 = screen.getByRole('button', { name: 'November 1, 2025' });
+      expect(nov1).toHaveAttribute('tabIndex', '0');
+
+      const nov2 = screen.getByRole('button', { name: 'November 2, 2025' });
+      expect(nov2).toHaveAttribute('tabIndex', '-1');
+    });
+
+    it('supports ArrowRight key to move focus to next day', async () => {
+      render(<MonthView {...defaultProps} />);
+      const oct27 = screen.getByRole('button', { name: 'October 27, 2025' });
+
+      oct27.focus();
+      expect(document.activeElement).toBe(oct27);
+
+      await userEvent.keyboard('{ArrowRight}');
+      const oct28 = screen.getByRole('button', { name: 'October 28, 2025' });
+      expect(document.activeElement).toBe(oct28);
+    });
+
+    it('supports ArrowLeft key to move focus to previous day', async () => {
+      render(<MonthView {...defaultProps} />);
+      const oct28 = screen.getByRole('button', { name: 'October 28, 2025' });
+
+      oct28.focus();
+      expect(document.activeElement).toBe(oct28);
+
+      await userEvent.keyboard('{ArrowLeft}');
+      const oct27 = screen.getByRole('button', { name: 'October 27, 2025' });
+      expect(document.activeElement).toBe(oct27);
+    });
+
+    it('supports ArrowDown key to move focus to same day in next week', async () => {
+      render(<MonthView {...defaultProps} />);
+      const oct27 = screen.getByRole('button', { name: 'October 27, 2025' });
+
+      oct27.focus();
+      expect(document.activeElement).toBe(oct27);
+
+      await userEvent.keyboard('{ArrowDown}');
+      const nov3 = screen.getByRole('button', { name: 'November 3, 2025' });
+      expect(document.activeElement).toBe(nov3);
+    });
+
+    it('supports ArrowUp key to move focus to same day in previous week', async () => {
+      render(<MonthView {...defaultProps} />);
+      const nov3 = screen.getByRole('button', { name: 'November 3, 2025' });
+
+      nov3.focus();
+      expect(document.activeElement).toBe(nov3);
+
+      await userEvent.keyboard('{ArrowUp}');
+      const oct27 = screen.getByRole('button', { name: 'October 27, 2025' });
+      expect(document.activeElement).toBe(oct27);
+    });
+
+    it('ArrowRight at end of week moves to first day of next week', async () => {
+      render(<MonthView {...defaultProps} />);
+      const nov2 = screen.getByRole('button', { name: 'November 2, 2025' });
+
+      nov2.focus();
+      expect(document.activeElement).toBe(nov2);
+
+      await userEvent.keyboard('{ArrowRight}');
+      const nov3 = screen.getByRole('button', { name: 'November 3, 2025' });
+      expect(document.activeElement).toBe(nov3);
+    });
+
+    it('ArrowLeft at beginning of week moves to last day of previous week', async () => {
+      render(<MonthView {...defaultProps} />);
+      const nov3 = screen.getByRole('button', { name: 'November 3, 2025' });
+
+      nov3.focus();
+      expect(document.activeElement).toBe(nov3);
+
+      await userEvent.keyboard('{ArrowLeft}');
+      const nov2 = screen.getByRole('button', { name: 'November 2, 2025' });
+      expect(document.activeElement).toBe(nov2);
+    });
+
+    it('mirrors ArrowLeft and ArrowRight in rtl direction', async () => {
+      render(
+        <DirectionProvider initialDirection="rtl" detectDirection={false}>
+          <MonthView {...defaultProps} />
+        </DirectionProvider>
+      );
+
+      screen.getByRole('button', { name: 'October 28, 2025' }).focus();
+      await userEvent.keyboard('{ArrowRight}');
+      expect(screen.getByRole('button', { name: 'October 27, 2025' })).toHaveFocus();
+
+      await userEvent.keyboard('{ArrowLeft}{ArrowLeft}');
+      expect(screen.getByRole('button', { name: 'October 29, 2025' })).toHaveFocus();
+    });
+
+    it('ArrowLeft at end of week moves to first day of next week in rtl direction', async () => {
+      render(
+        <DirectionProvider initialDirection="rtl" detectDirection={false}>
+          <MonthView {...defaultProps} />
+        </DirectionProvider>
+      );
+
+      screen.getByRole('button', { name: 'November 2, 2025' }).focus();
+      await userEvent.keyboard('{ArrowLeft}');
+      expect(screen.getByRole('button', { name: 'November 3, 2025' })).toHaveFocus();
+    });
+
+    it('navigates to outside days with arrow keys', async () => {
+      render(<MonthView {...defaultProps} />);
+      const nov1 = screen.getByRole('button', { name: 'November 1, 2025' });
+
+      nov1.focus();
+      expect(document.activeElement).toBe(nov1);
+
+      await userEvent.keyboard('{ArrowLeft}');
+      const oct31 = screen.getByRole('button', { name: 'October 31, 2025' });
+      expect(document.activeElement).toBe(oct31);
+      expect(oct31).toHaveAttribute('data-outside');
+    });
+
+    it('does not navigate with arrow keys in static mode', async () => {
+      render(<MonthView {...defaultProps} mode="static" />);
+      const buttons = screen
+        .getAllByRole('button')
+        .filter((btn) => btn.classList.contains('mantine-MonthView-monthViewDay'));
+
+      buttons.forEach((btn) => {
+        expect(btn).toHaveAttribute('tabIndex', '-1');
+      });
+    });
+
+    it('skips disabled days when navigating', async () => {
+      render(
+        <MonthView
+          {...defaultProps}
+          getDayProps={(date) =>
+            dayjs(date).date() === 28 && dayjs(date).month() === 9 ? { disabled: true } : {}
+          }
+        />
+      );
+      const oct27 = screen.getByRole('button', { name: 'October 27, 2025' });
+
+      oct27.focus();
+      expect(document.activeElement).toBe(oct27);
+
+      await userEvent.keyboard('{ArrowRight}');
+      const oct29 = screen.getByRole('button', { name: 'October 29, 2025' });
+      expect(document.activeElement).toBe(oct29);
+    });
+
+    it('navigates within the month with keyboard', async () => {
+      render(<MonthView {...defaultProps} />);
+      const nov15 = screen.getByRole('button', { name: 'November 15, 2025' });
+
+      nov15.focus();
+      expect(document.activeElement).toBe(nov15);
+
+      await userEvent.keyboard('{ArrowRight}');
+      expect(screen.getByRole('button', { name: 'November 16, 2025' })).toHaveFocus();
+
+      await userEvent.keyboard('{ArrowLeft}');
+      expect(screen.getByRole('button', { name: 'November 15, 2025' })).toHaveFocus();
+
+      await userEvent.keyboard('{ArrowDown}');
+      expect(screen.getByRole('button', { name: 'November 22, 2025' })).toHaveFocus();
+
+      await userEvent.keyboard('{ArrowUp}');
+      expect(screen.getByRole('button', { name: 'November 15, 2025' })).toHaveFocus();
+    });
+  });
+
+  describe('event interaction callbacks', () => {
+    const eventsData = [
+      {
+        id: 1,
+        title: 'Test Event',
+        start: '2025-11-05',
+        end: '2025-11-06',
+        color: 'blue',
+        payload: {},
+      },
+    ];
+
+    it('calls onDayClick when day is clicked', async () => {
+      const spy = jest.fn();
+      render(<MonthView {...defaultProps} onDayClick={spy} />);
+
+      const day = screen.getByRole('button', { name: 'November 5, 2025' });
+      await userEvent.click(day);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(expect.any(String), expect.any(Object));
+    });
+
+    it('calls onEventClick when event is clicked', async () => {
+      const spy = jest.fn();
+      render(<MonthView {...defaultProps} events={eventsData} onEventClick={spy} />);
+
+      const event = screen.getByText('Test Event');
+      await userEvent.click(event);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          id: expect.anything(),
+          title: expect.any(String),
+        }),
+        expect.any(Object)
+      );
+    });
+
+    it('does not call callbacks in static mode', async () => {
+      const daySpy = jest.fn();
+      const eventSpy = jest.fn();
+
+      render(
+        <MonthView
+          {...defaultProps}
+          mode="static"
+          events={eventsData}
+          onDayClick={daySpy}
+          onEventClick={eventSpy}
+        />
+      );
+
+      const day = screen.getByRole('button', { name: 'November 5, 2025' });
+
+      await userEvent.click(day);
+
+      expect(daySpy).not.toHaveBeenCalled();
+      // Note: We don't test event clicks in static mode because ScheduleEvent
+      // handles that internally by setting onClick to undefined when mode is static
+    });
+  });
+
+  describe('withAgenda prop', () => {
+    const agendaEvents = [
+      {
+        id: 1,
+        title: 'Test Event',
+        start: '2025-11-05 10:00:00',
+        end: '2025-11-05 11:00:00',
+        color: 'blue',
+        payload: {},
+      },
+    ];
+
+    it('does not render agenda button by default', () => {
+      render(<MonthView {...defaultProps} />);
+      expect(screen.queryByText('Agenda')).not.toBeInTheDocument();
+    });
+
+    it('renders agenda button when withAgenda is true', () => {
+      render(<MonthView {...defaultProps} withAgenda />);
+      expect(screen.getAllByText('Agenda').length).toBeGreaterThan(0);
+    });
+
+    it('shows AgendaView when agenda button is clicked', async () => {
+      const { container } = render(
+        <MonthView {...defaultProps} withAgenda events={agendaEvents} />
+      );
+
+      expect(container.querySelector('.mantine-MonthView-agendaView')).not.toBeInTheDocument();
+
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+
+      expect(container.querySelector('.mantine-MonthView-agendaView')).toBeInTheDocument();
+    });
+
+    it('toggles AgendaView off when agenda button is clicked again', async () => {
+      const { container } = render(
+        <MonthView {...defaultProps} withAgenda events={agendaEvents} />
+      );
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+      expect(container.querySelector('.mantine-MonthView-agendaView')).toBeInTheDocument();
+
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+      expect(container.querySelector('.mantine-MonthView-agendaView')).not.toBeInTheDocument();
+    });
+
+    it('passes the visible month as the agenda range', async () => {
+      render(<MonthView {...defaultProps} withAgenda events={agendaEvents} />);
+      await userEvent.click(screen.getAllByText('Agenda')[0]);
+      expect(screen.getByText('November 1, 2025 – November 30, 2025')).toBeInTheDocument();
+    });
+
+    it('renders both regular and compact agenda buttons', () => {
+      const { container } = render(<MonthView {...defaultProps} withAgenda />);
+      const agendaButtons = container.querySelectorAll('[data-type="agenda"]');
+      expect(agendaButtons).toHaveLength(2);
+    });
+  });
+
+  describe('background events', () => {
+    const backgroundEventProps: MonthViewProps = {
+      date: '2025-11-05',
+      events: [
+        {
+          id: 'bg-1',
+          title: 'Unavailable',
+          start: '2025-11-05 00:00:00',
+          end: '2025-11-06 00:00:00',
+          color: 'gray',
+          display: 'background',
+        },
+      ],
+    };
+
+    it('renders background events as non-interactive divs by default', async () => {
+      const spy = jest.fn();
+      const { container } = render(<MonthView {...backgroundEventProps} onEventClick={spy} />);
+      const bgEvent = container.querySelector('.mantine-MonthView-monthViewBackgroundEvent')!;
+
+      expect(bgEvent.tagName).toBe('DIV');
+      await userEvent.click(bgEvent);
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('calls onEventClick when a background event is clicked with withInteractiveBackgroundEvents', async () => {
+      const spy = jest.fn();
+      const { container } = render(
+        <MonthView {...backgroundEventProps} withInteractiveBackgroundEvents onEventClick={spy} />
+      );
+      const bgEvent = container.querySelector('.mantine-MonthView-monthViewBackgroundEvent')!;
+
+      expect(bgEvent.tagName).toBe('BUTTON');
+      await userEvent.click(bgEvent);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy.mock.calls[0][0].id).toBe('bg-1');
+    });
+
+    it('does not make background events interactive in static mode', () => {
+      const { container } = render(
+        <MonthView {...backgroundEventProps} withInteractiveBackgroundEvents mode="static" />
+      );
+      expect(container.querySelector('.mantine-MonthView-monthViewBackgroundEvent')!.tagName).toBe(
+        'DIV'
+      );
+    });
+  });
+
+  describe('drop validation', () => {
+    const movingEvent = {
+      id: 1,
+      title: 'Moving',
+      start: '2025-11-03 09:00:00',
+      end: '2025-11-03 10:00:00',
+      color: 'blue',
+      payload: {},
+    };
+
+    const blockingEvent = {
+      id: 2,
+      title: 'Blocking',
+      start: '2025-11-05 09:30:00',
+      end: '2025-11-05 10:30:00',
+      color: 'red',
+      payload: {},
+    };
+
+    const fireDrag = (node: Element, type: 'dragStart' | 'drop') => {
+      const event = createEvent[type](node);
+      Object.defineProperty(event, 'dataTransfer', {
+        value: {
+          effectAllowed: 'move',
+          types: ['application/json'],
+          getData: jest.fn(),
+          setData: jest.fn(),
+        },
+      });
+      fireEvent(node, event);
+    };
+
+    const dropOnNovember5 = (props: Partial<MonthViewProps>) => {
+      const { container } = render(
+        <MonthView
+          {...defaultProps}
+          withEventsDragAndDrop
+          events={[movingEvent, blockingEvent]}
+          {...props}
+        />
+      );
+
+      fireDrag(container.querySelector('[data-event-id="1"]')!, 'dragStart');
+      fireDrag(screen.getByRole('button', { name: 'November 5, 2025' }), 'drop');
+    };
+
+    it('calls onEventDrop with the event moved to the target day', () => {
+      const onEventDrop = jest.fn();
+      dropOnNovember5({ onEventDrop });
+
+      expect(onEventDrop).toHaveBeenCalledTimes(1);
+      expect(onEventDrop.mock.calls[0][0]).toMatchObject({
+        eventId: 1,
+        newStart: '2025-11-05 09:00:00',
+        newEnd: '2025-11-05 10:00:00',
+      });
+    });
+
+    it('does not call onEventDrop when preventEventOverlap finds a conflict', () => {
+      const onEventDrop = jest.fn();
+      dropOnNovember5({ onEventDrop, preventEventOverlap: true });
+
+      expect(onEventDrop).not.toHaveBeenCalled();
+    });
+
+    it('calls onEventPlacementRejected with the conflicting event', () => {
+      const onEventPlacementRejected = jest.fn();
+      dropOnNovember5({
+        onEventDrop: jest.fn(),
+        onEventPlacementRejected,
+        preventEventOverlap: true,
+      });
+
+      expect(onEventPlacementRejected).toHaveBeenCalledTimes(1);
+      expect(onEventPlacementRejected.mock.calls[0][0]).toMatchObject({
+        action: 'drop',
+        reason: 'overlap',
+        start: '2025-11-05 09:00:00',
+      });
+      expect(onEventPlacementRejected.mock.calls[0][0].conflicts[0].id).toBe(2);
+    });
+
+    it('does not call onEventDrop when canDropEvent returns false', () => {
+      const onEventDrop = jest.fn();
+      const canDropEvent = jest.fn(() => false);
+      dropOnNovember5({ onEventDrop, canDropEvent });
+
+      expect(canDropEvent).toHaveBeenCalledTimes(1);
+      expect(onEventDrop).not.toHaveBeenCalled();
+    });
+  });
+});

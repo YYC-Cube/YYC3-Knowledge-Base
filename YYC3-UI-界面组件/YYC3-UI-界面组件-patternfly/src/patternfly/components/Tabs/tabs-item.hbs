@@ -1,0 +1,25 @@
+<li class="{{pfv}}tabs__item
+  {{~#if tabs-item--IsCurrent}} pf-m-current{{/if}}
+  {{~#if tabs-item--IsAction}}
+    pf-m-action
+    {{~#if tabs-link--IsDisabled}}
+      pf-m-disabled
+    {{else if tabs-link--IsAriaDisabled}}
+      pf-m-disabled
+    {{/if}}
+  {{/if}}
+  {{~#if tabs-item--IsAdd}} pf-m-add{{/if}}
+  {{~#if tabs-item--IsOverflow}} pf-m-overflow{{/if}}
+  {{~#if tabs-item--modifier}} {{tabs-item--modifier}}{{/if}}"
+  role="presentation"
+  {{#if tabs-item--attribute}}
+    {{{tabs-item--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+  {{#if tabs-item--HasHelp}}
+    {{> tabs-item-action tabs-item-action--IsHelp="true"}}
+  {{/if}}
+  {{#if tabs-item--HasClose}}
+    {{> tabs-item-action tabs-item-action--IsClose="true"}}
+  {{/if}}
+</li>

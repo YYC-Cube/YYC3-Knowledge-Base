@@ -1,0 +1,19 @@
+<div class="{{pfv}}toolbar__item
+  {{setModifiers
+    toolbar-item--IsLabel='pf-m-label'
+    toolbar-item--IsFormElement='pf-m-form-element'
+  }}
+  {{#if toolbar-item--modifier}}
+    {{toolbar-item--modifier}}
+  {{/if}}"
+  {{#if toolbar-item--id}}
+    id="{{toolbar-item--id}}"
+  {{/if}}
+  {{#if toolbar-item--IsRelative}}
+    style="position: relative;"
+  {{/if}}
+  {{#if toolbar-item--attribute}}
+    {{{toolbar-item--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

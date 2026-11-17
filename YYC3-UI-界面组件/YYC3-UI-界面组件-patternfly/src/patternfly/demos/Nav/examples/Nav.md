@@ -1,0 +1,88 @@
+---
+id: Navigation
+section: components
+---
+
+## Examples
+### Default nav
+```hbs isFullscreen
+{{> page-template page-template--id="nav-basic-example"}}
+```
+
+### Grouped nav
+```hbs isFullscreen
+{{> page-template page-template--id="nav-grouped-nav-example" page-template-sidebar--nav--IsGrouped=true}}
+```
+
+### Expandable nav
+```hbs isFullscreen
+{{> page-template page-template--id="nav-expandable-example" page-template-sidebar--nav--IsExpandable=true}}
+```
+
+### Horizontal nav
+```hbs isFullscreen
+{{> page-template page-template--id="nav-horizontal-example"
+      page-template--HasNoSidebar=true
+      masthead-template--HasHorizontalNav=true
+}}
+```
+
+### Horizontal subnav
+```hbs isFullscreen
+{{> page-template page-template--id="nav-horizontal-subnav-example" page-template--HasHorizontalSubnav=true}}
+```
+
+### Horizontal nav with horizontal subnav
+```hbs isFullscreen
+{{> page-template
+      page-template--id="nav-horizontal-example"
+      page-template--HasNoSidebar=true
+      masthead-template--modifier="pf-m-display-stack pf-m-display-inline-on-lg"
+      masthead-template--HasHorizontalNav=true
+      page-template--HasHorizontalSubnav=true
+}}
+```
+
+### Docked nav
+```hbs isFullscreen isBeta
+{{> page-template page-template--id="nav-docked-example"
+      masthead-template--HasDockedNav=true
+}}
+```
+
+### Docked nav - expanded
+```hbs isFullscreen isBeta
+{{> page-template page-template--id="nav-docked-expanded-example"
+      masthead-template--HasDockedNav=true
+      page-dock--IsExpanded=true
+}}
+```
+
+### Docked nav with expandable link
+```hbs isFullscreen isBeta
+{{> page-template page-template--id="nav-docked-expandable-link-example"
+      masthead-template--HasDockedNav=true
+      masthead-template--HasExpandableDockedNav=true
+}}
+```
+
+### Docked nav with expandable link - overlay
+```hbs isFullscreen isBeta
+{{> page-template page-template--id="nav-docked-expandable-link-overlay-example"
+      masthead-template--HasDockedNav=true
+      page-dock--IsExpanded=true
+      page-dock--IsOverlay=true
+      masthead-template--HasExpandableDockedNav=true
+      masthead-template--IsExpandableItemExpanded=true
+}}
+```
+
+### Docked nav with expandable link - expanded
+```hbs isFullscreen isBeta
+{{> page-template page-template--id="nav-docked-expandable-link-expanded-example"
+      masthead-template--HasDockedNav=true
+      page-dock--IsExpanded=true
+      masthead-template--HasExpandableDockedNav=true
+      masthead-template--IsExpandableItemExpanded=true
+}}
+```

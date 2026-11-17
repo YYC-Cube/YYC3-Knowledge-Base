@@ -1,0 +1,25 @@
+<{{#if input-group-text--type}}{{input-group-text--type}}{{else}}span{{/if}} class="{{pfv}}input-group__text{{#if input-group-text--modifier}} {{input-group-text--modifier}}{{/if}}"
+  {{#if aria-label}}
+    aria-label="{{aria-label}}"
+  {{/if}}
+  {{#if input-group-text--id}}
+    id="{{input-group-text--id}}"
+  {{/if}}
+  {{#if input-group-text--attribute}}
+    {{{input-group-text--attribute}}}
+  {{/if}}>
+  {{#if input-group-text--value}}
+    {{{input-group-text--value}}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+  {{#if input-group-text--HasDollarSignIcon}}
+    <span aria-hidden="true">$</span>
+  {{/if}}
+  {{#if input-group-text--HasAtIcon}}
+    <span aria-hidden="true">@</span>
+  {{/if}}
+  {{#if input-group-text--HasCalendarIcon}}
+    {{pfIcon "rh-ui-calendar-fill"}}
+  {{/if}}
+</{{#if input-group-text--type}}{{input-group-text--type}}{{else}}span{{/if}}>

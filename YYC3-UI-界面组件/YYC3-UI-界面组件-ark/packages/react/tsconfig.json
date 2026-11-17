@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "paths": {
+      "styles/*": ["../../.storybook/modules/*"]
+    },
+    "noPropertyAccessFromIndexSignature": false
+  },
+  "include": ["src", "../../.storybook/modules/css-modules.d.ts"]
+}

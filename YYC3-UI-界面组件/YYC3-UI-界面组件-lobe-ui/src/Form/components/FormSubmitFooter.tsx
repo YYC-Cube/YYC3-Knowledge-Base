@@ -1,0 +1,157 @@
+'use client';
+
+import * as stylex from '@stylexjs/stylex';
+import clsx from 'clsx';
+import { InfoIcon } from 'lucide-react';
+import { memo, useEffect } from 'react';
+
+import Button from '@/Button';
+import { Flexbox } from '@/Flex';
+import formMessages from '@/i18n/resources/en/form';
+import { useTranslation } from '@/i18n/useTranslation';
+import Icon from '@/Icon';
+import { useMotionComponent } from '@/MotionProvider';
+import { cssVar } from '@/styles/stylex/cssVar.stylex';
+import { styleProps } from '@/styles/stylex/props';
+
+import { useFormContext } from '../context';
+import { useFormClasses } from '../stableContext';
+import { submitFooterStyles as styles } from '../style';
+import type { FormSubmitFooterProps } from '../type';
+
+const FormSubmitFooter = memo<FormSubmitFooterProps>(
+  ({
+    enableReset = true,
+    buttonProps,
+    float,
+    onReset,
+    saveButtonProps,
+    resetButtonProps,
+    enableUnsavedWarning,
+    children,
+    texts,
+    className,
+    style,
+    ...rest
+  }) => {
+    const formClasses = useFormClasses();
+    const Motion = useMotionComponent();
+    const { hasUnsavedChanges, requestReset, submitLoading } = useFormContext();
+    const { t } = useTranslation(formMessages);
+
+    const unsavedWarningText = texts?.unSavedWarning ?? t('form.unsavedWarning');
+    const unsavedText = texts?.unSaved ?? t('form.unsavedChanges');
+    const resetText = texts?.reset ?? t('form.reset');
+    const submitText = texts?.submit ?? t('form.submit');
+
+    useEffect(() => {
+      if (!enableUnsavedWarning || typeof window === 'undefined' || !hasUnsavedChanges) return;
+      const fn = (e: BeforeUnloadEvent) => {
+        e.preventDefault();
+        e.returnValue = unsavedWarningText;
+      };
+      window.addEventListener('beforeunload', fn);
+      return () => window.removeEventListener('beforeunload', fn);
+    }, [enableUnsavedWarning, hasUnsavedChanges, unsavedWarningText]);
+
+    const content = (
+      <>
+        {(float || hasUnsavedChanges) && (
+          <>
+            <Icon
+              className={stylex.props(styles.unsavedIcon).className}
+              color={cssVar.colorTextDescription}
+              icon={InfoIcon}
+              size={12}
+            />
+            <span
+              {...styleProps(
+                [styles.unsavedText, float && styles.unsavedTextFloat],
+                formClasses('unsaved'),
+              )}
+            >
+              {unsavedText}
+            </span>
+          </>
+        )}
+        {children}
+        {enableReset && (float || hasUnsavedChanges) && (
+          <Button
+            htmlType={'button'}
+            shape={float ? 'round' : undefined}
+            type={'fill'}
+            onClick={() => {
+              requestReset();
+              onReset?.();
+            }}
+            {...buttonProps}
+            {...resetButtonProps}
+          >
+            {resetText}
+          </Button>
+        )}
+        <Button
+          htmlType={'submit'}
+          loading={submitLoading}
+          shape={float ? 'round' : undefined}
+          type={'primary'}
+          {...buttonProps}
+          {...saveButtonProps}
+        >
+          {submitText}
+        </Button>
+      </>
+    );
+
+    if (!float)
+      return (
+        <Flexbox
+          horizontal
+          align={'center'}
+          gap={8}
+          justify={'flex-end'}
+          {...rest}
+          {...styleProps(styles.footer, clsx(formClasses('submit-footer'), className), style)}
+        >
+          {content}
+        </Flexbox>
+      );
+
+    return (
+      <Motion.div
+        animate={hasUnsavedChanges ? 'visible' : 'hidden'}
+        {...stylex.props(styles.floatFooter)}
+        initial={'hidden'}
+        transition={{ duration: 0.1, ease: 'easeOut' }}
+        variants={{
+          hidden: {
+            opacity: 0,
+            x: '-50%',
+            y: 20,
+          },
+          visible: {
+            opacity: 1,
+            x: '-50%',
+            y: 0,
+          },
+        }}
+      >
+        <Flexbox
+          horizontal
+          align={'center'}
+          className={clsx(formClasses('submit-footer'), className)}
+          gap={8}
+          justify={'center'}
+          style={style}
+          {...rest}
+        >
+          {content}
+        </Flexbox>
+      </Motion.div>
+    );
+  },
+);
+
+FormSubmitFooter.displayName = 'FormSubmitFooter';
+
+export default FormSubmitFooter;

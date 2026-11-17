@@ -1,0 +1,21 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 水印透明度
+$watermark-opacity: var(--wot-watermark-opacity, $opacity-dimmer) !default;
+
+@include b(watermark) {
+  position: absolute;
+  z-index: 1100;
+  opacity: $watermark-opacity;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background-repeat: repeat;
+
+  @include when(fullscreen) {
+    position: fixed;
+  }
+}

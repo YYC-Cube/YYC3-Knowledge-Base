@@ -1,0 +1,333 @@
+@use '../../styles/variable.scss'as *;
+@use '../../styles/mixin/mixin.scss'as *;
+
+// 导航背景色
+$tabs-nav-bg: var(--wot-tabs-nav-bg, $filled-oppo) !default;
+// 导航吸顶宽度
+$tabs-nav-sticky-width: var(--wot-tabs-nav-sticky-width, 100vw) !default;
+// 导航文字颜色
+$tabs-nav-color: var(--wot-tabs-nav-color, $text-secondary) !default;
+// 导航激活文字颜色
+$tabs-nav-color-active: var(--wot-tabs-nav-color-active, $primary-6) !default;
+// 导航激活文字字重
+$tabs-nav-font-weight-active: var(--wot-tabs-nav-font-weight-active, $font-weight-medium) !default;
+// 导航项字号
+$tabs-nav-item-font-size: var(--wot-tabs-nav-item-font-size, $typography-body-size-extra-large) !default;
+// 导航项行高
+$tabs-nav-item-line-height: var(--wot-tabs-nav-item-line-height, $typography-body-line-height-size-extra-large) !default;
+// 导航项内边距
+$tabs-nav-item-padding: var(--wot-tabs-nav-item-padding, $padding-main $padding-extra-loose) !default;
+// 导航禁用文字颜色
+$tabs-nav-color-disabled: var(--wot-tabs-nav-color-disabled, $text-disabled) !default;
+// 导航线背景色
+$tabs-nav-line-bg: var(--wot-tabs-nav-line-bg, $primary-6) !default;
+// 导航线高度
+$tabs-nav-line-height: var(--wot-tabs-nav-line-height, $n-4) !default;
+// 导航线宽度
+$tabs-nav-line-width: var(--wot-tabs-nav-line-width, $n-24) !default;
+// 导航线底部偏移
+$tabs-nav-line-bottom: var(--wot-tabs-nav-line-bottom, $n-2) !default;
+// 过渡时长
+$tabs-duration: var(--wot-tabs-duration, 0.3s) !default;
+// 地图模式遮罩背景
+$tabs-map-modal-bg: var(--wot-tabs-map-modal-bg, $opac-7_55) !default;
+// 地图模式箭头尺寸
+$tabs-map-arrow-size: var(--wot-tabs-map-arrow-size, $n-16) !default;
+// 地图模式箭头颜色
+$tabs-map-arrow-color: var(--wot-tabs-map-arrow-color, $icon-secondary) !default;
+// 地图模式按钮宽度
+$tabs-map-btn-width: var(--wot-tabs-map-btn-width, $n-44) !default;
+// 地图模式按钮高度
+$tabs-map-btn-height: var(--wot-tabs-map-btn-height, $n-44) !default;
+// 地图模式按钮前景渐变背景
+$tabs-map-btn-before-bg: var(--wot-tabs-map-btn-before-bg, linear-gradient(270deg, $filled-oppo 0%, $base-transparent 100%)) !default;
+// 地图模式通用文字颜色
+$tabs-map-color: var(--wot-tabs-map-color, $text-main) !default;
+// 地图模式头部字号
+$tabs-map-header-font-size: var(--wot-tabs-map-header-font-size, $typography-body-size-extra-large) !default;
+// 地图模式头部行高
+$tabs-map-header-line-height: var(--wot-tabs-map-header-line-height, $typography-body-line-height-size-extra-large) !default;
+// 地图模式头部内边距
+$tabs-map-header-padding: var(--wot-tabs-map-header-padding, $padding-main $padding-extra-loose) !default;
+// 地图模式导航按钮间距
+$tabs-map-nav-btn-gap: var(--wot-tabs-map-nav-btn-gap, $spacing-main) !default;
+// 地图模式导航按钮禁用透明度
+$tabs-map-nav-btn-disabled-opacity: var(--wot-tabs-map-nav-btn-disabled-opacity, $opacity-disabled) !default;
+// 地图模式导航按钮背景
+$tabs-map-nav-btn-bg: var(--wot-tabs-map-nav-btn-bg, $filled-bottom) !default;
+// 地图模式导航按钮文字颜色
+$tabs-map-nav-btn-color: var(--wot-tabs-map-nav-btn-color, $text-main) !default;
+// 地图模式导航按钮圆角
+$tabs-map-nav-btn-radius: var(--wot-tabs-map-nav-btn-radius, $radius-main) !default;
+// 地图模式导航按钮字号
+$tabs-map-nav-btn-font-size: var(--wot-tabs-map-nav-btn-font-size, $typography-body-size-ultra-large) !default;
+// 地图模式导航按钮行高
+$tabs-map-nav-btn-line-height: var(--wot-tabs-map-nav-btn-line-height, $typography-body-line-height-size-ultra-large) !default;
+// 地图模式导航按钮内边距
+$tabs-map-nav-btn-padding: var(--wot-tabs-map-nav-btn-padding, $padding-tight $padding-extra-loose) !default;
+// 地图模式内容内边距
+$tabs-map-body-padding: var(--wot-tabs-map-body-padding, $padding-loose $padding-extra-loose) !default;
+// 地图模式内容背景色
+$tabs-map-body-bg: var(--wot-tabs-map-body-bg, $filled-oppo) !default;
+
+
+@include b(tabs) {
+  position: relative;
+  background: $tabs-nav-bg;
+  width: 100%;
+
+  @include when(hide-scrollbar) {
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      -webkit-appearance: none;
+    }
+  }
+
+  @include e(nav) {
+    position: relative;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: $tabs-nav-bg;
+
+    @include m(wrap) {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    @include m(sticky) {
+      width: $tabs-nav-sticky-width;
+    }
+  }
+
+  @include e(nav-container) {
+    position: relative;
+    display: flex;
+    user-select: none;
+  }
+
+  @include e(nav-item) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+    font-size: $tabs-nav-item-font-size;
+    line-height: $tabs-nav-item-line-height;
+    padding: $tabs-nav-item-padding;
+    color: $tabs-nav-color;
+    transition: color $tabs-duration;
+
+    @include when(active) {
+      font-weight: $tabs-nav-font-weight-active;
+      color: $tabs-nav-color-active;
+    }
+
+    @include when(disabled) {
+      color: $tabs-nav-color-disabled;
+    }
+  }
+
+  @include e(nav-item-text) {
+    @include lineEllipsis();
+  }
+
+  @include edeep(nav-item-badge) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  @include e(line) {
+    position: absolute;
+    bottom: $tabs-nav-line-bottom;
+    left: 0;
+    z-index: 1;
+    height: $tabs-nav-line-height;
+    background: $tabs-nav-line-bg;
+    border-radius: calc($tabs-nav-line-height / 2);
+
+    @include m(inner) {
+      left: 50%;
+      transform: translateX(-50%)
+    }
+
+    @include when(normal) {
+      width: $tabs-nav-line-width;
+    }
+
+    @include when(underline) {
+      bottom: 0;
+      height: $n-2;
+      border-radius: $radius-zero;
+    }
+
+    @include when(dot) {
+      bottom: 0;
+      width: $n-6;
+      height: $n-6;
+      border-radius: $radius-full;
+    }
+  }
+
+  @include e(container) {
+    overflow: hidden;
+  }
+
+  @include e(body) {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    @include when(animated) {
+      display: flex;
+      transition-property: left;
+    }
+  }
+
+  @include e(map) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+
+  @include e(map-header) {
+    position: relative;
+    font-size: $tabs-map-header-font-size;
+    line-height: $tabs-map-header-line-height;
+    padding: $tabs-map-header-padding;
+    color: $tabs-map-color;
+    transition: opacity $tabs-duration;
+    background: $tabs-nav-bg;
+    opacity: 0;
+
+    &::after {
+      z-index: 3;
+    }
+  }
+
+  @include e(map-body) {
+    display: flex;
+    flex-wrap: wrap;
+    padding: $tabs-map-body-padding;
+    background: $tabs-map-body-bg;
+    transition: transform $tabs-duration;
+    transform: scaleY(0);
+    transform-origin: center top;
+
+    @include when(open) {
+      transform: scaleY(1);
+    }
+  }
+
+  @include e(map-btn) {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    background: $tabs-nav-bg;
+    -webkit-tap-highlight-color: transparent;
+    width: $tabs-map-btn-width;
+    height: $tabs-map-btn-height;
+
+    &::before {
+      position: absolute;
+      content: '';
+      top: 0;
+      left: 0;
+      width: $n-24;
+      transform: translateX(-100%);
+      height: 100%;
+      background: $tabs-map-btn-before-bg;
+    }
+  }
+
+  @include e(map-arrow) {
+    display: block;
+    transition: transform $tabs-duration;
+
+    @include when(open) {
+      transform: rotate(180deg);
+    }
+  }
+
+  @include edeep(map-arrow-icon) {
+    font-size: $tabs-map-arrow-size;
+    color: $tabs-map-arrow-color;
+  }
+
+
+  @include e(map-nav-item) {
+    flex-basis: calc((100% - 2 * $tabs-map-nav-btn-gap) / 3);
+    min-width: 0;
+    box-sizing: border-box;
+    margin-right: $tabs-map-nav-btn-gap;
+    margin-bottom: $tabs-map-nav-btn-gap;
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    &:nth-last-child(-n + 3) {
+      margin-bottom: 0;
+    }
+  }
+
+  @include e(map-nav-btn) {
+    @include buttonClear;
+    @include lineEllipsis;
+    box-sizing: border-box;
+    background: $tabs-map-nav-btn-bg;
+    width: 100%;
+    border: $n-1 solid transparent;
+    font-size: $tabs-map-nav-btn-font-size;
+    line-height: $tabs-map-nav-btn-line-height;
+    border-radius: $tabs-map-nav-btn-radius;
+    color: $tabs-map-nav-btn-color;
+    padding: $tabs-map-nav-btn-padding;
+    text-align: center;
+    transition: color $tabs-duration, border-color $tabs-duration;
+
+    @include when(active) {
+      color: $tabs-nav-color-active;
+      border-color: $tabs-nav-color-active;
+      background: $tabs-nav-bg
+    }
+
+    @include when(disabled) {
+      opacity: $tabs-map-nav-btn-disabled-opacity;
+    }
+  }
+
+  @include e(mask) {
+    position: absolute;
+    top: calc(2 * $padding-main + $tabs-map-header-line-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $tabs-map-modal-bg;
+    opacity: 0;
+    transition: opacity $tabs-duration;
+  }
+
+  @include when(slide) {
+    .wd-tabs__nav-item {
+      flex: 0 0 auto;
+    }
+  }
+
+  @include when(map) {
+    .wd-tabs__nav--wrap {
+      padding-right: $tabs-map-btn-width;
+    }
+  }
+}

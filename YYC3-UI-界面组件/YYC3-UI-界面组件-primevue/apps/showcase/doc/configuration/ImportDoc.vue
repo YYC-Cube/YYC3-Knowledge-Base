@@ -1,0 +1,23 @@
+<template>
+    <DocSectionText v-bind="$attrs">
+        <p>Configuration is managed by the <i>PrimeVue</i> instance imported from <i>primevue/config</i>.</p>
+    </DocSectionText>
+    <DocSectionCode :code="code" hideToggleCode importCode hideStackBlitz />
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            code: {
+                basic: `
+import PrimeVue from 'primevue/config';
+const app = createApp(App);
+
+app.use(PrimeVue, { /* options */ });
+`
+            }
+        };
+    }
+};
+</script>

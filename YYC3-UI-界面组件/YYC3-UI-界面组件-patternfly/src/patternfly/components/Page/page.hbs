@@ -1,0 +1,14 @@
+<div class="{{pfv}}page
+  {{setModifiers
+    page--HasNoSidebar='pf-m-no-sidebar'
+    page--HasDock='pf-m-docked'
+    page--IsPlain='pf-m-plain'
+    page--modifier=page--modifier}}"
+  {{#if page--attribute}}
+    {{{page--attribute}}}
+  {{/if}}
+  {{#if page--id}}
+    id="{{{page--id}}}"
+  {{/if}}>
+  {{> @partial-block}}
+</div>

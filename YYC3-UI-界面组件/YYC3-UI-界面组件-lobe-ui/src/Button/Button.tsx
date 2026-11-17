@@ -1,0 +1,297 @@
+'use client';
+
+import * as stylex from '@stylexjs/stylex';
+import clsx from 'clsx';
+import {
+  isValidElement,
+  type MouseEvent,
+  type ReactElement,
+  type ReactNode,
+  type Ref,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+
+import Icon, { type IconProps } from '@/Icon';
+import { useMotionComponent } from '@/MotionProvider';
+import { focusRing } from '@/styles/stylex/focusRing';
+import { styleProps } from '@/styles/stylex/props';
+import { toDataAttributes } from '@/utils/bem';
+
+import { buttonClasses } from './stable';
+import { styles } from './style';
+import type { ButtonOutdent, ButtonProps, ButtonType } from './type';
+
+const resolveIconNode = (node: ReactNode | IconProps['icon'] | undefined | null) => {
+  if (node === undefined || node === null) return null;
+  if (isValidElement(node) || typeof node === 'string' || typeof node === 'number') {
+    return node;
+  }
+  return <Icon icon={node as any} size={'small'} />;
+};
+
+const resolveSizeCls = (size: ButtonProps['size']) => {
+  if (size === 'small') return styles.sizeSmall;
+  if (size === 'large') return styles.sizeLarge;
+  return styles.sizeMiddle;
+};
+
+const resolveIconOnlySizeCls = (size: ButtonProps['size']) => {
+  if (size === 'small') return styles.iconOnlySmall;
+  if (size === 'large') return styles.iconOnlyLarge;
+  return styles.iconOnlyMiddle;
+};
+
+const resolveVariantCls = ({
+  danger,
+  ghost,
+  type,
+}: {
+  danger: boolean;
+  ghost: boolean;
+  type: NonNullable<ButtonProps['type']>;
+}) => {
+  // `text` and `link` already drop the surface, so `ghost` there would only cost them
+  // their own traits (link's zero inline padding).
+  if (ghost && type !== 'text' && type !== 'link') {
+    if (danger) return styles.ghostDanger;
+    if (type === 'primary') return styles.ghostPrimary;
+    return styles.ghostDefault;
+  }
+
+  switch (type) {
+    case 'primary': {
+      return danger ? styles.dangerSolid : styles.variantPrimary;
+    }
+    case 'dashed': {
+      return danger ? [styles.variantDashed, styles.dangerOutlined] : styles.variantDashed;
+    }
+    case 'fill': {
+      return danger ? styles.dangerFill : styles.variantFill;
+    }
+    case 'text': {
+      return danger ? [styles.variantText, styles.dangerText] : styles.variantText;
+    }
+    case 'link': {
+      return danger ? [styles.variantLink, styles.dangerInline] : styles.variantLink;
+    }
+    default: {
+      return danger ? [styles.variantDefault, styles.dangerOutlined] : styles.variantDefault;
+    }
+  }
+};
+
+const tapAnim = { scale: 0.98 };
+const motionTransition = {
+  damping: 26,
+  mass: 0.6,
+  stiffness: 600,
+  type: 'spring' as const,
+};
+
+type ButtonImplProps = Omit<ButtonProps, 'outdent' | 'type'> & {
+  outdent?: ButtonOutdent;
+  stableData?: Record<`data-${string}`, string>;
+  type?: ButtonType;
+  xstyle?: Parameters<typeof styleProps>[0];
+};
+
+const ButtonImpl = ({
+  block,
+  children,
+  className,
+  classNames,
+  danger = false,
+  disabled,
+  outdent,
+  ghost = false,
+  href,
+  htmlType = 'button',
+  icon,
+  iconPosition = 'start',
+  loading,
+  onClick,
+  ref,
+  shape = 'default',
+  size = 'middle',
+  stableData,
+  styles: userStyles,
+  target,
+  type = 'default',
+  xstyle,
+  ...rest
+}: ButtonImplProps) => {
+  const Motion = useMotionComponent();
+  const spinnerRef = useRef<HTMLSpanElement>(null);
+  const spinnerVisualRef = useRef<HTMLSpanElement>(null);
+  const [spinnerPresent, setSpinnerPresent] = useState(!!loading);
+
+  if (loading && !spinnerPresent) setSpinnerPresent(true);
+
+  useLayoutEffect(() => {
+    if (loading || !spinnerPresent) return;
+
+    // Wait for both exit layers, never the child's infinite rotation.
+    const exits = [
+      ...(spinnerRef.current?.getAnimations?.() ?? []),
+      ...(spinnerVisualRef.current?.getAnimations?.() ?? []),
+    ].filter((animation) => 'transitionProperty' in animation);
+    let canceled = false;
+    Promise.allSettled(exits.map((animation) => animation.finished)).then(() => {
+      if (!canceled) setSpinnerPresent(false);
+    });
+    return () => {
+      canceled = true;
+    };
+  }, [loading, spinnerPresent]);
+
+  const isInteractionDisabled = disabled || loading;
+  const sizeCls = resolveSizeCls(size);
+  const variantCls = resolveVariantCls({ danger, ghost, type });
+  const shapeCls =
+    shape === 'circle' ? styles.shapeCircle : shape === 'round' ? styles.shapeRound : undefined;
+
+  const hasChildren =
+    children !== undefined && children !== null && children !== false && children !== '';
+  const renderIcon = loading || icon;
+  const iconOnly = !hasChildren && !!renderIcon;
+  const iconOnlySizeCls = iconOnly ? resolveIconOnlySizeCls(size) : undefined;
+
+  const outdentCls =
+    type === 'text' && outdent
+      ? outdent === 'end'
+        ? styles.outdentEnd
+        : styles.outdentStart
+      : undefined;
+
+  const composedClassName = styleProps(
+    [
+      styles.base,
+      focusRing.info,
+      sizeCls,
+      variantCls,
+      shapeCls,
+      block && styles.block,
+      iconPosition === 'end' && styles.iconEnd,
+      iconOnlySizeCls,
+      outdentCls,
+      xstyle,
+    ],
+    clsx(buttonClasses(), className),
+  ).className;
+
+  const dataAttributes =
+    stableData ?? toDataAttributes({ block, danger, ghost, loading, shape, size, type });
+
+  const spinnerNode = (
+    <span
+      aria-hidden={!loading}
+      ref={spinnerRef}
+      {...styleProps(
+        [
+          styles.iconBox,
+          styles.spinnerSlot,
+          iconPosition === 'end' && styles.spinnerSlotEnd,
+          loading && styles.spinnerSlotShow,
+        ],
+        clsx(buttonClasses('spinner'), classNames?.icon),
+        userStyles?.icon,
+      )}
+    >
+      <span
+        ref={spinnerVisualRef}
+        {...stylex.props(styles.spinnerVisual, loading && styles.spinnerVisualShow)}
+      >
+        {(loading || spinnerPresent) && <span {...stylex.props(styles.spinner)} />}
+      </span>
+    </span>
+  );
+
+  const iconNode =
+    icon && !loading ? (
+      <span
+        {...styleProps(
+          styles.iconBox,
+          clsx(buttonClasses('icon'), classNames?.icon),
+          userStyles?.icon,
+        )}
+      >
+        {resolveIconNode(icon)}
+      </span>
+    ) : null;
+
+  const inner = (
+    <>
+      {spinnerNode}
+      {iconNode}
+      {children}
+    </>
+  );
+
+  const motionGestures = isInteractionDisabled
+    ? {}
+    : { transition: motionTransition, whileTap: tapAnim };
+
+  if (href !== undefined) {
+    const handleAnchorClick = (e: MouseEvent<HTMLAnchorElement>) => {
+      if (isInteractionDisabled) {
+        e.preventDefault();
+        return;
+      }
+      onClick?.(e as unknown as MouseEvent<HTMLButtonElement>);
+    };
+
+    return (
+      <Motion.a
+        aria-busy={loading || undefined}
+        aria-disabled={isInteractionDisabled || undefined}
+        href={disabled ? undefined : href}
+        target={target}
+        {...dataAttributes}
+        {...(rest as any)}
+        className={composedClassName}
+        ref={ref as Ref<HTMLAnchorElement>}
+        onClick={handleAnchorClick}
+        {...motionGestures}
+      >
+        {inner}
+      </Motion.a>
+    );
+  }
+
+  const handleButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
+    if (isInteractionDisabled) {
+      e.preventDefault();
+      return;
+    }
+    onClick?.(e);
+  };
+
+  return (
+    <Motion.button
+      type={htmlType}
+      {...dataAttributes}
+      {...(rest as any)}
+      aria-busy={loading || undefined}
+      aria-disabled={isInteractionDisabled || undefined}
+      className={composedClassName}
+      disabled={disabled}
+      ref={ref as Ref<HTMLButtonElement>}
+      onClick={handleButtonClick}
+      {...motionGestures}
+    >
+      {inner}
+    </Motion.button>
+  );
+};
+
+ButtonImpl.displayName = 'BaseButton';
+
+export { ButtonImpl };
+
+const Button = ButtonImpl as <T extends ButtonType = 'default'>(
+  props: ButtonProps<T>,
+) => ReactElement;
+
+export default Button;

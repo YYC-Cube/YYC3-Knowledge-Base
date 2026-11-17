@@ -1,0 +1,58 @@
+{
+  "ErrorText": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "HelperText": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Legend": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Root": {
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "disabled": {
+        "type": "boolean | 'true' | 'false'",
+        "isRequired": false,
+        "description": "Indicates whether the fieldset is disabled."
+      },
+      "id": { "type": "string", "isRequired": false, "description": "The id of the fieldset." },
+      "invalid": { "type": "boolean", "isRequired": false, "description": "Indicates whether the fieldset is invalid." }
+    }
+  },
+  "RootProvider": {
+    "props": {
+      "value": {
+        "type": "{ refs: { rootRef: Ref<null, null>; }; ids: { legend: string; errorText: string; helperText: string; }; disabled: boolean | \"true\" | \"false\" | undefined; invalid: boolean | undefined; getRootProps: () => FieldsetHTMLAttributes; getLegendProps: () => { ...; }; getHelperTextProps: () => { ...; }; getErrorTextProps: ()...",
+        "isRequired": true
+      },
+      "asChild": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  }
+}

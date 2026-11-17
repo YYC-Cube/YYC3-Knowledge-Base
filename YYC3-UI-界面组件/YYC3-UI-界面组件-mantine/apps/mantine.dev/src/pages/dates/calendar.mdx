@@ -1,0 +1,47 @@
+import { CalendarDemos } from '@docs/demos';
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.Calendar);
+
+## Usage
+
+Use the `Calendar` component to create custom date pickers if the [DatePicker](/dates/date-picker/)
+component does not meet your requirements. `Calendar` supports all [DatePicker](/dates/date-picker/)
+props and some additional props that are listed in the props table – check it out to learn about all component features.
+
+By default, `Calendar` works the same way as the [DatePicker](/dates/date-picker/) component but does not
+include any logic for date selection:
+
+<Demo data={CalendarDemos.usage} />
+
+## Custom date pickers
+
+Use `Calendar` as a base for custom date pickers. For example, you can create a date picker
+that allows users to pick three or fewer dates:
+
+<Demo data={CalendarDemos.picker} />
+
+Another custom date picker example – week picker:
+
+<Demo data={CalendarDemos.weekPicker} />
+
+## Full width
+
+Set the `fullWidth` prop to make the calendar stretch to fill 100% of its parent container width:
+
+<Demo data={CalendarDemos.fullWidth} />
+
+## Static prop
+
+Set the `static` prop to display a calendar that users cannot interact with.
+This is useful when you want to display data in a calendar view but do
+not want it to be interactive.
+
+<Demo data={CalendarDemos.isStatic} />
+
+## Native level select
+
+Set the `withNativeLevelSelect` prop to replace the calendar header level button with native `<select>` elements.
+
+<Demo data={CalendarDemos.nativeLevelSelect} />

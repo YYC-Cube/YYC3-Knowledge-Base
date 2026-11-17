@@ -1,0 +1,150 @@
+'use client';
+
+import clsx from 'clsx';
+import { memo, useCallback, useEffect, useMemo, useRef } from 'react';
+
+import CopyButton from '@/CopyButton';
+import { Flexbox } from '@/Flex';
+import {
+  actionsHoverCls,
+  langHoverCls,
+  rootClassName,
+  rootStyles,
+  styles,
+} from '@/Highlighter/style';
+import { styleProps } from '@/styles/stylex/props';
+import Tag from '@/Tag';
+import { toDataAttributes } from '@/utils/bem';
+
+import FullFeatured from './FullFeatured';
+import { mermaidClasses } from './stable';
+import SyntaxMermaid from './SyntaxMermaid';
+import type { MermaidProps } from './type';
+
+const Mermaid = memo<MermaidProps>(
+  ({
+    actionIconSize,
+    animated,
+    bodyRender,
+    children,
+    classNames,
+    className,
+    copyable = true,
+    defaultExpand = true,
+    fileName,
+    fullFeatured,
+    language = 'mermaid',
+    actionsRender,
+    shadow,
+    showLanguage = true,
+    style,
+    styles: customStyles,
+    theme,
+    variant = 'filled',
+    ...rest
+  }) => {
+    const tirmedChildren = children.trim();
+    const copyContentRef = useRef(tirmedChildren);
+
+    useEffect(() => {
+      copyContentRef.current = tirmedChildren;
+    }, [tirmedChildren]);
+
+    const getCopyContent = useCallback(() => copyContentRef.current, []);
+
+    const originalActions = useMemo(() => {
+      if (!copyable) return null;
+      return (
+        <CopyButton content={getCopyContent} size={actionIconSize || { blockSize: 28, size: 16 }} />
+      );
+    }, [actionIconSize, copyable, getCopyContent]);
+
+    const actions = useMemo(() => {
+      if (!actionsRender) return originalActions;
+      return actionsRender({
+        actionIconSize,
+        content: tirmedChildren,
+        getContent: getCopyContent,
+        originalNode: originalActions,
+      });
+    }, [actionIconSize, actionsRender, getCopyContent, originalActions, tirmedChildren]);
+
+    const defaultBody = useMemo(
+      () => (
+        <SyntaxMermaid
+          animated={animated}
+          className={clsx(mermaidClasses(), classNames?.content)}
+          fallbackClassName={mermaidClasses()}
+          style={customStyles?.content}
+          theme={theme}
+          variant={variant}
+        >
+          {tirmedChildren}
+        </SyntaxMermaid>
+      ),
+      [animated, theme, tirmedChildren, variant, classNames?.content, customStyles?.content],
+    );
+
+    const body = useMemo(() => {
+      if (!bodyRender) return defaultBody;
+      return bodyRender({ content: tirmedChildren, originalNode: defaultBody });
+    }, [bodyRender, defaultBody, tirmedChildren]);
+
+    if (fullFeatured)
+      return (
+        <FullFeatured
+          actionsRender={actionsRender}
+          className={className}
+          classNames={classNames}
+          content={tirmedChildren}
+          copyable={copyable}
+          defaultExpand={defaultExpand}
+          fileName={fileName}
+          language={language}
+          shadow={shadow}
+          showLanguage={showLanguage}
+          style={style}
+          styles={customStyles}
+          variant={variant}
+          {...rest}
+        >
+          {body}
+        </FullFeatured>
+      );
+
+    return (
+      <div
+        data-code-type="mermaid"
+        {...toDataAttributes({ shadow, variant })}
+        {...rest}
+        {...styleProps(
+          rootStyles({ shadow, variant }),
+          rootClassName(false, clsx(mermaidClasses('wrapper'), className)),
+          style,
+        )}
+      >
+        <Flexbox
+          horizontal
+          align={'center'}
+          flex={'none'}
+          gap={4}
+          {...styleProps(styles.actions, clsx(actionsHoverCls, mermaidClasses('actions')))}
+        >
+          {actions}
+        </Flexbox>
+        {showLanguage && (
+          <Tag className={clsx(langHoverCls, mermaidClasses('language'))}>
+            {language.toLowerCase()}
+          </Tag>
+        )}
+        {body}
+      </div>
+    );
+  },
+);
+
+Mermaid.displayName = 'Mermaid';
+
+export default Mermaid;
+
+export { type MermaidProps } from './type';

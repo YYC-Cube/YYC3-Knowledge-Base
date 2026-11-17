@@ -1,0 +1,280 @@
+import { use } from 'react';
+import { useId, useUncontrolled } from '@mantine/hooks';
+import {
+  Box,
+  BoxProps,
+  createVarsResolver,
+  DataAttributes,
+  ElementProps,
+  extractStyleProps,
+  factory,
+  Factory,
+  getRadius,
+  getSize,
+  getThemeColor,
+  MantineColor,
+  MantineRadius,
+  MantineSize,
+  StylesApiProps,
+  useProps,
+  useStyles,
+} from '../../core';
+import { InlineInput, InlineInputClasses, InlineInputStylesNames } from '../../utils/InlineInput';
+import {
+  SwitchGroup,
+  SwitchGroupContext,
+  type SwitchGroupProps,
+  type SwitchGroupStylesNames,
+  type SwitchGroupFactory,
+  type SwitchGroupContextValue,
+} from './SwitchGroup/SwitchGroup';
+import classes from './Switch.module.css';
+export type SwitchStylesNames =
+  | 'root'
+  | 'track'
+  | 'trackLabel'
+  | 'thumb'
+  | 'input'
+  | InlineInputStylesNames;
+
+export type SwitchCssVariables = {
+  root:
+    | '--switch-radius'
+    | '--switch-height'
+    | '--switch-width'
+    | '--switch-thumb-size'
+    | '--switch-label-font-size'
+    | '--switch-track-label-padding'
+    | '--switch-color';
+};
+
+export interface SwitchProps
+  extends BoxProps, StylesApiProps<SwitchFactory>, ElementProps<'input', 'size' | 'children'> {
+  /** Id used to bind input and label, if not passed, unique id will be generated instead */
+  id?: string;
+
+  /** Content of the label associated with the switch */
+  label?: React.ReactNode;
+
+  /** Inner label when the `Switch` is in unchecked state */
+  offLabel?: React.ReactNode;
+
+  /** Inner label when the `Switch` is in checked state */
+  onLabel?: React.ReactNode;
+
+  /** Key of `theme.colors` or any valid CSS color to set input color in checked state @default theme.primaryColor */
+  color?: MantineColor;
+
+  /** Controls size of all elements */
+  size?: MantineSize | (string & {});
+
+  /** Key of `theme.radius` or any valid CSS value to set `border-radius` @default 'xl' */
+  radius?: MantineRadius;
+
+  /** Props passed down to the root element */
+  wrapperProps?: React.ComponentProps<'div'> & DataAttributes;
+
+  /** Icon inside the thumb of the switch */
+  thumbIcon?: React.ReactNode;
+
+  /** Position of the label relative to the input @default 'right' */
+  labelPosition?: 'left' | 'right';
+
+  /** Description displayed below the label */
+  description?: React.ReactNode;
+
+  /** Error displayed below the label */
+  error?: React.ReactNode;
+
+  /** Assigns ref of the root element */
+  rootRef?: React.Ref<HTMLDivElement>;
+
+  /** If set, displays a colored dot inside the thumb that matches the track background color @default true */
+  withThumbIndicator?: boolean;
+}
+
+export type SwitchFactory = Factory<{
+  props: SwitchProps;
+  ref: HTMLInputElement;
+  stylesNames: SwitchStylesNames;
+  vars: SwitchCssVariables;
+  staticComponents: {
+    Group: typeof SwitchGroup;
+  };
+}>;
+
+const defaultProps = {
+  labelPosition: 'right',
+  withThumbIndicator: true,
+} satisfies Partial<SwitchProps>;
+
+const varsResolver = createVarsResolver<SwitchFactory>((theme, { radius, color, size }) => ({
+  root: {
+    '--switch-radius': radius === undefined ? undefined : getRadius(radius),
+    '--switch-height': getSize(size, 'switch-height'),
+    '--switch-width': getSize(size, 'switch-width'),
+    '--switch-thumb-size': getSize(size, 'switch-thumb-size'),
+    '--switch-label-font-size': getSize(size, 'switch-label-font-size'),
+    '--switch-track-label-padding': getSize(size, 'switch-track-label-padding'),
+    '--switch-color': color ? getThemeColor(color, theme) : undefined,
+  },
+}));
+
+export const Switch = factory<SwitchFactory>((_props) => {
+  const props = useProps('Switch', defaultProps, _props);
+  const {
+    classNames,
+    className,
+    style,
+    styles,
+    unstyled,
+    vars,
+    color,
+    label,
+    offLabel,
+    onLabel,
+    id,
+    size,
+    radius,
+    wrapperProps,
+    thumbIcon,
+    checked,
+    defaultChecked,
+    onChange,
+    labelPosition,
+    description,
+    error,
+    disabled,
+    variant,
+    rootRef,
+    mod,
+    withThumbIndicator,
+    attributes,
+    ...others
+  } = props;
+
+  const ctx = use(SwitchGroupContext);
+  const _size = size || ctx?.size;
+
+  const getStyles = useStyles<SwitchFactory>({
+    name: 'Switch',
+    props,
+    classes,
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    attributes,
+    vars,
+    varsResolver,
+  });
+
+  const { styleProps, rest } = extractStyleProps(others);
+  const uuid = useId(id);
+  const descriptionId = description ? `${uuid}-description` : undefined;
+  const errorId = error && typeof error !== 'boolean' ? `${uuid}-error` : undefined;
+  const describedBy =
+    [descriptionId, errorId, rest['aria-describedby']].filter(Boolean).join(' ') || undefined;
+
+  const withContextProps = {
+    checked: ctx?.value.includes(rest.value as string) ?? checked,
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      ctx?.onChange(event);
+      onChange?.(event);
+    },
+  };
+
+  const _disabled = disabled || ctx?.isDisabled?.(rest.value as string);
+
+  const [_checked, handleChange] = useUncontrolled({
+    value: withContextProps.checked ?? checked,
+    defaultValue: defaultChecked,
+    finalValue: false,
+  });
+
+  return (
+    <InlineInput
+      {...getStyles('root')}
+      __staticSelector="Switch"
+      __stylesApiProps={props}
+      id={uuid}
+      size={_size}
+      labelPosition={labelPosition}
+      label={label}
+      description={description}
+      error={error}
+      disabled={_disabled}
+      bodyElement="label"
+      labelElement="span"
+      classNames={classNames}
+      styles={styles}
+      unstyled={unstyled}
+      data-checked={withContextProps.checked}
+      variant={variant}
+      ref={rootRef}
+      mod={mod}
+      attributes={attributes}
+      inert={rest.inert}
+      {...styleProps}
+      {...wrapperProps}
+    >
+      <input
+        {...rest}
+        {...withContextProps}
+        disabled={_disabled}
+        checked={_checked}
+        data-checked={withContextProps.checked}
+        onChange={(event) => {
+          if (rest.readOnly) {
+            return;
+          }
+
+          withContextProps.onChange?.(event);
+          handleChange(event.currentTarget.checked);
+        }}
+        id={uuid}
+        type="checkbox"
+        role="switch"
+        inert={rest.inert}
+        aria-describedby={describedBy}
+        {...getStyles('input')}
+      />
+
+      <Box
+        aria-hidden="true"
+        component="span"
+        mod={{ error, 'label-position': labelPosition, 'without-labels': !onLabel && !offLabel }}
+        {...getStyles('track')}
+      >
+        <Box
+          component="span"
+          mod={{ 'reduce-motion': true, 'with-thumb-indicator': withThumbIndicator && !thumbIcon }}
+          {...getStyles('thumb')}
+        >
+          {thumbIcon}
+        </Box>
+        <span {...getStyles('trackLabel')}>{_checked ? onLabel : offLabel}</span>
+      </Box>
+    </InlineInput>
+  );
+});
+
+Switch.classes = { ...classes, ...InlineInputClasses };
+Switch.varsResolver = varsResolver;
+Switch.displayName = '@mantine/core/Switch';
+Switch.Group = SwitchGroup;
+
+export namespace Switch {
+  export type Props = SwitchProps;
+  export type StylesNames = SwitchStylesNames;
+  export type CssVariables = SwitchCssVariables;
+  export type Factory = SwitchFactory;
+
+  export namespace Group {
+    export type Props = SwitchGroupProps;
+    export type StylesNames = SwitchGroupStylesNames;
+    export type Factory = SwitchGroupFactory;
+    export type Context = SwitchGroupContextValue;
+  }
+}

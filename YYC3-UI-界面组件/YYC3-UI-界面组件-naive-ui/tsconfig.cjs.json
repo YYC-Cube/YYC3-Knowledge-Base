@@ -1,0 +1,11 @@
+{
+  "references": [
+    {
+      "path": "./src/tsconfig.cjs.json"
+    },
+    {
+      "path": "./themes/tusimple/tsconfig.cjs.json"
+    }
+  ],
+  "files": []
+}

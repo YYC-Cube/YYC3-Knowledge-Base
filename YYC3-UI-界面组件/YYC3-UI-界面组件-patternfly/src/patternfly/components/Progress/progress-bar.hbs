@@ -1,0 +1,35 @@
+<div class="{{pfv}}progress__bar{{#if progress-bar--modifier}} {{progress-bar--modifier}}{{/if}}"
+  role="progressbar"
+  aria-valuemin="0"
+  {{~#if progress__valuemax}}
+    aria-valuemax="{{progress__valuemax}}"
+  {{else}}
+    aria-valuemax="100"
+  {{/if}}
+  aria-valuenow="{{progress__value}}"
+  {{~#if progress--dynamic}}
+    aria-valuetext="{{progress__valuetext}}"
+  {{/if}}
+  {{#if progress__aria-labelledby}}
+    aria-labelledby="{{progress__aria-labelledby}}"
+  {{/if}}
+  {{#if progress__aria-label}}
+    aria-label="{{progress__aria-label}}"
+  {{/if}}
+  {{#if helper-text--value}}
+    aria-describedby="{{progress__id}}-help-text"
+  {{/if}}
+  {{~#if progress__description}}
+    {{#unless progress__aria-labelledby}}
+      aria-labelledby="{{progress__id}}-description"
+    {{/unless}}
+  {{else}}
+    {{#unless progress__aria-label}}
+      aria-label="Progress status"
+    {{/unless}}
+  {{/if}}
+  {{~#if progress-bar--attribute}}
+    {{{progress-bar--attribute}}}
+  {{/if}}>
+  {{> progress-indicator}}
+</div>

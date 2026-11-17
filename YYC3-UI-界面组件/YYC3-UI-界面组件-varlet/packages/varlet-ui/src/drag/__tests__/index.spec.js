@@ -1,0 +1,131 @@
+import { mount } from '@vue/test-utils'
+import { expect, test, vi } from 'vite-plus/test'
+import { createApp } from 'vue'
+import Drag from '..'
+import { delay, trigger, triggerDrag } from '../../utils/test'
+
+test('drag plugin', () => {
+  const app = createApp({}).use(Drag)
+  expect(app.component(Drag.name)).toBeTruthy()
+})
+
+test('drag direction', async () => {
+  const container = document.createElement('div')
+  const wrapper = mount(Drag, {
+    props: {
+      teleport: container,
+    },
+  })
+
+  await triggerDrag(container.childNodes[1], 10, 10)
+  const drag = container.querySelector('.var-drag')
+  expect(drag.getAttribute('style')).toContain('transform: translate(10px, 10px)')
+
+  wrapper.setProps({ direction: 'x' })
+  await triggerDrag(container.childNodes[1], 10, 10)
+  expect(drag.getAttribute('style')).toContain('transform: translate(10px, 0px)')
+
+  wrapper.setProps({ direction: 'y' })
+  await triggerDrag(container.childNodes[1], 10, 10)
+  expect(drag.getAttribute('style')).toContain('transform: translate(0px, 10px)')
+
+  wrapper.unmount()
+})
+
+test('drag attraction', async () => {
+  const container = document.createElement('div')
+  const wrapper = mount(Drag, {
+    props: {
+      teleport: container,
+      attraction: 'x',
+    },
+  })
+  await triggerDrag(container.childNodes[1], 10, 10)
+  const drag = container.querySelector('.var-drag')
+  expect(drag.getAttribute('style')).toContain('transform: translate(0px, 10px)')
+
+  wrapper.setProps({ attraction: 'y' })
+  await triggerDrag(container.childNodes[1], 10, 10)
+  expect(drag.getAttribute('style')).toContain('transform: translate(10px, 0px)')
+
+  wrapper.setProps({ attraction: 'xy' })
+  await triggerDrag(container.childNodes[1], 10, 10)
+  expect(drag.getAttribute('style')).toContain('transform: translate(0px, 0px)')
+
+  wrapper.unmount()
+})
+
+test('drag disabled', async () => {
+  const container = document.createElement('div')
+  const wrapper = mount(Drag, {
+    props: {
+      disabled: true,
+      teleport: container,
+    },
+  })
+
+  await triggerDrag(container.childNodes[1], 10, 10)
+  const drag = container.querySelector('.var-drag')
+  expect(drag.getAttribute('style')).toContain('z-index: 90')
+  expect(drag.getAttribute('style')).not.toContain('transform:')
+
+  wrapper.unmount()
+})
+
+test('drag boundary', async () => {
+  const container = document.createElement('div')
+  const wrapper = mount(Drag, {
+    props: {
+      teleport: container,
+      boundary: {
+        top: 10,
+        left: 10,
+      },
+    },
+  })
+
+  const el = container.childNodes[1]
+  await trigger(el, 'touchstart', 0, 0)
+  await trigger(el, 'touchmove', 1, 1)
+  await trigger(el, 'touchend', 1, 1)
+  const drag = container.querySelector('.var-drag')
+  expect(drag.getAttribute('style')).toContain('transform: translate(10px, 10px)')
+
+  wrapper.unmount()
+})
+
+test('drag reset', async () => {
+  const container = document.createElement('div')
+  const wrapper = mount(Drag, {
+    props: {
+      teleport: container,
+    },
+  })
+
+  await triggerDrag(container.childNodes[1], 10, 10)
+  const drag = container.querySelector('.var-drag')
+  expect(drag.getAttribute('style')).toContain('transform: translate(10px, 10px)')
+
+  wrapper.vm.reset()
+  await delay()
+  expect(drag.getAttribute('style')).not.toContain('transform:')
+
+  wrapper.unmount()
+})
+
+test('drag click method', async () => {
+  const container = document.createElement('div')
+  const onClick = vi.fn()
+
+  const wrapper = mount(Drag, {
+    props: {
+      teleport: container,
+      onClick,
+    },
+  })
+
+  await trigger(container.childNodes[1], 'click')
+  expect(onClick).toHaveBeenCalledTimes(1)
+
+  wrapper.unmount()
+})

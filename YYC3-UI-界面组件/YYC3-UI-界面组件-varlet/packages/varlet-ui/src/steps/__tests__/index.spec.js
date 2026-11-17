@@ -1,0 +1,168 @@
+import { mount } from '@vue/test-utils'
+import { describe, expect, test, vi } from 'vite-plus/test'
+import { createApp, h } from 'vue'
+import Steps from '..'
+import Step from '../../step'
+import VarStep from '../../step/Step'
+import { delay } from '../../utils/test'
+import VarSteps from '../Steps'
+
+const clickStep = vi.fn()
+const Wrapper = {
+  components: {
+    [VarSteps.name]: VarSteps,
+    [VarStep.name]: VarStep,
+  },
+  template: `
+    <var-steps @clickStep="clickStep">
+      <var-step>step 1</var-step>
+      <var-step>step 2</var-step>
+      <var-step active-icon="check-circle-outline" current-icon="radio-blank" inactive-icon="minus-circle-outline">step 3</var-step>
+      <var-step>step 4</var-step>
+    </var-steps>
+  `,
+  methods: {
+    clickStep,
+  },
+}
+
+test('steps and step use', () => {
+  const app = createApp({}).use(Steps).use(Step)
+
+  expect(app.component(Steps.name)).toBeTruthy()
+  expect(app.component(Step.name)).toBeTruthy()
+})
+
+test('steps component event', async () => {
+  const wrapper = mount(Wrapper)
+  await wrapper.find('.var-step__horizontal-tag').trigger('click')
+  expect(clickStep).toHaveBeenCalledTimes(1)
+  wrapper.unmount()
+})
+
+describe('test steps and step components props', () => {
+  test('steps active', async () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        active: 1,
+      },
+    })
+
+    await delay(50)
+    wrapper.findAll('.var-step__horizontal-main').forEach((item, index) => {
+      expect(item.find('.var-step__horizontal-tag--active').exists()).toBe(index < 2)
+      expect(item.find('.var-step__horizontal-content--active').exists()).toBe(index < 2)
+    })
+    wrapper.unmount()
+  })
+
+  test('steps direction', async () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        direction: 'vertical',
+      },
+    })
+
+    expect(wrapper.find('.var-steps').attributes('style')).toContain('flex-direction: column;')
+    await wrapper.setProps({ direction: 'horizontal' })
+    expect(wrapper.find('.var-steps').attributes('style')).toContain('flex-direction: row;')
+    wrapper.unmount()
+  })
+
+  test('steps active-color', async () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        activeColor: 'red',
+      },
+    })
+
+    await delay(50)
+    expect(wrapper.find('.var-step__horizontal-tag--active').attributes('style')).toContain('background-color: red;')
+    wrapper.unmount()
+  })
+
+  test('steps inactive-color', async () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        inactiveColor: 'red',
+      },
+    })
+
+    await delay(50)
+    wrapper.findAll('.var-step__horizontal-tag').forEach((item, index) => {
+      expect(item.attributes('style')).toContain(index > 0 ? 'background-color: red;' : '')
+    })
+    wrapper.unmount()
+  })
+
+  test('steps current-icon', async () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        active: 3,
+      },
+    })
+
+    await delay(50)
+    expect(wrapper.findAll('.var-step')[2].find('.var-icon-check-circle-outline').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  test('steps active-icon', async () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        active: 2,
+      },
+    })
+
+    await delay(50)
+    expect(wrapper.findAll('.var-step')[2].find('.var-icon-radio-blank').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  test('steps inactive-icon', async () => {
+    const wrapper = mount(Wrapper, {
+      props: {
+        active: 1,
+      },
+    })
+
+    await delay(50)
+    expect(wrapper.findAll('.var-step')[2].find('.var-icon-minus-circle-outline').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  test('step icon slots have higher priority than icon props', async () => {
+    const wrapper = mount({
+      components: {
+        [VarSteps.name]: VarSteps,
+        [VarStep.name]: VarStep,
+      },
+      setup() {
+        return () =>
+          h(VarSteps, { active: 1 }, () => [
+            h(VarStep, { activeIcon: 'check' }, { 'active-icon': () => h('i', { class: 'i-custom-active-step' }) }),
+            h(
+              VarStep,
+              { currentIcon: 'radio-blank' },
+              { 'current-icon': () => h('i', { class: 'i-custom-current-step' }) },
+            ),
+            h(
+              VarStep,
+              { inactiveIcon: 'minus-circle-outline' },
+              { 'inactive-icon': () => h('i', { class: 'i-custom-inactive-step' }) },
+            ),
+          ])
+      },
+    })
+
+    await delay(50)
+    expect(wrapper.find('.i-custom-active-step').exists()).toBe(true)
+    expect(wrapper.find('.i-custom-current-step').exists()).toBe(true)
+    expect(wrapper.find('.i-custom-inactive-step').exists()).toBe(true)
+    expect(wrapper.find('.var-icon-check').exists()).toBe(false)
+    expect(wrapper.find('.var-icon-radio-blank').exists()).toBe(false)
+    expect(wrapper.find('.var-icon-minus-circle-outline').exists()).toBe(false)
+
+    wrapper.unmount()
+  })
+})

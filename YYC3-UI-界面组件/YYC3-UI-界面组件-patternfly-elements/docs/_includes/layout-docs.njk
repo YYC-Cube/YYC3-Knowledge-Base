@@ -1,0 +1,13 @@
+---
+layout: layout-basic.njk
+---
+
+<header class="band">
+  <h1>{{ title }}</h1>
+  {% if tagline %}
+  <span class="tagline">{{ tagline }}</span>
+  {% endif %}
+</header>
+
+{{ content | safe }}
+

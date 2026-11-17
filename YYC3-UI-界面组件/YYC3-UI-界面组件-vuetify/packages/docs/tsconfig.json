@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": false,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noUnusedLocals": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "allowJs": true,
+    "allowImportingTsExtensions": true,
+    "target": "esnext",
+    "types": [
+      "vite/client",
+      "vite-plugin-pages/client",
+      "vite-plugin-vue-layouts/client",
+      "vite-plugin-pwa/client",
+      "vue-router"
+    ],
+    "outDir": "./dist"
+  },
+  "include": [
+    "build",
+    "src",
+    "./auto-imports.d.ts",
+    "./components.d.ts",
+    "../api-generator/src/shims.d.ts"
+  ],
+  "exclude": ["dist", "node_modules"],
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "name": "borderless",
+    "type": "Boolean",
+    "defaultValue": false,
+    "options": []
+  },
+  {
+    "name": "clearable",
+    "type": "Boolean",
+    "defaultValue": false,
+    "options": []
+  },
+  {
+    "name": "disabled",
+    "type": "Boolean",
+    "defaultValue": false,
+    "options": []
+  },
+  {
+    "name": "enableAlpha",
+    "type": "Boolean",
+    "defaultValue": false,
+    "options": []
+  },
+  {
+    "name": "enableMultipleGradient",
+    "type": "Boolean",
+    "defaultValue": true,
+    "options": []
+  },
+  {
+    "name": "showPrimaryColorPreview",
+    "type": "Boolean",
+    "defaultValue": true,
+    "options": []
+  }
+]

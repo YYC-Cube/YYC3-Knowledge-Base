@@ -1,0 +1,99 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 幕帘内容圆角
+$curtain-content-radius: var(--wot-curtain-content-radius, $radius-large) !default;
+// 幕帘关闭图标颜色
+$curtain-content-close-color: var(--wot-curtain-content-close-color, $text-white) !default;
+// 幕帘关闭图标尺寸
+$curtain-content-close-size: var(--wot-curtain-content-close-size, $n-32) !default;
+// 幕帘关闭图标偏移
+$curtain-content-close-inset: var(--wot-curtain-content-close-inset, $spacing-extra-loose) !default;
+
+:deep() {
+  .wd-popup.wd-curtain {
+    background: transparent;
+    overflow-y: visible;
+  }
+
+  @include b(curtain) {
+    border-radius: $curtain-content-radius;
+    font-size: 0;
+
+    @include e(content) {
+      position: relative;
+      display: inline-block;
+      background: transparent;
+      border-radius: $curtain-content-radius;
+    }
+
+    @include e(content-link) {
+      display: block;
+      border-radius: $curtain-content-radius;
+    }
+
+    @include e(content-img) {
+      display: block;
+      width: auto;
+      height: auto;
+      border-radius: $curtain-content-radius;
+    }
+
+    @include e(content-close) {
+      position: absolute;
+      top: $curtain-content-close-inset;
+      right: $curtain-content-close-inset;
+      color: $curtain-content-close-color;
+      font-size: $curtain-content-close-size;
+      -webkit-tap-highlight-color: transparent;
+
+      &.top {
+        top: calc(-1 * $curtain-content-close-inset);
+        left: 50%;
+        right: unset;
+        bottom: unset;
+        transform: translateY(-100%) translateX(-50%);
+      }
+
+      &.top-left {
+        top: calc(-1 * $curtain-content-close-inset);
+        right: unset;
+        left: 0;
+        bottom: unset;
+        transform: translateY(-100%);
+      }
+
+      &.top-right {
+        top: calc(-1 * $curtain-content-close-inset);
+        right: 0;
+        left: unset;
+        bottom: unset;
+        transform: translateY(-100%);
+      }
+
+      &.bottom {
+        top: unset;
+        right: unset;
+        left: 50%;
+        bottom: calc(-1 * $curtain-content-close-inset);
+        transform: translateY(100%) translateX(-50%);
+      }
+
+      &.bottom-left {
+        top: unset;
+        right: unset;
+        left: 0;
+        bottom: calc(-1 * $curtain-content-close-inset);
+        transform: translateY(100%);
+      }
+
+      &.bottom-right {
+        top: unset;
+        right: 0;
+        left: unset;
+        bottom: calc(-1 * $curtain-content-close-inset);
+        transform: translateY(100%);
+      }
+    }
+  }
+}

@@ -1,0 +1,161 @@
+# Paper
+
+### Intro
+
+An easier container using elevation and water effects.
+
+### Basic Usage
+
+```html
+<template>
+  <var-paper :elevation="2" :width="100" :height="100" />
+</template>
+```
+
+### Ripple Effect
+
+```html
+<template>
+  <var-paper :elevation="2" :width="100" :height="100" ripple />
+</template>
+```
+
+### Hoverable
+
+```html
+<template>
+  <var-paper hoverable :elevation="2" :width="100" :height="100" />
+</template>
+```
+
+### Custom Ripple / Hover Effect
+
+```html
+<template>
+  <var-paper
+    :elevation="2"
+    :width="100"
+    :height="100"
+    :ripple="{ color: 'var(--color-primary)' }"
+    :hoverable="{ color: 'var(--color-primary)' }"
+  />
+</template>
+```
+
+### Interactive States
+
+`active` displays a persistent translucent primary-color overlay and applies the primary color to inheritable text. It is controlled and can be toggled by external logic such as a click handler.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const active = ref(false)
+</script>
+
+<template>
+  <var-paper :active="active" hoverable ripple :width="200" :height="48" @click="active = !active">
+    {{ active ? 'Active' : 'Inactive' }}
+  </var-paper>
+</template>
+```
+
+### Rounded Paper
+
+```html
+<template>
+  <var-paper :elevation="2" :width="100" :height="100" round />
+</template>
+```
+
+### Custom Border Radius
+
+```html
+<template>
+  <var-paper :elevation="2" :width="100" :height="100" :radius="8" />
+</template>
+```
+
+### Outlined
+
+```html
+<template>
+  <var-paper variant="outlined" :width="100" :height="100" />
+</template>
+```
+
+### Filled
+
+```html
+<template>
+  <var-paper variant="filled" :width="100" :height="100" />
+</template>
+```
+
+### Use Slot
+
+```html
+<template>
+  <var-paper :elevation="2">
+    <var-cell>Paper</var-cell>
+    <var-cell>Paper</var-cell>
+    <var-cell>Paper</var-cell>
+  </var-paper>
+</template>
+```
+
+### Subtle Background
+
+`surface="low"` softens the background color. It currently only takes effect in the MD3 dark theme.
+
+```html
+<template>
+  <var-paper surface="low" :elevation="2" :width="100" :height="100" />
+</template>
+```
+
+## API
+
+### Props
+
+| Prop | Description | Type | Default |
+| --- | --- | --- | --- |
+| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `false`    |
+| `ripple` | Whether to enable ripple effect, supports object form `{ disabled?: boolean, color?: string }` | _boolean \| object_ | `false` |
+| `radius` | Paper border radius | _string \| number_ | `-` |
+| `width` | Paper width | _string \| number_ | `-` |
+| `height` | Paper height | _string \| number_ | `-` |
+| `round` | Whether to enable round paper | _boolean_ | `false` |
+| `inline` | Whether to use inline paper | _boolean_ | `false` |
+| `variant` ***3.18.0*** | Paper variant, options `standard`, `outlined`, and `filled`. The `outlined` and `filled` modes do not mount elevation styles | _string_ | `standard` |
+| `surface`  ***3.16.0*** | Background preset, optional value is `low`, invalid when `variant` is `filled`. It currently only takes effect in the MD3 dark theme | _string_ | `-` |
+| `hoverable`  ***3.16.0*** | Whether to enable hover effect, supports object form `{ disabled?: boolean, color?: string }` | _boolean \| object_ | `false` |
+| `active` ***3.20.6*** | Whether to enable the persistent active effect. It uses a translucent primary-color overlay and text color by default and supports object form `{ color?: string }` | _boolean \| object_ | `false` |
+| `disabled` ***3.20.6*** | Whether to disable interaction. When disabled, click, hover, and ripple effects are disabled and only a disabled cursor is shown | _boolean_ | `false` |
+
+### Events
+
+| Event | Description | Arguments |
+| ------- | -------------- | -------------- |
+| `click` | Triggered when the paper is clicked | `event: Event` |
+
+### Slots
+
+| Name | Description | SlotProps |
+| --- | ----| ---- |
+| `default` | Paper content | `-` |
+
+### Style Variables
+
+Here are the CSS variables used by the component. Styles can be customized using [StyleProvider](#/en-US/style-provider).
+
+| Variable | Default |
+| ------ | -------------|
+| `--paper-background`    | `var(--color-surface-container-highest)` |
+| `--paper-surface-low-background` | `var(--color-surface-container-highest)` |
+| `--paper-outlined-background` | `transparent` |
+| `--paper-filled-background` | `hsla(0, 0%, 93%, 1)` |
+| `--paper-outline-color` | `var(--color-outline)` |
+| `--paper-border-radius` | `4px` |
+| `--paper-active-color` | `var(--color-primary)` |
+| `--paper-active-opacity` | `0.2` |

@@ -1,0 +1,11 @@
+{
+    "main": "./AngleDownIcon.vue",
+    "module": "./AngleDownIcon.vue",
+    "types": "./AngleDownIcon.d.ts",
+    "browser": {
+        "./sfc": "./AngleDownIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

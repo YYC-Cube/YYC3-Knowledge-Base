@@ -1,0 +1,169 @@
+{{!--
+------------------------------------
+Tabs list content options
+------------------------------------
+__tabs-list--HasIcons: bool
+__tabs-list--IsScrollable: bool
+__tabs-list--IsOverflow: bool
+__tabs-list--IsOverflowExpanded: bool
+__tabs-list--IsOverflowSelected: bool
+__tabs-list--IsShort: bool
+__tabs-list--IsLong: bool
+__tabs-item--NoText: bool
+__tabs-list--HasHelp: bool
+__tabs-list--HasClose: bool
+__tabs-list--IsCloseDisabled: bool
+------------------------------------
+--}}
+
+{{#if __tabs-list--IsScrollable}}
+  {{#unless __tabs-list--NoScrollButtons}}
+    {{#if __tabs-list--DisabledFirstScrollButton}}
+      {{> tabs-scroll-button tabs-scroll-button--IsLeft="true" tabs-scroll-button--IsDisabled="true"}}
+    {{else}}
+      {{> tabs-scroll-button tabs-scroll-button--IsLeft="true"}}
+    {{/if}}
+  {{/unless}}
+{{/if}}
+
+{{#> tabs-list tabs-item--IsAction=__tabs-list--IsAction tabs-item--HasClose=__tabs-list--HasClose tabs-item--HasHelp=__tabs-list--HasHelp}}
+  {{> __tabs-item
+    __tabs-item--id="users"
+    __tabs-item--icon-name="rh-ui-users-fill"
+    __tabs-item--aria-label="Users"
+    __tabs-item--text="Users"
+    }}
+  {{> __tabs-item
+    __tabs-item--current=(inverse __tabs-list--IsOverflowSelected)
+    __tabs-item--id="containers"
+    __tabs-item--icon-name="rh-ui-container-fill"
+    __tabs-item--aria-label="Containers"
+    __tabs-item--text=(ternary __tabs-list--HasMultiLine "Containers <br> and more" "Containers")
+    }}
+  {{> __tabs-item
+    __tabs-item--id="database"
+    __tabs-item--icon-name="rh-ui-storage-fill"
+    __tabs-item--aria-label="Database"
+    __tabs-item--text="Database"
+    }}
+
+  {{#unless __tabs-list--IsShort}}
+    {{#if __tabs-list--IsDisabled}}
+      {{> __tabs-item
+        __tabs-item--id="disabled"
+        __tabs-item--icon-name="rh-ui-server-fill"
+        __tabs-item--aria-label="Disabled"
+        __tabs-item--text="Disabled"
+        tabs-link--IsDisabled="true"
+        tabs-item-action--IsHelpDisabled=true
+        tabs-item-action--IsCloseDisabled=true
+        }}
+      {{> __tabs-item
+        __tabs-item--id="aria-disabled"
+        __tabs-item--icon-name="rh-ui-laptop-fill"
+        __tabs-item--aria-label="ARIA disabled"
+        __tabs-item--text="ARIA disabled"
+        tabs-link--IsAriaDisabled="true"
+        tabs-item-action--IsHelpAriaDisabled=true
+        tabs-item-action--IsCloseAriaDisabled=true
+        }}
+        {{#if __tabs-list--IsHelpDisabled}}
+          {{> __tabs-item
+            __tabs-item--id="help-disabled"
+            __tabs-item--icon-name="rh-ui-download"
+            __tabs-item--aria-label="Help disabled"
+            __tabs-item--text="Help disabled"
+            tabs-link--IsDisabled="true"
+            tabs-item-action--IsHelpDisabled="true"
+            }}
+        {{/if}}
+        {{#if __tabs-list--IsCloseDisabled}}
+          {{> __tabs-item
+            __tabs-item--id="close-disabled"
+            __tabs-item--icon-name="rh-ui-code"
+            __tabs-item--aria-label="Close disabled"
+            __tabs-item--text="Close disabled"
+            tabs-link--IsDisabled="true"
+            tabs-item-action--IsCloseDisabled="true"
+            }}
+        {{/if}}
+        {{#if __tabs-list--IsHelpCloseDisabled}}
+          {{> __tabs-item
+            __tabs-item--id="help-close-disabled"
+            __tabs-item--icon-name="rh-ui-folder-fill"
+            __tabs-item--aria-label="Help and disabled"
+            __tabs-item--text="Help and close disabled"
+            tabs-link--IsDisabled="true"
+            tabs-item-action--IsHelpDisabled="true"
+            tabs-item-action--IsCloseDisabled="true"
+            }}
+        {{/if}}
+    {{else}}
+      {{> __tabs-item
+        __tabs-item--id="server"
+        __tabs-item--icon-name="rh-ui-server-fill"
+        __tabs-item--aria-label="Server"
+        __tabs-item--text="Server"
+        }}
+      {{> __tabs-item
+        __tabs-item--id="system"
+        __tabs-item--icon-name="rh-ui-laptop-fill"
+        __tabs-item--aria-label="System"
+        __tabs-item--text="System"
+        }}
+    {{/if}}
+    {{> __tabs-item
+      __tabs-item--id="network-wired"
+      __tabs-item--icon-name="rh-ui-network-fill"
+      __tabs-item--aria-label="Network"
+      __tabs-item--text="Network"
+      }}
+    {{#if __tabs-list--IsLong}}
+      {{> __tabs-item
+        __tabs-item--id="cloud"
+        __tabs-item--icon-name="rh-ui-cloud-fill"
+        __tabs-item--aria-label="Hybrid Cloud"
+        __tabs-item--text="Hybrid Cloud"
+        }}
+      {{> __tabs-item
+        __tabs-item--id="automation"
+        __tabs-item--icon-name="rh-ui-automation-fill"
+        __tabs-item--aria-label="Automation"
+        __tabs-item--text="Automation"
+        }}
+      {{> __tabs-item
+        __tabs-item--id="files"
+        __tabs-item--icon-name="rh-ui-document-fill"
+        __tabs-item--aria-label="files"
+        __tabs-item--text="Files"
+        }}
+    {{/if}}
+    {{#if __tabs-list--IsOverflow}}
+      {{#> wrapper
+        __tabs-item--current=__tabs-list--IsOverflowSelected
+        __tabs-item--id="more"
+        __tabs-item--icon-name="rh-ui-enhancement-fill"
+        __tabs-item--aria-label="Show more tabs"
+        __tabs-item--text="More"
+        __tabs-item--IsOverflow="true"
+        __tabs-item--IsOverflowExpanded=__tabs-list--IsOverflowExpanded
+        }}
+        {{> __tabs-item}}
+      {{/wrapper}}
+    {{/if}}
+  {{/unless}}
+{{/tabs-list}}
+
+{{#if __tabs-list--IsScrollable}}
+  {{#unless __tabs-list--NoScrollButtons}}
+    {{#if __tabs-list--DisabledLastScrollButton}}
+      {{> tabs-scroll-button tabs-scroll-button--IsRight="true" tabs-scroll-button--IsDisabled="true"}}
+    {{else}}
+      {{> tabs-scroll-button tabs-scroll-button--IsRight="true"}}
+    {{/if}}
+  {{/unless}}
+{{/if}}
+
+{{#if __tabs-list--HasAddTab}}
+  {{> tabs-add}}
+{{/if}}

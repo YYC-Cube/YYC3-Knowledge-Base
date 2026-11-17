@@ -1,0 +1,46 @@
+{{#> text-input-group}}
+  {{#> text-input-group-main text-input-group-main--modifier="pf-m-icon"}}
+    {{#> text-input-group-text}}
+      {{> text-input-group-icon}}
+        {{> text-input-group-text-input text-input-group-text-input--aria-label=(ternary text-input-group--search-input--aria-label text-input-group--search-input--aria-label 'Search input') }}
+    {{/text-input-group-text}}
+  {{/text-input-group-main}}
+  {{#if text-input-group--value}}
+    {{#> text-input-group-utilities}}
+      {{#if text-input-group--search-input--count}}
+        {{#> badge badge--modifier="pf-m-read"}}
+          <span aria-hidden="true">{{text-input-group--search-input--count}}</span>
+          {{#> screen-reader}}
+            {{#if text-input-group--search-input--IsNavigable}}
+              Showing result {{text-input-group--search-input--count}}
+            {{else}}
+              {{text-input-group--search-input--count}} matching results
+            {{/if}}
+          {{/screen-reader}}
+        {{/badge}}
+        {{#if text-input-group--search-input--IsNavigable}}
+          {{#> text-input-group-group}}
+            {{> button
+              button--IsPlain=true
+              button--IsIcon=true
+              button--icon="rh-ui-caret-up"
+              button--IsDisabled=text-input-group--search-input--IsFirstMatch
+              button--aria-label="Previous"}}
+            {{> button
+              button--IsPlain=true
+              button--IsIcon=true
+              button--icon="rh-ui-caret-down"
+              button--IsDisabled=text-input-group--search-input--IsLastMatch
+              button--aria-label="Next"}}
+          {{/text-input-group-group}}
+        {{/if}}
+      {{/if}}
+      {{> button
+        button--IsPlain=true
+        button--IsIcon=true
+        button--icon="rh-microns-close"
+        button--aria-label=(ternary text-input-group--search-input--clear-button-aria-label text-input-group--search-input--clear-button-aria-label "Clear input")
+      }}
+    {{/text-input-group-utilities}}
+  {{/if}}
+{{/text-input-group}}

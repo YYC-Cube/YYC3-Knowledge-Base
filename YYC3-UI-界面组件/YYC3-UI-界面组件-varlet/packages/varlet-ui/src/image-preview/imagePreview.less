@@ -1,0 +1,75 @@
+:root {
+  --image-preview-swipe-indicators-text-color: #ddd;
+  --image-preview-swipe-indicators-padding: 16px 0;
+  --image-preview-zoom-container-background: #000;
+  --image-preview-close-icon-top: 8px;
+  --image-preview-close-icon-right: 14px;
+  --image-preview-extra-top: 14px;
+  --image-preview-extra-left: 14px;
+  --image-preview-close-icon-size: 22px;
+  --image-preview-close-icon-color: #fff;
+}
+
+.var-image-preview {
+  &__popup[var-image-preview-cover] {
+    height: 100%;
+    background: var(--image-preview-zoom-container-background);
+  }
+
+  &__swipe[var-image-preview-cover] {
+    width: 100vw;
+    height: 100%;
+  }
+
+  &__swipe-item[var-image-preview-cover] {
+    overflow: hidden;
+  }
+
+  &__close-icon[var-image-preview-cover] {
+    position: absolute;
+    top: var(--image-preview-close-icon-top);
+    right: var(--image-preview-close-icon-right);
+    color: var(--image-preview-close-icon-color);
+  }
+
+  &__close-icon-image {
+    font-size: var(--image-preview-close-icon-size);
+  }
+
+  &__extra {
+    position: absolute;
+    top: var(--image-preview-extra-top);
+    left: var(--image-preview-extra-left);
+  }
+
+  &__indicators {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: var(--image-preview-swipe-indicators-padding);
+    color: var(--image-preview-swipe-indicators-text-color);
+    text-align: center;
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    -webkit-user-drag: none;
+  }
+
+  // fix IOS & weChat long press image default behavior
+  &--prevent {
+    -webkit-touch-callout: none;
+    pointer-events: none;
+  }
+
+  &__zoom-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100%;
+    transition: transform 0.2s;
+  }
+}

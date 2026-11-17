@@ -1,0 +1,313 @@
+---
+id: tour
+title: Tour
+description: A guided tour that helps users understand the interface.
+---
+
+<ComponentPreview id="Tour" />
+
+## Anatomy
+
+<Anatomy id="tour" />
+
+```tsx
+const tour = useTour({ steps: [...] })
+
+<Tour.Root tour={tour}>
+  <Tour.Backdrop />
+  <Tour.Spotlight />
+  <Tour.Positioner>
+    <Tour.Content>
+      <Tour.Arrow>
+        <Tour.ArrowTip />
+      </Tour.Arrow>
+      <Tour.Title />
+      <Tour.Description />
+      <Tour.ProgressText />
+      <Tour.CloseTrigger />
+      <Tour.Actions>
+        <Tour.ActionTrigger />
+      </Tour.Actions>
+    </Tour.Content>
+  </Tour.Positioner>
+</Tour.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Step Types
+
+Demonstrate all three step types in a single tour: `dialog` for welcome/completion, `tooltip` anchored to elements, and
+`floating` for fixed-position content.
+
+<Example id="mixed-types" />
+
+### Progress
+
+Display a visual progress indicator at the bottom of the tour content showing how far along the user is.
+
+<Example id="progress-bar" />
+
+### Skip
+
+Allow users to skip the entire tour at any step by adding a skip action.
+
+<Example id="skip-tour" />
+
+### Keyboard Navigation
+
+Enable arrow key navigation between tour steps using the `keyboardNavigation` prop.
+
+<Example id="keyboard-navigation" />
+
+### Events
+
+Listen to tour lifecycle events like `onStepChange` and `onStatusChange` to track user progress.
+
+<Example id="events" />
+
+### Wait for Click
+
+Use the `effect` function with `waitForEvent` to wait for user interaction before proceeding to the next step.
+
+<Example id="wait-for-click" />
+
+### Wait for Input
+
+Create form tutorials that wait for users to enter valid input before advancing.
+
+<Example id="wait-for-input" />
+
+### Wait for Element
+
+Wait for dynamically rendered elements to appear in the DOM before showing a step.
+
+<Example id="wait-for-element" />
+
+### Async
+
+Load data asynchronously and update step content before displaying it using the `effect` function with `show()` and
+`update()`.
+
+<Example id="async-step" />
+
+## Guides
+
+### Step Types
+
+The tour machine supports different types of steps, allowing you to create a diverse and interactive tour experience.
+The available step types are defined in the `StepType` type:
+
+- `tooltip`: Displays the step content as a tooltip, typically positioned near the target element.
+
+- `dialog`: Shows the step content in a modal dialog centered on screen, useful for starting or ending the tour. This
+  usually don't have a `target` defined.
+
+- `floating`: Presents the step content as a floating element, which can be positioned flexibly on the screen. This
+  usually don't have a `target` defined.
+
+- `wait`: A special type that waits for a specific condition before proceeding to the next step.
+
+```tsx
+const steps: TourStepDetails[] = [
+  {
+    id: 'step-1',
+    type: 'tooltip',
+    placement: 'top-start',
+    target: () => document.querySelector('#target-1'),
+    title: 'Tooltip Step',
+    description: 'This is a tooltip step',
+  },
+  {
+    id: 'step-2',
+    type: 'dialog',
+    title: 'Dialog Step',
+    description: 'This is a dialog step',
+  },
+  {
+    id: 'step-3',
+    type: 'floating',
+    placement: 'top-start',
+    title: 'Floating Step',
+    description: 'This is a floating step',
+  },
+  {
+    id: 'step-4',
+    type: 'wait',
+    title: 'Wait Step',
+    description: 'This is a wait step',
+    effect({ next }) {
+      // do something and go next
+      // you can also return a cleanup
+    },
+  },
+]
+```
+
+### Actions
+
+Every step supports a list of actions that are rendered in the step footer.Use the `actions` property to define each
+action.
+
+```tsx
+const steps: TourStepDetails[] = [
+  {
+    id: 'step-1',
+    type: 'dialog',
+    title: 'Dialog Step',
+    description: 'This is a dialog step',
+    actions: [{ label: 'Show me a tour!', action: 'next' }],
+  },
+]
+```
+
+### Tooltip Placement
+
+Use the `placement` property to define the placement of the tooltip.
+
+```tsx {5}
+const steps: TourStepDetails[] = [
+  {
+    id: 'step-1',
+    type: 'tooltip',
+    placement: 'top-start',
+    // ...
+  },
+]
+```
+
+### Hide Arrow
+
+Set `arrow: false` in the step property to hide the tooltip arrow. This is only useful for tooltip steps.
+
+```tsx {5}
+const steps: TourStepDetails[] = [
+  {
+    id: 'step-1',
+    type: 'tooltip',
+    arrow: false,
+  },
+]
+```
+
+### Hide Backdrop
+
+Set `backdrop: false` in the step property to hide the backdrop. This applies to all step types except the `wait` step.
+
+```tsx {5}
+const steps: TourStepDetails[] = [
+  {
+    id: 'step-1',
+    type: 'dialog',
+    backdrop: false,
+  },
+]
+```
+
+### Effects
+
+Step effects are functions that are called before a step is opened. They are useful for adding custom logic to a step.
+
+This function provides the following methods:
+
+- `next()`: Call this method to move to the next step.
+- `show()`: Call this method to show the current step.
+- `update(details: StepDetails)`: Call this method to update the details of the current step (say, after data has been
+  fetched).
+
+```tsx
+const steps: TourStepDetails[] = [
+  {
+    id: 'step-1',
+    type: 'tooltip',
+    effect({ next, show, update }) {
+      fetchData().then((res) => {
+        // update the step details
+        update({ title: res.title })
+        // then show show the step
+        show()
+      })
+
+      return () => {
+        // cleanup fetch data
+      }
+    },
+  },
+]
+```
+
+### Wait
+
+Wait steps are useful when you need to wait for a specific condition before proceeding to the next step.
+
+Use the step `effect` function to perform an action and then call `next()` to move to the next step.
+
+> **Note:** You cannot call `show()` in a wait step.
+
+```tsx
+const steps: TourStepDetails[] = [
+  {
+    id: 'step-1',
+    type: 'wait',
+    effect({ next }) {
+      const button = document.querySelector('#button')
+      const listener = () => next()
+      button.addEventListener('click', listener)
+      return () => button.removeEventListener('click', listener)
+    },
+  },
+]
+```
+
+### Scrolling to the Target
+
+By default, a step's target is scrolled into view with the nearest alignment. Pass `scrollToTargetFn` to `useTour` to
+change how it scrolls.
+
+```tsx
+const tour = useTour({
+  steps,
+  scrollToTargetFn({ target }) {
+    target.scrollIntoView({ behavior: 'instant', block: 'center' })
+  },
+})
+```
+
+When the backdrop, spotlight and positioner should snap into place instead of animating, they get a `data-instant`
+attribute. Use it to turn off your transitions:
+
+```css
+[data-scope='tour'][data-instant] {
+  transition: none;
+}
+```
+
+### Styling
+
+Ensure the `box-sizing` is set to `border-box` for the means of measuring the tour target.
+
+```css
+* {
+  box-sizing: border-box;
+}
+```
+
+Ensure the `body` has a `position` of `relative`.
+
+```css
+body {
+  position: relative;
+}
+```
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="tour" />
+
+### Context
+
+<ContextType id="tour" />

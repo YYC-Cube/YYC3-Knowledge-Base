@@ -1,0 +1,11 @@
+{
+    "main": "./ExclamationTriangleIcon.vue",
+    "module": "./ExclamationTriangleIcon.vue",
+    "types": "./ExclamationTriangleIcon.d.ts",
+    "browser": {
+        "./sfc": "./ExclamationTriangleIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

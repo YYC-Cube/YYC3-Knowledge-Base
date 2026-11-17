@@ -1,0 +1,137 @@
+{
+  "Context": { "props": { "render": { "type": "Snippet<[UseAngleSliderContext]>", "isRequired": true } } },
+  "Control": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "HiddenInput": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'input'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Label": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'label'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "MarkerGroup": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Marker": {
+    "props": {
+      "value": { "type": "number", "isRequired": true, "description": "The value of the marker" },
+      "asChild": {
+        "type": "Snippet<[PropsFn<'span'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Root": {
+    "props": {
+      "aria-label": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The accessible label for the slider thumb."
+      },
+      "aria-labelledby": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The id of the element that labels the slider thumb."
+      },
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "defaultValue": {
+        "type": "number",
+        "defaultValue": "0",
+        "isRequired": false,
+        "description": "The initial value of the slider.\nUse when you don't need to control the value of the slider."
+      },
+      "disabled": { "type": "boolean", "isRequired": false, "description": "Whether the slider is disabled." },
+      "id": { "type": "string", "isRequired": false, "description": "The unique identifier of the machine." },
+      "ids": {
+        "type": "Partial<{\n  root: string\n  thumb: string\n  hiddenInput: string\n  control: string\n  valueText: string\n  label: string\n}>",
+        "isRequired": false,
+        "description": "The ids of the elements in the machine.\nUseful for composition."
+      },
+      "invalid": { "type": "boolean", "isRequired": false, "description": "Whether the slider is invalid." },
+      "name": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The name of the slider. Useful for form submission."
+      },
+      "onValueChange": {
+        "type": "(details: ValueChangeDetails) => void",
+        "isRequired": false,
+        "description": "The callback function for when the value changes."
+      },
+      "onValueChangeEnd": {
+        "type": "(details: ValueChangeDetails) => void",
+        "isRequired": false,
+        "description": "The callback function for when the value changes ends."
+      },
+      "readOnly": { "type": "boolean", "isRequired": false, "description": "Whether the slider is read-only." },
+      "ref": { "type": "Element", "isRequired": false },
+      "step": {
+        "type": "number",
+        "defaultValue": "1",
+        "isRequired": false,
+        "description": "The step value for the slider."
+      },
+      "value": { "type": "number", "isRequired": false, "description": "The value of the slider." }
+    }
+  },
+  "RootProvider": {
+    "props": {
+      "value": { "type": "UseAngleSliderReturn", "isRequired": true },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "Thumb": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  },
+  "ValueText": {
+    "props": {
+      "asChild": {
+        "type": "Snippet<[PropsFn<'div'>]>",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "ref": { "type": "Element", "isRequired": false }
+    }
+  }
+}

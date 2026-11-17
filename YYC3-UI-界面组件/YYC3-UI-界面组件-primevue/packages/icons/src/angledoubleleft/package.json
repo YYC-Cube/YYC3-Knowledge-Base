@@ -1,0 +1,11 @@
+{
+    "main": "./AngleDoubleLeftIcon.vue",
+    "module": "./AngleDoubleLeftIcon.vue",
+    "types": "./AngleDoubleLeftIcon.d.ts",
+    "browser": {
+        "./sfc": "./AngleDoubleLeftIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

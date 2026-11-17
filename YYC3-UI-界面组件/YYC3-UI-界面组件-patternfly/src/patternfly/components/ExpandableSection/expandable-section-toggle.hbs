@@ -1,0 +1,20 @@
+<div class="{{pfv}}expandable-section__toggle{{#if expandable-section-toggle--modifier}} {{expandable-section-toggle--modifier}}{{/if}}"
+  {{#if expandable-section-toggle--attribute}}
+    {{{expandable-section-toggle--attribute}}}
+  {{/if}}>
+  {{#> button
+    button--IsLink=true
+    button--IsInline=expandable-section--IsTruncate
+    button--AriaExpanded=(ternary expandable-section--IsExpanded expandable-section--IsExpanded false)
+    button--aria-controls=(ternary expandable-section--id (concat expandable-section--id '-content') null)
+    button--id=(concat expandable-section--id '-toggle')
+    button--icon-template=(ternary expandable-section--IsTruncate null "expandable-section-toggle-icon")}}
+    {{#if @partial-block}}
+      {{> @partial-block}}
+    {{else if expandable-section--IsExpanded}}
+      Show less
+    {{else}}
+      Show more
+    {{/if}}
+  {{/button}}
+</div>

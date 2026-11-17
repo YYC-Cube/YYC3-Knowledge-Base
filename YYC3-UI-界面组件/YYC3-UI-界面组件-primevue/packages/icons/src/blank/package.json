@@ -1,0 +1,11 @@
+{
+    "main": "./BlankIcon.vue",
+    "module": "./BlankIcon.vue",
+    "types": "./BlankIcon.d.ts",
+    "browser": {
+        "./sfc": "./BlankIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

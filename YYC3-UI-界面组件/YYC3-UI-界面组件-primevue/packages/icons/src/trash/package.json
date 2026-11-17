@@ -1,0 +1,11 @@
+{
+    "main": "./TrashIcon.vue",
+    "module": "./TrashIcon.vue",
+    "types": "./TrashIcon.d.ts",
+    "browser": {
+        "./sfc": "./TrashIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

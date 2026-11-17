@@ -1,0 +1,34 @@
+.group {
+  --group-spacing: 40px;
+
+  & + & {
+    margin-top: var(--group-spacing);
+    padding-top: var(--group-spacing);
+    border-top: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-3));
+  }
+}
+
+.mainTitle,
+.title {
+  font-family: var(--docs-font-primary);
+  font-weight: 600;
+  margin-bottom: var(--mantine-spacing-sm);
+  color: var(--mantine-color-bright);
+}
+
+.title {
+  margin-top: var(--mantine-spacing-md);
+}
+
+.panel {
+  padding-top: var(--mantine-spacing-md);
+}
+
+.tab {
+  font-weight: 600;
+
+  &[data-active] {
+    background-color: light-dark(var(--mantine-color-black), var(--mantine-color-gray-1));
+    color: light-dark(var(--mantine-color-white), var(--mantine-color-gray-9));
+  }
+}

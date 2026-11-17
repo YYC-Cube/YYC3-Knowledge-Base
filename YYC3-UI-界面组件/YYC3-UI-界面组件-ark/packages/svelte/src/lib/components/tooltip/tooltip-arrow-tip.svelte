@@ -1,0 +1,18 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+
+  export interface TooltipArrowTipBaseProps extends PolymorphicProps<'div'>, RefAttribute {}
+  export interface TooltipArrowTipProps extends Assign<HTMLProps<'div'>, TooltipArrowTipBaseProps> {}
+</script>
+
+<script lang="ts">
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { useTooltipContext } from './use-tooltip-context.ts'
+
+  let { ref = $bindable(null), ...props }: TooltipArrowTipProps = $props()
+  const tooltip = useTooltipContext()
+  const mergedProps = $derived(mergeProps(tooltip().getArrowTipProps(), props))
+</script>
+
+<Ark as="div" bind:ref {...mergedProps} />

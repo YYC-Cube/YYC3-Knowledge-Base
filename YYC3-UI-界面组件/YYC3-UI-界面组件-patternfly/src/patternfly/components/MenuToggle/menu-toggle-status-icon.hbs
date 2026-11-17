@@ -1,0 +1,12 @@
+<span class="{{pfv}}menu-toggle__status-icon{{#if menu-toggle-status-icon--modifier}} {{menu-toggle-status-icon--modifier}}{{/if}}"
+  {{#if menu-toggle-status-icon--attribute}}
+    {{{menu-toggle-status-icon--attribute}}}
+  {{/if}}>
+  {{#if menu-toggle--IsSuccess}}
+    {{{pfIcon "rh-ui-check-circle-fill"}}}
+  {{else if menu-toggle--IsWarning}}
+    {{{pfIcon "rh-ui-warning-fill"}}}
+  {{else if menu-toggle--IsDanger}}
+    {{{pfIcon "rh-ui-error-fill"}}}
+  {{/if}}
+</span>

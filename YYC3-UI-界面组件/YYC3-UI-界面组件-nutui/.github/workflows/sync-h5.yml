@@ -1,0 +1,43 @@
+name: sync to docs-h5
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - v4 # default branch
+    paths:
+      - '.github/workflows/**'
+      - 'src/**'
+      - 'package.json'
+
+jobs:
+  copy:
+    if: github.repository == 'jd-opensource/nutui'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Copy
+        run: pnpm copy:h5
+
+      - name: Sync
+        uses: JamesIves/github-pages-deploy-action@v4.6.1
+        with:
+          branch: new-site # action 应该部署到的分支 。
+          folder: site_docs #操作应该部署的文件夹 。
+          clean: false
+          repository-name: jdf2e/nutui-docs
+          token: ${{ secrets.GIT_ACTION }}
+          target-folder: src/docs_vue

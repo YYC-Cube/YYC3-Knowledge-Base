@@ -1,0 +1,82 @@
+import react from '@vitejs/plugin-react'
+import { globbySync } from 'globby'
+import { copyFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import dts from 'vite-plugin-dts'
+import { defineConfig } from 'vitest/config'
+import pkg from './package.json'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const normalizeDeclarationPath = (filePath: string) => filePath.replace(/([/\\]dist)[/\\]src[/\\]/, '$1/')
+
+export default defineConfig({
+  logLevel: 'warn',
+  plugins: [
+    dts({
+      entryRoot: 'src',
+      staticImport: true,
+      exclude: ['**/*.stories.tsx', '**/*.test.tsx', '**/tests/*', '**/examples/*', '**/setup-test.ts'],
+      beforeWriteFile: (filePath, content) => ({
+        filePath: normalizeDeclarationPath(filePath),
+        content: content.replace(
+          /(\bfrom\s*['"])(\.\.?\/[^'"]*?)\.tsx?(['"])/g,
+          (_m, pre, spec, post) => `${pre}${spec}.js${post}`,
+        ),
+      }),
+      afterBuild: () => {
+        globbySync(['dist/**/*.d.ts', 'dist/**.d.ts']).forEach((file) => {
+          copyFileSync(file, file.replace(/\.d\.ts$/, '.d.cts'))
+        })
+      },
+    }),
+    react(),
+  ],
+  build: {
+    target: 'esnext',
+    minify: false,
+    lib: {
+      entry: globbySync(['src/**/index.ts', 'src/components/anatomy.ts']),
+      fileName: (format) => (format === 'es' ? 'index.js' : 'index.cjs'),
+    },
+    rollupOptions: {
+      logLevel: 'silent',
+      external: [
+        ...Object.keys(pkg.dependencies ?? {}),
+        ...Object.keys(pkg.peerDependencies ?? {}),
+        'react/jsx-runtime',
+      ],
+      output: [
+        {
+          format: 'cjs',
+          preserveModules: true,
+          preserveModulesRoot: 'src',
+          exports: 'named',
+          entryFileNames: '[name].cjs',
+        },
+        {
+          format: 'es',
+          preserveModules: true,
+          preserveModulesRoot: 'src',
+          exports: 'named',
+          entryFileNames: '[name].js',
+        },
+      ],
+    },
+  },
+  test: {
+    setupFiles: 'src/setup-test.ts',
+    globals: true,
+    environment: 'happy-dom',
+    coverage: {
+      provider: 'v8',
+    },
+  },
+  resolve: {
+    conditions: ['source'],
+    alias: {
+      styles: path.resolve(__dirname, '../../.storybook/modules'),
+    },
+  },
+})

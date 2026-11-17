@@ -1,0 +1,15 @@
+<div class="{{pfv}}tabs__scroll-button{{#if tabs-scroll-button--modifier}} {{tabs-scroll-button--modifier}}{{/if}}"
+  {{#if tabs-scroll-button--attribute}}
+    {{{tabs-scroll-button--attribute}}}
+  {{/if}}
+  {{#if tabs-scroll-button--IsHidden}}
+    aria-hidden="true"
+  {{/if}}>
+  {{> button
+    button--IsSmall=tabs--IsNav
+    button--IsPlain=true
+    button--IsDisabled=tabs-scroll-button--IsDisabled
+    button--IsIcon=true
+    button--icon=(ternary tabs-scroll-button--IsLeft "rh-microns-caret-left" "rh-microns-caret-right")
+    button--aria-label=(ternary tabs-scroll-button--IsLeft "Scroll left" "Scroll right")}}
+</div>

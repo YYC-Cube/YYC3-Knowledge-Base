@@ -1,0 +1,12 @@
+<div class="{{pfv}}drawer__body
+  {{~#if drawer-body--HasPadding}}
+    pf-m-padding
+  {{/if}}
+  {{~#if drawer-body--modifier}}
+    {{drawer-body--modifier}}
+  {{/if}}"
+  {{#if drawer-body--attribute}}
+    {{{drawer-body--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

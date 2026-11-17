@@ -1,0 +1,47 @@
+{
+  "include": [
+    "./scripts",
+    "./@types",
+    "./packages/@mantine-tests/*/src",
+    "./packages/@docs/*/src",
+    "./packages/@mantine/*/src",
+    "./packages/@mantinex/*/src",
+    "./apps/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "./packages/@mantine-tests/*/esm/**/*",
+    "./packages/@mantine-tests/*/cjs/**/*",
+    "./packages/@mantine-tests/*/lib/**/*",
+    "./packages/@docs/*/esm/**/*",
+    "./packages/@docs/*/cjs/**/*",
+    "./packages/@docs/*/lib/**/*",
+    "./packages/@mantine/*/lib/**/*",
+    "./packages/@mantine/*/esm/**/*",
+    "./packages/@mantine/*/cjs/**/*",
+    "./packages/@mantinex/*/esm/**/*",
+    "./packages/@mantinex/*/cjs/**/*",
+    "./packages/@mantinex/*/lib/**/*"
+  ],
+  "compilerOptions": {
+    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "target": "ES2015",
+    "lib": ["DOM", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+    "allowJs": true,
+    "strict": true,
+    "paths": {
+      "@mantine/*": ["./packages/@mantine/*/src"],
+      "@mantinex/*": ["./packages/@mantinex/*/src"],
+      "@mantine-tests/*": ["./packages/@mantine-tests/*/src"],
+      "@docs/*": ["./packages/@docs/*/src"],
+      "@/*": ["./apps/mantine.dev/src/*"]
+    }
+  }
+}

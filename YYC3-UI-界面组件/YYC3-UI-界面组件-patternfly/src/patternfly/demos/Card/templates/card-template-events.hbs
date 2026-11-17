@@ -1,0 +1,198 @@
+{{#> reset grid--attribute=reset grid-item--attribute=reset grid--modifier=reset grid-item--modifier=reset l-flex--attribute=reset l-flex-item--attribute=reset l-flex--modifier=reset l-flex-item--modifier=reset}}
+  {{#> card card--id=card-template-events--id}}
+    {{#> card-header card-header00--modifier="pf-v6-u-align-items-flex-start"}}
+      {{#> card-actions card-actions--modifier="pf-m-no-offset"}}
+        {{> menu-toggle menu-toggle--text="Status" menu-toggle--id=(concat card--id '-select-dropdown') menu-toggle--IsPlain=true menu-toggle--IsText=true}}
+      {{/card-actions}}
+      {{#> card-title card-title--id=(concat card--id '-title1') card-title--attribute='style="padding-block-start: 3px;"'}}
+        {{#> title title--modifier="pf-m-xl" titleType="h2"}}
+          Events
+        {{/title}}
+      {{/card-title}}
+    {{/card-header}}
+    {{#> card-body}}
+      {{#> description-list description-list--aria-label="Events" description-list--modifier="pf-m-compact"}}
+        {{#> description-list-group}}
+          {{#> description-list-term}}
+            {{#> l-flex l-flex--modifier="pf-m-nowrap"}}
+              {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-sm"}}
+                {{#> icon }}
+                  {{#> icon-content icon-content--modifier="pf-m-danger"}}
+                    {{pfIcon "rh-ui-error-fill"}}
+                  {{/icon-content}}
+                {{/icon}}
+              {{/l-flex-item}}
+              {{#> l-flex-item}}
+                Readiness probe failed
+              {{/l-flex-item}}
+            {{/l-flex}}
+          {{/description-list-term}}
+          {{#> description-list-description}}
+            Readiness probe failed: Get https://10.131.0.7:5000/healthz: dial tcp 10.131.0.7:5000: connect: connection refused
+          {{/description-list-description}}
+          {{#> description-list-description}}
+            <time class="{{pfv 'u'}}color-200 {{pfv 'u'}}font-size-sm">Jun 17, 11:02 am</time>
+          {{/description-list-description}}
+        {{/description-list-group}}
+        {{#> description-list-group}}
+          {{#> description-list-term}}
+            {{#> l-flex l-flex--modifier="pf-m-nowrap"}}
+              {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-sm"}}
+                {{#> icon }}
+                  {{#> icon-content icon-content--modifier="pf-m-success"}}
+                    {{pfIcon "rh-ui-check-circle-fill"}}
+                  {{/icon-content}}
+                {{/icon}}
+              {{/l-flex-item}}
+              {{#> l-flex-item}}
+                Successful assignment
+              {{/l-flex-item}}
+            {{/l-flex}}
+          {{/description-list-term}}
+          {{#> description-list-description}}
+            Successfully assigned default/example to ip-10-0-130-149.ec2.internal
+          {{/description-list-description}}
+          {{#> description-list-description}}
+            <time class="{{pfv 'u'}}color-200 {{pfv 'u'}}font-size-sm">Jun 17, 11:13 am</time>
+          {{/description-list-description}}
+        {{/description-list-group}}
+        {{#> description-list-group}}
+          {{#> description-list-term}}
+            {{#> l-flex l-flex--modifier="pf-m-nowrap"}}
+              {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-sm"}}
+                {{#> spinner spinner--modifier="pf-m-md" spinner--attribute='aria-label="Loading"'}}Loading...{{/spinner}}
+              {{/l-flex-item}}
+              {{#> l-flex-item}}
+                Pulling image
+              {{/l-flex-item}}
+            {{/l-flex}}
+          {{/description-list-term}}
+          {{#> description-list-description}}
+            Pulling image "openshift/hello-openshift"
+          {{/description-list-description}}
+          {{#> description-list-description}}
+            <time class="{{pfv 'u'}}color-200 {{pfv 'u'}}font-size-sm">Jun 17, 10:59 am</time>
+          {{/description-list-description}}
+        {{/description-list-group}}
+        {{#> description-list-group}}
+          {{#> description-list-term}}
+            {{#> l-flex l-flex--modifier="pf-m-nowrap"}}
+              {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-sm"}}
+                {{#> icon }}
+                  {{#> icon-content icon-content--modifier="pf-m-success"}}
+                    {{pfIcon "rh-ui-check-circle-fill"}}
+                  {{/icon-content}}
+                {{/icon}}
+              {{/l-flex-item}}
+              {{#> l-flex-item}}
+                Created container
+              {{/l-flex-item}}
+            {{/l-flex}}
+          {{/description-list-term}}
+          {{#> description-list-description}}
+            Created container hello-openshift
+          {{/description-list-description}}
+          {{#> description-list-description}}
+            <time class="{{pfv 'u'}}color-200 {{pfv 'u'}}font-size-sm">Jun 17, 10:45 am</time>
+          {{/description-list-description}}
+        {{/description-list-group}}
+
+        {{#> description-list-group}}
+          {{#> description-list-term}}
+            {{#> l-flex l-flex--modifier="pf-m-nowrap"}}
+              {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-sm"}}
+                {{#> icon }}
+                  {{#> icon-content icon-content--modifier="pf-m-warning"}}
+                    {{pfIcon "rh-ui-warning-fill"}}
+                  {{/icon-content}}
+                {{/icon}}
+              {{/l-flex-item}}
+              {{#> l-flex-item}}
+                CPU utilitization over 50%
+              {{/l-flex-item}}
+            {{/l-flex}}
+          {{/description-list-term}}
+          {{#> description-list-description}}
+            Migrated 2 pods to other hosts
+          {{/description-list-description}}
+          {{#> description-list-description}}
+            <time class="{{pfv 'u'}}color-200 {{pfv 'u'}}font-size-sm">Jun 17, 10:33 am</time>
+          {{/description-list-description}}
+        {{/description-list-group}}
+
+        {{#> description-list-group}}
+          {{#> description-list-term}}
+            {{#> l-flex l-flex--modifier="pf-m-nowrap"}}
+              {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-sm"}}
+                {{#> icon }}
+                  {{#> icon-content icon-content--modifier="pf-m-danger"}}
+                    {{pfIcon "rh-ui-error-fill"}}
+                  {{/icon-content}}
+                {{/icon}}
+              {{/l-flex-item}}
+              {{#> l-flex-item}}
+                Rook-osd-10-328949
+              {{/l-flex-item}}
+            {{/l-flex}}
+          {{/description-list-term}}
+          {{#> description-list-description}}
+            Rebuild initiated as Disk 5 failed
+          {{/description-list-description}}
+          {{#> description-list-description}}
+            <time class="{{pfv 'u'}}color-200 {{pfv 'u'}}font-size-sm">Jun 17, 10:33 am</time>
+          {{/description-list-description}}
+        {{/description-list-group}}
+
+        {{#> description-list-group}}
+          {{#> description-list-term}}
+            {{#> l-flex l-flex--modifier="pf-m-nowrap"}}
+              {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-sm"}}
+                {{#> icon }}
+                  {{#> icon-content icon-content--modifier="pf-m-success"}}
+                    {{pfIcon "rh-ui-check-circle-fill"}}
+                  {{/icon-content}}
+                {{/icon}}
+              {{/l-flex-item}}
+              {{#> l-flex-item}}
+                Created container
+              {{/l-flex-item}}
+            {{/l-flex}}
+          {{/description-list-term}}
+          {{#> description-list-description}}
+            Created container hello-openshift-123
+          {{/description-list-description}}
+          {{#> description-list-description}}
+            <time class="{{pfv 'u'}}color-200 {{pfv 'u'}}font-size-sm">Jun 17, 10:31 am</time>
+          {{/description-list-description}}
+        {{/description-list-group}}
+
+        {{#> description-list-group}}
+          {{#> description-list-term}}
+            {{#> l-flex l-flex--modifier="pf-m-nowrap"}}
+              {{#> l-flex-item l-flex-item--modifier="pf-m-spacer-sm"}}
+                {{#> icon }}
+                  {{#> icon-content icon-content--modifier="pf-m-success"}}
+                    {{pfIcon "rh-ui-check-circle-fill"}}
+                  {{/icon-content}}
+                {{/icon}}
+              {{/l-flex-item}}
+              {{#> l-flex-item}}
+                Created container
+              {{/l-flex-item}}
+            {{/l-flex}}
+          {{/description-list-term}}
+          {{#> description-list-description}}
+            Created container hello-openshift-456
+          {{/description-list-description}}
+          {{#> description-list-description}}
+            <time class="{{pfv 'u'}}color-200 {{pfv 'u'}}font-size-sm">Jun 17, 10:30 am</time>
+          {{/description-list-description}}
+        {{/description-list-group}}
+      {{/description-list}}
+    {{/card-body}}
+    {{> divider}}
+    {{#> card-footer}}
+      <a href="#">View all events</a>
+    {{/card-footer}}
+  {{/card}}
+{{/reset}}

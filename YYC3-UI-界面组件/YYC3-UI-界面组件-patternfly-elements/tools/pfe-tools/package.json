@@ -1,0 +1,126 @@
+{
+  "name": "@patternfly/pfe-tools",
+  "version": "7.0.0",
+  "type": "module",
+  "description": "Development and build tools for PatternFly Elements and related projects",
+  "keywords": [
+    "web-components",
+    "html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "github:patternfly/patternfly-elements",
+    "directory": "tools/pfe-tools"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    "./config.js": "./config.js",
+    "./custom-elements-manifest/custom-elements-manifest.js": "./custom-elements-manifest/custom-elements-manifest.js",
+    "./dev-server/config.js": "./dev-server/config.js",
+    "./dev-server/demo.js": "./dev-server/demo.js",
+    "./environment.js": "./environment.js",
+    "./11ty/DocsPage.js": "./11ty/DocsPage.js",
+    "./11ty/plugins/anchors.cjs": "./11ty/plugins/anchors.cjs",
+    "./11ty/plugins/custom-elements-manifest.cjs": "./11ty/plugins/custom-elements-manifest.cjs",
+    "./11ty/plugins/order-tags.cjs": "./11ty/plugins/order-tags.cjs",
+    "./11ty/plugins/table-of-contents.cjs": "./11ty/plugins/table-of-contents.cjs",
+    "./11ty/plugins/todos.cjs": "./11ty/plugins/todos.cjs",
+    "./react/generate-wrappers.js": "./react/generate-wrappers.js",
+    "./ssr/*": "./ssr/*",
+    "./test/a11y-snapshot.js": "./test/a11y-snapshot.js",
+    "./test/config.js": "./test/config.js",
+    "./test/create-fixture.js": "./test/create-fixture.js",
+    "./test/get-composed-text.js": "./test/get-composed-text.js",
+    "./test/hex-to-rgb.js": "./test/hex-to-rgb.js",
+    "./test/playwright/PfeDemoPage.js": "./test/playwright/PfeDemoPage.js",
+    "./test/render-to-string.js": "./test/render-to-string.js",
+    "./test/stub-logger.js": "./test/stub-logger.js",
+    "./test/utils.js": "./test/utils.js",
+    "./typescript/transformers/css-imports.cjs": "./typescript/transformers/css-imports.cjs",
+    "./typescript/transformers/static-version.cjs": "./typescript/transformers/static-version.cjs"
+  },
+  "contributors": [
+    "Kyle Buchanan <kylebuch8@gmail.com> (https://github.com/kylebuch8)",
+    "Benny Powers <bennyp@redhat.com>",
+    "Arathy Kumar <ask6295@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/patternfly/patternfly-elements/issues"
+  },
+  "files": [
+    "!*.ts",
+    "demo/**/*",
+    "custom-elements.json",
+    "**/*.LEGAL.txt",
+    "**/*.{njk,html,md,css,woff,woff2}",
+    "**/*.{js,cjs,d.ts,map}"
+  ],
+  "peerDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy-plugin-directory-output": "^1.0.2",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "@changesets/cli": "^2.29.8",
+    "@koa/router": "^15.1.1",
+    "@lit-labs/ssr": "^4.0.0",
+    "@open-wc/testing": "^4.0.0",
+    "@playwright/test": "~1.57.0",
+    "@pwrs/mappa": "^0.0.4",
+    "@rollup/plugin-replace": "^6.0.3",
+    "@web/dev-server": "^0.4.6",
+    "@web/dev-server-esbuild": "^1.0.4",
+    "@web/dev-server-import-maps": "^0.2.1",
+    "@web/dev-server-rollup": "^0.6.4",
+    "@web/test-runner": "^0.20.2",
+    "@web/test-runner-chrome": "^0.18.0",
+    "@web/test-runner-commands": "^0.9.0",
+    "@web/test-runner-junit-reporter": "^0.8.0",
+    "chalk": "^5.6.2",
+    "clean-css": "^5.3.3",
+    "colorjs.io": "^0.6.0",
+    "compression": "^1.8.1",
+    "construct-style-sheets-polyfill": "^3.1.0",
+    "dedent": "^1.7.1",
+    "dotenv": "^17.2.3",
+
+    "eleventy-plugin-toc": "^1.1.5",
+    "es-module-shims": "^2.7.0",
+    "esbuild": "^0.27.2",
+    "esbuild-plugin-lit-css": "^4.0.0",
+    "esbuild-plugin-minify-html-literals": "^3.0.0",
+    "eslint": "^9.39.2",
+    "execa": "^9.6.1",
+    "glob": "^10.3.12",
+    "lit": "^3.3.2",
+    "markdown-it-anchor": "^9.2.0",
+    "nunjucks": "^3.2.4",
+    "patch-package": "^8.0.1",
+    "playwright": "~1.57.0",
+    "puppeteer": "^24.0.0",
+    "rollup-plugin-lit-css": "^6.0.0",
+    "sinon": "^21.0.1",
+    "ts-lit-plugin": "^2.0.2",
+    "ts-patch": "^3.3.0",
+    "typescript": "^5.9.3",
+    "urlpattern-polyfill": "^10.1.0",
+    "web-dev-server-plugin-lit-css": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/dedent": "^0.7.2",
+    "@types/estree": "^1.0.8",
+    "@types/glob": "^8.1.0",
+    "@types/koa-send": "^4.1.6",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.15.32",
+    "@types/nunjucks": "^3.2.6",
+    "@types/sinon": "^17.0.4",
+    "@types/yargs": "^17.0.35",
+    "custom-elements-manifest": "^2.1.0"
+  }
+}

@@ -1,0 +1,296 @@
+{
+  "Anchor": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'div'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Arrow": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'div'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "ArrowTip": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'div'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "CloseTrigger": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'button'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Content": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'div'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Description": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'div'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Indicator": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'div'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Positioner": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'div'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Root": {
+    "props": {
+      "autoFocus": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "isRequired": false,
+        "description": "Whether to automatically set focus on the first focusable\ncontent within the popover when opened."
+      },
+      "closeOnEscape": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "isRequired": false,
+        "description": "Whether to close the popover when the escape key is pressed."
+      },
+      "closeOnInteractOutside": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "isRequired": false,
+        "description": "Whether to close the popover when the user clicks outside of the popover."
+      },
+      "defaultOpen": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "The initial open state of the popover when rendered.\nUse when you don't need to control the open state of the popover."
+      },
+      "defaultTriggerValue": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The initial trigger value when rendered.\nUse when you don't need to control the trigger value."
+      },
+      "finalFocusEl": {
+        "type": "() => MaybeElement",
+        "isRequired": false,
+        "description": "Element to receive focus when the popover is closed."
+      },
+      "id": { "type": "string", "isRequired": false, "description": "The unique identifier of the machine." },
+      "ids": {
+        "type": "ElementIds",
+        "isRequired": false,
+        "description": "The ids of the elements in the popover. Useful for composition."
+      },
+      "immediate": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to synchronize the present change immediately or defer it to the next frame"
+      },
+      "initialFocusEl": {
+        "type": "() => false | HTMLElement | null",
+        "isRequired": false,
+        "description": "The element to focus on when the popover is opened.\nReturn `false` to skip moving focus, or `null` to use the default."
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "modal": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether the popover should be modal. When set to `true`:\n- interaction with outside elements will be disabled\n- only popover content will be visible to screen readers\n- scrolling is blocked\n- focus is trapped within the popover"
+      },
+      "onEnterComplete": {
+        "type": "VoidFunction",
+        "isRequired": false,
+        "description": "Function called when the animation ends in the open state"
+      },
+      "onEscapeKeyDown": {
+        "type": "(event: KeyboardEvent) => void",
+        "isRequired": false,
+        "description": "Function called when the escape key is pressed"
+      },
+      "onExitComplete": {
+        "type": "VoidFunction",
+        "isRequired": false,
+        "description": "Function called when the animation ends in the closed state"
+      },
+      "onFocusOutside": {
+        "type": "(event: FocusOutsideEvent) => void",
+        "isRequired": false,
+        "description": "Function called when the focus is moved outside the component"
+      },
+      "onInteractOutside": {
+        "type": "(event: InteractOutsideEvent) => void",
+        "isRequired": false,
+        "description": "Function called when an interaction happens outside the component"
+      },
+      "onOpenChange": {
+        "type": "(details: OpenChangeDetails) => void",
+        "isRequired": false,
+        "description": "Function invoked when the popover opens or closes"
+      },
+      "onPointerDownOutside": {
+        "type": "(event: PointerDownOutsideEvent) => void",
+        "isRequired": false,
+        "description": "Function called when the pointer is pressed down outside the component"
+      },
+      "onRequestDismiss": {
+        "type": "(event: LayerDismissEvent) => void",
+        "isRequired": false,
+        "description": "Function called when this layer is closed due to a parent layer being closed"
+      },
+      "onTriggerValueChange": {
+        "type": "(details: TriggerValueChangeDetails) => void",
+        "isRequired": false,
+        "description": "Function called when the trigger value changes."
+      },
+      "open": { "type": "boolean", "isRequired": false, "description": "The controlled open state of the popover" },
+      "persistentElements": {
+        "type": "(() => Element | null)[]",
+        "isRequired": false,
+        "description": "Returns the persistent elements that:\n- should not have pointer-events disabled\n- should not trigger the dismiss event"
+      },
+      "portalled": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "isRequired": false,
+        "description": "Whether the popover is portalled. This will proxy the tabbing behavior regardless of the DOM position\nof the popover content."
+      },
+      "positioning": {
+        "type": "PositioningOptions",
+        "isRequired": false,
+        "description": "The user provided options used to position the popover content"
+      },
+      "present": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the node is present (controlled by the user)"
+      },
+      "restoreFocus": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "isRequired": false,
+        "description": "Whether to restore focus to the element that had focus before the popover was opened."
+      },
+      "skipAnimationOnMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to allow the initial presence animation."
+      },
+      "translations": {
+        "type": "IntlTranslations",
+        "isRequired": false,
+        "description": "Specifies the localized strings that identifies the accessibility elements and their states"
+      },
+      "triggerValue": { "type": "string", "isRequired": false, "description": "The controlled trigger value" },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "RootProvider": {
+    "props": {
+      "value": { "type": "UsePopoverReturn", "isRequired": true },
+      "immediate": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether to synchronize the present change immediately or defer it to the next frame"
+      },
+      "lazyMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to enable lazy mounting"
+      },
+      "onEnterComplete": {
+        "type": "VoidFunction",
+        "isRequired": false,
+        "description": "Function called when the animation ends in the open state"
+      },
+      "onExitComplete": {
+        "type": "VoidFunction",
+        "isRequired": false,
+        "description": "Function called when the animation ends in the closed state"
+      },
+      "present": {
+        "type": "boolean",
+        "isRequired": false,
+        "description": "Whether the node is present (controlled by the user)"
+      },
+      "skipAnimationOnMount": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to allow the initial presence animation."
+      },
+      "unmountOnExit": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "isRequired": false,
+        "description": "Whether to unmount on exit."
+      }
+    }
+  },
+  "Title": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'h2'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      }
+    }
+  },
+  "Trigger": {
+    "props": {
+      "asChild": {
+        "type": "(props: ParentProps<'button'>) => Element",
+        "isRequired": false,
+        "description": "Use the provided child element as the default rendered element, combining their props and behavior."
+      },
+      "value": {
+        "type": "string",
+        "isRequired": false,
+        "description": "The value that identifies this specific trigger"
+      }
+    }
+  }
+}

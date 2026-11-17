@@ -1,0 +1,247 @@
+// Composables
+import { useTimes } from './times'
+import { computeColor } from '@/composables/color'
+import { useDate } from '@/composables/date'
+import { DateOptionsSymbol } from '@/composables/date/date'
+import { provideLocale } from '@/composables/locale'
+
+// Utilities
+import { computed, inject, toRef } from 'vue'
+import {
+  createDayList,
+  createNativeLocaleFormatter,
+  getEndOfMonth,
+  getEndOfWeek,
+  getStartOfMonth,
+  getStartOfWeek,
+  getTimestampIdentifier,
+  getWeekdaySkips,
+  parseDate,
+  parseTimestamp,
+  validateTimestamp,
+  validateWeekdays,
+} from '../util/timestamp'
+import { isNullOrUndefined, isNumber, isString, propsFactory } from '@/util'
+
+// Types
+import type { PropType } from 'vue'
+import type { CalendarFormatter, CalendarTimestamp } from '../types'
+import type { VTimestampInput } from '../util/timestamp'
+import type { ColorValue } from '@/composables/color'
+
+export function isAdapterValue (value: unknown) {
+  return !isNullOrUndefined(value) && !isString(value) && !isNumber(value) && !(value instanceof Date)
+}
+
+export const makeCalendarBaseProps = propsFactory({
+  start: {
+    type: null as any as PropType<unknown>,
+    validate: validateTimestamp,
+    default: () => parseDate(new Date()).date,
+  },
+  end: {
+    type: null as any as PropType<unknown>,
+    validate: validateTimestamp,
+  },
+  weekdays: {
+    type: [Array, String] as PropType<number[] | string>,
+    default: () => [0, 1, 2, 3, 4, 5, 6],
+    validate: validateWeekdays,
+  },
+  firstDayOfWeek: [Number, String],
+  firstDayOfYear: [Number, String],
+  weekdayFormat: {
+    type: Function as PropType<CalendarFormatter>,
+    default: null,
+  },
+  dayFormat: {
+    type: Function as PropType<CalendarFormatter>,
+    default: null,
+  },
+  format: String as PropType<'ampm' | '24hr'>,
+  locale: String,
+  now: {
+    type: null as any as PropType<unknown>,
+    validator: (value: unknown) => isAdapterValue(value) || validateTimestamp(value as VTimestampInput),
+  },
+  type: {
+    type: String as PropType<'month' | 'week' | 'day' | '4day' | 'custom-weekly' | 'custom-daily' | 'category'>,
+    default: 'month',
+  },
+}, 'VCalendar-base')
+
+export interface CalendarBaseProps {
+  modelValue?: unknown
+  categoryDays?: string | number
+  start: unknown
+  end: unknown
+  weekdays: string | number[]
+  firstDayOfWeek: number | string | undefined
+  firstDayOfYear: number | string | undefined
+  weekdayFormat: CalendarFormatter | string | undefined
+  dayFormat: CalendarFormatter | string | undefined
+  format: 'ampm' | '24hr' | undefined
+  locale: string | undefined
+  now?: unknown
+  type: 'month' | 'week' | 'day' | '4day' | 'custom-weekly' | 'custom-daily' | 'category'
+}
+
+export function useCalendarBase (props: CalendarBaseProps) {
+  const locale = provideLocale(props)
+  const adapter = useDate()
+  const dateOptions = inject(DateOptionsSymbol)
+
+  function toTimestampInput (value: unknown) {
+    return (isAdapterValue(value) ? adapter.toJsDate(value) : value) as VTimestampInput
+  }
+
+  const { times, updateTimes } = useTimes(() => toTimestampInput(props.now))
+
+  const formatLocale = toRef(() => {
+    const value = dateOptions?.locale[locale.current.value]
+    return isString(value) ? value : value?.code ?? locale.current.value
+  })
+
+  const parsedStart = computed((): CalendarTimestamp => {
+    const start = parseTimestamp(toTimestampInput(props.start), true)
+    return props.type === 'month' ? getStartOfMonth(start) : start
+  })
+
+  const parsedEnd = computed((): CalendarTimestamp => {
+    const start = parsedStart.value
+    const end: CalendarTimestamp = props.end ? parseTimestamp(toTimestampInput(props.end)) || start : start
+    const value = getTimestampIdentifier(end) < getTimestampIdentifier(start) ? start : end
+
+    if (props.type === 'month') {
+      return getEndOfMonth(value)
+    }
+    return value
+  })
+
+  const parsedValue = computed((): CalendarTimestamp => {
+    const value = toTimestampInput(props.modelValue)
+    return (validateTimestamp(value)
+      ? parseTimestamp(value, true)
+      : (parsedStart.value || times.today))
+  })
+
+  const parsedWeekdays = computed((): number[] => {
+    const weekdays = Array.isArray(props.weekdays)
+      ? props.weekdays
+      : (props.weekdays || '').split(',').map(x => parseInt(x, 10))
+
+    const first = adapter.toJsDate(adapter.startOfWeek(adapter.date(), props.firstDayOfWeek)).getDay()
+    return [
+      ...weekdays.toSorted().filter(v => v >= first),
+      ...weekdays.toSorted().filter(v => v < first),
+    ]
+  })
+
+  const effectiveWeekdays = computed((): number[] => {
+    const start = parsedValue.value
+    const days = parseInt(String(props.categoryDays)) || 1
+
+    switch (props.type) {
+      case 'day': return [start.weekday]
+      case '4day': return [
+        start.weekday,
+        (start.weekday + 1) % 7,
+        (start.weekday + 2) % 7,
+        (start.weekday + 3) % 7,
+      ]
+      case 'category': return Array.from({ length: days }, (_, i) => (start.weekday + i) % 7)
+      default: return parsedWeekdays.value
+    }
+  })
+
+  const weekdaySkips = computed((): number[] => {
+    return getWeekdaySkips(parsedWeekdays.value)
+  })
+
+  const days = computed((): CalendarTimestamp[] => {
+    return createDayList(
+      parsedStart.value,
+      parsedEnd.value,
+      times.today,
+      weekdaySkips.value,
+    )
+  })
+
+  const dayFormatter = computed((): CalendarFormatter => {
+    if (props.dayFormat) {
+      return props.dayFormat as CalendarFormatter
+    }
+
+    return createNativeLocaleFormatter(
+      formatLocale.value,
+      () => ({ timeZone: 'UTC', day: 'numeric' })
+    )
+  })
+
+  const weekdayFormatter = computed((): CalendarFormatter => {
+    if (props.weekdayFormat) {
+      return props.weekdayFormat as CalendarFormatter
+    }
+
+    return createNativeLocaleFormatter(
+      formatLocale.value,
+      (_tms, short) => ({ timeZone: 'UTC', weekday: short ? 'short' : 'long' })
+    )
+  })
+
+  function getColorProps (colors: { background?: ColorValue, text?: ColorValue }) {
+    return computeColor(colors)
+  }
+
+  function getRelativeClasses (timestamp: CalendarTimestamp, outside = false) {
+    return {
+      'v-present': timestamp.present,
+      'v-past': timestamp.past,
+      'v-future': timestamp.future,
+      'v-outside': outside,
+    }
+  }
+
+  function getWeekNumber (timestamp: CalendarTimestamp): number {
+    return adapter.getWeek(
+      adapter.date(timestamp.date),
+      props.firstDayOfWeek,
+      props.firstDayOfYear,
+    )
+  }
+
+  function _getStartOfWeek (timestamp: CalendarTimestamp): CalendarTimestamp {
+    return getStartOfWeek(timestamp, parsedWeekdays.value, times.today)
+  }
+
+  function _getEndOfWeek (timestamp: CalendarTimestamp): CalendarTimestamp {
+    return getEndOfWeek(timestamp, parsedWeekdays.value, times.today)
+  }
+
+  function getFormatter (options: Intl.DateTimeFormatOptions): CalendarFormatter {
+    return createNativeLocaleFormatter(formatLocale.value, () => options)
+  }
+
+  return {
+    times,
+    locale,
+    formatLocale,
+    toTimestampInput,
+    parsedValue,
+    parsedWeekdays,
+    effectiveWeekdays,
+    weekdaySkips,
+    parsedStart,
+    parsedEnd,
+    days,
+    dayFormatter,
+    weekdayFormatter,
+    getColorProps,
+    getRelativeClasses,
+    getWeekNumber,
+    getStartOfWeek: _getStartOfWeek,
+    getEndOfWeek: _getEndOfWeek,
+    getFormatter,
+    updateTimes,
+  }
+}

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="280" viewBox="0 0 1200 280">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#0B1021" />
+        <stop offset="100%" stop-color="#182A4A" />
+      </linearGradient>
+      <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+        <circle cx="2" cy="2" r="2" fill="#7FB3FF" opacity="0.12"/>
+      </pattern>
+    </defs>
+    
+    <!-- background -->
+    <rect width="1200" height="280" fill="url(#g)"/>
+    <rect width="1200" height="280" fill="url(#dots)"/>
+    
+    <!-- decorative braces -->
+    <text x="80" y="140.0" text-anchor="start" font-size="140" font-family="monospace" fill="#5DF2A3" opacity="0.08">{</text>
+    <text x="1120" y="140.0" text-anchor="end" font-size="140" font-family="monospace" fill="#5DF2A3" opacity="0.08">}</text>
+    
+    <!-- brand name -->
+    <text x="600.0" y="120.0" text-anchor="middle"
+          font-family="Inter, system-ui" font-weight="800" font-size="72" fill="#5DF2A3">Mentorbook.AI</text>
+          
+    <!-- main slogan -->
+    <text x="600.0" y="175.0" text-anchor="middle"
+          font-family="Inter, system-ui" font-weight="700" font-size="42" fill="#EAF2FF">Your AI Mentor, Your Learning Journey</text>
+    
+    <!-- value props -->
+    <text x="600.0" y="225.0" text-anchor="middle"
+          font-family="Inter, system-ui" font-weight="500" font-size="24" fill="#7FB3FF">✨ Personalized Courses · Instant Feedback · 100+ Subjects</text>
+    </svg>

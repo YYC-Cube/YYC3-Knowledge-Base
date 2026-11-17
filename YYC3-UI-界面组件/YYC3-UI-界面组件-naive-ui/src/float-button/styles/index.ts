@@ -1,0 +1,7 @@
+export { default as floatButtonDark } from './dark'
+export { default as floatButtonLight } from './light'
+export type {
+  FloatButtonTheme,
+  FloatButtonThemeOverrides,
+  FloatButtonThemeVars
+} from './light'

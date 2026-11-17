@@ -1,0 +1,14 @@
+{{removeWhiteSpaceForPrettier}} <{{#if form-group--IsCheckGroup}}span{{else}}label{{/if}} class="{{pfv}}form__label{{#if form-label--modifier}} {{form-label--modifier}}{{/if}}"
+  {{#if form-label--attribute}}
+    {{{form-label--attribute}}}
+  {{/if}}>
+  {{#> form-label-text}}
+    {{>@partial-block}}
+  {{/form-label-text}}
+  {{#if required}}
+    {{removeWhiteSpaceForPrettier}} &nbsp; {{removeWhiteSpaceForPrettier}}{{> form-label-required}}
+  {{/if}}
+{{removeWhiteSpaceForPrettier}} </{{#if form-group--IsCheckGroup}}span{{else}}label{{/if}}>
+{{#if form-label--HasHelpIcon}}
+  {{> form-group-label-help form-group-label-help--aria-label="More information for name field" form-group-label-help--aria-describedby=(concat form--id form-group--id)}}
+{{/if}}

@@ -1,0 +1,15 @@
+import { Avatar } from '@ark-ui/react/avatar'
+
+interface Props extends Avatar.RootProps {
+  src?: string | undefined
+}
+
+export const ComponentUnderTest = (props: Props) => {
+  const { src, ...rest } = props
+  return (
+    <Avatar.Root {...rest}>
+      <Avatar.Fallback>PA</Avatar.Fallback>
+      <Avatar.Image src={src} alt="avatar" />
+    </Avatar.Root>
+  )
+}

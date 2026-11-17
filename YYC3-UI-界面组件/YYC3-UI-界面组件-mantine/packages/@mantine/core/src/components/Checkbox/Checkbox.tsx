@@ -1,0 +1,355 @@
+import { use, useEffect, useRef } from 'react';
+import { useId, useMergedRef } from '@mantine/hooks';
+import {
+  Box,
+  BoxProps,
+  createVarsResolver,
+  DataAttributes,
+  ElementProps,
+  extractStyleProps,
+  factory,
+  Factory,
+  getAutoContrastValue,
+  getContrastColor,
+  getRadius,
+  getSize,
+  getThemeColor,
+  MantineColor,
+  MantineRadius,
+  MantineSize,
+  parseThemeColor,
+  StylesApiProps,
+  useProps,
+  useStyles,
+} from '../../core';
+import { InlineInput, InlineInputClasses, InlineInputStylesNames } from '../../utils/InlineInput';
+import {
+  CheckboxCard,
+  type CheckboxCardProps,
+  type CheckboxCardStylesNames,
+  type CheckboxCardCssVariables,
+  type CheckboxCardFactory,
+} from './CheckboxCard/CheckboxCard';
+import {
+  CheckboxGroup,
+  CheckboxGroupContext,
+  type CheckboxGroupProps,
+  type CheckboxGroupStylesNames,
+  type CheckboxGroupFactory,
+} from './CheckboxGroup/CheckboxGroup';
+import {
+  CheckboxIndicator,
+  type CheckboxIndicatorProps,
+  type CheckboxIndicatorStylesNames,
+  type CheckboxIndicatorCssVariables,
+  type CheckboxIndicatorFactory,
+  type CheckboxIndicatorVariant,
+} from './CheckboxIndicator/CheckboxIndicator';
+import { CheckboxIcon } from './CheckIcon';
+import classes from './Checkbox.module.css';
+
+export type CheckboxVariant = 'filled' | 'outline' | 'light';
+export type CheckboxStylesNames = 'icon' | 'inner' | 'input' | InlineInputStylesNames;
+export type CheckboxCssVariables = {
+  root:
+    | '--checkbox-size'
+    | '--checkbox-radius'
+    | '--checkbox-color'
+    | '--checkbox-icon-color'
+    | '--checkbox-bg';
+};
+
+export type CheckboxIconComponent = React.FC<{
+  indeterminate: boolean | undefined;
+  className: string;
+}>;
+
+export interface CheckboxProps
+  extends BoxProps, StylesApiProps<CheckboxFactory>, ElementProps<'input', 'size' | 'children'> {
+  /** Unique input id */
+  id?: string;
+
+  /** `label` associated with the checkbox */
+  label?: React.ReactNode;
+
+  /** Key of `theme.colors` or any valid CSS color to set input background color in checked state @default theme.primaryColor */
+  color?: MantineColor;
+
+  /** Controls size of the component @default 'sm' */
+  size?: MantineSize | (string & {});
+
+  /** Key of `theme.radius` or any valid CSS value to set `border-radius` @default theme.defaultRadius */
+  radius?: MantineRadius;
+
+  /** Props passed down to the root element */
+  wrapperProps?: React.ComponentProps<'div'> & DataAttributes;
+
+  /** Position of the label relative to the input @default 'right' */
+  labelPosition?: 'left' | 'right';
+
+  /** Description below the label */
+  description?: React.ReactNode;
+
+  /** Error message below the label */
+  error?: React.ReactNode;
+
+  /** Indeterminate state of the checkbox. If set, `checked` prop is dismissed. */
+  indeterminate?: boolean;
+
+  /** Icon for checked or indeterminate state */
+  icon?: CheckboxIconComponent;
+
+  /** Root element ref */
+  rootRef?: React.Ref<HTMLDivElement>;
+
+  /** Key of `theme.colors` or any valid CSS color to set icon color. By default, depends on `theme.autoContrast`. */
+  iconColor?: MantineColor;
+
+  /** If set, adjusts icon color based on background color for `filled` variant */
+  autoContrast?: boolean;
+
+  /** If set, applies error styles to the checkbox when `error` prop is set @default true */
+  withErrorStyles?: boolean;
+}
+
+export type CheckboxFactory = Factory<{
+  props: CheckboxProps;
+  ref: HTMLInputElement;
+  stylesNames: CheckboxStylesNames;
+  vars: CheckboxCssVariables;
+  variant: CheckboxVariant;
+  staticComponents: {
+    Group: typeof CheckboxGroup;
+    Indicator: typeof CheckboxIndicator;
+    Card: typeof CheckboxCard;
+  };
+}>;
+
+const defaultProps = {
+  labelPosition: 'right',
+  icon: CheckboxIcon,
+  withErrorStyles: true,
+  variant: 'filled',
+  radius: 'sm',
+} satisfies Partial<CheckboxProps>;
+
+const varsResolver = createVarsResolver<CheckboxFactory>(
+  (theme, { radius, color, size, iconColor, variant, autoContrast }) => {
+    const parsedColor = parseThemeColor({ color: color || theme.primaryColor, theme });
+    const outlineColor =
+      parsedColor.isThemeColor && parsedColor.shade === undefined
+        ? `var(--mantine-color-${parsedColor.color}-outline)`
+        : parsedColor.color;
+
+    const lightColors =
+      variant === 'light'
+        ? theme.variantColorResolver({
+            color: color || theme.primaryColor,
+            theme,
+            variant: 'light',
+            autoContrast,
+          })
+        : undefined;
+
+    const resolvedColor =
+      variant === 'outline'
+        ? outlineColor
+        : lightColors
+          ? lightColors.color
+          : getThemeColor(color, theme);
+
+    return {
+      root: {
+        '--checkbox-size': getSize(size, 'checkbox-size'),
+        '--checkbox-radius': radius === undefined ? undefined : getRadius(radius),
+        '--checkbox-color': resolvedColor,
+        '--checkbox-bg': lightColors?.background,
+        '--checkbox-icon-color': iconColor
+          ? getThemeColor(iconColor, theme)
+          : lightColors
+            ? lightColors.color
+            : getAutoContrastValue(autoContrast, theme)
+              ? getContrastColor({ color, theme, autoContrast })
+              : undefined,
+      },
+    };
+  }
+);
+
+export const Checkbox = factory<CheckboxFactory>((_props) => {
+  const props = useProps('Checkbox', defaultProps, _props);
+  const {
+    classNames,
+    className,
+    style,
+    styles,
+    unstyled,
+    vars,
+    color,
+    label,
+    id,
+    size,
+    radius,
+    wrapperProps,
+    checked,
+    labelPosition,
+    description,
+    error,
+    disabled,
+    variant,
+    indeterminate,
+    icon: Icon,
+    rootRef,
+    iconColor,
+    onChange,
+    autoContrast,
+    mod,
+    attributes,
+    readOnly,
+    onClick,
+    withErrorStyles,
+    ref,
+    ...others
+  } = props;
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const ctx = use(CheckboxGroupContext);
+  const _size = size || ctx?.size;
+
+  const getStyles = useStyles<CheckboxFactory>({
+    name: 'Checkbox',
+    props,
+    classes,
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    attributes,
+    vars,
+    varsResolver,
+  });
+
+  const { styleProps, rest } = extractStyleProps(others);
+  const uuid = useId(id);
+  const descriptionId = description ? `${uuid}-description` : undefined;
+  const errorId = error && typeof error !== 'boolean' ? `${uuid}-error` : undefined;
+  const describedBy =
+    [descriptionId, errorId, rest['aria-describedby']].filter(Boolean).join(' ') || undefined;
+
+  const withContextProps = {
+    checked: ctx?.value.includes(rest.value as string) ?? checked,
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (readOnly) {
+        return;
+      }
+
+      ctx?.onChange(event);
+      onChange?.(event);
+    },
+  };
+
+  const isDisabledByGroup = ctx?.isDisabled?.(rest.value as string) ?? false;
+  const finalDisabled = disabled || isDisabledByGroup;
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.indeterminate = indeterminate || false;
+
+      if (indeterminate) {
+        inputRef.current.setAttribute('data-indeterminate', 'true');
+      } else {
+        inputRef.current.removeAttribute('data-indeterminate');
+      }
+    }
+  }, [indeterminate]);
+
+  return (
+    <InlineInput
+      {...getStyles('root')}
+      __staticSelector="Checkbox"
+      __stylesApiProps={props}
+      id={uuid}
+      size={_size}
+      labelPosition={labelPosition}
+      label={label}
+      description={description}
+      error={error}
+      disabled={finalDisabled}
+      classNames={classNames}
+      styles={styles}
+      unstyled={unstyled}
+      data-checked={withContextProps.checked || checked || undefined}
+      variant={variant}
+      ref={rootRef}
+      mod={mod}
+      attributes={attributes}
+      inert={rest.inert}
+      {...styleProps}
+      {...wrapperProps}
+    >
+      <Box {...getStyles('inner')} mod={{ labelPosition }}>
+        <Box
+          component="input"
+          id={uuid}
+          ref={useMergedRef(inputRef, ref)}
+          mod={{ error: !!error, 'with-error-styles': withErrorStyles }}
+          {...getStyles('input', { focusable: true, variant })}
+          {...rest}
+          {...withContextProps}
+          aria-describedby={describedBy}
+          disabled={finalDisabled}
+          inert={rest.inert}
+          type="checkbox"
+          readOnly={readOnly}
+          onClick={(event) => {
+            if (readOnly && withContextProps.checked === undefined) {
+              event.preventDefault();
+            }
+
+            onClick?.(event);
+          }}
+        />
+
+        <Icon indeterminate={indeterminate} {...getStyles('icon')} />
+      </Box>
+    </InlineInput>
+  );
+});
+
+Checkbox.classes = { ...classes, ...InlineInputClasses };
+Checkbox.varsResolver = varsResolver;
+Checkbox.displayName = '@mantine/core/Checkbox';
+Checkbox.Group = CheckboxGroup;
+Checkbox.Indicator = CheckboxIndicator;
+Checkbox.Card = CheckboxCard;
+
+export namespace Checkbox {
+  export type Props = CheckboxProps;
+  export type StylesNames = CheckboxStylesNames;
+  export type CssVariables = CheckboxCssVariables;
+  export type Factory = CheckboxFactory;
+  export type Variant = CheckboxVariant;
+  export type IconComponent = CheckboxIconComponent;
+
+  export namespace Group {
+    export type Props = CheckboxGroupProps;
+    export type StylesNames = CheckboxGroupStylesNames;
+    export type Factory = CheckboxGroupFactory;
+  }
+
+  export namespace Indicator {
+    export type Props = CheckboxIndicatorProps;
+    export type StylesNames = CheckboxIndicatorStylesNames;
+    export type CssVariables = CheckboxIndicatorCssVariables;
+    export type Factory = CheckboxIndicatorFactory;
+    export type Variant = CheckboxIndicatorVariant;
+  }
+
+  export namespace Card {
+    export type Props = CheckboxCardProps;
+    export type StylesNames = CheckboxCardStylesNames;
+    export type CssVariables = CheckboxCardCssVariables;
+    export type Factory = CheckboxCardFactory;
+  }
+}

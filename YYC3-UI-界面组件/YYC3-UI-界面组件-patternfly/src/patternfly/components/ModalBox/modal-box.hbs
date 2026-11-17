@@ -1,0 +1,16 @@
+<div class="{{pfv}}modal-box
+  {{#unless modal-box--HasStatusTitle}}
+    {{> modal-box--status-modifiers}}
+  {{/unless}}
+  {{setModifiers
+    modal-box--IsAnimate='pf-m-animate'
+    modal-box--IsOpen='pf-m-open'
+    modal-box--modifier=modal-box--modifier
+  }}"
+  role="dialog"
+  aria-modal="true"
+  {{#if modal-box--attribute}}
+    {{{modal-box--attribute}}}
+  {{/if}}>
+  {{> @partial-block}}
+</div>

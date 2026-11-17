@@ -1,0 +1,69 @@
+import { mergeProps } from '@zag-js/solid'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+import { PresenceProvider, type UsePresenceProps, splitPresenceProps, usePresence } from '../presence/index.tsx'
+import { type UseDatePickerProps, useDatePicker } from './use-date-picker.ts'
+import { DatePickerProvider } from './use-date-picker-context.ts'
+
+export interface DatePickerRootBaseProps extends UseDatePickerProps, UsePresenceProps, PolymorphicProps<'div'> {}
+export interface DatePickerRootProps extends HTMLProps<'div'>, DatePickerRootBaseProps {}
+
+export const DatePickerRoot = (props: DatePickerRootProps) => {
+  const [presenceProps, datePickerProps] = splitPresenceProps(props)
+  const [useDatePickerProps, localProps] = createSplitProps<UseDatePickerProps>()(datePickerProps, [
+    'closeOnSelect',
+    'createCalendar',
+    'defaultFocusedValue',
+    'defaultOpen',
+    'defaultValue',
+    'defaultView',
+    'disabled',
+    'fixedWeeks',
+    'focusedValue',
+    'format',
+    'id',
+    'ids',
+    'inline',
+    'invalid',
+    'isDateUnavailable',
+    'locale',
+    'max',
+    'maxSelectedDates',
+    'maxView',
+    'min',
+    'minView',
+    'name',
+    'numOfMonths',
+    'onFocusChange',
+    'onOpenChange',
+    'onValueChange',
+    'onViewChange',
+    'onVisibleRangeChange',
+    'open',
+    'openOnClick',
+    'outsideDaySelectable',
+    'parse',
+    'placeholder',
+    'positioning',
+    'readOnly',
+    'required',
+    'selectionMode',
+    'showWeekNumbers',
+    'startOfWeek',
+    'timeZone',
+    'translations',
+    'value',
+    'view',
+  ])
+  const api = useDatePicker(useDatePickerProps)
+  const apiPresence = usePresence(mergeProps(presenceProps, () => ({ present: api().open })))
+  const mergedProps = mergeProps(() => api().getRootProps(), localProps)
+
+  return (
+    <DatePickerProvider value={api}>
+      <PresenceProvider value={apiPresence}>
+        <ark.div {...mergedProps} />
+      </PresenceProvider>
+    </DatePickerProvider>
+  )
+}

@@ -1,0 +1,35 @@
+{{!-- bulk selector --}}
+{{#if toolbar-template--HasBulkSelect}}
+  {{> toolbar-item-bulk-select}}
+{{/if}}
+
+{{!-- search filter --}}
+{{#if toolbar-template--HasSearchFilter}}
+  {{> toolbar-item-search-filter}}
+{{/if}}
+
+{{!-- dropdown --}}
+{{#if toolbar-template--HasMenu}}
+  {{#> toolbar-item}}
+    {{> menu-toggle menu-toggle--text="Status" menu-toggle--attribute="style='width: 150px'" menu-toggle--id=(concat toolbar--id '-select-status') menu-toggle--icon="bookmark"}}
+  {{/toolbar-item}}
+{{/if}}
+
+{{!-- filter --}}
+{{#if toolbar-template--HasFilter}}
+  {{#> toolbar-item}}
+    {{> menu-toggle menu-toggle--text=(ternary toolbar-template--filterText toolbar-template--filterText "Status") menu-toggle--id=(concat toolbar--id '-select-checkbox-status')}}
+  {{/toolbar-item}}
+{{/if}}
+
+{{!-- filter group --}}
+{{#if toolbar-template--HasFilterGroup}}
+  {{#> toolbar-group toolbar-group--IsFilterGroup=true}}
+    {{#> toolbar-item}}
+      {{> menu-toggle menu-toggle--text="Status" menu-toggle--id=(concat toolbar--id '-select-checkbox-status')}}
+    {{/toolbar-item}}
+    {{#> toolbar-item}}
+      {{> menu-toggle menu-toggle--text="Risk" menu-toggle--id=(concat toolbar--id '-select-checkbox-risk')}}
+    {{/toolbar-item}}
+  {{/toolbar-group}}
+{{/if}}

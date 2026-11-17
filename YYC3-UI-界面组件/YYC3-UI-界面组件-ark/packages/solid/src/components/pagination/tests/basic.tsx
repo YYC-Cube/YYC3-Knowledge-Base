@@ -1,0 +1,26 @@
+import { Pagination } from '@ark-ui/solid/pagination'
+import { For } from 'solid-js'
+
+export const ComponentUnderTest = (props: Pagination.RootProps) => (
+  <Pagination.Root {...props}>
+    <Pagination.PrevTrigger>
+      Previous <span class="visually-hidden">Page</span>
+    </Pagination.PrevTrigger>
+    <Pagination.Context>
+      {(api) => (
+        <For each={api().pages}>
+          {(page, index) =>
+            page.type === 'page' ? (
+              <Pagination.Item {...page}>{page.value}</Pagination.Item>
+            ) : (
+              <Pagination.Ellipsis index={index()}>&#8230;</Pagination.Ellipsis>
+            )
+          }
+        </For>
+      )}
+    </Pagination.Context>
+    <Pagination.NextTrigger>
+      Next <span class="visually-hidden">Page</span>
+    </Pagination.NextTrigger>
+  </Pagination.Root>
+)

@@ -1,0 +1,113 @@
+@use "sass:map";
+@use '../../styles/variable.scss'as *;
+@use '../../styles/mixin/mixin.scss'as *;
+
+// 通知文字颜色
+$notify-text-color: var(--wot-notify-text-color, $text-white) !default;
+// 通知内边距
+$notify-padding: var(--wot-notify-padding, $padding-tight $padding-loose) !default;
+// 通知文字字号
+$notify-font-size: var(--wot-notify-font-size, $typography-body-size-large) !default;
+// 通知文字行高
+$notify-line-height: var(--wot-notify-line-height, $typography-body-line-height-size-large) !default;
+// 主色态背景色
+$notify-primary-bg: var(--wot-notify-primary-bg, $primary-1) !default;
+// 主色态文字颜色
+$notify-primary-color: var(--wot-notify-primary-color, $primary-6) !default;
+// 成功态背景色
+$notify-success-bg: var(--wot-notify-success-bg, $success-surface) !default;
+// 成功态文字颜色
+$notify-success-color: var(--wot-notify-success-color, $success-main) !default;
+// 危险态背景色
+$notify-danger-bg: var(--wot-notify-danger-bg, $danger-surface) !default;
+// 危险态文字颜色
+$notify-danger-color: var(--wot-notify-danger-color, $danger-main) !default;
+// 警告态背景色
+$notify-warning-bg: var(--wot-notify-warning-bg, $warning-surface) !default;
+// 警告态文字颜色
+$notify-warning-color: var(--wot-notify-warning-color, $warning-main) !default;
+// 图标尺寸
+$notify-icon-size: var(--wot-notify-icon-size, $n-18) !default;
+// 图标间距
+$notify-icon-spacing: var(--wot-notify-icon-spacing, $spacing-tight) !default;
+// floating 变体背景色
+$notify-floating-bg: var(--wot-notify-floating-bg, $filled-oppo) !default;
+// floating 变体文字颜色
+$notify-floating-color: var(--wot-notify-floating-color, $text-main) !default;
+// floating 变体圆角
+$notify-floating-radius: var(--wot-notify-floating-radius, $radius-large) !default;
+// floating 变体左右间距
+$notify-floating-margin-horizontal: var(--wot-notify-floating-margin-horizontal, $spacing-loose) !default;
+// floating 变体上下间距
+$notify-floating-margin-vertical: var(--wot-notify-floating-margin-vertical, $spacing-loose) !default;
+// floating 变体阴影
+$notify-floating-shadow: var(--wot-notify-floating-shadow, 0 12px 48px 16px rgba(39, 43, 59, 0.03), 0 9px 28px 8px rgba(39, 43, 59, 0.05), 0 5px 12px 4px rgba(39, 43, 59, 0.06)) !default;
+
+// 通知类型配置映射
+$notify-types: ("primary": ("bg": $notify-primary-bg,
+    "color": $notify-primary-color),
+  "success": ("bg": $notify-success-bg,
+    "color": $notify-success-color),
+  "danger": ("bg": $notify-danger-bg,
+    "color": $notify-danger-color),
+  "warning": ("bg": $notify-warning-bg,
+    "color": $notify-warning-color));
+
+@include b(notify) {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: $notify-padding;
+  font-size: $notify-font-size;
+  line-height: $notify-line-height;
+  color: $notify-text-color;
+
+  @each $type,
+  $conf in $notify-types {
+    @include m($type) {
+      background: map.get($conf, "bg");
+      color: map.get($conf, "color");
+
+      &.wd-notify--floating {
+        :deep() {
+          .wd-notify__prefix {
+            color: map.get($conf, "color");
+          }
+        }
+      }
+    }
+  }
+
+  @include m(floating) {
+    background: $notify-floating-bg;
+    color: $notify-floating-color;
+    border-radius: $notify-floating-radius;
+    box-shadow: $notify-floating-shadow;
+
+    &.wd-notify--top {
+      margin-top: $notify-floating-margin-vertical;
+    }
+
+    &.wd-notify--bottom {
+      margin-bottom: $notify-floating-margin-vertical;
+    }
+  }
+
+  @include edeep(prefix) {
+    font-size: $notify-icon-size;
+    margin-right: $notify-icon-spacing;
+    flex: 0 0 auto;
+  }
+
+  @include edeep(close) {
+    font-size: $notify-icon-size;
+    margin-left: $notify-icon-spacing;
+    flex: 0 0 auto;
+    cursor: pointer;
+  }
+
+  @include e(content) {
+    flex: 1 1 auto;
+    @include lineEllipsis;
+  }
+}

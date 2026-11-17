@@ -1,0 +1,10 @@
+@use '../../styles/theme/dark.scss' as dark;
+@use '../../styles/theme/light.scss' as light;
+
+.wot-theme-dark {
+  @include dark.dark-theme-vars;
+}
+
+.wot-theme-light {
+  @include light.light-theme-vars;
+}

@@ -1,0 +1,180 @@
+:root {
+  --pagination-text-color: #555;
+  --pagination-font-size: var(--font-size-md);
+  --pagination-active-color: var(--color-on-primary);
+  --pagination-active-bg-color: var(--color-primary);
+  --pagination-hover-bg-color: rgba(85, 85, 85, 0.15);
+  --pagination-total-margin: 0 10px;
+  --pagination-total-line-height: 24px;
+  --pagination-item-width: 32px;
+  --pagination-item-height: 32px;
+  --pagination-item-margin: 0 6px;
+  --pagination-item-background: #fff;
+  --pagination-item-border-radius: 4px;
+  --pagination-item-simple-border-radius: 50%;
+  --pagination-input-width: 32px;
+  --pagination-disabled-color: var(--color-text-disabled);
+  --pagination-bg-disabled-color: var(--color-disabled);
+  --pagination-size-line-height: 24px;
+  --pagination-size-padding: 0 4px;
+  --pagination-quick-jumper-margin: 0 10px;
+}
+
+.var-pagination-flex-nowrap {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+}
+
+.var-pagination {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  font-size: var(--pagination-font-size);
+  padding: 0;
+  color: var(--pagination-text-color);
+
+  &__item {
+    display: inline-flex;
+    min-width: var(--pagination-item-width);
+    align-items: center;
+    justify-content: center;
+    margin: var(--pagination-item-margin);
+    height: var(--pagination-item-height);
+    cursor: pointer;
+    border-radius: var(--pagination-item-border-radius);
+    outline: none;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+      color 0.25s,
+      background-color 0.25s,
+      box-shadow 0.25s;
+    user-select: none;
+    background-color: var(--pagination-item-background);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0;
+      background-color: var(--pagination-hover-bg-color);
+      transition: opacity 0.25s;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+
+    &--active {
+      color: var(--pagination-active-color);
+      background-color: var(--pagination-active-bg-color) !important;
+
+      &:hover::before {
+        opacity: 0;
+      }
+    }
+
+    &--hide {
+      display: none;
+    }
+
+    &--simple {
+      background: transparent;
+      border-radius: var(--pagination-item-simple-border-radius);
+    }
+
+    &--disabled {
+      cursor: not-allowed !important;
+      color: var(--pagination-disabled-color);
+      background-color: unset;
+      box-shadow: none !important;
+
+      &:hover::before {
+        opacity: 0;
+      }
+
+      &--active {
+        background-color: var(--pagination-bg-disabled-color);
+
+        &:hover::before {
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  &__prev {
+    margin-left: 0;
+  }
+
+  &__next:last-child {
+    margin-right: 0;
+  }
+
+  &__total {
+    .var-pagination-flex-nowrap();
+
+    line-height: var(--pagination-total-line-height);
+    margin: var(--pagination-total-margin);
+  }
+
+  &__size {
+    .var-pagination-flex-nowrap();
+    height: var(--pagination-item-height);
+    line-height: var(--pagination-size-line-height);
+    margin: var(--pagination-item-margin);
+    padding: var(--pagination-size-padding);
+    cursor: pointer;
+
+    &--open {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &--disabled {
+        cursor: inherit;
+      }
+    }
+  }
+
+  &__quickly,
+  &__simple {
+    .var-pagination-flex-nowrap();
+
+    [var-pagination-cover] {
+      width: var(--pagination-input-width);
+      .var-field-decorator__middle {
+        padding: 0;
+      }
+      .var-input__input {
+        height: auto;
+        text-align: center;
+        font-weight: normal;
+        font-size: var(--pagination-font-size);
+        padding-top: 1px;
+      }
+    }
+
+    &-line {
+      height: 1px;
+      background: transparent;
+    }
+  }
+
+  &__quickly {
+    margin: var(--pagination-quick-jumper-margin);
+
+    [var-pagination-cover] {
+      margin-left: 6px;
+    }
+  }
+
+  &__size--open-icon[var-pagination-cover] {
+    font-size: inherit;
+  }
+}

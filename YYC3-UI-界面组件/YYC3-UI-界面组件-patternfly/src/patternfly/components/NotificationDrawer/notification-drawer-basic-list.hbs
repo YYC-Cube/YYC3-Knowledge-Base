@@ -1,0 +1,177 @@
+{{#> notification-drawer-list}}
+  {{#> notification-drawer-list-item notification-drawer-list-item--IsInfo="true" notification-drawer-list-item--IsRead=notification-drawer-basic-list--AllRead}}
+    {{#> notification-drawer-list-item-header}}
+      {{> notification-drawer-list-item-header-icon}}
+      {{#> notification-drawer-list-item-header-title}}
+        {{#if notification-drawer-basic-list--AllRead}}
+          Read
+        {{else}}
+          Unread
+        {{/if}}
+         info notification title
+      {{/notification-drawer-list-item-header-title}}
+    {{/notification-drawer-list-item-header}}
+    {{#> notification-drawer-list-item-action}}
+      {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize notification-drawer--id 'menu-toggle-1')}}
+    {{/notification-drawer-list-item-action}}
+    {{#> notification-drawer-list-item-description}}
+      This is an info notification description.
+    {{/notification-drawer-list-item-description}}
+    {{#> notification-drawer-list-item-timestamp}}
+      5 minutes ago
+    {{/notification-drawer-list-item-timestamp}}
+  {{/notification-drawer-list-item}}
+
+  {{#if notification-drawer-basic-list--IsAttention}}
+    {{#> notification-drawer-list-item notification-drawer-list-item--IsDanger="true" notification-drawer-list-item--IsRead=notification-drawer-basic-list--AllRead}}
+      {{#> notification-drawer-list-item-header}}
+        {{> notification-drawer-list-item-header-icon}}
+        {{#> notification-drawer-list-item-header-title}}
+          Unread danger notification title. This is a long title to show how the title will wrap if it is long and wraps to multiple lines.
+        {{/notification-drawer-list-item-header-title}}
+      {{/notification-drawer-list-item-header}}
+      {{#> notification-drawer-list-item-action}}
+        {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--id=(dasherize notification-drawer--id 'menu-toggle-2')}}
+      {{/notification-drawer-list-item-action}}
+      {{#> notification-drawer-list-item-description}}
+        This is a danger notification description. This is a long description to show how the title will wrap if it is long and wraps to multiple lines.
+      {{/notification-drawer-list-item-description}}
+      {{#> notification-drawer-list-item-timestamp}}
+        10 minutes ago
+      {{/notification-drawer-list-item-timestamp}}
+    {{/notification-drawer-list-item}}
+  {{else}}
+    {{#> notification-drawer-list-item notification-drawer-list-item--IsCustom="true" notification-drawer-list-item--IsRead=notification-drawer-basic-list--AllRead}}
+      {{#> notification-drawer-list-item-header}}
+        {{> notification-drawer-list-item-header-icon}}
+        {{#> notification-drawer-list-item-header-title}}
+          {{#if notification-drawer-basic-list--AllRead}}
+            Read
+          {{else}}
+            Unread
+          {{/if}}
+          recommendation notification title. This is a long title to show how the title will wrap if it is long and wraps to multiple lines.
+        {{/notification-drawer-list-item-header-title}}
+      {{/notification-drawer-list-item-header}}
+      {{#> notification-drawer-list-item-action}}
+        {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize notification-drawer--id 'menu-toggle-3')}}
+      {{/notification-drawer-list-item-action}}
+      {{#> notification-drawer-list-item-description}}
+        This is a recommendation notification description. This is a long description to show how the title will wrap if it is long and wraps to multiple lines.
+      {{/notification-drawer-list-item-description}}
+      {{#> notification-drawer-list-item-timestamp}}
+        10 minutes ago
+      {{/notification-drawer-list-item-timestamp}}
+    {{/notification-drawer-list-item}}
+  {{/if}}
+
+  {{#> notification-drawer-list-item notification-drawer-list-item--IsCustom="true" notification-drawer-list-item--IsRead=notification-drawer-basic-list--AllRead}}
+    {{#> notification-drawer-list-item-header}}
+      {{> notification-drawer-list-item-header-icon}}
+      {{#> notification-drawer-list-item-header-title}}
+        {{#if notification-drawer-basic-list--AllRead}}
+          Read
+        {{else}}
+          Unread
+        {{/if}}
+         recommendation notification title. This is a long title to show how the title will wrap if it is long and wraps to multiple lines.
+      {{/notification-drawer-list-item-header-title}}
+    {{/notification-drawer-list-item-header}}
+    {{#> notification-drawer-list-item-action}}
+      {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize notification-drawer--id 'menu-toggle-4')}}
+    {{/notification-drawer-list-item-action}}
+    {{#> notification-drawer-list-item-description}}
+      This is a recommendation notification description. This is a long description to show how the title will wrap if it is long and wraps to multiple lines.
+    {{/notification-drawer-list-item-description}}
+    {{#> notification-drawer-list-item-timestamp}}
+      20 minutes ago
+    {{/notification-drawer-list-item-timestamp}}
+  {{/notification-drawer-list-item}}
+  {{#> notification-drawer-list-item notification-drawer-list-item--modifier="pf-m-hoverable" notification-drawer-list-item--IsWarning="true" notification-drawer-list-item--IsRead="true"}}
+    {{#> notification-drawer-list-item-header}}
+      {{> notification-drawer-list-item-header-icon}}
+      {{#> notification-drawer-list-item-header-title}}
+        Read warning notification title
+      {{/notification-drawer-list-item-header-title}}
+    {{/notification-drawer-list-item-header}}
+    {{#> notification-drawer-list-item-action}}
+      {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize notification-drawer--id 'menu-toggle-5')}}
+    {{/notification-drawer-list-item-action}}
+    {{#> notification-drawer-list-item-description}}
+      This is a warning notification description.
+    {{/notification-drawer-list-item-description}}
+    {{#> notification-drawer-list-item-timestamp}}
+      20 minutes ago
+    {{/notification-drawer-list-item-timestamp}}
+  {{/notification-drawer-list-item}}
+  {{#> notification-drawer-list-item notification-drawer-list-item--modifier="pf-m-hoverable" notification-drawer-list-item--IsSuccess="true" notification-drawer-list-item--IsRead="true"}}
+    {{#> notification-drawer-list-item-header}}
+      {{> notification-drawer-list-item-header-icon}}
+      {{#> notification-drawer-list-item-header-title}}
+        Read success notification title
+      {{/notification-drawer-list-item-header-title}}
+    {{/notification-drawer-list-item-header}}
+    {{#> notification-drawer-list-item-action}}
+      {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize notification-drawer--id 'menu-toggle-6')}}
+    {{/notification-drawer-list-item-action}}
+    {{#> notification-drawer-list-item-description}}
+      This is a success notification description.
+    {{/notification-drawer-list-item-description}}
+    {{#> notification-drawer-list-item-timestamp}}
+      30 minutes ago
+    {{/notification-drawer-list-item-timestamp}}
+  {{/notification-drawer-list-item}}
+  {{#> notification-drawer-list-item notification-drawer-list-item--modifier="pf-m-hoverable" notification-drawer-list-item--IsSuccess="true" notification-drawer-list-item--IsRead="true"}}
+    {{#> notification-drawer-list-item-header}}
+      {{> notification-drawer-list-item-header-icon}}
+      {{#> notification-drawer-list-item-header-title notification-drawer-list-item-header-title--modifier="pf-m-truncate"}}
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis odio risus. Ut dictum vitae sapien at posuere. Nullam suscipit massa quis lacus pellentesque scelerisque. Donec non maximus neque, quis ornare nunc. Vivamus in nibh sed libero feugiat feugiat. Nulla lacinia rutrum est, a commodo odio vestibulum suscipit. Nullam id quam et quam porttitor interdum quis nec tellus. Vestibulum arcu dui, pulvinar eu tellus in, semper mattis diam. Sed commodo tincidunt lacus non pulvinar. Curabitur tempor molestie vestibulum. Vivamus vel mi dignissim, efficitur neque eget, efficitur massa. Mauris vitae nunc augue. Donec augue lorem, malesuada et quam vitae, volutpat mattis nisi. Nullam nec venenatis ex, quis lobortis purus. Sed nisl dolor, mattis sit amet tincidunt quis, mollis sed massa.
+      {{/notification-drawer-list-item-header-title}}
+    {{/notification-drawer-list-item-header}}
+    {{#> notification-drawer-list-item-action}}
+      {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize notification-drawer--id 'menu-toggle-7')}}
+    {{/notification-drawer-list-item-action}}
+    {{#> notification-drawer-list-item-description}}
+      This example uses ".pf-m-truncate" to limit the title to a single line and truncate any overflow text with ellipses.
+    {{/notification-drawer-list-item-description}}
+    {{#> notification-drawer-list-item-timestamp}}
+      40 minutes ago
+    {{/notification-drawer-list-item-timestamp}}
+  {{/notification-drawer-list-item}}
+  {{#> notification-drawer-list-item notification-drawer-list-item--modifier="pf-m-hoverable" notification-drawer-list-item--IsSuccess="true" notification-drawer-list-item--IsRead="true"}}
+    {{#> notification-drawer-list-item-header}}
+      {{> notification-drawer-list-item-header-icon}}
+      {{#> notification-drawer-list-item-header-title  notification-drawer-list-item-header-title--modifier="pf-m-truncate"  notification-drawer-list-item-header-title--attribute='style="--pf-v6-c-notification-drawer__list-item-header-title--max-lines: 2"'}}
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis odio risus. Ut dictum vitae sapien at posuere. Nullam suscipit massa quis lacus pellentesque scelerisque. Donec non maximus neque, quis ornare nunc. Vivamus in nibh sed libero feugiat feugiat. Nulla lacinia rutrum est, a commodo odio vestibulum suscipit. Nullam id quam et quam porttitor interdum quis nec tellus. Vestibulum arcu dui, pulvinar eu tellus in, semper mattis diam. Sed commodo tincidunt lacus non pulvinar. Curabitur tempor molestie vestibulum. Vivamus vel mi dignissim, efficitur neque eget, efficitur massa. Mauris vitae nunc augue. Donec augue lorem, malesuada et quam vitae, volutpat mattis nisi. Nullam nec venenatis ex, quis lobortis purus. Sed nisl dolor, mattis sit amet tincidunt quis, mollis sed massa.
+      {{/notification-drawer-list-item-header-title}}
+    {{/notification-drawer-list-item-header}}
+    {{#> notification-drawer-list-item-action}}
+      {{> menu-toggle menu-toggle--IsPlain=true menu-toggle--HasKebab=true menu-toggle--id=(dasherize notification-drawer--id 'menu-toggle-8')}}
+    {{/notification-drawer-list-item-action}}
+    {{#> notification-drawer-list-item-description}}
+      This example uses ".pf-m-truncate" and sets "--pf-v6-c-notification-drawer__list-item-header-title--max-lines: 2" to limit title to two lines and truncate any overflow text with ellipses.
+    {{/notification-drawer-list-item-description}}
+    {{#> notification-drawer-list-item-timestamp}}
+      50 minutes ago
+    {{/notification-drawer-list-item-timestamp}}
+  {{/notification-drawer-list-item}}
+  {{#> notification-drawer-list-item notification-drawer-list-item--IsSuccess="true" notification-drawer-list-item--IsRead="true"}}
+    {{#> notification-drawer-list-item-header}}
+      {{> notification-drawer-list-item-header-icon}}
+      {{#> notification-drawer-list-item-header-title}}
+        Notification drawer item title
+      {{/notification-drawer-list-item-header-title}}
+    {{/notification-drawer-list-item-header}}
+    {{#> notification-drawer-list-item-action notification-drawer-list-item-action--modifier="pf-m-no-offset"}}
+      {{#> button button--IsPrimary=true}}
+        Action
+      {{/button}}
+    {{/notification-drawer-list-item-action}}
+    {{#> notification-drawer-list-item-description}}
+      This example uses ".pf-m-no-offset" on the action wrapper to disable the default offset for button alignment.
+    {{/notification-drawer-list-item-description}}
+    {{#> notification-drawer-list-item-timestamp}}
+      55 minutes ago
+    {{/notification-drawer-list-item-timestamp}}
+  {{/notification-drawer-list-item}}
+{{/notification-drawer-list}}

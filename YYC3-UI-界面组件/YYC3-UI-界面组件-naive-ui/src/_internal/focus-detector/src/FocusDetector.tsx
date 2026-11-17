@@ -1,0 +1,19 @@
+import type { PropType } from 'vue'
+import { defineComponent, h } from 'vue'
+
+export default defineComponent({
+  props: {
+    onFocus: Function as PropType<(e: FocusEvent) => void>,
+    onBlur: Function as PropType<(e: FocusEvent) => void>
+  },
+  setup(props) {
+    return () => (
+      <div
+        style="width: 0; height: 0"
+        tabindex={0}
+        onFocus={e => props.onFocus?.(e)}
+        onBlur={e => props.onBlur?.(e)}
+      />
+    )
+  }
+})

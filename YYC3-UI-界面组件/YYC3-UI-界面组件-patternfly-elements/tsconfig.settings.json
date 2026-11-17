@@ -1,0 +1,83 @@
+{
+  "files": [
+    "./declaration.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/node_modules/**",
+    "**/demo/*.js",
+    "**/demo/*.d.ts",
+    "**/_temp/**/*",
+    "**/*.story.*",
+    "**/test/*_e2e*"
+  ],
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "composite": true,
+    "declaration": true,
+    "isolatedDeclarations": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "incremental": true,
+    "inlineSources": true,
+    "module": "es2022",
+    "moduleResolution": "Node",
+    "verbatimModuleSyntax": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es2020",
+    "useDefineForClassFields": false,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ],
+    "plugins": [
+      {
+        "transform": "@patternfly/pfe-tools/typescript/transformers/css-imports.cjs",
+        "inline": true
+      },
+      {
+        "transform": "@patternfly/pfe-tools/typescript/transformers/static-version.cjs"
+      },
+      {
+        "name": "typescript-lit-html-plugin"
+      },
+      {
+        "name": "ts-lit-plugin"
+      }
+    ],
+    "lib": [
+      "DOM.iterable",
+      "DOM",
+      "es2015.iterable",
+      "es2020",
+      "es2022",
+      "es2023",
+      "ESNext.Disposable",
+      "es5",
+      "es6",
+      "ScriptHost"
+    ],
+    "paths": {
+      "@patternfly/elements/*": [
+        "./elements/*"
+      ],
+      "@patternfly/patternfly/*": [
+        "@patternfly/patternfly/*"
+      ],
+      "@patternfly/pfe-core/*": [
+        "./core/pfe-core/*"
+      ],
+      "@patternfly/pfe-tools/*": [
+        "./tools/pfe-tools/*"
+      ],
+      "@pwrs/mappa": [
+        "./node_modules/@pwrs/mappa/dist/mappa.d.ts"
+      ]
+    }
+  }
+}

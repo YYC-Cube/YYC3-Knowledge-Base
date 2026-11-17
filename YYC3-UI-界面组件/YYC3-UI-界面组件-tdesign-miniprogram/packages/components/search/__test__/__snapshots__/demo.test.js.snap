@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Search action demo works fine 1`] = `
+<action>
+  <wx-view
+    class="example-search"
+  >
+    <t-search
+      action=""
+      center="{{true}}"
+      placeholder="搜索预设文案"
+      value=""
+      bind:action-click="actionHandle"
+      bind:blur="blurHandle"
+      bind:change="changeHandle"
+      bind:focus="focusHandle"
+    />
+  </wx-view>
+</action>
+`;
+
+exports[`Search Search base demo works fine 1`] = `
+<base>
+  <wx-view
+    class="example-search"
+  >
+    <t-search
+      placeholder="搜索预设文案"
+    />
+  </wx-view>
+  <wx-view
+    class="example-search"
+  >
+    <t-search
+      placeholder="输入tdesign，有预览结果"
+      resultList="{{
+        Array [
+          "tdesign-vue",
+          "tdesign-react",
+          "tdesign-miniprogram",
+          "tdesign-angular",
+          "tdesign-mobile-vue",
+          "tdesign-mobile-react",
+        ]
+      }}"
+      bind:change="onChangeValue"
+    />
+  </wx-view>
+</base>
+`;
+
+exports[`Search Search maxlength demo works fine 1`] = `
+<maxlength>
+  <wx-view
+    class="example-search"
+  >
+    <t-search
+      maxlength="{{10}}"
+      placeholder="最大输入10个字符"
+    />
+  </wx-view>
+  <wx-view
+    class="example-search"
+  >
+    <t-search
+      maxcharacter="{{10}}"
+      placeholder="最大输入10个字符，汉字算两个"
+    />
+  </wx-view>
+</maxlength>
+`;
+
+exports[`Search Search other demo works fine 1`] = `
+<other>
+  <wx-view
+    class="example-search"
+  >
+    <t-search
+      center="{{true}}"
+      placeholder="搜索预设文案"
+      value=""
+      bind:change="onChange"
+    />
+  </wx-view>
+</other>
+`;
+
+exports[`Search Search shape demo works fine 1`] = `
+<shape>
+  <wx-view
+    class="example-search"
+  >
+    <t-search
+      placeholder="搜索预设文案"
+    />
+  </wx-view>
+  <wx-view
+    class="example-search"
+  >
+    <t-search
+      placeholder="搜索预设文案"
+      shape="round"
+    />
+  </wx-view>
+</shape>
+`;

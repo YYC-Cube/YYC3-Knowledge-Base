@@ -1,0 +1,30 @@
+<script lang="ts">
+import type { SwatchTriggerProps } from '@zag-js/color-picker'
+import type { ButtonHTMLAttributes } from 'vue'
+import type { PolymorphicProps } from '../factory.ts'
+
+export interface ColorPickerSwatchTriggerBaseProps extends SwatchTriggerProps, PolymorphicProps {}
+export interface ColorPickerSwatchTriggerProps
+  extends
+    ColorPickerSwatchTriggerBaseProps,
+    /**
+     * @vue-ignore
+     */
+    Omit<ButtonHTMLAttributes, 'disabled' | 'value'> {}
+</script>
+
+<script setup lang="ts">
+import { ark } from '../factory.ts'
+import { useColorPickerContext } from './use-color-picker-context.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+
+const props = defineProps<ColorPickerSwatchTriggerProps>()
+const colorPicker = useColorPickerContext()
+useForwardExpose()
+</script>
+
+<template>
+  <ark.button v-bind="colorPicker.getSwatchTriggerProps(props)" :as-child="asChild">
+    <slot />
+  </ark.button>
+</template>

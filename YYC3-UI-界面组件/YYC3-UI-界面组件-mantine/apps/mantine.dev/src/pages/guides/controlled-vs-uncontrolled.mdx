@@ -1,0 +1,166 @@
+import { Layout } from '@/layout';
+import { MDX_DATA } from '@/mdx';
+
+export default Layout(MDX_DATA.ControlledVsUncontrolled);
+
+# Controlled vs Uncontrolled
+
+All Mantine inputs support both controlled and uncontrolled modes. This guide explains
+the difference between these two modes and when to use each of them.
+
+## Controlled components
+
+A controlled component is a form element whose value is stored in React state.
+The value is passed with the `value` prop and updated in the `onChange` handler.
+
+Example of a controlled `TextInput` component:
+
+```tsx
+import { useState } from 'react';
+import { TextInput } from '@mantine/core';
+
+function Demo() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextInput
+      label="Controlled TextInput"
+      value={value}
+      onChange={(event) => setValue(event.currentTarget.value)}
+    />
+  );
+}
+```
+
+Every keystroke triggers a state update, which causes a re-render with the new value.
+
+## Uncontrolled components
+
+An uncontrolled component manages its own state through the DOM or internal state,
+similar to regular HTML form elements. Use refs or DOM methods to read the current value
+when needed, usually on form submission.
+
+Example of an uncontrolled `TextInput` component:
+
+```tsx
+import { useRef } from 'react';
+import { TextInput, Button } from '@mantine/core';
+
+function Demo() {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (inputRef.current) {
+      alert(`Input value: ${inputRef.current.value}`);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <TextInput label="Uncontrolled TextInput" ref={inputRef} />
+      <Button type="submit">Submit</Button>
+    </form>
+  );
+}
+```
+
+## Key differences
+
+- Controlled components store state in React, uncontrolled components store it in the DOM
+- Controlled components use `value` prop, uncontrolled components use `defaultValue`
+- Controlled components require `onChange` handler to remain interactive, uncontrolled components
+  work without change handlers, like regular HTML inputs
+
+## When to use which
+
+Use controlled components when:
+- You need to validate or manipulate input values in real-time.
+- You want to enforce specific formats or constraints on user input.
+- You require immediate feedback or dynamic UI updates based on input changes.
+
+Use uncontrolled components when:
+- You want to simplify your code and reduce boilerplate for simple forms.
+- You don't need to validate or manipulate input values until form submission.
+- You are working with large forms where performance is a concern, and you want to minimize re-renders.
+
+## FormData and uncontrolled components
+
+Uncontrolled forms are often used with the [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) API,
+which allows you to easily collect form values without managing state for each input. All Mantine components
+support uncontrolled usage with `FormData`.
+
+Example of using uncontrolled `Checkbox` with `FormData`:
+
+```tsx
+import { Checkbox } from '@mantine/core';
+
+function Demo() {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log('Checkbox value:', !!formData.get('terms'));
+      }}
+    >
+      <Checkbox label="Accept terms and conditions" name="terms" defaultChecked />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Uncontrolled use-form
+
+[@mantine/form](/form/use-form) supports uncontrolled mode. Use it to build large
+forms with many fields without re-rendering the form on every change.
+
+Example of uncontrolled mode with `useForm`:
+
+```tsx
+import { useState } from 'react';
+import { Button, Code, Text, TextInput } from '@mantine/core';
+import { hasLength, isEmail, useForm } from '@mantine/form';
+
+function Demo() {
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: { name: '', email: '' },
+    validate: {
+      name: hasLength({ min: 3 }, 'Must be at least 3 characters'),
+      email: isEmail('Invalid email'),
+    },
+  });
+
+  const [submittedValues, setSubmittedValues] = useState<typeof form.values | null>(null);
+
+  return (
+    <form onSubmit={form.onSubmit(setSubmittedValues)}>
+      <TextInput
+        {...form.getInputProps('name')}
+        key={form.key('name')}
+        label="Name"
+        placeholder="Name"
+      />
+      <TextInput
+        {...form.getInputProps('email')}
+        key={form.key('email')}
+        mt="md"
+        label="Email"
+        placeholder="Email"
+      />
+      <Button type="submit" mt="md">
+        Submit
+      </Button>
+
+      <Text mt="md">Form values:</Text>
+      <Code block>{JSON.stringify(form.values, null, 2)}</Code>
+
+      <Text mt="md">Submitted values:</Text>
+      <Code block>{submittedValues ? JSON.stringify(submittedValues, null, 2) : '–'}</Code>
+    </form>
+  );
+}
+```

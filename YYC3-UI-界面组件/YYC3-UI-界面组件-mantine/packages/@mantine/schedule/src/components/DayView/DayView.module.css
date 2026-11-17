@@ -1,0 +1,346 @@
+.dayView {
+  --slot-height: var(--day-view-slot-height, 64px); /* total height of 1 hour slot */
+  --all-day-slot-height: var(--day-view-all-day-slot-height, 44px); /* height of all day slot */
+  --day-view-slot-labels-width: 80px;
+  --day-view-radius: var(--schedule-radius, var(--mantine-radius-default));
+  border-radius: var(--day-view-radius);
+  overflow: hidden;
+
+  @mixin where-light {
+    --day-view-border-color: var(--mantine-color-gray-3);
+    --day-view-business-hours-bg: var(--mantine-color-white);
+    --day-view-non-business-hours-bg: var(--mantine-color-gray-0);
+  }
+
+  @mixin where-dark {
+    --day-view-border-color: var(--mantine-color-dark-4);
+    --day-view-business-hours-bg: var(--mantine-color-dark-7);
+    --day-view-non-business-hours-bg: var(--mantine-color-dark-6);
+  }
+}
+
+.dayViewHeader {
+  text-transform: capitalize;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: var(--mantine-font-weight-medium);
+}
+
+.dayViewScrollArea {
+  border: 1px solid var(--day-view-border-color);
+  border-radius: var(--day-view-radius);
+  overflow: hidden;
+
+  :where(:global(.mantine-ScrollArea-scrollbar)) {
+    z-index: 4;
+  }
+}
+
+.dayViewInner {
+  display: flex;
+}
+
+.dayViewTimeSlots {
+  position: relative;
+
+  /* Cascade events stack with an unbounded z-index, keep them out of the sticky header's layer */
+  &:where(:has([data-cascade])) {
+    isolation: isolate;
+
+    /* Drag and resize feedback must stay above every cascade column */
+    --event-cascade-interaction-z-index: 999;
+
+    .dayViewDragPreview {
+      z-index: var(--event-cascade-interaction-z-index);
+    }
+  }
+
+  &:where(:first-of-type) .dayViewSlot:where([data-first]) {
+    border-top-color: transparent;
+  }
+}
+
+.dayViewSlotLabels {
+  width: var(--day-view-slot-labels-width);
+}
+
+.dayViewSlotLabel {
+  height: calc(var(--slot-height) * var(--slot-label-size, 1));
+  border-top: 1px solid var(--day-view-border-color);
+  font-size: var(--mantine-font-size-sm);
+  text-align: right;
+  padding: 4px 8px;
+  font-variant-numeric: tabular-nums;
+
+  &:where([data-all-day]) {
+    height: var(--all-day-slot-height);
+    border-top: 0;
+  }
+
+  &:where(:first-of-type) {
+    border-top: 0;
+  }
+
+  &:where([data-sub-hour]) {
+    border-top-style: dotted;
+  }
+
+  &:where([data-business-hours]) {
+    background-color: var(--day-view-business-hours-bg);
+  }
+
+  &:where([data-non-business-hours]) {
+    background-color: var(--day-view-non-business-hours-bg);
+  }
+
+  &:where([data-partial-business-hours]) {
+    background-image: linear-gradient(
+      to bottom,
+      var(--day-view-non-business-hours-bg) var(--business-hours-from),
+      var(--day-view-business-hours-bg) var(--business-hours-from),
+      var(--day-view-business-hours-bg) var(--business-hours-to),
+      var(--day-view-non-business-hours-bg) var(--business-hours-to)
+    );
+  }
+}
+
+.dayViewSlots {
+  flex: 1;
+}
+
+.dayViewSlot {
+  display: block;
+  width: 100%;
+  border-top: 1px dotted var(--day-view-border-color);
+  height: calc(var(--slot-height) * var(--slot-size));
+  position: relative;
+
+  &:where(:focus) {
+    z-index: 1;
+  }
+
+  &:where([data-hour-start]) {
+    border-top: 1px solid var(--day-view-border-color);
+  }
+
+  @mixin hover {
+    background-image: none;
+
+    @mixin where-light {
+      background-color: var(--mantine-color-gray-1);
+    }
+
+    @mixin where-dark {
+      background-color: var(--mantine-color-dark-5);
+    }
+  }
+
+  &:where([data-all-day]) {
+    height: var(--all-day-slot-height);
+    border-top: 0;
+  }
+
+  &:where([data-business-hours]) {
+    background-color: var(--day-view-business-hours-bg);
+  }
+
+  &:where([data-non-business-hours]) {
+    background-color: var(--day-view-non-business-hours-bg);
+  }
+
+  &:where([data-partial-business-hours]) {
+    background-image: linear-gradient(
+      to bottom,
+      var(--day-view-non-business-hours-bg) var(--business-hours-from),
+      var(--day-view-business-hours-bg) var(--business-hours-from),
+      var(--day-view-business-hours-bg) var(--business-hours-to),
+      var(--day-view-non-business-hours-bg) var(--business-hours-to)
+    );
+  }
+
+  &:where([data-drop-target]) {
+    background-image: none;
+
+    @mixin where-light {
+      background-color: var(--mantine-color-blue-1);
+    }
+
+    @mixin where-dark {
+      background-color: var(--mantine-color-dark-5);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      border: 1px solid;
+      border-radius: 2px;
+
+      @mixin where-light {
+        border-color: var(--mantine-color-blue-4);
+      }
+
+      @mixin where-dark {
+        border-color: var(--mantine-color-blue-6);
+      }
+    }
+  }
+
+  &:where([data-drag-selected]) {
+    &,
+    &:hover {
+      background-image: none;
+      background-color: var(--mantine-primary-color-light);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      pointer-events: none;
+      z-index: 2;
+      border: 1px solid;
+
+      @mixin where-light {
+        border-color: var(--mantine-primary-color-2);
+      }
+
+      @mixin where-dark {
+        border-color: var(--mantine-primary-color-9);
+      }
+    }
+  }
+
+  &:where([data-drag-slot-index]) {
+    touch-action: none;
+  }
+
+  &:where([data-static]) {
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+.dayView:where([data-hide-sub-hour-grid-lines]) .dayViewSlot:not([data-hour-start]),
+.dayView:where([data-hide-sub-hour-grid-lines]) .dayViewSlotLabel:where([data-sub-hour]) {
+  border-top-color: transparent;
+}
+
+.dayView:where([data-event-interaction]) .dayViewSlot:not([data-all-day]) {
+  pointer-events: none;
+}
+
+.dayViewBackgroundEvent {
+  position: absolute;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 2;
+  background-color: var(--bg-event-bg);
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: var(--mantine-font-weight-medium);
+  padding: 3px 4px;
+  color: var(--bg-event-color);
+
+  &:where([data-interactive]) {
+    pointer-events: auto;
+    cursor: pointer;
+    user-select: none;
+
+    @mixin hover {
+      background-color: var(--bg-event-hover);
+    }
+  }
+
+  /* The resized edge repeatedly crosses the pointer, so hover feedback would flicker */
+  &:where([data-resizing]) {
+    @mixin hover {
+      background-color: var(--bg-event-bg);
+    }
+  }
+}
+
+.dayViewBackgroundEventResizeHandle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  max-width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  cursor: ns-resize;
+  pointer-events: all;
+  z-index: 4;
+  touch-action: none;
+  background-color: var(--bg-event-color);
+  opacity: 0;
+  transition: opacity 100ms ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -4px -6px;
+  }
+
+  &:where([data-edge='top']) {
+    top: 0;
+  }
+
+  &:where([data-edge='bottom']) {
+    bottom: 0;
+  }
+
+  .dayViewBackgroundEvent:where(:hover, [data-resizing]) & {
+    opacity: 0.5;
+  }
+
+  @mixin hover {
+    opacity: 0.8;
+  }
+}
+
+/* The resizing background event is the one that set `data-event-interaction`, so it must
+   keep capturing pointer events. */
+.dayView:where([data-event-interaction], [data-slot-dragging])
+  .dayViewBackgroundEvent:not([data-resizing]) {
+  pointer-events: none;
+
+  & .dayViewBackgroundEventResizeHandle {
+    pointer-events: none;
+    opacity: 0;
+  }
+}
+
+.dayViewAllDay {
+  position: relative;
+  height: var(--all-day-slot-height);
+}
+
+.dayViewAllDayEvents {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.dayViewDragPreview {
+  pointer-events: none;
+  z-index: 3;
+  border-radius: var(--day-view-radius);
+  border: 1px dashed var(--mantine-color-blue-filled);
+  background-color: var(--mantine-color-blue-light);
+  opacity: 0.6;
+
+  &:where([data-invalid]) {
+    border-color: var(--mantine-color-error);
+    background-color: transparent;
+    opacity: 0.4;
+  }
+}

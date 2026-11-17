@@ -1,0 +1,50 @@
+import { render } from '@mantine-tests/core';
+import { ComboboxHiddenInput } from './ComboboxHiddenInput';
+
+describe('@mantine/core/ComboboxHiddenInput', () => {
+  it('has correct displayName', () => {
+    expect(ComboboxHiddenInput.displayName).toEqual('@mantine/core/ComboboxHiddenInput');
+  });
+
+  it('assigns correct string value to the input', () => {
+    render(<ComboboxHiddenInput value="test" />);
+    expect(document.querySelector('input[type="hidden"]')).toHaveValue('test');
+  });
+
+  it('correctly handles null value', () => {
+    render(<ComboboxHiddenInput value={null} />);
+    expect(document.querySelector('input[type="hidden"]')).toHaveValue('');
+  });
+
+  it('correctly handles falsy values', () => {
+    render(
+      <>
+        <ComboboxHiddenInput value={0} />
+        <ComboboxHiddenInput value={false} />
+        <ComboboxHiddenInput value="" />
+      </>
+    );
+    const inputs = document.querySelectorAll('input[type="hidden"]');
+    expect(inputs[0]).toHaveValue('0');
+    expect(inputs[1]).toHaveValue('false');
+    expect(inputs[2]).toHaveValue('');
+  });
+
+  it('assigns correct array value to the input', () => {
+    render(<ComboboxHiddenInput value={['test', 'test2']} />);
+    expect(document.querySelector('input[type="hidden"]')).toHaveValue('test,test2');
+  });
+
+  it('supports custom valuesDivider', () => {
+    render(<ComboboxHiddenInput value={['test', 'test2']} valuesDivider="|" />);
+    expect(document.querySelector('input[type="hidden"]')).toHaveValue('test|test2');
+  });
+
+  it('passes other props to input', () => {
+    const element = render(<ComboboxHiddenInput value="test" id="test-id" />);
+    expect(element.container.querySelector('input[type="hidden"]')).toHaveAttribute(
+      'id',
+      'test-id'
+    );
+  });
+});

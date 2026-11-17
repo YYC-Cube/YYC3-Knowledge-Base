@@ -1,0 +1,31 @@
+---
+title: LobeChat
+description: A versatile brand component for displaying LobeChat logo in various styles including 3D, flat, monochrome, text, and combined formats.
+category: Combine
+---
+
+import DemoFlexbox from './demos/flexbox.tsx?demo';
+import { StableClassTable } from '../../../docs/stable-classes/StableClassTable';
+import { brandLobeChatClasses } from './stable';
+
+## Example
+
+<Demo of={DemoFlexbox} />
+
+## APIs
+
+<Api name="LobeChat" from=".." migrationKey="unheaded:0" />
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `LobeChat`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/brand/LobeChat.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={brandLobeChatClasses} />

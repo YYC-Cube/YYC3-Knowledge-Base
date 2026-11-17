@@ -1,0 +1,46 @@
+import * as accordion from '@zag-js/accordion'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import type { RootEmits } from './accordion.types.ts'
+
+export interface UseAccordionProps extends Optional<Omit<accordion.Props, 'dir' | 'getRootNode'>, 'id'> {
+  /**
+   * The v-model value of the accordion
+   */
+  modelValue?: accordion.Props['value']
+}
+
+export interface UseAccordionReturn extends ComputedRef<accordion.Api<PropTypes>> {}
+
+export const useAccordion = (
+  props: MaybeRefOrGetter<UseAccordionProps> = {},
+  emit?: EmitFn<RootEmits>,
+): UseAccordionReturn => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+
+  const context = computed<accordion.Props>(() => {
+    const localeProps = toValue<UseAccordionProps>(props)
+
+    return {
+      id,
+      dir: locale.value.dir,
+      getRootNode: env?.value.getRootNode,
+      onFocusChange: (details) => emit?.('focusChange', details),
+      value: localeProps.modelValue,
+      ...cleanProps(localeProps),
+      onValueChange: (details) => {
+        emit?.('valueChange', details)
+        emit?.('update:modelValue', details.value)
+        localeProps?.onValueChange?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(accordion.machine, context)
+  return computed(() => accordion.connect(service, normalizeProps))
+}

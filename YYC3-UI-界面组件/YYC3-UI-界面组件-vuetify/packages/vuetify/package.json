@@ -1,0 +1,242 @@
+{
+  "name": "vuetify",
+  "description": "Vue Material Component Framework",
+  "version": "4.3.3",
+  "author": {
+    "name": "John Leider",
+    "email": "john@vuetifyjs.com"
+  },
+  "license": "MIT",
+  "homepage": "https://vuetifyjs.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuetifyjs/vuetify.git",
+    "directory": "packages/vuetify"
+  },
+  "keywords": [
+    "vuetify",
+    "ui framework",
+    "component framework",
+    "ui library",
+    "component library",
+    "material components",
+    "vue framework"
+  ],
+  "bugs": {
+    "url": "https://issues.vuetifyjs.com"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/johnleider"
+  },
+  "type": "module",
+  "main": "lib/framework.js",
+  "module": "lib/framework.js",
+  "jsdelivr": "dist/vuetify.js",
+  "unpkg": "dist/vuetify.js",
+  "types": "lib/framework.d.ts",
+  "sass": "lib/styles/main.sass",
+  "styles": "lib/styles/main.css",
+  "sideEffects": [
+    "*.sass",
+    "*.scss",
+    "*.css",
+    "*.vue"
+  ],
+  "files": [
+    "dist/",
+    "lib/",
+    "_settings.scss",
+    "_styles.scss",
+    "_tools.scss",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": {
+      "sass": "./lib/styles/main.sass",
+      "style": "./lib/styles/main.css",
+      "types": "./lib/framework.d.ts",
+      "default": "./lib/framework.js"
+    },
+    "./styles": {
+      "sass": "./lib/styles/main.sass",
+      "types": "./lib/styles/styles.d.ts",
+      "default": "./lib/styles/main.css"
+    },
+    "./styles/core": {
+      "sass": "./lib/styles/core.scss",
+      "types": "./lib/styles/styles.d.ts",
+      "default": "./lib/styles/core.css"
+    },
+    "./styles/colors": {
+      "sass": "./lib/styles/colors.scss",
+      "types": "./lib/styles/styles.d.ts",
+      "default": "./lib/styles/colors.css"
+    },
+    "./styles/layers": {
+      "sass": "./lib/styles/layers.scss",
+      "types": "./lib/styles/styles.d.ts",
+      "default": "./lib/styles/layers.css"
+    },
+    "./styles/utilities": {
+      "sass": "./lib/styles/utilities.scss",
+      "types": "./lib/styles/styles.d.ts",
+      "default": "./lib/styles/utilities.css"
+    },
+    "./styles/*": {
+      "types": "./lib/styles/styles.d.ts",
+      "default": "./lib/styles/*"
+    },
+    "./framework": "./lib/framework.js",
+    "./blueprints": "./lib/blueprints/index.js",
+    "./blueprints/*": "./lib/blueprints/*.js",
+    "./components": "./lib/components/index.js",
+    "./components/*": "./lib/components/*/index.js",
+    "./directives": "./lib/directives/index.js",
+    "./directives/*": "./lib/directives/*/index.js",
+    "./locale": "./lib/locale/index.js",
+    "./locale/adapters/*": "./lib/locale/adapters/*.js",
+    "./iconsets/*": "./lib/iconsets/*.js",
+    "./labs/components": "./lib/labs/components.js",
+    "./labs/*": "./lib/labs/*/index.js",
+    "./util/colors": "./lib/util/colors.js",
+    "./date/adapters/*": "./lib/composables/date/adapters/*.js",
+    "./util/transitions": "./lib/components/transitions/createTransition.js",
+    "./dist/vuetify.js": {
+      "types": "./dist/vuetify.d.ts",
+      "import": "./dist/vuetify.esm.js",
+      "default": "./dist/vuetify.cjs"
+    },
+    "./dist/vuetify-labs.js": {
+      "types": "./dist/vuetify-labs.d.ts",
+      "import": "./dist/vuetify-labs.esm.js",
+      "default": "./dist/vuetify-labs.cjs"
+    },
+    "./*.mjs": "./*.js",
+    "./*": "./*"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "*",
+        "dist/*",
+        "lib/*",
+        "lib/*.d.ts",
+        "lib/*/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "watch": "pnpm build:lib --watch",
+    "dev": "NODE_ENV=development vite",
+    "dev:ssr": "NODE_ENV=development VITE_SSR=true vite-ssr",
+    "dev:prod": "vite build -w",
+    "dev:typecheck": "vue-tsc --noEmit --skipLibCheck --project ./tsconfig.dev.json",
+    "build": "rimraf lib dist && pnpm build:lib && concurrently \"pnpm build:dist\" \"pnpm build:types:lib\" -n \"dist,types\" --kill-others-on-fail -gr && pnpm build:types:bundle",
+    "build:dist": "rollup --config build/rollup.config.js",
+    "build:lib": "NODE_ENV=lib babel src --out-dir lib --source-maps --extensions \".ts\",\".tsx\",\".snap\" --copy-files --no-copy-ignored --out-file-extension .js",
+    "build:types": "pnpm build:types:lib && pnpm build:types:bundle",
+    "build:types:lib": "tsgo --pretty --emitDeclarationOnly -p tsconfig.dist.json && node build/transform-types.js",
+    "build:types:bundle": "rollup --config build/rollup.types.config.js",
+    "tsc": "tsc",
+    "tdd": "vizzly tdd start",
+    "tdd:stop": "vizzly tdd stop",
+    "test": "vitest",
+    "test:unit": "vitest --project unit",
+    "test:browser": "vitest --project browser",
+    "test:open": "TEST_BAIL=1 vitest --project browser -w",
+    "test:coverage": "pnpm test --coverage",
+    "test:screen": "node ../../scripts/tdd-run.js ",
+    "test:all": "concurrently -gr 'vitest --project unit' 'vitest --project browser --shard=1/5' 'vitest --project browser --shard=2/5' 'vitest --project browser --shard=3/5' 'vitest --project browser --shard=4/5' 'vitest --project browser --shard=5/5'",
+    "lint": "concurrently -n \"tsc,eslint\" --kill-others-on-fail \"tsgo -p tsconfig.checks.json --noEmit --pretty\" \"node ../../scripts/eslint.js src --concurrency 3\"",
+    "lint:fix": "concurrently -n \"tsc,eslint\" \"tsgo -p tsconfig.checks.json --noEmit --pretty\" \"node ../../scripts/eslint.js --fix src --concurrency 3\""
+  },
+  "dependencies": {
+    "@vuetify/v0": "^1.2.3"
+  },
+  "devDependencies": {
+    "@date-io/core": "catalog:",
+    "@date-io/date-fns": "catalog:",
+    "@date-io/dayjs": "catalog:",
+    "@date-io/luxon": "catalog:",
+    "@date-io/moment": "catalog:",
+    "@fortawesome/fontawesome-svg-core": "catalog:",
+    "@fortawesome/free-solid-svg-icons": "catalog:",
+    "@fortawesome/vue-fontawesome": "catalog:",
+    "@intlify/devtools-types": "catalog:",
+    "@rollup/plugin-alias": "catalog:",
+    "@rollup/plugin-babel": "catalog:",
+    "@rollup/plugin-node-resolve": "catalog:",
+    "@rollup/plugin-typescript": "catalog:",
+    "@testing-library/dom": "catalog:",
+    "@testing-library/user-event": "catalog:",
+    "@testing-library/vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
+    "@vitest/eslint-plugin": "catalog:",
+    "@vitest/ui": "catalog:",
+    "@vizzly-testing/cli": "catalog:",
+    "@vizzly-testing/vitest": "catalog:",
+    "@vue/reactivity": "catalog:",
+    "@vue/shared": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "@vuetify/babel-plugin-jsx": "catalog:",
+    "acorn-walk": "catalog:",
+    "autoprefixer": "catalog:",
+    "babel-plugin-add-import-extension": "catalog:",
+    "babel-plugin-module-resolver": "catalog:",
+    "babel-plugin-transform-define": "catalog:",
+    "babel-polyfill": "catalog:",
+    "cssnano": "catalog:",
+    "csstype": "catalog:",
+    "cy-mobile-commands": "catalog:",
+    "date-fns": "catalog:",
+    "dayjs": "catalog:",
+    "dotenv": "catalog:",
+    "fast-glob": "catalog:",
+    "jsdom": "catalog:",
+    "luxon": "catalog:",
+    "micromatch": "catalog:",
+    "moment": "catalog:",
+    "playwright": "catalog:",
+    "postcss": "catalog:",
+    "roboto-fontface": "catalog:",
+    "timezone-mock": "catalog:",
+    "ts-node": "catalog:",
+    "unplugin-auto-import": "catalog:",
+    "unplugin-vue-components": "catalog:",
+    "upath": "catalog:",
+    "vite-live-preview": "catalog:",
+    "vite-ssr": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-i18n": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.7",
+    "vite-plugin-vuetify": ">=2.1.0",
+    "vue": "^3.5.0 || ^3.6.0-0",
+    "webpack-plugin-vuetify": ">=3.1.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    },
+    "webpack-plugin-vuetify": {
+      "optional": true
+    },
+    "vite-plugin-vuetify": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "vetur": {
+    "tags": "dist/json/tags.json",
+    "attributes": "dist/json/attributes.json"
+  },
+  "web-types": "dist/json/web-types.json"
+}

@@ -1,0 +1,57 @@
+lockfile: false
+# @lobehub/ui depends on @lobehub/streamdown by plain semver, not `workspace:`:
+# npm sends the on-disk manifest to the registry before prepack runs, so a
+# `workspace:` range survives into the packument even when the tarball is
+# rewritten — and pnpm resolves consumers against the packument.
+linkWorkspacePackages: true
+resolutionMode: highest
+
+packages:
+  - packages/*
+
+publicHoistPattern:
+  - '*changelog*'
+  - '*commitlint*'
+  - '*eslint*'
+  - '*postcss*'
+  - '*prettier*'
+  - '*remark*'
+  - '*semantic-release*'
+  - '*stylelint*'
+
+overrides:
+  katex: ^0.19.0
+
+patchedDependencies:
+  conventional-changelog-gitmoji-config@1.5.2: patches/conventional-changelog-gitmoji-config@1.5.2.patch
+
+allowBuilds:
+  '@parcel/watcher': true
+  core-js: false
+  esbuild: true
+  node-pty: false
+  unrs-resolver: true
+
+# @lobehub/streamdown is published from lobehub/streamdown and consumed here as
+# a plain registry dependency, so its newest release can be younger than the
+# default minimumReleaseAge window.
+minimumReleaseAgeExclude:
+  - '@lobehub/streamdown@1.3.0'
+  - '@vitest/coverage-v8@5.0.4'
+  - '@vitest/mocker@5.0.4'
+  - '@vitest/spy@5.0.4'
+  - vitest@5.0.4
+  - zod@4.6.6
+  - virtua@0.53.5
+  - '@tanstack/react-virtual@3.14.18'
+  - '@tanstack/virtual-core@3.19.3'
+  - pele@1.6.0
+  - '@lobehub/commitlint-config@2.1.6'
+  - '@lobehub/eslint-config@2.1.6'
+  - '@lobehub/lint@2.1.6'
+  - '@lobehub/prettier-config@2.1.6'
+  - '@lobehub/remarklint-config@2.1.6'
+  - '@lobehub/semantic-release-config@2.1.6'
+  - '@lobehub/stylelint-config@2.1.6'
+  - '@lobehub/docs-kit@6.2.1'
+  - '@pierre/highlights@0.2.0'

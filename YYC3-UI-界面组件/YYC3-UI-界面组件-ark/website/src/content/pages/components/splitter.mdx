@@ -1,0 +1,95 @@
+---
+id: splitter
+title: Splitter
+description: A component that divides your interface into resizable sections
+status: Preview
+---
+
+<ComponentPreview id="Splitter" />
+
+## Anatomy
+
+<Anatomy id="splitter" />
+
+```tsx
+<Splitter.Root>
+  <Splitter.Panel />
+  <Splitter.ResizeTrigger>
+    <Splitter.ResizeTriggerIndicator />
+  </Splitter.ResizeTrigger>
+  <Splitter.Panel />
+</Splitter.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Context
+
+Access the splitter's API with `Splitter.Context` or the `useSplitterContext` hook. This lets you resize panels
+programmatically:
+
+<Example id="context" />
+
+### Vertical
+
+By default, the Splitter component is horizontal. If you need a vertical splitter, use the `orientation` prop:
+
+<Example id="vertical" />
+
+### Collapsible Panels
+
+To make a panel collapsible, set the `collapsible` prop to `true` on the panel you want to make collapsible.
+Additionally, you can use the `collapsedSize` prop to set the size of the panel when it's collapsed.
+
+> This can be useful for building sidebar layouts.
+
+<Example id="collapsible" />
+
+### Multiple Panels
+
+Here's an example of how to use the `Splitter` component with multiple panels.
+
+<Example id="multiple-panels" />
+
+### Root Provider
+
+An alternative way to control the splitter is to use the `RootProvider` component and the `useSplitter` hook. This way
+you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Resize Indicator
+
+Use the `Splitter.ResizeTriggerIndicator` component to show a visual indicator on the resize handle.
+
+<Example id="resize-indicator" />
+
+### Dynamic Collapsible
+
+Use the `collapsePanel()` and `expandPanel()` methods to programmatically control panel collapse based on viewport size.
+This is useful for responsive sidebar layouts that collapse on smaller screens.
+
+<Example id="dynamic-collapsible" />
+
+### Nested
+
+Nest splitters to build grid-like layouts. Use `Splitter.createRegistry()` to create a shared registry between splitter
+instances — this enables multi-drag at intersection points where horizontal and vertical splitters meet.
+
+<Example id="nested" />
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="splitter" />
+
+### Context
+
+<ContextType id="splitter" />
+
+## Accessibility
+
+Complies with the [Window Splitter WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/).

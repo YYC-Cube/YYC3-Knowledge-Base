@@ -1,0 +1,14 @@
+export { usage } from './YearView.demo.usage';
+export { withWeekNumbers } from './YearView.demo.withWeekNumbers';
+export { withoutWeekDays } from './YearView.demo.withoutWeekDays';
+export { withoutWeekendDays } from './YearView.demo.withoutWeekendDays';
+export { renderDay } from './YearView.demo.renderDay';
+export { withOutsideDays } from './YearView.demo.withOutsideDays';
+export { firstDayOfWeek } from './YearView.demo.firstDayOfWeek';
+export { weekdayFormat } from './YearView.demo.weekdayFormat';
+export { highlightToday } from './YearView.demo.highlightToday';
+export { withoutHeader } from './YearView.demo.withoutHeader';
+export { staticMode } from './YearView.demo.staticMode';
+export { recurringEvents } from './YearView.demo.recurringEvents';
+export { customHeader } from './YearView.demo.customHeader';
+export { localization } from './YearView.demo.localization';

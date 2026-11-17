@@ -1,0 +1,33 @@
+<script lang="ts">
+import type { InputHTMLAttributes } from 'vue'
+import type { PolymorphicProps } from '../factory.ts'
+
+export interface RatingGroupHiddenInputBaseProps extends PolymorphicProps {}
+export interface RatingGroupHiddenInputProps
+  extends
+    RatingGroupHiddenInputBaseProps,
+    /**
+     * @vue-ignore
+     */
+    InputHTMLAttributes {}
+</script>
+
+<script setup lang="ts">
+import { ark } from '../factory.ts'
+import { useRatingGroupContext } from './use-rating-group-context.ts'
+import { useFieldContext } from '../field/index.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+
+defineProps<RatingGroupHiddenInputProps>()
+
+const ratingGroup = useRatingGroupContext()
+const field = useFieldContext()
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.input :aria-describedby="field?.ariaDescribedby" v-bind="ratingGroup.getHiddenInputProps()" :as-child="asChild">
+    <slot />
+  </ark.input>
+</template>

@@ -1,0 +1,54 @@
+import { Field } from '@ark-ui/react/field'
+import { RatingGroup } from '@ark-ui/react/rating-group'
+
+export const ComponentUnderTest = (props: RatingGroup.RootProps) => (
+  <RatingGroup.Root {...props}>
+    <RatingGroup.Label>Label</RatingGroup.Label>
+    <RatingGroup.Control>
+      <RatingGroup.Context>
+        {({ items }) =>
+          items.map((item) => (
+            <RatingGroup.Item key={item} index={item}>
+              <RatingGroup.ItemContext>
+                {({ half, highlighted }) => {
+                  if (half) return 'half'
+                  if (highlighted) return 'highlighted'
+                  return 'empty'
+                }}
+              </RatingGroup.ItemContext>
+            </RatingGroup.Item>
+          ))
+        }
+      </RatingGroup.Context>
+      <RatingGroup.HiddenInput />
+    </RatingGroup.Control>
+  </RatingGroup.Root>
+)
+
+export const RatingGroupWithField = (props: Field.RootProps) => (
+  <Field.Root {...props}>
+    <RatingGroup.Root count={5} defaultValue={3}>
+      <RatingGroup.Label>Label</RatingGroup.Label>
+      <RatingGroup.Control>
+        <RatingGroup.Context>
+          {({ items }) =>
+            items.map((item) => (
+              <RatingGroup.Item key={item} index={item}>
+                <RatingGroup.ItemContext>
+                  {({ half, highlighted }) => {
+                    if (half) return 'half'
+                    if (highlighted) return 'highlighted'
+                    return 'empty'
+                  }}
+                </RatingGroup.ItemContext>
+              </RatingGroup.Item>
+            ))
+          }
+        </RatingGroup.Context>
+        <RatingGroup.HiddenInput />
+      </RatingGroup.Control>
+    </RatingGroup.Root>
+    <Field.HelperText>Additional Info</Field.HelperText>
+    <Field.ErrorText>Error Info</Field.ErrorText>
+  </Field.Root>
+)

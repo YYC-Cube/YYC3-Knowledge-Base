@@ -1,0 +1,9 @@
+{{#> table-td table-td--data-label="Example td"}}
+  {{#if table--scrollable--td--content}}
+    {{{table--scrollable--td--content}}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{else}}
+    Cell
+  {{/if}}
+{{/table-td}}

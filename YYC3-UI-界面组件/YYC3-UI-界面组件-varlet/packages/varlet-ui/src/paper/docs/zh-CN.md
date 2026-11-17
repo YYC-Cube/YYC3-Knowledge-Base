@@ -1,0 +1,161 @@
+# 纸张
+
+### 介绍
+
+一个易于使用海拔效果和水波效果的容器。
+
+### 基本使用
+
+```html
+<template>
+  <var-paper :elevation="2" :width="100" :height="100" />
+</template>
+```
+
+### 水波效果
+
+```html
+<template>
+  <var-paper :elevation="2" :width="100" :height="100" ripple />
+</template>
+```
+
+### 悬停高亮
+
+```html
+<template>
+  <var-paper hoverable :elevation="2" :width="100" :height="100" />
+</template>
+```
+
+### 自定义水波效果/悬停效果
+
+```html
+<template>
+  <var-paper
+    :elevation="2"
+    :width="100"
+    :height="100"
+    :ripple="{ color: 'var(--color-primary)' }"
+    :hoverable="{ color: 'var(--color-primary)' }"
+  />
+</template>
+```
+
+### 交互状态
+
+`active` 会显示主色半透明的常驻叠层，并将可继承的文字颜色设为主色。它是受控状态，可以由点击事件等外部逻辑切换。
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const active = ref(false)
+</script>
+
+<template>
+  <var-paper :active="active" hoverable ripple :width="200" :height="48" @click="active = !active">
+    {{ active ? '激活状态' : '未激活状态' }}
+  </var-paper>
+</template>
+```
+
+### 圆形纸张
+
+```html
+<template>
+  <var-paper :elevation="2" :width="100" :height="100" round />
+</template>
+```
+
+### 自定义圆角
+
+```html
+<template>
+  <var-paper :elevation="2" :width="100" :height="100" :radius="8" />
+</template>
+```
+
+### 外边框
+
+```html
+<template>
+  <var-paper variant="outlined" :width="100" :height="100" />
+</template>
+```
+
+### 填充
+
+```html
+<template>
+  <var-paper variant="filled" :width="100" :height="100" />
+</template>
+```
+
+### 使用插槽
+
+```html
+<template>
+  <var-paper :elevation="2">
+    <var-cell>纸张</var-cell>
+    <var-cell>纸张</var-cell>
+    <var-cell>纸张</var-cell>
+  </var-paper>
+</template>
+```
+
+### 弱背景色
+
+`surface="low"` 可以弱化背景色，目前只作用在 MD3 暗色主题。
+
+```html
+<template>
+  <var-paper surface="low" :elevation="2" :width="100" :height="100" />
+</template>
+```
+
+## API
+
+### 属性
+
+| 参数 | 说明 | 类型 | 默认值  |
+| --- | --- | --- | ---    |
+| `elevation`      | 海拔高度，可选值为 `true`、`false` 和 `0-24` 的等级 | _string \| number \| boolean_ | `false`            |
+| `ripple` | 是否启用水波效果，支持对象形式 `{ disabled?: boolean, color?: string }`  | _boolean \| object_  | `false` |
+| `radius` | 纸张圆角  | _string \| number_  | `-` |
+| `width` | 纸张宽度  | _string \| number_  | `-` |
+| `height` | 纸张高度  | _string \| number_  | `-` |
+| `round` | 是否启用圆形纸张  | _boolean_  | `false` |
+| `inline` | 是否使用行内纸张  | _boolean_  | `false` |
+| `variant` ***3.18.0*** | 纸张变体，可选值为 `standard`、`outlined`、`filled`，`outlined` 和 `filled` 模式不挂载海拔样式 | _string_ | `standard` |
+| `surface`  ***3.16.0*** | 背景色预设，可选值 `low`，在 `variant` 为 `filled` 时无效，目前只作用在 MD3 暗色主题 | _string_ | `-` |
+| `hoverable`  ***3.16.0*** | 是否开启鼠标悬停效果，支持对象形式 `{ disabled?: boolean, color?: string }` | _boolean \| object_ | `false` |
+| `active` ***3.20.6*** | 是否开启常驻激活效果，默认使用主色半透明叠层和文字颜色，支持对象形式 `{ color?: string }` | _boolean \| object_ | `false` |
+| `disabled` ***3.20.6*** | 是否禁用交互。禁用后不触发点击、悬停和水波效果，仅显示禁用光标 | _boolean_ | `false` |
+
+### 事件
+
+| 事件名  | 说明           | 参数           |
+| ------- | -------------- | -------------- |
+| `click` | 点击纸张时触发 | `event: Event` |
+
+### 插槽
+
+| 插槽名 | 说明 | 参数 |
+| --- | ----| ---- |
+| `default` | 纸张内容  | `-`  |
+
+### 样式变量
+
+以下为组件使用的 css 变量，可以使用 [StyleProvider 组件](#/zh-CN/style-provider) 进行样式定制。
+
+| 变量名                                 | 默认值                  |
+|-------------------------------------|----------------------|
+| `--paper-background`                 | `var(--color-surface-container-highest)`               |
+| `--paper-surface-low-background`     | `var(--color-surface-container-highest)`               |
+| `--paper-outlined-background`        | `transparent` |
+| `--paper-filled-background`          | `hsla(0, 0%, 93%, 1)` |
+| `--paper-outline-color`              | `var(--color-outline)` |
+| `--paper-border-radius`              | `4px` |
+| `--paper-active-color`               | `var(--color-primary)` |
+| `--paper-active-opacity`             | `0.2` |

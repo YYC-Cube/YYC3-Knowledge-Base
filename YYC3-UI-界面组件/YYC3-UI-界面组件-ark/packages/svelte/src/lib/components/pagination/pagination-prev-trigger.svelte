@@ -1,0 +1,26 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+  import type { PaginationAnchorProps } from './use-pagination.svelte.ts'
+
+  export interface PaginationPrevTriggerBaseProps extends PolymorphicProps<'button' | 'a'>, RefAttribute {}
+  export interface PaginationPrevTriggerProps extends Assign<
+    HTMLProps<'button'> & PaginationAnchorProps,
+    PaginationPrevTriggerBaseProps
+  > {}
+</script>
+
+<script lang="ts">
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { usePaginationContext } from './use-pagination-context.ts'
+
+  let { ref = $bindable(null), ...props }: PaginationPrevTriggerProps = $props()
+  const pagination = usePaginationContext()
+  const mergedProps = $derived(mergeProps(pagination().getPrevTriggerProps(), props))
+</script>
+
+{#if pagination().type === 'link'}
+  <Ark as="a" bind:ref {...mergedProps} />
+{:else}
+  <Ark as="button" bind:ref {...mergedProps} />
+{/if}

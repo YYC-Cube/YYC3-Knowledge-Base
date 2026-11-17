@@ -1,0 +1,50 @@
+import { render } from '@testing-library/react';
+import { inputDefaultProps, inputStylesApiSelectors, tests } from '@mantine-tests/core';
+import { MantineProvider } from '../../core';
+import { __InputStylesNames } from '../Input';
+import { ColorInput, ColorInputProps } from './ColorInput';
+
+const defaultProps: ColorInputProps = {
+  ...inputDefaultProps,
+};
+
+describe('@mantine/core/ColorInput', () => {
+  tests.axe([
+    <ColorInput aria-label="test-label" key="1" />,
+    <ColorInput label="test-label" key="2" />,
+    <ColorInput label="test-label" error key="3" />,
+    <ColorInput label="test-label" error="test-error" id="test" key="4" />,
+    <ColorInput label="test-label" description="test-description" key="5" />,
+  ]);
+
+  tests.itSupportsSystemProps<ColorInputProps, __InputStylesNames>({
+    component: ColorInput,
+    props: defaultProps,
+    varsResolver: true,
+    displayName: '@mantine/core/ColorInput',
+    stylesApiSelectors: [...inputStylesApiSelectors],
+  });
+
+  tests.itSupportsInputProps<ColorInputProps>({
+    component: ColorInput,
+    props: defaultProps,
+    selector: 'input',
+  });
+
+  tests.itSupportsSharedInputDefaults<ColorInputProps>({
+    component: ColorInput,
+    props: defaultProps,
+    componentName: 'ColorInput',
+  });
+
+  it('passes fullWidth prop to ColorPicker', () => {
+    const { container } = render(
+      <MantineProvider>
+        <ColorInput popoverProps={{ opened: true, withinPortal: false }} fullWidth />
+      </MantineProvider>
+    );
+    expect(
+      container.querySelector('.mantine-ColorInput-dropdown [data-full-width]')
+    ).toBeInTheDocument();
+  });
+});

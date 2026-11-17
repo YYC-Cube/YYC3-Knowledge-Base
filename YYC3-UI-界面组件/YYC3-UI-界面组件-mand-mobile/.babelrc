@@ -1,0 +1,28 @@
+{
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["iOS >= 8", "Android >= 4"]
+      }
+    }]
+  ],
+  "plugins": [
+    "transform-object-rest-spread",
+    "syntax-dynamic-import",
+    "transform-vue-jsx"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["env", { "targets": { "node": "current" }}]
+      ],
+      "plugins": [
+        ["import", {
+          "libraryName": "mand-mobile",
+          "libraryDirectory": "components"
+        }]
+      ]
+    }
+  }
+}

@@ -1,0 +1,228 @@
+'use client'
+
+import { useId, useMemo, useRef, useState } from 'react'
+import { useEnvironmentContext } from '../../providers/index.ts'
+import { ariaAttr, dataAttr } from '../../utils/attr.ts'
+import { useSafeLayoutEffect } from '../../utils/use-safe-layout-effect.ts'
+import type { HTMLProps } from '../factory.ts'
+import { useFieldsetContext } from '../fieldset/use-fieldset-context.ts'
+import { parts } from './field.anatomy.ts'
+
+export interface ElementIds {
+  root?: string | undefined
+  control?: string | undefined
+  label?: string | undefined
+  errorText?: string | undefined
+  helperText?: string | undefined
+}
+
+export interface UseFieldProps {
+  /**
+   * The id of the field.
+   */
+  id?: string | undefined
+  /**
+   * The ids of the field parts.
+   */
+  ids?: ElementIds | undefined
+  /**
+   * Indicates whether the field is required.
+   */
+  required?: boolean | undefined
+  /**
+   * Indicates whether the field is disabled.
+   */
+  disabled?: boolean | undefined
+  /**
+   * Indicates whether the field is invalid.
+   */
+  invalid?: boolean | undefined
+  /**
+   * Indicates whether the field is read-only.
+   */
+  readOnly?: boolean | undefined
+  /**
+   * The target field item value the label should point to.
+   */
+  target?: string | undefined
+}
+
+export type UseFieldReturn = ReturnType<typeof useField>
+
+export const useField = (props: UseFieldProps = {}) => {
+  const fieldset = useFieldsetContext()
+  const env = useEnvironmentContext()
+
+  const {
+    ids,
+    target,
+    disabled = Boolean(fieldset?.disabled),
+    invalid = false,
+    readOnly = false,
+    required = false,
+  } = props
+
+  const [hasErrorText, setHasErrorText] = useState(false)
+  const [hasHelperText, setHasHelperText] = useState(false)
+
+  const uid = useId()
+  const id = props.id ?? uid
+  const rootRef = useRef<HTMLDivElement>(null)
+
+  const rootId = ids?.root ?? `field::${id}`
+  const controlId = ids?.control ?? id
+  const errorTextId = ids?.errorText ?? `field::${id}::error-text`
+  const helperTextId = ids?.helperText ?? `field::${id}::helper-text`
+  const labelId = ids?.label ?? `field::${id}::label`
+
+  useSafeLayoutEffect(() => {
+    const rootNode = rootRef.current
+    if (!rootNode) return
+
+    const checkTextElements = () => {
+      const docOrShadowRoot = env.getRootNode() as ShadowRoot | Document
+      setHasErrorText(!!docOrShadowRoot.getElementById(errorTextId))
+      setHasHelperText(!!docOrShadowRoot.getElementById(helperTextId))
+    }
+
+    checkTextElements()
+
+    const win = env.getWindow()
+    const observer = new win.MutationObserver(checkTextElements)
+    observer.observe(rootNode, { childList: true, subtree: true })
+
+    return () => observer.disconnect()
+  }, [env, errorTextId, helperTextId])
+
+  const getRootProps = useMemo(
+    () => () =>
+      ({
+        ...parts.root.attrs,
+        id: rootId,
+        ref: rootRef,
+        role: 'group',
+        'data-disabled': dataAttr(disabled),
+        'data-invalid': dataAttr(invalid),
+        'data-readonly': dataAttr(readOnly),
+      }) as HTMLProps<'div'>,
+    [disabled, invalid, readOnly, rootId],
+  )
+
+  const targetControlId = target ? `field::${controlId}::item::${target}` : undefined
+
+  const getLabelProps = useMemo(
+    () => () =>
+      ({
+        ...parts.label.attrs,
+        id: labelId,
+        'data-disabled': dataAttr(disabled),
+        'data-invalid': dataAttr(invalid),
+        'data-readonly': dataAttr(readOnly),
+        'data-required': dataAttr(required),
+        htmlFor: targetControlId ?? controlId,
+      }) as HTMLProps<'label'>,
+    [disabled, invalid, readOnly, required, controlId, labelId, targetControlId],
+  )
+
+  const errorMessageId = hasErrorText && invalid ? errorTextId : undefined
+  const describedById =
+    [errorMessageId, hasHelperText ? helperTextId : undefined].filter(Boolean).join(' ') || undefined
+
+  const getControlProps = useMemo(
+    () => () =>
+      ({
+        'aria-describedby': describedById,
+        'aria-invalid': ariaAttr(invalid),
+        'data-invalid': dataAttr(invalid),
+        'data-required': dataAttr(required),
+        'data-readonly': dataAttr(readOnly),
+        id: controlId,
+        required,
+        disabled,
+        readOnly,
+      }) as HTMLProps<'input'>,
+    [describedById, invalid, required, readOnly, controlId, disabled],
+  )
+
+  const getInputProps = useMemo(
+    () => () =>
+      ({
+        ...getControlProps(),
+        ...parts.input.attrs,
+      }) as HTMLProps<'input'>,
+    [getControlProps],
+  )
+
+  const getTextareaProps = useMemo(
+    () => () =>
+      ({
+        ...getControlProps(),
+        ...parts.textarea.attrs,
+      }) as HTMLProps<'textarea'>,
+    [getControlProps],
+  )
+
+  const getSelectProps = useMemo(
+    () => () =>
+      ({
+        ...getControlProps(),
+        ...parts.select.attrs,
+      }) as HTMLProps<'select'>,
+    [getControlProps],
+  )
+
+  const getHelperTextProps = useMemo(
+    () => () =>
+      ({
+        id: helperTextId,
+        ...parts.helperText.attrs,
+        'data-disabled': dataAttr(disabled),
+      }) as HTMLProps<'span'>,
+    [disabled, helperTextId],
+  )
+
+  const getErrorTextProps = useMemo(
+    () => () =>
+      ({
+        id: errorTextId,
+        ...parts.errorText.attrs,
+        'aria-live': 'polite',
+      }) as HTMLProps<'span'>,
+    [errorTextId],
+  )
+
+  const getRequiredIndicatorProps = useMemo(
+    () => () =>
+      ({
+        'aria-hidden': true,
+        ...parts.requiredIndicator.attrs,
+      }) as HTMLProps<'span'>,
+    [],
+  )
+
+  return {
+    ariaDescribedby: describedById,
+    ids: {
+      root: rootId,
+      control: controlId,
+      label: labelId,
+      errorText: errorTextId,
+      helperText: helperTextId,
+    },
+    refs: {
+      rootRef,
+    },
+    disabled,
+    invalid,
+    readOnly,
+    required,
+    getLabelProps,
+    getRootProps,
+    getInputProps,
+    getTextareaProps,
+    getSelectProps,
+    getHelperTextProps,
+    getErrorTextProps,
+    getRequiredIndicatorProps,
+  }
+}

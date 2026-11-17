@@ -1,0 +1,68 @@
+:root {
+  --link-default-color: #555;
+  --link-primary-color: var(--color-primary);
+  --link-danger-color: var(--color-danger);
+  --link-success-color: var(--color-success);
+  --link-warning-color: var(--color-warning);
+  --link-info-color: var(--color-info);
+  --link-disabled-color: var(--color-text-disabled);
+  --link-font-size: var(--font-size-md);
+  --link-focus-opacity: 0.8;
+}
+
+.var-link {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  text-decoration: none;
+  font-size: var(--link-font-size);
+  transition: opacity 0.15s;
+  -webkit-tap-highlight-color: transparent;
+
+  &--underline-always {
+    text-decoration: underline;
+  }
+
+  &--underline-hover {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &--default {
+    color: var(--link-default-color);
+  }
+
+  &--primary {
+    color: var(--link-primary-color);
+  }
+
+  &--info {
+    color: var(--link-info-color);
+  }
+
+  &--success {
+    color: var(--link-success-color);
+  }
+
+  &--warning {
+    color: var(--link-warning-color);
+  }
+
+  &--danger {
+    color: var(--link-danger-color);
+  }
+
+  &--disabled {
+    color: var(--link-disabled-color);
+    cursor: not-allowed;
+  }
+
+  &--focusing {
+    opacity: var(--link-focus-opacity);
+  }
+}

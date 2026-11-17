@@ -1,0 +1,91 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { type JSX, type Ref, type RefAttributes, forwardRef } from 'react'
+import type { Assign } from '../../types.ts'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import type { CollectionItem } from '../collection/index.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { PresenceProvider, type UsePresenceProps, splitPresenceProps, usePresence } from '../presence/index.ts'
+import { type UseComboboxProps, useCombobox } from './use-combobox.ts'
+import { ComboboxProvider } from './use-combobox-context.ts'
+
+export interface ComboboxRootBaseProps<T extends CollectionItem>
+  extends UseComboboxProps<T>, UsePresenceProps, PolymorphicProps {}
+export interface ComboboxRootProps<T extends CollectionItem> extends Assign<
+  HTMLProps<'div'>,
+  ComboboxRootBaseProps<T>
+> {}
+
+const ComboboxImpl = <T extends CollectionItem>(props: ComboboxRootProps<T>, ref: Ref<HTMLDivElement>) => {
+  const [presenceProps, comboboxProps] = splitPresenceProps(props)
+  const [useComboboxProps, localProps] = createSplitProps<UseComboboxProps<T>>()(comboboxProps, [
+    'allowCustomValue',
+    'alwaysSubmitOnEnter',
+    'autoFocus',
+    'closeOnSelect',
+    'collection',
+    'composite',
+    'defaultHighlightedValue',
+    'defaultInputValue',
+    'defaultOpen',
+    'defaultValue',
+    'disabled',
+    'disableLayer',
+    'form',
+    'highlightedValue',
+    'id',
+    'ids',
+    'inputBehavior',
+    'inputValue',
+    'loading',
+    'invalid',
+    'loopFocus',
+    'multiple',
+    'name',
+    'navigate',
+    'onFocusOutside',
+    'onHighlightChange',
+    'onInputValueChange',
+    'onInteractOutside',
+    'onOpenChange',
+    'onPointerDownOutside',
+    'onSelect',
+    'onValueChange',
+    'open',
+    'openOnChange',
+    'openOnClick',
+    'openOnKeyPress',
+    'placeholder',
+    'positioning',
+    'readOnly',
+    'required',
+    'scrollToIndexFn',
+    'selectionBehavior',
+    'translations',
+    'value',
+  ])
+  const combobox = useCombobox(useComboboxProps)
+  const presence = usePresence(mergeProps({ present: combobox.open }, presenceProps))
+  const mergedProps = mergeProps(combobox.getRootProps(), localProps)
+
+  return (
+    <ComboboxProvider value={combobox}>
+      <PresenceProvider value={presence}>
+        <ark.div {...mergedProps} ref={ref} />
+      </PresenceProvider>
+    </ComboboxProvider>
+  )
+}
+
+export type ComboboxRootComponentProps<T extends CollectionItem = CollectionItem, P = {}> = Assign<
+  ComboboxRootProps<T>,
+  P
+> &
+  RefAttributes<HTMLDivElement>
+
+export type ComboboxRootComponent<P = {}> = <T extends CollectionItem>(
+  props: ComboboxRootComponentProps<T, P>,
+) => JSX.Element
+
+export const ComboboxRoot = forwardRef(ComboboxImpl) as ComboboxRootComponent

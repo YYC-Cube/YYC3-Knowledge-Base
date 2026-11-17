@@ -1,0 +1,92 @@
+name: Quality
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Build packages
+        run: bun run build
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run tests
+        run: bun run test
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run lint
+        run: bun run lint
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Run typecheck
+        run: bun run typecheck
+
+  checks:
+    name: Check for various issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v7
+
+      - name: Install
+        uses: ./.github/composite-actions/install
+
+      - name: Check component exports
+        run: bun scripts check:exports
+
+      - name: Check published exports
+        run: bun scripts check:publish-exports
+
+      - name: Check llms.txt response sizes
+        run: |
+          bun --cwd website velite build
+          bun scripts check:llms
+
+      - name: Check for same HTML tags
+        run: bun scripts check:nodes
+
+      - name: Check for Zag package and versions
+        run: bun scripts check:zag
+
+      - name: Check for anatomy exports
+        run: bun scripts check:anatomy

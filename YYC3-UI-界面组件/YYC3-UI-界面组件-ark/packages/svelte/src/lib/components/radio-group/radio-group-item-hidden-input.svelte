@@ -1,0 +1,25 @@
+<script module lang="ts">
+  import type { Assign, HTMLProps, PolymorphicProps, RefAttribute } from '$lib/types'
+
+  export interface RadioGroupItemHiddenInputBaseProps extends PolymorphicProps<'input'>, RefAttribute {}
+  export interface RadioGroupItemHiddenInputProps extends Assign<
+    HTMLProps<'input'>,
+    RadioGroupItemHiddenInputBaseProps
+  > {}
+</script>
+
+<script lang="ts">
+  import { mergeProps } from '@zag-js/svelte'
+  import { Ark } from '../factory/index.ts'
+  import { useRadioGroupContext } from './use-radio-group-context.ts'
+  import { useRadioGroupItemPropsContext } from './use-radio-group-item-props-context.ts'
+
+  let { ref = $bindable(null), ...props }: RadioGroupItemHiddenInputProps = $props()
+
+  const radioGroup = useRadioGroupContext()
+  const itemProps = useRadioGroupItemPropsContext()
+
+  const mergedProps = $derived(mergeProps(radioGroup().getItemHiddenInputProps(itemProps()), props))
+</script>
+
+<Ark as="input" bind:ref {...mergedProps} />

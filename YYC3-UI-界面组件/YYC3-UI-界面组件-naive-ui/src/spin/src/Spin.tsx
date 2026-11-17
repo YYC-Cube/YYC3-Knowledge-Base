@@ -1,0 +1,211 @@
+import type { CSSProperties, PropType, Ref, SlotsType, VNode } from 'vue'
+import type { ThemeProps } from '../../_mixins'
+import type { ExtractPublicPropTypes } from '../../_utils'
+import type { SpinTheme, SpinThemeOverrides } from '../styles'
+import { pxfy } from 'seemly'
+import { useCompitable } from 'vooks'
+import { computed, defineComponent, h, ref, Transition, watchEffect } from 'vue'
+import { NBaseLoading } from '../../_internal'
+import { exposedLoadingProps } from '../../_internal/loading/src/Loading'
+import { useConfig, useTheme, useThemeClass } from '../../_mixins'
+import { createKey, warnOnce } from '../../_utils'
+import { spinLight } from '../styles'
+import style from './styles/index.cssr'
+
+const STROKE_WIDTH = {
+  small: 20,
+  medium: 18,
+  large: 16
+}
+
+export const spinProps = {
+  ...(useTheme.props as ThemeProps<SpinTheme, SpinThemeOverrides>),
+  contentClass: String,
+  contentStyle: [Object, String] as PropType<CSSProperties | string>,
+  description: String,
+  size: {
+    type: [String, Number] as PropType<'small' | 'medium' | 'large' | number>,
+    default: 'medium'
+  },
+  show: {
+    type: Boolean,
+    default: true
+  },
+  rotate: {
+    type: Boolean,
+    default: true
+  },
+  spinning: {
+    type: Boolean,
+    validator: () => {
+      return true
+    },
+    default: undefined
+  },
+  delay: Number,
+  ...exposedLoadingProps,
+  strokeWidth: Number
+}
+
+export type SpinProps = ExtractPublicPropTypes<typeof spinProps>
+
+export interface SpinSlots {
+  default?: () => VNode[]
+  description?: () => VNode[]
+  icon?: () => VNode[]
+}
+
+export default defineComponent({
+  name: 'Spin',
+  props: spinProps,
+  slots: Object as SlotsType<SpinSlots>,
+  setup(props) {
+    if (__DEV__) {
+      watchEffect(() => {
+        if (props.spinning !== undefined) {
+          warnOnce(
+            'spin',
+            '`spinning` is deprecated, please use `show` instead.'
+          )
+        }
+      })
+    }
+    const { mergedClsPrefixRef, inlineThemeDisabled } = useConfig(props)
+    const themeRef = useTheme(
+      'Spin',
+      '-spin',
+      style,
+      spinLight,
+      props,
+      mergedClsPrefixRef
+    )
+    const cssVarsRef = computed(() => {
+      const { size: spinSize } = props
+      const {
+        common: { cubicBezierEaseInOut },
+        self
+      } = themeRef.value
+      const { opacitySpinning, color, textColor } = self
+      const size
+        = typeof spinSize === 'number'
+          ? pxfy(spinSize)
+          : self[createKey('size', spinSize)]
+      return {
+        '--n-bezier': cubicBezierEaseInOut,
+        '--n-opacity-spinning': opacitySpinning,
+        '--n-size': size,
+        '--n-color': color,
+        '--n-text-color': textColor
+      }
+    })
+    const themeClassHandle = inlineThemeDisabled
+      ? useThemeClass(
+          'spin',
+          computed(() => {
+            const { size } = props
+            return typeof size === 'number' ? String(size) : size[0]
+          }),
+          cssVarsRef,
+          props
+        )
+      : undefined
+
+    const compitableShow = useCompitable(props, ['spinning', 'show'])
+    const activeRef = ref(false)
+
+    watchEffect((onCleanup) => {
+      let timerId: number
+      if (compitableShow.value) {
+        const { delay } = props
+        if (delay) {
+          timerId = window.setTimeout(() => {
+            activeRef.value = true
+          }, delay)
+          onCleanup(() => {
+            clearTimeout(timerId)
+          })
+          return
+        }
+      }
+      activeRef.value = compitableShow.value
+    })
+
+    return {
+      mergedClsPrefix: mergedClsPrefixRef,
+      active: activeRef,
+      mergedStrokeWidth: computed(() => {
+        const { strokeWidth } = props
+        if (strokeWidth !== undefined)
+          return strokeWidth
+        const { size } = props
+        return STROKE_WIDTH[typeof size === 'number' ? 'medium' : size]
+      }),
+      cssVars: inlineThemeDisabled
+        ? undefined
+        : (cssVarsRef as Ref<CSSProperties>),
+      themeClass: themeClassHandle?.themeClass,
+      onRender: themeClassHandle?.onRender
+    }
+  },
+  render() {
+    const { $slots, mergedClsPrefix, description } = this
+    const rotate = $slots.icon && this.rotate
+    const descriptionNode = (description || $slots.description) && (
+      <div class={`${mergedClsPrefix}-spin-description`}>
+        {description || $slots.description?.()}
+      </div>
+    )
+    const icon = $slots.icon ? (
+      <div class={[`${mergedClsPrefix}-spin-body`, this.themeClass]}>
+        <div
+          class={[
+            `${mergedClsPrefix}-spin`,
+            rotate && `${mergedClsPrefix}-spin--rotate`
+          ]}
+          style={$slots.default ? '' : (this.cssVars as CSSProperties)}
+        >
+          {$slots.icon()}
+        </div>
+        {descriptionNode}
+      </div>
+    ) : (
+      <div class={[`${mergedClsPrefix}-spin-body`, this.themeClass]}>
+        <NBaseLoading
+          clsPrefix={mergedClsPrefix}
+          style={$slots.default ? '' : (this.cssVars as CSSProperties)}
+          stroke={this.stroke}
+          stroke-width={this.mergedStrokeWidth}
+          radius={this.radius}
+          scale={this.scale}
+          class={`${mergedClsPrefix}-spin`}
+        />
+        {descriptionNode}
+      </div>
+    )
+    this.onRender?.()
+    return $slots.default ? (
+      <div
+        class={[`${mergedClsPrefix}-spin-container`, this.themeClass]}
+        style={this.cssVars as CSSProperties}
+      >
+        <div
+          class={[
+            `${mergedClsPrefix}-spin-content`,
+            this.active && `${mergedClsPrefix}-spin-content--spinning`,
+            this.contentClass
+          ]}
+          style={this.contentStyle}
+        >
+          {$slots.default?.()}
+        </div>
+        <Transition name="fade-in-transition">
+          {{
+            default: () => (this.active ? icon : null)
+          }}
+        </Transition>
+      </div>
+    ) : (
+      icon
+    )
+  }
+})

@@ -1,0 +1,74 @@
+/*!
+ * @redhat/redhat-theme v6.2.2
+ * @license
+ * Copyright 2020, Red Hat, Inc.
+*/
+
+/* THIS FILE HAS GLOBAL VARIABLES SET IN PIXEL UNITS */
+:root {
+  --pf-global--FontSize--6xl: 48px;
+  --pf-global--FontSize--5xl: 40px;
+  --pf-global--FontSize--4xl: 36px;
+  --pf-global--FontSize--3xl: 28px;
+  --pf-global--FontSize--2xl: 24px;
+  --pf-global--FontSize--xl: 20px;
+  --pf-global--FontSize--lg: 18px;
+  --pf-global--FontSize--md: 16px;
+  --pf-global--FontSize--sm: 14px;
+  --pf-global--FontSize--xs: 12px;
+  --pf-c-content--h1--FontSize: 36px;
+  --pf-c-content--h2--FontSize: 28px;
+  --pf-c-content--h3--FontSize: 24px;
+  --pf-c-content--h4--FontSize: 20px;
+  --pf-c-content--h5--FontSize: 18px;
+  --pf-c-content--h6--FontSize: 16px;
+  --pf-c-content--FontSize: 18px;
+  --pf-c-content--small--FontSize: 16px;
+  --pf-c-title--m-6xl--FontSize: 48px;
+  --pf-c-title--m-5xl--FontSize: 40px;
+  --pf-c-title--m-4xl--FontSize: 36px;
+  --pf-c-title--m-3xl--FontSize: 28px;
+  --pf-c-title--m-2xl--FontSize: 24px;
+  --pf-c-title--m-xl--FontSize: 20px;
+  --pf-c-title--m-lg--FontSize: 18px;
+  --pf-c-title--m-md--FontSize: 16px;
+  --pf-c-text--m-xl--FontSize: 20px;
+  --pf-c-text--m-lg--FontSize: 18px;
+  --pf-c-text--m-md--FontSize: 16px;
+  --pf-c-text--m-sm--FontSize: 14px;
+  --pf-c-text--m-xs--FontSize: 12px;
+}
+
+@media screen and (max-width: 767px) {
+  :root {
+    --pf-c-content--h1--FontSize: 26px;
+    --pf-c-content--h2--FontSize: 24px;
+    --pf-c-content--h3--FontSize: 20px;
+    --pf-c-content--h4--FontSize: 20px;
+    --pf-c-content--h5--FontSize: 18px;
+    --pf-c-content--h6--FontSize: 16px;
+    --pf-c-content--lg--FontSize: 18px;
+    --pf-c-content--FontSize: 16px;
+    --pf-c-content--small--FontSize: 14px;
+    --pf-c-title--m-6xl--FontSize: 35px;
+    --pf-c-title--m-5xl--FontSize: 29px;
+    --pf-c-title--m-4xl--FontSize: 26px;
+    --pf-c-title--m-3xl--FontSize: 24px;
+    --pf-c-title--m-2xl--FontSize: 20px;
+    --pf-c-title--m-xl--FontSize: 18px;
+    --pf-c-title--m-lg--FontSize: 16px;
+    --pf-c-title--m-md--FontSize: 14px;
+    --pf-c-text--m-xl--FontSize: 18px;
+    --pf-c-text--m-lg--FontSize: 16px;
+    --pf-c-text--m-md--FontSize: 16px;
+    --pf-c-text--m-sm--FontSize: 14px;
+    --pf-c-text--m-xs--FontSize: 12px;
+  }
+}
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+  .cta.primary {
+    background-color: #e00;
+    border-color: #e00;
+  }
+}

@@ -1,0 +1,33 @@
+---
+title: Header
+description: The Header component is a customizable header section with a logo, navigation, and actions. It is responsive and adapts to mobile and desktop screens.
+category: Layout
+---
+
+import DemoIndex from './demos/index.tsx?demo';
+import { StableClassTable } from '../../docs/stable-classes/StableClassTable';
+import { headerClasses } from './stable';
+
+## Default
+
+<Demo of={DemoIndex} layout="bare" />
+
+## APIs
+
+<Api name="Header" migrationKey="unheaded:0" />
+
+> Additional props are inherited from `FlexboxProps` from the react-layout-kit library.
+
+## Styles
+
+`@lobehub/ui/style.css` already includes the styles of `Header`. To load only the components you use, import this file instead of `style.css`:
+
+```tsx | pure
+import '@lobehub/ui/css/Header.css';
+```
+
+## Class names
+
+These class names are public API for overrides, integrations and e2e selectors. See [Styling Overrides](/styling-overrides).
+
+<StableClassTable of={headerClasses} />

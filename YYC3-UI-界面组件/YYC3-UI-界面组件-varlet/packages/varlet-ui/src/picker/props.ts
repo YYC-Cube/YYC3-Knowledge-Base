@@ -1,0 +1,79 @@
+import { type PropType } from 'vue'
+import { popupProps } from '../popup'
+import { defineListenerProp, pickProps } from '../utils/components'
+
+export type PickerColumnOption = {
+  text?: string | number
+  value?: string | number
+  children?: PickerColumnOption[]
+  className?: string
+  textClassName?: string
+
+  [key: PropertyKey]: any
+}
+
+export const props = {
+  modelValue: {
+    type: Array as PropType<(string | number)[]>,
+    default: () => [],
+  },
+  columns: {
+    type: Array as PropType<PickerColumnOption[] | PickerColumnOption[][]>,
+    default: () => [],
+  },
+  title: String,
+  textKey: {
+    type: String,
+    default: 'text',
+  },
+  valueKey: {
+    type: String,
+    default: 'value',
+  },
+  childrenKey: {
+    type: String,
+    default: 'children',
+  },
+  toolbar: {
+    type: Boolean,
+    default: true,
+  },
+  cascade: Boolean,
+  optionHeight: {
+    type: [Number, String],
+    default: 44,
+  },
+  optionCount: {
+    type: [Number, String],
+    default: 6,
+  },
+  columnsCount: [String, Number],
+  confirmButtonText: String,
+  cancelButtonText: String,
+  confirmButtonTextColor: String,
+  cancelButtonTextColor: String,
+  // dynamic internal
+  dynamic: Boolean,
+  onChange:
+    defineListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>(),
+  onConfirm:
+    defineListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>(),
+  onCancel:
+    defineListenerProp<(values: (string | number)[], indexes: number[], options: PickerColumnOption[]) => void>(),
+  'onUpdate:modelValue': defineListenerProp<(values: (string | number)[]) => void>(),
+  ...pickProps(popupProps, [
+    'show',
+    'onUpdate:show',
+    'closeOnClickOverlay',
+    'closeOnKeyEscape',
+    'teleport',
+    'safeArea',
+    'onOpen',
+    'onClose',
+    'onOpened',
+    'onClosed',
+    'onClickOverlay',
+    'onRouteChange',
+    'onKeyEscape',
+  ]),
+}

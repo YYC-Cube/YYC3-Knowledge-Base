@@ -1,0 +1,29 @@
+.var-ellipsis {
+  &[var-ellipsis-cover] {
+    width: 100%;
+    overflow: hidden;
+    vertical-align: bottom;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  &--clamp[var-ellipsis-cover] {
+    display: -webkit-inline-box;
+    -webkit-box-orient: vertical;
+  }
+
+  &--line[var-ellipsis-cover] {
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &--cursor[var-ellipsis-cover] {
+    cursor: pointer;
+  }
+
+  &--expand[var-ellipsis-cover] {
+    display: inline-block;
+    white-space: wrap;
+    overflow: visible;
+  }
+}

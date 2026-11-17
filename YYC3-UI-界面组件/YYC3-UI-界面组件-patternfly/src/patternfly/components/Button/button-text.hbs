@@ -1,0 +1,10 @@
+<span class="{{pfv}}button__text{{#if button-text--modifier}} {{button-text--modifier}}{{/if}}"
+  {{#if button-text--attribute}}
+    {{{button-text--attribute}}}
+  {{/if}}>
+  {{#if button--text}}
+    {{button--text}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</span>

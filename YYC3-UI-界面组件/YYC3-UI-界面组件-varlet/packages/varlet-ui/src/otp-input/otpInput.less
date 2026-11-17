@@ -1,0 +1,150 @@
+:root {
+  --otp-input-gutter: 8px;
+  --otp-input-cell-height: 48px;
+  --otp-input-cell-max-width: 48px;
+  --otp-input-input-font-size: 20px;
+}
+
+.var-otp-input {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+
+  &__cells {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--otp-input-gutter);
+    width: 100%;
+    max-width: 100%;
+  }
+
+  &__cell {
+    flex: 1 1 0;
+    min-width: 0;
+    height: var(--otp-input-cell-height);
+    max-width: var(--otp-input-cell-max-width);
+  }
+
+  &__separator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+  }
+
+  &__details {
+    width: 100%;
+  }
+
+  &--align-start {
+    .var-otp-input__cells {
+      justify-content: flex-start;
+    }
+
+    .var-otp-input__details,
+    .var-otp-input__details .var-form-details__error-message,
+    .var-otp-input__details .var-form-details__extra-message {
+      text-align: left;
+    }
+  }
+
+  &--align-center {
+    .var-otp-input__cells {
+      justify-content: center;
+    }
+
+    .var-otp-input__details,
+    .var-otp-input__details .var-form-details__error-message,
+    .var-otp-input__details .var-form-details__extra-message {
+      text-align: center;
+    }
+  }
+
+  &--align-end {
+    .var-otp-input__cells {
+      justify-content: flex-end;
+    }
+
+    .var-otp-input__details,
+    .var-otp-input__details .var-form-details__error-message,
+    .var-otp-input__details .var-form-details__extra-message {
+      text-align: right;
+    }
+  }
+
+  .var-input__input {
+    text-align: center;
+    font-size: var(--otp-input-input-font-size);
+    text-transform: none;
+    height: 100%;
+  }
+
+  .var-field-decorator__middle {
+    justify-content: center;
+  }
+
+  .var-field-decorator--outlined,
+  .var-field-decorator--filled,
+  .var-field-decorator--small.var-field-decorator--outlined,
+  .var-field-decorator--small.var-field-decorator--filled {
+    .var-field-decorator__controller {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .var-field-decorator--standard {
+    .var-field-decorator__controller,
+    .var-field-decorator__middle {
+      height: 100%;
+    }
+
+    .var-field-decorator__middle,
+    .var-field-decorator__icon,
+    .var-field-decorator--middle-non-hint,
+    .var-field-decorator--icon-non-hint {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .var-field-decorator--outlined {
+    .var-field-decorator__controller,
+    .var-field-decorator__middle {
+      height: 100%;
+    }
+
+    .var-field-decorator__middle,
+    .var-field-decorator__icon {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .var-field-decorator--filled {
+    .var-field-decorator__controller,
+    .var-field-decorator__middle {
+      height: 100%;
+    }
+
+    .var-field-decorator__middle,
+    .var-field-decorator__icon,
+    .var-field-decorator--middle-non-hint,
+    .var-field-decorator--icon-non-hint {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .var-input,
+  .var-field-decorator,
+  .var-field-decorator__container,
+  .var-field-decorator__main,
+  .var-field-decorator__body {
+    height: 100%;
+  }
+}

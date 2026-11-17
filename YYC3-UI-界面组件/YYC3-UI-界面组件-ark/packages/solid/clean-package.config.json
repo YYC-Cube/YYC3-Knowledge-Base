@@ -1,0 +1,55 @@
+{
+  "replace": {
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "solid": "./dist/index.jsx",
+        "default": "./dist/index.js"
+      },
+      "./anatomy": {
+        "types": "./dist/components/anatomy.d.ts",
+        "solid": "./dist/components/anatomy.jsx",
+        "default": "./dist/components/anatomy.js"
+      },
+      "./factory": {
+        "types": "./dist/components/factory.d.ts",
+        "solid": "./dist/components/factory.jsx",
+        "default": "./dist/components/factory.js"
+      },
+      "./environment": {
+        "types": "./dist/providers/environment/index.d.ts",
+        "solid": "./dist/providers/environment/index.jsx",
+        "default": "./dist/providers/environment/index.js"
+      },
+      "./locale": {
+        "types": "./dist/providers/locale/index.d.ts",
+        "solid": "./dist/providers/locale/index.jsx",
+        "default": "./dist/providers/locale/index.js"
+      },
+      "./hotkeys": {
+        "types": "./dist/providers/hotkeys/index.d.ts",
+        "solid": "./dist/providers/hotkeys/index.jsx",
+        "default": "./dist/providers/hotkeys/index.js"
+      },
+      "./interaction": {
+        "types": "./dist/providers/interaction/index.d.ts",
+        "solid": "./dist/providers/interaction/index.jsx",
+        "default": "./dist/providers/interaction/index.js"
+      },
+      "./utils": {
+        "types": "./dist/utils/index.d.ts",
+        "solid": "./dist/utils/index.jsx",
+        "default": "./dist/utils/index.js"
+      },
+      "./*": {
+        "types": "./dist/components/*/index.d.ts",
+        "solid": "./dist/components/*/index.jsx",
+        "default": "./dist/components/*/index.js"
+      },
+      "./package.json": "./package.json"
+    }
+  }
+}

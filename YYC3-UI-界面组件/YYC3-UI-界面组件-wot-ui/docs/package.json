@@ -1,0 +1,25 @@
+{
+  "name": "docs",
+  "version": "1.14.0",
+  "private": true,
+  "scripts": {
+    "dev": "vitepress dev --port 5174",
+    "prebuild": "pnpm --dir .. generate:component-contributors",
+    "build": "vitepress build",
+    "serve": "vitepress serve"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@wot-ui/vitepress-theme": "workspace:*",
+    "element-plus": "^2.11.2",
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "sass-embedded": "^1.97.3",
+    "typescript": "^5.5.4",
+    "vite-plugin-compression": "^0.5.1",
+    "vitepress": "2.0.0-alpha.17",
+    "vitepress-plugin-llms": "^1.12.0"
+  }
+}

@@ -1,0 +1,398 @@
+import type {
+  CalendarFactory,
+  CalendarHeaderFactory,
+  DateInputFactory,
+  DatePickerFactory,
+  DatePickerInputFactory,
+  DateTimePickerFactory,
+  DecadeLevelGroupFactory,
+  InlineDateTimePickerFactory,
+  MonthFactory,
+  MonthLevelGroupFactory,
+  MonthPickerFactory,
+  MonthPickerInputFactory,
+  QuarterLevelGroupFactory,
+  QuarterPickerFactory,
+  QuarterPickerInputFactory,
+  TimeInputFactory,
+  WeekPickerFactory,
+  WeekPickerInputFactory,
+  YearLevelGroupFactory,
+  YearPickerFactory,
+  YearPickerInputFactory,
+} from '@mantine/dates';
+import type { StylesApiData } from '../types';
+import { InputBaseStylesApi } from './InputBase.styles-api';
+
+export const MonthStylesApi: StylesApiData<MonthFactory> = {
+  selectors: {
+    monthThead: 'thead element of month table',
+    monthRow: 'tr element of month table',
+    monthTbody: 'tbody element of month table',
+    monthCell: 'td element of month table',
+    month: 'Month table element',
+    weekdaysRow: 'Weekdays tr element',
+    weekday: 'Weekday th element',
+    day: 'Month day control',
+    weekNumber: 'Week number td element',
+    weekControl: 'Week control button inside week number cell, rendered only in WeekPicker',
+  },
+
+  vars: {
+    weekNumber: {
+      '--wn-fz': 'Controls font size',
+      '--wn-size': 'Controls size',
+    },
+  },
+
+  modifiers: [
+    {
+      modifier: 'data-with-spacing',
+      selector: 'monthCell',
+      condition: '`withCellSpacing` prop is set',
+    },
+
+    { modifier: 'data-today', selector: 'day', condition: 'Date is the same as new Date()' },
+    {
+      modifier: 'data-hidden',
+      selector: 'day',
+      condition: 'Day is outside of current month and `hideOutsideDates` is set',
+    },
+    {
+      modifier: 'data-disabled',
+      selector: 'day',
+      condition: 'Day disabled by one of the props (`excludeDate`, `getDayProps`, etc.)',
+    },
+    { modifier: 'data-weekend', selector: 'day', condition: 'Day is weekend' },
+    { modifier: 'data-outside', selector: 'day', condition: 'Day is outside of the current month' },
+    { modifier: 'data-selected', selector: 'day', condition: 'Day is selected' },
+    { modifier: 'data-in-range', selector: 'day', condition: 'Day is in range selection' },
+    {
+      modifier: 'data-first-in-range',
+      selector: 'day',
+      condition: 'Day is first in range selection',
+    },
+    {
+      modifier: 'data-last-in-range',
+      selector: 'day',
+      condition: 'Day is last in range selection',
+    },
+  ],
+};
+
+export const CalendarHeaderStylesApi: StylesApiData<CalendarHeaderFactory> = {
+  selectors: {
+    calendarHeader: 'Calendar header root element',
+    calendarHeaderControl: 'Previous/next calendar header controls',
+    calendarHeaderControlIcon: 'Icon of previous/next calendar header controls',
+    calendarHeaderLevel: 'Level control (changes levels when clicked, month -> year -> decade)',
+    calendarHeaderSelect:
+      'Native select element used for level navigation when withNativeLevelSelect is enabled',
+  },
+
+  vars: {
+    calendarHeader: {
+      '--dch-control-size': 'Controls size of the previous/next and level controls',
+      '--dch-fz': 'Controls font-size of the previous/next and level controls',
+    },
+  },
+
+  modifiers: [
+    {
+      modifier: 'data-direction',
+      selector: 'calendarHeaderControl',
+      value: '`"previous"` or `"next"` depending on the control type',
+    },
+    {
+      modifier: 'data-disabled',
+      selector: 'calendarHeaderControl',
+      condition: 'Control is disabled for any reason',
+    },
+  ],
+};
+
+export const DecadeLevelGroupStylesApi: StylesApiData<DecadeLevelGroupFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    levelsGroup: 'Group of decades levels',
+    yearsList: 'Years list table element',
+    yearsListRow: 'Years list row element',
+    yearsListCell: 'Years list cell element',
+    yearsListControl: 'Button used to pick months and years',
+  },
+
+  vars: {},
+};
+
+export const YearLevelGroupStylesApi: StylesApiData<YearLevelGroupFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    levelsGroup: 'Group of years levels',
+    monthsList: 'Months list table element',
+    monthsListRow: 'Months list row element',
+    monthsListCell: 'Months list cell element',
+    monthsListControl: 'Button used to pick months and years',
+  },
+
+  vars: {},
+};
+
+export const QuarterLevelGroupStylesApi: StylesApiData<QuarterLevelGroupFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    levelsGroup: 'Group of quarter levels',
+    quartersList: 'Quarters list table element',
+    quartersListRow: 'Quarters list row element',
+    quartersListCell: 'Quarters list cell element',
+    quartersListControl: 'Button used to pick quarters',
+  },
+
+  vars: {},
+};
+
+export const MonthLevelGroupStylesApi: StylesApiData<MonthLevelGroupFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    levelsGroup: 'Group of months levels',
+    ...MonthStylesApi.selectors,
+  },
+
+  vars: {},
+};
+
+export const CalendarStylesApi: StylesApiData<CalendarFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    ...DecadeLevelGroupStylesApi.selectors,
+    ...YearLevelGroupStylesApi.selectors,
+    ...MonthLevelGroupStylesApi.selectors,
+  },
+
+  vars: {},
+
+  modifiers: [...CalendarHeaderStylesApi.modifiers!, ...MonthStylesApi.modifiers!],
+};
+
+export const YearPickerStylesApi: StylesApiData<YearPickerFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    ...DecadeLevelGroupStylesApi.selectors,
+    yearPickerRoot: 'Year picker root element, contains calendar and presets',
+    presetsList: 'Presets wrapper element',
+    presetButton: 'Preset button',
+  },
+
+  vars: {
+    yearPickerRoot: {
+      '--preset-font-size': 'Controls font size of preset buttons',
+    },
+  },
+
+  modifiers: CalendarHeaderStylesApi.modifiers,
+};
+
+export const MonthPickerStylesApi: StylesApiData<MonthPickerFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    ...DecadeLevelGroupStylesApi.selectors,
+    ...YearLevelGroupStylesApi.selectors,
+    monthPickerRoot: 'Month picker root element, contains calendar and presets',
+    presetsList: 'Presets wrapper element',
+    presetButton: 'Preset button',
+  },
+
+  vars: {
+    monthPickerRoot: {
+      '--preset-font-size': 'Controls font size of preset buttons',
+    },
+  },
+
+  modifiers: CalendarHeaderStylesApi.modifiers,
+};
+
+export const QuarterPickerStylesApi: StylesApiData<QuarterPickerFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    ...DecadeLevelGroupStylesApi.selectors,
+    ...QuarterLevelGroupStylesApi.selectors,
+    quarterPickerRoot: 'Quarter picker root element, contains calendar and presets',
+    presetsList: 'Presets wrapper element',
+    presetButton: 'Preset button',
+  },
+
+  vars: {
+    quarterPickerRoot: {
+      '--preset-font-size': 'Controls font size of preset buttons',
+    },
+  },
+
+  modifiers: CalendarHeaderStylesApi.modifiers,
+};
+
+export const DatePickerStylesApi: StylesApiData<DatePickerFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    ...DecadeLevelGroupStylesApi.selectors,
+    ...YearLevelGroupStylesApi.selectors,
+    ...MonthLevelGroupStylesApi.selectors,
+    datePickerRoot: 'Date picker root element, contains calendar and presets',
+    presetsList: 'Presets wrapper element',
+    presetButton: 'Preset button',
+  },
+
+  vars: {
+    datePickerRoot: {
+      '--preset-font-size': 'Controls font size of preset buttons',
+    },
+  },
+
+  modifiers: [...CalendarHeaderStylesApi.modifiers!, ...MonthStylesApi.modifiers!],
+};
+
+export const WeekPickerStylesApi: StylesApiData<WeekPickerFactory> = {
+  selectors: {
+    ...CalendarHeaderStylesApi.selectors,
+    ...DecadeLevelGroupStylesApi.selectors,
+    ...YearLevelGroupStylesApi.selectors,
+    ...MonthLevelGroupStylesApi.selectors,
+    weekPickerRoot: 'Week picker root element, contains calendar and presets',
+    presetsList: 'Presets wrapper element',
+    presetButton: 'Preset button',
+  },
+
+  vars: {
+    weekPickerRoot: {
+      '--preset-font-size': 'Controls font size of preset buttons',
+    },
+  },
+
+  modifiers: [
+    ...CalendarHeaderStylesApi.modifiers!,
+    ...MonthStylesApi.modifiers!,
+    {
+      modifier: 'data-week-hovered',
+      selector: 'day',
+      condition: 'Day belongs to the hovered week',
+    },
+    { modifier: 'data-selected', selector: 'weekControl', condition: 'Week is selected' },
+    {
+      modifier: 'data-disabled',
+      selector: 'weekControl',
+      condition: 'Every day of the week is disabled',
+    },
+  ],
+};
+
+export const YearPickerInputStylesApi: StylesApiData<YearPickerInputFactory> = {
+  selectors: {
+    ...InputBaseStylesApi.selectors,
+    ...YearPickerStylesApi.selectors,
+    placeholder: 'Placeholder element',
+  },
+
+  vars: {},
+
+  modifiers: YearPickerStylesApi.modifiers,
+};
+
+export const MonthPickerInputStylesApi: StylesApiData<MonthPickerInputFactory> = {
+  selectors: {
+    ...InputBaseStylesApi.selectors,
+    ...MonthPickerStylesApi.selectors,
+    placeholder: 'Placeholder element',
+  },
+
+  vars: {},
+
+  modifiers: MonthPickerStylesApi.modifiers,
+};
+
+export const QuarterPickerInputStylesApi: StylesApiData<QuarterPickerInputFactory> = {
+  selectors: {
+    ...InputBaseStylesApi.selectors,
+    ...QuarterPickerStylesApi.selectors,
+    placeholder: 'Placeholder element',
+  },
+
+  vars: {},
+
+  modifiers: QuarterPickerStylesApi.modifiers,
+};
+
+export const DatePickerInputStylesApi: StylesApiData<DatePickerInputFactory> = {
+  selectors: {
+    ...InputBaseStylesApi.selectors,
+    ...DatePickerStylesApi.selectors,
+    placeholder: 'Placeholder element',
+  },
+
+  vars: {},
+
+  modifiers: DatePickerStylesApi.modifiers as any,
+};
+
+export const WeekPickerInputStylesApi: StylesApiData<WeekPickerInputFactory> = {
+  selectors: {
+    ...InputBaseStylesApi.selectors,
+    ...WeekPickerStylesApi.selectors,
+    placeholder: 'Placeholder element',
+  },
+
+  vars: {},
+
+  modifiers: WeekPickerStylesApi.modifiers as any,
+};
+
+export const DateInputStylesApi: StylesApiData<DateInputFactory> = {
+  selectors: {
+    ...InputBaseStylesApi.selectors,
+    ...CalendarHeaderStylesApi.selectors,
+    ...DecadeLevelGroupStylesApi.selectors,
+    ...YearLevelGroupStylesApi.selectors,
+    ...MonthLevelGroupStylesApi.selectors,
+    presetsRoot: 'Root element, contains calendar and presets',
+    presetsList: 'Presets wrapper element',
+    presetButton: 'Preset button',
+  },
+
+  vars: {},
+
+  modifiers: DatePickerStylesApi.modifiers as any,
+};
+
+export const DateTimePickerStylesApi: StylesApiData<DateTimePickerFactory> = {
+  selectors: {
+    ...InputBaseStylesApi.selectors,
+    ...DatePickerStylesApi.selectors,
+    placeholder: 'Placeholder element',
+    timeWrapper: 'Wrapper around time input and submit button',
+    timeInput: 'TimeInput',
+    submitButton: 'Submit button',
+    rangeTimeWrapper: 'Wrapper around two time inputs in range mode',
+    rangeTimeInput: 'Time input in range mode',
+    rangeInfo: 'Range dates preview in range mode',
+  },
+
+  vars: {},
+
+  modifiers: DatePickerStylesApi.modifiers as any,
+};
+
+export const InlineDateTimePickerStylesApi: StylesApiData<InlineDateTimePickerFactory> = {
+  selectors: {
+    root: 'Root element',
+    ...DatePickerStylesApi.selectors,
+    timeWrapper: 'Wrapper around time input and submit button',
+    timeInput: 'TimeInput',
+    submitButton: 'Submit button',
+    rangeTimeWrapper: 'Wrapper around two time inputs and submit button in range mode',
+    rangeTimeInput: 'Time input in range mode',
+    rangeInfo: 'Range dates preview in range mode',
+  },
+
+  vars: {},
+
+  modifiers: DatePickerStylesApi.modifiers as any,
+};
+
+export const TimeInputStylesApi: StylesApiData<TimeInputFactory> = InputBaseStylesApi;

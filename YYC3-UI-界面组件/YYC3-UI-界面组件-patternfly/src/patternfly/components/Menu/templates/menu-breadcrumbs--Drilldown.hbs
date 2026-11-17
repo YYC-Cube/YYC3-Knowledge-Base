@@ -1,0 +1,115 @@
+{{#> menu-breadcrumb}}
+  {{#> breadcrumb breadcrumb--id=(concat menu--id '-breadcrumb') breadcrumb-link--IsButton="true"}}
+    {{#> breadcrumb-list}}
+
+      {{!-- level 2 --}}
+      {{#if menu-breadcrumbs--Drilldown--IsLevel2}}
+        {{#> breadcrumb-item}}
+          {{> breadcrumb-item-divider}}
+          {{#> breadcrumb-link}}
+            All
+          {{/breadcrumb-link}}
+        {{/breadcrumb-item}}
+        {{#> breadcrumb-item}}
+          {{> breadcrumb-item-divider}}
+          {{#> breadcrumb-heading}}
+            {{#> breadcrumb-link breadcrumb-link--current="true"}}
+              Edit
+            {{/breadcrumb-link}}
+          {{/breadcrumb-heading}}
+        {{/breadcrumb-item}}
+
+      {{!-- level 3 --}}
+      {{else if menu-breadcrumbs--Drilldown--IsLevel3}}
+        {{#> breadcrumb-item}}
+          {{> breadcrumb-item-divider}}
+          {{#> breadcrumb-link}}
+            All
+          {{/breadcrumb-link}}
+        {{/breadcrumb-item}}
+
+        {{#> menu-breadcrumbs--dropdown menu-toggle--badge--text="1"}}
+          {{#> menu-list-item}}
+            {{#> menu-item}}
+              {{#> menu-item-main}}
+                {{#> menu-item-icon}}
+                  {{#> icon shouldMirrorRTL=true}}
+                    {{#> icon-content}}
+                      {{pfIcon "rh-microns-caret-left"}}
+                    {{/icon-content}}
+                  {{/icon}}
+                {{/menu-item-icon}}
+                {{#> menu-item-text}}
+                  Edit
+                {{/menu-item-text}}
+              {{/menu-item-main}}
+            {{/menu-item}}
+          {{/menu-list-item}}
+        {{/menu-breadcrumbs--dropdown}}
+
+        {{#> breadcrumb-item}}
+          {{> breadcrumb-item-divider}}
+          {{#> breadcrumb-heading}}
+            {{#> breadcrumb-link breadcrumb-link--current="true"}}
+              Deployment
+            {{/breadcrumb-link}}
+          {{/breadcrumb-heading}}
+        {{/breadcrumb-item}}
+
+      {{!-- level 4 --}}
+      {{else if menu-breadcrumbs--Drilldown--IsLevel4}}
+        {{#> breadcrumb-item}}
+          {{> breadcrumb-item-divider}}
+          {{#> breadcrumb-link}}
+            All
+          {{/breadcrumb-link}}
+        {{/breadcrumb-item}}
+
+        {{#> menu-breadcrumbs--dropdown menu-toggle--badge--text="2"}}
+          {{#> menu-list-item}}
+            {{#> menu-item}}
+              {{#> menu-item-main}}
+                {{#> menu-item-icon}}
+                  {{#> icon shouldMirrorRTL=true}}
+                    {{#> icon-content}}
+                      {{pfIcon "rh-microns-caret-left"}}
+                    {{/icon-content}}
+                  {{/icon}}
+                {{/menu-item-icon}}
+                {{#> menu-item-text}}
+                  Edit
+                {{/menu-item-text}}
+              {{/menu-item-main}}
+            {{/menu-item}}
+          {{/menu-list-item}}
+          {{#> menu-list-item}}
+            {{#> menu-item}}
+              {{#> menu-item-main}}
+                {{#> menu-item-icon}}
+                  {{#> icon shouldMirrorRTL=true}}
+                    {{#> icon-content}}
+                      {{pfIcon "rh-microns-caret-left"}}
+                    {{/icon-content}}
+                  {{/icon}}
+                {{/menu-item-icon}}
+                {{#> menu-item-text}}
+                  Deployment
+                {{/menu-item-text}}
+              {{/menu-item-main}}
+            {{/menu-item}}
+          {{/menu-list-item}}
+        {{/menu-breadcrumbs--dropdown}}
+
+        {{#> breadcrumb-item}}
+          {{> breadcrumb-item-divider}}
+          {{#> breadcrumb-heading}}
+            {{#> breadcrumb-link breadcrumb-link--current="true"}}
+              Labels
+            {{/breadcrumb-link}}
+          {{/breadcrumb-heading}}
+        {{/breadcrumb-item}}
+      {{/if}}
+    {{/breadcrumb-list}}
+  {{/breadcrumb}}
+{{/menu-breadcrumb}}
+{{> divider}}

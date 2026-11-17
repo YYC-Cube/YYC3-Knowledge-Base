@@ -1,0 +1,10 @@
+<span class="{{pfv}}menu-toggle__toggle-icon{{#if menu-toggle-toggle-icon--modifier}} {{menu-toggle-toggle-icon--modifier}}{{/if}}"
+  {{#if menu-toggle-toggle-icon--attribute}}
+    {{{menu-toggle-toggle-icon--attribute}}}
+  {{/if}}>
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{else}}
+    {{pfIcon "rh-microns-caret-down-fill"}}
+  {{/if}}
+</span>

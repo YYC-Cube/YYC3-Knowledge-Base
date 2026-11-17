@@ -1,0 +1,4 @@
+.box {
+  padding: 32rpx;
+  background-color: var(--td-bg-color-container, #fff);
+}

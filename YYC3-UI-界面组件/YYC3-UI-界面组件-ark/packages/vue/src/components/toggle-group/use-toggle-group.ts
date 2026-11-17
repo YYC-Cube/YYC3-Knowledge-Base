@@ -1,0 +1,45 @@
+import * as toggleGroup from '@zag-js/toggle-group'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import type { RootEmits } from './toggle-group.ts'
+
+export interface UseToggleGroupProps extends Optional<Omit<toggleGroup.Props, 'dir' | 'getRootNode'>, 'id'> {
+  /**
+   * The v-model value of the toggle group
+   */
+  modelValue?: toggleGroup.Props['value']
+}
+
+export interface UseToggleGroupReturn extends ComputedRef<toggleGroup.Api<PropTypes>> {}
+
+export const useToggleGroup = (
+  props: MaybeRefOrGetter<UseToggleGroupProps> = {},
+  emit?: EmitFn<RootEmits>,
+): UseToggleGroupReturn => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+
+  const context = computed<toggleGroup.Props>(() => {
+    const localProps = toValue<UseToggleGroupProps>(props)
+
+    return {
+      id,
+      dir: locale.value.dir,
+      value: localProps.modelValue,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localProps),
+      onValueChange: (details) => {
+        emit?.('valueChange', details)
+        emit?.('update:modelValue', details.value)
+        localProps.onValueChange?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(toggleGroup.machine, context)
+  return computed(() => toggleGroup.connect(service, normalizeProps))
+}

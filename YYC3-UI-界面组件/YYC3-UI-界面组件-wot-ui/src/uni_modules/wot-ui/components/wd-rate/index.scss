@@ -1,0 +1,59 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 未激活图标颜色
+$rate-color: var(--wot-rate-color, $filled-extra-strong) !default;
+// 激活图标颜色
+$rate-active-color: var(--wot-rate-active-color, $classifyapplication-yellow-content) !default;
+// 图标尺寸
+$rate-size: var(--wot-rate-size, $n-24) !default;
+// 禁用态透明度
+$rate-disabled-opacity: var(--wot-rate-disabled-opacity, $opacity-disabled) !default;
+// 图标间距
+$rate-item-space: var(--wot-rate-item-space, $spacing-extra-tight) !default;
+
+@include b(rate) {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+
+  @include e(item) {
+    position: relative;
+    display: inline-block;
+    touch-action: none; // 禁用默认触摸行为
+
+    &:not(:last-child) {
+      margin-right: $rate-item-space;
+    }
+  }
+
+  @include edeep(item-star) {
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background: $rate-color;
+    font-size: $rate-size;
+
+    @include m(active) {
+      background: $rate-active-color;
+    }
+  }
+
+  @include e(item-half) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    width: 50%;
+  }
+
+  @include when(disabled) {
+    cursor: not-allowed;
+    opacity: $rate-disabled-opacity;
+  }
+
+  @include when(block) {
+    display: block;
+  }
+}

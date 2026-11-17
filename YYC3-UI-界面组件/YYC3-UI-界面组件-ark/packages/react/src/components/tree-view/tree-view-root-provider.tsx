@@ -1,0 +1,43 @@
+'use client'
+
+import { mergeProps } from '@zag-js/react'
+import { type JSX, forwardRef } from 'react'
+import type { Assign } from '../../types.ts'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import {
+  type RenderStrategyProps,
+  RenderStrategyPropsProvider,
+  splitRenderStrategyProps,
+} from '../../utils/render-strategy.ts'
+import type { TreeNode } from '../collection/index.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import type { UseTreeViewReturn } from './use-tree-view.ts'
+import { TreeViewProvider } from './use-tree-view-context.ts'
+
+interface RootProviderProps<T extends TreeNode> {
+  value: UseTreeViewReturn<T>
+}
+export interface TreeViewRootProviderBaseProps<T extends TreeNode>
+  extends RootProviderProps<T>, RenderStrategyProps, PolymorphicProps {}
+export interface TreeViewRootProviderProps<T extends TreeNode>
+  extends HTMLProps<'div'>, TreeViewRootProviderBaseProps<T> {}
+
+const TreeViewImpl = <T extends TreeNode>(props: TreeViewRootProviderProps<T>, ref: React.Ref<HTMLDivElement>) => {
+  const [renderStrategyProps, treeViewProps] = splitRenderStrategyProps(props)
+  const [{ value: treeView }, localProps] = createSplitProps<RootProviderProps<T>>()(treeViewProps, ['value'])
+  const mergedProps = mergeProps(treeView.getRootProps(), localProps)
+
+  return (
+    <TreeViewProvider value={treeView}>
+      <RenderStrategyPropsProvider value={renderStrategyProps}>
+        <ark.div {...mergedProps} ref={ref} />
+      </RenderStrategyPropsProvider>
+    </TreeViewProvider>
+  )
+}
+
+export type TreeViewRootProviderComponent<P = {}> = <T extends TreeNode>(
+  props: Assign<TreeViewRootProviderProps<T>, P> & React.RefAttributes<HTMLDivElement>,
+) => JSX.Element
+
+export const TreeViewRootProvider = forwardRef(TreeViewImpl) as TreeViewRootProviderComponent

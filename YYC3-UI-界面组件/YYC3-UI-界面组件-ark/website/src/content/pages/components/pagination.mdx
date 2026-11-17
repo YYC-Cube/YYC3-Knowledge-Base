@@ -1,0 +1,97 @@
+---
+id: pagination
+title: Pagination
+description: A navigation component that allows users to browse through pages.
+---
+
+<ComponentPreview id="Pagination" />
+
+## Anatomy
+
+<Anatomy id="pagination" />
+
+```tsx
+<Pagination.Root>
+  <Pagination.PrevTrigger />
+  <Pagination.Item />
+  <Pagination.Ellipsis />
+  <Pagination.NextTrigger />
+</Pagination.Root>
+```
+
+## Examples
+
+<Example id="basic" />
+
+### Controlled
+
+To create a controlled Pagination component, manage the state of the current page using the `page` prop and update it
+when the `onPageChange` event handler is called:
+
+<Example id="controlled" />
+
+### Root Provider
+
+An alternative way to control the pagination is to use the `RootProvider` component and the `usePagination` hook. This
+way you can access the state and methods from outside the component.
+
+<Example id="root-provider" />
+
+### Customization
+
+You can customize the Pagination component by setting various props such as `dir`, `pageSize`, `siblingCount`, and
+`translations`. Here's an example of a customized Pagination:
+
+<Example id="customized" />
+
+### Context
+
+Access pagination state and methods with `Pagination.Context` or the `usePaginationContext` hook. You get methods like
+`setPage`, `setPageSize`, `goToNextPage`, `goToPrevPage`, `goToFirstPage`, `goToLastPage`, as well as properties like
+`totalPages` and `pageRange`.
+
+<Example id="context" />
+
+### Data Slicing
+
+Use the `slice()` method to paginate actual data arrays. This method automatically slices your data based on the current
+page and page size.
+
+<Example id="data-slicing" />
+
+### Page Range
+
+Display the current page range information using the `pageRange` property. This shows which items are currently visible
+(e.g., "Showing 1-10 of 100 results").
+
+<Example id="page-range" />
+
+### Page Size
+
+Control the number of items per page dynamically using `setPageSize()`. This example shows how to integrate a native
+select element to change the page size.
+
+> **Note:** For uncontrolled behavior, use `defaultPageSize` to set the initial value. For controlled behavior, use
+> `pageSize` and `onPageSizeChange` to programmatically manage the page size.
+
+<Example id="page-size-control" />
+
+### Links
+
+Set `type="link"` and supply `getPageUrl` to paginate with real navigation, which crawlers can follow and users can open
+in a new tab. The items and the triggers render as anchors carrying the generated `href`, so no other change is needed:
+
+<Example id="link" />
+
+To render a router's link component instead, pass it through `asChild` on the items and the triggers. See the
+[Composition guide](/docs/guides/composition) for details.
+
+## API Reference
+
+### Props
+
+<ComponentTypes id="pagination" />
+
+### Context
+
+<ContextType id="pagination" />

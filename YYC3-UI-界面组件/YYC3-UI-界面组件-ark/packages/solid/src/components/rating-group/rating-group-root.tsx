@@ -1,0 +1,37 @@
+import { mergeProps } from '@zag-js/solid'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.tsx'
+import { type UseRatingGroupProps, useRatingGroup } from './use-rating-group.ts'
+import { RatingGroupProvider } from './use-rating-group-context.ts'
+
+export interface RatingGroupRootBaseProps extends UseRatingGroupProps, PolymorphicProps<'div'> {}
+export interface RatingGroupRootProps extends HTMLProps<'div'>, RatingGroupRootBaseProps {}
+
+export const RatingGroupRoot = (props: RatingGroupRootProps) => {
+  const [useRatingProps, localProps] = createSplitProps<UseRatingGroupProps>()(props, [
+    'allowHalf',
+    'autoFocus',
+    'count',
+    'defaultValue',
+    'disabled',
+    'form',
+    'id',
+    'ids',
+    'name',
+    'onHoverChange',
+    'onValueChange',
+    'readOnly',
+    'required',
+    'translations',
+    'value',
+  ])
+
+  const api = useRatingGroup(useRatingProps)
+  const mergedProps = mergeProps(() => api().getRootProps(), localProps)
+
+  return (
+    <RatingGroupProvider value={api}>
+      <ark.div {...mergedProps} />
+    </RatingGroupProvider>
+  )
+}

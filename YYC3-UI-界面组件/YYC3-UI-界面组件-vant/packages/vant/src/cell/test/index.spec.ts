@@ -1,0 +1,138 @@
+import { Cell } from '..';
+import { mount } from '../../../test';
+
+test('should render value slot correctly', () => {
+  const wrapper = mount(Cell, {
+    slots: {
+      value: () => 'Custom Value',
+    },
+  });
+  expect(wrapper.html()).toMatchSnapshot();
+});
+
+test('should render title slot correctly', () => {
+  const wrapper = mount(Cell, {
+    slots: {
+      title: () => 'Custom Title',
+    },
+  });
+  expect(wrapper.html()).toMatchSnapshot();
+});
+
+test('should render label slot correctly', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      title: 'Title',
+    },
+    slots: {
+      label: () => 'Custom Label',
+    },
+  });
+  expect(wrapper.html()).toMatchSnapshot();
+});
+
+test('should render icon slot correctly', () => {
+  const wrapper = mount(Cell, {
+    slots: {
+      icon: () => 'Custom Icon',
+    },
+  });
+  expect(wrapper.html()).toMatchSnapshot();
+});
+
+test('should render extra slot correctly', () => {
+  const wrapper = mount(Cell, {
+    slots: {
+      extra: () => 'Custom Extra',
+    },
+  });
+  expect(wrapper.html()).toMatchSnapshot();
+});
+
+test('should change arrow direction when using arrow-direction prop', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      isLink: true,
+      arrowDirection: 'down',
+    },
+  });
+
+  expect(wrapper.find('.van-cell__right-icon').html()).toMatchSnapshot();
+});
+
+test('should change title style when using title-style prop', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      title: 'title',
+      titleStyle: {
+        color: 'red',
+      },
+    },
+  });
+
+  const title = wrapper.find('.van-cell__title');
+  expect(title.style.color).toEqual('red');
+});
+
+test('should change icon class prefix when using icon-prefix prop', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      icon: 'success',
+      iconPrefix: 'my-icon',
+    },
+  });
+
+  expect(wrapper.html()).toMatchSnapshot();
+});
+
+test('should allow to disable clickable when using is-link prop', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      isLink: true,
+      clickable: false,
+    },
+  });
+  expect(wrapper.classes()).not.toContain('van-cell--clickable');
+});
+
+test('should not render as button when clickable is false with is-link prop', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      isLink: true,
+      clickable: false,
+    },
+  });
+  const root = wrapper.find('.van-cell');
+  expect(root.attributes('role')).toBeFalsy();
+  expect(root.attributes('tabindex')).toBeFalsy();
+});
+
+test('should be clickable when only to prop is set (regression #13868)', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      to: '/foo',
+    },
+  });
+  expect(wrapper.classes()).toContain('van-cell--clickable');
+  const root = wrapper.find('.van-cell');
+  expect(root.attributes('role')).toEqual('button');
+  expect(root.attributes('tabindex')).toEqual('0');
+});
+
+test('should be clickable when only url prop is set (regression #13868)', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      url: 'https://example.com',
+    },
+  });
+  expect(wrapper.classes()).toContain('van-cell--clickable');
+});
+
+test('should render tag prop correctly', () => {
+  const wrapper = mount(Cell, {
+    props: {
+      tag: 'a',
+    },
+  });
+  expect(wrapper.html()).toMatchSnapshot();
+});

@@ -1,0 +1,117 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  transition:
+    transform 100ms ease,
+    box-shadow 100ms ease;
+
+  [data-dimmed] & {
+    background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+  }
+
+  &[data-type='primary'] {
+    height: 340px;
+    padding-inline-end: 80px;
+  }
+
+  &[data-type='secondary'] {
+    padding: var(--mantine-spacing-md);
+    height: 80px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--mantine-spacing-md);
+  }
+
+  @mixin hover {
+    transform: scale(1.01);
+    box-shadow: var(--mantine-shadow-md);
+  }
+}
+
+.recommended {
+  position: absolute;
+  top: var(--mantine-spacing-lg);
+  right: var(--mantine-spacing-lg);
+  background-color: light-dark(var(--mantine-color-red-8), var(--mantine-color-yellow-5));
+  color: light-dark(var(--mantine-color-white), var(--mantine-color-black));
+}
+
+.iconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &[data-logo='vite'] {
+    width: 200px;
+    height: 80px;
+  }
+
+  &[data-logo='next'] {
+    width: 200px;
+    height: 80px;
+  }
+
+  &[data-logo='react-router'],
+  &[data-logo='tanstack-start'] {
+    justify-content: flex-start;
+    width: 40px;
+  }
+}
+
+.icon {
+  position: relative;
+  z-index: 1;
+
+  &[data-logo='vite'] {
+    width: 200px;
+  }
+
+  &[data-logo='next'] {
+    width: 200px;
+  }
+
+  &[data-logo='tanstack-start'] {
+    width: 32px;
+    height: 32px;
+  }
+
+  &[data-logo='react-router'] {
+    height: 24px;
+  }
+}
+
+.title {
+  .root[data-type='primary'] & {
+    font-size: 32px;
+    font-family: var(--docs-font-primary);
+    margin-bottom: 5px;
+  }
+
+  .root[data-type='secondary'] & {
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.description {
+  .root[data-type='primary'] & {
+    font-size: var(--mantine-font-size-lg);
+  }
+
+  .root[data-type='secondary'] & {
+    font-size: var(--mantine-font-size-xs);
+  }
+}
+
+.arrow {
+  position: absolute;
+  bottom: var(--mantine-spacing-xl);
+  inset-inline-end: var(--mantine-spacing-lg);
+  width: 30px;
+  height: 30px;
+}

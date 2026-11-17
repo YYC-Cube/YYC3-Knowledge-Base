@@ -1,0 +1,15 @@
+<div class="{{pfv}}data-list__item-action{{#if data-list-item-action--modifier}} {{data-list-item-action--modifier}}{{/if}}"
+  {{#if data-list-item-action--attribute}}
+    {{{data-list-item-action--attribute}}}
+  {{/if}}>
+  {{#if @partial-block}}
+    {{> @partial-block}}
+  {{else}}
+    {{> menu-toggle
+      menu-toggle--IsSmall=data-list--IsCompact
+      menu-toggle--IsPlain=true
+      menu-toggle--HasKebab=true
+      menu-toggle--id=(dasherize data-list--id data-list-item--id 'menu-toggle')
+      menu-toggle--aria-label='Data list item menu toggle'}}
+  {{/if}}
+</div>

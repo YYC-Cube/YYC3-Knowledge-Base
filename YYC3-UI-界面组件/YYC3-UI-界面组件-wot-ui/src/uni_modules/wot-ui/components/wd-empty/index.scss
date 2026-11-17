@@ -1,0 +1,46 @@
+@use '../../styles/mixin/mixin.scss' as *;
+@use '../../styles/variable.scss' as *;
+
+// 图标颜色
+$empty-icon-color: var(--wot-empty-icon-color, $icon-disabled) !default;
+// 文案字号
+$empty-text-font-size: var(--wot-empty-text-font-size, $typography-body-size-extra-large) !default;
+// 文案行高
+$empty-text-line-height: var(--wot-empty-text-line-height, $typography-body-line-height-size-extra-large) !default;
+// 文案字重
+$empty-text-font-weight: var(--wot-empty-text-font-weight, $typography-body-font-weight-strong) !default;
+// 文案颜色
+$empty-text-color: var(--wot-empty-text-color, $text-main) !default;
+// 文案顶部间距
+$empty-text-margin-top: var(--wot-empty-text-margin-top, $spacing-loose) !default;
+// 图标尺寸
+$empty-icon-size: var(--wot-empty-icon-size, $n-98) !default;
+// 组件底部内边距
+$empty-padding-bottom: var(--wot-empty-padding-bottom, $spacing-ultra-loose) !default;
+
+@include b(empty) {
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: $empty-padding-bottom;
+
+  @include edeep(icon) {
+    margin: 0 auto;
+    width: $empty-icon-size;
+    height: $empty-icon-size;
+    font-size: $empty-icon-size;
+    color: $empty-icon-color;
+  }
+  @include e(text) {
+    margin-top: $empty-text-margin-top;
+    font-size: $empty-text-font-size;
+    line-height: $empty-text-line-height;
+    font-weight: $empty-text-font-weight;
+    color: $empty-text-color;
+    text-align: center;
+    word-break: break-all;
+  }
+}

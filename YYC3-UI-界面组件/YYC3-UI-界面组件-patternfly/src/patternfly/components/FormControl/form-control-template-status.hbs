@@ -1,0 +1,7 @@
+{{#if form-control--IsSuccess}}
+  {{> form-control-icon form-control-icon--IsStatus=true form-control--HasIcon='rh-ui-check-circle-fill'}}
+{{else if form-control--IsWarning}}
+  {{> form-control-icon form-control-icon--IsStatus=true form-control--HasIcon='rh-ui-warning-fill'}}
+{{else if form-control--IsError}}
+  {{> form-control-icon form-control-icon--IsStatus=true form-control--HasIcon='rh-ui-error-fill'}}
+{{/if}}

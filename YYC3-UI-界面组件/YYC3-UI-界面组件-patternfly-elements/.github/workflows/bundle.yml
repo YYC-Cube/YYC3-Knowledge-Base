@@ -1,0 +1,43 @@
+name: Bundle
+
+# on:
+#   release:
+#     types:
+#       - created
+#       - published
+#       - prereleased
+#       - released
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: Comma separated list of release tags
+        required: true
+        type: string
+
+jobs:
+  bundle:
+    # Prevents changesets action from creating a PR on forks
+    if: github.repository == 'patternfly/patternfly-elements'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+
+      - name: Bundle
+        id: bundle
+        uses: actions/github-script@v6
+        with:
+          debug: ${{secrets.ACTIONS_RUNNER_DEBUG}}
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            // APIs provided by github-script action. See README
+            const api = { core, exec, github, glob };
+            const tags = '${{ github.event.inputs.tags }}';
+            const workspace = '${{ github.workspace }}';
+            const bundle = require('./scripts/bundle-release.cjs');
+            await bundle({ ...api, tags, workspace });

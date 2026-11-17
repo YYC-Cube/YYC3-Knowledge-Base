@@ -1,0 +1,34 @@
+'use client'
+
+import type { SwatchProps } from '@zag-js/color-picker'
+import { mergeProps } from '@zag-js/react'
+import { forwardRef } from 'react'
+import { createSplitProps } from '../../utils/create-split-props.ts'
+import { type HTMLProps, type PolymorphicProps, ark } from '../factory.ts'
+import { useColorPickerContext } from './use-color-picker-context.ts'
+import { ColorPickerSwatchPropsProvider } from './use-color-picker-swatch-props-context.ts'
+
+interface ValueSwatchProps extends Omit<SwatchProps, 'value'> {}
+
+export interface ColorPickerValueSwatchBaseProps extends ValueSwatchProps, PolymorphicProps {}
+export interface ColorPickerValueSwatchProps extends HTMLProps<'div'>, ColorPickerValueSwatchBaseProps {}
+
+const splitValueSwatchProps = createSplitProps<ValueSwatchProps>()
+
+export const ColorPickerValueSwatch = forwardRef<HTMLDivElement, ColorPickerValueSwatchProps>((props, ref) => {
+  const [{ respectAlpha }, localProps] = splitValueSwatchProps(props, ['respectAlpha'])
+  const colorPicker = useColorPickerContext()
+  const swatchProps = {
+    respectAlpha,
+    value: colorPicker.valueAsString,
+  }
+  const mergedProps = mergeProps(colorPicker.getSwatchProps(swatchProps), localProps)
+
+  return (
+    <ColorPickerSwatchPropsProvider value={swatchProps}>
+      <ark.div {...mergedProps} ref={ref} />
+    </ColorPickerSwatchPropsProvider>
+  )
+})
+
+ColorPickerValueSwatch.displayName = 'ColorPickerValueSwatch'

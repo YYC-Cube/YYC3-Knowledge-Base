@@ -1,0 +1,12 @@
+<span class="{{pfv}}button__count{{#if button-count--modifier}} {{button-count--modifier}}{{/if}}"
+  {{#if button-count--attribute}}
+    {{{button-count--attribute}}}
+  {{/if}}>
+  {{#if button--count}}
+    {{#> badge badge--IsRead=button-count--IsRead badge--IsUnread=button-count--IsUnread}}
+      {{button--count}}
+    {{/badge}}
+  {{else if @partial-block}}
+    {{> @partial-block}}
+  {{/if}}
+</span>

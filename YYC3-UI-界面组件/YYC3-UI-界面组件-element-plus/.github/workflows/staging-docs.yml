@@ -1,0 +1,113 @@
+name: Staging Docs
+
+on:
+  push:
+    branches:
+      - 'dev'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
+      - name: Setup node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Get version
+        run: echo "TAG_VERSION=0.0.0-staging.${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Get git head
+        run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
+
+      - name: Set last version
+        run: pnpm update:version && pnpm gen:version
+        env:
+          TAG_VERSION: ${{env.TAG_VERSION}}
+          GIT_HEAD: ${{env.GIT_HEAD}}
+
+      - name: Compile Element Plus
+        run: pnpm build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Init Crowdin token
+        run: pnpm run docs:crowdin-credentials
+        env:
+          CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
+
+      - name: Upload source files
+        run: cd docs && pnpm exec crowdin upload sources
+
+      - name: Pull Crowdin translations
+        run: cd docs && pnpm exec crowdin download -l zh-CN && pnpm exec crowdin download -l es-ES
+
+      - name: Generate common locale
+        run: pnpm docs:gen-locale
+
+      - name: Build Metadata
+        run: cd internal/metadata && pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build website
+        run: pnpm docs:build
+        env:
+          DOC_ENV: staging
+          NODE_OPTIONS: --max-old-space-size=8192
+
+      - name: Deploy staging website
+        run: |
+          set -euo pipefail
+
+          REPO_DIR="$(mktemp -d)"
+
+          git clone \
+            --depth=1 \
+            https://x-access-token:${{ secrets.EP_BOT_TOKEN }}@github.com/element-plus/staging.git \
+            "$REPO_DIR"
+
+          rsync -a \
+            --delete \
+            --exclude .git \
+            --exclude CNAME \
+            docs/.vitepress/dist/ \
+            "$REPO_DIR/"
+
+          cd "$REPO_DIR"
+
+          git config user.name "ElementPlusBot"
+          git config user.email "element-plus@outlook.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          git commit -m "website deploy ${TAG_VERSION}"
+
+          git push origin main --force-with-lease

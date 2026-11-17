@@ -1,0 +1,17 @@
+import { defineComponent } from 'vue'
+import { props } from './props'
+import { createNamespace } from '../utils/components'
+
+import './<%- camelizeName %>.less'
+
+const { name, n, classes } = createNamespace('<%- kebabCaseName %>')
+
+export default defineComponent({
+  name,
+  props,
+  setup(props, { slots }) {
+    return () => {
+      return <div class={n()}>{ slots.default?.() }</div>
+    }
+  },
+})

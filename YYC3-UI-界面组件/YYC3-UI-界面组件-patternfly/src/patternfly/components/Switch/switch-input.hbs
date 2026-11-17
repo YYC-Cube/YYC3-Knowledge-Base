@@ -1,0 +1,17 @@
+<input class="{{pfv}}switch__input{{#if switch-input--modifier}} {{switch-input--modifier}}{{/if}}"
+  type="checkbox"
+  role="switch"
+  {{#if switch-input--id}}
+    id="{{switch-input--id}}"
+  {{/if}}
+  {{#if aria-labelledby}}
+    aria-labelledby="{{aria-labelledby}}"
+  {{else if aria-label}}
+    aria-label="{{aria-label}}"
+  {{else}}
+    aria-label="Togglable option"
+  {{/if}}
+  {{#if switch-input--attribute}}
+    {{{switch-input--attribute}}}
+  {{/if}}
+>

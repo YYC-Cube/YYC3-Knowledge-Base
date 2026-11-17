@@ -1,0 +1,8 @@
+<wxs src="../wxs/utils.wxs" module="utils" />
+<import src="./dropdown-item.wxml" />
+
+<root-portal wx:if="{{ rootPortal }}">
+  <include src="./dropdown-item.wxml" />
+</root-portal>
+
+<include wx:else src="./dropdown-item.wxml" />

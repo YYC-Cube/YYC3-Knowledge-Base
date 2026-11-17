@@ -1,0 +1,47 @@
+<script lang="ts">
+import type { HTMLAttributes } from 'vue'
+import type { BooleanDefaults } from '../../types.ts'
+import type { PolymorphicProps } from '../factory.ts'
+import type { RootEmits, RootProps } from './editable.types.ts'
+
+export interface EditableRootBaseProps extends RootProps, PolymorphicProps {}
+export interface EditableRootProps
+  extends
+    EditableRootBaseProps,
+    /**
+     * @vue-ignore
+     */
+    Omit<HTMLAttributes, 'placeholder'> {}
+export interface EditableRootEmits extends RootEmits {}
+</script>
+
+<script setup lang="ts">
+import { ark } from '../factory.ts'
+import { useEditable } from './use-editable.ts'
+import { EditableProvider } from './use-editable-context.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+
+const props = withDefaults(defineProps<EditableRootProps>(), {
+  autoResize: undefined,
+  defaultEdit: undefined,
+  disabled: undefined,
+  edit: undefined,
+  invalid: undefined,
+  readOnly: undefined,
+  required: undefined,
+  selectOnFocus: undefined,
+} satisfies BooleanDefaults<RootProps>)
+
+const emits = defineEmits<EditableRootEmits>()
+
+const editable = useEditable(props, emits)
+EditableProvider(editable)
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.div v-bind="editable.getRootProps()" :as-child="asChild">
+    <slot />
+  </ark.div>
+</template>

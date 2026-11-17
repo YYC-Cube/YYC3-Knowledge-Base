@@ -1,0 +1,83 @@
+import * as treeView from '@zag-js/tree-view'
+import { type PropTypes, normalizeProps, useMachine } from '@zag-js/vue'
+import { type ComputedRef, type MaybeRefOrGetter, computed, toValue, useId } from 'vue'
+import { DEFAULT_ENVIRONMENT, DEFAULT_LOCALE, useEnvironmentContext, useLocaleContext } from '../../providers/index.ts'
+import type { EmitFn, Optional } from '../../types.ts'
+import { cleanProps } from '../../utils/clean-props.ts'
+import type { TreeCollection, TreeNode } from '../collection/index.ts'
+import type { RootEmits } from './tree-view.types.ts'
+
+export interface UseTreeViewProps<T extends TreeNode> extends Optional<
+  Omit<treeView.Props<T>, 'dir' | 'getRootNode' | 'collection'>,
+  'id'
+> {
+  /**
+   * The collection of tree nodes
+   */
+  collection: TreeCollection<T>
+}
+
+export interface UseTreeViewReturn<T extends TreeNode> extends ComputedRef<treeView.Api<PropTypes, T>> {}
+
+export const useTreeView = <T extends TreeNode>(
+  props: MaybeRefOrGetter<UseTreeViewProps<T>>,
+  emit?: EmitFn<RootEmits<T>>,
+): UseTreeViewReturn<T> => {
+  const id = useId()
+  const env = useEnvironmentContext(DEFAULT_ENVIRONMENT)
+  const locale = useLocaleContext(DEFAULT_LOCALE)
+
+  const context = computed<treeView.Props>(() => {
+    const localeProps = toValue<UseTreeViewProps<T>>(props)
+
+    return {
+      id,
+      dir: locale.value.dir,
+      getRootNode: env?.value.getRootNode,
+      ...cleanProps(localeProps),
+      onFocusChange: (details) => {
+        emit?.('focusChange', details)
+        emit?.('update:focusedValue', details.focusedValue)
+        localeProps.onFocusChange?.(details)
+      },
+      onExpandedChange: (details) => {
+        emit?.('expandedChange', details)
+        emit?.('update:expandedValue', details.expandedValue)
+        localeProps.onExpandedChange?.(details)
+      },
+      onSelectionChange: (details) => {
+        emit?.('selectionChange', details)
+        emit?.('update:selectedValue', details.selectedValue)
+        localeProps.onSelectionChange?.(details)
+      },
+      onCheckedChange: (details) => {
+        emit?.('checkedChange', details)
+        emit?.('update:checkedValue', details.checkedValue)
+        localeProps.onCheckedChange?.(details)
+      },
+      onLoadChildrenComplete: (details) => {
+        emit?.('loadChildrenComplete', details)
+        localeProps.onLoadChildrenComplete?.(details)
+      },
+      onLoadChildrenError: (details) => {
+        emit?.('loadChildrenError', details)
+        localeProps.onLoadChildrenError?.(details)
+      },
+      onRenameStart: (details) => {
+        emit?.('renameStart', details)
+        localeProps.onRenameStart?.(details)
+      },
+      onBeforeRename: (details) => {
+        emit?.('beforeRename', details)
+        return localeProps.onBeforeRename?.(details) ?? true
+      },
+      onRenameComplete: (details) => {
+        emit?.('renameComplete', details)
+        localeProps.onRenameComplete?.(details)
+      },
+    }
+  })
+
+  const service = useMachine(treeView.machine, context)
+  return computed(() => treeView.connect(service, normalizeProps))
+}

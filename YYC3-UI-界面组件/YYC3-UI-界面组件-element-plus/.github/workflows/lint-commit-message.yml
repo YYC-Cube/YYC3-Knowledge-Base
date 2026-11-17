@@ -1,0 +1,73 @@
+name: Lint Commit Message
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    # if pull request title is D2M, then skip this job
+    if: ${{ !contains(github.event.pull_request.title, 'D2M') }}
+    continue-on-error: true
+    outputs:
+      failed: ${{ steps.lint_commit.outputs.failed == 'true' }}
+    env:
+      PULL_REQUEST_NUMBER: ${{ github.event.number }}
+      PULL_REQUEST_AUTHOR: ${{ github.event.pull_request.user.login }}
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
+      - name: Setup node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Lint commit
+        id: lint_commit
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          printf '%s\n' "$PR_TITLE" | pnpm run lint:commit || echo "failed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Set success result
+        if: ${{ steps.lint_commit.outputs.failed != 'true' }}
+        run: echo 'true' > ./lint-result.txt
+
+      - name: Set failed result
+        if: ${{ steps.lint_commit.outputs.failed == 'true' }}
+        run: echo 'false' > ./lint-result.txt
+
+      - name: Set PR number
+        run: echo "$PULL_REQUEST_NUMBER" > ./pr.txt
+
+      - name: Set PR author
+        run: echo "$PULL_REQUEST_AUTHOR" > ./author.txt
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: commit-lint-result
+          path: ./lint-result.txt
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pr-number
+          path: ./pr.txt
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pr-author
+          path: ./author.txt

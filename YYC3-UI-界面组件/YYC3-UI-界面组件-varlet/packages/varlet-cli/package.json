@@ -1,0 +1,96 @@
+{
+  "name": "@varlet/cli",
+  "version": "3.20.10",
+  "description": "cli of varlet",
+  "keywords": [
+    "cli",
+    "varlet"
+  ],
+  "bugs": {
+    "url": "https://github.com/varletjs/varlet/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/varletjs/varlet.git"
+  },
+  "license": "MIT",
+  "author": "haoziqaq <357229046@qq.com>",
+  "type": "module",
+  "main": "./lib/node/index.js",
+  "module": "./lib/node/index.js",
+  "bin": {
+    "varlet-cli": "./lib/node/bin.js"
+  },
+  "files": [
+    "lib",
+    "client.js",
+    "client.d.ts",
+    "template",
+    "site"
+  ],
+  "scripts": {
+    "build": "rimraf ./lib && tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-typescript": "^7.24.7",
+    "@inquirer/prompts": "^6.0.1",
+    "@varlet/icon-builder": "0.2.14",
+    "@varlet/release": "^2.2.1",
+    "@varlet/shared": "workspace:*",
+    "@varlet/vite-plugins": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
+    "@vue/babel-plugin-jsx": "catalog:",
+    "@vue/compiler-sfc": "catalog:",
+    "@vue/runtime-core": "catalog:",
+    "chokidar": "^3.5.2",
+    "commander": "^8.3.0",
+    "ejs": "^3.1.8",
+    "esbuild": "0.28.1",
+    "fs-extra": "catalog:",
+    "glob": "^7.2.0",
+    "hash-sum": "^2.0.0",
+    "less": "^4.0.0",
+    "markdown-it": "^12.2.3",
+    "nanospinner": "^1.1.0",
+    "picocolors": "^1.0.0",
+    "sass": "^1.77.4",
+    "sharp": "0.31.1",
+    "tinyexec": "catalog:",
+    "typescript": "catalog:",
+    "vite-plus": "catalog:",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.1",
+    "@types/ejs": "^3.1.1",
+    "@types/fs-extra": "^9.0.2",
+    "@types/glob": "^7.1.3",
+    "@types/hash-sum": "^1.0.0",
+    "@types/markdown-it": "^12.2.3",
+    "@types/node": "catalog:",
+    "@types/sharp": "0.31.1",
+    "@varlet/icons": "workspace:*",
+    "@varlet/touch-emulator": "workspace:*",
+    "@varlet/ui": "workspace:*",
+    "rimraf": "catalog:"
+  },
+  "peerDependencies": {
+    "@varlet/icons": "workspace:*",
+    "@varlet/touch-emulator": "workspace:*",
+    "@varlet/ui": "workspace:*",
+    "@vitest/coverage-istanbul": "catalog:",
+    "@vue/runtime-core": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "clipboard": "^2.0.6",
+    "jsdom": "catalog:",
+    "live-server": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "engines": {
+    "node": "^22.18.0 || ^24.11.0 || >=26.0.0"
+  }
+}

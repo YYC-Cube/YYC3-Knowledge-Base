@@ -1,0 +1,353 @@
+@use '../../styles/mixin/mixin.scss'as *;
+@use '../../styles/variable.scss'as *;
+
+// 主色模式颜色
+$loading-color-main: var(--wot-loading-color-main, $primary-6) !default;
+// 常规模式颜色
+$loading-color-normal: var(--wot-loading-color-normal, $icon-secondary) !default;
+// 白色模式颜色
+$loading-color-white: var(--wot-loading-color-white, $icon-white) !default;
+// 文本颜色
+$loading-color-text: var(--wot-loading-color-text, $text-main) !default;
+// 组件基准尺寸
+$loading-size: var(--wot-loading-size, $n-28) !default;
+// 容器宽度
+$loading-size-width: var(--wot-loading-size-width, 1em) !default;
+// 容器高度
+$loading-size-height: var(--wot-loading-size-height, 1em) !default;
+// 圆形加载器描边宽度
+$loading-spinner-circle-stroke-width: var(--wot-loading-spinner-circle-stroke-width, 15%) !default;
+// 圆形加载器圆角
+$loading-spinner-circle-radius: var(--wot-loading-spinner-circle-radius, $radius-full) !default;
+// 旋转动画时长
+$loading-spinner-animation-duration: var(--wot-loading-spinner-animation-duration, 0.8s) !default;
+// 条状点宽度
+$loading-spinner-dot-width: var(--wot-loading-spinner-dot-width, 10%) !default;
+// 条状点高度
+$loading-spinner-dot-height: var(--wot-loading-spinner-dot-height, 25%) !default;
+// 条状点圆角
+$loading-spinner-dot-radius: var(--wot-loading-spinner-dot-radius, $radius-full) !default;
+// 点状加载器单点尺寸
+$loading-spinner-dots-dot-size: var(--wot-loading-spinner-dots-dot-size, 20%) !default;
+// 点状加载器单点圆角
+$loading-spinner-dots-dot-radius: var(--wot-loading-spinner-dots-dot-radius, $radius-full) !default;
+// 波形加载器间距
+$loading-wave-gap: var(--wot-loading-wave-gap, 6.25%) !default;
+// 波形加载器单柱宽度
+$loading-wave-bar-width: var(--wot-loading-wave-bar-width, 12.5%) !default;
+// 波形加载器单柱高度
+$loading-wave-bar-height: var(--wot-loading-wave-bar-height, 83.333333%) !default;
+// 波形加载器单柱圆角
+$loading-wave-bar-radius: var(--wot-loading-wave-bar-radius, $radius-full) !default;
+// 波形加载器动画时长
+$loading-wave-animation-duration: var(--wot-loading-wave-animation-duration, 834ms) !default;
+// 加载器内边距
+$loading-spinner-padding: var(--wot-loading-spinner-padding, $padding-ultra-tight) !default;
+// 文本与加载器间距
+$loading-text-spacing: var(--wot-loading-text-spacing, $spacing-extra-tight) !default;
+// 文本字号
+$loading-text-font-size: var(--wot-loading-text-font-size, $typography-body-size-main) !default;
+// 文本行高
+$loading-text-line-height: var(--wot-loading-text-line-height, $typography-body-line-height-size-main) !default;
+
+
+@mixin generate($n, $i: 1) {
+  @if $i <=$n {
+    &:nth-of-type(#{$i}) {
+      transform: rotate(90deg - $i * 30deg);
+      opacity: 1 - calc(0.75 / 12) * ($i - 1);
+    }
+
+    @include generate($n, $i + 1);
+  }
+}
+
+@mixin dot-delay($n, $duration) {
+  @for $i from 1 through $n {
+    &:nth-of-type(#{$i}) {
+      animation-delay: calc(#{$duration} * #{($i - 1)} / 3);
+      animation-duration: $duration;
+    }
+  }
+}
+
+@include b(loading) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $loading-color-main;
+  font-size: $loading-size;
+
+  @include m(horizontal) {
+    flex-direction: row;
+
+    @include me(text){
+      margin-left: $loading-text-spacing;
+      
+    }
+  }
+
+  @include m(vertical) {
+    flex-direction: column;
+
+    @include me(text){
+      margin-top: $loading-text-spacing;
+    }
+  }
+
+  @include e(spinner) {
+    flex: none;
+    position: relative;
+    font-size: inherit;
+    width: $loading-size-width;
+    height: $loading-size-height;
+    animation: wd-rotate $loading-spinner-animation-duration linear infinite;
+    padding: $loading-spinner-padding;
+    box-sizing: border-box;
+
+    @include m(circular) {
+      @include me(spinner-wraper) {
+        border-radius: $loading-spinner-circle-radius;
+        border: none;
+        mask: radial-gradient(closest-side,
+            transparent calc(100% - $loading-spinner-circle-stroke-width),
+            $base-white calc(100% - $loading-spinner-circle-stroke-width),
+            $base-white 100%);
+        background: conic-gradient(from 0deg at 50% 50%, $base-transparent 0deg, $base-transparent 90deg, currentColor 330deg, currentColor 360deg);
+      }
+    }
+
+    @include m(spinner) {
+      animation-timing-function: steps(12);
+    }
+
+    @include m(dots) {
+      animation: none;
+
+      @include me(spinner-wraper) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      @include me(spinner-dot) {
+        position: static;
+        width: $loading-spinner-dots-dot-size;
+        height: $loading-spinner-dots-dot-size;
+        border-radius: $loading-spinner-dots-dot-radius;
+        background-color: currentColor;
+        animation-name: wd-dotting;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-fill-mode: both;
+
+        &::before {
+          content: none;
+        }
+
+        @include dot-delay(3, $loading-spinner-animation-duration);
+      }
+    }
+
+    @include m(wave) {
+      animation: none;
+
+      @include me(spinner-wraper) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+      }
+
+      @include me(spinner-wave-bar) {
+        display: flex;
+        align-items: center;
+        animation-duration: $loading-wave-animation-duration;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+
+        &:nth-of-type(n + 2) {
+          margin-left: $loading-wave-gap;
+        }
+      }
+    }
+  }
+
+  @include e(spinner-dot) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @include generate(12);
+
+    &::before {
+      display: block;
+      width: $loading-spinner-dot-width;
+      height: $loading-spinner-dot-height;
+      margin: 0 auto;
+      background-color: currentColor;
+      border-radius: $loading-spinner-dot-radius;
+      content: ' ';
+    }
+  }
+
+  @include e(spinner-wraper) {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  @include e(spinner-wave-bar) {
+    flex: none;
+    width: $loading-wave-bar-width;
+    height: $loading-wave-bar-height;
+
+    &:nth-of-type(1) {
+      .wd-loading__spinner-wave-bar-inner {
+        animation-name: wd-wave-bar-1;
+      }
+    }
+
+    &:nth-of-type(2) {
+      .wd-loading__spinner-wave-bar-inner {
+        animation-name: wd-wave-bar-2;
+      }
+    }
+
+    &:nth-of-type(3) {
+      .wd-loading__spinner-wave-bar-inner {
+        animation-name: wd-wave-bar-3;
+      }
+    }
+
+    &:nth-of-type(4) {
+      .wd-loading__spinner-wave-bar-inner {
+        animation-name: wd-wave-bar-4;
+      }
+    }
+  }
+
+  @include e(spinner-wave-bar-inner) {
+    width: 100%;
+    height: 100%;
+    border-radius: $loading-wave-bar-radius;
+    background-color: currentColor;
+    animation-duration: $loading-wave-animation-duration;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: height;
+  }
+
+  @include e(text) {
+    font-size: $loading-text-font-size;
+    line-height: $loading-text-line-height;
+    color: currentColor;
+  }
+}
+
+@keyframes wd-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wd-dotting {
+  0% {
+    opacity: 0.15;
+  }
+
+  1% {
+    opacity: 0.8;
+  }
+
+  33% {
+    opacity: 0.8;
+  }
+
+  34% {
+    opacity: 0.15;
+  }
+
+  100% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes wd-wave-bar-1 {
+  0%,100% {
+    height: 20%;
+  }
+
+  25.779376%,
+  87.889688% {
+    height: 40%;
+  }
+
+  37.889688%,
+  75.779376% {
+    height: 70%;
+  }
+
+  50% {
+    height: 100%;
+  }
+}
+
+@keyframes wd-wave-bar-2 {
+  0%,100% {
+    height: 40%;
+  }
+
+  25.779376%,
+  87.889688%,
+  50% {
+    height: 70%;
+  }
+
+  37.889688%,
+  75.779376% {
+    height: 100%;
+  }
+}
+
+@keyframes wd-wave-bar-3 {
+  0%,100%,
+  37.889688%,
+  75.779376% {
+    height: 70%;
+  }
+
+  25.779376%, 
+  87.889688% {
+    height: 100%;
+  }
+
+  50% {
+    height: 40%;
+  }
+}
+
+@keyframes wd-wave-bar-4 {
+  0%,100%{
+    height: 100%;
+  }
+
+  25.779376%,
+  87.889688% {
+    height: 70%;
+  }
+
+  37.889688%,
+  75.779376% {
+    height: 40%;
+  }
+
+  50% {
+    height: 20%;
+  }
+}

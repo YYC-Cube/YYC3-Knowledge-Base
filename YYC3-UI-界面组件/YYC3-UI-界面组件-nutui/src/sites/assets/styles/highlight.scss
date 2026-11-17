@@ -1,0 +1,28 @@
+code {
+  position: relative;
+  display: block;
+  padding: 16px;
+  overflow-x: auto;
+  color: $nutui-doc-code-color;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: $nutui-doc-code-font-family;
+  line-height: 26px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  -webkit-font-smoothing: auto;
+  background-color: #fafafa;
+  border-radius: 16px;
+
+  span {
+    font-family: $nutui-doc-code-font-family;
+  }
+}
+
+pre {
+  margin: 20px 0 0;
+
+  + p {
+    margin-top: 20px;
+  }
+}

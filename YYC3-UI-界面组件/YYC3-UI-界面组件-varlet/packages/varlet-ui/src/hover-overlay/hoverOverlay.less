@@ -1,0 +1,26 @@
+:root {
+  --hover-overlay-opacity: var(--opacity-hover);
+  --hover-overlay-focusing-opacity: var(--opacity-focus);
+}
+
+.var-hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 0.15s;
+  will-change: opacity;
+  pointer-events: none;
+
+  &--hovering {
+    opacity: var(--hover-overlay-opacity);
+  }
+
+  &--focusing {
+    opacity: var(--hover-overlay-focusing-opacity);
+  }
+}

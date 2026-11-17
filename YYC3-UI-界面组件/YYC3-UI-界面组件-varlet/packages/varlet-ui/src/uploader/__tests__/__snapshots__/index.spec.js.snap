@@ -1,0 +1,217 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`uploader disabled 1`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader disabled 2`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader__file var-elevation--2">
+      <div class="var-uploader__file-name">cat.png</div>
+      <div class="var-uploader__file-close"><i class="var-icon var-icon--set var-icon-delete var-uploader__file-close-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i></div><img role="img" class="var-uploader__file-cover" src="data:image/png;base64," alt="cat.png">
+      <div class="var-uploader__file-indicator">
+        <div class="var-uploader__progress" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2 var-uploader--disabled"><input type="file" class="var-uploader__action-input" accept="image/*" disabled=""><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader hideList 1`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader length over maxlength in multiple mode 1`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <div class="var-form-details">
+      <div class="var-form-details__error-message">
+        <transition-stub name="var-form-details__message" appear="false" persisted="false" css="true">
+          <!--v-if-->
+        </transition-stub>
+      </div>
+      <div class="var-form-details__extra-message">
+        <transition-stub name="var-form-details__message" appear="false" persisted="false" css="true">
+          <div>0 / 1</div>
+        </transition-stub>
+      </div>
+    </div>
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader progress 1`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader__file var-elevation--2 var-uploader--loading">
+      <div class="var-uploader__file-name">progress</div>
+      <div class="var-uploader__file-close"><i class="var-icon var-icon--set var-icon-delete var-uploader__file-close-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i></div>
+      <!--v-if-->
+      <div class="var-uploader__file-indicator">
+        <div class="var-uploader__progress" style="width: 40%;"></div>
+      </div>
+    </div>
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader remove button slot 1`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader__file var-elevation--2">
+      <div class="var-uploader__file-name">https://varletjs.org/varlet/cat.jpg</div>remove<img role="img" class="var-uploader__file-cover" src="https://varletjs.org/varlet/cat.jpg">
+      <div class="var-uploader__file-indicator">
+        <div class="var-uploader__progress"></div>
+      </div>
+    </div>
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <!--v-if-->
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader validation 1`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <div class="var-form-details">
+      <div class="var-form-details__error-message">
+        <transition-stub name="var-form-details__message" appear="false" persisted="false" css="true">
+          <div>You must upload one file at least</div>
+        </transition-stub>
+      </div>
+      <div class="var-form-details__extra-message">
+        <transition-stub name="var-form-details__message" appear="false" persisted="false" css="true">
+          <!--v-if-->
+        </transition-stub>
+      </div>
+    </div>
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader validation 2`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader__file var-elevation--2">
+      <div class="var-uploader__file-name">cat.png</div>
+      <div class="var-uploader__file-close"><i class="var-icon var-icon--set var-icon-delete var-uploader__file-close-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i></div><img role="img" class="var-uploader__file-cover" src="data:image/png;base64," alt="cat.png">
+      <div class="var-uploader__file-indicator">
+        <div class="var-uploader__progress" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader validation with zod 1`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <div class="var-form-details">
+      <div class="var-form-details__error-message">
+        <transition-stub name="var-form-details__message" appear="false" persisted="false" css="true">
+          <div>You must upload one file at least</div>
+        </transition-stub>
+      </div>
+      <div class="var-form-details__extra-message">
+        <transition-stub name="var-form-details__message" appear="false" persisted="false" css="true">
+          <!--v-if-->
+        </transition-stub>
+      </div>
+    </div>
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;
+
+exports[`uploader validation with zod 2`] = `
+"<div class="var-uploader var--box">
+  <div class="var-uploader__file-list">
+    <div class="var-uploader__file var-elevation--2">
+      <div class="var-uploader__file-name">cat.png</div>
+      <div class="var-uploader__file-close"><i class="var-icon var-icon--set var-icon-delete var-uploader__file-close-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i></div><img role="img" class="var-uploader__file-cover" src="data:image/png;base64," alt="cat.png">
+      <div class="var-uploader__file-indicator">
+        <div class="var-uploader__progress" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div class="var-uploader--outline-none var-uploader__action var-elevation--2" tabindex="0"><input type="file" class="var-uploader__action-input" accept="image/*"><i class="var-icon var-icon--set var-icon-plus var-uploader__action-icon" style="transition-duration: 0ms;" var-uploader-cover=""></i>
+      <div class="var-hover-overlay"></div>
+    </div>
+  </div>
+  <transition-stub name="var-form-details" appear="false" persisted="false" css="true">
+    <!--v-if-->
+  </transition-stub>
+  <!--teleport start-->
+  <!--teleport end-->
+</div>"
+`;

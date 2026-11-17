@@ -1,0 +1,82 @@
+{{#> form form--id=alert-template-horizontal-form--id form--modifier=(concat alert-template-horizontal-form--modifier " pf-m-limit-width pf-m-horizontal")}}
+  {{#> form-alert}}
+    {{#> alert alert--modifier="pf-m-danger pf-m-inline" alert--attribute='aria-label="Inline danger alert"'}}
+      {{#> alert-icon alert-icon--type="exclamation-circle"}}
+      {{/alert-icon}}
+      {{#> alert-title}}
+        {{#> screen-reader}}Danger alert:{{/screen-reader}}
+        Fill out all required fields before continuing.
+      {{/alert-title}}
+    {{/alert}}
+  {{/form-alert}}
+  {{#> form-group form-group--id=(concat form--id '-name')}}
+    {{#> form-group-label}}
+      {{#> form-label form-label--attribute=(concat 'for="' form-group--id '"') required=true}}
+        Name
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control}}
+      {{#> form-control controlType="input" input=true form-control--IsError="true" form-control--IsRequired="true" form-control--attribute=(concat 'type="text" id="' form-group--id '" name="' form-group--id '" aria-invalid="true" aria-describedby="' form-group--id '-helper"')}}
+      {{/form-control}}
+      {{> form-helper-text helper-text--value='Required field' helper-text-item--IsError=true}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--id=(concat form--id '-email')}}
+    {{#> form-group-label}}
+      {{#> form-label form-label--attribute=(concat 'for="' form-group--id '"') required=true}}
+        Email
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control}}
+      {{#> form-control controlType="input" input='true' form-control--IsRequired='true' form-control--attribute=(concat 'type="text" value="patternfly@patternfly.com" id="' form-group--id '" name="' form-group--id '"')}}{{/form-control}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--id=(concat form--id '-phone')}}
+    {{#> form-group-label}}
+      {{#> form-label form-label--attribute=(concat 'for="' form-group--id '"') required=true}}
+        Phone number
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control}}
+      {{#> form-control controlType="input" input=true form-control--IsError='true' form-control--IsRequired='true' form-control--attribute=(concat 'type="text" id="' form-group--id '" name="' form-group--id '" aria-invalid="true" aria-describedby="' form-group--id '-helper"')}}
+      {{/form-control}}
+      {{> form-helper-text helper-text--value='Required field' helper-text-item--IsError=true}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--IsCheckGroup="true" form-group--id=(concat form--id '-check-group') form-group--aria-describedby=(concat form--id '-check-group-helper')}}
+    {{#> form-group-label form-group-label--modifier="pf-m-no-padding-top"}}
+      {{#> form-label form-label--attribute=(concat 'for="' form-group--id '"') required=true}}
+        Your experience
+      {{/form-label}}
+    {{/form-group-label}}
+    {{#> form-group-control form-group-control--modifier="pf-m-stack" check-input--aria-describedby=(concat form-group--id '-helper')}}
+      {{> form-helper-text helper-text--value='At least one experience must be selected' helper-text-item--IsError=true}}
+      {{#> check check--id="alt-checkbox1"}}
+        {{#> check-input}}{{/check-input}}
+        {{#> check-label}}Follow up via email.{{/check-label}}
+      {{/check}}
+      {{#> check check--id="alt-checkbox2"}}
+        {{#> check-input}}{{/check-input}}
+        {{#> check-label}}Remember my password for 30 days.{{/check-label}}
+      {{/check}}
+    {{/form-group-control}}
+  {{/form-group}}
+  {{#> form-group form-group--modifier="pf-m-action"}}
+    {{#> form-group-control}}
+      {{#> action-list}}
+        {{#> action-list-group}}
+          {{#> action-list-item}}
+            {{#> button button--IsPrimary=true button--IsSubmit=true}}
+              Submit
+            {{/button}}
+          {{/action-list-item}}
+          {{#> action-list-item}}
+            {{#> button button--IsSecondary=true}}
+              Cancel
+            {{/button}}
+          {{/action-list-item}}
+        {{/action-list-group}}
+      {{/action-list}}
+    {{/form-group-control}}
+  {{/form-group}}
+{{/form}}

@@ -1,0 +1,11 @@
+{
+    "main": "./ArrowUpIcon.vue",
+    "module": "./ArrowUpIcon.vue",
+    "types": "./ArrowUpIcon.d.ts",
+    "browser": {
+        "./sfc": "./ArrowUpIcon.vue"
+    },
+    "sideEffects": [
+        "*.vue"
+    ]
+}

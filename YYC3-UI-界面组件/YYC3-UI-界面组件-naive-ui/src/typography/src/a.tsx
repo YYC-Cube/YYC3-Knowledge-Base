@@ -1,0 +1,62 @@
+import type { CSSProperties, Ref } from 'vue'
+import type { ThemeProps } from '../../_mixins'
+import type { ExtractPublicPropTypes } from '../../_utils'
+import type { TypographyTheme, TypographyThemeOverrides } from '../styles'
+import { computed, defineComponent, h } from 'vue'
+import { useConfig, useTheme, useThemeClass } from '../../_mixins'
+import { typographyLight } from '../styles'
+import style from './styles/a.cssr'
+
+export const aProps = {
+  ...(useTheme.props as ThemeProps<TypographyTheme, TypographyThemeOverrides>)
+} as const
+
+export type AProps = ExtractPublicPropTypes<typeof aProps>
+
+export default defineComponent({
+  name: 'A',
+  props: aProps,
+  setup(props) {
+    const { mergedClsPrefixRef, inlineThemeDisabled } = useConfig(props)
+    const themeRef = useTheme(
+      'Typography',
+      '-a',
+      style,
+      typographyLight,
+      props,
+      mergedClsPrefixRef
+    )
+    const cssVarsRef = computed(() => {
+      const {
+        common: { cubicBezierEaseInOut },
+        self: { aTextColor }
+      } = themeRef.value
+      return {
+        '--n-text-color': aTextColor,
+        '--n-bezier': cubicBezierEaseInOut
+      }
+    })
+    const themeClassHandle = inlineThemeDisabled
+      ? useThemeClass('a', undefined, cssVarsRef, props)
+      : undefined
+    return {
+      mergedClsPrefix: mergedClsPrefixRef,
+      cssVars: inlineThemeDisabled
+        ? undefined
+        : (cssVarsRef as Ref<CSSProperties>),
+      themeClass: themeClassHandle?.themeClass,
+      onRender: themeClassHandle?.onRender
+    }
+  },
+  render() {
+    this.onRender?.()
+    return (
+      <a
+        class={[`${this.mergedClsPrefix}-a`, this.themeClass]}
+        style={this.cssVars as CSSProperties}
+      >
+        {this.$slots.default?.()}
+      </a>
+    )
+  }
+})

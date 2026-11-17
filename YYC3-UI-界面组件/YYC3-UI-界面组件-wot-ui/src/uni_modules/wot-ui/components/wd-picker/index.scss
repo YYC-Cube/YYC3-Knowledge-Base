@@ -1,0 +1,72 @@
+@use '../../styles/mixin/mixin.scss' as *;
+@use '../../styles/variable.scss' as *;
+
+// 选择器工具栏高度
+$picker-toolbar-height: var(--wot-picker-toolbar-height, $n-44) !default;
+// 选择器背景色
+$picker-bg: var(--wot-picker-bg, $filled-oppo) !default;
+// 确认按钮文字颜色
+$picker-action-color-confirm: var(--wot-picker-action-color-confirm, $primary-6) !default;
+// 取消按钮文字颜色
+$picker-action-color-cancel: var(--wot-picker-action-color-cancel, $text-secondary) !default;
+// 操作按钮禁用颜色
+$picker-action-disabled-color: var(--wot-picker-action-disabled-color, $text-disabled) !default;
+// 操作按钮字号
+$picker-action-font-size: var(--wot-picker-action-font-size, $typography-body-size-extra-large) !default;
+// 标题文字颜色
+$picker-title-color: var(--wot-picker-title-color, $text-main) !default;
+// 标题文字字号
+$picker-title-font-size: var(--wot-picker-title-font-size, $typography-title-size-main) !default;
+// 标题文字字重
+$picker-title-font-weight: var(--wot-picker-title-font-weight, $font-weight-medium) !default;
+// 标题文字行高
+$picker-title-line-height: var(--wot-picker-title-line-height, $typography-title-line-height-size-main) !default;
+// 弹窗圆角
+$picker-radius: var(--wot-picker-radius, $radius-large) !default;
+
+@include b(picker) {
+  @include edeep(popup) {
+    border-radius: $picker-radius $picker-radius 0px 0px;
+  }
+
+  @include e(wraper) {
+    padding-bottom: var(--window-bottom);
+    background: $picker-bg;
+  }
+
+  @include e(toolbar) {
+    position: relative;
+    display: flex;
+    height: $picker-toolbar-height;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  @include e(action) {
+    display: block;
+    border: none;
+    outline: none;
+    font-size: $picker-action-font-size;
+    background: transparent;
+    padding: 0 15px;
+
+    @include m(cancel) {
+      color: $picker-action-color-cancel;
+    }
+
+    @include m(confirm) {
+      color: $picker-action-color-confirm;
+    }
+  }
+
+  @include e(title) {
+    display: block;
+    flex: 1;
+    text-align: center;
+    color: $picker-title-color;
+    font-size: $picker-title-font-size;
+    font-weight: $picker-title-font-weight;
+    line-height: $picker-title-line-height;
+  }
+}

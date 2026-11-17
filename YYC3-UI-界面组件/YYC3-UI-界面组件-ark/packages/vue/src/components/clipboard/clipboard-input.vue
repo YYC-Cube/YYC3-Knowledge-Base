@@ -1,0 +1,28 @@
+<script lang="ts">
+import type { InputHTMLAttributes } from 'vue'
+import type { PolymorphicProps } from '../factory.ts'
+
+export interface ClipboardInputBaseProps extends PolymorphicProps {}
+export interface ClipboardInputProps
+  extends
+    ClipboardInputBaseProps,
+    /**
+     * @vue-ignore
+     */
+    InputHTMLAttributes {}
+</script>
+
+<script setup lang="ts">
+import { ark } from '../factory.ts'
+import { useClipboardContext } from './use-clipboard-context.ts'
+import { useForwardExpose } from '../../utils/use-forward-expose.ts'
+
+defineProps<ClipboardInputProps>()
+const clipboard = useClipboardContext()
+
+useForwardExpose()
+</script>
+
+<template>
+  <ark.input v-bind="clipboard.getInputProps()" :as-child="asChild"><slot /></ark.input>
+</template>

@@ -1,0 +1,204 @@
+.md-example-child
+  box-sizing border-box
+
+.md-example-child-button, .md-example-child-landscape, .md-example-child-action-sheet, .md-example-child-date-picker
+  , .md-example-child-icon, .md-example-child-reader, .md-example-child-notice-bar, .md-example-child-number-keyboard
+  , .md-example-child-picker, .md-example-child-popup, .md-example-child-result-page, .md-example-child-tab-picker
+  , .md-example-child-toast, .md-example-child-dialog, .md-example-child-cashier, .md-example-chart-child
+  clearfix()
+  padding 20px
+
+.md-example-child-button
+  .md-button
+    margin-bottom 10px
+  &.md-example-child-button-3
+    .md-button
+      float left
+      margin-right 10px
+    br
+      float left
+      width 100%
+.md-example-child-agree
+  margin-top 70px
+  padding 0 h-gap-lg
+  font-size font-minor-large
+  .md-agree-content
+    color #858B9C
+    a
+      color #5878B4
+.md-example-child-drop-menu
+  position absolute
+  width 100%
+  height 100%
+  .md-drop-menu-bar
+    height drop-menu-height !important
+.md-example-child-field
+  .md-input-item
+    background #FFF
+    padding 0 32px
+  .strong-tip
+    font-size 24px
+    color color-text-hightlight
+.md-example-child-icon
+  &.md-example-child-icon-1
+    display flex
+    align-items center
+    height 200px
+  .md-example-item, .md-example-item-s
+    float left
+    width 20%
+    padding 30px 0
+    color #333
+    text-align center
+    .md-icon
+      margin 0 auto
+    p
+      margin-top 10px
+      text-align center
+      font-size 20px
+      color #666
+.md-example-child-popup
+  .md-popup.with-mask, .md-popup-box
+    position absolute !important
+.md-example-child-radio
+  .md-field-item-custom-title
+    font-weight font-weight-medium
+  .md-field-item-custom-brief
+    font-size font-minor-normal
+.md-example-child-selector
+  .md-popup.with-mask
+    position absolute !important
+.md-example-child-steps
+  position relative
+  top 40px
+  .bar.horizontal-bar, .horizontal-bar .bar-inner
+    height 2px !important
+  .bar.vertical-bar, .vertical-bar .bar-inner
+    width 2px !important
+.md-example-child-switch
+  display flex
+  align-items center
+  justify-content center
+  height 194px
+.md-example-child-tabs
+  .md-tab-bar
+    background #FFF
+  .md-tab-content
+    background #FFF
+    height 100px
+    line-height 100px
+    text-align center
+.md-example-child-tag
+  display flex
+  align-items center
+  justify-content center
+  height 194px
+  .md-tag
+    margin-right h-gap-sm
+.md-example-child-tab-picker
+  .md-popup.with-mask
+    position absolute !important
+.md-example-child-dialog
+  .md-button
+    margin-bottom 20px  
+.md-example-child-tip
+  zoom 1 !important 
+  display flex
+  align-items center
+  justify-content center
+  height 194px
+.md-example-child-stepper
+  display flex
+  align-items center
+  height 194px
+  .md-field
+    flex 1
+.md-example-child-notice-bar
+  display flex
+  align-items center
+  height 194px
+  .md-notice-bar
+    flex 1
+    width 100%
+.md-example-child-codebox
+  display flex
+  align-items center
+  justify-content center
+  height 194px
+.md-example-chart-child
+  svg
+    width 100% !important
+.md-example-child-result-page
+  background-color #fff
+.md-example-child-check
+  &.md-example-child-check-2, &.md-example-child-check-3
+    padding 32px 0
+.md-example-child-slider
+  padding 52px 0 0
+.md-example-child-amount
+  font-size 48px
+
+.md-image-viewer
+  position absolute !important
+.md-action-bar
+  position absolute !important
+.md-action-sheet
+  .md-popup
+    position absolute !important
+body>.md-action-sheet
+  zoom .6
+  .md-popup-box
+    width 750px !important
+    left calc(50% - 375px)
+.md-date-picker
+  .md-popup
+    position absolute !important
+.md-drop-menu
+  position absolute !important 
+  height 100% !important
+  z-index 100
+  .md-drop-menu-bar
+    height drop-menu-height
+  .md-popup
+    position absolute !important
+.md-dialog .md-popup-box, .md-toast
+  zoom .6
+.md-number-keyboard 
+  .md-popup-box
+    left 50% !important
+    max-width 800px !important
+    margin-left -400px !important
+    z-index 1104 !important
+    box-shadow 0 4px 20px rgba(0, 0, 0, .1)
+.md-captcha 
+  z-index 1402 !important
+  .md-number-keyboard .md-popup-box
+    position fixed !important
+    zoom .6
+  // .md-dialog .md-popup-box
+  //   top 30% !important
+.md-landscape
+  .md-popup
+    position static !important
+  .md-popup.with-mask, .md-popup-box, .landscape-close
+    position absolute !important
+  .landscape-close
+    bottom 5% !important
+.md-picker
+  .md-popup
+    position absolute !important
+  .md-picker-column-masker
+    &::before, &::after
+      transform none !important
+.md-cashier 
+  .md-popup.with-mask
+    position absolute !important
+
+ .md-popup.with-mask
+    z-index 1111 !important
+
+
+@media (max-width: 750px)
+  .md-example-child-icon
+    .md-example-item, .md-example-item-s
+      width 33%
