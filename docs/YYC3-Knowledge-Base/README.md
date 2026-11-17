@@ -66,9 +66,9 @@ complexity: basic
 | Syntax-语法高亮 | 56 | 16,007 | 152.30 MB | [YYC3-Syntax-语法高亮-VISUAL-ARCHITECTURE.html](./YYC3-Syntax-语法高亮-VISUAL-ARCHITECTURE.html) |
 | Tool-开发工具链 | 45 | 95,998 | 1010.60 MB | [YYC3-Tool-开发工具链-VISUAL-ARCHITECTURE.html](./YYC3-Tool-开发工具链-VISUAL-ARCHITECTURE.html) |
 | TypeDef-类型定义 | 2 | 125,256 | 530.80 MB | [YYC3-TypeDef-类型定义-VISUAL-ARCHITECTURE.html](./YYC3-TypeDef-类型定义-VISUAL-ARCHITECTURE.html) |
-| UI-界面组件 | 38 | 220,290 | 5.09 GB | [YYC3-UI-界面组件-VISUAL-ARCHITECTURE.html](./YYC3-UI-界面组件-VISUAL-ARCHITECTURE.html) |
+| UI-界面组件 | 38 | 180,031 | 1.87 GB | [YYC3-UI-界面组件-VISUAL-ARCHITECTURE.html](./YYC3-UI-界面组件-VISUAL-ARCHITECTURE.html) |
 | WebSpec-Web标准 | 35 | 16,012 | 621.20 MB | [YYC3-WebSpec-Web标准-VISUAL-ARCHITECTURE.html](./YYC3-WebSpec-Web标准-VISUAL-ARCHITECTURE.html) |
-| **合计** | **414** | **846,556** | **14.39 GB** | [index.html](./index.html) |
+| **合计** | **414** | **805,611** | **11.07 GB** | [index.html](./index.html) |
 
 ## 四、变更说明
 

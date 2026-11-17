@@ -52,3 +52,6 @@ logs/
 *.rar
 YYC3-AI-模型服务/YYC3-AI-模型服务-server-main/docs/_static/nvidia-logo-vert-rgb-blk-for-screen.png
 YYC3-AI-模型服务/YYC3-AI-模型服务-server-main/docs/_static/nvidia-logo-horiz-rgb-blk-for-screen.png
+
+# 视觉回归快照（体积大，按需生成）
+backstop_data/

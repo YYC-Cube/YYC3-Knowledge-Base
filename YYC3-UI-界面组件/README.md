@@ -29,8 +29,8 @@ complexity: basic
 | 指标 | 值 |
 | --- | --- |
 | 项目数 | **38** |
-| 文件数 | **220,290** |
-| 体积 | **5.09 GB** |
+| 文件数 | **180,031** |
+| 体积 | **1.87 GB** |
 | 命名规范 | `YYC3-UI-界面组件-{项目原名}` |
 
 ## 二、入口
@@ -52,37 +52,37 @@ complexity: basic
 | 4 | `YYC3-UI-界面组件-archived-components` | 9 | 0.1 MB | tsx | — |
 | 5 | `YYC3-UI-界面组件-ark` | 8,147 | 59.4 MB | tsx, ts, vue | package.json |
 | 6 | `YYC3-UI-界面组件-Button` | 103 | 0.6 MB | tsx, ts, md | package.json |
-| 7 | `YYC3-UI-界面组件-chakra-ui` | 3,922 | 154.7 MB | tsx, ts, json | package.json |
+| 7 | `YYC3-UI-界面组件-chakra-ui` | 3,917 | 154.7 MB | tsx, ts, json | package.json |
 | 8 | `YYC3-UI-界面组件-CopilotKit` | 24,639 | 634.5 MB | ts, tsx, json | package.json |
-| 9 | `YYC3-UI-界面组件-element-plus` | 2,752 | 10.1 MB | ts, vue, scss | package.json |
+| 9 | `YYC3-UI-界面组件-element-plus` | 2,733 | 10.0 MB | ts, vue, scss | package.json |
 | 10 | `YYC3-UI-界面组件-flowbite` | 434 | 20.5 MB | md, jpg, ts | package.json |
 | 11 | `YYC3-UI-界面组件-headlessui` | 11 | 0.0 MB | yml, md, ts | — |
 | 12 | `YYC3-UI-界面组件-ionic-framework` | 10,525 | 105.4 MB | png, ts, html | package.json |
 | 13 | `YYC3-UI-界面组件-lobe-ui` | 3,101 | 9.1 MB | tsx, ts, mdx | package.json |
-| 14 | `YYC3-UI-界面组件-mand-mobile` | 1,230 | 42.0 MB | vue, js, md | package.json |
-| 15 | `YYC3-UI-界面组件-mantine` | 7,198 | 22.0 MB | tsx, ts, mdx | package.json |
+| 14 | `YYC3-UI-界面组件-mand-mobile` | 1,186 | 41.9 MB | vue, js, md | package.json |
+| 15 | `YYC3-UI-界面组件-mantine` | 7,184 | 22.0 MB | tsx, ts, mdx | package.json |
 | 16 | `YYC3-UI-界面组件-material-ui` | 38,759 | 251.6 MB | js, mjs, svg | package.json |
 | 17 | `YYC3-UI-界面组件-mui-x` | 9,604 | 38.2 MB | ts, tsx, js | package.json |
-| 18 | `YYC3-UI-界面组件-naive-ui` | 3,690 | 7.8 MB | vue, ts, tsx | package.json |
+| 18 | `YYC3-UI-界面组件-naive-ui` | 3,671 | 7.8 MB | vue, ts, tsx | package.json |
 | 19 | `YYC3-UI-界面组件-nutui` | 2,232 | 5.7 MB | vue, ts, md | package.json |
 | 20 | `YYC3-UI-界面组件-onlook` | 1,550 | 25.5 MB | ts, tsx, json | package.json, docker-compose.yml, Dockerfile |
-| 21 | `YYC3-UI-界面组件-patternfly` | 40,954 | 3.23 GB | png, hbs, scss | package.json |
+| 21 | `YYC3-UI-界面组件-patternfly` | 1,588 | 21.5 MB | hbs, png, scss | package.json |
 | 22 | `YYC3-UI-界面组件-patternfly-elements` | 965 | 12.8 MB | html, ts, md | package.json |
 | 23 | `YYC3-UI-界面组件-primevue` | 4,837 | 29.4 MB | vue, js, json | package.json |
 | 24 | `YYC3-UI-界面组件-primitives` | 703 | 4.0 MB | tsx, md, json | package.json |
 | 25 | `YYC3-UI-界面组件-quark-design` | 911 | 13.1 MB | md, ts, tsx | package.json |
-| 26 | `YYC3-UI-界面组件-quasar` | 4,560 | 60.5 MB | js, vue, md | package.json |
+| 26 | `YYC3-UI-界面组件-quasar` | 4,363 | 59.8 MB | js, vue, md | package.json |
 | 27 | `YYC3-UI-界面组件-reka-ui` | 2,148 | 9.9 MB | vue, md, ts | package.json |
 | 28 | `YYC3-UI-界面组件-shadcn-ui` | 8,584 | 68.6 MB | json, tsx, ts | — |
 | 29 | `YYC3-UI-界面组件-tdesign-miniprogram` | 5,238 | 16.3 MB | ts, js, json | package.json |
 | 30 | `YYC3-UI-界面组件-tdesign-react` | 2,185 | 19.1 MB | tsx, ts, js | package.json |
 | 31 | `YYC3-UI-界面组件-tdesign-vue-next` | 2,900 | 18.9 MB | vue, ts, tsx | package.json |
 | 32 | `YYC3-UI-界面组件-vant` | 1,564 | 14.4 MB | ts, md, snap | package.json |
-| 33 | `YYC3-UI-界面组件-vant-weapp` | 1,900 | 3.3 MB | ts, wxml, json | package.json |
+| 33 | `YYC3-UI-界面组件-vant-weapp` | 1,427 | 2.9 MB | ts, wxml, json | package.json |
 | 34 | `YYC3-UI-界面组件-varlet` | 1,964 | 9.3 MB | ts, md, vue | package.json |
-| 35 | `YYC3-UI-界面组件-vuetify` | 3,194 | 10.1 MB | vue, ts, tsx | package.json, docker-compose.yml, Dockerfile |
+| 35 | `YYC3-UI-界面组件-vuetify` | 3,173 | 9.2 MB | vue, ts, tsx | package.json, docker-compose.yml, Dockerfile |
 | 36 | `YYC3-UI-界面组件-web-ui` | 55 | 0.1 MB | ts, map, js | package.json |
-| 37 | `YYC3-UI-界面组件-weui` | 291 | 7.7 MB | less, css, html | package.json |
+| 37 | `YYC3-UI-界面组件-weui` | 190 | 1.2 MB | less, html, png | package.json |
 | 38 | `YYC3-UI-界面组件-wot-ui` | 1,297 | 28.4 MB | ts, md, vue | package.json |
 
 ## 四、合并与清理记录
