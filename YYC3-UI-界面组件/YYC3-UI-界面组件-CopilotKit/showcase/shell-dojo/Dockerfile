@@ -1,0 +1,66 @@
+FROM node:22.23.4-bookworm-slim@sha256:de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e735122f38d AS builder
+ARG COMMIT_SHA=unknown
+ARG BRANCH=unknown
+WORKDIR /app
+
+# Copy only what shell-dojo + scripts need
+COPY showcase/scripts/package.json ./scripts/package.json
+COPY showcase/scripts/package-lock.json ./scripts/package-lock.json
+COPY showcase/shell-dojo/package.json ./shell-dojo/package.json
+COPY showcase/shell-dojo/package-lock.json ./shell-dojo/package-lock.json
+
+# Use the committed standalone locks; fresh resolution can crash npm's peer resolver.
+RUN cd scripts && npm ci --no-audit --no-fund \
+    && cd ../shell-dojo && npm ci --no-audit --no-fund
+
+# Copy source
+COPY showcase/shared/ ./shared/
+COPY showcase/integrations/ ./integrations/
+COPY showcase/scripts/ ./scripts/
+COPY showcase/shell-dojo/ ./shell-dojo/
+
+# Bake commit info into Next.js build
+ENV NEXT_PUBLIC_COMMIT_SHA=${COMMIT_SHA}
+ENV NEXT_PUBLIC_BRANCH=${BRANCH}
+
+# generate-registry.ts imports the catalog cross-join/flatten fold from
+# ../harness/src/shared/catalog/catalog-flatten.js. That file is ESM (relies on
+# the harness package.json's `"type": "module"`) and does `import yaml from
+# "js-yaml"`, resolved by walking up from the harness tree. Stage the harness's
+# shared tree + the harness package.json for the ESM scope, then point
+# harness/node_modules at the already-installed scripts node_modules so js-yaml
+# (+ its argparse dep) resolve — no second install of the harness package.
+#
+# Copy the WHOLE `src/shared` tree, not just `catalog/`. This used to stage
+# `catalog/` alone, which held only as long as catalog-flatten.ts imported
+# nothing outside it; the moment Step 5 read `STARTER_CEILING` from
+# `../cell-model/cell-model.combine.js` the build died with
+# ERR_MODULE_NOT_FOUND at `generate-registry.ts`. A whole-tree copy means the
+# next shared-path import cannot reintroduce that.
+COPY showcase/harness/src/shared/ ./harness/src/shared/
+COPY showcase/harness/package.json ./harness/package.json
+RUN ln -s ../scripts/node_modules harness/node_modules
+
+# Generate registry + content, then build Next.js
+RUN cd scripts && node node_modules/tsx/dist/cli.mjs generate-registry.ts \
+    && node node_modules/tsx/dist/cli.mjs bundle-demo-content.ts \
+    && cd ../shell-dojo && npx next build
+
+FROM node:22.23.4-bookworm-slim@sha256:de170b39439eb0e5a3444ad7d60b015614a381e10fecae2e30ec9e735122f38d AS runner
+WORKDIR /app
+ARG COMMIT_SHA=unknown
+ARG BRANCH=unknown
+ENV NODE_ENV=production
+ENV PORT=10000
+ENV NEXT_PUBLIC_COMMIT_SHA=${COMMIT_SHA}
+ENV NEXT_PUBLIC_BRANCH=${BRANCH}
+
+COPY --from=builder /app/shell-dojo/.next ./.next
+COPY --from=builder /app/shell-dojo/node_modules ./node_modules
+COPY --from=builder /app/shell-dojo/package.json ./
+
+EXPOSE 10000
+CMD ["npx", "next", "start", "-p", "10000"]
+
+# Fail the build if any base or install path regresses the accepted Node runtime.
+RUN test "$(node --version)" = "v22.23.4"

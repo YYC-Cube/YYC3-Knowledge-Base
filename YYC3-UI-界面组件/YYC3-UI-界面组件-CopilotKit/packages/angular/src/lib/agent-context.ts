@@ -1,0 +1,36 @@
+import { inject, Injector, runInInjectionContext } from "@angular/core";
+import { Context } from "@ag-ui/client";
+import { CopilotKit } from "./copilotkit";
+import { explicitEffect } from "./explicit-effect";
+
+export interface ConnectAgentContextConfig {
+  injector?: Injector;
+}
+
+/**
+ * Connects context to the agent.
+ *
+ * @param context - The context (or reactive zero-argument accessor) to connect.
+ * @param config - Optional configuration for connecting the context.
+ */
+export function connectAgentContext(
+  context: Context | (() => Context),
+  config?: ConnectAgentContextConfig,
+): void {
+  const injector = config?.injector ?? inject(Injector);
+
+  runInInjectionContext(injector, () => {
+    const copilotkit = inject(CopilotKit);
+
+    explicitEffect(
+      () => (typeof context === "function" ? context() : context),
+      (contextValue, onCleanup) => {
+        const id = copilotkit.core.addContext(contextValue);
+
+        onCleanup(() => {
+          copilotkit.core.removeContext(id);
+        });
+      },
+    );
+  });
+}

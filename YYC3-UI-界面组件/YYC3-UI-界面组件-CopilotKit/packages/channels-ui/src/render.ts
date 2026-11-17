@@ -1,0 +1,97 @@
+import { Fragment, isHostElement } from "./ir.js";
+import type { ChannelNode, Renderable } from "./ir.js";
+import { isNativeNode } from "./native.js";
+
+function isChannelNode(v: unknown): v is ChannelNode {
+  return typeof v === "object" && v !== null && "type" in v && "props" in v;
+}
+
+function expand(node: unknown): ChannelNode[] {
+  if (node == null || node === false || node === true) return [];
+  if (typeof node === "string" || typeof node === "number") {
+    return [{ type: "text", props: { value: String(node) } }];
+  }
+  if (Array.isArray(node)) return node.flatMap(expand);
+  if (!isChannelNode(node)) return [];
+  if (isHostElement(node)) return [node];
+  if (node.type === Fragment || node.type === Symbol.for("react.fragment")) {
+    return expand(node.props.children);
+  }
+  if (typeof node.type === "function") {
+    const expanded = expand(
+      (node.type as (p: Record<string, unknown>) => unknown)(node.props),
+    );
+    if (node.key !== undefined && expanded.length === 1 && expanded[0]) {
+      expanded[0] = { ...expanded[0], key: expanded[0].key ?? node.key };
+    }
+    return expanded;
+  }
+  // Keep <Render> children as authored (React host tags / ChannelNodes).
+  // Expanding them would turn a host <button> into { type: "button" }.
+  if (node.type === "render") {
+    return [
+      {
+        type: "render",
+        props: { ...node.props },
+        key: node.key,
+      },
+    ];
+  }
+  if (isNativeNode(node)) {
+    return [
+      {
+        ...node,
+        props: Object.fromEntries(
+          Object.entries(node.props).map(([name, value]) => [
+            name,
+            expandNativeValue(value),
+          ]),
+        ),
+      },
+    ];
+  }
+  const { children, ...rest } = node.props;
+  const expandedChildren =
+    children === undefined ? undefined : expand(children);
+  return [
+    {
+      type: node.type,
+      props:
+        expandedChildren === undefined
+          ? rest
+          : { ...rest, children: expandedChildren },
+      key: node.key,
+    },
+  ];
+}
+
+/** Expand JSX-valued native slots while leaving scalar native objects intact. */
+function expandNativeValue(value: unknown): unknown {
+  if (isChannelNode(value)) {
+    const expanded = expand(value);
+    return expanded.length === 1 ? expanded[0] : expanded;
+  }
+  if (Array.isArray(value)) {
+    return value.flatMap((item) => {
+      if (!isChannelNode(item)) return [item];
+      return expand(item);
+    });
+  }
+  return value;
+}
+
+export function renderToIR(ui: Renderable): ChannelNode[] {
+  if (typeof ui === "object" && ui !== null && "raw" in ui) {
+    const native = ui as {
+      raw: unknown;
+      provider?: "slack" | "teams";
+    };
+    return [
+      {
+        type: "raw",
+        props: { value: native.raw, provider: native.provider ?? "slack" },
+      },
+    ];
+  }
+  return expand(ui);
+}

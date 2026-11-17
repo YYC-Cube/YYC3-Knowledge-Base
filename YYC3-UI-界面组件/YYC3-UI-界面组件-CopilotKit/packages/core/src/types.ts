@@ -1,0 +1,216 @@
+import type { AbstractAgent, ToolCall } from "@ag-ui/client";
+import type {
+  InspectorMetadataV1,
+  IntelligenceRuntimeInfo,
+  RuntimeMode,
+  RuntimeLicenseStatus,
+  ThreadEndpointRuntimeInfo,
+} from "@copilotkit/shared";
+import type { StandardSchemaV1 } from "@copilotkit/shared";
+
+/**
+ * Status of a tool call execution
+ */
+export enum ToolCallStatus {
+  InProgress = "inProgress",
+  Executing = "executing",
+  Complete = "complete",
+}
+
+export type CopilotRuntimeTransport = "rest" | "single" | "auto";
+export type {
+  InspectorMetadataV1,
+  RuntimeMode,
+  IntelligenceRuntimeInfo,
+  RuntimeLicenseStatus,
+  ThreadEndpointRuntimeInfo,
+};
+
+/**
+ * Context passed to a frontend tool handler
+ */
+export type FrontendToolHandlerContext = {
+  toolCall: ToolCall;
+  /**
+   * The agent that invoked the tool. Absent when the tool is invoked through
+   * the WebMCP browser API (`document.modelContext`), which has no agent.
+   */
+  agent?: AbstractAgent;
+  /** Aborted when `stopAgent()` is called. Handlers can check `signal.aborted`
+   *  or pass the signal to fetch/setTimeout to cooperatively cancel. */
+  signal?: AbortSignal;
+  /**
+   * True when CopilotKit runs this call while restoring a thread's history on
+   * connect, for a call that a previous page or client left without a result.
+   * Absent for a call made by a live run. See `reconnectBehavior`.
+   */
+  isReplay?: boolean;
+};
+
+/**
+ * What a frontend tool does with its own calls that are still unanswered when
+ * a thread's history is restored (a reload, a remount, or a thread switch).
+ * Only calls after the latest user message are eligible; older unanswered
+ * calls remain historical and never resume work on reconnect.
+ *
+ * - `"passive"` (default) — show the call, but do not run the handler. Nothing
+ *   the handler did runs twice.
+ * - `"resume-pending"` — run the handler for each call that has no result,
+ *   with `isReplay: true` in its context, then continue the run as usual
+ *   (follow-up included, unless `followUp` is false).
+ *
+ * Use `"resume-pending"` only for a handler that is safe to run more than
+ * once. A call does not start twice at the same time in one CopilotKit
+ * instance, but it can run again after a stop or a thread switch if its result
+ * never reached the agent, and two tabs or devices that restore the same
+ * thread can each run it.
+ *
+ * If one assistant message also calls a tool that stays passive, the follow-up
+ * run sends that call without a result, which some model providers reject.
+ * Opt in every tool the agent calls together, or set `followUp: false`.
+ */
+export type FrontendToolReconnectBehavior = "passive" | "resume-pending";
+
+/**
+ * Annotations for a WebMCP tool, passed through to
+ * `document.modelContext.registerTool`. Mirrors the WebMCP spec's tool
+ * annotations. These are hints for browser agents only — they do not enforce
+ * any policy on their own.
+ */
+export type WebMCPToolAnnotations = {
+  /**
+   * Hint that the tool does not modify state. Defaults to false.
+   * Set it for read-only tools (search, status lookup, ...).
+   */
+  readOnlyHint?: boolean;
+  /**
+   * Hint that the tool's output may contain untrusted content
+   * (e.g. user-generated or external content). Defaults to false.
+   */
+  untrustedContentHint?: boolean;
+};
+
+/**
+ * WebMCP registration options for a frontend tool.
+ */
+export type WebMCPToolConfig = {
+  /** Hints that tell browser agents how the tool behaves. */
+  annotations?: WebMCPToolAnnotations;
+};
+
+export type FrontendTool<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> = {
+  /**
+   * @internal Classifies local execution. Omitted means an ordinary frontend
+   * tool. Pending calls in the latest user turn are eligible for restoration.
+   * Human-in-the-loop handlers are restored from history replay;
+   * other handlers only with `reconnectBehavior: "resume-pending"`. Tools
+   * without a handler restore missing empty completion results automatically.
+   * This field is not sent to the agent as part of the tool schema.
+   */
+  type?: "frontend" | "human-in-the-loop";
+  name: string;
+  description?: string;
+  parameters?: StandardSchemaV1<any, T>;
+  handler?: (args: T, context: FrontendToolHandlerContext) => Promise<unknown>;
+  followUp?: boolean;
+  /**
+   * Whether to run the handler again for a call that is still unanswered when
+   * the thread's history is restored. Defaults to `"passive"`. See
+   * {@link FrontendToolReconnectBehavior}.
+   */
+  reconnectBehavior?: FrontendToolReconnectBehavior;
+  /**
+   * Optional agent ID to constrain this tool to a specific agent.
+   * If specified, this tool will only be available to the specified agent.
+   */
+  agentId?: string;
+  /**
+   * Whether this tool is available to the agent.
+   * Set to false to hide the tool from the agent without unregistering it.
+   * Defaults to true when not specified.
+   */
+  available?: boolean;
+  /**
+   * Also expose this tool to browser agents through the WebMCP API
+   * (`document.modelContext`) while keeping the normal agent registration.
+   *
+   * - `true` — register with default annotations.
+   * - `{ annotations }` — register with the given WebMCP annotations.
+   * - `false` / `undefined` — do not register.
+   *
+   * The tool's `handler` runs when a browser agent calls the tool; the handler
+   * context then has no `agent`. No-op in environments without WebMCP support
+   * (e.g. React Native, or browsers without the API enabled).
+   */
+  webmcp?: boolean | WebMCPToolConfig;
+};
+
+export type Suggestion = {
+  title: string;
+  message: string;
+  /** Indicates whether this suggestion is still being generated. */
+  isLoading: boolean;
+  /** Optional CSS class name applied to the suggestion pill. */
+  className?: string;
+};
+
+export type SuggestionAvailability =
+  | "before-first-message"
+  | "after-first-message"
+  | "always"
+  | "disabled";
+
+export type DynamicSuggestionsConfig = {
+  /**
+   * A prompt or instructions for the GPT to generate suggestions.
+   */
+  instructions: string;
+  /**
+   * The minimum number of suggestions to generate. Defaults to `1`.
+   * @default 1
+   */
+  minSuggestions?: number;
+  /**
+   * The maximum number of suggestions to generate. Defaults to `3`.
+   * @default 1
+   */
+  maxSuggestions?: number;
+
+  /**
+   * When the suggestions are available. Defaults to "after-first-message".
+   */
+  available?: SuggestionAvailability;
+
+  /**
+   * The agent ID of the provider of the suggestions. Defaults to `"default"`.
+   */
+  providerAgentId?: string;
+
+  /**
+   * The agent ID of the consumer of the suggestions. Defaults to `"*"` (all agents).
+   */
+  consumerAgentId?: string;
+};
+
+export type StaticSuggestionsConfig = {
+  /**
+   * The suggestions to display.
+   */
+  suggestions: Omit<Suggestion, "isLoading">[];
+
+  /**
+   * When the suggestions are available. Defaults to "before-first-message".
+   */
+  available?: SuggestionAvailability;
+
+  /**
+   * The agent ID of the consumer of the suggestions. Defaults to `"*"` (all agents).
+   */
+  consumerAgentId?: string;
+};
+
+export type SuggestionsConfig =
+  | DynamicSuggestionsConfig
+  | StaticSuggestionsConfig;

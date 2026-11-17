@@ -1,0 +1,76 @@
+import type { TurnContext } from "@microsoft/agents-hosting";
+import type { ConversationReference } from "@microsoft/agents-activity";
+import type { FileDeliveryConfig } from "./download-files.js";
+
+/**
+ * Stable per-conversation key. Teams gives every conversation (1:1 chat, group
+ * chat, or channel) a durable `conversation.id`, which is exactly the grain we
+ * want: one agent session per conversation.
+ */
+export type ConversationKey = string;
+
+/**
+ * Where a reply goes.
+ *
+ * Replies sent *inside* the originating turn use the live {@link TurnContext}
+ * (the simplest path, and the one the M365 Agents Playground exercises). The
+ * {@link ConversationReference} is captured alongside it so the same target can
+ * later drive proactive (out-of-turn) sends via
+ * `CloudAdapter.continueConversation`.
+ */
+export interface TeamsReplyTarget {
+  conversationKey: ConversationKey;
+  reference: Partial<ConversationReference>;
+  /** Live turn context, present while replying within the originating activity. */
+  context?: TurnContext;
+}
+
+export interface TeamsAdapterOptions {
+  /**
+   * Port for the bot's `POST /api/messages` endpoint. Defaults to `3978`, the
+   * endpoint the M365 Agents Playground connects to.
+   */
+  port?: number;
+  /**
+   * Interface the endpoint listens on. Without credentials the endpoint is
+   * unauthenticated, so it defaults to `127.0.0.1`; setting a non-loopback
+   * host (such as `0.0.0.0`) exposes an UNAUTHENTICATED bot to the network
+   * and is an explicit opt-in. With credentials it defaults to all
+   * interfaces.
+   */
+  host?: string;
+  /**
+   * Microsoft app (client) id. Omit for anonymous local development with the
+   * M365 Agents Playground; required to talk to real Teams via Azure Bot
+   * Service. Falls back to the `clientId` env var.
+   */
+  clientId?: string;
+  /** Microsoft client secret. Omit for anonymous local dev. Falls back to `clientSecret`. */
+  clientSecret?: string;
+  /** Microsoft tenant (directory) id. Omit for multi-tenant / anonymous. Falls back to `tenantId`. */
+  tenantId?: string;
+  /**
+   * Extra Bot Connector origins the bot may reply to, on top of the built-in
+   * Microsoft hosts (Teams commercial, GCC, GCC High, DoD and 21Vianet, plus
+   * `https://*.botframework.com` and `https://*.botframework.azure.us`).
+   * Entries are origins such as `https://smba.example.net`; a leading `*.` on
+   * the host allows any subdomain (at least two labels must follow it). Plain
+   * `http` is accepted only for `localhost`, `127.0.0.1` and `[::1]`, for
+   * example the Bot Framework Emulator; other entries are ignored with a
+   * warning. Only applies when a `clientId` is configured: an inbound
+   * activity whose `serviceUrl` is not allowed is rejected with 403, and the
+   * bot never sends its app token to it.
+   */
+  allowedServiceUrls?: readonly string[];
+  /**
+   * Custom-event names treated as interrupts by the run renderer (captured for
+   * an `onInterrupt` handler). Defaults to `on_interrupt`, the name
+   * LangGraph's AG-UI adapter emits.
+   */
+  interruptEventNames?: ReadonlySet<string>;
+  /**
+   * Tunables for inbound file handling (size/count caps applied when a user
+   * uploads files). Defaults are sane; override only to widen or tighten them.
+   */
+  files?: FileDeliveryConfig;
+}

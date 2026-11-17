@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "sourceRevision": "37b8283e4105f712f5406875d78433e914617701",
+  "command": "pnpm nx run @copilotkit/showcase-angular-host:build --skip-nx-cache",
+  "initial": {
+    "files": [
+      "chunk-ATLRY6HR.js",
+      "chunk-ETQU2SHK.js",
+      "chunk-GCVC2KI5.js",
+      "chunk-ITNJNRDP.js",
+      "chunk-JZTJ4MUG.js",
+      "chunk-SOHJ7QGG.js",
+      "chunk-TJS4I6JO.js",
+      "chunk-USOD3V74.js",
+      "chunk-VSN3FBHC.js",
+      "main-MCBY6RPZ.js",
+      "styles-K76BGNVN.css"
+    ],
+    "rawBytes": 1913989,
+    "gzipBytes": 316283,
+    "brotliBytes": 257383
+  },
+  "maximumRelativeRegression": 0.1,
+  "absoluteCapBytes": 4600000,
+  "runtimeReadiness": {
+    "route": "/angular/agentic-chat",
+    "samplesPerIntegration": 10,
+    "maximumReadyMs": 2000,
+    "integrations": {
+      "langgraph-python": {
+        "sourceCommit": "0c261b3b0eddb9ffadea975314da1b01f832c295",
+        "containerImageRevision": "sha256:0288d2a366d45e48e88923b9be86f0dd5147bb11dcef8bd0e487ff9887cfe114",
+        "fixtureRevision": "0c261b3b0eddb9ffadea975314da1b01f832c295",
+        "browser": "chromium",
+        "cpuSlowdown": 4,
+        "network": "50Mbps/10Mbps/20ms",
+        "sampleCount": 10,
+        "measurementsMs": [231, 227, 225, 196, 207, 205, 202, 208, 209, 213],
+        "maximumMs": 231,
+        "p95Ms": 231,
+        "passed": true
+      },
+      "mastra": {
+        "sourceCommit": "0c261b3b0eddb9ffadea975314da1b01f832c295",
+        "containerImageRevision": "sha256:573c90e038079fea120c9309203b9a0f4669fdb44137bdb351abb928f2d6f714",
+        "fixtureRevision": "0c261b3b0eddb9ffadea975314da1b01f832c295",
+        "browser": "chromium",
+        "cpuSlowdown": 4,
+        "network": "50Mbps/10Mbps/20ms",
+        "sampleCount": 10,
+        "measurementsMs": [212, 217, 207, 211, 206, 206, 206, 226, 202, 204],
+        "maximumMs": 226,
+        "p95Ms": 226,
+        "passed": true
+      }
+    }
+  },
+  "bundleComparison": {
+    "baseInitialRawBytes": 1586633,
+    "reason": "@a2ui/web_core 0.10.4 to 0.15.0: shared multi-version processor/catalog/schema validation, regex safety, and upstream basic-catalog web components.",
+    "baseCommit": "e43fc79354f4734ce096643a44d8c4df4f60a81e"
+  }
+}

@@ -1,0 +1,1106 @@
+import type {
+  AbstractAgent,
+  AgentCapabilities,
+  AgentSubscriber,
+  BaseEvent,
+  HttpAgentConfig,
+  Message,
+  RunAgentInput,
+  RunAgentParameters,
+  RunAgentResult,
+} from "@ag-ui/client";
+import {
+  EventType,
+  HttpAgent,
+  runHttpRequest,
+  structuredClone_,
+  transformHttpEventStream,
+} from "@ag-ui/client";
+import type { Observable } from "rxjs";
+import { EMPTY, defer, from, of } from "rxjs";
+import {
+  catchError,
+  concatMap,
+  concatWith,
+  finalize,
+  switchMap,
+} from "rxjs/operators";
+import {
+  RUNTIME_MODE_SSE,
+  RUNTIME_MODE_INTELLIGENCE,
+} from "@copilotkit/shared";
+import type {
+  IntelligenceRuntimeInfo,
+  RuntimeInfo,
+  RuntimeMode,
+  ResolvedDebugConfig,
+} from "@copilotkit/shared";
+import { IntelligenceAgent } from "./intelligence-agent";
+import type { CopilotRuntimeTransport } from "./types";
+import { runtimeInfoError } from "./utils/runtime-info-error";
+import type { RuntimeRequestInit } from "./utils/runtime-request";
+import type { ConnectionReplayLifecycle } from "./utils/connect-replay";
+import { ɵconnectWithoutEventVerification } from "./utils/connect-replay";
+import type { CopilotKitMessageFilter } from "./core/message-filter";
+import {
+  ɵkeepToolResultsWithCalls,
+  ɵrepairToolCallPairs,
+} from "./core/message-filter";
+
+type ResolvedRuntimeMode = RuntimeMode | "pending";
+
+interface RunnableAgent {
+  connect(
+    input: RunAgentInput,
+    lifecycle?: ConnectionReplayLifecycle,
+  ): Observable<BaseEvent>;
+  run(input: RunAgentInput): Observable<BaseEvent>;
+}
+
+function hasHeaders(
+  agent: AbstractAgent,
+): agent is AbstractAgent & { headers?: Record<string, string> } {
+  return "headers" in agent;
+}
+
+function hasCredentials(
+  agent: AbstractAgent,
+): agent is AbstractAgent & { credentials?: RequestCredentials } {
+  return "credentials" in agent;
+}
+
+function isZodError(error: unknown): boolean {
+  return (
+    error !== null &&
+    typeof error === "object" &&
+    "name" in error &&
+    (error as { name: string }).name === "ZodError"
+  );
+}
+
+function isAbortError(error: unknown): boolean {
+  return (
+    (error instanceof DOMException || error instanceof Error) &&
+    (error as Error).name === "AbortError"
+  );
+}
+
+function withAbortErrorHandling(
+  observable: Observable<BaseEvent>,
+): Observable<BaseEvent> {
+  return observable.pipe(
+    catchError((error) => {
+      if (isZodError(error) || isAbortError(error)) {
+        return EMPTY;
+      }
+      throw error;
+    }),
+  );
+}
+
+export interface ProxiedCopilotRuntimeAgentConfig extends Omit<
+  HttpAgentConfig,
+  "url"
+> {
+  runtimeUrl?: string;
+  transport?: CopilotRuntimeTransport;
+  credentials?: RequestCredentials;
+  runtimeMode?: ResolvedRuntimeMode;
+  intelligence?: IntelligenceRuntimeInfo;
+  capabilities?: AgentCapabilities;
+  debug?: ResolvedDebugConfig;
+  /**
+   * When set, runtime requests (HTTP path, single-route envelope, intelligence
+   * delegate) are routed to this agent on the runtime instead of `agentId`.
+   * The local `agentId` remains the registry key used for subscriber
+   * bookkeeping; only outbound routing is overridden.
+   */
+  runtimeAgentId?: string;
+  /**
+   * Rewrites the outbound message list on every run. See
+   * {@link CopilotKitMessageFilter}. Not applied in Intelligence mode.
+   */
+  messageFilter?: CopilotKitMessageFilter;
+}
+
+export class ProxiedCopilotRuntimeAgent extends HttpAgent {
+  runtimeUrl?: string;
+  credentials?: RequestCredentials;
+  // `readonly` because `super.url` is baked at construction; mutating
+  // `runtimeAgentId` post-construction would desync the REST `run` URL
+  // (already captured) from `routedAgentId()` (consulted per-call by
+  // stop/connect/single-route paths).
+  readonly runtimeAgentId?: string;
+  private transport: CopilotRuntimeTransport;
+  /**
+   * The runtime URL exactly as the caller supplied it. `runtimeUrl` is the
+   * slash-stripped form used for path joins; the single-route endpoint (run,
+   * connect, stop, info envelopes) is this verbatim value, because a trailing
+   * slash can select a different proxy location.
+   */
+  private readonly runtimeEndpointUrl?: string;
+  private singleEndpointUrl?: string;
+  private runtimeMode: ResolvedRuntimeMode;
+  private intelligence?: IntelligenceRuntimeInfo;
+  private _capabilities?: AgentCapabilities;
+  private delegate?: AbstractAgent;
+  private runtimeInfoPromise?: Promise<void>;
+  private connectionAttempt?: object;
+  private _messageFilter?: CopilotKitMessageFilter;
+  /**
+   * The HTTP `run` this agent started and has not yet seen finish, as the
+   * exact `{ threadId, runId }` it POSTed. `abortRun` narrows `/stop` to this
+   * run only while `threadId` still matches: `threadId` is a public field the
+   * host may reassign under a live run, and a runId from another thread must
+   * not be sent as if it were this thread's. Released when the run stream
+   * finalizes, cleared on `connect` (a reconnected thread may run under a
+   * runId this client never saw) and never copied by `clone`. Without a
+   * provable active run the stop stays thread-wide.
+   */
+  private activeRun?: { threadId: string; runId: string };
+
+  constructor(config: ProxiedCopilotRuntimeAgentConfig) {
+    const normalizedRuntimeUrl = config.runtimeUrl
+      ? config.runtimeUrl.replace(/\/$/, "")
+      : undefined;
+    const transport = config.transport ?? "auto";
+    const routedId = config.runtimeAgentId ?? config.agentId ?? "";
+    // The single endpoint is the caller's URL exactly as given: a trailing
+    // slash can select a different proxy location, so it must survive. Only
+    // the path joins (`/agent/…`, `/info`) use the slash-stripped form.
+    const runUrl =
+      transport === "single"
+        ? (config.runtimeUrl ?? "")
+        : `${normalizedRuntimeUrl ?? config.runtimeUrl}/agent/${encodeURIComponent(routedId)}/run`;
+
+    if (!runUrl) {
+      throw new Error(
+        "ProxiedCopilotRuntimeAgent requires a runtimeUrl when transport is set to 'single'.",
+      );
+    }
+
+    super({
+      ...config,
+      url: runUrl,
+    });
+    this.runtimeUrl = normalizedRuntimeUrl ?? config.runtimeUrl;
+    this.runtimeEndpointUrl = config.runtimeUrl;
+    this.credentials = config.credentials;
+    this.runtimeAgentId = config.runtimeAgentId;
+    this.transport = transport;
+    this.runtimeMode = config.runtimeMode ?? RUNTIME_MODE_SSE;
+    this.intelligence = config.intelligence;
+    this._capabilities = config.capabilities;
+    this._messageFilter = config.messageFilter;
+    if (config.debug) {
+      this.debug = config.debug;
+    }
+    if (this.transport === "single") {
+      this.singleEndpointUrl = this.runtimeEndpointUrl;
+    }
+  }
+
+  /**
+   * Adopt the runtime mode a fresh `/info` just reported.
+   *
+   * A live proxy outlives the runtime configuration that minted it: a
+   * redeploy, an env-var change or a rollback can flip `intelligence` → `sse`
+   * under a page that is already open. The registry preserves the proxy across
+   * that re-sync on purpose — it is backing an open conversation — so the new
+   * mode is pushed onto the instance here instead of replacing it.
+   *
+   * Without this the mode was decided once, at construction, and `run()` kept
+   * taking the delegate path against a runtime serving plain SSE, where
+   * `response.json()` on a `text/event-stream` body throws for the rest of the
+   * page's life. See #7130.
+   *
+   * A delegate built for the old mode is torn down: it speaks a protocol the
+   * runtime no longer serves, and it may be holding a websocket open. The
+   * memoized `/info` promise goes with it — it answered for the old
+   * configuration, so a later `ensureRuntimeConfiguration()` must re-ask
+   * rather than treat that answer as current.
+   *
+   * Only `wsUrl` is compared on the Intelligence metadata, because that is the
+   * one field the delegate bakes in at construction.
+   */
+  adoptRuntimeMode(
+    runtimeMode: ResolvedRuntimeMode,
+    intelligence: IntelligenceRuntimeInfo | undefined,
+  ): void {
+    const unchanged =
+      this.runtimeMode === runtimeMode &&
+      this.intelligence?.wsUrl === intelligence?.wsUrl;
+
+    this.runtimeMode = runtimeMode;
+    this.intelligence = intelligence;
+
+    if (unchanged) {
+      return;
+    }
+    this.connectionAttempt = undefined;
+    this.runtimeInfoPromise = undefined;
+    const staleDelegate = this.delegate;
+    this.delegate = undefined;
+    if (staleDelegate) {
+      staleDelegate.abortRun();
+    }
+    // SSE also owns a pipeline, even though it has no delegate.
+    void this.detachActiveRun();
+  }
+
+  /**
+   * The agent id used for outbound runtime requests — `runtimeAgentId` when
+   * set (manually-registered proxy), otherwise `agentId` (registry id
+   * matches runtime id). Subscriber bookkeeping keeps using `agentId`
+   * directly.
+   *
+   * Throws when both are unset: a proxy reaching an HTTP path with no
+   * routable id is a bug, and a missing id would otherwise produce a
+   * malformed `/agent//run` or `/agent/undefined/connect` URL silently.
+   */
+  private routedAgentId(): string {
+    const id = this.runtimeAgentId ?? this.agentId;
+    if (!id) {
+      throw new Error(
+        "ProxiedCopilotRuntimeAgent: cannot make a runtime request without an agentId or runtimeAgentId.",
+      );
+    }
+    return id;
+  }
+
+  get capabilities(): AgentCapabilities | undefined {
+    return this._capabilities;
+  }
+
+  /**
+   * The filter applied to the outbound message list on every run.
+   *
+   * Registry-owned. `AgentRegistry` writes it whenever the core-level filter
+   * changes, so an agent discovered before the app configured one still picks
+   * it up — and so a value written here by hand is replaced on the registry's
+   * next sweep. Configure it through `CopilotKitCore` instead.
+   */
+  get messageFilter(): CopilotKitMessageFilter | undefined {
+    return this._messageFilter;
+  }
+
+  set messageFilter(filter: CopilotKitMessageFilter | undefined) {
+    this._messageFilter = filter;
+  }
+
+  /**
+   * Build the outbound payload, keeping every tool result with the call that
+   * issued it.
+   *
+   * - **No filter** (or a filter whose output is unusable, which falls back to
+   *   the full thread): `ɵkeepToolResultsWithCalls` re-places tool results
+   *   that drifted from their call and changes nothing else. The client store
+   *   can detach them on its own when a `MESSAGES_SNAPSHOT` re-ids a tool
+   *   message, and a backend that rebuilds state from such a payload drops
+   *   every result it cannot pair.
+   * - **Filter**: `ɵrepairToolCallPairs(kept, full)` restores the call or the
+   *   results a filter trimmed. Its known limitations are tracked in
+   *   https://github.com/CopilotKit/CopilotKit/issues/7891.
+   * - **Filter repair throws**: the filter's output goes through
+   *   `ɵkeepToolResultsWithCalls` instead, keeping its trimming and
+   *   redaction; if that throws too, the output is sent as is.
+   *
+   * **Called from the HTTP paths only, and that placement is the Intelligence
+   * exemption.** An earlier revision applied the filter in
+   * `prepareRunAgentInput`, which runs before the runtime mode is resolved:
+   * with the default `"auto"` transport, or on a proxy still `"pending"` its
+   * first `/info`, `run()` prepared the input, *then* resolved the mode, then
+   * handed that already-filtered input to `#runViaDelegate` — so a managed
+   * runtime received a truncated thread despite the exemption. Filtering here
+   * makes that unreachable by construction: `#runViaHttp` and
+   * `#connectViaHttp` are only entered once the mode is known not to be
+   * Intelligence. Do not move this back up the call chain.
+   *
+   * The managed runtime is the store of record for the thread — the threads
+   * drawer and the Slack transcript read from it — so a client-side truncation
+   * there has a blast radius nobody asked for. Every reporter on #1482 is
+   * self-hosted.
+   *
+   * `prepareRunAgentInput` has already deep-cloned the thread and stripped
+   * `activity` messages by the time the input reaches here, so the filter
+   * cannot reach the messages the UI renders no matter what it does with the
+   * array it is handed. The filter gets a *second* deep clone on top of that,
+   * because `input.messages` is also the repair baseline and the untrimmed
+   * fallback: sharing the message objects let a filter that rewrote the tool
+   * call id of an assistant message it dropped hide that issuer from the
+   * repair, and the kept tool result then went out orphaned — a payload the
+   * provider rejects, which is exactly the failure this whole mechanism
+   * exists to prevent.
+   */
+  #prepareOutboundMessages(input: RunAgentInput): RunAgentInput {
+    const full = input.messages;
+    const kept = this.#applyMessageFilter(full);
+
+    // The pairing step is a best-effort fix-up, so it is guarded on its own
+    // and kept apart from the filter call: a bug here is reported as the
+    // repair failing, never as the app's filter failing. A successful filter
+    // repair changes more than pairing: it can add stored calls and results,
+    // reorder messages, drop messages that share an id or results under a
+    // reused call id, and replace a filter's edited copies with the stored
+    // originals (see above). If the repair throws, the payload goes out as
+    // it would have without it — the input unchanged when nothing was
+    // filtered, the filter's output with only drifted results moved when a
+    // filter ran.
+    const agentId = this.agentId ?? "";
+    try {
+      const messages =
+        kept === undefined
+          ? ɵkeepToolResultsWithCalls(full)
+          : ɵrepairToolCallPairs(kept, full);
+      return { ...input, messages };
+    } catch (error) {
+      if (kept === undefined) {
+        console.warn(
+          `ProxiedCopilotRuntimeAgent: tool-call repair failed for agent "${agentId}"; sending the message history unrepaired instead.`,
+          error,
+        );
+        return input;
+      }
+      try {
+        const messages = ɵkeepToolResultsWithCalls(kept);
+        console.warn(
+          `ProxiedCopilotRuntimeAgent: tool-call repair failed for agent "${agentId}"; sending the filtered message history with only drifted tool results moved instead.`,
+          error,
+        );
+        return { ...input, messages };
+      } catch (moveError) {
+        console.warn(
+          `ProxiedCopilotRuntimeAgent: tool-call repair failed for agent "${agentId}"; sending the filtered message history unrepaired instead.`,
+          error,
+          moveError,
+        );
+        return { ...input, messages: kept };
+      }
+    }
+  }
+
+  /**
+   * Run the configured filter. Returns `undefined` when there is no filter,
+   * copying the thread for it fails, or the filter's output cannot be used,
+   * meaning "send the full thread".
+   *
+   * A filter that throws, returns a non-array, or returns an array with an
+   * entry that is not a message object (a hole or a nested array included)
+   * falls back to the untrimmed thread rather than failing the run. Trimming
+   * is an optimization, and taking the user's message down with it would be
+   * the worse outcome; the warning is what surfaces the bug.
+   */
+  #applyMessageFilter(full: Message[]): Message[] | undefined {
+    const filter = this._messageFilter;
+    if (!filter) return undefined;
+
+    // Copied outside the filter's guard, so a thread that cannot be cloned is
+    // reported as that, not as the app's filter failing.
+    let copy: Message[];
+    try {
+      copy = structuredClone_(full);
+    } catch (error) {
+      console.warn(
+        "ProxiedCopilotRuntimeAgent: could not copy the message history for messageFilter; sending the full message history instead.",
+        error,
+      );
+      return undefined;
+    }
+
+    let kept: unknown;
+    try {
+      kept = filter(copy, { agentId: this.agentId ?? "" });
+    } catch (error) {
+      console.warn(
+        "ProxiedCopilotRuntimeAgent: messageFilter failed; sending the full message history instead.",
+        error,
+      );
+      return undefined;
+    }
+    if (!Array.isArray(kept)) {
+      console.warn(
+        "ProxiedCopilotRuntimeAgent: messageFilter returned a non-array value; sending the full message history instead.",
+      );
+      return undefined;
+    }
+    // An index loop, not `every`: `every` skips the holes of a sparse array.
+    for (let index = 0; index < kept.length; index++) {
+      const entry: unknown = kept[index];
+      if (typeof entry !== "object" || entry === null || Array.isArray(entry)) {
+        console.warn(
+          "ProxiedCopilotRuntimeAgent: messageFilter returned an entry that is not a message; sending the full message history instead.",
+        );
+        return undefined;
+      }
+    }
+    return kept as Message[];
+  }
+
+  override requestInit(input: RunAgentInput): RequestInit {
+    const baseInit = super.requestInit(input);
+    return {
+      ...baseInit,
+      ...(this.credentials ? { credentials: this.credentials } : {}),
+    };
+  }
+
+  async getCapabilities(): Promise<AgentCapabilities> {
+    return this._capabilities ?? {};
+  }
+
+  override async detachActiveRun(): Promise<void> {
+    this.connectionAttempt = undefined;
+    this.isRunning = false;
+    const delegateDetach = this.delegate?.detachActiveRun();
+    const proxyDetach = super.detachActiveRun();
+    await Promise.all([delegateDetach, proxyDetach]);
+  }
+
+  abortRun(): void {
+    if (this.delegate) {
+      this.syncDelegate(this.delegate);
+      this.delegate.abortRun();
+      // Also detach the proxy's own runAgent pipeline so the proxy's
+      // isRunning resets and onRunFinalized fires even if the delegate's
+      // observable doesn't propagate a clean completion.
+      void this.detachActiveRun();
+      return;
+    }
+
+    if (!this.agentId || !this.threadId) {
+      return;
+    }
+
+    if (typeof fetch === "undefined") {
+      return;
+    }
+
+    const routedId = this.routedAgentId();
+    const runId =
+      this.activeRun?.threadId === this.threadId
+        ? this.activeRun.runId
+        : undefined;
+
+    if (this.transport === "single") {
+      if (!this.singleEndpointUrl) {
+        return;
+      }
+
+      const headers = new Headers({
+        ...this.headers,
+        "Content-Type": "application/json",
+      });
+      void this.fetch(this.singleEndpointUrl, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          method: "agent/stop",
+          params: {
+            agentId: routedId,
+            threadId: this.threadId,
+          },
+          ...(runId === undefined ? {} : { body: { runId } }),
+        }),
+        ...(this.credentials ? { credentials: this.credentials } : {}),
+        // A stop is fire-and-forget: its failure shouldn't arm the runtime
+        // reachability watchdog or trigger a reachability probe.
+        ɵruntimeRequest: { nonCritical: true },
+      } as RuntimeRequestInit).catch((error) => {
+        console.error("ProxiedCopilotRuntimeAgent: stop request failed", error);
+      });
+      return;
+    }
+
+    if (!this.runtimeUrl) {
+      return;
+    }
+
+    const stopPath = `${this.runtimeUrl}/agent/${encodeURIComponent(routedId)}/stop/${encodeURIComponent(this.threadId)}`;
+    const origin =
+      typeof window !== "undefined" && window.location
+        ? window.location.origin
+        : "http://localhost";
+    const base = new URL(this.runtimeUrl, origin);
+    const stopUrl = new URL(stopPath, base);
+
+    void this.fetch(stopUrl.toString(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...this.headers,
+      },
+      ...(runId === undefined ? {} : { body: JSON.stringify({ runId }) }),
+      ...(this.credentials ? { credentials: this.credentials } : {}),
+      // A stop is fire-and-forget: its failure shouldn't arm the runtime
+      // reachability watchdog or trigger a reachability probe.
+      ɵruntimeRequest: { nonCritical: true },
+    } as RuntimeRequestInit).catch((error) => {
+      console.error("ProxiedCopilotRuntimeAgent: stop request failed", error);
+    });
+  }
+
+  override async connectAgent(
+    parameters?: RunAgentParameters,
+    subscriber?: AgentSubscriber,
+  ): Promise<RunAgentResult> {
+    const detached = this.detachActiveRun();
+    const connection = {};
+    const threadId = this.threadId;
+    this.connectionAttempt = connection;
+    const isCurrentConnection = () =>
+      this.connectionAttempt === connection && this.threadId === threadId;
+    await detached;
+    if (!isCurrentConnection()) return { result: undefined, newMessages: [] };
+    await this.ensureRuntimeConfiguration();
+    if (!isCurrentConnection()) return { result: undefined, newMessages: [] };
+    if (this.runtimeMode !== RUNTIME_MODE_INTELLIGENCE) {
+      // A self-hosted `/connect` response replays the thread's history, so it
+      // can carry several past runs — including one that ended in RUN_ERROR
+      // followed by a later RUN_STARTED. The base pipeline's `verifyEvents`
+      // step enforces single-run lifecycle rules and rejects that stream
+      // outright, so an existing thread never hydrates (#4943).
+      return ɵconnectWithoutEventVerification(
+        this,
+        parameters,
+        subscriber,
+        (input, lifecycle) => this.connect(input, lifecycle),
+      );
+    }
+
+    // Ensure the delegate exists and is synced with the proxy's current state.
+    await this.resolveDelegate();
+    if (!isCurrentConnection()) return { result: undefined, newMessages: [] };
+    const delegate = this.delegate!;
+
+    // Subscribe a bridging observer FIRST so it fires before the forwarded
+    // UI subscribers.  This keeps proxy.messages in sync with the delegate
+    // in real-time — otherwise the UI re-renders (triggered by the
+    // forwarded onMessagesChanged) but reads stale proxy.messages because
+    // the final sync only happens after connectAgent resolves.
+    const bridgeSub = delegate.subscribe({
+      onMessagesChanged: () => {
+        if (!isCurrentConnection()) return;
+        this.setMessages([...delegate.messages]);
+      },
+      onStateChanged: () => {
+        if (!isCurrentConnection()) return;
+        this.setState({ ...delegate.state });
+      },
+      // Mirror isRunning so the proxy reflects the delegate's run lifecycle.
+      // Without this, UI components read proxy.isRunning (always false) even
+      // though the delegate is actively running, causing the stop button to
+      // never appear.
+      onRunInitialized: () => {
+        if (!isCurrentConnection()) return;
+        this.isRunning = true;
+      },
+      onRunFinalized: () => {
+        if (!isCurrentConnection()) return;
+        this.pendingInterrupts = structuredClone_(delegate.pendingInterrupts);
+        this.isRunning = false;
+      },
+      // Local exception (network error, deserialization failure, etc.)
+      onRunFailed: () => {
+        if (!isCurrentConnection()) return;
+        this.isRunning = false;
+      },
+      // The connect pipeline updates the delegate before forwarding events:
+      // live errors clear busy, historical errors keep replay busy, and a
+      // successor run can start while the same connection keeps listening.
+      onRunErrorEvent: () => {
+        if (!isCurrentConnection()) return;
+        this.isRunning = delegate.isRunning;
+      },
+      onRunStartedEvent: () => {
+        if (!isCurrentConnection()) return;
+        this.isRunning = delegate.isRunning;
+      },
+    });
+
+    // Forward the proxy's subscribers to the delegate so that UI hooks
+    // (e.g. useAgent's onMessagesChanged) receive real-time updates as
+    // the delegate processes events during connectAgent.
+    const forwardedSubs = [
+      ...this.subscribers,
+      ...(subscriber ? [subscriber] : []),
+    ].map((subscriber) =>
+      delegate.subscribe(
+        new Proxy(subscriber, {
+          get(target, property, receiver) {
+            const callback = Reflect.get(target, property, receiver);
+            if (typeof callback !== "function") return callback;
+            return (...args: unknown[]) =>
+              isCurrentConnection()
+                ? Reflect.apply(callback, target, args)
+                : undefined;
+          },
+        }),
+      ),
+    );
+
+    try {
+      const result = await delegate.connectAgent(parameters);
+
+      // Final sync to guarantee the proxy reflects the delegate's end state.
+      if (isCurrentConnection()) {
+        this.setMessages([...delegate.messages]);
+        this.setState({ ...delegate.state });
+        this.pendingInterrupts = structuredClone_(delegate.pendingInterrupts);
+      }
+
+      return result;
+    } finally {
+      // Ensure the proxy's isRunning is reset — the bridging subscription
+      // may have already handled this, but if the delegate threw before
+      // firing onRunFinalized the proxy would be stuck in isRunning=true.
+      if (isCurrentConnection()) this.isRunning = false;
+      // Remove forwarded subscribers to avoid duplicate notifications on
+      // subsequent calls (they'll be re-forwarded next time).
+      bridgeSub.unsubscribe();
+      for (const sub of forwardedSubs) {
+        sub.unsubscribe();
+      }
+    }
+  }
+
+  connect(
+    input: RunAgentInput,
+    lifecycle?: ConnectionReplayLifecycle,
+  ): Observable<BaseEvent> {
+    if (
+      this.runtimeMode === "pending" ||
+      (this.transport === "auto" &&
+        this.runtimeMode !== RUNTIME_MODE_INTELLIGENCE)
+    ) {
+      return defer(() => from(this.ensureRuntimeConfiguration())).pipe(
+        switchMap(() => this.connect(input, lifecycle)),
+      );
+    }
+    if (this.runtimeMode === RUNTIME_MODE_INTELLIGENCE) {
+      return this.#connectViaDelegate(input, lifecycle);
+    }
+    return this.#connectViaHttp(input);
+  }
+
+  public run(input: RunAgentInput): Observable<BaseEvent> {
+    if (
+      this.runtimeMode === "pending" ||
+      (this.transport === "auto" &&
+        this.runtimeMode !== RUNTIME_MODE_INTELLIGENCE)
+    ) {
+      return defer(() => from(this.ensureRuntimeConfiguration())).pipe(
+        switchMap(() => this.run(input)),
+      );
+    }
+    if (this.runtimeMode === RUNTIME_MODE_INTELLIGENCE) {
+      return this.#runViaDelegate(input);
+    }
+    return this.#runViaHttp(input);
+  }
+
+  #connectViaDelegate(
+    input: RunAgentInput,
+    lifecycle?: ConnectionReplayLifecycle,
+  ): Observable<BaseEvent> {
+    return defer(() => from(this.resolveDelegate())).pipe(
+      switchMap((delegate) =>
+        withAbortErrorHandling(delegate.connect(input, lifecycle)),
+      ),
+    );
+  }
+
+  #connectViaHttp(unfiltered: RunAgentInput): Observable<BaseEvent> {
+    const input = this.#prepareOutboundMessages(unfiltered);
+    this.activeRun = undefined;
+    const routedId = this.routedAgentId();
+    let httpEvents: ReturnType<typeof runHttpRequest>;
+    if (this.transport === "single") {
+      if (!this.singleEndpointUrl) {
+        throw new Error("Single endpoint transport requires a runtimeUrl");
+      }
+
+      const requestInit = this.createSingleRouteRequestInit(
+        input,
+        "agent/connect",
+        {
+          agentId: routedId,
+        },
+      );
+      httpEvents = runHttpRequest(() =>
+        this.fetch(this.singleEndpointUrl!, requestInit),
+      );
+    } else {
+      const connectUrl = `${this.runtimeUrl}/agent/${routedId}/connect`;
+      const connectRequestInit = this.requestInit(input);
+      httpEvents = runHttpRequest(() =>
+        this.fetch(connectUrl, connectRequestInit),
+      );
+    }
+
+    const replay = defer(() => {
+      let replayStarted = false;
+      const emptyHistory = [
+        { type: EventType.MESSAGES_SNAPSHOT, messages: [] },
+        { type: EventType.STATE_SNAPSHOT, snapshot: {} },
+      ];
+      return transformHttpEventStream(httpEvents).pipe(
+        concatMap((event) => {
+          if (replayStarted) return of(event);
+          replayStarted = true;
+          // Reset through the event pipeline because it captures the old view.
+          // Keep that view until the first replay event arrives.
+          return from([...emptyHistory, event]);
+        }),
+        concatWith(defer(() => (replayStarted ? EMPTY : from(emptyHistory)))),
+      );
+    });
+    // A failed or aborted request must not become a successful empty replay.
+    return withAbortErrorHandling(replay);
+  }
+
+  #runViaDelegate(input: RunAgentInput): Observable<BaseEvent> {
+    return defer(() => from(this.resolveDelegate())).pipe(
+      switchMap((delegate) => withAbortErrorHandling(delegate.run(input))),
+    );
+  }
+
+  #runViaHttp(unfiltered: RunAgentInput): Observable<BaseEvent> {
+    const input = this.#prepareOutboundMessages(unfiltered);
+    const activeRun = { threadId: input.threadId, runId: input.runId };
+    // Hold this run's identity for as long as its stream lives. The identity
+    // check keeps a late-finalizing stream from releasing a newer run.
+    const trackActiveRun = (source: Observable<BaseEvent>) => {
+      this.activeRun = activeRun;
+      return source.pipe(
+        finalize(() => {
+          if (this.activeRun === activeRun) this.activeRun = undefined;
+        }),
+      );
+    };
+    if (this.transport === "single") {
+      if (!this.singleEndpointUrl) {
+        throw new Error("Single endpoint transport requires a runtimeUrl");
+      }
+
+      const requestInit = this.createSingleRouteRequestInit(
+        input,
+        "agent/run",
+        {
+          agentId: this.routedAgentId(),
+        },
+      );
+      const httpEvents = runHttpRequest(() =>
+        this.fetch(this.singleEndpointUrl!, requestInit),
+      );
+      return trackActiveRun(
+        withAbortErrorHandling(transformHttpEventStream(httpEvents)),
+      );
+    }
+
+    return trackActiveRun(withAbortErrorHandling(super.run(input)));
+  }
+
+  public override clone(): ProxiedCopilotRuntimeAgent {
+    const cloned = new ProxiedCopilotRuntimeAgent({
+      runtimeUrl: this.runtimeEndpointUrl ?? this.runtimeUrl,
+      agentId: this.agentId,
+      runtimeAgentId: this.runtimeAgentId,
+      description: this.description,
+      headers: { ...this.headers },
+      credentials: this.credentials,
+      transport: this.transport,
+      runtimeMode: this.runtimeMode,
+      intelligence: this.intelligence,
+      capabilities: this._capabilities,
+      debug: this.debug,
+      fetch: this.fetch,
+      messageFilter: this._messageFilter,
+    });
+    cloned.threadId = this.threadId;
+    cloned.setState(this.state);
+    cloned.setMessages(this.messages);
+    cloned.pendingInterrupts = structuredClone_(this.pendingInterrupts);
+    if (this.delegate) {
+      const clonedDelegate: AbstractAgent = this.delegate.clone();
+      cloned.delegate = clonedDelegate;
+      cloned.syncDelegate(clonedDelegate);
+    }
+    return cloned;
+  }
+
+  /** Run presentation-only MCP reads on a separate client agent so their
+   * lifecycle cannot replace an in-flight approval's detach/completion state. */
+  public async ɵrunMcpResourceRead(
+    parameters: RunAgentParameters,
+  ): Promise<RunAgentResult> {
+    const request = (
+      parameters.forwardedProps as Record<string, unknown> | undefined
+    )?.__proxiedMCPRequest;
+    if (
+      typeof request !== "object" ||
+      request === null ||
+      (request as { method?: unknown }).method !== "resources/read"
+    ) {
+      throw new Error("Only MCP resources/read can use the read-only path");
+    }
+    await this.ensureRuntimeConfiguration();
+    // Only the renderer's dedicated read path opts into the direct response.
+    // Other MCP callers still receive the normal realtime run protocol.
+    const resourceParameters = {
+      ...parameters,
+      forwardedProps: {
+        ...parameters.forwardedProps,
+        __copilotkitMcpResourceReadOnly: true,
+      },
+    };
+    if (this.runtimeMode !== RUNTIME_MODE_INTELLIGENCE) {
+      return this.runAgent(resourceParameters);
+    }
+    const resourceAgent = this.clone();
+    // A resource read does not resume the conversation. Only its disposable
+    // client skips the pending-interrupt gate; the original agent and ordinary
+    // clones must retain every approval for the next conversation run.
+    resourceAgent.pendingInterrupts = [];
+    return resourceAgent.runAgent(resourceParameters);
+  }
+
+  /**
+   * Drop the delegate's cached `lastSeenEventId` for this thread so
+   * the next connect requests a full historical replay from the
+   * gateway. Used by `RunHandler.connectAgent` on a detected thread
+   * switch (the chat moved between threads, so its local
+   * messages/state are about to be cleared and need rebuilding from
+   * the gateway). Skipped on same-thread churn re-connects so the
+   * gateway can resume from the cursor instead.
+   *
+   * No-op for non-Intelligence runtime modes — the HTTP transport
+   * doesn't replay.
+   */
+  public clearReplayCursor(threadId: string): void {
+    if (this.runtimeMode !== RUNTIME_MODE_INTELLIGENCE) return;
+    const delegate = this.delegate as
+      | { clearReconnectCursor?: (id: string) => void }
+      | null
+      | undefined;
+    delegate?.clearReconnectCursor?.(threadId);
+  }
+
+  private async resolveDelegate(): Promise<RunnableAgent> {
+    await this.ensureRuntimeConfiguration();
+
+    if (!this.delegate) {
+      if (this.runtimeMode !== RUNTIME_MODE_INTELLIGENCE) {
+        throw new Error("A delegate is only created for Intelligence mode");
+      }
+      this.delegate = this.createIntelligenceDelegate();
+    }
+
+    this.syncDelegate(this.delegate);
+
+    // AbstractAgent declares connect() as protected, but concrete delegates
+    // (IntelligenceAgent, HttpAgent) expose both connect() and run() publicly.
+    return this.delegate as unknown as RunnableAgent;
+  }
+
+  /** Resolve transport and runtime mode before the first outbound request. */
+  private async ensureRuntimeConfiguration(): Promise<void> {
+    if (
+      this.runtimeMode === RUNTIME_MODE_INTELLIGENCE ||
+      (this.runtimeMode !== "pending" && this.transport !== "auto")
+    ) {
+      return;
+    }
+
+    if (!this.runtimeUrl) {
+      throw new Error("Runtime URL is not set");
+    }
+
+    const runtimeInfoPromise =
+      this.runtimeInfoPromise ??
+      this.fetchRuntimeInfo().then((runtimeInfo) => {
+        if (this.runtimeInfoPromise !== runtimeInfoPromise) return;
+        this.runtimeMode = runtimeInfo.mode ?? RUNTIME_MODE_SSE;
+        this.intelligence = runtimeInfo.intelligence;
+      });
+    this.runtimeInfoPromise = runtimeInfoPromise;
+
+    try {
+      await runtimeInfoPromise;
+    } catch (error) {
+      if (this.runtimeInfoPromise === runtimeInfoPromise) {
+        this.runtimeInfoPromise = undefined;
+      }
+      throw error;
+    }
+  }
+
+  private async fetchRuntimeInfo(): Promise<RuntimeInfo> {
+    const headers: Record<string, string> = {
+      ...this.headers,
+    };
+
+    if (this.transport === "auto") {
+      return this.fetchRuntimeInfoAutoDetect(headers);
+    }
+
+    let init: RequestInit;
+    let url: string;
+
+    if (this.transport === "single") {
+      if (!this.singleEndpointUrl) {
+        throw new Error("Single endpoint transport requires a runtimeUrl");
+      }
+      if (!headers["Content-Type"]) {
+        headers["Content-Type"] = "application/json";
+      }
+      url = this.singleEndpointUrl;
+      init = { method: "POST", body: JSON.stringify({ method: "info" }) };
+    } else {
+      url = `${this.runtimeUrl}/info`;
+      init = {};
+    }
+
+    const response = await this.fetch(url, {
+      ...init,
+      headers,
+      ...(this.credentials ? { credentials: this.credentials } : {}),
+    });
+    if (!response.ok) {
+      throw await runtimeInfoError(response);
+    }
+    return (await response.json()) as RuntimeInfo;
+  }
+
+  private async fetchRuntimeInfoAutoDetect(
+    headers: Record<string, string>,
+  ): Promise<RuntimeInfo> {
+    // Try REST first (GET /info)
+    try {
+      const response = await this.fetch(`${this.runtimeUrl}/info`, {
+        headers: { ...headers },
+        ...(this.credentials ? { credentials: this.credentials } : {}),
+      });
+      // Only treat a successful (2xx) response as a valid REST runtime.
+      // 404/405 means the endpoint doesn't exist; other non-2xx errors
+      // (500, 403, etc.) should also fall through to single-endpoint.
+      if (response.status >= 200 && response.status < 300) {
+        this.transport = "rest";
+        return (await response.json()) as RuntimeInfo;
+      }
+    } catch {
+      // REST failed — fall through to single-endpoint attempt
+    }
+
+    // Try single-endpoint (POST with { method: "info" })
+    const singleHeaders = { ...headers };
+    if (!singleHeaders["Content-Type"]) {
+      singleHeaders["Content-Type"] = "application/json";
+    }
+    const endpointUrl = this.runtimeEndpointUrl ?? this.runtimeUrl!;
+    const response = await this.fetch(endpointUrl, {
+      method: "POST",
+      headers: singleHeaders,
+      body: JSON.stringify({ method: "info" }),
+      ...(this.credentials ? { credentials: this.credentials } : {}),
+    });
+    if (!response.ok) {
+      throw await runtimeInfoError(response);
+    }
+    this.transport = "single";
+    this.singleEndpointUrl = endpointUrl;
+    return (await response.json()) as RuntimeInfo;
+  }
+
+  private createSingleRouteRequestInit(
+    input: RunAgentInput,
+    method: string,
+    params?: Record<string, string>,
+  ): RequestInit {
+    if (!this.agentId) {
+      throw new Error(
+        "ProxiedCopilotRuntimeAgent requires agentId to make runtime requests",
+      );
+    }
+
+    const baseInit = super.requestInit(input);
+    const headers = new Headers(baseInit.headers ?? {});
+    headers.set("Content-Type", "application/json");
+    headers.set("Accept", headers.get("Accept") ?? "text/event-stream");
+
+    let originalBody: unknown = undefined;
+    if (typeof baseInit.body === "string") {
+      try {
+        originalBody = JSON.parse(baseInit.body);
+      } catch (error) {
+        console.warn(
+          "ProxiedCopilotRuntimeAgent: failed to parse request body for single route transport",
+          error,
+        );
+      }
+    }
+
+    const envelope: Record<string, unknown> = { method };
+
+    if (params && Object.keys(params).length > 0) {
+      envelope.params = params;
+    }
+
+    if (originalBody !== undefined) {
+      envelope.body = originalBody;
+    }
+
+    return {
+      ...baseInit,
+      headers,
+      body: JSON.stringify(envelope),
+      ...(this.credentials ? { credentials: this.credentials } : {}),
+    };
+  }
+
+  private createIntelligenceDelegate(): AbstractAgent {
+    const routedId = this.routedAgentId();
+    if (!this.runtimeUrl || !routedId || !this.intelligence?.wsUrl) {
+      throw new Error(
+        "Intelligence mode requires runtimeUrl, agentId, and intelligence websocket metadata",
+      );
+    }
+
+    const single = this.transport === "single";
+
+    return new IntelligenceAgent({
+      url: this.intelligence.wsUrl,
+      // Single-route posts to the endpoint itself, so it needs the caller's URL
+      // verbatim: a trailing slash can select a different proxy location
+      // (issue #7028). REST needs the slash-stripped form, because it joins
+      // `/agent/:id/:mode` onto it.
+      runtimeUrl: single
+        ? (this.runtimeEndpointUrl ?? this.runtimeUrl)
+        : this.runtimeUrl,
+      transport: single ? "single" : "rest",
+      agentId: routedId,
+      headers: { ...this.headers },
+      credentials: this.credentials,
+      fetch: this.fetch as typeof fetch,
+    });
+  }
+
+  private syncDelegate(delegate: AbstractAgent): void {
+    // Delegate is the IntelligenceAgent that talks to the runtime — it must
+    // use the routed id so that requests reach the right runtime agent.
+    delegate.agentId = this.routedAgentId();
+    delegate.description = this.description;
+    delegate.threadId = this.threadId;
+    delegate.debugLogger = this.debugLogger;
+    delegate.setMessages(this.messages);
+    delegate.setState(this.state);
+    delegate.pendingInterrupts = structuredClone_(this.pendingInterrupts);
+
+    if (hasHeaders(delegate)) {
+      delegate.headers = { ...this.headers };
+    }
+
+    if (hasCredentials(delegate)) {
+      delegate.credentials = this.credentials;
+    }
+  }
+}

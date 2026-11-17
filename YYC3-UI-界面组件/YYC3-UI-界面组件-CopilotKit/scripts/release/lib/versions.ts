@@ -1,0 +1,467 @@
+import fs from "fs";
+import path from "path";
+import { loadConfig, getScopeConfig, ROOT } from "./config.js";
+import type { ReleaseScope } from "./config.js";
+
+export type BumpLevel = "patch" | "minor" | "major";
+
+interface SemVer {
+  major: number;
+  minor: number;
+  patch: number;
+  prerelease: string | null;
+}
+
+export interface PublishablePackage {
+  name: string;
+  dir: string;
+  pkgJsonPath: string;
+  pkg: Record<string, any>;
+}
+
+/**
+ * The folders that hold releasable packages, searched in this order.
+ *
+ * `community/` holds community-maintained packages (see community/README.md).
+ * They are not pnpm workspace members, but they release through this same
+ * pipeline under their own scope, so every lookup here has to see them too.
+ */
+export const PACKAGE_ROOTS = ["packages", "community"] as const;
+
+/** Every package one level under a {@link PACKAGE_ROOTS} folder. */
+function listPackages(): PublishablePackage[] {
+  const found: PublishablePackage[] = [];
+  for (const root of PACKAGE_ROOTS) {
+    const rootDir = path.join(ROOT, root);
+    if (!fs.existsSync(rootDir)) continue;
+    for (const dir of fs.readdirSync(rootDir)) {
+      const pkgJsonPath = path.join(rootDir, dir, "package.json");
+      if (!fs.existsSync(pkgJsonPath)) continue;
+      const pkg = JSON.parse(fs.readFileSync(pkgJsonPath, "utf8"));
+      found.push({
+        name: pkg.name,
+        dir: path.join(rootDir, dir),
+        pkgJsonPath,
+        pkg,
+      });
+    }
+  }
+  return found;
+}
+
+/** Find a package directory by its npm name. */
+function findPackageDir(packageName: string): string {
+  const match = listPackages().find((p) => p.name === packageName);
+  if (match) return match.dir;
+  throw new Error(`Package not found: ${packageName}`);
+}
+
+/** Whether a package lives under `community/` rather than `packages/`. */
+export function isCommunityPackage(pkg: PublishablePackage): boolean {
+  return path.dirname(pkg.dir) === path.join(ROOT, "community");
+}
+
+/** Get the current version for a scope (reads from the scope's versionSource package). */
+export function getCurrentVersion(scope: ReleaseScope): string {
+  const scopeConfig = getScopeConfig(scope);
+  const dir = findPackageDir(scopeConfig.versionSource);
+  const pkg = JSON.parse(
+    fs.readFileSync(path.join(dir, "package.json"), "utf8"),
+  );
+  return pkg.version;
+}
+
+export function parseSemver(version: string): SemVer {
+  const match = version.match(
+    /^(\d+)\.(\d+)\.(\d+)(?:-([a-zA-Z0-9.-]+))?(?:\+(.+))?$/,
+  );
+  if (!match) {
+    throw new Error(`Invalid semver: ${version}`);
+  }
+  return {
+    major: parseInt(match[1], 10),
+    minor: parseInt(match[2], 10),
+    patch: parseInt(match[3], 10),
+    prerelease: match[4] || null,
+  };
+}
+
+export function computeNextStableVersion(
+  currentVersion: string,
+  bumpLevel: BumpLevel,
+): string {
+  const v = parseSemver(currentVersion);
+
+  if (v.prerelease) {
+    return `${v.major}.${v.minor}.${v.patch}`;
+  }
+
+  switch (bumpLevel) {
+    case "major":
+      return `${v.major + 1}.0.0`;
+    case "minor":
+      return `${v.major}.${v.minor + 1}.0`;
+    case "patch":
+      return `${v.major}.${v.minor}.${v.patch + 1}`;
+  }
+}
+
+/**
+ * Resolve the identifier that separates one canary from the next: the
+ * maintainer-supplied suffix, else a unix timestamp.
+ *
+ * Resolve this ONCE per publish run and pass it to every
+ * {@link computePrereleaseVersion} call, so a multi-scope canary ships one
+ * recognizable set of versions (`1.63.3-canary.1784916581` +
+ * `0.2.2-canary.1784916581`) instead of per-scope timestamps that drift by
+ * however long each scope took to bump.
+ */
+export function resolvePrereleaseId(suffix?: string): string {
+  return suffix || String(Math.floor(Date.now() / 1000));
+}
+
+/**
+ * Compute the version a canary publishes under: the next UNRELEASED version
+ * plus `-<prereleaseTag>.<id>`.
+ *
+ * The base has to be the next version rather than the current one. A stable
+ * release leaves the working tree sitting on the version it just published, so
+ * appending `-canary` to that produces a prerelease semver sorts BELOW the
+ * release it was cut from (`0.2.1-canary.17849… < 0.2.1`). Two things break as
+ * a result: the `canary` dist-tag advertises something older than `latest`, and
+ * no dependent range can ever resolve the canary, since npm admits prereleases
+ * only for a range naming that same major.minor.patch. Bumping the patch first
+ * keeps every canary above the last stable release.
+ *
+ * A working tree already carrying a prerelease is already sitting on an
+ * unreleased version, so its base is used as-is — the same rule
+ * {@link computeNextStableVersion} applies.
+ */
+export function computePrereleaseVersion(
+  currentVersion: string,
+  suffix?: string,
+): string {
+  const base = computeNextStableVersion(currentVersion, "patch");
+  const tag = loadConfig().prereleaseTag;
+  return `${base}-${tag}.${resolvePrereleaseId(suffix)}`;
+}
+
+/** Prerelease identifier of a release candidate: `2.0.0-rc.3`. */
+export const RC_TAG = "rc";
+
+/**
+ * npm dist-tag release candidates publish under, so `@copilotkit/<pkg>@next`
+ * always installs the newest candidate of the upcoming major.
+ */
+export const RC_DIST_TAG = "next";
+
+/**
+ * The next release candidate of `base`: one past the highest `<base>-rc.<n>`
+ * in `published`, or `<base>-rc.0` when there is none.
+ *
+ * `published` must cover every package in the scope, not just the version
+ * source. A run that dies partway leaves some packages on rc.N and others
+ * without it, and npm refuses to republish a version, so the next run has to
+ * move past N for all of them.
+ */
+export function computeNextRcVersion(
+  base: string,
+  published: Iterable<string>,
+): string {
+  const prefix = `${base}-${RC_TAG}.`;
+  let next = 0;
+  for (const version of published) {
+    if (!version.startsWith(prefix)) continue;
+    const n = version.slice(prefix.length);
+    if (/^\d+$/.test(n)) next = Math.max(next, Number(n) + 1);
+  }
+  return `${prefix}${next}`;
+}
+
+/**
+ * Throws unless `base` is ahead of the scope's `current` version.
+ *
+ * `next` must point at the upcoming release, so a release candidate of an
+ * older line (say a branch named `1.0.0` on a 1.83 checkout) must not publish.
+ * `base` may equal `current` only while `current` is itself a prerelease of it.
+ */
+export function assertRcBaseAhead(base: string, current: string): void {
+  const b = parseSemver(base);
+  const c = parseSemver(current);
+  const order = b.major - c.major || b.minor - c.minor || b.patch - c.patch;
+  if (order > 0 || (order === 0 && c.prerelease)) return;
+  throw new Error(
+    `--rc ${base} is not ahead of the current version ${current}; release candidates must target an upcoming version.`,
+  );
+}
+
+/**
+ * The dist-tag a prerelease publishes under. Release candidates go to
+ * `RC_DIST_TAG` (`2.0.0-rc.3` → `next`); every other prerelease goes to its
+ * prerelease identifier (`1.80.1-canary.123` → `canary`).
+ *
+ * Throws on a stable version. The prerelease lane must never publish one: it
+ * would burn that version number under a non-`latest` tag.
+ */
+export function prereleaseDistTag(version: string): string {
+  const { prerelease } = parseSemver(version);
+  if (!prerelease) {
+    throw new Error(
+      `${version} is not a prerelease; refusing to publish it from the prerelease lane.`,
+    );
+  }
+  const id = prerelease.split(".")[0];
+  return id === RC_TAG ? RC_DIST_TAG : id;
+}
+
+/** Get all publishable packages in the order configured for a release scope. */
+export function getPackagesForScope(scope: ReleaseScope): PublishablePackage[] {
+  const scopeConfig = getScopeConfig(scope);
+  const packagesByName = new Map<string, PublishablePackage>();
+  for (const pkg of listPackages()) {
+    // packages/ is listed first; keep its entry if a name ever appears twice.
+    if (!packagesByName.has(pkg.name)) packagesByName.set(pkg.name, pkg);
+  }
+
+  return scopeConfig.packages.map((name) => {
+    const pkg = packagesByName.get(name);
+    if (!pkg) {
+      throw new Error(`Package not found for scope ${scope}: ${name}`);
+    }
+    return pkg;
+  });
+}
+
+/**
+ * Order packages so each one comes after the packages in the same list that it
+ * depends on, keeping the configured order otherwise.
+ *
+ * The stable publisher goes package by package and stops at the first failure,
+ * and `pnpm pack` turns `workspace:*` into an exact version. Publishing in the
+ * configured (alphabetical) order put `@copilotkit/core` on npm before the
+ * `@copilotkit/learning` and `@copilotkit/shared` versions it pins, so a failure
+ * between them left an uninstallable Core until a retry. A dependency cycle
+ * cannot be satisfied by any order; it is broken at the edge that closes it.
+ */
+export function orderByDependencies(
+  packages: PublishablePackage[],
+): PublishablePackage[] {
+  const byName = new Map(packages.map((p) => [p.name, p]));
+  const seen = new Set<string>();
+  const ordered: PublishablePackage[] = [];
+
+  const visit = (p: PublishablePackage) => {
+    if (seen.has(p.name)) return;
+    seen.add(p.name);
+    for (const field of [
+      "dependencies",
+      "peerDependencies",
+      "optionalDependencies",
+    ] as const) {
+      for (const name of Object.keys(p.pkg[field] ?? {})) {
+        const dependency = byName.get(name);
+        if (dependency) visit(dependency);
+      }
+    }
+    ordered.push(p);
+  };
+
+  packages.forEach(visit);
+  return ordered;
+}
+
+/**
+ * The community packages (those under `community/`) in the given scopes, in
+ * scope order, without duplicates. The publish workflow's root build only
+ * reaches `packages/**` through nx, so these are the packages it must build
+ * separately before they can be packed.
+ */
+export function getCommunityPackagesForScopes(
+  scopes: readonly ReleaseScope[],
+): PublishablePackage[] {
+  const seen = new Set<string>();
+  const result: PublishablePackage[] = [];
+  for (const scope of scopes) {
+    for (const pkg of getPackagesForScope(scope)) {
+      if (!isCommunityPackage(pkg) || seen.has(pkg.name)) continue;
+      seen.add(pkg.name);
+      result.push(pkg);
+    }
+  }
+  return result;
+}
+
+/** Bump all packages in a scope to a new version. For sharedVersion scopes, also updates internal deps. */
+export function bumpPackages(
+  scope: ReleaseScope,
+  newVersion: string,
+): { name: string; oldVersion: string; newVersion: string }[] {
+  const scopeConfig = getScopeConfig(scope);
+  const packages = getPackagesForScope(scope);
+  const scopeNames = new Set(scopeConfig.packages);
+  const updated: { name: string; oldVersion: string; newVersion: string }[] =
+    [];
+
+  for (const p of packages) {
+    const pkg = JSON.parse(fs.readFileSync(p.pkgJsonPath, "utf8"));
+    const oldVersion = pkg.version;
+    pkg.version = newVersion;
+
+    // For shared-version scopes, update internal dependency references —
+    // but only if they use exact versions, not workspace:* protocol
+    if (scopeConfig.sharedVersion) {
+      for (const depField of [
+        "dependencies",
+        "peerDependencies",
+        "devDependencies",
+      ] as const) {
+        if (!pkg[depField]) continue;
+        for (const depName of Object.keys(pkg[depField])) {
+          const depValue = pkg[depField][depName];
+          if (scopeNames.has(depName) && !depValue.startsWith("workspace:")) {
+            pkg[depField][depName] = newVersion;
+          }
+        }
+      }
+    }
+
+    fs.writeFileSync(p.pkgJsonPath, JSON.stringify(pkg, null, 2) + "\n");
+    updated.push({ name: p.name, oldVersion, newVersion });
+  }
+
+  return updated;
+}
+
+/**
+ * Replace internal dependency ranges with the exact versions from this canary
+ * publish set. This runs after the publish job's frozen install and is only
+ * called by the prerelease publisher, so stable manifests are unaffected.
+ */
+export function pinPrereleaseDependencies(
+  packages: PublishablePackage[],
+): number {
+  const versions = new Map(
+    packages.map((p) => [p.name, p.pkg.version as string]),
+  );
+  let pinned = 0;
+
+  for (const p of packages) {
+    let changed = false;
+    for (const field of [
+      "dependencies",
+      "peerDependencies",
+      "optionalDependencies",
+    ] as const) {
+      const dependencies = p.pkg[field] as Record<string, string> | undefined;
+      if (!dependencies) continue;
+
+      for (const [name, range] of Object.entries(dependencies)) {
+        const version = versions.get(name);
+        if (!version || range === version) continue;
+        dependencies[name] = version;
+        pinned++;
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      fs.writeFileSync(p.pkgJsonPath, `${JSON.stringify(p.pkg, null, 2)}\n`);
+    }
+  }
+
+  return pinned;
+}
+
+/** A cross-scope dependency edge whose published pin won't be this run's version. */
+export interface CrossScopePin {
+  /** Package being published. */
+  from: string;
+  /** Its dependency, owned by a different release scope. */
+  dep: string;
+  /** The scope that owns `dep`. */
+  depScope: ReleaseScope;
+  /** Version the published manifest will carry for `dep`. */
+  resolvesTo: string;
+  /**
+   * Why the pin is stale:
+   * - `unpublished-scope`: a `workspace:` range that `pnpm pack` resolves against
+   *   the working tree, where `depScope` was not bumped in this run. Publishing
+   *   that scope too (scope=all) fixes it.
+   * - `literal-range`: a hand-written version range on a cross-scope package.
+   *   `bumpPackages` only rewrites literal ranges naming packages in the SAME
+   *   scope, so this one survives every bump — scope=all does NOT fix it. Convert
+   *   the dep to the `workspace:` protocol.
+   */
+  reason: "unpublished-scope" | "literal-range";
+}
+
+/**
+ * Find cross-scope dependency edges whose published pin will NOT be a version
+ * from this run.
+ *
+ * The failure this exists to make visible: `pnpm pack` resolves the workspace
+ * protocol against the working tree, so a canary of one scope pins the other
+ * scope's packages to their last stable release — even when the commit being
+ * canaried changed both sides of the contract. The artifact then only composes
+ * with that release, and nothing says so until a consumer hits a runtime error.
+ *
+ * Two shapes qualify. A `workspace:` range into a scope that isn't being
+ * published is fixed by publishing every scope together; a literal range into
+ * another scope is fixed only by converting it to `workspace:`, since
+ * {@link bumpPackages} rewrites literal ranges for in-scope packages only. Both
+ * are reported, tagged by {@link CrossScopePin.reason}.
+ *
+ * Only `dependencies`/`peerDependencies`/`optionalDependencies` are considered —
+ * devDependencies never constrain a consumer's install.
+ */
+export function findCrossScopePins(scopes: ReleaseScope[]): CrossScopePin[] {
+  const config = loadConfig();
+  const scopeByPackage = new Map<string, ReleaseScope>();
+  for (const [scope, scopeConfig] of Object.entries(config.scopes)) {
+    for (const name of scopeConfig.packages) {
+      scopeByPackage.set(name, scope as ReleaseScope);
+    }
+  }
+
+  const publishing = new Set(scopes);
+  const found: CrossScopePin[] = [];
+
+  for (const scope of scopes) {
+    for (const p of getPackagesForScope(scope)) {
+      for (const depField of [
+        "dependencies",
+        "peerDependencies",
+        "optionalDependencies",
+      ] as const) {
+        const deps = p.pkg[depField] as Record<string, string> | undefined;
+        if (!deps) continue;
+        for (const [dep, range] of Object.entries(deps)) {
+          const depScope = scopeByPackage.get(dep);
+          if (!depScope || depScope === scope) continue;
+          const isWorkspace = range.startsWith("workspace:");
+          // A workspace: range into a scope this run bumps resolves to that
+          // scope's canary version — the composable case, nothing to report.
+          if (isWorkspace && publishing.has(depScope)) continue;
+          found.push({
+            from: p.name,
+            dep,
+            depScope,
+            // A literal range is published verbatim; a workspace: range is
+            // rewritten to the dependency's working-tree version.
+            resolvesTo: isWorkspace
+              ? JSON.parse(
+                  fs.readFileSync(
+                    path.join(findPackageDir(dep), "package.json"),
+                    "utf8",
+                  ),
+                ).version
+              : range,
+            reason: isWorkspace ? "unpublished-scope" : "literal-range",
+          });
+        }
+      }
+    }
+  }
+
+  return found;
+}

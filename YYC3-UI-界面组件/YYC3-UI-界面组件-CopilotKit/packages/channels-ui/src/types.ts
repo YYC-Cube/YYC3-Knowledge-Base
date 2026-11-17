@@ -1,0 +1,375 @@
+import type { EmojiValue } from "./emoji.js";
+import type { ModalView } from "./modal.js";
+import type { Renderable } from "./ir.js";
+
+export interface MessageRef {
+  id: string;
+  [k: string]: unknown;
+}
+
+/** Result of `Thread.postEphemeral`. `usedFallback` is present on success: `false` = native, `true` = DM fallback. */
+export interface EphemeralResult {
+  ok: boolean;
+  usedFallback?: boolean;
+  ref?: MessageRef;
+  error?: string;
+}
+/**
+ * Who may answer an `awaitChoice` picker.
+ *
+ * - `"initiator"`: only the provider account that started the turn.
+ * - `"conversation"`: anyone in the conversation the picker was posted to.
+ *
+ * Either way, only a click on one of the picker's own controls, with one of
+ * the values it offers, answers it.
+ */
+export type ChoiceAnswerableBy = "initiator" | "conversation";
+
+/** Options for {@link Thread.awaitChoice}. */
+export interface AwaitChoiceOptions {
+  /**
+   * Who may answer the picker. Defaults to `DEFAULT_AWAIT_CHOICE_ANSWERABLE_BY`
+   * in `@copilotkit/channels` (`"initiator"`).
+   */
+  answerableBy?: ChoiceAnswerableBy;
+  /**
+   * How long to wait for an answer, in milliseconds, before the choice
+   * rejects with a `channel_choice_timeout` error. Defaults to one hour
+   * (`DEFAULT_AWAIT_CHOICE_TIMEOUT_MS` in `@copilotkit/channels`). Pass
+   * `Infinity` to wait without a limit. A finite value must be at most
+   * 2147483647 (2^31-1 ms, about 24.8 days, the longest delay a timer holds);
+   * a larger one makes `awaitChoice` reject at once with a `RangeError`.
+   */
+  timeoutMs?: number;
+  /**
+   * Abort the wait: the choice rejects with a `channel_choice_aborted` error
+   * whose `cause` is the signal's reason.
+   */
+  signal?: AbortSignal;
+}
+
+/** Canonical application identity selected by the Channel developer. */
+export interface ApplicationUser {
+  readonly id: string;
+  readonly name: string;
+}
+
+/** Provider account that caused the current Channel event. */
+export interface ProviderActor {
+  readonly id: string;
+  /** Provider-reported category; untrusted identity metadata, never authorization. */
+  readonly kind: "human" | "bot" | "app" | "system" | "unknown";
+  readonly name?: string;
+  readonly handle?: string;
+  readonly email?: string;
+}
+
+/** Provider-neutral identity and dispatch semantics for one message revision. */
+export interface MessageOperation {
+  kind: "created" | "updated" | "deleted";
+  /** Stable provider identity shared by every revision of one logical message. */
+  logicalMessageId: string;
+  /** Provider identity for this exact revision, including delete tombstones. */
+  revisionId: string;
+  /** Whether this revision explicitly addresses the Channel. */
+  mentioned: boolean;
+}
+
+/** A base64 data source, shared by every binary media part. */
+export type MediaDataSource = { type: "data"; value: string; mimeType: string };
+
+/**
+ * AG-UI multimodal content parts. Defined here (the lowest shared layer) so
+ * platform adapters can carry built multimodal content through the framework
+ * to the agent without a circular dependency — `@copilotkit/channels` depends on
+ * `@copilotkit/channels-ui`, not the reverse. Identical in shape to channels-slack's so
+ * the agent sees the same multimodal input across every adapter.
+ *
+ * Binary media (image/audio/video/document) is passed straight through as a
+ * data part; the agent's model decides what it can actually consume.
+ */
+export type AgentContentPart =
+  | { type: "text"; text: string }
+  | { type: "image"; source: MediaDataSource }
+  | { type: "audio"; source: MediaDataSource }
+  | { type: "video"; source: MediaDataSource }
+  | { type: "document"; source: MediaDataSource };
+
+export interface IncomingMessage {
+  text: string;
+  /** Canonical application user for this event, or null when identity did not map. */
+  user: ApplicationUser | null;
+  /** Provider account that caused this event. Never used as a canonical user implicitly. */
+  actor: ProviderActor;
+  ref: MessageRef;
+  platform: string;
+  /** Present for provider message hooks; specialized interaction contexts omit it. */
+  operation?: MessageOperation;
+  /**
+   * Optional multimodal content parts (e.g. inbound image/file attachments)
+   * built by the adapter. When present, the app should prefer these over
+   * `text` as the agent prompt so the model receives the attachments.
+   */
+  contentParts?: AgentContentPart[];
+  /**
+   * Stable platform event id (managed/Intelligence path), for customer-side
+   * idempotency. Omitted by adapters that don't surface one.
+   */
+  eventId?: string;
+  /** Stable per-turn id (managed/Intelligence path). */
+  turnId?: string;
+  /** Lease/delivery id (managed/Intelligence path). */
+  deliveryId?: string;
+}
+
+/** Incoming message delivered specifically to `onMention` or `onMessage`. */
+export interface ChannelMessage extends IncomingMessage {
+  operation: MessageOperation;
+}
+export interface ThreadMessage {
+  user?: ProviderActor;
+  text: string;
+  /** Structured AG-UI message content when the platform preserves it. */
+  content?: unknown;
+  /** Standard AG-UI activity type for activity messages. */
+  activityType?: string;
+  ts?: string;
+  isBot?: boolean;
+  /** Update/reaction-capable reference when the adapter exposes one safely. */
+  messageRef?: MessageRef;
+  /** Structured provider revision facts for delivery-scoped transcript input. */
+  providerMessage?: {
+    logicalMessageId: string;
+    revisionId: string;
+    occurredAt: string;
+    deleted: boolean;
+    currentTrigger: boolean;
+    actor: {
+      id: string;
+      kind: "human" | "bot" | "app" | "system";
+      displayName: string | null;
+      handle: string | null;
+    };
+    files: Array<{
+      providerFileId: string;
+      name: string | null;
+      mimeType: string | null;
+      byteSize: number | null;
+      availability: "managed" | "provider_only" | "unavailable";
+      handle?: string;
+    }>;
+  };
+  /** Present on the model-visible omission marker when earlier context was cut. */
+  transcriptTruncation?: {
+    messageLimit: boolean;
+    byteLimit: boolean;
+    omittedMessageCount: number;
+  };
+}
+export interface Thread {
+  readonly platform: string;
+  /**
+   * Whether `awaitChoice` blocks synchronously for the click (interactive
+   * surfaces) or requires an ack-first post-then-resume flow (managed HTTP loop,
+   * where blocking would deadlock). `undefined`/`true` = blocking-capable;
+   * `false` = the surface needs the resume flow. The HITL resume flow will gate
+   * on this; no code reads it yet (forward-declared for that work).
+   */
+  readonly supportsBlockingChoice?: boolean;
+  post(
+    ui: Renderable | ReactElementLike,
+    opts?: PostImageOptions,
+  ): Promise<MessageRef>;
+  update(ref: MessageRef, ui: Renderable): Promise<MessageRef>;
+  delete(ref: MessageRef): Promise<void>;
+  /**
+   * Post a picker and block until an interaction resolves it to the clicked
+   * button's `value`. Pass the expected value type, e.g.
+   * `awaitChoice<{ confirmed: boolean }>(<Picker/>)`. Rejects after
+   * `options.timeoutMs` (default one hour) or when `options.signal` aborts.
+   */
+  awaitChoice<T = unknown>(
+    ui: Renderable,
+    options?: AwaitChoiceOptions,
+  ): Promise<T>;
+  runAgent(input?: unknown): Promise<MessageRef | undefined>;
+  resume(
+    value: unknown,
+    options?: {
+      memory?: {
+        user?: "none" | "read" | "read-write";
+        project?: "none" | "read" | "read-write";
+      };
+      subject?: "initiator" | "actor";
+    },
+  ): Promise<MessageRef | undefined>;
+  stream(src: string | AsyncIterable<string>): Promise<MessageRef>;
+  postFile(args: {
+    bytes: Uint8Array;
+    filename: string;
+    title?: string;
+    altText?: string;
+  }): Promise<PostFileResult>;
+  /** Read the conversation's messages (capability-gated; returns `[]` when the adapter can't read history). */
+  getMessages(): Promise<ThreadMessage[]>;
+  /** Resolve a platform user by a free-form query (capability-gated; returns `undefined` when unsupported). */
+  lookupUser(query: string): Promise<ProviderActor | undefined>;
+  /** Pin suggested prompts (capability-gated; returns `{ ok: false }` on surfaces without support). */
+  setSuggestedPrompts(
+    prompts: ReadonlyArray<{ title: string; message: string }>,
+    opts?: { title?: string },
+  ): Promise<{ ok: boolean; error?: string }>;
+  /** Name this conversation (capability-gated; returns `{ ok: false }` on surfaces without support). */
+  setTitle(title: string): Promise<{ ok: boolean; error?: string }>;
+  /** Add an emoji reaction to a message (capability-gated; `{ ok: false }` on surfaces without support). */
+  react(
+    messageRef: MessageRef,
+    emoji: EmojiValue,
+  ): Promise<{ ok: boolean; error?: string }>;
+  /** Remove the channel's emoji reaction from a message (capability-gated). */
+  unreact(
+    messageRef: MessageRef,
+    emoji: EmojiValue,
+  ): Promise<{ ok: boolean; error?: string }>;
+  /**
+   * Post a message only `user` can see. `fallbackToDM` is required:
+   * `true` → DM the user when native ephemeral is unsupported; `false` →
+   * resolve to `null` when native ephemeral is unsupported.
+   */
+  postEphemeral(
+    user: ProviderActor | string,
+    ui: Renderable,
+    opts: { fallbackToDM: boolean },
+  ): Promise<EphemeralResult | null>;
+  /** Record this conversation as subscribed (persisted in state). Proactive delivery to subscribed conversations is not yet wired. */
+  subscribe(): Promise<void>;
+  /** Remove the subscription for this conversation. */
+  unsubscribe(): Promise<void>;
+  /** Returns true if this conversation is currently subscribed. */
+  isSubscribed(): Promise<boolean>;
+  /** Persist arbitrary per-thread state (e.g. workflow step). */
+  setState<T>(v: T): Promise<void>;
+  /** Read back per-thread state previously written with `setState`. */
+  state<T>(): Promise<T | undefined>;
+}
+export interface InteractionContext<TValue = unknown> {
+  thread: Thread;
+  message: IncomingMessage;
+  /** The clicked control: its opaque `id` and the `value` it carried (typed as `TValue`). */
+  action: { id: string; value?: TValue };
+  values: Record<string, unknown>;
+  user: ApplicationUser | null;
+  actor: ProviderActor;
+  platform: string;
+  /**
+   * Open a modal in response to this interaction (capability-gated; requires a
+   * platform trigger). Resolves `{ ok: false }` on surfaces without modal
+   * support or when the trigger has expired. On Discord, call this **before**
+   * any long-running work — the platform trigger expires ~3s after the click.
+   */
+  openModal?(view: ModalView): Promise<{ ok: boolean; error?: string }>;
+}
+export type ClickHandler<TValue = unknown> = (
+  ctx: InteractionContext<TValue>,
+) => void | Promise<void>;
+
+/** The reaction passed to a `<Message onReaction>` handler. */
+export interface MessageReaction {
+  /** Normalized emoji name when recognized, else the raw platform token. */
+  emoji: EmojiValue;
+  /** Platform-native emoji token. */
+  rawEmoji: string;
+  /** `true` = added, `false` = removed. */
+  added: boolean;
+  /** The reacting user, when the platform reports one. */
+  user: ApplicationUser | null;
+  actor: ProviderActor;
+  /** Id of the reacted-to message. */
+  messageId: string;
+  /**
+   * The conversation thread — same surface an `onClick` gets via `ctx.thread`.
+   * Post new UI (`thread.post`), run the agent (`thread.runAgent`), block on a
+   * human choice (`thread.awaitChoice`, HITL), react back, etc.
+   */
+  thread: Thread;
+  /**
+   * Ref to the reacted-to message, for swapping its UI in place:
+   * `thread.update(reaction.messageRef, <NewUi/>)`.
+   */
+  messageRef: MessageRef;
+}
+/**
+ * Handler for reactions on a posted message, set via `<Message onReaction>`.
+ * Fires for both adds and removes (check `reaction.added`); the first arg is
+ * the emoji for the common `(reaction) => reaction === "bug"` shape. The second
+ * carries the full reaction including `thread`/`messageRef`, so a handler can
+ * post, swap UI, or run a HITL flow exactly like an `onClick`.
+ */
+export type MessageReactionHandler = (
+  emoji: EmojiValue,
+  reaction: MessageReaction,
+) => void | Promise<void>;
+
+/**
+ * A React element (or React-element-shaped object) accepted by `thread.post`.
+ * Components are expanded before routing: native channel output stays native,
+ * while host markup becomes an image on a managed Slack or Teams channel.
+ *
+ * Deliberately structural and loose, mirroring Takumi's own `ReactElementLike`:
+ * React's public `ReactElement` type does NOT declare `$$typeof` (it's an
+ * internal brand present only at runtime) and types `props` as the component's
+ * own props interface. Requiring either here would make ordinary
+ * `thread.post(<Card/>)` fail to type-check and force call sites into casts.
+ * Preact/other React-shaped vnodes fit too.
+ */
+export interface ReactElementLike {
+  type: unknown;
+  props: unknown;
+  /** Present at runtime on real elements; optional so React's `ReactElement` is assignable. */
+  $$typeof?: symbol | string;
+  key?: unknown;
+}
+
+/**
+ * Result of a file upload.
+ *
+ * `messageId` is the id of the *message* the file was posted as; `messageRef`
+ * also carries adapter-specific routing fields needed by delete/react/update.
+ * Platforms that upload media separately from posting it (Slack, Telegram,
+ * WhatsApp) return a media/storage id in `fileId` that those APIs will NOT
+ * accept as a message id. Teams retains its historical message-id `fileId`
+ * alias for compatibility. Either may be absent — an upload can succeed
+ * on a surface that never reports an id at all (e.g. the managed transport,
+ * which hands the upload to an async outbox).
+ */
+export interface PostFileResult {
+  ok: boolean;
+  /** Platform message id, when the upload produced an addressable message. */
+  messageId?: string;
+  /** Complete adapter reference for the posted message, when available. */
+  messageRef?: MessageRef;
+  /** Platform media/storage id. Teams also returns its message id here as a deprecated compatibility alias. */
+  fileId?: string;
+  /** Managed transport asset handle (retained for existing callers). */
+  assetId?: string;
+  error?: string;
+}
+
+/** A font registered for image rendering (Takumi has no system fonts). */
+export interface RenderFont {
+  name: string;
+  data: Uint8Array | ArrayBuffer;
+  weight?: number;
+  style?: "normal" | "italic";
+}
+
+/** Per-post overrides + upload metadata for an image post. */
+export interface PostImageOptions {
+  fonts?: ReadonlyArray<RenderFont>;
+  stylesheets?: string[];
+  width?: number;
+  height?: number;
+  filename?: string;
+  title?: string;
+  altText?: string;
+}
