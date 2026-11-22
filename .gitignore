@@ -86,3 +86,17 @@ YYC3-Agent-智能体/**/pnpm-lock.yaml
 YYC3-Agent-智能体/**/yarn.lock
 YYC3-Agent-智能体/**/bun.lock
 YYC3-Agent-智能体/**/bun.lockb
+
+# 只读快照（第二批补充）：其他生态锁文件同样不入库
+YYC3-Agent-智能体/**/Cargo.lock
+YYC3-Agent-智能体/**/uv.lock
+YYC3-Agent-智能体/**/poetry.lock
+YYC3-Agent-智能体/**/go.sum
+YYC3-IDE-编辑器内核/**/Cargo.lock
+YYC3-IDE-编辑器内核/**/uv.lock
+YYC3-IDE-编辑器内核/**/poetry.lock
+YYC3-IDE-编辑器内核/**/go.sum
+YYC3-Tool-开发工具链/**/Cargo.lock
+YYC3-Tool-开发工具链/**/uv.lock
+YYC3-Tool-开发工具链/**/poetry.lock
+YYC3-Tool-开发工具链/**/go.sum
