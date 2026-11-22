@@ -100,3 +100,4 @@ YYC3-Tool-开发工具链/**/Cargo.lock
 YYC3-Tool-开发工具链/**/uv.lock
 YYC3-Tool-开发工具链/**/poetry.lock
 YYC3-Tool-开发工具链/**/go.sum
+YYC3-Agent-智能体/**/npm-shrinkwrap.json
