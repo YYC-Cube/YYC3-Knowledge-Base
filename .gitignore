@@ -69,3 +69,20 @@ YYC3-UI-界面组件/**/yarn.lock
 YYC3-UI-界面组件/**/bun.lock
 YYC3-UI-界面组件/**/bun.lockb
 YYC3-UI-界面组件/**/npm-shrinkwrap.json
+
+# 只读快照（第二批）：IDE / Tool / Agent 锁文件移出依赖图
+YYC3-IDE-编辑器内核/**/package-lock.json
+YYC3-IDE-编辑器内核/**/pnpm-lock.yaml
+YYC3-IDE-编辑器内核/**/yarn.lock
+YYC3-IDE-编辑器内核/**/bun.lock
+YYC3-IDE-编辑器内核/**/bun.lockb
+YYC3-Tool-开发工具链/**/package-lock.json
+YYC3-Tool-开发工具链/**/pnpm-lock.yaml
+YYC3-Tool-开发工具链/**/yarn.lock
+YYC3-Tool-开发工具链/**/bun.lock
+YYC3-Tool-开发工具链/**/bun.lockb
+YYC3-Agent-智能体/**/package-lock.json
+YYC3-Agent-智能体/**/pnpm-lock.yaml
+YYC3-Agent-智能体/**/yarn.lock
+YYC3-Agent-智能体/**/bun.lock
+YYC3-Agent-智能体/**/bun.lockb
