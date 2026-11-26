@@ -52,9 +52,9 @@
 | 🌓 **暗亮双主题** | 自适应主题系统，持久化用户偏好 |
 | 📋 **进度可视化** | 全局进度条 + 卡片级步骤计数器，学习路径清晰可控 |
 | 📤 **导出/导入** | 进度数据可导出备份或跨设备迁移 |
-| 🗂️ **工作区总览** | [YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) 展示 **26 个分类、442 个项目、1,060,854 个文件** 的全量资产看板 |
+| 🗂️ **工作区总览** | [YYC3-KNOWLEDGE-BASE.html](docs/YYC3-KNOWLEDGE-BASE.html) 展示 **27 个分类、547 个项目、1,330,954 个文件** 的全量资产看板 |
 | 🧭 **分类架构索引** | [docs/YYC3-Knowledge-Base/index.html](docs/YYC3-Knowledge-Base/index.html) 逐类可视化架构（技术构成 / 迁移来源 / 项目清单） |
-| 🗺️ **全局汇总映射** | [docs/YYC3-项目治理-全局汇总映射.md](docs/YYC3-项目治理-全局汇总映射.md) 442 个项目的「当前目录 ↔ 原始路径」全量对照 |
+| 🗺️ **全局汇总映射** | [docs/YYC3-项目治理-全局汇总映射.md](docs/YYC3-项目治理-全局汇总映射.md) 547 个项目的「当前目录 ↔ 原始路径」全量对照 |
 
 ---
 
@@ -96,7 +96,7 @@
 │  └──────────────────────────────────────────────────────────────┘           │
 │                                    │                                        │
 │  ┌──────────────────────────────────────────────────────────────┐           │
-│  │                 KNOWLEDGE BASE · 24 分类目录                 │           │
+│  │                 KNOWLEDGE BASE · 27 分类目录                 │           │
 │  │ AI-应用工具  AI-模型服务  Agent-智能体                       │           │
 │  │ UI-界面组件  Frontend-前端框架  Desktop-桌面应用             │           │
 │  │ IDE-编辑器内核  Editor-编辑器扩展  Syntax-语法高亮           │           │
@@ -105,6 +105,7 @@
 │  │ Security-安全合规  Finance-金融量化  WebSpec-Web标准         │           │
 │  │ Runtime-标准库  Skills-技能包  Plugin-插件协议               │           │
 │  │ Design-设计资源  Business-商业应用  Doc-文档知识             │           │
+│  │ AgentHub-行业智能体 · 15 类行业/职能                         │           │
 │  └──────────────────────────────────────────────────────────────┘           │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -131,6 +132,7 @@
 YYC3 Knowledge Base
 │
 ├── 🤖 YYC3-Agent-智能体 — 自主任务编排、编码智能体与多智能体框架
+├── 🧭 YYC3-AgentHub-行业智能体 — 一行业一分类的开源智能体汇集（15 类行业/职能，105 项）
 ├── 🧠 YYC3-AI-模型服务 — LLM 网关、推理、训练/蒸馏、RAG
 ├── ✨ YYC3-AI-应用工具 — 面向终端用户的 AI 应用与提示词工程
 ├── 🎨 YYC3-UI-界面组件 — 组件库、设计系统、主题包
@@ -156,9 +158,9 @@ YYC3 Knowledge Base
 ├── 📚 YYC3-Doc-文档知识 — 书籍、课程与规范解读
 │
 └── 📚 docs — 项目文档
-    ├── YYC3-KNOWLEDGE-BASE.html — 资产看板（26 类 / 442 项目，可脱机分享）
-    ├── YYC3-Knowledge-Base/ — 26 类可视化架构索引（index.html + 26 张分类页）
-    ├── YYC3-项目治理-全局汇总映射.md — 442 项目「当前目录 ↔ 原始路径」全量对照
+    ├── YYC3-KNOWLEDGE-BASE.html — 资产看板（27 类 / 547 项目，可脱机分享）
+    ├── YYC3-Knowledge-Base/ — 27 类可视化架构索引（index.html + 27 张分类页）
+    ├── YYC3-项目治理-全局汇总映射.md — 547 项目「当前目录 ↔ 原始路径」全量对照
     ├── YYC3-项目治理-资产盘点 — 全局资产扫描、重复项与版本裁决
     ├── DGX-SPARK-HUB.html — DGX Spark 操作中心（在线版）
     ├── DGX-SPARK-HUB-OFFLINE.html — DGX Spark 操作中心（离线版）
@@ -239,8 +241,8 @@ python3 -m http.server 8080
 ### 使用场景
 
 ```
-�️ 浏览工作区总览 → 通过 YYC3-KNOWLEDGE-BASE.html 查看全部 442 个项目卡片
-🧭 按分类查看架构 → 通过 docs/YYC3-Knowledge-Base/index.html 进入 26 类可视化架构页
+�️ 浏览工作区总览 → 通过 YYC3-KNOWLEDGE-BASE.html 查看全部 547 个项目卡片
+🧭 按分类查看架构 → 通过 docs/YYC3-Knowledge-Base/index.html 进入 27 类可视化架构页
 🗺️ 追溯项目来源 → 通过「全局汇总映射」查看当前目录与迁移前原始路径
 � 学习 NVIDIA AI 全栈技术 → 通过 DGX-SPARK-HUB 看板浏览 40+ 实践指南
 🎯 按步骤操作 AI 基础设施 → 利用深度链接直达任意步骤

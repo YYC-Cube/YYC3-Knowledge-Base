@@ -1,11 +1,11 @@
 ---
 file: YYC3-项目治理-全局汇总映射.md
-title: YYC³ 全局汇总映射 — 24 分类 · 442 项目全量对照
+title: YYC³ 全局汇总映射 — 27 分类 · 547 项目全量对照
 description: YYC³ 知识库全量资产映射：分类统计、迁移来源、当前目录与迁移前原始路径一一对照
 author: YYC³ Team <admin@0379.email>
-version: v1.1.0
+version: v1.2.0
 created: 2026-11-10
-updated: 2026-11-17
+updated: 2026-11-26
 status: stable
 tags: [mapping, inventory, taxonomy, governance]
 category: governance
@@ -14,7 +14,7 @@ audience: developers,managers,architects
 complexity: intermediate
 ---
 
-# YYC³ 全局汇总映射 — 24 分类 · 442 项目全量对照
+# YYC³ 全局汇总映射 — 27 分类 · 547 项目全量对照
 
 > **_YYC³_**（YanYuCloudCube™ · 注册商标）
 > _言启象限 | 语枢未来_
@@ -28,12 +28,12 @@ complexity: intermediate
 
 | 指标 | 值 |
 | --- | --- |
-| 分类目录 | **24** |
-| 项目总数 | **442** |
-| 文件总量 | **1,060,854** |
-| 资产体积 | **73.85 GB** |
+| 分类目录 | **27** |
+| 项目总数 | **547** |
+| 文件总量 | **1,330,954** |
+| 资产体积 | **79.26 GB** |
 | 命名规范 | `YYC3-{分类名称}-{项目原名}`（ASCII 前缀） |
-| 最近治理 | 2026-11-17 · UI 双目录合并（组件库 → 界面组件，清除 5 项冗余） |
+| 最近治理 | 2026-11-26 · 新增 AgentHub-行业智能体（105 项），重命名前身份记入原始路径 |
 
 ## 二、分类统计
 
@@ -41,6 +41,7 @@ complexity: intermediate
 | --- | --- | --- | --- | --- | --- | --- |
 | Model-训练数据 | 12 | 285 | 56.26 GB | 4801.1 MB | 1 | Nemotron 系列训练与评测数据集（本地留档，不入库） |
 | NVIDIA-官方文库 | 16 | 254,958 | 6.51 GB | 416.9 MB | 1 | NVIDIA 官方文档、技能与集成文库（本地留档，不入库） |
+| AgentHub-行业智能体 | 105 | 270,100 | 5.41 GB | 52.8 MB | 16 | 一行业一分类的 AI 开源智能体汇集（15 类行业/职能 + 5 项历史留存） |
 | UI-界面组件 | 38 | 180,031 | 1.87 GB | 50.3 MB | 2 | 组件库、设计系统与主题包 |
 | AI-模型服务 | 16 | 38,817 | 1.46 GB | 93.5 MB | 4 | LLM 网关、推理服务、模型训练/蒸馏、RAG 与向量检索 |
 | Tool-开发工具链 | 45 | 95,892 | 1010.0 MB | 22.4 MB | 10 | 格式化、构建、CLI、包管理、文档工具 |
@@ -65,15 +66,15 @@ complexity: intermediate
 | Business-商业应用 | 5 | 3,397 | 49.6 MB | 9.9 MB | 1 | 商业场景应用与行业模板 |
 | Finance-金融量化 | 4 | 365 | 23.7 MB | 5.9 MB | 1 | 量化交易、风控与金融数据建模 |
 | Security-安全合规 | 4 | 132 | 2.4 MB | 0.6 MB | 1 | 安全扫描、规则库、攻防与合规 |
-| **合计** | **442** | **1,060,854** | **73.85 GB** | — | — | — |
+| **合计** | **547** | **1,330,954** | **79.26 GB** | — | — | — |
 
 ## 三、迁移来源分布
 
 | 原桶 | 项目数 |
 | --- | --- |
-| 未记录 | 58 || YYC3-Tool-开发工具 | 40 || YYC3-Python-Python标准库 | 35 || YYC3-WebSpec-Web标准 | 34 || YYC3-AI-人工智能 | 25 || YYC3-Syntax-语法定义 | 24 || YYC3-G | 22 || YYC3-D | 19 || YYC3-LSP-语言服务 | 17 || YYC3-H | 16 || YYC3-J | 15 || YYC3-Skills-技能包 | 15 || YYC3-Agent-智能体 | 13 || YYC3-I | 12 || YYC3-B | 12 || YYC3-C | 12 || YYC3-UI-用户界面 | 9 || YYC3-MCP-MCP协议 | 7 || YYC3-Cloud-云原生 | 6 || YYC3-Business-商业 | 6 || YYC3-Design-设计资源 | 6 || YYC3-Shell-终端 | 5 || YYC3-Finance-金融量化 | 4 || YYC3-Plugin-插件体系 | 4 || YYC3-Security-安全 | 4 || YYC3-A | 4 || YYC3-Data-数据存储 | 3 || YYC3-F | 2 || YYC3-Icon-图标资源 | 2 || YYC3-Doc-文档资源 | 2 || YYC3-Editor-编辑器 | 2 || YYC3-Spec-规范工具 | 2 || YYC3-TypeDef-类型定义 | 2 || YYC3-N | 1 || YYC3-E | 1 || YYC3-Framework-框架 | 1 |
+| 未记录 | 58 || YYC3-Tool-开发工具 | 40 || YYC3-Python-Python标准库 | 35 || YYC3-WebSpec-Web标准 | 34 || YYC3-AI-人工智能 | 25 || YYC3-Syntax-语法定义 | 24 || YYC3-G | 22 || YYC3-D | 19 || YYC3-LSP-语言服务 | 17 || YYC3-H | 16 || YYC3-J | 15 || YYC3-Skills-技能包 | 15 || YYC3-Agent-智能体 | 13 || YYC3-I | 12 || YYC3-B | 12 || YYC3-C | 12 || YYC3-UI-用户界面 | 9 || YYC3-MCP-MCP协议 | 7 || YYC3-Cloud-云原生 | 6 || YYC3-Business-商业 | 6 || YYC3-Design-设计资源 | 6 || YYC3-Shell-终端 | 5 || YYC3-Finance-金融量化 | 4 || YYC3-Plugin-插件体系 | 4 || YYC3-Security-安全 | 4 || YYC3-A | 4 || YYC3-Data-数据存储 | 3 || YYC3-F | 2 || YYC3-Icon-图标资源 | 2 || YYC3-Doc-文档资源 | 2 || YYC3-Editor-编辑器 | 2 || YYC3-Spec-规范工具 | 2 || YYC3-TypeDef-类型定义 | 2 || YYC3-N | 1 || YYC3-E | 1 || YYC3-Framework-框架 | 1 | || YYC3-GitHub-学习汇集（重命名前） | 105 |
 
-## 四、全量映射表（442 项）
+## 四、全量映射表（547 项）
 
 | # | 分类 | 当前目录 | 原始路径 | 文件数 | 体积 | 主要技术 | 备注 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -519,6 +520,111 @@ complexity: intermediate
 | 440 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-whattweetbot-keys` | `YYC3-WebSpec-Web标准/whattweetbot-keys` | 7 | 0.0 MB | json, md, js |  |
 | 441 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-wiki.whatwg.org` | `YYC3-WebSpec-Web标准/wiki.whatwg.org` | 6 | 0.0 MB | php, md, sh |  |
 | 442 | WebSpec-Web标准 | `YYC3-WebSpec-Web标准-xhr` | `YYC3-WebSpec-Web标准/xhr` | 25 | 0.9 MB | bs, yml, md |  |
+| 443 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/agentskills` | `YYC3-GitHub-学习汇集/00-common/agentskills` | 142 | 1.6 MB | svg, py, mdx |  |
+| 444 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/andrej-karpathy-skills` | `YYC3-GitHub-学习汇集/00-common/andrej-karpathy-skills` | 9 | 0.0 MB | md, json, mdc |  |
+| 445 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/AutoGPT` | `YYC3-GitHub-学习汇集/00-common/AutoGPT` | 12,350 | 306.9 MB | py, tsx, ts |  |
+| 446 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/crewAI` | `YYC3-GitHub-学习汇集/00-common/crewAI` | 49,106 | 555.7 MB | mdx, py, yaml |  |
+| 447 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/impeccable` | `YYC3-GitHub-学习汇集/00-common/impeccable` | 5,029 | 91.9 MB | json, md, rs |  |
+| 448 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/langchain` | `YYC3-GitHub-学习汇集/00-common/langchain` | 3,310 | 42.2 MB | py, gz, json |  |
+| 449 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/mastra` | `YYC3-GitHub-学习汇集/00-common/mastra` | 25,930 | 294.0 MB | ts, tsx, json |  |
+| 450 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/openai-agents-python` | `YYC3-GitHub-学习汇集/00-common/openai-agents-python` | 1,706 | 26.2 MB | py, md, json |  |
+| 451 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/security-audit-skill` | `YYC3-GitHub-学习汇集/00-common/security-audit-skill` | 22 | 0.3 MB | md, cjs, json |  |
+| 452 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/skills` | `YYC3-GitHub-学习汇集/00-common/skills` | 448 | 11.5 MB | md, xsd, py |  |
+| 453 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/00-common/taste-skill` | `YYC3-GitHub-学习汇集/00-common/taste-skill` | 1,663 | 35.6 MB | svg, json, js |  |
+| 454 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/01-coding/agent-orchestrator` | `YYC3-GitHub-学习汇集/01-coding/agent-orchestrator` | 8,440 | 105.6 MB | go, ts, tsx |  |
+| 455 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/01-coding/ECC` | `YYC3-GitHub-学习汇集/01-coding/ECC` | 4,951 | 62.6 MB | md, js, json |  |
+| 456 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/01-coding/opencode` | `YYC3-GitHub-学习汇集/01-coding/opencode` | 162 | 1.3 MB | go, sql, yml |  |
+| 457 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/01-coding/OpenHands` | `YYC3-GitHub-学习汇集/01-coding/OpenHands` | 3,046 | 33.0 MB | ts, tsx, svg |  |
+| 458 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/01-coding/ponytail` | `YYC3-GitHub-学习汇集/01-coding/ponytail` | 219 | 11.7 MB | md, js, png |  |
+| 459 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/01-coding/skills` | `YYC3-GitHub-学习汇集/01-coding/skills` | 187 | 0.8 MB | md, yaml, yml |  |
+| 460 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/02-outbound/ai-native-callcenter` | `YYC3-GitHub-学习汇集/02-outbound/ai-native-callcenter` | 1,491 | 19.4 MB | go, xml, tsx |  |
+| 461 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/02-outbound/amber-openclaw-voice-agent` | `YYC3-GitHub-学习汇集/02-outbound/amber-openclaw-voice-agent` | 99 | 0.9 MB | md, ts, js |  |
+| 462 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/02-outbound/dograh-skills` | `YYC3-GitHub-学习汇集/02-outbound/dograh-skills` | 7 | 0.0 MB | md |  |
+| 463 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/02-outbound/pipecat` | `YYC3-GitHub-学习汇集/02-outbound/pipecat` | 2,249 | 50.6 MB | py, yaml, md |  |
+| 464 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/02-outbound/skills` | `YYC3-GitHub-学习汇集/02-outbound/skills` | 21 | 0.1 MB | md, json |  |
+| 465 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/03-content-marketing/adclaw` | `YYC3-GitHub-学习汇集/03-content-marketing/adclaw` | 1,232 | 37.8 MB | md, py, xsd |  |
+| 466 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/03-content-marketing/claude-skills` | `YYC3-GitHub-学习汇集/03-content-marketing/claude-skills` | 4,069 | 34.8 MB | md, py, json |  |
+| 467 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/03-content-marketing/marketing-skills` | `YYC3-GitHub-学习汇集/03-content-marketing/marketing-skills` | 197 | 0.9 MB | md |  |
+| 468 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/03-content-marketing/open-agentic-cmo` | `YYC3-GitHub-学习汇集/03-content-marketing/open-agentic-cmo` | 36 | 0.5 MB | md, json, example |  |
+| 469 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/03-content-marketing/sandbase-skills` | `YYC3-GitHub-学习汇集/03-content-marketing/sandbase-skills` | 938 | 2.6 MB | md, json, py |  |
+| 470 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/03-content-marketing/Vibe-Marketer` | `YYC3-GitHub-学习汇集/03-content-marketing/Vibe-Marketer` | 409 | 7.1 MB | md, py, sh |  |
+| 471 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/04-enterprise/agent-skills` | `YYC3-GitHub-学习汇集/04-enterprise/agent-skills` | 486 | 3.2 MB | md, py, yaml |  |
+| 472 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/04-enterprise/agent-skills-professional` | `YYC3-GitHub-学习汇集/04-enterprise/agent-skills-professional` | 6 | 0.0 MB | md, ts |  |
+| 473 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/04-enterprise/agno` | `YYC3-GitHub-学习汇集/04-enterprise/agno` | 6,609 | 67.1 MB | py, md, sh |  |
+| 474 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/04-enterprise/MetaGPT` | `YYC3-GitHub-学习汇集/04-enterprise/MetaGPT` | 1,255 | 38.2 MB | py, json, txt |  |
+| 475 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/04-enterprise/paperclip` | `YYC3-GitHub-学习汇集/04-enterprise/paperclip` | 16,833 | 229.2 MB | ts, tsx, md |  |
+| 476 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/04-enterprise/pm-skills` | `YYC3-GitHub-学习汇集/04-enterprise/pm-skills` | 161 | 6.0 MB | md, json, py |  |
+| 477 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/05-lead-gen/agents` | `YYC3-GitHub-学习汇集/05-lead-gen/agents` | 210 | 24.6 MB | py, md, json |  |
+| 478 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/05-lead-gen/claude-skills` | `YYC3-GitHub-学习汇集/05-lead-gen/claude-skills` | 681 | 7.0 MB | md, py, json |  |
+| 479 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/05-lead-gen/gtm-agents` | `YYC3-GitHub-学习汇集/05-lead-gen/gtm-agents` | 751 | 1.8 MB | md, py, json |  |
+| 480 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/05-lead-gen/hivemtk` | `YYC3-GitHub-学习汇集/05-lead-gen/hivemtk` | 7,942 | 79.8 MB | go, md, js |  |
+| 481 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/05-lead-gen/tuoke-agent` | `YYC3-GitHub-学习汇集/05-lead-gen/tuoke-agent` | 27 | 0.8 MB | md |  |
+| 482 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/06-restaurant/ai-restaurant-claude` | `YYC3-GitHub-学习汇集/06-restaurant/ai-restaurant-claude` | 23 | 0.2 MB | md, sh, txt |  |
+| 483 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/06-restaurant/hospitality-skills` | `YYC3-GitHub-学习汇集/06-restaurant/hospitality-skills` | 59 | 0.3 MB | md, py, txt |  |
+| 484 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/06-restaurant/McArena` | `YYC3-GitHub-学习汇集/06-restaurant/McArena` | 202 | 12.3 MB | ts, png, md |  |
+| 485 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/06-restaurant/QRMasa` | `YYC3-GitHub-学习汇集/06-restaurant/QRMasa` | 87 | 1.6 MB | php, png, sh |  |
+| 486 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/06-restaurant/restaurant-agent` | `YYC3-GitHub-学习汇集/06-restaurant/restaurant-agent` | 54 | 67.7 MB | py, png, json |  |
+| 487 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/06-restaurant/restaurant-marketing-skills` | `YYC3-GitHub-学习汇集/06-restaurant/restaurant-marketing-skills` | 38 | 0.1 MB | md, json, mjs |  |
+| 488 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/06-restaurant/restaurant-operation-digital-advisor` | `YYC3-GitHub-学习汇集/06-restaurant/restaurant-operation-digital-advisor` | 31 | 0.1 MB | md, json, py |  |
+| 489 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/07-ecommerce/Amazon-Skills` | `YYC3-GitHub-学习汇集/07-ecommerce/Amazon-Skills` | 67 | 1.4 MB | md, sh, py |  |
+| 490 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/07-ecommerce/commerce-agents` | `YYC3-GitHub-学习汇集/07-ecommerce/commerce-agents` | 571 | 3.8 MB | py, tsx, json |  |
+| 491 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/07-ecommerce/e-commerce-agents` | `YYC3-GitHub-学习汇集/07-ecommerce/e-commerce-agents` | 2,285 | 34.7 MB | py, json, cs |  |
+| 492 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/07-ecommerce/ecommerce-agents` | `YYC3-GitHub-学习汇集/07-ecommerce/ecommerce-agents` | 16 | 0.0 MB | md, js, json |  |
+| 493 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/07-ecommerce/multi-agent-ecommerce-system` | `YYC3-GitHub-学习汇集/07-ecommerce/multi-agent-ecommerce-system` | 60 | 0.2 MB | py, java, go |  |
+| 494 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/07-ecommerce/skill` | `YYC3-GitHub-学习汇集/07-ecommerce/skill` | 4,241 | 527.0 MB | md, py, webp |  |
+| 495 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/07-ecommerce/skill-ecommercial` | `YYC3-GitHub-学习汇集/07-ecommerce/skill-ecommercial` | 220 | 2.1 MB | md, py, json |  |
+| 496 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/08-education/DeepTutor` | `YYC3-GitHub-学习汇集/08-education/DeepTutor` | 4,658 | 69.8 MB | py, tsx, ts |  |
+| 497 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/08-education/education-agent-skills` | `YYC3-GitHub-学习汇集/08-education/education-agent-skills` | 331 | 9.1 MB | md, ts, json |  |
+| 498 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/08-education/hermes-edu-skills` | `YYC3-GitHub-学习汇集/08-education/hermes-edu-skills` | 187 | 1.7 MB | md, yml, json |  |
+| 499 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/08-education/OpenMAIC` | `YYC3-GitHub-学习汇集/08-education/OpenMAIC` | 4,551 | 129.3 MB | ts, tsx, md |  |
+| 500 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/09-short-drama/awesome-short-drama-skills` | `YYC3-GitHub-学习汇集/09-short-drama/awesome-short-drama-skills` | 5,324 | 59.4 MB | json, md, jsonl |  |
+| 501 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/09-short-drama/drama-skills` | `YYC3-GitHub-学习汇集/09-short-drama/drama-skills` | 565 | 6.2 MB | md, jsonl, py |  |
+| 502 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/09-short-drama/huobao-drama` | `YYC3-GitHub-学习汇集/09-short-drama/huobao-drama` | 313 | 10.0 MB | ts, md, png |  |
+| 503 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/09-short-drama/screen-creative-skills` | `YYC3-GitHub-学习汇集/09-short-drama/screen-creative-skills` | 186 | 1.1 MB | md, py, jpg |  |
+| 504 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/09-short-drama/shuohao-skills` | `YYC3-GitHub-学习汇集/09-short-drama/shuohao-skills` | 135 | 7.4 MB | md, mjs, json |  |
+| 505 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/09-short-drama/ViMax` | `YYC3-GitHub-学习汇集/09-short-drama/ViMax` | 188 | 3.7 MB | py, json, ts |  |
+| 506 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/09-short-drama/waoowaoo` | `YYC3-GitHub-学习汇集/09-short-drama/waoowaoo` | 1,341 | 18.2 MB | ts, tsx, sql |  |
+| 507 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/10-doc-loop/2026_AllThingsAI_OrchestrateAgenticAI` | `YYC3-GitHub-学习汇集/10-doc-loop/2026_AllThingsAI_OrchestrateAgenticAI` | 140 | 185.2 MB | md, py, pdf |  |
+| 508 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/10-doc-loop/claude-legal-skill` | `YYC3-GitHub-学习汇集/10-doc-loop/claude-legal-skill` | 10 | 0.5 MB | md, png |  |
+| 509 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/10-doc-loop/DocGov` | `YYC3-GitHub-学习汇集/10-doc-loop/DocGov` | 122 | 0.8 MB | md, js, json |  |
+| 510 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/10-doc-loop/lavern` | `YYC3-GitHub-学习汇集/10-doc-loop/lavern` | 1,872 | 49.4 MB | png, ts, tsx |  |
+| 511 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/10-doc-loop/legal-mcp-agent` | `YYC3-GitHub-学习汇集/10-doc-loop/legal-mcp-agent` | 18 | 0.1 MB | py, toml, md |  |
+| 512 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/10-doc-loop/my-doc-skills` | `YYC3-GitHub-学习汇集/10-doc-loop/my-doc-skills` | 64 | 1.7 MB | py, md, dll |  |
+| 513 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/11-music/ATRI_AGENT` | `YYC3-GitHub-学习汇集/11-music/ATRI_AGENT` | 434 | 5.3 MB | py, js, rs |  |
+| 514 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/11-music/hermes-agent` | `YYC3-GitHub-学习汇集/11-music/hermes-agent` | 27,640 | 259.9 MB | py, ts, yaml |  |
+| 515 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/11-music/music-skill` | `YYC3-GitHub-学习汇集/11-music/music-skill` | 254 | 12.9 MB | py, md, json |  |
+| 516 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/11-music/skills` | `YYC3-GitHub-学习汇集/11-music/skills` | 1,198 | 10.8 MB | md, json, py |  |
+| 517 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/11-music/YuE` | `YYC3-GitHub-学习汇集/11-music/YuE` | 132 | 6.5 MB | py, md, json |  |
+| 518 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/12-medical-compliance/Claude-Skills-Governance-Risk-and-Compliance` | `YYC3-GitHub-学习汇集/12-medical-compliance/Claude-Skills-Governance-Risk-and-Compliance` | 3,698 | 26.1 MB | json, txt, md |  |
+| 519 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/12-medical-compliance/ethicsboard-ai` | `YYC3-GitHub-学习汇集/12-medical-compliance/ethicsboard-ai` | 57 | 0.6 MB | py, tsx, md |  |
+| 520 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/12-medical-compliance/hippocrat-ai` | `YYC3-GitHub-学习汇集/12-medical-compliance/hippocrat-ai` | 5 | 0.0 MB | md, json, yml |  |
+| 521 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/12-medical-compliance/medical-multi-agent-system` | `YYC3-GitHub-学习汇集/12-medical-compliance/medical-multi-agent-system` | 85 | 0.7 MB | py, md, go |  |
+| 522 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/12-medical-compliance/rote-compliance-skills` | `YYC3-GitHub-学习汇集/12-medical-compliance/rote-compliance-skills` | 39 | 0.4 MB | md, json, py |  |
+| 523 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/anything-llm` | `YYC3-GitHub-学习汇集/13-rag-hub/anything-llm` | 1,624 | 19.8 MB | js, jsx, png |  |
+| 524 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/garden-skills` | `YYC3-GitHub-学习汇集/13-rag-hub/garden-skills` | 708 | 19.6 MB | md, json, css |  |
+| 525 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/haystack` | `YYC3-GitHub-学习汇集/13-rag-hub/haystack` | 13,647 | 116.2 MB | mdx, md, yaml |  |
+| 526 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/LightRAG` | `YYC3-GitHub-学习汇集/13-rag-hub/LightRAG` | 1,594 | 30.4 MB | py, ts, tsx |  |
+| 527 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/ragas` | `YYC3-GitHub-学习汇集/13-rag-hub/ragas` | 694 | 46.5 MB | py, md, png |  |
+| 528 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/ruoyi-ai` | `YYC3-GitHub-学习汇集/13-rag-hub/ruoyi-ai` | 1,877 | 20.4 MB | java, xml, md |  |
+| 529 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/Skill-First-Hybrid-RAG` | `YYC3-GitHub-学习汇集/13-rag-hub/Skill-First-Hybrid-RAG` | 131 | 113.0 MB | py, md, txt |  |
+| 530 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/skill_seekers` | `YYC3-GitHub-学习汇集/13-rag-hub/skill_seekers` | 3,157 | 37.7 MB | html, py, md |  |
+| 531 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/trulens` | `YYC3-GitHub-学习汇集/13-rag-hub/trulens` | 1,581 | 115.3 MB | py, png, md |  |
+| 532 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/Vex-Skillgit` | `YYC3-GitHub-学习汇集/13-rag-hub/Vex-Skillgit` | 30 | 0.3 MB | py, toml, lock |  |
+| 533 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/13-rag-hub/Yuxi` | `YYC3-GitHub-学习汇集/13-rag-hub/Yuxi` | 2,532 | 21.2 MB | py, md, js |  |
+| 534 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-art-motion` | `YYC3-GitHub-学习汇集/14-huashu/huashu-art-motion` | 519 | 72.6 MB | js, md, png |  |
+| 535 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-bird-sticker` | `YYC3-GitHub-学习汇集/14-huashu/huashu-bird-sticker` | 11,162 | 713.8 MB | webp, md, json |  |
+| 536 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-bookwriter` | `YYC3-GitHub-学习汇集/14-huashu/huashu-bookwriter` | 23 | 6.2 MB | md, py, pdf |  |
+| 537 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-design` | `YYC3-GitHub-学习汇集/14-huashu/huashu-design` | 491 | 42.8 MB | html, jpg, md |  |
+| 538 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-excel` | `YYC3-GitHub-学习汇集/14-huashu/huashu-excel` | 26 | 0.5 MB | md, py, json |  |
+| 539 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-md-html` | `YYC3-GitHub-学习汇集/14-huashu/huashu-md-html` | 38 | 7.8 MB | md, html, css |  |
+| 540 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-motion` | `YYC3-GitHub-学习汇集/14-huashu/huashu-motion` | 296 | 50.9 MB | js, woff, md |  |
+| 541 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-report` | `YYC3-GitHub-学习汇集/14-huashu/huashu-report` | 23 | 0.2 MB | md, py, json |  |
+| 542 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/14-huashu/huashu-skills` | `YYC3-GitHub-学习汇集/14-huashu/huashu-skills` | 91 | 17.7 MB | md, png, py |  |
+| 543 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/AngularCollections` | `YYC3-GitHub-学习汇集/AngularCollections` | 3 | 0.0 MB | md, yml | 早期个人项目留存 |
+| 544 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/Dswjcms` | `YYC3-GitHub-学习汇集/Dswjcms` | 1,959 | 19.2 MB | php, dat, gif | 早期个人项目留存 |
+| 545 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/Unlimited-OCR` | `YYC3-GitHub-学习汇集/Unlimited-OCR` | 15 | 168.0 MB | md, png, py | 早期个人项目留存 |
+| 546 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/amis` | `YYC3-GitHub-学习汇集/amis` | 3,862 | 176.4 MB | ts, tsx, svg | 早期个人项目留存 |
+| 547 | AgentHub-行业智能体 | `YYC3-AgentHub-行业智能体/nginx-book` | `YYC3-GitHub-学习汇集/nginx-book` | 87 | 4.6 MB | rst, png, py | 早期个人项目留存 |
 
 ## 五、命名与追溯规则
 
@@ -526,13 +632,15 @@ complexity: intermediate
 2. **原始路径** 记录迁移前的字母桶/领域桶位置；`YYC3-A`~`YYC3-N` 已全部废弃。
 3. **UI 合并**：`YYC3-UI-组件库` 的 31 个项目已并入 `YYC3-UI-界面组件` 并统一前缀；重复的 `ui / shadcn-ui / ant-design` 旧副本已清除。
 4. **回滚**：`git checkout pre-governance-20261110 -- <原始路径>` 可恢复治理前副本。
+5. **行业汇集（新增分类）**：`YYC3-AgentHub-行业智能体/` 保留开源仓库原名，按「行业分类桶 / 仓库名」两层组织；原始路径记为 `YYC3-GitHub-学习汇集/{分类桶}/{仓库名}`（该目录已重命名）。
+6. **跨类去重**：与既有分类重复的 8 项（`superpowers`、`awesome-openclaw-skills`、`b2b-sdr-agent-template`、`Toonflow-app`、`dify`、`langgraph`、`llama_index`、`ragflow`）以新版本合并覆盖旧目录并保留旧目录独有文件，汇集内不再留存副本，既有分类 README 路径保持不变。
 
 ## 六、关联文档
 
 | 文档 | 说明 |
 | --- | --- |
 | [资产看板](../docs/YYC3-KNOWLEDGE-BASE.html) | 可交互看板：搜索、过滤、归档、详情 |
-| [分类架构索引](./YYC3-Knowledge-Base/index.html) | 24 个分类的可视化架构入口 |
+| [分类架构索引](./YYC3-Knowledge-Base/index.html) | 27 个分类的可视化架构入口 |
 | [治理报告](./YYC3-项目治理-资产盘点/README.md) | 扫描方法、去重明细、版本裁决记录 |
 | [安全基线](./YYC3-安全治理-漏洞基线报告.md) | 漏洞统计与按项目升级记录 |
 
@@ -542,6 +650,7 @@ complexity: intermediate
 
 | 版本 | 日期 | 变更内容 | 作者 |
 | --- | --- | --- | --- |
+| v1.2.0 | 2026-11-26 | 新增 AgentHub-行业智能体（105 项）；跨类去重 8 项合并覆盖；全量映射同步为 547 项 | YYC³ Team |
 | v1.1.0 | 2026-11-17 | UI 双目录合并：组件库 31 项并入界面组件，清除 5 项冗余；全量映射同步为 442 项 | YYC³ Team |
 | v1.0.0 | 2026-11-10 | 首次生成全量映射：24 类、386 项目逐项对照 | YYC³ Team |
 

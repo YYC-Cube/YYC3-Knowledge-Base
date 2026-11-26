@@ -62,6 +62,10 @@ YYC3-NVIDIA-官方文库/*
 YYC3-Model-训练数据/*
 !YYC3-Model-训练数据/README.md
 
+# 行业智能体开源汇集（6GB / 27 万文件，105 项开源仓库，仅本地留档，不入库）
+YYC3-AgentHub-行业智能体/*
+!YYC3-AgentHub-行业智能体/README.md
+
 # UI 只读快照：锁文件移出依赖图（保留 package.json 与源码）
 YYC3-UI-界面组件/**/package-lock.json
 YYC3-UI-界面组件/**/pnpm-lock.yaml
