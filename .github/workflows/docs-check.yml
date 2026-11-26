@@ -1,0 +1,77 @@
+name: Docs Check
+
+# docs 目录的一致性与结构门禁：任何文档/看板改动先校验再放行
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - '.github/scripts/**'
+      - '.github/workflows/docs-check.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '.github/scripts/**'
+      - '.github/workflows/docs-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  consistency:
+    name: 一致性 · 链接 · 结构
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout（仅 docs 与校验脚本）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            docs
+            .github/scripts
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: docs 一致性校验（严格模式）
+        run: |
+          set -o pipefail
+          python3 .github/scripts/check_docs.py --strict 2>&1 | tee /tmp/docs-check.log
+      - name: 写入作业摘要
+        if: always()
+        run: |
+          {
+            echo "### docs 一致性校验";
+            echo "";
+            sed 's/^/    /' /tmp/docs-check.log 2>/dev/null || echo "（无输出）";
+          } >> "$GITHUB_STEP_SUMMARY" || true
+
+  smoke:
+    name: 站点入口冒烟
+    needs: consistency
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout（仅 docs）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            docs
+      - name: 校验入口文件与产物洁净度
+        run: |
+          set -euo pipefail
+          for f in docs/index.html docs/YYC3-KNOWLEDGE-BASE.html docs/YYC3-Knowledge-Base/index.html; do
+            test -s "$f" || { echo "缺少或空文件：$f"; exit 1; }
+            echo "OK  $f  $(wc -c < "$f") bytes"
+          done
+          if find docs -name '.DS_Store' -o -name '*.bak-*' | grep -q .; then
+            echo "docs 内仍存在本地噪声文件（.DS_Store / *.bak-*）"; exit 1
+          fi
+          echo "体积：$(du -sh docs | cut -f1)"

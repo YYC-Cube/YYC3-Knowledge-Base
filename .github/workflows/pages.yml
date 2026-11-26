@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'docs/**'
+      - '.github/scripts/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -18,10 +19,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  validate:
+    name: 部署前校验
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - name: Checkout
+      - name: Checkout（仅 docs 与校验脚本）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            docs
+            .github/scripts
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: docs 一致性校验（严格模式）
+        run: python3 .github/scripts/check_docs.py --strict
+
+  build:
+    name: 构建 Pages 工件
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout（仅 docs）
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
@@ -29,12 +52,19 @@ jobs:
             docs
       - name: Configure Pages
         uses: actions/configure-pages@v5
+      - name: 清理本地噪声文件
+        run: |
+          set -euo pipefail
+          find docs \( -name '.DS_Store' -o -name '.bak-*' \) -delete
+          test -s docs/index.html
+          echo "工件体积：$(du -sh docs | cut -f1)"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs
 
   deploy:
+    name: 发布到 GitHub Pages
     needs: build
     runs-on: ubuntu-latest
     environment:
@@ -44,3 +74,12 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: 发布摘要
+        run: |
+          {
+            echo "### Pages 发布完成";
+            echo "";
+            echo "- 站点：${{ steps.deployment.outputs.page_url }}";
+            echo "- 提交：${{ github.sha }}";
+            echo "- 触发：${{ github.event_name }}";
+          } >> "$GITHUB_STEP_SUMMARY"
