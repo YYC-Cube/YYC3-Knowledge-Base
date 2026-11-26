@@ -40,6 +40,8 @@ coverage/
 
 # ═══ 日志与临时文件 ═══
 *.log
+# 手工备份副本（如 docs/*.bak-YYYYMMDD），仅本地留存
+*.bak-*
 logs/
 *.tmp
 *.pid
